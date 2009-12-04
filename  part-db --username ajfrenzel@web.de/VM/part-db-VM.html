@@ -1,0 +1,182 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<HTML>
+<HEAD>
+	<META HTTP-EQUIV="CONTENT-TYPE" CONTENT="text/html; charset=utf-8">
+	<TITLE></TITLE>
+	<META NAME="GENERATOR" CONTENT="OpenOffice.org 3.0  (Linux)">
+	<META NAME="CREATED" CONTENT="20091122;23034300">
+	<META NAME="CHANGED" CONTENT="20091123;23584600">
+	<META NAME="Info 1" CONTENT="">
+	<META NAME="Info 2" CONTENT="">
+	<META NAME="Info 3" CONTENT="">
+	<META NAME="Info 4" CONTENT="">
+	<STYLE TYPE="text/css">
+	<!--
+		@page { margin: 0.79in }
+		P { margin-bottom: 0.08in }
+		H1 { margin-bottom: 0.08in }
+		H1.western { font-family: "Liberation Sans", sans-serif; font-size: 16pt }
+		H1.cjk { font-family: "DejaVu Sans"; font-size: 16pt }
+		H1.ctl { font-family: "DejaVu Sans"; font-size: 16pt }
+		H2 { margin-bottom: 0.08in }
+		H2.western { font-family: "Liberation Sans", sans-serif; font-size: 14pt; font-style: italic }
+		H2.cjk { font-size: 14pt; font-style: italic }
+		H2.ctl { font-size: 14pt; font-style: italic }
+		H3 { margin-bottom: 0.08in }
+		H3.western { font-family: "Liberation Sans", sans-serif }
+		A:link { so-language: zxx }
+	-->
+	</STYLE>
+</HEAD>
+<BODY LANG="de-DE" DIR="LTR">
+<DIV ID="vmtn.wtkx.theme.terra.LabelSkin$hardware_device_desc_2000" DIR="LTR" STYLE="position: absolute; top: 0.05in; left: 0in; width: 1.28in; height: 0.15in; border: none; padding: 0in; background: #ffffff">
+	<P><FONT COLOR="#000000"><FONT FACE="Verdana, Bitstream Vera Sans, sans-serif"><FONT SIZE=1 STYLE="font-size: 8pt">Hard
+	disk not valid</FONT></FONT></FONT></P>
+</DIV>
+<H1 CLASS="western"><FONT SIZE=5 STYLE="font-size: 20pt">PartDbVM</FONT></H1>
+<P><FONT SIZE=2>Version dok-0.1</FONT></P>
+<P>Benötigte Komponenten</P>
+<UL>
+	<LI><P>Vmware Server 2.0</P>
+	<LI><P>part-db.tar.bz2</P>
+	<LI><P>Für Windows: puTTY und WinSCP</P>
+</UL>
+<P><BR><BR>
+</P>
+<H2 CLASS="western"><FONT SIZE=4 STYLE="font-size: 16pt">Installation
+des Vmware Server 2.0</FONT></H2>
+<P>Das Paket kann kostenlos von
+<A HREF="http://downloads.vmware.com/d/info/datacenter_downloads/vmware_server/2_0">http://downloads.vmware.com/d/info/datacenter_downloads/vmware_server/2_0</A>
+heruntergeladen werden. Zum Betrieb ist eine Seriennummer notwendig,
+die ebenfalls kostenlos bezogen werden kann.</P>
+<P>Die Administration des Servers erfolgt über ein Browser-Plugin,
+das evtl. separat installiert werden muß.</P>
+<H2 CLASS="western"><FONT SIZE=4 STYLE="font-size: 16pt">PartDbVM in
+den Vmware Server integrieren</FONT></H2>
+<UL>
+	<LI><P>Als erstes wird part-db.tar.bz2 in das Verzeichnis für
+	virtuelle Maschinen des Servers entpackt.<BR>Unter Windows kann
+	dafür 7zip verwendet werden.</P>
+	<LI><P>Starten des Vmware Server Administrationsplugins im Browser</P>
+	<LI><P>Unter <U>Virtual Machine|Add Virtual Machine to Inventory</U><SPAN STYLE="text-decoration: none">
+	unter </SPAN><U>&lt;server&gt;|Standard|part-db|part-db.vmx</U><SPAN STYLE="text-decoration: none">
+	auswählen.</SPAN></P>
+</UL>
+<H2 CLASS="western" STYLE="text-decoration: none"><FONT SIZE=4 STYLE="font-size: 16pt">Starten
+der virtuellen Maschine</FONT></H2>
+<UL>
+	<LI><P STYLE="text-decoration: none">Im Navigationsbereich links
+	part-db anklicken.</P>
+	<LI><P><SPAN STYLE="text-decoration: none">Dann im mittleren Bereich
+	den Reiter </SPAN><U>Console</U><SPAN STYLE="text-decoration: none">
+	auswählen und in das schwarze Fenster klicken.<BR>Die VM startet.</SPAN></P>
+	<LI><P STYLE="text-decoration: none">Dann nochmals in das schwarze
+	Fenster klicken und warten, bis sich das Konsolfenster der VM
+	öffnet.</P>
+	<LI><P STYLE="text-decoration: none">Wenn die VM hochgelaufen ist,
+	erscheint eine blaue Box, in der die IP-Adresse der VM angezeigt
+	wird.</P>
+</UL>
+<P STYLE="text-decoration: none">Die PartDB-VM ist jetzt im LAN per
+Browser aufrufbar.</P>
+<H2 CLASS="western" STYLE="text-decoration: none"><FONT SIZE=4 STYLE="font-size: 16pt">Konfigurieren
+der IP-Adresse</FONT></H2>
+<P STYLE="text-decoration: none"><FONT SIZE=3>Am unteren Rand der Box
+ist ein Link auf das Advanced Menu. Man erreicht es, indem man in das
+Konsolfenster der VM klickt und dann Return eingibt.</FONT></P>
+<P STYLE="text-decoration: none"><FONT SIZE=3>Es ist ratsam, der VM
+eine statische IP-Adresse zu geben und die in /etc/hosts auf Linux
+bzw. in c:\windows\system32\drivers\etc\hosts auf Windows
+einzutragen.</FONT></P>
+<P STYLE="background: #ffff00; text-decoration: none"><FONT SIZE=3>Die
+Navigation in den folgenden Menüs geht über die <U>Pfeiltasten im
+numerischen Tastenfeld.</U></FONT></P>
+<P STYLE="text-decoration: none"><FONT SIZE=3>Den Cursor bekommt man
+mit einem gleichzeitigen Druck auf <U>Strg + Alt</U> wieder frei.</FONT></P>
+<H2 CLASS="western" STYLE="text-decoration: none"><FONT SIZE=4 STYLE="font-size: 16pt">Aufrufen
+der PartDB im Browser</FONT></H2>
+<UL>
+	<LI><P><SPAN STYLE="text-decoration: none">Die URL der PartDB wird
+	</SPAN>nach dem Muster <U>http://&lt;ip-addresse&gt;</U><SPAN STYLE="text-decoration: none">
+	in die URL-Zeile des Browsers eingegeben.</SPAN></P>
+</UL>
+<H2 CLASS="western" STYLE="text-decoration: none"><FONT SIZE=4 STYLE="font-size: 16pt">Administration
+der PartDbVM</FONT></H2>
+<P><SPAN STYLE="text-decoration: none">Die PartDbVM ist in einer
+vorkonfigurierten TurnKey MySQL VM installiert. Weitere Informationen
+dazu sind hier: <A HREF="http://www.turnkeylinux.org/mysql">http://www.turnkeylinux.org/mysql</A>
+zu finden.</SPAN></P>
+<P STYLE="text-decoration: none">Momentan besteht noch ein
+Zugriffskonflikt zwischen PartDB und PhpMyAdmin, der durch zwei
+Skripte unter /root aufgelöst wird.</P>
+<H3 CLASS="western" STYLE="text-decoration: none">Administration von
+Windows aus</H3>
+<P><SPAN STYLE="text-decoration: none">Die bequemste Möglichkeit
+ist, die beiden Pakete </SPAN><U>puTTY</U><SPAN STYLE="text-decoration: none">
+und </SPAN><U>WinSCP</U><SPAN STYLE="text-decoration: none"> zu
+installieren.</SPAN></P>
+<UL>
+	<LI><P><SPAN STYLE="text-decoration: none">Dateitransfer kann sehr
+	komfortabel mit WinSCP durchgeführt werden:</SPAN><BR>+ WinSCP
+	starten<BR>+ <U>New</U><SPAN STYLE="text-decoration: none"> klicken
+	und die IP-Adresse des PartDB-Servers unter Host eintragen<BR>+
+	Unter User wird </SPAN><U>root</U><SPAN STYLE="text-decoration: none">
+	eingetragen. Das Paßwort bleibt leer.<BR>+ </SPAN><U>Log in</U><SPAN STYLE="text-decoration: none">
+	klicken.</SPAN></P>
+</UL>
+<UL>
+	<LI><P>Die Linux-Shell in der VM wird über puTTY bedient:<BR>+
+	puTTY starten<BR>+ IP-Adresse des Servers unter <U>Host Name</U><SPAN STYLE="text-decoration: none">
+	eintragen<BR>+ </SPAN><U>Connection type</U><SPAN STYLE="text-decoration: none">:
+	ssh<BR>+ </SPAN><U>Open</U><SPAN STYLE="text-decoration: none">
+	klicken<BR>+ Es öffnet sich ein Fenster mit dem Text </SPAN><U>login
+	as:</U><SPAN STYLE="text-decoration: none"> Eingabe: </SPAN><U>root</U><SPAN STYLE="text-decoration: none"><BR>+
+	Anschließend befindet man sich im Home-Directory /root</SPAN></P>
+</UL>
+<H3 CLASS="western" STYLE="text-decoration: none">Administration von
+Linux aus</H3>
+<UL>
+	<LI><P><SPAN STYLE="text-decoration: none">Dateitransfer erfolgt
+	über </SPAN><U>sftp root@&lt;ip-adresse&gt;</U></P>
+	<LI><P><SPAN STYLE="text-decoration: none">Die root-Shell wird über
+	</SPAN><U>ssh root@&lt;ip-adresse&gt;</U><SPAN STYLE="text-decoration: none">
+	erreicht</SPAN></P>
+</UL>
+<H2 CLASS="western" STYLE="text-decoration: none"><FONT SIZE=4 STYLE="font-size: 16pt">Administration
+der PartDbVM</FONT></H2>
+<P><SPAN STYLE="text-decoration: none"><B>Achtung: </B></SPAN><SPAN STYLE="text-decoration: none"><SPAN STYLE="font-weight: normal">Weder
+root noch MySql haben Paßwörter. Die VM sollte so nicht auf dem Web
+zugänglich gemacht werden!</SPAN></SPAN></P>
+<UL>
+	<LI><P>Man loggt sich (über ssh oder puTTY) als root in die VM ein.</P>
+	<LI><P>Nach dem Login befindet man sich im  <SPAN STYLE="text-decoration: none">Home-Directory
+	</SPAN>/root</P>
+</UL>
+<P>Dort liegen drei Skripte:</P>
+<UL>
+	<LI><P><SPAN STYLE="text-decoration: none">Der Aufruf </SPAN><U>./myadmin</U><SPAN STYLE="text-decoration: none">
+	aktiviert PhpMyAdmin.</SPAN></P>
+	<LI><P><SPAN STYLE="text-decoration: none">Der Aufruf </SPAN><U>./part-db</U><SPAN STYLE="text-decoration: none">
+	aktiviert PartDB</SPAN></P>
+	<LI><P><SPAN STYLE="text-decoration: none">Der Aufruf  </SPAN><U>./autoprice</U><SPAN STYLE="text-decoration: none">
+	liest die Preise von Reichelt- und Pollin-Artikeln ein</SPAN></P>
+</UL>
+<P><SPAN STYLE="text-decoration: none">Je nach dem, welches der
+Skripte myadmin oder part-db als letztes gelaufen ist, meldet sich
+beim Aufruf des Servers im Browser entweder PhpMyAdmin, oder PartDB.</SPAN></P>
+<P><BR><BR>
+</P>
+<P><SPAN STYLE="text-decoration: none">Weitere Informationen über
+die zugrundeliegenden TurnKey VM gibt es hier:
+http://www.turnkeylinux.org/docs/ubuntu-docs</SPAN></P>
+<H1 CLASS="western"><SPAN STYLE="text-decoration: none">Bekannte
+Probleme</SPAN></H1>
+<UL>
+	<LI><P><SPAN STYLE="text-decoration: none">Die virtuelle Platte der
+	PartDbVM wird als „Hard disk not valid“ angezeigt.<BR>Dieser
+	Fehler ist Harmlos. Weitere Info hier:
+	<A HREF="http://www.turnkeylinux.org/forum/support/20091102/vmware-server-2-hard-disk-not-valid">http://www.turnkeylinux.org/forum/support/20091102/vmware-server-2-hard-disk-not-valid</A></SPAN></P>
+	<LI><P></P>
+</UL>
+</BODY>
+</HTML>
