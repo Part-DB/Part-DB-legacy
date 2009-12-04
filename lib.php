@@ -39,17 +39,7 @@
 			print $t;
 	}
 	
-	function partdb_init()
-	{
-		/* Enter your MySQL username and password here. For
-		   optimal protection you should adjust the UNIX perms
-		   of this file in a way only the PHP interpreter can read
-		   it. But this does not protect your data from malcious
-		   users. Each user should run his PHP scripts with his
-		   own user id. */
-		$link = mysql_connect ("localhost", "User", "Password");
-		mysql_select_db ("Datenbankname");
-	}
+	include("partdb_init.php");
 
 	/*@@@ some helper functions down below @@@*/
 	
