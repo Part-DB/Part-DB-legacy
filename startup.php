@@ -116,8 +116,8 @@
 	<tr>
 		<td class="tdtextsmall">
 			**.08.2009
-			- FIX nav.php (µC.net)</br>
-			- FIX var für Footprints (µC.net)</br>
+			- FIX nav.php (www.mikrocontroller.net)</br>
+			- FIX var f &uuml; r Footprints (www.mikrocontroller.net)</br>
 			23.05.2009</br>
 			- FIX Stats</br>
 			21.05.2009</br>
@@ -169,7 +169,7 @@
 <table class="table">
 	<tr>
 		<td class="tdtext">
-		Beachten Sie bitte, dass Sie vor der Verwendung der <tt>part-db</tt> jeweils mindestens</br>
+		Beachten Sie bitte, dass Sie vor der Verwendung der <tt>Part-GB</tt> jeweils mindestens</br>
 		einen Lagerort</br>
 		ein Footprint</br>
 		eine Kategorie</br>
