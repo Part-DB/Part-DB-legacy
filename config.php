@@ -21,7 +21,6 @@
 	$Id$
 
 	ChangeLog
-	
 	02/12/2009
 		Split of from lib.php
 */
@@ -36,9 +35,6 @@
 		   own user id. */
 		$link = mysql_connect ("localhost", "<db name>", "<db password>");
 		mysql_select_db ("<db name>");
-		// Part-db Verzeichniss wihtout / on End
-		
-
 	}
 
 ?>
