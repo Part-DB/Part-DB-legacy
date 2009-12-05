@@ -184,8 +184,12 @@
 			$d = mysql_fetch_row ($result_ds); #)
 			if($d[0] == NULL)
 			{
-			print "<a href=\"http://www.alldatasheet.com/view.jsp?Searchword=". smart_unescape ($test) ."\" target=\"_blank\">AllDataSheet, </a>";
-			print "<a href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". smart_unescape ($test) ."\" target=\"_blank\">Reichelt";
+			// Mit ICONS 
+			print "<a href=\"http://www.alldatasheet.com/view.jsp?Searchword=". smart_unescape ($test) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/ads.png\"></a>";
+			print "<a href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". smart_unescape ($test) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/reichelt.png\"></a>";
+			// Ohne ICONS
+			// print "<a href=\"http://www.alldatasheet.com/view.jsp?Searchword=". smart_unescape ($test) ."\" target=\"_blank\">AllDataSheet, </a>";
+			// print "<a href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". smart_unescape ($test) ."\" target=\"_blank\">Reichelt"</a>;
 			}
 			else 
 			{
