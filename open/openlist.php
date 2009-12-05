@@ -23,7 +23,7 @@
 	06/03/06
 		Added escape/unescape calls
 */
-	include('open/lib.php');
+	include('../lib.php');
 	partdb_init();
 ?>
 <html>
