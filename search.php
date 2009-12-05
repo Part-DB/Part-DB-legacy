@@ -20,8 +20,8 @@
 
 	$Id: search.php,v 1.3 2006/03/09 15:08:09 cl Exp $
 
-	06/03/06
-		Added escape/unescape calls
+	06/03/06	Added escape/unescape calls
+	05/12/09	Edit Parts over Popup (k.jacobs)
 */
 	include('lib.php');
 	partdb_init();

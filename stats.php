@@ -52,7 +52,7 @@
 		$r = mysql_query ($query);
 		while ( $d = mysql_fetch_row ($r) )
 		{
-		$i++;
+		  $i++;
 		}
 		print $i;
 		?></br>
@@ -65,7 +65,7 @@
 		$r = mysql_query ($query);
 		while ( $d = mysql_fetch_row ($r) )
 		{
-		$i++;
+		  $i++;
 		}
 		print $i;
 		?></br>
@@ -78,7 +78,7 @@
 		$r = mysql_query ($query);
 		while ( $d = mysql_fetch_row ($r) )
 		{
-		$i++;
+		  $i++;
 		}
 		print $i;
 		?></br>
@@ -97,7 +97,7 @@
 		$dh  = opendir($dir);
 		while (false !== ($filename = readdir($dh))) 
 		{
-		$files[] = $filename;
+		  $files[] = $filename;
 		}
 		echo count($files)- 2;
 		unset($files);
@@ -109,7 +109,7 @@
 		$dh  = opendir($dir);
 		while (false !== ($filename = readdir($dh))) 
 		{
-		$files[] = $filename;
+		  $files[] = $filename;
 		}
 		echo count($files)- 2;
 		unset($files);
@@ -121,14 +121,14 @@
 		$dh  = opendir($dir);
 		while (false !== ($filename = readdir($dh))) 
 		{
-		$files[] = $filename;
+		  $files[] = $filename;
 		}
 		echo count($files)- 2;
 		unset($files);
 		?></br>
 		</td>
 	</tr>
-  </table>
+</table>
 
   </head>
  </body>
