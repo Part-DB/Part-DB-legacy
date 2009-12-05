@@ -85,6 +85,27 @@
 </br>
 </table>
 
+
+<?PHP	// Display Warning 
+	if ($display_warning)
+	{
+?>
+<table class="table">
+	<tr>
+		 <td class="tdtext">
+		  Beachten Sie bitte, dass Sie vor der Verwendung der jeweils mindestens</br>
+		  einen Lagerort</br>
+		  ein Footprint</br>
+		  eine Kategorie</br>
+		  und einen Lieferanten</br>
+		  hinzuf&uuml;gen m&uuml;ssen. Die Tools hierf&uuml;r finden Sie links.</br>
+		 </td>
+	</tr>
+</table>
+<?PHP
+	}
+?>
+
 <table class="table">
 	<tr>
 	<tr>
@@ -115,7 +136,7 @@
 	</tr>
 	<tr>
 		<td class="tdtextsmall">
-			**.08.2009
+			06.08.2009
 			- FIX nav.php (www.mikrocontroller.net)</br>
 			- FIX var f &uuml; r Footprints (www.mikrocontroller.net)</br>
 			23.05.2009</br>
@@ -160,27 +181,6 @@
 <table class="tablenone">
 </br>
 </table>
-
-<?PHP
-	if ($display_warning)
-	{
-?>
-
-<table class="table">
-	<tr>
-		<td class="tdtext">
-		Beachten Sie bitte, dass Sie vor der Verwendung der <tt>Part-GB</tt> jeweils mindestens</br>
-		einen Lagerort</br>
-		ein Footprint</br>
-		eine Kategorie</br>
-		und einen Lieferanten</br>
-		hinzuf&uuml;gen m&uuml;ssen. Die Tools hierf&uuml;r finden Sie links.</br>
-  	</tr>
-</table>
-
-<?PHP
-	}
-?>
 
   </head>
  </body>
