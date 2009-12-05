@@ -39,6 +39,16 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
+		 <script language="JavaScript" type="text/javascript">
+			<!--
+			function popUp(URL)
+			{
+			d = new Date();
+			id = d.getTime();
+			eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=1, scrollbars=1, location=1, statusbar=1, menubar=1, resizable=1, width=600, height=400');");
+			}
+			// -->
+		 </script>
 		<table>
 		<?PHP
 		// execute the SQL query (DON'T USE smart_escape HERE, because
@@ -62,15 +72,13 @@
 			$prevcat = $d[6];
 			$rowcount = 0;
 		}
-		
 		// the alternating background colors are created here
 		$rowcount++;
 		if ( ($rowcount & 1) == 0 )
 			print "<tr class=\"trlist1\">";
 		else
 			print "<tr class=\"trlist2\">";
-
-		print "<td class=\"tdrow1\"><a href=\"partinfo.php?pid=". smart_unescape($d[0]) ."\" target=\"_partdetailwnd\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow2\">". smart_unescape($d[2]) ."</td><td class=\"tdrow3\">". smart_unescape($d[3]) ."</td><td class=\"tdrow4\">". smart_unescape($d[4]) ."</td><td class=\"tdrow5\">". smart_unescape($d[5]) . "</td>";
+		print "<td class=\"tdrow1\"><a href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow2\">". smart_unescape($d[2]) ."</td><td class=\"tdrow3\">". smart_unescape($d[3]) ."</td><td class=\"tdrow4\">". smart_unescape($d[4]) ."</td><td class=\"tdrow5\">". smart_unescape($d[5]) . "</td>";
 		print "</tr>\n";
 		}
 		?>
