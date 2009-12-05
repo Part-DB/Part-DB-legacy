@@ -39,7 +39,7 @@
 			print $t;
 	}
 	
-	include("partdb_init.php");
+	include("config.php");
 
 	/*@@@ some helper functions down below @@@*/
 	
