@@ -81,7 +81,7 @@
 
 		if ( strcmp ($_REQUEST["type"], "toless") == 0 )
 		{
-		print "<h2>Nachzubestellende Teile</h2><form method=\"get\"><input type=\"hidden\" name=\"cid\" value=\"0\"><input type=\"hidden\" name=\"type\" value=\"toless\">\nLieferant(en):<select name=\"sup_id\">";
+		print "<form method=\"get\"><input type=\"hidden\" name=\"cid\" value=\"0\"><input type=\"hidden\" name=\"type\" value=\"toless\">\nLieferant(en):<select name=\"sup_id\">";
 
 		if (! isset($_REQUEST["sup_id"]) )
 			print "<option selected value=\"0\">Alle</option>";
@@ -99,7 +99,7 @@
 		else
 		print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
 		}
-		//print "</select><input type=\"submit\" value=\"W&auml;hle Lieferanten!\"></form>\n";
+		print "</select><input type=\"submit\" value=\"W&auml;hle Lieferanten!\"></form>\n";
 		}
 		else if (strcmp ($_REQUEST["type"], "noprice") == 0)
 		{
