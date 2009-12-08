@@ -176,7 +176,7 @@
 				print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\"></td>";
 				}
 			}
-			print "<td class=\"tdrow1\"><a href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow2\">". smart_unescape($d[2]) ."</td><td class=\"tdrow3\">". smart_unescape($d[3]) ."</td><td class=\"tdrow4\">". smart_unescape($d[4]) ."</td><td class=\"tdrow5\">". smart_unescape($d[5]) . "</td>";
+			print "<td class=\"tdrow1\"><a title=\"Kommentar: Preis: Bestellnummer:\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow2\">". smart_unescape($d[2]) ."</td><td class=\"tdrow3\">". smart_unescape($d[3]) ."</td><td class=\"tdrow4\">". smart_unescape($d[4]) ."</td><td class=\"tdrow5\">". smart_unescape($d[5]) . "</td>";
 			print "<td class=\"tdrow6\">";
 			$test = ($d[1]) ;
 			$query = "SELECT datasheeturl FROM datasheets WHERE part_id=". smart_escape($d[0]) ." ORDER BY datasheeturl ASC;";
@@ -185,8 +185,8 @@
 			if($d[0] == NULL)
 			{
 			// Mit ICONS 
-			print "<a href=\"http://www.alldatasheet.com/view.jsp?Searchword=". smart_unescape ($test) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/ads.png\"></a>";
-			print "<a href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". smart_unescape ($test) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/reichelt.png\"></a>";
+			print "<a title=\"alldatasheet.com\"href=\"http://www.alldatasheet.com/view.jsp?Searchword=". smart_unescape ($test) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/ads.png\"></a>";
+			print "<a title=\"Reichelt.de\"href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". smart_unescape ($test) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/reichelt.png\"></a>";
 			// Ohne ICONS
 			// print "<a href=\"http://www.alldatasheet.com/view.jsp?Searchword=". smart_unescape ($test) ."\" target=\"_blank\">AllDataSheet, </a>";
 			// print "<a href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". smart_unescape ($test) ."\" target=\"_blank\">Reichelt"</a>;
