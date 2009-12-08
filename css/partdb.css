@@ -122,29 +122,42 @@ a:active {
 /* Nav Menue */
 .dtree {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	padding:0px;
+	border: 0px;
 	font-size: 15px;
 	color: #666;
 	white-space: nowrap;
 }
 .dtree img {
+	padding:0px;
 	border: 0px;
 	vertical-align: middle;
 }
 .dtree a {
+	padding:0px;
+	border: 0px;
 	color: #333;
 	text-decoration: none;
 }
 .dtree a.node, .dtree a.nodeSel {
+	padding:0px;
+	border: 0px;
 	white-space: nowrap;
 	padding: 1px 2px 1px 2px;
 }
 .dtree a.node:hover, .dtree a.nodeSel:hover {
+	padding:0px;
+	border: 0px;
 	color: #333;
 	text-decoration: underline;
 }
 .dtree a.nodeSel {
+	padding:0px;
+	border: 0px;
 	background-color: #c0d2ec;
 }
 .dtree .clip {
+	padding:0px;
+	border: 0px;
 	overflow: hidden;
 }
