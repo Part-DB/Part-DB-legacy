@@ -29,7 +29,7 @@
 <html>
  <body class="body">
   <table class="table">
-   <link rel="StyleSheet" href="css/partdb.css" type="text/css" />
+   <link rel="StyleSheet" href="../css/partdb.css" type="text/css" />
 
 	<tr>
 		<td class="tdtop">
