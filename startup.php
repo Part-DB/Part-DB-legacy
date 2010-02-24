@@ -130,7 +130,7 @@
 
 <table class="tablenone">
 </br>
-</table>
+</table> 
 
 <table class="table">
 	<tr>
@@ -141,8 +141,7 @@
 	<tr>
 		<td class="tdtextsmall">
 			</br>
-			</br>
-			</br>
+			<?PHP include("http://code.google.com/p/part-db/updates/list"); ?> 
 			</br>
 		</td>
 	</tr>
