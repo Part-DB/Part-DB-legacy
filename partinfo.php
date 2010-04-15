@@ -107,7 +107,7 @@
 		<input type="hidden" name="action" value="r">
 		<tr><td colspan="2">Teile entnehmen</td></tr>
 		<tr valign="top">
-		<td>Anzahl:</td><td><input type="text" size="3" name="n_less"></td>
+		<td>Anzahl:</td><td><input type="text" size="3" name="n_less" value="1"></td>
 		</tr><tr><td colspan="2" align="center"><input type="submit" value="Entnehmen!"></td></tr>
 		</form>
 		<tr><td colspan="2">&nbsp;</td></tr>
@@ -116,7 +116,7 @@
 		<input type="hidden" name="action" value="a">
 		<tr><td colspan="2">Teile hinzuf&uuml;gen</td></tr>
 		<tr valign="top">
-		<td>Anzahl:</td><td><input type="text" size="3" name="n_more"></td>
+		<td>Anzahl:</td><td><input type="text" size="3" name="n_more" value="1"></td>
 		</tr><tr><td colspan="2" align="center"><input type="submit" value="Hinzuf&uuml;gen!"></td></tr>
 		</form>
 		</table>

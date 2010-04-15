@@ -27,7 +27,26 @@
 */
 	include ("lib.php");
 	partdb_init();
-
+	
+	if(strcmp($_REQUEST["action"], "r") == 0)  //remove one part
+	{
+		$query = "UPDATE parts SET instock=instock-1 WHERE id=" . smart_escape($_REQUEST["pid"]) . " AND instock >= 1 LIMIT 1;";
+		debug_print($query);
+		mysql_query($query);
+	}
+	else if(strcmp($_REQUEST["action"], "a") == 0)	//add one part
+	{
+		$query = "UPDATE parts SET instock=instock+1 WHERE id=" . smart_escape($_REQUEST["pid"]) . " LIMIT 1;";
+		debug_print($query);
+		mysql_query($query);
+	}
+	else if(strcmp($_REQUEST["action"], "an") == 0)	//add number of parts
+	{
+		$query = "UPDATE parts SET instock=instock+". smart_escape($_REQUEST["toadd"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
+		debug_print($query);
+		mysql_query($query);
+	}
+	
 	function findallsubcategories ($cid)
 	{
 		$rv = "id_category=". smart_escape($cid);
@@ -62,7 +81,7 @@
 			{
 			d = new Date();
 			id = d.getTime();
-			eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=1, scrollbars=1, location=1, statusbar=1, menubar=1, resizable=1, width=600, height=400');");
+			eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=1, scrollbars=1, location=1, statusbar=1, menubar=1, resizable=1, width=700, height=400');");
 			}
 			// -->
 		 </script>
@@ -140,13 +159,13 @@
 
 		if ( (strcmp ($_REQUEST["type"], "index") == 0) || (strcmp ($_REQUEST["type"], "noprice") == 0) )
 		{
-		print "<tr  class=\"trcat\"><td></td><td>Name</td><td>Vorhanden</td><td>Min.Bestand</td><td>Footprint</td><td>Lagerort</td><td>Datenbl&auml;tter</td></tr>";
+		print "<tr  class=\"trcat\"><td></td><td>Name</td><td>Vorh./\r\n</br>Min.Best.</td><td>Footprint</td><td>Lagerort</td><td>Datenbl&auml;tter</td><td>-</td><td>+</td></tr>";
 
 		/* the only difference is the query */
 		if (strcmp ($_REQUEST["type"], "index") == 0)
-			$query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc' FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id WHERE (". $catclause .") ORDER BY name ASC;";
+			$query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc',parts.comment FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id WHERE (". $catclause .") ORDER BY name ASC;";
 		else
-			$query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc' FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id LEFT JOIN preise ON parts.id=preise.part_id WHERE (". $catclause .") AND (preise.id IS NULL) ORDER BY name ASC;";
+			$query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc',parts.comment FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id LEFT JOIN preise ON parts.id=preise.part_id WHERE (". $catclause .") AND (preise.id IS NULL) ORDER BY name ASC;";
 
 		debug_print ($query);
 		$result = mysql_query ($query);
@@ -159,7 +178,7 @@
 				print "<tr class=\"trlist1\">";
 			else
 				print "<tr class=\"trlist2\">";
-
+			
 			if (has_image($d[0]))
 			{
 				print "<td class=\"tdrow0\"><a href=\"javascript:popUp('getimage.php?pid=". smart_unescape($d[0]) . "')\"><img class=\"catbild\" src=\"getimage.php?pid=". smart_unescape($d[0]) . "\" alt=\"". smart_unescape($d[1]) ."\"></a></td>";
@@ -176,13 +195,17 @@
 				print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\"></td>";
 				}
 			}
-			print "<td class=\"tdrow1\"><a title=\"Kommentar: Preis: Bestellnummer:\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow2\">". smart_unescape($d[2]) ."</td><td class=\"tdrow3\">". smart_unescape($d[3]) ."</td><td class=\"tdrow4\">". smart_unescape($d[4]) ."</td><td class=\"tdrow5\">". smart_unescape($d[5]) . "</td>";
-			print "<td class=\"tdrow6\">";
+			print "<td class=\"tdrow1\"><a title=\"";
+			print "Kommentar: " . smart_unescape($d[6]);
+			print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td>";
+			print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."/". smart_unescape($d[3]) ."</td>";
+			print "<td class=\"tdrow3\">". smart_unescape($d[4]) ."</td><td class=\"tdrow4\">". smart_unescape($d[5]) . "</td>";
+			print "<td class=\"tdrow5\">";
 			$test = ($d[1]) ;
 			$query = "SELECT datasheeturl FROM datasheets WHERE part_id=". smart_escape($d[0]) ." ORDER BY datasheeturl ASC;";
 			$result_ds = mysql_query($query);
-			$d = mysql_fetch_row ($result_ds); #)
-			if($d[0] == NULL)
+			$dnew = mysql_fetch_row ($result_ds); #)
+			if($dnew[0] == NULL)
 			{
 			// Mit ICONS 
 			print "<a title=\"alldatasheet.com\"href=\"http://www.alldatasheet.com/view.jsp?Searchword=". smart_unescape ($test) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/ads.png\"></a>";
@@ -194,9 +217,27 @@
 			}
 			else 
 			{
-				print "<a href=\"". smart_unescape($d[0]) ."\">Datenblatt</a> ";
+				print "<a href=\"". smart_unescape($dnew[0]) ."\">Datenblatt</a> ";
 			}
 			print "</td>";
+			
+			//build the "-" button, only if more then 0 parts on stock
+			print "<form method=\"post\"><td class=\"tdrow6\">";
+			print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
+			print "<input type=\"hidden\" name=\"action\"  value=\"r\"/>";
+			print "<input type=\"submit\" value=\"-\"";
+			if($d[2]<=0)
+			{
+				print " disabled=\"disabled\" ";
+			}
+			print "/></td></form>";
+			
+			//build the "+" button
+			print "<form method=\"post\"><td class=\"tdrow7\">";
+			print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
+			print "<input type=\"hidden\" name=\"action\"  value=\"a\"/>";
+			print "<input type=\"submit\" value=\"+\"/></td></form>";
+			
 			print "<tr>\n";
 		}
 		}
@@ -261,7 +302,7 @@
 		print "<tr><td colspan=\"4\">Wert der zu bestellenden Artikel: ".$d[0]."&euro;</td></tr>";
 
 		/****/
-		print "<tr class=\"trcat\"><td>Name</td><td>Footprint</td><td>Bestellmenge</td><td>Lieferant</td><td>Bestell-Nr.</td></tr>";
+		print "<tr class=\"trcat\"><td>Name</td><td>Footprint</td><td>Bestellmenge</td><td>Lieferant</td><td>Bestell-Nr.</td><td>Hinzuf&uuml;gen</td></tr>";
 		if ( (! isset($_REQUEST["sup_id"]) ) || ($_REQUEST["sup_id"] == "0") )
 		{
 			//$query = "SELECT parts.id,parts.name,footprints.name AS 'footprint',parts.mininstock-parts.instock AS 'diff',suppliers.name AS 'supplier',parts.supplierpartnr FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN suppliers ON parts.id_supplier=suppliers.id WHERE (". $catclause .") AND (parts.instock < parts.mininstock) ORDER BY name ASC;";
@@ -298,7 +339,15 @@
 			else
 				print "<tr class=\"trlist2\">";
 
-			print "<td class=\"tdrow1\"><a href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow3\">". smart_unescape($d[2]) ."</td><td class=\"tdrow4\">". smart_unescape($d[3]) ."</td><td class=\"tdrow1\">". smart_unescape($d[4]) ."</td><td class=\"tdrow1\">". smart_unescape($d[5]) . "</td></tr>\n";
+			print "<td class=\"tdrow1\"><a href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow3\">". smart_unescape($d[2]) ."</td><td class=\"tdrow4\">". smart_unescape($d[3]) ."</td><td class=\"tdrow1\">". smart_unescape($d[4]) ."</td><td class=\"tdrow1\">". smart_unescape($d[5]) . "</td>";
+			//show text box with number to add and the add button
+			print "<td class=\"tdrow2\"><form method=\"post\">";
+			print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
+			print "<input type=\"hidden\" name=\"action\"  value=\"an\"/>";
+			print "<input type=\"text\" style=\"width:25px;\" name=\"toadd\" value=\"" . smart_unescape($d[3]) . "\"/>";
+			print "<input type=\"submit\" value=\"Add\"/></form></td>";
+			
+			print "</tr>\n";
 		}
 		}
 		?>
