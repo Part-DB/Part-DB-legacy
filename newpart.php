@@ -48,10 +48,14 @@
 			
 			debug_print ($query);
 			$r = mysql_query ($query);
-
+			$id = mysql_insert_id();
+			if(strlen($_REQUEST["URLDatasheet"])!=0)
+			{
+			    $query = "INSERT INTO datasheets (part_id,datasheeturl) VALUES (".smart_escape($id).",".smart_escape($_REQUEST["URLDatasheet"]).");";
+			    mysql_query($query);
+			}
 			if(strlen($_FILES["AddImage"]["tmp_name"]))
 			{
-			$id = mysql_insert_id(); 
 			if (is_uploaded_file($_FILES["AddImage"]["tmp_name"]))
 			{
 				/*
@@ -82,6 +86,8 @@
 				mysql_query($query);
 			}
 			}
+		//close the window on success
+		print "<script>window.close();</script>";
 		}
 	}
 	//add a new storage if it not exists, and save the name in global var to select while creating drop downbox
@@ -263,6 +269,10 @@
 		</tr>
 		<tr><td>Bild:</td>
 		<td><input type="file" name="AddImage"/></td>
+		</tr>
+		<tr>
+		<td>Datenblatt (URL):</td>
+		<td><input type="text" name="URLDatasheet" value="<?PHP print $_REQUEST["URLDatasheets"] ?>"/></td>
 		</tr>
 		<tr><td colspan="2"><input type="submit" name="AddPart" value="Teil Hinzuf&uuml;"></td></tr>
 		</form>
