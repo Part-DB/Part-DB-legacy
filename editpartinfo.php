@@ -46,14 +46,15 @@
 		$query = "UPDATE parts SET name=". smart_escape($_REQUEST["p_name"]) .",instock=". smart_escape($_REQUEST["p_instock"]) .", mininstock=". smart_escape($_REQUEST["p_mininstock"]) .", id_footprint=". smart_escape($_REQUEST["p_footprint"]) .", id_storeloc=". smart_escape($_REQUEST["p_storeloc"]) .", id_supplier=". smart_escape($_REQUEST["p_supplier"]) .", supplierpartnr=". smart_escape($_REQUEST["p_supplierpartnr"]) .", comment=". smart_escape($_REQUEST["p_comment"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
 		debug_print ($query);
 		mysql_query ($query);
+		print "<script>window.close();</script>";
 	}
-        else if ( strcmp ($_REQUEST["action"], "edit_category") == 0 )
-        {
+    else if ( strcmp ($_REQUEST["action"], "edit_category") == 0 )
+    {
 		$query = "UPDATE parts SET id_category=". smart_escape($_REQUEST["p_category"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
-               debug_print ($query);
-               mysql_query ($query);
-        }
-
+        ebug_print ($query);
+        mysql_query ($query);
+		print "<script>window.close();</script>";
+    }
 	else if ( strcmp ($_REQUEST["action"], "ds_add") == 0 )
 	{
 		$query = "INSERT INTO datasheets (part_id,datasheeturl) VALUES (". smart_escape($_REQUEST["pid"]) .",". smart_escape($_REQUEST["ds_url"]) .");";
@@ -72,7 +73,13 @@
 		{
 			/* display the confirmation text */
 			$special_dialog = 1;
-			print "<html><body><div style=\"text-align:center;\"><div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie das Bauteil &quot;". lookup_part_name ($_REQUEST["pid"]) ."&quot; wirklich l&ouml;schen?</div>Der L&ouml;schvorgang ist irreversibel!<form action=\"editpartinfo.php\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $_REQUEST["pid"] ."\"><input type=\"hidden\" name=\"action\" value=\"part_del\"><input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen!\"><input type=\"submit\" name=\"del_ok\" value=\"L&ouml;schen!\"></form></div></body></html>";
+			print "<html><body class=\"body\"><link rel=\"StyleSheet\" href=\"css/partdb.css\" type=\"text/css\" /><div style=\"text-align:center;\">";
+			print "<table class=\"table\">";
+			print "<tr><td class=\"tdtop\"><div style=\"color:red;\">M&ouml;chten Sie das Bauteil &quot;". lookup_part_name ($_REQUEST["pid"]) ."&quot; wirklich l&ouml;schen? </td></tr>";
+			print "<tr><td class=\"tdtext\"><table><tr><td></div>Der L&ouml;schvorgang ist irreversibel!</td></tr>";
+			print "<tr><td><form action=\"editpartinfo.php\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $_REQUEST["pid"] ."\"></td></tr>";
+			print "<tr><td><input type=\"hidden\" name=\"action\" value=\"part_del\"><input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen!\"><input type=\"submit\" name=\"del_ok\" value=\"L&ouml;schen!\"></td></tr>";
+			print "</table></td></tr></table></form></div></body></html>";
 		}
 		else if (isset($_REQUEST["del_ok"]))
 		{
@@ -85,7 +92,7 @@
 			debug_print ($query);
 			mysql_query ($query);
 			$special_dialog = 1;
-			print "<html><body><h1>Teil gel&ouml;scht!</h1></body></html>";
+			print "<script>window.close();</script>";
 		}
 	}
 	else if ( strcmp ($_REQUEST["action"], "img_mgr") == 0 )
@@ -112,10 +119,17 @@
 			{
 				/* print the confirmation text */
 				$special_dialog = 1;
-				print "<html><body><div style=\"text-align:center;\"><div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie das ausgew&auml;hlte Bild/die ausgew&auml;hlen Bilder wirklich l&ouml;schen?</div>Der L&ouml;schvorgang ist irreversibel!<form action=\"editpartinfo.php\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $_REQUEST["pid"] ."\"><input type=\"hidden\" name=\"action\" value=\"img_mgr\">";
+				print "<html><body class=\"body\"><link rel=\"StyleSheet\" href=\"css/partdb.css\" type=\"text/css\"/>";
+				print "<table class=\"table\">";
+				print "<tr><td class=\"tdtop\"><div style=\"color:red\">M&ouml;chten Sie das ausgew&auml;hlte Bild/die ausgew&auml;hlen Bilder wirklich l&ouml;schen?</div></td></tr>";
+				print "<tr><td class=\"tdtext\"><table><tr><td>Der L&ouml;schvorgang ist irreversibel!</td></tr>";
+				print "<tr><td><form action=\"editpartinfo.php\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $_REQUEST["pid"] ."\"><input type=\"hidden\" name=\"action\" value=\"img_mgr\">";
 				for ($i = 0; $i < count($img_del_id_array); $i++)
+				{
 					print "<input type=\"hidden\" name=\"del_img[]\" value=\"". $img_del_id_array[$i] ."\">";
 					print "<input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen!\"><input type=\"submit\" name=\"del_ok\" value=\"L&ouml;schen!\"></form></div></body></html>";
+				}
+				print "</form></td></tr></table></td></tr></table>";
 			}
 			else if (isset($_REQUEST["del_ok"]))
 			{
