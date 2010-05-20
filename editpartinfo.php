@@ -51,7 +51,7 @@
     else if ( strcmp ($_REQUEST["action"], "edit_category") == 0 )
     {
 		$query = "UPDATE parts SET id_category=". smart_escape($_REQUEST["p_category"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
-        ebug_print ($query);
+        debug_print ($query);
         mysql_query ($query);
 		print "<script>window.close();</script>";
     }
