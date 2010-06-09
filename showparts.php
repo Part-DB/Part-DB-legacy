@@ -303,32 +303,98 @@
 		print "<tr><td colspan=\"4\">Wert der zu bestellenden Artikel: ".$d[0]."&euro;</td></tr>";
 
 		/****/
-		print "<tr class=\"trcat\"><td>Name</td><td>Footprint</td><td>Bestellmenge</td><td>Lieferant</td><td>Bestell-Nr.</td><td>Hinzuf&uuml;gen</td></tr>";
+		print "<tr class=\"trcat\"><td>Name</td><td>Footprint</td><td>Bestellmenge</td><td>Lieferant</td><td>Bestell-Nr.</td><td>Lagerort</td><td>Hinzuf&uuml;gen</td></tr>";
 		if ( (! isset($_REQUEST["sup_id"]) ) || ($_REQUEST["sup_id"] == "0") )
 		{
+		/*$query = "
+		SELECT 
+		parts.id,
+		parts.name,
+		parts.instock,
+		parts.mininstock,
+		footprints.name AS 'footprint',
+		storeloc.name AS 'loc',
+		parts.comment 
+		FROM parts 
+		LEFT JOIN footprints ON parts.id_footprint=footprints.id 
+		LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id 
+		WHERE (". $catclause .") ORDER BY name ASC;";
+		*/
 			//$query = "SELECT parts.id,parts.name,footprints.name AS 'footprint',parts.mininstock-parts.instock AS 'diff',suppliers.name AS 'supplier',parts.supplierpartnr FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN suppliers ON parts.id_supplier=suppliers.id WHERE (". $catclause .") AND (parts.instock < parts.mininstock) ORDER BY name ASC;";
-			$query = "SELECT parts.id,parts.name,footprints.name AS 'footprint',parts.mininstock-parts.instock AS 'diff',suppliers.name AS 'supplier',parts.supplierpartnr,parts.instock,parts.mininstock ".
-				"FROM parts ".
-				"LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
-				"LEFT JOIN suppliers ON parts.id_supplier=suppliers.id ".
-				"LEFT JOIN pending_orders ON parts.id=pending_orders.part_id ".
-				"WHERE (pending_orders.id IS NULL) AND (parts.instock < parts.mininstock) AND (". $catclause .") ".
+			$query = 
+				"SELECT ".
+				"parts.id,".
+				"parts.name,".
+				"footprints.name AS 'footprint',".
+				"parts.mininstock-parts.instock AS 'diff',".
+				"suppliers.name AS 'supplier',".
+				"parts.supplierpartnr,".
+				"parts.instock,parts.mininstock,".
+				"storeloc.name AS 'loc'".
+				" FROM parts ".
+				" LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+				" LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
+				" LEFT JOIN pending_orders ON parts.id=pending_orders.part_id".
+				" LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
+				" WHERE (pending_orders.id IS NULL) AND (parts.instock < parts.mininstock) AND (". $catclause .") ".
 				"UNION ".
-				"SELECT parts.id,parts.name,footprints.name AS 'footprint',parts.mininstock-parts.instock-SUM(pending_orders.quantity),suppliers.name AS 'supplier',parts.supplierpartnr,parts.instock,parts.mininstock ".
-				"FROM parts ".
-				"INNER JOIN pending_orders ON (parts.id=pending_orders.part_id) ".
-				"LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
-				"LEFT JOIN suppliers ON parts.id_supplier=suppliers.id ".
-				"WHERE (". $catclause .") ".
+				"SELECT ".
+				"parts.id,".
+				"parts.name,".
+				"footprints.name AS 'footprint',".
+				"parts.mininstock-parts.instock-SUM(pending_orders.quantity),".
+				"suppliers.name AS 'supplier',".
+				"parts.supplierpartnr,".
+				"parts.instock,parts.mininstock,".
+				"storeloc.name AS 'loc'".
+				" FROM parts ".
+				" INNER JOIN pending_orders ON (parts.id=pending_orders.part_id)".
+				" LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+				" LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
+				" LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
+				" WHERE (". $catclause .") ".
 				"GROUP BY (pending_orders.part_id) ".
 				"HAVING (parts.instock + SUM(pending_orders.quantity)  < parts.mininstock) ".
 				"ORDER BY name ASC ";
 		}
 		else
 		{
-			$query = "SELECT parts.id,parts.name,footprints.name AS 'footprint',parts.mininstock-parts.instock AS 'diff',suppliers.name AS 'supplier',parts.supplierpartnr,parts.instock,parts.mininstock FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN suppliers ON parts.id_supplier=suppliers.id LEFT JOIN pending_orders ON parts.id = pending_orders.part_id WHERE (". $catclause .") AND (pending_orders.id IS NULL) AND (parts.instock < parts.mininstock) AND (parts.id_supplier = ". smart_escape($_REQUEST["sup_id"]) .") UNION SELECT parts.id, parts.name, footprints.name AS 'footprint', parts.mininstock - parts.instock - SUM( pending_orders.quantity ) , suppliers.name AS 'supplier', parts.supplierpartnr, parts.instock, parts.mininstock FROM parts INNER JOIN pending_orders ON ( parts.id = pending_orders.part_id )  LEFT JOIN footprints ON parts.id_footprint = footprints.id LEFT JOIN suppliers ON parts.id_supplier = suppliers.id WHERE (". $catclause .") AND (parts.id_supplier = ". smart_escape($_REQUEST["sup_id"]) .") GROUP BY (pending_orders.part_id) HAVING (parts.instock + SUM( pending_orders.quantity ) < parts.mininstock) ORDER BY name ASC;";
+			$query = "SELECT ".
+			"parts.id,".
+			"parts.name,".
+			"footprints.name AS 'footprint',".
+			"parts.mininstock-parts.instock AS 'diff',".
+			"suppliers.name AS 'supplier',".
+			"parts.supplierpartnr,".
+			"parts.instock,".
+			"parts.mininstock,".
+			"storeloc.name AS 'loc'".
+			" FROM parts".
+			" LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+			" LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
+			" LEFT JOIN pending_orders ON parts.id = pending_orders.part_id".
+			" LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
+			" WHERE (". $catclause .") AND (pending_orders.id IS NULL) AND (parts.instock < parts.mininstock) AND (parts.id_supplier = ". smart_escape($_REQUEST["sup_id"]) .")". 
+			" UNION".
+			" SELECT ".
+			"parts.id,".
+			"parts.name,". 
+			"footprints.name AS 'footprint',". 
+			"parts.mininstock - parts.instock - SUM( pending_orders.quantity ) ,". 
+			"suppliers.name AS 'supplier',". 
+			"parts.supplierpartnr," .
+			"parts.instock,". 
+			"parts.mininstock,".
+			"storeloc.name AS 'loc'".
+			" FROM parts ".
+			" INNER JOIN pending_orders ON ( parts.id = pending_orders.part_id ) ". 
+			" LEFT JOIN footprints ON parts.id_footprint = footprints.id ".
+			" LEFT JOIN suppliers ON parts.id_supplier = suppliers.id ".
+			" LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
+			" WHERE (". $catclause .") AND (parts.id_supplier = ". smart_escape($_REQUEST["sup_id"]) .") GROUP BY (pending_orders.part_id) HAVING (parts.instock + SUM( pending_orders.quantity ) < parts.mininstock) ORDER BY name ASC;";
 		}
 		debug_print ($query);
+		//print(smart_unescape($query));
 		$result = mysql_query ($query);
 
 		$rowcount = 0;
@@ -340,7 +406,7 @@
 			else
 				print "<tr class=\"trlist2\">";
 
-			print "<td class=\"tdrow1\"><a href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow3\">". smart_unescape($d[2]) ."</td><td class=\"tdrow4\">". smart_unescape($d[3]) ."</td><td class=\"tdrow1\">". smart_unescape($d[4]) ."</td><td class=\"tdrow1\">". smart_unescape($d[5]) . "</td>";
+			print "<td class=\"tdrow1\"><a href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow3\">". smart_unescape($d[2]) ."</td><td class=\"tdrow4\">". smart_unescape($d[3]) ."</td><td class=\"tdrow1\">". smart_unescape($d[4]) ."</td><td class=\"tdrow1\">". smart_unescape($d[5]) . "</td><td class=\"tdrow1\">". smart_unescape($d[8]) . "</td>";
 			//show text box with number to add and the add button
 			print "<td class=\"tdrow2\"><form method=\"post\">";
 			print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
