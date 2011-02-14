@@ -123,6 +123,9 @@
 		  The first Author's Homepage <a href="http://www.cl-projects.de/">http://www.cl-projects.de/</a></br>
 		  </br>
 		  Author since 2009 by K.Jacobs - <a href="http://www.grautier.com/">http://grautier.com</a></br>
+		  ajfrenzel		 	Committer</br>
+		  tgrziwa 			Committer</br>
+		  d.lipschinski 		Committer</br>
 		  </br>
 		</td>
 	</tr>
@@ -141,7 +144,7 @@
 	<tr>
 		<td class="tdtextsmall">
 			</br>
-			<?PHP include("http://code.google.com/p/part-db/updates/list"); ?> 
+			<?PHP include("http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung"); ?> 
 			</br>
 		</td>
 	</tr>
