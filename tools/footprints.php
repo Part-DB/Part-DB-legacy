@@ -17,9 +17,13 @@
 			<b>CSP</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/CSP16.png"></img>
-			<img src="../tools/footprints/CSP24.png"></img>
-			<img src="../tools/footprints/CSP28.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/CSP","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -28,17 +32,13 @@
 			<b>DIP</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/DIP4.png"></img>
-			<img src="../tools/footprints/DIP6.png"></img>
-			<img src="../tools/footprints/DIP8.png"></img>
-			<img src="../tools/footprints/DIP14.png"></img>
-			<img src="../tools/footprints/DIP16.png"></img>
-			<img src="../tools/footprints/DIP18.png"></img>
-			<img src="../tools/footprints/DIP20.png"></img>
-			<img src="../tools/footprints/DIP22.png"></img>
-			<img src="../tools/footprints/DIP24.png"></img>
-			<img src="../tools/footprints/DIP28.png"></img>
-			</td>
+			<?PHP
+			$pic = listPicture("footprints/DIP","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>			</td>
 			</tr>
 
 			<tr class="trlist1">
@@ -46,15 +46,13 @@
 			<b>DIP Wide</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/DIP24W.png"></img>
-			<img src="../tools/footprints/DIP28W.png"></img>
-			<img src="../tools/footprints/DIP32W.png"></img>
-			<img src="../tools/footprints/DIP36W.png"></img>
-			<img src="../tools/footprints/DIP40W.png"></img>
-			<img src="../tools/footprints/DIP42W.png"></img>
-			<img src="../tools/footprints/DIP48W.png"></img>
-			<img src="../tools/footprints/DIP52W.png"></img>
-			<img src="../tools/footprints/DIP64W.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/DIP","W","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -63,11 +61,13 @@
 			<b>FBGA</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/FBGA49.png"></img>
-			<img src="../tools/footprints/FBGA60.png"></img>
-			<img src="../tools/footprints/FBGA64.png"></img>
-			<img src="../tools/footprints/FBGA100.png"></img>
-			<img src="../tools/footprints/FBGA128.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/FBGA","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -76,8 +76,13 @@
 			<b>LBGA</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/LBGA160.png"></img>
-			<img src="../tools/footprints/LBGA196.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/LBGA","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -86,15 +91,13 @@
 			<b>LQFP</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/LQFP32.png"></img>
-			<img src="../tools/footprints/LQFP44.png"></img>
-			<img src="../tools/footprints/LQFP48.png"></img>
-			<img src="../tools/footprints/LQFP52.png"></img>
-			<img src="../tools/footprints/LQFP64.png"></img>
-			<img src="../tools/footprints/LQFP80.png"></img>
-			<img src="../tools/footprints/LQFP128.png"></img>
-			<img src="../tools/footprints/LQFP144.png"></img>
-			<img src="../tools/footprints/LQFP176.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/LQFP","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -103,8 +106,13 @@
 			<b>LQFP EXP PAD</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/LQFP48E.png"></img>
-			<img src="../tools/footprints/LQFP128E.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/LQFP","E","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -113,10 +121,13 @@
 			<b>MLF</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/MLF28.png"></img>
-			<img src="../tools/footprints/MLF32.png"></img>
-			<img src="../tools/footprints/MLF44.png"></img>
-			<img src="../tools/footprints/MLF64.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/MLF","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -125,9 +136,13 @@
 			<b>Micro Array</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/MA25.png"></img>
-			<img src="../tools/footprints/MA36.png"></img>
-			<img src="../tools/footprints/MA49.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/MA","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -136,8 +151,13 @@
 			<b>MSOIC</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/MSOIC8.png"></img>
-			<img src="../tools/footprints/MSOIC10.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/MSOIC","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -146,12 +166,13 @@
 			<b>PLCC</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/PLCC20.png"></img>
-			<img src="../tools/footprints/PLCC28.png"></img>
-			<img src="../tools/footprints/PLCC44.png"></img>
-			<img src="../tools/footprints/PLCC52.png"></img>
-			<img src="../tools/footprints/PLCC68.png"></img>
-			<img src="../tools/footprints/PLCC84.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/PLCC","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -160,10 +181,13 @@
 			<b>PQFP</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/PQFP44.png"></img>
-			<img src="../tools/footprints/PQFP64.png"></img>
-			<img src="../tools/footprints/PQFP80.png"></img>
-			<img src="../tools/footprints/PQFP128.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/PQFP","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -172,8 +196,13 @@
 			<b>SC-70</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/SC70-5.png"></img>
-			<img src="../tools/footprints/SC70-6.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/SC70","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -182,9 +211,13 @@
 			<b>SOIC</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/SOIC8.png"></img>
-			<img src="../tools/footprints/SOIC14.png"></img>
-			<img src="../tools/footprints/SOIC16.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/SOIC","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -193,11 +226,13 @@
 			<b>SOICW</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/SOICW14.png"></img>
-			<img src="../tools/footprints/SOICW16.png"></img>
-			<img src="../tools/footprints/SOICW20.png"></img>
-			<img src="../tools/footprints/SOICW24.png"></img>
-			<img src="../tools/footprints/SOICW28.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/SOICW","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -206,8 +241,13 @@
 			<b>SOT223</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/SOT223-4.png"></img>
-			<img src="../tools/footprints/SOT223-5.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/SOT223","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -216,10 +256,13 @@
 			<b>SOT23</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/SOT23-3.png"></img>
-			<img src="../tools/footprints/SOT23-5.png"></img>
-			<img src="../tools/footprints/SOT23-6.png"></img>
-			<img src="../tools/footprints/SOT23-8.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/SOT23","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -228,13 +271,13 @@
 			<b>SSOP</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/SSOP16.png"></img>
-			<img src="../tools/footprints/SSOP20.png"></img>
-			<img src="../tools/footprints/SSOP24.png"></img>
-			<img src="../tools/footprints/SSOP28.png"></img>
-			<img src="../tools/footprints/SSOP30.png"></img>
-			<img src="../tools/footprints/SSOP48.png"></img>
-			<img src="../tools/footprints/SSOP56.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/SSOP","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -243,9 +286,13 @@
 			<b>SSOP EIAJ</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/SSOPEIAJ20.png"></img>
-			<img src="../tools/footprints/SSOPEIAJ24.png"></img>
-			<img src="../tools/footprints/SSOPEIAJ28.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/SSOPEIAJ","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -254,8 +301,13 @@
 			<b>TCSP</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TCSP20.png"></img>
-			<img src="../tools/footprints/TCSP32.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TCSP","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -264,7 +316,13 @@
 			<b>TEPBGA</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TEPBGA292.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TEPBGA","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -273,7 +331,13 @@
 			<b>TO3</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TO3-4.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TO3","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -282,8 +346,13 @@
 			<b>TO46</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TO46-2.png"></img>
-			<img src="../tools/footprints/TO46-3.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TO46","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -292,7 +361,13 @@
 			<b>TO92</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TO92-3.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TO92","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -301,8 +376,13 @@
 			<b>TO99</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TO99-6.png"></img>
-			<img src="../tools/footprints/TO99-8.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TO99","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -312,7 +392,13 @@
 			<b>TO100</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TO100-10.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TO100","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -321,12 +407,13 @@
 			<b>TO220</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TO220-3.png"></img>
-			<img src="../tools/footprints/TO220-7.png"></img>
-			<img src="../tools/footprints/TO220-9.png"></img>
-			<img src="../tools/footprints/TO220-10.png"></img>
-			<img src="../tools/footprints/TO220-11.png"></img>
-			<img src="../tools/footprints/TO220-27.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TO220","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -335,7 +422,13 @@
 			<b>TO247</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TO247-15.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TO247","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -344,7 +437,13 @@
 			<b>TO252</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TO252-3.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TO252","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -353,10 +452,13 @@
 			<b>TO263</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TO263-3.png"></img>
-			<img src="../tools/footprints/TO263-5.png"></img>
-			<img src="../tools/footprints/TO263-7.png"></img>
-			<img src="../tools/footprints/TO263-9.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TO263","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -365,8 +467,13 @@
 			<b>TO263 Thin</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TO263T-5.png"></img>
-			<img src="../tools/footprints/TO263T-7.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TO263T","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -375,11 +482,13 @@
 			<b>TQFP</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TQFP48.png"></img>
-			<img src="../tools/footprints/TQFP64.png"></img>
-			<img src="../tools/footprints/TQFP80.png"></img>
-			<img src="../tools/footprints/TQFP100.png"></img>
-			<img src="../tools/footprints/TQFP128.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TQFP","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -388,8 +497,13 @@
 			<b>TQFP EXP PAD</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TQFP64E.png"></img>
-			<img src="../tools/footprints/TQFP100E.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TQFP","E","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -398,7 +512,13 @@
 			<b>TSOT</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TSOT-6.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TSOT","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -407,13 +527,13 @@
 			<b>TSSOP</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TSSOP14.png"></img>
-			<img src="../tools/footprints/TSSOP16.png"></img>
-			<img src="../tools/footprints/TSSOP20.png"></img>
-			<img src="../tools/footprints/TSSOP24.png"></img>
-			<img src="../tools/footprints/TSSOP28.png"></img>
-			<img src="../tools/footprints/TSSOP48.png"></img>
-			<img src="../tools/footprints/TSSOP58.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TSSOP","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -422,12 +542,13 @@
 			<b>TSSOP EXP PAD</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/TSSOP10E.png"></img>
-			<img src="../tools/footprints/TSSOP14E.png"></img>
-			<img src="../tools/footprints/TSSOP16E.png"></img>
-			<img src="../tools/footprints/TSSOP20E.png"></img>
-			<img src="../tools/footprints/TSSOP28E.png"></img>
-			<img src="../tools/footprints/TSSOP64E.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/TSSOP","E","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -436,8 +557,13 @@
 			<b>UCSP</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/UCSP20.png"></img>
-			<img src="../tools/footprints/UCSP24.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/UCSP","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -446,7 +572,13 @@
 			<b>UFBGA</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/UFBGA49.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/UFBGA","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<td><img src=".$file." height=\"70\"></img></td>";
+			    }
+			?>
 			</td>
 			</tr>
 
@@ -455,8 +587,13 @@
 			<b>Crystall</b>
 			</td>
 			<td>
-			<img src="../tools/footprints/HC49U.png"></img>
-			<img src="../tools/footprints/HC49SMD.png"></img>
+			<?PHP
+			$pic = listPicture("footprints/HC","png"); 
+			  for($x=0;$x<count($pic);$x++) {
+			    $file    =    $pic[$x]["file"]; 
+			    echo "<img src=".$file." height=\"70\"></img>";
+			    }
+			?>
 			</td>
 			</tr>
 		</table>
@@ -468,3 +605,13 @@
  </body>
 </html>
 
+<?PHP
+function listPicture($dir=".",$type="png") {
+    $x = 0;
+    foreach (glob($dir."*.".$type) as $filename)    {
+        $picture[$x]["file"] = $filename;
+        $x++;
+    }
+    return $picture;
+}
+?>
