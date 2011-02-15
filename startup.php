@@ -127,7 +127,19 @@
 		  tgrziwa 			Committer</br>
 		  d.lipschinski 		Committer</br>
 		  </br>
-		</td>
+		  <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+		  <input type="hidden" name="cmd" value="_donations">
+		  <input type="hidden" name="business" value="theborg@grautier.com">
+		  <input type="hidden" name="lc" value="DE">
+		  <input type="hidden" name="item_name" value="Part-DB">
+		  <input type="hidden" name="no_note" value="0">
+		  <input type="hidden" name="currency_code" value="EUR">
+		  <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
+		  <input type="image" src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
+		  <img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1"></br>
+</form>
+
+		  </td>
 	</tr>
 </table>
 
@@ -138,7 +150,7 @@
 <table class="table">
 	<tr>
 		<td class="tdtop">
-		Changelog
+		Wiki
 		</td>
 	</tr>
 	<tr>
