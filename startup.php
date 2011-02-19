@@ -76,7 +76,7 @@
 <table class="table">
 	<tr>
 		<td class="tdstartup">
-		  <img src="img/partdb/partdb.png"></img><b>Part-DB V0.1.4RC5</b><img src="img/partdb/partdb.png"></img>
+		  <img src="img/partdb/partdb.png"></img><b>Part-DB V0.1.4RC1</b><img src="img/partdb/partdb.png"></img>
 		</td>
 	</tr>
 </table>
@@ -150,13 +150,32 @@
 <table class="table">
 	<tr>
 		<td class="tdtop">
-		Wiki
+		Updates
 		</td>
 	</tr>
 	<tr>
 		<td class="tdtextsmall">
 			</br>
-			<?PHP include("http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung"); ?> 
+			<?PHP
+			$rss_file = join ( ' ', file ("http://code.google.com/feeds/p/part-db/downloads/basic"));
+			$rss_zeilen = array ( "title", "updated", "id" );
+			$rss_array = explode ( "<entry>", $rss_file );
+			foreach ( $rss_array as $string ) {
+			foreach ( $rss_zeilen as $zeile ) {
+			preg_match_all ( "|<$zeile>(.*)</$zeile>|Usim", $string, $preg_match );
+			$$zeile = $preg_match [1] [0];
+			#if ($zeile = "id") 
+			 #{
+			 #echo "<a href=\"" . $$zeile . "\">" . $$zeile . "</a></br>";
+			 #}
+			 #else
+			 #{
+			 echo "" . $$zeile . "</br>";
+			 #}
+			} 
+			echo "</br>";
+			}
+			?>
 			</br>
 		</td>
 	</tr>
