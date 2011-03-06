@@ -35,9 +35,9 @@
 		   own user id. */
 	$link = mysql_connect ("localhost", "part-db", "PARTdb");
 	mysql_select_db ("part-db");
+	}
 	else
 	{
 		echo "connect to DB failed", mysql_errno(), "<br>", mysql_error(), "<br>";
 	}
-}
 ?>
