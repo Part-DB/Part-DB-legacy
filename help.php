@@ -24,7 +24,7 @@
 		Momentan sind zwei Templates f&uuml;r die Part-DB vorhanden zum wekseln einfach in ../css/ die Dateien umbenennen das benutzte muss partdb.css heissen.
 		</br>
 		<b>Öffentliche Liste</b></br>
-		Am einfachsten geht es, wenn Ihr auf dem Server einen extra Ordner erstellt. In diesen kopiert ihr die openlist.php, config.php, lib.php und den CSS Ordner.
+		Am einfachsten geht es, wenn Ihr auf dem Server einen extra Ordner erstellt. In diesen kopiert ihr die openlist.php,stats.php ,config.php, lib.php und den CSS Ordner.
                 Alternativ könnt Ihr auch den Ordner ../partdb/openlist/ mit .htacsses wieder freigeben dieses klappt aber nur wenn der Webserver dieses erlaubt. 
 		</td>
 	</tr>
