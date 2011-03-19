@@ -23,13 +23,16 @@
 	06/03/06
 		Added escape/unescape calls
 */
-	include('../lib.php');
+	include('lib.php');
 	partdb_init();
+?>
+<?
+	include('stats.php');
 ?>
 <html>
  <body class="body">
   <table class="table">
-   <link rel="StyleSheet" href="../css/partdb.css" type="text/css" />
+   <link rel="StyleSheet" href="css/partdb.css" type="text/css" />
 
 	<tr>
 		<td class="tdtop">
