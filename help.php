@@ -21,10 +21,10 @@
 		Um die Datenbank von Unerlaubten Zugriff zu sch&uuml;tzen solte man umbedinkt das Verzeichnis mit einem Passwort Sch&uuml;tzen, am Sinvolsten ist es dieses Serverseitig mit .htacsess zu machen eine Anleitung daf&uuml;r findet man unter folgenden Link <a href="http://www.grammiweb.de/anleitungen/ka_htaccess.shtml">Hier</a>.</br>
 		</br>
 		<b>Template &Auml;ndern</b></br>
-		Momentan sind zwei Templates f&uuml;r die Part-DB vorhanden zum wekseln einfach in ../css/ die Dateien umbenennen das benutzte muss partdb.css heissen.
+		Momentan sind zwei Templates f&uuml;r die Part-DB vorhanden zum wekseln einfach in ../css/ die Dateien umbenennen das benutzte muss partdb.css heissen.</br>
 		</br>
-		<b>Öffentliche Liste</b></br>
-		Am einfachsten geht es, wenn Ihr auf dem Server einen extra Ordner erstellt. In diesen kopiert ihr die openlist.php,stats.php ,config.php, lib.php und den CSS Ordner.
+		<b>&Ouml;ffentliche Liste</b></br>
+		Am einfachsten geht es, wenn ihr auf dem Server einen extra Ordner erstellt. In diesen kopiert ihr die openlist.php,stats.php ,config.php, lib.php und den CSS Ordner.
                 Alternativ könnt Ihr auch den Ordner ../partdb/openlist/ mit .htacsses wieder freigeben dieses klappt aber nur wenn der Webserver dieses erlaubt. 
 		</td>
 	</tr>
