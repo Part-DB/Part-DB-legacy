@@ -76,7 +76,7 @@
 <table class="table">
 	<tr>
 		<td class="tdstartup">
-		  <img src="img/partdb/partdb.png"></img><b>Part-DB V0.1.4RC1</b><img src="img/partdb/partdb.png"></img>
+		  <img src="img/partdb/partdb.png"></img><b>Part-DB V0.1.5</b><img src="img/partdb/partdb.png"></img>
 		</td>
 	</tr>
 </table>
