@@ -91,20 +91,20 @@
 	{
 ?>
 <table class="table">
-	 <tr>
+	<tr>
 		  <td class="tdtop">
 		    Warning !!!
 		  </td>
 	</tr>
 	<tr>
-		 <td class="tdtext">
-		    Beachten Sie bitte, dass Sie vor der Verwendung der jeweils mindestens</br>
-		    einen Lagerort</br>
-		    ein Footprint</br>
-		    eine Kategorie</br>
-		    und einen Lieferanten</br>
-		    hinzuf&uuml;gen m&uuml;ssen. Die Tools hierf&uuml;r finden Sie links.</br>
-		 </td>
+		<td class="tdtext">
+		  Beachten Sie bitte, dass Sie vor der Verwendung der jeweils mindestens</br>
+		  einen Lagerort</br>
+		  ein Footprint</br>
+		  eine Kategorie</br>
+		  und einen Lieferanten</br>
+		  hinzuf&uuml;gen m&uuml;ssen. Die Tools hierf&uuml;r finden Sie links.</br>
+		</td>
 	</tr>
 </table>
 <?PHP
@@ -117,16 +117,8 @@
 		Lizenz
 		</td>
 	</tr>
+	<tr>
 		<td class="tdtext">
-		  Part-DB, Copyright (C) 2005 of Christoph Lechner. Part-DB is published under the GPL, so it comes with ABSOLUTELY NO WARRANTY, click <a href="readme/gpl.txt">here</a> for details. This is free software, and you are welcome to redistribute it under certain conditions. Click <a href="readme/gpl.txt">here</a> for details.</br>
-		  </br> 
-		  The first Author's Homepage <a href="http://www.cl-projects.de/">http://www.cl-projects.de/</a></br>
-		  </br>
-		  Author since 2009 by K.Jacobs - <a href="http://www.grautier.com/">http://grautier.com</a></br>
-		  ajfrenzel		 	Committer</br>
-		  tgrziwa 			Committer</br>
-		  d.lipschinski 		Committer</br>
-		  </br>
 		  <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
 		  <input type="hidden" name="cmd" value="_donations">
 		  <input type="hidden" name="business" value="theborg@grautier.com">
@@ -135,11 +127,18 @@
 		  <input type="hidden" name="no_note" value="0">
 		  <input type="hidden" name="currency_code" value="EUR">
 		  <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
-		  <input type="image" src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
-		  <img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1"></br>
-</form>
-
-		  </td>
+		  <input type="image" src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" align="right" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
+		  <img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" align="right">
+		  </form>
+		  Part-DB, Copyright (C) 2005 of <b>Christoph Lechner</b>. Part-DB is published under the <b>GPL</b>, so it comes with <b>ABSOLUTELY NO WARRANTY</b>, click <a href="readme/gpl.txt">here</a> for details. This is free software, and you are welcome to redistribute it under certain conditions. Click <a href="readme/gpl.txt">here</a> for details.</br>
+		  </br> 
+		  The first Author's Homepage <a href="http://www.cl-projects.de/">http://www.cl-projects.de/</a></br>
+		  Author since 2009 by <b>K.Jacobs</b> - <a href="http://www.grautier.com/">http://grautier.com</a></br>
+		  </br> 
+		  <b>ajfrenzel</b> - Committer/Bugfix</br>
+		  <b>tgrziwa</b> - Committer/Bugfix</br>
+		  <b>d.lipschinski</b> - Committer/Bugfix</br>
+		</td>
 	</tr>
 </table>
 
@@ -155,28 +154,28 @@
 	</tr>
 	<tr>
 		<td class="tdtextsmall">
-			</br>
-			<?PHP
-			$rss_file = join ( ' ', file ("http://code.google.com/feeds/p/part-db/downloads/basic"));
-			$rss_zeilen = array ( "title", "updated", "id" );
-			$rss_array = explode ( "<entry>", $rss_file );
-			foreach ( $rss_array as $string ) {
-			foreach ( $rss_zeilen as $zeile ) {
-			preg_match_all ( "|<$zeile>(.*)</$zeile>|Usim", $string, $preg_match );
-			$$zeile = $preg_match [1] [0];
-			#if ($zeile = "id") 
-			 #{
-			 #echo "<a href=\"" . $$zeile . "\">" . $$zeile . "</a></br>";
-			 #}
-			 #else
-			 #{
-			 echo "" . $$zeile . "</br>";
-			 #}
-			} 
-			echo "</br>";
-			}
-			?>
-			</br>
+		  </br>
+		  <?PHP
+		  $rss_file = join ( ' ', file ("http://code.google.com/feeds/p/part-db/downloads/basic"));
+		  $rss_zeilen = array ( "title", "updated", "id" );
+		  $rss_array = explode ( "<entry>", $rss_file );
+		  foreach ( $rss_array as $string ) {
+		  foreach ( $rss_zeilen as $zeile ) {
+		  preg_match_all ( "|<$zeile>(.*)</$zeile>|Usim", $string, $preg_match );
+		  $$zeile = $preg_match [1] [0];
+		  #if ($zeile = "id") 
+		  #{
+		    #echo "<a href=\"" . $$zeile . "\">" . $$zeile . "</a></br>";
+		  #}
+		    #else
+		  #{
+		    echo "" . $$zeile . "</br>";
+		  #}
+		  } 
+		    echo "</br>";
+		  }
+		  ?>
+		  </br>
 		</td>
 	</tr>
 </table>
