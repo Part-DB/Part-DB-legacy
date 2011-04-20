@@ -274,7 +274,7 @@
                 <td>Datenblatt (URL):</td>
                 <td><input type="text" name="URLDatasheet" value="<?PHP print $_REQUEST["URLDatasheets"] ?>"/></td>
                 </tr>
-                <tr><td colspan="2"><input type="submit" name="AddPart" value="Teil Hinzuf&uuml;"></td></tr>
+                <tr><td colspan="2"><input type="submit" name="AddPart" value="Teil Hinzuf&uuml;gen"></td></tr>
                 </form>
                 </table>
                 </td>

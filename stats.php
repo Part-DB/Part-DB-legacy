@@ -56,19 +56,7 @@
 		}
 		print $i;
 		?></br>
-
-		<b>Anzahl der Kategorien:</b>
-		<?PHP
-		$i = 0;
-		$query = "SELECT id,name FROM categories WHERE parentnode=". smart_escape($pid) ." ORDER BY categories.name ASC;";
-		debug_print($query);
-		$r = mysql_query ($query);
-		while ( $d = mysql_fetch_row ($r) )
-		{
-		  $i++;
-		}
-		print $i;
-		?></br>
+		<br>
 
 		<b>Anzahl der verschidenen Bauteile:</b>
 		<?PHP
@@ -90,6 +78,21 @@
 		$d = mysql_fetch_row ($r);
 		print $d[0];
 		?></br>
+		</br>
+
+		<b>Anzahl der Kategorien:</b>
+		<?PHP
+		$i = 0;
+		$query = "SELECT id,name FROM categories WHERE parentnode=". smart_escape($pid) ." ORDER BY categories.name ASC;";
+		debug_print($query);
+		$r = mysql_query ($query);
+		while ( $d = mysql_fetch_row ($r) )
+		{
+		  $i++;
+		}
+		print $i;
+		?></br>
+		</br>
 
 		<b>Anzahl der Hochgeladenen Bilder:</b>
 		<?PHP
