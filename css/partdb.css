@@ -13,7 +13,7 @@
 }
 .tdtop {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	font-size: 18px;
+	font-size: 15px;
 	font-weight: bold;
 	border: none;
 	width: 80%;
@@ -25,7 +25,7 @@
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	border: none;
 	width: 80%;
-	font-size: 15px;
+	font-size: 12px;
 	background-color: #F2F2F2;
 	border-bottom: 3px solid #d0d0d0;
 	border-left: 1px solid #d0d0d0;
@@ -55,49 +55,49 @@
 }
 .trcat {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	font-size: 15px;
+	font-size: 12px;
 	font-weight: bold;
 }
 .tdrow0 {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	font-size: 15px;
+	font-size: 12px;
 }
 .tdrow1 {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	font-size: 15px;
+	font-size: 12px;
 	text-align: left;
 }
 .tdrow2 {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	font-size: 15px;
+	font-size: 12px;
 	text-align: right;
 }
 .tdrow3 {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	font-size: 15px;
+	font-size: 12px;
 	text-align: right;
 }
 .tdrow4 {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	font-size: 15px;
+	font-size: 12px;
 	text-align: right;
 }
 .tdrow5 {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	font-size: 15px;
+	font-size: 12px;
 }
 .tdrow6 {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	font-size: 15px;
+	font-size: 12px;
 }
 }
 .tdrow7 {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	font-size: 15px;
+	font-size: 12px;
 }
 .catbild { 
-	width: 20px;
-	height: 20px;
+	width: 15px;
+	height: 15px;
 }
 
 
@@ -129,7 +129,7 @@ a:active {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	padding:0px;
 	border: 0px;
-	font-size: 15px;
+	font-size: 12px;
 	color: #666;
 	white-space: nowrap;
 }
