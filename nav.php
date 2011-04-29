@@ -77,7 +77,7 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-		 <base href="" target="_content_frame">
+		 <!-- <base href="" target="_content_frame"> -->
 		  <div class="dtree">
 			<script type="text/javascript">
 				<!--
@@ -90,7 +90,7 @@
 			</br>
 			<a href="javascript: d.openAll();">Alle Anzeigen</a> | <a href="javascript: d.closeAll();">Alle Schliessen</a>
 		  </div>
-		 </base>
+		 <!-- </base> -->
 		</td>
 	</tr>
 </table>
