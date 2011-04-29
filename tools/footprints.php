@@ -21,7 +21,8 @@
 			$pic = listPicture("footprints/CSP","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+				$title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -36,7 +37,8 @@
 			$pic = listPicture("footprints/DIP","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>			</td>
 			</tr>
@@ -50,7 +52,8 @@
 			$pic = listPicture("footprints/DIP","W","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -65,7 +68,8 @@
 			$pic = listPicture("footprints/FBGA","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -80,7 +84,8 @@
 			$pic = listPicture("footprints/LBGA","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -95,7 +100,8 @@
 			$pic = listPicture("footprints/LQFP","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -110,7 +116,8 @@
 			$pic = listPicture("footprints/LQFP","E","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -125,7 +132,8 @@
 			$pic = listPicture("footprints/MLF","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -140,7 +148,8 @@
 			$pic = listPicture("footprints/MA","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -155,7 +164,8 @@
 			$pic = listPicture("footprints/MSOIC","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -170,7 +180,8 @@
 			$pic = listPicture("footprints/PLCC","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -185,7 +196,8 @@
 			$pic = listPicture("footprints/PQFP","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -200,7 +212,8 @@
 			$pic = listPicture("footprints/SC70","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -215,7 +228,8 @@
 			$pic = listPicture("footprints/SOIC","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -230,7 +244,8 @@
 			$pic = listPicture("footprints/SOICW","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -245,7 +260,8 @@
 			$pic = listPicture("footprints/SOT223","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -260,7 +276,8 @@
 			$pic = listPicture("footprints/SOT23","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -275,7 +292,8 @@
 			$pic = listPicture("footprints/SSOP","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -290,7 +308,8 @@
 			$pic = listPicture("footprints/SSOPEIAJ","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -305,7 +324,8 @@
 			$pic = listPicture("footprints/TCSP","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -320,7 +340,8 @@
 			$pic = listPicture("footprints/TEPBGA","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -335,7 +356,8 @@
 			$pic = listPicture("footprints/TO3","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -350,7 +372,8 @@
 			$pic = listPicture("footprints/TO46","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -365,7 +388,8 @@
 			$pic = listPicture("footprints/TO92","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -380,7 +404,8 @@
 			$pic = listPicture("footprints/TO99","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -396,7 +421,8 @@
 			$pic = listPicture("footprints/TO100","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -411,7 +437,8 @@
 			$pic = listPicture("footprints/TO220","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -426,7 +453,8 @@
 			$pic = listPicture("footprints/TO247","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -441,7 +469,8 @@
 			$pic = listPicture("footprints/TO252","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -456,7 +485,8 @@
 			$pic = listPicture("footprints/TO263","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -471,7 +501,8 @@
 			$pic = listPicture("footprints/TO263T","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -486,7 +517,8 @@
 			$pic = listPicture("footprints/TQFP","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -501,7 +533,8 @@
 			$pic = listPicture("footprints/TQFP","E","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -516,7 +549,8 @@
 			$pic = listPicture("footprints/TSOT","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -531,7 +565,8 @@
 			$pic = listPicture("footprints/TSSOP","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -546,7 +581,8 @@
 			$pic = listPicture("footprints/TSSOP","E","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -561,7 +597,8 @@
 			$pic = listPicture("footprints/UCSP","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -591,7 +628,8 @@
 			$pic = listPicture("footprints/HC","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
-			    echo "<img src=".$file." height=\"70\"></img>";
+			    $title 	 = 	  $pic[$x]["title"];
+				echo "<img src=".$file." title=".$title." height=\"70\"></img>";
 			    }
 			?>
 			</td>
@@ -609,7 +647,11 @@
 function listPicture($dir=".",$type="png") {
     $x = 0;
     foreach (glob($dir."*.".$type) as $filename)    {
-        $picture[$x]["file"] = $filename;
+		
+		$path_parts = pathinfo($filename);
+        
+		$picture[$x]["file"]	= $path_parts['dirname']."/".$path_parts['basename'];
+		$picture[$x]["title"]	= $path_parts['filename'];
         $x++;
     }
     return $picture;
