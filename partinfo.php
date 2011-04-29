@@ -93,7 +93,9 @@
 		//print " (m) ";
 		}
 		print " &euro; &nbsp;</td></tr>";
-		print "<tr><td valign=\"top\"><b>Kommentar:</b></td><td>". smart_unescape($d[10]) ."&nbsp;</td></tr>";
+		//print "<tr><td valign=\"top\"><b>Kommentar:</b></td><td>". smart_unescape($d[10]) ."&nbsp;</td></tr>";
+		//FIX - Zeilenumbrüche thx @ bacarni
+		print "<tr><td valign=\"top\"><b>Kommentar:</b></td><td>". nl2br(smart_unescape($d[10])) ."&nbsp;</td></tr>";
 		}
 		?>
 		</table>
