@@ -49,7 +49,7 @@
 			</td>
 			<td>
 			<?PHP
-			$pic = listPicture("footprints/DIP","W","png"); 
+			$pic = listPicture("footprints/DIPW","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
 			    $title 	 = 	  $pic[$x]["title"];
@@ -113,7 +113,7 @@
 			</td>
 			<td>
 			<?PHP
-			$pic = listPicture("footprints/LQFP","E","png"); 
+			$pic = listPicture("footprints/LQFPE","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
 			    $title 	 = 	  $pic[$x]["title"];
@@ -530,7 +530,7 @@
 			</td>
 			<td>
 			<?PHP
-			$pic = listPicture("footprints/TQFP","E","png"); 
+			$pic = listPicture("footprints/TQFPE","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
 			    $title 	 = 	  $pic[$x]["title"];
@@ -578,7 +578,7 @@
 			</td>
 			<td>
 			<?PHP
-			$pic = listPicture("footprints/TSSOP","E","png"); 
+			$pic = listPicture("footprints/TSSOPE","png"); 
 			  for($x=0;$x<count($pic);$x++) {
 			    $file    =    $pic[$x]["file"]; 
 			    $title 	 = 	  $pic[$x]["title"];
@@ -644,10 +644,9 @@
 </html>
 
 <?PHP
-function listPicture($dir=".",$type="png") {
+function listPicture($dir="",$type="png") {
     $x = 0;
     foreach (glob($dir."*.".$type) as $filename)    {
-		
 		$path_parts = pathinfo($filename);
         
 		$picture[$x]["file"]	= $path_parts['dirname']."/".$path_parts['basename'];
@@ -657,3 +656,4 @@ function listPicture($dir=".",$type="png") {
     return $picture;
 }
 ?>
+
