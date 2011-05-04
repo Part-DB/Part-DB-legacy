@@ -96,7 +96,7 @@
 	font-size: 12px;
 }
 .catbild { 
-	width: 15px;
+	width: 20px;
 	height: 15px;
 }
 
@@ -121,6 +121,12 @@ a:hover {
 }
 a:active {
 	color: #2652BA;
+}
+
+
+/* Footprint.php */
+.footprintbild { 
+	height: 70px;
 }
 
 
