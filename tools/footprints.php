@@ -28,7 +28,7 @@
 			    for($x=0;$x<count($pic);$x++) {
 			      $file = $pic[$x]; 
 			      $title = $pic[$x];
-			      echo "<img src=".$path. "" .$file." title=".$title." height=\"70\"></img>";
+			      echo "<img class=\"footprintbild\" src=".$path. "" .$file." title=".$title."></img>";
 			    }
 			  ?>
 			</tr>
