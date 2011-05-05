@@ -46,7 +46,7 @@ CREATE TABLE `datasheets` (
 
 CREATE TABLE `footprints` (
   `id` int(11) NOT NULL auto_increment,
-  `name` char(15) NOT NULL,
+  `name` longtext NOT NULL,
   PRIMARY KEY  (`id`)
 ) TYPE=MyISAM;
 
