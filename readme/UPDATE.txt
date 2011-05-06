@@ -3,4 +3,4 @@
 - DEL ../tools/footprints
 - Config move from lib.php to config.php
 - FIX it <base> ->>> </base> on nav.php remove Comments if Menue not Work.
-- Load createtables.sql new in te Database.
+- Load createtables.sql new in the Database.
