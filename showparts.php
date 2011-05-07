@@ -81,7 +81,7 @@
 			{
 			d = new Date();
 			id = d.getTime();
-			eval("page" + id + " = window.showModalDialog(URL,'"+id+"','dialogWidth:645px;dialogHeight:485px');");
+			eval("page" + id + " = window.showModalDialog(URL,'"+id+"','dialogWidth:680px;dialogHeight:360px');");
 			location.reload(true);
 			}
 			// -->
