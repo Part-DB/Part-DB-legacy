@@ -10,7 +10,7 @@
 		</td>
 	</tr>
 	<tr>
-		<td class="footprintbild">
+		<td class="tdtext">
 		  <?php
 		    $pic = array();
 		    $path = "footprints/";
@@ -27,7 +27,7 @@
 			$file = $pic[$x]; 
 			$title = $pic[$x];
 			// Normal
-			echo "<img src=".$path. "" .$file." title=".$title."></img>";
+			echo "<img class=\"footprintbild\" src=".$path. "" .$file." title=".$title."></img>";
 			// With Java Popup
 			#echo "<img src=\"" .$path. "" .$file. "\" height=\"70\" onClick=\"window.open('" .$path. "" .$file. "','320','240','menubar=no')\">";
 		      }
