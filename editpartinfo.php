@@ -170,7 +170,7 @@
 			// FIXME: Some error handling required (for example:
 			// unknown file type etc. pp.
 			move_uploaded_file($_FILES['uploaded_img']['tmp_name'], "img/".$fname);
-			chmod ("img/" .$fname, 0775);
+			chmod ("img/" .$fname, 0664);
 			$query = "INSERT INTO pictures (part_id,pict_fname) VALUES (". smart_escape($_REQUEST["pid"]) .",". smart_escape($fname) .")";
 			debug_print($query);
 			mysql_query($query);
