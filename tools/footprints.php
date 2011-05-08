@@ -28,7 +28,10 @@
 			    for($x=0;$x<count($pic);$x++) {
 			      $file = $pic[$x]; 
 			      $title = $pic[$x];
-			      echo "<img class=\"footprintbild\" src=".$path. "" .$file." title=".$title."></img>";
+			      // Normal
+			      echo "<img src=".$path. "" .$file." title=".$title." height=\"90\"></img>";
+			      // With Java Popup
+			      #echo "<img src=\"" .$path. "" .$file. "\" height=\"70\" onClick=\"window.open('" .$path. "" .$file. "','320','240','menubar=no')\">";
 			    }
 			  ?>
 			</tr>
