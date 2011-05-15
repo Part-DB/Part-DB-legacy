@@ -107,6 +107,7 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
+		<a href="tools/label.php" target="_content_frame">Labels</a></br>
 		<a href="tools/footprints.php" target="_content_frame">Footprints</a></br>
 		<a href="tools/iclogos.php" target="_content_frame">IC-Logos</a>
 		</td>
