@@ -56,6 +56,32 @@
 				<td><b>Elkos</b></br>Die Zahlen geben den wert in µF an,</br>der Buchstabe ist das Trennzeichen,</br> und gibt gleichzeitig die Spannungsfestigkeit an</br>C=6,3V D=10V E=16V F=25V G=40V H=63V</td>
 				<td><img src="label/3F3.png" class=\"labelbild\"></img>3,3µF/25V</td> 
 			</tr>
+			<tr>
+				<td><b>ALU-Elko</b>Der obere Wert ist die Kapazitiv in µF,</br>der untere die Spannung in Volt.</td>
+				<td><img src="label/220.png" class=\"labelbild\"></img></td>
+			</tr>
+			</table>
+		</td>
+	</tr>
+</table>	
+
+<table class="tablenone">
+</br>
+</table>
+
+<table class="table">
+	<tr>
+		<td class="tdtop">
+		SMD-Spulen
+		</td>
+	</tr>
+	<tr>
+		<td class="tdtext">
+			<table>			
+			<tr>
+			<td><b>DO23-Spule</b></td>
+			<td><img src="label/221K.png" class=\"labelbild\"></img></td> 
+			</tr>
 			</table>
 		</td>
 	</tr>
@@ -67,8 +93,7 @@
 		<b>SMD-Dioden</b></br>
 		   </br>
 		   </br>
-		<b>SMD-Spulen</b></br>
-				<img src="label/221K.png" class=\"labelbild\"></img> 10 Ohm </br> 		
+
 		<b>SMD-Transistoren</b></br>
 		</br>
 		</br>
