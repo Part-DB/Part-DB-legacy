@@ -138,8 +138,8 @@
 		  <b>ajfrenzel</b> - Committer/Bugfix</br>
 		  <b>tgrziwa</b> - Committer/Bugfix</br>
 		  <b>d.lipschinski</b> - Committer/Bugfix</br>
-		  <b>Michael Buesch</b> - Reichelt/Pollin Preissuch Script
-		  <b>THX @ Matthias Wei&szlig;er</b> für EAGLE3D und dem gro&szlig;artigen Bauteile Renderscript (eagle3d.py) 
+		  <b>Michael Buesch</b> - Reichelt/Pollin Preissuch Script</br>
+		  <b>THX @ Matthias Wei&szlig;er</b> f&uuml;r EAGLE3D und dem gro&szlig;artigen Bauteile Renderscript (eagle3d.py) 
 		</td>
 	</tr>
 </table>
