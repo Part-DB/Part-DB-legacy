@@ -118,7 +118,7 @@ CREATE TABLE `preise` (
   `id` int(11) NOT NULL auto_increment,
   `part_id` int(11) NOT NULL default '0',
   `ma` smallint(6) NOT NULL default '0',
-  `preis` decimal(6,2) NOT NULL default '0.00',
+  `preis` decimal(6,3) NOT NULL default '0.000',
   `t` datetime NOT NULL default '0000-00-00 00:00:00',
   PRIMARY KEY  (`id`),
   KEY `part_id` (`part_id`),
