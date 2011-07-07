@@ -57,7 +57,7 @@
 				<td><img src="label/3F3.png" class=\"labelbild\"></img>3,3&mu;F/25V</td> 
 			</tr>
 			<tr>
-				<td><b>ALU-Elko</b>Der obere Wert ist die Kapazitiv in &mu;F,</br>der untere die Spannung in Volt.</td>
+				<td><b>ALU-Elko</b></br>Der obere Wert ist die Kapazitiv in &mu;F,</br>der untere die Spannung in Volt.</td>
 				<td><img src="label/220.png" class=\"labelbild\"></img></td>
 			</tr>
 			</table>
@@ -87,22 +87,18 @@
 	</tr>
 </table>	
 		
-			ALU-Elko</br>
-			</br>
-			</br>
 		<b>SMD-Dioden</b></br>
-		   </br>
-		   </br>
-
+		</br>
+		</br>
 		<b>SMD-Transistoren</b></br>
 		</br>
 		</br>
 		<b>SMD-LEDs</b></br>
 		</br>
 		</br>
-
-		<b>SMD-ICs</b>
-
+		<b>SMD-ICs</b></br>
+		</br>
+		</br>
 
   </head>
  </body>
