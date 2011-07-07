@@ -123,8 +123,11 @@ a:active {
 	color: #2652BA;
 }
 
-
-/* Footprint.php */
+/* label.php */
+.labelbild {
+	height: 70px;	
+}
+/* footprint.php */
 .footprintbild { 
 	height: 70px;
 }
