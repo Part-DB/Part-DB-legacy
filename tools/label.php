@@ -50,10 +50,10 @@
 			<table>			
 			<tr>
 				<td><b>Tantal</b></br>Die ersten beiden Stellen sind der Wert in pF,</br>die letzte der Exponent.</br>Die untere Zahl ist die Spannungsfestigkeit in Volt</td>
-				<td><img src="label/246-20.png" class=\"labelbild\"></img>&mu;F/20V</td> 
+				<td><img src="label/246-20.png" class=\"labelbild\"></img>24&mu;F/20V</td> 
 			</tr>
 			<tr>
-				<td><b>Elkos</b></br>Die Zahlen geben den wert in µF an,</br>der Buchstabe ist das Trennzeichen,</br> und gibt gleichzeitig die Spannungsfestigkeit an</br>C=6,3V D=10V E=16V F=25V G=40V H=63V</td>
+				<td><b>Elkos</b></br>Die Zahlen geben den wert in &mu;F an,</br>der Buchstabe ist das Trennzeichen,</br> und gibt gleichzeitig die Spannungsfestigkeit an</br>C=6,3V D=10V E=16V F=25V G=40V H=63V</td>
 				<td><img src="label/3F3.png" class=\"labelbild\"></img>3,3&mu;F/25V</td> 
 			</tr>
 			<tr>
