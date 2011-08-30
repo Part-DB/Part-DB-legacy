@@ -6,7 +6,7 @@
 #
 # Licensed under the GNU/GPL version 2 or (at your option) any later version
 """
-VERSION = "004"
+VERSION = "005"
 
 import sys
 import getopt
@@ -101,7 +101,7 @@ def getReicheltSessionId():
 		http = httplib.HTTPConnection("www.reichelt.de")
 		http.request("GET", "/")
 		resp = http.getresponse().read()
-		m = re.compile(r'.*SID=(\w{53,53}).*').match(resp)
+		m = re.compile(r'.*SID=(\w{53,53}).*').search(resp)
 		if m:
 			break
 	if not m:
@@ -133,7 +133,7 @@ def fetchReicheltPrice(partName, partNr):
 			   "Reichelt_SID=" + getReicheltSessionId() + "; Reichelt_PROVID=NewSID"
 	header["Content-Type"] = "application/x-www-form-urlencoded"
 	header["Content-Length"] = str(len(body))
-	http.request("POST", "/index.html?SID=" + getReicheltSessionId() + ";ACTION=5;SORT=user; HTTP/1.1",
+	http.request("POST", "/Warenkorb/index.html?SID=" + getReicheltSessionId() + ";ACTION=5;SORT=user;",
 		     body, header)
 	basket = http.getresponse().read()
 	basket = removeChars(basket, "\r\n")
@@ -142,7 +142,7 @@ def fetchReicheltPrice(partName, partNr):
 	body = "Input_Unknown%5B0%5D=Artikel-Direkteingabe&Anzahl_Unknown%5B0%5D=&" +\
 	       "anzahl_alt%5B45024%5D=1&anzahl%5B45024%5D=1&Delete%5B_all_%5D=WK+l%F6schen"
 	header["Content-Length"] = str(len(body))
-	http.request("POST", "/index.html?SID=" + getReicheltSessionId() + ";ACTION=5;SORT=user; HTTP/1.1",
+	http.request("POST", "/Warenkorb/index.html?SID=" + getReicheltSessionId() + ";ACTION=5;SORT=user;",
 		     body, header)
 	http.getresponse() # discard result
 
