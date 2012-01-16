@@ -33,7 +33,6 @@
 	function buildtree ($pid, $parentId)
 	{
 		$query = "SELECT id,name FROM categories WHERE parentnode=". smart_escape($pid) ." ORDER BY categories.name ASC;";
-		debug_print($query);
 		$r = mysql_query ($query);
 		while ( $d = mysql_fetch_row ($r) )
 		{
@@ -91,6 +90,22 @@
 			<a href="javascript: d.openAll();">Alle Anzeigen</a> | <a href="javascript: d.closeAll();">Alle Schliessen</a>
 		  </div>
 		 <!-- </base> -->
+		</td>
+	</tr>
+</table>
+<table class="tablenone">
+</br>
+</table>
+
+<table class="table">
+	<tr>
+		<td class="tdtop">
+		Geräte
+		</td>
+	</tr>
+	<tr>
+		<td class="tdtext">
+		<a href="device.php" target="_content_frame">Geräte</a></br>
 		</td>
 	</tr>
 </table>
