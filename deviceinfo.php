@@ -40,6 +40,7 @@
 			debug_print ($query);
 			$result = mysql_query ($query);
 			$nDevices = mysql_num_rows($result);
+			debug_print ("asdf".$nDevices);
 			if( $nDevices == 0)
 			{
 				//now add a part to the device			
@@ -90,10 +91,17 @@
 		debug_print($query);
 		mysql_query($query);
 	}
+	else if ( strcmp ($_REQUEST["action"], "remove") == 0 )
+	{
+		$query = "DELETE FROM part_device WHERE id_part=" . smart_escape($_REQUEST["partid"]) . " AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
+		debug_print($query);
+		mysql_query($query);
+	}
 ?>
 
 <html>
  <head>
+ </head>
   <body class="body">
    <link rel="StyleSheet" href="css/partdb.css" type="text/css" />
 <table class="table">
@@ -111,6 +119,11 @@
 			print "<input type=\"hidden\" name=\"action\"  value=\"assignbytext\"/>";
 			print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
 			print "<input type=\"submit\" value=\"Hinzufügen\"/></form>";
+			
+			print "<form methode=\"post\">";
+			print "<input type=\"hidden\" name=\"action\"  value=\"refresh\"/>";
+			print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+			print "<input type=\"submit\" value=\"Aktualisieren\"/></form>";
 			?>
 		</td>
 	</tr>
@@ -130,7 +143,7 @@
 		print "<table>";
 		$kw = '\'%'. mysql_escape_string($_REQUEST['newpartname']) .'%\'';
 		$query = "SELECT parts.name, parts.comment, parts.id, footprints.name, parts.instock FROM ".
-		"parts JOIN footprints ON (footprints.id = parts.id) ".
+		"parts JOIN footprints ON (footprints.id = parts.id_footprint) ".
 		"WHERE parts.name LIKE ".$kw.
 		" AND parts.id NOT IN(SELECT part_device.id_part FROM part_device WHERE part_device.id_device=".$_REQUEST["deviceid"].");";
 		debug_print ($query);
@@ -205,18 +218,17 @@
 		}
 		// -->
 		</script>
-		</head>
-		<body>
+		
 		<table>
 		<?PHP
-		
-		$rowcount = 0;	// $rowcount is used for the alternating bg colors
-		
-		print "<tr class=\"trcat\"><td>Teil</td><td>Footprint</td><td>Anzahl</td><td>-</td><td>+</td></tr>\n";
+		$rowcount = 0;	
+		print "<tr class=\"trcat\"><td>Teil</td><td>Footprint</td><td>Anzahl</td><td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Entfernen</td><td>-</td><td>+</td></tr>\n";
 				
-		$query = "SELECT parts.name, parts.comment, parts.id, footprints.name, part_device.quantity FROM parts JOIN part_device, footprints ON (parts.id = part_device.id_part and footprints.id = parts.id) WHERE id_device = ".$_REQUEST["deviceid"].";";
-				 
-				 
+		$query = "SELECT parts.name, parts.comment, parts.id, footprints.name, part_device.quantity, parts.instock, storeloc.name, suppliers.name ".
+		"FROM parts ".
+		"JOIN part_device, footprints, storeloc, suppliers ".
+		"ON (parts.id = part_device.id_part AND footprints.id = parts.id_footprint AND storeloc.id = parts.id_storeloc AND suppliers.id = parts.id_supplier) ".
+		"WHERE id_device = ".$_REQUEST["deviceid"].";";
 		debug_print($query);
 		$result = mysql_query ($query);
 		debug_print($result);
@@ -225,22 +237,30 @@
 		while ( $d = mysql_fetch_row ($result) )
 		{
 		$q = mysql_fetch_row ($quantity);
-		// the alternating background colors are created here
+		
 		$rowcount++;
 		if ( ($rowcount & 1) == 0 )
 			print "<tr class=\"trlist1\">";
 		else
 			print "<tr class=\"trlist2\">";
 		
-		//print "<td class=\"tdrow1\">".smart_unescape($d[0])."</td>";
 		print "<td class=\"tdrow1\"><a title=\"";
 		print "Kommentar: " . smart_unescape($d[1]);
 		print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[2]) ."');\">". smart_unescape($d[0]) ."</a></td>";
 			
 		print "<td class=\"tdrow2\">".smart_unescape($d[3])."</td>";
 		print "<td class=\"tdrow3\">".smart_unescape($d[4])."</td>";
+		print "<td class=\"tdrow4\">".smart_unescape($d[5])."</td>";
+		print "<td class=\"tdrow4\">".smart_unescape($d[6])."</td>";
+		print "<td class=\"tdrow4\">".smart_unescape($d[7])."</td>";
 		
-		print "<td class=\"tdrow4\"><form method=\"post\">";
+		print "<td class=\"tdrow5\"><form method=\"post\">";
+		print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+		print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
+		print "<input type=\"hidden\" name=\"action\"  value=\"remove\"/>";
+		print "<input type=\"submit\" value=\"Entfernen\"/></form></td>";
+		
+		print "<td class=\"tdrow6\"><form method=\"post\">";
 		print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
 		print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
 		print "<input type=\"hidden\" name=\"action\"  value=\"deassign\"/>";
@@ -251,13 +271,11 @@
 		}
 		print "></form></td>";
 		
-		print "<td class=\"tdrow5\"><form method=\"post\">";
+		print "<td class=\"tdrow7\"><form method=\"post\">";
 		print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
 		print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
 		print "<input type=\"hidden\" name=\"action\"  value=\"assign\"/>";
 		print "<input type=\"submit\" value=\"+\"/></form></td>";
-			
-	
 		print "</tr>\n";
 		}
 		
@@ -266,5 +284,100 @@
 		</td>
 	</tr>
   </table>
+
+<table class="tablenone">
+</br>
+</table>
+<table class="table">
+	<tr>
+		<td class="tdtop">
+		BOM Generierung
+		</td>
+	</tr>
+	<tr>
+		<td class="tdtext">
+			<form method="post">
+				<table>
+				<?PHP
+				print "<tr class=\"trcat\"><td><input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+				//print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
+				//print "<form method=\"get\"><input type=\"hidden\" name=\"cid\" value=\"0\"><input type=\"hidden\" name=\"type\" value=\"toless\">\nLieferant(en):<select name=\"sup_id\">";
+				print "<input type=\"hidden\" name=\"action\"  value=\"createbom\"/>";
+				
+				print "Lieferant:</td><td><select name=\"sup_id\">";
+				if (! isset($_REQUEST["sup_id"]) )
+					print "<option selected value=\"0\">Alle</option>";
+				else
+					print "<option value=\"0\">Alle</option>";
+				
+				$query = "SELECT id,name FROM suppliers ORDER BY name ASC;";
+				$r = mysql_query ($query);
+				
+				$ncol = mysql_num_rows ($r);
+				$lieferanten;
+				while ( ($d = mysql_fetch_row($r)) )
+				{
+				$lieferanten = $lieferanten . smart_unescape($d[0]);
+				if ($d[0] == $_REQUEST["sup_id"])
+					print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+				else
+					print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+				}
+				print "</select>";
+				print "<tr class=\"trcat\"><td>";
+				print "Format:</td><td><select name=\"format\">";
+				if (! isset($_REQUEST["format"]) )
+					print "<option selected value=\"0\">CVS</option>";
+				else
+					print "<option value=\"0\">CVS</option>";
+				print "</select>";
+				print "</td></tr><tr class=\"trcat\"><td>";
+				print "Trennzeichen:</td><td><input type=\"text\" name=\"spacer\" size=\"3\" value=\"";
+				if ( strcmp ($_REQUEST["action"], "createbom"))
+					print ";";
+				else
+					print $_REQUEST["spacer"];
+				print "\"/>";
+				print "</td></tr>";
+				print "<tr><td><input type=\"submit\" value=\"Ausführen\"/></tr></td>";
+				
+				print "<tr><td colspan=\"2\">";
+				
+				if ( strcmp ($_REQUEST["action"], "createbom") == 0 )
+				{
+					
+					$query = "SELECT parts.supplierpartnr, part_device.quantity, storeloc.name, suppliers.name ".
+					"FROM parts ".
+					"JOIN part_device, footprints, storeloc, suppliers ".
+					"ON (parts.id = part_device.id_part AND footprints.id = parts.id_footprint AND storeloc.id = parts.id_storeloc AND suppliers.id = parts.id_supplier) ".
+					"WHERE id_device = ".$_REQUEST["deviceid"];
+					if($_REQUEST["sup_id"]!=0)
+					{
+						$query = $query . " AND parts.id_supplier = ".$_REQUEST["sup_id"];
+					}
+					$query = $query . ";";
+					debug_print($query);
+					$result = mysql_query ($query);
+					$nrows = mysql_num_rows($result)+6;
+					
+					print "<textarea name=\"sql_query\" rows=\"".$nrows."\" cols=\"40\" dir=\"ltr\" >";
+					print "______________________________\r\n";
+					print "Bestell-Liste:\r\n";
+					print "\r\n\r\n";
+					while ( $d = mysql_fetch_row ($result) )
+					{
+						$q = mysql_fetch_row ($quantity);
+						print smart_unescape($d[0]).$_REQUEST["spacer"].smart_unescape($d[1])."\r\n";
+					}
+					print "</textarea>";
+				}
+				print "</td></tr>";
+				?>
+				</table>
+			</form>
+		</td>
+	</tr>
+  </table>
+  
  </body>
 </html>

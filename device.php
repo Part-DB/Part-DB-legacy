@@ -81,7 +81,8 @@
 		<table >
 
 		<?PHP
-		$query = "SELECT id, name FROM devices;";
+		//$query = "SELECT id, name FROM devices;"; 
+		$query = "SELECT devices.id, devices.name, SUM(part_device.quantity), COUNT(part_device.quantity) FROM part_device JOIN devices ON (devices.id =  part_device.id_device) GROUP BY part_device.id_device;";
 		debug_print($query);
 		$result = mysql_query ($query);
 		debug_print($result);
@@ -100,9 +101,9 @@
 		else
 			print "<tr class=\"trlist2\">";
 		
-		print "<td class=\"tdrow1\"><a href=\"javascript:popUp('deviceinfo.php?deviceid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) . "</td>";
-		print "<td class=\"tdrow2\">Teile</td>";
-		print "<td class=\"tdrow3\">Einzelteile</td>";
+		print "<td class=\"tdrow1\"><a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) . "</td>";
+		print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."</td>";
+		print "<td class=\"tdrow3\">". smart_unescape($d[3]) ."</td>";
 		
 		print "</tr>\n";
 		}
