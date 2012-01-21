@@ -129,22 +129,23 @@
 	<tr>
 		<td class="tdtext">
 			<form action="" method="post">
-			<table>
-			<tr>
-			<td>&Uuml;bergeordnete Kategorie ausw&auml;hlen:</td>
-			<td>
-			<select name="a_pc">
-			<option value="0">root node</option>
-			<?PHP buildtree(0, 1); ?>
-			</select>
-			</td>
-			</tr><tr>
-			<td>Name der neuen Kategorie</td>
-			<td><input type="text" name="a_cn"></td>
-			</tr><tr>
-			<td colspan="2"><center><input type="submit" name="btn_add" value="Anlegen!"></center></td>
-			</tr>
-			</table>
+            <table>
+                <tr>
+                <td>&Uuml;bergeordnete Kategorie ausw&auml;hlen:</td>
+                <td>
+                <select name="a_pc">
+                <option value="0">root node</option>
+                <?PHP buildtree(0, 1); ?>
+                </select>
+                </td>
+                </tr><tr>
+                <td>Name der neuen Kategorie</td>
+                <td><input type="text" name="a_cn"></td>
+                </tr><tr>
+                <td colspan="2"><center><input type="submit" name="btn_add" value="Anlegen!"></center></td>
+                </tr>
+            </table>
+            </form>
 		</td>
 	</tr>
 </table>
@@ -160,30 +161,30 @@
 	<tr>
 		<td class="tdtext">
 			<form action="" method="post">
-			<table border="0">
-			<tr>
-			<td valign="top">
-			W&auml;hlen Sie die zu bearbeitende Kategorie:<br>
-			<select name="catsel" size="10">
-			<?PHP buildtree(0, 1); ?>
-			</select>
-			</td><td valign="top">
-			Was soll mit der ausgew&auml;hlten Kategorie geschehen???
-			<table border="0">
-			<tr>
-			<td>
-			<input type="submit" name="btn_del" value="L&ouml;schen">
-			</td>
-			</tr><tr><td>&nbsp;</td></tr><tr>
-			<td>
-			Neuer Name:<br>
-			<input type="text" name="nn">
-			<input type="submit" name="btn_rn" value="Umbenennen!">
-			</td>
-			</tr>
-			</table>
-			</td>
-			</tr>
+			<table>
+                <tr>
+                <td valign="top">
+                W&auml;hlen Sie die zu bearbeitende Kategorie:<br>
+                <select name="catsel" size="10">
+                <?PHP buildtree(0, 1); ?>
+                </select>
+                </td><td valign="top">
+                Was soll mit der ausgew&auml;hlten Kategorie geschehen???
+                <table>
+                    <tr>
+                    <td>
+                    <input type="submit" name="btn_del" value="L&ouml;schen">
+                    </td>
+                    </tr><tr><td>&nbsp;</td></tr><tr>
+                    <td>
+                    Neuer Name:<br>
+                    <input type="text" name="nn">
+                    <input type="submit" name="btn_rn" value="Umbenennen!">
+                    </td>
+                    </tr>
+                </table>
+                </td>
+                </tr>
 			</table>
 			</form>
 		</td>

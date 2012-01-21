@@ -196,7 +196,7 @@
 		 * could replace this with a better one!
 		 * (http://www.regular-expressions.info/floatingpoint.html)
 		 */
-		if (ereg("^[-+]?[0-9]*\.?[0-9]+", $_REQUEST["price"]) == true)
+		if (preg_match("/^[-+]?[0-9]*\.?[0-9]+/", $_REQUEST["price"]) == true)
 		{
 			$_REQUEST["price"] = str_replace(',', '.', $_REQUEST["price"]);
 			/* Before adding the new price, delete the old one! */
@@ -302,7 +302,9 @@
 			}
 			?>
 			<tr><td><input type="hidden" name="action" value="text"><input type="submit" value="&Auml;ndern!"></td></tr>
+            </table>
 			</form>
+
 			<?PHP
 			function buildtree ($cid, $level, $select)
 			{
@@ -331,13 +333,15 @@
 			else
 			$cat = 0;
 			?>
-			<form  action="editpartinfo.php" method="get">
+			<form  action="" method="get">
+            <table>
 			<tr><td><br>
 			<a><b>Kategorie:</b></a><br><br>
 	        	<input type="hidden" name="pid" value="<? print $_REQUEST["pid"]; ?>">
 			<td><select name='p_category'>
 			<option value="0">root node</option>
 			<? buildtree(0, 1, $cat); ?>
+            </select>
 			</td></tr>
 			<tr><td><input type="hidden" name="action" value="edit_category"><input type="submit" value="&Auml;ndern!"></td></tr>
 			</table>
@@ -363,38 +367,40 @@
 			$r = mysql_query($q);
 			if (mysql_num_rows($r) > 0)
 			{
-			/*
-			* There's some information in the table ...
-			* Because we assume that only one entry is possible,
-			* we display the manual entry, if there's one manual
-			* and one automatically added entry entry.
-			*/
-			$d = mysql_fetch_row($r);
-			$d[1] = str_replace('.', ',', $d[1]);
-			print "<b>Preis:</b> ". smart_unescape($d[1]);
-			if ($d[2] == 1)
-			{
-			//print " (manuell)";
-			print " &euro;";
-			}
+                /*
+                * There's some information in the table ...
+                * Because we assume that only one entry is possible,
+                * we display the manual entry, if there's one manual
+                * and one automatically added entry entry.
+                */
+                $d = mysql_fetch_row($r);
+                $d[1] = str_replace('.', ',', $d[1]);
+                print "<b>Preis:</b> ". smart_unescape($d[1]);
+                if ($d[2] == 1)
+                {
+                    //print " (manuell)";
+                    print " &euro;<br>";
+                }
+            ?>
+                <form action="" method="get">
+                <input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
+                <input type="hidden" name="action" value="price_del"><br>
+                <input type="submit" value="L&ouml;sche Preisinfo!">
+                </form>
+            <?PHP
 			}
 			else
 			{
-			print "Keine Preisinfos vorhanden!";
+			print "Keine Preisinfos vorhanden!<br>";
 			}
 			?>
-			<p><form action="editpartinfo.php" method="get">
-			<input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
-			<input type="hidden" name="action" value="price_del">
-			<input type="submit" value="L&ouml;sche Preisinfo!">
-			</form>
-			<form action="editpartinfo.php" method="get">
+            <br>
+			<form action="" method="get">
 			<input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
 			<input type="hidden" name="action" value="price_add">
 			<b>Preis:</b> <input type="text" name="price" size="8"><br><br>
 			<input type="submit" value="Preiseingabe!">
 			</form>
-			</td></tr>
 		</td>
 	</tr>
 </table>
@@ -475,28 +481,36 @@
 		<td class="tdtext">
 			<table>
 			<tr><td>
-			<form action="editpartinfo.php" method="get">
-			<select name="ds_id" size="5">
+
 			<?PHP
+            // check for existing datasheets
 			$query = "SELECT id,datasheeturl FROM datasheets WHERE part_id=". smart_escape($_REQUEST["pid"]) .";";
 			debug_print($query);
 			$r = mysql_query($query);
 			$ncol = mysql_num_rows($r);
-			for ($i = 0; $i < $ncol; $i++)
-			{
-				$d = mysql_fetch_row ($r);
-				if ($i == 0)
-				print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-			else
-				print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-			}
+            if ($ncol > 0)
+            {
+			    print "<form action=\"\" method=\"get\">";
+			    print "<select name=\"ds_id\" size=\"5\">";
+                for ($i = 0; $i < $ncol; $i++)
+                {
+                    $d = mysql_fetch_row ($r);
+                    if ($i == 0)
+                    print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+                else
+                    print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+                }
+            ?>
+                </select>
+                <input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
+                <input type="hidden" name="action" value="ds_del">&nbsp;&nbsp;&nbsp;
+                <input type="submit" value="Ausgew&auml;hltes l&ouml;schen!">
+                </form>
+            <?PHP
+            }
 			?>
-			</select>
-			<input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
-			<input type="hidden" name="action" value="ds_del">&nbsp;&nbsp;&nbsp;
-			<input type="submit" value="Ausgew&auml;hltes l&ouml;schen!">
-			</form>
-			</td></tr>
+			
+            </td></tr>
 			<tr><td>
 			<form action="editpartinfo.php" method="get">
 			URL des hinzuf&uuml;genden Datenblattes:
@@ -524,19 +538,20 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
+			<form action="" method="get">
 			<table>
 			<tr><td>
-			<form action="editpartinfo.php" method="get">
 			<input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
 			<input type="hidden" name="action" value="part_del">
+            </tr>
 			<tr>
 			<td>
 			Der L&ouml;schvorgang ist nicht r&uuml;ckg&auml;ngig zu machen!
 			<p><input type="submit" value="L&ouml;sche Teil!">
 			</td>
 			</tr>
-			</form>
 			</table>
+			</form>
 		</td>
 	</tr>
 

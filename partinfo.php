@@ -71,7 +71,8 @@
 		}
 		// -->
 		</script>
-		<table>
+		
+        <table>
 		<tr valign="top">
 		<td>
 		<table><?PHP
@@ -100,7 +101,7 @@
 		}
 		?>
 		</table>
-		</br>Angaben <a href="editpartinfo.php?pid=<?PHP print $_REQUEST["pid"]; ?>">ver&auml;ndern</a>
+		<br>Angaben <a href="editpartinfo.php?pid=<?PHP print $_REQUEST["pid"]; ?>">ver&auml;ndern</a>
 		</td>
 		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td>

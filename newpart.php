@@ -162,10 +162,10 @@
         </tr>
         <tr>
                 <td class="tdtext">
-                <table>
-                <form action=""enctype="multipart/form-data" method="post">
+                <form enctype="multipart/form-data" action="" method="post">
                 <input type="hidden" name="a" value="add"/>
                 <input type="hidden" name="cid" value="<?PHP print $_REQUEST["cid"]; ?>"/>
+                <table width="100">
                 <tr>
                 <td>Name:</td>
                 <td>
@@ -269,7 +269,7 @@
                 <td><input type="text" name="p_supplierpartnr" value="<?PHP print $_REQUEST["p_supplierpartnr"] ?>"></td>
                 </tr><tr>
                 <td valign="top">Kommentar:</td>
-                <td><textarea name="p_comment" rows=2 cols=20><?PHP print $_REQUEST["p_comment"] ?></textarea></td>
+                <td colspan="2"><textarea name="p_comment" rows=2 cols=40><?PHP print $_REQUEST["p_comment"] ?></textarea></td>
                 </tr>
                 <tr><td>Bild:</td>
                 <td><input type="file" name="AddImage"/></td>
@@ -279,13 +279,13 @@
                 <td><input type="text" name="URLDatasheet" value="<?PHP print $_REQUEST["URLDatasheets"] ?>"/></td>
                 </tr>
                 <tr><td colspan="2"><input type="submit" name="AddPart" value="Teil Hinzuf&uuml;gen"></td></tr>
-                </form>
                 </table>
+                </form>
                 </td>
         </tr>
 </table>
 
 
- </body>
+</body>
 </html>
 

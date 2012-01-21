@@ -226,7 +226,7 @@
 			print "</td>";
 			
 			//build the "-" button, only if more then 0 parts on stock
-			print "<form action=\"\" method=\"post\"><td class=\"tdrow6\">";
+			print "<td class=\"tdrow6\"><form action=\"\" method=\"post\">";
 			print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
 			print "<input type=\"hidden\" name=\"action\"  value=\"r\"/>";
 			print "<input type=\"submit\" value=\"-\"";
@@ -234,15 +234,15 @@
 			{
 				print " disabled=\"disabled\" ";
 			}
-			print "/></td></form>";
+			print "/></form></td>";
 			
 			//build the "+" button
-			print "<form action=\"\" method=\"post\"><td class=\"tdrow7\">";
+			print "<td class=\"tdrow7\"><form action=\"\" method=\"post\">";
 			print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
 			print "<input type=\"hidden\" name=\"action\"  value=\"a\"/>";
-			print "<input type=\"submit\" value=\"+\"/></td></form>";
+			print "<input type=\"submit\" value=\"+\"/></form></td>";
 			
-			print "<tr>\n";
+			print "</tr>\n";
 		}
 		}
 		else if ( strcmp ($_REQUEST["type"], "showpending") == 0 )

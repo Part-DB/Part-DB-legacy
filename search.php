@@ -68,7 +68,6 @@
 			// -->
 		 </script>
 		<table class="table">
-        <tr>
 		<?PHP
 		// execute the SQL query (DON'T USE smart_escape HERE, because
 		// it breaks the query)
@@ -86,7 +85,7 @@
 		{
 			/* this part is in a different category than
 			   the previous. */
-			print "<td class=\"tdtop\" colspan=\"7\">Treffer in der Kategorie ". show_bt($d[6]) ."</td>\n";
+			print "<tr><td class=\"tdtop\" colspan=\"7\">Treffer in der Kategorie ". show_bt($d[6]) ."</td></tr>\n";
 			print "<tr class=\"trcat\"><td></td><td>Name</td><td>Vorh./<br>Min.Best.</td><td>Footprint</td><td>Lagerort</td><td>-</td><td>+</td></tr>\n";
 			$prevcat = $d[6];
 			$rowcount = 0;
@@ -121,7 +120,7 @@
 		print "<td class=\"tdrow4\">". smart_unescape($d[5]) . "</td>";
 		
 		//build the "-" button, only if more then 0 parts on stock
-		print "<form action=\"\" method=\"post\"><td class=\"tdrow5\">";
+		print "<td class=\"tdrow5\"><form action=\"\" method=\"post\">";
 		print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
 		print "<input type=\"hidden\" name=\"action\"  value=\"r\"/>";
 		print "<input type=\"submit\" value=\"-\"";
@@ -129,13 +128,13 @@
 		{
 			print " disabled=\"disabled\" ";
 		}
-		print "/></td></form>";
+		print "/></form></td>";
 			
 		//build the "+" button
-		print "<form action=\"\" method=\"post\"><td class=\"tdrow6\">";
+		print "<td class=\"tdrow6\"><form action=\"\" method=\"post\">";
 		print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
 		print "<input type=\"hidden\" name=\"action\"  value=\"a\"/>";
-		print "<input type=\"submit\" value=\"+\"/></td></form>";
+		print "<input type=\"submit\" value=\"+\"/></form></td>";
 		print "</tr>\n";
 		}
 		?>
@@ -144,5 +143,5 @@
 	</tr>
 </table>
 
- </body>
+</body>
 </html>
