@@ -84,7 +84,7 @@
 			<table>			
 			<tr>
 			<td><b>DO23-Spule</b></td>
-			<td><img src="label/221K.png" class=\"labelbild\"></img></td> 
+			<td><img src="label/221K.png" class="labelbild" alt=""></td> 
 			</tr>
 			</table>
 		</td>
