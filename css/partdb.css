@@ -89,11 +89,12 @@
 .tdrow6 {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
-}
+    text-align: center;
 }
 .tdrow7 {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
+    text-align: center;
 }
 .catbild { 
 	width: 20px;

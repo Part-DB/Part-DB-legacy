@@ -86,7 +86,7 @@
 			/* this part is in a different category than
 			   the previous. */
 			print "<tr><td class=\"tdtop\" colspan=\"7\">Treffer in der Kategorie ". show_bt($d[6]) ."</td></tr>\n";
-			print "<tr class=\"trcat\"><td></td><td>Name</td><td>Vorh./<br>Min.Best.</td><td>Footprint</td><td>Lagerort</td><td>-</td><td>+</td></tr>\n";
+			print "<tr class=\"trcat\"><td></td><td>Name</td><td>Vorh./<br>Min.Best.</td><td>Footprint</td><td>Lagerort</td><td align=\"center\">-</td><td align=\"center\">+</td></tr>\n";
 			$prevcat = $d[6];
 			$rowcount = 0;
 		}
@@ -120,7 +120,7 @@
 		print "<td class=\"tdrow4\">". smart_unescape($d[5]) . "</td>";
 		
 		//build the "-" button, only if more then 0 parts on stock
-		print "<td class=\"tdrow5\"><form action=\"\" method=\"post\">";
+		print "<td class=\"tdrow6\"><form action=\"\" method=\"post\">";
 		print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
 		print "<input type=\"hidden\" name=\"action\"  value=\"r\"/>";
 		print "<input type=\"submit\" value=\"-\"";
@@ -131,7 +131,7 @@
 		print "/></form></td>";
 			
 		//build the "+" button
-		print "<td class=\"tdrow6\"><form action=\"\" method=\"post\">";
+		print "<td class=\"tdrow7\"><form action=\"\" method=\"post\">";
 		print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
 		print "<input type=\"hidden\" name=\"action\"  value=\"a\"/>";
 		print "<input type=\"submit\" value=\"+\"/></form></td>";
