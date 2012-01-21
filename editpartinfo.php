@@ -296,12 +296,12 @@
 			else
 				print "<option value=\"". smart_unescape($d_sup[0]) ."\">". smart_unescape($d_sup[1]) ."</option>\n";
 			}
-			print "</select></td></tr>";
-			print "<tr><td><b>Bestell-Nr.:</b></td><td><input name='p_supplierpartnr' value='". smart_unescape($d[7]) ."'></td></tr>";
-			print "<tr><td valign='top'><b>Kommentar:</b></td><td><textarea name='p_comment'>". smart_unescape($d[8]) ."</textarea></td></tr>";
+			print "</select></td></tr>\n";
+			print "<tr><td><b>Bestell-Nr.:</b></td><td><input name='p_supplierpartnr' value='". smart_unescape($d[7]) ."'></td></tr>\n";
+			print "<tr><td valign='top'><b>Kommentar:</b></td><td><textarea name='p_comment' rows=2 cols=20>". smart_unescape($d[8]) ."</textarea></td></tr>\n";
 			}
 			?>
-			<tr><td><input type="hidden" name="action" value="edit"><input type="submit" value="&Auml;ndern!"></td></tr>
+			<tr><td><input type="hidden" name="action" value="text"><input type="submit" value="&Auml;ndern!"></td></tr>
 			</form>
 			<?PHP
 			function buildtree ($cid, $level, $select)
@@ -315,7 +315,7 @@
 			else
 				print "<option value=\"". smart_unescape($d[0]) . "\">";
 			for ($i = 0; $i < $level; $i++) print "&nbsp;&nbsp;&nbsp;";
-			print smart_unescape($d[1]) ."</option>";
+			print smart_unescape($d[1]) ."</option>\n";
 			// do the same for the next level.
 			buildtree ($d[0], $level + 1, $select);
 			}
@@ -393,7 +393,7 @@
 			<form action="editpartinfo.php" method="get">
 			<input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
 			<input type="hidden" name="action" value="price_add">
-			<b>Preis:</b> <input type="edit" name="price" size="8"></br></br>
+			<b>Preis:</b> <input type="text" name="price" size="8"></br></br>
 			<input type="submit" value="Preiseingabe!">
 			</form>
 			</td></tr>
@@ -506,13 +506,14 @@
 			<tr><td>
 			<form action="editpartinfo.php" method="get">
 			URL des hinzuf&uuml;genden Datenblattes:
-			<input type="edit" name="ds_url" value="" width="40">
+			<input type="text" name="ds_url" value="" size="40">
 			<input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
 			<input type="hidden" name="action" value="ds_add">&nbsp;&nbsp;&nbsp;
 			<input type="submit" value="Hinzuf&uuml;gen!">
 			</form>
 			Hinweis:<br>
-			Wenn das Datenblatt unter C:\datasheets\foo.pdf zu finden ist, geben Sie als URL file:///C:/datasheets/foo.pdf an! Dies scheint allerdings nicht mit allen Browser-Versionen und Acrobat-Reader-Versionen zu funktionieren.</br>
+			Wenn das Datenblatt unter C:\datasheets\foo.pdf zu finden ist, geben Sie als URL file:///C:/datasheets/foo.pdf an!
+            Dies scheint allerdings nicht mit allen Browser-Versionen und Acrobat-Reader-Versionen zu funktionieren.</br>
 			</td></tr>
 			</table>
 		</td>

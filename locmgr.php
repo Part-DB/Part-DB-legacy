@@ -142,7 +142,7 @@
 			<tr>
 			<td>
 			Neuer Name:<br>
-			<input type="edit" name="nn">
+			<input type="text" name="nn">
 			<input type="submit" name="btn_rn" value="Umbenennen!">
 			</td>
 			</tr>

@@ -161,7 +161,6 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-			</form>
 			<form method="post">
 			<table border="0">
 			<tr>
@@ -180,7 +179,7 @@
 			</tr><tr><td>&nbsp;</td></tr><tr>
 			<td>
 			Neuer Name:<br>
-			<input type="edit" name="nn">
+			<input type="text" name="nn">
 			<input type="submit" name="btn_rn" value="Umbenennen!">
 			</td>
 			</tr>

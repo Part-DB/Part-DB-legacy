@@ -61,8 +61,8 @@
 	<tr>
 		<td class="tdtext">
 		<form action="search.php" method="get" target="_content_frame">
-		<input type="edit" name="keyword" width="10" maxlength="20" >
-		<input type="submit" name="s" value="Los!"> </br>
+            <input type="text" name="keyword" size="20" maxlength="20">
+            <input type="submit" name="s" value="Los!"> </br>
 		</form>
 		</td>
 	</tr>

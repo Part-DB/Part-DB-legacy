@@ -269,7 +269,7 @@
                 <td><input type="text" name="p_supplierpartnr" value="<?PHP print $_REQUEST["p_supplierpartnr"] ?>"></td>
                 </tr><tr>
                 <td valign="top">Kommentar:</td>
-                <td><textarea name="p_comment"><?PHP print $_REQUEST["p_comment"] ?></textarea></td>
+                <td><textarea name="p_comment" rows=2 cols=20><?PHP print $_REQUEST["p_comment"] ?></textarea></td>
                 </tr>
                 <tr><td>Bild:</td>
                 <td><input type="file" name="AddImage"/></td>
