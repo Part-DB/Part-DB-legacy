@@ -125,10 +125,11 @@
 <tr><td><img src="../tools/iclogos/excelsemi2.png" alt=""></td><td>Excel Semiconductor Inc.</td></tr>
 <tr><td><img src="../tools/iclogos/exel.png" alt=""></td><td>Excel Semiconductor Inc.</td></tr>
 
-<tr><td><img src="../tools/iclogos/fairchil.png" alt=""></td><td>Fairschild</td></tr>
+<tr><td><img src="../tools/iclogos/fairchil.png" alt=""></td><td>Fairchild</td></tr>
 <tr><td><img src="../tools/iclogos/freescale.png" alt=""></td><td>Freescale Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/fujielec.png" alt=""></td><td>Fujitsu</td></tr>
 <tr><td><img src="../tools/iclogos/fujitsu2.png" alt=""></td><td>Fujitsu</td></tr>
+
 <tr><td><img src="../tools/iclogos/galileo.png" alt=""></td><td>Galileo Technology</td></tr>
 <tr><td><img src="../tools/iclogos/galvant.png" alt=""></td><td>Galvantech</td></tr>
 <tr><td><img src="../tools/iclogos/gecples.png" alt=""></td><td>GEC Plessey</td></tr>
@@ -144,6 +145,7 @@
 <tr><td><img src="../tools/iclogos/gould.png" alt=""></td><td>Gould</td></tr>
 <tr><td><img src="../tools/iclogos/greenwich.png" alt=""></td><td>Greenwich Instruments</td></tr>
 <tr><td><img src="../tools/iclogos/gsemi.png" alt=""></td><td>General Semiconductor</td></tr>
+
 <tr><td><img src="../tools/iclogos/harris1.png" alt=""></td><td>Harris Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/harris2.png" alt=""></td><td>Harris Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/hfo.png" alt=""></td><td>VEB Halbleiterwerk Frankfurt (Oder)</td></tr>
