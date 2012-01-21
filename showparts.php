@@ -165,7 +165,7 @@
 
 		if ( (strcmp ($_REQUEST["type"], "index") == 0) || (strcmp ($_REQUEST["type"], "noprice") == 0) )
 		{
-		print "<tr  class=\"trcat\"><td></td><td>Name</td><td>Vorh./\r\n</br>Min.Best.</td><td>Footprint</td><td>Lagerort</td><td>Datenbl&auml;tter</td><td>-</td><td>+</td></tr>";
+		print "<tr  class=\"trcat\"><td></td><td>Name</td><td>Vorh./\r\n</br>Min.Best.</td><td>Footprint</td><td>Lagerort</td><td>Datenbl&auml;tter</td><td>-</td><td>+</td></tr>\n";
 
 		/* the only difference is the query */
 		if (strcmp ($_REQUEST["type"], "index") == 0)
@@ -194,11 +194,11 @@
 				//Footprintbilder
 				if(is_file("tools/footprints/" . smart_unescape($d[4]) . ".png"))
 				{
-				print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[4]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[4]) .".png\"></a></td>";
+				print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[4]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[4]) .".png\" alt=\"\"></a></td>";
 				}
 				else
 				{
-				print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\"></td>";
+				print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
 				}
 			}
 			print "<td class=\"tdrow1\"><a title=\"";
@@ -214,8 +214,8 @@
 			if($dnew[0] == NULL)
 			{
 			// Mit ICONS 
-			print "<a title=\"alldatasheet.com\"href=\"http://www.alldatasheet.com/view.jsp?Searchword=". smart_unescape ($test) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/ads.png\"></a>";
-			print "<a title=\"Reichelt.de\"href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". smart_unescape ($test) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/reichelt.png\"></a>";
+			print "<a title=\"alldatasheet.com\"href=\"http://www.alldatasheet.com/view.jsp?Searchword=". smart_unescape ($test) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/ads.png\" alt=\"logo\"></a>";
+			print "<a title=\"Reichelt.de\"href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". smart_unescape ($test) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/reichelt.png\" alt=\"logo\"></a>";
 			// Ohne ICONS
 			print "<a href=\"http://search.datasheetcatalog.net/key/". smart_unescape ($test) ."\" target=\"_blank\">DC </a>";
 			// print "<a href=\"http://www.alldatasheet.com/view.jsp?Searchword=". smart_unescape ($test) ."\" target=\"_blank\">AllDataSheet, </a>";
@@ -249,7 +249,7 @@
 		}
 		else if ( strcmp ($_REQUEST["type"], "showpending") == 0 )
 		{
-		print "<tr class=\"trcat\"><td></td><td>Name</td><td>Ausstehend</td><td>Vorhanden</td><td>Min. Bestand</td><td>Footprint</td><td>Lagerort</td><td>Datenbl&auml;tter</td></tr>";
+		print "<tr class=\"trcat\"><td></td><td>Name</td><td>Ausstehend</td><td>Vorhanden</td><td>Min. Bestand</td><td>Footprint</td><td>Lagerort</td><td>Datenbl&auml;tter</td></tr>\n";
 
 		$query = "SELECT parts.id,parts.name,SUM(pending_orders.quantity),parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc' FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id INNER JOIN pending_orders ON parts.id=pending_orders.part_id WHERE (". $catclause .") GROUP BY (pending_orders.part_id) ORDER BY name ASC;";
 
