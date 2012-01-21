@@ -53,7 +53,7 @@
 <tr><td><img src="../tools/iclogos/atecom.png"></img></td><td>ATecoM</td></tr>
 <tr><td><img src="../tools/iclogos/ati.png"></img></td><td>ATI Technologies</td></tr>
 <tr><td><img src="../tools/iclogos/atmel.png"></img></td><td>Atmel</td></tr>
-<tr><td><img src="../tools/iclogos/att.png"></img></td><td>AT&T</td></tr>
+<tr><td><img src="../tools/iclogos/att.png"></img></td><td>AT&amp;T</td></tr>
 <tr><td><img src="../tools/iclogos/audiocod.png"></img></td><td>AudioCodes</td></tr>
 <tr><td><img src="../tools/iclogos/auravis.png"></img></td><td>Aura Vision</td></tr>
 <tr><td><img src="../tools/iclogos/aureal.png"></img></td><td>Aureal</td></tr>
@@ -103,7 +103,7 @@
 <tr><td><img src="../tools/iclogos/dtc2.png"></img></td><td>DTC Data Technology</td></tr>
 <tr><td><img src="../tools/iclogos/dvdo.png"></img></td><td>DVDO</td></tr>
 
-<tr><td><img src="../tools/iclogos/edi.png"></img></td><td>EG&G</td></tr>
+<tr><td><img src="../tools/iclogos/edi.png"></img></td><td>EG&amp;G</td></tr>
 <tr><td><img src="../tools/iclogos/egg.png"></img></td><td>Elan Microelectronics</td></tr>
 <tr><td><img src="../tools/iclogos/elan.png"></img></td><td>ELANTEC</td></tr>
 <tr><td><img src="../tools/iclogos/elantec1.png"></img></td><td>ELANTEC</td></tr>
@@ -198,7 +198,7 @@
 <tr><td><img src="../tools/iclogos/linear.png"></img></td><td>Linear Technology</td></tr>
 <tr><td><img src="../tools/iclogos/linfin.png"></img></td><td>Linfinity Microelectronics</td></tr>
 <tr><td><img src="../tools/iclogos/liteon.png"></img></td><td>Lite-On</td></tr>
-<tr><td><img src="../tools/iclogos/lucent.png"></img></td><td>Lucent Technologies (AT&T Microelectronics)</td></tr>
+<tr><td><img src="../tools/iclogos/lucent.png"></img></td><td>Lucent Technologies (AT&amp;T Microelectronics)</td></tr>
 
 <tr><td><img src="../tools/iclogos/macronix.png"></img></td><td>Macronix International</td></tr>
 <tr><td><img src="../tools/iclogos/marvell.png"></img></td><td>Marvell Semiconductor</td></tr>

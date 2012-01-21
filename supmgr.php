@@ -53,7 +53,7 @@
 <table class="table">
 	<tr>
 		<td class="tdtop">
-		Lieferanten Bearbeiten
+		Lieferanten bearbeiten
 		</td>
 	</tr>
 	<tr>

@@ -92,7 +92,7 @@
 			// -->
 		 </script>
 		<?PHP
-		print "<form action=\"showparts.php\" methode=\"post\">";
+		print "<form action=\"showparts.php\" method=\"post\">";
 		print "<input type=\"hidden\" name=\"cid\" value=\"".$_REQUEST["cid"]."\">";
 		print "<input type=\"hidden\" name=\"type\" value=\"index\">";
 		if (! isset($_REQUEST["nosubcat"]) )

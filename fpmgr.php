@@ -59,7 +59,7 @@
 <table class="table">
 	<tr>
 		<td class="tdtop">
-		Footprints Bearbeiten
+		Footprints bearbeiten
 		</td>
 	</tr>
 	<tr>

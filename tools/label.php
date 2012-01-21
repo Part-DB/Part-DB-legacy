@@ -9,26 +9,26 @@
 <table class="table">
 	<tr>
 		<td class="tdtop">
-		SMD-Widerst&aumlnde
+		SMD-Widerst&auml;nde
 		</td>
 	</tr>
 	<tr>
 		<td class="tdtext">
 			<table>			
 			<tr>
-			   <td><b>3-Stellig</b></br>Die ersten beiden Stellen sind der Wert,</br> die letzte Stelle ist der Exponent z.b.</td>
+			   <td><b>3-stellig</b></br>Die ersten beiden Stellen sind der Wert,</br> die letzte Stelle ist der Exponent z.B.</td>
 				<td><img src="label/100.png" class=\"labelbild\"></img> 10 Ohm</td>
 				<td><img src="label/101.png" class=\"labelbild\"></img> 100 Ohm</td>
 				<td><img src="label/102.png" class=\"labelbild\"></img> 1K Ohm</td>
 			</tr>
 			<tr>
-				<td><b>4-Stellig</b></br>Die ersten drei Stellen sind der Wert,</br> die letzte Stelle ist der Exponent z.b.</td>
+				<td><b>4-stellig</b></br>Die ersten drei Stellen sind der Wert,</br> die letzte Stelle ist der Exponent z.B.</td>
 				<td><img src="label/1001.png" class=\"labelbild\"></img> 1K Ohm</td>
 				<td><img src="label/1002.png" class=\"labelbild\"></img> 10K Ohm</td>
 				<td><img src="label/1003.png" class=\"labelbild\"></img> 100K Ohm</td>
 			</tr>
 			<tr>
-				<td><b>Mehrstellig mit R</b></br>Das R z&aumlhlt als Dezimalpunkt z.b.</td>
+				<td><b>Mehrstellig mit R</b></br>Das R z&auml;hlt als Dezimalpunkt z.B.</td>
 				<td><img src="label/R10.png" class=\"labelbild\"></img> 0,10 Ohm</td>
 				<td><img src="label/10R2.png" class=\"labelbild\"></img> 10,2 Ohm</td>
 				<td><img src="label/100R.png" class=\"labelbild\"></img> 100 Ohm</td>
@@ -89,6 +89,7 @@
 		</td>
 	</tr>
 </table>	
+<!-- TODO -->
 		
 		<b>SMD-Dioden</b></br>
 		</br>

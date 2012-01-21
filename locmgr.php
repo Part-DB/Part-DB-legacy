@@ -104,7 +104,7 @@
 <table class="table">
 	<tr>
 		<td class="tdtop">
-		Lagerorte Bearbeiten
+		Lagerorte bearbeiten
 		</td>
 	</tr>
 	<tr>

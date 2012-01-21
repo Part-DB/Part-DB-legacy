@@ -38,7 +38,7 @@
 
 	$q = "SELECT id FROM storeloc LIMIT 1;";
 	//debug_print($q);
-	$r = mysql_query($q);
+	$r = mysql_query($q) or die ("MySQL-Fehler: " . mysql_error());
 	if (! mysql_num_rows($r))
 	{
 		$display_warning |= 1;

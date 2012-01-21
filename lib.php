@@ -143,7 +143,7 @@
 		for ($i = $cntr-1; $i > 0; $i--)
 			$bt .= "&quot;<b>".lookup_category_name($visited_category_ids[$i])."</b>&quot; : ";
 			
-		$bt .= "&quot;<b>".lookup_category_name($visited_category_ids[0])."</b>&quot";
+		$bt .= "&quot;<b>".lookup_category_name($visited_category_ids[0])."</b>&quot;";
 
 		return ($bt);
 	}

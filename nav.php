@@ -129,8 +129,8 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-		<a href="showparts.php?cid=0&type=toless" target="_content_frame">Zu bestellende Teile</a></br>
-		<a href="showparts.php?cid=0&type=noprice" target="_content_frame">Teile ohne Preis</a></br>
+		<a href="showparts.php?cid=0&amp;type=toless" target="_content_frame">Zu bestellende Teile</a></br>
+		<a href="showparts.php?cid=0&amp;type=noprice" target="_content_frame">Teile ohne Preis</a></br>
 		<a href="stats.php" target="_content_frame">Statistik</a></br>
 		<a href="help.php" target="_content_frame">Hilfe</a>
 		</td>

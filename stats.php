@@ -62,7 +62,7 @@
 		?></br>
 		<br>
 
-		<b>Anzahl der verschidenen Bauteile:</b>
+		<b>Anzahl der verschiedenen Bauteile:</b>
 		<?PHP
 		$i = 0;
 		$query = "SELECT name FROM parts;";
@@ -98,7 +98,7 @@
 		?></br>
 		</br>
 
-		<b>Anzahl der Hochgeladenen Bilder:</b>
+		<b>Anzahl der hochgeladenen Bilder:</b>
 		<?PHP
 		$dir = "img/";
 		$dh  = opendir($dir);
