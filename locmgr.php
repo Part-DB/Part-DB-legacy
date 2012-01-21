@@ -92,10 +92,14 @@
 	if ($special_dialog == 0)
 	{
 ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
- <body class="body">
   <head>
    <link rel="StyleSheet" href="css/partdb.css" type="text/css" />
+  </head>
+
+ <body class="body">
 
 <table class="table">
 	<tr>
@@ -155,7 +159,6 @@
 	</tr>
 </table>
 
-  </head>
  </body>
 </html>
 
