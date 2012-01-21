@@ -143,9 +143,7 @@
 	</tr>
 </table>
 
-<table class="tablenone">
-</br>
-</table>
+<br>
 
 <table class="table">
 	<tr>
@@ -165,7 +163,7 @@
 
 		if ( (strcmp ($_REQUEST["type"], "index") == 0) || (strcmp ($_REQUEST["type"], "noprice") == 0) )
 		{
-		print "<tr  class=\"trcat\"><td></td><td>Name</td><td>Vorh./\r\n</br>Min.Best.</td><td>Footprint</td><td>Lagerort</td><td>Datenbl&auml;tter</td><td>-</td><td>+</td></tr>\n";
+		print "<tr  class=\"trcat\"><td></td><td>Name</td><td>Vorh./<br>Min.Best.</td><td>Footprint</td><td>Lagerort</td><td>Datenbl&auml;tter</td><td>-</td><td>+</td></tr>\n";
 
 		/* the only difference is the query */
 		if (strcmp ($_REQUEST["type"], "index") == 0)

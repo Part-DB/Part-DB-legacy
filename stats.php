@@ -46,7 +46,7 @@
 		$r = mysql_query ($query);
 		$d = mysql_fetch_row ($r);
 		print $d[0];
-		?>&euro;</br>
+		?>&euro;<br>
 
 		<b>Mit Preis erfasste Bauteile:</b>
 		<?PHP
@@ -59,7 +59,7 @@
 		  $i++;
 		}
 		print $i;
-		?></br>
+		?><br>
 		<br>
 
 		<b>Anzahl der verschiedenen Bauteile:</b>
@@ -73,7 +73,7 @@
 		  $i++;
 		}
 		print $i;
-		?></br>
+		?><br>
 
 		<b>Anzahl der vorhandenen Bauteile:</b>
 		<?PHP
@@ -81,8 +81,8 @@
 		$r = mysql_query ($query);
 		$d = mysql_fetch_row ($r);
 		print $d[0];
-		?></br>
-		</br>
+		?><br>
+		<br>
 
 		<b>Anzahl der Kategorien:</b>
 		<?PHP
@@ -95,8 +95,8 @@
 		  $i++;
 		}
 		print $i;
-		?></br>
-		</br>
+		?><br>
+		<br>
 
 		<b>Anzahl der hochgeladenen Bilder:</b>
 		<?PHP
@@ -108,7 +108,7 @@
 		}
 		echo count($files)- 2;
 		unset($files);
-		?></br>
+		?><br>
 
 		<b>Anzahl der Footprint Bilder:</b>
 		<?PHP
@@ -120,7 +120,7 @@
 		}
 		echo count($files)- 2;
 		unset($files);
-		?></br>
+		?><br>
 
 		<b>Anzahl der Hersteller Logos:</b>
 		<?PHP
@@ -132,7 +132,7 @@
 		}
 		echo count($files)- 2;
 		unset($files);
-		?></br>
+		?>
 		</td>
 	</tr>
 </table>

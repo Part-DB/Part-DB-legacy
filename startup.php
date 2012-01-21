@@ -85,10 +85,7 @@
 	</tr>
 </table>
 
-<table class="tablenone">
-</br>
-</table>
-
+<br>
 
 <?PHP	// Display Warning 
 	if ($display_warning)
@@ -134,23 +131,24 @@
 		  <input type="image" src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" name="submit" align="right" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
 		  <img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" align="right">
 		  </form>
-		  Part-DB, Copyright (C) 2005 of <b>Christoph Lechner</b>. Part-DB is published under the <b>GPL</b>, so it comes with <b>ABSOLUTELY NO WARRANTY</b>, click <a href="readme/gpl.txt">here</a> for details. This is free software, and you are welcome to redistribute it under certain conditions. Click <a href="readme/gpl.txt">here</a> for details.</br>
-		  </br> 
-		  The first Author's Homepage <a href="http://www.cl-projects.de/">http://www.cl-projects.de/</a></br>
-		  Author since 2009 by <b>K.Jacobs</b> - <a href="http://www.grautier.com/">http://grautier.com</a></br>
-		  </br> 
-		  <b>ajfrenzel</b> - Committer/Bugfix</br>
-		  <b>tgrziwa</b> - Committer/Bugfix</br>
-		  <b>d.lipschinski</b> - Committer/Bugfix</br>
-		  <b>Michael Buesch</b> - Reichelt/Pollin Preissuch Script</br>
+		  Part-DB, Copyright (C) 2005 of <b>Christoph Lechner</b>. Part-DB is published under the <b>GPL</b>,
+          so it comes with <b>ABSOLUTELY NO WARRANTY</b>, click <a href="readme/gpl.txt">here</a> for details.
+          This is free software, and you are welcome to redistribute it under certain conditions.
+          Click <a href="readme/gpl.txt">here</a> for details.<br>
+		  <br> 
+		  The first Author's Homepage <a href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
+		  Author since 2009 by <b>K.Jacobs</b> - <a href="http://www.grautier.com/">http://grautier.com</a><br>
+		  <br> 
+		  <b>ajfrenzel</b> - Committer/Bugfix<br>
+		  <b>tgrziwa</b> - Committer/Bugfix<br>
+		  <b>d.lipschinski</b> - Committer/Bugfix<br>
+		  <b>Michael Buesch</b> - Reichelt/Pollin Preissuch Script<br>
 		  <b>THX @ Matthias Wei&szlig;er</b> f&uuml;r EAGLE3D und dem gro&szlig;artigen Bauteile Renderscript (eagle3d.py) 
 		</td>
 	</tr>
 </table>
 
-<table class="tablenone">
-</br>
-</table> 
+<br>
 
 <table class="table">
 	<tr>
@@ -160,7 +158,7 @@
 	</tr>
 	<tr>
 		<td class="tdtextsmall">
-		  </br>
+		  <br>
 		  <?PHP
 		  $rss_file = join ( ' ', file ("http://code.google.com/feeds/p/part-db/downloads/basic"));
 		  $rss_zeilen = array ( "title", "updated", "id" );
@@ -171,26 +169,21 @@
 		  $$zeile = $preg_match [1] [0];
 		  #if ($zeile = "id") 
 		  #{
-		    #echo "<a href=\"" . $$zeile . "\">" . $$zeile . "</a></br>";
+		    #echo "<a href=\"" . $$zeile . "\">" . $$zeile . "</a><br>";
 		  #}
 		    #else
 		  #{
-		    echo "" . $$zeile . "</br>";
+		    echo "" . $$zeile . "<br>";
 		  #}
 		  } 
-		    echo "</br>";
+		    echo "<br>";
 		  }
 		  ?>
-		  </br>
 		</td>
 	</tr>
 </table>
 
-<table class="tablenone">
-</br>
-</table>
-
- </body>
+</body>
 </html>
 
 

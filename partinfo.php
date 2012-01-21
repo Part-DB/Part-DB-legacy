@@ -129,7 +129,7 @@
 		<?PHP
 		if (has_image($_REQUEST["pid"]))
 		{
-		print "</br><b>Bilder:</b><table><tr>\n";
+		print "<br><b>Bilder:</b><table><tr>\n";
 		
 		$pict_query = "SELECT pictures.id FROM pictures WHERE (pictures.part_id=". smart_escape($_REQUEST["pid"]) .") AND (pictures.pict_type='P');";
 		debug_print ($pict_query);

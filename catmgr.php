@@ -149,9 +149,7 @@
 	</tr>
 </table>
 
-<table class="tablenone">
-</br>
-</table>
+<br>
 
   <table class="table">
 	<tr>

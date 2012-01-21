@@ -88,9 +88,9 @@
 			<form method="post">
 			<input type="text" name="fpnameneu">
 			<input type="hidden" name="action" value="n">
-			<input type="submit" value="Umbenennen"></br>
+			<input type="submit" value="Umbenennen"><br>
 			</form>
-			</br>
+			<br>
 
 			<form method="post">
 			<input type="text" name="fpname">

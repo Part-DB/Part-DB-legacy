@@ -332,8 +332,8 @@
 			$cat = 0;
 			?>
 			<form  action="editpartinfo.php" method="get">
-			<tr><td></br>
-			<a><b>Kategorie:</b></a></br></br>
+			<tr><td><br>
+			<a><b>Kategorie:</b></a><br><br>
 	        	<input type="hidden" name="pid" value="<? print $_REQUEST["pid"]; ?>">
 			<td><select name='p_category'>
 			<option value="0">root node</option>
@@ -347,9 +347,7 @@
 	</tr>
 </table>
 
-<table class="tablenone">
-</br>
-</table>
+<br>
 
 <table class="table">
 	<tr>
@@ -393,7 +391,7 @@
 			<form action="editpartinfo.php" method="get">
 			<input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
 			<input type="hidden" name="action" value="price_add">
-			<b>Preis:</b> <input type="text" name="price" size="8"></br></br>
+			<b>Preis:</b> <input type="text" name="price" size="8"><br><br>
 			<input type="submit" value="Preiseingabe!">
 			</form>
 			</td></tr>
@@ -401,9 +399,7 @@
 	</tr>
 </table>
 
-<table class="tablenone">
-</br>
-</table>
+<br>
 
 <table class="table">
 	<tr>
@@ -467,9 +463,7 @@
 	</tr>
 </table>
 
-<table class="tablenone">
-</br>
-</table>
+<br>
 
 <table class="table">
 	<tr>
@@ -492,9 +486,9 @@
 			{
 				$d = mysql_fetch_row ($r);
 				if ($i == 0)
-				print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>";
+				print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
 			else
-				print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>";
+				print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
 			}
 			?>
 			</select>
@@ -513,16 +507,14 @@
 			</form>
 			Hinweis:<br>
 			Wenn das Datenblatt unter C:\datasheets\foo.pdf zu finden ist, geben Sie als URL file:///C:/datasheets/foo.pdf an!
-            Dies scheint allerdings nicht mit allen Browser-Versionen und Acrobat-Reader-Versionen zu funktionieren.</br>
+            Dies scheint allerdings nicht mit allen Browser-Versionen und Acrobat-Reader-Versionen zu funktionieren.
 			</td></tr>
 			</table>
 		</td>
 	</tr>
 </table>
 
-<table class="tablenone">
-</br>
-</table>
+<br>
 
 <table class="table">
 	<tr>

@@ -55,29 +55,29 @@
 <table class="table">
 	<tr>
 		<td class="tdtop">
-		Suche
+        Suche
 		</td>
 	</tr>
+
 	<tr>
 		<td class="tdtext">
 		<form action="search.php" method="get" target="_content_frame">
             <input type="text" name="keyword" size="20" maxlength="20">
-            <input type="submit" name="s" value="Los!"> </br>
+            <input type="submit" name="s" value="Los!">
 		</form>
 		</td>
 	</tr>
 </table>
 
-<table class="tablenone">
-</br>
-</table>
+<br>
 
 <table class="table">
 	<tr>
 		<td class="tdtop">
-		Kategorien
+        Kategorien
 		</td>
 	</tr>
+
 	<tr>
 		<td class="tdtext">
 		 <!-- <base href="" target="_content_frame"> -->
@@ -90,7 +90,7 @@
 				document.write(d);
 				//-->
 			</script>
-			</br>
+			<br>
 			<a href="javascript: d.openAll();">Alle Anzeigen</a> | <a href="javascript: d.closeAll();">Alle Schliessen</a>
 		  </div>
 		 <!-- </base> -->
@@ -98,9 +98,7 @@
 	</tr>
 </table>
 
-<table class="tablenone">
-</br>
-</table>
+<br>
 
 <table class="table">
 	<tr>
@@ -110,16 +108,14 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-		<a href="tools/label.php" target="_content_frame">Labels</a></br>
-		<a href="tools/footprints.php" target="_content_frame">Footprints</a></br>
+		<a href="tools/label.php" target="_content_frame">Labels</a><br>
+		<a href="tools/footprints.php" target="_content_frame">Footprints</a><br>
 		<a href="tools/iclogos.php" target="_content_frame">IC-Logos</a>
 		</td>
 	</tr>
 </table>
 
-<table class="tablenone">
-</br>
-</table>
+<br>
 
 <table class="table">
 	<tr>
@@ -129,17 +125,15 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-		<a href="showparts.php?cid=0&amp;type=toless" target="_content_frame">Zu bestellende Teile</a></br>
-		<a href="showparts.php?cid=0&amp;type=noprice" target="_content_frame">Teile ohne Preis</a></br>
-		<a href="stats.php" target="_content_frame">Statistik</a></br>
+		<a href="showparts.php?cid=0&amp;type=toless" target="_content_frame">Zu bestellende Teile</a><br>
+		<a href="showparts.php?cid=0&amp;type=noprice" target="_content_frame">Teile ohne Preis</a><br>
+		<a href="stats.php" target="_content_frame">Statistik</a><br>
 		<a href="help.php" target="_content_frame">Hilfe</a>
 		</td>
 	</tr>
 </table>
 
-<table class="tablenone">
-	</br>
-</table>
+<br>
 
 <table class="table">
 	<tr>
@@ -149,13 +143,13 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-		<a href="locmgr.php" target="_content_frame">Lagerorte</a></br>
-		<a href="fpmgr.php" target="_content_frame">Footprints</a></br>
-		<a href="catmgr.php" target="_content_frame">Kategorien</a></br>
-		<a href="supmgr.php" target="_content_frame">Lieferanten</a></br>
+		<a href="locmgr.php" target="_content_frame">Lagerorte</a><br>
+		<a href="fpmgr.php" target="_content_frame">Footprints</a><br>
+		<a href="catmgr.php" target="_content_frame">Kategorien</a><br>
+		<a href="supmgr.php" target="_content_frame">Lieferanten</a><br>
 		</td>
 	</tr>
 </table>
 
- </body>
+</body>
 </html>

@@ -85,8 +85,8 @@
 		{
 			/* this part is in a different category than
 			   the previous. */
-			print "<td class=\"tdtop\" colspan=\"7\">Treffer in der Kategorie ". show_bt($d[6]) ."</td>";
-			print "<tr class=\"trcat\"><td></td><td>Name</td><td>Vorh./\r\n</br>Min.Best.</td><td>Footprint</td><td>Lagerort</td><td>-</td><td>+</td></tr>\n";
+			print "<td class=\"tdtop\" colspan=\"7\">Treffer in der Kategorie ". show_bt($d[6]) ."</td>\n";
+			print "<tr class=\"trcat\"><td></td><td>Name</td><td>Vorh./<br>Min.Best.</td><td>Footprint</td><td>Lagerort</td><td>-</td><td>+</td></tr>\n";
 			$prevcat = $d[6];
 			$rowcount = 0;
 		}
