@@ -109,7 +109,7 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-			<form method="get">
+			<form action="" method="get">
 			<table>
 			<tr>
 			<td valign="top">
@@ -151,7 +151,7 @@
 			</tr>
 			</table>
 			</form>
-			<form method="post">
+			<form action="" method="post">
 			Neuer Lagerort:<input type="text" name="locname">
 			<input type="submit" name="btn_add" value="Anlegen">
 			</form>

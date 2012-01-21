@@ -123,12 +123,12 @@
 <table class="table">
 	<tr>
 		<td class="tdtop">
-		Kategorie Anlegen
+		Kategorie anlegen
 		</td>
 	</tr>
 	<tr>
 		<td class="tdtext">
-			<form method="post">
+			<form action="" method="post">
 			<table>
 			<tr>
 			<td>&Uuml;bergeordnete Kategorie ausw&auml;hlen:</td>
@@ -159,7 +159,7 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-			<form method="post">
+			<form action="" method="post">
 			<table border="0">
 			<tr>
 			<td valign="top">

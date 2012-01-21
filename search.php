@@ -68,6 +68,7 @@
 			// -->
 		 </script>
 		<table class="table">
+        <tr>
 		<?PHP
 		// execute the SQL query (DON'T USE smart_escape HERE, because
 		// it breaks the query)
@@ -120,7 +121,7 @@
 		print "<td class=\"tdrow4\">". smart_unescape($d[5]) . "</td>";
 		
 		//build the "-" button, only if more then 0 parts on stock
-		print "<form method=\"post\"><td class=\"tdrow5\">";
+		print "<form action=\"\" method=\"post\"><td class=\"tdrow5\">";
 		print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
 		print "<input type=\"hidden\" name=\"action\"  value=\"r\"/>";
 		print "<input type=\"submit\" value=\"-\"";
@@ -131,7 +132,7 @@
 		print "/></td></form>";
 			
 		//build the "+" button
-		print "<form method=\"post\"><td class=\"tdrow6\">";
+		print "<form action=\"\" method=\"post\"><td class=\"tdrow6\">";
 		print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
 		print "<input type=\"hidden\" name=\"action\"  value=\"a\"/>";
 		print "<input type=\"submit\" value=\"+\"/></td></form>";

@@ -105,7 +105,7 @@
 		<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
 		<td>
 		<table>
-		<form method="post">
+		<form action="" method="post">
 		<input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
 		<input type="hidden" name="action" value="r">
 		<tr><td colspan="2">Teile entnehmen</td></tr>
@@ -114,7 +114,7 @@
 		</tr><tr><td colspan="2" align="center"><input type="submit" value="Entnehmen!"></td></tr>
 		</form>
 		<tr><td colspan="2">&nbsp;</td></tr>
-		<form method="post">
+		<form action="" method="post">
 		<input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
 		<input type="hidden" name="action" value="a">
 		<tr><td colspan="2">Teile hinzuf&uuml;gen</td></tr>

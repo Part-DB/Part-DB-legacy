@@ -64,7 +64,7 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-			<form method="post">
+			<form action="" method="post">
 			<select name="fp" size="8">
 			<?PHP
 			$query = "SELECT id,name FROM footprints ORDER BY name ASC;";
@@ -85,14 +85,14 @@
 			<input type="submit" value="L&ouml;schen">
 			</form>
 
-			<form method="post">
+			<form action="" method="post">
 			<input type="text" name="fpnameneu">
 			<input type="hidden" name="action" value="n">
 			<input type="submit" value="Umbenennen"><br>
 			</form>
 			<br>
 
-			<form method="post">
+			<form action="" method="post">
 			<input type="text" name="fpname">
 			<input type="hidden" name="action" value="a">
 			<input type="submit" value="Anlegen">

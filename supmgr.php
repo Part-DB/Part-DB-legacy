@@ -58,7 +58,7 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-		<form method="post">
+		<form action="" method="post">
 		<select name="sup2del" size="8" multiple="multiple">
 		<?PHP
 		$query = "SELECT id,name FROM suppliers ORDER BY name ASC;";
@@ -78,7 +78,7 @@
    		<input type="hidden" name="action" value="d">
    		<input type="submit" value="L&ouml;schen">
   		</form>
-  		<form method="post">
+  		<form action="" method="post">
    		Neuer Lieferant:<input type="text" name="supname">
    		<input type="hidden" name="action" value="a">
    		<input type="submit" value="Anlegen">

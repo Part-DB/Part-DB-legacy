@@ -163,7 +163,7 @@
         <tr>
                 <td class="tdtext">
                 <table>
-                <form enctype="multipart/form-data" method="post">
+                <form action=""enctype="multipart/form-data" method="post">
                 <input type="hidden" name="a" value="add"/>
                 <input type="hidden" name="cid" value="<?PHP print $_REQUEST["cid"]; ?>"/>
                 <tr>
