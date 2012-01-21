@@ -213,13 +213,12 @@
 	?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/loose.dtd">
-
 <html>
-  <head>
-   <link rel="StyleSheet" href="css/partdb.css" type="text/css" />
-  </head>
-
- <body class="body">
+<head>
+    <title>Angaben ver&auml;ndern</title>
+    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
+</head>
+<body class="body">
 
 <table class="table">
 	<tr>

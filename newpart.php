@@ -145,15 +145,14 @@
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/loose.dtd">
-
 <html>
-  <head>
-        <link rel="StyleSheet" href="css/partdb.css" type="text/css" />
-        <script type="text/javascript" src="util-functions.js"></script>
+<head>
+    <title>Neues Teil</title>
+    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
+    <script type="text/javascript" src="util-functions.js"></script>
     <script type="text/javascript" src="clear-default-text.js"></script>        
-  </head>
-
- <body class="body">
+</head>
+<body class="body">
 
 <table class="table">
         <tr>
