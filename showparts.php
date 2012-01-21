@@ -271,7 +271,7 @@
 			}
 			else
 			{
-				print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/dummytn.png\"></td>";
+				print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/dummytn.png\" alt=\"\"></td>";
 			}
 			print "<td class=\"tdrow1\"><a href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow2\">". smart_unescape($d[2]) ."</td><td class=\"tdrow3\">". smart_unescape($d[3]) ."</td><td class=\"tdrow4\">". smart_unescape($d[4]) ."</td><td class=\"tdrow5\">". smart_unescape($d[5]) . "</td><td class=\"tdrow6\">". smart_unescape($d[6]) . "</td>";
 			print "<td  class=\"tdrow6\">";

@@ -107,11 +107,11 @@
 			//Footprintbilder
 			if(is_file("tools/footprints/" . smart_unescape($d[4]) . ".png"))
 			{
-			print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[4]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[4]) .".png\"></a></td>";
+			print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[4]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[4]) .".png\" alt=\"\"></a></td>";
 			}
 			else
 			{
-			print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\"></td>";
+			print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
 			}
 		}
 		print "<td class=\"tdrow1\"><a title=\"Kommentar: " . smart_unescape($d[7]) . "\"";

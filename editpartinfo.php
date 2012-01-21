@@ -46,14 +46,14 @@
 		$query = "UPDATE parts SET name=". smart_escape($_REQUEST["p_name"]) .",instock=". smart_escape($_REQUEST["p_instock"]) .", mininstock=". smart_escape($_REQUEST["p_mininstock"]) .", id_footprint=". smart_escape($_REQUEST["p_footprint"]) .", id_storeloc=". smart_escape($_REQUEST["p_storeloc"]) .", id_supplier=". smart_escape($_REQUEST["p_supplier"]) .", supplierpartnr=". smart_escape($_REQUEST["p_supplierpartnr"]) .", comment=". smart_escape($_REQUEST["p_comment"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
 		debug_print ($query);
 		mysql_query ($query);
-		print "<script>window.close();</script>";
+		print "<script>window.close();</script>\n";
 	}
     else if ( strcmp ($_REQUEST["action"], "edit_category") == 0 )
     {
 		$query = "UPDATE parts SET id_category=". smart_escape($_REQUEST["p_category"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
         debug_print ($query);
         mysql_query ($query);
-		print "<script>window.close();</script>";
+		print "<script>window.close();</script>\n";
     }
 	else if ( strcmp ($_REQUEST["action"], "ds_add") == 0 )
 	{
@@ -73,13 +73,13 @@
 		{
 			/* display the confirmation text */
 			$special_dialog = 1;
-			print "<html><body class=\"body\"><link rel=\"StyleSheet\" href=\"css/partdb.css\" type=\"text/css\" /><div style=\"text-align:center;\">";
-			print "<table class=\"table\">";
-			print "<tr><td class=\"tdtop\"><div style=\"color:red;\">M&ouml;chten Sie das Bauteil &quot;". lookup_part_name ($_REQUEST["pid"]) ."&quot; wirklich l&ouml;schen? </td></tr>";
-			print "<tr><td class=\"tdtext\"><table><tr><td></div>Der L&ouml;schvorgang ist irreversibel!</td></tr>";
-			print "<tr><td><form action=\"editpartinfo.php\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $_REQUEST["pid"] ."\"></td></tr>";
-			print "<tr><td><input type=\"hidden\" name=\"action\" value=\"part_del\"><input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen!\"><input type=\"submit\" name=\"del_ok\" value=\"L&ouml;schen!\"></td></tr>";
-			print "</table></td></tr></table></form></div></body></html>";
+			print "<html><body class=\"body\"><link rel=\"StyleSheet\" href=\"css/partdb.css\" type=\"text/css\" /><div style=\"text-align:center;\">\n";
+			print "<table class=\"table\">\n";
+			print "<tr><td class=\"tdtop\"><div style=\"color:red;\">M&ouml;chten Sie das Bauteil &quot;". lookup_part_name ($_REQUEST["pid"]) ."&quot; wirklich l&ouml;schen? </td></tr>\n";
+			print "<tr><td class=\"tdtext\"><table><tr><td></div>Der L&ouml;schvorgang ist irreversibel!</td></tr>\n";
+			print "<tr><td><form action=\"editpartinfo.php\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $_REQUEST["pid"] ."\"></td></tr>\n";
+			print "<tr><td><input type=\"hidden\" name=\"action\" value=\"part_del\"><input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen!\"><input type=\"submit\" name=\"del_ok\" value=\"L&ouml;schen!\"></td></tr>\n";
+			print "</table></td></tr></table></form></div></body></html>\n";
 		}
 		else if (isset($_REQUEST["del_ok"]))
 		{
@@ -248,10 +248,10 @@
 				$r = mysql_query ($query);
 			while ( ($d = mysql_fetch_row ($r)) )
 			{
-			print "<tr><td><b>Name:</b></td><td><input name='p_name' value='". smart_unescape($d[1]) ."'></td></tr>";
-			print "<tr><td><b>Vorhanden:</b></td><td><input name='p_instock' value='". smart_unescape($d[2]) ."'></td></tr>";
-			print "<tr><td><b>Min. Bestand:</b></td><td><input name='p_mininstock' value='". smart_unescape($d[3]) ."'></td></tr>";
-			print "<tr><td><b>Footprint:</b></td><td><select name='p_footprint'>";
+			print "<tr><td><b>Name:</b></td><td><input name='p_name' value='". smart_unescape($d[1]) ."'></td></tr>\n";
+			print "<tr><td><b>Vorhanden:</b></td><td><input name='p_instock' value='". smart_unescape($d[2]) ."'></td></tr>\n";
+			print "<tr><td><b>Min. Bestand:</b></td><td><input name='p_mininstock' value='". smart_unescape($d[3]) ."'></td></tr>\n";
+			print "<tr><td><b>Footprint:</b></td><td><select name='p_footprint'>\n";
 			// warning: hax0r style below!
 			$query = "SELECT id,name FROM footprints ORDER BY name ASC";
 			debug_print($query);
@@ -436,11 +436,11 @@
 				for ($i = 0; $i < $ncol; $i++)
 			{
 				$d_img = mysql_fetch_row($r_img);
-				print "<tr>";
-				print "<td><a href=\"javascript:popUp('getimage.php?pict_id=". smart_unescape($d_img[0]). "');\"><img src=\"getimage.php?pict_id=". smart_unescape($d_img[0]). "&maxx=200&maxy=150\"></a></td>";
-				print "<td><input type=\"radio\" name=\"default_img\" value=\"". smart_unescape($d_img[0]) ."\"></td>";
-				print "<td><input type=\"checkbox\" name=\"del_img[]\" value=\"". smart_unescape($d_img[0]). "\"></td>";
-				print "</tr>";
+				print "<tr>\n";
+				print "<td><a href=\"javascript:popUp('getimage.php?pict_id=". smart_unescape($d_img[0]). "');\"><img src=\"getimage.php?pict_id=". smart_unescape($d_img[0]). "&maxx=200&maxy=150\"></a></td>\n";
+				print "<td><input type=\"radio\" name=\"default_img\" value=\"". smart_unescape($d_img[0]) ."\"></td>\n";
+				print "<td><input type=\"checkbox\" name=\"del_img[]\" value=\"". smart_unescape($d_img[0]). "\"></td>\n";
+				print "</tr>\n";
 			}
 			?>
 			<tr><td><input type="submit" value="F&uuml;hre &Auml;nderungen durch!"></td></tr>

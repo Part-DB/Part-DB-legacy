@@ -80,7 +80,7 @@
 <table class="table">
 	<tr>
 		<td class="tdstartup">
-		  <img src="img/partdb/partdb.png"></img><b>Part-DB V0.1.5</b><img src="img/partdb/partdb.png"></img>
+		  <img src="img/partdb/partdb.png" alt="logo"><b>Part-DB V0.1.5</b><img src="img/partdb/partdb.png" alt="logo">
 		</td>
 	</tr>
 </table>
@@ -131,7 +131,7 @@
 		  <input type="hidden" name="no_note" value="0">
 		  <input type="hidden" name="currency_code" value="EUR">
 		  <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
-		  <input type="image" src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" border="0" name="submit" align="right" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
+		  <input type="image" src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" name="submit" align="right" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
 		  <img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" align="right">
 		  </form>
 		  Part-DB, Copyright (C) 2005 of <b>Christoph Lechner</b>. Part-DB is published under the <b>GPL</b>, so it comes with <b>ABSOLUTELY NO WARRANTY</b>, click <a href="readme/gpl.txt">here</a> for details. This is free software, and you are welcome to redistribute it under certain conditions. Click <a href="readme/gpl.txt">here</a> for details.</br>
