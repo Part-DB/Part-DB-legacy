@@ -115,7 +115,7 @@
 			{
 				$enoughinstock = 0;
 				$bookstate = 3;	//not enough parts in stock
-				$bookerrorstring = $bookerrorstring.$d[2]." Benötigt: ".$needed." Im Lager: ".$d[0]."<BR>";
+				$bookerrorstring = $bookerrorstring.$d[2]." Benötigt: ".$needed." Im Lager: ".$d[0]."<br>";
 			}
 		}		
 		if($enoughinstock)
@@ -133,29 +133,32 @@
 		}
 	}
 ?>
-
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
- <head>
- </head>
-  <body class="body">
-   <link rel="StyleSheet" href="css/partdb.css" type="text/css" />
+<head>
+    <title>Deviceinfo</title>
+    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
+</head>
+<body class="body">
+
 <table class="table">
 	
 	<tr>
 		<td class="tdtop">
-		Teile per Name Zuordnen
+		Teile per Name zuordnen
 		</td>
 	</tr>
 	<tr>
 		<td class="tdtext">
 			<?PHP
-			print "<form methode=\"post\">";
+			print "<form method=\"post\" action=\"\">";
 			print "<input type=\"text\" name=\"newpartname\"/>";
 			print "<input type=\"hidden\" name=\"action\"  value=\"assignbytext\"/>";
 			print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
 			print "<input type=\"submit\" value=\"Hinzufügen\"/></form>";
 			
-			print "<form methode=\"post\">";
+			print "<form method=\"post\" action=\"\">";
 			print "<input type=\"hidden\" name=\"action\"  value=\"refresh\"/>";
 			print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
 			print "<input type=\"submit\" value=\"Aktualisieren\"/></form>";
@@ -168,7 +171,7 @@
 	{	
 		print "<tr>";
 		print "<td class=\"tdtext\">";
-		print "<form methode=\"post\">";
+		print "<form method=\"post\" action=\"\">";
 		print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
 		print "<input type=\"hidden\" name=\"action\"  value=\"assignbyselected\"/>";
 		print "<table>";
@@ -218,9 +221,9 @@
 	}
 	?>
 </table>
-<table class="tablenone">
-</br>
-</table>
+
+<br>
+
 <table class="table">
 	<tr>
 		<td class="tdtop">
@@ -304,13 +307,13 @@
 		print "€</td>";
 		//Build the sum
 		$sumprice += $d[8];
-		print "<td class=\"tdrow1\"><form method=\"post\">";
+		print "<td class=\"tdrow1\"><form method=\"post\" action=\"\">";
 		print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
 		print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
 		print "<input type=\"hidden\" name=\"action\"  value=\"remove\"/>";
 		print "<input type=\"submit\" value=\"Entfernen\"/></form></td>";
 		
-		print "<td class=\"tdrow1\"><form method=\"post\">";
+		print "<td class=\"tdrow1\"><form method=\"post\" action=\"\">";
 		print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
 		print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
 		print "<input type=\"hidden\" name=\"action\"  value=\"deassign\"/>";
@@ -321,7 +324,7 @@
 		}
 		print "></form></td>";
 		
-		print "<td class=\"tdrow7\"><form method=\"post\">";
+		print "<td class=\"tdrow7\"><form method=\"post\" action=\"\">";
 		print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
 		print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
 		print "<input type=\"hidden\" name=\"action\"  value=\"assign\"/>";
@@ -352,9 +355,8 @@
 	</tr>
 </table>
 
-<table class="tablenone">
-</br>
-</table>
+<br>
+
 <table class="table">
 	<tr>
 		<td class="tdtop">
@@ -363,7 +365,7 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-			<form method="post">
+			<form method="post" action=\"\">
 				<table>
 				<?PHP
 				print "<tr class=\"trcat\"><td><input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
@@ -489,18 +491,17 @@
 	</tr>
   </table>
   
-  <table class="tablenone">
-</br>
-</table>
+<br>
+
 <table class="table">
 	<tr>
 		<td class="tdtop">
-		Benötigte Teile Abfassen
+		Benötigte Teile abfassen
 		</td>
 	</tr>
 	<tr>
 		<td class="tdtext">
-			<form method="post">
+			<form method="post" action=\"\">
 				<table>
 					
 					<?PHP
@@ -525,7 +526,7 @@
 					if($bookstate == 2)	//no parts in device
 						print "Keine Teile zum Gerät zugeordnet.";
 					else if($bookstate == 3)	//not enough parts in stock
-						print "<B>Nicht genug Teile verfügbar.<BR>Teil/e:<BR></B>" . $bookerrorstring;
+						print "<b>Nicht genug Teile verfügbar.<br>Teil/e:</b>" . $bookerrorstring;
 					else if($bookstate == 4)	//querry error
 						print "Fehler.";
 					print "</td>";
@@ -538,5 +539,5 @@
 	</tr>
   </table>
   
- </body>
+</body>
 </html>

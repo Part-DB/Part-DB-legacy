@@ -32,10 +32,14 @@
 		$r = mysql_query ($query);
 	}
 ?>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
- <body class="body">
-  <head>
-   <link rel="StyleSheet" href="css/partdb.css" type="text/css" />
+<head>
+    <title>Footprints</title>
+    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
+</head>
+<body class="body">
 
 <table class="table">
 	<tr>
@@ -45,20 +49,17 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-			<form method="post">
+			<form method="post" action="">
 			Gerätenamen
-			<input type="edit" name="newdevicename" width="10" maxlength="50" >
+			<input type="text" name="newdevicename" size="10" maxlength="50" >
 			<input type="hidden" name="action" value="createdevice">
-			<input type="submit" value="OK"> </br>
+			<input type="submit" value="OK">
 			</form>	
 		</td>
 	</tr>
 </table>
 
-
-<table class="tablenone">
-</br>
-</table>
+<br>
 
 <table class="table">
 	<tr>
@@ -68,16 +69,6 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-		 <script language="JavaScript" type="text/javascript">
-			<!--
-			function popUp(URL)
-			{
-			d = new Date();
-			id = d.getTime();
-			eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=1, scrollbars=1, location=1, statusbar=1, menubar=1, resizable=1, width=600, height=400');");
-			}
-			// -->
-		 </script>
 		<table >
 
 		<?PHP
@@ -102,9 +93,9 @@
 		else
 			print "<tr class=\"trlist2\">";
 		
-		print "<td class=\"tdrow1\"><a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) . "</td>";
-		print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."</td>";
-		print "<td class=\"tdrow3\">". smart_unescape($d[3]) ."</td>";
+		print "<td class=\"tdrow1\"><a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) . "</a></td>\n";
+		print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."</td>\n";
+		print "<td class=\"tdrow3\">". smart_unescape($d[3]) ."</td>\n";
 		
 		print "</tr>\n";
 		}
@@ -114,6 +105,5 @@
 	</tr>
 </table>
 
-  </head>
- </body>
+</body>
 </html>
