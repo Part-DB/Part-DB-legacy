@@ -72,7 +72,7 @@
 		// execute the SQL query (DON'T USE smart_escape HERE, because
 		// it breaks the query)
 		$kw = '\'%'. mysql_escape_string($_REQUEST['keyword']) .'%\'';
-		$query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc',parts.id_category,parts.comment FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id WHERE (parts.name LIKE ".$kw.") OR (parts.comment LIKE ".$kw.") OR (parts.supplierpartnr LIKE ".$kw.") OR (storeloc.name LIKE ".$kw.") ORDER BY parts.id_category,parts.name ASC;";
+		$query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc',parts.comment,parts.id_category FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id WHERE (parts.name LIKE ".$kw.") OR (parts.comment LIKE ".$kw.") OR (parts.supplierpartnr LIKE ".$kw.") OR (storeloc.name LIKE ".$kw.") ORDER BY parts.id_category,parts.name ASC;";
 		debug_print ($query."<br>");
 		$result = mysql_query ($query);
 	
@@ -81,13 +81,13 @@
 			// an invalid category id.
 		while ( $d = mysql_fetch_row ($result) )
 		{
-		if ($prevcat != $d[6])
+		if ($prevcat != $d[7])
 		{
 			/* this part is in a different category than
 			   the previous. */
-			print "<tr><td class=\"tdtop\" colspan=\"7\">Treffer in der Kategorie ". show_bt($d[6]) ."</td></tr>\n";
-			print "<tr class=\"trcat\"><td></td><td>Name</td><td>Vorh./<br>Min.Best.</td><td>Footprint</td><td>Lagerort</td><td align=\"center\">-</td><td align=\"center\">+</td></tr>\n";
-			$prevcat = $d[6];
+			print "<tr><td class=\"tdtop\" colspan=\"8\">Treffer in der Kategorie ". show_bt($d[7]) ."</td></tr>\n";
+			print "<tr class=\"trcat\"><td></td> <td>Name</td> <td>Vorh./<br>Min.Best.</td> <td>Footprint</td> <td>Lagerort</td> <td>Datenbl&auml;tter</td> <td align=\"center\">-</td> <td align=\"center\">+</td></tr>\n";
+			$prevcat = $d[7];
 			$rowcount = 0;
 		}
 		// the alternating background colors are created here
@@ -113,11 +113,28 @@
 			print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
 			}
 		}
-		print "<td class=\"tdrow1\"><a title=\"Kommentar: " . smart_unescape($d[7]) . "\"";
+		print "<td class=\"tdrow1\"><a title=\"Kommentar: " . smart_unescape($d[6]) . "\"";
 		print "href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td>";
 		print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."/". smart_unescape($d[3]) ."</td>";
 		print "<td class=\"tdrow3\">". smart_unescape($d[4]) ."</td>";
 		print "<td class=\"tdrow4\">". smart_unescape($d[5]) . "</td>";
+        // datasheet links
+        print "<td class=\"tdrow5\">";
+        $test = ($d[1]) ;
+        $query = "SELECT datasheeturl FROM datasheets WHERE part_id=". smart_escape($d[0]) ." ORDER BY datasheeturl ASC;";
+        $result_ds = mysql_query($query);
+        $dnew = mysql_fetch_row ($result_ds); #)
+        // Mit ICONS 
+        print "<a title=\"alldatasheet.com\" href=\"http://www.alldatasheet.com/view.jsp?Searchword=". urlencode( smart_unescape( $test)) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/ads.png\" alt=\"logo\"></a>";
+        print "<a title=\"Reichelt.de\" href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". urlencode( smart_unescape( $test)) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/reichelt.png\" alt=\"logo\"></a>";
+        // Ohne ICONS
+        print "<a href=\"http://search.datasheetcatalog.net/key/". urlencode( smart_unescape( $test)) ."\" target=\"_blank\">DC </a>";
+        // show local datasheet if availible
+        if( !empty($dnew[0]) )
+        {
+            print "<a href=\"". urlencode( smart_unescape( $dnew[0])) ."\">Datenblatt</a> ";
+        }
+        print "</td>";
 		
 		//build the "-" button, only if more then 0 parts on stock
 		print "<td class=\"tdrow6\"><form action=\"\" method=\"post\">";

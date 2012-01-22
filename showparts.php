@@ -163,7 +163,7 @@
 
 		if ( (strcmp ($_REQUEST["type"], "index") == 0) || (strcmp ($_REQUEST["type"], "noprice") == 0) )
 		{
-		print "<tr  class=\"trcat\"><td></td><td>Name</td><td>Vorh./<br>Min.Best.</td><td>Footprint</td><td>Lagerort</td><td>Datenbl&auml;tter</td><td align=\"center\">-</td><td align=\"center\">+</td></tr>\n";
+		print "<tr class=\"trcat\"><td></td> <td>Name</td> <td>Vorh./<br>Min.Best.</td> <td>Footprint</td> <td>Lagerort</td> <td>Datenbl&auml;tter</td> <td align=\"center\">-</td> <td align=\"center\">+</td></tr>\n";
 
 		/* the only difference is the query */
 		if (strcmp ($_REQUEST["type"], "index") == 0)
@@ -199,30 +199,27 @@
 				print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
 				}
 			}
-			print "<td class=\"tdrow1\"><a title=\"";
-			print "Kommentar: " . smart_unescape($d[6]);
+			print "<td class=\"tdrow1\"><a title=\"Kommentar: " . smart_unescape($d[6]);
 			print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td>";
 			print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."/". smart_unescape($d[3]) ."</td>";
-			print "<td class=\"tdrow3\">". smart_unescape($d[4]) ."</td><td class=\"tdrow4\">". smart_unescape($d[5]) . "</td>";
+			print "<td class=\"tdrow3\">". smart_unescape($d[4]) ."</td>";
+            print "<td class=\"tdrow4\">". smart_unescape($d[5]) . "</td>";
+            // datasheet links
 			print "<td class=\"tdrow5\">";
 			$test = ($d[1]) ;
 			$query = "SELECT datasheeturl FROM datasheets WHERE part_id=". smart_escape($d[0]) ." ORDER BY datasheeturl ASC;";
 			$result_ds = mysql_query($query);
 			$dnew = mysql_fetch_row ($result_ds); #)
-			if($dnew[0] == NULL)
-			{
 			// Mit ICONS 
-			print "<a title=\"alldatasheet.com\"href=\"http://www.alldatasheet.com/view.jsp?Searchword=". smart_unescape ($test) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/ads.png\" alt=\"logo\"></a>";
-			print "<a title=\"Reichelt.de\"href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". smart_unescape ($test) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/reichelt.png\" alt=\"logo\"></a>";
+			print "<a title=\"alldatasheet.com\" href=\"http://www.alldatasheet.com/view.jsp?Searchword=". urlencode( smart_unescape( $test)) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/ads.png\" alt=\"logo\"></a>";
+			print "<a title=\"Reichelt.de\" href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". urlencode( smart_unescape( $test)) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/reichelt.png\" alt=\"logo\"></a>";
 			// Ohne ICONS
-			print "<a href=\"http://search.datasheetcatalog.net/key/". smart_unescape ($test) ."\" target=\"_blank\">DC </a>";
-			// print "<a href=\"http://www.alldatasheet.com/view.jsp?Searchword=". smart_unescape ($test) ."\" target=\"_blank\">AllDataSheet, </a>";
-			// print "<a href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". smart_unescape ($test) ."\" target=\"_blank\">Reichelt"</a>;
-			}
-			else 
+			print "<a href=\"http://search.datasheetcatalog.net/key/". urlencode( smart_unescape( $test)) ."\" target=\"_blank\">DC </a>";
+            // show local datasheet if availible
+			if( !empty($dnew[0]) )
 			{
-				print "<a href=\"". smart_unescape($dnew[0]) ."\">Datenblatt</a> ";
-			}
+				print "<a href=\"". urlencode( smart_unescape($dnew[0])) ."\">Datenblatt</a> ";
+            }
 			print "</td>";
 			
 			//build the "-" button, only if more then 0 parts on stock
