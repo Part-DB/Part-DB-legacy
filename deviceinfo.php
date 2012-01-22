@@ -271,7 +271,6 @@
 		$sumprice = 0;
 		while ( $d = mysql_fetch_row ($result) )
 		{
-		$q = mysql_fetch_row ($quantity);
 		
 		$rowcount++;
 		if ( ($rowcount & 1) == 0 )
