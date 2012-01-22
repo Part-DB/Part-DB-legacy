@@ -364,7 +364,7 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-			<form method="post" action=\"\">
+			<form method="post" action="">
 				<table>
 				<?PHP
 				print "<tr class=\"trcat\"><td><input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
@@ -500,7 +500,7 @@
 	</tr>
 	<tr>
 		<td class="tdtext">
-			<form method="post" action=\"\">
+			<form method="post" action="">
 				<table>
 					
 					<?PHP
