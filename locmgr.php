@@ -42,10 +42,25 @@
 	 */
 	if (isset($_REQUEST["btn_add"]))
 	{
-		// add a location
-		$query = "INSERT INTO storeloc (name) VALUES (". smart_escape($_REQUEST["locname"]) .");";
-		debug_print ($query);
-		mysql_query ($query);
+        if ($_REQUEST["series"] == "true")
+        {
+            // add location series
+            $query = "INSERT INTO storeloc (name) VALUES ";
+            $start = (int)$_REQUEST["series_start"];
+            $end   = (int)$_REQUEST["series_end"];
+            for ($index = $start; $index <= $end; $index++) {
+                $query = $query."(".smart_escape($_REQUEST["locname"].$index)."), ";
+            }
+            // complete query
+            $query = substr($query, 0, -2).";";
+        }
+        else
+        {
+            // add a location
+            $query = "INSERT INTO storeloc (name) VALUES (". smart_escape($_REQUEST["locname"]) .");";
+        }
+        debug_print ($query);
+        mysql_query ($query);
 	}
 	else if (isset($_REQUEST["btn_del"]))
 	{
@@ -101,6 +116,21 @@
 </head>
 <body class="body">
 
+<script type="text/javascript">
+    function switch_series() {
+        if(document.create.series.checked)
+        {
+            document.create.series_start.disabled=false;
+            document.create.series_end.disabled=false;
+        }
+        else
+        {
+            document.create.series_start.disabled=true;
+            document.create.series_end.disabled=true;
+        }
+    }
+</script> 
+
 <table class="table">
 	<tr>
 		<td class="tdtop">
@@ -111,57 +141,57 @@
 		<td class="tdtext">
 			<form action="" method="get">
 			<table>
-			<tr>
-			<td valign="top">
-			Zu bearbeitenden Lagerort w&auml;hlen:<br>
-			<select name="locsel" size="8">
-			<?PHP
-			$query = "SELECT id,name FROM storeloc ORDER BY name ASC;";
-			debug_print($query);
-			$r = mysql_query ($query);
-	
-			$ncol = mysql_num_rows ($r);
-			for ($i = 0; $i < $ncol; $i++)
-			{
-			$d = mysql_fetch_row ($r);
-			if ($i == 0)
-			print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-			else
-			print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-			}
-			?>
-			</select>
-			</td><td valign="top">
-			<table>
-			<tr>
-			<td>
-			<input type="submit" name="btn_del" value="L&ouml;schen">
-			</td>
-			</tr>
-			<tr><td>&nbsp;</td></tr>
-			<tr>
-			<td>
-			Neuer Name:<br>
-			<input type="text" name="nn">
-			<input type="submit" name="btn_rn" value="Umbenennen!">
-			</td>
-			</tr>
-			</table>
-			</td>
-			</tr>
+                <tr>
+                <td valign="top">
+                Zu bearbeitenden Lagerort w&auml;hlen:<br>
+                <select name="locsel" size="8">
+                <?PHP
+                $query = "SELECT id,name FROM storeloc ORDER BY name ASC;";
+                debug_print($query);
+                $r = mysql_query ($query);
+        
+                $ncol = mysql_num_rows ($r);
+                for ($i = 0; $i < $ncol; $i++)
+                {
+                    $d = mysql_fetch_row ($r);
+                    if ($i == 0)
+                    print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+                    else
+                    print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+                }
+                ?>
+                </select>
+                </td><td valign="top">
+                <table>
+                    <tr>
+                    <td>
+                    <input type="submit" name="btn_del" value="L&ouml;schen">
+                    </td>
+                    </tr>
+                    <tr><td>&nbsp;</td></tr>
+                    <tr>
+                    <td>
+                    Neuer Name:<br>
+                    <input type="text" name="nn">
+                    <input type="submit" name="btn_rn" value="Umbenennen!">
+                    </td>
+                    </tr>
+                </table>
+                </td>
+                </tr>
 			</table>
 			</form>
-			<form action="" method="post">
+			<form action="" method="post" name="create">
 			Neuer Lagerort:<input type="text" name="locname">
-			<input type="submit" name="btn_add" value="Anlegen">
+			<input type="submit" name="btn_add" value="Anlegen"><br>
+            <input type="checkbox" name="series" value="true" onclick="switch_series()">Serie erzeugen&nbsp;&nbsp;
+            von <input type="text" name="series_start" size="5" value="1" disabled>
+            bis <input type="text" name="series_end"   size="5" value="9" disabled>
 			</form>
 		</td>
 	</tr>
 </table>
 
- </body>
+</body>
 </html>
-
-<?PHP
-	}
-?>
+<?PHP } ?>
