@@ -63,7 +63,16 @@
 		<td class="tdtext">
 		<form action="search.php" method="get" target="_content_frame">
             <input type="text" name="keyword" size="20" maxlength="20">
-            <input type="submit" name="s" value="Los!">
+            <input type="submit" name="s" value="Los!"><br>
+            <table>
+            <tr><td valign="top">
+            <input type="checkbox" name="search_nam" value="true" checked>Name<br>
+            <input type="checkbox" name="search_com" value="true" checked>Kommentar<br>
+            <input type="checkbox" name="search_sup" value="true" checked>Bestellnr.<br>
+            </td><td valign="top">
+            <input type="checkbox" name="search_loc" value="true" checked>Lagerort<br>
+            <input type="checkbox" name="search_fpr" value="true" checked>Footprint<br>
+            </td></tr></table>
 		</form>
 		</td>
 	</tr>

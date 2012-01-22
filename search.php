@@ -72,7 +72,13 @@
 		// execute the SQL query (DON'T USE smart_escape HERE, because
 		// it breaks the query)
 		$kw = '\'%'. mysql_escape_string($_REQUEST['keyword']) .'%\'';
-		$query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc',parts.comment,parts.id_category FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id WHERE (parts.name LIKE ".$kw.") OR (parts.comment LIKE ".$kw.") OR (parts.supplierpartnr LIKE ".$kw.") OR (storeloc.name LIKE ".$kw.") ORDER BY parts.id_category,parts.name ASC;";
+        // build search strings
+        if ( $_REQUEST['search_nam'] == "true") { $query_nam = " OR (parts.name LIKE ".$kw.")";           } 
+        if ( $_REQUEST['search_com'] == "true") { $query_com = " OR (parts.comment LIKE ".$kw.")";        }
+        if ( $_REQUEST['search_sup'] == "true") { $query_sup = " OR (parts.supplierpartnr LIKE ".$kw.")"; }
+        if ( $_REQUEST['search_loc'] == "true") { $query_loc = " OR (storeloc.name LIKE ".$kw.")";        }
+        if ( $_REQUEST['search_fpr'] == "true") { $query_fpr = " OR (footprints.name LIKE ".$kw.")";      }
+		$query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc',parts.comment,parts.id_category FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id WHERE FALSE ".$query_nam.$query_com.$query_sup.$query_loc.$query_fpr." ORDER BY parts.id_category,parts.name ASC;";
 		debug_print ($query."<br>");
 		$result = mysql_query ($query);
 	
@@ -113,7 +119,7 @@
 			print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
 			}
 		}
-		print "<td class=\"tdrow1\"><a title=\"Kommentar: " . smart_unescape($d[6]) . "\"";
+		print "<td class=\"tdrow1\"><a title=\"Kommentar: " . htmlspecialchars( smart_unescape($d[6])) . "\"";
 		print "href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td>";
 		print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."/". smart_unescape($d[3]) ."</td>";
 		print "<td class=\"tdrow3\">". smart_unescape($d[4]) ."</td>";

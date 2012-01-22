@@ -199,7 +199,7 @@
 				print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
 				}
 			}
-			print "<td class=\"tdrow1\"><a title=\"Kommentar: " . smart_unescape($d[6]);
+			print "<td class=\"tdrow1\"><a title=\"Kommentar: " . htmlspecialchars( smart_unescape($d[6]));
 			print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td>";
 			print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."/". smart_unescape($d[3]) ."</td>";
 			print "<td class=\"tdrow3\">". smart_unescape($d[4]) ."</td>";
