@@ -43,8 +43,19 @@
 
 	if ( strcmp ($_REQUEST["action"], "edit") == 0 )
 	{
-		$query = "UPDATE parts SET name=". smart_escape($_REQUEST["p_name"]) .",instock=". smart_escape($_REQUEST["p_instock"]) .", mininstock=". smart_escape($_REQUEST["p_mininstock"]) .", id_footprint=". smart_escape($_REQUEST["p_footprint"]) .", id_storeloc=". smart_escape($_REQUEST["p_storeloc"]) .", id_supplier=". smart_escape($_REQUEST["p_supplier"]) .", supplierpartnr=". smart_escape($_REQUEST["p_supplierpartnr"]) .", comment=". smart_escape($_REQUEST["p_comment"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
-		debug_print ($query);
+		$query = 
+            "UPDATE parts ".
+            "SET name=".        smart_escape($_REQUEST["p_name"])           .",".
+            "instock=".         smart_escape($_REQUEST["p_instock"])        .",".
+            "mininstock=".      smart_escape($_REQUEST["p_mininstock"])     .",".
+            "id_footprint=".    smart_escape($_REQUEST["p_footprint"])      .",".
+            "id_storeloc=".     smart_escape($_REQUEST["p_storeloc"])       .",".
+            "id_supplier=".     smart_escape($_REQUEST["p_supplier"])       .",".
+            "supplierpartnr=".  smart_escape($_REQUEST["p_supplierpartnr"]) .",".
+            "comment=".         smart_escape($_REQUEST["p_comment"])        ." ".
+            "WHERE id=".        smart_escape($_REQUEST["pid"])              ." ".
+            "LIMIT 1;";
+        debug_print ($query);
 		mysql_query ($query);
 		print "<script>window.close();</script>\n";
 	}
@@ -77,7 +88,7 @@
 			print "<table class=\"table\">\n";
 			print "<tr><td class=\"tdtop\"><div style=\"color:red;\">M&ouml;chten Sie das Bauteil &quot;". lookup_part_name ($_REQUEST["pid"]) ."&quot; wirklich l&ouml;schen? </td></tr>\n";
 			print "<tr><td class=\"tdtext\"><table><tr><td></div>Der L&ouml;schvorgang ist irreversibel!</td></tr>\n";
-			print "<tr><td><form action=\"editpartinfo.php\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $_REQUEST["pid"] ."\"></td></tr>\n";
+			print "<tr><td><form action=\"\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $_REQUEST["pid"] ."\"></td></tr>\n";
 			print "<tr><td><input type=\"hidden\" name=\"action\" value=\"part_del\"><input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen!\"><input type=\"submit\" name=\"del_ok\" value=\"L&ouml;schen!\"></td></tr>\n";
 			print "</table></td></tr></table></form></div></body></html>\n";
 		}
@@ -123,7 +134,7 @@
 				print "<table class=\"table\">";
 				print "<tr><td class=\"tdtop\"><div style=\"color:red\">M&ouml;chten Sie das ausgew&auml;hlte Bild/die ausgew&auml;hlen Bilder wirklich l&ouml;schen?</div></td></tr>";
 				print "<tr><td class=\"tdtext\"><table><tr><td>Der L&ouml;schvorgang ist irreversibel!</td></tr>";
-				print "<tr><td><form action=\"editpartinfo.php\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $_REQUEST["pid"] ."\"><input type=\"hidden\" name=\"action\" value=\"img_mgr\">";
+				print "<tr><td><form action=\"\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $_REQUEST["pid"] ."\"><input type=\"hidden\" name=\"action\" value=\"img_mgr\">";
 				for ($i = 0; $i < count($img_del_id_array); $i++)
 				{
 					print "<input type=\"hidden\" name=\"del_img[]\" value=\"". $img_del_id_array[$i] ."\">";
@@ -238,7 +249,7 @@
 			}
 			// -->
 			</script>
-			<form action="editpartinfo.php" method="get">
+			<form action="" method="get">
 			<input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
 			<table>
 				<?PHP  
@@ -423,7 +434,7 @@
 			{
 				// there's at least one picture
 				?>
-				<form action="editpartinfo.php" method="get">
+				<form action="" method="get">
 				<input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
 				<input type="hidden" name="action" value="img_mgr">
 				<tr>
@@ -457,7 +468,7 @@
 			</td></tr>
 			<tr><td>
 			Hier k&ouml;nnen Sie Bilder hochladen. Im Moment werden JPG, PNG und GIF Dateien unterst&uuml;tzt.
-			<form enctype="multipart/form-data" action="editpartinfo.php" method="post">
+			<form enctype="multipart/form-data" action="" method="post">
 			<input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
 			<input type="hidden" name="action" value="img_add">
 			<input type="file" name="uploaded_img">
@@ -512,7 +523,7 @@
 			
             </td></tr>
 			<tr><td>
-			<form action="editpartinfo.php" method="get">
+			<form action="" method="get">
 			URL des hinzuf&uuml;genden Datenblattes:
 			<input type="text" name="ds_url" value="" size="40">
 			<input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
@@ -533,7 +544,7 @@
 <table class="table">
 	<tr>
 		<td class="tdtop">
-		Bauteiel L&ouml;schen
+		Bauteil l&ouml;schen
 		</td>
 	</tr>
 	<tr>

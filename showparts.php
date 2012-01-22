@@ -106,7 +106,7 @@
 
 		if ( strcmp ($_REQUEST["type"], "toless") == 0 )
 		{
-		print "<form method=\"get\"><input type=\"hidden\" name=\"cid\" value=\"0\"><input type=\"hidden\" name=\"type\" value=\"toless\">\nLieferant(en):<select name=\"sup_id\">";
+		print "<h2>Nachzubestellende Teile</h2><form method=\"get\"><input type=\"hidden\" name=\"cid\" value=\"0\"><input type=\"hidden\" name=\"type\" value=\"toless\">\nLieferant(en):<select name=\"sup_id\">";
 
 		if (! isset($_REQUEST["sup_id"]) )
 			print "<option selected value=\"0\">Alle</option>";
@@ -169,7 +169,21 @@
 		if (strcmp ($_REQUEST["type"], "index") == 0)
 			$query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc',parts.comment FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id WHERE (". $catclause .") ORDER BY name ASC;";
 		else
-			$query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc',parts.comment FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id LEFT JOIN preise ON parts.id=preise.part_id WHERE (". $catclause .") AND (preise.id IS NULL) ORDER BY name ASC;";
+			$query = 
+                "SELECT ".
+                "parts.id,".
+                "parts.name,".
+                "parts.instock,".
+                "parts.mininstock,".
+                "footprints.name AS 'footprint',".
+                "storeloc.name AS 'loc',".
+                "parts.comment ".
+                "FROM parts ".
+                "LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
+                "LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id ".
+                "LEFT JOIN preise ON parts.id=preise.part_id ".
+                "WHERE (". $catclause .") AND (preise.id IS NULL) ".
+                "ORDER BY name ASC;";
 
 		debug_print ($query);
 		$result = mysql_query ($query);
@@ -246,7 +260,22 @@
 		{
 		print "<tr class=\"trcat\"><td></td><td>Name</td><td>Ausstehend</td><td>Vorhanden</td><td>Min. Bestand</td><td>Footprint</td><td>Lagerort</td><td>Datenbl&auml;tter</td></tr>\n";
 
-		$query = "SELECT parts.id,parts.name,SUM(pending_orders.quantity),parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc' FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id INNER JOIN pending_orders ON parts.id=pending_orders.part_id WHERE (". $catclause .") GROUP BY (pending_orders.part_id) ORDER BY name ASC;";
+		$query = 
+            "SELECT ".
+            "parts.id,".
+            "parts.name,".
+            "SUM(pending_orders.quantity),".
+            "parts.instock,".
+            "parts.mininstock,".
+            "footprints.name AS 'footprint',".
+            "storeloc.name AS 'loc' ".
+            "FROM parts ".
+            "LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
+            "LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id ".
+            "INNER JOIN pending_orders ON parts.id=pending_orders.part_id ".
+            "WHERE (". $catclause .") ".
+            "GROUP BY (pending_orders.part_id) ".
+            "ORDER BY name ASC;";
 
 		debug_print ($query);
 		$result = mysql_query ($query);
