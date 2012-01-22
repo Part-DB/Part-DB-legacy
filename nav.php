@@ -33,7 +33,6 @@
 	function buildtree ($pid, $parentId)
 	{
 		$query = "SELECT id,name FROM categories WHERE parentnode=". smart_escape($pid) ." ORDER BY categories.name ASC;";
-		debug_print($query);
 		$r = mysql_query ($query);
 		while ( $d = mysql_fetch_row ($r) )
 		{
@@ -106,8 +105,27 @@
 		</td>
 	</tr>
 </table>
+<table class="tablenone">
+</br>
+</table>
 
 <br>
+
+<table class="table">
+	<tr>
+		<td class="tdtop">
+		Baugruppen
+		</td>
+	</tr>
+	<tr>
+		<td class="tdtext">
+		<a href="device.php" target="_content_frame">Baugruppen</a>
+		</td>
+	</tr>
+</table>
+
+<br>
+
 
 <table class="table">
 	<tr>

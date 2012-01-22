@@ -80,7 +80,7 @@
 <table class="table">
 	<tr>
 		<td class="tdstartup">
-		  <img src="img/partdb/partdb.png" alt="logo"><b>Part-DB V0.1.5</b><img src="img/partdb/partdb.png" alt="logo">
+		  <img src="img/partdb/partdb.png" alt="logo"><b>Part-DB V0.2.0</b><img src="img/partdb/partdb.png" alt="logo">
 		</td>
 	</tr>
 </table>

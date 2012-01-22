@@ -91,6 +91,16 @@
 		return (smart_unescape($d[0]));
 	}
 	
+	function lookup_device_name ($id)
+	{
+		$query = "SELECT name FROM devices WHERE id=". smart_escape($id) .";";
+		debug_print($query);
+		$r = mysql_query ($query);
+		$d = mysql_fetch_row ($r);
+
+		return (smart_unescape($d[0]));
+	}
+	
 	function lookup_location_name ($id)
 	{
 		$query = "SELECT name FROM storeloc WHERE id=". smart_escape($id) .";";
