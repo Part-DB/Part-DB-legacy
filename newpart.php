@@ -26,13 +26,13 @@
         include ("lib.php");
         partdb_init();
        
-        $NewStorage = "";
+        $NewStorage     = "";
         $NewDistributor = "";
-        $NewFootprint = "";
+        $NewFootprint   = "";
        
         //global params to
-        $Footprint = $_REQUEST["p_footprint"];
-        $Storage = $_REQUEST["p_storeloc"];
+        $Footprint   = $_REQUEST["p_footprint"];
+        $Storage     = $_REQUEST["p_storeloc"];
         $Distributor = $_REQUEST["p_supplier"];
 
         if(isset($_REQUEST["AddPart"]))
@@ -40,22 +40,42 @@
                 /* some sanity checks */
                 if ( (strcmp ($_REQUEST["p_footprint"], "X") == 0) || (strcmp ($_REQUEST["p_storeloc"], "X") == 0) || (strcmp ($_REQUEST["p_supplier"], "X") == 0) )
                 {
-                        print "<h1>Fehler</h1>";
+                    print "<h2>\nFehler:</h2>\n";
+                        if (strcmp ($_REQUEST["p_footprint"], "X") == 0) { print "kein Footprint<br>"; }
+                        if (strcmp ($_REQUEST["p_storeloc"],  "X") == 0) { print "kein Lagerort<br>"; }
+                        if (strcmp ($_REQUEST["p_supplier"],  "X") == 0) { print "kein Lieferant<br>"; }
+                    print "<br>\n";
+
+                    // keep original name
+                    $p_name = $_REQUEST["p_name"];
                 }
                 else
                 {
-                        $query = "INSERT INTO parts (id_category,name,instock,mininstock,comment,id_footprint,id_storeloc,id_supplier,supplierpartnr) VALUES (". smart_escape($_REQUEST["cid"]) .",". smart_escape($_REQUEST["p_name"]) .",". smart_escape($_REQUEST["p_instock"]) .",". smart_escape($_REQUEST["p_mininstock"]) .",". smart_escape($_REQUEST["p_comment"]) .",". smart_escape($_REQUEST["p_footprint"]) .",". smart_escape($_REQUEST["p_storeloc"]) .",". smart_escape($_REQUEST["p_supplier"]) .",". smart_escape($_REQUEST["p_supplierpartnr"]) .");";
+                    $query = 
+                        "INSERT INTO parts ".
+                        "(id_category,name,instock,mininstock,comment,id_footprint,id_storeloc,id_supplier,supplierpartnr) ".
+                        "VALUES (". 
+                        smart_escape($_REQUEST["cid"]) .",".
+                        smart_escape($_REQUEST["p_name"]) .",".
+                        smart_escape($_REQUEST["p_instock"]) .",".
+                        smart_escape($_REQUEST["p_mininstock"]) .",".
+                        smart_escape($_REQUEST["p_comment"]) .",".
+                        smart_escape($_REQUEST["p_footprint"]) .",".
+                        smart_escape($_REQUEST["p_storeloc"]) .",".
+                        smart_escape($_REQUEST["p_supplier"]) .",".
+                        smart_escape($_REQUEST["p_supplierpartnr"]) .
+                        ");";
                        
-                        debug_print ($query);
-                        $r = mysql_query ($query);
-                        $id = mysql_insert_id();
-                        if(strlen($_REQUEST["URLDatasheet"])!=0)
-                        {
-                            $query = "INSERT INTO datasheets (part_id,datasheeturl) VALUES (".smart_escape($id).",".smart_escape($_REQUEST["URLDatasheet"]).");";
-                            mysql_query($query);
-                        }
-                        if(strlen($_FILES["AddImage"]["tmp_name"]))
-                        {
+                    debug_print ($query);
+                    $r = mysql_query ($query);
+                    $id = mysql_insert_id();
+                    if(strlen($_REQUEST["URLDatasheet"])!=0)
+                    {
+                        $query = "INSERT INTO datasheets (part_id,datasheeturl) VALUES (".smart_escape($id).",".smart_escape($_REQUEST["URLDatasheet"]).");";
+                        mysql_query($query);
+                    }
+                    if(strlen($_FILES["AddImage"]["tmp_name"]))
+                    {
                         if (is_uploaded_file($_FILES["AddImage"]["tmp_name"]))
                         {
                                 /*
@@ -85,9 +105,16 @@
                                 debug_print($query);
                                 mysql_query($query);
                         }
-                        }
-                //close the window on success
-                print "<script>window.close();</script>";
+                    }
+                    // close the window on success
+                    // but only if we don't want another part
+                    if ( !($_REQUEST['addmoreparts'] == "true"))
+                    {
+                        print "<script>window.close();</script>";
+                    }
+
+                    // autoincrement name
+                    $p_name = ++$_REQUEST["p_name"];
                 }
         }
         //add a new storage if it not exists, and save the name in global var to select while creating drop downbox
@@ -163,21 +190,26 @@
         <tr>
                 <td class="tdtext">
                 <form enctype="multipart/form-data" action="" method="post">
-                <input type="hidden" name="a" value="add"/>
                 <input type="hidden" name="cid" value="<?PHP print $_REQUEST["cid"]; ?>"/>
                 <table width="100">
                 <tr>
                 <td>Name:</td>
                 <td>
-                <input type="text" name="p_name" value="<?PHP print $_REQUEST["p_name"] ?>"/>
+                <input type="text" name="p_name" value="<?PHP print $p_name ?>" tabindex=\"1\"/>
                 </td>
-                </tr><tr>
+                </tr>
+                
+                <tr>
                 <td>Lagerbestand:</td>
                 <td><input type="text" name="p_instock" value="<?PHP print $_REQUEST["p_instock"] ?>"/></td>
-                </tr><tr>
+                </tr>
+                
+                <tr>
                 <td>Min. Bestand:</td>
                 <td><input type="text" name="p_mininstock" value="<?PHP print $_REQUEST["p_mininstock"] ?>"/></td>
-                </tr><tr>
+                </tr>
+                
+                <tr>
                 <td>Footprint:</td>
                 <td>
                 <select name="p_footprint">
@@ -206,7 +238,9 @@
                 <input type="text" name="NewFootprint" value="Direkteingabe/Neu" class="cleardefault"/>
                 <input type="submit" name="AddFootprint" value="Search/Add"/>
                 </td>
-                </tr><tr>
+                </tr>
+                
+                <tr>
                 <td>Lagerort:</td>
                 <td>
                 <select name="p_storeloc">
@@ -235,7 +269,9 @@
                 <input type="text" name="NewStorage" value="Direkteingabe/Neu" class="cleardefault"/>
                 <input type="submit" name="AddStorage" value="Search/Add"/>
                 </td>
-                </tr><tr>
+                </tr>
+                
+                <tr>
                 <td>Lieferant:</td>
                 <td>
                 <select name="p_supplier">
@@ -264,24 +300,34 @@
                 <input type="text" name="NewDistributor" value="Direkteingabe/Neu" class="cleardefault"/>
                 <input type="submit" name="AddDistributor" value="Search/Add"/>
                 </td>
-                </tr><tr>
+                </tr>
+                
+                <tr>
                 <td>Bestell-Nr.:</td>
                 <td><input type="text" name="p_supplierpartnr" value="<?PHP print $_REQUEST["p_supplierpartnr"] ?>"></td>
-                </tr><tr>
+                </tr>
+                
+                <tr>
                 <td valign="top">Kommentar:</td>
                 <td colspan="2"><textarea name="p_comment" rows=2 cols=40><?PHP print $_REQUEST["p_comment"] ?></textarea></td>
                 </tr>
                 <tr><td>Bild:</td>
                 <td><input type="file" name="AddImage"/></td>
                 </tr>
+
                 <tr>
                 <td>Datenblatt (URL):</td>
                 <td><input type="text" name="URLDatasheet" value="<?PHP print $_REQUEST["URLDatasheets"] ?>"/></td>
                 </tr>
-                <tr><td colspan="2"><input type="submit" name="AddPart" value="Teil Hinzuf&uuml;gen"></td></tr>
+                <tr><td colspan="2"><input type="submit" name="AddPart" value="Teil hinzuf&uuml;gen"></td></tr>
+
+                <tr>
+                <td colspan="2">Weitere Bauteile erfassen:
+                <input type="checkbox" name="addmoreparts" value="true" <?PHP if($_REQUEST["addmoreparts"]) print "checked = \"checked\""; ?>></td>
+                </tr>
                 </table>
                 </form>
-                </td>
+        </td>
         </tr>
 </table>
 
