@@ -33,9 +33,9 @@
 		   it. But this does not protect your data from malcious
 		   users. Each user should run his PHP scripts with his
 		   own user id. */
-		$link = mysql_connect ("localhost", "part-db", "PARTdb");
+		$link = mysql_connect ("localhost", "test-part-db", "test-part-db");
 		if ($link)
-		mysql_select_db ("part-db");
+		mysql_select_db ("test-part-db");
 	else
 	{
 		echo "connect to DB failed", mysql_errno(), "<br>", mysql_error(), "<br>";
