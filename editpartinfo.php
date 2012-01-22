@@ -301,7 +301,7 @@
 			print "<tr><td valign='top'><b>Kommentar:</b></td><td><textarea name='p_comment' rows=2 cols=20>". smart_unescape($d[8]) ."</textarea></td></tr>\n";
 			}
 			?>
-			<tr><td><input type="hidden" name="action" value="text"><input type="submit" value="&Auml;ndern!"></td></tr>
+			<tr><td><input type="hidden" name="action" value="edit"><input type="submit" value="&Auml;ndern!"></td></tr>
             </table>
 			</form>
 
