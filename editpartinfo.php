@@ -155,7 +155,7 @@
 			$a = explode(".",$_FILES['uploaded_img']['name']);
 			$fname = "img_";
 			$fname .= md5_file($_FILES['uploaded_img']['tmp_name']);
-			if (($a[count($a)-1] == "jpg") || ($a[count($a)-1] == "jpg"))
+			if (($a[count($a)-1] == "jpg") || ($a[count($a)-1] == "jpeg"))
 			{
 				$fname .= ".jpg";
 			}
@@ -456,7 +456,7 @@
 			?>
 			</td></tr>
 			<tr><td>
-			Hier k&ouml;nnen Sie Bilder hochladen. Im Moment werden nur JPG Dateien unterst&uuml;tzt.
+			Hier k&ouml;nnen Sie Bilder hochladen. Im Moment werden JPG, PNG und GIF Dateien unterst&uuml;tzt.
 			<form enctype="multipart/form-data" action="editpartinfo.php" method="post">
 			<input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
 			<input type="hidden" name="action" value="img_add">
