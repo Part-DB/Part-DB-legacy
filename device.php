@@ -47,7 +47,7 @@
 		<td class="tdtext">
 			<form method="post">
 			Gerätenamen
-			<input type="edit" name="newdevicename" width="10" maxlength="20" >
+			<input type="edit" name="newdevicename" width="10" maxlength="50" >
 			<input type="hidden" name="action" value="createdevice">
 			<input type="submit" value="OK"> </br>
 			</form>	
@@ -81,9 +81,8 @@
 		<table >
 
 		<?PHP
-		//$query = "SELECT id, name FROM devices;"; 
 		$query = "SELECT devices.id, devices.name, SUM(part_device.quantity), COUNT(part_device.quantity) ".
-		"FROM part_device JOIN devices ".
+		"FROM devices LEFT JOIN part_device ".
 		"ON (devices.id =  part_device.id_device) GROUP BY part_device.id_device ORDER BY devices.name ASC;";
 		debug_print($query);
 		$result = mysql_query ($query);
