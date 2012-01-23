@@ -26,6 +26,8 @@
 		Some major changes concerning the escaping of arguments
 		supplied in SQL queries. Added some comments, too.
 */
+	
+
 	/*
 	 * debug_print is used for printing the SQL queries
 	 * before submitting the queries to the DB. The
@@ -38,11 +40,25 @@
 		if ($partdb_debug == 1)
 			print $t;
 	}
-	
-	include("config.php");
 
 	/*@@@ some helper functions down below @@@*/
-	
+
+
+	function partdb_init()
+	{
+	    include("config.php");
+		
+        /* Enter your MySQL username and password in config.php */
+		$link = mysql_connect ($mysql_server, $db_user, $db_password);
+		if ($link)
+		    mysql_select_db ($database);
+	    else
+	    {
+		    echo "connect to DB failed", mysql_errno(), "<br>", mysql_error(), "<br>";
+	    }
+	}
+
+
 	/* stolen from the PHP docs */
 	function smart_escape($value)
 	{

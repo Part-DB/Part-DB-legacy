@@ -45,8 +45,9 @@
 		$query = "SELECT SUM(preise.preis*parts.instock) FROM parts LEFT JOIN preise ON parts.id=preise.part_id ORDER BY name ASC;";
 		$r = mysql_query ($query);
 		$d = mysql_fetch_row ($r);
-		print $d[0];
-		?>&euro;<br>
+        include("config.php");
+		print $d[0]." ".$currency;
+		?><br>
 
 		<b>Mit Preis erfasste Bauteile:</b>
 		<?PHP

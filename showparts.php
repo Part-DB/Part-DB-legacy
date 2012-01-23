@@ -329,7 +329,8 @@
 		debug_print ($query);
 		$result = mysql_query ($query);
 		$d = mysql_fetch_row ($result);
-		print "<tr><td colspan=\"4\">Wert der zu bestellenden Artikel: ".$d[0]."&euro;</td></tr>";
+        include("config.php");
+		print "<tr><td colspan=\"4\">Wert der zu bestellenden Artikel: ".$d[0]." ".$currency."</td></tr>";
 
 		/****/
 		print "<tr class=\"trcat\"><td>Name</td><td>Footprint</td><td>Bestellmenge</td><td>Lieferant</td><td>Bestell-Nr.</td><td>Lagerort</td><td>Hinzuf&uuml;gen</td></tr>";

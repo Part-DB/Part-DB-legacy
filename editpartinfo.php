@@ -390,7 +390,8 @@
                 if ($d[2] == 1)
                 {
                     //print " (manuell)";
-                    print " &euro;<br>";
+                    include( "config.php");
+                    print " ".$currency."<br>";
                 }
             ?>
                 <form action="" method="get">
