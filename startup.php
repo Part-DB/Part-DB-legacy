@@ -27,6 +27,7 @@
 		the text color has been changed to red. Some people suggested
 		this long ago ...
 */
+    include("config.php");
 	include("lib.php");
 	partdb_init();
 
@@ -80,7 +81,7 @@
 <table class="table">
 	<tr>
 		<td class="tdstartup">
-		  <img src="img/partdb/partdb.png" alt="logo"><b>Part-DB V0.2.0</b><img src="img/partdb/partdb.png" alt="logo">
+		  <img src="img/partdb/partdb.png" alt="logo"><b><?php print $startup_title ?></b><img src="img/partdb/partdb.png" alt="logo">
 		</td>
 	</tr>
 </table>
@@ -148,6 +149,10 @@
 	</tr>
 </table>
 
+<?php
+    if (! $disable_update_list) {
+?>
+
 <br>
 
 <table class="table">
@@ -182,6 +187,10 @@
 		</td>
 	</tr>
 </table>
+
+<?php
+    }
+?>
 
 </body>
 </html>

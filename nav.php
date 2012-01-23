@@ -23,6 +23,7 @@
 	04/03/06:
 		Added escape/unescape calls
 */
+	include('config.php');
 	include('lib.php');
 	partdb_init();
 
@@ -106,6 +107,9 @@
 	</tr>
 </table>
 
+<?php
+    if (! $disable_devices) {
+?>
 <br>
 
 <table class="table">
@@ -120,6 +124,10 @@
 		</td>
 	</tr>
 </table>
+
+<?php
+    }
+?>
 
 <br>
 
@@ -152,7 +160,9 @@
 		<a href="showparts.php?cid=0&amp;type=toless" target="_content_frame">Zu bestellende Teile</a><br>
 		<a href="showparts.php?cid=0&amp;type=noprice" target="_content_frame">Teile ohne Preis</a><br>
 		<a href="stats.php" target="_content_frame">Statistik</a><br>
+        <?php if (! $disable_help) { ?>
 		<a href="help.php" target="_content_frame">Hilfe</a>
+        <?php } ?>
 		</td>
 	</tr>
 </table>
