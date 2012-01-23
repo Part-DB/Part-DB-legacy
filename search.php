@@ -154,7 +154,7 @@
         // show local datasheet if availible
         if( !empty($dnew[0]) )
         {
-            print "<a href=\"". urlencode( smart_unescape( $dnew[0])) ."\">Datenblatt</a> ";
+            print "<a href=\"". smart_unescape( $dnew[0]) ."\">Datenblatt</a> ";
         }
         print "</td>";
 		
