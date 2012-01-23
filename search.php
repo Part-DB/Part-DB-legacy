@@ -75,10 +75,26 @@
         // build search strings
         if ( $_REQUEST['search_nam'] == "true") { $query_nam = " OR (parts.name LIKE ".$kw.")";           } 
         if ( $_REQUEST['search_com'] == "true") { $query_com = " OR (parts.comment LIKE ".$kw.")";        }
-        if ( $_REQUEST['search_sup'] == "true") { $query_sup = " OR (parts.supplierpartnr LIKE ".$kw.")"; }
+        if ( $_REQUEST['search_sup'] == "true") { $query_sup = " OR (suppliers.name LIKE ".$kw.")";       }
+        if ( $_REQUEST['search_snr'] == "true") { $query_snr = " OR (parts.supplierpartnr LIKE ".$kw.")"; }
         if ( $_REQUEST['search_loc'] == "true") { $query_loc = " OR (storeloc.name LIKE ".$kw.")";        }
         if ( $_REQUEST['search_fpr'] == "true") { $query_fpr = " OR (footprints.name LIKE ".$kw.")";      }
-		$query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc',parts.comment,parts.id_category FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id WHERE FALSE ".$query_nam.$query_com.$query_sup.$query_loc.$query_fpr." ORDER BY parts.id_category,parts.name ASC;";
+		$query = 
+            "SELECT ".
+            "parts.id,".
+            "parts.name,".
+            "parts.instock,".
+            "parts.mininstock,".
+            "footprints.name AS 'footprint',".
+            "storeloc.name   AS 'loc',".
+            "parts.comment,".
+            "parts.id_category ".
+            "FROM parts ".
+            "LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
+            "LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id ".
+            "LEFT JOIN suppliers  ON parts.id_supplier=suppliers.id ".
+            "WHERE FALSE ".$query_nam.$query_com.$query_sup.$query_snr.$query_loc.$query_fpr.
+            " ORDER BY parts.id_category,parts.name ASC;";
 		debug_print ($query."<br>");
 		$result = mysql_query ($query);
 	

@@ -68,10 +68,11 @@
             <tr><td valign="top">
             <input type="checkbox" name="search_nam" value="true" checked>Name<br>
             <input type="checkbox" name="search_com" value="true" checked>Kommentar<br>
-            <input type="checkbox" name="search_sup" value="true" checked>Bestellnr.<br>
+            <input type="checkbox" name="search_fpr" value="true" checked>Footprint<br>
             </td><td valign="top">
             <input type="checkbox" name="search_loc" value="true" checked>Lagerort<br>
-            <input type="checkbox" name="search_fpr" value="true" checked>Footprint<br>
+            <input type="checkbox" name="search_sup" value="true"        >Lieferant<br>
+            <input type="checkbox" name="search_snr" value="true"        >Bestellnr.<br>
             </td></tr></table>
 		</form>
 		</td>
