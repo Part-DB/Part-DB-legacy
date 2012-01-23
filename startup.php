@@ -35,14 +35,23 @@
 	 * This variable determines wheater the user is reminded to add
 	 * add least one loc, one footprint, one category and one supplier.
 	 */
-	$display_warning = 0;
+	$display_warning = false;
+    // predefines
+    $good = "&#x2714 ";
+    $bad  = "&#x2718 ";
+    // defaults
+    $missing_storeloc  = $good;
+    $missing_footprint = $good;
+    $missing_category  = $good;
+    $missing_supplier  = $good;
 
 	$q = "SELECT id FROM storeloc LIMIT 1;";
-	//debug_print($q);
+	debug_print($q);
 	$r = mysql_query($q) or die ("MySQL-Fehler: " . mysql_error());
 	if (! mysql_num_rows($r))
 	{
-		$display_warning |= 1;
+		$display_warning  = true;
+        $missing_storeloc = $bad;
 	}
 
 	$q = "SELECT id FROM footprints LIMIT 1;";
@@ -50,7 +59,8 @@
 	$r = mysql_query($q);
 	if (! mysql_num_rows($r))
 	{
-		$display_warning |= 1;
+		$display_warning   = true;
+        $missing_footprint = $bad;
 	}
 
 	$q = "SELECT id FROM categories LIMIT 1;";
@@ -58,7 +68,8 @@
 	$r = mysql_query($q);
 	if (! mysql_num_rows($r))
 	{
-		$display_warning |= 1;
+		$display_warning  = true;
+        $missing_category = $bad;
 	}
 
 	$q = "SELECT id FROM suppliers LIMIT 1;";
@@ -66,7 +77,8 @@
 	$r = mysql_query($q);
 	if (! mysql_num_rows($r))
 	{
-		$display_warning |= 1;
+		$display_warning  = true;
+        $missing_supplier = $bad;
 	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -86,32 +98,32 @@
 	</tr>
 </table>
 
-<br>
-
 <?PHP	// Display Warning 
 	if ($display_warning)
 	{
 ?>
+<br>
+
 <table class="table">
 	<tr>
 		  <td class="tdtop">
-		    Warning !!!
+		    Achtung!
 		  </td>
 	</tr>
 	<tr>
 		<td class="tdtext">
-		  Beachten Sie bitte, dass Sie vor der Verwendung der jeweils mindestens</br>
-		  einen Lagerort</br>
-		  ein Footprint</br>
-		  eine Kategorie</br>
-		  und einen Lieferanten</br>
-		  hinzuf&uuml;gen m&uuml;ssen. Die Tools hierf&uuml;r finden Sie links.</br>
+		  Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>
+		  <blockquote><?php print $missing_storeloc  ?>ein     <a href="locmgr.php" target="_content_frame">Lagerort</a>  </blockquote>
+		  <blockquote><?php print $missing_footprint ?>ein     <a href="fpmgr.php"  target="_content_frame">Footprint</a> </blockquote>
+		  <blockquote><?php print $missing_category  ?>eine    <a href="catmgr.php" target="_content_frame">Kategorie</a> </blockquote>
+		  <blockquote><?php print $missing_supplier  ?>und ein <a href="supmgr.php" target="_content_frame">Lieferant</a> </blockquote>
+		  hinzuf&uuml;gt werden muss.
 		</td>
 	</tr>
 </table>
-<?PHP
-	}
-?>
+<?PHP } ?>
+
+<br>
 
 <table class="table">
 	<tr>
