@@ -45,7 +45,6 @@
 		$query = "SELECT SUM(preise.preis*parts.instock) FROM parts LEFT JOIN preise ON parts.id=preise.part_id ORDER BY name ASC;";
 		$r = mysql_query ($query);
 		$d = mysql_fetch_row ($r);
-        include("config.php");
 		print $d[0]." ".$currency;
 		?><br>
 
@@ -88,7 +87,20 @@
 		<b>Anzahl der Kategorien:</b>
 		<?PHP
 		$i = 0;
-		$query = "SELECT id,name FROM categories WHERE parentnode=". smart_escape($pid) ." ORDER BY categories.name ASC;";
+		$query = "SELECT name FROM categories;";
+		debug_print($query);
+		$r = mysql_query ($query);
+		while ( $d = mysql_fetch_row ($r) )
+		{
+		  $i++;
+		}
+		print $i;
+		?><br>
+
+		<b>Anzahl der Baugruppen:</b>
+		<?PHP
+		$i = 0;
+		$query = "SELECT name FROM devices;";
 		debug_print($query);
 		$r = mysql_query ($query);
 		while ( $d = mysql_fetch_row ($r) )
