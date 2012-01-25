@@ -1,5 +1,8 @@
+-> Upgrade to 0.2.0
+- Load createdevicetables-UPDATE-to-V0.2.0.sql in the Database (if use MYSQLDUMPER Remove all Strings with --)
+
 -> Upgrade to 0.1.6
-- Load createdevicetables.sql new in the Database.
+- Load createdevicetables.sql new in the Database. (if use MYSQLDUMPER Remove all Strings with --)
 
 -> Upgrade to 0.1.5
 
