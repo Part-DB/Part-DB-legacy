@@ -184,7 +184,7 @@
 		$result = mysql_query ($query);
 		$nParts = mysql_num_rows($result);
 		$rowcount = 0;
-		print "<tr class=\"trcat\"><td>Anzahl</td><td>Teil</td><td>Footprint</td><td>Lagernd</td>\n";
+		print "<tr class=\"trcat\"><td></td><td>Anzahl</td><td>Teil</td><td>Footprint</td><td>Lagernd</td>\n";
 		while ( $d = mysql_fetch_row ($result) )
 		{
 		$q = mysql_fetch_row ($quantity);
@@ -194,7 +194,24 @@
 		else
 			print "<tr class=\"trlist2\">";
 		
-		print "<td class=\"tdrow0\" >";
+		if (has_image($d[2]))
+		{
+			print "<td class=\"tdrow0\"><a href=\"javascript:popUp('getimage.php?pid=". smart_unescape($d[2]) . "')\"><img class=\"catbild\" src=\"getimage.php?pid=". smart_unescape($d[2]) . "\" alt=\"". smart_unescape($d[0]) ."\"></a></td>";
+		}
+		else
+		{
+			//Footprintbilder
+			if(is_file("tools/footprints/" . smart_unescape($d[3]) . ".png"))
+			{
+			print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[3]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[3]) .".png\" alt=\"\"></a></td>";
+			}
+			else
+			{
+			print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
+			}
+		}
+			
+		print "<td class=\"tdrow1\" >";
 		print $rowcount;
 		print "<input type=\"hidden\" name=\"selectedid".$rowcount."\" value=\"" . smart_unescape($d[2]). "\"/>";
 		print "<input type=\"text\" size=\"3\" onkeypress=\"validateNumber(event)\" name=\"selectedquantity".$rowcount."\" value=\"0\"/>";
@@ -204,8 +221,8 @@
 		print "Kommentar: " . smart_unescape($d[1]);
 		print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[2]) ."');\">". smart_unescape($d[0]) ."</a></td>";
 			
-		print "<td class=\"tdrow2\">".smart_unescape($d[3])."</td>";
-		print "<td class=\"tdrow3\">".smart_unescape($d[4])."</td>";
+		print "<td class=\"tdrow1\">".smart_unescape($d[3])."</td>";
+		print "<td class=\"tdrow1\">".smart_unescape($d[4])."</td>";
 	
 		print "</tr>\n";
 		}
@@ -258,7 +275,7 @@
 		<table>
 		<?PHP
 		$rowcount = 0;	
-		print "<tr class=\"trcat\"><td>Teil</td><td>Footprint</td><td>Anzahl</td><td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Einzelpreis</td><td>Entfernen</td><td>-</td><td>+</td></tr>\n";
+		print "<tr class=\"trcat\"><td></td><td>Teil</td><td>Footprint</td><td>Anzahl</td><td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Einzelpreis</td><td>Entfernen</td><td>-</td><td>+</td></tr>\n";
 				
 		$query = "SELECT parts.name, parts.comment, parts.id, footprints.name, part_device.quantity, parts.instock, storeloc.name, suppliers.name, preise.preis ".
 		"FROM parts ".
@@ -278,7 +295,24 @@
 		else
 			print "<tr class=\"trlist2\">";
 		
-		print "<td class=\"tdrow0\"><a title=\"";
+		if (has_image($d[2]))
+		{
+			print "<td class=\"tdrow0\"><a href=\"javascript:popUp('getimage.php?pid=". smart_unescape($d[2]) . "')\"><img class=\"catbild\" src=\"getimage.php?pid=". smart_unescape($d[2]) . "\" alt=\"". smart_unescape($d[0]) ."\"></a></td>";
+		}
+		else
+		{
+			//Footprintbilder
+			if(is_file("tools/footprints/" . smart_unescape($d[3]) . ".png"))
+			{
+			print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[3]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[3]) .".png\" alt=\"\"></a></td>";
+			}
+			else
+			{
+			print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
+			}
+		}
+		
+		print "<td class=\"tdrow1\"><a title=\"";
 		print "Kommentar: " . smart_unescape($d[1]);
 		print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[2]) ."');\">". smart_unescape($d[0]) ."</a></td>";
 			
@@ -323,7 +357,7 @@
 		}
 		print "></form></td>";
 		
-		print "<td class=\"tdrow7\"><form method=\"post\" action=\"\">";
+		print "<td class=\"tdrow1\"><form method=\"post\" action=\"\">";
 		print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
 		print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
 		print "<input type=\"hidden\" name=\"action\"  value=\"assign\"/>";
@@ -336,7 +370,7 @@
 			print "<tr class=\"trlist1\">";
 		else
 			print "<tr class=\"trlist2\">";
-		print "<td class=\"tdrow0\" colspan=\"6\"></td><td class=\"tdrow0\">Gesamtpreis:".$sumprice."€</td><td class=\"tdrow0\" colspan=\"3\"></td>";
+		print "<td class=\"tdrow1\" colspan=\"7\"></td><td class=\"tdrow0\">Gesamtpreis:".$sumprice."€</td><td class=\"tdrow1\" colspan=\"3\"></td>";
 		print "</tr>";
 		
 		$query = "SELECT parts.name, parts.comment, parts.id, footprints.name, part_device.quantity, parts.instock, storeloc.name, suppliers.name, preise.preis ".
