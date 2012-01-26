@@ -42,6 +42,7 @@
 		<td class="tdtext">
 		<b>Wert aller mit Preis erfassten Bauteile:</b>
 		<?PHP
+		include('config.php');
 		$query = "SELECT SUM(preise.preis*parts.instock) FROM parts LEFT JOIN preise ON parts.id=preise.part_id ORDER BY name ASC;";
 		$r = mysql_query ($query);
 		$d = mysql_fetch_row ($r);
