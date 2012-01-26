@@ -192,4 +192,83 @@
 		mysql_free_result($r);
 		return(0);
 	}
+
+
+    /*
+     * parameter: string to search
+     * result: id from database
+     */
+    function get_category_id( $categorie)
+    {
+        $query = "SELECT id FROM categories WHERE name=". smart_escape( $categorie)." LIMIT 1;";
+        $result = mysql_query( $query);
+        $result_array = mysql_fetch_array( $result); 
+        return( $result_array['id']);
+    }
+    
+    function get_footprint_id( $footprint)
+    {
+        $query = "SELECT id FROM footprints WHERE name=". smart_escape( $footprint)." LIMIT 1;";
+        $result = mysql_query( $query);
+        $result_array = mysql_fetch_array( $result); 
+        return( $result_array['id']);
+    }
+    
+    function get_storeloc_id( $storeloc)
+    {
+        $query = "SELECT id FROM storeloc WHERE name=". smart_escape( $storeloc)." LIMIT 1;";
+        $result = mysql_query( $query);
+        $result_array = mysql_fetch_array( $result); 
+        return( $result_array['id']);
+    }
+
+    function get_supplier_id( $supplier)
+    {
+        $query = "SELECT id FROM suppliers WHERE name=". smart_escape( $supplier)." LIMIT 1;";
+        $result = mysql_query( $query);
+        $result_array = mysql_fetch_array( $result); 
+        return( $result_array['id']);
+    }
+    
+    
+    /*
+     * parameter: string to search
+     * result: true  if exists in database
+     *         flase if not exist
+     */
+    function check_categories( $categorie)
+    {
+        $query = "SELECT name FROM categories WHERE name=". smart_escape( $categorie).";";
+        $res   = mysql_query( $query);
+        $data  = mysql_num_rows( $res);
+
+        return( ($data == 1) ? true : false );
+    }
+
+    function check_footprint( $footprint)
+    {
+        $query = "SELECT name FROM footprints WHERE name=". smart_escape( $footprint).";";
+        $res   = mysql_query( $query);
+        $data  = mysql_num_rows( $res);
+
+        return( ($data == 1) ? true : false );
+    }
+
+    function check_storeloc( $storeloc)
+    {
+        $query = "SELECT name FROM storeloc WHERE name=". smart_escape( $storeloc).";";
+        $res   = mysql_query( $query);
+        $data  = mysql_num_rows( $res);
+
+        return( ($data == 1) ? true : false );
+    }
+
+    function check_supplier( $supplier)
+    {
+        $query = "SELECT name FROM suppliers WHERE name=". smart_escape( $supplier).";";
+        $res   = mysql_query( $query);
+        $data  = mysql_num_rows( $res);
+
+        return( ($data == 1) ? true : false );
+    }
 ?>
