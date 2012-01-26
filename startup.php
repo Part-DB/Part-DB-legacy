@@ -37,8 +37,8 @@
 	 */
 	$display_warning = false;
     // predefines
-    $good = "&#x2714 ";
-    $bad  = "&#x2718 ";
+    $good = "&#x2714; ";
+    $bad  = "&#x2718; ";
     // defaults
     $missing_storeloc  = $good;
     $missing_footprint = $good;
