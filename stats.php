@@ -98,6 +98,9 @@
 		print $i;
 		?><br>
 
+<?php
+    if (! $disable_devices) {
+?>
 		<b>Anzahl der Baugruppen:</b>
 		<?PHP
 		$i = 0;
@@ -110,6 +113,10 @@
 		}
 		print $i;
 		?><br>
+<?php
+    }
+?>
+
 		<br>
 
 		<b>Anzahl der hochgeladenen Bilder:</b>
