@@ -7,6 +7,7 @@
 <html>
 <head>
     <title><?php print $title ?></title>
+    <link rel="icon" href="img/partdb/favicon.ico" type="image/x-icon">
 </head>
 <frameset cols="300,*" frameborder="0" framespacing="0">
   <frame name="_nav_frame" src="nav.php">
