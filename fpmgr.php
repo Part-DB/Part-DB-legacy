@@ -1,50 +1,50 @@
 <?PHP
 /*
-	part-db version 0.1
-	Copyright (C) 2005 Christoph Lechner
-	http://www.cl-projects.de/
+    part-db version 0.1
+    Copyright (C) 2005 Christoph Lechner
+    http://www.cl-projects.de/
 
-	This program is free software; you can redistribute it and/or
-	modify it under the terms of the GNU General Public License
-	as published by the Free Software Foundation; either version 2
-	of the License, or (at your option) any later version.
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
 
-	This program is distributed in the hope that it will be useful,
-	but WITHOUT ANY WARRANTY; without even the implied warranty of
-	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-	GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-	You should have received a copy of the GNU General Public License
-	along with this program; if not, write to the Free Software
-	Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-	$Id: fpmgr.php,v 1.5 2006/03/06 23:05:14 cl Exp $
+    $Id: fpmgr.php,v 1.5 2006/03/06 23:05:14 cl Exp $
 
-	01/03/06
-		Added escape stuff.
+    01/03/06
+        Added escape stuff.
 */
-	include('lib.php');
-	partdb_init();
+    include('lib.php');
+    partdb_init();
     
-	if ( isset( $_REQUEST['add']))
-	{
-		$query = "INSERT INTO footprints (name) VALUES (". smart_escape($_REQUEST["fpname"]) .");";
-		debug_print($query);
-		mysql_query($query);
-	}
-	else if ( isset( $_REQUEST['delete']))
-	{
-		// limit protects from runaway queries
-		$query = "DELETE FROM footprints WHERE id=". smart_escape($_REQUEST["fp"]) ." LIMIT 1;";
-		debug_print($query);
-		mysql_query($query);
-	}
-	else if ( isset( $_REQUEST['rename']))
-	{
-		$query = "UPDATE footprints SET name=". smart_escape($_REQUEST["fpnameneu"]) ." WHERE id=". smart_escape($_REQUEST["fp"]) ." LIMIT 1;";
-		debug_print ($query);
-		mysql_query ($query);
-	}
+    if ( isset( $_REQUEST['add']))
+    {
+        $query = "INSERT INTO footprints (name) VALUES (". smart_escape($_REQUEST["fpname"]) .");";
+        debug_print($query);
+        mysql_query($query);
+    }
+    else if ( isset( $_REQUEST['delete']))
+    {
+        // limit protects from runaway queries
+        $query = "DELETE FROM footprints WHERE id=". smart_escape($_REQUEST["fp"]) ." LIMIT 1;";
+        debug_print($query);
+        mysql_query($query);
+    }
+    else if ( isset( $_REQUEST['rename']))
+    {
+        $query = "UPDATE footprints SET name=". smart_escape($_REQUEST["fpnameneu"]) ." WHERE id=". smart_escape($_REQUEST["fp"]) ." LIMIT 1;";
+        debug_print ($query);
+        mysql_query ($query);
+    }
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -57,44 +57,44 @@
 <body class="body">
 
 <table class="table">
-	<tr>
-		<td class="tdtop">
-		Footprints bearbeiten
-		</td>
-	</tr>
-	<tr>
-		<td class="tdtext">
-			<form action="" method="post">
-			<select name="fp" size="8">
-			<?PHP
-			$query = "SELECT id,name FROM footprints ORDER BY name ASC;";
-			$r = mysql_query ($query);
-	
-			$ncol = mysql_num_rows ($r);
-			for ($i = 0; $i < $ncol; $i++)
-			{
-			$d = mysql_fetch_row ($r);
-			if ($i == 0)
-			print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-			else
-			print "<option value=\"". smart_unescape($d[0])."\">". smart_unescape($d[1]) ."</option>\n";
-			}
-			?>
-			</select>
+    <tr>
+        <td class="tdtop">
+        Footprints bearbeiten
+        </td>
+    </tr>
+    <tr>
+        <td class="tdtext">
+            <form action="" method="post">
+            <select name="fp" size="8">
+            <?PHP
+            $query = "SELECT id,name FROM footprints ORDER BY name ASC;";
+            $r = mysql_query ($query);
+    
+            $ncol = mysql_num_rows ($r);
+            for ($i = 0; $i < $ncol; $i++)
+            {
+            $d = mysql_fetch_row ($r);
+            if ($i == 0)
+            print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+            else
+            print "<option value=\"". smart_unescape($d[0])."\">". smart_unescape($d[1]) ."</option>\n";
+            }
+            ?>
+            </select>
             <br>
             <br>
-			<input type="submit" name="delete" value="L&ouml;schen">
+            <input type="submit" name="delete" value="L&ouml;schen">
             <br>
             <br>
             <input type="text"   name="fpnameneu">
-			<input type="submit" name="rename" value="Umbenennen">
-			<br>
-			<br>
-			<input type="text" name="fpname">
-			<input type="submit" name="add" value="Anlegen">
-			</form>
-		</td>
-	</tr>
+            <input type="submit" name="rename" value="Umbenennen">
+            <br>
+            <br>
+            <input type="text" name="fpname">
+            <input type="submit" name="add" value="Anlegen">
+            </form>
+        </td>
+    </tr>
 </table>
 
  </body>

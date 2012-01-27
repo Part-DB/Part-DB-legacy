@@ -8,14 +8,14 @@
 <body class="body">
 
 <table class="table">
-	<tr>
-		<td class="tdtop">
-		Hersteller IC Logos
-		</td>
-	</tr>
-	<tr>
-		<td class="tdtext">
-		<table>
+    <tr>
+        <td class="tdtop">
+        Hersteller IC Logos
+        </td>
+    </tr>
+    <tr>
+        <td class="tdtext">
+        <table>
 <tr><td><img src="../tools/iclogos/acer.png" alt=""></td><td>Integrated Circuit Designs</td></tr>
 <tr><td><img src="../tools/iclogos/actel.png" alt=""></td><td>ACTEL</td></tr>
 <tr><td><img src="../tools/iclogos/advldev.png" alt=""></td><td>ALTINC</td></tr>
@@ -392,9 +392,9 @@
 <tr><td><img src="../tools/iclogos/zilog4.png" alt=""></td><td>Zilog</td></tr>
 <tr><td><img src="../tools/iclogos/zmda.png" alt=""></td><td>ZMD (Zentrum Mikroelektronik Dresden)</td></tr>
 <tr><td><img src="../tools/iclogos/zoran.png" alt=""></td><td>Zoran</td></tr>
-		</table>
-		</td>
-	</tr>
+        </table>
+        </td>
+    </tr>
 </table>
 
  </body>

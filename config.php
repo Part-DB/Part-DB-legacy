@@ -1,5 +1,5 @@
 <?php
-		
+        
     /* Enter your MySQL username and password in config.php */
     $mysql_server  = "localhost";
     $db_user       = "part-db";

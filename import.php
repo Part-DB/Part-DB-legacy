@@ -242,29 +242,29 @@
         // add to database
         foreach ($open_category as $entry)
         {
-		    $query = "INSERT INTO categories (name, parentnode) VALUES (". smart_escape($entry) .",0 );";
-		    mysql_query ($query);
+            $query = "INSERT INTO categories (name, parentnode) VALUES (". smart_escape($entry) .",0 );";
+            mysql_query ($query);
             $add_category[] = $entry;
         }
 
         foreach ($open_footprint as $entry)
         {
-		    $query = "INSERT INTO footprints (name) VALUES (". smart_escape($entry) .");";
-		    mysql_query ($query);
+            $query = "INSERT INTO footprints (name) VALUES (". smart_escape($entry) .");";
+            mysql_query ($query);
             $add_footprint[] = $entry;
         }
 
         foreach ($open_storeloc as $entry)
         {
-		    $query = "INSERT INTO storeloc (name) VALUES (". smart_escape($entry) .");";
-		    mysql_query ($query);
+            $query = "INSERT INTO storeloc (name) VALUES (". smart_escape($entry) .");";
+            mysql_query ($query);
             $add_storeloc[] = $entry;
         }
 
         foreach ($open_supplier as $entry)
         {
-		    $query = "INSERT INTO suppliers (name) VALUES (". smart_escape($entry) .");";
-		    mysql_query ($query);
+            $query = "INSERT INTO suppliers (name) VALUES (". smart_escape($entry) .");";
+            mysql_query ($query);
             $add_supplier[] = $entry;
         }
         
@@ -301,7 +301,7 @@
                     smart_escape($supplier_id)    .",".
                     smart_escape($sup_part[$key]) .");";
                        
-		        mysql_query ($query);
+                mysql_query ($query);
                 // collect name for reporting
                 $add_part[] = $name[$key];
             }
@@ -402,7 +402,7 @@ Schaltkreise;MAX 232;1;DIP16;Kiste;Reichelt;MAX 232 EPE
 <input type="hidden" name="add_supplier"  value='<?php print implode( ';', $add_supplier); ?>'>
 
 <table class="table">
-	<tr>
+    <tr>
         <td colspan="10" class="tdtop">
         Daten pr&uuml;fen
 </td>
@@ -432,7 +432,7 @@ Schaltkreise;MAX 232;1;DIP16;Kiste;Reichelt;MAX 232 EPE
           ?>
         </td>
     </tr>
-	<tr class="trcat">
+    <tr class="trcat">
         <td>Import</td>
         <td>#</td>
         <td>Kategorie</td>
@@ -445,14 +445,14 @@ Schaltkreise;MAX 232;1;DIP16;Kiste;Reichelt;MAX 232 EPE
         <td>Kommentar</td>
     </tr>
 <?php
-		$rowcount = 1;
+        $rowcount = 1;
         foreach ($nr as $key => $data) 
         {
-			$rowcount++;
-			print "<tr class=\"trlist". (($rowcount % 2) + 1) ."\">";
+            $rowcount++;
+            print "<tr class=\"trlist". (($rowcount % 2) + 1) ."\">";
             
             // active and valid checkbox
-			print "<td class=\"tdrow0\"><input type=\"checkbox\" name=\"active[{$key}]\" value=\"true\"";
+            print "<td class=\"tdrow0\"><input type=\"checkbox\" name=\"active[{$key}]\" value=\"true\"";
             if ( $active[$key] ) 
             { 
                 print " checked";
@@ -464,39 +464,39 @@ Schaltkreise;MAX 232;1;DIP16;Kiste;Reichelt;MAX 232 EPE
             print "></td>\n";
 
             // line number
-			print "<td class=\"tdrow1\"><input type=\"hidden\" name=\"nr[{$key}]\" value=\"{$nr[$key]}\">{$nr[$key]}</td>\n";
+            print "<td class=\"tdrow1\"><input type=\"hidden\" name=\"nr[{$key}]\" value=\"{$nr[$key]}\">{$nr[$key]}</td>\n";
 
             // category
-			print "<td class=\"tdrow2\" style=\"text-align:left\">";
+            print "<td class=\"tdrow2\" style=\"text-align:left\">";
             print "<input type=\"text\" style=\"width:80%\" name=\"category[$key]\" size=\"15\" value=\"{$category[$key]}\">{$missing_category[$key]}</td>\n";
 
             // name
-			print "<td class=\"tdrow2\" style=\"text-align:left\">";
-			print "<input type=\"text\" style=\"width:80%\" name=\"name[$key]\" size=\"15\" value=\"{$name[$key]}\">{$missing_name[$key]}</td>\n";
+            print "<td class=\"tdrow2\" style=\"text-align:left\">";
+            print "<input type=\"text\" style=\"width:80%\" name=\"name[$key]\" size=\"15\" value=\"{$name[$key]}\">{$missing_name[$key]}</td>\n";
 
             // count (in stock)
-			print "<td class=\"tdrow2\" style=\"text-align:left\">";
-			print "<input type=\"text\" style=\"width:60%\" name=\"count[$key]\" size=\"3\" value=\"{$count[$key]}\">{$missing_count[$key]}</td>\n";
+            print "<td class=\"tdrow2\" style=\"text-align:left\">";
+            print "<input type=\"text\" style=\"width:60%\" name=\"count[$key]\" size=\"3\" value=\"{$count[$key]}\">{$missing_count[$key]}</td>\n";
 
             // footprint
-			print "<td class=\"tdrow2\" style=\"text-align:left\">";
-			print "<input type=\"text\" style=\"width:60%\" name=\"footprint[$key]\" size=\"5\" value=\"{$footprint[$key]}\">{$missing_footprint[$key]}</td>\n";
+            print "<td class=\"tdrow2\" style=\"text-align:left\">";
+            print "<input type=\"text\" style=\"width:60%\" name=\"footprint[$key]\" size=\"5\" value=\"{$footprint[$key]}\">{$missing_footprint[$key]}</td>\n";
 
             // storeloc
-			print "<td class=\"tdrow2\" style=\"text-align:left\">";
-			print "<input type=\"text\" style=\"width:75%\" name=\"storeloc[$key]\" size=\"8\" value=\"{$storeloc[$key]}\">{$missing_storeloc[$key]}</td>\n";
+            print "<td class=\"tdrow2\" style=\"text-align:left\">";
+            print "<input type=\"text\" style=\"width:75%\" name=\"storeloc[$key]\" size=\"8\" value=\"{$storeloc[$key]}\">{$missing_storeloc[$key]}</td>\n";
 
             // supplier
-			print "<td class=\"tdrow2\" style=\"text-align:left\">";
-			print "<input type=\"text\" style=\"width:75%\" name=\"supplier[$key]\" size=\"8\" value=\"{$supplier[$key]}\">{$missing_supplier[$key]}</td>\n";
+            print "<td class=\"tdrow2\" style=\"text-align:left\">";
+            print "<input type=\"text\" style=\"width:75%\" name=\"supplier[$key]\" size=\"8\" value=\"{$supplier[$key]}\">{$missing_supplier[$key]}</td>\n";
 
             // supplierpartnr 
-			print "<td class=\"tdrow2\" style=\"text-align:left\">";
-			print "<input type=\"text\" style=\"width:90%\" name=\"sup_part[$key]\" size=\"10\" value=\"{$sup_part[$key]}\"></td>\n";
+            print "<td class=\"tdrow2\" style=\"text-align:left\">";
+            print "<input type=\"text\" style=\"width:90%\" name=\"sup_part[$key]\" size=\"10\" value=\"{$sup_part[$key]}\"></td>\n";
 
             // comment 
-			print "<td class=\"tdrow2\" style=\"text-align:left\">";
-			print "<input type=\"text\" style=\"width:90%\" name=\"comment[$key]\" size=\"10\" value=\"{$comment[$key]}\"></td>\n";
+            print "<td class=\"tdrow2\" style=\"text-align:left\">";
+            print "<input type=\"text\" style=\"width:90%\" name=\"comment[$key]\" size=\"10\" value=\"{$comment[$key]}\"></td>\n";
 
             print "</tr>\n";
         }
@@ -520,7 +520,7 @@ Schaltkreise;MAX 232;1;DIP16;Kiste;Reichelt;MAX 232 EPE
 
 ?>
 <table class="table">
-	<tr>
+    <tr>
         <td class="tdtop">
         Datenbank aktualisiert
         </td>
