@@ -25,21 +25,21 @@
 */
 	include('lib.php');
 	partdb_init();
-
-	if ( strcmp ($_REQUEST["action"], "a") == 0 )
+    
+	if ( isset( $_REQUEST['add']))
 	{
 		$query = "INSERT INTO footprints (name) VALUES (". smart_escape($_REQUEST["fpname"]) .");";
 		debug_print($query);
 		mysql_query($query);
 	}
-	else if ( strcmp ($_REQUEST["action"], "d") == 0 )
+	else if ( isset( $_REQUEST['delete']))
 	{
 		// limit protects from runaway queries
 		$query = "DELETE FROM footprints WHERE id=". smart_escape($_REQUEST["fp"]) ." LIMIT 1;";
 		debug_print($query);
 		mysql_query($query);
 	}
-	else if ( strcmp ($_REQUEST["action"], "n") == 0 )
+	else if ( isset( $_REQUEST['rename']))
 	{
 		$query = "UPDATE footprints SET name=". smart_escape($_REQUEST["fpnameneu"]) ." WHERE id=". smart_escape($_REQUEST["fp"]) ." LIMIT 1;";
 		debug_print ($query);
@@ -80,22 +80,18 @@
 			print "<option value=\"". smart_unescape($d[0])."\">". smart_unescape($d[1]) ."</option>\n";
 			}
 			?>
-			</select><br>
-			<input type="hidden" name="action" value="d">
-			<input type="submit" value="L&ouml;schen">
-			</form>
-
-			<form action="" method="post">
-			<input type="text" name="fpnameneu">
-			<input type="hidden" name="action" value="n">
-			<input type="submit" value="Umbenennen"><br>
-			</form>
+			</select>
+            <br>
+            <br>
+			<input type="submit" name="delete" value="L&ouml;schen">
+            <br>
+            <br>
+            <input type="text"   name="fpnameneu">
+			<input type="submit" name="rename" value="Umbenennen">
 			<br>
-
-			<form action="" method="post">
+			<br>
 			<input type="text" name="fpname">
-			<input type="hidden" name="action" value="a">
-			<input type="submit" value="Anlegen">
+			<input type="submit" name="add" value="Anlegen">
 			</form>
 		</td>
 	</tr>
