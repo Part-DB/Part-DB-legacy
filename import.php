@@ -10,6 +10,30 @@
     partdb_init();
 
 
+    /* work around for older php: bevore 5.3.0
+    */
+    if ( !function_exists( 'str_getcsv')) {
+        function str_getcsv( $str, $delim=',', $enclose='"', $preserve=false) {
+            $resArr = array();
+            $n = 0;
+            $expEncArr = explode( $enclose, $str);
+            foreach( $expEncArr as $EncItem)
+            {
+                if( $n++%2)
+                {
+                    array_push( $resArr, array_pop( $resArr) . ( $preserve?$enclose:'') . $EncItem.( $preserve?$enclose:''));
+                }
+                else
+                {
+                    $expDelArr = explode( $delim, $EncItem);
+                    array_push( $resArr, array_pop( $resArr) . array_shift( $expDelArr));
+                    $resArr = array_merge( $resArr, $expDelArr);
+                }
+            }
+            return $resArr; 
+        }
+    }
+
     // set action to default, if not exists
     $action    = ( isset( $_REQUEST["action"]) ? $_REQUEST["action"] : 'default');
     $show_file = false;
@@ -17,8 +41,8 @@
     // determine action
     // this is a kind of a state machine 
     if ( strcmp( $action, "import_file")  == 0 ) { $action="import_file"; }
-    if ( strcmp( $action, "Daten prüfen") == 0 ) { $action="check_data";  }
-    if ( strcmp( $action, "Import")       == 0 ) { $action="commit_data"; }
+    if ( isset( $_REQUEST['check']))             { $action="check_data";  }
+    if ( isset( $_REQUEST['import']))            { $action="commit_data"; }
 
 
     // data processing
@@ -482,8 +506,8 @@ Schaltkreise;MAX 232;1;DIP16;Kiste;Reichelt;MAX 232 EPE
     </tr>
     <tr>
     <td colspan="10" class="trtext" align="center">
-        <input type="submit" name="action" value="Daten pr&uuml;fen">
-        <input type="submit" name="action" value="Import">
+        <input type="submit" name="check"  value="Daten pr&uuml;fen">
+        <input type="submit" name="import" value="Import">
     </td>
     </tr>
 </table>
