@@ -156,6 +156,6 @@ CREATE TABLE `devices` (
 CREATE TABLE `part_device` (
   `id_part` int(11) NOT NULL default '0',
   `id_device` int(11) NOT NULL default '0',
-  `quantity` int(11) NOT NULL default '0'
+  `quantity` int(11) NOT NULL default '0',
   PRIMARY KEY  (`id_part`)
 ) ENGINE=MyISAM;
