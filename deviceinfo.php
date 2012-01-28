@@ -212,7 +212,6 @@
         }
             
         print "<td class=\"tdrow1\" >";
-        print $rowcount;
         print "<input type=\"hidden\" name=\"selectedid".$rowcount."\" value=\"" . smart_unescape($d[2]). "\"/>";
         print "<input type=\"text\" size=\"3\" onkeypress=\"validateNumber(event)\" name=\"selectedquantity".$rowcount."\" value=\"0\"/>";
         
@@ -279,7 +278,7 @@
                 
         $query = "SELECT parts.name, parts.comment, parts.id, footprints.name, part_device.quantity, parts.instock, storeloc.name, suppliers.name, preise.preis ".
         "FROM parts ".
-        "JOIN part_device, footprints, storeloc, suppliers ".
+        "JOIN (part_device, footprints, storeloc, suppliers) ".
         "ON (parts.id = part_device.id_part AND footprints.id = parts.id_footprint AND storeloc.id = parts.id_storeloc AND suppliers.id = parts.id_supplier) ".
         "LEFT JOIN preise ON (preise.part_id = parts.id)".
         "WHERE id_device = ".$_REQUEST["deviceid"]." ORDER BY parts.id_category,parts.name ASC;";
@@ -375,7 +374,7 @@
         
         $query = "SELECT parts.name, parts.comment, parts.id, footprints.name, part_device.quantity, parts.instock, storeloc.name, suppliers.name, preise.preis ".
         "FROM parts ".
-        "JOIN part_device, footprints, storeloc, suppliers ".
+        "JOIN (part_device, footprints, storeloc, suppliers) ".
         "ON (parts.id = part_device.id_part AND footprints.id = parts.id_footprint AND storeloc.id = parts.id_storeloc AND suppliers.id = parts.id_supplier) ".
         "LEFT JOIN preise ON (preise.part_id = parts.id)".
         "WHERE id_device = ".$_REQUEST["deviceid"]." ORDER BY parts.id_category,parts.name ASC;";
@@ -468,7 +467,7 @@
                     
                     $query = "SELECT parts.supplierpartnr, part_device.quantity, storeloc.name, suppliers.name, parts.name, parts.instock ".
                     "FROM parts ".
-                    "JOIN part_device, footprints, storeloc, suppliers ".
+                    "JOIN (part_device, footprints, storeloc, suppliers) ".
                     "ON (parts.id = part_device.id_part AND footprints.id = parts.id_footprint AND storeloc.id = parts.id_storeloc AND suppliers.id = parts.id_supplier) ".
                     "WHERE id_device = ".$_REQUEST["deviceid"]." ORDER BY parts.id_category,parts.name ASC;";
                     if($_REQUEST["sup_id"]!=0)
