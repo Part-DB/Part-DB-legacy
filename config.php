@@ -2,18 +2,18 @@
         
     /* Enter your MySQL username and password in config.php */
     $mysql_server  = "localhost";
-    $db_user       = "part-db";
-    $db_password   = "PARTdb";
+    $db_user       = "test-part-db";
+    $db_password   = "test-part-db";
 
     /* this is the name of the mysql database */
-    $database      = "part-db";
+    $database      = "test-part-db";
 
     /* choose your currency */
     $currency      = "&euro;";
 
     /* set your own title here, and prevent it from updates */
     $title         = "PART-DB Elektronische Bauteile-Datenbank"; 
-    $startup_title = "Part-DB V0.2.0";
+    $startup_title = "Part-DB V0.2.1";
 
     /* disable the update list on the startup page */
     $disable_update_list = false;

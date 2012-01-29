@@ -121,9 +121,22 @@
     </tr>
     <tr>
         <td class="tdtext">
-        <a href="device.php" target="_content_frame">Baugruppen</a>
-        </td>
-    </tr>
+        <a href="device.php" target="_content_frame">Verwalten</a>
+        
+	<?PHP
+		$query = "SELECT devices.id, devices.name ".
+		"FROM devices ".
+		"ORDER BY devices.name ASC;";
+		//debug_print($query);
+		$result = mysql_query ($query);
+			
+		while ( $d = mysql_fetch_row ($result) )
+		{      
+			print "<br>&nbsp;<a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\" target=\"_content_frame\">". smart_unescape($d[1]) . "</a>";
+		}
+	?>
+    </td>
+    </tr>    
 </table>
 
 <?php
@@ -159,8 +172,8 @@
     </tr>
     <tr>
         <td class="tdtext">
-        <a href="showparts.php?cid=0&amp;type=toless" target="_content_frame">Zu bestellende Teile</a><br>
-        <a href="showparts.php?cid=0&amp;type=noprice" target="_content_frame">Teile ohne Preis</a><br>
+        <a href="orderparts.php" target="_content_frame">Zu bestellende Teile</a><br>
+        <a href="nopriceparts.php" target="_content_frame">Teile ohne Preis</a><br>
         <a href="stats.php" target="_content_frame">Statistik</a><br>
         <?php if (! $disable_help) { ?>
         <a href="help.php" target="_content_frame">Hilfe</a>

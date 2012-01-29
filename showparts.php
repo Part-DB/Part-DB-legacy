@@ -40,12 +40,6 @@
         debug_print($query);
         mysql_query($query);
     }
-    else if(strcmp($_REQUEST["action"], "an") == 0) //add number of parts
-    {
-        $query = "UPDATE parts SET instock=instock+". smart_escape($_REQUEST["toadd"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
-        debug_print($query);
-        mysql_query($query);
-    }
     
     function findallsubcategories ($cid)
     {
@@ -104,41 +98,8 @@
         print "<input type=\"submit\" name=\"s\" value=\"Unterkategorien einblenden\">";
         print "</form>";
 
-        if ( strcmp ($_REQUEST["type"], "toless") == 0 )
-        {
-        print "<h2>Nachzubestellende Teile</h2><form method=\"get\"><input type=\"hidden\" name=\"cid\" value=\"0\"><input type=\"hidden\" name=\"type\" value=\"toless\">\nLieferant(en):<select name=\"sup_id\">";
-
-        if (! isset($_REQUEST["sup_id"]) )
-            print "<option selected value=\"0\">Alle</option>";
-        else
-            print "<option value=\"0\">Alle</option>";
-            
-        $query = "SELECT id,name FROM suppliers ORDER BY name ASC;";
-        $r = mysql_query ($query);
-        
-        $ncol = mysql_num_rows ($r);
-        while ( ($d = mysql_fetch_row($r)) )
-        {
-        if ($d[0] == $_REQUEST["sup_id"])
-        print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-        else
-        print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-        }
-        print "</select><input type=\"submit\" value=\"W&auml;hle Lieferanten!\"></form>\n";
-        }
-        else if (strcmp ($_REQUEST["type"], "noprice") == 0)
-        {
-        //print "<h2>Teile ohne Preis</h2>";
-        }
-        else if (strcmp ($_REQUEST["type"], "showpending") == 0)
-        {
-        //print "<h2>Ausstehende Bestellungen</h2>";
-        }
-        else
-        {
         ?>
         <a href="javascript:popUp('newpart.php?cid=<?PHP print $_REQUEST["cid"]; ?>');">Neues Teil in dieser Kategorie</a>
-        <?PHP   } ?>
         </td>
     </tr>
 </table>
@@ -161,29 +122,11 @@
         else
             $catclause = "id_category=".$_REQUEST["cid"];
 
-        if ( (strcmp ($_REQUEST["type"], "index") == 0) || (strcmp ($_REQUEST["type"], "noprice") == 0) )
+        if ( (strcmp ($_REQUEST["type"], "index") == 0))
         {
         print "<tr class=\"trcat\"><td></td> <td>Name</td> <td>Vorh./<br>Min.Best.</td> <td>Footprint</td> <td>Lagerort</td> <td>Datenbl&auml;tter</td> <td align=\"center\">-</td> <td align=\"center\">+</td></tr>\n";
 
-        /* the only difference is the query */
-        if (strcmp ($_REQUEST["type"], "index") == 0)
-            $query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc',parts.comment FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id WHERE (". $catclause .") ORDER BY name ASC;";
-        else
-            $query = 
-                "SELECT ".
-                "parts.id,".
-                "parts.name,".
-                "parts.instock,".
-                "parts.mininstock,".
-                "footprints.name AS 'footprint',".
-                "storeloc.name AS 'loc',".
-                "parts.comment ".
-                "FROM parts ".
-                "LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
-                "LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id ".
-                "LEFT JOIN preise ON parts.id=preise.part_id ".
-                "WHERE (". $catclause .") AND (preise.id IS NULL) ".
-                "ORDER BY name ASC;";
+        $query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc',parts.comment FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id WHERE (". $catclause .") ORDER BY name ASC;";
 
         debug_print ($query);
         $result = mysql_query ($query);
@@ -308,145 +251,8 @@
             print "</td>";
             print "<tr>\n";
         }
-
         }
-        else if ( strcmp ($_REQUEST["type"], "toless") == 0 )
-        {
-        /*
-         * All supplier IDs are positive integers, thus 0 (which
-         * stands for "all suppliers") is no valid supplier ID!
-         * Show the entire list.
-         */
-        if ( (! isset($_REQUEST["sup_id"]) ) || ($_REQUEST["sup_id"] == "0") )
-        {
-            $query = "SELECT SUM((parts.mininstock-parts.instock)*preise.preis) FROM parts LEFT JOIN preise ON parts.id=preise.part_id WHERE (". $catclause .") AND (parts.instock < parts.mininstock);";
-        }
-        else
-        {
-            $query = "SELECT SUM((parts.mininstock-parts.instock)*preise.preis) FROM parts LEFT JOIN preise ON parts.id=preise.part_id WHERE (". $catclause .") AND (parts.instock < parts.mininstock) AND (parts.id_supplier=". smart_escape($_REQUEST["sup_id"]) .");";
-        }
-
-        debug_print ($query);
-        $result = mysql_query ($query);
-        $d = mysql_fetch_row ($result);
-        include("config.php");
-        print "<tr><td colspan=\"4\">Wert der zu bestellenden Artikel: ".$d[0]." ".$currency."</td></tr>";
-
-        /****/
-        print "<tr class=\"trcat\"><td>Name</td><td>Footprint</td><td>Bestellmenge</td><td>Lieferant</td><td>Bestell-Nr.</td><td>Lagerort</td><td>Hinzuf&uuml;gen</td></tr>";
-        if ( (! isset($_REQUEST["sup_id"]) ) || ($_REQUEST["sup_id"] == "0") )
-        {
-        /*$query = "
-        SELECT 
-        parts.id,
-        parts.name,
-        parts.instock,
-        parts.mininstock,
-        footprints.name AS 'footprint',
-        storeloc.name AS 'loc',
-        parts.comment 
-        FROM parts 
-        LEFT JOIN footprints ON parts.id_footprint=footprints.id 
-        LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id 
-        WHERE (". $catclause .") ORDER BY name ASC;";
-        */
-            //$query = "SELECT parts.id,parts.name,footprints.name AS 'footprint',parts.mininstock-parts.instock AS 'diff',suppliers.name AS 'supplier',parts.supplierpartnr FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN suppliers ON parts.id_supplier=suppliers.id WHERE (". $catclause .") AND (parts.instock < parts.mininstock) ORDER BY name ASC;";
-            $query = 
-                "SELECT ".
-                "parts.id,".
-                "parts.name,".
-                "footprints.name AS 'footprint',".
-                "parts.mininstock-parts.instock AS 'diff',".
-                "suppliers.name AS 'supplier',".
-                "parts.supplierpartnr,".
-                "parts.instock,parts.mininstock,".
-                "storeloc.name AS 'loc'".
-                " FROM parts ".
-                " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
-                " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
-                " LEFT JOIN pending_orders ON parts.id=pending_orders.part_id".
-                " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
-                " WHERE (pending_orders.id IS NULL) AND (parts.instock < parts.mininstock) AND (". $catclause .") ".
-                "UNION ".
-                "SELECT ".
-                "parts.id,".
-                "parts.name,".
-                "footprints.name AS 'footprint',".
-                "parts.mininstock-parts.instock-SUM(pending_orders.quantity),".
-                "suppliers.name AS 'supplier',".
-                "parts.supplierpartnr,".
-                "parts.instock,parts.mininstock,".
-                "storeloc.name AS 'loc'".
-                " FROM parts ".
-                " INNER JOIN pending_orders ON (parts.id=pending_orders.part_id)".
-                " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
-                " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
-                " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
-                " WHERE (". $catclause .") ".
-                "GROUP BY (pending_orders.part_id) ".
-                "HAVING (parts.instock + SUM(pending_orders.quantity)  < parts.mininstock) ".
-                "ORDER BY name ASC ";
-        }
-        else
-        {
-            $query = "SELECT ".
-            "parts.id,".
-            "parts.name,".
-            "footprints.name AS 'footprint',".
-            "parts.mininstock-parts.instock AS 'diff',".
-            "suppliers.name AS 'supplier',".
-            "parts.supplierpartnr,".
-            "parts.instock,".
-            "parts.mininstock,".
-            "storeloc.name AS 'loc'".
-            " FROM parts".
-            " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
-            " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
-            " LEFT JOIN pending_orders ON parts.id = pending_orders.part_id".
-            " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
-            " WHERE (". $catclause .") AND (pending_orders.id IS NULL) AND (parts.instock < parts.mininstock) AND (parts.id_supplier = ". smart_escape($_REQUEST["sup_id"]) .")". 
-            " UNION".
-            " SELECT ".
-            "parts.id,".
-            "parts.name,". 
-            "footprints.name AS 'footprint',". 
-            "parts.mininstock - parts.instock - SUM( pending_orders.quantity ) ,". 
-            "suppliers.name AS 'supplier',". 
-            "parts.supplierpartnr," .
-            "parts.instock,". 
-            "parts.mininstock,".
-            "storeloc.name AS 'loc'".
-            " FROM parts ".
-            " INNER JOIN pending_orders ON ( parts.id = pending_orders.part_id ) ". 
-            " LEFT JOIN footprints ON parts.id_footprint = footprints.id ".
-            " LEFT JOIN suppliers ON parts.id_supplier = suppliers.id ".
-            " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
-            " WHERE (". $catclause .") AND (parts.id_supplier = ". smart_escape($_REQUEST["sup_id"]) .") GROUP BY (pending_orders.part_id) HAVING (parts.instock + SUM( pending_orders.quantity ) < parts.mininstock) ORDER BY name ASC;";
-        }
-        debug_print ($query);
-        //print(smart_unescape($query));
-        $result = mysql_query ($query);
-
-        $rowcount = 0;
-        while ( $d = mysql_fetch_row ($result) )
-        {
-            $rowcount++;
-            if ( ($rowcount % 2) == 0 )
-                print "<tr class=\"trlist1\">";
-            else
-                print "<tr class=\"trlist2\">";
-
-            print "<td class=\"tdrow1\"><a href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow3\">". smart_unescape($d[2]) ."</td><td class=\"tdrow4\">". smart_unescape($d[3]) ."</td><td class=\"tdrow1\">". smart_unescape($d[4]) ."</td><td class=\"tdrow1\">". smart_unescape($d[5]) . "</td><td class=\"tdrow1\">". smart_unescape($d[8]) . "</td>";
-            //show text box with number to add and the add button
-            print "<td class=\"tdrow2\"><form method=\"post\">";
-            print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
-            print "<input type=\"hidden\" name=\"action\"  value=\"an\"/>";
-            print "<input type=\"text\" style=\"width:25px;\" name=\"toadd\" value=\"" . smart_unescape($d[3]) . "\"/>";
-            print "<input type=\"submit\" value=\"Add\"/></form></td>";
-            
-            print "</tr>\n";
-        }
-        }
+        
         ?>
         </table>
         </td>

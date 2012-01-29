@@ -69,7 +69,7 @@
         {
             if($_REQUEST["selectedid".$rowcount] && $_REQUEST["selectedquantity".$rowcount])
             {
-                $query = "INSERT INTO part_device (id_part,id_device,quantity) VALUES (". smart_escape($_REQUEST["selectedid".$rowcount]) .",". smart_escape($_REQUEST["deviceid"]) .",".smart_escape($_REQUEST["selectedquantity".$rowcount]).");";
+                $query = "INSERT INTO part_device (id_part,id_device,quantity,mountname) VALUES (". smart_escape($_REQUEST["selectedid".$rowcount]) .",". smart_escape($_REQUEST["deviceid"]) .",".smart_escape($_REQUEST["selectedquantity".$rowcount]).",".smart_escape($_REQUEST["mounttext".$rowcount]).");";
                 debug_print ($query);
                 mysql_query ($query);
             }
@@ -132,6 +132,13 @@
             debug_print ($result);
         }
     }
+	else if( strcmp ($_REQUEST["action"], "setmountname") == 0 )
+	{
+		//Increment the part quantity
+        $query = "UPDATE part_device SET mountname=".smart_escape($_REQUEST["newmountname"])." WHERE id_part=" . smart_escape($_REQUEST["partid"]) . " AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
+        debug_print($query);
+        mysql_query($query);
+	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/loose.dtd">
@@ -184,7 +191,7 @@
         $result = mysql_query ($query);
         $nParts = mysql_num_rows($result);
         $rowcount = 0;
-        print "<tr class=\"trcat\"><td></td><td>Anzahl</td><td>Teil</td><td>Footprint</td><td>Lagernd</td>\n";
+        print "<tr class=\"trcat\"><td></td><td>Anzahl</td><td>Bestückungs<br>Daten</td><td>Teil</td><td>Footprint</td><td>Lagernd</td>\n";
         while ( $d = mysql_fetch_row ($result) )
         {
         $q = mysql_fetch_row ($quantity);
@@ -214,6 +221,10 @@
         print "<td class=\"tdrow1\" >";
         print "<input type=\"hidden\" name=\"selectedid".$rowcount."\" value=\"" . smart_unescape($d[2]). "\"/>";
         print "<input type=\"text\" size=\"3\" onkeypress=\"validateNumber(event)\" name=\"selectedquantity".$rowcount."\" value=\"0\"/>";
+        
+        print "</td>";
+		print "<td class=\"tdrow1\" >";
+        print "<input type=\"text\" size=\"9\" name=\"mounttext".$rowcount."\" value=\"\"/>";
         
         print "</td>";
         print "<td class=\"tdrow1\"><a title=\"";
@@ -274,9 +285,9 @@
         <table>
         <?PHP
         $rowcount = 0;  
-        print "<tr class=\"trcat\"><td></td><td>Teil</td><td>Footprint</td><td>Anzahl</td><td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Einzelpreis</td><td>Entfernen</td><td>-</td><td>+</td></tr>\n";
+        print "<tr class=\"trcat\"><td></td><td>Teil</td><td>Bestückungs<br>Daten</td><td>Footprint</td><td>Anzahl</td><td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Einzelpreis</td><td>Gesamtpreis</td><td>Entfernen</td><td>-</td><td>+</td></tr>\n";
                 
-        $query = "SELECT parts.name, parts.comment, parts.id, footprints.name, part_device.quantity, parts.instock, storeloc.name, suppliers.name, preise.preis ".
+        $query = "SELECT parts.name, parts.comment, parts.id, footprints.name, part_device.quantity, parts.instock, storeloc.name, suppliers.name, preise.preis, part_device.mountname ".
         "FROM parts ".
         "JOIN (part_device, footprints, storeloc, suppliers) ".
         "ON (parts.id = part_device.id_part AND footprints.id = parts.id_footprint AND storeloc.id = parts.id_storeloc AND suppliers.id = parts.id_supplier) ".
@@ -314,7 +325,15 @@
         print "<td class=\"tdrow1\"><a title=\"";
         print "Kommentar: " . smart_unescape($d[1]);
         print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[2]) ."');\">". smart_unescape($d[0]) ."</a></td>";
-            
+
+		print "<td class=\"tdrow1\"><form method=\"post\" action=\"\">";
+        print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+        print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
+        print "<input type=\"hidden\" name=\"action\"  value=\"setmountname\"/>";
+		print "<input type=\"text\" size=\"5\"name=\"newmountname\"  value=\"".smart_unescape($d[9])."\"/>";
+        print "<input type=\"submit\" value=\"Ok\"/></form></td>";
+		
+		
         print "<td class=\"tdrow1\">".smart_unescape($d[3])."</td>";
         print "<td class=\"tdrow1\">".smart_unescape($d[4])."</td>";
         
@@ -337,8 +356,14 @@
         else
             print "-.-";
         print "€</td>";
+		print "<td class=\"tdrow1\">";
+		if($d[8])
+            print smart_unescape($d[8]*$d[4]);
+        else
+            print "-.-";
+        print "€</td>";
         //Build the sum
-        $sumprice += $d[8];
+        $sumprice += $d[8]*$d[4];
         print "<td class=\"tdrow1\"><form method=\"post\" action=\"\">";
         print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
         print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
@@ -369,7 +394,7 @@
             print "<tr class=\"trlist1\">";
         else
             print "<tr class=\"trlist2\">";
-        print "<td class=\"tdrow1\" colspan=\"7\"></td><td class=\"tdrow0\">Gesamtpreis:".$sumprice."€</td><td class=\"tdrow1\" colspan=\"3\"></td>";
+        print "<td class=\"tdrow1\" colspan=\"9\"></td><td class=\"tdrow0\">Gesamtpreis:<br>".$sumprice."€</td><td class=\"tdrow1\" colspan=\"3\"></td>";
         print "</tr>";
         
         $query = "SELECT parts.name, parts.comment, parts.id, footprints.name, part_device.quantity, parts.instock, storeloc.name, suppliers.name, preise.preis ".
@@ -392,7 +417,7 @@
 <table class="table">
     <tr>
         <td class="tdtop">
-        BOM Generierung
+        Bauteile Export
         </td>
     </tr>
     <tr>
@@ -425,10 +450,7 @@
                 print "</select>";
                 print "<tr class=\"trcat\"><td>";
                 print "Format:</td><td><select name=\"format\">";
-                if (! isset($_REQUEST["format"]) )
-                    print "<option selected value=\"0\">CVS</option>";
-                else
-                    print "<option value=\"0\">CVS</option>";
+				PrintsFormats("format");
                 print "</select>";
                 print "</td></tr><tr class=\"trcat\"><td>";
                 print "Trennzeichen:</td><td><input type=\"text\" name=\"spacer\" size=\"3\" value=\"";
@@ -447,7 +469,7 @@
                 
                 
                 print "</td></tr>";
-                print "<tr class=\"trcat\"><td>Nur benötigtes Material bestellen:</td><td><input type=\"checkbox\" name=\"onlyneeded\" ";
+                print "<tr class=\"trcat\"><td>Nur fehlendes Material<br>exportieren:</td><td><input type=\"checkbox\" name=\"onlyneeded\" ";
                 if ( strcmp ($_REQUEST["action"], "createbom"))
                 {
                     print "checked=\"checked\"";
@@ -465,10 +487,11 @@
                 if ( strcmp ($_REQUEST["action"], "createbom") == 0 )
                 {
                     
-                    $query = "SELECT parts.supplierpartnr, part_device.quantity, storeloc.name, suppliers.name, parts.name, parts.instock ".
+                    $query = "SELECT parts.supplierpartnr, part_device.quantity, storeloc.name, suppliers.name, parts.name, parts.instock, preise.preis ".
                     "FROM parts ".
                     "JOIN (part_device, footprints, storeloc, suppliers) ".
                     "ON (parts.id = part_device.id_part AND footprints.id = parts.id_footprint AND storeloc.id = parts.id_storeloc AND suppliers.id = parts.id_supplier) ".
+					"LEFT JOIN preise ON (preise.part_id = parts.id) ".
                     "WHERE id_device = ".$_REQUEST["deviceid"]." ORDER BY parts.id_category,parts.name ASC;";
                     if($_REQUEST["sup_id"]!=0)
                     {
@@ -483,7 +506,7 @@
                     debug_print($query);
                     print "______________________________\r\n";
                     print "Bestell-Liste:\r\n";
-                    print "\r\n\r\n";
+					print GenerateBOMHeadline($_REQUEST["format"],$_REQUEST["spacer"]);
                     while ( $d = mysql_fetch_row ($result) )
                     {
                         $q = mysql_fetch_row ($quantity);
@@ -494,24 +517,21 @@
                         //print spacer
                         $orderstring = $orderstring.$_REQUEST["spacer"];
                         //print quantity
+						$quant = (smart_unescape($d[1])*$_REQUEST["multiplikator"]);
                         if(isset($_REQUEST["onlyneeded"]))
                         {
-                            $quant = (smart_unescape($d[1])*$_REQUEST["multiplikator"]);
                             if( $quant > $d[5]) //Check if instock is greater
                             {
-                                $orderstring = $orderstring.($quant-$d[5])."\r\n";
+                                $quant = ($quant-$d[5]);
                             }
                             else
                             {
                                 $order = 0;
                             }
                         }
-                        else
-                        {
-                            $orderstring = $orderstring.(smart_unescape($d[1])*$_REQUEST["multiplikator"])."\r\n";
-                        }
+                        
                         if($order)
-                            print $orderstring;
+                            print GenerateBOMResult($_REQUEST["format"],$_REQUEST["spacer"],$d[4],$d[0],$d[3],$quant,$d[5],$d[6]);
                     }
                     print "</textarea>";
                 }
