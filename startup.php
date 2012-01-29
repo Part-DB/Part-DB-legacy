@@ -27,8 +27,17 @@
         the text color has been changed to red. Some people suggested
         this long ago ...
 */
+
+  include ('db_update.php');
+  if (checkDBUpdateNeeded())
+  {
+    $ver = getDBVersion();
+    print "DBVersion: ".$ver.", benötigt update ";
+    doDBUpdate();
+  }
+
     include("config.php");
-    include("lib.php");
+//    include("lib.php");
     partdb_init();
 
     /*
