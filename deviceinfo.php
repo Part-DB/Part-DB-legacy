@@ -492,12 +492,12 @@
                     "JOIN (part_device, footprints, storeloc, suppliers) ".
                     "ON (parts.id = part_device.id_part AND footprints.id = parts.id_footprint AND storeloc.id = parts.id_storeloc AND suppliers.id = parts.id_supplier) ".
 					"LEFT JOIN preise ON (preise.part_id = parts.id) ".
-                    "WHERE id_device = ".$_REQUEST["deviceid"]." ORDER BY parts.id_category,parts.name ASC;";
+                    "WHERE id_device = ".$_REQUEST["deviceid"];
                     if($_REQUEST["sup_id"]!=0)
                     {
                         $query = $query . " AND parts.id_supplier = ".$_REQUEST["sup_id"];
                     }
-                    $query = $query . ";";
+                    $query = $query . " ORDER BY parts.id_category,parts.name ASC;";
                     
                     $result = mysql_query ($query);
                     $nrows = mysql_num_rows($result)+6;
