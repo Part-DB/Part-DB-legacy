@@ -95,7 +95,7 @@ nachgeholt.
               }
               else
               {
-                print "Step:".$query." ok<br>";
+                print "Step: ".$query." ok<br>";
               }
             };
           }

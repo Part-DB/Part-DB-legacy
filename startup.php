@@ -29,12 +29,16 @@
 */
 
   include ('db_update.php');
-  if (checkDBUpdateNeeded())
+  // catch output to do fine formating later
+  ob_start();
+  if ( checkDBUpdateNeeded())
   {
     $ver = getDBVersion();
-    print "DBVersion: ".$ver.", benötigt update ";
+    print "DBVersion: ".$ver.", ben&ouml;tigt ein Update.<br><br>";
     doDBUpdate();
   }
+  $database_update = ob_get_contents();
+  ob_end_clean();
 
     include("config.php");
 //    include("lib.php");
@@ -131,6 +135,28 @@
     </tr>
 </table>
 <?PHP } ?>
+
+
+<?PHP   // display database update 
+    if ( strlen( $database_update) > 0)
+    {
+?>
+<br>
+
+<table class="table">
+    <tr>
+          <td class="tdtop">
+            Datenbankupdate
+          </td>
+    </tr>
+    <tr>
+        <td class="tdrowred">
+        <?php print $database_update; ?>
+        </td>
+    </tr>
+</table>
+<?PHP } ?>
+
 
 <br>
 
