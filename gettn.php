@@ -98,15 +98,15 @@
         $img_data = getImageSize($pict_fname);
         switch ($img_data[2])
         {
-            case 1:
+            case IMG_GIF:
                 // GIF image
                 $orig_image = imageCreateFromGIF($pict_fname);
                 break;
-            case 2:
+            case IMG_JPG:
                 // JPEG image
                 $orig_image = imageCreateFromJPEG($pict_fname);
                 break;
-            case 3:
+            case IMG_PNG:
                 // PNG image
                 $orig_image = imageCreateFromPNG($pict_fname);
                 break;
