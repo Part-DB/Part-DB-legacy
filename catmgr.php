@@ -40,17 +40,21 @@
     $special_dialog = false;
 
     $action = 'default';
-    if ( isset( $_REQUEST["add"]))    { $action = 'add';}
-    if ( isset( $_REQUEST["delete"])) { $action = 'delete';}
-    if ( isset( $_REQUEST["rename"])) { $action = 'rename';}
+    if ( isset( $_REQUEST["add"]))        { $action = 'add';}
+    if ( isset( $_REQUEST["delete"]))     { $action = 'delete';}
+    if ( isset( $_REQUEST["rename"]))     { $action = 'rename';}
+    if ( isset( $_REQUEST["new_parent"])) { $action = 'new_parent';}
+
 
     if ( $action == 'add')
     {
-        $query = "INSERT INTO categories (name,parentnode) VALUES (". smart_escape($_REQUEST["new_category"]) .",". smart_escape($_REQUEST["parent_node"]) .");";
+        $query = "INSERT INTO categories (name, parentnode) VALUES (". smart_escape($_REQUEST["new_category"]) .",". smart_escape($_REQUEST["parent_node"]) .");";
         debug_print($query);
         mysql_query ($query);
     }
-    else if ( $action == 'delete')
+    
+    
+    if ( $action == 'delete')
     {
         /*
          * Delete a category.
@@ -96,9 +100,14 @@
             $query = "DELETE FROM categories WHERE id=". smart_escape($_REQUEST["catsel"]) ." LIMIT 1;";
             debug_print ($query);
             mysql_query ($query);
+            // resort all child categories to root node
+            $query = "UPDATE categories SET parentnode=0 WHERE parentnode=". smart_escape($_REQUEST["catsel"]) ." ;";
+            debug_print ($query);
+            mysql_query ($query);
         }
     }
-    
+   
+
     if ( $action == 'rename')
     {
         /* rename */
@@ -106,7 +115,42 @@
         debug_print($query);
         mysql_query($query);
     }
-    
+   
+
+    if ( $action == 'new_parent')
+    {
+        /* resort */
+        // check if new parent is anywhere in a child node
+        if ( ! (in_array( $_REQUEST["parent_node"], find_child_nodes( $_REQUEST["catsel"]))))
+        {
+            /* do transaction */
+            $query = "UPDATE categories SET parentnode=". smart_escape($_REQUEST["parent_node"]) ." WHERE id=". smart_escape($_REQUEST["catsel"]) ." LIMIT 1";
+            debug_print($query);
+            mysql_query($query);
+        }
+        else
+        {
+            /* transaction not allowed, would destroy tree structure */
+        }
+    }
+
+    /*
+     * find all nodes below and given node
+     */
+    function find_child_nodes($cid)
+    {
+        $result = array();
+        $query = "SELECT id FROM categories WHERE parentnode=". smart_escape($cid) .";";
+        $r = mysql_query ($query);
+        while ( $d = mysql_fetch_row ($r) )
+        {
+            // do the same for the next level.
+            $result[] = $d[0];
+            $result = array_merge( $result, find_child_nodes( $d[0]));
+        }
+        return( $result);
+    }
+
     /*
      * The buildtree function creates a tree for <select> tags.
      * It recurses trough all categories (and subcategories) and
@@ -178,7 +222,7 @@
 <table class="table">
     <tr>
         <td class="tdtop">
-        Kategorie umbennenen/l&ouml;schen
+        Kategorie umbennenen/l&ouml;schen/sortieren
         </td>
     </tr>
     <tr>
@@ -194,7 +238,7 @@
                     </td>
                 </tr>
                 <tr>
-                    <td rowspan="2">
+                    <td rowspan="3">
                         <select name="catsel" size="15">
                         <?PHP buildtree(0, 1); ?>
                         </select>
@@ -208,6 +252,16 @@
                         Neuer Name:<br>
                         <input type="text" name="new_name">
                         <input type="submit" name="rename" value="Umbenennen">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Neue &Uuml;berkategorie:<br>
+                        <select name="parent_node">
+                        <option value="0">root node</option>
+                        <?PHP buildtree(0, 1); ?>
+                        </select>
+                        <input type="submit" name="new_parent" value="Umsortieren">
                     </td>
                 </tr>
             </table>
