@@ -132,13 +132,13 @@
             debug_print ($result);
         }
     }
-	else if( strcmp ($_REQUEST["action"], "setmountname") == 0 )
-	{
-		//Increment the part quantity
+    else if( strcmp ($_REQUEST["action"], "setmountname") == 0 )
+    {
+        //Increment the part quantity
         $query = "UPDATE part_device SET mountname=".smart_escape($_REQUEST["newmountname"])." WHERE id_part=" . smart_escape($_REQUEST["partid"]) . " AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
         debug_print($query);
         mysql_query($query);
-	}
+    }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/loose.dtd">
@@ -223,7 +223,7 @@
         print "<input type=\"text\" size=\"3\" onkeypress=\"validateNumber(event)\" name=\"selectedquantity".$rowcount."\" value=\"0\"/>";
         
         print "</td>";
-		print "<td class=\"tdrow1\" >";
+        print "<td class=\"tdrow1\" >";
         print "<input type=\"text\" size=\"9\" name=\"mounttext".$rowcount."\" value=\"\"/>";
         
         print "</td>";
@@ -326,14 +326,14 @@
         print "Kommentar: " . smart_unescape($d[1]);
         print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[2]) ."');\">". smart_unescape($d[0]) ."</a></td>";
 
-		print "<td class=\"tdrow1\"><form method=\"post\" action=\"\">";
+        print "<td class=\"tdrow1\"><form method=\"post\" action=\"\">";
         print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
         print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
         print "<input type=\"hidden\" name=\"action\"  value=\"setmountname\"/>";
-		print "<input type=\"text\" size=\"5\"name=\"newmountname\"  value=\"".smart_unescape($d[9])."\"/>";
+        print "<input type=\"text\" size=\"5\"name=\"newmountname\"  value=\"".smart_unescape($d[9])."\"/>";
         print "<input type=\"submit\" value=\"Ok\"/></form></td>";
-		
-		
+        
+        
         print "<td class=\"tdrow1\">".smart_unescape($d[3])."</td>";
         print "<td class=\"tdrow1\">".smart_unescape($d[4])."</td>";
         
@@ -356,8 +356,8 @@
         else
             print "-.-";
         print "€</td>";
-		print "<td class=\"tdrow1\">";
-		if($d[8])
+        print "<td class=\"tdrow1\">";
+        if($d[8])
             print smart_unescape($d[8]*$d[4]);
         else
             print "-.-";
@@ -450,7 +450,7 @@
                 print "</select>";
                 print "<tr class=\"trcat\"><td>";
                 print "Format:</td><td><select name=\"format\">";
-				PrintsFormats("format");
+                PrintsFormats("format");
                 print "</select>";
                 print "</td></tr><tr class=\"trcat\"><td>";
                 print "Trennzeichen:</td><td><input type=\"text\" name=\"spacer\" size=\"3\" value=\"";
@@ -491,7 +491,7 @@
                     "FROM parts ".
                     "JOIN (part_device, footprints, storeloc, suppliers) ".
                     "ON (parts.id = part_device.id_part AND footprints.id = parts.id_footprint AND storeloc.id = parts.id_storeloc AND suppliers.id = parts.id_supplier) ".
-					"LEFT JOIN preise ON (preise.part_id = parts.id) ".
+                    "LEFT JOIN preise ON (preise.part_id = parts.id) ".
                     "WHERE id_device = ".$_REQUEST["deviceid"];
                     if($_REQUEST["sup_id"]!=0)
                     {
@@ -506,7 +506,7 @@
                     debug_print($query);
                     print "______________________________\r\n";
                     print "Bestell-Liste:\r\n";
-					print GenerateBOMHeadline($_REQUEST["format"],$_REQUEST["spacer"]);
+                    print GenerateBOMHeadline($_REQUEST["format"],$_REQUEST["spacer"]);
                     while ( $d = mysql_fetch_row ($result) )
                     {
                         $q = mysql_fetch_row ($quantity);
@@ -517,7 +517,7 @@
                         //print spacer
                         $orderstring = $orderstring.$_REQUEST["spacer"];
                         //print quantity
-						$quant = (smart_unescape($d[1])*$_REQUEST["multiplikator"]);
+                        $quant = (smart_unescape($d[1])*$_REQUEST["multiplikator"]);
                         if(isset($_REQUEST["onlyneeded"]))
                         {
                             if( $quant > $d[5]) //Check if instock is greater

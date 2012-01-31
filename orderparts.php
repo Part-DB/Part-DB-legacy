@@ -68,8 +68,8 @@
         <?PHP
 
         print "<form method=\"get\">";
-		print "<input type=\"hidden\" name=\"cid\" value=\"0\">";
-		print "<input type=\"hidden\" name=\"type\" value=\"toless\">\nLieferant(en):<select name=\"sup_id\">";
+        print "<input type=\"hidden\" name=\"cid\" value=\"0\">";
+        print "<input type=\"hidden\" name=\"type\" value=\"toless\">\nLieferant(en):<select name=\"sup_id\">";
 
         if (! isset($_REQUEST["sup_id"]) )
             print "<option selected value=\"0\">Alle</option>";
@@ -128,25 +128,25 @@
 
         /****/
         print "<tr class=\"trcat\"><td>Name</td><td>Footprint</td><td>Bestellmenge</td><td>Lieferant</td><td>Bestell-Nr.</td><td>Lagerort</td><td>Hinzuf&uuml;gen</td></tr>";
-		if ( (! isset($_REQUEST["sup_id"]) ) || ($_REQUEST["sup_id"] == "0") )
+        if ( (! isset($_REQUEST["sup_id"]) ) || ($_REQUEST["sup_id"] == "0") )
         {
             $query = 
                 "SELECT ".
                 "parts.id,".
                 "parts.name,".
-				"footprints.name AS 'footprint',".
+                "footprints.name AS 'footprint',".
                 "parts.mininstock-parts.instock AS 'diff',".
                 "suppliers.name AS 'supplier',".
                 "parts.supplierpartnr,".
                 "parts.instock,parts.mininstock,".
                 "storeloc.name AS 'loc',".
-				"preise.preis".
+                "preise.preis".
                 " FROM parts ".
                 " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
                 " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
                 " LEFT JOIN pending_orders ON parts.id=pending_orders.part_id".
                 " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
-				" LEFT JOIN preise ON (preise.part_id = parts.id)".
+                " LEFT JOIN preise ON (preise.part_id = parts.id)".
                 " WHERE (pending_orders.id IS NULL) AND (parts.instock < parts.mininstock) ".
                 "UNION ".
                 "SELECT ".
@@ -158,13 +158,13 @@
                 "parts.supplierpartnr,".
                 "parts.instock,parts.mininstock,".
                 "storeloc.name AS 'loc',".
-				"preise.preis".
+                "preise.preis".
                 " FROM parts ".
                 " INNER JOIN pending_orders ON (parts.id=pending_orders.part_id)".
                 " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
                 " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
                 " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
-				" LEFT JOIN preise ON (preise.part_id = parts.id)".
+                " LEFT JOIN preise ON (preise.part_id = parts.id)".
                 "GROUP BY (pending_orders.part_id) ".
                 "HAVING (parts.instock + SUM(pending_orders.quantity)  < parts.mininstock) ".
                 "ORDER BY name ASC ";
@@ -181,13 +181,13 @@
             "parts.instock,".
             "parts.mininstock,".
             "storeloc.name AS 'loc',".
-			"preise.preis".
+            "preise.preis".
             " FROM parts".
             " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
             " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
             " LEFT JOIN pending_orders ON parts.id = pending_orders.part_id".
             " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
-			" LEFT JOIN preise ON (preise.part_id = parts.id)".
+            " LEFT JOIN preise ON (preise.part_id = parts.id)".
             " WHERE (pending_orders.id IS NULL) AND (parts.instock < parts.mininstock) AND (parts.id_supplier = ". smart_escape($_REQUEST["sup_id"]) .")". 
             " UNION".
             " SELECT ".
@@ -200,16 +200,16 @@
             "parts.instock,". 
             "parts.mininstock,".
             "storeloc.name AS 'loc',".
-			"preise.preis".
+            "preise.preis".
             " FROM parts ".
             " INNER JOIN pending_orders ON ( parts.id = pending_orders.part_id ) ". 
             " LEFT JOIN footprints ON parts.id_footprint = footprints.id ".
             " LEFT JOIN suppliers ON parts.id_supplier = suppliers.id ".
             " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
-			" LEFT JOIN preise ON (preise.part_id = parts.id)".
+            " LEFT JOIN preise ON (preise.part_id = parts.id)".
             " WHERE (parts.id_supplier = ". smart_escape($_REQUEST["sup_id"]) .") GROUP BY (pending_orders.part_id) HAVING (parts.instock + SUM( pending_orders.quantity ) < parts.mininstock) ORDER BY name ASC;";
         }
-		$SearchQuerry = $query;
+        $SearchQuerry = $query;
         debug_print ($query);
         $result = mysql_query ($query);
 
@@ -241,71 +241,71 @@
 
 <table class="table">
 <tr>
-	<td class="tdtop">
-	Bauteile Export
-	</td>
+    <td class="tdtop">
+    Bauteile Export
+    </td>
 </tr>
 <tr>
-	<td class="tdtext">
-		<form method="post" action="">
-			<table>
-			<?PHP
-			print "<tr class=\"trcat\"><td><input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
-			print "<input type=\"hidden\" name=\"action\"  value=\"createbom\"/>";
-			
-			
-			print "<tr class=\"trcat\"><td>";
-			print "Format:</td><td><select name=\"format\">";
-			PrintsFormats("format");
-			print "</select>";
-			print "</td></tr><tr class=\"trcat\"><td>";
-			print "Trennzeichen:</td><td><input type=\"text\" name=\"spacer\" size=\"3\" value=\"";
-			if ( strcmp ($_REQUEST["action"], "createbom"))
-				print ";";
-			else
-				print $_REQUEST["spacer"];
-			print "\"/></td></tr>";
-			
-			print "</td></tr>";
-			
-			print "<tr><td><input type=\"submit\" value=\"Ausführen\"/></tr></td>";
-			
-			print "<tr><td colspan=\"4\">";
-			
-			if ( strcmp ($_REQUEST["action"], "createbom") == 0 )
-			{
-				
-				$query = $SearchQuerry;
-				
-				$result = mysql_query ($query);
-				$nrows = mysql_num_rows($result)+6;
-				
-				print "<textarea name=\"sql_query\" rows=\"".$nrows."\" cols=\"40\" dir=\"ltr\" >";
-				debug_print($query);
-				print "______________________________\r\n";
-				print "Bestell-Liste:\r\n";
-				print GenerateBOMHeadline($_REQUEST["format"],$_REQUEST["spacer"]);
-				while ( $d = mysql_fetch_row ($result) )
-				{
-					$q = mysql_fetch_row ($quantity);
-					
-					//function GenerateBOMResult($Format,$Spacer,$PartName,$SupNr,$SupName,$Quantity,$Instock,$Price)
-					print GenerateBOMResult($_REQUEST["format"],	//$Format
-											$_REQUEST["spacer"],	//$Spacer
-											$d[2],					//$PartName
-											$d[5],					//$SupNr
-											$d[4],					//$SupName
-											$d[3],					//$Quantity
-											$d[6],					//$Instock
-											$d[7]);					//$Price
-				}
-				print "</textarea>";
-			}
-			print "</td></tr>";
-			?>
-			</table>
-		</form>
-	</td>
+    <td class="tdtext">
+        <form method="post" action="">
+            <table>
+            <?PHP
+            print "<tr class=\"trcat\"><td><input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+            print "<input type=\"hidden\" name=\"action\"  value=\"createbom\"/>";
+            
+            
+            print "<tr class=\"trcat\"><td>";
+            print "Format:</td><td><select name=\"format\">";
+            PrintsFormats("format");
+            print "</select>";
+            print "</td></tr><tr class=\"trcat\"><td>";
+            print "Trennzeichen:</td><td><input type=\"text\" name=\"spacer\" size=\"3\" value=\"";
+            if ( strcmp ($_REQUEST["action"], "createbom"))
+                print ";";
+            else
+                print $_REQUEST["spacer"];
+            print "\"/></td></tr>";
+            
+            print "</td></tr>";
+            
+            print "<tr><td><input type=\"submit\" value=\"Ausführen\"/></tr></td>";
+            
+            print "<tr><td colspan=\"4\">";
+            
+            if ( strcmp ($_REQUEST["action"], "createbom") == 0 )
+            {
+                
+                $query = $SearchQuerry;
+                
+                $result = mysql_query ($query);
+                $nrows = mysql_num_rows($result)+6;
+                
+                print "<textarea name=\"sql_query\" rows=\"".$nrows."\" cols=\"40\" dir=\"ltr\" >";
+                debug_print($query);
+                print "______________________________\r\n";
+                print "Bestell-Liste:\r\n";
+                print GenerateBOMHeadline($_REQUEST["format"],$_REQUEST["spacer"]);
+                while ( $d = mysql_fetch_row ($result) )
+                {
+                    $q = mysql_fetch_row ($quantity);
+                    
+                    //function GenerateBOMResult($Format,$Spacer,$PartName,$SupNr,$SupName,$Quantity,$Instock,$Price)
+                    print GenerateBOMResult($_REQUEST["format"],    //$Format
+                                            $_REQUEST["spacer"],    //$Spacer
+                                            $d[2],                  //$PartName
+                                            $d[5],                  //$SupNr
+                                            $d[4],                  //$SupName
+                                            $d[3],                  //$Quantity
+                                            $d[6],                  //$Instock
+                                            $d[7]);                 //$Price
+                }
+                print "</textarea>";
+            }
+            print "</td></tr>";
+            ?>
+            </table>
+        </form>
+    </td>
 </tr>
 </table>
   

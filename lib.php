@@ -271,91 +271,91 @@
 
         return( ($data == 1) ? true : false );
     }
-	
-	function GetFormatStrings()
-	{
-		$aRetVal = array("CSV","CSV Reichelt","CSV Farnell");
-		return $aRetVal;
-	}
-	
-	function PrintsFormats($Request)
-	{
-		$Formats = GetFormatStrings();
-		$NrOfFormats = count($Formats);
-		for ($i = 0; $i < $NrOfFormats; $i++) 
-		{
-			if (($i==0 && isset($_REQUEST[$Request])==0 ) ||
-				(isset($_REQUEST[$Request]) && $i == $_REQUEST[$Request]))
-				print "<option selected value=\"".smart_unescape($i)."\">".$Formats[$i]."</option>";
-			else
-				print "<option value=\"".smart_unescape($i)."\">".$Formats[$i]."</option>";
-		}
-	}
-	
-	function GenerateBOMHeadline($Format,$Spacer)
-	{
-		if( $Format == 0 ) //CSV
-		{
-			$strRetVal = "\r\n";
-			$strRetVal = $strRetVal."Name:";
-			$strRetVal = $strRetVal.smart_unescape($Spacer);
-			$strRetVal = $strRetVal."Anzahl:";
-			$strRetVal = $strRetVal.smart_unescape($Spacer);
-			$strRetVal = $strRetVal."Lieferant:";
-			$strRetVal = $strRetVal.smart_unescape($Spacer);
-			$strRetVal = $strRetVal."Bestellnummer:";
-			$strRetVal = $strRetVal.smart_unescape($Spacer);
-			$strRetVal = $strRetVal."Preis:";
-			$strRetVal = $strRetVal.smart_unescape($Spacer);
-			$strRetVal = $strRetVal."Lagernd:";
-			$strRetVal = $strRetVal.smart_unescape($Spacer);
-			$strRetVal = $strRetVal."\r\n";
-			return $strRetVal;
-		}
-		else if( $Format == 1 ) //CSV Reichelt
-		{
-			return "\r\nBestellnummer:;Anzahl:\r\n";
-		}
-		else if( $Format == 2 ) //CSV Farnell
-		{
-			return "\r\nBestellnummer:,Anzahl:\r\n";
-		}
-		else
-		{
-			return "Unbekanntes export Format.";
-		}
-	}
-	
-	function GenerateBOMResult($Format,$Spacer,$PartName,$SupNr,$SupName,$Quantity,$Instock,$Price)
-	{
-		if( $Format == 0 ) //CSV
-		{
-			$strRetVal = "\r\n";
-			$strRetVal = $strRetVal.smart_unescape($PartName);
-			$strRetVal = $strRetVal.smart_unescape($Spacer);
-			$strRetVal = $strRetVal.smart_unescape($Quantity);
-			$strRetVal = $strRetVal.smart_unescape($Spacer);
-			$strRetVal = $strRetVal.smart_unescape($SupName);
-			$strRetVal = $strRetVal.smart_unescape($Spacer);
-			$strRetVal = $strRetVal.smart_unescape($SupNr);
-			$strRetVal = $strRetVal.smart_unescape($Spacer);
-			$strRetVal = $strRetVal.smart_unescape($Price);
-			$strRetVal = $strRetVal.smart_unescape($Spacer);
-			$strRetVal = $strRetVal.smart_unescape($Instock);
-			
-			return $strRetVal;
-		}
-		else if( $Format == 1 ) //CSV Reichelt
-		{
-			return "\r\n".smart_unescape($SupNr).";".smart_unescape($Quantity);
-		}
-		else if( $Format == 2 ) //CSV Farnell
-		{
-			return "\r\n".smart_unescape($SupNr).",".smart_unescape($Quantity);
-		}
-		else
-		{
-			return "";
-		}
-	}
+    
+    function GetFormatStrings()
+    {
+        $aRetVal = array("CSV","CSV Reichelt","CSV Farnell");
+        return $aRetVal;
+    }
+    
+    function PrintsFormats($Request)
+    {
+        $Formats = GetFormatStrings();
+        $NrOfFormats = count($Formats);
+        for ($i = 0; $i < $NrOfFormats; $i++) 
+        {
+            if (($i==0 && isset($_REQUEST[$Request])==0 ) ||
+                (isset($_REQUEST[$Request]) && $i == $_REQUEST[$Request]))
+                print "<option selected value=\"".smart_unescape($i)."\">".$Formats[$i]."</option>";
+            else
+                print "<option value=\"".smart_unescape($i)."\">".$Formats[$i]."</option>";
+        }
+    }
+    
+    function GenerateBOMHeadline($Format,$Spacer)
+    {
+        if( $Format == 0 ) //CSV
+        {
+            $strRetVal = "\r\n";
+            $strRetVal = $strRetVal."Name:";
+            $strRetVal = $strRetVal.smart_unescape($Spacer);
+            $strRetVal = $strRetVal."Anzahl:";
+            $strRetVal = $strRetVal.smart_unescape($Spacer);
+            $strRetVal = $strRetVal."Lieferant:";
+            $strRetVal = $strRetVal.smart_unescape($Spacer);
+            $strRetVal = $strRetVal."Bestellnummer:";
+            $strRetVal = $strRetVal.smart_unescape($Spacer);
+            $strRetVal = $strRetVal."Preis:";
+            $strRetVal = $strRetVal.smart_unescape($Spacer);
+            $strRetVal = $strRetVal."Lagernd:";
+            $strRetVal = $strRetVal.smart_unescape($Spacer);
+            $strRetVal = $strRetVal."\r\n";
+            return $strRetVal;
+        }
+        else if( $Format == 1 ) //CSV Reichelt
+        {
+            return "\r\nBestellnummer:;Anzahl:\r\n";
+        }
+        else if( $Format == 2 ) //CSV Farnell
+        {
+            return "\r\nBestellnummer:,Anzahl:\r\n";
+        }
+        else
+        {
+            return "Unbekanntes export Format.";
+        }
+    }
+    
+    function GenerateBOMResult($Format,$Spacer,$PartName,$SupNr,$SupName,$Quantity,$Instock,$Price)
+    {
+        if( $Format == 0 ) //CSV
+        {
+            $strRetVal = "\r\n";
+            $strRetVal = $strRetVal.smart_unescape($PartName);
+            $strRetVal = $strRetVal.smart_unescape($Spacer);
+            $strRetVal = $strRetVal.smart_unescape($Quantity);
+            $strRetVal = $strRetVal.smart_unescape($Spacer);
+            $strRetVal = $strRetVal.smart_unescape($SupName);
+            $strRetVal = $strRetVal.smart_unescape($Spacer);
+            $strRetVal = $strRetVal.smart_unescape($SupNr);
+            $strRetVal = $strRetVal.smart_unescape($Spacer);
+            $strRetVal = $strRetVal.smart_unescape($Price);
+            $strRetVal = $strRetVal.smart_unescape($Spacer);
+            $strRetVal = $strRetVal.smart_unescape($Instock);
+            
+            return $strRetVal;
+        }
+        else if( $Format == 1 ) //CSV Reichelt
+        {
+            return "\r\n".smart_unescape($SupNr).";".smart_unescape($Quantity);
+        }
+        else if( $Format == 2 ) //CSV Farnell
+        {
+            return "\r\n".smart_unescape($SupNr).",".smart_unescape($Quantity);
+        }
+        else
+        {
+            return "";
+        }
+    }
 ?>

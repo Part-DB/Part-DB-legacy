@@ -34,15 +34,15 @@
         while($rowcount)
         {
             if($_REQUEST["selectedpid".$rowcount] && $_REQUEST["newprice".$rowcount])
-            {			
-				$_REQUEST["newprice".$rowcount] = str_replace(',', '.', $_REQUEST["newprice".$rowcount]);
-				/* Before adding the new price, delete the old one! */
-				$query = "DELETE FROM preise WHERE part_id=". smart_escape($_REQUEST["selectedpid".$rowcount]) ." LIMIT 1;";
-				debug_print($query);
-				mysql_query($query);
-				$query = "INSERT INTO preise (part_id,ma,preis,t) VALUES (". smart_escape($_REQUEST["selectedpid".$rowcount]) .", 1, ". smart_escape($_REQUEST["newprice".$rowcount]) .", NOW());";
-				debug_print($query);
-				mysql_query($query);
+            {           
+                $_REQUEST["newprice".$rowcount] = str_replace(',', '.', $_REQUEST["newprice".$rowcount]);
+                /* Before adding the new price, delete the old one! */
+                $query = "DELETE FROM preise WHERE part_id=". smart_escape($_REQUEST["selectedpid".$rowcount]) ." LIMIT 1;";
+                debug_print($query);
+                mysql_query($query);
+                $query = "INSERT INTO preise (part_id,ma,preis,t) VALUES (". smart_escape($_REQUEST["selectedpid".$rowcount]) .", 1, ". smart_escape($_REQUEST["newprice".$rowcount]) .", NOW());";
+                debug_print($query);
+                mysql_query($query);
             }
             $rowcount--;
         }
@@ -69,7 +69,7 @@
     </tr>
     <tr>
         <td class="tdtext">
-		<script language="JavaScript" type="text/javascript">
+        <script language="JavaScript" type="text/javascript">
         <!--
         function popUp(URL)
         {
@@ -77,7 +77,7 @@
         id = d.getTime();
         eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=1, scrollbars=1, location=1, statusbar=1, menubar=1, resizable=1, width=600, height=400');");
         }
-		
+        
         function validateFloat(evt) 
         {
           var theEvent = evt || window.event;
@@ -91,30 +91,30 @@
         }
         // -->
         </script>
-		
-		<form method="post" action="">
-		<input type="hidden" name="action"  value="newprice"/>
+        
+        <form method="post" action="">
+        <input type="hidden" name="action"  value="newprice"/>
         <table>
         <?PHP
         
 
         print "<tr class=\"trcat\"><td></td> <td>Name</td> <td>Vorh./<br>Min.Best.</td> <td>Footprint</td> <td>Lagerort</td> <td align=\"center\">Preis</td></tr>\n";
 
-		$query = 
-		"SELECT ".
-		"parts.id,".
-		"parts.name,".
-		"parts.instock,".
-		"parts.mininstock,".
-		"footprints.name AS 'footprint',".
-		"storeloc.name AS 'loc',".
-		"parts.comment ".
-		"FROM parts ".
-		"LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
-		"LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id ".
-		"LEFT JOIN preise ON parts.id=preise.part_id ".
-		"WHERE (preise.id IS NULL) ".
-		"ORDER BY name ASC;";
+        $query = 
+        "SELECT ".
+        "parts.id,".
+        "parts.name,".
+        "parts.instock,".
+        "parts.mininstock,".
+        "footprints.name AS 'footprint',".
+        "storeloc.name AS 'loc',".
+        "parts.comment ".
+        "FROM parts ".
+        "LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
+        "LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id ".
+        "LEFT JOIN preise ON parts.id=preise.part_id ".
+        "WHERE (preise.id IS NULL) ".
+        "ORDER BY name ASC;";
 
         debug_print ($query);
         $result = mysql_query ($query);
@@ -153,8 +153,8 @@
             
             //Show a text box to add new price
             print "<td class=\"tdrow1\">";
-			print "<input type=\"hidden\" name=\"selectedpid".$rowcount."\" value=\"" . smart_unescape($d[0]). "\"/>";
-			print "<input type=\"text\" size=\"3\" onkeypress=\"validateFloat(event)\" name=\"newprice".$rowcount."\" value=\"0\"/>";
+            print "<input type=\"hidden\" name=\"selectedpid".$rowcount."\" value=\"" . smart_unescape($d[0]). "\"/>";
+            print "<input type=\"text\" size=\"3\" onkeypress=\"validateFloat(event)\" name=\"newprice".$rowcount."\" value=\"0\"/>";
             print "</td>";
             print "</tr>\n";
         }
@@ -162,8 +162,8 @@
         print "<input type=\"hidden\" name=\"selections\"  value=\"".$rowcount."\"/>";
         ?>
         </table>
-		<input type="submit" value="Hinzufügen"/>
-		</form>
+        <input type="submit" value="Hinzufügen"/>
+        </form>
         </td>
     </tr>
 </table>
