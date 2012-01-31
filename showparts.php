@@ -134,67 +134,84 @@
         $rowcount = 0;
         while ( $d = mysql_fetch_row ($result) )
         {
+            $part_id        = $d[0];
+            $part_name      = $d[1];
+            $footprint_name = $d[4];
+
             $rowcount++;
             if ( ($rowcount % 2) == 0 )
                 print "<tr class=\"trlist1\">";
             else
                 print "<tr class=\"trlist2\">";
             
-            if (has_image($d[0]))
+            // Pictures
+            print "<td class=\"tdrow0\">";
+            if ( has_image( $part_id))
             {
-                print "<td class=\"tdrow0\"><a href=\"javascript:popUp('getimage.php?pid=". smart_unescape($d[0]) . "')\"><img class=\"catbild\" src=\"getimage.php?pid=". smart_unescape($d[0]) . "\" alt=\"". smart_unescape($d[1]) ."\"></a></td>";
+                $link = "getimage.php?pid=". smart_unescape( $part_id);
+                print "<a href=\"javascript:popUp('". $link ."')\">".
+                    "<img class=\"hoverpic\" src=\"". $link . "\" alt=\"". smart_unescape( $part_name) ."\">".
+                    "</a>";
             }
             else
             {
-                //Footprintbilder
-                if(is_file("tools/footprints/" . smart_unescape($d[4]) . ".png"))
+                // Footprintbilder
+                $link = "tools/footprints/". smart_unescape( $footprint_name) .".png";
+                if ( is_file( $link))
                 {
-                print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[4]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[4]) .".png\" alt=\"\"></a></td>";
+                    print "<a href=\"javascript:popUp('". $link ."')\">".
+                        "<img class=\"hoverpic\" src=\"". $link ."\" alt=\"\">".
+                        "</a>";
                 }
                 else
                 {
-                print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
+                    print "<img src=\"img/partdb/dummytn.png\" alt=\"\">";
                 }
             }
+            print "</td>";
+
+            // comment
             print "<td class=\"tdrow1\"><a title=\"Kommentar: " . htmlspecialchars( smart_unescape($d[6]));
-            print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td>";
+            print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $part_id) ."');\">". smart_unescape( $part_name) ."</a></td>";
             print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."/". smart_unescape($d[3]) ."</td>";
             print "<td class=\"tdrow3\">". smart_unescape($d[4]) ."</td>";
             print "<td class=\"tdrow4\">". smart_unescape($d[5]) . "</td>";
             // datasheet links
             print "<td class=\"tdrow5\">";
-            $test = ($d[1]) ;
-            $query = "SELECT datasheeturl FROM datasheets WHERE part_id=". smart_escape($d[0]) ." ORDER BY datasheeturl ASC;";
-            $result_ds = mysql_query($query);
-            $dnew = mysql_fetch_row ($result_ds); #)
+            $test = ( $part_name) ;
+            $query = "SELECT datasheeturl FROM datasheets WHERE part_id=". smart_escape( $part_id) ." ORDER BY datasheeturl ASC;";
+            $result_ds = mysql_query( $query);
+            $dnew = mysql_fetch_row( $result_ds); #)
             // Mit ICONS 
-            print "<a title=\"alldatasheet.com\" href=\"http://www.alldatasheet.com/view.jsp?Searchword=". urlencode( smart_unescape( $test)) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/ads.png\" alt=\"logo\"></a>";
-            print "<a title=\"Reichelt.de\" href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". urlencode( smart_unescape( $test)) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/reichelt.png\" alt=\"logo\"></a>";
+            print "<a title=\"alldatasheet.com\" href=\"http://www.alldatasheet.com/view.jsp?Searchword=". urlencode( smart_unescape( $test)) ."\" target=\"_blank\">".
+                "<img class=\"companypic\" src=\"img/partdb/ads.png\" alt=\"logo\"></a>";
+            print "<a title=\"Reichelt.de\" href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". urlencode( smart_unescape( $test)) ."\" target=\"_blank\">".
+                "<img class=\"companypic\" src=\"img/partdb/reichelt.png\" alt=\"logo\"></a>";
             // Ohne ICONS
             print "<a href=\"http://search.datasheetcatalog.net/key/". urlencode( smart_unescape( $test)) ."\" target=\"_blank\">DC </a>";
             // show local datasheet if availible
             if( !empty($dnew[0]) )
             {
-                print "<a href=\"". smart_unescape($dnew[0]) ."\">Datenblatt</a> ";
+                print "<a href=\"". smart_unescape( $dnew[0]) ."\">Datenblatt</a> ";
             }
             print "</td>";
             
             //build the "-" button, only if more then 0 parts on stock
-            print "<td class=\"tdrow6\"><form action=\"\" method=\"post\">";
-            print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
-            print "<input type=\"hidden\" name=\"action\"  value=\"r\"/>";
-            print "<input type=\"submit\" value=\"-\"";
-            if($d[2]<=0)
+            print "<td class=\"tdrow6\"><form action=\"\" method=\"post\">".
+                "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape( $part_id)."\"/>".
+                "<input type=\"hidden\" name=\"action\"  value=\"r\"/>".
+                "<input type=\"submit\" value=\"-\"";
+            if ( $d[2] <= 0)
             {
                 print " disabled=\"disabled\" ";
             }
             print "/></form></td>";
             
             //build the "+" button
-            print "<td class=\"tdrow7\"><form action=\"\" method=\"post\">";
-            print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
-            print "<input type=\"hidden\" name=\"action\"  value=\"a\"/>";
-            print "<input type=\"submit\" value=\"+\"/></form></td>";
+            print "<td class=\"tdrow7\"><form action=\"\" method=\"post\">".
+                "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape( $part_id)."\"/>".
+                "<input type=\"hidden\" name=\"action\"  value=\"a\"/>".
+                "<input type=\"submit\" value=\"+\"/></form></td>";
             
             print "</tr>\n";
         }

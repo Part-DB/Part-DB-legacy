@@ -61,6 +61,8 @@
 .tdrow0 {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
+    position: relative;
+    display: block;
 }
 .tdrowred {
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
@@ -101,9 +103,40 @@
 	font-size: 12px;
     text-align: center;
 }
-.catbild { 
+
+.catbild 
+{ 
 	width: 20px;
 	height: 15px;
+}
+
+/* hover stuff */
+
+.companypic
+{ 
+	width: 20px;
+	height: 15px;
+    display: inline;
+}
+
+.hoverpic
+{ 
+	width: 20px;
+	height: 15px;
+    display: block;
+}
+
+a:hover .hoverpic
+{
+	width: 200px;
+	height: 150px;
+    display: block;
+    position: absolute;
+    bottom: -15px;
+    left: 0px;
+    z-index: 1;
+    background: #ffffff;
+    border: 1px solid #800000;
 }
 
 
