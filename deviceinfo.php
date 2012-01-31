@@ -27,6 +27,8 @@
     $notallinstock = 0;
     $bookstate = 0;
     $bookerrorstring = "";
+	$refreshnav = 0;
+	
     if ( strcmp ($_REQUEST["action"], "assignbytext") == 0 )
     {
 
@@ -139,6 +141,37 @@
         debug_print($query);
         mysql_query($query);
     }
+	else if( strcmp ($_REQUEST["action"], "renamedevice") == 0 )
+	{
+		$query = "UPDATE devices SET name=".smart_escape($_REQUEST["newdevname"])." WHERE id=" . smart_escape($_REQUEST["deviceid"]).";";
+		debug_print($query);
+        mysql_query($query);
+		$refreshnav = 1;
+	}
+	else if( strcmp ($_REQUEST["action"], "copydevice") == 0 )
+	{
+		//Create a new device and get the ID
+		$query = "INSERT INTO devices (name) VALUES (". smart_escape($_REQUEST["newcopydevname"]) .");";
+        debug_print ($query);
+        $r = mysql_query ($query);
+		$newid = mysql_insert_id();
+			
+		//Get the parts
+		$query = "SELECT part_device.id_part, part_device.quantity, part_device.mountname ".
+        "FROM part_device ".
+        "WHERE id_device = ".$_REQUEST["deviceid"].";";
+		debug_print ($query);
+        $r = mysql_query ($query);
+		
+		//Insert the parts
+		while ( $d = mysql_fetch_row ($r) )
+		{
+			$query = "INSERT INTO part_device (id_part,quantity,mountname,id_device) VALUES (".smart_escape($d[0]).",".smart_escape($d[1]).",".smart_escape($d[2]).",".smart_escape($newid).");";
+			debug_print ($query);
+			mysql_query ($query);
+		}
+		$refreshnav = 1;
+	}
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/loose.dtd">
@@ -280,6 +313,14 @@
           }
         }
         // -->
+		
+		<?PHP
+		if($refreshnav == 1)
+		{
+			$refreshnav = 0;
+			print "parent.frames._nav_frame.location.reload();";		
+		}
+		?>
         </script>
         
         <table>
@@ -583,6 +624,54 @@
                         print "Fehler.";
                     print "</td>";
                     }
+                    print "</tr>";
+                    ?>
+                </table>
+            </form>
+        </td>
+    </tr>
+  </table>
+  <br>
+  <table class="table">
+    <tr>
+        <td class="tdtop">
+        Baugruppe verwalten
+        </td>
+    </tr>
+    <tr>
+        <td class="tdtext">
+            <form method="post" action="">
+                <table>
+                    
+                    <?PHP
+                    print "<tr class=\"trcat\"><td>Umbenennen:</td><td><input type=\"text\" name=\"newdevname\" size=\"10\" maxlength=\"50\" value=\"";
+					print lookup_device_name ($_REQUEST["deviceid"]);
+                    print "\"/><td></tr>";
+                    print "<tr><td><input type=\"submit\" value=\"Ausführen\"/>";
+                    
+                    print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+                    print "<input type=\"hidden\" name=\"action\"  value=\"renamedevice\"/>";
+                    print "</td>";
+                    print "</tr>";
+                    ?>
+                </table>
+            </form>
+        </td>
+    </tr>
+	<tr>
+        <td class="tdtext">
+            <form method="post" action="">
+                <table>
+                    
+                    <?PHP
+                    print "<tr class=\"trcat\"><td>Kopieren:</td><td><input type=\"text\" name=\"newcopydevname\" size=\"10\" maxlength=\"50\" value=\"";
+					print "KopieVon".lookup_device_name ($_REQUEST["deviceid"]);
+                    print "\"/><td></tr>";
+                    print "<tr><td><input type=\"submit\" value=\"Ausführen\"/>";
+                    
+                    print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+                    print "<input type=\"hidden\" name=\"action\"  value=\"copydevice\"/>";
+                    print "</td>";
                     print "</tr>";
                     ?>
                 </table>

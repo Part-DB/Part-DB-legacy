@@ -34,11 +34,13 @@
     include('lib.php');
     partdb_init();
     
+	$refreshnav = 0;
+	
     /*
      * In some cases a confirmation question has to be displayed.
      */
     $special_dialog = false;
-
+	
     $action = 'default';
     if ( isset( $_REQUEST["add"]))        { $action = 'add';}
     if ( isset( $_REQUEST["delete"]))     { $action = 'delete';}
@@ -51,6 +53,7 @@
         $query = "INSERT INTO categories (name, parentnode) VALUES (". smart_escape($_REQUEST["new_category"]) .",". smart_escape($_REQUEST["parent_node"]) .");";
         debug_print($query);
         mysql_query ($query);
+		$refreshnav = 1;
     }
     
     
@@ -104,6 +107,7 @@
             $query = "UPDATE categories SET parentnode=0 WHERE parentnode=". smart_escape($_REQUEST["catsel"]) ." ;";
             debug_print ($query);
             mysql_query ($query);
+			$refreshnav = 1;
         }
     }
    
@@ -114,6 +118,7 @@
         $query = "UPDATE categories SET name=". smart_escape($_REQUEST["new_name"]) ." WHERE id=". smart_escape($_REQUEST["catsel"]) ." LIMIT 1";
         debug_print($query);
         mysql_query($query);
+		$refreshnav = 1;
     }
    
 
@@ -127,6 +132,7 @@
             $query = "UPDATE categories SET parentnode=". smart_escape($_REQUEST["parent_node"]) ." WHERE id=". smart_escape($_REQUEST["catsel"]) ." LIMIT 1";
             debug_print($query);
             mysql_query($query);
+			$refreshnav = 1;
         }
         else
         {
@@ -184,6 +190,17 @@
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
 </head>
 <body class="body">
+
+<script language="JavaScript" type="text/javascript">
+	<?PHP
+	if($refreshnav == 1)
+	{
+		$refreshnav = 0;
+		print "parent.frames._nav_frame.location.reload();";		
+	}
+	?>
+</script>
+
 
 <table class="table">
     <tr>

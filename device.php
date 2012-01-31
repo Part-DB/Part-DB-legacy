@@ -24,12 +24,16 @@
     partdb_init();
     
     $confirmdelete = 0;
-    
+    $refreshnav = 0;
+	
     if(strcmp($_REQUEST["action"], "createdevice") == 0)  //add a new device
     {
         $query = "INSERT INTO devices (name) VALUES (". smart_escape($_REQUEST["newdevicename"]) .");";
         debug_print ($query);
         $r = mysql_query ($query);
+		if($r == 0)
+            print "Fehler";
+		$refreshnav = 1;
     }
     else if(strcmp($_REQUEST["action"], "confirmeddelete") == 0)
     {
@@ -43,6 +47,7 @@
         $r = mysql_query ($query);
         if($r == 0)
             print "Fehler";
+		$refreshnav = 1;
     }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -53,6 +58,16 @@
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
 </head>
 <body class="body">
+
+	<script language="JavaScript" type="text/javascript">
+		<?PHP
+		if($refreshnav == 1)
+		{
+			$refreshnav = 0;
+			print "parent.frames._nav_frame.location.reload();";		
+		}
+		?>
+	</script>
 
 <table class="table">
     <tr>
@@ -107,7 +122,7 @@ if(strcmp($_REQUEST["action"], "deletedevice") == 0)
         <?PHP
         $query = "SELECT devices.id, devices.name, SUM(part_device.quantity), COUNT(part_device.quantity) ".
         "FROM devices LEFT JOIN part_device ".
-        "ON (devices.id =  part_device.id_device) GROUP BY part_device.id_device ORDER BY devices.name ASC;";
+        "ON (devices.id =  part_device.id_device) GROUP BY devices.id ORDER BY devices.name ASC;";
         debug_print($query);
         $result = mysql_query ($query);
         debug_print($result);
