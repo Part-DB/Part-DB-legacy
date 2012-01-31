@@ -68,7 +68,9 @@
     }
     else if ( strcmp ($_REQUEST["action"], "ds_add") == 0 )
     {
-        $query = "INSERT INTO datasheets (part_id,datasheeturl) VALUES (". smart_escape($_REQUEST["pid"]) .",". smart_escape($_REQUEST["ds_url"]) .");";
+        // add ds_path if requested (use_ds_path)
+        $ds    = ( strcmp( $_REQUEST["use_ds_path"], "true") == 0 ) ? $_REQUEST["ds_path"] : '';
+        $query = "INSERT INTO datasheets (part_id,datasheeturl) VALUES (". smart_escape($_REQUEST["pid"]) .",". smart_escape($ds.$_REQUEST["ds_url"]) .");";
         debug_print ($query);
         mysql_query ($query);
     }
@@ -229,7 +231,25 @@
     <title>Angaben ver&auml;ndern</title>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
 </head>
-<body class="body">
+<body class="body" onload="switch_ds_path()">
+
+<script type="text/javascript">
+    function switch_ds_path() 
+    {
+        if(document.ds.use_ds_path.checked)
+        {
+            document.ds.ds_path.disabled=false;
+            document.getElementById('URL').style.display='none';
+            document.getElementById('file').style.display='block';
+        }
+        else
+        {
+            document.ds.ds_path.disabled=true;
+            document.getElementById('URL').style.display='block';
+            document.getElementById('file').style.display='none';
+        }
+    }
+</script> 
 
 <table class="table">
     <tr>
@@ -507,10 +527,8 @@
                 for ($i = 0; $i < $ncol; $i++)
                 {
                     $d = mysql_fetch_row ($r);
-                    if ($i == 0)
-                    print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-                else
-                    print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+                    $sel = ($i == 0) ? 'selected' : '';
+                    print "<option ". $sel ." value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
                 }
             ?>
                 </select>
@@ -524,15 +542,18 @@
             
             </td></tr>
             <tr><td>
-            <form action="" method="get">
-            URL des hinzuf&uuml;genden Datenblattes:
-            <input type="text" name="ds_url" value="" size="40">
-            <input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
+            <form action="" method="get" name="ds">
+            <?php require( "config.php"); ?>
+            <input type="checkbox" name="use_ds_path" value="true" onclick="switch_ds_path()" <?php print ($use_datasheet_path ? 'checked' : ''); ?> >Pfad verwenden:&nbsp;&nbsp;&nbsp;
+            <input type="text"     name="ds_path"     value="<?php print $datasheet_path; ?>" size="40" <?php print ($use_datasheet_path ? '' : 'disabled'); ?> ><br>
+            <div id="URL" style="float:left">URL</div><div id="file" style="float:left">Dateinamen</div>&nbsp;des hinzuf&uuml;genden Datenblattes:<br>
+            <input type="text"   name="ds_url" value="" size="40">
+            <input type="hidden" name="pid"    value="<?PHP print $_REQUEST["pid"]; ?>">
             <input type="hidden" name="action" value="ds_add">&nbsp;&nbsp;&nbsp;
             <input type="submit" value="Hinzuf&uuml;gen!">
             </form>
             Hinweis:<br>
-            Wenn das Datenblatt unter C:\datasheets\foo.pdf zu finden ist, geben Sie als URL file:///C:/datasheets/foo.pdf an!
+            Wenn das Datenblatt unter C:\datasheets\foo.pdf zu finden ist, geben Sie als URL file:///C:/datasheets/foo.pdf an.<br>
             Dies scheint allerdings nicht mit allen Browser-Versionen und Acrobat-Reader-Versionen zu funktionieren.
             </td></tr>
             </table>
