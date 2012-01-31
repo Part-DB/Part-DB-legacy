@@ -161,3 +161,11 @@ CREATE TABLE `part_device` (
   PRIMARY KEY  (`id_part`)
 ) ENGINE=MyISAM;
 
+-- --------------------------------------------------------
+
+-- 
+-- Table structure for table `internal`
+-- 
+
+CREATE TABLE `internal` (keyName CHAR(30) CHARACTER SET ASCII UNIQUE NOT NULL, keyValue CHAR(30));
+INSERT INTO internal SET keyName='dbVersion', keyValue='3';
