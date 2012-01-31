@@ -26,22 +26,29 @@
     include('lib.php');
     partdb_init();
     
-    if ( isset( $_REQUEST['add']))
+    $action = 'default';
+    if ( isset( $_REQUEST["add"]))    { $action = 'add';}
+    if ( isset( $_REQUEST["delete"])) { $action = 'delete';}
+    if ( isset( $_REQUEST["rename"])) { $action = 'rename';}
+    
+    if ( $action == 'add')
     {
-        $query = "INSERT INTO footprints (name) VALUES (". smart_escape($_REQUEST["fpname"]) .");";
+        $query = "INSERT INTO footprints (name) VALUES (". smart_escape($_REQUEST["new_footprint"]) .");";
         debug_print($query);
         mysql_query($query);
     }
-    else if ( isset( $_REQUEST['delete']))
+    
+    if ( $action == 'delete')
     {
         // limit protects from runaway queries
-        $query = "DELETE FROM footprints WHERE id=". smart_escape($_REQUEST["fp"]) ." LIMIT 1;";
+        $query = "DELETE FROM footprints WHERE id=". smart_escape($_REQUEST["footprint_sel"]) ." LIMIT 1;";
         debug_print($query);
         mysql_query($query);
     }
-    else if ( isset( $_REQUEST['rename']))
+
+    if ( $action == 'rename')
     {
-        $query = "UPDATE footprints SET name=". smart_escape($_REQUEST["fpnameneu"]) ." WHERE id=". smart_escape($_REQUEST["fp"]) ." LIMIT 1;";
+        $query = "UPDATE footprints SET name=". smart_escape($_REQUEST["new_name"]) ." WHERE id=". smart_escape($_REQUEST["footprint_sel"]) ." LIMIT 1;";
         debug_print ($query);
         mysql_query ($query);
     }
@@ -59,43 +66,64 @@
 <table class="table">
     <tr>
         <td class="tdtop">
-        Footprints bearbeiten
+        Footprint anlegen 
         </td>
     </tr>
     <tr>
         <td class="tdtext">
             <form action="" method="post">
-            <select name="fp" size="8">
-            <?PHP
-            $query = "SELECT id,name FROM footprints ORDER BY name ASC;";
-            $r = mysql_query ($query);
-    
-            $ncol = mysql_num_rows ($r);
-            for ($i = 0; $i < $ncol; $i++)
-            {
-            $d = mysql_fetch_row ($r);
-            if ($i == 0)
-            print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-            else
-            print "<option value=\"". smart_unescape($d[0])."\">". smart_unescape($d[1]) ."</option>\n";
-            }
-            ?>
-            </select>
-            <br>
-            <br>
-            <input type="submit" name="delete" value="L&ouml;schen">
-            <br>
-            <br>
-            <input type="text"   name="fpnameneu">
-            <input type="submit" name="rename" value="Umbenennen">
-            <br>
-            <br>
-            <input type="text" name="fpname">
+            Neuer Footprint:
+            <input type="text" name="new_footprint">
             <input type="submit" name="add" value="Anlegen">
             </form>
         </td>
     </tr>
 </table>
 
- </body>
+<br>
+
+<table class="table">
+    <tr>
+        <td class="tdtop">
+        Footprint umbenennen/l&ouml;schen
+        </td>
+    </tr>
+    <tr>
+        <td class="tdtext">
+            <form action="" method="post">
+            <table>
+                <tr>
+                    <td rowspan="2">
+                        <select name="footprint_sel" size="15">
+                        <?PHP
+                            $query = "SELECT id,name FROM footprints ORDER BY name ASC;";
+                            $r = mysql_query ($query);
+                    
+                            $ncol = mysql_num_rows ($r);
+                            for ($i = 0; $i < $ncol; $i++)
+                            {
+                                $d = mysql_fetch_row ($r);
+                                print "<option value=\"". smart_unescape($d[0])."\">". smart_unescape($d[1]) ."</option>\n";
+                            }
+                        ?>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" name="delete" value="L&ouml;schen">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Neuer Name:<br>
+                        <input type="text"   name="new_name">
+                        <input type="submit" name="rename" value="Umbenennen">
+                    </td>
+                </tr>
+            </table>
+            </form>
+        </td>
+    </tr>
+</table>
+
+</body>
 </html>

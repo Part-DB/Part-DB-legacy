@@ -37,16 +37,20 @@
     /*
      * In some cases a confirmation question has to be displayed.
      */
-    $special_dialog = 0;
-    
+    $special_dialog = false;
 
-    if (isset($_REQUEST["btn_add"]))
+    $action = 'default';
+    if ( isset( $_REQUEST["add"]))    { $action = 'add';}
+    if ( isset( $_REQUEST["delete"])) { $action = 'delete';}
+    if ( isset( $_REQUEST["rename"])) { $action = 'rename';}
+
+    if ( $action == 'add')
     {
-        $query = "INSERT INTO categories (name,parentnode) VALUES (". smart_escape($_REQUEST["a_cn"]) .",". smart_escape($_REQUEST["a_pc"]) .");";
+        $query = "INSERT INTO categories (name,parentnode) VALUES (". smart_escape($_REQUEST["new_category"]) .",". smart_escape($_REQUEST["parent_node"]) .");";
         debug_print($query);
         mysql_query ($query);
     }
-    else if (isset($_REQUEST["btn_del"]))
+    else if ( $action == 'delete')
     {
         /*
          * Delete a category.
@@ -55,19 +59,35 @@
          */
         if ((! isset($_REQUEST["del_ok"])) && (! isset($_REQUEST["del_nok"])) )
         {
+            $special_dialog = true;
             $query = "SELECT COUNT(*) FROM parts WHERE id_category=". smart_escape($_REQUEST["catsel"]) .";";
             debug_print($query);
             $r = mysql_query($query);
             $d = mysql_fetch_row($r); // COUNT(*) queries always give a result!
             if ($d[0] != 0)
             {
-                $special_dialog = 1;
-                print "<html><body><div style=\"text-align:center;\"><div style=\"color:red;font-size:x-large;\">Kategorie kann nicht gel&ouml;scht werden!</div>Es gibt noch Teile, die in dieser Kategorie eingetragen sind.<form method=\"get\" action=\"catmgr.php\"><input type=\"submit\" value=\"OK!\"></form></div></body></html>";
+                print "<html><body>".
+                    "<div style=\"text-align:center;\">".
+                    "<div style=\"color:red;font-size:x-large;\">Kategorie kann nicht gel&ouml;scht werden!</div>".
+                    "Es gibt noch Teile, die in dieser Kategorie eingetragen sind.".
+                    "<form method=\"get\" action=\"\">".
+                    "<input type=\"submit\" value=\"OK\">".
+                    "</form></div>".
+                    "</body></html>";
             }
             else
             {
-                $special_dialog = 1;
-                print "<html><body><div style=\"text-align:center;\"><div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie die Kategorie &quot;". lookup_category_name($_REQUEST["catsel"]) ."&quot; wirklich l&ouml;schen?</div>Der L&ouml;schvorgang ist irreversibel!<form action=\"catmgr.php\" method=\"post\"><input type=\"hidden\" name=\"catsel\" value=\"". $_REQUEST["catsel"] ."\"><input type=\"hidden\" name=\"btn_del\" value=\"x\"><input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen!\"><input type=\"submit\" name=\"del_ok\" value=\"L&ouml;schen!\"></form></div></body></html>";
+                print "<html><body>".
+                    "<div style=\"text-align:center;\">".
+                    "<div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie die Kategorie &quot;". lookup_category_name($_REQUEST["catsel"]) ."&quot; wirklich l&ouml;schen?</div>".
+                    "Der L&ouml;schvorgang ist irreversibel!".
+                    "<form action=\"\" method=\"post\">".
+                    "<input type=\"hidden\" name=\"catsel\"  value=\"". $_REQUEST["catsel"] ."\">".
+                    "<input type=\"hidden\" name=\"delete\"  value=\"x\">".
+                    "<input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen\">".
+                    "<input type=\"submit\" name=\"del_ok\"  value=\"L&ouml;schen\">".
+                    "</form></div>".
+                    "</body></html>";
             }
         }
         else if (isset($_REQUEST["del_ok"]))
@@ -78,10 +98,11 @@
             mysql_query ($query);
         }
     }
-    else if (isset($_REQUEST["btn_rn"]))
+    
+    if ( $action == 'rename')
     {
         /* rename */
-        $query = "UPDATE categories SET name=". smart_escape($_REQUEST["nn"]) ." WHERE id=". smart_escape($_REQUEST["catsel"]) ." LIMIT 1";
+        $query = "UPDATE categories SET name=". smart_escape($_REQUEST["new_name"]) ." WHERE id=". smart_escape($_REQUEST["catsel"]) ." LIMIT 1";
         debug_print($query);
         mysql_query($query);
     }
@@ -101,14 +122,14 @@
         {
             print "<option value=\"". smart_unescape($d[0]) . "\">";
             for ($i = 0; $i < $level; $i++) print "&nbsp;&nbsp;&nbsp;";
-            print smart_unescape($d[1]) ."</option>";
+            print smart_unescape($d[1]) ."</option>\n";
 
             // do the same for the next level.
             buildtree ($d[0], $level + 1);
         }
     }
 
-    if ($special_dialog == 0)
+    if ($special_dialog == false)
     {
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -131,18 +152,20 @@
             <form action="" method="post">
             <table>
                 <tr>
-                <td>&Uuml;bergeordnete Kategorie ausw&auml;hlen:</td>
-                <td>
-                <select name="a_pc">
-                <option value="0">root node</option>
-                <?PHP buildtree(0, 1); ?>
-                </select>
-                </td>
-                </tr><tr>
-                <td>Name der neuen Kategorie</td>
-                <td><input type="text" name="a_cn"></td>
-                </tr><tr>
-                <td colspan="2"><center><input type="submit" name="btn_add" value="Anlegen!"></center></td>
+                    <td>&Uuml;bergeordnete Kategorie ausw&auml;hlen:</td>
+                    <td>
+                        <select name="parent_node">
+                        <option value="0">root node</option>
+                        <?PHP buildtree(0, 1); ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Name der neuen Kategorie</td>
+                    <td>
+                        <input type="text" name="new_category">
+                        <input type="submit" name="add" value="Anlegen">
+                    </td>
                 </tr>
             </table>
             </form>
@@ -152,10 +175,10 @@
 
 <br>
 
-  <table class="table">
+<table class="table">
     <tr>
         <td class="tdtop">
-        Kategorie Bearbeiten/L&ouml;schen
+        Kategorie umbennenen/l&ouml;schen
         </td>
     </tr>
     <tr>
@@ -163,35 +186,37 @@
             <form action="" method="post">
             <table>
                 <tr>
-                <td valign="top">
-                W&auml;hlen Sie die zu bearbeitende Kategorie:<br>
-                <select name="catsel" size="10">
-                <?PHP buildtree(0, 1); ?>
-                </select>
-                </td><td valign="top">
-                Was soll mit der ausgew&auml;hlten Kategorie geschehen???
-                <table>
-                    <tr>
                     <td>
-                    <input type="submit" name="btn_del" value="L&ouml;schen">
+                        W&auml;hlen Sie die zu bearbeitende Kategorie:<br>
                     </td>
-                    </tr><tr><td>&nbsp;</td></tr><tr>
                     <td>
-                    Neuer Name:<br>
-                    <input type="text" name="nn">
-                    <input type="submit" name="btn_rn" value="Umbenennen!">
+                        Was soll mit der ausgew&auml;hlten Kategorie geschehen?
                     </td>
-                    </tr>
-                </table>
-                </td>
+                </tr>
+                <tr>
+                    <td rowspan="2">
+                        <select name="catsel" size="15">
+                        <?PHP buildtree(0, 1); ?>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" name="delete" value="L&ouml;schen">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Neuer Name:<br>
+                        <input type="text" name="new_name">
+                        <input type="submit" name="rename" value="Umbenennen">
+                    </td>
                 </tr>
             </table>
             </form>
         </td>
     </tr>
-  </table>
+</table>
 
- </body>
+</body>
 </html>
 
 <?PHP

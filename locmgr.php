@@ -35,12 +35,18 @@
     /*
      * In some cases a confirmation question has to be displayed.
      */
-    $special_dialog = 0;
+    $special_dialog = false;
 
     /*
      * this is the dispatcher ...
      */
-    if (isset($_REQUEST["btn_add"]))
+    $action = 'default';
+    if ( isset( $_REQUEST["add"]))    { $action = 'add';}
+    if ( isset( $_REQUEST["delete"])) { $action = 'delete';}
+    if ( isset( $_REQUEST["rename"])) { $action = 'rename';}
+
+
+    if ( $action == 'add')
     {
         if ($_REQUEST["series"] == "true")
         {
@@ -49,7 +55,7 @@
             $start = (int)$_REQUEST["series_start"];
             $end   = (int)$_REQUEST["series_end"];
             for ($index = $start; $index <= $end; $index++) {
-                $query = $query."(".smart_escape($_REQUEST["locname"].$index)."), ";
+                $query = $query ."(". smart_escape( $_REQUEST["new_location"]. $index) ."), ";
             }
             // complete query
             $query = substr($query, 0, -2).";";
@@ -57,12 +63,13 @@
         else
         {
             // add a location
-            $query = "INSERT INTO storeloc (name) VALUES (". smart_escape($_REQUEST["locname"]) .");";
+            $query = "INSERT INTO storeloc (name) VALUES (". smart_escape($_REQUEST["new_location"]) .");";
         }
         debug_print ($query);
         mysql_query ($query);
     }
-    else if (isset($_REQUEST["btn_del"]))
+
+    if ( $action == 'delete')
     {
         /*
          * Delete a location.
@@ -71,32 +78,49 @@
          */
         if ((! isset($_REQUEST["del_ok"])) && (! isset($_REQUEST["del_nok"])) )
         {
-            $query = "SELECT COUNT(*) FROM parts WHERE id_storeloc=". smart_escape($_REQUEST["locsel"]) .";";
+            $special_dialog = true;
+            $query = "SELECT COUNT(*) FROM parts WHERE id_storeloc=". smart_escape($_REQUEST["location_sel"]) .";";
             debug_print($query);
             $r = mysql_query($query);
             $d = mysql_fetch_row($r); // COUNT(*) queries always give a result!
             if ($d[0] != 0)
             {
-                $special_dialog = 1;
-                print "<html><body><div style=\"text-align:center;\"><div style=\"color:red;font-size:x-large;\">Lagerort kann nicht gel&ouml;scht werden!</div>Es gibt noch Teile, die diesen Lagerort als Ort eingetragen haben.<form method=\"get\" action=\"locmgr.php\"><input type=\"submit\" value=\"OK!\"></form></div></body></html>";
+                print "<html><body>".
+                    "<div style=\"text-align:center;\">".
+                    "<div style=\"color:red;font-size:x-large;\">Lagerort kann nicht gel&ouml;scht werden!</div>".
+                    "Es gibt noch Teile, die diesen Lagerort als Ort eingetragen haben.".
+                    "<form method=\"get\" action=\"\">".
+                    "<input type=\"submit\" value=\"OK\">".
+                    "</form></div>".
+                    "</body></html>";
             }
             else
             {
-                $special_dialog = 1;
-                print "<html><body><div style=\"text-align:center;\"><div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie den Lagerort &quot;". lookup_location_name($_REQUEST["locsel"]) ."&quot; wirklich l&ouml;schen?</div>Der L&ouml;schvorgang ist irreversibel!<form action=\"locmgr.php\" method=\"post\"><input type=\"hidden\" name=\"locsel\" value=\"". $_REQUEST["locsel"] ."\"><input type=\"hidden\" name=\"btn_del\" value=\"x\"><input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen!\"><input type=\"submit\" name=\"del_ok\" value=\"L&ouml;schen!\"></form></div></body></html>";
+                print "<html><body>".
+                    "<div style=\"text-align:center;\">".
+                    "<div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie den Lagerort &quot;". lookup_location_name($_REQUEST["location_sel"]) ."&quot; wirklich l&ouml;schen?</div>".
+                    "Der L&ouml;schvorgang ist irreversibel!".
+                    "<form action=\"\" method=\"post\">".
+                    "<input type=\"hidden\" name=\"location_sel\" value=\"". $_REQUEST["location_sel"] ."\">".
+                    "<input type=\"hidden\" name=\"delete\"  value=\"x\">".
+                    "<input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen\">".
+                    "<input type=\"submit\" name=\"del_ok\"  value=\"L&ouml;schen\">".
+                    "</form></div>".
+                    "</body></html>";
             }
         }
         else if (isset($_REQUEST["del_ok"]))
         {
             // the user said it's OK to delete the location
-            $query = "DELETE FROM storeloc WHERE id=". smart_escape($_REQUEST["locsel"]) ." LIMIT 1;";
+            $query = "DELETE FROM storeloc WHERE id=". smart_escape($_REQUEST["location_sel"]) ." LIMIT 1;";
             debug_print ($query);
             mysql_query ($query);
         }
     }
-    else if (isset($_REQUEST["btn_rn"]))
+    
+    if ( $action == 'rename')
     {
-        $query = "UPDATE storeloc SET name=". smart_escape($_REQUEST["nn"]) ." WHERE id=". smart_escape($_REQUEST["locsel"]) ." LIMIT 1;";
+        $query = "UPDATE storeloc SET name=". smart_escape($_REQUEST["new_name"]) ." WHERE id=". smart_escape($_REQUEST["location_sel"]) ." LIMIT 1;";
         debug_print ($query);
         mysql_query ($query);
     }
@@ -104,7 +128,7 @@
     /*
      * Don't show the default text when there's a msg.
      */
-    if ($special_dialog == 0)
+    if ($special_dialog == false)
     {
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -117,7 +141,8 @@
 <body class="body">
 
 <script type="text/javascript">
-    function switch_series() {
+    function switch_series() 
+    {
         if(document.create.series.checked)
         {
             document.create.series_start.disabled=false;
@@ -134,59 +159,75 @@
 <table class="table">
     <tr>
         <td class="tdtop">
-        Lagerorte bearbeiten
+        Lagerorte anlegen 
         </td>
     </tr>
     <tr>
         <td class="tdtext">
-            <form action="" method="get">
+            <form action="" method="post" name="create">
             <table>
                 <tr>
-                <td valign="top">
-                Zu bearbeitenden Lagerort w&auml;hlen:<br>
-                <select name="locsel" size="8">
-                <?PHP
-                $query = "SELECT id,name FROM storeloc ORDER BY name ASC;";
-                debug_print($query);
-                $r = mysql_query ($query);
-        
-                $ncol = mysql_num_rows ($r);
-                for ($i = 0; $i < $ncol; $i++)
-                {
-                    $d = mysql_fetch_row ($r);
-                    if ($i == 0)
-                    print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-                    else
-                    print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-                }
-                ?>
-                </select>
-                </td><td valign="top">
-                <table>
-                    <tr>
                     <td>
-                    <input type="submit" name="btn_del" value="L&ouml;schen">
+                        Neuer Lagerort:
+                        <input type="text"     name="new_location">
+                        <input type="submit"   name="add" value="Anlegen">
                     </td>
-                    </tr>
-                    <tr><td>&nbsp;</td></tr>
-                    <tr>
+                </tr>
+                <tr>
                     <td>
-                    Neuer Name:<br>
-                    <input type="text" name="nn">
-                    <input type="submit" name="btn_rn" value="Umbenennen!">
+                        <input type="checkbox" name="series" value="true" onclick="switch_series()">Serie erzeugen&nbsp;&nbsp;
+                        von <input type="text" name="series_start" size="5" value="1" disabled>
+                        bis <input type="text" name="series_end"   size="5" value="9" disabled>
                     </td>
-                    </tr>
-                </table>
-                </td>
                 </tr>
             </table>
             </form>
-            <form action="" method="post" name="create">
-            Neuer Lagerort:<input type="text" name="locname">
-            <input type="submit" name="btn_add" value="Anlegen"><br>
-            <input type="checkbox" name="series" value="true" onclick="switch_series()">Serie erzeugen&nbsp;&nbsp;
-            von <input type="text" name="series_start" size="5" value="1" disabled>
-            bis <input type="text" name="series_end"   size="5" value="9" disabled>
+        </td>
+    </tr>
+</table>
+
+<br>
+
+<table class="table">
+    <tr>
+        <td class="tdtop">
+        Lagerorte umbenennen/l&ouml;schen
+        </td>
+    </tr>
+    <tr>
+        <td class="tdtext">
+            <form action="" method="post">
+            <table>
+                <tr>
+                    <td rowspan="2">
+                        Zu bearbeitenden Lagerort w&auml;hlen:<br>
+                        <select name="location_sel" size="10">
+                        <?PHP
+                            $query = "SELECT id,name FROM storeloc ORDER BY name ASC;";
+                            debug_print($query);
+                            $r = mysql_query ($query);
+                    
+                            $ncol = mysql_num_rows ($r);
+                            for ($i = 0; $i < $ncol; $i++)
+                            {
+                                $d = mysql_fetch_row ($r);
+                                print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+                            }
+                        ?>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" name="delete" value="L&ouml;schen">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Neuer Name:<br>
+                        <input type="text" name="new_name">
+                        <input type="submit" name="rename" value="Umbenennen">
+                    </td>
+                </tr>
+            </table>
             </form>
         </td>
     </tr>

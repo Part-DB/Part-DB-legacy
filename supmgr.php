@@ -27,19 +27,34 @@
 */
     include('lib.php');
     partdb_init();
+    
+    $action = 'default';
+    if ( isset( $_REQUEST["add"]))    { $action = 'add';}
+    if ( isset( $_REQUEST["delete"])) { $action = 'delete';}
+    if ( isset( $_REQUEST["rename"])) { $action = 'rename';}
 
-    if ( strcmp ($_REQUEST["action"], "a") == 0 )
+
+    if ( $action == 'add')
     {
-        $query = "INSERT INTO suppliers (name) VALUES (". smart_escape($_REQUEST["supname"]) .");";
+        $query = "INSERT INTO suppliers (name) VALUES (". smart_escape($_REQUEST["new_supplier"]) .");";
         debug_print ($query);
         mysql_query ($query);
     }
-    else if ( strcmp ($_REQUEST["action"], "d") == 0 )
+    
+    if ( $action == 'delete')
     {
-        $query = "DELETE FROM suppliers WHERE id=". smart_escape($_REQUEST["sup2del"]) ." LIMIT 1;";
+        $query = "DELETE FROM suppliers WHERE id=". smart_escape($_REQUEST["supplier_sel"]) ." LIMIT 1;";
         debug_print ($query);
         mysql_query ($query);
     }
+
+    if ( $action == 'rename')
+    {
+        $query = "UPDATE suppliers SET name=". smart_escape($_REQUEST["new_name"]) ." WHERE id=". smart_escape($_REQUEST["supplier_sel"]) ." LIMIT 1";  
+        debug_print ($query);
+        mysql_query ($query);
+    }
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/loose.dtd">
@@ -53,39 +68,64 @@
 <table class="table">
     <tr>
         <td class="tdtop">
-        Lieferanten bearbeiten
+        Lieferant anlegen 
         </td>
     </tr>
     <tr>
         <td class="tdtext">
-        <form action="" method="post">
-        <select name="sup2del" size="8" multiple="multiple">
-        <?PHP
-        $query = "SELECT id,name FROM suppliers ORDER BY name ASC;";
-        $r = mysql_query ($query);
-    
-        $ncol = mysql_num_rows ($r);
-        for ($i = 0; $i < $ncol; $i++)
-        {
-        $d = mysql_fetch_row ($r);
-        if ($i == 0)
-        print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-        else
-        print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-        }
-        ?>
-        </select><br>
-        <input type="hidden" name="action" value="d">
-        <input type="submit" value="L&ouml;schen">
-        </form>
-        <form action="" method="post">
-        Neuer Lieferant:<input type="text" name="supname">
-        <input type="hidden" name="action" value="a">
-        <input type="submit" value="Anlegen">
-        </form>
+            <form action="" method="post">
+            Neuer Lieferant:
+            <input type="text" name="new_supplier">
+            <input type="submit" name="add" value="Anlegen">
+            </form>
         </td>
     </tr>
 </table>
 
- </body>
+<br>
+
+<table class="table">   
+    <tr>
+        <td class="tdtop">
+        Lieferant umbenennen/l&ouml;schen 
+        </td>
+    </tr>
+    <tr>
+        <td class="tdtext">
+            <form action="" method="post">
+            <table>
+                <tr>
+                    <td rowspan="2">
+                        <select name="supplier_sel" size="8" multiple="multiple">
+                        <?PHP
+                            $query = "SELECT id,name FROM suppliers ORDER BY name ASC;";
+                            $r = mysql_query ($query);
+                
+                            $ncol = mysql_num_rows ($r);
+                            for ($i = 0; $i < $ncol; $i++)
+                            {
+                                $d = mysql_fetch_row ($r);
+                                print "<option  value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+                            }
+                        ?>
+                        </select>
+                    </td>
+                    <td>
+                        <input type="submit" name="delete" value="L&ouml;schen">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Neuer Name:<br>
+                        <input type="text" name="new_name">
+                        <input type="submit" name="rename" value="Umbenennen">
+                    </td>
+                </tr>
+            </table>
+            </form>
+        </td>
+    </tr>
+</table>
+
+</body>
 </html>
