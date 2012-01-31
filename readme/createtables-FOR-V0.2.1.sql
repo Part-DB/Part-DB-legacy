@@ -164,8 +164,12 @@ CREATE TABLE `part_device` (
 -- --------------------------------------------------------
 
 -- 
--- Table structure for table `internal`
+-- Tabellenstruktur für Tabelle `internal`
 -- 
 
-CREATE TABLE `internal` (keyName CHAR(30) CHARACTER SET ASCII UNIQUE NOT NULL, keyValue CHAR(30));
-INSERT INTO internal SET keyName='dbVersion', keyValue='3';
+CREATE TABLE `internal` (
+  `keyName` CHAR(30) CHARACTER SET ASCII UNIQUE NOT NULL,
+  `keyValue` CHAR(30)
+) ENGINE=MyISAM;
+
+INSERT INTO `internal` SET `keyName`='dbVersion', `keyValue`='3';
