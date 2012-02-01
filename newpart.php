@@ -34,6 +34,7 @@
         $Footprint   = $_REQUEST["p_footprint"];
         $Storage     = $_REQUEST["p_storeloc"];
         $Distributor = $_REQUEST["p_supplier"];
+        $p_name      = $_REQUEST["p_name"];
 
         if(isset($_REQUEST["AddPart"]))
         {
@@ -46,8 +47,6 @@
                         if (strcmp ($_REQUEST["p_supplier"],  "X") == 0) { print "kein Lieferant<br>"; }
                     print "<br>\n";
 
-                    // keep original name
-                    $p_name = $_REQUEST["p_name"];
                 }
                 else
                 {
