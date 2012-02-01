@@ -121,14 +121,14 @@
         
         if (has_image($d[0]))
         {
-            print "<td class=\"tdrow0\"><a href=\"javascript:popUp('getimage.php?pid=". smart_unescape($d[0]) . "')\"><img class=\"catbild\" src=\"getimage.php?pid=". smart_unescape($d[0]) . "\" alt=\"". smart_unescape($d[1]) ."\"></a></td>";
+            print "<td class=\"tdrow0\"><a href=\"javascript:popUp('getimage.php?pid=". smart_unescape($d[0]) . "')\"><img class=\"hoverpic\" src=\"getimage.php?pid=". smart_unescape($d[0]) . "\" alt=\"". smart_unescape($d[1]) ."\"></a></td>";
         }
         else
         {
             //Footprintbilder
             if(is_file("tools/footprints/" . smart_unescape($d[4]) . ".png"))
             {
-            print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[4]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[4]) .".png\" alt=\"\"></a></td>";
+            print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[4]) . ".png')\"><img class=\"hoverpic\" src=\"tools/footprints/". smart_unescape($d[4]) .".png\" alt=\"\"></a></td>";
             }
             else
             {
