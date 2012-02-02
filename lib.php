@@ -68,10 +68,8 @@
             $value = stripslashes($value);
         }
 
-        // if it's no integer, quote it
-        if (!is_numeric($value)) {
-            $value = "'". mysql_escape_string($value) ."'";
-        }
+        // quote it
+        $value = "'". mysql_escape_string($value) ."'";
 
         return ($value);
     }
