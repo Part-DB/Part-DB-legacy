@@ -39,7 +39,8 @@
         if(isset($_REQUEST["AddPart"]))
         {
                 /* some sanity checks */
-                if ( (strcmp ($_REQUEST["p_footprint"], "X") == 0) || (strcmp ($_REQUEST["p_storeloc"], "X") == 0) || (strcmp ($_REQUEST["p_supplier"], "X") == 0) )
+				//Removed check for testing
+                /*if ( (strcmp ($_REQUEST["p_footprint"], "X") == 0) || (strcmp ($_REQUEST["p_storeloc"], "X") == 0) || (strcmp ($_REQUEST["p_supplier"], "X") == 0) )
                 {
                     print "<h2>\nFehler:</h2>\n";
                         if (strcmp ($_REQUEST["p_footprint"], "X") == 0) { print "kein Footprint<br>"; }
@@ -48,7 +49,7 @@
                     print "<br>\n";
 
                 }
-                else
+                else*/
                 {
                     $query = 
                         "INSERT INTO parts ".
@@ -111,7 +112,6 @@
                     {
                         print "<script>window.close();</script>";
                     }
-
                     // autoincrement name
                     $p_name = ++$_REQUEST["p_name"];
                 }

@@ -107,8 +107,8 @@
         {
             /* this part is in a different category than
                the previous. */
-            print "<tr><td class=\"tdtop\" colspan=\"8\">Treffer in der Kategorie ". show_bt($d[7]) ."</td></tr>\n";
-            print "<tr class=\"trcat\"><td></td> <td>Name</td> <td>Vorh./<br>Min.Best.</td> <td>Footprint</td> <td>Lagerort</td> <td>Datenbl&auml;tter</td> <td align=\"center\">-</td> <td align=\"center\">+</td></tr>\n";
+            print "<tr><td class=\"tdtop\" colspan=\"9\">Treffer in der Kategorie ". show_bt($d[7]) ."</td></tr>\n";
+            print "<tr class=\"trcat\"><td></td> <td>Name</td> <td>Vorh./<br>Min.Best.</td> <td>Footprint</td> <td>Lagerort</td> <td>ID</td> <td>Datenbl&auml;tter</td> <td align=\"center\">-</td> <td align=\"center\">+</td></tr>\n";
             $prevcat = $d[7];
             $rowcount = 0;
         }
@@ -140,6 +140,7 @@
         print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."/". smart_unescape($d[3]) ."</td>";
         print "<td class=\"tdrow3\">". smart_unescape($d[4]) ."</td>";
         print "<td class=\"tdrow4\">". smart_unescape($d[5]) . "</td>";
+		print "<td class=\"tdrow4\">". smart_unescape($d[0]) . "</td>";
         // datasheet links
         print "<td class=\"tdrow5\">";
         $test = ($d[1]) ;

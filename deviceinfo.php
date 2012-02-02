@@ -159,7 +159,7 @@
 		//Get the parts
 		$query = "SELECT part_device.id_part, part_device.quantity, part_device.mountname ".
         "FROM part_device ".
-        "WHERE id_device = ".$_REQUEST["deviceid"].";";
+        "WHERE id_device = ".smart_escape($_REQUEST["deviceid"]).";";
 		debug_print ($query);
         $r = mysql_query ($query);
 		
@@ -172,6 +172,46 @@
 		}
 		$refreshnav = 1;
 	}
+	else if( strcmp ($_REQUEST["action"], "import") == 0 )
+	{
+		if (isset($_REQUEST["import_data"])) {
+			$lines = preg_split("/\r\n/", $_REQUEST["import_data"]);
+			foreach ($lines as $key => $value){
+			  $rows = $lines = preg_split("/;/", $value);
+			  $rowvalid = 1;
+			  $addquery = "INSERT INTO part_device (id_part,quantity,mountname,id_device) VALUES (";
+			  foreach ($rows as $keyrow => $rowvalue){
+			  if($keyrow == 0)	//ID
+			  {
+					if(!is_numeric($rowvalue))
+					{
+						$rowvalid = 0;
+					}
+					$addquery = $addquery.smart_escape($rowvalue).",";
+				}
+				else if($keyrow == 1)	//Quantity
+				{
+					if(!is_numeric($rowvalue))
+					{
+						$rowvalid = 0;
+					}
+					$addquery = $addquery.smart_escape($rowvalue).",";
+				}
+				else if($keyrow == 2)	//mounting text
+				{
+					$addquery = $addquery.smart_escape($rowvalue).",";
+				}
+			  }
+			  $addquery = $addquery.smart_escape($_REQUEST["deviceid"]).");";
+			  if($rowvalid == 1)
+			  {
+				debug_print ($addquery);
+				mysql_query ($addquery);
+			  }
+			}
+		}
+	}
+ 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/loose.dtd">
@@ -330,10 +370,13 @@
                 
         $query = "SELECT parts.name, parts.comment, parts.id, footprints.name, part_device.quantity, parts.instock, storeloc.name, suppliers.name, preise.preis, part_device.mountname ".
         "FROM parts ".
-        "JOIN (part_device, footprints, storeloc, suppliers) ".
-        "ON (parts.id = part_device.id_part AND footprints.id = parts.id_footprint AND storeloc.id = parts.id_storeloc AND suppliers.id = parts.id_supplier) ".
-        "LEFT JOIN preise ON (preise.part_id = parts.id)".
-        "WHERE id_device = ".$_REQUEST["deviceid"]." ORDER BY parts.id_category,parts.name ASC;";
+        "JOIN (part_device) ".
+        "ON (parts.id = part_device.id_part) ".
+        "LEFT JOIN preise ON (preise.part_id = parts.id) ".
+        "LEFT JOIN footprints ON (footprints.id = parts.id_footprint) ".
+		"LEFT JOIN storeloc ON (storeloc.id = parts.id_storeloc) ".
+		"LEFT JOIN suppliers ON (suppliers.id = parts.id_supplier) ".
+		"WHERE id_device = ".$_REQUEST["deviceid"]." ORDER BY parts.id_category,parts.name ASC;";
         debug_print($query);
         $result = mysql_query ($query);
         $sumprice = 0;
@@ -631,6 +674,39 @@
         </td>
     </tr>
   </table>
+    <br>
+  <table class="table">
+    <tr>
+        <td class="tdtop">
+        Bauteile Importieren
+        </td>
+    </tr>
+    <tr>
+        <td class="tdtext">
+            <form method="post" action="">
+                <table>
+                    
+                    <?PHP
+                    print "<tr class=\"trcat\"><td>";
+					print "<textarea name=\"import_data\" rows=\"".$nrows."\" cols=\"40\" dir=\"ltr\">";
+					print "</textarea>";
+                    print "<td></tr>";
+					print "<tr><td >";
+					print "Format: ID;Anzahl;Bestückungsdaten;";
+					print "</textarea>";
+                    print "<td></tr>";
+					print "<tr><td><input type=\"submit\" value=\"Ausführen\"/>";                    
+                    print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+                    print "<input type=\"hidden\" name=\"action\"  value=\"import\"/>";
+                    print "</td>";
+                    print "</tr>";
+                    ?>
+                </table>
+            </form>
+        </td>
+    </tr>
+  </table>
+  
   <br>
   <table class="table">
     <tr>
