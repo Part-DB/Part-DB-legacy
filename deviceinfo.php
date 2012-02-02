@@ -573,9 +573,12 @@
                     
                     $query = "SELECT parts.supplierpartnr, part_device.quantity, storeloc.name, suppliers.name, parts.name, parts.instock, preise.preis ".
                     "FROM parts ".
-                    "JOIN (part_device, footprints, storeloc, suppliers) ".
-                    "ON (parts.id = part_device.id_part AND footprints.id = parts.id_footprint AND storeloc.id = parts.id_storeloc AND suppliers.id = parts.id_supplier) ".
+                    "JOIN (part_device) ".
+                    "ON (parts.id = part_device.id_part) ".
                     "LEFT JOIN preise ON (preise.part_id = parts.id) ".
+					"LEFT JOIN footprints ON (footprints.id = parts.id_footprint) ".
+					"LEFT JOIN storeloc ON (storeloc.id = parts.id_storeloc) ".
+					"LEFT JOIN suppliers ON (suppliers.id = parts.id_supplier) ".
                     "WHERE id_device = ".$_REQUEST["deviceid"];
                     if($_REQUEST["sup_id"]!=0)
                     {
