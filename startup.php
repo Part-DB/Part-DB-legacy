@@ -189,8 +189,9 @@
           <br> 
           <b>ajfrenzel</b> - Committer/Bugfix<br>
           <b>tgrziwa</b> - Committer/Bugfix<br>
-          <b>d.lipschinski</b> - Committer/Bugfix<br>
+          <b>d.lipschinski</b> - Committer/Bugfix/Neue Funktionen<br>
           <b>Michael Buesch</b> - Reichelt/Pollin Preissuch Script<br>
+          <b>bubbles.red</b> - Committer/HTML W3C FIX<br>
           <b>THX @ Matthias Wei&szlig;er</b> f&uuml;r EAGLE3D und dem gro&szlig;artigen Bauteile Renderscript (eagle3d.py) 
         </td>
     </tr>
@@ -212,6 +213,7 @@
         <td class="tdtextsmall">
           <br>
           <?PHP
+          # Fix me too many Output
           $rss_file = join ( ' ', file ("http://code.google.com/feeds/p/part-db/downloads/basic"));
           $rss_zeilen = array ( "title", "updated", "id" );
           $rss_array = explode ( "<entry>", $rss_file );
