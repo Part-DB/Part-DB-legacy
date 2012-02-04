@@ -62,6 +62,13 @@
 <head>
     <title>Teileansicht</title>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
+    <?php
+        require( 'config.php');
+        if ($hide_id)
+        {
+            print '<style type="text/css">.idclass { display: none; } </style>';
+        } 
+    ?>
     <script type="text/javascript" src="dtree.js"></script>
 </head>
 <body class="body">
@@ -125,7 +132,17 @@
 
         if ( (strcmp ($_REQUEST["type"], "index") == 0))
         {
-        print "<tr class=\"trcat\"><td></td> <td>Name</td> <td>Vorh./<br>Min.Best.</td> <td>Footprint</td> <td>Lagerort</td> <td>ID</td> <td>Datenbl&auml;tter</td> <td align=\"center\">-</td> <td align=\"center\">+</td></tr>\n";
+        print "<tr class=\"trcat\">".
+            "<td></td>".
+            "<td>Name</td>".
+            "<td>Vorh./<br>Min.Best.</td>".
+            "<td>Footprint</td>".
+            "<td>Lagerort</td>".
+            "<td class='idclass'>ID</td>".
+            "<td>Datenbl&auml;tter</td>".
+            "<td align=\"center\">-</td>".
+            "<td align=\"center\">+</td>".
+            "</tr>\n";
 
         $query = "SELECT ".
             "parts.id,".
@@ -185,9 +202,12 @@
             print "<td class=\"tdrow1\"><a title=\"Kommentar: " . htmlspecialchars( smart_unescape($d[6]));
             print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $part_id) ."');\">". smart_unescape( $part_name) ."</a></td>";
             print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."/". smart_unescape($d[3]) ."</td>";
+            // footprint
             print "<td class=\"tdrow3\">". smart_unescape($d[4]) ."</td>";
-            print "<td class=\"tdrow4\">". smart_unescape($d[5]) . "</td>";
-			print "<td class=\"tdrow1\">". smart_unescape($d[0]) . "</td>";
+            // store location
+            print "<td class=\"tdrow4\">". smart_unescape($d[5]) ."</td>";
+            // id
+			print "<td class=\"tdrow1 idclass\">". smart_unescape($part_id) ."</td>";
             // datasheet links
             print "<td class=\"tdrow5\">";
             $test = ( $part_name) ;

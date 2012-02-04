@@ -34,4 +34,7 @@
     /* common (e.g. on server) datasheet path */
     $datasheet_path = "file:///C:/datasheets/";
 
+    /* hide the id in table views */
+    $hide_id = false;
+
 ?>

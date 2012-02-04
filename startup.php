@@ -191,7 +191,7 @@
           <b>tgrziwa</b> - Committer/Bugfix<br>
           <b>d.lipschinski</b> - Committer/Bugfix/Neue Funktionen<br>
           <b>Michael Buesch</b> - Reichelt/Pollin Preissuch Script<br>
-          <b>bubbles.red</b> - Committer/HTML W3C FIX<br>
+          <b>bubbles.red</b> - Committer/CSV-Import+HTML W3C fix<br>
           <b>THX @ Matthias Wei&szlig;er</b> f&uuml;r EAGLE3D und dem gro&szlig;artigen Bauteile Renderscript (eagle3d.py) 
         </td>
     </tr>
