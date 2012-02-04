@@ -53,6 +53,7 @@
             print '<style type="text/css">.idclass { display: none; } </style>';
         } 
     ?>
+    <script type="text/javascript" src="popup.php"></script>
 </head>
 <body class="body">
 
@@ -64,16 +65,6 @@
     </tr>
     <tr>
         <td class="tdtext">
-         <script language="JavaScript" type="text/javascript">
-            <!--
-            function popUp(URL)
-            {
-            d = new Date();
-            id = d.getTime();
-            eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=1, scrollbars=1, location=1, statusbar=1, menubar=1, resizable=1, width=600, height=400');");
-            }
-            // -->
-         </script>
         <table class="table">
         <?PHP
         // execute the SQL query (DON'T USE smart_escape HERE, because
@@ -110,86 +101,38 @@
             // an invalid category id.
         while ( $d = mysql_fetch_row ($result) )
         {
-        if ($prevcat != $d[7])
-        {
-            /* this part is in a different category than
-               the previous. */
-            print "<tr><td class=\"tdtop\" colspan=\"9\">Treffer in der Kategorie ". show_bt($d[7]) ."</td></tr>\n";
-            print "<tr class=\"trcat\">".
-                "<td></td>".
-                "<td>Name</td>".
-                "<td>Vorh./<br>Min.Best.</td>".
-                "<td>Footprint</td>".
-                "<td>Lagerort</td>".
-                "<td class='idclass'>ID</td>".
-                "<td>Datenbl&auml;tter</td>".
-                "<td align=\"center\">-</td>".
-                "<td align=\"center\">+</td>".
-                "</tr>\n";
-            $prevcat = $d[7];
-            $rowcount = 0;
-        }
-        // the alternating background colors are created here
-        $rowcount++;
-        print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
-        
-        if (has_image($d[0]))
-        {
-            print "<td class=\"tdrow0\"><a href=\"javascript:popUp('getimage.php?pid=". smart_unescape($d[0]) . "')\"><img class=\"hoverpic\" src=\"getimage.php?pid=". smart_unescape($d[0]) . "\" alt=\"". smart_unescape($d[1]) ."\"></a></td>";
-        }
-        else
-        {
-            //Footprintbilder
-            if(is_file("tools/footprints/" . smart_unescape($d[4]) . ".png"))
+            // use speaking names for results
+            $id             = $d[0];
+            $name           = $d[1];
+            $instock        = $d[2];
+            $mininstock     = $d[3];
+            $footprint      = $d[4];
+            $location       = $d[5];
+            $comment        = $d[6];
+            $id_category    = $d[7];
+
+            /* print new header, if a diffrent category is started */
+            if ($prevcat != $id_category)
             {
-            print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[4]) . ".png')\"><img class=\"hoverpic\" src=\"tools/footprints/". smart_unescape($d[4]) .".png\" alt=\"\"></a></td>";
+                print "<tr>".
+                    "<td class=\"tdtop\" colspan=\"9\">Treffer in der Kategorie ". show_bt($id_category) ."</td>".
+                    "</tr>\n";
+                print "<tr class=\"trcat\">".
+                    "<td></td>".
+                    "<td>Name</td>".
+                    "<td>Vorh./<br>Min.Best.</td>".
+                    "<td>Footprint</td>".
+                    "<td>Lagerort</td>".
+                    "<td class='idclass'>ID</td>".
+                    "<td>Datenbl&auml;tter</td>".
+                    "<td align=\"center\">-</td>".
+                    "<td align=\"center\">+</td>".
+                    "</tr>\n";
+                $prevcat = $id_category;
+                $rowcount = 0;
             }
-            else
-            {
-            print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
-            }
-        }
-        print "<td class=\"tdrow1\"><a title=\"Kommentar: " . htmlspecialchars( smart_unescape($d[6])) . "\"";
-        print "href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td>";
-        print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."/". smart_unescape($d[3]) ."</td>";
-        print "<td class=\"tdrow3\">". smart_unescape($d[4]) ."</td>";
-        print "<td class=\"tdrow4\">". smart_unescape($d[5]) . "</td>";
-		print "<td class=\"tdrow4 idclass\">". smart_unescape($d[0]) . "</td>";
-        // datasheet links
-        print "<td class=\"tdrow5\">";
-        $test = ($d[1]) ;
-        $query = "SELECT datasheeturl FROM datasheets WHERE part_id=". smart_escape($d[0]) ." ORDER BY datasheeturl ASC;";
-        $result_ds = mysql_query($query);
-        $dnew = mysql_fetch_row ($result_ds); #)
-        // Mit ICONS 
-        print "<a title=\"alldatasheet.com\" href=\"http://www.alldatasheet.com/view.jsp?Searchword=". urlencode( smart_unescape( $test)) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/ads.png\" alt=\"logo\"></a>";
-        print "<a title=\"Reichelt.de\" href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". urlencode( smart_unescape( $test)) ."\" target=\"_blank\"><img class=\"catbild\" src=\"img/partdb/reichelt.png\" alt=\"logo\"></a>";
-        // Ohne ICONS
-        print "<a href=\"http://search.datasheetcatalog.net/key/". urlencode( smart_unescape( $test)) ."\" target=\"_blank\">DC </a>";
-        // show local datasheet if availible
-        if( !empty($dnew[0]) )
-        {
-            print "<a href=\"". smart_unescape( $dnew[0]) ."\">Datenblatt</a> ";
-        }
-        print "</td>";
-        
-        //build the "-" button, only if more then 0 parts on stock
-        print "<td class=\"tdrow6\"><form action=\"\" method=\"post\">";
-        print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
-        print "<input type=\"hidden\" name=\"action\"  value=\"r\"/>";
-        print "<input type=\"submit\" value=\"-\"";
-        if($d[2]<=0)
-        {
-            print " disabled=\"disabled\" ";
-        }
-        print "/></form></td>";
-            
-        //build the "+" button
-        print "<td class=\"tdrow7\"><form action=\"\" method=\"post\">";
-        print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
-        print "<input type=\"hidden\" name=\"action\"  value=\"a\"/>";
-        print "<input type=\"submit\" value=\"+\"/></form></td>";
-        print "</tr>\n";
+            $rowcount++;
+            print_table_row( $rowcount, $id, $name, $footprint, $comment, $instock, $mininstock, $location);
         }
         ?>
         </table>
