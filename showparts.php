@@ -70,6 +70,7 @@
         } 
     ?>
     <script type="text/javascript" src="dtree.js"></script>
+    <script type="text/javascript" src="popup.php"></script>
 </head>
 <body class="body">
 
@@ -81,17 +82,6 @@
     </tr>
     <tr>
         <td class="tdtext">
-         <script language="JavaScript" type="text/javascript">
-            <!--
-            function popUp(URL)
-            {
-            d = new Date();
-            id = d.getTime();
-            eval("page" + id + " = window.showModalDialog(URL,'"+id+"','dialogWidth:680px;dialogHeight:360px');");
-            location.reload(true);
-            }
-            // -->
-         </script>
         <?PHP
         print "<form action=\"showparts.php\" method=\"post\">";
         print "<input type=\"hidden\" name=\"cid\" value=\"".$_REQUEST["cid"]."\">";
@@ -173,6 +163,7 @@
             print_table_row( $rowcount, $part_id, $part_name, $footprint_name, $d[6], $d[2], $d[3], $d[5]);
         }
         }
+        // dead code below ?
         else if ( strcmp ($_REQUEST["type"], "showpending") == 0 )
         {
         print "<tr class=\"trcat\"><td></td><td>Name</td><td>Ausstehend</td><td>Vorhanden</td><td>Min. Bestand</td><td>Footprint</td><td>Lagerort</td><td>Datenbl&auml;tter</td></tr>\n";

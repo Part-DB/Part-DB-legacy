@@ -43,6 +43,7 @@
     <title>Teileansicht</title>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
     <script type="text/javascript" src="dtree.js"></script>
+    <script type="text/javascript" src="popup.php"></script>
 </head>
 <body class="body">
 
@@ -54,17 +55,6 @@
     </tr>
     <tr>
         <td class="tdtext">
-         <script language="JavaScript" type="text/javascript">
-            <!--
-            function popUp(URL)
-            {
-            d = new Date();
-            id = d.getTime();
-            eval("page" + id + " = window.showModalDialog(URL,'"+id+"','dialogWidth:680px;dialogHeight:360px');");
-            location.reload(true);
-            }
-            // -->
-         </script>
         <?PHP
 
         print "<form method=\"get\">";

@@ -50,6 +50,7 @@
 <head>
     <title>Detailinfo</title>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
+    <script type="text/javascript" src="popup.php"></script>
 </head>
 <body class="body">
 
@@ -61,16 +62,6 @@
     </tr>
     <tr>
         <td class="tdtext">
-        <script language="JavaScript" type="text/javascript">
-        <!--
-        function popUp(URL)
-        {
-        d = new Date();
-        id = d.getTime();
-        eval("page" + id + " = window.open(URL, '" + id + "', 'toolbar=1, scrollbars=1, location=1, statusbar=1, menubar=1, resizable=1, width=600, height=400');");
-        }
-        // -->
-        </script>
         
         <table>
         <tr valign="top">

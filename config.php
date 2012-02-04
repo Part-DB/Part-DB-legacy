@@ -34,7 +34,14 @@
     /* common (e.g. on server) datasheet path */
     $datasheet_path = "file:///C:/datasheets/";
 
+
     /* hide the id in table views */
     $hide_id = false;
+
+
+    /* set size and type of dialog */
+    $use_modal_dialog = true;
+    $dialog_width     = 680;
+    $dialog_height    = 400;
 
 ?>
