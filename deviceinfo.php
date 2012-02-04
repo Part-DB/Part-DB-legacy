@@ -269,10 +269,7 @@
         {
         $q = mysql_fetch_row ($quantity);
         $rowcount++;
-        if ( ($rowcount & 1) == 0 )
-            print "<tr class=\"trlist1\">";
-        else
-            print "<tr class=\"trlist2\">";
+        print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
         
         if (has_image($d[2]))
         {
@@ -384,10 +381,7 @@
         {
         
         $rowcount++;
-        if ( ($rowcount & 1) == 0 )
-            print "<tr class=\"trlist1\">";
-        else
-            print "<tr class=\"trlist2\">";
+        print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
         
         if (has_image($d[2]))
         {
@@ -474,10 +468,7 @@
         }
         
         $rowcount++;
-        if ( ($rowcount & 1) == 0 )
-            print "<tr class=\"trlist1\">";
-        else
-            print "<tr class=\"trlist2\">";
+        print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
         print "<td class=\"tdrow1\" colspan=\"9\"></td><td class=\"tdrow0\">Gesamtpreis:<br>".$sumprice."€</td><td class=\"tdrow1\" colspan=\"3\"></td>";
         print "</tr>";
         

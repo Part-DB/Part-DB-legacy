@@ -269,7 +269,15 @@
 
         return( ($data == 1) ? true : false );
     }
+
+
+    function is_odd( $number) 
+    {
+        //return $number & 1; // 0 = even, 1 = odd
+        return ($number & 1) ? true : false; // false = even, true = odd
+    }
     
+
     function GetFormatStrings()
     {
         $aRetVal = array("CSV","CSV Reichelt","CSV Farnell");

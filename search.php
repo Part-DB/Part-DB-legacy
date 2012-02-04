@@ -114,10 +114,7 @@
         }
         // the alternating background colors are created here
         $rowcount++;
-        if ( ($rowcount & 1) == 0 )
-            print "<tr class=\"trlist1\">";
-        else
-            print "<tr class=\"trlist2\">";
+        print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
         
         if (has_image($d[0]))
         {

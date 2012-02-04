@@ -136,10 +136,7 @@ if(strcmp($_REQUEST["action"], "deletedevice") == 0)
         
         // the alternating background colors are created here
         $rowcount++;
-        if ( ($rowcount & 1) == 0 )
-            print "<tr class=\"trlist1\">";
-        else
-            print "<tr class=\"trlist2\">";
+        print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
         
         print "<td class=\"tdrow1\"><a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) . "</a></td>\n";
         print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."</td>\n";

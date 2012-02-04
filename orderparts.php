@@ -217,11 +217,8 @@
         while ( $d = mysql_fetch_row ($result) )
         {
             $rowcount++;
-            if ( ($rowcount % 2) == 0 )
-                print "<tr class=\"trlist1\">";
-            else
-                print "<tr class=\"trlist2\">";
-
+            print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
+            
             print "<td class=\"tdrow1\"><a href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow3\">". smart_unescape($d[2]) ."</td><td class=\"tdrow4\">". smart_unescape($d[3]) ."</td><td class=\"tdrow1\">". smart_unescape($d[4]) ."</td><td class=\"tdrow1\">". smart_unescape($d[5]) . "</td><td class=\"tdrow1\">". smart_unescape($d[8]) . "</td>";
             //show text box with number to add and the add button
             print "<td class=\"tdrow2\"><form method=\"post\">";

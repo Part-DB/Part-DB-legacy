@@ -116,7 +116,8 @@
         <td class="tdtext">
         <table>
         <?PHP
-        //ADD by TheBorg
+        
+        // check if with or without subcategories
         if (! isset($_REQUEST["nosubcat"]) )
             $catclause = findallsubcategories ($_REQUEST["cid"]);
         else
@@ -126,7 +127,19 @@
         {
         print "<tr class=\"trcat\"><td></td> <td>Name</td> <td>Vorh./<br>Min.Best.</td> <td>Footprint</td> <td>Lagerort</td> <td>ID</td> <td>Datenbl&auml;tter</td> <td align=\"center\">-</td> <td align=\"center\">+</td></tr>\n";
 
-        $query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc',parts.comment FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id WHERE (". $catclause .") ORDER BY name ASC;";
+        $query = "SELECT ".
+            "parts.id,".
+            "parts.name,".
+            "parts.instock,".
+            "parts.mininstock,".
+            "footprints.name AS 'footprint',".
+            "storeloc.name AS 'loc',".
+            "parts.comment".
+            " FROM parts".
+            " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+            " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
+            " WHERE (". $catclause .")".
+            " ORDER BY name ASC;";
 
         debug_print ($query);
         $result = mysql_query ($query);
@@ -134,15 +147,13 @@
         $rowcount = 0;
         while ( $d = mysql_fetch_row ($result) )
         {
+            // just name the results
             $part_id        = $d[0];
             $part_name      = $d[1];
             $footprint_name = $d[4];
 
             $rowcount++;
-            if ( ($rowcount % 2) == 0 )
-                print "<tr class=\"trlist1\">";
-            else
-                print "<tr class=\"trlist2\">";
+            print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
 			
             // Pictures
             print "<td class=\"tdrow0\">";
@@ -245,10 +256,7 @@
         while ( $d = mysql_fetch_row ($result) )
         {
             $rowcount++;
-            if ( ($rowcount % 2) == 0 )
-                print "<tr class=\"trlist1\">";
-            else
-                print "<tr class=\"trlist2\">";
+            print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
 
             if (has_image($d[0]))
             {
