@@ -173,8 +173,27 @@ a:active {
 	height: 70px;	
 }
 /* footprint.php */
-.footprintbild { 
-	height: 70px;
+.footprint
+{
+    float: left;
+}
+
+.footprint img
+{
+    height: 70px;
+    margin-top: 2px;
+    margin-bottom; 0;
+}
+
+.footprint p
+{
+    text-align: center;
+    font-size: smaller;
+    text-indent: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top; 0;
+    margin-bottom; 0;
 }
 
 
