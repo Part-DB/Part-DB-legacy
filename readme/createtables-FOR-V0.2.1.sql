@@ -118,9 +118,11 @@ CREATE TABLE `preise` (
 -- 
 
 CREATE TABLE `storeloc` (
-  `id` int(11) unsigned NOT NULL auto_increment,
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` tinytext NOT NULL,
-  PRIMARY KEY  (`id`)
+  `parentnode` int(11) NOT NULL DEFAULT '0',
+  `is_full` tinyint(1) NOT NULL DEFAULT '0',
+  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM;
 
 -- --------------------------------------------------------
@@ -172,4 +174,4 @@ CREATE TABLE `internal` (
   `keyValue` CHAR(30)
 ) ENGINE=MyISAM;
 
-INSERT INTO `internal` SET `keyName`='dbVersion', `keyValue`='3';
+INSERT INTO `internal` SET `keyName`='dbVersion', `keyValue`='4';

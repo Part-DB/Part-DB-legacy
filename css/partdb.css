@@ -187,6 +187,7 @@ a:active {
 
 .footprint p
 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
     text-align: center;
     font-size: smaller;
     text-indent: 0;

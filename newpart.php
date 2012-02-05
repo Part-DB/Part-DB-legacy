@@ -36,6 +36,7 @@
         $Distributor = $_REQUEST["p_supplier"];
         $p_name      = $_REQUEST["p_name"];
 
+
         if(isset($_REQUEST["AddPart"]))
         {
                 /* some sanity checks */
@@ -52,8 +53,16 @@
                 else*/
                 {
                     $query = 
-                        "INSERT INTO parts ".
-                        "(id_category,name,instock,mininstock,comment,id_footprint,id_storeloc,id_supplier,supplierpartnr) ".
+                        "INSERT INTO parts (".
+                        "id_category,".
+                        "name,".
+                        "instock,".
+                        "mininstock,".
+                        "comment,".
+                        "id_footprint,".
+                        "id_storeloc,".
+                        "id_supplier,".
+                        "supplierpartnr) ".
                         "VALUES (". 
                         smart_escape($_REQUEST["cid"]) .",".
                         smart_escape($_REQUEST["p_name"]) .",".
@@ -116,6 +125,7 @@
                     $p_name = ++$_REQUEST["p_name"];
                 }
         }
+
         //add a new storage if it not exists, and save the name in global var to select while creating drop downbox
         if(isset($_REQUEST["AddStorage"]))
         {
@@ -133,6 +143,7 @@
                         }
                 }
         }
+
         //add a new distributor if it not exists, and save the name in global var to select while creating drop downbox
         if(isset($_REQUEST["AddDistributor"]))
         {
@@ -150,6 +161,7 @@
                         }
                 }
         }
+
         //add a new footprint if it not exists, and save the name in global var to select while creating drop downbox
         if(isset($_REQUEST["AddFootprint"]))
         {
@@ -167,6 +179,36 @@
                         }
                 }
         }
+
+
+    /*
+     * The buildtree function creates a tree for <select> tags.
+     * It recurses trough all locations (and sublocations) and
+     * creates the tree. Deeper levels have more spaces in front.
+     * As the top-most location (it doesn't exist!) has the ID 0,
+     * you have to supply id=0 at the very beginning.
+     */
+    function buildtree ($id, $level)
+    {
+        $query = "SELECT id, name, is_full FROM storeloc WHERE parentnode=". smart_escape( $id) .";";
+        $r = mysql_query( $query);
+        while ( $d = mysql_fetch_row( $r) )
+        {
+            // show only storage which is not full
+            if ( ! $d[2])
+            {
+                print "<option value=\"". smart_unescape( $d[0]) . "\">";
+                for ( $i = 0; $i < $level; $i++) 
+                    print "&nbsp;&nbsp;&nbsp;";
+                print smart_unescape( $d[1]).
+                    "</option>\n";
+
+                // do the same for the next level.
+                buildtree( $d[0], $level + 1);
+            }
+        }
+    }
+
        
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -243,24 +285,7 @@
                 <td>Lagerort:</td>
                 <td>
                 <select name="p_storeloc">
-                <option value="X"></option>
-                <?PHP
-                $query = "SELECT id,name FROM storeloc ORDER BY name ASC;";
-                $r = mysql_query ($query);
-                $ncol = mysql_num_rows ($r);
-                for ($i = 0; $i < $ncol; $i++)
-                {
-                        $d = mysql_fetch_row ($r);
-                        print "<option value=\"". smart_unescape($d[0]) ."\"";
-                        //check if a new storage should be selected
-                        if(     (strlen($NewStorage)>0 && strcmp($NewStorage,smart_unescape($d[1]))==0) ||
-                                (strlen($NewStorage)==0 && $Storage == smart_unescape($d[0])))
-                        {
-                                print " selected ";
-                        }
-                        print ">". smart_unescape($d[1]) ."</option>\n";
-                }
-                ?>
+                <?PHP buildtree(0, 1); ?>
                 </select>
                 </td>
                 <td>
