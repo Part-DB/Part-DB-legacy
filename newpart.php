@@ -115,6 +115,20 @@
                                 mysql_query($query);
                         }
                     }
+					if(strlen($_REQUEST["p_price"])!=0)
+					{
+						if (preg_match("/^[-+]?[0-9]*\.?[0-9]+/", $_REQUEST["p_price"]) == true)
+						{
+							$_REQUEST["price"] = str_replace(',', '.', $_REQUEST["price"]);
+							/* Before adding the new price, delete the old one! */
+							$query = "DELETE FROM preise WHERE part_id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
+							debug_print($query);
+							mysql_query($query);
+							$query = "INSERT INTO preise (part_id,ma,preis,t) VALUES (". $id .", 1, ". smart_escape($_REQUEST["p_price"]) .", NOW());";
+							debug_print($query);
+							mysql_query($query);
+						}
+					}
                     // close the window on success
                     // but only if we don't want another part
                     if ( !($_REQUEST['addmoreparts'] == "true"))
@@ -218,7 +232,22 @@
     <title>Neues Teil</title>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
     <script type="text/javascript" src="util-functions.js"></script>
-    <script type="text/javascript" src="clear-default-text.js"></script>        
+    <script type="text/javascript" src="clear-default-text.js"></script>       
+	<script language="JavaScript" type="text/javascript">
+	<!--
+	function validateNumber(evt) 
+	{
+	  var theEvent = evt || window.event;
+	  var key = theEvent.keyCode || theEvent.which;
+	  key = String.fromCharCode( key );
+	  var regex = /[0-9]|\./;
+	  if( !regex.test(key) ) {
+		theEvent.returnValue = false;
+		if(theEvent.preventDefault) theEvent.preventDefault();
+	  }
+	}
+	// -->
+	</script> 
 </head>
 <body class="body">
 
@@ -242,12 +271,12 @@
                 
                 <tr>
                 <td>Lagerbestand:</td>
-                <td><input type="text" name="p_instock" value="<?PHP print $_REQUEST["p_instock"] ?>"/></td>
+                <td><input type="text" name="p_instock" onkeypress="validateNumber(event)" value="<?PHP print $_REQUEST["p_instock"] ?>"/></td>
                 </tr>
                 
                 <tr>
                 <td>Min. Bestand:</td>
-                <td><input type="text" name="p_mininstock" value="<?PHP print $_REQUEST["p_mininstock"] ?>"/></td>
+                <td><input type="text" name="p_mininstock" onkeypress="validateNumber(event)" value="<?PHP print $_REQUEST["p_mininstock"] ?>"/></td>
                 </tr>
                 
                 <tr>
@@ -285,6 +314,7 @@
                 <td>Lagerort:</td>
                 <td>
                 <select name="p_storeloc">
+				<option value=""></option>;
                 <?PHP buildtree(0, 1); ?>
                 </select>
                 </td>
@@ -329,6 +359,11 @@
                 <tr>
                 <td>Bestell-Nr.:</td>
                 <td><input type="text" name="p_supplierpartnr" value="<?PHP print $_REQUEST["p_supplierpartnr"] ?>"></td>
+                </tr>
+				
+				<tr>
+                <td>Preis:</td>
+                <td><input type="text" name="p_price" onkeypress="validateNumber(event)" value="<?PHP print $_REQUEST["p_price"] ?>"></td>
                 </tr>
                 
                 <tr>

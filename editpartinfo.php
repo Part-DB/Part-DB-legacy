@@ -231,10 +231,22 @@
     <title>Angaben ver&auml;ndern</title>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
     <script type="text/javascript" src="popup.php"></script>
-</head>
-<body class="body" onload="switch_ds_path()">
-
-<script type="text/javascript">
+	<script language="JavaScript" type="text/javascript">
+	<!--
+	function validateNumber(evt) 
+	{
+	  var theEvent = evt || window.event;
+	  var key = theEvent.keyCode || theEvent.which;
+	  key = String.fromCharCode( key );
+	  var regex = /[0-9]|\./;
+	  if( !regex.test(key) ) {
+		theEvent.returnValue = false;
+		if(theEvent.preventDefault) theEvent.preventDefault();
+	  }
+	}
+	// -->
+	</script>
+	<script type="text/javascript">
     function switch_ds_path() 
     {
         if(document.ds.use_ds_path.checked)
@@ -251,6 +263,8 @@
         }
     }
 </script> 
+</head>
+<body class="body" onload="switch_ds_path()">
 
 <table class="table">
     <tr>
@@ -270,9 +284,10 @@
             while ( ($d = mysql_fetch_row ($r)) )
             {
             print "<tr><td><b>Name:</b></td><td><input name='p_name' value='". smart_unescape($d[1]) ."'></td></tr>\n";
-            print "<tr><td><b>Vorhanden:</b></td><td><input name='p_instock' value='". smart_unescape($d[2]) ."'></td></tr>\n";
-            print "<tr><td><b>Min. Bestand:</b></td><td><input name='p_mininstock' value='". smart_unescape($d[3]) ."'></td></tr>\n";
+            print "<tr><td><b>Vorhanden:</b></td><td><input name='p_instock' onkeypress=\"validateNumber(event)\" value='". smart_unescape($d[2]) ."'></td></tr>\n";
+            print "<tr><td><b>Min. Bestand:</b></td><td><input name='p_mininstock' onkeypress=\"validateNumber(event)\" value='". smart_unescape($d[3]) ."'></td></tr>\n";
             print "<tr><td><b>Footprint:</b></td><td><select name='p_footprint'>\n";
+			print "<option value=\"\"></option>";	//used to deal parts with no footprint
             // warning: hax0r style below!
             $query = "SELECT id,name FROM footprints ORDER BY name ASC";
             debug_print($query);
@@ -289,6 +304,7 @@
             }
             print "</select></td></tr>";
             print "<tr><td><b>Lagerort:</b></td><td><select name='p_storeloc'>";
+			print "<option value=\"\"></option>";	//used to deal parts with no footprint
             // warning: hax0r style below!
             $query = "SELECT id,name FROM storeloc ORDER BY name ASC";
             debug_print($query);
@@ -305,6 +321,7 @@
             }
             print "</select></td></tr>";
             print "<tr><td><b>Lieferant:</b></td><td><select name='p_supplier'>";
+			print "<option value=\"\"></option>";	//used to deal parts with no footprint
             // warning: hax0r style below!
             $query = "SELECT id,name FROM suppliers ORDER BY name ASC";
             debug_print($query);

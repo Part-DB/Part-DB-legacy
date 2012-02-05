@@ -22,6 +22,7 @@
 
 */
     include ("lib.php");
+	include("config.php");
     partdb_init();
     $showsearchedparts = 0;
     $notallinstock = 0;
@@ -258,7 +259,7 @@
         print "<table>";
         $kw = '\'%'. mysql_escape_string($_REQUEST['newpartname']) .'%\'';
         $query = "SELECT parts.name, parts.comment, parts.id, footprints.name, parts.instock FROM ".
-        "parts JOIN footprints ON (footprints.id = parts.id_footprint) ".
+        "parts LEFT JOIN footprints ON (footprints.id = parts.id_footprint) ".
         "WHERE parts.name LIKE ".$kw.
         " AND parts.id NOT IN(SELECT part_device.id_part FROM part_device WHERE part_device.id_device=".$_REQUEST["deviceid"].");";
         debug_print ($query);
@@ -428,13 +429,13 @@
             print smart_unescape($d[8]);
         else
             print "-.-";
-        print "€</td>";
+        print "&nbsp".$currency."</td>";
         print "<td class=\"tdrow1\">";
         if($d[8])
             print smart_unescape($d[8]*$d[4]);
         else
             print "-.-";
-        print "€</td>";
+        print "&nbsp".$currency."</td>";
         //Build the sum
         $sumprice += $d[8]*$d[4];
         print "<td class=\"tdrow1\"><form method=\"post\" action=\"\">";
@@ -464,17 +465,8 @@
         
         $rowcount++;
         print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
-        print "<td class=\"tdrow1\" colspan=\"9\"></td><td class=\"tdrow0\">Gesamtpreis:<br>".$sumprice."€</td><td class=\"tdrow1\" colspan=\"3\"></td>";
+        print "<td class=\"tdrow1\" colspan=\"9\"></td><td class=\"tdrow0\">Gesamtpreis:<br>".$sumprice."&nbsp".$currency."</td><td class=\"tdrow1\" colspan=\"3\"></td>";
         print "</tr>";
-        
-        $query = "SELECT parts.name, parts.comment, parts.id, footprints.name, part_device.quantity, parts.instock, storeloc.name, suppliers.name, preise.preis ".
-        "FROM parts ".
-        "JOIN (part_device, footprints, storeloc, suppliers) ".
-        "ON (parts.id = part_device.id_part AND footprints.id = parts.id_footprint AND storeloc.id = parts.id_storeloc AND suppliers.id = parts.id_supplier) ".
-        "LEFT JOIN preise ON (preise.part_id = parts.id)".
-        "WHERE id_device = ".$_REQUEST["deviceid"]." ORDER BY parts.id_category,parts.name ASC;";
-        debug_print($query);
-        $result = mysql_query ($query);
         
         ?>
         </table>
