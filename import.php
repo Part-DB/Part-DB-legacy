@@ -329,7 +329,7 @@
         <td class="tdtop">
         Datei ausw&auml;hlen
         </td>
-    <tr>
+    </tr>
     <tr>
         <td>
             <form enctype="multipart/form-data" action="" method="post">
