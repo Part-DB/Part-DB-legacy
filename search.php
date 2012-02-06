@@ -59,14 +59,14 @@
 
 <table class="table">
     <tr>
-        <td class="tdtop">
+        <td class="tdtop" colspan="9">
         Suchergebnis - Sie suchten nach &quot;<?PHP print $_REQUEST['keyword']; ?>&quot;
         </td>
     </tr>
-    <tr>
-        <td class="tdtext">
-        <table class="table">
-        <?PHP
+
+    <tr><td></td></tr>
+
+    <?PHP
         // execute the SQL query (DON'T USE smart_escape HERE, because
         // it breaks the query)
         $kw = '\'%'. mysql_escape_string($_REQUEST['keyword']) .'%\'';
@@ -114,6 +114,8 @@
             /* print new header, if a diffrent category is started */
             if ($prevcat != $id_category)
             {
+                // add one empty row for small spacing
+                print "<tr><td></td></tr>\n";
                 print "<tr>".
                     "<td class=\"tdtop\" colspan=\"9\">Treffer in der Kategorie ". show_bt($id_category) ."</td>".
                     "</tr>\n";
@@ -134,10 +136,7 @@
             $rowcount++;
             print_table_row( $rowcount, $id, $name, $footprint, $comment, $instock, $mininstock, $location);
         }
-        ?>
-        </table>
-        </td>
-    </tr>
+    ?>
 </table>
 
 </body>
