@@ -58,26 +58,7 @@
     $missing_category  = $good;
     $missing_supplier  = $good;
 
-    $q = "SELECT id FROM storeloc LIMIT 1;";
-    debug_print($q);
-    $r = mysql_query($q) or die ("MySQL-Fehler: " . mysql_error());
-    if (! mysql_num_rows($r))
-    {
-        $display_warning  = true;
-        $missing_storeloc = $bad;
-    }
-
-    $q = "SELECT id FROM footprints LIMIT 1;";
-    debug_print($q);
-    $r = mysql_query($q);
-    if (! mysql_num_rows($r))
-    {
-        $display_warning   = true;
-        $missing_footprint = $bad;
-    }
-
     $q = "SELECT id FROM categories LIMIT 1;";
-    debug_print($q);
     $r = mysql_query($q);
     if (! mysql_num_rows($r))
     {
@@ -85,14 +66,21 @@
         $missing_category = $bad;
     }
 
-    $q = "SELECT id FROM suppliers LIMIT 1;";
-    debug_print($q);
+    $q = "SELECT id FROM storeloc LIMIT 1;";
+    $r = mysql_query($q) or die ("MySQL-Fehler: " . mysql_error());
+    if (! mysql_num_rows($r))
+        $missing_storeloc = $bad;
+
+    $q = "SELECT id FROM footprints LIMIT 1;";
     $r = mysql_query($q);
     if (! mysql_num_rows($r))
-    {
-        $display_warning  = true;
+        $missing_footprint = $bad;
+
+    $q = "SELECT id FROM suppliers LIMIT 1;";
+    $r = mysql_query($q);
+    if (! mysql_num_rows($r))
         $missing_supplier = $bad;
-    }
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/strict.dtd">
@@ -119,18 +107,20 @@
 
 <table class="table">
     <tr>
-          <td class="tdtop">
+        <td class="tdtop">
             Achtung!
-          </td>
+        </td>
     </tr>
     <tr>
         <td class="tdtext">
-          Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>
-          <blockquote><?php print $missing_storeloc  ?>ein     <a href="locmgr.php" target="content_frame">Lagerort</a>  </blockquote>
-          <blockquote><?php print $missing_footprint ?>ein     <a href="fpmgr.php"  target="content_frame">Footprint</a> </blockquote>
-          <blockquote><?php print $missing_category  ?>eine    <a href="catmgr.php" target="content_frame">Kategorie</a> </blockquote>
-          <blockquote><?php print $missing_supplier  ?>und ein <a href="supmgr.php" target="content_frame">Lieferant</a> </blockquote>
-          hinzuf&uuml;gt werden muss.
+            Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>
+            <blockquote><?php print $missing_category  ?>eine      <a href="catmgr.php" target="content_frame">Kategorie</a>   </blockquote>
+            hinzuf&uuml;gt werden muss.<br>
+            Um das Potential der Suchfunktion zu nutzen wird empfohlen
+            <blockquote><?php print $missing_storeloc  ?>einen     <a href="locmgr.php" target="content_frame">Lagerort</a>    </blockquote>
+            <blockquote><?php print $missing_footprint ?>einen     <a href="fpmgr.php"  target="content_frame">Footprint</a>   </blockquote>
+            <blockquote><?php print $missing_supplier  ?>und einen <a href="supmgr.php" target="content_frame">Lieferanten</a> </blockquote>
+            anzugeben.
         </td>
     </tr>
 </table>
@@ -138,8 +128,8 @@
 
 
 <?PHP   // display database update 
-    if ( strlen( $database_update) > 0)
-    {
+if ( strlen( $database_update) > 0)
+{
 ?>
 <br>
 
@@ -202,7 +192,7 @@ print $banner;
 </table>
 
 <?php
-    if (! $disable_update_list) {
+if (! $disable_update_list) {
 ?>
 
 <br>
@@ -215,34 +205,33 @@ print $banner;
     </tr>
     <tr>
         <td class="tdtextsmall">
-          <br>
-          <?PHP
-          # Fix me too many Output
-          $rss_file = join ( ' ', file ("http://code.google.com/feeds/p/part-db/downloads/basic"));
-          $rss_zeilen = array ( "title", "updated", "id" );
-          $rss_array = explode ( "<entry>", $rss_file );
-          foreach ( $rss_array as $string ) {
-          foreach ( $rss_zeilen as $zeile ) {
-          preg_match_all ( "|<$zeile>(.*)</$zeile>|Usim", $string, $preg_match );
-          $$zeile = $preg_match [1] [0];
-          #if ($zeile = "id") 
-          #{
-            #echo "<a href=\"" . $$zeile . "\">" . $$zeile . "</a><br>";
-          #}
-            #else
-          #{
-            echo "" . $$zeile . "<br>";
-          #}
-          } 
-            echo "<br>";
-          }
-          ?>
+            <?php
+                $rss_file   = join ( ' ', file ("http://code.google.com/feeds/p/part-db/downloads/basic"));
+                $rss_zeilen = array ( "title", "updated", "id" );
+                $rss_array  = explode ( "<entry>", $rss_file );
+                
+                // show only the last actual versions
+                $count      = 3;
+                foreach ( $rss_array as $string ) 
+                {
+                    // show all lines from rss feed
+                    foreach ( $rss_zeilen as $zeile ) 
+                    {
+                        preg_match_all ( "|<$zeile>(.*)</$zeile>|Usim", $string, $preg_match );
+                        $$zeile = $preg_match [1] [0];
+                        print $$zeile ."<br>";
+                    } 
+                    if (!(--$count))
+                        break;
+                    print "<br>\n";
+                }
+            ?>
         </td>
     </tr>
 </table>
 
 <?php
-    }
+}
 ?>
 
 </body>
