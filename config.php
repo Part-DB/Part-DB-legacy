@@ -44,4 +44,24 @@
     $dialog_width     = 680;
     $dialog_height    = 400;
 
+    
+    /* add your individual banner here: */
+    $banner = <<<BANNER
+<!--
+<br>
+
+<table class="table">
+    <tr>
+        <td class="tdtop">
+        Banner
+        </td>
+    </tr>
+    <tr>
+        <td class="tdtext">
+        Willkommen zur Part-DB!
+        </td>
+    </tr>
+</table>
+-->
+BANNER;
 ?>
