@@ -21,6 +21,7 @@
     $Id: $
 */
     include ("lib.php");
+	include("config.php");
     partdb_init();
     
     $confirmdelete = 0;
@@ -121,16 +122,20 @@ if(strcmp($_REQUEST["action"], "deletedevice") == 0)
         <table >
 
         <?PHP
-        $query = "SELECT devices.id, devices.name, SUM(part_device.quantity), COUNT(part_device.quantity) ".
-        "FROM devices LEFT JOIN part_device ".
-        "ON (devices.id =  part_device.id_device) GROUP BY devices.id ORDER BY devices.name ASC;";
+        $query = "SELECT devices.id, devices.name, SUM(part_device.quantity), COUNT(part_device.quantity), sum(preise.preis*part_device.quantity) ".
+        "FROM devices ".
+		"LEFT JOIN part_device ".
+        "ON (devices.id =  part_device.id_device) ".
+		"LEFT JOIN preise ".
+		"ON (preise.part_id = part_device.id_part) ".
+		"GROUP BY devices.id ORDER BY devices.name ASC;";
         debug_print($query);
         $result = mysql_query ($query);
         debug_print($result);
     
         $rowcount = 0;  // $rowcount is used for the alternating bg colors
         
-        print "<tr class=\"trcat\"><td>Name</td><td>Anzahl Teile</td><td>Anzahl Einzelteile</td><td>Löschen</td></tr>\n";
+        print "<tr class=\"trcat\"><td>Name</td><td>Anzahl Teile</td><td>Anzahl Einzelteile</td><td>Preis</td><td>Löschen</td></tr>\n";
         
         while ( $d = mysql_fetch_row ($result) )
         {
@@ -142,6 +147,7 @@ if(strcmp($_REQUEST["action"], "deletedevice") == 0)
         print "<td class=\"tdrow1\"><a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) . "</a></td>\n";
         print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."</td>\n";
         print "<td class=\"tdrow3\">". smart_unescape($d[3]) ."</td>\n";
+		print "<td class=\"tdrow3\">".smart_unescape($d[4]) ."&nbsp".$currency."</td>\n";
         print "<td class=\"tdrow3\">";
         
         print "<form method=\"post\" action=\"\">";

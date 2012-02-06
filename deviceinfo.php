@@ -79,25 +79,6 @@
             $rowcount--;
         }
     }
-    else if ( strcmp ($_REQUEST["action"], "assign") == 0 )
-    {
-        //Increment the part quantity
-        $query = "UPDATE part_device SET quantity=quantity+1 WHERE id_part=" . smart_escape($_REQUEST["partid"]) . " AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
-        debug_print($query);
-        mysql_query($query);
-    }
-    else if ( strcmp ($_REQUEST["action"], "deassign") == 0 )
-    {
-        $query = "UPDATE part_device SET quantity=quantity-1 WHERE id_part=" . smart_escape($_REQUEST["partid"]) . " AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
-        debug_print($query);
-        mysql_query($query);
-    }
-    else if ( strcmp ($_REQUEST["action"], "remove") == 0 )
-    {
-        $query = "DELETE FROM part_device WHERE id_part=" . smart_escape($_REQUEST["partid"]) . " AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
-        debug_print($query);
-        mysql_query($query);
-    }
     else if ( strcmp ($_REQUEST["action"], "bookparts") == 0 )
     {
         //First check if enough parts are in stock
@@ -135,13 +116,46 @@
             debug_print ($result);
         }
     }
-    else if( strcmp ($_REQUEST["action"], "setmountname") == 0 )
-    {
-        //Increment the part quantity
-        $query = "UPDATE part_device SET mountname=".smart_escape($_REQUEST["newmountname"])." WHERE id_part=" . smart_escape($_REQUEST["partid"]) . " AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
-        debug_print($query);
-        mysql_query($query);
-    }
+	else if( strcmp ($_REQUEST["devicetableform"], "Übernehmen") == 0 )	
+	{
+		$n = $_REQUEST["nrofparts"];
+		while($n)
+		{
+			//Check if the mountname is refreshed and save it if needed
+			if(strcmp($_REQUEST["newmountname".$n],$_REQUEST["oldmountname".$n]) != 0)
+			{
+				$query = "UPDATE part_device SET mountname=".smart_escape($_REQUEST["newmountname".$n])." ".
+				"WHERE id_part=" . smart_escape($_REQUEST["partid".$n]) . " AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
+				debug_print($query);
+				mysql_query($query);
+			}
+			//Check if quantity changed
+			if(strcmp($_REQUEST["quant".$n],$_REQUEST["oldquant".$n]) != 0)
+			{
+				$query = "UPDATE part_device SET quantity=".smart_escape($_REQUEST["quant".$n])." ".
+				"WHERE id_part=" . smart_escape($_REQUEST["partid".$n]) . " AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
+				debug_print($query);
+				mysql_query($query);
+			}
+			$n --;
+		}
+	}
+	else if( strcmp ($_REQUEST["devicetableform"], "Löschen") == 0 )	
+	{
+		$n = $_REQUEST["nrofparts"];
+		while($n)
+		{
+			if(isset($_REQUEST["selected".$n]))
+			{
+				//Remove selected parts
+				$query = "DELETE FROM part_device ".
+				"WHERE id_part=" . smart_escape($_REQUEST["partid".$n]) . " AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
+				debug_print($query);
+				mysql_query($query);
+			}
+			$n --;
+		}
+	}
 	else if( strcmp ($_REQUEST["action"], "renamedevice") == 0 )
 	{
 		$query = "UPDATE devices SET name=".smart_escape($_REQUEST["newdevname"])." WHERE id=" . smart_escape($_REQUEST["deviceid"]).";";
@@ -346,6 +360,18 @@
             if(theEvent.preventDefault) theEvent.preventDefault();
           }
         }
+		
+		function validatePosIntNumber(evt) 
+        {
+          var theEvent = evt || window.event;
+          var key = theEvent.keyCode || theEvent.which;
+          key = String.fromCharCode( key );
+          var regex = /[0-9]/;
+          if( !regex.test(key) ) {
+            theEvent.returnValue = false;
+            if(theEvent.preventDefault) theEvent.preventDefault();
+          }
+        }
         // -->
 		
 		<?PHP
@@ -360,7 +386,10 @@
         <table>
         <?PHP
         $rowcount = 0;  
-        print "<tr class=\"trcat\"><td></td><td>Teil</td><td>Bestückungs<br>Daten</td><td>Footprint</td><td>Anzahl</td><td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Einzelpreis</td><td>Gesamtpreis</td><td>Entfernen</td><td>-</td><td>+</td></tr>\n";
+		print "<form method=\"post\" action=\"\">";
+        print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+		
+		print "<tr class=\"trcat\"><td></td><td>Teil</td><td>Bestückungs<br>Daten</td><td>Anzahl</td><td>Footprint</td><td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Einzelpreis</td><td>Gesamtpreis</td><td>Entfernen</td></tr>\n";
                 
         $query = "SELECT parts.name, parts.comment, parts.id, footprints.name, part_device.quantity, parts.instock, storeloc.name, suppliers.name, preise.preis, part_device.mountname ".
         "FROM parts ".
@@ -401,17 +430,16 @@
         print "Kommentar: " . smart_unescape($d[1]);
         print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[2]) ."');\">". smart_unescape($d[0]) ."</a></td>";
 
-        print "<td class=\"tdrow1\"><form method=\"post\" action=\"\">";
-        print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
-        print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
-        print "<input type=\"hidden\" name=\"action\"  value=\"setmountname\"/>";
-        print "<input type=\"text\" size=\"5\"name=\"newmountname\"  value=\"".smart_unescape($d[9])."\"/>";
-        print "<input type=\"submit\" value=\"Ok\"/></form></td>";
+        print "<td class=\"tdrow1\">";
+        
+        print "<input type=\"hidden\" name=\"partid".$rowcount."\" value=\"".smart_unescape($d[2])."\"/>";
+        print "<input type=\"text\" size=\"5\"name=\"newmountname".$rowcount."\"  value=\"".smart_unescape($d[9])."\"/>";
+		print "<input type=\"hidden\" name=\"oldmountname".$rowcount."\"  value=\"".smart_unescape($d[9])."\"/>";
         
         
-        print "<td class=\"tdrow1\">".smart_unescape($d[3])."</td>";
-        print "<td class=\"tdrow1\">".smart_unescape($d[4])."</td>";
-        
+		print "<td class=\"tdrow1\"><input type=\"text\" size=\"5\" name=\"quant".$rowcount."\" onkeypress=\"validatePosIntNumber(event)\" value=\"".smart_unescape($d[4])."\"/>";
+		print "<input type=\"hidden\" size=\"5\"name=\"oldquant".$rowcount."\"  value=\"".smart_unescape($d[4])."\"/></td>";
+        print "<td class=\"tdrow1\">".smart_unescape($d[3])."</td>";        
         print "<td ";
         if($d[4] <= $d[5])
         {
@@ -439,36 +467,17 @@
         print "&nbsp".$currency."</td>";
         //Build the sum
         $sumprice += $d[8]*$d[4];
-        print "<td class=\"tdrow1\"><form method=\"post\" action=\"\">";
-        print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
-        print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
-        print "<input type=\"hidden\" name=\"action\"  value=\"remove\"/>";
-        print "<input type=\"submit\" value=\"Entfernen\"/></form></td>";
-        
-        print "<td class=\"tdrow1\"><form method=\"post\" action=\"\">";
-        print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
-        print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
-        print "<input type=\"hidden\" name=\"action\"  value=\"deassign\"/>";
-        print "<input type=\"submit\" value=\"-\"/";
-        if($d[4] <= 0)
-        {
-            print "disabled=\"disabled\"";
-        }
-        print "></form></td>";
-        
-        print "<td class=\"tdrow1\"><form method=\"post\" action=\"\">";
-        print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
-        print "<input type=\"hidden\" name=\"partid\" value=\"".smart_unescape($d[2])."\"/>";
-        print "<input type=\"hidden\" name=\"action\"  value=\"assign\"/>";
-        print "<input type=\"submit\" value=\"+\"/></form></td>";
+        print "<td class=\"tdrow1\"><input type=\"checkbox\" name=\"selected".$rowcount."\"/></td>";
         print "</tr>\n";
         }
         
         $rowcount++;
         print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
-        print "<td class=\"tdrow1\" colspan=\"9\"></td><td class=\"tdrow0\">Gesamtpreis:<br>".$sumprice."&nbsp".$currency."</td><td class=\"tdrow1\" colspan=\"3\"></td>";
-        print "</tr>";
+		print "<input type=\"hidden\" name=\"nrofparts\" value=\"".$rowcount."\"/>";
+        print "<td class=\"tdrow1\" colspan=\"2\"></td><td class=\"tdrow1\" colspan=\"2\"><input type=\"submit\" name=\"devicetableform\" value=\"Übernehmen\"/></td><td class=\"tdrow1\" colspan=\"5\"></td><td class=\"tdrow0\">Gesamtpreis:<br>".$sumprice."&nbsp".$currency."</td><td class=\"tdrow1\" colspan=\"3\"><input type=\"submit\" name=\"devicetableform\" value=\"Löschen\"/></td>";
         
+		print "</tr></form>";
+
         ?>
         </table>
         </td>
