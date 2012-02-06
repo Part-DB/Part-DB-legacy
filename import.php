@@ -312,10 +312,11 @@
     // start data presentation
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
+          "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
     <title>Import</title>
+    <?php print_http_charset(); ?>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
 </head>
 <body class="body">

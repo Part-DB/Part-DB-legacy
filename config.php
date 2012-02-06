@@ -13,6 +13,9 @@
     $currency      = "&euro;";
 
 
+    /* set charset for web pages (empty for none, ISO-8859-1, utf-8) */
+    $http_charset  = "ISO-8859-1";
+
     /* set your own title here, and prevent it from updates */
     $title         = "PART-DB Elektronische Bauteile-Datenbank"; 
     $startup_title = "Part-DB V0.2.1";

@@ -55,6 +55,7 @@
 <html>
 <head>
     <title>Teile ohne Preis</title>
+    <?php print_http_charset(); ?>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
     <script type="text/javascript" src="dtree.js"></script>
     <script type="text/javascript" src="popup.php"></script>
@@ -155,5 +156,5 @@
     </tr>
 </table>
 
- </body>
+</body>
 </html>

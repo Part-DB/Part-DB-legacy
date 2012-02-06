@@ -459,4 +459,15 @@
             return "";
         }
     }
+
+
+    /* generate http header line */
+    function print_http_charset()
+    {
+        require( 'config.php');
+        if ( strlen( $http_charset) > 0 )
+        {
+            print "<meta http-equiv=\"content-type\" content=\"text/html; charset=". $http_charset ."\">\n";
+        }
+    }
 ?>

@@ -51,16 +51,16 @@
     if ( $action == 'rename')
     {
         $query = "UPDATE suppliers SET name=". smart_escape($_REQUEST["new_name"]) ." WHERE id=". smart_escape($_REQUEST["supplier_sel"]) ." LIMIT 1";  
-        debug_print ($query);
         mysql_query ($query);
     }
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
+          "http://www.w3.org/TR/html4/struct.dtd">
 <html>
 <head>
     <title>Lieferanten</title>
+    <?php print_http_charset(); ?>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
 </head>
 <body class="body">
