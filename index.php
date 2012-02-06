@@ -11,6 +11,6 @@
 </head>
 <frameset cols="300,*" frameborder="0" framespacing="0">
   <frame name="_nav_frame" src="nav.php">
-  <frame name="_content_frame" src="startup.php">
+  <frame name="content_frame" src="startup.php">
 </frameset>
 </html> 

@@ -126,10 +126,10 @@
     <tr>
         <td class="tdtext">
           Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>
-          <blockquote><?php print $missing_storeloc  ?>ein     <a href="locmgr.php" target="_content_frame">Lagerort</a>  </blockquote>
-          <blockquote><?php print $missing_footprint ?>ein     <a href="fpmgr.php"  target="_content_frame">Footprint</a> </blockquote>
-          <blockquote><?php print $missing_category  ?>eine    <a href="catmgr.php" target="_content_frame">Kategorie</a> </blockquote>
-          <blockquote><?php print $missing_supplier  ?>und ein <a href="supmgr.php" target="_content_frame">Lieferant</a> </blockquote>
+          <blockquote><?php print $missing_storeloc  ?>ein     <a href="locmgr.php" target="content_frame">Lagerort</a>  </blockquote>
+          <blockquote><?php print $missing_footprint ?>ein     <a href="fpmgr.php"  target="content_frame">Footprint</a> </blockquote>
+          <blockquote><?php print $missing_category  ?>eine    <a href="catmgr.php" target="content_frame">Kategorie</a> </blockquote>
+          <blockquote><?php print $missing_supplier  ?>und ein <a href="supmgr.php" target="content_frame">Lieferant</a> </blockquote>
           hinzuf&uuml;gt werden muss.
         </td>
     </tr>

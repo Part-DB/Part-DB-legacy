@@ -51,7 +51,7 @@
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
+          "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
     <title>Teile ohne Preis</title>
@@ -92,8 +92,14 @@
         <table>
         <?PHP
         
-
-        print "<tr class=\"trcat\"><td></td> <td>Name</td> <td>Vorh./<br>Min.Best.</td> <td>Footprint</td> <td>Lagerort</td> <td align=\"center\">Preis</td></tr>\n";
+        print "<tr class=\"trcat\">".
+            "<td></td>".
+            "<td>Name</td>".
+            "<td>Vorh./<br>Min.Best.</td>".
+            "<td>Footprint</td>".
+            "<td>Lagerort</td>".
+            "<td align=\"center\">Preis</td>".
+            "</tr>\n";
 
         $query = 
         "SELECT ".
@@ -120,22 +126,11 @@
             $rowcount++;
             print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
             
-            if (has_image($d[0]))
-            {
-                print "<td class=\"tdrow0\"><a href=\"javascript:popUp('getimage.php?pid=". smart_unescape($d[0]) . "')\"><img class=\"catbild\" src=\"getimage.php?pid=". smart_unescape($d[0]) . "\" alt=\"". smart_unescape($d[1]) ."\"></a></td>";
-            }
-            else
-            {
-                //Footprintbilder
-                if(is_file("tools/footprints/" . smart_unescape($d[4]) . ".png"))
-                {
-                print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[4]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[4]) .".png\" alt=\"\"></a></td>";
-                }
-                else
-                {
-                print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
-                }
-            }
+            // Pictures
+            print "<td class=\"tdrow0\">";
+            print_table_image( $d[0], $d[1], $d[4]);
+            print "</td>\n";
+            
             print "<td class=\"tdrow1\"><a title=\"Kommentar: " . htmlspecialchars( smart_unescape($d[6]));
             print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td>";
             print "<td class=\"tdrow1\">". smart_unescape($d[2]) ."/". smart_unescape($d[3]) ."</td>";
@@ -151,10 +146,10 @@
             print "</tr>\n";
         }
         
-        print "<input type=\"hidden\" name=\"selections\"  value=\"".$rowcount."\"/>";
+        print "</table>";
+        print "<input type=\"hidden\" name=\"selections\"  value=\"".$rowcount."\">";
         ?>
-        </table>
-        <input type="submit" value="Hinzufügen"/>
+        <input type="submit" value="Hinzufügen">
         </form>
         </td>
     </tr>

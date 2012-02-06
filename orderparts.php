@@ -27,6 +27,7 @@
 */
     include ("lib.php");
     partdb_init();
+
     $SearchQuerry = "";
     if(strcmp($_REQUEST["action"], "an") == 0) //add number of parts
     {
@@ -37,7 +38,7 @@
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
+          "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
     <title>Teileansicht</title>
@@ -57,7 +58,7 @@
         <td class="tdtext">
         <?PHP
 
-        print "<form method=\"get\">";
+        print "<form method=\"get\" action=\"\">";
         print "<input type=\"hidden\" name=\"cid\" value=\"0\">";
         print "<input type=\"hidden\" name=\"type\" value=\"toless\">\nLieferant(en):<select name=\"sup_id\">";
 
@@ -70,12 +71,12 @@
         $r = mysql_query ($query);
         
         $ncol = mysql_num_rows ($r);
-        while ( ($d = mysql_fetch_row($r)) )
+        while ($d = mysql_fetch_row($r))
         {
-        if ($d[0] == $_REQUEST["sup_id"])
-        print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-        else
-        print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+            if ($d[0] == $_REQUEST["sup_id"])
+                print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+            else
+                print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
         }
         print "</select><input type=\"submit\" value=\"W&auml;hle Lieferanten!\"></form>\n";
         ?>
@@ -209,13 +210,13 @@
             $rowcount++;
             print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
             
-            print "<td class=\"tdrow1\"><a href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow3\">". smart_unescape($d[2]) ."</td><td class=\"tdrow4\">". smart_unescape($d[3]) ."</td><td class=\"tdrow1\">". smart_unescape($d[4]) ."</td><td class=\"tdrow1\">". smart_unescape($d[5]) . "</td><td class=\"tdrow1\">". smart_unescape($d[8]) . "</td>";
+            print "<td class=\"tdrow1\"><a href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow3\">". smart_unescape($d[2]) ."</td><td class=\"tdrow4\">". smart_unescape($d[3]) ."</td><td class=\"tdrow1\">". smart_unescape($d[4]) ."</td><td class=\"tdrow1\">". smart_unescape($d[5]) . "</td><td class=\"tdrow1\">". smart_unescape($d[8]) . "</td>\n";
             //show text box with number to add and the add button
-            print "<td class=\"tdrow2\"><form method=\"post\">";
-            print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>";
-            print "<input type=\"hidden\" name=\"action\"  value=\"an\"/>";
-            print "<input type=\"text\" style=\"width:25px;\" name=\"toadd\" value=\"" . smart_unescape($d[3]) . "\"/>";
-            print "<input type=\"submit\" value=\"Add\"/></form></td>";
+            print "<td class=\"tdrow2\"><form method=\"post\" action=\"\">\n";
+            print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>\n";
+            print "<input type=\"hidden\" name=\"action\"  value=\"an\"/>\n";
+            print "<input type=\"text\" style=\"width:25px;\" name=\"toadd\" value=\"" . smart_unescape($d[3]) . "\"/>\n";
+            print "<input type=\"submit\" value=\"Add\"/></form></td>\n";
             
             print "</tr>\n";
         }
@@ -237,27 +238,35 @@
         <form method="post" action="">
             <table>
             <?PHP
-            print "<tr class=\"trcat\"><td><input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
-            print "<input type=\"hidden\" name=\"action\"  value=\"createbom\"/>";
+            print "<tr class=\"trcat\">\n".
+                "<td>".
+                "<input type=\"hidden\" name=\"deviceid\" value=\"" .$_REQUEST["deviceid"]. "\">".
+                "<input type=\"hidden\" name=\"action\"  value=\"createbom\">";
             
+            print "Format:".
+                "</td>\n".
+                "<td><select name=\"format\">";
+                PrintsFormats("format");
+            print "</select>".
+                "</td>\n".
+                "</tr>\n";
+
+            print "<tr class=\"trcat\">".
+                "<td>Trennzeichen:</td>\n".
+                "<td><input type=\"text\" name=\"spacer\" size=\"3\" value=\"";
+                if ( strcmp ($_REQUEST["action"], "createbom"))
+                    print ";";
+                else
+                    print $_REQUEST["spacer"];
+            print "\"\n>".
+                "</td>\n</tr>\n";
             
-            print "<tr class=\"trcat\"><td>";
-            print "Format:</td><td><select name=\"format\">";
-            PrintsFormats("format");
-            print "</select>";
-            print "</td></tr><tr class=\"trcat\"><td>";
-            print "Trennzeichen:</td><td><input type=\"text\" name=\"spacer\" size=\"3\" value=\"";
-            if ( strcmp ($_REQUEST["action"], "createbom"))
-                print ";";
-            else
-                print $_REQUEST["spacer"];
-            print "\"/></td></tr>";
+            print "<tr>\n".
+                "<td><input type=\"submit\" value=\"Ausführen\"/></td>\n".
+                "</tr>\n";
             
-            print "</td></tr>";
-            
-            print "<tr><td><input type=\"submit\" value=\"Ausführen\"/></tr></td>";
-            
-            print "<tr><td colspan=\"4\">";
+            print "<tr>\n".
+                "<td colspan=\"4\">";
             
             if ( strcmp ($_REQUEST["action"], "createbom") == 0 )
             {
@@ -288,7 +297,8 @@
                 }
                 print "</textarea>";
             }
-            print "</td></tr>";
+            print "</td>\n".
+                "</tr>\n";
             ?>
             </table>
         </form>
@@ -297,5 +307,5 @@
 </table>
   
 
- </body>
+</body>
 </html>

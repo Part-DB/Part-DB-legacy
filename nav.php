@@ -37,13 +37,13 @@
         $r = mysql_query ($query);
         while ( $d = mysql_fetch_row ($r) )
         {
-            print "d.add(". smart_unescape($d[0]) .",". smart_unescape($pid) .",'". smart_unescape($d[1]) ."','showparts.php?cid=". smart_unescape($d[0]) ."&type=index\"','','_content_frame');\n";
+            print "d.add(". smart_unescape($d[0]) .",". smart_unescape($pid) .",'". smart_unescape($d[1]) ."','showparts.php?cid=". smart_unescape($d[0]) ."&type=index\"','','content_frame');\n";
             buildtree ($d[0], $pid);
         }
     }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
+          "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 <head>
     <title>Navigation</title>
@@ -61,7 +61,7 @@
 
     <tr>
         <td class="tdtext">
-        <form action="search.php" method="get" target="_content_frame">
+        <form action="search.php" method="get" target="content_frame">
             <input type="text" name="keyword" size="20" maxlength="20">
             <input type="submit" name="s" value="Los!"><br>
             <table>
@@ -90,7 +90,7 @@
 
     <tr>
         <td class="tdtext">
-         <!-- <base href="" target="_content_frame"> -->
+         <!-- <base href="" target="content_frame"> -->
           <div class="dtree">
             <script type="text/javascript">
                 <!--
@@ -101,7 +101,7 @@
                 //-->
             </script>
             <br>
-            <a href="javascript: d.openAll();">Alle Anzeigen</a> | <a href="javascript: d.closeAll();">Alle Schliessen</a>
+            <a href="javascript:d.openAll();">Alle Anzeigen</a> | <a href="javascript:d.closeAll();">Alle Schliessen</a>
           </div>
          <!-- </base> -->
         </td>
@@ -121,7 +121,7 @@
     </tr>
     <tr>
         <td class="tdtext">
-        <a href="device.php" target="_content_frame">Verwalten</a>
+        <a href="device.php" target="content_frame">Verwalten</a>
         
     <?PHP
         $query = "SELECT devices.id, devices.name ".
@@ -132,7 +132,7 @@
             
         while ( $d = mysql_fetch_row ($result) )
         {      
-            print "<br>&nbsp;<a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\" target=\"_content_frame\">". smart_unescape($d[1]) . "</a>";
+            print "<br>&nbsp;<a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\" target=\"content_frame\">". smart_unescape($d[1]) . "</a>";
         }
     ?>
     </td>
@@ -154,10 +154,10 @@
     </tr>
     <tr>
         <td class="tdtext">
-        <a href="import.php" target="_content_frame">Import</a><br>
-        <a href="tools/label.php" target="_content_frame">Labels</a><br>
-        <a href="tools/footprints.php" target="_content_frame">Footprints</a><br>
-        <a href="tools/iclogos.php" target="_content_frame">IC-Logos</a>
+        <a href="import.php" target="content_frame">Import</a><br>
+        <a href="tools/label.php" target="content_frame">Labels</a><br>
+        <a href="tools/footprints.php" target="content_frame">Footprints</a><br>
+        <a href="tools/iclogos.php" target="content_frame">IC-Logos</a>
         </td>
     </tr>
 </table>
@@ -172,11 +172,11 @@
     </tr>
     <tr>
         <td class="tdtext">
-        <a href="orderparts.php" target="_content_frame">Zu bestellende Teile</a><br>
-        <a href="nopriceparts.php" target="_content_frame">Teile ohne Preis</a><br>
-        <a href="stats.php" target="_content_frame">Statistik</a><br>
+        <a href="orderparts.php" target="content_frame">Zu bestellende Teile</a><br>
+        <a href="nopriceparts.php" target="content_frame">Teile ohne Preis</a><br>
+        <a href="stats.php" target="content_frame">Statistik</a><br>
         <?php if (! $disable_help) { ?>
-        <a href="help.php" target="_content_frame">Hilfe</a>
+        <a href="help.php" target="content_frame">Hilfe</a>
         <?php } ?>
         </td>
     </tr>
@@ -192,10 +192,10 @@
     </tr>
     <tr>
         <td class="tdtext">
-        <a href="locmgr.php" target="_content_frame">Lagerorte</a><br>
-        <a href="fpmgr.php" target="_content_frame">Footprints</a><br>
-        <a href="catmgr.php" target="_content_frame">Kategorien</a><br>
-        <a href="supmgr.php" target="_content_frame">Lieferanten</a><br>
+        <a href="locmgr.php" target="content_frame">Lagerorte</a><br>
+        <a href="fpmgr.php" target="content_frame">Footprints</a><br>
+        <a href="catmgr.php" target="content_frame">Kategorien</a><br>
+        <a href="supmgr.php" target="content_frame">Lieferanten</a><br>
         </td>
     </tr>
 </table>
