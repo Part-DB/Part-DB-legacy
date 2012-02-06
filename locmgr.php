@@ -65,7 +65,7 @@
         else
         {
             // add a location
-            $query = "INSERT INTO storeloc (name, parent_node) VALUES (".
+            $query = "INSERT INTO storeloc (name, parentnode) VALUES (".
                 smart_escape( $_REQUEST["new_location"]) .",".
                 smart_escape( $_REQUEST["parent_node"]) .");";
             mysql_query ($query);
