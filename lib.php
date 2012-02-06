@@ -306,7 +306,7 @@
     } // end function
     
 
-    function print_table_row( $rowcount, $id, $name, $footprint, $comment, $instock, $mininstock, $location)
+    function print_table_row( $rowcount, $id, $name, $footprint, $supplierpartnr, $comment, $instock, $mininstock, $location)
     {
         // the alternating background colors are created here
         print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">\n";
@@ -333,7 +333,9 @@
         print "<a title=\"alldatasheet.com\" href=\"http://www.alldatasheet.com/view.jsp?Searchword=". urlencode( smart_unescape( $name)) ."\" target=\"_blank\">".
             "<img class=\"companypic\" src=\"img/partdb/ads.png\" alt=\"logo\">".
             "</a>\n";
-        print "<a title=\"Reichelt.de\" href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". urlencode( smart_unescape( $name)) ."\" target=\"_blank\">".
+
+        $searchfor = ( strlen( $supplierpartnr) > 0) ? $supplierpartnr : $name;
+        print "<a title=\"Reichelt.de\" href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". urlencode( smart_unescape( $searchfor)) ."\" target=\"_blank\">".
             "<img class=\"companypic\" src=\"img/partdb/reichelt.png\" alt=\"logo\">".
             "</a>\n";
         // without icons

@@ -87,7 +87,8 @@
             "footprints.name AS 'footprint',".
             "storeloc.name   AS 'loc',".
             "parts.comment,".
-            "parts.id_category ".
+            "parts.id_category, ".
+            "parts.supplierpartnr ".
             "FROM parts ".
             "LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
             "LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id ".
@@ -111,6 +112,7 @@
             $location       = $d[5];
             $comment        = $d[6];
             $id_category    = $d[7];
+            $supplierpartnr = $d[8];
 
             /* print new header, if a diffrent category is started */
             if ($prevcat != $id_category)
@@ -135,7 +137,7 @@
                 $rowcount = 0;
             }
             $rowcount++;
-            print_table_row( $rowcount, $id, $name, $footprint, $comment, $instock, $mininstock, $location);
+            print_table_row( $rowcount, $id, $name, $footprint, $supplierpartnr, $comment, $instock, $mininstock, $location);
         }
     ?>
 </table>

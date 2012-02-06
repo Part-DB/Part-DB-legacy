@@ -142,7 +142,8 @@
             "parts.mininstock,".
             "footprints.name AS 'footprint',".
             "storeloc.name AS 'loc',".
-            "parts.comment".
+            "parts.comment, ".
+            "parts.supplierpartnr ".
             " FROM parts".
             " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
             " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
@@ -159,9 +160,10 @@
             $part_id        = $d[0];
             $part_name      = $d[1];
             $footprint_name = $d[4];
+            $supplierpartnr = $d[7];
 
             $rowcount++;
-            print_table_row( $rowcount, $part_id, $part_name, $footprint_name, $d[6], $d[2], $d[3], $d[5]);
+            print_table_row( $rowcount, $part_id, $part_name, $footprint_name, $supplierpartnr, $d[6], $d[2], $d[3], $d[5]);
         }
         }
         // dead code below ?
