@@ -258,8 +258,10 @@
                 <tr>
                     <td>
                         <input type="checkbox" name="series" value="true" onclick="switch_series()">Serie erzeugen&nbsp;&nbsp;
-                        von <input type="text" name="series_start" size="5" value="1" disabled>
-                        bis <input type="text" name="series_end"   size="5" value="9" disabled>
+                    </td>
+                    <td>
+                        von <input type="text" name="series_start" size="4" value="1" disabled>
+                        bis <input type="text" name="series_end"   size="4" value="3" disabled>
                     </td>
                 </tr>
             </table>
