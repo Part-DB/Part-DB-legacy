@@ -3,6 +3,12 @@
 
     require( 'config.php');
 
+    // set some defaults if not set in config.php
+    $use_modal_dialog = isset( $use_modal_dialog) ? $use_modal_dialog : true;
+    $dialog_width     = isset( $dialog_width )    ? $dialog_width     : 500;
+    $dialog_height    = isset( $dialog_height)    ? $dialog_height    : 400;
+
+
     if ($use_modal_dialog)
     {
         print "

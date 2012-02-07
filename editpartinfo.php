@@ -284,9 +284,9 @@
                 $r = mysql_query ($query);
             while ( ($d = mysql_fetch_row ($r)) )
             {
-            print "<tr><td><b>Name:</b></td><td><input name='p_name' value='". smart_unescape($d[1]) ."'></td></tr>\n";
-            print "<tr><td><b>Vorhanden:</b></td><td><input name='p_instock' onkeypress=\"validateNumber(event)\" value='". smart_unescape($d[2]) ."'></td></tr>\n";
-            print "<tr><td><b>Min. Bestand:</b></td><td><input name='p_mininstock' onkeypress=\"validateNumber(event)\" value='". smart_unescape($d[3]) ."'></td></tr>\n";
+            print "<tr><td><b>Name:</b></td><td><input name='p_name' size='40' value='". smart_unescape($d[1]) ."'></td></tr>\n";
+            print "<tr><td><b>Vorhanden:</b></td><td><input name='p_instock' size='5' onkeypress=\"validateNumber(event)\" value='". smart_unescape($d[2]) ."'></td></tr>\n";
+            print "<tr><td><b>Min. Bestand:</b></td><td><input name='p_mininstock' size='5' onkeypress=\"validateNumber(event)\" value='". smart_unescape($d[3]) ."'></td></tr>\n";
             print "<tr><td><b>Footprint:</b></td><td><select name='p_footprint'>\n";
 			print "<option value=\"\"></option>";	//used to deal parts with no footprint
             // warning: hax0r style below!
