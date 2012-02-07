@@ -74,9 +74,16 @@ nachgeholt.
       $ver = intval(getDBVersion());
       print "your Database version ".$ver." is outdated an will now be updated to ".$sollDBVersion."<br>";
       print "Get lock of database<br>";
-      $query = "LOCK TABLE internal;";
+      $query = "SELECT GET_LOCK('UpdatePartDB', 3);";  // get exclusive database access
       $result = mysql_query($query);
       
+      if ($result == false)
+      {
+        print "It seem that there is an database update already going on, aborting, try again later<br>";
+        print mysql_error()."<br>";
+        break;
+      }
+
       while($ver < $sollDBVersion)
       {
         
@@ -126,7 +133,7 @@ nachgeholt.
       };
       
       print "Unlocking Database<br>";
-      $query = "UNLOCK TABLES";
+      $query = "SELECT RELEASE_LOCK('UpdatePartDB');";
       $result = mysql_query($query);
       if ($error == 0)
         print "Update Finished<br>";
@@ -173,7 +180,7 @@ nachgeholt.
         $updateSteps[] = "ALTER TABLE  `storeloc` ADD  `parentnode` int(11) NOT NULL default '0' AFTER  `name` ;";
         $updateSteps[] = "ALTER TABLE  `storeloc` ADD  `is_full` boolean NOT NULL default false AFTER `parentnode` ;";
         break;
-	  case 4:
+      case 4:
         $updateSteps[] = "ALTER TABLE  `part_device` DROP PRIMARY KEY;";
         break;
 /*
