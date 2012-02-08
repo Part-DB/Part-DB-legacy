@@ -72,6 +72,12 @@ nachgeholt.
     if (checkDBUpdateNeeded())
     {
       $ver = intval(getDBVersion());
+      if ($ver > $sollDBVersion)
+      {
+        print "WARNUNG: Ihre Datenbank Version ".$ver." ist neuer als diese Version von partDB unterst&uuml;tzte v".$sollDBVersion.", Update abgebrochen<br>";
+        return;
+      }
+      
       print "your Database version ".$ver." is outdated an will now be updated to ".$sollDBVersion."<br>";
       print "Get lock of database<br>";
       $query = "SELECT GET_LOCK('UpdatePartDB', 3);";  // get exclusive database access
@@ -120,7 +126,7 @@ nachgeholt.
         if ($error == 0)
         {
           $strVer = "".($ver+1);
-          $query = "UPDATE internal set keyValue = $strVer;";
+          $query = "UPDATE internal set keyValue = $strVer WHERE keyName = 'dbVersion';";
           $result = mysql_query($query);
         }
         else
@@ -184,7 +190,7 @@ nachgeholt.
         $updateSteps[] = "ALTER TABLE  `part_device` DROP PRIMARY KEY;";
         break;
 /*
-      case 2:
+      case 5:
         $updateSteps[] = "INSERT INTO internal SET keyName='test', keyValue='muh';";
         break;
       case 3:
