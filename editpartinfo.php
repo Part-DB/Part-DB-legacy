@@ -41,7 +41,10 @@
      */
     $special_dialog = 0;
 
-    if ( strcmp ($_REQUEST["action"], "edit") == 0 )
+    // set action to default, if not exists
+    $action = ( isset( $_REQUEST["action"]) ? $_REQUEST["action"] : 'default');
+
+    if ( strcmp ($action, "edit") == 0 )
     {
         $query = 
             "UPDATE parts ".
@@ -59,28 +62,48 @@
         mysql_query ($query);
         print "<script>window.close();</script>\n";
     }
-    else if ( strcmp ($_REQUEST["action"], "edit_category") == 0 )
+    else if ( strcmp ($action, "edit_category") == 0 )
     {
         $query = "UPDATE parts SET id_category=". smart_escape($_REQUEST["p_category"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
         debug_print ($query);
         mysql_query ($query);
         print "<script>window.close();</script>\n";
     }
-    else if ( strcmp ($_REQUEST["action"], "ds_add") == 0 )
+    else if ( strcmp ($action, "ds_add") == 0 )
     {
         // add ds_path if requested (use_ds_path)
-        $ds    = ( strcmp( $_REQUEST["use_ds_path"], "true") == 0 ) ? $_REQUEST["ds_path"] : '';
-        $query = "INSERT INTO datasheets (part_id,datasheeturl) VALUES (". smart_escape($_REQUEST["pid"]) .",". smart_escape($ds.$_REQUEST["ds_url"]) .");";
+        $ds     = ( strcmp( $_REQUEST["use_ds_path"], "true") == 0 ) ? $_REQUEST["ds_path"] : '';
+        $ds_url = $_REQUEST["ds_url"];
+        $query = "INSERT INTO datasheets (part_id,datasheeturl) VALUES (". smart_escape($_REQUEST["pid"]) .",". smart_escape($ds.$ds_url) .");";
         debug_print ($query);
         mysql_query ($query);
+
+        // catch datasheet from fwfnas server
+        $command = "cd /home/eparts/datasheets; /usr/bin/smbclient -U FWFNAS1\\\\eparts%El-Parts //fwfnas1.ad.fz-rossendorf.de/datasheets -c 'get $ds_url; exit' ";
+
+        print "<div class='tdtext tdrowred'>";
+        system( $command, $retval);
+        print "</div>";
     }
-    else if ( strcmp ($_REQUEST["action"], "ds_del") == 0 )
+    else if ( strcmp ($action, "ds_del") == 0 )
     {
+        // delete datasheet from local directory
+        $query = "SELECT datasheeturl FROM datasheets WHERE id=". smart_escape($_REQUEST["ds_id"]) ." LIMIT 1;";
+        $r = mysql_query( $query);
+        $d = mysql_fetch_row ($r);
+        $filename = "/home/eparts". $d[0];
+        while( is_file( $filename) == true)
+        {
+            chmod( $filename, 0666);
+            unlink( $filename);
+        }
+
         $query = "DELETE FROM datasheets WHERE id=". smart_escape($_REQUEST["ds_id"]) ." LIMIT 1;";
         debug_print ($query);
         mysql_query ($query);
+
     }
-    else if (strcmp ($_REQUEST["action"], "part_del") == 0)
+    else if (strcmp ($action, "part_del") == 0)
     {
         if ((! isset($_REQUEST["del_ok"])) && (! isset($_REQUEST["del_nok"])) )
         {
@@ -108,7 +131,7 @@
             print "<script>window.close();</script>";
         }
     }
-    else if ( strcmp ($_REQUEST["action"], "img_mgr") == 0 )
+    else if ( strcmp ($action, "img_mgr") == 0 )
     {
         /*
          * Set the default ("master") picture.
@@ -157,7 +180,7 @@
             }
         }
     }
-    else if ( strcmp ($_REQUEST["action"], "img_add") == 0 )
+    else if ( strcmp ($action, "img_add") == 0 )
     {
         if (is_uploaded_file($_FILES['uploaded_img']['tmp_name']))
         {
@@ -189,7 +212,7 @@
             mysql_query($query);
         }
     }
-    else if ( strcmp ($_REQUEST["action"], "price_del") == 0 )
+    else if ( strcmp ($action, "price_del") == 0 )
     {
         /*
          * If everythink is OK (DB consistency, no bugs in the
@@ -200,7 +223,7 @@
         debug_print($query);
         mysql_query($query);
     }
-    else if ( strcmp ($_REQUEST["action"], "price_add") == 0 )
+    else if ( strcmp ($action, "price_add") == 0 )
     {
         /*
          * See if the price is a valid (floating point) number ...
@@ -232,22 +255,22 @@
     <?php print_http_charset(); ?>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
     <script type="text/javascript" src="popup.php"></script>
-	<script language="JavaScript" type="text/javascript">
-	<!--
-	function validateNumber(evt) 
-	{
-	  var theEvent = evt || window.event;
-	  var key = theEvent.keyCode || theEvent.which;
-	  key = String.fromCharCode( key );
-	  var regex = /[0-9]|\./;
-	  if( !regex.test(key) ) {
-		theEvent.returnValue = false;
-		if(theEvent.preventDefault) theEvent.preventDefault();
-	  }
-	}
-	// -->
-	</script>
-	<script type="text/javascript">
+    <script language="JavaScript" type="text/javascript">
+    <!--
+    function validateNumber(evt) 
+    {
+      var theEvent = evt || window.event;
+      var key = theEvent.keyCode || theEvent.which;
+      key = String.fromCharCode( key );
+      var regex = /[0-9]|\./;
+      if( !regex.test(key) ) {
+        theEvent.returnValue = false;
+        if(theEvent.preventDefault) theEvent.preventDefault();
+      }
+    }
+    // -->
+    </script>
+<script type="text/javascript">
     function switch_ds_path() 
     {
         if(document.ds.use_ds_path.checked)
@@ -288,7 +311,7 @@
             print "<tr><td><b>Vorhanden:</b></td><td><input name='p_instock' size='5' onkeypress=\"validateNumber(event)\" value='". smart_unescape($d[2]) ."'></td></tr>\n";
             print "<tr><td><b>Min. Bestand:</b></td><td><input name='p_mininstock' size='5' onkeypress=\"validateNumber(event)\" value='". smart_unescape($d[3]) ."'></td></tr>\n";
             print "<tr><td><b>Footprint:</b></td><td><select name='p_footprint'>\n";
-			print "<option value=\"\"></option>";	//used to deal parts with no footprint
+            print "<option value=\"\"></option>";   //used to deal parts with no footprint
             // warning: hax0r style below!
             $query = "SELECT id,name FROM footprints ORDER BY name ASC";
             debug_print($query);
@@ -305,7 +328,7 @@
             }
             print "</select></td></tr>";
             print "<tr><td><b>Lagerort:</b></td><td><select name='p_storeloc'>";
-			print "<option value=\"\"></option>";	//used to deal parts with no footprint
+            print "<option value=\"\"></option>";   //used to deal parts with no footprint
             // warning: hax0r style below!
             $query = "SELECT id,name FROM storeloc ORDER BY name ASC";
             debug_print($query);
@@ -322,7 +345,7 @@
             }
             print "</select></td></tr>";
             print "<tr><td><b>Lieferant:</b></td><td><select name='p_supplier'>";
-			print "<option value=\"\"></option>";	//used to deal parts with no footprint
+            print "<option value=\"\"></option>";   //used to deal parts with no footprint
             // warning: hax0r style below!
             $query = "SELECT id,name FROM suppliers ORDER BY name ASC";
             debug_print($query);

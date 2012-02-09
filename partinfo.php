@@ -31,13 +31,17 @@
      * 'r' is for remove, 'a' is for add.
      * The 'instock' value has to be changed before the output begins.
      */
-    if ( strcmp ($_REQUEST["action"], "r") == 0 )
+
+    // set action to default, if not exists
+    $action = ( isset( $_REQUEST["action"]) ? $_REQUEST["action"] : 'default');
+
+    if ( strcmp ($action, "r") == 0 )
     {
         $query = "UPDATE parts SET instock=instock-". smart_escape($_REQUEST["n_less"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." AND instock >= ". smart_escape($_REQUEST["n_less"]) ." LIMIT 1;";
         debug_print ($query);
         mysql_query ($query);
     }
-    else if ( strcmp ($_REQUEST["action"], "a") == 0 )
+    else if ( strcmp ($action, "a") == 0 )
     {
         $query = "UPDATE parts SET instock=instock+". smart_escape($_REQUEST["n_more"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
         debug_print ($query);
