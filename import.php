@@ -10,7 +10,7 @@
     partdb_init();
 
 
-    /* work around for older php: bevore 5.3.0
+    /* work around for older php: before 5.3.0
     */
     if ( !function_exists( 'str_getcsv')) {
         function str_getcsv( $str, $delim=',', $enclose='"', $preserve=false) {
@@ -46,45 +46,48 @@
 
 
     // data processing
+    $accepted_coding = array( 'UTF-8', 'ISO-8859-1', 'ISO-8859-15', 'ASCII');
+    $accepted_types = array( 'text/plain', 'text/csv', 'application/vnd.ms-excel');
+
 
     // catch data arrays, if defined
-    $active    = ( isset( $_REQUEST['active'])    ? $_REQUEST['active'] : array());
-    $category  = ( isset( $_REQUEST['category'])  ? $_REQUEST['category'] : array());
-    $name      = ( isset( $_REQUEST['name'])      ? $_REQUEST['name'] : array());
-    $nr        = ( isset( $_REQUEST['nr'])        ? $_REQUEST['nr'] : array());
-    $count     = ( isset( $_REQUEST['count'])     ? $_REQUEST['count'] : array());
+    $active    = ( isset( $_REQUEST['active'])    ? $_REQUEST['active']    : array());
+    $category  = ( isset( $_REQUEST['category'])  ? $_REQUEST['category']  : array());
+    $name      = ( isset( $_REQUEST['name'])      ? $_REQUEST['name']      : array());
+    $nr        = ( isset( $_REQUEST['nr'])        ? $_REQUEST['nr']        : array());
+    $count     = ( isset( $_REQUEST['count'])     ? $_REQUEST['count']     : array());
     $footprint = ( isset( $_REQUEST['footprint']) ? $_REQUEST['footprint'] : array());
-    $storeloc  = ( isset( $_REQUEST['storeloc'])  ? $_REQUEST['storeloc'] : array());
-    $supplier  = ( isset( $_REQUEST['supplier'])  ? $_REQUEST['supplier'] : array());
-    $sup_part  = ( isset( $_REQUEST['sup_part'])  ? $_REQUEST['sup_part'] : array());
-    $comment   = ( isset( $_REQUEST['comment'])   ? $_REQUEST['comment'] : array());
+    $storeloc  = ( isset( $_REQUEST['storeloc'])  ? $_REQUEST['storeloc']  : array());
+    $supplier  = ( isset( $_REQUEST['supplier'])  ? $_REQUEST['supplier']  : array());
+    $sup_part  = ( isset( $_REQUEST['sup_part'])  ? $_REQUEST['sup_part']  : array());
+    $comment   = ( isset( $_REQUEST['comment'])   ? $_REQUEST['comment']   : array());
 
 
     // try to catch the file 
     if ( $action == "import_file") 
     {
-        if (is_uploaded_file( $_FILES['import_file']['tmp_name']))
+        if ( is_uploaded_file( $_FILES['import_file']['tmp_name']))
         {
             // read file content
-            $filename    = $_FILES['import_file']['name']; 
-            $filestring  = file_get_contents( $_FILES['import_file']['tmp_name']);
-            // added for correct handling from excel 2010 files
-            $filestring  = mb_convert_encoding($filestring, 'UTF-8', mb_detect_encoding($filestring, 'UTF-8, ISO-8859-1', true));
-            $content_arr = explode("\n", $filestring);
-            $action      = "check_data";
-            $show_file   = true;
+            $filename        = $_FILES['import_file']['name']; 
+            $filestring      = file_get_contents( $_FILES['import_file']['tmp_name']);
+            $filestring_conv = mb_convert_encoding( $filestring, $_REQUEST['coding'], mb_detect_encoding( $filestring, implode( ',', $accepted_coding), true));
+            $content_arr     = explode("\n", $filestring_conv);
+            $action          = "check_data";
+            $show_file       = true;
         }
         else
         {
             $action = "error";
             $error  = "Upload fehlgeschlagen";
         }
-        if (($_FILES["import_file"]["type"] != "text/plain") &&
-            ($_FILES["import_file"]["type"] != "application/vnd.ms-excel"))
+
+        if ( ! in_array( $_FILES["import_file"]["type"], $accepted_types, false))
         {
             $action = "error";
-            $error  = "falscher Dateityp: ".$_FILES["import_file"]["type"]." (statt text/plain)";
+            $error  = "falscher Dateityp: ".$_FILES["import_file"]["type"]." (erwarte: ". implode( ", ", $accepted_types) .")";
         }
+
         if ($_FILES["import_file"]["error"] > 0)
         {
             $action = "error";
@@ -341,6 +344,16 @@
             </select>
             &nbsp;&nbsp;&nbsp;
             Trennzeichen: <input type="text" name="divider" size="1" maxlength="1" value=";">
+            &nbsp;&nbsp;&nbsp;
+            Kodierung: 
+                <select name="coding" size="1">
+                <?php
+                    foreach( $accepted_coding as $code)
+                    {
+                        print '<option>'. $code .'</option>';
+                    }
+                ?>
+                </select>
             <br>
             <input type="file"   name="import_file" size="30">
             &nbsp;&nbsp;&nbsp;
@@ -369,7 +382,7 @@ Schaltkreise;MAX 232;1;DIP16;Kiste;Reichelt;MAX 232 EPE
 
 <?php
     }
-    if ($show_file) {
+    if ( $show_file) {
 ?>
 <table class="table">
     <tr>
@@ -380,9 +393,9 @@ Schaltkreise;MAX 232;1;DIP16;Kiste;Reichelt;MAX 232 EPE
     <tr>
         <td class="tdtext">
         <?php
-        foreach ($content_arr as $line_num => $line) 
+        foreach ( $content_arr as $line_num => $line) 
         {
-            print "#{$line_num}: ". htmlspecialchars($line) ."<br>\n";
+            print "#{$line_num}: ". htmlspecialchars( $line) ."<br>\n";
         }
         ?>
         </td>
@@ -390,7 +403,7 @@ Schaltkreise;MAX 232;1;DIP16;Kiste;Reichelt;MAX 232 EPE
 </table>
 <?php
     }
-    if ($action == "check_data") {
+    if ( $action == "check_data") {
 ?>
 
 <br>

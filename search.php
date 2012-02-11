@@ -38,7 +38,8 @@
         debug_print($query);
         mysql_query($query);
     }
-    
+   
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/strict.dtd">
@@ -61,23 +62,59 @@
 <table class="table">
     <tr>
         <td class="tdtop" colspan="9">
-        Suchergebnis - Sie suchten nach &quot;<?PHP print $_REQUEST['keyword']; ?>&quot;
+        Suchergebnis
         </td>
+    </tr>
+    
+    <tr>
+        <td class="tdtext" colspan="9">
+        
+        Sie suchten nach &quot;<?PHP print $_REQUEST['keyword']; ?>&quot;
+        
+        <div style="float: right; display: inline;">
+            Auswahl exportieren: 
+            <form action="export.php" method="post" style="display: inline;">
+                <?php
+                    if ( isset( $_REQUEST['keyword']))      { print "<input type='hidden' name='keyword' value='". $_REQUEST['keyword'] ."'>\n"; }
+                    if ( $_REQUEST['search_nam'] == "true") { print "<input type='hidden' name='search_nam' value='true'>\n"; }
+                    if ( $_REQUEST['search_com'] == "true") { print "<input type='hidden' name='search_com' value='true'>\n"; } 
+                    if ( $_REQUEST['search_sup'] == "true") { print "<input type='hidden' name='search_sup' value='true'>\n"; } 
+                    if ( $_REQUEST['search_snr'] == "true") { print "<input type='hidden' name='search_snr' value='true'>\n"; } 
+                    if ( $_REQUEST['search_loc'] == "true") { print "<input type='hidden' name='search_loc' value='true'>\n"; } 
+                    if ( $_REQUEST['search_fpr'] == "true") { print "<input type='hidden' name='search_fpr' value='true'>\n"; } 
+                 ?>
+                <input type="submit" name="XML" value="XML">
+            </form>
+            <form action="export.php" method="post" style="display: inline;">
+                <?php
+                    if ( isset( $_REQUEST['keyword']))      { print "<input type='hidden' name='keyword' value='". $_REQUEST['keyword'] ."'>\n"; }
+                    if ( $_REQUEST['search_nam'] == "true") { print "<input type='hidden' name='search_nam' value='true'>\n"; }
+                    if ( $_REQUEST['search_com'] == "true") { print "<input type='hidden' name='search_com' value='true'>\n"; } 
+                    if ( $_REQUEST['search_sup'] == "true") { print "<input type='hidden' name='search_sup' value='true'>\n"; } 
+                    if ( $_REQUEST['search_snr'] == "true") { print "<input type='hidden' name='search_snr' value='true'>\n"; } 
+                    if ( $_REQUEST['search_loc'] == "true") { print "<input type='hidden' name='search_loc' value='true'>\n"; } 
+                    if ( $_REQUEST['search_fpr'] == "true") { print "<input type='hidden' name='search_fpr' value='true'>\n"; } 
+                 ?>
+                <input type="submit" name="CSV" value="CSV">
+            </form>
+        </div>
+      </td>
     </tr>
 
     <tr><td></td></tr>
 
-    <?PHP
+    <?php
         // execute the SQL query (DON'T USE smart_escape HERE, because
         // it breaks the query)
-        $kw = '\'%'. mysql_real_escape_string($_REQUEST['keyword']) .'%\'';
+        $keyword = "'%". mysql_real_escape_string( $_REQUEST['keyword']) ."%'";
         // build search strings
-        if ( $_REQUEST['search_nam'] == "true") { $query_nam = " OR (parts.name LIKE ".$kw.")";           } 
-        if ( $_REQUEST['search_com'] == "true") { $query_com = " OR (parts.comment LIKE ".$kw.")";        }
-        if ( $_REQUEST['search_sup'] == "true") { $query_sup = " OR (suppliers.name LIKE ".$kw.")";       }
-        if ( $_REQUEST['search_snr'] == "true") { $query_snr = " OR (parts.supplierpartnr LIKE ".$kw.")"; }
-        if ( $_REQUEST['search_loc'] == "true") { $query_loc = " OR (storeloc.name LIKE ".$kw.")";        }
-        if ( $_REQUEST['search_fpr'] == "true") { $query_fpr = " OR (footprints.name LIKE ".$kw.")";      }
+        if ( $_REQUEST['search_nam'] == "true") { $query_nam = " OR (parts.name LIKE ".           $keyword.")"; } 
+        if ( $_REQUEST['search_com'] == "true") { $query_com = " OR (parts.comment LIKE ".        $keyword.")"; }
+        if ( $_REQUEST['search_sup'] == "true") { $query_sup = " OR (suppliers.name LIKE ".       $keyword.")"; }
+        if ( $_REQUEST['search_snr'] == "true") { $query_snr = " OR (parts.supplierpartnr LIKE ". $keyword.")"; }
+        if ( $_REQUEST['search_loc'] == "true") { $query_loc = " OR (storeloc.name LIKE ".        $keyword.")"; }
+        if ( $_REQUEST['search_fpr'] == "true") { $query_fpr = " OR (footprints.name LIKE ".      $keyword.")"; }
+        $search = $query_nam. $query_com. $query_sup. $query_snr. $query_loc. $query_fpr;
         $query = 
             "SELECT ".
             "parts.id,".
@@ -93,10 +130,9 @@
             "LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
             "LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id ".
             "LEFT JOIN suppliers  ON parts.id_supplier=suppliers.id ".
-            "WHERE FALSE ".$query_nam.$query_com.$query_sup.$query_snr.$query_loc.$query_fpr.
+            "WHERE FALSE ". $search.
             " ORDER BY parts.id_category,parts.name ASC;";
-        debug_print ($query."<br>");
-        $result = mysql_query ($query);
+        $result = mysql_query( $query);
     
         $rowcount = 0;  // $rowcount is used for the alternating bg colors
         $prevcat = -1;  // $prevcat remembers the previous category. -1 is

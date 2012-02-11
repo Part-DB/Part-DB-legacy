@@ -73,7 +73,25 @@
         <tr valign="top">
         <td>
         <table><?PHP
-        $query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,footprints.name AS 'footprint',storeloc.name AS 'loc',suppliers.name AS 'supplier',parts.supplierpartnr,preise.preis,preise.ma,parts.comment FROM parts LEFT JOIN footprints ON parts.id_footprint=footprints.id LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id LEFT JOIN suppliers ON parts.id_supplier=suppliers.id LEFT JOIN preise ON parts.id=preise.part_id WHERE parts.id=". smart_escape($_REQUEST["pid"]) ." ORDER BY preise.ma DESC LIMIT 1;";
+        $query = "SELECT ".
+            "parts.id,".
+            "parts.name,".
+            "parts.instock,".
+            "parts.mininstock,".
+            "footprints.name AS 'footprint',".
+            "storeloc.name AS 'loc',".
+            "suppliers.name AS 'supplier',".
+            "parts.supplierpartnr,".
+            "preise.preis,".
+            "preise.ma,".
+            "parts.comment ".
+            "FROM parts ".
+            "LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
+            "LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id ".
+            "LEFT JOIN suppliers ON parts.id_supplier=suppliers.id ".
+            "LEFT JOIN preise ON parts.id=preise.part_id ".
+            "WHERE parts.id=". smart_escape($_REQUEST["pid"]).
+            " ORDER BY preise.ma DESC LIMIT 1;";
         debug_print ($query);
         $r = mysql_query ($query);
         while ( ($d = mysql_fetch_row ($r)) )
