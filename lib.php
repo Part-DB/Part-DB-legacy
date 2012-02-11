@@ -62,23 +62,17 @@
     /* stolen from the PHP docs */
     function smart_escape($value)
     {
-        // use stripslashes if necessary
-        // is there somebody using this mode???
-        if (get_magic_quotes_gpc()) {
-            $value = stripslashes($value);
-        }
-
         // quote it
-        $value = "'". mysql_escape_string($value) ."'";
-
-        return ($value);
+        $value = "'". mysql_real_escape_string( $value) ."'";
+        return( $value);
     }
 
     /* at the moment this function is _very_ smart :) */
-    function smart_unescape($value)
+    function smart_unescape( $value)
     {
-        return stripslashes($value);
+        return stripslashes( $value);
     }
+
 
     /*
      * Given the category id this helper-function does a lookup

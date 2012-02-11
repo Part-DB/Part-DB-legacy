@@ -70,7 +70,7 @@
     <?PHP
         // execute the SQL query (DON'T USE smart_escape HERE, because
         // it breaks the query)
-        $kw = '\'%'. mysql_escape_string($_REQUEST['keyword']) .'%\'';
+        $kw = '\'%'. mysql_real_escape_string($_REQUEST['keyword']) .'%\'';
         // build search strings
         if ( $_REQUEST['search_nam'] == "true") { $query_nam = " OR (parts.name LIKE ".$kw.")";           } 
         if ( $_REQUEST['search_com'] == "true") { $query_com = " OR (parts.comment LIKE ".$kw.")";        }

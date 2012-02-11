@@ -40,7 +40,7 @@
     
     if (isset($_REQUEST["pid"]))
     {
-        $pict_id_query = "SELECT pictures.id FROM pictures WHERE (pictures.part_id='". mysql_escape_string ($_REQUEST["pid"]). "') AND (pictures.pict_type='P') ORDER BY pictures.pict_masterpict DESC, pictures.id ASC LIMIT 1;";
+        $pict_id_query = "SELECT pictures.id FROM pictures WHERE (pictures.part_id='". mysql_real_escape_string ($_REQUEST["pid"]). "') AND (pictures.pict_type='P') ORDER BY pictures.pict_masterpict DESC, pictures.id ASC LIMIT 1;";
         debug_print ($pict_id_query);
         $r = mysql_query($pict_id_query);
         if (mysql_num_rows($r))
@@ -56,7 +56,7 @@
     }
     else if (isset($_REQUEST["pict_id"]))
     {
-        $part_id_query = "SELECT pictures.part_id FROM pictures WHERE (pictures.id='". mysql_escape_string ($_REQUEST["pict_id"]). "') AND (pictures.pict_type='P') LIMIT 1;";
+        $part_id_query = "SELECT pictures.part_id FROM pictures WHERE (pictures.id='". mysql_real_escape_string ($_REQUEST["pict_id"]). "') AND (pictures.pict_type='P') LIMIT 1;";
         debug_print ($part_id_query);
         $r = mysql_query($part_id_query);
         if (mysql_num_rows($r))
@@ -73,7 +73,7 @@
     else
         print "No picture!!!";
     
-    $pict_query = "SELECT pictures.pict_fname FROM pictures WHERE (pictures.id='". mysql_escape_string ($pictID). "') LIMIT 1;";
+    $pict_query = "SELECT pictures.pict_fname FROM pictures WHERE (pictures.id='". mysql_real_escape_string ($pictID). "') LIMIT 1;";
     debug_print ($pict_query);
     $r = mysql_query ($pict_query); 
     if (mysql_num_rows($r))
@@ -85,7 +85,7 @@
         print "No picture";
 
     /* see if there's a current thumbnail in the cache */
-    $cache_query = "SELECT pictures.id,pictures.pict_fname FROM pictures WHERE ((DATE_SUB(NOW(), INTERVAL 1 DAY) < pictures.tn_t) AND (pictures.tn_obsolete = 0) AND (pictures.tn_pictid='". mysql_escape_string ($pictID). "') AND (pictures.pict_type='T') AND (pictures.pict_width='". mysql_escape_string($maxX) ."') AND (pictures.pict_height='". mysql_escape_string($maxY) ."'));";
+    $cache_query = "SELECT pictures.id,pictures.pict_fname FROM pictures WHERE ((DATE_SUB(NOW(), INTERVAL 1 DAY) < pictures.tn_t) AND (pictures.tn_obsolete = 0) AND (pictures.tn_pictid='". mysql_real_escape_string ($pictID). "') AND (pictures.pict_type='T') AND (pictures.pict_width='". mysql_real_escape_string($maxX) ."') AND (pictures.pict_height='". mysql_real_escape_string($maxY) ."'));";
     debug_print ($cache_query);
     $r = mysql_query ($cache_query);
     if (mysql_num_rows($r) == 0)
@@ -155,7 +155,7 @@
             mysql_query($del_query);
         }
         
-        $cache_update_query = "INSERT INTO pictures (part_id,pict_fname,pict_width,pict_height,pict_type,tn_t,tn_pictid) VALUES ('". mysql_escape_string($partID) ."','". $pict_cache_fname ."','". mysql_escape_string($maxX) ."','". mysql_escape_string($maxY). "','T',NOW(),'". mysql_escape_string($pictID). "');";
+        $cache_update_query = "INSERT INTO pictures (part_id,pict_fname,pict_width,pict_height,pict_type,tn_t,tn_pictid) VALUES ('". mysql_real_escape_string($partID) ."','". $pict_cache_fname ."','". mysql_real_escape_string($maxX) ."','". mysql_real_escape_string($maxY). "','T',NOW(),'". mysql_real_escape_string($pictID). "');";
         debug_print($cache_update_query);
         mysql_query($cache_update_query);
     }

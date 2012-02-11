@@ -272,7 +272,7 @@
         print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
         print "<input type=\"hidden\" name=\"action\"  value=\"assignbyselected\"/>";
         print "<table>";
-        $kw = '\'%'. mysql_escape_string($_REQUEST['newpartname']) .'%\'';
+        $kw = '\'%'. mysql_real_escape_string($_REQUEST['newpartname']) .'%\'';
         $query = "SELECT parts.name, parts.comment, parts.id, footprints.name, parts.instock FROM ".
         "parts LEFT JOIN footprints ON (footprints.id = parts.id_footprint) ".
         "WHERE parts.name LIKE ".$kw.
