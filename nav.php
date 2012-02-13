@@ -53,7 +53,7 @@
         while ( $d = mysql_fetch_row ($result) )
         {      
             // part-db/deviceinfo.php?deviceid=1
-            print "baugruppen.add(". smart_unescape($d[0]) .",0,'". smart_unescape($d[1]) ."','deviceinfo.php?deviceid=". smart_unescape($d[0]) ."','','content_frame');\n";
+            print "baugruppen.add(". smart_unescape($d[0]) .",1,'". smart_unescape($d[1]) ."','deviceinfo.php?deviceid=". smart_unescape($d[0]) ."','','content_frame');\n";
             buildtree ($d[0], $pid);
         }
     }
@@ -143,7 +143,7 @@
             <script type="text/javascript">
                 <!--
                 baugruppen = new dTree('baugruppen');
-                baugruppen.add(0,-1,'');
+                baugruppen.add(1,-1,'');
                 baugruppen.add(1,0,'Verwaltung','device.php"','','content_frame');
 
                 <?PHP baugruppentree (2, 0); ?>
