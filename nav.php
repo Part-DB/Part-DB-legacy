@@ -150,53 +150,43 @@
 <table class="table">
     <tr>
         <td class="tdtop">
-        Tools
+        Verwaltung / Tools
         </td>
     </tr>
     <tr>
         <td class="tdtext">
-        <a href="import.php" target="content_frame">Import</a><br>
-        <a href="tools/label.php" target="content_frame">Labels</a><br>
-        <a href="tools/footprints.php" target="content_frame">Footprints</a><br>
-        <a href="tools/iclogos.php" target="content_frame">IC-Logos</a>
-        </td>
-    </tr>
-</table>
+         <!-- <base href="" target="content_frame"> -->
+          <div class="dtree">
+            <script type="text/javascript">
+                <!--
+                menue = new dTree('menue');
+                menue.add(0,-1,'');
+                menue.add(1,0,'Tools','','','');
+                menue.add(2,1,'Import','import.php"','','content_frame');
+                menue.add(3,1,'Labels','tools/label.php"','','content_frame');
+                menue.add(4,1,'Footprints','tools/footprints.php"','','content_frame');
+                menue.add(5,1,'IC-Logos','tools/iclogos.php"','','content_frame');
 
-<br>
+                menue.add(6,0,'Zeige','','','');
+                menue.add(7,6,'Zu bestellende Teile','orderparts.php"','','content_frame');
+                menue.add(8,6,'Teile ohne Preis','nopriceparts.php"','','content_frame');
+                menue.add(9,6,'Statistik','stats.php"','','content_frame');
+                <?php if (! $disable_help) { ?>
+                menue.add(10,6,'Hilfe','help.php"','','content_frame')
+                <?php } ?>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Zeige
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-        <a href="orderparts.php" target="content_frame">Zu bestellende Teile</a><br>
-        <a href="nopriceparts.php" target="content_frame">Teile ohne Preis</a><br>
-        <a href="stats.php" target="content_frame">Statistik</a><br>
-        <?php if (! $disable_help) { ?>
-        <a href="help.php" target="content_frame">Hilfe</a>
-        <?php } ?>
-        </td>
-    </tr>
-</table>
-
-<br>
-
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Bearbeiten
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-        <a href="locmgr.php" target="content_frame">Lagerorte</a><br>
-        <a href="fpmgr.php" target="content_frame">Footprints</a><br>
-        <a href="catmgr.php" target="content_frame">Kategorien</a><br>
-        <a href="supmgr.php" target="content_frame">Lieferanten</a><br>
+                menue.add(11,0,'Bearbeiten','','','');
+                menue.add(12,11,'Lagerorte','locmgr.php"','','content_frame')
+                menue.add(13,11,'Footprints','fpmgr.php"','','content_frame')
+                menue.add(14,11,'Kategorien','catmgr.php"','','content_frame')
+                menue.add(15,11,'Lieferanten','supmgr.php"','','content_frame')
+                document.write(menue);
+                //-->
+              </script>
+            <br>
+            <a href="javascript:menue.openAll();">Alle Anzeigen</a> | <a href="javascript:menue.closeAll();">Alle Schliessen</a>
+          </div>
+         <!-- </base> -->
         </td>
     </tr>
 </table>
