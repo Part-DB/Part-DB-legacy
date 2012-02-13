@@ -29,7 +29,7 @@
         <br>
         <b>&Ouml;ffentliche Liste</b><br>
         Am einfachsten geht es, wenn ihr auf dem Server einen extra Ordner erstellt. In diesen kopiert ihr die openlist.php, stats.php, config.php, lib.php und den CSS Ordner.
-                Alternativ k&ouml;nnt Ihr auch den Ordner ../partdb/openlist/ mit .htacsses wieder freigeben dieses klappt aber nur wenn der Webserver dieses erlaubt. 
+                Alternativ k&ouml;nnt Ihr auch den Ordner ../partdb/openlist/ mit .htacsess wieder freigeben dieses klappt aber nur wenn der Webserver dieses erlaubt. 
         </td>
     </tr>
 </table>
