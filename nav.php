@@ -42,8 +42,6 @@
         }
     }
 
-
-
     function baugruppentree ($pid, $parentId)
     {    
         $query = "SELECT devices.id, devices.name ".
@@ -57,12 +55,8 @@
             // part-db/deviceinfo.php?deviceid=1
             print "baugruppen.add(". smart_unescape($d[0]) .",0,'". smart_unescape($d[1]) ."','deviceinfo.php?deviceid=". smart_unescape($d[0]) ."','','content_frame');\n";
             buildtree ($d[0], $pid);
-
-            //print "<br>&nbsp;<a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\" target=\"content_frame\">". smart_unescape($d[1]) . "</a>";
         }
     }
-    ?>
-
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -145,22 +139,6 @@
     </tr>
     <tr>
         <td class="tdtext">
-        <a href="device.php" target="content_frame">Verwalten</a>
-        
-<!--    <?PHP
-        $query = "SELECT devices.id, devices.name ".
-        "FROM devices ".
-        "ORDER BY devices.name ASC;";
-        //debug_print($query);
-        $result = mysql_query ($query);
-            
-        while ( $d = mysql_fetch_row ($result) )
-        {      
-            print "<br>&nbsp;<a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\" target=\"content_frame\">". smart_unescape($d[1]) . "</a>";
-        }
-    ?>//-->
-
-
           <div class="dtree">
             <script type="text/javascript">
                 <!--
@@ -175,8 +153,6 @@
             <br>
             <a href="javascript:baugruppen.openAll();">Alle Anzeigen</a> | <a href="javascript:baugruppen.closeAll();">Alle Schliessen</a>
           </div>
-
-
     </td>
     </tr>    
 </table>
