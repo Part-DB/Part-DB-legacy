@@ -41,6 +41,29 @@
             buildtree ($d[0], $pid);
         }
     }
+
+
+
+    function baugruppentree ($pid, $parentId)
+    {    
+        $query = "SELECT devices.id, devices.name ".
+        "FROM devices ".
+        "ORDER BY devices.id ASC;";
+        //debug_print($query);
+        $result = mysql_query ($query);
+            
+        while ( $d = mysql_fetch_row ($result) )
+        {      
+            // part-db/deviceinfo.php?deviceid=1
+            print "baugruppen.add(". smart_unescape($d[0]) .",0,'". smart_unescape($d[1]) ."','deviceinfo.php?deviceid=". smart_unescape($d[0]) ."','','content_frame');\n";
+            buildtree ($d[0], $pid);
+
+            //print "<br>&nbsp;<a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\" target=\"content_frame\">". smart_unescape($d[1]) . "</a>";
+        }
+    }
+    ?>
+
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/strict.dtd">
@@ -124,7 +147,7 @@
         <td class="tdtext">
         <a href="device.php" target="content_frame">Verwalten</a>
         
-    <?PHP
+<!--    <?PHP
         $query = "SELECT devices.id, devices.name ".
         "FROM devices ".
         "ORDER BY devices.name ASC;";
@@ -135,7 +158,25 @@
         {      
             print "<br>&nbsp;<a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\" target=\"content_frame\">". smart_unescape($d[1]) . "</a>";
         }
-    ?>
+    ?>//-->
+
+
+          <div class="dtree">
+            <script type="text/javascript">
+                <!--
+                baugruppen = new dTree('baugruppen');
+                baugruppen.add(0,-1,'');
+                baugruppen.add(1,0,'Verwaltung','device.php"','','content_frame');
+
+                <?PHP baugruppentree (2, 0); ?>
+                document.write(baugruppen);
+                //-->
+            </script>
+            <br>
+            <a href="javascript:baugruppen.openAll();">Alle Anzeigen</a> | <a href="javascript:baugruppen.closeAll();">Alle Schliessen</a>
+          </div>
+
+
     </td>
     </tr>    
 </table>
