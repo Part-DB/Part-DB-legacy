@@ -49,6 +49,15 @@ nachgeholt.
   }
 
   /*
+  liefert die Datenbankversion, die wir erwarten
+  */
+  function getSollDBVersion()
+  {
+    global $sollDBVersion;
+    return $sollDBVersion;
+  }
+
+  /*
   Prüft die Datenbank Version und liefert true wenn update notwendig
   sonst false
   */
