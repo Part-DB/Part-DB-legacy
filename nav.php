@@ -143,7 +143,7 @@
             <script type="text/javascript">
                 <!--
                 baugruppen = new dTree('baugruppen');
-                baugruppen.add(1,-1,'');
+                baugruppen.add(0,-1,'');
                 baugruppen.add(1,0,'Verwaltung','device.php"','','content_frame');
 
                 <?PHP baugruppentree (2, 0); ?>
