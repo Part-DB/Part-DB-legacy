@@ -49,7 +49,7 @@
         "ORDER BY devices.id ASC;";
         //debug_print($query);
         $result = mysql_query ($query);
-            
+          
         while ( $d = mysql_fetch_row ($result) )
         {      
             // part-db/deviceinfo.php?deviceid=1
