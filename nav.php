@@ -54,7 +54,7 @@
         {      
             // part-db/deviceinfo.php?deviceid=1
             print "baugruppen.add(". smart_unescape($d[0]) .",1,'". smart_unescape($d[1]) ."','deviceinfo.php?deviceid=". smart_unescape($d[0]) ."','','content_frame');\n";
-            buildtree ($d[0], $pid);
+            baugruppentree ($d[0], $pid);
         }
     }
 
