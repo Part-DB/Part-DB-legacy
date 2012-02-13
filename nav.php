@@ -190,14 +190,15 @@
                 menue.add(8,6,'Teile ohne Preis','nopriceparts.php"','','content_frame');
                 menue.add(9,6,'Statistik','stats.php"','','content_frame');
                 <?php if (! $disable_help) { ?>
-                menue.add(10,6,'Hilfe','help.php"','','content_frame')
+                menue.add(10,6,'Hilfe','help.php"','','content_frame');
                 <?php } ?>
 
                 menue.add(11,0,'Bearbeiten','','','');
-                menue.add(12,11,'Lagerorte','locmgr.php"','','content_frame')
-                menue.add(13,11,'Footprints','fpmgr.php"','','content_frame')
-                menue.add(14,11,'Kategorien','catmgr.php"','','content_frame')
-                menue.add(15,11,'Lieferanten','supmgr.php"','','content_frame')
+                menue.add(12,11,'Lagerorte','locmgr.php"','','content_frame');
+                menue.add(13,11,'Footprints','fpmgr.php"','','content_frame');
+                menue.add(14,11,'Kategorien','catmgr.php"','','content_frame');
+                menue.add(15,11,'Lieferanten','supmgr.php','','content_frame');
+                menue.add(16,11,'partDB Konfiguration', 'config_page.php', '', 'content_frame');
                 document.write(menue);
                 //-->
               </script>

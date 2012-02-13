@@ -31,11 +31,14 @@
   include ('db_update.php');
   // catch output to do fine formating later
   ob_start();
-  if ( checkDBUpdateNeeded())
+  if (getDBAutomaticUpdateActive())
   {
-    $ver = getDBVersion();
-    print "DBVersion: ".$ver.", ben&ouml;tigt ein Update.<br><br>";
-    doDBUpdate();
+    if ( checkDBUpdateNeeded())
+    {
+      $ver = getDBVersion();
+      print "DBVersion: ".$ver.", ben&ouml;tigt ein Update.<br><br>";
+      doDBUpdate();
+    }
   }
   $database_update = ob_get_contents();
   ob_end_clean();

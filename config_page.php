@@ -49,11 +49,40 @@
           <?php
             if (strcmp ($action, "db_update") == 0)
             {
+              print "Updateverlauf<br>";
               doDBUpdate();
             }
           ?>
         </td>
         <td class="tdtext">
+          <?php
+            if (strcmp ($action, "db_auto_update") == 0)
+            {
+              if (isset($_REQUEST["active"]))
+              {
+                if ($_REQUEST["active"] == true)
+                {
+                  setDBAutomaticUpdateActive(true);
+                }
+              }
+              else
+              {
+                setDBAutomaticUpdateActive(false);
+              }
+            }
+          ?>
+          <form action="" method="post">
+          <input type="hidden" name="action" value="db_auto_update">
+          <?php
+            print "<input type=\"checkbox\" name=\"active\" value=\"active\"";
+            if (getDBAutomaticUpdateActive())
+            {
+              print " checked";
+            }
+            print ">Automatisches Update<br>";
+          ?>
+          <input type="submit" value="&Uuml;bernehmen">
+          </form>
         </td>
         <td class="tdtext">
           <form action="" method="post">

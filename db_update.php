@@ -49,6 +49,56 @@ nachgeholt.
   }
 
   /*
+  ermittelt ob die Datenbank Automatisch upgedaten werden soll
+  true wenn Automatisches update gewünscht
+  
+  Ist noch kein passender Eintrag in der Datenbank, wird er Angelegt
+  */
+  function getDBAutomaticUpdateActive()
+  {
+    $isActive = false;  // By default disabled
+    $query = "SELECT keyValue FROM internal WHERE keyName LIKE 'dbAutoUpdate'";
+    
+    $result = mysql_query ($query);
+    if ($result != false)
+    {
+      if (mysql_num_rows($result) == 0)
+      {
+        $query = "INSERT INTO internal SET keyName='dbAutoUpdate', keyValue='0'";
+        mysql_query($query);
+      }
+      else
+      {
+        $row = mysql_fetch_row($result);
+        if (intval($row[0]) != 0)
+          $isActive = true;
+      }
+    }
+    
+    return $isActive;
+  }
+  
+  /*
+  setzt den Auto update Status des Datenbank updates
+  */
+  function setDBAutomaticUpdateActive($active)
+  {
+    $query = "UPDATE internal SET keyValue=";
+    if ($active)
+      $query = $query."1";
+    else
+      $query = $query."0";
+    
+    $query = $query." WHERE keyName LIKE 'dbAutoUpdate'";
+    
+    $result = mysql_query ($query);
+    if ($result == false)
+    {
+      print "Update failed error=".mysql_error()."<br>";
+    }
+  }
+
+  /*
   liefert die Datenbankversion, die wir erwarten
   */
   function getSollDBVersion()
@@ -150,11 +200,11 @@ nachgeholt.
       print "Unlocking Database<br>";
       $query = "SELECT RELEASE_LOCK('UpdatePartDB');";
       $result = mysql_query($query);
-      if ($error == 0)
-        print "Update Finished<br>";
-      else
-        print "Update Failed<br>";
     }
+    if ($error == 0)
+      print "Update Finished<br>";
+    else
+      print "Update Failed<br>";
   }
   
   /*
