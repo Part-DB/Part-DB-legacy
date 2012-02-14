@@ -1,6 +1,5 @@
-<!-- $Id: index.html,v 1.3 2005/08/05 15:11:28 cl Exp $-->
 <?php
-    include "config.php";
+    @( include('config.php')) or die('<h2>Fehler: config.php ist nicht vorhanden!</h2>Bitte mit <em>cp config.php_template config.php</em> anlegen');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"                                                                                                                        
     "http://www.w3.org/TR/html4/frameset.dtd">
