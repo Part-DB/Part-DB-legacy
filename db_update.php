@@ -245,6 +245,7 @@ nachgeholt.
         $updateSteps[] = "ALTER TABLE  `storeloc` ADD  `parentnode` int(11) NOT NULL default '0' AFTER  `name` ;";
         $updateSteps[] = "ALTER TABLE  `storeloc` ADD  `is_full` boolean NOT NULL default false AFTER `parentnode` ;";
         break;
+
       case 4:
         $updateSteps[] = "ALTER TABLE  `part_device` DROP PRIMARY KEY;";
         break;

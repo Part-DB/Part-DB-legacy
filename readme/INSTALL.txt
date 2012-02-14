@@ -1,0 +1,55 @@
+Anforderung:
+
+* Webserver mit mindestens 15MB Platz
+* PHP5 (Version 5.3.8) (PHP4 wird gelegentlich getestet, Fehlermeldungen bitte ins Forum)
+* MySQL Datenbank (Version 5.1.61)
+* Webbrowser mit JavaScript und HTML4 Unterstützung
+
+
+config.php anlegen:
+
+Am Einfachsten eine Kopie des Templates anlegen:
+cp config.php_template config.php
+
+Dort können diverse Einstellungen vorgenommen werden.
+Wichtig für den Datenbankzugriff sind die Variablen, die mit $db_ beginnen.
+
+
+Anlegen der Datenbank:
+entweder händisch über PhpMyAdmin (siehe: http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung#Anlegen_der_Datenbank)
+
+oder direkt auf der Kommandzeile:
+
+mysql -u root -p
+CREATE DATABASE part-db;
+grant usage on *.* to part-db@localhost identified by 'PARTdb';
+grant all privileges on part-db.* to part-db@localhost;
+quit
+
+dann kurz testen, ob der Datenbankzugriff funktioniert:
+
+mysql -u part-db -pPARTdb
+quit
+
+Der Datenbanknutzer und das Password müssen mit dem in der config.php übereinstimmen.
+
+Das Einspielen der Datenbank-Tabellenstruktur erfolgt mit:
+mysql -u part-db -pPARTdb part-db < readme/createtables-FOR-V0.2.1.sql
+
+
+Webserver konfigurieren:
+
+Jetzt muß noch das Verzeichnis in dem part-db liegt dem Webserver bekannt gemacht werden.
+Dazu bietet sich ein Soft-Link an:
+
+ln -s /home/user/path/to/part-db /var/www/partdb
+
+Dann sollte die Startseite unter  http://localhost/partdb  erscheinen.
+
+
+Zugriffsrechte für Verzeichnisse setzen:
+
+Dsa Verzeichnis img muß für den Webserver schreibbar sein, damit der Bilderupload funktioniert:
+
+chmod 777 img
+
