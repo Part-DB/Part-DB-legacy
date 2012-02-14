@@ -200,7 +200,7 @@
                 menue.add(15,11,'Lieferanten','supmgr.php','','content_frame');
 
                 <?php if (! $disable_config) { ?>
-                menue.add(16,11,'Config','','','');
+                menue.add(16,0,'Config','','','');
                 menue.add(17,16,'Datenbank', 'config_page.php', '', 'content_frame');
                 <?php } ?>
                 document.write(menue);
