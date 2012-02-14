@@ -51,5 +51,5 @@ Zugriffsrechte für Verzeichnisse setzen:
 
 Dsa Verzeichnis img muß für den Webserver schreibbar sein, damit der Bilderupload funktioniert:
 
-chmod 777 img
+chmod 664 img
 
