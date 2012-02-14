@@ -91,5 +91,24 @@
 
         print $CSVDoc;
     }
+
+    if ( isset( $_REQUEST['DokuWIKI']) )
+    {
+
+        // header
+        $CSVDoc = "^ Kategorie^ Name^ Anzahl^ Footprint^ Lagerort^ Lieferant^ Bestellnummer^ Kommentar^\n|";
+     
+        //  catch SQL results, form XML output 
+        while( $dbrow = mysql_fetch_row( $result))
+        {
+            $CSVDoc .= implode( "|", $dbrow) . "\n|";
+        }
+     
+
+        // output
+        header("Content-disposition: attachment; filename=\"". $filename .".txt\"");
+
+        print $CSVDoc;
+    }
 ?>
 

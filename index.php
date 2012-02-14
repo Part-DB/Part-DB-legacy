@@ -8,7 +8,7 @@
     <title><?php print $title ?></title>
     <link rel="icon" href="img/partdb/favicon.ico" type="image/x-icon">
 </head>
-<frameset cols="300,*" frameborder="0" framespacing="0">
+<frameset cols="300,*" frameborder="0" framespacing="0" border="0">
   <frame name="_nav_frame" src="nav.php">
   <frame name="content_frame" src="startup.php">
 </frameset>
