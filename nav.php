@@ -198,7 +198,11 @@
                 menue.add(13,11,'Footprints','fpmgr.php"','','content_frame');
                 menue.add(14,11,'Kategorien','catmgr.php"','','content_frame');
                 menue.add(15,11,'Lieferanten','supmgr.php','','content_frame');
-                menue.add(16,11,'partDB Konfiguration', 'config_page.php', '', 'content_frame');
+
+                <?php if (! $disable_config) { ?>
+                menue.add(16,11,'Config','','','');
+                menue.add(17,16,'Datenbank', 'config_page.php', '', 'content_frame');
+                <?php } ?>
                 document.write(menue);
                 //-->
               </script>

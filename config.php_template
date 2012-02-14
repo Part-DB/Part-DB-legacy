@@ -27,9 +27,11 @@
     /* disable devices function, in case you don't need it */
     $disable_devices = false;
 
-    /* disable help (it's not useful for multiuser environments */
+    /* disable help (it's not useful for multiuser environments) */
     $disable_help = false;
 
+    /* disable Config (it's not useful for multiuser environments) */
+    $disable_config = false;
 
     /* default for common datasheet path */
     $use_datasheet_path = false;
