@@ -289,7 +289,7 @@
                     //function GenerateBOMResult($Format,$Spacer,$PartName,$SupNr,$SupName,$Quantity,$Instock,$Price)
                     print GenerateBOMResult($_REQUEST["format"],    //$Format
                                             $_REQUEST["spacer"],    //$Spacer
-                                            $d[2],                  //$PartName
+                                            $d[1],                  //$PartName
                                             $d[5],                  //$SupNr
                                             $d[4],                  //$SupName
                                             $d[3],                  //$Quantity
