@@ -31,32 +31,44 @@
        There's nothing special about it, so no more comments.
        Warning: Infinite recursion can occur when the DB is
        corrupted! But normally everything should be fine. */
-    function buildtree ($pid, $parentId)
+    function build_categories_tree( $pid)
     {
-        $query = "SELECT id,name FROM categories WHERE parentnode=". smart_escape($pid) ." ORDER BY categories.name ASC;";
-        $r = mysql_query ($query);
-        while ( $d = mysql_fetch_row ($r) )
+        $query  = "SELECT id,name FROM categories".
+            " WHERE parentnode=". smart_escape( $pid).
+            " ORDER BY categories.name ASC;";
+        if ( $result = mysql_query( $query))
         {
-            print "d.add(". smart_unescape($d[0]) .",". smart_unescape($pid) .",'". smart_unescape($d[1]) ."','showparts.php?cid=". smart_unescape($d[0]) ."&type=index\"','','content_frame');\n";
-            buildtree ($d[0], $pid);
+            while ( $d = mysql_fetch_assoc( $result))
+            {
+                print "cat_tree.add(". smart_unescape( $d['id']) .",".
+                    smart_unescape( $pid) .",'".
+                    smart_unescape( $d['name']).
+                    "','showparts.php?cid=". 
+                    smart_unescape( $d['id']).
+                    "&type=index\"','','content_frame');\n";
+                build_categories_tree( $d['id']);
+            }
         }
     }
 
-    function baugruppentree ($pid, $parentId)
+    function build_devices_tree( $pid)
     {    
-        $query = "SELECT devices.id, devices.name ".
-        "FROM devices ".
-        "ORDER BY devices.id ASC;";
-        //debug_print($query);
-        $result = mysql_query ($query);
-          
-        while ( $d = mysql_fetch_row ($result))
-        {      
-            // part-db/deviceinfo.php?deviceid=1
-	    $id = $d[0];
-	    $id++;
-            print "baugruppen.add($id,1,'". smart_unescape($d[1]) ."','deviceinfo.php?deviceid=". smart_unescape($d[0]) ."','','content_frame');\n";
-            //baugruppentree ($d[0], $pid);
+        $query  = "SELECT id, name FROM devices".
+            " WHERE parentnode=". smart_escape( $pid).
+            " ORDER BY devices.name ASC;";
+        if ( $result = mysql_query( $query))
+        {
+            while ( $d = mysql_fetch_assoc( $result))
+            {      
+                $print_id = $d['id'] + 1;
+                print "dev_tree.add(". smart_unescape( $print_id) .",". 
+                    smart_unescape( $pid + 1) .",'".
+                    smart_unescape( $d['name']).
+                    "','deviceinfo.php?deviceid=".
+                    smart_unescape( $d['id']).
+                    "','','content_frame');\n";
+                build_devices_tree( $d['id']);
+            }
         }
     }
 
@@ -82,7 +94,7 @@
     <tr>
         <td class="tdtext">
         <form action="search.php" method="get" target="content_frame">
-            <input type="text" name="keyword" size="20" maxlength="20">
+            <input type="text" name="keyword" size="17" maxlength="20">
             <input type="submit" name="s" value="Los!"><br>
             <table>
             <tr><td valign="top">
@@ -110,20 +122,16 @@
 
     <tr>
         <td class="tdtext">
-         <!-- <base href="" target="content_frame"> -->
           <div class="dtree">
             <script type="text/javascript">
-                <!--
-                d = new dTree('d');
-                d.add(0,-1,'');
-                <?PHP buildtree (0, 0); ?>
-                document.write(d);
-                //-->
+                cat_tree = new dTree('cat_tree');
+                cat_tree.add(0,-1,'');
+                <?PHP build_categories_tree( 0); ?>
+                document.write(cat_tree);
             </script>
             <br>
-            <a href="javascript:d.openAll();">Alle Anzeigen</a> | <a href="javascript:d.closeAll();">Alle Schliessen</a>
+            <a href="javascript:cat_tree.openAll();">Alle Anzeigen</a> | <a href="javascript:cat_tree.closeAll();">Alle Schliessen</a>
           </div>
-         <!-- </base> -->
         </td>
     </tr>
 </table>
@@ -143,19 +151,17 @@
         <td class="tdtext">
           <div class="dtree">
             <script type="text/javascript">
-                <!--
-                baugruppen = new dTree('baugruppen');
-                baugruppen.add(0,-1,'');
-                baugruppen.add(1,0,'Verwaltung','device.php"','','content_frame');
-                <?PHP baugruppentree (0, 0); ?>
-                document.write(baugruppen);
-                //-->
+                dev_tree = new dTree('dev_tree');
+                dev_tree.add(0,-1,'');
+                dev_tree.add(1,0,'Verwaltung','device.php"','','content_frame');
+                <?php build_devices_tree( 0); ?>
+                document.write( dev_tree);
             </script>
             <br>
-            <a href="javascript:baugruppen.openAll();">Alle Anzeigen</a> | <a href="javascript:baugruppen.closeAll();">Alle Schliessen</a>
+            <a href="javascript:dev_tree.openAll();">Alle Anzeigen</a> | <a href="javascript:dev_tree.closeAll();">Alle Schliessen</a>
           </div>
     </td>
-    </tr>    
+    </tr>
 </table>
 
 <?php
@@ -173,10 +179,8 @@
     </tr>
     <tr>
         <td class="tdtext">
-         <!-- <base href="" target="content_frame"> -->
           <div class="dtree">
             <script type="text/javascript">
-                <!--
                 menue = new dTree('menue');
                 menue.add(0,-1,'');
                 menue.add(1,0,'Tools','','','');
@@ -194,22 +198,21 @@
                 <?php } ?>
 
                 menue.add(11,0,'Bearbeiten','','','');
-                menue.add(12,11,'Lagerorte','locmgr.php"','','content_frame');
-                menue.add(13,11,'Footprints','fpmgr.php"','','content_frame');
-                menue.add(14,11,'Kategorien','catmgr.php"','','content_frame');
-                menue.add(15,11,'Lieferanten','supmgr.php','','content_frame');
+                menue.add(12,11,'Baugruppen','devmgr.php"','','content_frame');
+                menue.add(13,11,'Lagerorte','locmgr.php"','','content_frame');
+                menue.add(14,11,'Footprints','fpmgr.php"','','content_frame');
+                menue.add(15,11,'Kategorien','catmgr.php"','','content_frame');
+                menue.add(16,11,'Lieferanten','supmgr.php','','content_frame');
 
                 <?php if (! $disable_config) { ?>
-                menue.add(16,0,'Config','','','');
-                menue.add(17,16,'Datenbank', 'config_page.php', '', 'content_frame');
+                menue.add(17,0,'Config','','','');
+                menue.add(18,17,'Datenbank', 'config_page.php', '', 'content_frame');
                 <?php } ?>
                 document.write(menue);
-                //-->
               </script>
             <br>
             <a href="javascript:menue.openAll();">Alle Anzeigen</a> | <a href="javascript:menue.closeAll();">Alle Schliessen</a>
           </div>
-         <!-- </base> -->
         </td>
     </tr>
 </table>

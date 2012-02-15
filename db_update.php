@@ -19,7 +19,7 @@ So können updates problemlos übersprungen werden. Updates werden Schritt für 
 nachgeholt.
 */
 
-  $sollDBVersion = 5; // Diese Version erwarten wir. Darf nur Incrementiert werden !
+  $sollDBVersion = 6; // Diese Version erwarten wir. Darf nur Incrementiert werden !
                       // Achtung, diese Nummer-"1" muss es in der Funktion setDBUpdateSteps()
                       // geben, sonst wird mit einem Fehler abgebrochen !
 
@@ -249,6 +249,10 @@ nachgeholt.
       case 4:
         $updateSteps[] = "ALTER TABLE  `part_device` DROP PRIMARY KEY;";
         break;
+
+      case 5:
+        $updateSteps[] = "ALTER TABLE  `devices` ADD  `parentnode` int(11) NOT NULL default '0' AFTER  `name` ;";
+
 /*
       case 5:
         $updateSteps[] = "INSERT INTO internal SET keyName='test', keyValue='muh';";
