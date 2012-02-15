@@ -25,18 +25,33 @@
 */
     include('lib.php');
     partdb_init();
+
+    // set action
+    $action = isset( $_REQUEST['action']) ? $_REQUEST['action'] : 'default';
+
+    // catch variables
+    $pid        = isset( $_REQUEST['pid'])        ? $_REQUEST['pid'] : '';
+    $keyword    = isset( $_REQUEST['keyword'])    ? $_REQUEST['keyword'] : '';
+    $search_nam = isset( $_REQUEST['search_nam']) ? $_REQUEST['search_nam'] == 'true' : false;
+    $search_com = isset( $_REQUEST['search_com']) ? $_REQUEST['search_com'] == 'true' : false;
+    $search_sup = isset( $_REQUEST['search_sup']) ? $_REQUEST['search_sup'] == 'true' : false;
+    $search_snr = isset( $_REQUEST['search_snr']) ? $_REQUEST['search_snr'] == 'true' : false;
+    $search_loc = isset( $_REQUEST['search_loc']) ? $_REQUEST['search_loc'] == 'true' : false;
+    $search_fpr = isset( $_REQUEST['search_fpr']) ? $_REQUEST['search_fpr'] == 'true' : false;
+
     
-    if(strcmp($_REQUEST["action"], "r") == 0)  //remove one part
+    // remove one part
+    if ( $action == 'r')
     {
-        $query = "UPDATE parts SET instock=instock-1 WHERE id=" . smart_escape($_REQUEST["pid"]) . " AND instock >= 1 LIMIT 1;";
-        debug_print($query);
-        mysql_query($query);
+        $query = "UPDATE parts SET instock=instock-1 WHERE id=". smart_escape( $pid) ." AND instock >= 1 LIMIT 1;";
+        mysql_query( $query);
     }
-    else if(strcmp($_REQUEST["action"], "a") == 0)  //add one part
+
+    // add one part
+    if ( $action == 'a')
     {
-        $query = "UPDATE parts SET instock=instock+1 WHERE id=" . smart_escape($_REQUEST["pid"]) . " LIMIT 1;";
-        debug_print($query);
-        mysql_query($query);
+        $query = "UPDATE parts SET instock=instock+1 WHERE id=". smart_escape( $pid) ." LIMIT 1;";
+        mysql_query( $query);
     }
    
 
@@ -69,7 +84,7 @@
     <tr>
         <td class="tdtext" colspan="9">
         
-        Sie suchten nach &quot;<?PHP print $_REQUEST['keyword']; ?>&quot;
+        Sie suchten nach &quot;<?PHP print $keyword; ?>&quot;
         
         <div style="float: right; display: inline;">
             <form action="export.php" method="post" style="display: inline;">
@@ -80,13 +95,13 @@
                     <option>DymoCSV</option>
                 </select>
                 <?php
-                    if ( isset( $_REQUEST['keyword']))      { print "<input type='hidden' name='keyword' value='". $_REQUEST['keyword'] ."'>\n"; }
-                    if ( $_REQUEST['search_nam'] == "true") { print "<input type='hidden' name='search_nam' value='true'>\n"; }
-                    if ( $_REQUEST['search_com'] == "true") { print "<input type='hidden' name='search_com' value='true'>\n"; } 
-                    if ( $_REQUEST['search_sup'] == "true") { print "<input type='hidden' name='search_sup' value='true'>\n"; } 
-                    if ( $_REQUEST['search_snr'] == "true") { print "<input type='hidden' name='search_snr' value='true'>\n"; } 
-                    if ( $_REQUEST['search_loc'] == "true") { print "<input type='hidden' name='search_loc' value='true'>\n"; } 
-                    if ( $_REQUEST['search_fpr'] == "true") { print "<input type='hidden' name='search_fpr' value='true'>\n"; } 
+                    print "<input type='hidden' name='keyword' value='". $keyword ."'>\n";
+                    if ( $search_nam) { print "<input type='hidden' name='search_nam' value='true'>\n"; }
+                    if ( $search_com) { print "<input type='hidden' name='search_com' value='true'>\n"; } 
+                    if ( $search_sup) { print "<input type='hidden' name='search_sup' value='true'>\n"; } 
+                    if ( $search_snr) { print "<input type='hidden' name='search_snr' value='true'>\n"; } 
+                    if ( $search_loc) { print "<input type='hidden' name='search_loc' value='true'>\n"; } 
+                    if ( $search_fpr) { print "<input type='hidden' name='search_fpr' value='true'>\n"; } 
                  ?>
                 <input type="submit" name="action" value="Export">
             </form>
@@ -98,15 +113,15 @@
 
     <?php
         // execute the SQL query
-        $keyword = smart_escape_for_search( $_REQUEST['keyword']);
+        $keyword_esc = smart_escape_for_search( $keyword);
 
         // build search strings
-        if ( $_REQUEST['search_nam'] == "true") { $query_nam = " OR (parts.name LIKE ".           $keyword.")"; } 
-        if ( $_REQUEST['search_com'] == "true") { $query_com = " OR (parts.comment LIKE ".        $keyword.")"; }
-        if ( $_REQUEST['search_sup'] == "true") { $query_sup = " OR (suppliers.name LIKE ".       $keyword.")"; }
-        if ( $_REQUEST['search_snr'] == "true") { $query_snr = " OR (parts.supplierpartnr LIKE ". $keyword.")"; }
-        if ( $_REQUEST['search_loc'] == "true") { $query_loc = " OR (storeloc.name LIKE ".        $keyword.")"; }
-        if ( $_REQUEST['search_fpr'] == "true") { $query_fpr = " OR (footprints.name LIKE ".      $keyword.")"; }
+        if ( $search_nam) { $query_nam = " OR (parts.name LIKE ".           $keyword_esc.")"; } 
+        if ( $search_com) { $query_com = " OR (parts.comment LIKE ".        $keyword_esc.")"; }
+        if ( $search_sup) { $query_sup = " OR (suppliers.name LIKE ".       $keyword_esc.")"; }
+        if ( $search_snr) { $query_snr = " OR (parts.supplierpartnr LIKE ". $keyword_esc.")"; }
+        if ( $search_loc) { $query_loc = " OR (storeloc.name LIKE ".        $keyword_esc.")"; }
+        if ( $search_fpr) { $query_fpr = " OR (footprints.name LIKE ".      $keyword_esc.")"; }
         $search = $query_nam. $query_com. $query_sup. $query_snr. $query_loc. $query_fpr;
         $query = 
             "SELECT ".
@@ -115,7 +130,7 @@
             "parts.instock,".
             "parts.mininstock,".
             "footprints.name AS 'footprint',".
-            "storeloc.name   AS 'loc',".
+            "storeloc.name   AS 'location',".
             "parts.comment,".
             "parts.id_category, ".
             "parts.supplierpartnr ".
@@ -124,32 +139,23 @@
             "LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id ".
             "LEFT JOIN suppliers  ON parts.id_supplier=suppliers.id ".
             "WHERE FALSE ". $search.
-            " ORDER BY parts.id_category,parts.name ASC;";
-        $result = mysql_query( $query);
+            " ORDER BY parts.id_category, parts.name ASC;";
+        $result = mysql_query( $query) or die( mysql_error());
     
         $rowcount = 0;  // $rowcount is used for the alternating bg colors
         $prevcat = -1;  // $prevcat remembers the previous category. -1 is
-            // an invalid category id.
-        while ( $d = mysql_fetch_row ($result) )
-        {
-            // use speaking names for results
-            $id             = $d[0];
-            $name           = $d[1];
-            $instock        = $d[2];
-            $mininstock     = $d[3];
-            $footprint      = $d[4];
-            $location       = $d[5];
-            $comment        = $d[6];
-            $id_category    = $d[7];
-            $supplierpartnr = $d[8];
+                        // an invalid category id.
 
-            /* print new header, if a diffrent category is started */
-            if ($prevcat != $id_category)
+        while ( $d = mysql_fetch_assoc( $result))
+        {
+            /* print new header, 
+               if a diffrent category is started */
+            if ( $prevcat != $d['id_category'])
             {
                 // add one empty row for small spacing
                 print "<tr><td></td></tr>\n";
                 print "<tr>".
-                    "<td class=\"tdtop\" colspan=\"9\">Treffer in der Kategorie ". show_bt($id_category) ."</td>".
+                    "<td class=\"tdtop\" colspan=\"9\">Treffer in der Kategorie ". show_bt( $d['id_category']) ."</td>".
                     "</tr>\n";
                 print "<tr class=\"trcat\">".
                     "<td></td>".
@@ -162,11 +168,12 @@
                     "<td align=\"center\">-</td>".
                     "<td align=\"center\">+</td>".
                     "</tr>\n";
-                $prevcat = $id_category;
+                $prevcat = $d['id_category'];
                 $rowcount = 0;
             }
+
             $rowcount++;
-            print_table_row( $rowcount, $id, $name, $footprint, $supplierpartnr, $comment, $instock, $mininstock, $location);
+            print_table_row( $rowcount, $d['id'], $d['name'], $d['footprint'], $d['supplierpartnr'], $d['comment'], $d['instock'], $d['mininstock'], $d['location']);
         }
     ?>
 </table>
