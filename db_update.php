@@ -252,6 +252,7 @@ nachgeholt.
 
       case 5:
         $updateSteps[] = "ALTER TABLE  `devices` ADD  `parentnode` int(11) NOT NULL default '0' AFTER  `name` ;";
+		break;
 
 /*
       case 5:
