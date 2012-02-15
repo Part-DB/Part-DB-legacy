@@ -35,17 +35,30 @@
             "WHERE FALSE ". $search.
             " ORDER BY parts.id_category, parts.name ASC;";
 
-    $result = mysql_query( $query) or die( mysql_error());
+    $result   = mysql_query( $query) or die( mysql_error());
 
     $filename = "partdb_export_selection_". $_REQUEST["keyword"]; 
 
-    if ( isset( $_REQUEST['XML']) )
+
+    if ( isset( $_REQUEST['format']))
+    {
+        $format = $_REQUEST['format'];
+        $action = "output";
+    }
+    else
+    {
+        $action = "error";
+        $error  = "Ausgabeformat nicht definiert";
+    }
+
+
+    if (( $action == output) && ( $format == 'XML'))
     {
 
         // inspiration:
         // http://www.tsql.de/php/mysql_tabelle_export_xml_konvertieren
 
-        $XMLDoc = new SimpleXMLElement( "<?xml version='1.0' encoding='utf-8' standalone='yes'?><parts></parts>");
+        $XMLDoc = new SimpleXMLElement( "<?xml version='1.0' encoding='UTF-8' standalone='yes'?><parts></parts>");
 
         //  catch SQL results, form XML output 
         while( $dbrow = mysql_fetch_object( $result))
@@ -58,7 +71,7 @@
             }
         }
 
-        // cinvert to dom
+        // convert to dom
         $dom = new DOMDocument('1.0');
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
@@ -71,13 +84,14 @@
         print $dom->saveXML();
     }
     
-    if ( isset( $_REQUEST['CSV']) )
+
+    if (( $action == output) && ( $format == 'CSV'))
     {
 
         // header
         $CSVDoc = "# Kategorie; Name; Anzahl; Footprint; Lagerort; Lieferant; Bestellnummer; Kommentar\n";
      
-        //  catch SQL results, form XML output 
+        //  catch SQL results, form CSV output 
         while( $dbrow = mysql_fetch_row( $result))
         {
             $CSVDoc .= implode( ";", $dbrow) . "\n";
@@ -92,13 +106,14 @@
         print $CSVDoc;
     }
 
-    if ( isset( $_REQUEST['DokuWIKI']) )
+
+    if (( $action == output) && ( $format == 'DokuWIKI'))
     {
 
         // header
         $CSVDoc = "^ Kategorie^ Name^ Anzahl^ Footprint^ Lagerort^ Lieferant^ Bestellnummer^ Kommentar^\n|";
      
-        //  catch SQL results, form XML output 
+        //  catch SQL results, form DokuWIKI (CSV) output 
         while( $dbrow = mysql_fetch_row( $result))
         {
             $CSVDoc .= implode( "|", $dbrow) . "\n|";
@@ -106,9 +121,24 @@
      
 
         // output
+        header("Content-Type: text/plain");
         header("Content-disposition: attachment; filename=\"". $filename .".txt\"");
+        header("Pragma: no-cache");
 
         print $CSVDoc;
+    }
+
+
+    if ( $action == "error" )
+    {
+?>
+        <html>
+        <body>
+        Fehler: <?php print $error ?>
+        </body>
+        </html>
+
+<?php
     }
 ?>
 

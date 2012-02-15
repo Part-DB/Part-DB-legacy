@@ -72,8 +72,12 @@
         Sie suchten nach &quot;<?PHP print $_REQUEST['keyword']; ?>&quot;
         
         <div style="float: right; display: inline;">
-            Auswahl exportieren: 
             <form action="export.php" method="post" style="display: inline;">
+                <select name="format" size="1">
+                    <option>XML</option>
+                    <option>CSV</option>
+                    <option>DokuWIKI</option>
+                </select>
                 <?php
                     if ( isset( $_REQUEST['keyword']))      { print "<input type='hidden' name='keyword' value='". $_REQUEST['keyword'] ."'>\n"; }
                     if ( $_REQUEST['search_nam'] == "true") { print "<input type='hidden' name='search_nam' value='true'>\n"; }
@@ -83,31 +87,7 @@
                     if ( $_REQUEST['search_loc'] == "true") { print "<input type='hidden' name='search_loc' value='true'>\n"; } 
                     if ( $_REQUEST['search_fpr'] == "true") { print "<input type='hidden' name='search_fpr' value='true'>\n"; } 
                  ?>
-                <input type="submit" name="XML" value="XML">
-            </form>
-            <form action="export.php" method="post" style="display: inline;">
-                <?php
-                    if ( isset( $_REQUEST['keyword']))      { print "<input type='hidden' name='keyword' value='". $_REQUEST['keyword'] ."'>\n"; }
-                    if ( $_REQUEST['search_nam'] == "true") { print "<input type='hidden' name='search_nam' value='true'>\n"; }
-                    if ( $_REQUEST['search_com'] == "true") { print "<input type='hidden' name='search_com' value='true'>\n"; } 
-                    if ( $_REQUEST['search_sup'] == "true") { print "<input type='hidden' name='search_sup' value='true'>\n"; } 
-                    if ( $_REQUEST['search_snr'] == "true") { print "<input type='hidden' name='search_snr' value='true'>\n"; } 
-                    if ( $_REQUEST['search_loc'] == "true") { print "<input type='hidden' name='search_loc' value='true'>\n"; } 
-                    if ( $_REQUEST['search_fpr'] == "true") { print "<input type='hidden' name='search_fpr' value='true'>\n"; } 
-                 ?>
-                <input type="submit" name="CSV" value="CSV">
-            </form>
-            <form action="export.php" method="post" style="display: inline;">
-                <?php
-                    if ( isset( $_REQUEST['keyword']))      { print "<input type='hidden' name='keyword' value='". $_REQUEST['keyword'] ."'>\n"; }
-                    if ( $_REQUEST['search_nam'] == "true") { print "<input type='hidden' name='search_nam' value='true'>\n"; }
-                    if ( $_REQUEST['search_com'] == "true") { print "<input type='hidden' name='search_com' value='true'>\n"; } 
-                    if ( $_REQUEST['search_sup'] == "true") { print "<input type='hidden' name='search_sup' value='true'>\n"; } 
-                    if ( $_REQUEST['search_snr'] == "true") { print "<input type='hidden' name='search_snr' value='true'>\n"; } 
-                    if ( $_REQUEST['search_loc'] == "true") { print "<input type='hidden' name='search_loc' value='true'>\n"; } 
-                    if ( $_REQUEST['search_fpr'] == "true") { print "<input type='hidden' name='search_fpr' value='true'>\n"; } 
-                 ?>
-                <input type="submit" name="DokuWIKI" value="DokuWIKI">
+                <input type="submit" name="action" value="Export">
             </form>
         </div>
       </td>
