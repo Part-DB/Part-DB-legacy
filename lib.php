@@ -66,6 +66,14 @@
         $value = "'". mysql_real_escape_string( $value) ."'";
         return( $value);
     }
+    
+    function smart_escape_for_search( $value)
+    {
+        $value = str_replace( '*', '%', $value);
+        $value = "'%". mysql_real_escape_string( $value) ."%'";
+        return( $value);
+    }
+
 
     /* at the moment this function is _very_ smart :) */
     function smart_unescape( $value)

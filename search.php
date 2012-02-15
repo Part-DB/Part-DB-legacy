@@ -97,9 +97,9 @@
     <tr><td></td></tr>
 
     <?php
-        // execute the SQL query (DON'T USE smart_escape HERE, because
-        // it breaks the query)
-        $keyword = "'%". mysql_real_escape_string( $_REQUEST['keyword']) ."%'";
+        // execute the SQL query
+        $keyword = smart_escape_for_search( $_REQUEST['keyword']);
+
         // build search strings
         if ( $_REQUEST['search_nam'] == "true") { $query_nam = " OR (parts.name LIKE ".           $keyword.")"; } 
         if ( $_REQUEST['search_com'] == "true") { $query_com = " OR (parts.comment LIKE ".        $keyword.")"; }
