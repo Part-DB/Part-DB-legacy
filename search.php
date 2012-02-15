@@ -77,6 +77,7 @@
                     <option>XML</option>
                     <option>CSV</option>
                     <option>DokuWIKI</option>
+                    <option>DymoCSV</option>
                 </select>
                 <?php
                     if ( isset( $_REQUEST['keyword']))      { print "<input type='hidden' name='keyword' value='". $_REQUEST['keyword'] ."'>\n"; }

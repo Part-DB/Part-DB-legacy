@@ -129,6 +129,28 @@
     }
 
 
+    if (( $action == output) && ( $format == 'DymoCSV'))
+    {
+
+        // header
+        $CSVDoc = "# Name; Footprint; Lagerort;\n";
+     
+        //  catch SQL results, form DokuWIKI (CSV) output 
+        while( $dbrow = mysql_fetch_assoc( $result))
+        {
+            $CSVDoc .= $dbrow['name'] ."; ". $dbrow['footprint'] ."; ". $dbrow['location'] ."\n"; 
+        }
+     
+
+        // output
+        header("Content-Type: text/plain");
+        header("Content-disposition: attachment; filename=\"". $filename .".txt\"");
+        header("Pragma: no-cache");
+
+        print $CSVDoc;
+    }
+
+
     if ( $action == "error" )
     {
 ?>
