@@ -106,7 +106,7 @@
     {
 ?>
 
-<div class="table">
+<div class="outer">
     <h2 class="red">Achtung!</h2>
     <div class="inner">
         Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>

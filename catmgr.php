@@ -206,15 +206,10 @@
 </script>
 
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Kategorie anlegen
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <form action="" method="post">
+<div class="outer">
+    <h2>Kategorie anlegen</h2>
+    <div class="inner">
+        <form action="" method="post">
             <table>
                 <tr>
                     <td>&Uuml;bergeordnete Kategorie ausw&auml;hlen:</td>
@@ -233,22 +228,15 @@
                     </td>
                 </tr>
             </table>
-            </form>
-        </td>
-    </tr>
-</table>
+        </form>
+    </div>
+</div>
 
-<br>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Kategorie umbennenen/l&ouml;schen/sortieren
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <form action="" method="post">
+<div class="outer">
+    <h2>Kategorie umbennenen/l&ouml;schen/sortieren</h2>
+    <div class="inner">
+        <form action="" method="post">
             <table>
                 <tr>
                     <td>
@@ -286,10 +274,9 @@
                     </td>
                 </tr>
             </table>
-            </form>
-        </td>
-    </tr>
-</table>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

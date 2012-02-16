@@ -74,16 +74,9 @@
 </head>
 <body class="body">
 
-<table class="table">
-    <tr>
-        <td class="tdtop" colspan="9">
-        Suchergebnis
-        </td>
-    </tr>
-    
-    <tr>
-        <td class="tdtext" colspan="9">
-        
+<div class="outer">
+    <h2>Suchergebnis</h2>
+    <div class="inner">
         Sie suchten nach &quot;<?PHP print $keyword; ?>&quot;
         
         <div style="float: right; display: inline;">
@@ -106,77 +99,82 @@
                 <input type="submit" name="action" value="Export">
             </form>
         </div>
-      </td>
-    </tr>
+    </div>
+</div>
 
-    <tr><td></td></tr>
 
-    <?php
-        // execute the SQL query
-        $keyword_esc = smart_escape_for_search( $keyword);
 
-        // build search strings
-        if ( $search_nam) { $query_nam = " OR (parts.name LIKE ".           $keyword_esc.")"; } 
-        if ( $search_com) { $query_com = " OR (parts.comment LIKE ".        $keyword_esc.")"; }
-        if ( $search_sup) { $query_sup = " OR (suppliers.name LIKE ".       $keyword_esc.")"; }
-        if ( $search_snr) { $query_snr = " OR (parts.supplierpartnr LIKE ". $keyword_esc.")"; }
-        if ( $search_loc) { $query_loc = " OR (storeloc.name LIKE ".        $keyword_esc.")"; }
-        if ( $search_fpr) { $query_fpr = " OR (footprints.name LIKE ".      $keyword_esc.")"; }
-        $search = $query_nam. $query_com. $query_sup. $query_snr. $query_loc. $query_fpr;
-        $query = 
-            "SELECT ".
-            "parts.id,".
-            "parts.name,".
-            "parts.instock,".
-            "parts.mininstock,".
-            "footprints.name AS 'footprint',".
-            "storeloc.name   AS 'location',".
-            "parts.comment,".
-            "parts.id_category, ".
-            "parts.supplierpartnr ".
-            "FROM parts ".
-            "LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
-            "LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id ".
-            "LEFT JOIN suppliers  ON parts.id_supplier=suppliers.id ".
-            "WHERE FALSE ". $search.
-            " ORDER BY parts.id_category, parts.name ASC;";
-        $result = mysql_query( $query) or die( mysql_error());
-    
-        $rowcount = 0;  // $rowcount is used for the alternating bg colors
-        $prevcat = -1;  // $prevcat remembers the previous category. -1 is
-                        // an invalid category id.
+<div class="outer">
+    <div class="inner">
+        <table>
+        <?php
+            // execute the SQL query
+            $keyword_esc = smart_escape_for_search( $keyword);
 
-        while ( $data_array = mysql_fetch_assoc( $result))
-        {
-            /* print new header, 
-               if a diffrent category is started */
-            if ( $prevcat != $data_array['id_category'])
+            // build search strings
+            if ( $search_nam) { $query_nam = " OR (parts.name LIKE ".           $keyword_esc.")"; } 
+            if ( $search_com) { $query_com = " OR (parts.comment LIKE ".        $keyword_esc.")"; }
+            if ( $search_sup) { $query_sup = " OR (suppliers.name LIKE ".       $keyword_esc.")"; }
+            if ( $search_snr) { $query_snr = " OR (parts.supplierpartnr LIKE ". $keyword_esc.")"; }
+            if ( $search_loc) { $query_loc = " OR (storeloc.name LIKE ".        $keyword_esc.")"; }
+            if ( $search_fpr) { $query_fpr = " OR (footprints.name LIKE ".      $keyword_esc.")"; }
+            $search = $query_nam. $query_com. $query_sup. $query_snr. $query_loc. $query_fpr;
+            $query = 
+                "SELECT ".
+                "parts.id,".
+                "parts.name,".
+                "parts.instock,".
+                "parts.mininstock,".
+                "footprints.name AS 'footprint',".
+                "storeloc.name   AS 'location',".
+                "parts.comment,".
+                "parts.id_category, ".
+                "parts.supplierpartnr ".
+                "FROM parts ".
+                "LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
+                "LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id ".
+                "LEFT JOIN suppliers  ON parts.id_supplier=suppliers.id ".
+                "WHERE FALSE ". $search.
+                " ORDER BY parts.id_category, parts.name ASC;";
+            $result = mysql_query( $query) or die( mysql_error());
+        
+            $rowcount = 0;  // $rowcount is used for the alternating bg colors
+            $prevcat = -1;  // $prevcat remembers the previous category. -1 is
+                            // an invalid category id.
+
+            while ( $data_array = mysql_fetch_assoc( $result))
             {
-                // add one empty row for small spacing
-                print "<tr><td></td></tr>\n";
-                print "<tr>".
-                    "<td class=\"tdtop\" colspan=\"9\">Treffer in der Kategorie ". show_bt( $data_array['id_category']) ."</td>".
-                    "</tr>\n";
-                print "<tr class=\"trcat\">".
-                    "<td></td>".
-                    "<td>Name</td>".
-                    "<td>Vorh./<br>Min.Best.</td>".
-                    "<td>Footprint</td>".
-                    "<td>Lagerort</td>".
-                    "<td class='idclass'>ID</td>".
-                    "<td>Datenbl&auml;tter</td>".
-                    "<td align=\"center\">-</td>".
-                    "<td align=\"center\">+</td>".
-                    "</tr>\n";
-                $prevcat = $data_array['id_category'];
-                $rowcount = 0;
-            }
+                /* print new header, 
+                   if a diffrent category is started */
+                if ( $prevcat != $data_array['id_category'])
+                {
+                    // add one empty row for small spacing
+                    print "<tr><td></td></tr>\n";
+                    print "<tr>".
+                        "<td class=\"tdtop\" colspan=\"9\">Treffer in der Kategorie ". show_bt( $data_array['id_category']) ."</td>".
+                        "</tr>\n";
+                    print "<tr class=\"trcat\">".
+                        "<td></td>".
+                        "<td>Name</td>".
+                        "<td>Vorh./<br>Min.Best.</td>".
+                        "<td>Footprint</td>".
+                        "<td>Lagerort</td>".
+                        "<td class='idclass'>ID</td>".
+                        "<td>Datenbl&auml;tter</td>".
+                        "<td align=\"center\">-</td>".
+                        "<td align=\"center\">+</td>".
+                        "</tr>\n";
+                    $prevcat = $data_array['id_category'];
+                    $rowcount = 0;
+                }
 
-            $rowcount++;
-            print_table_row( $rowcount, $data_array);
-        }
-    ?>
-</table>
+                $rowcount++;
+                print_table_row( $rowcount, $data_array);
+            }
+        ?>
+        </table>
+    </div>
+</div>
 
 </body>
 </html>

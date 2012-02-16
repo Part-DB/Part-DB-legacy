@@ -230,15 +230,10 @@
 </script> 
 
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Lagerorte anlegen 
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <form action="" method="post" name="create">
+<div class="outer">
+    <h2>Lagerorte anlegen</h2> 
+    <div class="inner">
+        <form action="" method="post" name="create">
             <table>
                 <tr>
                     <td>&Uuml;bergeordneten Lagerort ausw&auml;hlen:</td>
@@ -266,22 +261,15 @@
                     </td>
                 </tr>
             </table>
-            </form>
-        </td>
-    </tr>
-</table>
+        </form>
+    </div>
+</div>
 
-<br>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Lagerorte umbenennen/l&ouml;schen/sortieren
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <form action="" method="post">
+<div class="outer">
+    <h2>Lagerorte umbenennen/l&ouml;schen/sortieren</h2>
+    <div class="inner">
+        <form action="" method="post">
             <table>
                 <tr>
                     <td rowspan="4">
@@ -319,10 +307,9 @@
                     </td>
                 </tr>
             </table>
-            </form>
-        </td>
-    </tr>
-</table>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

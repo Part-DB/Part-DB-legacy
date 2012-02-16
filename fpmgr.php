@@ -178,15 +178,10 @@
 </head>
 <body class="body">
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Footprint anlegen 
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <form action="" method="post">
+<div class="outer">
+    <h2>Footprint anlegen</h2> 
+    <div class="inner">
+        <form action="" method="post">
             <table>
                 <tr>
                     <td>&Uuml;bergeordnete Footprinthierarchie ausw&auml;hlen:</td>
@@ -205,22 +200,15 @@
                     </td>
                 </tr>
             </table>
-            </form>
-        </td>
-    </tr>
-</table>
+        </form>
+    </div>
+</div>
 
-<br>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Footprints umbenennen/l&ouml;schen/sortieren
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <form action="" method="post">
+<div class="outer">
+    <h2>Footprints umbenennen/l&ouml;schen/sortieren</h2>
+    <div class="inner">
+        <form action="" method="post">
             <table>
                 <tr>
                     <td rowspan="3">
@@ -251,10 +239,9 @@
                     </td>
                 </tr>
             </table>
-            </form>
-        </td>
-    </tr>
-</table>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

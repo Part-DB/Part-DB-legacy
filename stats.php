@@ -33,14 +33,9 @@
 </head>
 <body class="body">
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Statistik
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
+<div class="outer">
+    <h2>Statistik</h2>
+    <div class="inner">
         <b>Wert aller mit Preis erfassten Bauteile:</b>
         <?PHP
         include('config.php');
@@ -54,7 +49,6 @@
         <?PHP
         $i = 0;
         $query = "SELECT preis FROM preise;";
-        debug_print($query);
         $r = mysql_query ($query);
         while ( $d = mysql_fetch_row ($r) )
         {
@@ -68,7 +62,6 @@
         <?PHP
         $i = 0;
         $query = "SELECT name FROM parts;";
-        debug_print($query);
         $r = mysql_query ($query);
         while ( $d = mysql_fetch_row ($r) )
         {
@@ -90,7 +83,6 @@
         <?PHP
         $i = 0;
         $query = "SELECT name FROM categories;";
-        debug_print($query);
         $r = mysql_query ($query);
         while ( $d = mysql_fetch_row ($r) )
         {
@@ -106,7 +98,6 @@
         <?PHP
         $i = 0;
         $query = "SELECT name FROM devices;";
-        debug_print($query);
         $r = mysql_query ($query);
         while ( $d = mysql_fetch_row ($r) )
         {
@@ -155,9 +146,8 @@
         echo count($files)- 2;
         unset($files);
         ?>
-        </td>
-    </tr>
-</table>
+    </div>
+</div>
 
- </body>
+</body>
 </html>

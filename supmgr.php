@@ -20,10 +20,6 @@
 
     $Id: supmgr.php,v 1.3 2006/03/09 15:08:09 cl Exp $
 
-    ChangeLog
-    
-    09/03/2006
-        Added escape/unescape stuff
 */
     include('lib.php');
     partdb_init();
@@ -65,34 +61,22 @@
 </head>
 <body class="body">
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Lieferant anlegen 
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <form action="" method="post">
+<div class="outer">
+    <h2>Lieferant anlegen</h2>
+    <div class="inner">
+        <form action="" method="post">
             Neuer Lieferant:
             <input type="text" name="new_supplier">
             <input type="submit" name="add" value="Anlegen">
-            </form>
-        </td>
-    </tr>
-</table>
+        </form>
+    </div>
+</div>
 
-<br>
 
-<table class="table">   
-    <tr>
-        <td class="tdtop">
-        Lieferant umbenennen/l&ouml;schen 
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <form action="" method="post">
+<div class="outer">
+    <h2>Lieferant umbenennen/l&ouml;schen</h2>
+    <div class="inner">
+        <form action="" method="post">
             <table>
                 <tr>
                     <td rowspan="2">
@@ -122,10 +106,9 @@
                     </td>
                 </tr>
             </table>
-            </form>
-        </td>
-    </tr>
-</table>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>

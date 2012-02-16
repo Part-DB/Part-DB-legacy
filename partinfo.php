@@ -20,8 +20,6 @@
 
     $Id: partinfo.php,v 1.5 2006/03/06 23:05:14 cl Exp $
 
-    06/03/06:
-        Added escape/unescape calls
 */
     include ("lib.php");
     partdb_init();
@@ -35,16 +33,15 @@
     // set action to default, if not exists
     $action = ( isset( $_REQUEST["action"]) ? $_REQUEST["action"] : 'default');
 
-    if ( strcmp ($action, "r") == 0 )
+    if ( $action == "r")
     {
         $query = "UPDATE parts SET instock=instock-". smart_escape($_REQUEST["n_less"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." AND instock >= ". smart_escape($_REQUEST["n_less"]) ." LIMIT 1;";
-        debug_print ($query);
         mysql_query ($query);
     }
-    else if ( strcmp ($action, "a") == 0 )
+    
+    if ( $action == "a")
     {
         $query = "UPDATE parts SET instock=instock+". smart_escape($_REQUEST["n_more"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
-        debug_print ($query);
         mysql_query ($query);
     }
 
@@ -60,60 +57,48 @@
 </head>
 <body class="body">
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Detailinfo zu &quot;<?PHP print lookup_part_name ($_REQUEST["pid"]); ?>&quot;
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
+<div class="outer">
+    <h2>Detailinfo zu &quot;<?PHP print lookup_part_name ($_REQUEST["pid"]); ?>&quot;</h2>
+    <div class="inner">
         
         <table>
         <tr valign="top">
         <td>
-        <table><?PHP
+        <table><?php
         $query = "SELECT ".
-            "parts.id,".
-            "parts.name,".
-            "parts.instock,".
-            "parts.mininstock,".
-            "footprints.name AS 'footprint',".
-            "storeloc.name AS 'loc',".
-            "suppliers.name AS 'supplier',".
-            "parts.supplierpartnr,".
-            "preise.preis,".
-            "preise.ma,".
-            "parts.comment ".
-            "FROM parts ".
-            "LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
-            "LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id ".
-            "LEFT JOIN suppliers ON parts.id_supplier=suppliers.id ".
-            "LEFT JOIN preise ON parts.id=preise.part_id ".
-            "WHERE parts.id=". smart_escape($_REQUEST["pid"]).
+            " parts.id,".
+            " parts.name,".
+            " parts.instock,".
+            " parts.mininstock,".
+            " footprints.name AS 'footprint',".
+            " storeloc.name AS 'location',".
+            " suppliers.name AS 'supplier',".
+            " parts.supplierpartnr,".
+            " preise.preis,".
+            " preise.ma,".
+            " parts.comment ".
+            " FROM parts ".
+            " LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
+            " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id ".
+            " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id ".
+            " LEFT JOIN preise ON parts.id=preise.part_id ".
+            " WHERE parts.id=". smart_escape($_REQUEST["pid"]).
             " ORDER BY preise.ma DESC LIMIT 1;";
-        debug_print ($query);
-        $r = mysql_query ($query);
-        while ( ($d = mysql_fetch_row ($r)) )
+        $result = mysql_query( $query) or die( mysql_error());
+        while ( $data = mysql_fetch_assoc( $result))
         {
-        print "<tr><td><b>Name:</b></td><td>". smart_unescape($d[1]) ."</td></tr>";
-        print "<tr><td><b>Vorhanden:</b></td><td>". smart_unescape($d[2]) ."</td></tr>";
-        print "<tr><td><b>Min. Bestand:</b></td><td>". smart_unescape($d[3]) ."</td></tr>";
-        print "<tr><td><b>Footprint:</b></td><td>". smart_unescape($d[4]) ."</td></tr>";
-        print "<tr><td><b>Lagerort:</b></td><td>". smart_unescape($d[5]) ."</td></tr>";
-        print "<tr><td><b>Lieferant:</b></td><td>". smart_unescape($d[6]) ."</td></tr>";
-        print "<tr><td><b>Bestell-Nr.:</b></td><td>". smart_unescape($d[7]) ."</td></tr>";
-        $d[8] = str_replace('.', ',', $d[8]);
-        print "<tr><td><b>Preis:</b></td><td>". smart_unescape($d[8]);
-        if ($d[9] == 1) {
-        // if the price information has been added manually ...
-        //print " (m) ";
-        }
-        include("config.php");
-        print " ".$currency." &nbsp;</td></tr>";
-        //print "<tr><td valign=\"top\"><b>Kommentar:</b></td><td>". smart_unescape($d[10]) ."&nbsp;</td></tr>";
-        //FIX - Zeilenumbrüche thx @ bacarni
-        print "<tr><td valign=\"top\"><b>Kommentar:</b></td><td>". nl2br(smart_unescape($d[10])) ."&nbsp;</td></tr>";
+            print "<tr><td><b>Name:</b></td><td>". smart_unescape( $data['name']) ."</td></tr>". PHP_EOL;
+            print "<tr><td><b>Vorhanden:</b></td><td>". smart_unescape( $data['instock']) ."</td></tr>". PHP_EOL;
+            print "<tr><td><b>Min. Bestand:</b></td><td>". smart_unescape( $data['mininstock']) ."</td></tr>". PHP_EOL;
+            print "<tr><td><b>Footprint:</b></td><td>". smart_unescape( $data['footprint']) ."</td></tr>". PHP_EOL;
+            print "<tr><td><b>Lagerort:</b></td><td>". smart_unescape( $data['location']) ."</td></tr>". PHP_EOL;
+            print "<tr><td><b>Lieferant:</b></td><td>". smart_unescape( $data['supplier']) ."</td></tr>". PHP_EOL;
+            print "<tr><td><b>Bestell-Nr.:</b></td><td>". smart_unescape( $data['supplierpartnr']) ."</td></tr>". PHP_EOL;
+            $preis = str_replace('.', ',', $data['preis']);
+            print "<tr><td><b>Preis:</b></td><td>". smart_unescape( $preis). PHP_EOL;
+            include("config.php");
+            print " ".$currency." &nbsp;</td></tr>". PHP_EOL;
+            print "<tr><td valign=\"top\"><b>Kommentar:</b></td><td>". nl2br( smart_unescape( $data['comment'])) ."&nbsp;</td></tr>". PHP_EOL;
         }
         ?>
         </table>
@@ -159,10 +144,9 @@
         print "</tr></table>\n";
         }
         ?>
+    </div>
+</div>
 
-        </td>
-    </tr>
-</table>
 
 </body>
 </html>

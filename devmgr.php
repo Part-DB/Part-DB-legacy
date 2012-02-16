@@ -172,15 +172,10 @@
 </script>
 
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Baugruppe anlegen
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <form action="" method="post">
+<div class="outer">
+    <h2>Baugruppe anlegen</h2>
+    <div class="inner">
+        <form action="" method="post">
             <table>
                 <tr>
                     <td>&Uuml;bergeordnete Baugruppe ausw&auml;hlen:</td>
@@ -199,22 +194,15 @@
                     </td>
                 </tr>
             </table>
-            </form>
-        </td>
-    </tr>
-</table>
+        </form>
+    </div>
+</div>
 
-<br>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Baugruppe umbennenen/l&ouml;schen/sortieren
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <form action="" method="post">
+<div class="outer">
+    <h2>Baugruppe umbennenen/l&ouml;schen/sortieren</h2>
+    <div class="inner">
+        <form action="" method="post">
             <table>
                 <tr>
                     <td>
@@ -252,10 +240,9 @@
                     </td>
                 </tr>
             </table>
-            </form>
-        </td>
-    </tr>
-</table>
+        </form>
+    </div>
+</div>
 
 </body>
 </html>
