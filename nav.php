@@ -67,8 +67,8 @@
                 $count_row    = mysql_fetch_array( $count_result);
                 $count        = $count_row['count'];
                 
-                $print_id  = $d['id'];
-                $print_pid = $pid;
+                $print_id  = $d['id'] + 1;
+                $print_pid = $pid + 1 ;
 
                 if ($count > 0)
                 {
@@ -175,6 +175,7 @@
             <script type="text/javascript">
                 dev_tree = new dTree('dev_tree');
                 dev_tree.add(0,-1,'');
+		menue.add(1,0,'');
                 <?php build_devices_tree( 0); ?>
                 document.write( dev_tree);
             </script>
