@@ -3,7 +3,7 @@
 	background-color: #cdcdcd;
 }
 
-.nav_box {
+.outer {
 	background-color: #ffffff;
     margin-top:    10px;
     margin-bottom: 20px;
@@ -15,7 +15,14 @@
 	font-size: 12px;
 }
 
-.nav_box h2 {
+.outer h1 {
+    margin:  0px;
+    padding: 0px;
+	font-size: 70px;
+	text-align: center;
+}
+
+.outer h2 {
 	background-color: #BABABA;
     margin-top:    0px;
     margin-bottom: 1px;
@@ -32,6 +39,14 @@
 	border-left:   1px solid #d0d0d0;
 	border-right:  1px solid #d0d0d0;
     padding: 1px;
+}
+
+.red {
+	color: #ff0000;
+}
+
+.small {
+	font-size: small;
 }
 
 
@@ -181,11 +196,6 @@ a:hover .hoverpic
 
 
 /* Sonstiges */
-.tdstartup {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
-	font-size: 70px;
-	text-align: center;
-}
 a img {
 	border: none;
 }

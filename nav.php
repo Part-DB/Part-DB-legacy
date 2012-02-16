@@ -91,7 +91,7 @@
 </head>
 <body class="body">
 
-<div class="nav_box">
+<div class="outer">
     <h2>Suche</h2>
     <div class="inner">
         <form action="search.php" method="get" target="content_frame">
@@ -111,7 +111,7 @@
     </div>
 </div>
 
-<div class="nav_box">
+<div class="outer">
     <h2>Kategorien</h2>
     <div class="inner">
         <div class="dtree">
@@ -130,7 +130,7 @@
 <?php
     if (! $disable_devices) {
 ?>
-<div class="nav_box">
+<div class="outer">
     <h2>Baugruppen</h2>
     <div class="inner">
         <div class="dtree">
@@ -150,7 +150,7 @@
     }
 ?>
 
-<div class="nav_box">
+<div class="outer">
     <h2>Verwaltung / Tools</h2>
     <div class="inner">
         <div class="dtree inner">

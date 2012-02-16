@@ -53,20 +53,13 @@
     /* add your individual banner here: */
     $banner = <<<BANNER
 <!--
-<br>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Banner
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
+<div class="outer">
+    <h2>Banner</h2>
+    <div class="inner">
         Willkommen zur Part-DB!
-        </td>
-    </tr>
-</table>
+    </div>
+</div>
 -->
 BANNER;
 ?>
