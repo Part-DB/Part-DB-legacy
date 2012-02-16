@@ -173,15 +173,14 @@
 
                 menue.add(11,0,'Bearbeiten','','','');
                 menue.add(12,11,'Baugruppen','devmgr.php"','','content_frame');
-                menue.add(13,12,'Erstellen/L&ouml;schen','device.php"','','content_frame');
-                menue.add(14,11,'Lagerorte','locmgr.php"','','content_frame');
-                menue.add(15,11,'Footprints','fpmgr.php"','','content_frame');
-                menue.add(16,11,'Kategorien','catmgr.php"','','content_frame');
-                menue.add(17,11,'Lieferanten','supmgr.php','','content_frame');
+                menue.add(13,11,'Lagerorte','locmgr.php"','','content_frame');
+                menue.add(14,11,'Footprints','fpmgr.php"','','content_frame');
+                menue.add(15,11,'Kategorien','catmgr.php"','','content_frame');
+                menue.add(16,11,'Lieferanten','supmgr.php','','content_frame');
 
                 <?php if (! $disable_config) { ?>
-                menue.add(18,0,'Config','','','');
-                menue.add(19,18,'Datenbank', 'config_page.php', '', 'content_frame');
+                menue.add(17,0,'Config','','','');
+                menue.add(18,17,'Datenbank', 'config_page.php', '', 'content_frame');
                 <?php } ?>
                 document.write(menue);
             </script>

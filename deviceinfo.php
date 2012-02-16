@@ -159,7 +159,6 @@
 	else if( strcmp ($_REQUEST["action"], "renamedevice") == 0 )
 	{
 		$query = "UPDATE devices SET name=".smart_escape($_REQUEST["newdevname"])." WHERE id=" . smart_escape($_REQUEST["deviceid"]).";";
-		debug_print($query);
         mysql_query($query);
 		$refreshnav = 1;
 	}
@@ -167,22 +166,31 @@
 	{
 		//Create a new device and get the ID
 		$query = "INSERT INTO devices (name) VALUES (". smart_escape($_REQUEST["newcopydevname"]) .");";
-        debug_print ($query);
         $r = mysql_query ($query);
 		$newid = mysql_insert_id();
+
+        //copy parent id
+		$query = "SELECT parentnode FROM".
+            " devices".
+            " WHERE id = ". smart_escape( $_REQUEST["deviceid"]) .";";
+        $result = mysql_query( $query);
+        if ( $data = mysql_fetch_assoc( $result))
+        {
+            $query = "UPDATE devices SET parentnode=". $data['parentnode'].
+                " WHERE id=". smart_escape( $newid) .";";
+            mysql_query( $query) or die( mysql_error());
+        }
 			
 		//Get the parts
 		$query = "SELECT part_device.id_part, part_device.quantity, part_device.mountname ".
         "FROM part_device ".
         "WHERE id_device = ".smart_escape($_REQUEST["deviceid"]).";";
-		debug_print ($query);
         $r = mysql_query ($query);
 		
 		//Insert the parts
 		while ( $d = mysql_fetch_row ($r) )
 		{
 			$query = "INSERT INTO part_device (id_part,quantity,mountname,id_device) VALUES (".smart_escape($d[0]).",".smart_escape($d[1]).",".smart_escape($d[2]).",".smart_escape($newid).");";
-			debug_print ($query);
 			mysql_query ($query);
 		}
 		$refreshnav = 1;
@@ -284,44 +292,44 @@
         print "<tr class=\"trcat\"><td></td><td>Anzahl</td><td>Bestückungs<br>Daten</td><td>Teil</td><td>Footprint</td><td>Lagernd</td>\n";
         while ( $d = mysql_fetch_row ($result) )
         {
-        $q = mysql_fetch_row ($quantity);
-        $rowcount++;
-        print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
-        
-        if (has_image($d[2]))
-        {
-            print "<td class=\"tdrow0\"><a href=\"javascript:popUp('getimage.php?pid=". smart_unescape($d[2]) . "')\"><img class=\"catbild\" src=\"getimage.php?pid=". smart_unescape($d[2]) . "\" alt=\"". smart_unescape($d[0]) ."\"></a></td>";
-        }
-        else
-        {
-            //Footprintbilder
-            if(is_file("tools/footprints/" . smart_unescape($d[3]) . ".png"))
+            //$q = mysql_fetch_row ($quantity);
+            $rowcount++;
+            print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
+            
+            if (has_image($d[2]))
             {
-            print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[3]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[3]) .".png\" alt=\"\"></a></td>";
+                print "<td class=\"tdrow0\"><a href=\"javascript:popUp('getimage.php?pid=". smart_unescape($d[2]) . "')\"><img class=\"catbild\" src=\"getimage.php?pid=". smart_unescape($d[2]) . "\" alt=\"". smart_unescape($d[0]) ."\"></a></td>";
             }
             else
             {
-            print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
+                //Footprintbilder
+                if(is_file("tools/footprints/" . smart_unescape($d[3]) . ".png"))
+                {
+                print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[3]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[3]) .".png\" alt=\"\"></a></td>";
+                }
+                else
+                {
+                print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
+                }
             }
-        }
+                
+            print "<td class=\"tdrow1\" >";
+            print "<input type=\"hidden\" name=\"selectedid".$rowcount."\" value=\"" . smart_unescape($d[2]). "\"/>";
+            print "<input type=\"text\" size=\"3\" onkeypress=\"validateNumber(event)\" name=\"selectedquantity".$rowcount."\" value=\"0\"/>";
             
-        print "<td class=\"tdrow1\" >";
-        print "<input type=\"hidden\" name=\"selectedid".$rowcount."\" value=\"" . smart_unescape($d[2]). "\"/>";
-        print "<input type=\"text\" size=\"3\" onkeypress=\"validateNumber(event)\" name=\"selectedquantity".$rowcount."\" value=\"0\"/>";
-        
-        print "</td>";
-        print "<td class=\"tdrow1\" >";
-        print "<input type=\"text\" size=\"9\" name=\"mounttext".$rowcount."\" value=\"\"/>";
-        
-        print "</td>";
-        print "<td class=\"tdrow1\"><a title=\"";
-        print "Kommentar: " . smart_unescape($d[1]);
-        print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[2]) ."');\">". smart_unescape($d[0]) ."</a></td>";
+            print "</td>";
+            print "<td class=\"tdrow1\" >";
+            print "<input type=\"text\" size=\"9\" name=\"mounttext".$rowcount."\" value=\"\"/>";
             
-        print "<td class=\"tdrow1\">".smart_unescape($d[3])."</td>";
-        print "<td class=\"tdrow1\">".smart_unescape($d[4])."</td>";
-    
-        print "</tr>\n";
+            print "</td>";
+            print "<td class=\"tdrow1\"><a title=\"";
+            print "Kommentar: " . smart_unescape($d[1]);
+            print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[2]) ."');\">". smart_unescape($d[0]) ."</a></td>";
+                
+            print "<td class=\"tdrow1\">".smart_unescape($d[3])."</td>";
+            print "<td class=\"tdrow1\">".smart_unescape($d[4])."</td>";
+        
+            print "</tr>\n";
         }
         
         
@@ -712,7 +720,7 @@
                     
                     <?PHP
                     print "<tr class=\"trcat\"><td>Umbenennen:</td><td><input type=\"text\" name=\"newdevname\" size=\"10\" maxlength=\"50\" value=\"";
-					print lookup_device_name ($_REQUEST["deviceid"]);
+					print lookup_device_name( $_REQUEST["deviceid"]);
                     print "\"/><td></tr>";
                     print "<tr><td><input type=\"submit\" value=\"Ausführen\"/>";
                     
@@ -732,7 +740,7 @@
                     
                     <?PHP
                     print "<tr class=\"trcat\"><td>Kopieren:</td><td><input type=\"text\" name=\"newcopydevname\" size=\"10\" maxlength=\"50\" value=\"";
-					print "KopieVon".lookup_device_name ($_REQUEST["deviceid"]);
+					print "KopieVon". lookup_device_name( $_REQUEST["deviceid"]);
                     print "\"/><td></tr>";
                     print "<tr><td><input type=\"submit\" value=\"Ausführen\"/>";
                     
