@@ -146,7 +146,8 @@
     function find_child_nodes($cid)
     {
         $result = array();
-        $query = "SELECT id FROM categories WHERE parentnode=". smart_escape($cid) .";";
+        $query = "SELECT id FROM categories".
+            " WHERE parentnode=". smart_escape($cid) .";";
         $r = mysql_query ($query);
         while ( $d = mysql_fetch_row ($r) )
         {
@@ -166,16 +167,18 @@
      */
     function buildtree ($cid, $level)
     {
-        $query = "SELECT id,name FROM categories WHERE parentnode=". smart_escape($cid) .";";
-        $r = mysql_query ($query);
-        while ( $d = mysql_fetch_row ($r) )
+        $query = "SELECT id,name FROM categories".
+            " WHERE parentnode=". smart_escape( $cid).
+            " ORDER BY name ASC;";
+        $result = mysql_query( $query) or die( mysql_error());
+        while ( $d = mysql_fetch_assoc( $result))
         {
-            print "<option value=\"". smart_unescape($d[0]) . "\">";
+            print "<option value=\"". smart_unescape( $d['id']) . "\">";
             for ($i = 0; $i < $level; $i++) print "&nbsp;&nbsp;&nbsp;";
-            print smart_unescape($d[1]) ."</option>\n";
+            print smart_unescape( $d['name']) ."</option>\n";
 
             // do the same for the next level.
-            buildtree ($d[0], $level + 1);
+            buildtree( $d['id'], $level + 1);
         }
     }
 
