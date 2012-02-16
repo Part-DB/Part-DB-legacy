@@ -35,19 +35,19 @@
     }
 
     // set action to default, if not exists
-    $action    = ( isset( $_REQUEST["action"]) ? $_REQUEST["action"] : 'default');
+    $action    = ( isset( $_REQUEST['action'])    ? $_REQUEST['action'] : 'default');
+    $file_type = ( isset( $_REQUEST['file_type']) ? $_REQUEST['file_type'] : 'CSV');
     $show_file = false;
 
     // determine action
     // this is a kind of a state machine 
-    if ( strcmp( $action, "import_file")  == 0 ) { $action="import_file"; }
-    if ( isset( $_REQUEST['check']))             { $action="check_data";  }
-    if ( isset( $_REQUEST['import']))            { $action="commit_data"; }
+    if ( isset( $_REQUEST['check']))  { $action = "check_data";  }
+    if ( isset( $_REQUEST['import'])) { $action = "commit_data"; }
 
 
     // data processing
     $accepted_coding = array( 'UTF-8', 'ISO-8859-1', 'ISO-8859-15', 'ASCII');
-    $accepted_types = array( 'text/plain', 'text/csv', 'application/vnd.ms-excel');
+    $accepted_types = array( 'text/plain', 'text/csv', 'text/xml', 'application/vnd.ms-excel');
 
 
     // catch data arrays, if defined
@@ -94,21 +94,44 @@
             $error  = $_FILES["file"]["error"];
         }
        
+
         // fill data_arr
         $data_arr = array();
-        foreach ($content_arr as $line_num => $line) 
+        if ( $file_type == 'CSV')
         {
-            // remove whitespaces etc.
-            $line = trim( $line);
-
-            // ignore line with comments, or empty lines
-            if ( (strlen( $line) > 0) && ( $line[0] !== '#'))
+            foreach ($content_arr as $line_num => $line) 
             {
-                // combine line nr. and stuff to an array
-                $data_arr[] = array_merge( array( 0 => $line_num), str_getcsv( $line, $_REQUEST['divider']));
+                // remove whitespaces etc.
+                $line = trim( $line);
+
+                // ignore line with comments, or empty lines
+                if ( (strlen( $line) > 0) && ( $line[0] !== '#'))
+                {
+                    // combine line nr. and stuff to an array
+                    $data_arr[] = array_merge( array( 0 => $line_num), str_getcsv( $line, $_REQUEST['divider']));
+                }
             }
         }
-        
+
+        if ( $file_type == 'XML')
+        {
+            $xml   = simplexml_load_string( $filestring_conv); 
+            $index = 1;
+            foreach( $xml->part as $index => $part)
+            { 
+                $data_arr[] = array( $index,
+                    $part->category,
+                    $part->name,
+                    (int) $part->stock,
+                    $part->footprint,
+                    $part->location,
+                    $part->supplier,
+                    $part->order_number,
+                    $part->comment);
+            }
+        }
+       
+
         // extract data from data_arr
         // fill the arrays with initial values
         foreach ($data_arr as $key => $data) 
@@ -338,9 +361,9 @@
         <td>
             <form enctype="multipart/form-data" action="" method="post">
             <input type="hidden" name="action" value="import_file">
-            Dateityp: <select name="type" disabled>
-                <option selected>csv</option>
-                <option >xml</option> <!-- xml not implemented jet -->
+            Dateityp: <select name="file_type">
+                <option>CSV</option>
+                <option>XML</option>
             </select>
             &nbsp;&nbsp;&nbsp;
             Trennzeichen: <input type="text" name="divider" size="1" maxlength="1" value=";">
@@ -359,12 +382,16 @@
             &nbsp;&nbsp;&nbsp;
             <input type="submit" value="Importieren">
             </form>
-            <br>
         </td>
     </tr>
+</table>
+
+<br>
+
+<table class="table">
     <tr>
         <td class="tdtop">
-        Beispiel f&uuml;r den Dateiaufbau (csv)
+        Beispiel f&uuml;r den Dateiaufbau (CSV)
         </td>
     </tr>
     <tr>
@@ -375,6 +402,44 @@ Dioden;1N4004;10;THT;Kiste;Reichelt;1N 4004;DO41, 400V 1A
 Controller;ATMega 8;1;DIP28;Kiste;Reichelt;ATMEGA 8-16 DIP
 Oszillatoren;Quarzoszillator 8 MHz;1;THT;Kiste;Reichelt;OSZI 8,000000
 Schaltkreise;MAX 232;1;DIP16;Kiste;Reichelt;MAX 232 EPE
+        </pre>
+        </td>
+    </tr>
+    <tr>
+        <td class="tdtop">
+        Beispiel f&uuml;r den Dateiaufbau (XML)
+        </td>
+    </tr>
+    <tr>
+        <td>
+        <pre><?php
+            $xml_string = <<<XML
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<parts>
+  <part>
+    <category>Dioden</category>
+    <name>1N4004</name>
+    <stock>10</stock>
+    <footprint>THT</footprint>
+    <location>Kiste</location>
+    <supplier>Reichelt</supplier>
+    <order_number>1N 4004</order_number>
+    <comment>DO41, 400V 1A</comment>
+  </part>
+  <part>
+    <category>Controller</category>
+    <name>ATMega 8</name>
+    <stock>1</stock>
+    <footprint>DIP28</footprint>
+    <location>Kiste</location>
+    <supplier>Reichelt</supplier>
+    <order_number>ATMEGA 8-16 DIP</order_number>
+    <comment/>
+  </part>
+</parts>
+XML;
+            print htmlentities( $xml_string, (int) ENT_XML1);
+        ?>
         </pre>
         </td>
     </tr>
