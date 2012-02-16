@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -19,13 +19,11 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
     $Id: nav.php,v 1.7 2006/03/06 23:05:14 cl Exp $
-
-    04/03/06:
-        Added escape/unescape calls
 */
     include('config.php');
     include('lib.php');
     partdb_init();
+
 
     /* This recursive procedure builds the tree of categories.
        There's nothing special about it, so no more comments.
@@ -93,15 +91,9 @@
 </head>
 <body class="body">
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Suche
-        </td>
-    </tr>
-
-    <tr>
-        <td class="tdtext">
+<div class="nav_box">
+    <h2>Suche</h2>
+    <div class="inner">
         <form action="search.php" method="get" target="content_frame">
             <input type="text" name="keyword" size="17" maxlength="20">
             <input type="submit" name="s" value="Los!"><br>
@@ -116,22 +108,13 @@
             <input type="checkbox" name="search_snr" value="true"        >Bestellnr.<br>
             </td></tr></table>
         </form>
-        </td>
-    </tr>
-</table>
+    </div>
+</div>
 
-<br>
-
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Kategorien
-        </td>
-    </tr>
-
-    <tr>
-        <td class="tdtext">
-          <div class="dtree">
+<div class="nav_box">
+    <h2>Kategorien</h2>
+    <div class="inner">
+        <div class="dtree">
             <script type="text/javascript">
                 cat_tree = new dTree('cat_tree');
                 cat_tree.add(0,-1,'');
@@ -140,25 +123,17 @@
             </script>
             <br>
             <a href="javascript:cat_tree.openAll();">Alle Anzeigen</a> | <a href="javascript:cat_tree.closeAll();">Alle Schliessen</a>
-          </div>
-        </td>
-    </tr>
-</table>
+        </div>
+    </div>
+</div>
 
 <?php
     if (! $disable_devices) {
 ?>
-<br>
-
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Baugruppen
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-          <div class="dtree">
+<div class="nav_box">
+    <h2>Baugruppen</h2>
+    <div class="inner">
+        <div class="dtree">
             <script type="text/javascript">
                 dev_tree = new dTree('dev_tree');
                 dev_tree.add(0,-1,'');
@@ -167,27 +142,18 @@
             </script>
             <br>
             <a href="javascript:dev_tree.openAll();">Alle Anzeigen</a> | <a href="javascript:dev_tree.closeAll();">Alle Schliessen</a>
-          </div>
-    </td>
-    </tr>
-</table>
+        </div>
+    </div>
+</div>
 
 <?php
     }
 ?>
 
-<br>
-
-
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Verwaltung / Tools
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-          <div class="dtree">
+<div class="nav_box">
+    <h2>Verwaltung / Tools</h2>
+    <div class="inner">
+        <div class="dtree inner">
             <script type="text/javascript">
                 menue = new dTree('menue');
                 menue.add(0,-1,'');
@@ -218,13 +184,12 @@
                 menue.add(19,18,'Datenbank', 'config_page.php', '', 'content_frame');
                 <?php } ?>
                 document.write(menue);
-              </script>
+            </script>
             <br>
             <a href="javascript:menue.openAll();">Alle Anzeigen</a> | <a href="javascript:menue.closeAll();">Alle Schliessen</a>
-          </div>
-        </td>
-    </tr>
-</table>
+        </div>
+    </div>
+</div>
 
 </body>
 </html>

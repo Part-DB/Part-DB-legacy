@@ -1,3 +1,40 @@
+/* allgemeine Gestaltung */
+.body {
+	background-color: #cdcdcd;
+}
+
+.nav_box {
+	background-color: #ffffff;
+    margin-top:    10px;
+    margin-bottom: 20px;
+	border: none;
+	border-bottom: 1px solid #000000;
+	border-left:   1px solid #000000;
+	padding:   11px;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+
+.nav_box h2 {
+	background-color: #BABABA;
+    margin-top:    0px;
+    margin-bottom: 1px;
+	border-bottom: 2px solid #F76B02;
+	border-left:   1px solid #F76B02;
+    padding: 1px;
+	font-size:   15px;
+	font-weight: bold;
+}
+
+.inner {
+	background-color: #F2F2F2;
+	border-bottom: 3px solid #d0d0d0;
+	border-left:   1px solid #d0d0d0;
+	border-right:  1px solid #d0d0d0;
+    padding: 1px;
+}
+
+
 /* Default Tabellen */
 .table {
 	border: none;
@@ -40,9 +77,6 @@
 	border-bottom: 3px solid #d0d0d0;
 	border-left: 1px solid #d0d0d0;
 	border-right: 1px solid #d0d0d0;
-}
-.body {
-	background-color: #cdcdcd;
 }
 
 
