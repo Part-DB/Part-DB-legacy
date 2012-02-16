@@ -51,6 +51,7 @@
         }
     }
 
+
     function build_devices_tree( $pid)
     {    
         $query  = "SELECT id, name FROM devices".
@@ -67,27 +68,13 @@
                 $count_row    = mysql_fetch_array( $count_result);
                 $count        = $count_row['count'];
                 
-                $print_id  = $d['id'];
-                $print_pid = $pid;
-
-                if ($count > 0)
-                {
-                    print "dev_tree.add(". smart_unescape( $print_id) .",". 
-                        smart_unescape( $print_pid) .",'".
-                        smart_unescape( $d['name']).
-                        "','device.php?deviceid=".
-                        smart_unescape( $d['id']).
-                        "','','content_frame');\n";
-                }
-                else
-                {
-                    print "dev_tree.add(". smart_unescape( $print_id) .",". 
-                        smart_unescape( $print_pid) .",'".
-                        smart_unescape( $d['name']).
-                        "','deviceinfo.php?deviceid=".
-                        smart_unescape( $d['id']).
-                        "','','content_frame');\n";
-                }
+                $target_url = ($count > 0) ? "','device.php?deviceid=" : "','deviceinfo.php?deviceid=";
+                print "dev_tree.add(". smart_unescape( $d['id']) .",". 
+                    smart_unescape( $pid) .",'".
+                    smart_unescape( $d['name']).
+                    $target_url.
+                    smart_unescape( $d['id']).
+                    "','','content_frame');\n";
 
                 build_devices_tree( $d['id']);
             }
