@@ -20,8 +20,6 @@
 
     $Id: fpmgr.php,v 1.5 2006/03/06 23:05:14 cl Exp $
 
-    01/03/06
-        Added escape stuff.
 */
     include('lib.php');
     partdb_init();
@@ -30,38 +28,44 @@
      * In some cases a confirmation question has to be displayed.
      */
     $special_dialog = false;
-    
+
     /*
      * this is the dispatcher ...
      */
     $action = 'default';
-    if ( isset( $_REQUEST["add"]))    { $action = 'add';}
-    if ( isset( $_REQUEST["delete"])) { $action = 'delete';}
-    if ( isset( $_REQUEST["rename"])) { $action = 'rename';}
+    if ( isset( $_REQUEST["add"]))        { $action = 'add';}
+    if ( isset( $_REQUEST["delete"]))     { $action = 'delete';}
+    if ( isset( $_REQUEST["rename"]))     { $action = 'rename';}
+    if ( isset( $_REQUEST["new_parent"])) { $action = 'new_parent';}
    
 
     if ( $action == 'add')
     {
-        $query = "INSERT INTO footprints (name) VALUES (". smart_escape($_REQUEST["new_footprint"]) .");";
-        debug_print($query);
-        mysql_query($query);
+        $query = "INSERT INTO footprints (name, parentnode) VALUES (".
+            smart_escape($_REQUEST["new_footprint"]) .",".
+            smart_escape($_REQUEST["parent_node"])   .");";
+        mysql_query( $query) or die( mysql_error());
     }
    
 
     if ( $action == 'delete')
     {
-        $query = "SELECT (name) FROM parts WHERE id_footprint=". smart_escape($_REQUEST["footprint_sel"]) .";";
-        $r = mysql_query($query);
-        $ncol = mysql_num_rows ($r);
+        /*
+         * Delete a footprint
+         * Don't delete when there are parts use this footprin.
+         */
+        $query  = "SELECT (name) FROM parts WHERE id_footprint=". smart_escape($_REQUEST["footprint_sel"]) .";";
+        $result = mysql_query( $query);
+        $ncol   = mysql_num_rows( $result);
         if ($ncol > 0)
         {
             $special_dialog = true;
 
-            // catch some example, where footprint is in use
+            // catch up to three examples, where footprint is in use
             for ($i = 0; ($i < $ncol) and ($i < 3); $i++)
             {
-                $d         = mysql_fetch_row( $r);
-                $example[] = $d[0];
+                $d         = mysql_fetch_assoc( $result);
+                $example[] = $d['name'];
             }
             $example = implode( ', ', $example);
 
@@ -80,8 +84,14 @@
         }
         else
         {
-            $query = "DELETE FROM footprints WHERE id=". smart_escape($_REQUEST["footprint_sel"]) ." LIMIT 1;";
-            mysql_query($query);
+            // delete footprint
+            $query = "DELETE FROM footprints".
+                " WHERE id=". smart_escape($_REQUEST["footprint_sel"]).
+                " LIMIT 1;";
+            mysql_query( $query);
+            // resort all child footprints to root node
+            $query = "UPDATE footprints SET parentnode=0 WHERE parentnode=". smart_escape($_REQUEST["footprint_sel"]) ." ;";
+            mysql_query ($query);
         }
     }
 
@@ -89,8 +99,67 @@
     if ( $action == 'rename')
     {
         $query = "UPDATE footprints SET name=". smart_escape($_REQUEST["new_name"]) ." WHERE id=". smart_escape($_REQUEST["footprint_sel"]) ." LIMIT 1;";
-        debug_print ($query);
         mysql_query ($query);
+    }
+   
+
+    if ( $action == 'new_parent')
+    {
+        /* resort */
+        // check if new parent is anywhere in a child node
+        if ( !(in_array( $_REQUEST["parent_node"], find_child_nodes( $_REQUEST["footprint_sel"]))))
+        {
+            /* do transaction */
+            $query = "UPDATE footprints SET parentnode=". smart_escape($_REQUEST["parent_node"]) ." WHERE id=". smart_escape($_REQUEST["footprint_sel"]) ." LIMIT 1";
+            mysql_query($query);
+        }
+        else
+        {
+            /* transaction not allowed, would destroy tree structure */
+        }
+    }
+
+    /*
+     * find all nodes below and given node
+     */
+    function find_child_nodes( $id)
+    {
+        $result = array();
+        $query = "SELECT id FROM footprints WHERE parentnode=". smart_escape( $id) .";";
+        $r = mysql_query ($query);
+        while ( $d = mysql_fetch_row ($r) )
+        {
+            // do the same for the next level.
+            $result[] = $d[0];
+            $result = array_merge( $result, find_child_nodes( $d[0]));
+        }
+        return( $result);
+    }
+
+    /*
+     * The buildtree function creates a tree for <select> tags.
+     * It recurses trough all locations (and sublocations) and
+     * creates the tree. Deeper levels have more spaces in front.
+     * As the top-most location (it doesn't exist!) has the ID 0,
+     * you have to supply id=0 at the very beginning.
+     */
+    function buildtree ($id, $level)
+    {
+        $query  = "SELECT id, name FROM footprints".
+            " WHERE parentnode=". smart_escape( $id).
+            " ORDER BY name ASC;";
+        $result = mysql_query( $query) or die( mysql_error());
+        while ( $data = mysql_fetch_assoc( $result))
+        {
+            print "<option value=\"". smart_unescape( $data['id']) . "\">";
+            for ( $i = 0; $i < $level; $i++) 
+                print "&nbsp;&nbsp;&nbsp;";
+            print smart_unescape( $data['name']).
+                "</option>\n";
+
+            // do the same for the next level.
+            buildtree( $data['id'], $level + 1);
+        }
     }
 
     /*
@@ -118,9 +187,24 @@
     <tr>
         <td class="tdtext">
             <form action="" method="post">
-            Neuer Footprint:
-            <input type="text" name="new_footprint">
-            <input type="submit" name="add" value="Anlegen">
+            <table>
+                <tr>
+                    <td>&Uuml;bergeordnete Footprinthierarchie ausw&auml;hlen:</td>
+                    <td>
+                        <select name="parent_node">
+                        <option value="0">root node</option>
+                        <?PHP buildtree(0, 1); ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Neuer Footprint:</td>
+                    <td>
+                        <input type="text"     name="new_footprint">
+                        <input type="submit"   name="add" value="Anlegen">
+                    </td>
+                </tr>
+            </table>
             </form>
         </td>
     </tr>
@@ -131,7 +215,7 @@
 <table class="table">
     <tr>
         <td class="tdtop">
-        Footprint umbenennen/l&ouml;schen
+        Footprints umbenennen/l&ouml;schen/sortieren
         </td>
     </tr>
     <tr>
@@ -139,19 +223,10 @@
             <form action="" method="post">
             <table>
                 <tr>
-                    <td rowspan="2">
+                    <td rowspan="3">
+                        Zu bearbeitenden Footprint w&auml;hlen:<br>
                         <select name="footprint_sel" size="15">
-                        <?PHP
-                            $query = "SELECT id,name FROM footprints ORDER BY name ASC;";
-                            $r = mysql_query ($query);
-                    
-                            $ncol = mysql_num_rows ($r);
-                            for ($i = 0; $i < $ncol; $i++)
-                            {
-                                $d = mysql_fetch_row ($r);
-                                print "<option value=\"". smart_unescape($d[0])."\">". smart_unescape($d[1]) ."</option>\n";
-                            }
-                        ?>
+                        <?php buildtree(0, 1); ?>
                         </select>
                     </td>
                     <td>
@@ -163,6 +238,16 @@
                         Neuer Name:<br>
                         <input type="text"   name="new_name">
                         <input type="submit" name="rename" value="Umbenennen">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Neuer &uuml;bergeordneter Footprint:<br>
+                        <select name="parent_node">
+                        <option value="0">root node</option>
+                        <?PHP buildtree(0, 1); ?>
+                        </select>
+                        <input type="submit" name="new_parent" value="Umsortieren">
                     </td>
                 </tr>
             </table>
