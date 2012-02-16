@@ -308,61 +308,76 @@
     } // end function
     
 
-    function print_table_row( $rowcount, $id, $name, $footprint, $supplierpartnr, $comment, $instock, $mininstock, $location)
+    /* 
+        This function prints one complete table line.
+        Its used from showparts.php and search.php
+
+        $data is an associate array, following entrys are used:
+            'id'
+            'name'
+            'footprint'
+            'supplierpartnr'
+            'comment'
+            'instock'
+            'mininstock'
+            'location'
+
+    */
+    function print_table_row( $rowcount, $data) 
+    
     {
         // the alternating background colors are created here
         print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">\n";
         
         // Pictures
         print "<td class=\"tdrow0\">";
-        print_table_image( $id, $name, $footprint);
+        print_table_image( $data['id'], $data['name'], $data['footprint']);
         print "</td>\n";
 
         // comment
-        print "<td class=\"tdrow1\"><a title=\"Kommentar: " . htmlspecialchars( smart_unescape( $comment)) . "\"";
-        print "href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $id) ."');\">". smart_unescape( $name) ."</a></td>\n";
+        print "<td class=\"tdrow1\"><a title=\"Kommentar: " . htmlspecialchars( smart_unescape( $data['comment'])) . "\"";
+        print "href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape( $data['name']) ."</a></td>\n";
         // instock/ mininstock
-        print "<td class=\"tdrow2\">". smart_unescape( $instock) ."/". smart_unescape( $mininstock) ."</td>\n";
+        print "<td class=\"tdrow2\">". smart_unescape( $data['instock']) ."/". smart_unescape( $data['mininstock']) ."</td>\n";
         // footprint
-        print "<td class=\"tdrow3\">". smart_unescape( $footprint) ."</td>\n";
+        print "<td class=\"tdrow3\">". smart_unescape( $data['footprint']) ."</td>\n";
         // store location
-        print "<td class=\"tdrow4\">". smart_unescape( $location) . "</td>\n";
+        print "<td class=\"tdrow4\">". smart_unescape( $data['location']) . "</td>\n";
         // id
-		print "<td class=\"tdrow4 idclass\">". smart_unescape( $id) . "</td>\n";
+		print "<td class=\"tdrow4 idclass\">". smart_unescape( $data['id']) . "</td>\n";
         // datasheet links
         print "<td class=\"tdrow5\">";
         // with icons 
-        print "<a title=\"alldatasheet.com\" href=\"http://www.alldatasheet.com/view.jsp?Searchword=". urlencode( smart_unescape( $name)) ."\" target=\"_blank\">".
+        print "<a title=\"alldatasheet.com\" href=\"http://www.alldatasheet.com/view.jsp?Searchword=". urlencode( smart_unescape( $data['name'])) ."\" target=\"_blank\">".
             "<img class=\"companypic\" src=\"img/partdb/ads.png\" alt=\"logo\">".
             "</a>\n";
 
-        $searchfor = ( strlen( $supplierpartnr) > 0) ? $supplierpartnr : $name;
+        $searchfor = ( strlen( $data['supplierpartnr']) > 0) ? $data['supplierpartnr'] : $data['name'];
         print "<a title=\"Reichelt.de\" href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". urlencode( smart_unescape( $searchfor)) ."\" target=\"_blank\">".
             "<img class=\"companypic\" src=\"img/partdb/reichelt.png\" alt=\"logo\">".
             "</a>\n";
         // without icons
-        print "<a href=\"http://search.datasheetcatalog.net/key/". urlencode( smart_unescape( $name)) ."\" target=\"_blank\">DC </a>\n";
+        print "<a href=\"http://search.datasheetcatalog.net/key/". urlencode( smart_unescape( $data['name'])) ."\" target=\"_blank\">DC </a>\n";
         // show local datasheet if availible
-        $query = "SELECT ".
+        $ds_query = "SELECT ".
             "datasheeturl ".
             "FROM datasheets ".
-            "WHERE part_id=". smart_escape( $id) 
+            "WHERE part_id=". smart_escape( $data['id']) 
             ." ORDER BY datasheeturl ASC;";
-        $result_ds = mysql_query($query);
-        $d = mysql_fetch_row ($result_ds);
-        $datasheeturl = $d[0];
-        if( !empty( $datasheeturl) )
+        $ds_result    = mysql_query( $ds_query) or die( mysql_error());
+        $ds_data      = mysql_fetch_assoc( $ds_result);
+        if( !empty( $ds_data['datasheeturl']) )
         {
-            print "<a href=\"". smart_unescape( $datasheeturl) ."\">Datenblatt</a>\n";
+            print "<a href=\"". smart_unescape( $ds_data['datasheeturl']) ."\">Datenblatt</a>\n";
         }
         print "</td>\n";
         
         //build the "-" button, only if more then 0 parts on stock
         print "<td class=\"tdrow6\"><form action=\"\" method=\"post\">";
-        print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape( $id)."\"/>";
+        print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape( $data['id'])."\"/>";
         print "<input type=\"hidden\" name=\"action\"  value=\"r\"/>";
         print "<input type=\"submit\" value=\"-\"";
-        if ( $instock <= 0)
+        if ( $data['instock'] <= 0)
         {
             print " disabled=\"disabled\" ";
         }
@@ -370,7 +385,7 @@
             
         //build the "+" button
         print "<td class=\"tdrow7\"><form action=\"\" method=\"post\">";
-        print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape( $id)."\"/>";
+        print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape( $data['id'])."\"/>";
         print "<input type=\"hidden\" name=\"action\"  value=\"a\"/>";
         print "<input type=\"submit\" value=\"+\"/></form></td>\n";
 

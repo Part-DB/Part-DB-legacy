@@ -146,16 +146,16 @@
         $prevcat = -1;  // $prevcat remembers the previous category. -1 is
                         // an invalid category id.
 
-        while ( $d = mysql_fetch_assoc( $result))
+        while ( $data_array = mysql_fetch_assoc( $result))
         {
             /* print new header, 
                if a diffrent category is started */
-            if ( $prevcat != $d['id_category'])
+            if ( $prevcat != $data_array['id_category'])
             {
                 // add one empty row for small spacing
                 print "<tr><td></td></tr>\n";
                 print "<tr>".
-                    "<td class=\"tdtop\" colspan=\"9\">Treffer in der Kategorie ". show_bt( $d['id_category']) ."</td>".
+                    "<td class=\"tdtop\" colspan=\"9\">Treffer in der Kategorie ". show_bt( $data_array['id_category']) ."</td>".
                     "</tr>\n";
                 print "<tr class=\"trcat\">".
                     "<td></td>".
@@ -168,12 +168,12 @@
                     "<td align=\"center\">-</td>".
                     "<td align=\"center\">+</td>".
                     "</tr>\n";
-                $prevcat = $d['id_category'];
+                $prevcat = $data_array['id_category'];
                 $rowcount = 0;
             }
 
             $rowcount++;
-            print_table_row( $rowcount, $d['id'], $d['name'], $d['footprint'], $d['supplierpartnr'], $d['comment'], $d['instock'], $d['mininstock'], $d['location']);
+            print_table_row( $rowcount, $data_array);
         }
     ?>
 </table>

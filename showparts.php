@@ -41,19 +41,18 @@
         mysql_query($query);
     }
     
-    function findallsubcategories ($cid)
+    function findallsubcategories( $cid)
     {
-        $rv = "id_category=". smart_escape($cid);
+        $rv = "id_category=". smart_escape( $cid);
         
-        $query = "SELECT id FROM categories WHERE parentnode=". smart_escape($cid) .";";
-        debug_print ($query."<br>");
-        $result = mysql_query ($query);
-        while ( ( $d = mysql_fetch_row ($result) ) )
+        $query = "SELECT id FROM categories WHERE parentnode=". smart_escape( $cid) .";";
+        $result = mysql_query( $query);
+        while ( $d = mysql_fetch_assoc( $result))
         {
-            $rv = $rv . " OR " . findallsubcategories (smart_unescape($d[0]));
+            $rv = $rv ." OR ". findallsubcategories( smart_unescape( $d['id']));
         }
 
-        return ($rv);
+        return( $rv);
     }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -123,48 +122,40 @@
 
         if ( (strcmp ($_REQUEST["type"], "index") == 0))
         {
-        print "<tr class=\"trcat\">".
-            "<td></td>".
-            "<td>Name</td>".
-            "<td>Vorh./<br>Min.Best.</td>".
-            "<td>Footprint</td>".
-            "<td>Lagerort</td>".
-            "<td class='idclass'>ID</td>".
-            "<td>Datenbl&auml;tter</td>".
-            "<td align=\"center\">-</td>".
-            "<td align=\"center\">+</td>".
-            "</tr>\n";
+            print "<tr class=\"trcat\">".
+                "<td></td>".
+                "<td>Name</td>".
+                "<td>Vorh./<br>Min.Best.</td>".
+                "<td>Footprint</td>".
+                "<td>Lagerort</td>".
+                "<td class='idclass'>ID</td>".
+                "<td>Datenbl&auml;tter</td>".
+                "<td align=\"center\">-</td>".
+                "<td align=\"center\">+</td>".
+                "</tr>\n";
 
-        $query = "SELECT ".
-            "parts.id,".
-            "parts.name,".
-            "parts.instock,".
-            "parts.mininstock,".
-            "footprints.name AS 'footprint',".
-            "storeloc.name AS 'loc',".
-            "parts.comment, ".
-            "parts.supplierpartnr ".
-            " FROM parts".
-            " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
-            " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
-            " WHERE (". $catclause .")".
-            " ORDER BY name ASC;";
+            $query = "SELECT ".
+                "parts.id,".
+                "parts.name,".
+                "parts.instock,".
+                "parts.mininstock,".
+                "footprints.name AS 'footprint',".
+                "storeloc.name AS 'location',".
+                "parts.comment, ".
+                "parts.supplierpartnr ".
+                " FROM parts".
+                " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+                " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
+                " WHERE (". $catclause .")".
+                " ORDER BY name ASC;";
+            $result = mysql_query( $query) or die( mysql_error());
 
-        debug_print ($query);
-        $result = mysql_query ($query);
-
-        $rowcount = 0;
-        while ( $d = mysql_fetch_row ($result) )
-        {
-            // just name the results
-            $part_id        = $d[0];
-            $part_name      = $d[1];
-            $footprint_name = $d[4];
-            $supplierpartnr = $d[7];
-
-            $rowcount++;
-            print_table_row( $rowcount, $part_id, $part_name, $footprint_name, $supplierpartnr, $d[6], $d[2], $d[3], $d[5]);
-        }
+            $rowcount = 0;
+            while ( $data_array = mysql_fetch_assoc( $result))
+            {
+                $rowcount++;
+                print_table_row( $rowcount, $data_array);
+            }
         }
         // dead code below ?
         else if ( strcmp ($_REQUEST["type"], "showpending") == 0 )
