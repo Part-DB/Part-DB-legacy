@@ -20,12 +20,13 @@
 
     $Id: $
 */
-    include ("lib.php");
+    include("lib.php");
 	include("config.php");
     partdb_init();
     
     $confirmdelete = 0;
-    $refreshnav = 0;
+    $refreshnav    = 0;
+	$deviceid      = isset( $_REQUEST['deviceid']) ? $_REQUEST['deviceid'] : 'all'; 
 	
     if(strcmp($_REQUEST["action"], "createdevice") == 0)  //add a new device
     {
@@ -38,12 +39,12 @@
     }
     else if(strcmp($_REQUEST["action"], "confirmeddelete") == 0)
     {
-        $query = "DELETE FROM devices WHERE id=". smart_escape($_REQUEST["deviceid"]). " LIMIT 1;";
+        $query = "DELETE FROM devices WHERE id=". smart_escape( $deviceid) ." LIMIT 1;";
         debug_print ($query);
         $r = mysql_query ($query);
         if($r == 0)
             print "Fehler";
-        $query = "DELETE FROM part_device WHERE id_device=". smart_escape($_REQUEST["deviceid"]). ";";
+        $query = "DELETE FROM part_device WHERE id_device=". smart_escape( $deviceid) .";";
         debug_print ($query);
         $r = mysql_query ($query);
         if($r == 0)
@@ -98,12 +99,12 @@ if(strcmp($_REQUEST["action"], "deletedevice") == 0)
     print "<tr><td class=\"tdtext\">";
     print "<form method=\"post\" action=\"\">";
             print "<input type=\"hidden\" name=\"action\"  value=\"confirmeddelete\"/>";
-            print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+            print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
             print "<input type=\"submit\" style=\"height: 1.5em; width: 5em\" value=\"Ja\">";
     print "</form>";
     print "<form method=\"post\" action=\"\">";
             print "<input type=\"hidden\" name=\"action\"  value=\"\"/>";
-            print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+            print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
             print "<input type=\"submit\" style=\"height: 1.5em; width: 5em\" value=\"Nein\">";
     print "</form></td>";
     print "</tr></table>";
@@ -122,16 +123,18 @@ if(strcmp($_REQUEST["action"], "deletedevice") == 0)
         <table >
 
         <?PHP
-        $query = "SELECT devices.id, devices.name, SUM(part_device.quantity), COUNT(part_device.quantity), sum(preise.preis*part_device.quantity) ".
-        "FROM devices ".
-		"LEFT JOIN part_device ".
-        "ON (devices.id =  part_device.id_device) ".
-		"LEFT JOIN preise ".
-		"ON (preise.part_id = part_device.id_part) ".
-		"GROUP BY devices.id ORDER BY devices.name ASC;";
-        debug_print($query);
-        $result = mysql_query ($query);
-        debug_print($result);
+            
+            $where_query = ( $deviceid == 'all') ? '' : " WHERE parentnode=". smart_escape( $deviceid);
+
+            $query = "SELECT devices.id, devices.name, SUM(part_device.quantity), COUNT(part_device.quantity), sum(preise.preis*part_device.quantity) ".
+                "FROM devices ".
+                "LEFT JOIN part_device ".
+                "ON (devices.id =  part_device.id_device) ".
+                "LEFT JOIN preise ".
+                "ON (preise.part_id = part_device.id_part) ".
+                $where_query.
+                "GROUP BY devices.id ORDER BY devices.name ASC;";
+            $result = mysql_query ($query) or die( mysql_error());
     
         $rowcount = 0;  // $rowcount is used for the alternating bg colors
         
@@ -139,25 +142,25 @@ if(strcmp($_REQUEST["action"], "deletedevice") == 0)
         
         while ( $d = mysql_fetch_row ($result) )
         {
-        
-        // the alternating background colors are created here
-        $rowcount++;
-        print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
-        
-        print "<td class=\"tdrow1\"><a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) . "</a></td>\n";
-        print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."</td>\n";
-        print "<td class=\"tdrow3\">". smart_unescape($d[3]) ."</td>\n";
-		print "<td class=\"tdrow3\">".smart_unescape($d[4]) ."&nbsp".$currency."</td>\n";
-        print "<td class=\"tdrow3\">";
-        
-        print "<form method=\"post\" action=\"\">";
-        print "<input type=\"hidden\" name=\"action\"  value=\"deletedevice\"/>";
-        print "<input type=\"hidden\" name=\"deviceid\" value=\"" . smart_unescape($d[0]). "\"/>";
-        print "<input type=\"hidden\" name=\"devicename\" value=\"" . smart_unescape($d[1]). "\"/>";
-        print "<input type=\"submit\" value=\"Löschen\"/></form>";
-        
-        print "</td>";
-        print "</tr>\n";
+            
+            // the alternating background colors are created here
+            $rowcount++;
+            print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
+            
+            print "<td class=\"tdrow1\"><a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) . "</a></td>\n";
+            print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."</td>\n";
+            print "<td class=\"tdrow3\">". smart_unescape($d[3]) ."</td>\n";
+            print "<td class=\"tdrow3\">". smart_unescape($d[4]) ."&nbsp".$currency."</td>\n";
+            print "<td class=\"tdrow3\">";
+            
+            print "<form method=\"post\" action=\"\">";
+            print "<input type=\"hidden\" name=\"action\"  value=\"deletedevice\"/>";
+            print "<input type=\"hidden\" name=\"deviceid\" value=\"" . smart_unescape($d[0]). "\"/>";
+            print "<input type=\"hidden\" name=\"devicename\" value=\"" . smart_unescape($d[1]). "\"/>";
+            print "<input type=\"submit\" value=\"Löschen\"/></form>";
+            
+            print "</td>";
+            print "</tr>\n";
         }
         ?>
         </table>
