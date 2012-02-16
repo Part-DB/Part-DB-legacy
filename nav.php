@@ -67,8 +67,8 @@
                 $count_row    = mysql_fetch_array( $count_result);
                 $count        = $count_row['count'];
                 
-                $print_id  = $d['id'] ;
-                $print_pid = $pid + 1 ;
+                $print_id  = $d['id'] + 1;
+                $print_pid = $pid;
 
                 if ($count > 0)
                 {
@@ -220,15 +220,15 @@
 
                 menue.add(11,0,'Bearbeiten','','','');
                 menue.add(12,11,'Baugruppen','devmgr.php"','','content_frame');
-		menue.add(13,12,'Erstellen/Löschen','device.php"','','content_frame');
+		menue.add(13,12,'Erstellen/L&ouml;schen','device.php"','','content_frame');
                 menue.add(14,11,'Lagerorte','locmgr.php"','','content_frame');
                 menue.add(15,11,'Footprints','fpmgr.php"','','content_frame');
                 menue.add(16,11,'Kategorien','catmgr.php"','','content_frame');
                 menue.add(17,11,'Lieferanten','supmgr.php','','content_frame');
 
                 <?php if (! $disable_config) { ?>
-                menue.add(17,0,'Config','','','');
-                menue.add(18,17,'Datenbank', 'config_page.php', '', 'content_frame');
+                menue.add(18,0,'Config','','','');
+                menue.add(19,18,'Datenbank', 'config_page.php', '', 'content_frame');
                 <?php } ?>
                 document.write(menue);
               </script>
