@@ -67,8 +67,8 @@
                 $count_row    = mysql_fetch_array( $count_result);
                 $count        = $count_row['count'];
                 
-                $print_id  = $d['id'] + 1;
-                $print_pid = $pid + 1;
+                $print_id  = $d['id'];
+                $print_pid = $pid;
 
                 if ($count > 0)
                 {
