@@ -67,7 +67,7 @@
                 $count_row    = mysql_fetch_array( $count_result);
                 $count        = $count_row['count'];
                 
-                $print_id  = $d['id'] + 1;
+                $print_id  = $d['id'];
                 $print_pid = $pid;
 
                 if ($count > 0)
@@ -215,12 +215,12 @@
                 menue.add(8,6,'Teile ohne Preis','nopriceparts.php"','','content_frame');
                 menue.add(9,6,'Statistik','stats.php"','','content_frame');
                 <?php if (! $disable_help) { ?>
-                menue.add(10,6,'Hilfe','help.php"','','content_frame');
+                    menue.add(10,6,'Hilfe','help.php"','','content_frame');
                 <?php } ?>
 
                 menue.add(11,0,'Bearbeiten','','','');
                 menue.add(12,11,'Baugruppen','devmgr.php"','','content_frame');
-		menue.add(13,12,'Erstellen/L&ouml;schen','device.php"','','content_frame');
+                menue.add(13,12,'Erstellen/L&ouml;schen','device.php"','','content_frame');
                 menue.add(14,11,'Lagerorte','locmgr.php"','','content_frame');
                 menue.add(15,11,'Footprints','fpmgr.php"','','content_frame');
                 menue.add(16,11,'Kategorien','catmgr.php"','','content_frame');
