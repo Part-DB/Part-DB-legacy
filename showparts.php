@@ -19,28 +19,28 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
     $Id: showparts.php,v 1.11 2006/05/23 21:47:14 cl Exp $
-
-    ChangeLog
-    
-    07/03/06:
-        Added escape/unescape stuff
 */
     include ("lib.php");
     partdb_init();
+
+    $cid    = ( isset( $_REQUEST['cid']))    ? $_REQUEST['cid'] : '';
+    $pid    = ( isset( $_REQUEST['pid']))    ? $_REQUEST['pid'] : '';
+    $action = ( isset( $_REQUEST['action'])) ? $_REQUEST['action'] : 'default';
+
     
-    if(strcmp($_REQUEST["action"], "r") == 0)  //remove one part
+    if ( $action == 'r')  //remove one part
     {
-        $query = "UPDATE parts SET instock=instock-1 WHERE id=" . smart_escape($_REQUEST["pid"]) . " AND instock >= 1 LIMIT 1;";
-        debug_print($query);
-        mysql_query($query);
+        $query = "UPDATE parts SET instock=instock-1 WHERE id=". smart_escape( $pid) ." AND instock >= 1 LIMIT 1;";
+        mysql_query( $query);
     }
-    else if(strcmp($_REQUEST["action"], "a") == 0)  //add one part
+
+    if ( $action == 'a')  //add one part
     {
-        $query = "UPDATE parts SET instock=instock+1 WHERE id=" . smart_escape($_REQUEST["pid"]) . " LIMIT 1;";
-        debug_print($query);
-        mysql_query($query);
+        $query = "UPDATE parts SET instock=instock+1 WHERE id=". smart_escape( $pid) ." LIMIT 1;";
+        mysql_query( $query);
     }
     
+
     function findallsubcategories( $cid)
     {
         $rv = "id_category=". smart_escape( $cid);
@@ -84,7 +84,7 @@
         <td class="tdtext">
         <?PHP
         print "<form action=\"showparts.php\" method=\"post\">";
-        print "<input type=\"hidden\" name=\"cid\" value=\"".$_REQUEST["cid"]."\">";
+        print "<input type=\"hidden\" name=\"cid\" value=\"". $cid ."\">";
         print "<input type=\"hidden\" name=\"type\" value=\"index\">";
         if (! isset($_REQUEST["nosubcat"]) )
         {
@@ -96,7 +96,7 @@
         print "</form>";
 
         ?>
-        <a href="javascript:popUp('newpart.php?cid=<?PHP print $_REQUEST["cid"]; ?>');">Neues Teil in dieser Kategorie</a>
+        <a href="newpart.php?cid=<?php print $cid; ?>" onclick="return popUp('newpart.php?cid=<?php print $cid; ?>');">Neues Teil in dieser Kategorie</a>
         </td>
     </tr>
 </table>
@@ -106,7 +106,7 @@
 <table class="table">
     <tr>
         <td class="tdtop">
-        Anzeige der Kategorie &quot;<?PHP print lookup_category_name ($_REQUEST["cid"]); ?>&quot;
+        Anzeige der Kategorie &quot;<?PHP print lookup_category_name( $cid); ?>&quot;
         </td>
     </tr>
     <tr>
@@ -116,9 +116,9 @@
         
         // check if with or without subcategories
         if (! isset($_REQUEST["nosubcat"]) )
-            $catclause = findallsubcategories ($_REQUEST["cid"]);
+            $catclause = findallsubcategories( $cid);
         else
-            $catclause = "id_category=".$_REQUEST["cid"];
+            $catclause = "id_category=". $cid;
 
         if ( (strcmp ($_REQUEST["type"], "index") == 0))
         {
@@ -157,7 +157,10 @@
                 print_table_row( $rowcount, $data_array);
             }
         }
+        /////////////////////////////////////////////////////////////////////
+        //
         // dead code below ?
+        //
         else if ( strcmp ($_REQUEST["type"], "showpending") == 0 )
         {
         print "<tr class=\"trcat\"><td></td><td>Name</td><td>Ausstehend</td><td>Vorhanden</td><td>Min. Bestand</td><td>Footprint</td><td>Lagerort</td><td>Datenbl&auml;tter</td></tr>\n";
