@@ -162,6 +162,9 @@ print $banner;
         The first Author's Homepage <a href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
         Author since 2009 by <b>K.Jacobs</b> - <a href="http://www.grautier.com/">http://grautier.com</a><br>
         <br> 
+	Forum: Für Fragen rund um die Part-DB gibt es im im <a href="http://www.mikrocontroller.net/topic/135284">mikrocontroller.net</a><br>
+	Wiki: Hilfe zur Installation gibt es im <a href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Wiki</a><br>
+	<br>
         <b>ajfrenzel</b> - Committer/Bugfix<br>
         <b>tgrziwa</b> - Committer/Bugfix<br>
         <b>d.lipschinski</b> - Committer/Bugfix/Neue Funktionen<br>
