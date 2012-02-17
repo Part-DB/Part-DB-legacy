@@ -20,10 +20,6 @@
 
     $Id: $
 
-    ChangeLog
-    
-    07/03/06:
-        Added escape/unescape stuff
 */
     include ("lib.php");
     partdb_init();
@@ -38,10 +34,8 @@
                 $_REQUEST["newprice".$rowcount] = str_replace(',', '.', $_REQUEST["newprice".$rowcount]);
                 /* Before adding the new price, delete the old one! */
                 $query = "DELETE FROM preise WHERE part_id=". smart_escape($_REQUEST["selectedpid".$rowcount]) ." LIMIT 1;";
-                debug_print($query);
                 mysql_query($query);
                 $query = "INSERT INTO preise (part_id,ma,preis,t) VALUES (". smart_escape($_REQUEST["selectedpid".$rowcount]) .", 1, ". smart_escape($_REQUEST["newprice".$rowcount]) .", NOW());";
-                debug_print($query);
                 mysql_query($query);
             }
             $rowcount--;
@@ -63,16 +57,10 @@
 <body class="body">
 
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Teile ohne Preis
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
+<div class="outer">
+    <h2>Teile ohne Preis</h2>
+    <div class="inner">
         <script language="JavaScript" type="text/javascript">
-        <!--
         
         function validateFloat(evt) 
         {
@@ -85,7 +73,6 @@
             if(theEvent.preventDefault) theEvent.preventDefault();
           }
         }
-        // -->
         </script>
         
         <form method="post" action="">
@@ -99,49 +86,54 @@
             "<td>Vorh./<br>Min.Best.</td>".
             "<td>Footprint</td>".
             "<td>Lagerort</td>".
+            "<td>Lieferant</td>".
+            "<td>Bestell-Nr.</td>". 
             "<td align=\"center\">Preis</td>".
             "</tr>\n";
 
-        $query = 
-        "SELECT ".
-        "parts.id,".
-        "parts.name,".
-        "parts.instock,".
-        "parts.mininstock,".
-        "footprints.name AS 'footprint',".
-        "storeloc.name AS 'loc',".
-        "parts.comment ".
-        "FROM parts ".
-        "LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
-        "LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id ".
-        "LEFT JOIN preise ON parts.id=preise.part_id ".
-        "WHERE (preise.id IS NULL) ".
-        "ORDER BY name ASC;";
+        $query = "SELECT ".
+            " parts.id,".
+            " parts.name,".
+            " parts.instock,".
+            " parts.mininstock,".
+            " footprints.name AS 'footprint',".
+            " storeloc.name AS 'location',".
+            " suppliers.name AS 'supplier',". 
+            " parts.supplierpartnr,". 
+            " parts.comment".
+            " FROM parts".
+            " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+            " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
+            " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id". 
+            " LEFT JOIN preise ON parts.id=preise.part_id".
+            " WHERE (preise.id IS NULL)".
+            " ORDER BY name ASC;";
 
-        debug_print ($query);
-        $result = mysql_query ($query);
+        $result = mysql_query( $query) or die( mysql_error());
 
         $rowcount = 0;
-        while ( $d = mysql_fetch_row ($result) )
+        while ( $data = mysql_fetch_assoc( $result))
         {
             $rowcount++;
             print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
             
             // Pictures
             print "<td class=\"tdrow0\">";
-            print_table_image( $d[0], $d[1], $d[4]);
+            print_table_image( $data['id'], $data['name'], $data['footprint']);
             print "</td>\n";
             
-            print "<td class=\"tdrow1\"><a title=\"Kommentar: " . htmlspecialchars( smart_unescape($d[6]));
-            print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td>";
-            print "<td class=\"tdrow1\">". smart_unescape($d[2]) ."/". smart_unescape($d[3]) ."</td>";
-            print "<td class=\"tdrow1\">". smart_unescape($d[4]) ."</td>";
-            print "<td class=\"tdrow1\">". smart_unescape($d[5]) . "</td>";
+            print "<td class=\"tdrow1\"><a title=\"Kommentar: " . htmlspecialchars( smart_unescape( $data['comment']));
+            print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape($data['name']) ."</a></td>";
+            print "<td class=\"tdrow1\">". smart_unescape( $data['instock']) ."/". smart_unescape( $data['mininstock']) ."</td>";
+            print "<td class=\"tdrow1\">". smart_unescape( $data['footprint']) ."</td>";
+            print "<td class=\"tdrow1\">". smart_unescape( $data['location']) ."</td>";
+            print "<td class=\"tdrow1\">". smart_unescape( $data['supplier']) ."</td>"; 
+            print "<td class=\"tdrow1\">". smart_unescape( $data['supplierpartnr']) ."</td>"; 
             
             
             //Show a text box to add new price
             print "<td class=\"tdrow1\">";
-            print "<input type=\"hidden\" name=\"selectedpid".$rowcount."\" value=\"" . smart_unescape($d[0]). "\"/>";
+            print "<input type=\"hidden\" name=\"selectedpid".$rowcount."\" value=\"" . smart_unescape( $data['id']). "\"/>";
             print "<input type=\"text\" size=\"3\" onkeypress=\"validateFloat(event)\" name=\"newprice".$rowcount."\" value=\"0\"/>";
             print "</td>";
             print "</tr>\n";
@@ -150,11 +142,10 @@
         print "</table>";
         print "<input type=\"hidden\" name=\"selections\"  value=\"".$rowcount."\">";
         ?>
-        <input type="submit" value="Hinzufügen">
+        <input type="submit" value="Hinzuf&uuml;gen">
         </form>
-        </td>
-    </tr>
-</table>
+    </div>
+</div>
 
 </body>
 </html>
