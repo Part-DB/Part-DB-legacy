@@ -13,17 +13,12 @@
     <title>Import</title>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
 </head>
+
 <body class="body">
-  <table class="table">
-      <tr>
-          <td class="tdtop">
-          Datenbank Status / Update
-          </td>
-          <td class="tdtop">
-          </td>
-          <td class="tdtop">
-          </td>
-      </tr>
+<div class="outer">
+    <h2>Datenbank Status / Update</h2>
+    <div class="inner">
+    <table class="table">
       <tr>
         <td class="tdtext">
           <?php
@@ -91,6 +86,8 @@
           </form>
         </td>
       </tr>
-  </table>
+    </table>
+    </div>
+</div>
 </body>
 </html>

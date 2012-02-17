@@ -252,144 +252,138 @@
 </head>
 <body class="body">
 
-<table class="table">
-        <tr>
-                <td class="tdtop">
-                Neues Teil in der Kategorie &quot;<?PHP print lookup_category_name ($_REQUEST["cid"]); ?>&quot;
-                </td>
-        </tr>
-        <tr>
-                <td class="tdtext">
-                <form enctype="multipart/form-data" action="" method="post">
-                <input type="hidden" name="cid" value="<?PHP print $_REQUEST["cid"]; ?>"/>
-                <table width="100">
-                <tr>
-                <td>Name:</td>
-                <td>
-                <input type="text" name="p_name" value="<?PHP print $p_name ?>" tabindex=\"1\"/>
-                </td>
-                </tr>
-                
-                <tr>
-                <td>Lagerbestand:</td>
-                <td><input type="text" name="p_instock" onkeypress="validateNumber(event)" value="<?PHP print $_REQUEST["p_instock"] ?>"/></td>
-                </tr>
-                
-                <tr>
-                <td>Min. Bestand:</td>
-                <td><input type="text" name="p_mininstock" onkeypress="validateNumber(event)" value="<?PHP print $_REQUEST["p_mininstock"] ?>"/></td>
-                </tr>
-                
-                <tr>
-                <td>Footprint:</td>
-                <td>
-                <select name="p_footprint">
-                <option value="X"></option>
-                <?PHP
-                $query = "SELECT id,name FROM footprints ORDER BY name ASC;";
-                $r = mysql_query ($query);
-                $ncol = mysql_num_rows ($r);
-                for ($i = 0; $i < $ncol; $i++)
-                {
-                        $d = mysql_fetch_row ($r);
-                        print "<option value=\"". smart_unescape($d[0]) ."\"";
-                        //check if a new Footprint should be selected
-                        if(     (strlen($NewFootprint)>0 && strcmp($NewFootprint,smart_unescape($d[1]))==0) ||
-                                (strlen($NewFootprint)==0 && $Footprint == smart_unescape($d[0])))
-                        {
-                                print " selected ";
-                        }
-                        print ">". smart_unescape($d[1]) ."</option>\n";
-                }
-                ?>
-                </select>
-                </td>
-                <td>
-                <input type="hidden" name="a" value="AddFootprint"/>
-                <input type="text" name="NewFootprint" value="Direkteingabe/Neu" class="cleardefault"/>
-                <input type="submit" name="AddFootprint" value="Search/Add"/>
-                </td>
-                </tr>
-                
-                <tr>
-                <td>Lagerort:</td>
-                <td>
-                <select name="p_storeloc">
-				<option value=""></option>;
-                <?PHP buildtree(0, 1); ?>
-                </select>
-                </td>
-                <td>
-                <input type="hidden" name="a" value="AddStorage"/>
-                <input type="text" name="NewStorage" value="Direkteingabe/Neu" class="cleardefault"/>
-                <input type="submit" name="AddStorage" value="Search/Add"/>
-                </td>
-                </tr>
-                
-                <tr>
-                <td>Lieferant:</td>
-                <td>
-                <select name="p_supplier">
-                <option value="X"></option>
-                <?PHP
-                $query = "SELECT id,name FROM suppliers ORDER BY name ASC;";
-                $r = mysql_query ($query);
-                $ncol = mysql_num_rows ($r);
-                for ($i = 0; $i < $ncol; $i++)
-                {
-                        $d = mysql_fetch_row ($r);
-                        print "<option value=\"". smart_unescape($d[0])."\"";
-                        //check if a new distributor should be selected
-                        if(     (strlen($NewDistributor)>0 && strcmp($NewDistributor,smart_unescape($d[1]))==0) ||
-                                (strlen($NewDistributor)==0 && $Distributor == smart_unescape($d[0])))
-                        {
-                                print " selected ";
-                        }
-                        print  ">". smart_unescape($d[1]) ."</option>\n";
-                }
-                ?>
-                </select>
-                </td>
-                <td>
-                <input type="hidden" name="a" value="AddDistributor"/>
-                <input type="text" name="NewDistributor" value="Direkteingabe/Neu" class="cleardefault"/>
-                <input type="submit" name="AddDistributor" value="Search/Add"/>
-                </td>
-                </tr>
-                
-                <tr>
-                <td>Bestell-Nr.:</td>
-                <td><input type="text" name="p_supplierpartnr" value="<?PHP print $_REQUEST["p_supplierpartnr"] ?>"></td>
-                </tr>
-				
-				<tr>
-                <td>Preis:</td>
-                <td><input type="text" name="p_price" onkeypress="validateNumber(event)" value="<?PHP print $_REQUEST["p_price"] ?>"></td>
-                </tr>
-                
-                <tr>
-                <td valign="top">Kommentar:</td>
-                <td colspan="2"><textarea name="p_comment" rows=2 cols=40><?PHP print $_REQUEST["p_comment"] ?></textarea></td>
-                </tr>
-                <tr><td>Bild:</td>
-                <td><input type="file" name="AddImage"/></td>
-                </tr>
+<div class="outer">
+    <h2>Neues Teil in der Kategorie &quot;<?PHP print lookup_category_name ($_REQUEST["cid"]); ?>&quot;</h2>
+    <div class="inner">
+        <form enctype="multipart/form-data" action="" method="post">
+            <input type="hidden" name="cid" value="<?PHP print $_REQUEST["cid"]; ?>"/>
+            <table width="100">
+            <tr>
+            <td>Name:</td>
+            <td>
+            <input type="text" name="p_name" value="<?PHP print $p_name ?>" tabindex=\"1\"/>
+            </td>
+            </tr>
+            
+            <tr>
+            <td>Lagerbestand:</td>
+            <td><input type="text" name="p_instock" onkeypress="validateNumber(event)" value="<?PHP print $_REQUEST["p_instock"] ?>"/></td>
+            </tr>
+            
+            <tr>
+            <td>Min. Bestand:</td>
+            <td><input type="text" name="p_mininstock" onkeypress="validateNumber(event)" value="<?PHP print $_REQUEST["p_mininstock"] ?>"/></td>
+            </tr>
+            
+            <tr>
+            <td>Footprint:</td>
+            <td>
+            <select name="p_footprint">
+            <option value="X"></option>
+            <?PHP
+            $query = "SELECT id,name FROM footprints ORDER BY name ASC;";
+            $r = mysql_query ($query);
+            $ncol = mysql_num_rows ($r);
+            for ($i = 0; $i < $ncol; $i++)
+            {
+                    $d = mysql_fetch_row ($r);
+                    print "<option value=\"". smart_unescape($d[0]) ."\"";
+                    //check if a new Footprint should be selected
+                    if(     (strlen($NewFootprint)>0 && strcmp($NewFootprint,smart_unescape($d[1]))==0) ||
+                            (strlen($NewFootprint)==0 && $Footprint == smart_unescape($d[0])))
+                    {
+                            print " selected ";
+                    }
+                    print ">". smart_unescape($d[1]) ."</option>\n";
+            }
+            ?>
+            </select>
+            </td>
+            <td>
+            <input type="hidden" name="a" value="AddFootprint"/>
+            <input type="text" name="NewFootprint" value="Direkteingabe/Neu" class="cleardefault"/>
+            <input type="submit" name="AddFootprint" value="Search/Add"/>
+            </td>
+            </tr>
+            
+            <tr>
+            <td>Lagerort:</td>
+            <td>
+            <select name="p_storeloc">
+            <option value=""></option>;
+            <?PHP buildtree(0, 1); ?>
+            </select>
+            </td>
+            <td>
+            <input type="hidden" name="a" value="AddStorage"/>
+            <input type="text" name="NewStorage" value="Direkteingabe/Neu" class="cleardefault"/>
+            <input type="submit" name="AddStorage" value="Search/Add"/>
+            </td>
+            </tr>
+            
+            <tr>
+            <td>Lieferant:</td>
+            <td>
+            <select name="p_supplier">
+            <option value="X"></option>
+            <?PHP
+            $query = "SELECT id,name FROM suppliers ORDER BY name ASC;";
+            $r = mysql_query ($query);
+            $ncol = mysql_num_rows ($r);
+            for ($i = 0; $i < $ncol; $i++)
+            {
+                    $d = mysql_fetch_row ($r);
+                    print "<option value=\"". smart_unescape($d[0])."\"";
+                    //check if a new distributor should be selected
+                    if(     (strlen($NewDistributor)>0 && strcmp($NewDistributor,smart_unescape($d[1]))==0) ||
+                            (strlen($NewDistributor)==0 && $Distributor == smart_unescape($d[0])))
+                    {
+                            print " selected ";
+                    }
+                    print  ">". smart_unescape($d[1]) ."</option>\n";
+            }
+            ?>
+            </select>
+            </td>
+            <td>
+            <input type="hidden" name="a" value="AddDistributor"/>
+            <input type="text" name="NewDistributor" value="Direkteingabe/Neu" class="cleardefault"/>
+            <input type="submit" name="AddDistributor" value="Search/Add"/>
+            </td>
+            </tr>
+            
+            <tr>
+            <td>Bestell-Nr.:</td>
+            <td><input type="text" name="p_supplierpartnr" value="<?PHP print $_REQUEST["p_supplierpartnr"] ?>"></td>
+            </tr>
+            
+            <tr>
+            <td>Preis:</td>
+            <td><input type="text" name="p_price" onkeypress="validateNumber(event)" value="<?PHP print $_REQUEST["p_price"] ?>"></td>
+            </tr>
+            
+            <tr>
+            <td valign="top">Kommentar:</td>
+            <td colspan="2"><textarea name="p_comment" rows=2 cols=40><?PHP print $_REQUEST["p_comment"] ?></textarea></td>
+            </tr>
+            <tr><td>Bild:</td>
+            <td><input type="file" name="AddImage"/></td>
+            </tr>
 
-                <tr>
-                <td>Datenblatt (URL):</td>
-                <td><input type="text" name="URLDatasheet" value="<?PHP print $_REQUEST["URLDatasheets"] ?>"/></td>
-                </tr>
-                <tr><td colspan="2"><input type="submit" name="AddPart" value="Teil hinzuf&uuml;gen"></td></tr>
+            <tr>
+            <td>Datenblatt (URL):</td>
+            <td><input type="text" name="URLDatasheet" value="<?PHP print $_REQUEST["URLDatasheets"] ?>"/></td>
+            </tr>
+            <tr><td colspan="2"><input type="submit" name="AddPart" value="Teil hinzuf&uuml;gen"></td></tr>
 
-                <tr>
-                <td colspan="2">Weitere Bauteile erfassen:
-                <input type="checkbox" name="addmoreparts" value="true" <?PHP if($_REQUEST["addmoreparts"]) print "checked = \"checked\""; ?>></td>
-                </tr>
-                </table>
-                </form>
-        </td>
-        </tr>
-</table>
+            <tr>
+            <td colspan="2">Weitere Bauteile erfassen:
+            <input type="checkbox" name="addmoreparts" value="true" <?PHP if($_REQUEST["addmoreparts"]) print "checked = \"checked\""; ?>></td>
+            </tr>
+            </table>
+        </form>
+    </div>
+</div>
 
 
 </body>

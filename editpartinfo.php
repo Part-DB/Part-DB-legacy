@@ -20,15 +20,6 @@
 
     $Id: editpartinfo.php,v 1.5 2006/03/09 15:08:09 cl Exp $
 
-    28/02/06
-        Some changes concerning escape/unescape stuff.
-        Added some comments, too.
-    
-    04/03/06
-        Added some code for img managing.
-    
-    05/03/06
-        Added security questions: "Do you REALLY want to ..."
 */
     include('lib.php');
     partdb_init();
@@ -290,15 +281,10 @@
 </head>
 <body class="body" onload="switch_ds_path()">
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        &Auml;ndere Detailinfos von &quot;<?PHP print lookup_part_name ($_REQUEST["pid"]); ?>&quot;
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <form action="" method="get">
+<div class="outer">
+    <h2>&Auml;ndere Detailinfos von &quot;<?PHP print lookup_part_name ($_REQUEST["pid"]); ?>&quot;</h2>
+    <div class="inner">
+        <form action="" method="get">
             <input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
             <table>
                 <?PHP  
@@ -408,25 +394,15 @@
             </td></tr>
             <tr><td><input type="hidden" name="action" value="edit_category"><input type="submit" value="&Auml;ndern!"></td></tr>
             </table>
-            </form>
-            <tr><td>
-        </td>
-    </tr>
-</table>
+        </form>
+    </div>
+</div>
 
-<br>
-
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Preisinfos
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <?PHP
+<div class="outer">
+    <h2>Preisinfos</h2>
+    <div class="inner">
+        <?PHP
             $q = "SELECT id,preis,ma FROM preise WHERE part_id=". smart_escape($_REQUEST["pid"]) ." ORDER BY ma DESC;";
-            debug_print($q);
             $r = mysql_query($q);
             if (mysql_num_rows($r) > 0)
             {
@@ -465,22 +441,14 @@
             <b>Preis:</b> <input type="text" name="price" size="8"><br><br>
             <input type="submit" value="Preiseingabe!">
             </form>
-        </td>
-    </tr>
-</table>
+    </div>
+</div>
 
-<br>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Bilder
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <table>
-            <tr><td><b>Bilder</b></td></tr>
+<div class="outer">
+    <h2>Bilder</h2>
+    <div class="inner">
+        <table>
             <tr><td>
             <?PHP
             if (has_image($_REQUEST["pid"]))
@@ -495,7 +463,6 @@
                 </tr>
                 <?PHP
                 $query = "SELECT id FROM pictures WHERE ((pictures.pict_type='P') AND (pictures.part_id=". smart_escape($_REQUEST["pid"]) .")) ORDER BY pictures.pict_masterpict DESC, pictures.id ASC;";
-                debug_print($query);
                 $r_img = mysql_query($query);
                 $ncol = mysql_num_rows($r_img);
                 for ($i = 0; $i < $ncol; $i++)
@@ -528,28 +495,20 @@
             <input type="submit" value="Lade Bild hoch!">
             </form>
             </td></tr>
-            </table>
-        </td>
-    </tr>
-</table>
+        </table>
+    </div>
+</div>
 
-<br>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Datenbl&auml;tter
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <table>
+<div class="outer">
+    <h2>Datenbl&auml;tter</h2>
+    <div class="inner">
+        <table>
             <tr><td>
 
             <?PHP
             // check for existing datasheets
             $query = "SELECT id,datasheeturl FROM datasheets WHERE part_id=". smart_escape($_REQUEST["pid"]) .";";
-            debug_print($query);
             $r = mysql_query($query);
             $ncol = mysql_num_rows($r);
             if ($ncol > 0)
@@ -588,22 +547,15 @@
             Wenn das Datenblatt unter C:\datasheets\foo.pdf zu finden ist, geben Sie als URL file:///C:/datasheets/foo.pdf an.<br>
             Dies scheint allerdings nicht mit allen Browser-Versionen und Acrobat-Reader-Versionen zu funktionieren.
             </td></tr>
-            </table>
-        </td>
-    </tr>
-</table>
+        </table>
+    </div>
+</div>
 
-<br>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Bauteil l&ouml;schen
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <form action="" method="get">
+<div class="outer">
+    <h2>Bauteil l&ouml;schen</h2>
+    <div class="inner">
+        <form action="" method="get">
             <table>
             <tr><td>
             <input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
@@ -616,12 +568,11 @@
             </td>
             </tr>
             </table>
-            </form>
-        </td>
-    </tr>
+        </form>
+    </div>
+</div>
 
-  </table>
- </body>
+</body>
 </html>
 
 <?PHP

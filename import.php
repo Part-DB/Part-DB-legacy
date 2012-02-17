@@ -351,15 +351,10 @@
     if ($action == "default") {
 ?>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Datei ausw&auml;hlen
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <form enctype="multipart/form-data" action="" method="post">
+<div class="outer">
+    <h2>Datei ausw&auml;hlen<h2>
+    <div class="inner">
+        <form enctype="multipart/form-data" action="" method="post">
             <input type="hidden" name="action" value="import_file">
             Dateityp: <select name="file_type">
                 <option>CSV</option>
@@ -381,21 +376,14 @@
             <input type="file"   name="import_file" size="30">
             &nbsp;&nbsp;&nbsp;
             <input type="submit" value="Importieren">
-            </form>
-        </td>
-    </tr>
-</table>
+        </form>
+    </div>
+</div>
 
-<br>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Beispiel f&uuml;r den Dateiaufbau (CSV)
-        </td>
-    </tr>
-    <tr>
-        <td>
+<div class="outer">
+    <h2>Beispiel f&uuml;r den Dateiaufbau (CSV)</h2>
+    <div class="inner">
         <pre>
 # Kategorie; Name; Anzahl; Footprint; Lagerort; Lieferant; Bestellnummer; Kommentar
 Dioden;1N4004;10;THT;Kiste;Reichelt;1N 4004;DO41, 400V 1A
@@ -403,15 +391,9 @@ Controller;ATMega 8;1;DIP28;Kiste;Reichelt;ATMEGA 8-16 DIP
 Oszillatoren;Quarzoszillator 8 MHz;1;THT;Kiste;Reichelt;OSZI 8,000000
 Schaltkreise;MAX 232;1;DIP16;Kiste;Reichelt;MAX 232 EPE
         </pre>
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtop">
-        Beispiel f&uuml;r den Dateiaufbau (XML)
-        </td>
-    </tr>
-    <tr>
-        <td>
+    </div>
+    <h2>Beispiel f&uuml;r den Dateiaufbau (XML)</h2>
+    <div class="inner">
         <pre><?php
             $xml_string = <<<XML
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
@@ -441,37 +423,29 @@ XML;
             print htmlentities( $xml_string, (int) ENT_XML1);
         ?>
         </pre>
-        </td>
-    </tr>
-</table>
+    </div>
+</div>
 
 <?php
     }
     if ( $show_file) {
 ?>
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Daten importieren (<?php print $filename ?>)
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
+<div class="outer">
+    <h2>Daten importieren (<?php print $filename ?>)</h2>
+    <div class="inner">
         <?php
         foreach ( $content_arr as $line_num => $line) 
         {
             print "#{$line_num}: ". htmlspecialchars( $line) ."<br>\n";
         }
         ?>
-        </td>
-    </tr>
-</table>
+    </div>
+</div>
 <?php
     }
     if ( $action == "check_data") {
 ?>
 
-<br>
 
 <form action="" method="post" enctype="multipart/form-data">
 
@@ -480,14 +454,9 @@ XML;
 <input type="hidden" name="add_storeloc"  value='<?php print implode( ';', $add_storeloc); ?>'>
 <input type="hidden" name="add_supplier"  value='<?php print implode( ';', $add_supplier); ?>'>
 
-<table class="table">
-    <tr>
-        <td colspan="10" class="tdtop">
-        Daten pr&uuml;fen
-</td>
-    </tr>
-    <tr>
-        <td colspan="10">
+<div class="outer">
+    <h2>Daten pr&uuml;fen</h2>
+    <div class="inner">
         <?php 
             if ( sizeof($add_category) > 0 )
             {
@@ -509,8 +478,8 @@ XML;
                 print "fehlende Lieferanten: ". implode(', ', $add_supplier) ."<br>";
             }
           ?>
-        </td>
-    </tr>
+    </div>
+    <table class="table">
     <tr class="trcat">
         <td>Import</td>
         <td>#</td>
@@ -591,6 +560,7 @@ XML;
     </tr>
 </table>
 </form>
+</div>
 
 
 <?php
@@ -598,14 +568,9 @@ XML;
     if ($action == "commit_data") {
 
 ?>
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Datenbank aktualisiert
-        </td>
-    </tr>
-    <tr>
-        <td>
+<div class="outer">
+    <h2>Datenbank aktualisiert
+    <div class="inner">
         <?php 
             if ( sizeof($add_category) > 0 )
             {
@@ -628,22 +593,19 @@ XML;
                 print "Bauteile hinzugef&uuml;gt: ". implode(', ', $add_part) ."<br>";
             }
         ?>
-        </td>
-    </tr>
-</table>
+    </div>
+</div>
 <?php
     }
     if ($action == "error") {
 
 ?>
-<br>
-<table class="table">
-    <tr>
-        <td class="tdred">
-        Fehler: <?php print $error ?>
-        </td>
-    </tr>
-</table>
+<div class="outer red">
+    <h2>Fehler</h2>
+    <div class="inner">
+        <?php print $error ?>
+    </div>
+</div>
 
 <?php
     }

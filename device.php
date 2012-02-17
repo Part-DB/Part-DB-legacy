@@ -31,7 +31,6 @@
     if(strcmp($_REQUEST["action"], "createdevice") == 0)  //add a new device
     {
         $query = "INSERT INTO devices (name) VALUES (". smart_escape($_REQUEST["newdevicename"]) .");";
-        debug_print ($query);
         $r = mysql_query ($query);
 		if($r == 0)
             print "Fehler";
@@ -40,12 +39,10 @@
     else if(strcmp($_REQUEST["action"], "confirmeddelete") == 0)
     {
         $query = "DELETE FROM devices WHERE id=". smart_escape( $deviceid) ." LIMIT 1;";
-        debug_print ($query);
         $r = mysql_query ($query);
         if($r == 0)
             print "Fehler";
         $query = "DELETE FROM part_device WHERE id_device=". smart_escape( $deviceid) .";";
-        debug_print ($query);
         $r = mysql_query ($query);
         if($r == 0)
             print "Fehler";
@@ -72,23 +69,17 @@
 		?>
 	</script>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Neues Gerät erzeugen
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <form method="post" action="">
+<div class="outer">
+    <h2>Neues Gerät erzeugen</h2>
+    <div class="inner">
+        <form method="post" action="">
             Gerätenamen
             <input type="text" name="newdevicename" size="10" maxlength="50" >
             <input type="hidden" name="action" value="createdevice">
             <input type="submit" value="OK">
-            </form> 
-        </td>
-    </tr>
-</table>
+        </form> 
+    </div>
+</div>
 
 <?php
 if(strcmp($_REQUEST["action"], "deletedevice") == 0)
@@ -110,16 +101,10 @@ if(strcmp($_REQUEST["action"], "deletedevice") == 0)
     print "</tr></table>";
 }
 ?>
-<br>
     
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Geräte
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
+<div class="outer">
+    <h2>Geräte</h2>
+    <div class="inner">
         <table >
 
         <?PHP
@@ -164,9 +149,8 @@ if(strcmp($_REQUEST["action"], "deletedevice") == 0)
         }
         ?>
         </table>
-        </td>
-    </tr>
-</table>
+    </div>
+</div>
 
 </body>
 </html>

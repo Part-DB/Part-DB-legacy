@@ -49,52 +49,40 @@
 </head>
 <body class="body">
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Sonstiges
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-        <?PHP
+<div class="outer">
+    <h2>Sonstiges</h2>
+    <div class="inner">
+    <?PHP
 
-        print "<form method=\"get\" action=\"\">";
-        print "<input type=\"hidden\" name=\"cid\" value=\"0\">";
-        print "<input type=\"hidden\" name=\"type\" value=\"toless\">\nLieferant(en):<select name=\"sup_id\">";
+    print "<form method=\"get\" action=\"\">";
+    print "<input type=\"hidden\" name=\"cid\" value=\"0\">";
+    print "<input type=\"hidden\" name=\"type\" value=\"toless\">\nLieferant(en):<select name=\"sup_id\">";
 
-        if (! isset($_REQUEST["sup_id"]) )
-            print "<option selected value=\"0\">Alle</option>";
-        else
-            print "<option value=\"0\">Alle</option>";
-            
-        $query = "SELECT id,name FROM suppliers ORDER BY name ASC;";
-        $r = mysql_query ($query);
+    if (! isset($_REQUEST["sup_id"]) )
+        print "<option selected value=\"0\">Alle</option>";
+    else
+        print "<option value=\"0\">Alle</option>";
         
-        $ncol = mysql_num_rows ($r);
-        while ($d = mysql_fetch_row($r))
-        {
-            if ($d[0] == $_REQUEST["sup_id"])
-                print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-            else
-                print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-        }
-        print "</select><input type=\"submit\" value=\"W&auml;hle Lieferanten!\"></form>\n";
-        ?>
-        </td>
-    </tr>
-</table>
+    $query = "SELECT id,name FROM suppliers ORDER BY name ASC;";
+    $r = mysql_query ($query);
+    
+    $ncol = mysql_num_rows ($r);
+    while ($d = mysql_fetch_row($r))
+    {
+        if ($d[0] == $_REQUEST["sup_id"])
+            print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+        else
+            print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+    }
+    print "</select><input type=\"submit\" value=\"W&auml;hle Lieferanten!\"></form>\n";
+    ?>
+    </div>
+</div>
 
-<br>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Zu bestellende Teile &quot;<?PHP print lookup_category_name ($_REQUEST["cid"]); ?>&quot;
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
+<div class="outer">
+    <h2>Zu bestellende Teile &quot;<?PHP print lookup_category_name ($_REQUEST["cid"]); ?>&quot;</h2>
+    <div class="inner">
         <table>
         <?PHP
         
@@ -112,7 +100,6 @@
             $query = "SELECT SUM((parts.mininstock-parts.instock)*preise.preis) FROM parts LEFT JOIN preise ON parts.id=preise.part_id WHERE (parts.instock < parts.mininstock) AND (parts.id_supplier=". smart_escape($_REQUEST["sup_id"]) .");";
         }
 
-        debug_print ($query);
         $result = mysql_query ($query);
         $d = mysql_fetch_row ($result);
         include("config.php");
@@ -202,7 +189,6 @@
             " WHERE (parts.id_supplier = ". smart_escape($_REQUEST["sup_id"]) .") GROUP BY (pending_orders.part_id) HAVING (parts.instock + SUM( pending_orders.quantity ) < parts.mininstock) ORDER BY name ASC;";
         }
         $SearchQuerry = $query;
-        debug_print ($query);
         $result = mysql_query ($query);
 
         $rowcount = 0;
@@ -223,19 +209,13 @@
         }
         ?>
         </table>
-        </td>
-    </tr>
-</table>
-<br>
+    </div>
+</div>
 
-<table class="table">
-<tr>
-    <td class="tdtop">
-    Bauteile Export
-    </td>
-</tr>
-<tr>
-    <td class="tdtext">
+
+<div class="outer">
+    <h2>Bauteile Export</h2>
+    <div class="inner">
         <form method="post" action="">
             <table>
             <?PHP
@@ -272,29 +252,26 @@
             if ( strcmp ($_REQUEST["action"], "createbom") == 0 )
             {
                 
-                $query = $SearchQuerry;
+                $query  = $SearchQuerry;
                 
-                $result = mysql_query ($query);
-                $nrows = mysql_num_rows($result)+6;
+                $result = mysql_query( $query);
+                $nrows  = mysql_num_rows( $result) + 6;
                 
-                print "<textarea name=\"sql_query\" rows=\"".$nrows."\" cols=\"40\" dir=\"ltr\" >";
-                debug_print($query);
-                print "______________________________\r\n";
-                print "Bestell-Liste:\r\n";
-                print GenerateBOMHeadline($_REQUEST["format"],$_REQUEST["spacer"]);
-                while ( $d = mysql_fetch_row ($result) )
+                print "<textarea name=\"sql_query\" rows=\"". $nrows ."\" cols=\"40\" dir=\"ltr\" >";
+                print "______________________________".PHP_EOL;
+                print "Bestell-Liste:".PHP_EOL;
+                print GenerateBOMHeadline( $_REQUEST["format"], $_REQUEST["spacer"]);
+                while ( $data = mysql_fetch_row( $result))
                 {
-                    $q = mysql_fetch_row ($quantity);
-                    
                     //function GenerateBOMResult($Format,$Spacer,$PartName,$SupNr,$SupName,$Quantity,$Instock,$Price)
                     print GenerateBOMResult($_REQUEST["format"],    //$Format
                                             $_REQUEST["spacer"],    //$Spacer
-                                            $d[1],                  //$PartName
-                                            $d[5],                  //$SupNr
-                                            $d[4],                  //$SupName
-                                            $d[3],                  //$Quantity
-                                            $d[6],                  //$Instock
-                                            $d[7]);                 //$Price
+                                            $data[1],               //$PartName
+                                            $data[5],               //$SupNr
+                                            $data[4],               //$SupName
+                                            $data[3],               //$Quantity
+                                            $data[6],               //$Instock
+                                            $data[7]);              //$Price
                 }
                 print "</textarea>";
             }
@@ -303,9 +280,8 @@
             ?>
             </table>
         </form>
-    </td>
-</tr>
-</table>
+    </div>
+</div>
   
 
 </body>
