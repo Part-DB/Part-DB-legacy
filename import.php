@@ -352,7 +352,7 @@
 ?>
 
 <div class="outer">
-    <h2>Datei ausw&auml;hlen<h2>
+    <h2>Datei ausw&auml;hlen</h2>
     <div class="inner">
         <form enctype="multipart/form-data" action="" method="post">
             <input type="hidden" name="action" value="import_file">
@@ -569,7 +569,7 @@ XML;
 
 ?>
 <div class="outer">
-    <h2>Datenbank aktualisiert
+    <h2>Datenbank aktualisiert</h2>
     <div class="inner">
         <?php 
             if ( sizeof($add_category) > 0 )
