@@ -92,7 +92,11 @@
 <body class="body">
 
 <div class="outer">
-    <h2>Suche</h2>
+    <h2>Suche
+        <div id="homelink">
+        <a href="startup.php" target="content_frame"><img src="img/partdb/partdb.png" alt="Home"></a>
+        </div>
+    </h2>
     <div class="inner">
         <form action="search.php" method="get" target="content_frame">
             <input type="text" name="keyword" size="17" maxlength="20">

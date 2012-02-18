@@ -6,7 +6,7 @@
 .outer {
 	background-color: #ffffff;
     margin-top:    10px;
-    margin-bottom: 18px;
+    margin-bottom: 15px;
 	border: none;
 	border-bottom: 1px solid #000000;
 	border-left:   1px solid #000000;
@@ -239,6 +239,17 @@ a:active {
     margin-right: 5px;
     margin-top; 0;
     margin-bottom; 0;
+}
+
+#homelink
+{   
+    padding: 1%;
+    float: right;
+}
+#homelink img
+{
+    height: 15px;
+    vertical-align: middle;
 }
 
 
