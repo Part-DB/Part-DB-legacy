@@ -73,7 +73,7 @@
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Footprints</title>
@@ -81,34 +81,34 @@
 </head>
 <body class="body">
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Footprints
-        </td>
-    </tr>
-    <?php
-        $rowcount = 0;
-        foreach( $groups as $group)
-        {
-            $rowcount++;
-            print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">\n";
-            print "<td>\n";
-            // debug output
-            // print count( $group).": ".implode( ', ', $group)."<p>";
-            foreach( $group as $pic)
+<div class="outer">
+    <h2>Footprints</h2>
+    <div class="inner">
+        <table>
+        <?php
+            $rowcount = 0;
+            foreach( $groups as $group)
             {
-                $file  = $pic; 
-                $title = basename( $pic, '.png');
-                print "<div class=\"footprint\">".
-                    "<img src=\"".$path.$file."\" title=\"".$title."\" alt=\"\">".
-                    "<p>".$title.
-                    "</div>\n";
+                $rowcount++;
+                print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">". PHP_EOL;
+                print "<td>". PHP_EOL;
+                // debug output
+                // print count( $group).": ".implode( ', ', $group)."<p>";
+                foreach( $group as $pic)
+                {
+                    $file  = $pic; 
+                    $title = basename( $pic, '.png');
+                    print "<div class=\"footprint\">".
+                        "<img src=\"".$path.$file."\" title=\"".$title."\" alt=\"\">".
+                        "<p>".$title.
+                        "</div>". PHP_EOL;
+                }
+                print "</td></tr>". PHP_EOL;
             }
-            print "</td></tr>\n";
-        }
-    ?>
-</table>
+        ?>
+        </table>
+    </div>
+</div>
 
 </body>
 </html>

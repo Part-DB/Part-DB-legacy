@@ -1,5 +1,5 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Logos</title>
@@ -7,14 +7,9 @@
 </head>
 <body class="body">
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        Hersteller IC Logos
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
+<div class="outer">
+    <h2>Hersteller IC Logos</h2>
+    <div class="inner">
         <table>
 <tr><td><img src="../tools/iclogos/acer.png" alt=""></td><td>Integrated Circuit Designs</td></tr>
 <tr><td><img src="../tools/iclogos/actel.png" alt=""></td><td>ACTEL</td></tr>
@@ -59,7 +54,7 @@
 <tr><td><img src="../tools/iclogos/aureal.png" alt=""></td><td>Aureal</td></tr>
 <tr><td><img src="../tools/iclogos/austin.png" alt=""></td><td>Austin Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/averlog.png" alt=""></td><td>Avance Logic</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/belfuse.png" alt=""></td><td>Bel Fuse</td></tr>
 <tr><td><img src="../tools/iclogos/benchmrq.png" alt=""></td><td>Benchmarq Microelectronics</td></tr>
 <tr><td><img src="../tools/iclogos/bi.png" alt=""></td><td>BI Technologies</td></tr>
@@ -68,7 +63,7 @@
 <tr><td><img src="../tools/iclogos/broadcom.png" alt=""></td><td>Broadcom</td></tr>
 <tr><td><img src="../tools/iclogos/brooktre.png" alt=""></td><td>Brooktree(now Rockwell)</td></tr>
 <tr><td><img src="../tools/iclogos/burrbrwn.png" alt=""></td><td>Burr Brown</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/calmicro.png" alt=""></td><td>California Micro Devices</td></tr>
 <tr><td><img src="../tools/iclogos/calogic.png" alt=""></td><td>Calogic</td></tr>
 <tr><td><img src="../tools/iclogos/catalys1.png" alt=""></td><td>Catalyst Semiconductor</td></tr>
@@ -90,7 +85,7 @@
 <tr><td><img src="../tools/iclogos/cypres1.png" alt=""></td><td>Cypress Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/cypress.png" alt=""></td><td>Cypress Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/cyrix.png" alt=""></td><td>Cyrix Corporation</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/daewoo.png" alt=""></td><td>Daewoo Electronics Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/dallas1.png" alt=""></td><td>Dallas Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/dallas2.png" alt=""></td><td>Dallas Semiconductor</td></tr>
@@ -102,7 +97,7 @@
 <tr><td><img src="../tools/iclogos/dtc1.png" alt=""></td><td>DTC Data Technology</td></tr>
 <tr><td><img src="../tools/iclogos/dtc2.png" alt=""></td><td>DTC Data Technology</td></tr>
 <tr><td><img src="../tools/iclogos/dvdo.png" alt=""></td><td>DVDO</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/edi.png" alt=""></td><td>EG&amp;G</td></tr>
 <tr><td><img src="../tools/iclogos/egg.png" alt=""></td><td>Elan Microelectronics</td></tr>
 <tr><td><img src="../tools/iclogos/elan.png" alt=""></td><td>ELANTEC</td></tr>
@@ -124,12 +119,12 @@
 <tr><td><img src="../tools/iclogos/excelsemi1.png" alt=""></td><td>Excel Semiconductor Inc.</td></tr>
 <tr><td><img src="../tools/iclogos/excelsemi2.png" alt=""></td><td>Excel Semiconductor Inc.</td></tr>
 <tr><td><img src="../tools/iclogos/exel.png" alt=""></td><td>Excel Semiconductor Inc.</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/fairchil.png" alt=""></td><td>Fairchild</td></tr>
 <tr><td><img src="../tools/iclogos/freescale.png" alt=""></td><td>Freescale Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/fujielec.png" alt=""></td><td>Fujitsu</td></tr>
 <tr><td><img src="../tools/iclogos/fujitsu2.png" alt=""></td><td>Fujitsu</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/galileo.png" alt=""></td><td>Galileo Technology</td></tr>
 <tr><td><img src="../tools/iclogos/galvant.png" alt=""></td><td>Galvantech</td></tr>
 <tr><td><img src="../tools/iclogos/gecples.png" alt=""></td><td>GEC Plessey</td></tr>
@@ -145,7 +140,7 @@
 <tr><td><img src="../tools/iclogos/gould.png" alt=""></td><td>Gould</td></tr>
 <tr><td><img src="../tools/iclogos/greenwich.png" alt=""></td><td>Greenwich Instruments</td></tr>
 <tr><td><img src="../tools/iclogos/gsemi.png" alt=""></td><td>General Semiconductor</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/harris1.png" alt=""></td><td>Harris Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/harris2.png" alt=""></td><td>Harris Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/hfo.png" alt=""></td><td>VEB Halbleiterwerk Frankfurt (Oder)</td></tr>
@@ -155,7 +150,7 @@
 <tr><td><img src="../tools/iclogos/hualon.png" alt=""></td><td>Hualon</td></tr>
 <tr><td><img src="../tools/iclogos/hynix.png" alt=""></td><td>Hynix Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/hyundai2.png" alt=""></td><td>Hyundai</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/icdesign.png" alt=""></td><td>IC Design</td></tr>
 <tr><td><img src="../tools/iclogos/icd.png" alt=""></td><td>Integrated Circuit Systems (ICS)</td></tr>
 <tr><td><img src="../tools/iclogos/ichaus1.png" alt=""></td><td>IC - Haus</td></tr>
@@ -185,10 +180,10 @@
 <tr><td><img src="../tools/iclogos/itex.png" alt=""></td><td>INTEL</td></tr>
 <tr><td><img src="../tools/iclogos/itt.png" alt=""></td><td>ITT Semiconductor (Micronas Intermetall)</td></tr>
 <tr><td><img src="../tools/iclogos/ixys.png" alt=""></td><td>IXYS</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/kec.png" alt=""></td><td>Korea Electronics (KEC)</td></tr>
 <tr><td><img src="../tools/iclogos/kota.png" alt=""></td><td>Kota Microcircuits</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/lattice1.png" alt=""></td><td>Lattice Semiconductor Corp.</td></tr>
 <tr><td><img src="../tools/iclogos/lattice2.png" alt=""></td><td>Lattice Semiconductor Corp.</td></tr>
 <tr><td><img src="../tools/iclogos/lattice3.png" alt=""></td><td>Lattice Semiconductor Corp.</td></tr>
@@ -201,7 +196,7 @@
 <tr><td><img src="../tools/iclogos/linfin.png" alt=""></td><td>Linfinity Microelectronics</td></tr>
 <tr><td><img src="../tools/iclogos/liteon.png" alt=""></td><td>Lite-On</td></tr>
 <tr><td><img src="../tools/iclogos/lucent.png" alt=""></td><td>Lucent Technologies (AT&amp;T Microelectronics)</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/macronix.png" alt=""></td><td>Macronix International</td></tr>
 <tr><td><img src="../tools/iclogos/marvell.png" alt=""></td><td>Marvell Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/matsush1.png" alt=""></td><td>Matsushita Panasonic</td></tr>
@@ -240,7 +235,7 @@
 <tr><td><img src="../tools/iclogos/murata.png" alt=""></td><td>Murata Manufacturing</td></tr>
 <tr><td><img src="../tools/iclogos/mwave.png" alt=""></td><td>MWave (IBM)</td></tr>
 <tr><td><img src="../tools/iclogos/myson.png" alt=""></td><td>Myson Technology</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/nec1.png" alt=""></td><td>NEC Electronics</td></tr>
 <tr><td><img src="../tools/iclogos/nec2.png" alt=""></td><td>NEC Electronics</td></tr>
 <tr><td><img src="../tools/iclogos/nexflash.png" alt=""></td><td>NexFlash Technologies</td></tr>
@@ -248,14 +243,14 @@
 <tr><td><img src="../tools/iclogos/ns1.png" alt=""></td><td>National Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/ns2.png" alt=""></td><td>National Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/nvidia.png" alt=""></td><td>NVidia Corporation</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/oak.png" alt=""></td><td>Oak Technology</td></tr>
 <tr><td><img src="../tools/iclogos/oki1.png" alt=""></td><td>Oki Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/oki.png" alt=""></td><td>Oki Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/opti.png" alt=""></td><td>Opti</td></tr>
 <tr><td><img src="../tools/iclogos/orbit.png" alt=""></td><td>Orbit Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/oren.png" alt=""></td><td>Oren Semiconductor</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/perform.png" alt=""></td><td>Performance Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/pericom.png" alt=""></td><td>Pericom Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/phaslink.png" alt=""></td><td>PhaseLink Laboratories</td></tr>
@@ -265,11 +260,11 @@
 <tr><td><img src="../tools/iclogos/pmi.png" alt=""></td><td>Precision Monolithics</td></tr>
 <tr><td><img src="../tools/iclogos/ptc.png" alt=""></td><td>Princeton Technology</td></tr>
 <tr><td><img src="../tools/iclogos/pwrsmart.png" alt=""></td><td>PowerSmart</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/qlogic.png" alt=""></td><td>QuickLogic</td></tr>
 <tr><td><img src="../tools/iclogos/qualcomm.png" alt=""></td><td>Qlogic</td></tr>
 <tr><td><img src="../tools/iclogos/quality.png" alt=""></td><td>Quality Semiconductor</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/rabbit.png" alt=""></td><td>Rabbit Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/ramtron.png" alt=""></td><td>Ramtron International Co.</td></tr>
 <tr><td><img src="../tools/iclogos/raytheon.png" alt=""></td><td>Raytheon Semiconductor</td></tr>
@@ -280,7 +275,7 @@
 <tr><td><img src="../tools/iclogos/renesas.png" alt=""></td><td>Renesas Technology</td></tr>
 <tr><td><img src="../tools/iclogos/rockwell.png" alt=""></td><td>Rockwell</td></tr>
 <tr><td><img src="../tools/iclogos/rohm.png" alt=""></td><td>Rohm Corp.</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/s3.png" alt=""></td><td>S3</td></tr>
 <tr><td><img src="../tools/iclogos/sage.png" alt=""></td><td>Sage</td></tr>
 <tr><td><img src="../tools/iclogos/saifun.png" alt=""></td><td>Saifun Semiconductors Ltd.</td></tr>
@@ -327,7 +322,7 @@
 <tr><td><img src="../tools/iclogos/summit.png" alt=""></td><td>SUMMIT Microelectronics</td></tr>
 <tr><td><img src="../tools/iclogos/synergy.png" alt=""></td><td>Synergy Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/synertek.png" alt=""></td><td>Synertek</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/taiwsemi.png" alt=""></td><td>Taiwan Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/tdk.png" alt=""></td><td>TDK Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/teccor.png" alt=""></td><td>Teccor Electronics</td></tr>
@@ -348,7 +343,7 @@
 <tr><td><img src="../tools/iclogos/tseng.png" alt=""></td><td>Tseng Labs</td></tr>
 <tr><td><img src="../tools/iclogos/tundra.png" alt=""></td><td>Tundra</td></tr>
 <tr><td><img src="../tools/iclogos/turbo_ic.png" alt=""></td><td>Turbo IC</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/ubicom.png" alt=""></td><td>Ubicom</td></tr>
 <tr><td><img src="../tools/iclogos/umc.png" alt=""></td><td>United Microelectronics Corp (UMC)</td></tr>
 <tr><td><img src="../tools/iclogos/unitrode.png" alt=""></td><td>Unitrode</td></tr>
@@ -357,7 +352,7 @@
 <tr><td><img src="../tools/iclogos/utmc.png" alt=""></td><td>United Technologies
  Microelectronics Center (UTMC)</td></tr>
 <tr><td><img src="../tools/iclogos/utron.png" alt=""></td><td>Utron</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/v3.png" alt=""></td><td>V3 Semiconductor</td></tr>
 <tr><td><img src="../tools/iclogos/vadem.png" alt=""></td><td>Vadem</td></tr>
 <tr><td><img src="../tools/iclogos/vanguard.png" alt=""></td><td>Vanguard International Semiconductor</td></tr>
@@ -370,21 +365,21 @@
 <tr><td><img src="../tools/iclogos/vlsi.png" alt=""></td><td>VLSI Technology</td></tr>
 <tr><td><img src="../tools/iclogos/volterra.png" alt=""></td><td>Volterra</td></tr>
 <tr><td><img src="../tools/iclogos/vtc.png" alt=""></td><td>VTC</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/wafscale.png" alt=""></td><td>Waferscale Integration (WSI)</td></tr>
 <tr><td><img src="../tools/iclogos/wdc1.png" alt=""></td><td>Western Digital</td></tr>
 <tr><td><img src="../tools/iclogos/wdc2.png" alt=""></td><td>Western Digital</td></tr>
 <tr><td><img src="../tools/iclogos/weitek.png" alt=""></td><td>Weitek</td></tr>
 <tr><td><img src="../tools/iclogos/winbond.png" alt=""></td><td>Winbond</td></tr>
 <tr><td><img src="../tools/iclogos/wolf.png" alt=""></td><td>Wofson Microelectronics</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/xemics.png" alt=""></td><td>Xwmics</td></tr>
 <tr><td><img src="../tools/iclogos/xicor1.png" alt=""></td><td>Xicor</td></tr>
 <tr><td><img src="../tools/iclogos/xicor.png" alt=""></td><td>Xicor</td></tr>
 <tr><td><img src="../tools/iclogos/xilinx.png" alt=""></td><td>Xilinx</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/yamaha.png" alt=""></td><td>Yamaha</td></tr>
-
+<tr><td>&nbsp;</td></tr>
 <tr><td><img src="../tools/iclogos/zetex.png" alt=""></td><td>Zetex Semiconductors</td></tr>
 <tr><td><img src="../tools/iclogos/zilog1.png" alt=""></td><td>Zilog</td></tr>
 <tr><td><img src="../tools/iclogos/zilog2.png" alt=""></td><td>Zilog</td></tr>
@@ -393,11 +388,10 @@
 <tr><td><img src="../tools/iclogos/zmda.png" alt=""></td><td>ZMD (Zentrum Mikroelektronik Dresden)</td></tr>
 <tr><td><img src="../tools/iclogos/zoran.png" alt=""></td><td>Zoran</td></tr>
         </table>
-        </td>
-    </tr>
-</table>
+    </div>
+</div>
 
- </body>
+</body>
 </html>
 
 

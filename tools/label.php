@@ -7,15 +7,10 @@
 </head>
 <body class="body">
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        SMD-Widerst&auml;nde
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <table>         
+<div class="outer">
+    <h2>SMD-Widerst&auml;nde</h2>
+    <div class="inner">
+        <table>         
             <tr>
                <td><b>3-stellig</b><br>Die ersten beiden Stellen sind der Wert,<br> die letzte Stelle ist der Exponent z.B.</td>
                 <td><img src="label/100.png" class="labelbild" alt=""> 10 Ohm</td>
@@ -34,22 +29,15 @@
                 <td><img src="label/10R2.png" class="labelbild" alt=""> 10,2 Ohm</td>
                 <td><img src="label/100R.png" class="labelbild" alt=""> 100 Ohm</td>
             </tr>
-            </table>
-        </td>
-    </tr>
-</table>
+        </table>
+    </div>
+</div>
 
-<br>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        SMD-Kondensatoren
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <table>         
+<div class="outer">
+    <h2>SMD-Kondensatoren</h2>
+    <div class="inner">
+        <table>         
             <tr>
                 <td><b>Tantal</b><br>Die ersten beiden Stellen sind der Wert in pF,<br>die letzte der Exponent.<br>Die untere Zahl ist die Spannungsfestigkeit in Volt</td>
                 <td><img src="label/246-20.png" class="labelbild" alt="">24&mu;F/20V</td> 
@@ -62,34 +50,25 @@
                 <td><b>ALU-Elko</b><br>Der obere Wert ist die Kapazitiv in &mu;F,<br>der untere die Spannung in Volt.</td>
                 <td><img src="label/220.png" class="labelbild" alt=""></td>
             </tr>
-            </table>
-        </td>
-    </tr>
-</table>    
+        </table>
+    </div>
+</div>
 
-<br>
 
-<table class="table">
-    <tr>
-        <td class="tdtop">
-        SMD-Spulen
-        </td>
-    </tr>
-    <tr>
-        <td class="tdtext">
-            <table>         
+<div class="outer">
+    <h2>SMD-Spulen</h2>
+    <div class="inner">
+        <table>         
             <tr>
             <td><b>DO23-Spule</b><br>Der Buchstabe ist die Toleranz<br>und gleichzeitig das "," <br>die Werte werden in &mu;H angegeben<br>F=1%, G=2%, J=5%, K=10% M=20%</td>
             <td><img src="label/221K.png" class="labelbild" alt="">221&mu;H/5%</td> 
             </tr>
-            </table>
-        </td>
-    </tr>
-</table>    
+        </table>
+    </div>
+</div>
 
-<br>
 
-<!-- TODO -->
+<!-- TODO
         
         <b>SMD-Dioden</b><br>
         <br>
@@ -103,6 +82,7 @@
         <b>SMD-ICs</b><br>
         <br>
         <br>
+        -->
 
- </body>
+</body>
 </html>
