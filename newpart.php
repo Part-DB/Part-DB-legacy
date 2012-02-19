@@ -159,21 +159,13 @@
         }
 
         //add a new distributor if it not exists, and save the name in global var to select while creating drop downbox
-        if(isset($_REQUEST["AddDistributor"]))
+        if( isset( $_REQUEST["AddDistributor"]))
         {
-                if(strcmp($_REQUEST["NewDistributor"],"Direkteingabe/Neu")!=0)
-                {
-                        $NewDistributor = $_REQUEST["NewDistributor"];
-                        $query = "SELECT name FROM suppliers WHERE name = '" . $_REQUEST["NewDistributor"] . "';";
-                        $r = mysql_query ($query);
-                        $ncol = mysql_num_rows ($r);
-                        if($ncol == 0)
-                        {
-                                $query = "INSERT INTO suppliers (name) VALUES (". smart_escape($_REQUEST["NewDistributor"]) .");";
-                                debug_print ($query);
-                                mysql_query ($query);
-                        }
-                }
+            $NewDistributor = $_REQUEST["NewDistributor"];
+            if (( $NewDistributor != "Direkteingabe/Neu") && (! supplier_exists( $NewDistributor)))
+            {
+                supplier_add( $NewDistributor);
+            }
         }
 
         //add a new footprint if it not exists, and save the name in global var to select while creating drop downbox
@@ -281,23 +273,7 @@
             <td>
             <select name="p_supplier">
             <option value="X"></option>
-            <?PHP
-            $query = "SELECT id,name FROM suppliers ORDER BY name ASC;";
-            $r = mysql_query ($query);
-            $ncol = mysql_num_rows ($r);
-            for ($i = 0; $i < $ncol; $i++)
-            {
-                    $d = mysql_fetch_row ($r);
-                    print "<option value=\"". smart_unescape($d[0])."\"";
-                    //check if a new distributor should be selected
-                    if(     (strlen($NewDistributor)>0 && strcmp($NewDistributor,smart_unescape($d[1]))==0) ||
-                            (strlen($NewDistributor)==0 && $Distributor == smart_unescape($d[0])))
-                    {
-                            print " selected ";
-                    }
-                    print  ">". smart_unescape($d[1]) ."</option>\n";
-            }
-            ?>
+            <?php build_suppliers_list( supplier_get_id( $NewDistributor)); ?>
             </select>
             </td>
             <td>

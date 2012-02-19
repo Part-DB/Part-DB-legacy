@@ -32,22 +32,17 @@
 
     if ( $action == 'add')
     {
-        $query = "INSERT INTO suppliers (name) VALUES (". smart_escape($_REQUEST["new_supplier"]) .");";
-        debug_print ($query);
-        mysql_query ($query);
+        supplier_add( $_REQUEST['new_supplier']);
     }
     
     if ( $action == 'delete')
     {
-        $query = "DELETE FROM suppliers WHERE id=". smart_escape($_REQUEST["supplier_sel"]) ." LIMIT 1;";
-        debug_print ($query);
-        mysql_query ($query);
+        supplier_delete( $_REQUEST["supplier_sel"]);
     }
 
     if ( $action == 'rename')
     {
-        $query = "UPDATE suppliers SET name=". smart_escape($_REQUEST["new_name"]) ." WHERE id=". smart_escape($_REQUEST["supplier_sel"]) ." LIMIT 1";  
-        mysql_query ($query);
+        supplier_rename( $_REQUEST["supplier_sel"], $_REQUEST["new_name"]);
     }
 
 ?>
@@ -81,17 +76,7 @@
                 <tr>
                     <td rowspan="2">
                         <select name="supplier_sel" size="8" multiple="multiple">
-                        <?PHP
-                            $query = "SELECT id,name FROM suppliers ORDER BY name ASC;";
-                            $r = mysql_query ($query);
-                
-                            $ncol = mysql_num_rows ($r);
-                            for ($i = 0; $i < $ncol; $i++)
-                            {
-                                $d = mysql_fetch_row ($r);
-                                print "<option  value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-                            }
-                        ?>
+                        <?php build_suppliers_list(); ?>
                         </select>
                     </td>
                     <td>

@@ -50,25 +50,20 @@
 
     if ( $action == 'add')
     {
-        if ($_REQUEST["series"] == "true")
+        if ( $_REQUEST["series"] == "true")
         {
             // add location series
             $start = (int)$_REQUEST["series_start"];
             $end   = (int)$_REQUEST["series_end"];
             for ($index = $start; $index <= $end; $index++) {
-                $query = "INSERT INTO storeloc (name, parentnode) VALUES (".
-                    smart_escape( $_REQUEST["new_location"].$index) .",".
-                    smart_escape( $_REQUEST["parent_node"]) ."); ";
-                mysql_query ($query);
+                $new_location = $_REQUEST["new_location"].(string)$index; 
+                location_add( $new_location, $_REQUEST["parent_node"]);
             }
         }
         else
         {
             // add a location
-            $query = "INSERT INTO storeloc (name, parentnode) VALUES (".
-                smart_escape( $_REQUEST["new_location"]) .",".
-                smart_escape( $_REQUEST["parent_node"]) .");";
-            mysql_query ($query);
+            location_add( $_REQUEST["new_location"], $_REQUEST["parent_node"]);
         }
     }
 
@@ -101,7 +96,7 @@
             {
                 print "<html><body>".
                     "<div style=\"text-align:center;\">".
-                    "<div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie den Lagerort &quot;". lookup_location_name($_REQUEST["location_sel"]) ."&quot; wirklich l&ouml;schen?</div>".
+                    "<div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie den Lagerort &quot;". smart_unescape( location_get_name( $_REQUEST["location_sel"])) ."&quot; wirklich l&ouml;schen?</div>".
                     "Der L&ouml;schvorgang ist irreversibel!".
                     "<form action=\"\" method=\"post\">".
                     "<input type=\"hidden\" name=\"location_sel\" value=\"". $_REQUEST["location_sel"] ."\">".
@@ -180,7 +175,7 @@
     {
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Lagerorte</title>

@@ -309,22 +309,11 @@
             </select></td></tr>
             <tr><td><b>Lieferant:</b></td><td><select name='p_supplier'>
             <option value=\"\"></option>
-            <?php
-            // warning: hax0r style below!
-            $query = "SELECT id,name FROM suppliers ORDER BY name ASC";
-            $r_sup = mysql_query($query);
-            $ncol = mysql_num_rows($r_sup);
-            for ($i = 0; $i < $ncol; $i++)
-            {
-                $d_sup = mysql_fetch_row($r_sup);
-                if ($d_sup[0] == $d[6])
-                print "<option selected value=\"". smart_unescape($d_sup[0])."\">". smart_unescape($d_sup[1]) ."</option>\n";
-            else
-                print "<option value=\"". smart_unescape($d_sup[0]) ."\">". smart_unescape($d_sup[1]) ."</option>\n";
-            }
-            print "</select></td></tr>\n";
-            print "<tr><td><b>Bestell-Nr.:</b></td><td><input name='p_supplierpartnr' value='". smart_unescape($d[7]) ."'></td></tr>\n";
-            print "<tr><td valign='top'><b>Kommentar:</b></td><td><textarea name='p_comment' rows=2 cols=20>". smart_unescape($d[8]) ."</textarea></td></tr>\n";
+            <?php build_suppliers_list( $d[6]); ?>
+            </select></td></tr>
+            <tr><td><b>Bestell-Nr.:</b></td><td><input name='p_supplierpartnr' value='<?php print smart_unescape( $d[7]); ?>'></td></tr>
+            <tr><td valign='top'><b>Kommentar:</b></td><td><textarea name='p_comment' rows=2 cols=20><?php print smart_unescape( $d[8]); ?></textarea></td></tr>
+            <?
             }
             ?>
             <tr><td><input type="hidden" name="action" value="edit"><input type="submit" value="&Auml;ndern!"></td></tr>

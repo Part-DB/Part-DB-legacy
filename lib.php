@@ -117,15 +117,6 @@
         return (smart_unescape($d[0]));
     }
     
-    function lookup_location_name ($id)
-    {
-        $query = "SELECT name FROM storeloc WHERE id=". smart_escape($id) .";";
-        debug_print($query);
-        $r = mysql_query ($query);
-        $d = mysql_fetch_row ($r);
-
-        return (smart_unescape($d[0]));
-    }
 
     /*
      * This function is very special. The $visited_category_ids array
@@ -198,33 +189,9 @@
      * parameter: string to search
      * result: id from database
      */
-    function get_category_id( $categorie)
-    {
-        $query = "SELECT id FROM categories WHERE name=". smart_escape( $categorie)." LIMIT 1;";
-        $result = mysql_query( $query);
-        $result_array = mysql_fetch_array( $result); 
-        return( $result_array['id']);
-    }
-    
-    function get_footprint_id( $footprint)
+    function footprint_get_id( $footprint)
     {
         $query = "SELECT id FROM footprints WHERE name=". smart_escape( $footprint)." LIMIT 1;";
-        $result = mysql_query( $query);
-        $result_array = mysql_fetch_array( $result); 
-        return( $result_array['id']);
-    }
-    
-    function get_storeloc_id( $storeloc)
-    {
-        $query = "SELECT id FROM storeloc WHERE name=". smart_escape( $storeloc)." LIMIT 1;";
-        $result = mysql_query( $query);
-        $result_array = mysql_fetch_array( $result); 
-        return( $result_array['id']);
-    }
-
-    function get_supplier_id( $supplier)
-    {
-        $query = "SELECT id FROM suppliers WHERE name=". smart_escape( $supplier)." LIMIT 1;";
         $result = mysql_query( $query);
         $result_array = mysql_fetch_array( $result); 
         return( $result_array['id']);
@@ -236,15 +203,6 @@
      * result: true  if exists in database
      *         flase if not exist
      */
-    function check_categories( $categorie)
-    {
-        $query = "SELECT name FROM categories WHERE name=". smart_escape( $categorie).";";
-        $res   = mysql_query( $query);
-        $data  = mysql_num_rows( $res);
-
-        return( ($data == 1) ? true : false );
-    }
-
     function check_footprint( $footprint)
     {
         $query = "SELECT name FROM footprints WHERE name=". smart_escape( $footprint).";";
@@ -254,25 +212,11 @@
         return( ($data == 1) ? true : false );
     }
 
-    function check_storeloc( $storeloc)
-    {
-        $query = "SELECT name FROM storeloc WHERE name=". smart_escape( $storeloc).";";
-        $res   = mysql_query( $query);
-        $data  = mysql_num_rows( $res);
 
-        return( ($data == 1) ? true : false );
-    }
-
-    function check_supplier( $supplier)
-    {
-        $query = "SELECT name FROM suppliers WHERE name=". smart_escape( $supplier).";";
-        $res   = mysql_query( $query);
-        $data  = mysql_num_rows( $res);
-
-        return( ($data == 1) ? true : false );
-    }
-
-
+    
+    /*
+     * check if a given number is odd 
+     */
     function is_odd( $number) 
     {
         //return $number & 1; // 0 = even, 1 = odd
@@ -280,6 +224,10 @@
     }
 
 
+    
+    /*
+     * no comment
+     */
     function print_table_image( $id, $name, $footprint)
     {
         if ( has_image( $id))
@@ -392,12 +340,20 @@
         print "</tr>\n";
     }
 
+    
+    /*
+     * no comment
+     */
     function GetFormatStrings()
     {
         $aRetVal = array("CSV","CSV Reichelt","CSV Farnell");
         return $aRetVal;
     }
     
+    
+    /*
+     * no comment
+     */
     function PrintsFormats($Request)
     {
         $Formats = GetFormatStrings();
@@ -412,6 +368,10 @@
         }
     }
     
+    
+    /*
+     * no comment
+     */
     function GenerateBOMHeadline($Format,$Spacer)
     {
         if( $Format == 0 ) //CSV
@@ -446,6 +406,9 @@
         }
     }
     
+    /*
+     * no comment
+     */
     function GenerateBOMResult($Format,$Spacer,$PartName,$SupNr,$SupName,$Quantity,$Instock,$Price)
     {
         if( $Format == 0 ) //CSV
@@ -498,7 +461,98 @@
      * As the top-most location (it doesn't exist!) has the ID 0,
      * you have to supply id=0 at the very beginning.
      */
-    function build_location_tree( $id, $level, $select, $show_all = true)
+    function build_footprint_tree( $id, $level, $select)
+    {
+        $query  = "SELECT id, name FROM footprints".
+            " WHERE parentnode=". smart_escape( $id).
+            " ORDER BY name ASC;";
+        $result = mysql_query( $query) or die( mysql_error());
+        while ( $data = mysql_fetch_assoc( $result))
+        {
+            $selected = ($select == $data['id']) ? 'selected': '';
+            print "<option ". $selected ." value=\"". smart_unescape( $data['id']) . "\">";
+            for ( $i = 0; $i < $level; $i++) 
+                print "&nbsp;&nbsp;&nbsp;";
+            print smart_unescape( $data['name']).
+                "</option>\n";
+
+            // do the same for the next level.
+            build_footprint_tree( $data['id'], $level + 1, $select);
+        }
+    }
+
+
+    /* ***************************************************
+     * supplier querys
+     */
+    function supplier_add( $new_supplier)
+    {
+        $query = "INSERT INTO suppliers (name) VALUES (". smart_escape( $new_supplier) .");";
+        mysql_query( $query) or die( mysql_error());
+    }
+
+    function supplier_delete( $supplier)
+    {
+        $query = "DELETE FROM suppliers WHERE id=". smart_escape( $supplier) ." LIMIT 1;";
+        mysql_query( $query) or die( mysql_error());
+    }
+    
+    function supplier_rename( $supplier, $new_name)
+    {
+        $query = "UPDATE suppliers SET name=". smart_escape( $new_name) ." WHERE id=". smart_escape( $supplier) ." LIMIT 1";  
+        mysql_query( $query) or die( mysql_error());
+    }
+                            
+    function build_suppliers_list( $select)
+    {
+        $query  = "SELECT id, name FROM suppliers ORDER BY name ASC;";
+        $result = mysql_query( $query);
+
+        while ( $data = mysql_fetch_assoc( $result))
+        {
+            $selected = ($select == $data['id']) ? 'selected': '';
+            print "<option ". $selected ." value=\"". smart_unescape( $data['id']) ."\">". smart_unescape( $data['name']) ."</option>\n";
+        }
+    }
+
+    function suppliers_count()
+    {
+        $query  = "SELECT id FROM suppliers;";
+        $result = mysql_query( $query) or die( mysql_error());
+        return( mysql_num_rows( $result));
+    }
+
+    function supplier_get_id( $supplier)
+    {
+        $query = "SELECT id FROM suppliers WHERE name=". smart_escape( $supplier)." LIMIT 1;";
+        $result = mysql_query( $query);
+        $result_array = mysql_fetch_array( $result); 
+        return( $result_array['id']);
+    }
+
+    function supplier_exists( $supplier)
+    {
+        $query = "SELECT name FROM suppliers WHERE name=". smart_escape( $supplier).";";
+        $res   = mysql_query( $query);
+        $data  = mysql_num_rows( $res);
+
+        return( ($data == 1) ? true : false );
+    }
+    
+    
+    
+    /* ***************************************************
+     * location querys
+     */
+    
+    /*
+     * The buildtree function creates a tree for <select> tags.
+     * It recurses trough all locations (and sublocations) and
+     * creates the tree. Deeper levels have more spaces in front.
+     * As the top-most location (it doesn't exist!) has the ID 0,
+     * you have to supply id=0 at the very beginning.
+     */
+    function build_location_tree( $id, $level, $select = -1, $show_all = true)
     {
         $query_all = ( $show_all) ? '' : ' AND is_full=0';
         $query = "SELECT id, name, is_full FROM storeloc".
@@ -522,34 +576,45 @@
     }
 
 
-    /*
-     * The buildtree function creates a tree for <select> tags.
-     * It recurses trough all locations (and sublocations) and
-     * creates the tree. Deeper levels have more spaces in front.
-     * As the top-most location (it doesn't exist!) has the ID 0,
-     * you have to supply id=0 at the very beginning.
-     */
-    function build_footprint_tree( $id, $level, $select)
+    function location_add( $new_location, $parent_node)
     {
-        $query  = "SELECT id, name FROM footprints".
-            " WHERE parentnode=". smart_escape( $id).
-            " ORDER BY name ASC;";
+        $query = "INSERT INTO storeloc (name, parentnode) VALUES (".
+            smart_escape( $new_location) .",".
+            smart_escape( $parent_node)  .");";
+        mysql_query( $query) or die( mysql_error());
+    }
+    
+    function location_get_id( $storeloc)
+    {
+        $query = "SELECT id FROM storeloc WHERE name=". smart_escape( $storeloc)." LIMIT 1;";
         $result = mysql_query( $query) or die( mysql_error());
-        while ( $data = mysql_fetch_assoc( $result))
-        {
-            $selected = ($select == $data['id']) ? 'selected': '';
-            print "<option ". $selected ." value=\"". smart_unescape( $data['id']) . "\">";
-            for ( $i = 0; $i < $level; $i++) 
-                print "&nbsp;&nbsp;&nbsp;";
-            print smart_unescape( $data['name']).
-                "</option>\n";
-
-            // do the same for the next level.
-            build_footprint_tree( $data['id'], $level + 1, $select);
-        }
+        $result_array = mysql_fetch_array( $result); 
+        return( $result_array['id']);
+    }
+    
+    function location_get_name( $id)
+    {
+        $query  = "SELECT name FROM storeloc WHERE id=". smart_escape( $id) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_assoc( $result);
+        return( $data['name']);
     }
 
+    function location_exists( $storeloc)
+    {
+        $query = "SELECT name FROM storeloc WHERE name=". smart_escape( $storeloc).";";
+        $res   = mysql_query( $query);
+        $data  = mysql_num_rows( $res);
 
+        return( ($data == 1) ? true : false );
+    }
+    
+    
+    
+    /* ***************************************************
+     * categorie querys
+     */
+    
     /*
      * The buildtree function creates a tree for <select> tags.
      * It recurses trough all categories (and subcategories) and
@@ -574,5 +639,23 @@
             build_categories_tree( $data['id'], $level + 1, $select);
         }
     }
+
+    function category_get_id( $categorie)
+    {
+        $query = "SELECT id FROM categories WHERE name=". smart_escape( $categorie)." LIMIT 1;";
+        $result = mysql_query( $query);
+        $result_array = mysql_fetch_array( $result); 
+        return( $result_array['id']);
+    }
+    
+    function category_exists( $categorie)
+    {
+        $query = "SELECT name FROM categories WHERE name=". smart_escape( $categorie).";";
+        $res   = mysql_query( $query);
+        $data  = mysql_num_rows( $res);
+
+        return( ($data == 1) ? true : false );
+    }
+
 
 ?>

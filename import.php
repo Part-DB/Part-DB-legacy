@@ -197,7 +197,7 @@
             else
             {
                 // category not found in database
-                if (! (check_categories( $category[$key])))
+                if (! (category_exists( $category[$key])))
                 {
                     $missing_category[$key] = $halfok;
                     $add_category[]         = $category[$key];
@@ -225,7 +225,7 @@
             }
             else
             {
-                if (! (check_storeloc( $storeloc[$key])))
+                if (! (location_exists( $storeloc[$key])))
                 {
                     $missing_storeloc[$key] = $halfok;
                     $add_storeloc[]         = $storeloc[$key];
@@ -239,7 +239,7 @@
             }
             else
             {
-                if (! (check_supplier( $supplier[$key])))
+                if (! (supplier_exists( $supplier[$key])))
                 {
                     $missing_supplier[$key] = $halfok;
                     $add_supplier[]         = $supplier[$key];
@@ -282,15 +282,13 @@
 
         foreach ($open_storeloc as $entry)
         {
-            $query = "INSERT INTO storeloc (name) VALUES (". smart_escape($entry) .");";
-            mysql_query ($query);
+            location_add( $entry);
             $add_storeloc[] = $entry;
         }
 
         foreach ($open_supplier as $entry)
         {
-            $query = "INSERT INTO suppliers (name) VALUES (". smart_escape($entry) .");";
-            mysql_query ($query);
+            supplier_add( $entry);
             $add_supplier[] = $entry;
         }
         
@@ -300,10 +298,10 @@
             if ($active[$key] == "true")
             {
                 // catch the right id's
-                $category_id  = get_category_id(  $category[$key]);
-                $footprint_id = get_footprint_id( $footprint[$key]);
-                $storeloc_id  = get_storeloc_id(  $storeloc[$key]);
-                $supplier_id  = get_supplier_id(  $supplier[$key]);
+                $category_id  = category_get_id(  $category[$key]);
+                $footprint_id = footprint_get_id( $footprint[$key]);
+                $storeloc_id  = location_get_id(  $storeloc[$key]);
+                $supplier_id  = supplier_get_id(  $supplier[$key]);
 
                 $query = 
                     "INSERT INTO parts ".

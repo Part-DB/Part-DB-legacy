@@ -487,19 +487,7 @@
             else
                 print "<option value=\"0\">Alle</option>";
             
-            $query = "SELECT id,name FROM suppliers ORDER BY name ASC;";
-            $r = mysql_query ($query);
-            
-            $ncol = mysql_num_rows ($r);
-            $lieferanten;
-            while ( ($d = mysql_fetch_row($r)) )
-            {
-            $lieferanten = $lieferanten . smart_unescape($d[0]);
-            if ($d[0] == $_REQUEST["sup_id"])
-                print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-            else
-                print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-            }
+            build_suppliers_list( $_REQUEST["sup_id"]); 
             print "</select>";
             print "<tr class=\"trcat\"><td>";
             print "Format:</td><td><select name=\"format\">";

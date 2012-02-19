@@ -38,7 +38,7 @@
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Teileansicht</title>
@@ -52,30 +52,19 @@
 <div class="outer">
     <h2>Sonstiges</h2>
     <div class="inner">
-    <?PHP
-
-    print "<form method=\"get\" action=\"\">";
-    print "<input type=\"hidden\" name=\"cid\" value=\"0\">";
-    print "<input type=\"hidden\" name=\"type\" value=\"toless\">\nLieferant(en):<select name=\"sup_id\">";
-
-    if (! isset($_REQUEST["sup_id"]) )
-        print "<option selected value=\"0\">Alle</option>";
-    else
-        print "<option value=\"0\">Alle</option>";
-        
-    $query = "SELECT id,name FROM suppliers ORDER BY name ASC;";
-    $r = mysql_query ($query);
-    
-    $ncol = mysql_num_rows ($r);
-    while ($d = mysql_fetch_row($r))
-    {
-        if ($d[0] == $_REQUEST["sup_id"])
-            print "<option selected value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-        else
-            print "<option value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
-    }
-    print "</select><input type=\"submit\" value=\"W&auml;hle Lieferanten!\"></form>\n";
-    ?>
+        <form method="get" action="">
+            <input type="hidden" name="cid" value="0">
+            <input type="hidden" name="type" value="toless">
+            Lieferant(en):
+            <select name="sup_id">
+            <?php
+                $selected = (! isset($_REQUEST["sup_id"])) ? 'selected': '';
+                print "<option ". $selected ." value=\"0\">Alle</option>";
+                build_suppliers_list( $_REQUEST["sup_id"]);
+            ?>
+            </select>
+            <input type="submit" value="W&auml;hle Lieferanten!">
+        </form>
     </div>
 </div>
 

@@ -79,9 +79,7 @@
     if (! mysql_num_rows($r))
         $missing_footprint = $bad;
 
-    $q = "SELECT id FROM suppliers LIMIT 1;";
-    $r = mysql_query($q);
-    if (! mysql_num_rows($r))
+    if ( suppliers_count() == 0)
         $missing_supplier = $bad;
 
 ?>
