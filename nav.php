@@ -29,7 +29,7 @@
        There's nothing special about it, so no more comments.
        Warning: Infinite recursion can occur when the DB is
        corrupted! But normally everything should be fine. */
-    function build_categories_tree( $pid)
+    function build_categories_navtree( $pid)
     {
         $query  = "SELECT id,name FROM categories".
             " WHERE parentnode=". smart_escape( $pid).
@@ -44,13 +44,13 @@
                     "','showparts.php?cid=". 
                     smart_unescape( $d['id']).
                     "&type=index\"','','content_frame');\n";
-                build_categories_tree( $d['id']);
+                build_categories_navtree( $d['id']);
             }
         }
     }
 
 
-    function build_devices_tree( $pid)
+    function build_devices_navtree( $pid)
     {    
         $query  = "SELECT id, name FROM devices".
             " WHERE parentnode=". smart_escape( $pid).
@@ -74,7 +74,7 @@
                     smart_unescape( $d['id']).
                     "','','content_frame');\n";
 
-                build_devices_tree( $d['id']);
+                build_devices_navtree( $d['id']);
             }
         }
     }
@@ -121,7 +121,7 @@
             <script type="text/javascript">
                 cat_tree = new dTree('cat_tree');
                 cat_tree.add(0,-1,'');
-                <?PHP build_categories_tree( 0); ?>
+                <?PHP build_categories_navtree( 0); ?>
                 document.write(cat_tree);
             </script>
             <br>
@@ -140,7 +140,7 @@
             <script type="text/javascript">
                 dev_tree = new dTree('dev_tree');
                 dev_tree.add(0,-1,'');
-                <?php build_devices_tree( 0); ?>
+                <?php build_devices_navtree( 0); ?>
                 document.write( dev_tree);
             </script>
             <br>
@@ -175,15 +175,17 @@
                 <?php } ?>
 
                 menue.add(11,0,'Bearbeiten','','','');
-                menue.add(12,11,'Baugruppen','devmgr.php"','','content_frame');
+                <?php if (! $disable_devices) { ?>
+                    menue.add(12,11,'Baugruppen','devmgr.php"','','content_frame');
+                <?php } ?>
                 menue.add(13,11,'Lagerorte','locmgr.php"','','content_frame');
                 menue.add(14,11,'Footprints','fpmgr.php"','','content_frame');
                 menue.add(15,11,'Kategorien','catmgr.php"','','content_frame');
                 menue.add(16,11,'Lieferanten','supmgr.php','','content_frame');
 
                 <?php if (! $disable_config) { ?>
-                menue.add(17,0,'Config','','','');
-                menue.add(18,17,'Datenbank', 'config_page.php', '', 'content_frame');
+                    menue.add(17,0,'Konfiguration','','','');
+                    menue.add(18,17,'Datenbank', 'config_page.php', '', 'content_frame');
                 <?php } ?>
                 document.write(menue);
             </script>

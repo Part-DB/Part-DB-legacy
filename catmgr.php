@@ -158,30 +158,6 @@
         return( $result);
     }
 
-    /*
-     * The buildtree function creates a tree for <select> tags.
-     * It recurses trough all categories (and subcategories) and
-     * creates the tree. Deeper levels have more spaces in front.
-     * As the top-most category (it doesn't exist!) has the ID 0,
-     * you have to supply cid=0 at the very beginning.
-     */
-    function buildtree ($cid, $level)
-    {
-        $query = "SELECT id,name FROM categories".
-            " WHERE parentnode=". smart_escape( $cid).
-            " ORDER BY name ASC;";
-        $result = mysql_query( $query) or die( mysql_error());
-        while ( $d = mysql_fetch_assoc( $result))
-        {
-            print "<option value=\"". smart_unescape( $d['id']) . "\">";
-            for ($i = 0; $i < $level; $i++) print "&nbsp;&nbsp;&nbsp;";
-            print smart_unescape( $d['name']) ."</option>\n";
-
-            // do the same for the next level.
-            buildtree( $d['id'], $level + 1);
-        }
-    }
-
     if ($special_dialog == false)
     {
 ?>
@@ -216,7 +192,7 @@
                     <td>
                         <select name="parent_node">
                         <option value="0">root node</option>
-                        <?PHP buildtree(0, 1); ?>
+                        <?PHP build_categories_tree(0, 1); ?>
                         </select>
                     </td>
                 </tr>
@@ -249,7 +225,7 @@
                 <tr>
                     <td rowspan="3">
                         <select name="catsel" size="15">
-                        <?PHP buildtree(0, 1); ?>
+                        <?PHP build_categories_tree(0, 1); ?>
                         </select>
                     </td>
                     <td>
@@ -268,7 +244,7 @@
                         Neue &Uuml;berkategorie:<br>
                         <select name="parent_node">
                         <option value="0">root node</option>
-                        <?PHP buildtree(0, 1); ?>
+                        <?PHP build_categories_tree(0, 1); ?>
                         </select>
                         <input type="submit" name="new_parent" value="Umsortieren">
                     </td>

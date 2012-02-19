@@ -72,6 +72,7 @@
             " parts.mininstock,".
             " footprints.name AS 'footprint',".
             " storeloc.name AS 'location',".
+            " storeloc.is_full AS 'location_is_full',".
             " suppliers.name AS 'supplier',".
             " parts.supplierpartnr,".
             " preise.preis,".
@@ -91,7 +92,7 @@
             print "<tr><td><b>Vorhanden:</b></td><td>". smart_unescape( $data['instock']) ."</td></tr>". PHP_EOL;
             print "<tr><td><b>Min. Bestand:</b></td><td>". smart_unescape( $data['mininstock']) ."</td></tr>". PHP_EOL;
             print "<tr><td><b>Footprint:</b></td><td>". smart_unescape( $data['footprint']) ."</td></tr>". PHP_EOL;
-            print "<tr><td><b>Lagerort:</b></td><td>". smart_unescape( $data['location']) ."</td></tr>". PHP_EOL;
+            print "<tr><td><b>Lagerort:</b></td><td>". smart_unescape( $data['location']). (( $data['location_is_full'] == 1 ) ? ' [voll]' : '') ."</td></tr>". PHP_EOL;
             print "<tr><td><b>Lieferant:</b></td><td>". smart_unescape( $data['supplier']) ."</td></tr>". PHP_EOL;
             print "<tr><td><b>Bestell-Nr.:</b></td><td>". smart_unescape( $data['supplierpartnr']) ."</td></tr>". PHP_EOL;
             $preis = str_replace('.', ',', $data['preis']);

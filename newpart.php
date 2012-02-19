@@ -195,35 +195,6 @@
         }
 
 
-    /*
-     * The buildtree function creates a tree for <select> tags.
-     * It recurses trough all locations (and sublocations) and
-     * creates the tree. Deeper levels have more spaces in front.
-     * As the top-most location (it doesn't exist!) has the ID 0,
-     * you have to supply id=0 at the very beginning.
-     */
-    function buildtree ($id, $level)
-    {
-        $query = "SELECT id, name, is_full FROM storeloc WHERE parentnode=". smart_escape( $id) .";";
-        $r = mysql_query( $query);
-        while ( $d = mysql_fetch_row( $r) )
-        {
-            // show only storage which is not full
-            if ( ! $d[2])
-            {
-                print "<option value=\"". smart_unescape( $d[0]) . "\">";
-                for ( $i = 0; $i < $level; $i++) 
-                    print "&nbsp;&nbsp;&nbsp;";
-                print smart_unescape( $d[1]).
-                    "</option>\n";
-
-                // do the same for the next level.
-                buildtree( $d[0], $level + 1);
-            }
-        }
-    }
-
-       
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/strict.dtd">
@@ -280,23 +251,7 @@
             <td>
             <select name="p_footprint">
             <option value="X"></option>
-            <?PHP
-            $query = "SELECT id,name FROM footprints ORDER BY name ASC;";
-            $r = mysql_query ($query);
-            $ncol = mysql_num_rows ($r);
-            for ($i = 0; $i < $ncol; $i++)
-            {
-                    $d = mysql_fetch_row ($r);
-                    print "<option value=\"". smart_unescape($d[0]) ."\"";
-                    //check if a new Footprint should be selected
-                    if(     (strlen($NewFootprint)>0 && strcmp($NewFootprint,smart_unescape($d[1]))==0) ||
-                            (strlen($NewFootprint)==0 && $Footprint == smart_unescape($d[0])))
-                    {
-                            print " selected ";
-                    }
-                    print ">". smart_unescape($d[1]) ."</option>\n";
-            }
-            ?>
+            <?php build_footprint_tree( 0, 1, $NewFootprint); ?>
             </select>
             </td>
             <td>
@@ -311,7 +266,7 @@
             <td>
             <select name="p_storeloc">
             <option value=""></option>;
-            <?PHP buildtree(0, 1); ?>
+            <?php build_location_tree(0, 1, 0, false); ?>
             </select>
             </td>
             <td>

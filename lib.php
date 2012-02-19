@@ -489,4 +489,90 @@
             print "<meta http-equiv=\"content-type\" content=\"text/html; charset=". $http_charset ."\">\n";
         }
     }
+    
+    
+    /*
+     * The buildtree function creates a tree for <select> tags.
+     * It recurses trough all locations (and sublocations) and
+     * creates the tree. Deeper levels have more spaces in front.
+     * As the top-most location (it doesn't exist!) has the ID 0,
+     * you have to supply id=0 at the very beginning.
+     */
+    function build_location_tree( $id, $level, $select, $show_all = true)
+    {
+        $query_all = ( $show_all) ? '' : ' AND is_full=0';
+        $query = "SELECT id, name, is_full FROM storeloc".
+            " WHERE parentnode=". smart_escape( $id).
+            $query_all.
+            " ORDER BY name ASC;";
+        $r = mysql_query( $query) or die( mysql_error());
+        while ( $data = mysql_fetch_assoc( $r) )
+        {
+            $selected = ($select == $data['id']) ? 'selected': '';
+            print "<option ". $selected ." value=\"". smart_unescape( $data['id']) . "\">";
+            for ( $i = 0; $i < $level; $i++) 
+                print "&nbsp;&nbsp;&nbsp;";
+            print smart_unescape( $data['name']).
+                ( $data['is_full'] ? ' [voll]' : '').
+                "</option>\n";
+
+            // do the same for the next level.
+            build_location_tree( $data['id'], $level + 1, $select, $show_all);
+        }
+    }
+
+
+    /*
+     * The buildtree function creates a tree for <select> tags.
+     * It recurses trough all locations (and sublocations) and
+     * creates the tree. Deeper levels have more spaces in front.
+     * As the top-most location (it doesn't exist!) has the ID 0,
+     * you have to supply id=0 at the very beginning.
+     */
+    function build_footprint_tree( $id, $level, $select)
+    {
+        $query  = "SELECT id, name FROM footprints".
+            " WHERE parentnode=". smart_escape( $id).
+            " ORDER BY name ASC;";
+        $result = mysql_query( $query) or die( mysql_error());
+        while ( $data = mysql_fetch_assoc( $result))
+        {
+            $selected = ($select == $data['id']) ? 'selected': '';
+            print "<option ". $selected ." value=\"". smart_unescape( $data['id']) . "\">";
+            for ( $i = 0; $i < $level; $i++) 
+                print "&nbsp;&nbsp;&nbsp;";
+            print smart_unescape( $data['name']).
+                "</option>\n";
+
+            // do the same for the next level.
+            build_footprint_tree( $data['id'], $level + 1, $select);
+        }
+    }
+
+
+    /*
+     * The buildtree function creates a tree for <select> tags.
+     * It recurses trough all categories (and subcategories) and
+     * creates the tree. Deeper levels have more spaces in front.
+     * As the top-most category (it doesn't exist!) has the ID 0,
+     * you have to supply cid=0 at the very beginning.
+     */
+    function build_categories_tree( $cid, $level, $select)
+    {
+        $query = "SELECT id,name FROM categories".
+            " WHERE parentnode=". smart_escape( $cid).
+            " ORDER BY name ASC;";
+        $result = mysql_query( $query) or die( mysql_error());
+        while ( $data = mysql_fetch_assoc( $result))
+        {
+            $selected = ($select == $data['id']) ? 'selected': '';
+            print "<option ". $selected ." value=\"". smart_unescape( $data['id']) . "\">";
+            for ($i = 0; $i < $level; $i++)
+                print "&nbsp;&nbsp;&nbsp;";
+            print smart_unescape( $data['name']) ."</option>\n";
+            // do the same for the next level.
+            build_categories_tree( $data['id'], $level + 1, $select);
+        }
+    }
+
 ?>

@@ -172,30 +172,6 @@
         return( $result);
     }
 
-    /*
-     * The buildtree function creates a tree for <select> tags.
-     * It recurses trough all locations (and sublocations) and
-     * creates the tree. Deeper levels have more spaces in front.
-     * As the top-most location (it doesn't exist!) has the ID 0,
-     * you have to supply id=0 at the very beginning.
-     */
-    function buildtree ($id, $level)
-    {
-        $query = "SELECT id, name, is_full FROM storeloc WHERE parentnode=". smart_escape( $id) .";";
-        $r = mysql_query( $query) or die( mysql_error());
-        while ( $data = mysql_fetch_assoc( $r) )
-        {
-            print "<option value=\"". smart_unescape( $data['id']) . "\">";
-            for ( $i = 0; $i < $level; $i++) 
-                print "&nbsp;&nbsp;&nbsp;";
-            print smart_unescape( $data['name']).
-                ( $data['is_full'] ? ' [voll]' : '').
-                "</option>\n";
-
-            // do the same for the next level.
-            buildtree( $data['id'], $level + 1);
-        }
-    }
 
     /*
      * Don't show the default text when there's a msg.
@@ -240,7 +216,7 @@
                     <td>
                         <select name="parent_node">
                         <option value="0">root node</option>
-                        <?PHP buildtree(0, 1); ?>
+                        <?PHP build_location_tree(0, 1); ?>
                         </select>
                     </td>
                 </tr>
@@ -275,7 +251,7 @@
                     <td rowspan="4">
                         Zu bearbeitenden Lagerort w&auml;hlen:<br>
                         <select name="location_sel" size="15">
-                        <?PHP buildtree(0, 1); ?>
+                        <?PHP build_location_tree(0, 1); ?>
                         </select>
                     </td>
                     <td>
@@ -294,7 +270,7 @@
                         Neuer &uuml;bergeordneter Lagerort:<br>
                         <select name="parent_node">
                         <option value="0">root node</option>
-                        <?PHP buildtree(0, 1); ?>
+                        <?PHP build_location_tree(0, 1); ?>
                         </select>
                         <input type="submit" name="new_parent" value="Umsortieren">
                     </td>

@@ -296,45 +296,22 @@
             print "<tr><td><b>Name:</b></td><td><input name='p_name' size='40' value='". smart_unescape($d[1]) ."'></td></tr>\n";
             print "<tr><td><b>Vorhanden:</b></td><td><input name='p_instock' size='5' onkeypress=\"validateNumber(event)\" value='". smart_unescape($d[2]) ."'></td></tr>\n";
             print "<tr><td><b>Min. Bestand:</b></td><td><input name='p_mininstock' size='5' onkeypress=\"validateNumber(event)\" value='". smart_unescape($d[3]) ."'></td></tr>\n";
-            print "<tr><td><b>Footprint:</b></td><td><select name='p_footprint'>\n";
-            print "<option value=\"\"></option>";   //used to deal parts with no footprint
-            // warning: hax0r style below!
-            $query = "SELECT id,name FROM footprints ORDER BY name ASC";
-            debug_print($query);
-            $r_fp = mysql_query($query);
-            $ncol = mysql_num_rows($r_fp);
-            for ($i = 0; $i < $ncol; $i++)
-            {
-                $d_fp = mysql_fetch_row($r_fp);
-                // the current footprint is the default value!
-                if ($d_fp[0] == $d[4])
-                print "<option selected value=\"". smart_unescape($d_fp[0]) ."\">". smart_unescape($d_fp[1]) ."</option>\n";
-            else
-                print "<option value=\"". smart_unescape($d_fp[0]) ."\">". smart_unescape($d_fp[1]) ."</option>\n";
-            }
-            print "</select></td></tr>";
-            print "<tr><td><b>Lagerort:</b></td><td><select name='p_storeloc'>";
-            print "<option value=\"\"></option>";   //used to deal parts with no footprint
-            // warning: hax0r style below!
-            $query = "SELECT id,name FROM storeloc ORDER BY name ASC";
-            debug_print($query);
-            $r_loc = mysql_query($query);
-            $ncol = mysql_num_rows($r_loc);
-            for ($i = 0; $i < $ncol; $i++)
-            {
-                $d_loc = mysql_fetch_row($r_loc);
-                // the current storage location is the default one!
-                if ($d_loc[0] == $d[5])
-                print "<option selected value=\"". smart_unescape($d_loc[0]) ."\">". smart_unescape($d_loc[1]) ."</option>\n";
-            else
-                print "<option value=\"". smart_unescape($d_loc[0])."\">". smart_unescape($d_loc[1]) ."</option>\n";
-            }
-            print "</select></td></tr>";
-            print "<tr><td><b>Lieferant:</b></td><td><select name='p_supplier'>";
-            print "<option value=\"\"></option>";   //used to deal parts with no footprint
+            ?>
+            <tr><td><b>Footprint:</b></td><td>
+            <select name='p_footprint'>
+            <option value=\"\"></option>
+            <? build_footprint_tree( 0, 1, $d[4]); ?>
+            </select></td></tr>
+            
+            <tr><td><b>Lagerort:</b></td><td><select name='p_storeloc'>
+            <option value=\"\"></option>
+            <? build_location_tree( 0, 1, $d[5], false); ?>
+            </select></td></tr>
+            <tr><td><b>Lieferant:</b></td><td><select name='p_supplier'>
+            <option value=\"\"></option>
+            <?php
             // warning: hax0r style below!
             $query = "SELECT id,name FROM suppliers ORDER BY name ASC";
-            debug_print($query);
             $r_sup = mysql_query($query);
             $ncol = mysql_num_rows($r_sup);
             for ($i = 0; $i < $ncol; $i++)
@@ -355,22 +332,6 @@
             </form>
 
             <?PHP
-            function buildtree ($cid, $level, $select)
-            {
-                $query = "SELECT id,name FROM categories WHERE parentnode=". smart_escape($cid) .";";
-                $r = mysql_query ($query);
-            while ( $d = mysql_fetch_row ($r) )
-            {
-            if ($select == $d[0])
-                print "<option selected value=\"". smart_unescape($d[0]) . "\">";
-            else
-                print "<option value=\"". smart_unescape($d[0]) . "\">";
-            for ($i = 0; $i < $level; $i++) print "&nbsp;&nbsp;&nbsp;";
-            print smart_unescape($d[1]) ."</option>\n";
-            // do the same for the next level.
-            buildtree ($d[0], $level + 1, $select);
-            }
-            }
             // determine category
             $query = "SELECT id_category FROM parts WHERE id=". $_REQUEST["pid"] .";";
             $r = mysql_query($query);
@@ -389,7 +350,7 @@
                 <input type="hidden" name="pid" value="<? print $_REQUEST["pid"]; ?>">
             <td><select name='p_category'>
             <option value="0">root node</option>
-            <? buildtree(0, 1, $cat); ?>
+            <? build_categories_tree( 0, 1, $cat); ?>
             </select>
             </td></tr>
             <tr><td><input type="hidden" name="action" value="edit_category"><input type="submit" value="&Auml;ndern!"></td></tr>
