@@ -211,7 +211,7 @@
             }
             else
             {
-                if (! (check_footprint( $footprint[$key])))
+                if (! (footprint_exists( $footprint[$key])))
                 {
                     $missing_footprint[$key] = $halfok;
                     $add_footprint[]         = $footprint[$key];

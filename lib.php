@@ -143,12 +143,12 @@
             $query = "SELECT parentnode FROM categories WHERE (id='".$visited_category_ids[$cntr]."') AND ".$w.";";
             debug_print ($query."<br>");
             $result = mysql_query($query);
-            if (mysql_num_rows($result) == 0)
+            if ( mysql_num_rows( $result) == 0)
             {
-                return("Error");
+                return( "Error");
             }
             
-            $d = mysql_fetch_row($result);
+            $d = mysql_fetch_row( $result);
 
             $cntr++;
             $visited_category_ids[$cntr] = $d[0];
@@ -184,35 +184,7 @@
         return(0);
     }
 
-
-    /*
-     * parameter: string to search
-     * result: id from database
-     */
-    function footprint_get_id( $footprint)
-    {
-        $query = "SELECT id FROM footprints WHERE name=". smart_escape( $footprint)." LIMIT 1;";
-        $result = mysql_query( $query);
-        $result_array = mysql_fetch_array( $result); 
-        return( $result_array['id']);
-    }
     
-    
-    /*
-     * parameter: string to search
-     * result: true  if exists in database
-     *         flase if not exist
-     */
-    function check_footprint( $footprint)
-    {
-        $query = "SELECT name FROM footprints WHERE name=". smart_escape( $footprint).";";
-        $res   = mysql_query( $query);
-        $data  = mysql_num_rows( $res);
-
-        return( ($data == 1) ? true : false );
-    }
-
-
     
     /*
      * check if a given number is odd 
@@ -452,16 +424,13 @@
             print "<meta http-equiv=\"content-type\" content=\"text/html; charset=". $http_charset ."\">\n";
         }
     }
+
     
-    
-    /*
-     * The buildtree function creates a tree for <select> tags.
-     * It recurses trough all locations (and sublocations) and
-     * creates the tree. Deeper levels have more spaces in front.
-     * As the top-most location (it doesn't exist!) has the ID 0,
-     * you have to supply id=0 at the very beginning.
+
+    /* ***************************************************
+     * footprint querys
      */
-    function build_footprint_tree( $id, $level, $select)
+    function footprint_build_tree( $id, $level, $select = -1)
     {
         $query  = "SELECT id, name FROM footprints".
             " WHERE parentnode=". smart_escape( $id).
@@ -477,17 +446,113 @@
                 "</option>\n";
 
             // do the same for the next level.
-            build_footprint_tree( $data['id'], $level + 1, $select);
+            footprint_build_tree( $data['id'], $level + 1, $select);
         }
+    }
+    
+    function footprint_add( $new, $parent_node = 0)
+    {
+        $query = "INSERT INTO footprints (name, parentnode) VALUES (".
+            smart_escape( $new) .",".
+            smart_escape( $parent_node) .");";
+        mysql_query( $query) or die( mysql_error());
+    }
+
+    function footprint_del( $old)
+    {
+        // catch actual parent node
+        $query  = "SELECT parentnode FROM footprints".
+            " WHERE id=". smart_escape( $old) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_assoc( $result);
+        $parent = $data['parentnode'];
+
+        // delete footprint
+        $query = "DELETE FROM footprints".
+            " WHERE id=". smart_escape( $old).
+            " LIMIT 1;";
+        mysql_query( $query) or die( mysql_error());
+
+        // resort all child footprints to parent node
+        $query = "UPDATE footprints SET parentnode=". $parent ." WHERE parentnode=". smart_escape( $old) ." ;";
+        mysql_query( $query) or die( mysql_error());
+    }
+    
+    function footprint_rename( $id, $new_name)
+    {
+        $query = "UPDATE footprints SET name=". smart_escape( $new_name) ." WHERE id=". smart_escape( $id) ." LIMIT 1";  
+        mysql_query( $query) or die( mysql_error());
+    }
+
+    /*
+     * find all nodes below and given node
+     */
+    function footprint_find_child_nodes( $id)
+    {
+        $ret_val = array();
+        $query   = "SELECT id FROM footprints WHERE parentnode=". smart_escape( $id) .";";
+        $result  = mysql_query( $query);
+        while ( $data = mysql_fetch_assoc( $result))
+        {
+            // do the same for the next level.
+            $ret_val[] = $data['id'];
+            $ret_val   = array_merge( $ret_val, footprint_find_child_nodes( $data['id']));
+        }
+        return( $ret_val);
+    }
+
+    function footprint_new_parent( $id, $new_parent)
+    {
+        // check if new parent is not anywhere in a child node
+        if ( !(in_array( $new_parent, footprint_find_child_nodes( $id))))
+        {
+            /* do transaction */
+            $query = "UPDATE footprints SET parentnode=". smart_escape( $new_parent) ." WHERE id=". smart_escape( $id) ." LIMIT 1;";
+            mysql_query( $query) or die( mysql_error());
+        }
+    }
+
+    function footprint_count()
+    {
+        $query  = "SELECT id FROM footprints;";
+        $result = mysql_query( $query) or die( mysql_error());
+        return( mysql_num_rows( $result));
+    }
+    
+    /*
+     * parameter: string to search
+     * result: id from database
+     */
+    function footprint_get_id( $footprint)
+    {
+        $query  = "SELECT id FROM footprints WHERE name=". smart_escape( $footprint) ." LIMIT 1;";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_array( $result); 
+        return( $data['id']);
+    }
+    
+
+    /*
+     * parameter: string to search
+     * result: true  if exists in database
+     *         flase if not exist
+     */
+    function footprint_exists( $footprint)
+    {
+        $query = "SELECT name FROM footprints WHERE name=". smart_escape( $footprint) .";";
+        $res   = mysql_query( $query);
+        $data  = mysql_num_rows( $res);
+
+        return( ($data == 1) ? true : false );
     }
 
 
     /* ***************************************************
      * supplier querys
      */
-    function supplier_add( $new_supplier)
+    function supplier_add( $new)
     {
-        $query = "INSERT INTO suppliers (name) VALUES (". smart_escape( $new_supplier) .");";
+        $query = "INSERT INTO suppliers (name) VALUES (". smart_escape( $new) .");";
         mysql_query( $query) or die( mysql_error());
     }
 
@@ -503,7 +568,7 @@
         mysql_query( $query) or die( mysql_error());
     }
                             
-    function build_suppliers_list( $select)
+    function suppliers_build_list( $select = -1)
     {
         $query  = "SELECT id, name FROM suppliers ORDER BY name ASC;";
         $result = mysql_query( $query);
@@ -552,7 +617,7 @@
      * As the top-most location (it doesn't exist!) has the ID 0,
      * you have to supply id=0 at the very beginning.
      */
-    function build_location_tree( $id, $level, $select = -1, $show_all = true)
+    function location_tree_build( $id = 0, $level = 1, $select = -1, $show_all = true)
     {
         $query_all = ( $show_all) ? '' : ' AND is_full=0';
         $query = "SELECT id, name, is_full FROM storeloc".
@@ -571,7 +636,7 @@
                 "</option>\n";
 
             // do the same for the next level.
-            build_location_tree( $data['id'], $level + 1, $select, $show_all);
+            location_tree_build( $data['id'], $level + 1, $select, $show_all);
         }
     }
 
@@ -643,18 +708,39 @@
     function category_get_id( $categorie)
     {
         $query = "SELECT id FROM categories WHERE name=". smart_escape( $categorie)." LIMIT 1;";
-        $result = mysql_query( $query);
+        $result = mysql_query( $query) or die( mysql_error());
         $result_array = mysql_fetch_array( $result); 
         return( $result_array['id']);
     }
     
     function category_exists( $categorie)
     {
-        $query = "SELECT name FROM categories WHERE name=". smart_escape( $categorie).";";
-        $res   = mysql_query( $query);
-        $data  = mysql_num_rows( $res);
+        $query  = "SELECT name FROM categories WHERE name=". smart_escape( $categorie) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_num_rows( $result);
 
         return( ($data == 1) ? true : false );
+    }
+    
+    
+    
+    /* ***************************************************
+     * part querys
+     */
+    
+    // determine category
+    function part_get_category_id( $part_id)
+    {
+        $cat    = 0;
+        $query  = "SELECT id_category FROM parts WHERE id=". smart_escape( $part_id) .";";
+        var_dump( $query);
+        $result = mysql_query( $query) or die( mysql_error());
+        if (mysql_num_rows( $result) > 0)
+        {
+            $data = mysql_fetch_assoc( $result);
+            $cat  = $data['id_category'];
+        }
+        return( $cat);
     }
 
 

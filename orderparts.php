@@ -60,7 +60,7 @@
             <?php
                 $selected = (! isset($_REQUEST["sup_id"])) ? 'selected': '';
                 print "<option ". $selected ." value=\"0\">Alle</option>";
-                build_suppliers_list( $_REQUEST["sup_id"]);
+                suppliers_build_list( $_REQUEST["sup_id"]);
             ?>
             </select>
             <input type="submit" value="W&auml;hle Lieferanten!">

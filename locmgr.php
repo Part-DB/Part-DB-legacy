@@ -211,7 +211,7 @@
                     <td>
                         <select name="parent_node">
                         <option value="0">root node</option>
-                        <?PHP build_location_tree(0, 1); ?>
+                        <?PHP location_tree_build(); ?>
                         </select>
                     </td>
                 </tr>
@@ -246,7 +246,7 @@
                     <td rowspan="4">
                         Zu bearbeitenden Lagerort w&auml;hlen:<br>
                         <select name="location_sel" size="15">
-                        <?PHP build_location_tree(0, 1); ?>
+                        <?PHP location_tree_build(); ?>
                         </select>
                     </td>
                     <td>
@@ -265,7 +265,7 @@
                         Neuer &uuml;bergeordneter Lagerort:<br>
                         <select name="parent_node">
                         <option value="0">root node</option>
-                        <?PHP build_location_tree(0, 1); ?>
+                        <?PHP location_tree_build(); ?>
                         </select>
                         <input type="submit" name="new_parent" value="Umsortieren">
                     </td>

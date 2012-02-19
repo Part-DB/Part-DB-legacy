@@ -76,7 +76,7 @@
                 <tr>
                     <td rowspan="2">
                         <select name="supplier_sel" size="8" multiple="multiple">
-                        <?php build_suppliers_list(); ?>
+                        <?php suppliers_build_list(); ?>
                         </select>
                     </td>
                     <td>

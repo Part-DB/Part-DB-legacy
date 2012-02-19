@@ -159,7 +159,7 @@
         }
 
         //add a new distributor if it not exists, and save the name in global var to select while creating drop downbox
-        if( isset( $_REQUEST["AddDistributor"]))
+        if ( isset( $_REQUEST["AddDistributor"]))
         {
             $NewDistributor = $_REQUEST["NewDistributor"];
             if (( $NewDistributor != "Direkteingabe/Neu") && (! supplier_exists( $NewDistributor)))
@@ -169,27 +169,20 @@
         }
 
         //add a new footprint if it not exists, and save the name in global var to select while creating drop downbox
-        if(isset($_REQUEST["AddFootprint"]))
+        if ( isset($_REQUEST["AddFootprint"]))
         {
-                if(strcmp($_REQUEST["NewFootprint"],"Direkteingabe/Neu")!=0)
+            $NewFootprint = $_REQUEST["NewFootprint"];
+            if (( $NewFootprint != "Direkteingabe/Neu") && (! footprint_exists( $NewFootprint)))
                 {
-                        $NewFootprint = $_REQUEST["NewFootprint"];
-                        $query = "SELECT name FROM footprints WHERE name = '" . $_REQUEST["NewFootprint"] . "';";
-                        $r = mysql_query ($query);
-                        $ncol = mysql_num_rows ($r);
-                        if($ncol == 0)
-                        {
-                                $query = "INSERT INTO footprints (name) VALUES (". smart_escape($_REQUEST["NewFootprint"]) .");";
-                                debug_print ($query);
-                                mysql_query ($query);
-                        }
+                    footprint_add( $NewFootprint);
                 }
+            }
         }
 
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Neues Teil</title>
@@ -243,7 +236,7 @@
             <td>
             <select name="p_footprint">
             <option value="X"></option>
-            <?php build_footprint_tree( 0, 1, $NewFootprint); ?>
+            <?php footprint_build_tree( 0, 1, $NewFootprint); ?>
             </select>
             </td>
             <td>
@@ -258,7 +251,7 @@
             <td>
             <select name="p_storeloc">
             <option value=""></option>;
-            <?php build_location_tree(0, 1, 0, false); ?>
+            <?php location_tree_build(0, 1, -1, false); ?>
             </select>
             </td>
             <td>
@@ -273,7 +266,7 @@
             <td>
             <select name="p_supplier">
             <option value="X"></option>
-            <?php build_suppliers_list( supplier_get_id( $NewDistributor)); ?>
+            <?php suppliers_build_list( supplier_get_id( $NewDistributor)); ?>
             </select>
             </td>
             <td>

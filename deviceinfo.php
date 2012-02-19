@@ -82,7 +82,13 @@
     else if ( strcmp ($_REQUEST["action"], "bookparts") == 0 )
     {
         //First check if enough parts are in stock
-        $query = "SELECT parts.instock, part_device.quantity, parts.name FROM parts JOIN part_device ON part_device.id_part = parts.id WHERE part_device.id_device = ".$_REQUEST["deviceid"].";";
+        $query = "SELECT".
+            " parts.instock,".
+            " part_device.quantity,".
+            " parts.name".
+            " FROM parts".
+            " JOIN part_device ON part_device.id_part = parts.id".
+            " WHERE part_device.id_device = ".$_REQUEST["deviceid"].";";
         debug_print ($query);
         $result = mysql_query ($query);
         debug_print ($result);
@@ -182,9 +188,12 @@
         }
 			
 		//Get the parts
-		$query = "SELECT part_device.id_part, part_device.quantity, part_device.mountname ".
-        "FROM part_device ".
-        "WHERE id_device = ".smart_escape($_REQUEST["deviceid"]).";";
+		$query = "SELECT".
+            " part_device.id_part,".
+            " part_device.quantity,".
+            " part_device.mountname".
+            " FROM part_device ".
+            " WHERE id_device = ".smart_escape($_REQUEST["deviceid"]).";";
         $r = mysql_query ($query);
 		
 		//Insert the parts
@@ -273,10 +282,16 @@
         print "<input type=\"hidden\" name=\"action\"  value=\"assignbyselected\"/>";
         print "<table>";
         $kw = '\'%'. mysql_real_escape_string($_REQUEST['newpartname']) .'%\'';
-        $query = "SELECT parts.name, parts.comment, parts.id, footprints.name, parts.instock FROM ".
-        "parts LEFT JOIN footprints ON (footprints.id = parts.id_footprint) ".
-        "WHERE parts.name LIKE ".$kw.
-        " AND parts.id NOT IN(SELECT part_device.id_part FROM part_device WHERE part_device.id_device=".$_REQUEST["deviceid"].");";
+        $query = "SELECT".
+            " parts.name,".
+            " parts.comment,".
+            " parts.id,".
+            " footprints.name,".
+            " parts.instock".
+            " FROM parts".
+            " LEFT JOIN footprints ON (footprints.id = parts.id_footprint) ".
+            " WHERE parts.name LIKE ".$kw.
+            " AND parts.id NOT IN(SELECT part_device.id_part FROM part_device WHERE part_device.id_device=".$_REQUEST["deviceid"].");";
         $result = mysql_query ($query);
         $nParts = mysql_num_rows($result);
         $rowcount = 0;
@@ -379,15 +394,25 @@
 		
 		print "<tr class=\"trcat\"><td></td><td>Teil</td><td>Bestückungs<br>Daten</td><td>Anzahl</td><td>Footprint</td><td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Einzelpreis</td><td>Gesamtpreis</td><td>Entfernen</td></tr>\n";
                 
-        $query = "SELECT parts.name, parts.comment, parts.id, footprints.name, part_device.quantity, parts.instock, storeloc.name, suppliers.name, preise.preis, part_device.mountname ".
-        "FROM parts ".
-        "JOIN (part_device) ".
-        "ON (parts.id = part_device.id_part) ".
-        "LEFT JOIN preise ON (preise.part_id = parts.id) ".
-        "LEFT JOIN footprints ON (footprints.id = parts.id_footprint) ".
-		"LEFT JOIN storeloc ON (storeloc.id = parts.id_storeloc) ".
-		"LEFT JOIN suppliers ON (suppliers.id = parts.id_supplier) ".
-		"WHERE id_device = ".$_REQUEST["deviceid"]." ORDER BY parts.id_category,parts.name ASC;";
+        $query = "SELECT".
+            " parts.name,".
+            " parts.comment,".
+            " parts.id,".
+            " footprints.name,".
+            " part_device.quantity,".
+            " parts.instock,".
+            " storeloc.name,".
+            " suppliers.name,".
+            " preise.preis,".
+            " part_device.mountname".
+            " FROM parts".
+            " JOIN (part_device) ON (parts.id = part_device.id_part)".
+            " LEFT JOIN preise ON (preise.part_id = parts.id)".
+            " LEFT JOIN footprints ON (footprints.id = parts.id_footprint)".
+		    " LEFT JOIN storeloc ON (storeloc.id = parts.id_storeloc)".
+		    " LEFT JOIN suppliers ON (suppliers.id = parts.id_supplier)".
+		    " WHERE id_device = ".$_REQUEST["deviceid"].
+            " ORDER BY parts.id_category, parts.name ASC;";
         debug_print($query);
         $result = mysql_query ($query);
         $sumprice = 0;
@@ -487,7 +512,7 @@
             else
                 print "<option value=\"0\">Alle</option>";
             
-            build_suppliers_list( $_REQUEST["sup_id"]); 
+            suppliers_build_list( $_REQUEST["sup_id"]); 
             print "</select>";
             print "<tr class=\"trcat\"><td>";
             print "Format:</td><td><select name=\"format\">";
@@ -528,20 +553,26 @@
             if ( strcmp ($_REQUEST["action"], "createbom") == 0 )
             {
                 
-                $query = "SELECT parts.supplierpartnr, part_device.quantity, storeloc.name, suppliers.name, parts.name, parts.instock, preise.preis ".
-                "FROM parts ".
-                "JOIN (part_device) ".
-                "ON (parts.id = part_device.id_part) ".
-                "LEFT JOIN preise ON (preise.part_id = parts.id) ".
-                "LEFT JOIN footprints ON (footprints.id = parts.id_footprint) ".
-                "LEFT JOIN storeloc ON (storeloc.id = parts.id_storeloc) ".
-                "LEFT JOIN suppliers ON (suppliers.id = parts.id_supplier) ".
-                "WHERE id_device = ".$_REQUEST["deviceid"];
-                if($_REQUEST["sup_id"]!=0)
-                {
-                    $query = $query . " AND parts.id_supplier = ".$_REQUEST["sup_id"];
-                }
-                $query = $query . " ORDER BY parts.id_category,parts.name ASC;";
+                $query = "SELECT".
+                    " parts.supplierpartnr,".
+                    " part_device.quantity,".
+                    " storeloc.name,".
+                    " suppliers.name,".
+                    " parts.name,".
+                    " parts.instock,".
+                    " preise.preis".
+                    " FROM parts".
+                    " JOIN (part_device) ON (parts.id = part_device.id_part)".
+                    " LEFT JOIN preise ON (preise.part_id = parts.id)".
+                    " LEFT JOIN footprints ON (footprints.id = parts.id_footprint)".
+                    " LEFT JOIN storeloc ON (storeloc.id = parts.id_storeloc)".
+                    " LEFT JOIN suppliers ON (suppliers.id = parts.id_supplier)".
+                    " WHERE id_device = ".$_REQUEST["deviceid"];
+                    if( $_REQUEST["sup_id"] != 0)
+                    {
+                        $query = $query ." AND parts.id_supplier = ". $_REQUEST["sup_id"];
+                    }
+                    $query = $query ." ORDER BY parts.id_category,parts.name ASC;";
                 
                 $result = mysql_query ($query);
                 $nrows = mysql_num_rows($result)+6;

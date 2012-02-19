@@ -34,6 +34,8 @@
 
     // set action to default, if not exists
     $action = ( isset( $_REQUEST["action"]) ? $_REQUEST["action"] : 'default');
+    $pid    = ( isset( $_REQUEST["pid"])    ? $_REQUEST["pid"]    : '-1');
+
 
     if ( strcmp ($action, "edit") == 0 )
     {
@@ -47,7 +49,7 @@
             "id_supplier=".     smart_escape($_REQUEST["p_supplier"])       .",".
             "supplierpartnr=".  smart_escape($_REQUEST["p_supplierpartnr"]) .",".
             "comment=".         smart_escape($_REQUEST["p_comment"])        ." ".
-            "WHERE id=".        smart_escape($_REQUEST["pid"])              ." ".
+            "WHERE id=".        smart_escape($pid)                          ." ".
             "LIMIT 1;";
         debug_print ($query);
         mysql_query ($query);
@@ -55,7 +57,7 @@
     }
     else if ( strcmp ($action, "edit_category") == 0 )
     {
-        $query = "UPDATE parts SET id_category=". smart_escape($_REQUEST["p_category"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
+        $query = "UPDATE parts SET id_category=". smart_escape($_REQUEST["p_category"]) ." WHERE id=". smart_escape( $pid) ." LIMIT 1;";
         debug_print ($query);
         mysql_query ($query);
         print "<script>window.close();</script>\n";
@@ -65,16 +67,10 @@
         // add ds_path if requested (use_ds_path)
         $ds     = ( strcmp( $_REQUEST["use_ds_path"], "true") == 0 ) ? $_REQUEST["ds_path"] : '';
         $ds_url = $_REQUEST["ds_url"];
-        $query = "INSERT INTO datasheets (part_id,datasheeturl) VALUES (". smart_escape($_REQUEST["pid"]) .",". smart_escape($ds.$ds_url) .");";
+        $query = "INSERT INTO datasheets (part_id,datasheeturl) VALUES (". smart_escape( $pid) .",". smart_escape($ds.$ds_url) .");";
         debug_print ($query);
         mysql_query ($query);
 
-        // catch datasheet from fwfnas server
-        $command = "cd /home/eparts/datasheets; /usr/bin/smbclient -U FWFNAS1\\\\eparts%El-Parts //fwfnas1.ad.fz-rossendorf.de/datasheets -c 'get $ds_url; exit' ";
-
-        print "<div class='tdtext tdrowred'>";
-        system( $command, $retval);
-        print "</div>";
     }
     else if ( strcmp ($action, "ds_del") == 0 )
     {
@@ -102,9 +98,9 @@
             $special_dialog = 1;
             print "<html><body class=\"body\"><link rel=\"StyleSheet\" href=\"css/partdb.css\" type=\"text/css\" /><div style=\"text-align:center;\">\n";
             print "<table class=\"table\">\n";
-            print "<tr><td class=\"tdtop\"><div style=\"color:red;\">M&ouml;chten Sie das Bauteil &quot;". lookup_part_name ($_REQUEST["pid"]) ."&quot; wirklich l&ouml;schen? </td></tr>\n";
+            print "<tr><td class=\"tdtop\"><div style=\"color:red;\">M&ouml;chten Sie das Bauteil &quot;". lookup_part_name( $pid) ."&quot; wirklich l&ouml;schen? </td></tr>\n";
             print "<tr><td class=\"tdtext\"><table><tr><td></div>Der L&ouml;schvorgang ist irreversibel!</td></tr>\n";
-            print "<tr><td><form action=\"\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $_REQUEST["pid"] ."\"></td></tr>\n";
+            print "<tr><td><form action=\"\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $pid ."\"></td></tr>\n";
             print "<tr><td><input type=\"hidden\" name=\"action\" value=\"part_del\"><input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen!\"><input type=\"submit\" name=\"del_ok\" value=\"L&ouml;schen!\"></td></tr>\n";
             print "</table></td></tr></table></form></div></body></html>\n";
         }
@@ -112,10 +108,10 @@
         {
             /* the user said it's OK to delete the part ... */
             // no LIMIT here because every part can have multiple datasheets
-            $query = "DELETE FROM datasheets WHERE part_id=". smart_escape($_REQUEST["pid"]) .";";
+            $query = "DELETE FROM datasheets WHERE part_id=". smart_escape( $pid) .";";
             debug_print ($query);
             mysql_query ($query);
-            $query = "DELETE FROM parts WHERE id=". smart_escape($_REQUEST["pid"]). " LIMIT 1";
+            $query = "DELETE FROM parts WHERE id=". smart_escape( $pid). " LIMIT 1";
             debug_print ($query);
             mysql_query ($query);
             $special_dialog = 1;
@@ -131,7 +127,7 @@
          */
         if (isset($_REQUEST["default_img"]))
         {
-            $query = "UPDATE pictures SET pict_masterpict=0 WHERE part_id=". smart_escape($_REQUEST["pid"]) .";";
+            $query = "UPDATE pictures SET pict_masterpict=0 WHERE part_id=". smart_escape( $pid) .";";
             debug_print ($query);
             mysql_query ($query);
             $query = "UPDATE pictures SET pict_masterpict=1 WHERE id=". smart_escape($_REQUEST["default_img"]) .";";
@@ -150,7 +146,7 @@
                 print "<table class=\"table\">";
                 print "<tr><td class=\"tdtop\"><div style=\"color:red\">M&ouml;chten Sie das ausgew&auml;hlte Bild/die ausgew&auml;hlen Bilder wirklich l&ouml;schen?</div></td></tr>";
                 print "<tr><td class=\"tdtext\"><table><tr><td>Der L&ouml;schvorgang ist irreversibel!</td></tr>";
-                print "<tr><td><form action=\"\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $_REQUEST["pid"] ."\"><input type=\"hidden\" name=\"action\" value=\"img_mgr\">";
+                print "<tr><td><form action=\"\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $pid ."\"><input type=\"hidden\" name=\"action\" value=\"img_mgr\">";
                 for ($i = 0; $i < count($img_del_id_array); $i++)
                 {
                     print "<input type=\"hidden\" name=\"del_img[]\" value=\"". $img_del_id_array[$i] ."\">";
@@ -198,7 +194,7 @@
             // unknown file type etc. pp.
             move_uploaded_file($_FILES['uploaded_img']['tmp_name'], "img/".$fname);
             chmod ("img/" .$fname, 0664);
-            $query = "INSERT INTO pictures (part_id,pict_fname) VALUES (". smart_escape($_REQUEST["pid"]) .",". smart_escape($fname) .")";
+            $query = "INSERT INTO pictures (part_id,pict_fname) VALUES (". smart_escape( $pid) .",". smart_escape($fname) .")";
             debug_print($query);
             mysql_query($query);
         }
@@ -210,7 +206,7 @@
          * software, ...) every part only has one price "tag".
          * So we add LIMIT 1 to protect from run-away queries.
          */
-        $query = "DELETE FROM preise WHERE part_id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
+        $query = "DELETE FROM preise WHERE part_id=". smart_escape( $pid) ." LIMIT 1;";
         debug_print($query);
         mysql_query($query);
     }
@@ -227,10 +223,10 @@
         {
             $_REQUEST["price"] = str_replace(',', '.', $_REQUEST["price"]);
             /* Before adding the new price, delete the old one! */
-            $query = "DELETE FROM preise WHERE part_id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
+            $query = "DELETE FROM preise WHERE part_id=". smart_escape( $pid) ." LIMIT 1;";
             debug_print($query);
             mysql_query($query);
-            $query = "INSERT INTO preise (part_id,ma,preis,t) VALUES (". smart_escape($_REQUEST["pid"]) .", 1, ". smart_escape($_REQUEST["price"]) .", NOW());";
+            $query = "INSERT INTO preise (part_id,ma,preis,t) VALUES (". smart_escape( $pid) .", 1, ". smart_escape($_REQUEST["price"]) .", NOW());";
             debug_print($query);
             mysql_query($query);
         }
@@ -239,110 +235,147 @@
     {   
     ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Angaben ver&auml;ndern</title>
     <?php print_http_charset(); ?>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
     <script type="text/javascript" src="popup.php"></script>
-    <script language="JavaScript" type="text/javascript">
-    <!--
-    function validateNumber(evt) 
-    {
-      var theEvent = evt || window.event;
-      var key = theEvent.keyCode || theEvent.which;
-      key = String.fromCharCode( key );
-      var regex = /[0-9]|\./;
-      if( !regex.test(key) ) {
-        theEvent.returnValue = false;
-        if(theEvent.preventDefault) theEvent.preventDefault();
-      }
-    }
-    // -->
-    </script>
-<script type="text/javascript">
-    function switch_ds_path() 
-    {
-        if(document.ds.use_ds_path.checked)
+    <script type="text/javascript">
+
+        function validateNumber(evt) 
         {
-            document.ds.ds_path.disabled=false;
-            document.getElementById('URL').style.display='none';
-            document.getElementById('file').style.display='block';
+            var theEvent = evt || window.event;
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode( key );
+            var regex = /[0-9]|\./;
+            if( !regex.test(key) ) 
+            {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
         }
-        else
+    
+        function switch_ds_path() 
         {
-            document.ds.ds_path.disabled=true;
-            document.getElementById('URL').style.display='block';
-            document.getElementById('file').style.display='none';
+            if(document.ds.use_ds_path.checked)
+            {
+                document.ds.ds_path.disabled=false;
+                document.getElementById('URL').style.display='none';
+                document.getElementById('file').style.display='block';
+            }
+            else
+            {
+                document.ds.ds_path.disabled=true;
+                document.getElementById('URL').style.display='block';
+                document.getElementById('file').style.display='none';
+            }
         }
-    }
-</script> 
+    </script> 
 </head>
 <body class="body" onload="switch_ds_path()">
 
 <div class="outer">
-    <h2>&Auml;ndere Detailinfos von &quot;<?PHP print lookup_part_name ($_REQUEST["pid"]); ?>&quot;</h2>
+    <h2>&Auml;ndere Detailinfos von &quot;<?PHP print lookup_part_name( $pid); ?>&quot;</h2>
     <div class="inner">
+
         <form action="" method="get">
-            <input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
+            <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
             <table>
-                <?PHP  
-                $query = "SELECT parts.id,parts.name,parts.instock,parts.mininstock,parts.id_footprint,parts.id_storeloc,parts.id_supplier AS 'supplier',parts.supplierpartnr,parts.comment FROM parts WHERE parts.id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
-                debug_print ($query);
-                $r = mysql_query ($query);
-            while ( ($d = mysql_fetch_row ($r)) )
-            {
-            print "<tr><td><b>Name:</b></td><td><input name='p_name' size='40' value='". smart_unescape($d[1]) ."'></td></tr>\n";
-            print "<tr><td><b>Vorhanden:</b></td><td><input name='p_instock' size='5' onkeypress=\"validateNumber(event)\" value='". smart_unescape($d[2]) ."'></td></tr>\n";
-            print "<tr><td><b>Min. Bestand:</b></td><td><input name='p_mininstock' size='5' onkeypress=\"validateNumber(event)\" value='". smart_unescape($d[3]) ."'></td></tr>\n";
-            ?>
-            <tr><td><b>Footprint:</b></td><td>
-            <select name='p_footprint'>
-            <option value=\"\"></option>
-            <? build_footprint_tree( 0, 1, $d[4]); ?>
-            </select></td></tr>
-            
-            <tr><td><b>Lagerort:</b></td><td><select name='p_storeloc'>
-            <option value=\"\"></option>
-            <? build_location_tree( 0, 1, $d[5], false); ?>
-            </select></td></tr>
-            <tr><td><b>Lieferant:</b></td><td><select name='p_supplier'>
-            <option value=\"\"></option>
-            <?php build_suppliers_list( $d[6]); ?>
-            </select></td></tr>
-            <tr><td><b>Bestell-Nr.:</b></td><td><input name='p_supplierpartnr' value='<?php print smart_unescape( $d[7]); ?>'></td></tr>
-            <tr><td valign='top'><b>Kommentar:</b></td><td><textarea name='p_comment' rows=2 cols=20><?php print smart_unescape( $d[8]); ?></textarea></td></tr>
-            <?
-            }
-            ?>
-            <tr><td><input type="hidden" name="action" value="edit"><input type="submit" value="&Auml;ndern!"></td></tr>
+                <?php  
+                $query = "SELECT".
+                    " parts.id,".
+                    " parts.name,".
+                    " parts.instock,".
+                    " parts.mininstock,".
+                    " parts.id_footprint,".
+                    " parts.id_storeloc,".
+                    " parts.id_supplier AS 'supplier',".
+                    " parts.supplierpartnr,".
+                    " parts.comment".
+                    " FROM parts".
+                    " WHERE parts.id=". smart_escape( $pid) ." LIMIT 1;";
+                $result = mysql_query ($query);
+                while ( ($data = mysql_fetch_assoc( $result)) )
+                {
+                    ?>
+                    <tr>
+                        <td><b>Name:</b></td>
+                        <td><input name='p_name' size='40' value='<?php print smart_unescape( $data['name']); ?>'></td>
+                    </tr>
+                    <tr>
+                        <td><b>Vorhanden:</b></td>
+                        <td><input name='p_instock' size='5' onkeypress="validateNumber(event)" value='<?php print smart_unescape( $data['instock']); ?>'></td>
+                    </tr>
+                    <tr>
+                        <td><b>Min. Bestand:</b></td>
+                        <td><input name='p_mininstock' size='5' onkeypress="validateNumber(event)" value='<?php print smart_unescape( $data['mininstock']); ?>'></td>
+                    </tr>
+                    <tr>
+                        <td><b>Footprint:</b></td>
+                        <td><select name='p_footprint'>
+                            <option value=""></option>
+                            <?php footprint_build_tree( 0, 1, $data['id_footprint']); ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Lagerort:</b></td>
+                        <td><select name='p_storeloc'>
+                            <option value=""></option>
+                            <?php location_tree_build( 0, 1, $data['id_storeloc'], false); ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Lieferant:</b></td>
+                        <td><select name='p_supplier'>
+                            <option value=""></option>
+                            <?php suppliers_build_list( $data['supplier']); ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td><b>Bestell-Nr.:</b></td>
+                        <td><input name='p_supplierpartnr' value='<?php print smart_unescape( $data['supplierpartnr']); ?>'></td>
+                    </tr>
+                    <tr>
+                        <td valign='top'><b>Kommentar:</b></td>
+                        <td><textarea name='p_comment' rows=2 cols=20><?php print smart_unescape( $data['comment']); ?></textarea></td>
+                    </tr>
+                    <?php
+                }
+                ?>
+                <tr>
+                    <td>
+                        <input type="hidden" name="action" value="edit">
+                        <input type="submit" value="&Auml;ndern!">
+                    </td>
+                </tr>
             </table>
             </form>
 
-            <?PHP
-            // determine category
-            $query = "SELECT id_category FROM parts WHERE id=". $_REQUEST["pid"] .";";
-            $r = mysql_query($query);
-            if (mysql_num_rows($r) > 0)
-            {
-                $d = mysql_fetch_row($r);
-                $cat = $d[0];
-            }
-            else
-            $cat = 0;
-            ?>
             <form  action="" method="get">
             <table>
-            <tr><td><br>
-            <a><b>Kategorie:</b></a><br><br>
-                <input type="hidden" name="pid" value="<? print $_REQUEST["pid"]; ?>">
-            <td><select name='p_category'>
-            <option value="0">root node</option>
-            <? build_categories_tree( 0, 1, $cat); ?>
-            </select>
-            </td></tr>
-            <tr><td><input type="hidden" name="action" value="edit_category"><input type="submit" value="&Auml;ndern!"></td></tr>
+                <tr>
+                    <td>
+                        <b>Kategorie:</b>
+                        <input type="hidden" name="pid" value="<? print $pid; ?>">
+                    </td>
+                    <td>
+                        <select name='p_category'>
+                        <option value="0">root node</option>
+                        <?php build_categories_tree( 0, 1, part_get_category_id( $pid)); ?>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="hidden" name="action" value="edit_category">
+                        <input type="submit" value="&Auml;ndern!">
+                    </td>
+                </tr>
             </table>
         </form>
     </div>
@@ -352,7 +385,7 @@
     <h2>Preisinfos</h2>
     <div class="inner">
         <?PHP
-            $q = "SELECT id,preis,ma FROM preise WHERE part_id=". smart_escape($_REQUEST["pid"]) ." ORDER BY ma DESC;";
+            $q = "SELECT id,preis,ma FROM preise WHERE part_id=". smart_escape( $pid) ." ORDER BY ma DESC;";
             $r = mysql_query($q);
             if (mysql_num_rows($r) > 0)
             {
@@ -373,7 +406,7 @@
                 }
             ?>
                 <form action="" method="get">
-                <input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
+                <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
                 <input type="hidden" name="action" value="price_del"><br>
                 <input type="submit" value="L&ouml;sche Preisinfo!">
                 </form>
@@ -386,7 +419,7 @@
             ?>
             <br>
             <form action="" method="get">
-            <input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
+            <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
             <input type="hidden" name="action" value="price_add">
             <b>Preis:</b> <input type="text" name="price" size="8"><br><br>
             <input type="submit" value="Preiseingabe!">
@@ -401,18 +434,18 @@
         <table>
             <tr><td>
             <?PHP
-            if (has_image($_REQUEST["pid"]))
+            if (has_image( $pid))
             {
                 // there's at least one picture
                 ?>
                 <form action="" method="get">
-                <input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
+                <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
                 <input type="hidden" name="action" value="img_mgr">
                 <tr>
                 <td>&nbsp;</td><td>&quot;Master-Bild&quot;</td><td>L&ouml;schen</td>
                 </tr>
                 <?PHP
-                $query = "SELECT id FROM pictures WHERE ((pictures.pict_type='P') AND (pictures.part_id=". smart_escape($_REQUEST["pid"]) .")) ORDER BY pictures.pict_masterpict DESC, pictures.id ASC;";
+                $query = "SELECT id FROM pictures WHERE ((pictures.pict_type='P') AND (pictures.part_id=". smart_escape( $pid) .")) ORDER BY pictures.pict_masterpict DESC, pictures.id ASC;";
                 $r_img = mysql_query($query);
                 $ncol = mysql_num_rows($r_img);
                 for ($i = 0; $i < $ncol; $i++)
@@ -439,7 +472,7 @@
             <tr><td>
             Hier k&ouml;nnen Sie Bilder hochladen. Im Moment werden JPG, PNG und GIF Dateien unterst&uuml;tzt.
             <form enctype="multipart/form-data" action="" method="post">
-            <input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
+            <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
             <input type="hidden" name="action" value="img_add">
             <input type="file" name="uploaded_img">
             <input type="submit" value="Lade Bild hoch!">
@@ -458,7 +491,7 @@
 
             <?PHP
             // check for existing datasheets
-            $query = "SELECT id,datasheeturl FROM datasheets WHERE part_id=". smart_escape($_REQUEST["pid"]) .";";
+            $query = "SELECT id,datasheeturl FROM datasheets WHERE part_id=". smart_escape( $pid) .";";
             $r = mysql_query($query);
             $ncol = mysql_num_rows($r);
             if ($ncol > 0)
@@ -473,7 +506,7 @@
                 }
             ?>
                 </select>
-                <input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
+                <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
                 <input type="hidden" name="action" value="ds_del">&nbsp;&nbsp;&nbsp;
                 <input type="submit" value="Ausgew&auml;hltes l&ouml;schen!">
                 </form>
@@ -489,7 +522,7 @@
             <input type="text"     name="ds_path"     value="<?php print $datasheet_path; ?>" size="40" <?php print ($use_datasheet_path ? '' : 'disabled'); ?> ><br>
             <div id="URL" style="float:left">URL</div><div id="file" style="float:left">Dateinamen</div>&nbsp;des hinzuf&uuml;genden Datenblattes:<br>
             <input type="text"   name="ds_url" value="" size="40">
-            <input type="hidden" name="pid"    value="<?PHP print $_REQUEST["pid"]; ?>">
+            <input type="hidden" name="pid"    value="<?PHP print $pid; ?>">
             <input type="hidden" name="action" value="ds_add">&nbsp;&nbsp;&nbsp;
             <input type="submit" value="Hinzuf&uuml;gen!">
             </form>
@@ -508,7 +541,7 @@
         <form action="" method="get">
             <table>
             <tr><td>
-            <input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
+            <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
             <input type="hidden" name="action" value="part_del">
             </tr>
             <tr>

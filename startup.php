@@ -74,9 +74,7 @@
     if (! mysql_num_rows($r))
         $missing_storeloc = $bad;
 
-    $q = "SELECT id FROM footprints LIMIT 1;";
-    $r = mysql_query($q);
-    if (! mysql_num_rows($r))
+    if ( footprint_count() == 0)
         $missing_footprint = $bad;
 
     if ( suppliers_count() == 0)
@@ -84,7 +82,7 @@
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Startup</title>
