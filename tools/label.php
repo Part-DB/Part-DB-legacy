@@ -55,7 +55,7 @@
                 <td><img src="label/246-20.png" class="labelbild" alt="">24&mu;F/20V</td> 
             </tr>
             <tr>
-                <td><b>Elkos</b><br>Die Zahlen geben den Wert in &mu;F an,<br>der Buchstabe ist das Trennzeichen,<br> und gibt gleichzeitig die Spannungsfestigkeit an<br>C=6,3V D=10V E=16V F=25V G=40V H=63V</td>
+                <td><b>Elkos</b><br>Die Zahlen geben den Wert in &mu;F an,<br>der Buchstabe ist das Trennzeichen,<br> und gibt gleichzeitig die Spannungsfestigkeit an<br>C=6,3V, D=10V, E=16V, F=25V, G=40V, H=63V</td>
                 <td><img src="label/3F3.png" class="labelbild" alt="">3,3&mu;F/25V</td> 
             </tr>
             <tr>
@@ -79,8 +79,8 @@
         <td class="tdtext">
             <table>         
             <tr>
-            <td><b>DO23-Spule</b></td>
-            <td><img src="label/221K.png" class="labelbild" alt=""></td> 
+            <td><b>DO23-Spule</b><br>Der Buchstabe ist die Tolleranz<br>und gleichzeitig das "," <br>die werte werden in &mu;H angegeben<br>F=1%, G=2%, J=5%, K=10% M=20%</td>
+            <td><img src="label/221K.png" class="labelbild" alt="">221&mu;H/5%</td> 
             </tr>
             </table>
         </td>
