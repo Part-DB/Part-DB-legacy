@@ -126,12 +126,12 @@
     {
         $result = array();
         $query = "SELECT id FROM footprints WHERE parentnode=". smart_escape( $id) .";";
-        $r = mysql_query ($query);
-        while ( $d = mysql_fetch_row ($r) )
+        $r = mysql_query( $query);
+        while ( $data = mysql_fetch_assoc( $r))
         {
             // do the same for the next level.
-            $result[] = $d[0];
-            $result = array_merge( $result, find_child_nodes( $d[0]));
+            $result[] = $data['id'];
+            $result = array_merge( $result, find_child_nodes( $data['id']));
         }
         return( $result);
     }

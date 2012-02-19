@@ -162,12 +162,12 @@
     {
         $result = array();
         $query = "SELECT id FROM storeloc WHERE parentnode=". smart_escape( $id) .";";
-        $r = mysql_query ($query);
-        while ( $d = mysql_fetch_row ($r) )
+        $r = mysql_query( $query);
+        while ( $data = mysql_fetch_assoc( $r))
         {
             // do the same for the next level.
-            $result[] = $d[0];
-            $result = array_merge( $result, find_child_nodes( $d[0]));
+            $result[] = $data['id'];
+            $result = array_merge( $result, find_child_nodes( $data['id']));
         }
         return( $result);
     }
@@ -182,18 +182,18 @@
     function buildtree ($id, $level)
     {
         $query = "SELECT id, name, is_full FROM storeloc WHERE parentnode=". smart_escape( $id) .";";
-        $r = mysql_query( $query);
-        while ( $d = mysql_fetch_row( $r) )
+        $r = mysql_query( $query) or die( mysql_error());
+        while ( $data = mysql_fetch_assoc( $r) )
         {
-            print "<option value=\"". smart_unescape( $d[0]) . "\">";
+            print "<option value=\"". smart_unescape( $data['id']) . "\">";
             for ( $i = 0; $i < $level; $i++) 
                 print "&nbsp;&nbsp;&nbsp;";
-            print smart_unescape( $d[1]).
-                ( $d[2] ? ' [voll]' : '').
+            print smart_unescape( $data['name']).
+                ( $data['is_full'] ? ' [voll]' : '').
                 "</option>\n";
 
             // do the same for the next level.
-            buildtree( $d[0], $level + 1);
+            buildtree( $data['id'], $level + 1);
         }
     }
 
