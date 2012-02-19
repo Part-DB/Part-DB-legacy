@@ -79,7 +79,7 @@
         <td class="tdtext">
             <table>         
             <tr>
-            <td><b>DO23-Spule</b><br>Der Buchstabe ist die Tolleranz<br>und gleichzeitig das "," <br>die werte werden in &mu;H angegeben<br>F=1%, G=2%, J=5%, K=10% M=20%</td>
+            <td><b>DO23-Spule</b><br>Der Buchstabe ist die Toleranz<br>und gleichzeitig das "," <br>die Werte werden in &mu;H angegeben<br>F=1%, G=2%, J=5%, K=10% M=20%</td>
             <td><img src="label/221K.png" class="labelbild" alt="">221&mu;H/5%</td> 
             </tr>
             </table>
