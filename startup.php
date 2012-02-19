@@ -154,23 +154,23 @@ print $banner;
             <input type="image" src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" name="submit" align="right" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
             <img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" align="right">
         </form>
-        Part-DB, Copyright (C) 2005 of <b>Christoph Lechner</b>. Part-DB is published under the <b>GPL</b>,
-        so it comes with <b>ABSOLUTELY NO WARRANTY</b>, click <a href="readme/gpl.txt">here</a> for details.
+        Part-DB, Copyright &copy; 2005 of <strong>Christoph Lechner</strong>. Part-DB is published under the <strong>GPL</strong>,
+        so it comes with <strong>ABSOLUTELY NO WARRANTY</strong>, click <a href="readme/gpl.txt">here</a> for details.
         This is free software, and you are welcome to redistribute it under certain conditions.
         Click <a href="readme/gpl.txt">here</a> for details.<br>
         <br> 
         The first Author's Homepage <a href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
-        Author since 2009 by <b>K.Jacobs</b> - <a href="http://www.grautier.com/">http://grautier.com</a><br>
+        Author since 2009 by <strong>K.Jacobs</strong> - <a href="http://www.grautier.com/">http://grautier.com</a><br>
         <br> 
         Forum: F&uuml;r Fragen rund um die Part-DB gibt es einen Thread auf <a href="http://www.mikrocontroller.net/topic/135284">mikrocontroller.net</a><br>
         Wiki: Hilfe zur Installation gibt es im <a href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Wiki</a><br>
         <br>
-        <b>ajfrenzel</b> - Committer/Bugfix<br>
-        <b>tgrziwa</b> - Committer/Bugfix<br>
-        <b>d.lipschinski</b> - Committer/Bugfix/Neue Funktionen<br>
-        <b>Michael Buesch</b> - Reichelt/Pollin Preissuch Script<br>
-        <b>bubbles.red</b> - Committer/Bugfix/Neue Funktionen<br>
-        <b>THX @ Matthias Wei&szlig;er</b> f&uuml;r EAGLE3D und dem gro&szlig;artigen Bauteile Renderscript (eagle3d.py) 
+        <strong>ajfrenzel</strong> - Committer/Bugfix<br>
+        <strong>tgrziwa</strong> - Committer/Bugfix<br>
+        <strong>d.lipschinski</strong> - Committer/Bugfix/Neue Funktionen<br>
+        <strong>Michael Buesch</strong> - Reichelt/Pollin Preissuch Script<br>
+        <strong>bubbles.red</strong> - Committer/Bugfix/Neue Funktionen<br>
+        <strong>THX @ Matthias Wei&szlig;er</strong> f&uuml;r EAGLE3D und dem gro&szlig;artigen Bauteile Renderscript (eagle3d.py) 
     </div>
 </div>
 

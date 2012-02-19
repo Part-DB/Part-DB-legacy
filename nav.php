@@ -81,7 +81,7 @@
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Navigation</title>
@@ -93,24 +93,23 @@
 
 <div class="outer">
     <h2>Suche
-        <div id="homelink">
+        <span id="homelink">
         <a href="startup.php" target="content_frame"><img src="img/partdb/partdb.png" alt="Home"></a>
-        </div>
+        </span>
     </h2>
     <div class="inner">
         <form action="search.php" method="get" target="content_frame">
             <input type="text" name="keyword" size="17" maxlength="20">
             <input type="submit" name="s" value="Los!"><br>
-            <table>
-            <tr><td valign="top">
-            <input type="checkbox" name="search_nam" value="true" checked>Name<br>
-            <input type="checkbox" name="search_com" value="true" checked>Kommentar<br>
-            <input type="checkbox" name="search_fpr" value="true" checked>Footprint<br>
-            </td><td valign="top">
-            <input type="checkbox" name="search_loc" value="true" checked>Lagerort<br>
-            <input type="checkbox" name="search_sup" value="true"        >Lieferant<br>
-            <input type="checkbox" name="search_snr" value="true"        >Bestellnr.<br>
-            </td></tr></table>
+            <div class="search_selection">
+                <p><input type="checkbox" name="search_nam" value="true" checked>Name</p>
+                <p><input type="checkbox" name="search_loc" value="true" checked>Lagerort</p>
+                <p><input type="checkbox" name="search_com" value="true" checked>Kommentar</p>
+                <p><input type="checkbox" name="search_sup" value="true"        >Lieferant</p>
+                <p><input type="checkbox" name="search_fpr" value="true" checked>Footprint</p>
+                <p><input type="checkbox" name="search_snr" value="true"        >Bestellnr.</p>
+            </div>
+            <div class="clear"></div>
         </form>
     </div>
 </div>

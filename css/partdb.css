@@ -1,6 +1,8 @@
 /* allgemeine Gestaltung */
+
 .body {
 	background-color: #cdcdcd;
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 }
 
 .outer {
@@ -11,7 +13,6 @@
 	border-bottom: 1px solid #000000;
 	border-left:   1px solid #000000;
 	padding:   11px;
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 }
 
@@ -20,6 +21,7 @@
     padding: 0px;
 	font-size: 70px;
 	text-align: center;
+    text-shadow: grey 2px 2px 4px;
 }
 
 .outer h2 {
@@ -54,7 +56,7 @@
 .table {
 	border: none;
 	width: 100%;
-	padding:10px;
+	padding: 10px;
 	border-bottom: 1px solid #000000;
 	border-left: 1px solid #000000;
 	background-color: #ffffff;
@@ -64,7 +66,6 @@
 	width: 100%;
 }
 .tdtop {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 15px;
 	font-weight: bold;
 	border: none;
@@ -74,7 +75,6 @@
 	background-color: #BABABA;
 }
 .tdtext {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	border: none;
 	width: 80%;
 	font-size: 12px;
@@ -84,7 +84,6 @@
 	border-right: 1px solid #d0d0d0;
 }
 .tdtextsmall {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	border: none;
 	width: 80%;
 	font-size: small;
@@ -109,52 +108,42 @@
 	background-color: #d0d0d0;
 }
 .trcat {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	font-weight: bold;
 }
 .tdrow0 {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
     position: relative;
     display: block;
 }
 .tdrowred {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	color: #ff0000;
 }
 .tdrow1 {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	text-align: left;
 }
 .tdrow2 {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	text-align: right;
 }
 .tdrow3 {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	text-align: right;
 }
 .tdrow4 {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 	text-align: right;
 }
 .tdrow5 {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
 }
 .tdrow6 {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
     text-align: center;
 }
 .tdrow7 {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 12px;
     text-align: center;
 }
@@ -231,7 +220,6 @@ a:active {
 
 .footprint p
 {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
     text-align: center;
     font-size: smaller;
     text-indent: 0;
@@ -249,13 +237,30 @@ a:active {
 #homelink img
 {
     height: 15px;
-    vertical-align: middle;
+}
+
+.search_selection
+{
+    width: 18em;
+    padding: 2px;
+}
+.search_selection p
+{
+    margin: 0px;
+    width: 9em;
+    float: left;
+}
+
+.clear 
+{
+    height: 1px;
+    clear: both;
+    overflow: hidden;
 }
 
 
 /* Nav Menue */
 .dtree {
-	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	padding:0px;
 	border: 0px;
 	font-size: 12px;
