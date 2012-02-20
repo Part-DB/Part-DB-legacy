@@ -724,6 +724,14 @@
             }
         }
     }
+    
+    function category_add( $new, $parent_node = 0)
+    {
+        $query = "INSERT INTO categories (name, parentnode) VALUES (".
+            smart_escape( $new) .",".
+            smart_escape( $parent_node) .");";
+        mysql_query( $query) or die( mysql_error());
+    }
 
     function category_del( $old)
     {
@@ -746,6 +754,12 @@
         mysql_query( $query) or die( mysql_error());
     }
     
+    function category_rename( $id, $new_name)
+    {
+        $query = "UPDATE categories SET name=". smart_escape( $new_name) ." WHERE id=". smart_escape( $id) ." LIMIT 1";  
+        mysql_query( $query) or die( mysql_error());
+    }
+
     /*
      * find all nodes below and given node
      */
@@ -776,6 +790,35 @@
             }
         }
         return( $ret_val);
+    }
+
+    /*
+     * find all nodes below and given node
+     */
+    function category_find_child_nodes( $id)
+    {
+        $ret_val = array();
+        $query   = "SELECT id FROM categories".
+            " WHERE parentnode=". smart_escape( $id) .";";
+        $result = mysql_query( $query);
+        while ( $data = mysql_fetch_assoc( $result))
+        {
+            // do the same for the next level.
+            $ret_val[] = $data['id'];
+            $ret_val = array_merge( $ret_val, category_find_child_nodes( $data['id']));
+        }
+        return( $ret_val);
+    }
+
+    function category_new_parent( $id, $new_parent)
+    {
+        // check if new parent is not anywhere in a child node
+        if ( !(in_array( $new_parent, category_find_child_nodes( $id))))
+        {
+            /* do transaction */
+            $query = "UPDATE categories SET parentnode=". smart_escape( $new_parent) ." WHERE id=". smart_escape( $id) ." LIMIT 1;";
+            mysql_query( $query) or die( mysql_error());
+        }
     }
 
     function categories_count()
@@ -826,6 +869,15 @@
     function parts_count()
     {
         $query  = "SELECT count(*) as count FROM parts;";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_array( $result);
+        return( $data['count']);
+    }
+
+    function parts_count_on_category( $cid)
+    {
+        $query  = "SELECT count(*) as count FROM parts".
+            " WHERE id_category=". smart_escape( $cid) .";";
         $result = mysql_query( $query) or die( mysql_error());
         $data   = mysql_fetch_array( $result);
         return( $data['count']);

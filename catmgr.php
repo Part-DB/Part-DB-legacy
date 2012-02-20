@@ -50,9 +50,7 @@
 
     if ( $action == 'add')
     {
-        $query = "INSERT INTO categories (name, parentnode) VALUES (". smart_escape($_REQUEST["new_category"]) .",". smart_escape($_REQUEST["parent_node"]) .");";
-        debug_print($query);
-        mysql_query ($query);
+        category_add( $_REQUEST["new_category"], $_REQUEST["parent_node"]);
 		$refreshnav = true;
     }
     
@@ -67,11 +65,7 @@
         if ((! isset($_REQUEST["del_ok"])) && (! isset($_REQUEST["del_nok"])) )
         {
             $special_dialog = true;
-            $query = "SELECT COUNT(*) FROM parts WHERE id_category=". smart_escape($_REQUEST["catsel"]) .";";
-            debug_print($query);
-            $r = mysql_query($query);
-            $d = mysql_fetch_row($r); // COUNT(*) queries always give a result!
-            if ($d[0] != 0)
+            if ( parts_count_on_category( $_REQUEST["catsel"]) != 0)
             {
                 print "<html><body>".
                     "<div style=\"text-align:center;\">".
@@ -109,9 +103,7 @@
     if ( $action == 'rename')
     {
         /* rename */
-        $query = "UPDATE categories SET name=". smart_escape($_REQUEST["new_name"]) ." WHERE id=". smart_escape($_REQUEST["catsel"]) ." LIMIT 1";
-        debug_print($query);
-        mysql_query($query);
+        category_rename( $_REQUEST["catsel"], $_REQUEST["new_name"]);
 		$refreshnav = true;
     }
    
@@ -119,37 +111,8 @@
     if ( $action == 'new_parent')
     {
         /* resort */
-        // check if new parent is anywhere in a child node
-        if ( ! (in_array( $_REQUEST["parent_node"], find_child_nodes( $_REQUEST["catsel"]))))
-        {
-            /* do transaction */
-            $query = "UPDATE categories SET parentnode=". smart_escape($_REQUEST["parent_node"]) ." WHERE id=". smart_escape($_REQUEST["catsel"]) ." LIMIT 1";
-            debug_print($query);
-            mysql_query($query);
-			$refreshnav = true;
-        }
-        else
-        {
-            /* transaction not allowed, would destroy tree structure */
-        }
-    }
-
-    /*
-     * find all nodes below and given node
-     */
-    function find_child_nodes($cid)
-    {
-        $result = array();
-        $query = "SELECT id FROM categories".
-            " WHERE parentnode=". smart_escape($cid) .";";
-        $r = mysql_query ($query);
-        while ( $d = mysql_fetch_row ($r) )
-        {
-            // do the same for the next level.
-            $result[] = $d[0];
-            $result = array_merge( $result, find_child_nodes( $d[0]));
-        }
-        return( $result);
+        category_new_parent( $_REQUEST["catsel"], $_REQUEST["parent_node"]);
+        $refreshnav = true;
     }
 
     if ($special_dialog == false)
