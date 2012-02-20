@@ -667,9 +667,9 @@
 
     function location_exists( $storeloc)
     {
-        $query = "SELECT name FROM storeloc WHERE name=". smart_escape( $storeloc).";";
-        $res   = mysql_query( $query);
-        $data  = mysql_num_rows( $res);
+        $query  = "SELECT name FROM storeloc WHERE name=". smart_escape( $storeloc).";";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_num_rows( $result);
 
         return( ($data == 1) ? true : false );
     }

@@ -20,24 +20,22 @@
 
         $Id: newpart.php,v 1.5 2006/03/06 23:05:14 cl Exp $
 
-        04/03/06:
-                Added escape/unescape calls
 */
         include ("lib.php");
         partdb_init();
        
-        $NewStorage     = "";
-        $NewDistributor = "";
-        $NewFootprint   = "";
        
         //global params to
-        $Footprint   = $_REQUEST["p_footprint"];
-        $Storage     = $_REQUEST["p_storeloc"];
-        $Distributor = $_REQUEST["p_supplier"];
-        $p_name      = $_REQUEST["p_name"];
+        $NewFootprint   = ( isset( $_REQUEST['AddFootprint']))   ? $_REQUEST["NewFootprint"]   : '';
+        $NewStorage     = ( isset( $_REQUEST['AddStorage']))     ? $_REQUEST["NewStorage"]     : '';
+        $NewDistributor = ( isset( $_REQUEST['AddDistributor'])) ? $_REQUEST["NewDistributor"] : '';
+        $Footprint      = ( isset( $_REQUEST['NewFootprint']))   ? $_REQUEST["NewFootprint"]   : $_REQUEST["p_footprint"];
+        $Storage        = ( isset( $_REQUEST['NewStorage']))     ? $_REQUEST["NewStorage"]     : $_REQUEST["p_storeloc"];
+        $Distributor    = ( isset( $_REQUEST['NewDistributor'])) ? $_REQUEST["NewDistributor"] : $_REQUEST["p_supplier"];
+        $p_name         = $_REQUEST["p_name"];
 
 
-        if(isset($_REQUEST["AddPart"]))
+        if ( isset( $_REQUEST["AddPart"]))
         {
                 /* some sanity checks */
 				//Removed check for testing
@@ -141,27 +139,17 @@
         }
 
         //add a new storage if it not exists, and save the name in global var to select while creating drop downbox
-        if(isset($_REQUEST["AddStorage"]))
+        if ( isset( $_REQUEST["AddStorage"]))
         {
-                if(strcmp($_REQUEST["NewStorage"],"Direkteingabe/Neu")!=0)
-                {
-                        $NewStorage = $_REQUEST["NewStorage"];
-                        $query = "SELECT name FROM storeloc WHERE name = '" . $_REQUEST["NewStorage"] . "';";
-                        $r = mysql_query ($query);
-                        $ncol = mysql_num_rows ($r);
-                        if($ncol == 0)
-                        {
-                                $query = "INSERT INTO storeloc (name) VALUES (". smart_escape($_REQUEST["NewStorage"]) .");";
-                                debug_print ($query);
-                                mysql_query ($query);
-                        }
-                }
+            if (( $NewStorage != "Direkteingabe/Neu") && (! location_exists( $NewStorage)))
+            {
+                location_add( $_REQUEST["NewStorage"], 0);
+            }
         }
 
         //add a new distributor if it not exists, and save the name in global var to select while creating drop downbox
         if ( isset( $_REQUEST["AddDistributor"]))
         {
-            $NewDistributor = $_REQUEST["NewDistributor"];
             if (( $NewDistributor != "Direkteingabe/Neu") && (! supplier_exists( $NewDistributor)))
             {
                 supplier_add( $NewDistributor);
@@ -171,11 +159,9 @@
         //add a new footprint if it not exists, and save the name in global var to select while creating drop downbox
         if ( isset($_REQUEST["AddFootprint"]))
         {
-            $NewFootprint = $_REQUEST["NewFootprint"];
             if (( $NewFootprint != "Direkteingabe/Neu") && (! footprint_exists( $NewFootprint)))
-                {
-                    footprint_add( $NewFootprint);
-                }
+            {
+                footprint_add( $NewFootprint);
             }
         }
 
@@ -191,25 +177,24 @@
     <script type="text/javascript" src="util-functions.js"></script>
     <script type="text/javascript" src="clear-default-text.js"></script>       
 	<script language="JavaScript" type="text/javascript">
-	<!--
-	function validateNumber(evt) 
-	{
-	  var theEvent = evt || window.event;
-	  var key = theEvent.keyCode || theEvent.which;
-	  key = String.fromCharCode( key );
-	  var regex = /[0-9]|\./;
-	  if( !regex.test(key) ) {
-		theEvent.returnValue = false;
-		if(theEvent.preventDefault) theEvent.preventDefault();
-	  }
-	}
-	// -->
+        function validateNumber(evt) 
+        {
+            var theEvent = evt || window.event;
+            var key = theEvent.keyCode || theEvent.which;
+            key = String.fromCharCode( key );
+            var regex = /[0-9]|\./;
+            if( !regex.test(key) ) 
+            {
+                theEvent.returnValue = false;
+                if(theEvent.preventDefault) theEvent.preventDefault();
+            }
+        }
 	</script> 
 </head>
 <body class="body">
 
 <div class="outer">
-    <h2>Neues Teil in der Kategorie &quot;<?PHP print lookup_category_name ($_REQUEST["cid"]); ?>&quot;</h2>
+    <h2>Neues Teil in der Kategorie &quot;<?php print lookup_category_name( $_REQUEST["cid"]); ?>&quot;</h2>
     <div class="inner">
         <form enctype="multipart/form-data" action="" method="post">
             <input type="hidden" name="cid" value="<?PHP print $_REQUEST["cid"]; ?>"/>
@@ -236,7 +221,7 @@
             <td>
             <select name="p_footprint">
             <option value="X"></option>
-            <?php footprint_build_tree( 0, 1, $NewFootprint); ?>
+            <?php footprint_build_tree( 0, 1, footprint_get_id( $NewFootprint)); ?>
             </select>
             </td>
             <td>
@@ -251,7 +236,7 @@
             <td>
             <select name="p_storeloc">
             <option value=""></option>;
-            <?php location_tree_build(0, 1, -1, false); ?>
+            <?php location_tree_build(0, 1, location_get_id( $NewStorage), false); ?>
             </select>
             </td>
             <td>
