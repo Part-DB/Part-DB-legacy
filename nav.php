@@ -27,6 +27,7 @@
 
     function build_devices_navtree( $pid)
     {    
+		
         $query  = "SELECT id, name FROM devices".
             " WHERE parentnode=". smart_escape( $pid).
             " ORDER BY devices.name ASC;";
@@ -41,7 +42,7 @@
                 $count_row    = mysql_fetch_array( $count_result);
                 $count        = $count_row['count'];
                 
-                $target_url = ($count > 0) ? "','device.php?deviceid=" : "','deviceinfo.php?deviceid=";
+                $target_url = "','deviceinfo.php?deviceid=";
                 print "dev_tree.add(". smart_unescape( $d['id']) .",". 
                     smart_unescape( $pid) .",'".
                     smart_unescape( $d['name']).
@@ -114,8 +115,9 @@
         <div class="dtree">
             <script type="text/javascript">
                 dev_tree = new dTree('dev_tree');
-                dev_tree.add(0,-1,'');
-                <?php build_devices_navtree( 0); ?>
+                dev_tree.add(0,-1,'Übersicht','device.php','','content_frame');
+                <?php 
+				build_devices_navtree( 0); ?>
                 document.write( dev_tree);
             </script>
             <br>
