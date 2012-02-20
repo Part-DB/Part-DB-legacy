@@ -70,7 +70,7 @@
 
 
 <div class="outer">
-    <h2>Zu bestellende Teile &quot;<?PHP print lookup_category_name ($_REQUEST["cid"]); ?>&quot;</h2>
+    <h2>Zu bestellende Teile &quot;<?PHP print category_get_name( $_REQUEST["cid"]); ?>&quot;</h2>
     <div class="inner">
         <table>
         <?PHP

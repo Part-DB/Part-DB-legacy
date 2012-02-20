@@ -59,16 +59,8 @@
         <br>
 
         <b>Anzahl der verschiedenen Bauteile:</b>
-        <?PHP
-        $i = 0;
-        $query = "SELECT name FROM parts;";
-        $r = mysql_query ($query);
-        while ( $d = mysql_fetch_row ($r) )
-        {
-          $i++;
-        }
-        print $i;
-        ?><br>
+        <?php print parts_count(); ?>
+        <br>
 
         <b>Anzahl der vorhandenen Bauteile:</b>
         <?PHP
@@ -80,31 +72,15 @@
         <br>
 
         <b>Anzahl der Kategorien:</b>
-        <?PHP
-        $i = 0;
-        $query = "SELECT name FROM categories;";
-        $r = mysql_query ($query);
-        while ( $d = mysql_fetch_row ($r) )
-        {
-          $i++;
-        }
-        print $i;
-        ?><br>
+        <?php print categories_count(); ?>
+        <br>
 
 <?php
     if (! $disable_devices) {
 ?>
         <b>Anzahl der Baugruppen:</b>
-        <?PHP
-        $i = 0;
-        $query = "SELECT name FROM devices;";
-        $r = mysql_query ($query);
-        while ( $d = mysql_fetch_row ($r) )
-        {
-          $i++;
-        }
-        print $i;
-        ?><br>
+        <?php print devices_count(); ?>
+        <br>
 <?php
     }
 ?>

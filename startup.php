@@ -61,17 +61,13 @@
     $missing_category  = $good;
     $missing_supplier  = $good;
 
-    $q = "SELECT id FROM categories LIMIT 1;";
-    $r = mysql_query($q);
-    if (! mysql_num_rows($r))
+    if ( categories_count() == 0)
     {
         $display_warning  = true;
         $missing_category = $bad;
     }
 
-    $q = "SELECT id FROM storeloc LIMIT 1;";
-    $r = mysql_query($q) or die ("MySQL-Fehler: " . mysql_error());
-    if (! mysql_num_rows($r))
+    if ( location_count() == 0)
         $missing_storeloc = $bad;
 
     if ( footprint_count() == 0)

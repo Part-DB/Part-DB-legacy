@@ -41,20 +41,6 @@
     }
     
 
-    function findallsubcategories( $cid)
-    {
-        $rv = "id_category=". smart_escape( $cid);
-        
-        $query = "SELECT id FROM categories WHERE parentnode=". smart_escape( $cid) .";";
-        $result = mysql_query( $query);
-        while ( $d = mysql_fetch_assoc( $result))
-        {
-            $rv = $rv ." OR ". findallsubcategories( smart_unescape( $d['id']));
-        }
-
-        return( $rv);
-    }
-
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/strict.dtd">
@@ -98,16 +84,13 @@
 
 
 <div class="outer">
-    <h2>Anzeige der Kategorie &quot;<?PHP print lookup_category_name( $cid); ?>&quot;</h2>
+    <h2>Anzeige der Kategorie &quot;<?PHP print category_get_name( $cid); ?>&quot;</h2>
     <div class="inner">
         <table>
         <?PHP
         
         // check if with or without subcategories
-        if (! isset($_REQUEST["nosubcat"]) )
-            $catclause = findallsubcategories( $cid);
-        else
-            $catclause = "id_category=". $cid;
+        $catclause = categories_or_child_nodes( $cid, (! isset( $_REQUEST['nosubcat'])));
 
         if ( (strcmp ($_REQUEST["type"], "index") == 0))
         {

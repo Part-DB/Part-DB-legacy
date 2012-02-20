@@ -366,7 +366,7 @@
                     <td>
                         <select name='p_category'>
                         <option value="0">root node</option>
-                        <?php build_categories_tree( 0, 1, part_get_category_id( $pid)); ?>
+                        <?php categories_build_tree( 0, 1, part_get_category_id( $pid)); ?>
                         </select>
                     </td>
                 </tr>

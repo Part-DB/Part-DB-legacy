@@ -194,7 +194,7 @@
 <body class="body">
 
 <div class="outer">
-    <h2>Neues Teil in der Kategorie &quot;<?php print lookup_category_name( $_REQUEST["cid"]); ?>&quot;</h2>
+    <h2>Neues Teil in der Kategorie &quot;<?php print category_get_name( $_REQUEST["cid"]); ?>&quot;</h2>
     <div class="inner">
         <form enctype="multipart/form-data" action="" method="post">
             <input type="hidden" name="cid" value="<?PHP print $_REQUEST["cid"]; ?>"/>

@@ -25,31 +25,6 @@
     partdb_init();
 
 
-    /* This recursive procedure builds the tree of categories.
-       There's nothing special about it, so no more comments.
-       Warning: Infinite recursion can occur when the DB is
-       corrupted! But normally everything should be fine. */
-    function build_categories_navtree( $pid)
-    {
-        $query  = "SELECT id,name FROM categories".
-            " WHERE parentnode=". smart_escape( $pid).
-            " ORDER BY categories.name ASC;";
-        if ( $result = mysql_query( $query))
-        {
-            while ( $d = mysql_fetch_assoc( $result))
-            {
-                print "cat_tree.add(". smart_unescape( $d['id']) .",".
-                    smart_unescape( $pid) .",'".
-                    smart_unescape( $d['name']).
-                    "','showparts.php?cid=". 
-                    smart_unescape( $d['id']).
-                    "&type=index\"','','content_frame');\n";
-                build_categories_navtree( $d['id']);
-            }
-        }
-    }
-
-
     function build_devices_navtree( $pid)
     {    
         $query  = "SELECT id, name FROM devices".
@@ -121,7 +96,7 @@
             <script type="text/javascript">
                 cat_tree = new dTree('cat_tree');
                 cat_tree.add(0,-1,'');
-                <?PHP build_categories_navtree( 0); ?>
+                <?php categories_build_navtree(); ?>
                 document.write(cat_tree);
             </script>
             <br>

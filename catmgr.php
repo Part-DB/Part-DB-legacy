@@ -86,7 +86,7 @@
             {
                 print "<html><body>".
                     "<div style=\"text-align:center;\">".
-                    "<div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie die Kategorie &quot;". lookup_category_name($_REQUEST["catsel"]) ."&quot; wirklich l&ouml;schen?</div>".
+                    "<div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie die Kategorie &quot;". category_get_name($_REQUEST["catsel"]) ."&quot; wirklich l&ouml;schen?</div>".
                     "Der L&ouml;schvorgang ist irreversibel!".
                     "<form action=\"\" method=\"post\">".
                     "<input type=\"hidden\" name=\"catsel\"  value=\"". $_REQUEST["catsel"] ."\">".
@@ -100,13 +100,7 @@
         else if (isset($_REQUEST["del_ok"]))
         {
             // the user said it's OK to delete the category
-            $query = "DELETE FROM categories WHERE id=". smart_escape($_REQUEST["catsel"]) ." LIMIT 1;";
-            debug_print ($query);
-            mysql_query ($query);
-            // resort all child categories to root node
-            $query = "UPDATE categories SET parentnode=0 WHERE parentnode=". smart_escape($_REQUEST["catsel"]) ." ;";
-            debug_print ($query);
-            mysql_query ($query);
+            category_del( $_REQUEST["catsel"]);
 			$refreshnav = true;
         }
     }
@@ -192,7 +186,7 @@
                     <td>
                         <select name="parent_node">
                         <option value="0">root node</option>
-                        <?PHP build_categories_tree(0, 1); ?>
+                        <?php categories_build_tree(); ?>
                         </select>
                     </td>
                 </tr>
@@ -225,7 +219,7 @@
                 <tr>
                     <td rowspan="3">
                         <select name="catsel" size="15">
-                        <?PHP build_categories_tree(0, 1); ?>
+                        <?php categories_build_tree(); ?>
                         </select>
                     </td>
                     <td>
@@ -244,7 +238,7 @@
                         Neue &Uuml;berkategorie:<br>
                         <select name="parent_node">
                         <option value="0">root node</option>
-                        <?PHP build_categories_tree(0, 1); ?>
+                        <?php categories_build_tree(); ?>
                         </select>
                         <input type="submit" name="new_parent" value="Umsortieren">
                     </td>

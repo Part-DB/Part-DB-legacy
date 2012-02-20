@@ -82,21 +82,6 @@
     }
 
 
-    /*
-     * Given the category id this helper-function does a lookup
-     * and returns the name of the category. At the moment we
-     * assume that the category id is valid. FIXME
-     */
-    function lookup_category_name ($id)
-    {
-        $query = "SELECT name FROM categories WHERE id=". smart_escape($id) .";";
-        debug_print($query);
-        $r = mysql_query ($query);
-        $d = mysql_fetch_row ($r);
-
-        return (($id == 0) ? "Alles" : smart_unescape($d[0]));
-    }
-
     function lookup_part_name ($id)
     {
         $query = "SELECT name FROM parts WHERE id=". smart_escape($id) .";";
@@ -158,9 +143,9 @@
          * string of those categories' names seperated by colons.
          */
         for ($i = $cntr-1; $i > 0; $i--)
-            $bt .= "&quot;<b>".lookup_category_name($visited_category_ids[$i])."</b>&quot; : ";
+            $bt .= "&quot;<b>".category_get_name($visited_category_ids[$i])."</b>&quot; : ";
             
-        $bt .= "&quot;<b>".lookup_category_name($visited_category_ids[0])."</b>&quot;";
+        $bt .= "&quot;<b>".category_get_name($visited_category_ids[0])."</b>&quot;";
 
         return ($bt);
     }
@@ -460,6 +445,7 @@
 
     function footprint_del( $old)
     {
+        // TODO: lock database
         // catch actual parent node
         $query  = "SELECT parentnode FROM footprints".
             " WHERE id=". smart_escape( $old) .";";
@@ -491,7 +477,7 @@
     {
         $ret_val = array();
         $query   = "SELECT id FROM footprints WHERE parentnode=". smart_escape( $id) .";";
-        $result  = mysql_query( $query);
+        $result  = mysql_query( $query) or die( mysql_error());
         while ( $data = mysql_fetch_assoc( $result))
         {
             // do the same for the next level.
@@ -514,9 +500,10 @@
 
     function footprint_count()
     {
-        $query  = "SELECT id FROM footprints;";
+        $query  = "SELECT count(*) as count FROM footprints;";
         $result = mysql_query( $query) or die( mysql_error());
-        return( mysql_num_rows( $result));
+        $data   = mysql_fetch_array( $result);
+        return( $data['count']);
     }
     
     /*
@@ -582,9 +569,10 @@
 
     function suppliers_count()
     {
-        $query  = "SELECT id FROM suppliers;";
+        $query  = "SELECT count(*) as count FROM suppliers;";
         $result = mysql_query( $query) or die( mysql_error());
-        return( mysql_num_rows( $result));
+        $data   = mysql_fetch_array( $result);
+        return( $data['count']);
     }
 
     function supplier_get_id( $supplier)
@@ -648,6 +636,14 @@
             smart_escape( $parent_node)  .");";
         mysql_query( $query) or die( mysql_error());
     }
+
+    function location_count()
+    {
+        $query  = "SELECT count(*) as count FROM storeloc;";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_array( $result);
+        return( $data['count']);
+    }
     
     function location_get_id( $storeloc)
     {
@@ -687,9 +683,9 @@
      * As the top-most category (it doesn't exist!) has the ID 0,
      * you have to supply cid=0 at the very beginning.
      */
-    function build_categories_tree( $cid, $level, $select)
+    function categories_build_tree( $cid = 0, $level = 1, $select = -1)
     {
-        $query = "SELECT id,name FROM categories".
+        $query = "SELECT id, name FROM categories".
             " WHERE parentnode=". smart_escape( $cid).
             " ORDER BY name ASC;";
         $result = mysql_query( $query) or die( mysql_error());
@@ -701,8 +697,93 @@
                 print "&nbsp;&nbsp;&nbsp;";
             print smart_unescape( $data['name']) ."</option>\n";
             // do the same for the next level.
-            build_categories_tree( $data['id'], $level + 1, $select);
+            categories_build_tree( $data['id'], $level + 1, $select);
         }
+    }
+    
+    /* This recursive procedure builds the tree of categories.
+       There's nothing special about it, so no more comments.
+       Warning: Infinite recursion can occur when the DB is
+       corrupted! But normally everything should be fine. */
+    function categories_build_navtree( $pid = 0)
+    {
+        $query  = "SELECT id, name FROM categories".
+            " WHERE parentnode=". smart_escape( $pid).
+            " ORDER BY categories.name ASC;";
+        if ( $result = mysql_query( $query))
+        {
+            while ( $data = mysql_fetch_assoc( $result))
+            {
+                print "cat_tree.add(". smart_unescape( $data['id']) .",".
+                    smart_unescape( $pid) .",'".
+                    smart_unescape( $data['name']).
+                    "','showparts.php?cid=". 
+                    smart_unescape( $data['id']).
+                    "&type=index\"','','content_frame');\n";
+                categories_build_navtree( $data['id']);
+            }
+        }
+    }
+
+    function category_del( $old)
+    {
+        // TODO: lock database
+        // catch actual parent node
+        $query  = "SELECT parentnode FROM categories".
+            " WHERE id=". smart_escape( $old) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_assoc( $result);
+        $parent = $data['parentnode'];
+
+        // delete footprint
+        $query = "DELETE FROM categories".
+            " WHERE id=". smart_escape( $old).
+            " LIMIT 1;";
+        mysql_query( $query) or die( mysql_error());
+
+        // resort all child footprints to parent node
+        $query = "UPDATE categories SET parentnode=". $parent ." WHERE parentnode=". smart_escape( $old) ." ;";
+        mysql_query( $query) or die( mysql_error());
+    }
+    
+    /*
+     * find all nodes below and given node
+     */
+    function categories_find_child_nodes( $id)
+    {
+        $ret_val = array();
+        $query   = "SELECT id FROM categories WHERE parentnode=". smart_escape( $id) .";";
+        $result  = mysql_query( $query) or die( mysql_error());
+        while ( $data = mysql_fetch_assoc( $result))
+        {
+            // do the same for the next level.
+            $ret_val[] = $data['id'];
+            $ret_val   = array_merge( $ret_val, categories_find_child_nodes( $data['id']));
+        }
+        return( $ret_val);
+    }
+
+    function categories_or_child_nodes( $cid, $with_subcategories = true)
+    {
+        $ret_val = "id_category=". smart_escape( $cid);
+        if ($with_subcategories)
+        {
+            $query   = "SELECT id FROM categories WHERE parentnode=". smart_escape( $cid) .";";
+            $result  = mysql_query( $query);
+            while ( $data = mysql_fetch_assoc( $result))
+            {
+                $ret_val .= " OR ". categories_or_child_nodes( smart_unescape( $data['id']));
+            }
+        }
+        return( $ret_val);
+    }
+
+    function categories_count()
+    {
+        $query  = "SELECT count(*) as count FROM categories;";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_array( $result);
+        return( $data['count']);
     }
 
     function category_get_id( $categorie)
@@ -711,6 +792,20 @@
         $result = mysql_query( $query) or die( mysql_error());
         $result_array = mysql_fetch_array( $result); 
         return( $result_array['id']);
+    }
+
+    /*
+     * Given the category id this helper-function does a lookup
+     * and returns the name of the category. At the moment we
+     * assume that the category id is valid. FIXME
+     */
+    function category_get_name( $id)
+    {
+        $query  = "SELECT name FROM categories WHERE id=". smart_escape($id) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_assoc( $result);
+
+        return( ( $id == 0) ? "Alles" : smart_unescape( $data['name'] ));
     }
     
     function category_exists( $categorie)
@@ -728,6 +823,14 @@
      * part querys
      */
     
+    function parts_count()
+    {
+        $query  = "SELECT count(*) as count FROM parts;";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_array( $result);
+        return( $data['count']);
+    }
+
     // determine category
     function part_get_category_id( $part_id)
     {
@@ -744,4 +847,16 @@
     }
 
 
+    /* ***************************************************
+     * devices querys
+     */
+    
+    function devices_count()
+    {
+        $query  = "SELECT count(*) as count FROM devices;";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_array( $result);
+        return( $data['count']);
+    }
+    
 ?>
