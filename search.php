@@ -99,6 +99,7 @@
                 <input type="submit" name="action" value="Export">
             </form>
         </div>
+        <div class="clear"></div>
     </div>
 </div>
 
@@ -112,12 +113,12 @@
             $keyword_esc = smart_escape_for_search( $keyword);
 
             // build search strings
-            if ( $search_nam) { $query_nam = " OR (parts.name LIKE ".           $keyword_esc.")"; } 
-            if ( $search_com) { $query_com = " OR (parts.comment LIKE ".        $keyword_esc.")"; }
-            if ( $search_sup) { $query_sup = " OR (suppliers.name LIKE ".       $keyword_esc.")"; }
-            if ( $search_snr) { $query_snr = " OR (parts.supplierpartnr LIKE ". $keyword_esc.")"; }
-            if ( $search_loc) { $query_loc = " OR (storeloc.name LIKE ".        $keyword_esc.")"; }
-            if ( $search_fpr) { $query_fpr = " OR (footprints.name LIKE ".      $keyword_esc.")"; }
+            $query_nam = ( $search_nam) ? " OR (parts.name LIKE ".           $keyword_esc.")" : "";
+            $query_com = ( $search_com) ? " OR (parts.comment LIKE ".        $keyword_esc.")" : ""; 
+            $query_sup = ( $search_sup) ? " OR (suppliers.name LIKE ".       $keyword_esc.")" : ""; 
+            $query_snr = ( $search_snr) ? " OR (parts.supplierpartnr LIKE ". $keyword_esc.")" : ""; 
+            $query_loc = ( $search_loc) ? " OR (storeloc.name LIKE ".        $keyword_esc.")" : ""; 
+            $query_fpr = ( $search_fpr) ? " OR (footprints.name LIKE ".      $keyword_esc.")" : ""; 
             $search = $query_nam. $query_com. $query_sup. $query_snr. $query_loc. $query_fpr;
             $query = 
                 "SELECT ".

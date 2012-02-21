@@ -25,26 +25,34 @@
         partdb_init();
        
        
-        //global params to
-        $NewFootprint   = ( isset( $_REQUEST['AddFootprint']))   ? $_REQUEST["NewFootprint"]   : '';
-        $NewStorage     = ( isset( $_REQUEST['AddStorage']))     ? $_REQUEST["NewStorage"]     : '';
-        $NewDistributor = ( isset( $_REQUEST['AddDistributor'])) ? $_REQUEST["NewDistributor"] : '';
-        $Footprint      = ( isset( $_REQUEST['NewFootprint']))   ? $_REQUEST["NewFootprint"]   : $_REQUEST["p_footprint"];
-        $Storage        = ( isset( $_REQUEST['NewStorage']))     ? $_REQUEST["NewStorage"]     : $_REQUEST["p_storeloc"];
-        $Distributor    = ( isset( $_REQUEST['NewDistributor'])) ? $_REQUEST["NewDistributor"] : $_REQUEST["p_supplier"];
-        $p_name         = $_REQUEST["p_name"];
+        // global params to
+        $NewFootprint   = ( isset( $_REQUEST['AddFootprint']))   ? $_REQUEST['NewFootprint']   : '';
+        $NewStorage     = ( isset( $_REQUEST['AddStorage']))     ? $_REQUEST['NewStorage']     : '';
+        $NewDistributor = ( isset( $_REQUEST['AddDistributor'])) ? $_REQUEST['NewDistributor'] : '';
+
+        $p_name         = ( isset( $_REQUEST['p_name']))         ? $_REQUEST['p_name']         : '';
+        $p_instock      = ( isset( $_REQUEST['p_instock']))      ? $_REQUEST['p_instock']      : '';
+        $p_mininstock   = ( isset( $_REQUEST['p_mininstock']))   ? $_REQUEST['p_mininstock']   : '';
+        $p_comment      = ( isset( $_REQUEST['p_comment']))      ? $_REQUEST['p_comment']      : '';
+        $p_footprint    = ( isset( $_REQUEST['p_footprint']))    ? $_REQUEST['p_footprint']    : '';
+        $p_storeloc     = ( isset( $_REQUEST['p_storeloc']))     ? $_REQUEST['p_storeloc']     : '';
+        $p_supplier     = ( isset( $_REQUEST['p_supplier']))     ? $_REQUEST['p_supplier']     : '';
+
+        $Footprint      = ( isset( $_REQUEST['NewFootprint']))   ? $_REQUEST['NewFootprint']   : $p_footprint;
+        $Storage        = ( isset( $_REQUEST['NewStorage']))     ? $_REQUEST['NewStorage']     : $p_storeloc;
+        $Distributor    = ( isset( $_REQUEST['NewDistributor'])) ? $_REQUEST['NewDistributor'] : $p_supplier;
 
 
         if ( isset( $_REQUEST["AddPart"]))
         {
                 /* some sanity checks */
 				//Removed check for testing
-                /*if ( (strcmp ($_REQUEST["p_footprint"], "X") == 0) || (strcmp ($_REQUEST["p_storeloc"], "X") == 0) || (strcmp ($_REQUEST["p_supplier"], "X") == 0) )
+                /*if ( (strcmp ($p_footprint, "X") == 0) || (strcmp ($p_storeloc, "X") == 0) || (strcmp ($p_supplier, "X") == 0) )
                 {
                     print "<h2>\nFehler:</h2>\n";
-                        if (strcmp ($_REQUEST["p_footprint"], "X") == 0) { print "kein Footprint<br>"; }
-                        if (strcmp ($_REQUEST["p_storeloc"],  "X") == 0) { print "kein Lagerort<br>"; }
-                        if (strcmp ($_REQUEST["p_supplier"],  "X") == 0) { print "kein Lieferant<br>"; }
+                        if (strcmp ($p_footprint, "X") == 0) { print "kein Footprint<br>"; }
+                        if (strcmp ($p_storeloc,  "X") == 0) { print "kein Lagerort<br>"; }
+                        if (strcmp ($p_supplier,  "X") == 0) { print "kein Lieferant<br>"; }
                     print "<br>\n";
 
                 }
@@ -52,25 +60,25 @@
                 {
                     $query = 
                         "INSERT INTO parts (".
-                        "id_category,".
-                        "name,".
-                        "instock,".
-                        "mininstock,".
-                        "comment,".
-                        "id_footprint,".
-                        "id_storeloc,".
-                        "id_supplier,".
-                        "supplierpartnr) ".
-                        "VALUES (". 
-                        smart_escape($_REQUEST["cid"]) .",".
-                        smart_escape($_REQUEST["p_name"]) .",".
-                        smart_escape($_REQUEST["p_instock"]) .",".
-                        smart_escape($_REQUEST["p_mininstock"]) .",".
-                        smart_escape($_REQUEST["p_comment"]) .",".
-                        smart_escape($_REQUEST["p_footprint"]) .",".
-                        smart_escape($_REQUEST["p_storeloc"]) .",".
-                        smart_escape($_REQUEST["p_supplier"]) .",".
-                        smart_escape($_REQUEST["p_supplierpartnr"]) .
+                        " id_category,".
+                        " name,".
+                        " instock,".
+                        " mininstock,".
+                        " comment,".
+                        " id_footprint,".
+                        " id_storeloc,".
+                        " id_supplier,".
+                        " supplierpartnr) ".
+                        " VALUES (". 
+                        smart_escape( $_REQUEST["cid"]) .",".
+                        smart_escape( $p_name) .",".
+                        smart_escape( $p_instock) .",".
+                        smart_escape( $p_mininstock) .",".
+                        smart_escape( $p_comment) .",".
+                        smart_escape( $p_footprint) .",".
+                        smart_escape( $p_storeloc) .",".
+                        smart_escape( $p_supplier) .",".
+                        smart_escape( $_REQUEST["p_supplierpartnr"]) .
                         ");";
                        
                     debug_print ($query);
@@ -208,12 +216,12 @@
             
             <tr>
             <td>Lagerbestand:</td>
-            <td><input type="text" name="p_instock" onkeypress="validateNumber(event)" value="<?PHP print $_REQUEST["p_instock"] ?>"/></td>
+            <td><input type="text" name="p_instock" onkeypress="validateNumber(event)" value="<?PHP print $p_instock ?>"/></td>
             </tr>
             
             <tr>
             <td>Min. Bestand:</td>
-            <td><input type="text" name="p_mininstock" onkeypress="validateNumber(event)" value="<?PHP print $_REQUEST["p_mininstock"] ?>"/></td>
+            <td><input type="text" name="p_mininstock" onkeypress="validateNumber(event)" value="<?PHP print $p_mininstock ?>"/></td>
             </tr>
             
             <tr>
@@ -273,7 +281,7 @@
             
             <tr>
             <td valign="top">Kommentar:</td>
-            <td colspan="2"><textarea name="p_comment" rows=2 cols=40><?PHP print $_REQUEST["p_comment"] ?></textarea></td>
+            <td colspan="2"><textarea name="p_comment" rows=2 cols=40><?PHP print $p_comment ?></textarea></td>
             </tr>
             <tr><td>Bild:</td>
             <td><input type="file" name="AddImage"/></td>
