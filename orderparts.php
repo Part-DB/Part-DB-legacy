@@ -20,16 +20,19 @@
 
     $Id: $
 
-    ChangeLog
-    
-    07/03/06:
-        Added escape/unescape stuff
 */
     include ("lib.php");
     partdb_init();
-
+    
+    
+    // set action to default, if not exists
+    $action       = ( isset( $_REQUEST['action'])    ? $_REQUEST['action']   : 'default');
+    $cid          = ( isset( $_REQUEST['cid'])       ? $_REQUEST['cid']      : '');
+    $sup_id       = ( isset( $_REQUEST['sup_id'])    ? $_REQUEST['sup_id']   : '');
+    $deviceid     = ( isset( $_REQUEST['deviceid)']) ? $_REQUEST['deviceid'] : '');
     $SearchQuerry = "";
-    if(strcmp($_REQUEST["action"], "an") == 0) //add number of parts
+
+    if(strcmp( $action, "an") == 0) //add number of parts
     {
         $query = "UPDATE parts SET instock=instock+". smart_escape($_REQUEST["toadd"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
         debug_print($query);
@@ -60,7 +63,7 @@
             <?php
                 $selected = (! isset($_REQUEST["sup_id"])) ? 'selected': '';
                 print "<option ". $selected ." value=\"0\">Alle</option>";
-                suppliers_build_list( $_REQUEST["sup_id"]);
+                suppliers_build_list( $sup_id);
             ?>
             </select>
             <input type="submit" value="W&auml;hle Lieferanten!">
@@ -70,7 +73,7 @@
 
 
 <div class="outer">
-    <h2>Zu bestellende Teile &quot;<?PHP print category_get_name( $_REQUEST["cid"]); ?>&quot;</h2>
+    <h2>Zu bestellende Teile &quot;<?PHP print category_get_name( $cid); ?>&quot;</h2>
     <div class="inner">
         <table>
         <?PHP
@@ -210,7 +213,7 @@
             <?PHP
             print "<tr class=\"trcat\">\n".
                 "<td>".
-                "<input type=\"hidden\" name=\"deviceid\" value=\"" .$_REQUEST["deviceid"]. "\">".
+                "<input type=\"hidden\" name=\"deviceid\" value=\"" .$deviceid. "\">".
                 "<input type=\"hidden\" name=\"action\"  value=\"createbom\">";
             
             print "Format:".
@@ -224,7 +227,7 @@
             print "<tr class=\"trcat\">".
                 "<td>Trennzeichen:</td>\n".
                 "<td><input type=\"text\" name=\"spacer\" size=\"3\" value=\"";
-                if ( strcmp ($_REQUEST["action"], "createbom"))
+                if ( strcmp ($action, "createbom"))
                     print ";";
                 else
                     print $_REQUEST["spacer"];
@@ -238,7 +241,7 @@
             print "<tr>\n".
                 "<td colspan=\"4\">";
             
-            if ( strcmp ($_REQUEST["action"], "createbom") == 0 )
+            if ( strcmp ($action, "createbom") == 0 )
             {
                 
                 $query  = $SearchQuerry;

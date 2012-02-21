@@ -21,16 +21,21 @@
     $Id: $
 
 */
-    include ("lib.php");
+    include("lib.php");
 	include("config.php");
     partdb_init();
+
+
+    // set action to default, if not exists
+    $action        = isset( $_REQUEST['action'])   ? $_REQUEST['action']   : 'default';
+
     $showsearchedparts = 0;
-    $notallinstock = 0;
-    $bookstate = 0;
-    $bookerrorstring = "";
-	$refreshnav = 0;
+    $notallinstock     = 0;
+    $bookstate         = 0;
+    $bookerrorstring   = "";
+	$refreshnav        = 0;
 	
-    if ( strcmp ($_REQUEST["action"], "assignbytext") == 0 )
+    if ( strcmp ($action, "assignbytext") == 0 )
     {
 
         $query = "SELECT id FROM parts WHERE name=". smart_escape($_REQUEST["newpartname"]) .";";
@@ -65,7 +70,7 @@
             $showsearchedparts = 1;
         }
     }
-    else if ( strcmp ($_REQUEST["action"], "assignbyselected") == 0 )
+    else if ( strcmp( $action, "assignbyselected") == 0 )
     {
         $rowcount = $_REQUEST["selections"];
         while($rowcount)
@@ -79,7 +84,7 @@
             $rowcount--;
         }
     }
-    else if ( strcmp ($_REQUEST["action"], "bookparts") == 0 )
+    else if ( strcmp( $action, "bookparts") == 0 )
     {
         //First check if enough parts are in stock
         $query = "SELECT".
@@ -162,13 +167,13 @@
 			$n --;
 		}
 	}
-	else if( strcmp ($_REQUEST["action"], "renamedevice") == 0 )
+	else if( strcmp( $action, "renamedevice") == 0 )
 	{
 		$query = "UPDATE devices SET name=".smart_escape($_REQUEST["newdevname"])." WHERE id=" . smart_escape($_REQUEST["deviceid"]).";";
         mysql_query($query);
 		$refreshnav = 1;
 	}
-	else if( strcmp ($_REQUEST["action"], "copydevice") == 0 )
+	else if( strcmp( $action, "copydevice") == 0 )
 	{
 		//Create a new device and get the ID
 		$query = "INSERT INTO devices (name) VALUES (". smart_escape($_REQUEST["newcopydevname"]) .");";
@@ -204,7 +209,7 @@
 		}
 		$refreshnav = 1;
 	}
-	else if( strcmp ($_REQUEST["action"], "import") == 0 )
+	else if( strcmp( $action, "import") == 0 )
 	{
 		if (isset($_REQUEST["import_data"])) {
 			$lines = preg_split("/\r\n/", $_REQUEST["import_data"]);
@@ -520,14 +525,14 @@
             print "</select>";
             print "</td></tr><tr class=\"trcat\"><td>";
             print "Trennzeichen:</td><td><input type=\"text\" name=\"spacer\" size=\"3\" value=\"";
-            if ( strcmp ($_REQUEST["action"], "createbom"))
+            if ( strcmp( $action, "createbom"))
                 print ";";
             else
                 print $_REQUEST["spacer"];
             print "\"/></td></tr>";
             
             print "<tr class=\"trcat\"><td>Multiplikator:</td><td><input type=\"text\" name=\"multiplikator\" size=\"3\" onkeypress=\"validateNumber(event)\" value=\"";
-            if ( strcmp ($_REQUEST["action"], "createbom"))
+            if ( strcmp( $action, "createbom"))
                 print "1";
             else
                 print $_REQUEST["multiplikator"];
@@ -536,7 +541,7 @@
             
             print "</td></tr>";
             print "<tr class=\"trcat\"><td>Nur fehlendes Material<br>exportieren:</td><td><input type=\"checkbox\" name=\"onlyneeded\" ";
-            if ( strcmp ($_REQUEST["action"], "createbom"))
+            if ( strcmp( $action, "createbom"))
             {
                 print "checked=\"checked\"";
             }
@@ -550,7 +555,7 @@
             
             print "<tr><td colspan=\"4\">";
             
-            if ( strcmp ($_REQUEST["action"], "createbom") == 0 )
+            if ( strcmp( $action, "createbom") == 0 )
             {
                 
                 $query = "SELECT".
@@ -624,7 +629,7 @@
                 
                 <?PHP
                 print "<tr class=\"trcat\"><td>Multiplikator:</td><td><input type=\"text\" name=\"bookmultiplikator\" size=\"3\" onkeypress=\"validateNumber(event)\" value=\"";
-                if ( strcmp ($_REQUEST["action"], "bookparts"))
+                if ( strcmp( $action, "bookparts"))
                     print "1";
                 else
                     print $_REQUEST["bookmultiplikator"];

@@ -24,11 +24,14 @@
 	include("config.php");
     partdb_init();
     
+    // set action to default, if not exists
+    $action        = isset( $_REQUEST['action'])   ? $_REQUEST['action']   : 'default';
+	$deviceid      = isset( $_REQUEST['deviceid']) ? $_REQUEST['deviceid'] : 'all'; 
+
     $confirmdelete = 0;
     $refreshnav    = 0;
-	$deviceid      = isset( $_REQUEST['deviceid']) ? $_REQUEST['deviceid'] : 'all'; 
 	
-    if(strcmp($_REQUEST["action"], "createdevice") == 0)  //add a new device
+    if( strcmp( $action, "createdevice") == 0)  //add a new device
     {
         $query = "INSERT INTO devices (name) VALUES (". smart_escape($_REQUEST["newdevicename"]) .");";
         $r = mysql_query ($query);
@@ -36,7 +39,7 @@
             print "Fehler";
 		$refreshnav = 1;
     }
-    else if(strcmp($_REQUEST["action"], "confirmeddelete") == 0)
+    else if( strcmp($action, "confirmeddelete") == 0)
     {
         $query = "DELETE FROM devices WHERE id=". smart_escape( $deviceid) ." LIMIT 1;";
         $r = mysql_query ($query);
@@ -82,7 +85,7 @@
 </div>
 
 <?php
-if(strcmp($_REQUEST["action"], "deletedevice") == 0)
+if(strcmp( $action, "deletedevice") == 0)
 {
     print "<br>";
     print "<table class=\"table\">";

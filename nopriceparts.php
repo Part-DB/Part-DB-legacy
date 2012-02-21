@@ -24,7 +24,10 @@
     include ("lib.php");
     partdb_init();
     
-    if(strcmp($_REQUEST["action"], "newprice") == 0)  //Set new price
+    // set action to default, if not exists
+    $action = isset( $_REQUEST['action']) ? $_REQUEST['action'] : 'default';
+    
+    if ( strcmp( $action, "newprice") == 0)  //Set new price
     {
         $rowcount = $_REQUEST["selections"];
         while($rowcount)
