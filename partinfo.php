@@ -26,28 +26,25 @@
 
     /*
      * 'action' is a hidden field in the form.
-     * 'r' is for remove, 'a' is for add.
      * The 'instock' value has to be changed before the output begins.
      */
 
     // set action to default, if not exists
     $action = ( isset( $_REQUEST["action"]) ? $_REQUEST["action"] : 'default');
 
-    if ( $action == "r")
+    if ( $action == "dec")
     {
-        $query = "UPDATE parts SET instock=instock-". smart_escape($_REQUEST["n_less"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." AND instock >= ". smart_escape($_REQUEST["n_less"]) ." LIMIT 1;";
-        mysql_query ($query);
+        parts_stock_decrease( $_REQUEST["pid"], $_REQUEST["n_less"]);
     }
     
-    if ( $action == "a")
+    if ( $action == "inc")
     {
-        $query = "UPDATE parts SET instock=instock+". smart_escape($_REQUEST["n_more"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
-        mysql_query ($query);
+        parts_stock_increase( $_REQUEST["pid"], $_REQUEST["n_more"]);
     }
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Detailinfo</title>
@@ -110,7 +107,7 @@
         <table>
         <form action="" method="post">
         <input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
-        <input type="hidden" name="action" value="r">
+        <input type="hidden" name="action" value="dec">
         <tr><td colspan="2">Teile entnehmen</td></tr>
         <tr valign="top">
         <td>Anzahl:</td><td><input type="text" size="3" name="n_less" value="1"></td>
@@ -119,7 +116,7 @@
         <tr><td colspan="2">&nbsp;</td></tr>
         <form action="" method="post">
         <input type="hidden" name="pid" value="<?PHP print $_REQUEST["pid"]; ?>">
-        <input type="hidden" name="action" value="a">
+        <input type="hidden" name="action" value="inc">
         <tr><td colspan="2">Teile hinzuf&uuml;gen</td></tr>
         <tr valign="top">
         <td>Anzahl:</td><td><input type="text" size="3" name="n_more" value="1"></td>

@@ -85,6 +85,8 @@
     category_get_name
     category_exists
 
+    parts_stock_increase
+    parts_stock_decrease
     parts_count
     parts_count_sum_value
     parts_count_sum_instock
@@ -358,7 +360,7 @@
         //build the "-" button, only if more then 0 parts on stock
         print "<td class=\"tdrow6\"><form action=\"\" method=\"post\">";
         print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape( $data['id'])."\"/>";
-        print "<input type=\"hidden\" name=\"action\"  value=\"r\"/>";
+        print "<input type=\"hidden\" name=\"action\"  value=\"dec\"/>";
         print "<input type=\"submit\" value=\"-\"";
         if ( $data['instock'] <= 0)
         {
@@ -369,7 +371,7 @@
         //build the "+" button
         print "<td class=\"tdrow7\"><form action=\"\" method=\"post\">";
         print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape( $data['id'])."\"/>";
-        print "<input type=\"hidden\" name=\"action\"  value=\"a\"/>";
+        print "<input type=\"hidden\" name=\"action\"  value=\"inc\"/>";
         print "<input type=\"submit\" value=\"+\"/></form></td>\n";
 
         print "</tr>\n";
@@ -946,6 +948,20 @@
     /* ***************************************************
      * part querys
      */
+    
+    function parts_stock_increase( $pid, $count = 1)
+    {
+        $query  = "UPDATE parts SET instock=instock+". smart_escape( $count).
+            " WHERE id=". smart_escape( $pid) ." LIMIT 1;";
+        $result = mysql_query( $query) or die( mysql_error());
+    }
+    
+    function parts_stock_decrease( $pid, $count = 1)
+    {
+        $query  = "UPDATE parts SET instock=instock-". smart_escape( $count).
+            " WHERE id=". smart_escape( $pid) ." AND instock >= ". smart_escape( $count) ." LIMIT 1;";
+        $result = mysql_query( $query) or die( mysql_error());
+    }
     
     function parts_count()
     {

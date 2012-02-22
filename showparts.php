@@ -23,27 +23,25 @@
     include ("lib.php");
     partdb_init();
 
-    $cid    = ( isset( $_REQUEST['cid']))    ? $_REQUEST['cid'] : '';
-    $pid    = ( isset( $_REQUEST['pid']))    ? $_REQUEST['pid'] : '';
+    $cid    = ( isset( $_REQUEST['cid']))    ? $_REQUEST['cid']    : '';
+    $pid    = ( isset( $_REQUEST['pid']))    ? $_REQUEST['pid']    : '';
     $action = ( isset( $_REQUEST['action'])) ? $_REQUEST['action'] : 'default';
 
     
-    if ( $action == 'r')  //remove one part
+    if ( $action == 'dec')  //remove one part
     {
-        $query = "UPDATE parts SET instock=instock-1 WHERE id=". smart_escape( $pid) ." AND instock >= 1 LIMIT 1;";
-        mysql_query( $query);
+        parts_stock_decrease( $pid);
     }
 
-    if ( $action == 'a')  //add one part
+    if ( $action == 'inc')  //add one part
     {
-        $query = "UPDATE parts SET instock=instock+1 WHERE id=". smart_escape( $pid) ." LIMIT 1;";
-        mysql_query( $query);
+        parts_stock_increase( $pid);
     }
     
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Teileansicht</title>
@@ -65,7 +63,7 @@
     <h2>Sonstiges</h2>
     <div class="inner">
         <?php
-        print "<form action=\"showparts.php\" method=\"post\">";
+        print "<form action=\"\" method=\"post\">";
         print "<input type=\"hidden\" name=\"cid\" value=\"". $cid ."\">";
         print "<input type=\"hidden\" name=\"type\" value=\"index\">";
         if (! isset($_REQUEST["nosubcat"]) )
@@ -106,18 +104,18 @@
                 "<td align=\"center\">+</td>".
                 "</tr>\n";
 
-            $query = "SELECT ".
-                "parts.id,".
-                "parts.name,".
-                "parts.instock,".
-                "parts.mininstock,".
-                "footprints.name AS 'footprint',".
-                "storeloc.name AS 'location',".
-                "parts.comment, ".
-                "parts.supplierpartnr ".
+            $query = "SELECT".
+                " parts.id,".
+                " parts.name,".
+                " parts.instock,".
+                " parts.mininstock,".
+                " footprints.name AS 'footprint',".
+                " storeloc.name AS 'location',".
+                " parts.comment,".
+                " parts.supplierpartnr".
                 " FROM parts".
                 " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
-                " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
+                " LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id".
                 " WHERE (". $catclause .")".
                 " ORDER BY name ASC;";
             $result = mysql_query( $query) or die( mysql_error());

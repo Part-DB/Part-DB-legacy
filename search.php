@@ -41,23 +41,21 @@
 
     
     // remove one part
-    if ( $action == 'r')
+    if ( $action == 'dec')
     {
-        $query = "UPDATE parts SET instock=instock-1 WHERE id=". smart_escape( $pid) ." AND instock >= 1 LIMIT 1;";
-        mysql_query( $query);
+        parts_stock_decrease( $pid);
     }
 
     // add one part
-    if ( $action == 'a')
+    if ( $action == 'inc')
     {
-        $query = "UPDATE parts SET instock=instock+1 WHERE id=". smart_escape( $pid) ." LIMIT 1;";
-        mysql_query( $query);
+        parts_stock_increase( $pid);
     }
    
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Suchergebnisse</title>

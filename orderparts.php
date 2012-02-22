@@ -32,11 +32,9 @@
     $deviceid     = ( isset( $_REQUEST['deviceid)']) ? $_REQUEST['deviceid'] : '');
     $SearchQuerry = "";
 
-    if(strcmp( $action, "an") == 0) //add number of parts
+    if ( strcmp( $action, "an") == 0) //add number of parts
     {
-        $query = "UPDATE parts SET instock=instock+". smart_escape($_REQUEST["toadd"]) ." WHERE id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
-        debug_print($query);
-        mysql_query($query);
+        parts_stock_increase( $_REQUEST["pid"], $_REQUEST["toadd"]);
     }
 
 ?>
