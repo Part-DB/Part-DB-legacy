@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: startup.php,v 1.4 2006/05/28 10:28:57 cl Exp $
+    $Id$
 
     28/05/06
         If all requirements regarding (locs, footprints, categories

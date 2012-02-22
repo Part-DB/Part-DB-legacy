@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: locmgr.php,v 1.7 2006/04/12 12:27:29 cl Exp $
+    $Id$
 
     28/02/06
         Added escape/unescape functions where required

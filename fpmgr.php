@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: fpmgr.php,v 1.5 2006/03/06 23:05:14 cl Exp $
+    $Id$
 
 */
     include('lib.php');

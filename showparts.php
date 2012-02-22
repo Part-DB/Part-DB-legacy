@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: showparts.php,v 1.11 2006/05/23 21:47:14 cl Exp $
+    $Id$
 */
     include ("lib.php");
     partdb_init();

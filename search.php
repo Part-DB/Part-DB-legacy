@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: search.php,v 1.3 2006/03/09 15:08:09 cl Exp $
+    $Id$
 
     06/03/06    Added escape/unescape calls
     05/12/09    Edit Parts over Popup (k.jacobs)

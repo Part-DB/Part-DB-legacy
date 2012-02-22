@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: gettn.php,v 1.4 2006/05/28 10:41:25 cl Exp $
+    $Id$
 
     Portions of the code are (c) by S. Bechtold,
     http://de.php.net/manual/en/function.imagepng.php

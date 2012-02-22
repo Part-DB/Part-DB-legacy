@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: catmgr.php,v 1.5 2006/05/08 19:03:15 cl Exp $
+    $Id$
 
     ChangeLog
 
