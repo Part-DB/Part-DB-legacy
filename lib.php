@@ -20,11 +20,80 @@
 
     $Id$
 
-    ChangeLog
+
+    this file contain the following functions:
+
+    debug_print
+    partdb_init
+    smart_escape
+    smart_escape_for_search
+    smart_unescape
+
+    lookup_part_name  
+    lookup_device_name
+
+    show_bt
+    has_image
+    is_odd
+
+    print_table_image
+    print_table_row
+
+    GetFormatStrings
+    PrintsFormats
+    GenerateBOMHeadline
+    GenerateBOMResult
+
+    print_http_charset
+
+    footprint_build_tree
+    footprint_add
+    footprint_del
+    footprint_rename
+    footprint_find_child_nodes
+    footprint_new_parent
+    footprint_count
+    footprint_get_id
+    footprint_exists
+
+    supplier_add
+    supplier_delete
+    supplier_rename
+    suppliers_build_list
+    suppliers_count
+    supplier_get_id
+    supplier_exists
+
+    location_tree_build
+    location_add
+    location_count
+    location_get_id
+    location_get_name
+    location_exists
+
+    categories_build_tree
+    categories_build_navtree
+    category_add
+    category_del
+    category_rename
+    categories_find_child_nodes
+    categories_or_child_nodes
+    category_find_child_nodes
+    category_new_parent
+    categories_count
+    category_get_id
+    category_get_name
+    category_exists
+
+    parts_count
+    parts_count_sum_value
+    parts_count_sum_instock
+    parts_count_with_prices
+    parts_count_on_category
+    part_get_category_id
+
+    devices_count
     
-    25/02/2006
-        Some major changes concerning the escaping of arguments
-        supplied in SQL queries. Added some comments, too.
 */
     
 
@@ -60,13 +129,17 @@
 
 
     /* stolen from the PHP docs */
-    function smart_escape($value)
+    function smart_escape( $value)
     {
         // quote it
         $value = "'". mysql_real_escape_string( $value) ."'";
         return( $value);
     }
-    
+   
+    /* the same like smart_escape, but
+     * replaces '*' with '%' for SQL queries and
+     * add an '%' before and after the search string
+     */
     function smart_escape_for_search( $value)
     {
         $value = str_replace( '*', '%', $value);
@@ -80,6 +153,7 @@
     {
         return stripslashes( $value);
     }
+
 
 
     function lookup_part_name ($id)
@@ -183,7 +257,11 @@
 
     
     /*
-     * no comment
+     * deliver in image for table view
+     * check the following conditions:
+     * 1. use imgae (if exists)
+     * 2. use footprint (if exists)
+     * 3. give dummy image
      */
     function print_table_image( $id, $name, $footprint)
     {
@@ -400,7 +478,10 @@
     }
 
 
-    /* generate http header line */
+    /* 
+     * generate http header line, use
+     * charset defined in config
+     */
     function print_http_charset()
     {
         require( 'config.php');
@@ -870,7 +951,33 @@
     {
         $query  = "SELECT count(*) as count FROM parts;";
         $result = mysql_query( $query) or die( mysql_error());
-        $data   = mysql_fetch_array( $result);
+        $data   = mysql_fetch_assoc( $result);
+        return( $data['count']);
+    }
+
+    function parts_count_sum_value()
+    {
+        $query  = "SELECT sum( preise.preis * parts.instock) AS sum FROM parts".
+            " LEFT JOIN preise ON parts.id=preise.part_id;";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_assoc( $result);
+        return( $data['sum']);
+    }
+
+    function parts_count_sum_instock()
+    {
+        $query  = "SELECT sum( instock) as sum FROM parts;";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_assoc( $result);
+        return( $data['sum']);
+    }
+
+    function parts_count_with_prices()
+    {
+        $query  = "SELECT count(*) as count FROM preise".
+            " LEFT JOIN parts ON parts.id=preise.part_id;";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_assoc( $result);
         return( $data['count']);
     }
 
@@ -879,7 +986,7 @@
         $query  = "SELECT count(*) as count FROM parts".
             " WHERE id_category=". smart_escape( $cid) .";";
         $result = mysql_query( $query) or die( mysql_error());
-        $data   = mysql_fetch_array( $result);
+        $data   = mysql_fetch_assoc( $result);
         return( $data['count']);
     }
 

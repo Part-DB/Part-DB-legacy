@@ -24,7 +24,7 @@
     partdb_init();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Statistik</title>
@@ -37,25 +37,16 @@
     <h2>Statistik</h2>
     <div class="inner">
         <b>Wert aller mit Preis erfassten Bauteile:</b>
-        <?PHP
-        include('config.php');
-        $query = "SELECT SUM(preise.preis*parts.instock) FROM parts LEFT JOIN preise ON parts.id=preise.part_id ORDER BY name ASC;";
-        $r = mysql_query ($query);
-        $d = mysql_fetch_row ($r);
-        print $d[0]." ".$currency;
-        ?><br>
+        <?php 
+            print parts_count_sum_value();
+            require( 'config.php');
+            print " ". $currency .PHP_EOL;
+        ?>
+        <br>
 
         <b>Mit Preis erfasste Bauteile:</b>
-        <?PHP
-        $i = 0;
-        $query = "SELECT preis FROM preise;";
-        $r = mysql_query ($query);
-        while ( $d = mysql_fetch_row ($r) )
-        {
-          $i++;
-        }
-        print $i;
-        ?><br>
+        <?php print parts_count_with_prices(); ?>
+        <br>
         <br>
 
         <b>Anzahl der verschiedenen Bauteile:</b>
@@ -63,16 +54,20 @@
         <br>
 
         <b>Anzahl der vorhandenen Bauteile:</b>
-        <?PHP
-        $query = "SELECT SUM(instock) FROM parts;";
-        $r = mysql_query ($query);
-        $d = mysql_fetch_row ($r);
-        print $d[0];
-        ?><br>
+        <?php print parts_count_sum_instock(); ?>
+        <br>
         <br>
 
         <b>Anzahl der Kategorien:</b>
         <?php print categories_count(); ?>
+        <br>
+
+        <b>Anzahl der Lagerorte:</b>
+        <?php print location_count(); ?>
+        <br>
+
+        <b>Anzahl der Lieferanten:</b>
+        <?php print suppliers_count(); ?>
         <br>
 
 <?php
