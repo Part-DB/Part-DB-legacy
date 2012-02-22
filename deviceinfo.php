@@ -28,13 +28,19 @@
 
     // set action to default, if not exists
     $action        = isset( $_REQUEST['action'])   ? $_REQUEST['action']   : 'default';
+    if ( isset( $_REQUEST["devicetableform_update"])) { $action = 'devicetableform_update';}
+    if ( isset( $_REQUEST["devicetableform_delete"])) { $action = 'devicetableform_delete';}
 
+    $sup_id            = isset( $_REQUEST['sup_id'])   ? $_REQUEST['sup_id']   : '';
+    $deviceid          = isset( $_REQUEST['deviceid']) ? $_REQUEST['deviceid'] : '';
     $showsearchedparts = 0;
     $notallinstock     = 0;
     $bookstate         = 0;
     $bookerrorstring   = "";
 	$refreshnav        = 0;
-	
+    $nrows             = 6;
+
+
     if ( strcmp ($action, "assignbytext") == 0 )
     {
 
@@ -46,21 +52,21 @@
         {
             //Check if part is allready assigned
             $partid = mysql_fetch_row ($result);
-            $query = "SELECT * FROM part_device WHERE id_part=". smart_escape($partid[0]) ." AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
+            $query = "SELECT * FROM part_device WHERE id_part=". smart_escape($partid[0]) ." AND id_device=".smart_escape( $deviceid).";";
             debug_print ($query);
             $result = mysql_query ($query);
             $nDevices = mysql_num_rows($result);
             if( $nDevices == 0)
             {
                 //now add a part to the device          
-                $query = "INSERT INTO part_device (id_part,id_device,quantity) VALUES (". smart_escape($partid[0]) .",". smart_escape($_REQUEST["deviceid"]) .",1);";
+                $query = "INSERT INTO part_device (id_part,id_device,quantity) VALUES (". smart_escape($partid[0]) .",". smart_escape( $deviceid) .",1);";
                 debug_print ($query);
                 mysql_query ($query);
             }
             else
             {
                 //Increment the part quantity
-                $query = "UPDATE part_device SET quantity=quantity+1 WHERE id_part=" . smart_escape($partid[0]) . " AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
+                $query = "UPDATE part_device SET quantity=quantity+1 WHERE id_part=" . smart_escape($partid[0]) . " AND id_device=".smart_escape( $deviceid).";";
                 debug_print($query);
                 mysql_query($query);
             }
@@ -70,21 +76,25 @@
             $showsearchedparts = 1;
         }
     }
-    else if ( strcmp( $action, "assignbyselected") == 0 )
+    
+    
+    if ( strcmp( $action, "assignbyselected") == 0 )
     {
         $rowcount = $_REQUEST["selections"];
         while($rowcount)
         {
             if($_REQUEST["selectedid".$rowcount] && $_REQUEST["selectedquantity".$rowcount])
             {
-                $query = "INSERT INTO part_device (id_part,id_device,quantity,mountname) VALUES (". smart_escape($_REQUEST["selectedid".$rowcount]) .",". smart_escape($_REQUEST["deviceid"]) .",".smart_escape($_REQUEST["selectedquantity".$rowcount]).",".smart_escape($_REQUEST["mounttext".$rowcount]).");";
+                $query = "INSERT INTO part_device (id_part,id_device,quantity,mountname) VALUES (". smart_escape($_REQUEST["selectedid".$rowcount]) .",". smart_escape( $deviceid) .",".smart_escape($_REQUEST["selectedquantity".$rowcount]).",".smart_escape($_REQUEST["mounttext".$rowcount]).");";
                 debug_print ($query);
                 mysql_query ($query);
             }
             $rowcount--;
         }
     }
-    else if ( strcmp( $action, "bookparts") == 0 )
+    
+    
+    if ( strcmp( $action, "bookparts") == 0 )
     {
         //First check if enough parts are in stock
         $query = "SELECT".
@@ -93,7 +103,7 @@
             " parts.name".
             " FROM parts".
             " JOIN part_device ON part_device.id_part = parts.id".
-            " WHERE part_device.id_device = ".$_REQUEST["deviceid"].";";
+            " WHERE part_device.id_device = ". smart_escape( $deviceid) .";";
         debug_print ($query);
         $result = mysql_query ($query);
         debug_print ($result);
@@ -117,7 +127,7 @@
         {
             $query = "UPDATE parts JOIN part_device ON part_device.id_part = parts.id SET parts.instock = parts.instock - (part_device.quantity*".
             $_REQUEST["bookmultiplikator"].") ".
-            "WHERE part_device.id_device = ".$_REQUEST["deviceid"].";";
+            "WHERE part_device.id_device = ". smart_escape( $deviceid) .";";
             debug_print ($query);
             $result = mysql_query ($query);
             if($result)
@@ -127,7 +137,9 @@
             debug_print ($result);
         }
     }
-	else if( strcmp ($_REQUEST["devicetableform"], "Übernehmen") == 0 )	
+    
+    
+    if ( strcmp( $action, "devicetableform_update") == 0 )	
 	{
 		$n = $_REQUEST["nrofparts"];
 		while($n)
@@ -136,7 +148,7 @@
 			if(strcmp($_REQUEST["newmountname".$n],$_REQUEST["oldmountname".$n]) != 0)
 			{
 				$query = "UPDATE part_device SET mountname=".smart_escape($_REQUEST["newmountname".$n])." ".
-				"WHERE id_part=" . smart_escape($_REQUEST["partid".$n]) . " AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
+				"WHERE id_part=" . smart_escape($_REQUEST["partid".$n]) . " AND id_device=".smart_escape( $deviceid).";";
 				debug_print($query);
 				mysql_query($query);
 			}
@@ -144,14 +156,16 @@
 			if(strcmp($_REQUEST["quant".$n],$_REQUEST["oldquant".$n]) != 0)
 			{
 				$query = "UPDATE part_device SET quantity=".smart_escape($_REQUEST["quant".$n])." ".
-				"WHERE id_part=" . smart_escape($_REQUEST["partid".$n]) . " AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
+				"WHERE id_part=" . smart_escape($_REQUEST["partid".$n]) . " AND id_device=".smart_escape( $deviceid).";";
 				debug_print($query);
 				mysql_query($query);
 			}
 			$n --;
 		}
 	}
-	else if( strcmp ($_REQUEST["devicetableform"], "Löschen") == 0 )	
+
+
+    if ( strcmp( $action, "devicetableform_delete") == 0 )	
 	{
 		$n = $_REQUEST["nrofparts"];
 		while($n)
@@ -160,20 +174,24 @@
 			{
 				//Remove selected parts
 				$query = "DELETE FROM part_device ".
-				"WHERE id_part=" . smart_escape($_REQUEST["partid".$n]) . " AND id_device=".smart_escape($_REQUEST["deviceid"]).";";
+				"WHERE id_part=" . smart_escape($_REQUEST["partid".$n]) . " AND id_device=".smart_escape( $deviceid).";";
 				debug_print($query);
 				mysql_query($query);
 			}
 			$n --;
 		}
 	}
-	else if( strcmp( $action, "renamedevice") == 0 )
+	
+    
+    if ( strcmp( $action, "renamedevice") == 0 )
 	{
-		$query = "UPDATE devices SET name=".smart_escape($_REQUEST["newdevname"])." WHERE id=" . smart_escape($_REQUEST["deviceid"]).";";
+		$query = "UPDATE devices SET name=".smart_escape($_REQUEST["newdevname"])." WHERE id=". smart_escape( $deviceid).";";
         mysql_query($query);
 		$refreshnav = 1;
 	}
-	else if( strcmp( $action, "copydevice") == 0 )
+
+
+	if ( strcmp( $action, "copydevice") == 0 )
 	{
 		//Create a new device and get the ID
 		$query = "INSERT INTO devices (name) VALUES (". smart_escape($_REQUEST["newcopydevname"]) .");";
@@ -183,7 +201,7 @@
         //copy parent id
 		$query = "SELECT parentnode FROM".
             " devices".
-            " WHERE id = ". smart_escape( $_REQUEST["deviceid"]) .";";
+            " WHERE id = ". smart_escape( $deviceid) .";";
         $result = mysql_query( $query);
         if ( $data = mysql_fetch_assoc( $result))
         {
@@ -198,7 +216,7 @@
             " part_device.quantity,".
             " part_device.mountname".
             " FROM part_device ".
-            " WHERE id_device = ".smart_escape($_REQUEST["deviceid"]).";";
+            " WHERE id_device = ".smart_escape( $deviceid).";";
         $r = mysql_query ($query);
 		
 		//Insert the parts
@@ -209,7 +227,9 @@
 		}
 		$refreshnav = 1;
 	}
-	else if( strcmp( $action, "import") == 0 )
+
+
+	if ( strcmp( $action, "import") == 0 )
 	{
 		if (isset($_REQUEST["import_data"])) {
 			$lines = preg_split("/\r\n/", $_REQUEST["import_data"]);
@@ -239,7 +259,7 @@
 					$addquery = $addquery.smart_escape($rowvalue).",";
 				}
 			  }
-			  $addquery = $addquery.smart_escape($_REQUEST["deviceid"]).");";
+			  $addquery = $addquery.smart_escape( $deviceid).");";
 			  if($rowvalid == 1)
 			  {
 				debug_print ($addquery);
@@ -251,7 +271,7 @@
  
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Deviceinfo</title>
@@ -268,12 +288,12 @@
         print "<form method=\"post\" action=\"\">";
         print "<input type=\"text\" name=\"newpartname\"/>";
         print "<input type=\"hidden\" name=\"action\"  value=\"assignbytext\"/>";
-        print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+        print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid. "\"/>";
         print "<input type=\"submit\" value=\"Hinzufügen\"/></form>";
         
         print "<form method=\"post\" action=\"\">";
         print "<input type=\"hidden\" name=\"action\"  value=\"refresh\"/>";
-        print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+        print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid. "\"/>";
         print "<input type=\"submit\" value=\"Aktualisieren\"/></form>";
         ?>
     </div>
@@ -283,7 +303,7 @@
     {   
         print "<div class=\"inner\">";
         print "<form method=\"post\" action=\"\">";
-        print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+        print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
         print "<input type=\"hidden\" name=\"action\"  value=\"assignbyselected\"/>";
         print "<table>";
         $kw = '\'%'. mysql_real_escape_string($_REQUEST['newpartname']) .'%\'';
@@ -296,7 +316,7 @@
             " FROM parts".
             " LEFT JOIN footprints ON (footprints.id = parts.id_footprint) ".
             " WHERE parts.name LIKE ".$kw.
-            " AND parts.id NOT IN(SELECT part_device.id_part FROM part_device WHERE part_device.id_device=".$_REQUEST["deviceid"].");";
+            " AND parts.id NOT IN(SELECT part_device.id_part FROM part_device WHERE part_device.id_device=". smart_escape( $deviceid) .");";
         $result = mysql_query ($query);
         $nParts = mysql_num_rows($result);
         $rowcount = 0;
@@ -354,7 +374,7 @@
 
 
 <div class="outer">
-    <h2>Zugeordnete Teile zu &quot;<?PHP print lookup_device_name ($_REQUEST["deviceid"]); ?>&quot;</h2>
+    <h2>Zugeordnete Teile zu &quot;<?PHP print lookup_device_name( $deviceid); ?>&quot;</h2>
     <div class="inner">
         <script language="JavaScript" type="text/javascript">
         
@@ -395,7 +415,7 @@
         <?PHP
         $rowcount = 0;  
 		print "<form method=\"post\" action=\"\">";
-        print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+        print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
 		
 		print "<tr class=\"trcat\"><td></td><td>Teil</td><td>Bestückungs<br>Daten</td><td>Anzahl</td><td>Footprint</td><td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Einzelpreis</td><td>Gesamtpreis</td><td>Entfernen</td></tr>\n";
                 
@@ -416,7 +436,7 @@
             " LEFT JOIN footprints ON (footprints.id = parts.id_footprint)".
 		    " LEFT JOIN storeloc ON (storeloc.id = parts.id_storeloc)".
 		    " LEFT JOIN suppliers ON (suppliers.id = parts.id_supplier)".
-		    " WHERE id_device = ".$_REQUEST["deviceid"].
+		    " WHERE id_device = ". smart_unescape( $deviceid).
             " ORDER BY parts.id_category, parts.name ASC;";
         debug_print($query);
         $result = mysql_query ($query);
@@ -425,39 +445,39 @@
         {
         
         $rowcount++;
-        print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
+        print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">". PHP_EOL;
         
         if (has_image($d[2]))
         {
-            print "<td class=\"tdrow0\"><a href=\"javascript:popUp('getimage.php?pid=". smart_unescape($d[2]) . "')\"><img class=\"catbild\" src=\"getimage.php?pid=". smart_unescape($d[2]) . "\" alt=\"". smart_unescape($d[0]) ."\"></a></td>";
+            print "<td class=\"tdrow0\"><a href=\"javascript:popUp('getimage.php?pid=". smart_unescape($d[2]) . "')\"><img class=\"catbild\" src=\"getimage.php?pid=". smart_unescape($d[2]) . "\" alt=\"". smart_unescape($d[0]) ."\"></a></td>". PHP_EOL;
         }
         else
         {
             //Footprintbilder
             if(is_file("tools/footprints/" . smart_unescape($d[3]) . ".png"))
             {
-            print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[3]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[3]) .".png\" alt=\"\"></a></td>";
+            print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[3]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[3]) .".png\" alt=\"\"></a></td>". PHP_EOL;
             }
             else
             {
-            print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
+            print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>". PHP_EOL;
             }
         }
         
         print "<td class=\"tdrow1\"><a title=\"";
         print "Kommentar: " . smart_unescape($d[1]);
-        print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[2]) ."');\">". smart_unescape($d[0]) ."</a></td>";
+        print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[2]) ."');\">". smart_unescape($d[0]) ."</a></td>". PHP_EOL;
 
-        print "<td class=\"tdrow1\">";
+        print "<td class=\"tdrow1\">". PHP_EOL;
         
-        print "<input type=\"hidden\" name=\"partid".$rowcount."\" value=\"".smart_unescape($d[2])."\"/>";
-        print "<input type=\"text\" size=\"5\"name=\"newmountname".$rowcount."\"  value=\"".smart_unescape($d[9])."\"/>";
-		print "<input type=\"hidden\" name=\"oldmountname".$rowcount."\"  value=\"".smart_unescape($d[9])."\"/>";
+        print "<input type=\"hidden\" name=\"partid".$rowcount."\" value=\"".smart_unescape($d[2])."\"/>". PHP_EOL;
+        print "<input type=\"text\" size=\"5\" name=\"newmountname".$rowcount."\"  value=\"".smart_unescape($d[9])."\"/>". PHP_EOL;
+		print "<input type=\"hidden\" name=\"oldmountname".$rowcount."\"  value=\"".smart_unescape($d[9])."\"/>". PHP_EOL;
         
         
-		print "<td class=\"tdrow1\"><input type=\"text\" size=\"5\" name=\"quant".$rowcount."\" onkeypress=\"validatePosIntNumber(event)\" value=\"".smart_unescape($d[4])."\"/>";
-		print "<input type=\"hidden\" size=\"5\"name=\"oldquant".$rowcount."\"  value=\"".smart_unescape($d[4])."\"/></td>";
-        print "<td class=\"tdrow1\">".smart_unescape($d[3])."</td>";        
+		print "<td class=\"tdrow1\"><input type=\"text\" size=\"5\" name=\"quant".$rowcount."\" onkeypress=\"validatePosIntNumber(event)\" value=\"".smart_unescape($d[4])."\"/>". PHP_EOL;
+		print "<input type=\"hidden\" size=\"5\"name=\"oldquant".$rowcount."\"  value=\"".smart_unescape($d[4])."\"/></td>". PHP_EOL;
+        print "<td class=\"tdrow1\">".smart_unescape($d[3])."</td>". PHP_EOL;        
         print "<td ";
         if($d[4] <= $d[5])
         {
@@ -491,10 +511,14 @@
         
         $rowcount++;
         print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
-		print "<input type=\"hidden\" name=\"nrofparts\" value=\"".$rowcount."\"/>";
-        print "<td class=\"tdrow1\" colspan=\"2\"></td><td class=\"tdrow1\" colspan=\"2\"><input type=\"submit\" name=\"devicetableform\" value=\"Übernehmen\"/></td><td class=\"tdrow1\" colspan=\"5\"></td><td class=\"tdrow0\">Gesamtpreis:<br>".$sumprice."&nbsp".$currency."</td><td class=\"tdrow1\" colspan=\"3\"><input type=\"submit\" name=\"devicetableform\" value=\"Löschen\"/></td>";
+		print "<input type=\"hidden\" name=\"nrofparts\" value=\"". ($rowcount-1) ."\"/>";
+        print "<td class=\"tdrow1\" colspan=\"2\"></td>". PHP_EOL.
+            "<td class=\"tdrow1\" colspan=\"2\"><input type=\"submit\" name=\"devicetableform_update\" value=\"Übernehmen\"/></td>". PHP_EOL.
+            "<td class=\"tdrow1\" colspan=\"5\"></td>". PHP_EOL.
+            "<td class=\"tdrow0\">Gesamtpreis:<br>".$sumprice."&nbsp".$currency."</td>". PHP_EOL.
+            "<td class=\"tdrow1\" colspan=\"3\"><input type=\"submit\" name=\"devicetableform_delete\" value=\"Löschen\"/></td>". PHP_EOL;
         
-		print "</tr></form>";
+		print "</tr></form>". PHP_EOL;
 
         ?>
         </table>
@@ -508,7 +532,7 @@
         <form method="post" action="">
             <table>
             <?PHP
-            print "<tr class=\"trcat\"><td><input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+            print "<tr class=\"trcat\"><td><input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
             print "<input type=\"hidden\" name=\"action\"  value=\"createbom\"/>";
             
             print "Lieferant:</td><td><select name=\"sup_id\">";
@@ -517,7 +541,7 @@
             else
                 print "<option value=\"0\">Alle</option>";
             
-            suppliers_build_list( $_REQUEST["sup_id"]); 
+            suppliers_build_list( $sup_id); 
             print "</select>";
             print "<tr class=\"trcat\"><td>";
             print "Format:</td><td><select name=\"format\">";
@@ -572,10 +596,10 @@
                     " LEFT JOIN footprints ON (footprints.id = parts.id_footprint)".
                     " LEFT JOIN storeloc ON (storeloc.id = parts.id_storeloc)".
                     " LEFT JOIN suppliers ON (suppliers.id = parts.id_supplier)".
-                    " WHERE id_device = ".$_REQUEST["deviceid"];
+                    " WHERE id_device = ". smart_escape( $deviceid);
                     if( $_REQUEST["sup_id"] != 0)
                     {
-                        $query = $query ." AND parts.id_supplier = ". $_REQUEST["sup_id"];
+                        $query = $query ." AND parts.id_supplier = ". $sup_id;
                     }
                     $query = $query ." ORDER BY parts.id_category,parts.name ASC;";
                 
@@ -640,7 +664,7 @@
                     print "disabled=\"disabled\"";
                 }
                 print "/>";
-                print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+                print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
                 print "<input type=\"hidden\" name=\"action\"  value=\"bookparts\"/>";
                 print "</td>";
                 if($bookstate > 1)  //success
@@ -678,7 +702,7 @@
                 print "</textarea>";
                 print "<td></tr>";
                 print "<tr><td><input type=\"submit\" value=\"Ausführen\"/>";                    
-                print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+                print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $deviceid ."\"/>";
                 print "<input type=\"hidden\" name=\"action\"  value=\"import\"/>";
                 print "</td>";
                 print "</tr>";
@@ -697,11 +721,11 @@
                 
                 <?PHP
                 print "<tr class=\"trcat\"><td>Umbenennen:</td><td><input type=\"text\" name=\"newdevname\" size=\"10\" maxlength=\"50\" value=\"";
-                print lookup_device_name( $_REQUEST["deviceid"]);
+                print lookup_device_name( $deviceid);
                 print "\"/><td></tr>";
                 print "<tr><td><input type=\"submit\" value=\"Ausführen\"/>";
                 
-                print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+                print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
                 print "<input type=\"hidden\" name=\"action\"  value=\"renamedevice\"/>";
                 print "</td>";
                 print "</tr>";
@@ -715,11 +739,11 @@
                 
                 <?PHP
                 print "<tr class=\"trcat\"><td>Kopieren:</td><td><input type=\"text\" name=\"newcopydevname\" size=\"10\" maxlength=\"50\" value=\"";
-                print "KopieVon". lookup_device_name( $_REQUEST["deviceid"]);
+                print "KopieVon". lookup_device_name( $deviceid);
                 print "\"/><td></tr>";
                 print "<tr><td><input type=\"submit\" value=\"Ausführen\"/>";
                 
-                print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $_REQUEST["deviceid"]. "\"/>";
+                print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
                 print "<input type=\"hidden\" name=\"action\"  value=\"copydevice\"/>";
                 print "</td>";
                 print "</tr>";
