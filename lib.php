@@ -92,6 +92,7 @@
     parts_count_sum_instock
     parts_count_with_prices
     parts_count_on_category
+    parts_select_category
     part_get_category_id
 
     devices_count
@@ -308,11 +309,11 @@
             'location'
 
     */
-    function print_table_row( $rowcount, $data) 
+    function print_table_row( $row_odd, $data) 
     
     {
         // the alternating background colors are created here
-        print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">\n";
+        print "<tr class=\"".( $row_odd ? 'trlist_odd': 'trlist_even')."\">\n";
         
         // Pictures
         print "<td class=\"tdrow0\">";
@@ -802,7 +803,7 @@
                     smart_unescape( $data['name']).
                     "','showparts.php?cid=". 
                     smart_unescape( $data['id']).
-                    "&type=index\"','','content_frame');\n";
+                    "\"','','content_frame');\n";
                 categories_build_navtree( $data['id']);
             }
         }
@@ -1004,6 +1005,30 @@
         $result = mysql_query( $query) or die( mysql_error());
         $data   = mysql_fetch_assoc( $result);
         return( $data['count']);
+    }
+
+    function parts_select_category( $cid, $with_subcategories)
+    {
+        // check if with or without subcategories
+        $catclause = categories_or_child_nodes( $cid, $with_subcategories);
+
+        $query = "SELECT".
+            " parts.id,".
+            " parts.name,".
+            " parts.instock,".
+            " parts.mininstock,".
+            " footprints.name AS 'footprint',".
+            " storeloc.name AS 'location',".
+            " parts.comment,".
+            " parts.supplierpartnr".
+            " FROM parts".
+            " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+            " LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id".
+            " WHERE (". $catclause .")".
+            " ORDER BY name ASC;";
+        $result = mysql_query( $query) or die( mysql_error());
+
+        return( $result);
     }
 
     // determine category

@@ -137,9 +137,9 @@
                 " ORDER BY parts.id_category, parts.name ASC;";
             $result = mysql_query( $query) or die( mysql_error());
         
-            $rowcount = 0;  // $rowcount is used for the alternating bg colors
-            $prevcat = -1;  // $prevcat remembers the previous category. -1 is
-                            // an invalid category id.
+            $row_odd = true; // $row_odd is used for the alternating bg colors
+            $prevcat = -1;   // $prevcat remembers the previous category. -1 is
+                             // an invalid category id.
 
             while ( $data_array = mysql_fetch_assoc( $result))
             {
@@ -164,11 +164,11 @@
                         "<td align=\"center\">+</td>".
                         "</tr>\n";
                     $prevcat = $data_array['id_category'];
-                    $rowcount = 0;
+                    $row_odd = true;
                 }
 
-                $rowcount++;
-                print_table_row( $rowcount, $data_array);
+                print_table_row( $row_odd, $data_array);
+                $row_odd = ! $row_odd;
             }
         ?>
         </table>
