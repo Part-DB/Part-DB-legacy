@@ -206,9 +206,7 @@
          * software, ...) every part only has one price "tag".
          * So we add LIMIT 1 to protect from run-away queries.
          */
-        $query = "DELETE FROM preise WHERE part_id=". smart_escape( $pid) ." LIMIT 1;";
-        debug_print($query);
-        mysql_query($query);
+        price_delete( $pid);
     }
     else if ( strcmp ($action, "price_add") == 0 )
     {
@@ -219,16 +217,12 @@
          * could replace this with a better one!
          * (http://www.regular-expressions.info/floatingpoint.html)
          */
-        if (preg_match("/^[-+]?[0-9]*\.?[0-9]+/", $_REQUEST["price"]) == true)
+        if ( preg_match("/^[-+]?[0-9]*\.?[0-9]+/", $_REQUEST["price"]) == true)
         {
             $_REQUEST["price"] = str_replace(',', '.', $_REQUEST["price"]);
             /* Before adding the new price, delete the old one! */
-            $query = "DELETE FROM preise WHERE part_id=". smart_escape( $pid) ." LIMIT 1;";
-            debug_print($query);
-            mysql_query($query);
-            $query = "INSERT INTO preise (part_id,ma,preis,t) VALUES (". smart_escape( $pid) .", 1, ". smart_escape($_REQUEST["price"]) .", NOW());";
-            debug_print($query);
-            mysql_query($query);
+            price_delete( $pid);
+            price_add( $pid, $_REQUEST["price"]);
         }
     }
     if ($special_dialog == 0)
@@ -385,9 +379,8 @@
     <h2>Preisinfos</h2>
     <div class="inner">
         <?PHP
-            $q = "SELECT id,preis,ma FROM preise WHERE part_id=". smart_escape( $pid) ." ORDER BY ma DESC;";
-            $r = mysql_query($q);
-            if (mysql_num_rows($r) > 0)
+            $r = price_select( $pid); 
+            if ( mysql_num_rows( $r) > 0)
             {
                 /*
                 * There's some information in the table ...

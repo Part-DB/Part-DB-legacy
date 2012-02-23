@@ -126,13 +126,7 @@
 						if (preg_match("/^[-+]?[0-9]*\.?[0-9]+/", $_REQUEST["p_price"]) == true)
 						{
 							$_REQUEST["price"] = str_replace(',', '.', $_REQUEST["price"]);
-							/* Before adding the new price, delete the old one! */
-							$query = "DELETE FROM preise WHERE part_id=". smart_escape($_REQUEST["pid"]) ." LIMIT 1;";
-							debug_print($query);
-							mysql_query($query);
-							$query = "INSERT INTO preise (part_id,ma,preis,t) VALUES (". $id .", 1, ". smart_escape($_REQUEST["p_price"]) .", NOW());";
-							debug_print($query);
-							mysql_query($query);
+                            price_add( $id, $_REQUEST["p_price"]);
 						}
 					}
                     // close the window on success

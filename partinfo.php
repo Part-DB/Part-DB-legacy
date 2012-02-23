@@ -62,27 +62,7 @@
         <tr valign="top">
         <td>
         <table><?php
-        $query = "SELECT ".
-            " parts.id,".
-            " parts.name,".
-            " parts.instock,".
-            " parts.mininstock,".
-            " footprints.name AS 'footprint',".
-            " storeloc.name AS 'location',".
-            " storeloc.is_full AS 'location_is_full',".
-            " suppliers.name AS 'supplier',".
-            " parts.supplierpartnr,".
-            " preise.preis,".
-            " preise.ma,".
-            " parts.comment ".
-            " FROM parts ".
-            " LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
-            " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id ".
-            " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id ".
-            " LEFT JOIN preise ON parts.id=preise.part_id ".
-            " WHERE parts.id=". smart_escape($_REQUEST["pid"]).
-            " ORDER BY preise.ma DESC LIMIT 1;";
-        $result = mysql_query( $query) or die( mysql_error());
+        $result = parts_select( $_REQUEST["pid"]);
         while ( $data = mysql_fetch_assoc( $result))
         {
             print "<tr><td><b>Name:</b></td><td>". smart_unescape( $data['name']) ."</td></tr>". PHP_EOL;
@@ -126,20 +106,20 @@
         </td>
         </tr>
         </table>
-        <?PHP
-        if (has_image($_REQUEST["pid"]))
+        <?php
+        if ( has_image( $_REQUEST["pid"]))
         {
-        print "<br><b>Bilder:</b><table><tr>\n";
-        
-        $pict_query = "SELECT pictures.id FROM pictures WHERE (pictures.part_id=". smart_escape($_REQUEST["pid"]) .") AND (pictures.pict_type='P');";
-        debug_print ($pict_query);
-        $r = mysql_query ($pict_query);
+            print "<br><b>Bilder:</b><table><tr>". PHP_EOL;
+            
+            $pict_query = "SELECT pictures.id FROM pictures WHERE (pictures.part_id=". smart_escape($_REQUEST["pid"]) .") AND (pictures.pict_type='P');";
+            debug_print ($pict_query);
+            $result = mysql_query ($pict_query);
 
-        while ( ($d = mysql_fetch_row ($r)) )
-        {
-            print "<td><a href=\"javascript:popUp('getimage.php?pict_id=". $d[0] ."')\"><img src=\"getimage.php?pict_id=". $d[0] ."&maxx=200&maxy=150\" alt=\"Zum Vergr&ouml;&szlig;ern klicken!\"></a></td>";
-        }
-        print "</tr></table>\n";
+            while ($data = mysql_fetch_assoc( $result))
+            {
+                print "<td><a href=\"javascript:popUp('getimage.php?pict_id=". $data['id'] ."')\"><img src=\"getimage.php?pict_id=". $data['id'] ."&maxx=200&maxy=150\" alt=\"Zum Vergr&ouml;&szlig;ern klicken!\"></a></td>". PHP_EOL;
+            }
+            print "</tr></table>". PHP_EOL;
         }
         ?>
     </div>

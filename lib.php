@@ -92,10 +92,15 @@
     parts_count_sum_instock
     parts_count_with_prices
     parts_count_on_category
+    parts_select
     parts_select_category
+    parts_select_without_price
     part_get_category_id
 
     devices_count
+
+    price_add
+    price_delete
     
 */
     
@@ -1007,6 +1012,33 @@
         return( $data['count']);
     }
 
+    function parts_select( $pid)
+    {
+        $query = "SELECT ".
+            " parts.id,".
+            " parts.name,".
+            " parts.instock,".
+            " parts.mininstock,".
+            " footprints.name  AS 'footprint',".
+            " storeloc.name    AS 'location',".
+            " storeloc.is_full AS 'location_is_full',".
+            " suppliers.name   AS 'supplier',".
+            " parts.supplierpartnr,".
+            " preise.preis,".
+            " preise.ma,".
+            " parts.comment".
+            " FROM parts".
+            " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+            " LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id".
+            " LEFT JOIN suppliers  ON parts.id_supplier=suppliers.id".
+            " LEFT JOIN preise     ON parts.id=preise.part_id".
+            " WHERE parts.id=". smart_escape( $pid).
+            " ORDER BY preise.ma DESC LIMIT 1;";
+        $result = mysql_query( $query) or die( mysql_error());
+
+        return( $result);
+    }
+
     function parts_select_category( $cid, $with_subcategories)
     {
         // check if with or without subcategories
@@ -1026,6 +1058,31 @@
             " LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id".
             " WHERE (". $catclause .")".
             " ORDER BY name ASC;";
+        $result = mysql_query( $query) or die( mysql_error());
+
+        return( $result);
+    }
+
+    function parts_select_without_price()
+    {
+        $query = "SELECT ".
+            " parts.id,".
+            " parts.name,".
+            " parts.instock,".
+            " parts.mininstock,".
+            " footprints.name AS 'footprint',".
+            " storeloc.name AS 'location',".
+            " suppliers.name AS 'supplier',". 
+            " parts.supplierpartnr,". 
+            " parts.comment".
+            " FROM parts".
+            " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+            " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
+            " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id". 
+            " LEFT JOIN preise ON parts.id=preise.part_id".
+            " WHERE (preise.id IS NULL)".
+            " ORDER BY name ASC;";
+
         $result = mysql_query( $query) or die( mysql_error());
 
         return( $result);
@@ -1058,5 +1115,31 @@
         $data   = mysql_fetch_array( $result);
         return( $data['count']);
     }
+
+
+    /* ***************************************************
+     * price querys
+     */
+        
+    function price_add( $part_id, $price)
+    {
+        $query = "INSERT INTO preise (part_id, ma, preis, t) VALUES (". smart_escape( $part_id) .", 1, ". smart_escape( $price) .", NOW());";
+        mysql_query( $query) or die( mysql_error());
+    }
     
+    function price_delete( $part_id)
+    {
+        
+        $query = "DELETE FROM preise WHERE part_id=". smart_escape( $part_id) ." LIMIT 1;";
+        mysql_query( $query) or die( mysql_error());
+    }
+
+    function price_select( $pid)
+    {
+        $query = "SELECT id, preis, ma FROM preise WHERE part_id=". smart_escape( $pid) ." ORDER BY ma DESC;";
+        $result = mysql_query( $query) or die( mysql_error());
+        return( $result);
+    }
+
+
 ?>

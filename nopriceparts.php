@@ -26,20 +26,19 @@
     
     // set action to default, if not exists
     $action = isset( $_REQUEST['action']) ? $_REQUEST['action'] : 'default';
+
     
     if ( strcmp( $action, "newprice") == 0)  //Set new price
     {
         $rowcount = $_REQUEST["selections"];
-        while($rowcount)
+        while( $rowcount)
         {
-            if($_REQUEST["selectedpid".$rowcount] && $_REQUEST["newprice".$rowcount])
+            if( $_REQUEST["selectedpid".$rowcount] && $_REQUEST["newprice".$rowcount])
             {           
                 $_REQUEST["newprice".$rowcount] = str_replace(',', '.', $_REQUEST["newprice".$rowcount]);
                 /* Before adding the new price, delete the old one! */
-                $query = "DELETE FROM preise WHERE part_id=". smart_escape($_REQUEST["selectedpid".$rowcount]) ." LIMIT 1;";
-                mysql_query($query);
-                $query = "INSERT INTO preise (part_id,ma,preis,t) VALUES (". smart_escape($_REQUEST["selectedpid".$rowcount]) .", 1, ". smart_escape($_REQUEST["newprice".$rowcount]) .", NOW());";
-                mysql_query($query);
+                price_delete( $_REQUEST["selectedpid".$rowcount]); 
+                price_add(    $_REQUEST["selectedpid".$rowcount], $_REQUEST["newprice".$rowcount]);
             }
             $rowcount--;
         }
@@ -48,7 +47,7 @@
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Teile ohne Preis</title>
@@ -94,25 +93,7 @@
             "<td align=\"center\">Preis</td>".
             "</tr>\n";
 
-        $query = "SELECT ".
-            " parts.id,".
-            " parts.name,".
-            " parts.instock,".
-            " parts.mininstock,".
-            " footprints.name AS 'footprint',".
-            " storeloc.name AS 'location',".
-            " suppliers.name AS 'supplier',". 
-            " parts.supplierpartnr,". 
-            " parts.comment".
-            " FROM parts".
-            " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
-            " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
-            " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id". 
-            " LEFT JOIN preise ON parts.id=preise.part_id".
-            " WHERE (preise.id IS NULL)".
-            " ORDER BY name ASC;";
-
-        $result = mysql_query( $query) or die( mysql_error());
+        $result = parts_select_without_price();
 
         $rowcount = 0;
         while ( $data = mysql_fetch_assoc( $result))
@@ -123,26 +104,25 @@
             // Pictures
             print "<td class=\"tdrow0\">";
             print_table_image( $data['id'], $data['name'], $data['footprint']);
-            print "</td>\n";
+            print "</td>". PHP_EOL;
             
-            print "<td class=\"tdrow1\"><a title=\"Kommentar: " . htmlspecialchars( smart_unescape( $data['comment']));
-            print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape($data['name']) ."</a></td>";
-            print "<td class=\"tdrow1\">". smart_unescape( $data['instock']) ."/". smart_unescape( $data['mininstock']) ."</td>";
-            print "<td class=\"tdrow1\">". smart_unescape( $data['footprint']) ."</td>";
-            print "<td class=\"tdrow1\">". smart_unescape( $data['location']) ."</td>";
-            print "<td class=\"tdrow1\">". smart_unescape( $data['supplier']) ."</td>"; 
-            print "<td class=\"tdrow1\">". smart_unescape( $data['supplierpartnr']) ."</td>"; 
-            
+            print "<td class=\"tdrow1\"><a title=\"Kommentar: ". htmlspecialchars( smart_unescape( $data['comment']));
+            print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape( $data['name']) ."</a></td>". PHP_EOL;
+            print "<td class=\"tdrow1\">". smart_unescape( $data['instock']) ."/". smart_unescape( $data['mininstock']) ."</td>". PHP_EOL;
+            print "<td class=\"tdrow1\">". smart_unescape( $data['footprint']) ."</td>". PHP_EOL;
+            print "<td class=\"tdrow1\">". smart_unescape( $data['location']) ."</td>". PHP_EOL;
+            print "<td class=\"tdrow1\">". smart_unescape( $data['supplier']) ."</td>". PHP_EOL; 
+            print "<td class=\"tdrow1\">". smart_unescape( $data['supplierpartnr']) ."</td>". PHP_EOL; 
             
             //Show a text box to add new price
-            print "<td class=\"tdrow1\">";
-            print "<input type=\"hidden\" name=\"selectedpid".$rowcount."\" value=\"" . smart_unescape( $data['id']). "\"/>";
-            print "<input type=\"text\" size=\"3\" onkeypress=\"validateFloat(event)\" name=\"newprice".$rowcount."\" value=\"0\"/>";
-            print "</td>";
-            print "</tr>\n";
+            print "<td class=\"tdrow1\">". PHP_EOL;
+            print "<input type=\"hidden\" name=\"selectedpid".$rowcount."\" value=\"" . smart_unescape( $data['id']). "\"/>". PHP_EOL;
+            print "<input type=\"text\" size=\"3\" onkeypress=\"validateFloat(event)\" name=\"newprice".$rowcount."\" value=\"0\"/>". PHP_EOL;
+            print "</td>". PHP_EOL;
+            print "</tr>". PHP_EOL;
         }
         
-        print "</table>";
+        print "</table>". PHP_EOL;
         print "<input type=\"hidden\" name=\"selections\"  value=\"".$rowcount."\">";
         ?>
         <input type="submit" value="Hinzuf&uuml;gen">
