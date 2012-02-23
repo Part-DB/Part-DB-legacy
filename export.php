@@ -109,15 +109,14 @@
     {
 
         // header
-        $CSVDoc = "^ Kategorie^ Name^ Anzahl^ Footprint^ Lagerort^ Lieferant^ Bestellnummer^ Kommentar^\n|";
+        $CSVDoc = "^ Kategorie^ Name^ Anzahl^ Footprint^ Lagerort^ Lieferant^ Bestellnummer^ Kommentar^ \n|";
      
         //  catch SQL results, form DokuWIKI (CSV) output 
         while( $dbrow = mysql_fetch_row( $result))
         {
-            $CSVDoc .= implode( "|", $dbrow) . "\n|";
-        }
-     
+            $CSVDoc .= implode( " |", $dbrow) . "\n|";
 
+        }
         // output
         header("Content-Type: text/plain");
         header("Content-disposition: attachment; filename=\"". $filename .".txt\"");
