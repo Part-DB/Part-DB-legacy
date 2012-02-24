@@ -42,7 +42,7 @@
                 $count_row    = mysql_fetch_array( $count_result);
                 $count        = $count_row['count'];
                 
-                $target_url = "','deviceinfo.php?deviceid=";
+                $target_url = ($count > 0) ? "','device.php?deviceid=" : "','deviceinfo.php?deviceid=";
                 print "dev_tree.add(". smart_unescape( $d['id']) .",". 
                     smart_unescape( $pid) .",'".
                     smart_unescape( $d['name']).
