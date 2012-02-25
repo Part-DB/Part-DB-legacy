@@ -61,14 +61,24 @@
         <table>
         <tr valign="top">
         <td>
-        <table><?php
+        <table>
+        <?php
         $result = parts_select( $_REQUEST["pid"]);
         while ( $data = mysql_fetch_assoc( $result))
         {
-            print "<tr><td><b>Name:</b></td><td>". smart_unescape( $data['name']) ."</td></tr>". PHP_EOL;
-            print "<tr><td><b>Vorhanden:</b></td><td>". smart_unescape( $data['instock']) ."</td></tr>". PHP_EOL;
+            print "<tr><td><b>Name:</b></td><td>".         smart_unescape( $data['name']) ."</td></tr>". PHP_EOL;
+            print "<tr><td><b>Vorhanden:</b></td><td>".    smart_unescape( $data['instock']) ."</td></tr>". PHP_EOL;
             print "<tr><td><b>Min. Bestand:</b></td><td>". smart_unescape( $data['mininstock']) ."</td></tr>". PHP_EOL;
-            print "<tr><td><b>Footprint:</b></td><td>". smart_unescape( $data['footprint']) ."</td></tr>". PHP_EOL;
+            print "<tr><td><b>Footprint:</b></td><td>".    smart_unescape( $data['footprint']);
+            
+            // footprint
+            $link = footprint_picture_exists( smart_unescape( $data['footprint']));
+            if ( $link)
+            {
+                print "<img align=\"middle\" height=\"70\" src=\"". $link ."\" alt=\"\">";
+            }
+            print "</td></tr>". PHP_EOL;
+
             print "<tr><td><b>Lagerort:</b></td><td>". smart_unescape( $data['location']). (( $data['location_is_full'] == 1 ) ? ' [voll]' : '') ."</td></tr>". PHP_EOL;
             print "<tr><td><b>Lieferant:</b></td><td>". smart_unescape( $data['supplier']) ."</td></tr>". PHP_EOL;
             print "<tr><td><b>Bestell-Nr.:</b></td><td>". smart_unescape( $data['supplierpartnr']) ."</td></tr>". PHP_EOL;
@@ -77,6 +87,8 @@
             include("config.php");
             print " ".$currency." &nbsp;</td></tr>". PHP_EOL;
             print "<tr><td valign=\"top\"><b>Kommentar:</b></td><td>". nl2br( smart_unescape( $data['comment'])) ."&nbsp;</td></tr>". PHP_EOL;
+        
+
         }
         ?>
         </table>
@@ -109,18 +121,19 @@
         <?php
         if ( has_image( $_REQUEST["pid"]))
         {
-            print "<br><b>Bilder:</b><table><tr>". PHP_EOL;
+            print "<br><b>Bilder:</b><br>". PHP_EOL;
             
-            $pict_query = "SELECT pictures.id FROM pictures WHERE (pictures.part_id=". smart_escape($_REQUEST["pid"]) .") AND (pictures.pict_type='P');";
-            debug_print ($pict_query);
-            $result = mysql_query ($pict_query);
+            $result = pictures_select( $_REQUEST["pid"]); 
 
             while ($data = mysql_fetch_assoc( $result))
             {
-                print "<td><a href=\"javascript:popUp('getimage.php?pict_id=". $data['id'] ."')\"><img src=\"getimage.php?pict_id=". $data['id'] ."&maxx=200&maxy=150\" alt=\"Zum Vergr&ouml;&szlig;ern klicken!\"></a></td>". PHP_EOL;
+                $link = "getimage.php?pict_id=". $data['id'];
+                print "<a href=\"javascript:popUp('". $link ."')\">".
+                    "<img src=\"". $link ."&maxx=200&maxy=150\" alt=\"Zum Vergr&ouml;&szlig;ern klicken!\">".
+                    "</a><br>". PHP_EOL;
             }
-            print "</tr></table>". PHP_EOL;
         }
+
         ?>
     </div>
 </div>

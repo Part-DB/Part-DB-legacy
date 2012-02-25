@@ -55,6 +55,7 @@
     footprint_count
     footprint_get_id
     footprint_exists
+    footprint_picture_exists
 
     supplier_add
     supplier_delete
@@ -96,6 +97,8 @@
     parts_select_category
     parts_select_without_price
     part_get_category_id
+
+    pictures_select
 
     devices_count
 
@@ -282,8 +285,8 @@
         }
         else
         {
-            $link = "tools/footprints/". smart_unescape( $footprint) .".png";
-            if ( is_file( $link))
+            $link = footprint_picture_exists( smart_unescape( $footprint));
+            if ( $link)
             {
                 // footprint
                 print "<a href=\"javascript:popUp('". $link ."')\">".
@@ -620,6 +623,13 @@
         $data  = mysql_num_rows( $res);
 
         return( ($data == 1) ? true : false );
+    }
+
+
+    function footprint_picture_exists( $footprint)
+    {
+        $link = "tools/footprints/". $footprint .".png";
+        return( is_file( $link) ? $link : false);
     }
 
 
@@ -1101,6 +1111,23 @@
             $cat  = $data['id_category'];
         }
         return( $cat);
+    }
+
+
+    /* ***************************************************
+     * pictures querys
+     */
+    function pictures_select( $pid)
+    {
+        $query = "SELECT".
+            " id".
+            " FROM pictures".
+            " WHERE (pictures.part_id=". smart_escape( $pid) .")".
+            "   AND (pictures.pict_type='P');";
+
+        $result = mysql_query( $query) or die( mysql_error());
+
+        return( $result);
     }
 
 

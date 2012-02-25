@@ -326,22 +326,9 @@
             $rowcount++;
             print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
             
-            if (has_image($d[2]))
-            {
-                print "<td class=\"tdrow0\"><a href=\"javascript:popUp('getimage.php?pid=". smart_unescape($d[2]) . "')\"><img class=\"catbild\" src=\"getimage.php?pid=". smart_unescape($d[2]) . "\" alt=\"". smart_unescape($d[0]) ."\"></a></td>";
-            }
-            else
-            {
-                //Footprintbilder
-                if(is_file("tools/footprints/" . smart_unescape($d[3]) . ".png"))
-                {
-                print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[3]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[3]) .".png\" alt=\"\"></a></td>";
-                }
-                else
-                {
-                print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>";
-                }
-            }
+            print "<td class=\"tdrow0\">";
+            print_table_image( $d[2], $d[0], $d[3]);
+            print "</td>". PHP_EOL;
                 
             print "<td class=\"tdrow1\" >";
             print "<input type=\"hidden\" name=\"selectedid".$rowcount."\" value=\"" . smart_unescape($d[2]). "\"/>";
@@ -447,22 +434,9 @@
         $rowcount++;
         print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">". PHP_EOL;
         
-        if (has_image($d[2]))
-        {
-            print "<td class=\"tdrow0\"><a href=\"javascript:popUp('getimage.php?pid=". smart_unescape($d[2]) . "')\"><img class=\"catbild\" src=\"getimage.php?pid=". smart_unescape($d[2]) . "\" alt=\"". smart_unescape($d[0]) ."\"></a></td>". PHP_EOL;
-        }
-        else
-        {
-            //Footprintbilder
-            if(is_file("tools/footprints/" . smart_unescape($d[3]) . ".png"))
-            {
-            print "<td class=\"tdrow0\"><a href=\"javascript:popUp('tools/footprints/". smart_unescape($d[3]) . ".png')\"><img class=\"catbild\" src=\"tools/footprints/". smart_unescape($d[3]) .".png\" alt=\"\"></a></td>". PHP_EOL;
-            }
-            else
-            {
-            print "<td class=\"tdrow0\"><img class=\"catbild\" src=\"img/partdb/dummytn.png\" alt=\"\"></td>". PHP_EOL;
-            }
-        }
+        print "<td class=\"tdrow0\">";
+        print_table_image( $d[2], $d[0], $d[3]);
+        print "</td>". PHP_EOL;
         
         print "<td class=\"tdrow1\"><a title=\"";
         print "Kommentar: " . smart_unescape($d[1]);
