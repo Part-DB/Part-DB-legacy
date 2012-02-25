@@ -107,35 +107,8 @@
     <div class="inner">
         <table>
         <?php
-            // execute the SQL query
             $keyword_esc = smart_escape_for_search( $keyword);
-
-            // build search strings
-            $query_nam = ( $search_nam) ? " OR (parts.name LIKE ".           $keyword_esc.")" : "";
-            $query_com = ( $search_com) ? " OR (parts.comment LIKE ".        $keyword_esc.")" : ""; 
-            $query_sup = ( $search_sup) ? " OR (suppliers.name LIKE ".       $keyword_esc.")" : ""; 
-            $query_snr = ( $search_snr) ? " OR (parts.supplierpartnr LIKE ". $keyword_esc.")" : ""; 
-            $query_loc = ( $search_loc) ? " OR (storeloc.name LIKE ".        $keyword_esc.")" : ""; 
-            $query_fpr = ( $search_fpr) ? " OR (footprints.name LIKE ".      $keyword_esc.")" : ""; 
-            $search = $query_nam. $query_com. $query_sup. $query_snr. $query_loc. $query_fpr;
-            $query = 
-                "SELECT ".
-                "parts.id,".
-                "parts.name,".
-                "parts.instock,".
-                "parts.mininstock,".
-                "footprints.name AS 'footprint',".
-                "storeloc.name   AS 'location',".
-                "parts.comment,".
-                "parts.id_category, ".
-                "parts.supplierpartnr ".
-                "FROM parts ".
-                "LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
-                "LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id ".
-                "LEFT JOIN suppliers  ON parts.id_supplier=suppliers.id ".
-                "WHERE FALSE ". $search.
-                " ORDER BY parts.id_category, parts.name ASC;";
-            $result = mysql_query( $query) or die( mysql_error());
+            $result      = parts_select_search( $keyword_esc, $search_nam, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr);
         
             $row_odd = true; // $row_odd is used for the alternating bg colors
             $prevcat = -1;   // $prevcat remembers the previous category. -1 is

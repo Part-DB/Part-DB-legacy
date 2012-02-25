@@ -96,6 +96,7 @@
     parts_select
     parts_select_category
     parts_select_without_price
+    parts_select_search
     part_get_category_id
 
     pictures_select
@@ -1093,6 +1094,38 @@
             " WHERE (preise.id IS NULL)".
             " ORDER BY name ASC;";
 
+        $result = mysql_query( $query) or die( mysql_error());
+
+        return( $result);
+    }
+
+    function parts_select_search( $keyword, $search_nam, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr)
+    {
+        // build search strings
+        $query_nam = ( $search_nam) ? " OR (parts.name LIKE ".           $keyword.")" : "";
+        $query_com = ( $search_com) ? " OR (parts.comment LIKE ".        $keyword.")" : ""; 
+        $query_sup = ( $search_sup) ? " OR (suppliers.name LIKE ".       $keyword.")" : ""; 
+        $query_snr = ( $search_snr) ? " OR (parts.supplierpartnr LIKE ". $keyword.")" : ""; 
+        $query_loc = ( $search_loc) ? " OR (storeloc.name LIKE ".        $keyword.")" : ""; 
+        $query_fpr = ( $search_fpr) ? " OR (footprints.name LIKE ".      $keyword.")" : ""; 
+        $search = $query_nam. $query_com. $query_sup. $query_snr. $query_loc. $query_fpr;
+        $query = 
+            "SELECT ".
+            " parts.id,".
+            " parts.name,".
+            " parts.instock,".
+            " parts.mininstock,".
+            " footprints.name AS 'footprint',".
+            " storeloc.name   AS 'location',".
+            " parts.comment,".
+            " parts.id_category,".
+            " parts.supplierpartnr".
+            " FROM parts".
+            " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+            " LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id".
+            " LEFT JOIN suppliers  ON parts.id_supplier=suppliers.id".
+            " WHERE FALSE ". $search.
+            " ORDER BY parts.id_category, parts.name ASC;";
         $result = mysql_query( $query) or die( mysql_error());
 
         return( $result);
