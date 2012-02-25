@@ -185,13 +185,16 @@ if (! $disable_update_list) {
                 // show all lines from rss feed
                 foreach ( $rss_zeilen as $zeile ) 
                 {
-                    preg_match_all ( "|<$zeile>(.*)</$zeile>|Usim", $string, $preg_match );
+                    // find tags
+                    preg_match_all( "|<$zeile>(.*)</$zeile>|Usim", $string, $preg_match);
                     $$zeile = $preg_match [1] [0];
-                    print $$zeile ."<br>";
+                    // make clickable if http url
+                    $$zeile = preg_replace('`((?:http)://\S+[[:alnum:]]/?)`si', '<a href="\\1">\\1</a>', $$zeile); 
+                    print $$zeile ."<br>". PHP_EOL;
                 } 
                 if (!(--$count))
                     break;
-                print "<br>\n";
+                print "<br>". PHP_EOL;
             }
         ?>
     </div>
