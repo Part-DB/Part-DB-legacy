@@ -26,34 +26,25 @@
     
     // set action to default, if not exists
     $action        = isset( $_REQUEST['action'])   ? $_REQUEST['action']   : 'default';
-	$deviceid      = isset( $_REQUEST['deviceid']) ? $_REQUEST['deviceid'] : 'all'; 
+	$deviceid      = isset( $_REQUEST['deviceid']) ? $_REQUEST['deviceid'] : 0; 
 
     $confirmdelete = 0;
     $refreshnav    = 0;
 	
     if( strcmp( $action, "createdevice") == 0)  //add a new device
     {
-        $query = "INSERT INTO devices (name) VALUES (". smart_escape($_REQUEST["newdevicename"]) .");";
-        $r = mysql_query ($query);
-		if($r == 0)
-            print "Fehler";
+        device_add( $_REQUEST["newdevicename"], $deviceid);
 		$refreshnav = 1;
     }
-    else if( strcmp($action, "confirmeddelete") == 0)
+    
+    if( strcmp($action, "confirmeddelete") == 0)
     {
-        $query = "DELETE FROM devices WHERE id=". smart_escape( $deviceid) ." LIMIT 1;";
-        $r = mysql_query ($query);
-        if($r == 0)
-            print "Fehler";
-        $query = "DELETE FROM part_device WHERE id_device=". smart_escape( $deviceid) .";";
-        $r = mysql_query ($query);
-        if($r == 0)
-            print "Fehler";
+        device_delete( $deviceid);
 		$refreshnav = 1;
     }
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Baugruppen</title>
@@ -112,43 +103,54 @@ if(strcmp( $action, "deletedevice") == 0)
 
         <?PHP
             
-            $where_query = ( $deviceid == 'all') ? '' : " WHERE parentnode=". smart_escape( $deviceid);
+            $where_query = ( $deviceid == 0) ? '' : " WHERE parentnode=". smart_escape( $deviceid);
 
-            $query = "SELECT devices.id, devices.name, SUM(part_device.quantity), COUNT(part_device.quantity), sum(preise.preis*part_device.quantity) ".
-                "FROM devices ".
-                "LEFT JOIN part_device ".
-                "ON (devices.id =  part_device.id_device) ".
-                "LEFT JOIN preise ".
-                "ON (preise.part_id = part_device.id_part) ".
+            $query = "SELECT".
+                " devices.id,".
+                " devices.name,".
+                " SUM( part_device.quantity) AS 'parts',".
+                " COUNT( part_device.quantity) AS 'pieces',".
+                " SUM( preise.preis*part_device.quantity) AS 'value'".
+                " FROM devices".
+                " LEFT JOIN part_device ON (devices.id = part_device.id_device)".
+                " LEFT JOIN preise ON (preise.part_id = part_device.id_part) ".
                 $where_query.
-                "GROUP BY devices.id ORDER BY devices.name ASC;";
+                " GROUP BY devices.id".
+                " ORDER BY devices.name ASC;";
             $result = mysql_query ($query) or die( mysql_error());
     
         $rowcount = 0;  // $rowcount is used for the alternating bg colors
         
-        print "<tr class=\"trcat\"><td>Name</td><td>Anzahl Teile</td><td>Anzahl Einzelteile</td><td>Preis</td><td>Löschen</td></tr>\n";
+        print "<tr class=\"trcat\">".
+            "<td>Name</td>".
+            "<td>Anzahl Teile</td>".
+            "<td>Anzahl Einzelteile</td>".
+            "<td>Preis</td>".
+            "<td>Löschen</td>".
+            "</tr>\n";
         
-        while ( $d = mysql_fetch_row ($result) )
+        while ( $d = mysql_fetch_assoc( $result))
         {
             
             // the alternating background colors are created here
             $rowcount++;
             print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
             
-            print "<td class=\"tdrow1\"><a href=\"deviceinfo.php?deviceid=". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) . "</a></td>\n";
-            print "<td class=\"tdrow2\">". smart_unescape($d[2]) ."</td>\n";
-            print "<td class=\"tdrow3\">". smart_unescape($d[3]) ."</td>\n";
-            print "<td class=\"tdrow3\">". smart_unescape($d[4]) ."&nbsp".$currency."</td>\n";
+            print "<td class=\"tdrow1\"><a href=\"deviceinfo.php?deviceid=". smart_unescape( $d['id']) ."\">". smart_unescape( $d['name']) ."</a></td>\n";
+            print "<td class=\"tdrow2\">". smart_unescape( $d['parts']) ."</td>\n";
+            print "<td class=\"tdrow3\">". smart_unescape( $d['pieces']) ."</td>\n";
+            print "<td class=\"tdrow3\">". smart_unescape( $d['value']) ."&nbsp". $currency."</td>\n";
             print "<td class=\"tdrow3\">";
             
             print "<form method=\"post\" action=\"\">";
-            print "<input type=\"hidden\" name=\"action\"  value=\"deletedevice\"/>";
-            print "<input type=\"hidden\" name=\"deviceid\" value=\"" . smart_unescape($d[0]). "\"/>";
-            print "<input type=\"hidden\" name=\"devicename\" value=\"" . smart_unescape($d[1]). "\"/>";
-            print "<input type=\"submit\" value=\"Löschen\"/></form>";
+            print "<input type=\"hidden\" name=\"action\"  value=\"deletedevice\">";
+            print "<input type=\"hidden\" name=\"deviceid\" value=\"". smart_unescape( $d['id']) ."\">";
+            print "<input type=\"hidden\" name=\"devicename\" value=\"". smart_unescape($d['name']) ."\">";
+            print "<input type=\"submit\" value=\"Löschen\">";
+            print "</form>";
             
             print "</td>";
-            print "</tr>\n";
+            print "</tr>". PHP_EOL;
         }
         ?>
         </table>

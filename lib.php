@@ -29,11 +29,9 @@
     smart_escape_for_search
     smart_unescape
 
-    lookup_part_name  
     lookup_device_name
 
     show_bt
-    has_image
     is_odd
 
     print_table_image
@@ -67,6 +65,11 @@
 
     location_tree_build
     location_add
+    location_delete
+    location_rename
+    location_find_child_nodes
+    location_new_parent
+    location_mark_as_full
     location_count
     location_get_id
     location_get_name
@@ -86,6 +89,7 @@
     category_get_name
     category_exists
 
+    part_add
     parts_stock_increase
     parts_stock_decrease
     parts_count
@@ -93,22 +97,31 @@
     parts_count_sum_instock
     parts_count_with_prices
     parts_count_on_category
+    parts_count_on_storeloc
     parts_select
     parts_select_category
     parts_select_without_price
     parts_select_search
     parts_select_order
     parts_order_sum
+    part_get_name
     part_get_category_id
 
+    picture_add
+    // picture_delete //TODO: where is it?
     pictures_select
+    picture_exists
 
+    device_add
+    device_delete
     devices_count
 
     price_add
     price_delete
     price_select
     
+    datasheet_add
+    datasheet_select
     
 */
     
@@ -131,15 +144,15 @@
 
     function partdb_init()
     {
-        include("config.php");
+        include( "config.php");
         
         /* Enter your MySQL username and password in config.php */
-        $link = mysql_connect ($mysql_server, $db_user, $db_password);
-        if ($link)
-            mysql_select_db ($database);
+        $link = mysql_connect( $mysql_server, $db_user, $db_password);
+        if ( $link)
+            mysql_select_db( $database);
         else
         {
-            echo "connect to DB failed", mysql_errno(), "<br>", mysql_error(), "<br>";
+            echo "connect to DB failed: ", mysql_errno(), "<br>", mysql_error(), "<br>";
         }
     }
 
@@ -171,16 +184,6 @@
     }
 
 
-
-    function lookup_part_name ($id)
-    {
-        $query = "SELECT name FROM parts WHERE id=". smart_escape($id) .";";
-        debug_print($query);
-        $r = mysql_query ($query);
-        $d = mysql_fetch_row ($r);
-
-        return (smart_unescape($d[0]));
-    }
     
     function lookup_device_name ($id)
     {
@@ -240,25 +243,6 @@
         return ($bt);
     }
 
-    /*
-     * When listing all parts of a category, part-db wants to know
-     * if an item has got a thumbnail. This procedure does the job.
-     * It returns 1 if there's a picture and 0 if not.
-     */
-    function has_image($pid)
-    {
-        $pict_query = "SELECT pictures.pict_fname FROM pictures WHERE pictures.part_id=". smart_escape($pid). ";";
-        debug_print ($pict_query);
-        $r = mysql_query ($pict_query); 
-        if (mysql_num_rows($r))
-        {
-            mysql_free_result($r);
-            return(1);
-        }
-        mysql_free_result($r);
-        return(0);
-    }
-
     
     
     /*
@@ -267,7 +251,7 @@
     function is_odd( $number) 
     {
         //return $number & 1; // 0 = even, 1 = odd
-        return ($number & 1) ? true : false; // false = even, true = odd
+        return( $number & 1) ? true : false; // false = even, true = odd
     }
 
 
@@ -281,7 +265,7 @@
      */
     function print_table_image( $id, $name, $footprint)
     {
-        if ( has_image( $id))
+        if ( picture_exists( $id))
         {
             $link = "getimage.php?pid=". smart_unescape( $id);
             print "<a href=\"javascript:popUp('". $link ."')\">".
@@ -358,14 +342,8 @@
         // without icons
         print "<a href=\"http://search.datasheetcatalog.net/key/". urlencode( smart_unescape( $data['name'])) ."\" target=\"_blank\">DC </a>\n";
         // show local datasheet if availible
-        $ds_query = "SELECT ".
-            "datasheeturl ".
-            "FROM datasheets ".
-            "WHERE part_id=". smart_escape( $data['id']) 
-            ." ORDER BY datasheeturl ASC;";
-        $ds_result    = mysql_query( $ds_query) or die( mysql_error());
-        $ds_data      = mysql_fetch_assoc( $ds_result);
-        if( !empty( $ds_data['datasheeturl']) )
+        $ds_data = mysql_fetch_assoc( datasheet_select( $data['id']));
+        if ( ! empty( $ds_data['datasheeturl']) )
         {
             print "<a href=\"". smart_unescape( $ds_data['datasheeturl']) ."\">Datenblatt</a>\n";
         }
@@ -552,8 +530,7 @@
 
         // delete footprint
         $query = "DELETE FROM footprints".
-            " WHERE id=". smart_escape( $old).
-            " LIMIT 1;";
+            " WHERE id=". smart_escape( $old) ." LIMIT 1;";
         mysql_query( $query) or die( mysql_error());
 
         // resort all child footprints to parent node
@@ -738,6 +715,73 @@
         $query = "INSERT INTO storeloc (name, parentnode) VALUES (".
             smart_escape( $new_location) .",".
             smart_escape( $parent_node)  .");";
+        mysql_query( $query) or die( mysql_error());
+    }
+
+    function location_delete( $id)
+    {
+        // TODO: lock database
+        // catch actual parent node
+        $query  = "SELECT parentnode FROM storeloc".
+            " WHERE id=". smart_escape( $id) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_assoc( $result);
+        $parent = $data['parentnode'];
+
+        // delete location
+        $query = "DELETE FROM storeloc".
+            " WHERE id=". smart_escape( $id) ." LIMIT 1;";
+        mysql_query( $query) or die( mysql_error());
+            
+        // resort all child locations
+        $query = "UPDATE storeloc".
+            " SET parentnode=". $parent.
+            " WHERE parentnode=". smart_escape( $id) .";";
+        mysql_query( $query) or die( mysql_error());
+    }
+    
+    function location_rename( $id, $new_name)
+    {
+        $query = "UPDATE storeloc".
+            " SET name=". smart_escape( $new_name).
+            " WHERE id=". smart_escape( $id) ." LIMIT 1;";
+        mysql_query( $query) or die( mysql_error());
+    }
+    
+    /*
+     * find all nodes below and given node
+     */
+    function location_find_child_nodes( $id)
+    {
+        $result = array();
+        $query = "SELECT id FROM storeloc WHERE parentnode=". smart_escape( $id) .";";
+        $r = mysql_query( $query);
+        while ( $data = mysql_fetch_assoc( $r))
+        {
+            // do the same for the next level.
+            $result[] = $data['id'];
+            $result = array_merge( $result, location_find_child_nodes( $data['id']));
+        }
+        return( $result);
+    }
+
+    function location_new_parent( $id, $new_parent)
+    {
+        // check if new parent is not anywhere in a child node
+        if ( !(in_array( $new_parent, location_find_child_nodes( $id))))
+        {
+            /* do transaction */
+            $query = "UPDATE storeloc SET parentnode=". smart_escape( $new_parent) ." WHERE id=". smart_escape( $id) ." LIMIT 1;";
+            mysql_query( $query) or die( mysql_error());
+        }
+    }
+
+    function location_mark_as_full( $id, $is_full)
+    {
+        $status = ( $is_full) ? '1' : '0';
+        $query = "UPDATE storeloc".
+            " SET is_full=". smart_escape( $status).
+            " WHERE id=". smart_escape( $id) ." LIMIT 1;";
         mysql_query( $query) or die( mysql_error());
     }
 
@@ -969,6 +1013,32 @@
     /* ***************************************************
      * part querys
      */
+    function part_add( $category_id, $name, $instock, $mininstock, $comment, $footprint, $storeloc, $supplier, $supplierpartnr)
+    {
+        $query = 
+            "INSERT INTO parts (".
+            " id_category,".
+            " name,".
+            " instock,".
+            " mininstock,".
+            " comment,".
+            " id_footprint,".
+            " id_storeloc,".
+            " id_supplier,".
+            " supplierpartnr) ".
+            " VALUES (". 
+            smart_escape( $category_id) .",".
+            smart_escape( $name) .",".
+            smart_escape( $instock) .",".
+            smart_escape( $mininstock) .",".
+            smart_escape( $comment) .",".
+            smart_escape( $footprint) .",".
+            smart_escape( $storeloc) .",".
+            smart_escape( $supplier) .",".
+            smart_escape( $supplierpartnr) .");";
+        $result = mysql_query( $query) or die( mysql_error());
+        return( mysql_insert_id());
+    }
     
     function parts_stock_increase( $pid, $count = 1)
     {
@@ -1027,6 +1097,15 @@
         return( $data['count']);
     }
 
+    function parts_count_on_storeloc( $id)
+    {
+        $query  = "SELECT count(*) as count FROM parts".
+            " WHERE id_storeloc=". smart_escape( $id) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_assoc( $result);
+        return( $data['count']);
+    }
+
     function parts_select( $pid)
     {
         $query = "SELECT ".
@@ -1038,6 +1117,9 @@
             " storeloc.name    AS 'location',".
             " storeloc.is_full AS 'location_is_full',".
             " suppliers.name   AS 'supplier',".
+            " parts.id_footprint,".
+            " parts.id_storeloc,".
+            " parts.id_supplier,".
             " parts.supplierpartnr,".
             " preise.preis,".
             " preise.ma,".
@@ -1179,6 +1261,8 @@
                 " GROUP BY (pending_orders.part_id)".
                 " HAVING (parts.instock + SUM(pending_orders.quantity) < parts.mininstock)".
                 " ORDER BY name ASC;";
+                // did we really need such complex queries (UNION)?
+                // TODO: checkit
         }
         else
         {
@@ -1254,12 +1338,20 @@
         return( $data['sum']);
     }
 
+    function part_get_name( $id)
+    {
+        $query  = "SELECT name FROM parts WHERE id=". smart_escape( $id) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_assoc( $result);
+
+        return( smart_unescape( $data['name']));
+    }
+
     // determine category
     function part_get_category_id( $part_id)
     {
         $cat    = 0;
         $query  = "SELECT id_category FROM parts WHERE id=". smart_escape( $part_id) .";";
-        var_dump( $query);
         $result = mysql_query( $query) or die( mysql_error());
         if (mysql_num_rows( $result) > 0)
         {
@@ -1273,23 +1365,88 @@
     /* ***************************************************
      * pictures querys
      */
+    function picture_add( $part_id, $picture_name)
+    {
+        $query = "INSERT INTO pictures (part_id, pict_fname)".
+            " VALUES (". smart_escape( $part_id) .",".
+            smart_escape( $picture_name) .");";
+        $result = mysql_query( $query) or die( mysql_error());
+    }
+
     function pictures_select( $pid)
     {
-        $query = "SELECT".
-            " id".
+        $query = "SELECT id".
             " FROM pictures".
             " WHERE (pictures.part_id=". smart_escape( $pid) .")".
-            "   AND (pictures.pict_type='P');";
+            "   AND (pictures.pict_type='P')".
+            " ORDER BY pictures.pict_masterpict DESC, pictures.id ASC;";
 
         $result = mysql_query( $query) or die( mysql_error());
 
         return( $result);
     }
 
+    /*
+     * When listing all parts of a category, part-db wants to know
+     * if an item has got a thumbnail. This procedure does the job.
+     * It returns 1 if there's a picture and 0 if not.
+     */
+    function picture_exists( $pid)
+    {
+        $query  = "SELECT pictures.pict_fname FROM pictures".
+            " WHERE pictures.part_id=". smart_escape( $pid). ";";
+        $result = mysql_query( $query); 
+        $data   = mysql_num_rows( $result);
+
+        return( ($data == 1) ? true : false );
+    }
+
 
     /* ***************************************************
      * devices querys
      */
+    function device_add( $name, $parent_node)
+    {
+        $query = "INSERT INTO devices (name, parentnode)".
+            " VALUES (". smart_escape( $name) .",".
+            smart_escape( $parent_node) .");";
+        $result = mysql_query( $query) or die( mysql_error());
+        return( $result);
+    }
+
+    function device_delete( $device_id)
+    {
+        // TODO: lock database
+        // catch actual parent node
+        $query  = "SELECT parentnode FROM devices".
+            " WHERE id=". smart_escape( $devices_id) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_assoc( $result);
+        $parent = $data['parentnode'];
+
+        // delete device
+        $query = "DELETE FROM devices".
+            " WHERE id=". smart_escape( $device_id) ." LIMIT 1;";
+        mysql_query( $query) or die( mysql_error());
+        
+        // resort all child devices to root node
+        $query = "UPDATE devices".
+            " SET parentnode=". $parent.
+            " WHERE parentnode=". smart_escape( $device_id) .";";
+        mysql_query( $query) or die( mysql_error());
+        
+        // remove all parts from deleted device
+        $query = "DELETE FROM part_device".
+            " WHERE id_device=". smart_escape( $device_id) .";";
+    }
+
+    function device_rename( $device_id, $new_name)
+    {
+        $query = "UPDATE devices".
+            " SET name=". smart_escape( $new_name).
+            " WHERE id=". smart_escape( $device_id) ." LIMIT 1;";
+        mysql_query( $query) or die( mysql_error());
+    }
     
     function devices_count()
     {
@@ -1325,5 +1482,27 @@
     }
 
 
+    /* ***************************************************
+     * datasheet querys
+     */
+    function datasheet_add( $part_id, $url)
+    {
+        $query = "INSERT INTO datasheets (part_id, datasheeturl)".
+            " VALUES (". smart_escape( $part_id).",".
+            smart_escape( $url) .");";
+        $result = mysql_query( $query) or die( mysql_error());
+    }
+
+    // TODO: check functionality with mutiple datasheets
+    function datasheet_select( $part_id)
+    {
+        $query = "SELECT".
+            " id, datasheeturl ".
+            " FROM datasheets ".
+            " WHERE part_id=". smart_escape( $part_id). 
+            " ORDER BY datasheeturl ASC;";
+        $result = mysql_query( $query) or die( mysql_error());
+        return( $result);
+    }
 
 ?>

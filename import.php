@@ -268,15 +268,13 @@
         // add to database
         foreach ($open_category as $entry)
         {
-            $query = "INSERT INTO categories (name, parentnode) VALUES (". smart_escape($entry) .",0 );";
-            mysql_query ($query);
+            category_add( $entry);
             $add_category[] = $entry;
         }
 
         foreach ($open_footprint as $entry)
         {
-            $query = "INSERT INTO footprints (name) VALUES (". smart_escape($entry) .");";
-            mysql_query ($query);
+            footprint_add( $entry);
             $add_footprint[] = $entry;
         }
 
@@ -303,29 +301,8 @@
                 $storeloc_id  = location_get_id(  $storeloc[$key]);
                 $supplier_id  = supplier_get_id(  $supplier[$key]);
 
-                $query = 
-                    "INSERT INTO parts ".
-                    "(id_category, ".
-                    "name, ".
-                    "instock, ".
-                    "mininstock, ".
-                    "comment, ".
-                    "id_footprint, ".
-                    "id_storeloc, ".
-                    "id_supplier, ".
-                    "supplierpartnr) ".
-                    "VALUES (". 
-                    smart_escape($category_id)    .",".
-                    smart_escape($name[$key])     .",".
-                    smart_escape($count[$key])    .",".
-                    smart_escape("0")             .",".
-                    smart_escape($comment[$key])  .",".
-                    smart_escape($footprint_id)   .",".
-                    smart_escape($storeloc_id)    .",".
-                    smart_escape($supplier_id)    .",".
-                    smart_escape($sup_part[$key]) .");";
+                part_add( $category_id, $name[ $key], $count[ $key], 0, $comment[ $key], $footprint_id, $storeloc_id, $supplier_id, $sup_part[ $key])
                        
-                mysql_query ($query);
                 // collect name for reporting
                 $add_part[] = $name[$key];
             }
@@ -336,7 +313,7 @@
     // start data presentation
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Import</title>

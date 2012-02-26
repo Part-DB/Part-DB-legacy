@@ -47,10 +47,12 @@
     if ( isset( $_REQUEST["new_parent"])) { $action = 'new_parent';}
     if ( isset( $_REQUEST["update"]))     { $action = 'update';}
 
+    $series = isset( $_REQUEST["series"]) ? (bool)$_REQUEST["series"] : false;
+
 
     if ( $action == 'add')
     {
-        if ( $_REQUEST["series"] == "true")
+        if ( $series)
         {
             // add location series
             $start = (int)$_REQUEST["series_start"];
@@ -77,11 +79,7 @@
         if ((! isset($_REQUEST["del_ok"])) && (! isset($_REQUEST["del_nok"])) )
         {
             $special_dialog = true;
-            $query = "SELECT COUNT(*) FROM parts WHERE id_storeloc=". smart_escape($_REQUEST["location_sel"]) .";";
-            debug_print($query);
-            $r = mysql_query($query);
-            $d = mysql_fetch_row($r); // COUNT(*) queries always give a result!
-            if ($d[0] != 0)
+            if ( parts_count_on_storeloc( $_REQUEST["location_sel"]) > 0)
             {
                 print "<html><body>".
                     "<div style=\"text-align:center;\">".
@@ -110,62 +108,28 @@
         else if (isset($_REQUEST["del_ok"]))
         {
             // the user said it's OK to delete the location
-            $query = "DELETE FROM storeloc WHERE id=". smart_escape($_REQUEST["location_sel"]) ." LIMIT 1;";
-            mysql_query ($query);
-            // resort all child categories to root node
-            $query = "UPDATE storeloc SET parentnode=0 WHERE parentnode=". smart_escape($_REQUEST["location_sel"]) ." ;";
-            mysql_query ($query);
+            location_delete( $_REQUEST["location_sel"]);
         }
     }
     
     if ( $action == 'rename')
     {
-        $query = "UPDATE storeloc SET name=". smart_escape($_REQUEST["new_name"]) ." WHERE id=". smart_escape($_REQUEST["location_sel"]) ." LIMIT 1;";
-        debug_print ($query);
-        mysql_query ($query);
+        location_rename( $_REQUEST["location_sel"], $_REQUEST["new_name"]);
     }
    
 
     if ( $action == 'new_parent')
     {
         /* resort */
-        // check if new parent is anywhere in a child node
-        if ( ! (in_array( $_REQUEST["parent_node"], find_child_nodes( $_REQUEST["location_sel"]))))
-        {
-            /* do transaction */
-            $query = "UPDATE storeloc SET parentnode=". smart_escape($_REQUEST["parent_node"]) ." WHERE id=". smart_escape($_REQUEST["location_sel"]) ." LIMIT 1";
-            mysql_query($query);
-        }
-        else
-        {
-            /* transaction not allowed, would destroy tree structure */
-        }
+        location_new_parent( $_REQUEST["location_sel"], $_REQUEST["parent_node"]);
     }
     
     if ( $action == 'update')
     {
-        $value = isset( $_REQUEST["is_full"]) ? $_REQUEST["is_full"] : 'false';
-        $value = ($value == 'true') ? '1' : '0';
-        $query = "UPDATE storeloc SET is_full=". smart_escape( $value) ." WHERE id=". smart_escape($_REQUEST["location_sel"]) ." LIMIT 1;";
-        mysql_query ($query);
+        $value = isset( $_REQUEST["is_full"]) ? $_REQUEST["is_full"] == "true" : false;
+        location_mark_as_full( $_REQUEST["location_sel"], $value);
     }
 
-    /*
-     * find all nodes below and given node
-     */
-    function find_child_nodes( $id)
-    {
-        $result = array();
-        $query = "SELECT id FROM storeloc WHERE parentnode=". smart_escape( $id) .";";
-        $r = mysql_query( $query);
-        while ( $data = mysql_fetch_assoc( $r))
-        {
-            // do the same for the next level.
-            $result[] = $data['id'];
-            $result = array_merge( $result, find_child_nodes( $data['id']));
-        }
-        return( $result);
-    }
 
 
     /*

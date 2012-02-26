@@ -37,6 +37,7 @@
         $p_footprint    = ( isset( $_REQUEST['p_footprint']))    ? $_REQUEST['p_footprint']    : '';
         $p_storeloc     = ( isset( $_REQUEST['p_storeloc']))     ? $_REQUEST['p_storeloc']     : '';
         $p_supplier     = ( isset( $_REQUEST['p_supplier']))     ? $_REQUEST['p_supplier']     : '';
+        $p_supplierpartnr = ( isset( $_REQUEST['p_supplierpartnr'])) ? $_REQUEST['p_supplierpartnr'] : '';
 
         $Footprint      = ( isset( $_REQUEST['NewFootprint']))   ? $_REQUEST['NewFootprint']   : $p_footprint;
         $Storage        = ( isset( $_REQUEST['NewStorage']))     ? $_REQUEST['NewStorage']     : $p_storeloc;
@@ -58,48 +59,23 @@
                 }
                 else*/
                 {
-                    $query = 
-                        "INSERT INTO parts (".
-                        " id_category,".
-                        " name,".
-                        " instock,".
-                        " mininstock,".
-                        " comment,".
-                        " id_footprint,".
-                        " id_storeloc,".
-                        " id_supplier,".
-                        " supplierpartnr) ".
-                        " VALUES (". 
-                        smart_escape( $_REQUEST["cid"]) .",".
-                        smart_escape( $p_name) .",".
-                        smart_escape( $p_instock) .",".
-                        smart_escape( $p_mininstock) .",".
-                        smart_escape( $p_comment) .",".
-                        smart_escape( $p_footprint) .",".
-                        smart_escape( $p_storeloc) .",".
-                        smart_escape( $p_supplier) .",".
-                        smart_escape( $_REQUEST["p_supplierpartnr"]) .
-                        ");";
                        
-                    debug_print ($query);
-                    $r = mysql_query ($query);
-                    $id = mysql_insert_id();
-                    if(strlen($_REQUEST["URLDatasheet"])!=0)
+                    $id = part_add( $_REQUEST["cid"], $p_name, $p_instock, $p_mininstock, $p_comment, $p_footprint, $p_storeloc, $p_supplier, $p_supplierpartnr);
+                    if ( strlen($_REQUEST["URLDatasheet"]) != 0)
                     {
-                        $query = "INSERT INTO datasheets (part_id,datasheeturl) VALUES (".smart_escape($id).",".smart_escape($_REQUEST["URLDatasheet"]).");";
-                        mysql_query($query);
+                        datasheet_add( $id, $_REQUEST["URLDatasheet"]);
                     }
-                    if(strlen($_FILES["AddImage"]["tmp_name"]))
+                    if ( strlen( $_FILES["AddImage"]["tmp_name"]))
                     {
-                        if (is_uploaded_file($_FILES["AddImage"]["tmp_name"]))
+                        if ( is_uploaded_file( $_FILES["AddImage"]["tmp_name"]))
                         {
                                 /*
                                  * split the file name into its parts and create
                                  * a unique filename.
                                  */
-                                $a = explode(".",$_FILES['AddImage']['name']);
+                                $a = explode( ".", $_FILES['AddImage']['name']);
                                 $fname = "img_";
-                                $fname .= md5_file($_FILES['AddImage']['tmp_name']);
+                                $fname .= md5_file( $_FILES['AddImage']['tmp_name']);
                                 if (($a[count($a)-1] == "jpg") || ($a[count($a)-1] == "jpg"))
                                 {
                                         $fname .= ".jpg";
@@ -114,14 +90,12 @@
                                 }
                                 // FIXME: Some error handling required (for example:
                                 // unknown file type etc. pp.
-                                move_uploaded_file($_FILES['AddImage']['tmp_name'], "img/".$fname);
-                                chmod ("img/" .$fname, 0775);
-                                $query = "INSERT INTO pictures (part_id,pict_fname) VALUES (". smart_escape($id) .",". smart_escape($fname) .")";
-                                debug_print($query);
-                                mysql_query($query);
+                                move_uploaded_file( $_FILES['AddImage']['tmp_name'], "img/".$fname);
+                                chmod( "img/" .$fname, 0775);
+                                picture_add( $id, $fname);
                         }
                     }
-					if(strlen($_REQUEST["p_price"])!=0)
+					if ( strlen( $_REQUEST["p_price"]) != 0)
 					{
 						if (preg_match("/^[-+]?[0-9]*\.?[0-9]+/", $_REQUEST["p_price"]) == true)
 						{
@@ -265,7 +239,7 @@
             
             <tr>
             <td>Bestell-Nr.:</td>
-            <td><input type="text" name="p_supplierpartnr" value="<?PHP print $_REQUEST["p_supplierpartnr"] ?>"></td>
+            <td><input type="text" name="p_supplierpartnr" value="<?PHP print $p_supplierpartnr ?>"></td>
             </tr>
             
             <tr>

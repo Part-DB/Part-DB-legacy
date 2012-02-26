@@ -55,7 +55,7 @@
 <body class="body">
 
 <div class="outer">
-    <h2>Detailinfo zu &quot;<?PHP print lookup_part_name ($_REQUEST["pid"]); ?>&quot;</h2>
+    <h2>Detailinfo zu &quot;<?PHP print part_get_name( $_REQUEST["pid"]); ?>&quot;</h2>
     <div class="inner">
         
         <table>
@@ -119,7 +119,7 @@
         </tr>
         </table>
         <?php
-        if ( has_image( $_REQUEST["pid"]))
+        if ( picture_exists( $_REQUEST["pid"]))
         {
             print "<br><b>Bilder:</b><br>". PHP_EOL;
             

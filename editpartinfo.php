@@ -98,7 +98,7 @@
             $special_dialog = 1;
             print "<html><body class=\"body\"><link rel=\"StyleSheet\" href=\"css/partdb.css\" type=\"text/css\" /><div style=\"text-align:center;\">\n";
             print "<table class=\"table\">\n";
-            print "<tr><td class=\"tdtop\"><div style=\"color:red;\">M&ouml;chten Sie das Bauteil &quot;". lookup_part_name( $pid) ."&quot; wirklich l&ouml;schen? </td></tr>\n";
+            print "<tr><td class=\"tdtop\"><div style=\"color:red;\">M&ouml;chten Sie das Bauteil &quot;". part_get_name( $pid) ."&quot; wirklich l&ouml;schen? </td></tr>\n";
             print "<tr><td class=\"tdtext\"><table><tr><td></div>Der L&ouml;schvorgang ist irreversibel!</td></tr>\n";
             print "<tr><td><form action=\"\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $pid ."\"></td></tr>\n";
             print "<tr><td><input type=\"hidden\" name=\"action\" value=\"part_del\"><input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen!\"><input type=\"submit\" name=\"del_ok\" value=\"L&ouml;schen!\"></td></tr>\n";
@@ -271,26 +271,15 @@
 <body class="body" onload="switch_ds_path()">
 
 <div class="outer">
-    <h2>&Auml;ndere Detailinfos von &quot;<?PHP print lookup_part_name( $pid); ?>&quot;</h2>
+    <h2>&Auml;ndere Detailinfos von &quot;<?PHP print part_get_name( $pid); ?>&quot;</h2>
     <div class="inner">
 
         <form action="" method="get">
             <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
             <table>
                 <?php  
-                $query = "SELECT".
-                    " parts.id,".
-                    " parts.name,".
-                    " parts.instock,".
-                    " parts.mininstock,".
-                    " parts.id_footprint,".
-                    " parts.id_storeloc,".
-                    " parts.id_supplier AS 'supplier',".
-                    " parts.supplierpartnr,".
-                    " parts.comment".
-                    " FROM parts".
-                    " WHERE parts.id=". smart_escape( $pid) ." LIMIT 1;";
-                $result = mysql_query ($query);
+                
+                $result = parts_select( $pid);
                 while ( ($data = mysql_fetch_assoc( $result)) )
                 {
                     ?>
@@ -320,13 +309,14 @@
                             <option value=""></option>
                             <?php location_tree_build( 0, 1, $data['id_storeloc'], false); ?>
                             </select>
+ 
                         </td>
                     </tr>
                     <tr>
                         <td><b>Lieferant:</b></td>
                         <td><select name='p_supplier'>
                             <option value=""></option>
-                            <?php suppliers_build_list( $data['supplier']); ?>
+                            <?php suppliers_build_list( $data['id_supplier']); ?>
                             </select>
                         </td>
                     </tr>
@@ -427,7 +417,7 @@
         <table>
             <tr><td>
             <?PHP
-            if (has_image( $pid))
+            if (picture_exists( $pid))
             {
                 // there's at least one picture
                 ?>
@@ -438,17 +428,17 @@
                 <td>&nbsp;</td><td>&quot;Master-Bild&quot;</td><td>L&ouml;schen</td>
                 </tr>
                 <?PHP
-                $query = "SELECT id FROM pictures WHERE ((pictures.pict_type='P') AND (pictures.part_id=". smart_escape( $pid) .")) ORDER BY pictures.pict_masterpict DESC, pictures.id ASC;";
-                $r_img = mysql_query($query);
-                $ncol = mysql_num_rows($r_img);
+                $r_img = pictures_select( $pid);
+                $ncol  = mysql_num_rows( $r_img);
                 for ($i = 0; $i < $ncol; $i++)
             {
-                $d_img = mysql_fetch_row($r_img);
-                print "<tr>\n";
-                print "<td><a href=\"javascript:popUp('getimage.php?pict_id=". smart_unescape($d_img[0]). "');\"><img src=\"getimage.php?pict_id=". smart_unescape($d_img[0]). "&maxx=200&maxy=150\"></a></td>\n";
-                print "<td><input type=\"radio\" name=\"default_img\" value=\"". smart_unescape($d_img[0]) ."\"></td>\n";
-                print "<td><input type=\"checkbox\" name=\"del_img[]\" value=\"". smart_unescape($d_img[0]). "\"></td>\n";
-                print "</tr>\n";
+                $d_img  = mysql_fetch_assoc( $r_img);
+                $img_id = $d_img['id'];
+                print "<tr>". PHP_EOL;
+                print "<td><a href=\"javascript:popUp('getimage.php?pict_id=". smart_unescape( $img_id). "');\"><img src=\"getimage.php?pict_id=". smart_unescape( $img_id). "&maxx=200&maxy=150\"></a></td>". PHP_EOL;
+                print "<td><input type=\"radio\" name=\"default_img\" value=\"". smart_unescape( $img_id) ."\"></td>". PHP_EOL;
+                print "<td><input type=\"checkbox\" name=\"del_img[]\" value=\"". smart_unescape( $img_id). "\"></td>". PHP_EOL;
+                print "</tr>". PHP_EOL;
             }
             ?>
             <tr><td><input type="submit" value="F&uuml;hre &Auml;nderungen durch!"></td></tr>
@@ -482,28 +472,27 @@
         <table>
             <tr><td>
 
-            <?PHP
+            <?php
             // check for existing datasheets
-            $query = "SELECT id,datasheeturl FROM datasheets WHERE part_id=". smart_escape( $pid) .";";
-            $r = mysql_query($query);
-            $ncol = mysql_num_rows($r);
-            if ($ncol > 0)
+            $result = datasheet_select( $pid);
+            $ncol = mysql_num_rows($result);
+            if ( $ncol > 0)
             {
                 print "<form action=\"\" method=\"get\">";
                 print "<select name=\"ds_id\" size=\"5\">";
                 for ($i = 0; $i < $ncol; $i++)
                 {
-                    $d = mysql_fetch_row ($r);
+                    $d = mysql_fetch_assoc( $result);
                     $sel = ($i == 0) ? 'selected' : '';
-                    print "<option ". $sel ." value=\"". smart_unescape($d[0]) ."\">". smart_unescape($d[1]) ."</option>\n";
+                    print "<option ". $sel ." value=\"". smart_unescape( $d['id']) ."\">". smart_unescape( $d['datasheeturl']) ."</option>\n";
                 }
-            ?>
+                ?>
                 </select>
                 <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
                 <input type="hidden" name="action" value="ds_del">&nbsp;&nbsp;&nbsp;
                 <input type="submit" value="Ausgew&auml;hltes l&ouml;schen!">
                 </form>
-            <?PHP
+            <?php
             }
             ?>
             

@@ -39,9 +39,7 @@
 
     if ( $action == 'add')
     {
-        $query = "INSERT INTO devices (name, parentnode) VALUES (". smart_escape($_REQUEST["new_device"]) .",". smart_escape($_REQUEST["parent_node"]) .");";
-        debug_print($query);
-        mysql_query ($query);
+        device_add( $_REQUEST["new_device"], $_REQUEST["parent_node"]);
 		$refreshnav = true;
     }
     
@@ -69,13 +67,7 @@
         else if (isset($_REQUEST["del_ok"]))
         {
             // the user said it's OK to delete the device
-            $query = "DELETE FROM devices WHERE id=". smart_escape($_REQUEST["devsel"]) ." LIMIT 1;";
-            debug_print ($query);
-            mysql_query ($query);
-            // resort all child devices to root node
-            $query = "UPDATE devices SET parentnode=0 WHERE parentnode=". smart_escape($_REQUEST["devsel"]) ." ;";
-            debug_print ($query);
-            mysql_query ($query);
+            device_delete( $_REQUEST["devsel"]);
 			$refreshnav = true;
         }
     }
@@ -84,9 +76,7 @@
     if ( $action == 'rename')
     {
         /* rename */
-        $query = "UPDATE devices SET name=". smart_escape($_REQUEST["new_name"]) ." WHERE id=". smart_escape($_REQUEST["devsel"]) ." LIMIT 1";
-        debug_print($query);
-        mysql_query($query);
+        device_rename( $_REQUEST["devsel"], $_REQUEST["new_name"]);
 		$refreshnav = true;
     }
    
@@ -152,7 +142,7 @@
     {
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/strict.dtd">
+          "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
     <title>Baugruppen</title>
