@@ -1,5 +1,5 @@
 <?php
-    @( include('config.php')) or die('<h2>Fehler: config.php ist nicht vorhanden!</h2>Bitte mit <em>cp config.php_template config.php</em> anlegen');
+    @( include('config.php')) or die('<h2>Fehler: config.php ist nicht vorhanden!</h2>Bitte mit <em>cp config.php_template config.php</em> anlegen</h2>');
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"                                                                                                                        
     "http://www.w3.org/TR/html4/frameset.dtd">
@@ -28,7 +28,7 @@ function check_mobile() {
 }
 
 if(check_mobile()) {
-    include('mobil/mobil.php');
+    @( include('mobil/mobil.php')) or die('<h2>Part-DB Mobile ist nicht instaliert !!! </h2>');
 }
 else { 
 ?>
