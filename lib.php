@@ -97,6 +97,8 @@
     parts_select_category
     parts_select_without_price
     parts_select_search
+    parts_select_order
+    parts_order_sum
     part_get_category_id
 
     pictures_select
@@ -105,6 +107,8 @@
 
     price_add
     price_delete
+    price_select
+    
     
 */
     
@@ -1131,6 +1135,125 @@
         return( $result);
     }
 
+    function parts_select_order( $supplier_id = 0)
+    {
+        if ( $supplier_id == 0)
+        {
+            $query = 
+                "SELECT ".
+                " parts.id,".
+                " parts.name,".
+                " footprints.name AS 'footprint',".
+                " parts.mininstock-parts.instock AS 'diff',".
+                " suppliers.name AS 'supplier',".
+                " parts.supplierpartnr,".
+                " parts.instock,parts.mininstock,".
+                " storeloc.name AS 'loc',".
+                " preise.preis".
+                " FROM parts".
+                " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+                " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
+                " LEFT JOIN pending_orders ON parts.id=pending_orders.part_id".
+                " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
+                " LEFT JOIN preise ON (preise.part_id = parts.id)".
+                " WHERE".
+                " (pending_orders.id IS NULL) AND".
+                " (parts.instock < parts.mininstock)".
+                " UNION".
+                " SELECT ".
+                " parts.id,".
+                " parts.name,".
+                " footprints.name AS 'footprint',".
+                " parts.mininstock-parts.instock-SUM(pending_orders.quantity),".
+                " suppliers.name AS 'supplier',".
+                " parts.supplierpartnr,".
+                " parts.instock,parts.mininstock,".
+                " storeloc.name AS 'loc',".
+                " preise.preis".
+                " FROM parts".
+                " INNER JOIN pending_orders ON (parts.id=pending_orders.part_id)".
+                " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+                " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
+                " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
+                " LEFT JOIN preise ON (preise.part_id = parts.id)".
+                " GROUP BY (pending_orders.part_id)".
+                " HAVING (parts.instock + SUM(pending_orders.quantity) < parts.mininstock)".
+                " ORDER BY name ASC;";
+        }
+        else
+        {
+            $query = "SELECT".
+                " parts.id,".
+                " parts.name,".
+                " footprints.name AS 'footprint',".
+                " parts.mininstock-parts.instock AS 'diff',".
+                " suppliers.name AS 'supplier',".
+                " parts.supplierpartnr,".
+                " parts.instock,".
+                " parts.mininstock,".
+                " storeloc.name AS 'loc',".
+                " preise.preis".
+                " FROM parts".
+                " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+                " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
+                " LEFT JOIN pending_orders ON parts.id = pending_orders.part_id".
+                " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
+                " LEFT JOIN preise ON (preise.part_id = parts.id)".
+                " WHERE (pending_orders.id IS NULL) AND".
+                " (parts.instock < parts.mininstock) AND".
+                " (parts.id_supplier = ". smart_escape( $supplier_id) .")". 
+                " UNION".
+                " SELECT".
+                " parts.id,".
+                " parts.name,". 
+                " footprints.name AS 'footprint',". 
+                " parts.mininstock - parts.instock - SUM( pending_orders.quantity),". 
+                " suppliers.name AS 'supplier',". 
+                " parts.supplierpartnr," .
+                " parts.instock,". 
+                " parts.mininstock,".
+                " storeloc.name AS 'loc',".
+                " preise.preis".
+                " FROM parts".
+                " INNER JOIN pending_orders ON ( parts.id = pending_orders.part_id) ". 
+                " LEFT JOIN footprints ON parts.id_footprint = footprints.id ".
+                " LEFT JOIN suppliers ON parts.id_supplier = suppliers.id ".
+                " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
+                " LEFT JOIN preise ON (preise.part_id = parts.id)".
+                " WHERE (parts.id_supplier = ". smart_escape( $supplier_id) .")".
+                " GROUP BY (pending_orders.part_id)".
+                " HAVING (parts.instock + SUM( pending_orders.quantity ) < parts.mininstock)".
+                " ORDER BY name ASC;";
+        }
+        $result = mysql_query( $query) or die( mysql_error());
+
+        return( $result);
+    }
+
+    function parts_order_sum( $supplier_id = 0)
+    {
+        if ( $supplier_id == 0)
+        {
+            $query = "SELECT".
+                " sum((parts.mininstock-parts.instock)*preise.preis) AS sum".
+                " FROM parts".
+                " LEFT JOIN preise ON parts.id=preise.part_id".
+                " WHERE (parts.instock < parts.mininstock);";
+        }
+        else
+        {
+            $query = "SELECT".
+                " sum((parts.mininstock-parts.instock)*preise.preis) AS sum".
+                " FROM parts".
+                " LEFT JOIN preise ON parts.id=preise.part_id".
+                " WHERE (parts.instock < parts.mininstock) AND".
+                " (parts.id_supplier=". smart_escape( $supplier_id) .");";
+        }
+        $result = mysql_query( $query) or die( mysql_error());
+        $data   = mysql_fetch_assoc( $result);
+        return( $data['sum']);
+    }
+
     // determine category
     function part_get_category_id( $part_id)
     {
@@ -1200,6 +1323,7 @@
         $result = mysql_query( $query) or die( mysql_error());
         return( $result);
     }
+
 
 
 ?>

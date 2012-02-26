@@ -28,9 +28,8 @@
     // set action to default, if not exists
     $action       = ( isset( $_REQUEST['action'])    ? $_REQUEST['action']   : 'default');
     $cid          = ( isset( $_REQUEST['cid'])       ? $_REQUEST['cid']      : '');
-    $sup_id       = ( isset( $_REQUEST['sup_id'])    ? $_REQUEST['sup_id']   : '');
+    $sup_id       = ( isset( $_REQUEST['sup_id'])    ? $_REQUEST['sup_id']   : 0);
     $deviceid     = ( isset( $_REQUEST['deviceid)']) ? $_REQUEST['deviceid'] : '');
-    $SearchQuerry = "";
 
     if ( strcmp( $action, "an") == 0) //add number of parts
     {
@@ -74,128 +73,50 @@
     <h2>Zu bestellende Teile &quot;<?PHP print category_get_name( $cid); ?>&quot;</h2>
     <div class="inner">
         <table>
-        <?PHP
+        <?php
         
         /*
          * All supplier IDs are positive integers, thus 0 (which
          * stands for "all suppliers") is no valid supplier ID!
          * Show the entire list.
          */
-        if ( (! isset($_REQUEST["sup_id"]) ) || ($_REQUEST["sup_id"] == "0") )
-        {
-            $query = "SELECT SUM((parts.mininstock-parts.instock)*preise.preis) FROM parts LEFT JOIN preise ON parts.id=preise.part_id WHERE (parts.instock < parts.mininstock);";
-        }
-        else
-        {
-            $query = "SELECT SUM((parts.mininstock-parts.instock)*preise.preis) FROM parts LEFT JOIN preise ON parts.id=preise.part_id WHERE (parts.instock < parts.mininstock) AND (parts.id_supplier=". smart_escape($_REQUEST["sup_id"]) .");";
-        }
-
-        $result = mysql_query ($query);
-        $d = mysql_fetch_row ($result);
+        $order_value = parts_order_sum( $sup_id);
         include("config.php");
-        print "<tr><td colspan=\"4\">Wert der zu bestellenden Artikel: ".$d[0]." ".$currency."</td></tr>";
+        print "<tr><td colspan=\"4\">Wert der zu bestellenden Artikel: ". $order_value ." ".$currency."</td></tr>". PHP_EOL;
 
         /****/
-        print "<tr class=\"trcat\"><td>Name</td><td>Footprint</td><td>Bestellmenge</td><td>Lieferant</td><td>Bestell-Nr.</td><td>Lagerort</td><td>Hinzuf&uuml;gen</td></tr>";
-        if ( (! isset($_REQUEST["sup_id"]) ) || ($_REQUEST["sup_id"] == "0") )
-        {
-            $query = 
-                "SELECT ".
-                "parts.id,".
-                "parts.name,".
-                "footprints.name AS 'footprint',".
-                "parts.mininstock-parts.instock AS 'diff',".
-                "suppliers.name AS 'supplier',".
-                "parts.supplierpartnr,".
-                "parts.instock,parts.mininstock,".
-                "storeloc.name AS 'loc',".
-                "preise.preis".
-                " FROM parts ".
-                " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
-                " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
-                " LEFT JOIN pending_orders ON parts.id=pending_orders.part_id".
-                " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
-                " LEFT JOIN preise ON (preise.part_id = parts.id)".
-                " WHERE (pending_orders.id IS NULL) AND (parts.instock < parts.mininstock) ".
-                "UNION ".
-                "SELECT ".
-                "parts.id,".
-                "parts.name,".
-                "footprints.name AS 'footprint',".
-                "parts.mininstock-parts.instock-SUM(pending_orders.quantity),".
-                "suppliers.name AS 'supplier',".
-                "parts.supplierpartnr,".
-                "parts.instock,parts.mininstock,".
-                "storeloc.name AS 'loc',".
-                "preise.preis".
-                " FROM parts ".
-                " INNER JOIN pending_orders ON (parts.id=pending_orders.part_id)".
-                " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
-                " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
-                " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
-                " LEFT JOIN preise ON (preise.part_id = parts.id)".
-                "GROUP BY (pending_orders.part_id) ".
-                "HAVING (parts.instock + SUM(pending_orders.quantity)  < parts.mininstock) ".
-                "ORDER BY name ASC ";
-        }
-        else
-        {
-            $query = "SELECT ".
-            "parts.id,".
-            "parts.name,".
-            "footprints.name AS 'footprint',".
-            "parts.mininstock-parts.instock AS 'diff',".
-            "suppliers.name AS 'supplier',".
-            "parts.supplierpartnr,".
-            "parts.instock,".
-            "parts.mininstock,".
-            "storeloc.name AS 'loc',".
-            "preise.preis".
-            " FROM parts".
-            " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
-            " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
-            " LEFT JOIN pending_orders ON parts.id = pending_orders.part_id".
-            " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
-            " LEFT JOIN preise ON (preise.part_id = parts.id)".
-            " WHERE (pending_orders.id IS NULL) AND (parts.instock < parts.mininstock) AND (parts.id_supplier = ". smart_escape($_REQUEST["sup_id"]) .")". 
-            " UNION".
-            " SELECT ".
-            "parts.id,".
-            "parts.name,". 
-            "footprints.name AS 'footprint',". 
-            "parts.mininstock - parts.instock - SUM( pending_orders.quantity ) ,". 
-            "suppliers.name AS 'supplier',". 
-            "parts.supplierpartnr," .
-            "parts.instock,". 
-            "parts.mininstock,".
-            "storeloc.name AS 'loc',".
-            "preise.preis".
-            " FROM parts ".
-            " INNER JOIN pending_orders ON ( parts.id = pending_orders.part_id ) ". 
-            " LEFT JOIN footprints ON parts.id_footprint = footprints.id ".
-            " LEFT JOIN suppliers ON parts.id_supplier = suppliers.id ".
-            " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
-            " LEFT JOIN preise ON (preise.part_id = parts.id)".
-            " WHERE (parts.id_supplier = ". smart_escape($_REQUEST["sup_id"]) .") GROUP BY (pending_orders.part_id) HAVING (parts.instock + SUM( pending_orders.quantity ) < parts.mininstock) ORDER BY name ASC;";
-        }
-        $SearchQuerry = $query;
-        $result = mysql_query ($query);
+        print "<tr class=\"trcat\">". PHP_EOL;
+        print "<td>Name</td>". PHP_EOL.
+            "<td>Footprint</td>". PHP_EOL.
+            "<td>Bestellmenge</td>". PHP_EOL.
+            "<td>Lieferant</td>". PHP_EOL.
+            "<td>Bestell-Nr.</td>". PHP_EOL.
+            "<td>Lagerort</td>". PHP_EOL.
+            "<td>Hinzuf&uuml;gen</td>". PHP_EOL;
+        print "</tr>". PHP_EOL;
+        $result = parts_select_order( $sup_id); 
 
         $rowcount = 0;
-        while ( $d = mysql_fetch_row ($result) )
+        while ( $data = mysql_fetch_assoc( $result))
         {
             $rowcount++;
             print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
             
-            print "<td class=\"tdrow1\"><a href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[0]) ."');\">". smart_unescape($d[1]) ."</a></td><td class=\"tdrow3\">". smart_unescape($d[2]) ."</td><td class=\"tdrow4\">". smart_unescape($d[3]) ."</td><td class=\"tdrow1\">". smart_unescape($d[4]) ."</td><td class=\"tdrow1\">". smart_unescape($d[5]) . "</td><td class=\"tdrow1\">". smart_unescape($d[8]) . "</td>\n";
+            print "<td class=\"tdrow1\">".
+                "<a href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape( $data['name']) ."</a></td>";
+            print "<td class=\"tdrow3\">". smart_unescape( $data['footprint']) ."</td>". PHP_EOL;
+            print "<td class=\"tdrow4\">". smart_unescape( $data['diff']) ."</td>". PHP_EOL;
+            print "<td class=\"tdrow1\">". smart_unescape( $data['supplier']) ."</td>". PHP_EOL;
+            print "<td class=\"tdrow1\">". smart_unescape( $data['supplierpartnr']) ."</td>". PHP_EOL;
+            print "<td class=\"tdrow1\">". smart_unescape( $data['loc']) ."</td>". PHP_EOL;
             //show text box with number to add and the add button
-            print "<td class=\"tdrow2\"><form method=\"post\" action=\"\">\n";
-            print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape($d[0])."\"/>\n";
-            print "<input type=\"hidden\" name=\"action\"  value=\"an\"/>\n";
-            print "<input type=\"text\" style=\"width:25px;\" name=\"toadd\" value=\"" . smart_unescape($d[3]) . "\"/>\n";
-            print "<input type=\"submit\" value=\"Add\"/></form></td>\n";
+            print "<td class=\"tdrow2\"><form method=\"post\" action=\"\">". PHP_EOL;
+            print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape( $data['id'])."\"/>". PHP_EOL;
+            print "<input type=\"hidden\" name=\"action\"  value=\"an\"/>". PHP_EOL;
+            print "<input type=\"text\" style=\"width:25px;\" name=\"toadd\" value=\"" . smart_unescape( $data['diff']) . "\"/>". PHP_EOL;
+            print "<input type=\"submit\" value=\"Add\"/></form></td>". PHP_EOL;
             
-            print "</tr>\n";
+            print "</tr>". PHP_EOL;
         }
         ?>
         </table>
@@ -242,31 +163,29 @@
             if ( strcmp ($action, "createbom") == 0 )
             {
                 
-                $query  = $SearchQuerry;
-                
-                $result = mysql_query( $query);
+                $result = parts_select_order( $sup_id); 
                 $nrows  = mysql_num_rows( $result) + 6;
                 
-                print "<textarea name=\"sql_query\" rows=\"". $nrows ."\" cols=\"40\" dir=\"ltr\" >";
+                print "<textarea name=\"bom\" rows=\"". $nrows ."\" cols=\"50\" dir=\"ltr\" >". PHP_EOL;
                 print "______________________________".PHP_EOL;
-                print "Bestell-Liste:".PHP_EOL;
+                print "Bestell-Liste:". PHP_EOL;
                 print GenerateBOMHeadline( $_REQUEST["format"], $_REQUEST["spacer"]);
-                while ( $data = mysql_fetch_row( $result))
+                while ( $data = mysql_fetch_assoc( $result))
                 {
                     //function GenerateBOMResult($Format,$Spacer,$PartName,$SupNr,$SupName,$Quantity,$Instock,$Price)
-                    print GenerateBOMResult($_REQUEST["format"],    //$Format
-                                            $_REQUEST["spacer"],    //$Spacer
-                                            $data[1],               //$PartName
-                                            $data[5],               //$SupNr
-                                            $data[4],               //$SupName
-                                            $data[3],               //$Quantity
-                                            $data[6],               //$Instock
-                                            $data[7]);              //$Price
+                    print GenerateBOMResult($_REQUEST["format"],     //$Format
+                                            $_REQUEST["spacer"],     //$Spacer
+                                            $data['name'],           //$PartName
+                                            $data['supplierpartnr'], //$SupNr
+                                            $data['supplier'],       //$SupName
+                                            $data['diff'],           //$Quantity
+                                            $data['instock'],        //$Instock
+                                            $data['preis']);         //$Price
                 }
-                print "</textarea>";
+                print "</textarea>". PHP_EOL;
             }
-            print "</td>\n".
-                "</tr>\n";
+            print "</td>". PHP_EOL;
+            print "</tr>". PHP_EOL;
             ?>
             </table>
         </form>
