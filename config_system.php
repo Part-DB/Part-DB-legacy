@@ -16,6 +16,7 @@
 <html>
 <head>
     <title>Systemeinstellungen</title>
+    <?php print_http_charset(); ?>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
 </head>
 

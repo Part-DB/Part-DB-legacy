@@ -13,7 +13,8 @@
           "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Import</title>
+    <title>Datenbankupdate</title>
+    <?php print_http_charset(); ?>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
 </head>
 

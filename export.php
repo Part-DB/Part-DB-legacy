@@ -1,4 +1,7 @@
 <?php
+/*
+    $Id$
+*/
     
     include ("lib.php");
     partdb_init();
