@@ -1,4 +1,7 @@
 <?php
+/*
+    $Id$
+*/
     include ("db_update.php");
     partdb_init();
     
@@ -21,22 +24,13 @@
     <table class="table">
       <tr>
         <td class="tdtext">
-          <?php
-            print "Datenbank Version ".getDBVersion()."<br>";
-          ?>
+          <?php print "Datenbank Version ". getDBVersion(); ?>
         </td>
         <td class="tdtext">
-          <?php
-            print "Ben&ouml;tigte Version ".getSollDBVersion()."<br>";
-          ?>
+          <?php print "Ben&ouml;tigte Version ". getSollDBVersion(); ?>
         </td>
         <td class="tdtext">
-          <?php
-            if (checkDBUpdateNeeded() == true)
-              print "Update Notwendig<br>";
-            else
-              print "Up to date<br>";
-          ?>
+          <?php print ( checkDBUpdateNeeded() == true) ? "Update notwendig" : "up-to-date"; ?>
         </td>
       </tr>
       <tr>

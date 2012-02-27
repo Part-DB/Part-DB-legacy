@@ -131,7 +131,8 @@
 
                 <?php if (! $disable_config) { ?>
                     menue.add(17,0,'Konfiguration','','','');
-                    menue.add(18,17,'Datenbank', 'config_page.php', '', 'content_frame');
+                    menue.add(18,17,'System',    'config_system.php', '', 'content_frame');
+                    menue.add(19,17,'Datenbank', 'config_page.php', '', 'content_frame');
                 <?php } ?>
                 document.write(menue);
             </script>
