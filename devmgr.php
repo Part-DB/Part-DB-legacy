@@ -84,59 +84,10 @@
     if ( $action == 'new_parent')
     {
         /* resort */
-        // check if new parent is anywhere in a child node
-        if ( ! (in_array( $_REQUEST["parent_node"], find_child_nodes( $_REQUEST["devsel"]))))
-        {
-            /* do transaction */
-            $query = "UPDATE devices SET parentnode=". smart_escape($_REQUEST["parent_node"]) ." WHERE id=". smart_escape($_REQUEST["devsel"]) ." LIMIT 1";
-            debug_print($query);
-            mysql_query($query);
-			$refreshnav = true;
-        }
-        else
-        {
-            /* transaction not allowed, would destroy tree structure */
-        }
+        device_new_parent( $_REQUEST["devsel"], $_REQUEST["parent_node"]);
+        $refreshnav = true;
     }
 
-    /*
-     * find all nodes below and given node
-     */
-    function find_child_nodes($devid)
-    {
-        $result = array();
-        $query = "SELECT id FROM devices WHERE parentnode=". smart_escape($devid) .";";
-        $r = mysql_query ($query);
-        while ( $d = mysql_fetch_row ($r) )
-        {
-            // do the same for the next level.
-            $result[] = $d[0];
-            $result = array_merge( $result, find_child_nodes( $d[0]));
-        }
-        return( $result);
-    }
-
-    /*
-     * The buildtree function creates a tree for <select> tags.
-     * It recurses trough all devices (and subdevices) and
-     * creates the tree. Deeper levels have more spaces in front.
-     * As the top-most device (it doesn't exist!) has the ID 0,
-     * you have to supply devid=0 at the very beginning.
-     */
-    function buildtree ($devid, $level)
-    {
-        $query = "SELECT id,name FROM devices WHERE parentnode=". smart_escape($devid) .";";
-        $r = mysql_query ($query);
-        while ( $d = mysql_fetch_row ($r) )
-        {
-            print "<option value=\"". smart_unescape($d[0]) . "\">";
-            for ($i = 0; $i < $level; $i++) print "&nbsp;&nbsp;&nbsp;";
-            print smart_unescape($d[1]) ."</option>\n";
-
-            // do the same for the next level.
-            buildtree ($d[0], $level + 1);
-        }
-    }
 
     if ($special_dialog == false)
     {
@@ -172,7 +123,7 @@
                     <td>
                         <select name="parent_node">
                         <option value="0">root node</option>
-                        <?PHP buildtree(0, 1); ?>
+                        <?php device_buildtree(); ?>
                         </select>
                     </td>
                 </tr>
@@ -205,7 +156,7 @@
                 <tr>
                     <td rowspan="3">
                         <select name="devsel" size="15">
-                        <?PHP buildtree(0, 1); ?>
+                        <?php device_buildtree(); ?>
                         </select>
                     </td>
                     <td>
@@ -224,7 +175,7 @@
                         Neue &Uuml;berbaugruppe:<br>
                         <select name="parent_node">
                         <option value="0">root node</option>
-                        <?PHP buildtree(0, 1); ?>
+                        <?php device_buildtree(); ?>
                         </select>
                         <input type="submit" name="new_parent" value="Umsortieren">
                     </td>

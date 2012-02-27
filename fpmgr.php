@@ -49,10 +49,9 @@
     {
         /*
          * Delete a footprint
-         * Don't delete when there are parts use this footprin.
+         * Don't delete when there are parts use this footprint
          */
-        $query  = "SELECT (name) FROM parts WHERE id_footprint=". smart_escape($_REQUEST["footprint_sel"]) .";";
-        $result = mysql_query( $query);
+        $result = parts_select_footprint( $_REQUEST["footprint_sel"]); 
         $ncol   = mysql_num_rows( $result);
         if ($ncol > 0)
         {
@@ -124,7 +123,7 @@
                     <td>
                         <select name="parent_node">
                         <option value="0">root node</option>
-                        <?PHP footprint_build_tree(0, 1); ?>
+                        <?PHP footprint_build_tree(); ?>
                         </select>
                     </td>
                 </tr>
@@ -150,7 +149,7 @@
                     <td rowspan="3">
                         Zu bearbeitenden Footprint w&auml;hlen:<br>
                         <select name="footprint_sel" size="15">
-                        <?php footprint_build_tree(0, 1); ?>
+                        <?php footprint_build_tree(); ?>
                         </select>
                     </td>
                     <td>
@@ -169,7 +168,7 @@
                         Neuer &uuml;bergeordneter Footprint:<br>
                         <select name="parent_node">
                         <option value="0">root node</option>
-                        <?PHP footprint_build_tree(0, 1); ?>
+                        <?php footprint_build_tree(); ?>
                         </select>
                         <input type="submit" name="new_parent" value="Umsortieren">
                     </td>

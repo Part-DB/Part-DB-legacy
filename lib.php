@@ -90,6 +90,8 @@
     category_exists
 
     part_add
+    part_update
+    part_delete
     parts_stock_increase
     parts_stock_decrease
     parts_count
@@ -103,24 +105,32 @@
     parts_select_without_price
     parts_select_search
     parts_select_order
+    parts_select_footprint
     parts_order_sum
     part_get_name
     part_get_category_id
 
     picture_add
-    // picture_delete //TODO: where is it?
+    picture_delete
     pictures_select
+    picture_set_default
     picture_exists
 
+    device_build_tree
     device_add
     device_delete
+    device_rename
+    device_find_child_nodes
+    device_new_parent
     devices_count
+    devices_select
 
     price_add
     price_delete
     price_select
     
     datasheet_add
+    datasheet_delete
     datasheet_select
     
 */
@@ -490,7 +500,7 @@
     /* ***************************************************
      * footprint querys
      */
-    function footprint_build_tree( $id, $level, $select = -1)
+    function footprint_build_tree( $id = 0, $level = 0, $select = -1)
     {
         $query  = "SELECT id, name FROM footprints".
             " WHERE parentnode=". smart_escape( $id).
@@ -686,7 +696,7 @@
      * As the top-most location (it doesn't exist!) has the ID 0,
      * you have to supply id=0 at the very beginning.
      */
-    function location_tree_build( $id = 0, $level = 1, $select = -1, $show_all = true)
+    function location_tree_build( $id = 0, $level = 0, $select = -1, $show_all = true)
     {
         $query_all = ( $show_all) ? '' : ' AND is_full=0';
         $query = "SELECT id, name, is_full FROM storeloc".
@@ -831,7 +841,7 @@
      * As the top-most category (it doesn't exist!) has the ID 0,
      * you have to supply cid=0 at the very beginning.
      */
-    function categories_build_tree( $cid = 0, $level = 1, $select = -1)
+    function categories_build_tree( $cid = 0, $level = 0, $select = -1)
     {
         $query = "SELECT id, name FROM categories".
             " WHERE parentnode=". smart_escape( $cid).
@@ -855,7 +865,7 @@
        corrupted! But normally everything should be fine. */
     function categories_build_navtree( $pid = 0)
     {
-        $query  = "SELECT id, name FROM categories".
+        $query = "SELECT id, name FROM categories".
             " WHERE parentnode=". smart_escape( $pid).
             " ORDER BY categories.name ASC;";
         if ( $result = mysql_query( $query))
@@ -1013,7 +1023,7 @@
     /* ***************************************************
      * part querys
      */
-    function part_add( $category_id, $name, $instock, $mininstock, $comment, $footprint, $storeloc, $supplier, $supplierpartnr)
+    function part_add( $category_id, $name, $instock, $mininstock, $comment, $footprint_id, $storeloc_id, $supplier_id, $supplierpartnr)
     {
         $query = 
             "INSERT INTO parts (".
@@ -1032,12 +1042,51 @@
             smart_escape( $instock) .",".
             smart_escape( $mininstock) .",".
             smart_escape( $comment) .",".
-            smart_escape( $footprint) .",".
-            smart_escape( $storeloc) .",".
-            smart_escape( $supplier) .",".
+            smart_escape( $footprint_id) .",".
+            smart_escape( $storeloc_id) .",".
+            smart_escape( $supplier_id) .",".
             smart_escape( $supplierpartnr) .");";
         $result = mysql_query( $query) or die( mysql_error());
         return( mysql_insert_id());
+    }
+
+    function part_update( $part_id, $category_id, $name, $instock, $mininstock, $comment, $footprint_id, $storeloc_id, $supplier_id, $supplierpartnr)
+    {
+        $query = 
+            "UPDATE parts".
+            " SET".
+            " name=".           smart_escape( $name)         .",".
+            " instock=".        smart_escape( $instock)      .",".
+            " mininstock=".     smart_escape( $mininstock)   .",".
+            " comment=".        smart_escape( $comment)      .",".
+            " id_category=".    smart_escape( $category_id)  .",".
+            " id_footprint=".   smart_escape( $footprint_id) .",".
+            " id_storeloc=".    smart_escape( $storeloc_id)  .",".
+            " id_supplier=".    smart_escape( $supplier_id)  .",".
+            " supplierpartnr=". smart_escape( $supplierpartnr).
+            " WHERE id=".       smart_escape( $part_id).
+            " LIMIT 1;";
+        mysql_query( $query) or die( mysql_error());
+    }
+
+    function part_delete( $part_id)
+    {
+        // delete pending datasheets
+        $query = "DELETE FROM datasheets".
+            " WHERE part_id=". smart_escape( $part_id) .";";
+        mysql_query( $query) or die( mysql_error());
+
+        price_delete( $part_id);
+
+        // delete pictures
+        $query = "DELETE FROM pictures".
+            " WHERE part_id=". smart_escape( $part_id) .";";
+        mysql_query( $query) or die( mysql_error());
+
+        // delete part itself
+        $query = "DELETE FROM parts".
+            " WHERE id=". smart_escape( $part_id). " LIMIT 1";
+        mysql_query( $query) or die( mysql_error());
     }
     
     function parts_stock_increase( $pid, $count = 1)
@@ -1053,7 +1102,7 @@
             " WHERE id=". smart_escape( $pid) ." AND instock >= ". smart_escape( $count) ." LIMIT 1;";
         $result = mysql_query( $query) or die( mysql_error());
     }
-    
+
     function parts_count()
     {
         $query  = "SELECT count(*) as count FROM parts;";
@@ -1185,7 +1234,7 @@
         return( $result);
     }
 
-    function parts_select_search( $keyword, $search_nam, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr)
+    function parts_select_search( $keyword, $search_nam, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr, $export = false)
     {
         // build search strings
         $query_nam = ( $search_nam) ? " OR (parts.name LIKE ".           $keyword.")" : "";
@@ -1195,7 +1244,7 @@
         $query_loc = ( $search_loc) ? " OR (storeloc.name LIKE ".        $keyword.")" : ""; 
         $query_fpr = ( $search_fpr) ? " OR (footprints.name LIKE ".      $keyword.")" : ""; 
         $search = $query_nam. $query_com. $query_sup. $query_snr. $query_loc. $query_fpr;
-        $query = 
+        $query = ( ! $export) ?
             "SELECT ".
             " parts.id,".
             " parts.name,".
@@ -1207,6 +1256,23 @@
             " parts.id_category,".
             " parts.supplierpartnr".
             " FROM parts".
+            " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+            " LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id".
+            " LEFT JOIN suppliers  ON parts.id_supplier=suppliers.id".
+            " WHERE FALSE ". $search.
+            " ORDER BY parts.id_category, parts.name ASC;" 
+            :
+            "SELECT ".
+            " categories.name AS 'category', ".
+            " parts.name,".
+            " parts.instock   AS 'stock',    ".
+            " footprints.name AS 'footprint',".
+            " storeloc.name   AS 'location', ".
+            " suppliers.name  AS 'supplier', ".
+            " parts.supplierpartnr AS 'order_number',".
+            " parts.comment".
+            " FROM parts".
+            " LEFT JOIN categories ON parts.id_category=categories.id".
             " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
             " LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id".
             " LEFT JOIN suppliers  ON parts.id_supplier=suppliers.id".
@@ -1314,6 +1380,16 @@
         return( $result);
     }
 
+    function parts_select_footprint( $footprint_id)
+    {
+        $query  = "SELECT name".
+            " FROM parts".
+            " WHERE id_footprint=". smart_escape( $footprint_id) .";";
+        $result = mysql_query( $query);
+
+        return( $result);
+    }
+
     function parts_order_sum( $supplier_id = 0)
     {
         if ( $supplier_id == 0)
@@ -1370,7 +1446,13 @@
         $query = "INSERT INTO pictures (part_id, pict_fname)".
             " VALUES (". smart_escape( $part_id) .",".
             smart_escape( $picture_name) .");";
-        $result = mysql_query( $query) or die( mysql_error());
+        mysql_query( $query) or die( mysql_error());
+    }
+
+    function picture_delete( $id)
+    {
+        $query = "DELETE FROM pictures WHERE id=". smart_escape( $id) ." LIMIT 1;";
+        mysql_query( $query) or die( mysql_error());
     }
 
     function pictures_select( $pid)
@@ -1384,6 +1466,14 @@
         $result = mysql_query( $query) or die( mysql_error());
 
         return( $result);
+    }
+
+    function picture_set_default( $part_id, $picture_id)
+    {
+        $query = "UPDATE pictures SET pict_masterpict=0 WHERE part_id=". smart_escape( $part_id) .";";
+        mysql_query( $query) or die( mysql_error());
+        $query = "UPDATE pictures SET pict_masterpict=1 WHERE id=". smart_escape( $picture_id) .";";
+        mysql_query( $query) or die( mysql_error());
     }
 
     /*
@@ -1405,6 +1495,59 @@
     /* ***************************************************
      * devices querys
      */
+
+    /*
+     * The buildtree function creates a tree for <select> tags.
+     * It recurses trough all devices (and subdevices) and
+     * creates the tree. Deeper levels have more spaces in front.
+     * As the top-most device (it doesn't exist!) has the ID 0,
+     * you have to supply devid=0 at the very beginning.
+     */
+    function device_buildtree( $devid = 0, $level = 0)
+    {
+        $query = "SELECT id, name FROM devices".
+            " WHERE parentnode=". smart_escape( $devid) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        while ( $data = mysql_fetch_assoc( $result))
+        {
+            print "<option value=\"". smart_unescape( $data['id']) ."\">";
+            for ($i = 0; $i < $level; $i++)
+                print "&nbsp;&nbsp;&nbsp;";
+            print smart_unescape( $data['name']) ."</option>\n";
+
+            // do the same for the next level.
+            device_buildtree( $data['id'], $level + 1);
+        }
+    }
+
+    function devices_build_navtree( $parent_id = 0)
+    {    
+        $query = "SELECT id, name FROM devices".
+            " WHERE parentnode=". smart_escape( $parent_id).
+            " ORDER BY devices.name ASC;";
+        if ( $result = mysql_query( $query))
+        {
+            while ( $data = mysql_fetch_assoc( $result))
+            {      
+                // count sub nodes
+                $count_query  = "SELECT count(*) as count FROM devices".
+                    " WHERE parentnode=". smart_escape( $data['id']). ";";
+                $count_result = mysql_query( $count_query) or die( mysql_error());
+                $count_row    = mysql_fetch_array( $count_result);
+                $count        = $count_row['count'];
+                
+                $target_url = ($count > 0) ? "','device.php?deviceid=" : "','deviceinfo.php?deviceid=";
+                print "dev_tree.add(". smart_unescape( $data['id']) .",". 
+                    smart_unescape( $parent_id) .",'".
+                    smart_unescape( $data['name']).
+                    $target_url.
+                    smart_unescape( $data['id']).
+                    "','','content_frame');\n";
+                devices_build_navtree( $data['id']);
+            }
+        }
+    }
+
     function device_add( $name, $parent_node)
     {
         $query = "INSERT INTO devices (name, parentnode)".
@@ -1447,6 +1590,35 @@
             " WHERE id=". smart_escape( $device_id) ." LIMIT 1;";
         mysql_query( $query) or die( mysql_error());
     }
+
+    /*
+     * find all nodes below and given node
+     */
+    function device_find_child_nodes( $device_id)
+    {
+        $result = array();
+        $query = "SELECT id FROM devices".
+            " WHERE parentnode=". smart_escape( $device_id) .";";
+        $r = mysql_query ($query);
+        while ( $d = mysql_fetch_row ($r) )
+        {
+            // do the same for the next level.
+            $result[] = $d[0];
+            $result = array_merge( $result, device_find_child_nodes( $d[0]));
+        }
+        return( $result);
+    }
+
+    function device_new_parent( $id, $new_parent)
+    {
+        // check if new parent is not anywhere in a child node
+        if ( !(in_array( $new_parent, device_find_child_nodes( $id))))
+        {
+            /* do transaction */
+            $query = "UPDATE devices SET parentnode=". smart_escape( $new_parent) ." WHERE id=". smart_escape( $id) ." LIMIT 1;";
+            mysql_query( $query) or die( mysql_error());
+        }
+    }
     
     function devices_count()
     {
@@ -1454,6 +1626,26 @@
         $result = mysql_query( $query) or die( mysql_error());
         $data   = mysql_fetch_array( $result);
         return( $data['count']);
+    }
+
+    function devices_select( $device_id)
+    {
+        $where_query = ( $device_id == 0) ? '' : " WHERE parentnode=". smart_escape( $device_id);
+
+        $query = "SELECT".
+            " devices.id,".
+            " devices.name,".
+            " SUM( part_device.quantity) AS 'parts',".
+            " COUNT( part_device.quantity) AS 'pieces',".
+            " SUM( preise.preis*part_device.quantity) AS 'value'".
+            " FROM devices".
+            " LEFT JOIN part_device ON (devices.id = part_device.id_device)".
+            " LEFT JOIN preise ON (preise.part_id = part_device.id_part) ".
+            $where_query.
+            " GROUP BY devices.id".
+            " ORDER BY devices.name ASC;";
+        $result = mysql_query ($query) or die( mysql_error());
+        return( $result);
     }
 
 
@@ -1490,7 +1682,14 @@
         $query = "INSERT INTO datasheets (part_id, datasheeturl)".
             " VALUES (". smart_escape( $part_id).",".
             smart_escape( $url) .");";
-        $result = mysql_query( $query) or die( mysql_error());
+        mysql_query( $query) or die( mysql_error());
+    }
+
+    function datasheet_delete( $id)
+    {
+        $query = "DELETE FROM datasheets".
+            " WHERE id=". smart_escape( $id) ." LIMIT 1;";
+        mysql_query( $query) or die( mysql_error());
     }
 
     // TODO: check functionality with mutiple datasheets

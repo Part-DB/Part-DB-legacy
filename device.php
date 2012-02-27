@@ -99,59 +99,43 @@ if(strcmp( $action, "deletedevice") == 0)
 <div class="outer">
     <h2>Geräte</h2>
     <div class="inner">
-        <table >
-
-        <?PHP
+        <table>
+        <?php
             
-            $where_query = ( $deviceid == 0) ? '' : " WHERE parentnode=". smart_escape( $deviceid);
-
-            $query = "SELECT".
-                " devices.id,".
-                " devices.name,".
-                " SUM( part_device.quantity) AS 'parts',".
-                " COUNT( part_device.quantity) AS 'pieces',".
-                " SUM( preise.preis*part_device.quantity) AS 'value'".
-                " FROM devices".
-                " LEFT JOIN part_device ON (devices.id = part_device.id_device)".
-                " LEFT JOIN preise ON (preise.part_id = part_device.id_part) ".
-                $where_query.
-                " GROUP BY devices.id".
-                " ORDER BY devices.name ASC;";
-            $result = mysql_query ($query) or die( mysql_error());
-    
-        $rowcount = 0;  // $rowcount is used for the alternating bg colors
-        
-        print "<tr class=\"trcat\">".
-            "<td>Name</td>".
-            "<td>Anzahl Teile</td>".
-            "<td>Anzahl Einzelteile</td>".
-            "<td>Preis</td>".
-            "<td>Löschen</td>".
-            "</tr>\n";
-        
-        while ( $d = mysql_fetch_assoc( $result))
-        {
+            $result = devices_select( $deviceid);
+            $rowcount = 0;  // $rowcount is used for the alternating bg colors
             
-            // the alternating background colors are created here
-            $rowcount++;
-            print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
+            print "<tr class=\"trcat\">".
+                "<td>Name</td>".
+                "<td>Anzahl Teile</td>".
+                "<td>Anzahl Einzelteile</td>".
+                "<td>Preis</td>".
+                "<td>Löschen</td>".
+                "</tr>\n";
             
-            print "<td class=\"tdrow1\"><a href=\"deviceinfo.php?deviceid=". smart_unescape( $d['id']) ."\">". smart_unescape( $d['name']) ."</a></td>\n";
-            print "<td class=\"tdrow2\">". smart_unescape( $d['parts']) ."</td>\n";
-            print "<td class=\"tdrow3\">". smart_unescape( $d['pieces']) ."</td>\n";
-            print "<td class=\"tdrow3\">". smart_unescape( $d['value']) ."&nbsp". $currency."</td>\n";
-            print "<td class=\"tdrow3\">";
-            
-            print "<form method=\"post\" action=\"\">";
-            print "<input type=\"hidden\" name=\"action\"  value=\"deletedevice\">";
-            print "<input type=\"hidden\" name=\"deviceid\" value=\"". smart_unescape( $d['id']) ."\">";
-            print "<input type=\"hidden\" name=\"devicename\" value=\"". smart_unescape($d['name']) ."\">";
-            print "<input type=\"submit\" value=\"Löschen\">";
-            print "</form>";
-            
-            print "</td>";
-            print "</tr>". PHP_EOL;
-        }
+            while ( $d = mysql_fetch_assoc( $result))
+            {
+                
+                // the alternating background colors are created here
+                $rowcount++;
+                print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
+                
+                print "<td class=\"tdrow1\"><a href=\"deviceinfo.php?deviceid=". smart_unescape( $d['id']) ."\">". smart_unescape( $d['name']) ."</a></td>\n";
+                print "<td class=\"tdrow2\">". smart_unescape( $d['parts']) ."</td>\n";
+                print "<td class=\"tdrow3\">". smart_unescape( $d['pieces']) ."</td>\n";
+                print "<td class=\"tdrow3\">". smart_unescape( $d['value']) ."&nbsp". $currency."</td>\n";
+                print "<td class=\"tdrow3\">";
+                
+                print "<form method=\"post\" action=\"\">";
+                print "<input type=\"hidden\" name=\"action\"  value=\"deletedevice\">";
+                print "<input type=\"hidden\" name=\"deviceid\" value=\"". smart_unescape( $d['id']) ."\">";
+                print "<input type=\"hidden\" name=\"devicename\" value=\"". smart_unescape($d['name']) ."\">";
+                print "<input type=\"submit\" value=\"Löschen\">";
+                print "</form>";
+                
+                print "</td>";
+                print "</tr>". PHP_EOL;
+            }
         ?>
         </table>
     </div>

@@ -25,36 +25,6 @@
     partdb_init();
 
 
-    function build_devices_navtree( $pid)
-    {    
-		
-        $query  = "SELECT id, name FROM devices".
-            " WHERE parentnode=". smart_escape( $pid).
-            " ORDER BY devices.name ASC;";
-        if ( $result = mysql_query( $query))
-        {
-            while ( $d = mysql_fetch_assoc( $result))
-            {      
-                // count sub nodes
-                $count_query  = "SELECT count(*) as count FROM devices".
-                    " WHERE parentnode=". smart_escape( $d['id']). ";";
-                $count_result = mysql_query( $count_query) or die( mysql_error());
-                $count_row    = mysql_fetch_array( $count_result);
-                $count        = $count_row['count'];
-                
-                $target_url = ($count > 0) ? "','device.php?deviceid=" : "','deviceinfo.php?deviceid=";
-                print "dev_tree.add(". smart_unescape( $d['id']) .",". 
-                    smart_unescape( $pid) .",'".
-                    smart_unescape( $d['name']).
-                    $target_url.
-                    smart_unescape( $d['id']).
-                    "','','content_frame');\n";
-
-                build_devices_navtree( $d['id']);
-            }
-        }
-    }
-
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/loose.dtd">
@@ -116,8 +86,7 @@
             <script type="text/javascript">
                 dev_tree = new dTree('dev_tree');
                 dev_tree.add(0,-1,'Übersicht','device.php','','content_frame');
-                <?php 
-				build_devices_navtree( 0); ?>
+                <?php devices_build_navtree(); ?>
                 document.write( dev_tree);
             </script>
             <br>

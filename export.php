@@ -5,35 +5,15 @@
 
     // database query
 
-    $keyword = smart_escape_for_search( $_REQUEST['keyword']);
+    $keyword    = smart_escape_for_search( $_REQUEST['keyword']);
+    $search_nam = isset( $_REQUEST['search_nam']) ? $_REQUEST['search_nam'] == 'true' : false;
+    $search_com = isset( $_REQUEST['search_com']) ? $_REQUEST['search_com'] == 'true' : false;
+    $search_sup = isset( $_REQUEST['search_sup']) ? $_REQUEST['search_sup'] == 'true' : false;
+    $search_snr = isset( $_REQUEST['search_snr']) ? $_REQUEST['search_snr'] == 'true' : false;
+    $search_loc = isset( $_REQUEST['search_loc']) ? $_REQUEST['search_loc'] == 'true' : false;
+    $search_fpr = isset( $_REQUEST['search_fpr']) ? $_REQUEST['search_fpr'] == 'true' : false;
 
-    // build search strings
-    if ( $_REQUEST['search_nam'] == "true") { $query_nam = " OR (parts.name LIKE ".           $keyword.")"; } 
-    if ( $_REQUEST['search_com'] == "true") { $query_com = " OR (parts.comment LIKE ".        $keyword.")"; }
-    if ( $_REQUEST['search_sup'] == "true") { $query_sup = " OR (suppliers.name LIKE ".       $keyword.")"; }
-    if ( $_REQUEST['search_snr'] == "true") { $query_snr = " OR (parts.supplierpartnr LIKE ". $keyword.")"; }
-    if ( $_REQUEST['search_loc'] == "true") { $query_loc = " OR (storeloc.name LIKE ".        $keyword.")"; }
-    if ( $_REQUEST['search_fpr'] == "true") { $query_fpr = " OR (footprints.name LIKE ".      $keyword.")"; }
-    $search = $query_nam. $query_com. $query_sup. $query_snr. $query_loc. $query_fpr;
-
-    $query = "SELECT ".
-            "categories.name AS 'category',  ".
-            "parts.name,                     ".
-            "parts.instock   AS 'stock',     ".
-            "footprints.name AS 'footprint', ".
-            "storeloc.name   AS 'location',  ".
-            "suppliers.name  AS 'supplier',  ".
-            "parts.supplierpartnr AS 'order_number', ".
-            "parts.comment  ".
-            "FROM parts ".
-            "LEFT JOIN categories ON parts.id_category=categories.id ".
-            "LEFT JOIN footprints ON parts.id_footprint=footprints.id ".
-            "LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id ".
-            "LEFT JOIN suppliers  ON parts.id_supplier=suppliers.id ".
-            "WHERE FALSE ". $search.
-            " ORDER BY parts.id_category, parts.name ASC;";
-
-    $result   = mysql_query( $query) or die( mysql_error());
+    $result = parts_select_search( $keyword, $search_nam, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr, true);
 
     $filename = "partdb_export_selection_". $_REQUEST["keyword"]; 
 
@@ -50,7 +30,7 @@
     }
 
 
-    if (( $action == output) && ( $format == 'XML'))
+    if (( $action == "output") && ( $format == 'XML'))
     {
 
         // inspiration:

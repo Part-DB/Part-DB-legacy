@@ -39,27 +39,17 @@
 
     if ( strcmp ($action, "edit") == 0 )
     {
-        $query = 
-            "UPDATE parts ".
-            "SET name=".        smart_escape($_REQUEST["p_name"])           .",".
-            "instock=".         smart_escape($_REQUEST["p_instock"])        .",".
-            "mininstock=".      smart_escape($_REQUEST["p_mininstock"])     .",".
-            "id_footprint=".    smart_escape($_REQUEST["p_footprint"])      .",".
-            "id_storeloc=".     smart_escape($_REQUEST["p_storeloc"])       .",".
-            "id_supplier=".     smart_escape($_REQUEST["p_supplier"])       .",".
-            "supplierpartnr=".  smart_escape($_REQUEST["p_supplierpartnr"]) .",".
-            "comment=".         smart_escape($_REQUEST["p_comment"])        ." ".
-            "WHERE id=".        smart_escape($pid)                          ." ".
-            "LIMIT 1;";
-        debug_print ($query);
-        mysql_query ($query);
-        print "<script>window.close();</script>\n";
-    }
-    else if ( strcmp ($action, "edit_category") == 0 )
-    {
-        $query = "UPDATE parts SET id_category=". smart_escape($_REQUEST["p_category"]) ." WHERE id=". smart_escape( $pid) ." LIMIT 1;";
-        debug_print ($query);
-        mysql_query ($query);
+        part_update( $pid, 
+            $_REQUEST["p_category"],
+            $_REQUEST["p_name"],
+            $_REQUEST["p_instock"],
+            $_REQUEST["p_mininstock"],
+            $_REQUEST["p_comment"],
+            $_REQUEST["p_footprint"],
+            $_REQUEST["p_storeloc"],
+            $_REQUEST["p_supplier"],
+            $_REQUEST["p_supplierpartnr"]);
+
         print "<script>window.close();</script>\n";
     }
     else if ( strcmp ($action, "ds_add") == 0 )
@@ -67,27 +57,12 @@
         // add ds_path if requested (use_ds_path)
         $ds     = ( strcmp( $_REQUEST["use_ds_path"], "true") == 0 ) ? $_REQUEST["ds_path"] : '';
         $ds_url = $_REQUEST["ds_url"];
-        $query = "INSERT INTO datasheets (part_id,datasheeturl) VALUES (". smart_escape( $pid) .",". smart_escape($ds.$ds_url) .");";
-        debug_print ($query);
-        mysql_query ($query);
+        datasheet_add( $pid, $ds.$ds_url);
 
     }
     else if ( strcmp ($action, "ds_del") == 0 )
     {
-        // delete datasheet from local directory
-        $query = "SELECT datasheeturl FROM datasheets WHERE id=". smart_escape($_REQUEST["ds_id"]) ." LIMIT 1;";
-        $r = mysql_query( $query);
-        $d = mysql_fetch_row ($r);
-        $filename = "/home/eparts". $d[0];
-        while( is_file( $filename) == true)
-        {
-            chmod( $filename, 0666);
-            unlink( $filename);
-        }
-
-        $query = "DELETE FROM datasheets WHERE id=". smart_escape($_REQUEST["ds_id"]) ." LIMIT 1;";
-        debug_print ($query);
-        mysql_query ($query);
+        datasheet_delete( $_REQUEST["ds_id"]);
 
     }
     else if (strcmp ($action, "part_del") == 0)
@@ -107,13 +82,8 @@
         else if (isset($_REQUEST["del_ok"]))
         {
             /* the user said it's OK to delete the part ... */
-            // no LIMIT here because every part can have multiple datasheets
-            $query = "DELETE FROM datasheets WHERE part_id=". smart_escape( $pid) .";";
-            debug_print ($query);
-            mysql_query ($query);
-            $query = "DELETE FROM parts WHERE id=". smart_escape( $pid). " LIMIT 1";
-            debug_print ($query);
-            mysql_query ($query);
+            part_delete( $pid);
+
             $special_dialog = 1;
             print "<script>window.close();</script>";
         }
@@ -127,12 +97,7 @@
          */
         if (isset($_REQUEST["default_img"]))
         {
-            $query = "UPDATE pictures SET pict_masterpict=0 WHERE part_id=". smart_escape( $pid) .";";
-            debug_print ($query);
-            mysql_query ($query);
-            $query = "UPDATE pictures SET pict_masterpict=1 WHERE id=". smart_escape($_REQUEST["default_img"]) .";";
-            debug_print ($query);
-            mysql_query ($query);
+            picture_set_default( $pid, $_REQUEST["default_img"]);
         }   
         /* check if the user wants to delete an image */
         if (isset($_REQUEST["del_img"]))
@@ -147,7 +112,7 @@
                 print "<tr><td class=\"tdtop\"><div style=\"color:red\">M&ouml;chten Sie das ausgew&auml;hlte Bild/die ausgew&auml;hlen Bilder wirklich l&ouml;schen?</div></td></tr>";
                 print "<tr><td class=\"tdtext\"><table><tr><td>Der L&ouml;schvorgang ist irreversibel!</td></tr>";
                 print "<tr><td><form action=\"\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $pid ."\"><input type=\"hidden\" name=\"action\" value=\"img_mgr\">";
-                for ($i = 0; $i < count($img_del_id_array); $i++)
+                for ($i = 0; $i < count( $img_del_id_array); $i++)
                 {
                     print "<input type=\"hidden\" name=\"del_img[]\" value=\"". $img_del_id_array[$i] ."\">";
                     print "<input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen!\"><input type=\"submit\" name=\"del_ok\" value=\"L&ouml;schen!\"></form></div></body></html>";
@@ -160,9 +125,7 @@
                 for ($i = 0; $i < count($img_del_id_array); $i++)
                 {
                     // delete only the images, the thumbsnails will expire automatically
-                    $query = "DELETE FROM pictures WHERE id=". smart_escape($img_del_id_array[$i]) ." LIMIT 1;";
-                    debug_print ($query);
-                    mysql_query ($query);
+                    picture_delete( $img_del_id_array[$i]);
                 }
             }
         }
@@ -194,9 +157,7 @@
             // unknown file type etc. pp.
             move_uploaded_file($_FILES['uploaded_img']['tmp_name'], "img/".$fname);
             chmod ("img/" .$fname, 0664);
-            $query = "INSERT INTO pictures (part_id,pict_fname) VALUES (". smart_escape( $pid) .",". smart_escape($fname) .")";
-            debug_print($query);
-            mysql_query($query);
+            picture_add( $pid, $fname);
         }
     }
     else if ( strcmp ($action, "price_del") == 0 )
@@ -328,6 +289,14 @@
                         <td valign='top'><b>Kommentar:</b></td>
                         <td><textarea name='p_comment' rows=2 cols=20><?php print smart_unescape( $data['comment']); ?></textarea></td>
                     </tr>
+                    <tr>
+                        <td><b>Kategorie:</b></td>
+                        <td><select name='p_category'>
+                            <option value="0">root node</option>
+                            <?php categories_build_tree( 0, 1, part_get_category_id( $pid)); ?>
+                            </select>
+                        </td>
+                    </tr>
                     <?php
                 }
                 ?>
@@ -339,29 +308,6 @@
                 </tr>
             </table>
             </form>
-
-            <form  action="" method="get">
-            <table>
-                <tr>
-                    <td>
-                        <b>Kategorie:</b>
-                        <input type="hidden" name="pid" value="<? print $pid; ?>">
-                    </td>
-                    <td>
-                        <select name='p_category'>
-                        <option value="0">root node</option>
-                        <?php categories_build_tree( 0, 1, part_get_category_id( $pid)); ?>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="hidden" name="action" value="edit_category">
-                        <input type="submit" value="&Auml;ndern!">
-                    </td>
-                </tr>
-            </table>
-        </form>
     </div>
 </div>
 
