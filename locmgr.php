@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -20,14 +20,6 @@
 
     $Id$
 
-    28/02/06
-        Added escape/unescape functions where required
-
-    06/04/06
-        Now it is possible to edit the name of the location.
-        Some sanity checks are new, too! The base line is to
-        avoid database corruption, therefore we refuse to
-        delete locs with parts in them.
 */
     include('lib.php');
     partdb_init();
@@ -55,10 +47,15 @@
         if ( $series)
         {
             // add location series
-            $start = (int)$_REQUEST["series_start"];
-            $end   = (int)$_REQUEST["series_end"];
-            for ($index = $start; $index <= $end; $index++) {
-                $new_location = $_REQUEST["new_location"].(string)$index; 
+            $start  = $_REQUEST["series_start"];
+            $end    = $_REQUEST["series_end"];
+            // determine the width of second argument
+            $width  = strlen( (string) $end);
+            $format = "%0". (int)$width ."s";
+
+            foreach( range( $start, $end) as $index)
+            {
+                $new_location = $_REQUEST["new_location"]. sprintf( $format, $index);
                 location_add( $new_location, $_REQUEST["parent_node"]);
             }
         }
