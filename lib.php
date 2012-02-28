@@ -730,7 +730,7 @@
      */
     function location_tree_build( $id = 0, $level = 0, $select = -1, $show_all = true)
     {
-        $query_all = ( $show_all) ? '' : ' AND is_full=0';
+        $query_all = ( $show_all) ? '' : ' AND (is_full=0 OR id='. smart_escape( $select) .')';
         $query = "SELECT id, name, is_full FROM storeloc".
             " WHERE parentnode=". smart_escape( $id).
             $query_all.
