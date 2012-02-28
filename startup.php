@@ -91,6 +91,7 @@
     <h1>
         <img src="img/partdb/partdb.png" alt="logo"><?php print $startup_title ?><img src="img/partdb/partdb.png" alt="logo">
     </h1>
+    <?php print get_svn_revision() ? "<h3>SVN-Revision: ". get_svn_revision() ."</h3>" : ""; ?>
 </div>
 
 <?PHP   // Display Warning 

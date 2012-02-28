@@ -1,8 +1,8 @@
 <?php
-    @( include('config.php')) or die('<h2>Fehler: config.php ist nicht vorhanden!</h2>Bitte mit <em>cp config.php_template config.php</em> anlegen</h2>');
+    @( include('config.php')) or die('<h2>Fehler: config.php ist nicht vorhanden!</h2>Bitte mit <em>cp config.php_template config.php</em> anlegen');
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"                                                                                                                        
-    "http://www.w3.org/TR/html4/frameset.dtd">
+
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"                                  "http://www.w3.org/TR/html4/frameset.dtd">
 
 <html>
   <head>
@@ -11,7 +11,9 @@
   </head>
 
 <?php
-function check_mobile() {
+
+function check_mobile() 
+{
     $agents = array(
         'Windows CE', 'Pocket', 'Mobile',
         'Portable', 'Smartphone', 'SDA',
@@ -20,32 +22,34 @@ function check_mobile() {
         'cHTML', 'BlackBerry', 'Opera Mini',
         'Nokia', 'PSP', 'J2ME'
     );
-    for ($i=0; $i<count($agents); $i++) {
-        if(isset($_SERVER["HTTP_USER_AGENT"]) && strpos($_SERVER["HTTP_USER_AGENT"], $agents[$i]) !== false)
-        return true;
+    $result = false;
+
+    if ( isset( $_SERVER["HTTP_USER_AGENT"]))
+    {
+        foreach( $agents as $agent)
+        {
+            if ( strpos( $_SERVER["HTTP_USER_AGENT"], $agent))
+            {
+                $result = true;
+                break;
+            }
+        }
     }
-    return false;
+    return $result;
 }
 
-if(check_mobile()) {
-    @( include('mobil/mobil.php')) or die('<h2>Part-DB Mobile ist nicht instaliert !!! </h2>');
+if ( check_mobile()) 
+{
+    @( include('mobil/mobil.php')) or die('<h2>Part-DB Mobile ist nicht installiert!</h2>');
 }
 else { 
 ?>
-   <frameset cols="300,*" frameborder="0" framespacing="0" border="0">
-     <frame name="_nav_frame" src="nav.php">
-     <frame name="content_frame" src="startup.php">
-   </frameset>
+    <frameset cols="300,*" frameborder="0" framespacing="0" border="0">
+        <frame name="_nav_frame" src="nav.php">
+        <frame name="content_frame" src="startup.php">
+    </frameset>
 <?php
 }
 ?>
 </html> 
-
-
-
-
-
-
-
-
 

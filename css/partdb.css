@@ -35,6 +35,10 @@
 	font-weight: bold;
 }
 
+.outer h3 {
+	text-align: center;
+}
+
 .inner {
 	background-color: #F2F2F2;
 	border-bottom: 3px solid #d0d0d0;

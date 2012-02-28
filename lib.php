@@ -43,6 +43,7 @@
     GenerateBOMResult
 
     print_http_charset
+    get_svn_revision
 
     footprint_build_tree
     footprint_add
@@ -494,6 +495,37 @@
             print "<meta http-equiv=\"content-type\" content=\"text/html; charset=". $http_charset ."\">\n";
         }
     }
+
+
+    function get_svn_revision()
+    {
+        $filename = ".svn/entries";
+        if ( is_file( $filename))
+        {
+            if( $handle = fopen( $filename, "r"))
+            {
+                $zeile1 = fgets( $handle, 4096);
+                $zeile2 = fgets( $handle, 4096);
+                $zeile3 = fgets( $handle, 4096);
+                $subversion_version = fgets( $handle, 4096);
+                fclose( $handle);
+            }
+            else
+            {
+                //die( "Datei <b>". $filename ."</b> konnte nicht geöffnet werden.");
+                return false;
+            }
+        }
+        else
+        {
+            //die( "Datei <b>". $filename ."</b> ist nicht vorhanden.");
+            return false;
+        }
+                
+        $subversion_version = trim( $subversion_version);
+        
+        return $subversion_version;
+    }  
 
     
 
