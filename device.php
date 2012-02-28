@@ -64,10 +64,10 @@
 	</script>
 
 <div class="outer">
-    <h2>Neues Gerät erzeugen</h2>
+    <h2>Neues Ger&auml;t erzeugen</h2>
     <div class="inner">
         <form method="post" action="">
-            Gerätenamen
+            Ger&auml;tenamen
             <input type="text" name="newdevicename" size="10" maxlength="50" >
             <input type="hidden" name="action" value="createdevice">
             <input type="submit" value="OK">
@@ -80,7 +80,7 @@ if(strcmp( $action, "deletedevice") == 0)
 {
     print "<br>";
     print "<table class=\"table\">";
-    print "<tr><td class=\"tdtop\">Gerät \"".$_REQUEST["devicename"]."\" wirklich löschen?</td></tr>";
+    print "<tr><td class=\"tdtop\">Ger&auml;t \"".$_REQUEST["devicename"]."\" wirklich l&ouml;schen?</td></tr>";
     print "<tr><td class=\"tdtext\">";
     print "<form method=\"post\" action=\"\">";
             print "<input type=\"hidden\" name=\"action\"  value=\"confirmeddelete\"/>";
@@ -97,7 +97,7 @@ if(strcmp( $action, "deletedevice") == 0)
 ?>
     
 <div class="outer">
-    <h2>Geräte</h2>
+    <h2>Ger&auml;te</h2>
     <div class="inner">
         <table>
         <?php
@@ -110,7 +110,7 @@ if(strcmp( $action, "deletedevice") == 0)
                 "<td>Anzahl Teile</td>".
                 "<td>Anzahl Einzelteile</td>".
                 "<td>Preis</td>".
-                "<td>Löschen</td>".
+                "<td>L&ouml;schen</td>".
                 "</tr>\n";
             
             while ( $d = mysql_fetch_assoc( $result))
@@ -130,7 +130,7 @@ if(strcmp( $action, "deletedevice") == 0)
                 print "<input type=\"hidden\" name=\"action\"  value=\"deletedevice\">";
                 print "<input type=\"hidden\" name=\"deviceid\" value=\"". smart_unescape( $d['id']) ."\">";
                 print "<input type=\"hidden\" name=\"devicename\" value=\"". smart_unescape($d['name']) ."\">";
-                print "<input type=\"submit\" value=\"Löschen\">";
+                print "<input type=\"submit\" value=\"L&ouml;schen\">";
                 print "</form>";
                 
                 print "</td>";

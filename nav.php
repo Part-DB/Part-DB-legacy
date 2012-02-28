@@ -85,7 +85,7 @@
         <div class="dtree">
             <script type="text/javascript">
                 dev_tree = new dTree('dev_tree');
-                dev_tree.add(0,-1,'Übersicht','device.php','','content_frame');
+                dev_tree.add(0,-1,'&Uuml;bersicht','device.php','','content_frame');
                 <?php devices_build_navtree(); ?>
                 document.write( dev_tree);
             </script>

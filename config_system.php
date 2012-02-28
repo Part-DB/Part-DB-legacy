@@ -42,6 +42,11 @@
             </tr>
 
             <tr>
+                <td>Pfad f&uuml;r Datenbl&auml;tter als Standard verwenden:</td>
+                <td><?php print ( $use_datasheet_path) ? "ja" : "nein"; ?></td>
+            </tr>
+
+            <tr>
                 <td colspan="2">
                     <hr>
                 </td>
@@ -49,22 +54,22 @@
 
             <tr>
                 <td>Updateliste auf Startseite verstecken:</td>
-                <td><?php print ($disable_update_list) ? "ja" : "nein"; ?></td>
+                <td><?php print ( $disable_update_list) ? "ja" : "nein"; ?></td>
             </tr>
 
             <tr>
                 <td>Baugruppenfunktion abschalten:</td>
-                <td><?php print ($disable_devices) ? "ja" : "nein"; ?></td>
+                <td><?php print ( $disable_devices) ? "ja" : "nein"; ?></td>
             </tr>
 
             <tr>
                 <td>Bauteil-ID in Listen verstecken:</td>
-                <td><?php print ($hide_id) ? "ja" : "nein"; ?></td>
+                <td><?php print ( $hide_id) ? "ja" : "nein"; ?></td>
             </tr>
 
             <tr>
                 <td>Hilfefunktion abschalten:</td>
-                <td><?php print ($disable_help) ? "ja" : "nein"; ?></td>
+                <td><?php print ( $disable_help) ? "ja" : "nein"; ?></td>
             </tr>
 
             <tr>
@@ -75,7 +80,7 @@
 
             <tr>
                 <td>modale Dialoge verwenden:</td>
-                <td><?php print ($use_modal_dialog) ? "ja" : "nein"; ?></td>
+                <td><?php print ( $use_modal_dialog) ? "ja" : "nein"; ?></td>
             </tr>
 
             <tr>

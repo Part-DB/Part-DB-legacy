@@ -120,7 +120,7 @@
             {
                 $enoughinstock = 0;
                 $bookstate = 3; //not enough parts in stock
-                $bookerrorstring = $bookerrorstring.$d[2]." Benötigt: ".$needed." Im Lager: ".$d[0]."<br>";
+                $bookerrorstring = $bookerrorstring.$d[2]." Ben&ouml;tigt: ".$needed." Im Lager: ".$d[0]."<br>";
             }
         }       
         if($enoughinstock)
@@ -289,7 +289,7 @@
         print "<input type=\"text\" name=\"newpartname\"/>";
         print "<input type=\"hidden\" name=\"action\"  value=\"assignbytext\"/>";
         print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid. "\"/>";
-        print "<input type=\"submit\" value=\"Hinzufügen\"/></form>";
+        print "<input type=\"submit\" value=\"Hinzuf&uuml;gen\"/></form>";
         
         print "<form method=\"post\" action=\"\">";
         print "<input type=\"hidden\" name=\"action\"  value=\"refresh\"/>";
@@ -320,7 +320,7 @@
         $result = mysql_query ($query);
         $nParts = mysql_num_rows($result);
         $rowcount = 0;
-        print "<tr class=\"trcat\"><td></td><td>Anzahl</td><td>Bestückungs<br>Daten</td><td>Teil</td><td>Footprint</td><td>Lagernd</td>\n";
+        print "<tr class=\"trcat\"><td></td><td>Anzahl</td><td>Best&uunml;ckungs<br>Daten</td><td>Teil</td><td>Footprint</td><td>Lagernd</td>\n";
         while ( $d = mysql_fetch_row ($result) )
         {
             $rowcount++;
@@ -352,7 +352,7 @@
         
         print "</td></tr></table>";
         print "<input type=\"hidden\" name=\"selections\"  value=\"".$rowcount."\"/>";
-        print "<input type=\"submit\" value=\"Hinzufügen\"/>";
+        print "<input type=\"submit\" value=\"Hinzuf&uuml;gen\"/>";
         print "</form>";
         print "</div>";
     }
@@ -404,7 +404,7 @@
 		print "<form method=\"post\" action=\"\">";
         print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
 		
-		print "<tr class=\"trcat\"><td></td><td>Teil</td><td>Bestückungs<br>Daten</td><td>Anzahl</td><td>Footprint</td><td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Einzelpreis</td><td>Gesamtpreis</td><td>Entfernen</td></tr>\n";
+		print "<tr class=\"trcat\"><td></td><td>Teil</td><td>Best&uuml;ckungs<br>Daten</td><td>Anzahl</td><td>Footprint</td><td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Einzelpreis</td><td>Gesamtpreis</td><td>Entfernen</td></tr>\n";
                 
         $query = "SELECT".
             " parts.name,".
@@ -487,10 +487,10 @@
         print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
 		print "<input type=\"hidden\" name=\"nrofparts\" value=\"". ($rowcount-1) ."\"/>";
         print "<td class=\"tdrow1\" colspan=\"2\"></td>". PHP_EOL.
-            "<td class=\"tdrow1\" colspan=\"2\"><input type=\"submit\" name=\"devicetableform_update\" value=\"Übernehmen\"/></td>". PHP_EOL.
+            "<td class=\"tdrow1\" colspan=\"2\"><input type=\"submit\" name=\"devicetableform_update\" value=\"&Uuml;bernehmen\"/></td>". PHP_EOL.
             "<td class=\"tdrow1\" colspan=\"5\"></td>". PHP_EOL.
             "<td class=\"tdrow0\">Gesamtpreis:<br>".$sumprice."&nbsp".$currency."</td>". PHP_EOL.
-            "<td class=\"tdrow1\" colspan=\"3\"><input type=\"submit\" name=\"devicetableform_delete\" value=\"Löschen\"/></td>". PHP_EOL;
+            "<td class=\"tdrow1\" colspan=\"3\"><input type=\"submit\" name=\"devicetableform_delete\" value=\"L&ouml;schen\"/></td>". PHP_EOL;
         
 		print "</tr></form>". PHP_EOL;
 
@@ -549,7 +549,7 @@
                     print "checked=\"checked\"";
             }
             print "\"></tr></td>";
-            print "<tr><td><input type=\"submit\" value=\"Ausführen\"/></tr></td>";
+            print "<tr><td><input type=\"submit\" value=\"Ausf&uuml;hren\"/></tr></td>";
             
             print "<tr><td colspan=\"4\">";
             
@@ -620,7 +620,7 @@
   
 
 <div class="outer">
-    <h2>Benötigte Teile abfassen</h2>
+    <h2>Ben&ouml;tigte Teile abfassen</h2>
     <div class="inner">
         <form method="post" action="">
             <table>
@@ -632,7 +632,7 @@
                 else
                     print $_REQUEST["bookmultiplikator"];
                 print "\"/><td></tr>";
-                print "<tr><td><input type=\"submit\" value=\"Ausführen\"";
+                print "<tr><td><input type=\"submit\" value=\"Ausf&uuml;hren\"";
                 if($notallinstock)
                 {
                     print "disabled=\"disabled\"";
@@ -645,9 +645,9 @@
                 {
                 print "<td class=\"tdtextsmall\">";
                 if($bookstate == 2) //no parts in device
-                    print "Keine Teile zum Gerät zugeordnet.";
+                    print "Keine Teile zum Ger&auml;t zugeordnet.";
                 else if($bookstate == 3)    //not enough parts in stock
-                    print "<b>Nicht genug Teile verfügbar.<br>Teil/e:</b>" . $bookerrorstring;
+                    print "<b>Nicht genug Teile verf&uuml;gbar.<br>Teil/e:</b>" . $bookerrorstring;
                 else if($bookstate == 4)    //querry error
                     print "Fehler.";
                 print "</td>";
@@ -672,10 +672,10 @@
                 print "</textarea>";
                 print "<td></tr>";
                 print "<tr><td >";
-                print "Format: ID;Anzahl;Bestückungsdaten;";
+                print "Format: ID;Anzahl;Best&uuml;ckungsdaten;";
                 print "</textarea>";
                 print "<td></tr>";
-                print "<tr><td><input type=\"submit\" value=\"Ausführen\"/>";                    
+                print "<tr><td><input type=\"submit\" value=\"Ausf&uuml;hren\"/>";                    
                 print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $deviceid ."\"/>";
                 print "<input type=\"hidden\" name=\"action\"  value=\"import\"/>";
                 print "</td>";
@@ -697,7 +697,7 @@
                 print "<tr class=\"trcat\"><td>Umbenennen:</td><td><input type=\"text\" name=\"newdevname\" size=\"10\" maxlength=\"50\" value=\"";
                 print lookup_device_name( $deviceid);
                 print "\"/><td></tr>";
-                print "<tr><td><input type=\"submit\" value=\"Ausführen\"/>";
+                print "<tr><td><input type=\"submit\" value=\"Ausf&uuml;hren\"/>";
                 
                 print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
                 print "<input type=\"hidden\" name=\"action\"  value=\"renamedevice\"/>";
@@ -715,7 +715,7 @@
                 print "<tr class=\"trcat\"><td>Kopieren:</td><td><input type=\"text\" name=\"newcopydevname\" size=\"10\" maxlength=\"50\" value=\"";
                 print "KopieVon". lookup_device_name( $deviceid);
                 print "\"/><td></tr>";
-                print "<tr><td><input type=\"submit\" value=\"Ausführen\"/>";
+                print "<tr><td><input type=\"submit\" value=\"Ausf&uuml;hren\"/>";
                 
                 print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
                 print "<input type=\"hidden\" name=\"action\"  value=\"copydevice\"/>";

@@ -154,7 +154,7 @@
                 "</td>\n</tr>\n";
             
             print "<tr>\n".
-                "<td><input type=\"submit\" value=\"Ausführen\"/></td>\n".
+                "<td><input type=\"submit\" value=\"Ausf&uuml;hren\"/></td>\n".
                 "</tr>\n";
             
             print "<tr>\n".
