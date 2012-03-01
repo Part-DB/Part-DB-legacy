@@ -1,6 +1,7 @@
 <?php
     
     include ('../lib.php');
+    partdb_init();
                 
     // config stuff            
     $path         = "footprints/";
@@ -80,10 +81,42 @@
     <link rel="StyleSheet" href="../css/partdb.css" type="text/css">
 </head>
 <body class="body">
+            
+    <script type="text/javascript">
+        function process( element, footprint, id)
+        {
+            var xmlHttpReq = false;
+            var self = this;
+            var send;
+
+            // Mozilla/Safari
+            if (window.XMLHttpRequest) {
+                self.xmlHttpReq = new XMLHttpRequest();
+            }
+            // IE
+            else if (window.ActiveXObject) {
+                self.xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+
+            self.xmlHttpReq.open( 'POST', '../fpmgr.php', true);
+            self.xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            if ( element.checked)
+            {
+                send = 'add=&new_footprint=' + footprint + '&parent_node=0';
+            }
+            else
+            {
+                send = 'delete=&footprint_sel=' + id;
+            }
+            self.xmlHttpReq.setRequestHeader('Content-length', send.length);
+            self.xmlHttpReq.send( send); 
+        }
+    </script>
 
 <div class="outer">
     <h2>Footprints</h2>
     <div class="inner">
+        <form>
         <table>
         <?php
             $rowcount = 0;
@@ -98,15 +131,18 @@
                 {
                     $file  = $pic; 
                     $title = basename( $pic, '.png');
+                    $footprint_exists = footprint_exists( $title) ? " checked" : ""; 
+                    $id               = footprint_exists( $title) ? footprint_get_id( $title) : -1; 
                     print "<div class=\"footprint\">".
-                        "<img src=\"".$path.$file."\" title=\"".$title."\" alt=\"\">".
-                        "<p>".$title.
+                        "<img src=\"". $path . $file ."\" title=\"". $title ."\" alt=\"\">".
+                        "<p><input type=\"checkbox\" onclick=\"process(this,'". $title ."',". $id .");\"". $footprint_exists .">". $title.
                         "</div>". PHP_EOL;
                 }
                 print "</td></tr>". PHP_EOL;
             }
         ?>
         </table>
+        </form>
     </div>
 </div>
 
