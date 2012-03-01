@@ -259,31 +259,53 @@
     if ( $action == "commit_data" )
     {
         // fetch missign category, footprint, etc.
-        $open_category  = explode( ';', $_REQUEST["add_category"]);
-        $open_footprint = explode( ';', $_REQUEST["add_footprint"]);
-        $open_storeloc  = explode( ';', $_REQUEST["add_storeloc"]);
-        $open_supplier  = explode( ';', $_REQUEST["add_supplier"]);
+        $open_category  = strlen( $_REQUEST["add_category"]) > 0 ? explode( ';', $_REQUEST["add_category"])  : array();
+        $open_footprint = strlen( $_REQUEST["add_footprint"])> 0 ? explode( ';', $_REQUEST["add_footprint"]) : array();
+        $open_storeloc  = strlen( $_REQUEST["add_storeloc"]) > 0 ? explode( ';', $_REQUEST["add_storeloc"])  : array();
+        $open_supplier  = strlen( $_REQUEST["add_supplier"]) > 0 ? explode( ';', $_REQUEST["add_supplier"])  : array();
 
 
-        // add to database
+        // add stuff to database
+        // first check if there a parent named 'Import'
+        // and generate them if neccesarry
+        if ( ! category_exists('Import') && count( $open_category) > 0)
+        {
+            category_add( 'Import');
+        }
+        $id = category_get_id( 'Import');
+        $add_category = array();
         foreach ($open_category as $entry)
         {
-            category_add( $entry);
+            category_add( $entry, $id);
             $add_category[] = $entry;
+            $refreshnav     = true;
         }
 
+        if ( ! footprint_exists('Import') && count( $open_footprint) > 0)
+        {
+            footprint_add( 'Import');
+        }
+        $id = footprint_get_id( 'Import');
+        $add_footprint = array();
         foreach ($open_footprint as $entry)
         {
-            footprint_add( $entry);
+            footprint_add( $entry, $id);
             $add_footprint[] = $entry;
         }
 
+        if ( ! location_exists('Import') && count( $open_storeloc) > 0)
+        {
+            location_add( 'Import');
+        }
+        $id = location_get_id( 'Import');
+        $add_storeloc = array();
         foreach ($open_storeloc as $entry)
         {
-            location_add( $entry);
+            location_add( $entry, $id);
             $add_storeloc[] = $entry;
         }
 
+        $add_supplier = array();
         foreach ($open_supplier as $entry)
         {
             supplier_add( $entry);
@@ -321,6 +343,16 @@
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
 </head>
 <body class="body">
+
+<script type="text/javascript">
+	<?php
+        if ( $refreshnav)
+        {
+            $refreshnav = false;
+            print "parent.frames._nav_frame.location.reload();";		
+        }
+	?>
+</script>
 
 <?php
     if ($action == "default") {

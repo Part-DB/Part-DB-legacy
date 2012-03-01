@@ -752,7 +752,7 @@
     }
 
 
-    function location_add( $new_location, $parent_node)
+    function location_add( $new_location, $parent_node = 0)
     {
         $query = "INSERT INTO storeloc (name, parentnode) VALUES (".
             smart_escape( $new_location) .",".

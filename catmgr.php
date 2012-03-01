@@ -128,13 +128,13 @@
 </head>
 <body class="body">
 
-<script language="JavaScript" type="text/javascript">
-	<?PHP
-	if ($refreshnav)
-	{
-		$refreshnav = false;
-		print "parent.frames._nav_frame.location.reload();";		
-	}
+<script type="text/javascript">
+	<?php
+        if ( $refreshnav)
+        {
+            $refreshnav = false;
+            print "parent.frames._nav_frame.location.reload();";		
+        }
 	?>
 </script>
 
