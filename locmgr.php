@@ -39,7 +39,8 @@
     if ( isset( $_REQUEST["new_parent"])) { $action = 'new_parent';}
     if ( isset( $_REQUEST["update"]))     { $action = 'update';}
 
-    $series = isset( $_REQUEST["series"]) ? (bool)$_REQUEST["series"] : false;
+    $series       = isset( $_REQUEST["series"]) ? (bool)$_REQUEST["series"] : false;
+    $location_sel = isset( $_REQUEST["location_sel"]) ? $_REQUEST["location_sel"] : -1;
 
 
     if ( $action == 'add')
@@ -73,10 +74,10 @@
          * Includes confirmation questions. Don't delete the
          * location when there are parts in this location.
          */
-        if ((! isset($_REQUEST["del_ok"])) && (! isset($_REQUEST["del_nok"])) )
+        if ((! isset($_REQUEST["del_ok"])) && (! isset($_REQUEST["del_nok"])) && $location_sel >= 0)
         {
             $special_dialog = true;
-            if ( parts_count_on_storeloc( $_REQUEST["location_sel"]) > 0)
+            if ( parts_count_on_storeloc( $location_sel) > 0)
             {
                 print "<html><body>".
                     "<div style=\"text-align:center;\">".
@@ -91,10 +92,10 @@
             {
                 print "<html><body>".
                     "<div style=\"text-align:center;\">".
-                    "<div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie den Lagerort &quot;". smart_unescape( location_get_name( $_REQUEST["location_sel"])) ."&quot; wirklich l&ouml;schen?</div>".
+                    "<div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie den Lagerort &quot;". smart_unescape( location_get_name( $location_sel)) ."&quot; wirklich l&ouml;schen?</div>".
                     "Der L&ouml;schvorgang ist irreversibel!".
                     "<form action=\"\" method=\"post\">".
-                    "<input type=\"hidden\" name=\"location_sel\" value=\"". $_REQUEST["location_sel"] ."\">".
+                    "<input type=\"hidden\" name=\"location_sel\" value=\"". $location_sel ."\">".
                     "<input type=\"hidden\" name=\"delete\"  value=\"x\">".
                     "<input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen\">".
                     "<input type=\"submit\" name=\"del_ok\"  value=\"L&ouml;schen\">".
@@ -105,26 +106,26 @@
         else if (isset($_REQUEST["del_ok"]))
         {
             // the user said it's OK to delete the location
-            location_delete( $_REQUEST["location_sel"]);
+            location_delete( $location_sel);
         }
     }
     
     if ( $action == 'rename')
     {
-        location_rename( $_REQUEST["location_sel"], $_REQUEST["new_name"]);
+        location_rename( $location_sel, $_REQUEST["new_name"]);
     }
    
 
     if ( $action == 'new_parent')
     {
         /* resort */
-        location_new_parent( $_REQUEST["location_sel"], $_REQUEST["parent_node"]);
+        location_new_parent( $location_sel, $_REQUEST["parent_node"]);
     }
     
     if ( $action == 'update')
     {
         $value = isset( $_REQUEST["is_full"]) ? $_REQUEST["is_full"] == "true" : false;
-        location_mark_as_full( $_REQUEST["location_sel"], $value);
+        location_mark_as_full( $location_sel, $value);
     }
 
 

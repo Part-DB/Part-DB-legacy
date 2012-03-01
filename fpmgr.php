@@ -37,6 +37,8 @@
     if ( isset( $_REQUEST["delete"]))     { $action = 'delete';}
     if ( isset( $_REQUEST["rename"]))     { $action = 'rename';}
     if ( isset( $_REQUEST["new_parent"])) { $action = 'new_parent';}
+
+    $footprint_sel = isset( $_REQUEST["footprint_sel"]) ? $_REQUEST["footprint_sel"] : -1;
    
 
     if ( $action == 'add')
@@ -51,17 +53,17 @@
          * Delete a footprint
          * Don't delete when there are parts use this footprint
          */
-        $result = parts_select_footprint( $_REQUEST["footprint_sel"]); 
+        $result = parts_select_footprint( $footprint_sel); 
         $ncol   = mysql_num_rows( $result);
-        if ($ncol > 0)
+        if ( $ncol > 0)
         {
             $special_dialog = true;
 
             // catch up to three examples, where footprint is in use
             for ($i = 0; ($i < $ncol) and ($i < 3); $i++)
             {
-                $d         = mysql_fetch_assoc( $result);
-                $example[] = $d['name'];
+                $data      = mysql_fetch_assoc( $result);
+                $example[] = $data['name'];
             }
             $example = implode( ', ', $example);
 
@@ -81,20 +83,20 @@
         else
         {
             // delete footprint
-            footprint_del( $_REQUEST["footprint_sel"]);
+            footprint_del( $footprint_sel);
         }
     }
 
 
     if ( $action == 'rename')
     {
-        footprint_rename( $_REQUEST["footprint_sel"], $_REQUEST["new_name"]);
+        footprint_rename( $footprint_sel, $_REQUEST["new_name"]);
     }
    
 
     if ( $action == 'new_parent')
     {
-        footprint_new_parent( $_REQUEST["footprint_sel"], $_REQUEST["parent_node"]);
+        footprint_new_parent( $footprint_sel, $_REQUEST["parent_node"]);
     }
 
     /*

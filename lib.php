@@ -576,8 +576,11 @@
         mysql_query( $query) or die( mysql_error());
 
         // resort all child footprints to parent node
-        $query = "UPDATE footprints SET parentnode=". $parent ." WHERE parentnode=". smart_escape( $old) ." ;";
-        mysql_query( $query) or die( mysql_error());
+        if ( ! is_null( $parent))
+        {
+            $query = "UPDATE footprints SET parentnode=". $parent ." WHERE parentnode=". smart_escape( $old) ." ;";
+            mysql_query( $query) or die( mysql_error());
+        }
     }
     
     function footprint_rename( $id, $new_name)
@@ -642,11 +645,11 @@
      */
     function footprint_exists( $footprint)
     {
-        $query = "SELECT name FROM footprints WHERE name=". smart_escape( $footprint) .";";
-        $res   = mysql_query( $query);
-        $data  = mysql_num_rows( $res);
+        $query = "SELECT count(*) as count FROM footprints WHERE name=". smart_escape( $footprint) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        $data  = mysql_fetch_array( $result);
 
-        return( ($data == 1) ? true : false );
+        return( ($data['count'] > 0) ? true : false );
     }
 
 
@@ -776,10 +779,13 @@
         mysql_query( $query) or die( mysql_error());
             
         // resort all child locations
-        $query = "UPDATE storeloc".
-            " SET parentnode=". $parent.
-            " WHERE parentnode=". smart_escape( $id) .";";
-        mysql_query( $query) or die( mysql_error());
+        if ( ! is_null( $parent))
+        {
+            $query = "UPDATE storeloc".
+                " SET parentnode=". $parent.
+                " WHERE parentnode=". smart_escape( $id) .";";
+            mysql_query( $query) or die( mysql_error());
+        }
     }
     
     function location_rename( $id, $new_name)
@@ -940,8 +946,11 @@
         mysql_query( $query) or die( mysql_error());
 
         // resort all child footprints to parent node
-        $query = "UPDATE categories SET parentnode=". $parent ." WHERE parentnode=". smart_escape( $old) ." ;";
-        mysql_query( $query) or die( mysql_error());
+        if ( ! is_null( $parent))
+        {
+            $query = "UPDATE categories SET parentnode=". $parent ." WHERE parentnode=". smart_escape( $old) ." ;";
+            mysql_query( $query) or die( mysql_error());
+        }
     }
     
     function category_rename( $id, $new_name)
@@ -1605,10 +1614,13 @@
         mysql_query( $query) or die( mysql_error());
         
         // resort all child devices to root node
-        $query = "UPDATE devices".
-            " SET parentnode=". $parent.
-            " WHERE parentnode=". smart_escape( $device_id) .";";
-        mysql_query( $query) or die( mysql_error());
+        if ( ! is_null( $parent))
+        {
+            $query = "UPDATE devices".
+                " SET parentnode=". $parent.
+                " WHERE parentnode=". smart_escape( $device_id) .";";
+            mysql_query( $query) or die( mysql_error());
+        }
         
         // remove all parts from deleted device
         $query = "DELETE FROM part_device".

@@ -36,6 +36,7 @@
     if ( isset( $_REQUEST["rename"]))     { $action = 'rename';}
     if ( isset( $_REQUEST["new_parent"])) { $action = 'new_parent';}
 
+    $dev_sel = isset( $_REQUEST["dev_sel"]) ? $_REQUEST["dev_sel"] : -1;
 
     if ( $action == 'add')
     {
@@ -49,15 +50,15 @@
         /*
          * Delete a device.
          */
-        if ((! isset($_REQUEST["del_ok"])) && (! isset($_REQUEST["del_nok"])) )
+        if ((! isset($_REQUEST["del_ok"])) && (! isset($_REQUEST["del_nok"])) && $dev_sel >= 0)
         {
             $special_dialog = true;
                 print "<html><body>".
                     "<div style=\"text-align:center;\">".
-                    "<div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie die Baugruppe &quot;". lookup_device_name($_REQUEST["devsel"]) ."&quot; wirklich l&ouml;schen?</div>".
+                    "<div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie die Baugruppe &quot;". lookup_device_name( $dev_sel) ."&quot; wirklich l&ouml;schen?</div>".
                     "Der L&ouml;schvorgang ist irreversibel!".
                     "<form action=\"\" method=\"post\">".
-                    "<input type=\"hidden\" name=\"devsel\"  value=\"". $_REQUEST["devsel"] ."\">".
+                    "<input type=\"hidden\" name=\"dev_sel\" value=\"". $dev_sel ."\">".
                     "<input type=\"hidden\" name=\"delete\"  value=\"x\">".
                     "<input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen\">".
                     "<input type=\"submit\" name=\"del_ok\"  value=\"L&ouml;schen\">".
@@ -67,7 +68,7 @@
         else if (isset($_REQUEST["del_ok"]))
         {
             // the user said it's OK to delete the device
-            device_delete( $_REQUEST["devsel"]);
+            device_delete( $dev_sel);
 			$refreshnav = true;
         }
     }
@@ -76,7 +77,7 @@
     if ( $action == 'rename')
     {
         /* rename */
-        device_rename( $_REQUEST["devsel"], $_REQUEST["new_name"]);
+        device_rename( $dev_sel, $_REQUEST["new_name"]);
 		$refreshnav = true;
     }
    
@@ -84,7 +85,7 @@
     if ( $action == 'new_parent')
     {
         /* resort */
-        device_new_parent( $_REQUEST["devsel"], $_REQUEST["parent_node"]);
+        device_new_parent( $dev_sel, $_REQUEST["parent_node"]);
         $refreshnav = true;
     }
 
@@ -155,7 +156,7 @@
                 </tr>
                 <tr>
                     <td rowspan="3">
-                        <select name="devsel" size="15">
+                        <select name="dev_sel" size="15">
                         <?php device_buildtree(); ?>
                         </select>
                     </td>

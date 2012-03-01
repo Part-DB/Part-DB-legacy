@@ -47,6 +47,8 @@
     if ( isset( $_REQUEST["rename"]))     { $action = 'rename';}
     if ( isset( $_REQUEST["new_parent"])) { $action = 'new_parent';}
 
+    $catsel = isset( $_REQUEST["catsel"]) ? $_REQUEST["catsel"] : -1;
+
 
     if ( $action == 'add')
     {
@@ -62,10 +64,10 @@
          * Includes confirmation questions. Don't delete the
          * category when there are parts in it.
          */
-        if ((! isset($_REQUEST["del_ok"])) && (! isset($_REQUEST["del_nok"])) )
+        if ((! isset($_REQUEST["del_ok"])) && (! isset($_REQUEST["del_nok"])) && $catsel >= 0)
         {
             $special_dialog = true;
-            if ( parts_count_on_category( $_REQUEST["catsel"]) != 0)
+            if ( parts_count_on_category( $catsel) != 0)
             {
                 print "<html><body>".
                     "<div style=\"text-align:center;\">".
@@ -80,10 +82,10 @@
             {
                 print "<html><body>".
                     "<div style=\"text-align:center;\">".
-                    "<div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie die Kategorie &quot;". category_get_name($_REQUEST["catsel"]) ."&quot; wirklich l&ouml;schen?</div>".
+                    "<div style=\"color:red;font-size:x-large;\">M&ouml;chten Sie die Kategorie &quot;". category_get_name($catsel) ."&quot; wirklich l&ouml;schen?</div>".
                     "Der L&ouml;schvorgang ist irreversibel!".
                     "<form action=\"\" method=\"post\">".
-                    "<input type=\"hidden\" name=\"catsel\"  value=\"". $_REQUEST["catsel"] ."\">".
+                    "<input type=\"hidden\" name=\"catsel\"  value=\"". $catsel ."\">".
                     "<input type=\"hidden\" name=\"delete\"  value=\"x\">".
                     "<input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen\">".
                     "<input type=\"submit\" name=\"del_ok\"  value=\"L&ouml;schen\">".
@@ -94,7 +96,7 @@
         else if (isset($_REQUEST["del_ok"]))
         {
             // the user said it's OK to delete the category
-            category_del( $_REQUEST["catsel"]);
+            category_del( $catsel);
 			$refreshnav = true;
         }
     }
@@ -103,7 +105,7 @@
     if ( $action == 'rename')
     {
         /* rename */
-        category_rename( $_REQUEST["catsel"], $_REQUEST["new_name"]);
+        category_rename( $catsel, $_REQUEST["new_name"]);
 		$refreshnav = true;
     }
    
@@ -111,7 +113,7 @@
     if ( $action == 'new_parent')
     {
         /* resort */
-        category_new_parent( $_REQUEST["catsel"], $_REQUEST["parent_node"]);
+        category_new_parent( $catsel, $_REQUEST["parent_node"]);
         $refreshnav = true;
     }
 

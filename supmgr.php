@@ -29,6 +29,7 @@
     if ( isset( $_REQUEST["delete"])) { $action = 'delete';}
     if ( isset( $_REQUEST["rename"])) { $action = 'rename';}
 
+    $supplier_sel = isset( $_REQUEST["supplier_sel"]) ? $_REQUEST["supplier_sel"] : -1;
 
     if ( $action == 'add')
     {
@@ -37,12 +38,12 @@
     
     if ( $action == 'delete')
     {
-        supplier_delete( $_REQUEST["supplier_sel"]);
+        supplier_delete( $supplier_sel);
     }
 
     if ( $action == 'rename')
     {
-        supplier_rename( $_REQUEST["supplier_sel"], $_REQUEST["new_name"]);
+        supplier_rename( $supplier_sel, $_REQUEST["new_name"]);
     }
 
 ?>
