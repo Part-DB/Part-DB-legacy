@@ -39,7 +39,6 @@
     if ( isset( $_REQUEST["new_parent"])) { $action = 'new_parent';}
 
     $footprint_sel = isset( $_REQUEST["footprint_sel"]) ? $_REQUEST["footprint_sel"] : -1;
-   
 
     if ( $action == 'add')
     {
@@ -99,6 +98,10 @@
         footprint_new_parent( $footprint_sel, $_REQUEST["parent_node"]);
     }
 
+    $data       = footprint_select( $footprint_sel);
+    $name       = $data['name'];
+    $parentnode = $data['parentnode'];
+   
     /*
      * Don't show the default text when there's a msg.
      */
@@ -150,18 +153,13 @@
                 <tr>
                     <td rowspan="3">
                         Zu bearbeitenden Footprint w&auml;hlen:<br>
-                        <select name="footprint_sel" size="15">
-                        <?php footprint_build_tree(); ?>
+                        <select name="footprint_sel" size="15" onChange="this.form.submit()">
+                        <?php footprint_build_tree( 0, 0, $footprint_sel); ?>
                         </select>
                     </td>
                     <td>
-                        <input type="submit" name="delete" value="L&ouml;schen">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
                         Neuer Name:<br>
-                        <input type="text"   name="new_name">
+                        <input type="text"   name="new_name" value="<?php print $name; ?>">
                         <input type="submit" name="rename" value="Umbenennen">
                     </td>
                 </tr>
@@ -170,9 +168,14 @@
                         Neuer &uuml;bergeordneter Footprint:<br>
                         <select name="parent_node">
                         <option value="0">root node</option>
-                        <?php footprint_build_tree(); ?>
+                        <?php footprint_build_tree( 0, 0, $parentnode); ?>
                         </select>
                         <input type="submit" name="new_parent" value="Umsortieren">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" name="delete" value="L&ouml;schen">
                     </td>
                 </tr>
             </table>

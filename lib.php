@@ -52,6 +52,7 @@
     footprint_find_child_nodes
     footprint_new_parent
     footprint_count
+    footprint_select
     footprint_get_id
     footprint_exists
     footprint_picture_exists
@@ -624,6 +625,14 @@
         $data   = mysql_fetch_array( $result);
         return( $data['count']);
     }
+
+    function footprint_select( $id)
+    {
+        $query  = "SELECT name, parentnode FROM footprints".
+            " WHERE id=". smart_escape( $id) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        return( mysql_fetch_assoc( $result));
+    }
     
     /*
      * parameter: string to search
@@ -658,6 +667,7 @@
         $link = "tools/footprints/". $footprint .".png";
         return( is_file( $link) ? $link : false);
     }
+
 
 
     /* ***************************************************
