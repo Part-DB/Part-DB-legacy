@@ -1,22 +1,24 @@
-<?PHP
+<?php
 /*
-Diese Datei enthält Funktionen zum Prüfen der aktuellen Datenbank Version,
-die notwendige Datenbank Version sowie alle Infos um die Änderungen durchzuführen
+    Diese Datei enthält Funktionen zum Prüfen der aktuellen Datenbank Version,
+    die notwendige Datenbank Version sowie alle Infos um die Änderungen durchzuführen
 
-Bei einer Änderung sind 2 Punkte zu ändern:
-- incrementieren von "$sollDBVersion" um 1
-- eintragen der notwendigen Änderungen in der Funktion "setDBUpdateSteps()".
-  ACHTUNG: Die Nummer beim case ist um eins niedriger als bei "$sollDBVersion"
-           Die Nummer gibt hier die Version an die aktuell in der Datenbank vorliegt !
-           
-Der Ablauf ist wie folgt:
-1) Feststellen der aktuellen Version
-2) Wenn $sollDBVersion gleich aktueller Version Fertig
-3) sonst Update der Datenbank um 1 Version
-3) gehe zu 2)
+    Bei einer Änderung sind 2 Punkte zu ändern:
+    - incrementieren von "$sollDBVersion" um 1
+    - eintragen der notwendigen Änderungen in der Funktion "setDBUpdateSteps()".
+      ACHTUNG: Die Nummer beim case ist um eins niedriger als bei "$sollDBVersion"
+               Die Nummer gibt hier die Version an die aktuell in der Datenbank vorliegt !
+               
+    Der Ablauf ist wie folgt:
+    1) Feststellen der aktuellen Version
+    2) Wenn $sollDBVersion gleich aktueller Version Fertig
+    3) sonst Update der Datenbank um 1 Version
+    3) gehe zu 2)
 
-So können updates problemlos übersprungen werden. Updates werden Schritt für Schritt 
-nachgeholt.
+    So können updates problemlos übersprungen werden. Updates werden Schritt für Schritt 
+    nachgeholt.
+
+    $Id$
 */
 
   $sollDBVersion = 7; // Diese Version erwarten wir. Darf nur Incrementiert werden !

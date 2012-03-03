@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -148,7 +148,7 @@
      * $partdb_debug var is used to turn debugging off
      * during normal "bug-free" usage.
      */
-    function debug_print($t)
+    function debug_print( $t)
     {
         $partdb_debug = 0;
         if ($partdb_debug == 1)
@@ -501,36 +501,11 @@
         }
     }
 
-
     function get_svn_revision()
     {
-        $filename = ".svn/entries";
-        if ( is_file( $filename))
-        {
-            if( $handle = fopen( $filename, "r"))
-            {
-                $zeile1 = fgets( $handle, 4096);
-                $zeile2 = fgets( $handle, 4096);
-                $zeile3 = fgets( $handle, 4096);
-                $subversion_version = fgets( $handle, 4096);
-                fclose( $handle);
-            }
-            else
-            {
-                //die( "Datei <b>". $filename ."</b> konnte nicht geöffnet werden.");
-                return false;
-            }
-        }
-        else
-        {
-            //die( "Datei <b>". $filename ."</b> ist nicht vorhanden.");
-            return false;
-        }
-                
-        $subversion_version = trim( $subversion_version);
-        
-        return $subversion_version;
-    }  
+        $repo_version = shell_exec( 'svnversion');
+        return( $repo_version);
+    }
 
     
 

@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -20,12 +20,6 @@
 
     $Id$
 
-    28/05/06
-        If all requirements regarding (locs, footprints, categories
-        and suppliers) are met (at least one of each), hide the
-        warning. Only if something's wrong the warning pops up, now
-        the text color has been changed to red. Some people suggested
-        this long ago ...
 */
 
     include ('db_update.php');
@@ -100,7 +94,7 @@
     <?php print get_svn_revision() ? "<h3>SVN-Revision: ". get_svn_revision() ."</h3>" : ""; ?>
 </div>
 
-<?PHP   // Display Warning 
+<?php   // display Warning 
     if ($display_warning)
     {
 ?>
@@ -169,7 +163,7 @@ print $banner;
         <strong>d.lipschinski</strong> - Committer/Bugfix/Neue Funktionen<br>
         <strong>Michael Buesch</strong> - Reichelt/Pollin Preissuch Script<br>
         <strong>bubbles.red</strong> - Committer/Bugfix/Neue Funktionen<br>
-        <strong>THX @ Matthias Wei&szlig;er</strong> f&uuml;r EAGLE3D und dem gro&szlig;artigen Bauteile Renderscript (eagle3d.py) 
+        <strong>Matthias Wei&szlig;er</strong> f&uuml;r EAGLE3D und dem gro&szlig;artigen Bauteile Renderscript (eagle3d.py) 
     </div>
 </div>
 
