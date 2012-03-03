@@ -28,23 +28,29 @@
         this long ago ...
 */
 
-  include ('db_update.php');
-  // catch output to do fine formating later
-  ob_start();
-  if (getDBAutomaticUpdateActive())
-  {
-    if ( checkDBUpdateNeeded())
+    include ('db_update.php');
+    // catch output to do fine formating later
+    ob_start();
     {
-      $ver = getDBVersion();
-      print "DBVersion: ".$ver.", ben&ouml;tigt ein Update.<br><br>";
-      doDBUpdate();
+        if ( checkDBUpdateNeeded())
+        {
+            $ver = getDBVersion();
+            print "Datenbank-Version: ". $ver .", ben&ouml;tigt ein Update.<br><br>";
+            if ( getDBAutomaticUpdateActive())
+            {
+                doDBUpdate();
+            }
+            else
+            {
+                print "Automatische Datenbankupdates sind deaktiviert.<br>";
+                print "Updates bitte manuell durchf&uuml;ren: Verwaltung/Tools --> Konfiguration --> Datenbank";
+            }
+        }
     }
-  }
-  $database_update = ob_get_contents();
-  ob_end_clean();
+    $database_update = ob_get_contents();
+    ob_end_clean();
 
     include("config.php");
-//    include("lib.php");
     partdb_init();
 
     /*
@@ -112,21 +118,21 @@
         anzugeben.
     </div>
 </div>
-<?PHP } ?>
+<?php } ?>
 
 
-<?PHP   // display database update 
+<?php   // display database update 
 if ( strlen( $database_update) > 0)
 {
 ?>
 
 <div class="outer">
     <h2>Datenbankupdate</h2>
-    <div classe="inner red">
+    <div class="inner red">
     <?php print $database_update; ?>
     </div>
 </div>
-<?PHP 
+<?php 
 } 
 
 print $banner;
