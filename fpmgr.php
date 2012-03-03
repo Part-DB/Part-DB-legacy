@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -39,10 +39,11 @@
     if ( isset( $_REQUEST["new_parent"])) { $action = 'new_parent';}
 
     $footprint_sel = isset( $_REQUEST["footprint_sel"]) ? $_REQUEST["footprint_sel"] : -1;
+    $parentnode    = isset( $_REQUEST["parentnode"])    ? $_REQUEST["parentnode"] : 0;
 
     if ( $action == 'add')
     {
-        footprint_add( $_REQUEST["new_footprint"], $_REQUEST["parent_node"]);
+        footprint_add( $_REQUEST["new_footprint"], $parentnode);
     }
    
 
@@ -95,12 +96,14 @@
 
     if ( $action == 'new_parent')
     {
-        footprint_new_parent( $footprint_sel, $_REQUEST["parent_node"]);
+        footprint_new_parent( $footprint_sel, $parentnode);
     }
 
     $data       = footprint_select( $footprint_sel);
     $name       = $data['name'];
     $parentnode = $data['parentnode'];
+
+    $size       = min( footprint_count(), 30);
    
     /*
      * Don't show the default text when there's a msg.
@@ -126,9 +129,9 @@
                 <tr>
                     <td>&Uuml;bergeordnete Footprinthierarchie ausw&auml;hlen:</td>
                     <td>
-                        <select name="parent_node">
+                        <select name="parentnode">
                         <option value="0">root node</option>
-                        <?PHP footprint_build_tree(); ?>
+                        <?PHP footprint_build_tree( 0, 0, $parentnode); ?>
                         </select>
                     </td>
                 </tr>
@@ -153,7 +156,7 @@
                 <tr>
                     <td rowspan="3">
                         Zu bearbeitenden Footprint w&auml;hlen:<br>
-                        <select name="footprint_sel" size="15" onChange="this.form.submit()">
+                        <select name="footprint_sel" size="<?php print $size;?>" onChange="this.form.submit()">
                         <?php footprint_build_tree( 0, 0, $footprint_sel); ?>
                         </select>
                     </td>
@@ -166,7 +169,7 @@
                 <tr>
                     <td>
                         Neuer &uuml;bergeordneter Footprint:<br>
-                        <select name="parent_node">
+                        <select name="parentnode">
                         <option value="0">root node</option>
                         <?php footprint_build_tree( 0, 0, $parentnode); ?>
                         </select>
@@ -185,4 +188,4 @@
 
 </body>
 </html>
-<?PHP } ?>
+<?php } ?>

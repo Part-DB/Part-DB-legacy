@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -20,16 +20,6 @@
 
     $Id$
 
-    ChangeLog
-
-    04/03/2006
-        Added some comments and some escape/unescape stuff. Tested!
-    
-    02/05/2006
-        Some people told me it would be useful to add functionality
-        for deleting and renaming categories.
-        Security stuff is there too, so you cannot delete categories
-        which aren't empty.
 */
     include('lib.php');
     partdb_init();
@@ -47,12 +37,13 @@
     if ( isset( $_REQUEST["rename"]))     { $action = 'rename';}
     if ( isset( $_REQUEST["new_parent"])) { $action = 'new_parent';}
 
-    $catsel = isset( $_REQUEST["catsel"]) ? $_REQUEST["catsel"] : -1;
+    $catsel      = isset( $_REQUEST["catsel"]) ? $_REQUEST["catsel"] : -1;
+    $parentnode  = isset( $_REQUEST["parentnode"])  ? $_REQUEST["parentnode"] : 0;
 
 
     if ( $action == 'add')
     {
-        category_add( $_REQUEST["new_category"], $_REQUEST["parent_node"]);
+        category_add( $_REQUEST["new_category"], $parentnode);
 		$refreshnav = true;
     }
     
@@ -113,9 +104,15 @@
     if ( $action == 'new_parent')
     {
         /* resort */
-        category_new_parent( $catsel, $_REQUEST["parent_node"]);
+        category_new_parent( $catsel, $parentnode);
         $refreshnav = true;
     }
+
+    $data       = category_select( $catsel);
+    $name       = $data['name'];
+    $parentnode = $data['parentnode'];
+
+    $size       = min( categories_count(), 30);
 
     if ($special_dialog == false)
     {
@@ -149,16 +146,16 @@
                 <tr>
                     <td>&Uuml;bergeordnete Kategorie ausw&auml;hlen:</td>
                     <td>
-                        <select name="parent_node">
+                        <select name="parentnode">
                         <option value="0">root node</option>
-                        <?php categories_build_tree(); ?>
+                        <?php categories_build_tree( 0, 0, $parentnode); ?>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td>Name der neuen Kategorie</td>
                     <td>
-                        <input type="text" name="new_category">
+                        <input type="text"   name="new_category">
                         <input type="submit" name="add" value="Anlegen">
                     </td>
                 </tr>
@@ -183,29 +180,29 @@
                 </tr>
                 <tr>
                     <td rowspan="3">
-                        <select name="catsel" size="15">
-                        <?php categories_build_tree(); ?>
+                        <select name="catsel" size="<?php print $size;?>" onChange="this.form.submit()">
+                        <?php categories_build_tree( 0, 0, $catsel); ?>
                         </select>
                     </td>
                     <td>
-                        <input type="submit" name="delete" value="L&ouml;schen">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
                         Neuer Name:<br>
-                        <input type="text" name="new_name">
+                        <input type="text" name="new_name" value="<?php print $name; ?>">
                         <input type="submit" name="rename" value="Umbenennen">
                     </td>
                 </tr>
                 <tr>
                     <td>
                         Neue &Uuml;berkategorie:<br>
-                        <select name="parent_node">
+                        <select name="parentnode">
                         <option value="0">root node</option>
-                        <?php categories_build_tree(); ?>
+                        <?php categories_build_tree( 0, 0, $parentnode); ?>
                         </select>
                         <input type="submit" name="new_parent" value="Umsortieren">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" name="delete" value="L&ouml;schen">
                     </td>
                 </tr>
             </table>

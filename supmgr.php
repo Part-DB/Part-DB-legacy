@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -46,6 +46,11 @@
         supplier_rename( $supplier_sel, $_REQUEST["new_name"]);
     }
 
+    $data       = supplier_select( $supplier_sel);
+    $name       = $data['name'];
+
+    $size       = min( suppliers_count(), 30);
+
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/loose.dtd">
@@ -76,19 +81,19 @@
             <table>
                 <tr>
                     <td rowspan="2">
-                        <select name="supplier_sel" size="8" multiple="multiple">
-                        <?php suppliers_build_list(); ?>
+                        <select name="supplier_sel" size="<?php print $size;?>" onChange="this.form.submit()">
+                        <?php suppliers_build_list( $supplier_sel); ?>
                         </select>
                     </td>
                     <td>
-                        <input type="submit" name="delete" value="L&ouml;schen">
+                        Neuer Name:<br>
+                        <input type="text"   name="new_name" value="<?php print $name; ?>">
+                        <input type="submit" name="rename" value="Umbenennen">
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        Neuer Name:<br>
-                        <input type="text" name="new_name">
-                        <input type="submit" name="rename" value="Umbenennen">
+                        <input type="submit" name="delete" value="L&ouml;schen">
                     </td>
                 </tr>
             </table>

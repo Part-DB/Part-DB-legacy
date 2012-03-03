@@ -41,6 +41,7 @@
 
     $series       = isset( $_REQUEST["series"]) ? (bool)$_REQUEST["series"] : false;
     $location_sel = isset( $_REQUEST["location_sel"]) ? $_REQUEST["location_sel"] : -1;
+    $parentnode   = isset( $_REQUEST["parentnode"])   ? $_REQUEST["parentnode"] : 0;
 
 
     if ( $action == 'add')
@@ -57,13 +58,13 @@
             foreach( range( $start, $end) as $index)
             {
                 $new_location = $_REQUEST["new_location"]. sprintf( $format, $index);
-                location_add( $new_location, $_REQUEST["parent_node"]);
+                location_add( $new_location, $parentnode);
             }
         }
         else
         {
             // add a location
-            location_add( $_REQUEST["new_location"], $_REQUEST["parent_node"]);
+            location_add( $_REQUEST["new_location"], $parentnode);
         }
     }
 
@@ -119,7 +120,7 @@
     if ( $action == 'new_parent')
     {
         /* resort */
-        location_new_parent( $location_sel, $_REQUEST["parent_node"]);
+        location_new_parent( $location_sel, $parentnode);
     }
     
     if ( $action == 'update')
@@ -127,6 +128,12 @@
         $value = isset( $_REQUEST["is_full"]) ? $_REQUEST["is_full"] == "true" : false;
         location_mark_as_full( $location_sel, $value);
     }
+
+    $data       = location_select( $location_sel);
+    $name       = $data['name'];
+    $parentnode = $data['parentnode'];
+
+    $size       = min( location_count(), 30);
 
 
 
@@ -171,9 +178,9 @@
                 <tr>
                     <td>&Uuml;bergeordneten Lagerort ausw&auml;hlen:</td>
                     <td>
-                        <select name="parent_node">
+                        <select name="parentnode">
                         <option value="0">root node</option>
-                        <?PHP location_tree_build(); ?>
+                        <?PHP location_tree_build( 0, 0, $parentnode); ?>
                         </select>
                     </td>
                 </tr>
@@ -207,27 +214,22 @@
                 <tr>
                     <td rowspan="4">
                         Zu bearbeitenden Lagerort w&auml;hlen:<br>
-                        <select name="location_sel" size="15">
-                        <?PHP location_tree_build(); ?>
+                        <select name="location_sel" size="<?php print $size;?>" onChange="this.form.submit()">
+                        <?PHP location_tree_build( 0, 0, $location_sel); ?>
                         </select>
                     </td>
                     <td>
-                        <input type="submit" name="delete" value="L&ouml;schen">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
                         Neuer Name:<br>
-                        <input type="text" name="new_name">
+                        <input type="text" name="new_name" value="<?php print $name; ?>">
                         <input type="submit" name="rename" value="Umbenennen">
                     </td>
                 </tr>
                 <tr>
                     <td>
                         Neuer &uuml;bergeordneter Lagerort:<br>
-                        <select name="parent_node">
+                        <select name="parentnode">
                         <option value="0">root node</option>
-                        <?PHP location_tree_build(); ?>
+                        <?PHP location_tree_build( 0, 0, $parentnode); ?>
                         </select>
                         <input type="submit" name="new_parent" value="Umsortieren">
                     </td>
@@ -239,6 +241,11 @@
                         <input type="submit"   name="update"  value="Markieren">
                     </td>
                 </tr>
+                <tr>
+                    <td>
+                        <input type="submit" name="delete" value="L&ouml;schen">
+                    </td>
+                </tr>
             </table>
         </form>
     </div>
@@ -246,4 +253,4 @@
 
 </body>
 </html>
-<?PHP } ?>
+<?php } ?>

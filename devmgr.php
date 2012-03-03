@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -36,11 +36,12 @@
     if ( isset( $_REQUEST["rename"]))     { $action = 'rename';}
     if ( isset( $_REQUEST["new_parent"])) { $action = 'new_parent';}
 
-    $dev_sel = isset( $_REQUEST["dev_sel"]) ? $_REQUEST["dev_sel"] : -1;
+    $dev_sel    = isset( $_REQUEST["dev_sel"])    ? $_REQUEST["dev_sel"]    : -1;
+    $parentnode = isset( $_REQUEST["parentnode"]) ? $_REQUEST["parentnode"] : 0;
 
     if ( $action == 'add')
     {
-        device_add( $_REQUEST["new_device"], $_REQUEST["parent_node"]);
+        $dev_sel    = device_add( $_REQUEST["new_device"], $parentnode);
 		$refreshnav = true;
     }
     
@@ -85,10 +86,16 @@
     if ( $action == 'new_parent')
     {
         /* resort */
-        device_new_parent( $dev_sel, $_REQUEST["parent_node"]);
+        device_new_parent( $dev_sel, $_REQUEST["parentnode"]);
         $refreshnav = true;
     }
 
+    $data       = device_select( $dev_sel);
+    $name       = $data['name'];
+    $parentnode = $data['parentnode'];
+
+    $size       = min( devices_count(), 30);
+   
 
     if ($special_dialog == false)
     {
@@ -103,9 +110,9 @@
 </head>
 <body class="body">
 
-<script language="JavaScript" type="text/javascript">
-	<?PHP
-	if ($refreshnav)
+<script type="text/javascript">
+	<?php
+	if ( $refreshnav)
 	{
 		$refreshnav = false;
 		print "parent.frames._nav_frame.location.reload();";		
@@ -122,16 +129,16 @@
                 <tr>
                     <td>&Uuml;bergeordnete Baugruppe ausw&auml;hlen:</td>
                     <td>
-                        <select name="parent_node">
+                        <select name="parentnode">
                         <option value="0">root node</option>
-                        <?php device_buildtree(); ?>
+                        <?php device_buildtree( 0, 0, $parentnode); ?>
                         </select>
                     </td>
                 </tr>
                 <tr>
                     <td>Name der neuen Baugruppe</td>
                     <td>
-                        <input type="text" name="new_device">
+                        <input type="text"   name="new_device">
                         <input type="submit" name="add" value="Anlegen">
                     </td>
                 </tr>
@@ -156,29 +163,29 @@
                 </tr>
                 <tr>
                     <td rowspan="3">
-                        <select name="dev_sel" size="15">
-                        <?php device_buildtree(); ?>
+                        <select name="dev_sel" size="<?php print $size;?>" onChange="this.form.submit()">
+                        <?php device_buildtree( 0, 0, $dev_sel); ?>
                         </select>
                     </td>
                     <td>
-                        <input type="submit" name="delete" value="L&ouml;schen">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
                         Neuer Name:<br>
-                        <input type="text" name="new_name">
+                        <input type="text"   name="new_name" value="<?php print $name; ?>">
                         <input type="submit" name="rename" value="Umbenennen">
                     </td>
                 </tr>
                 <tr>
                     <td>
                         Neue &Uuml;berbaugruppe:<br>
-                        <select name="parent_node">
+                        <select name="parentnode">
                         <option value="0">root node</option>
-                        <?php device_buildtree(); ?>
+                        <?php device_buildtree( 0, 0, $parentnode); ?>
                         </select>
                         <input type="submit" name="new_parent" value="Umsortieren">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" name="delete" value="L&ouml;schen">
                     </td>
                 </tr>
             </table>

@@ -62,6 +62,7 @@
     supplier_rename
     suppliers_build_list
     suppliers_count
+    supplier_select
     supplier_get_id
     supplier_exists
 
@@ -73,6 +74,7 @@
     location_new_parent
     location_mark_as_full
     location_count
+    location_select
     location_get_id
     location_get_name
     location_exists
@@ -87,6 +89,7 @@
     category_find_child_nodes
     category_new_parent
     categories_count
+    category_select
     category_get_id
     category_get_name
     category_exists
@@ -125,6 +128,7 @@
     device_find_child_nodes
     device_new_parent
     devices_count
+    device_select
     devices_select
 
     price_add
@@ -559,6 +563,7 @@
             smart_escape( $new) .",".
             smart_escape( $parent_node) .");";
         mysql_query( $query) or die( mysql_error());
+        return( mysql_insert_id());
     }
 
     function footprint_del( $old)
@@ -677,6 +682,7 @@
     {
         $query = "INSERT INTO suppliers (name) VALUES (". smart_escape( $new) .");";
         mysql_query( $query) or die( mysql_error());
+        return( mysql_insert_id());
     }
 
     function supplier_delete( $supplier)
@@ -709,6 +715,14 @@
         $result = mysql_query( $query) or die( mysql_error());
         $data   = mysql_fetch_array( $result);
         return( $data['count']);
+    }
+
+    function supplier_select( $id)
+    {
+        $query  = "SELECT name FROM suppliers".
+            " WHERE id=". smart_escape( $id) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        return( mysql_fetch_assoc( $result));
     }
 
     function supplier_get_id( $supplier)
@@ -771,6 +785,7 @@
             smart_escape( $new_location) .",".
             smart_escape( $parent_node)  .");";
         mysql_query( $query) or die( mysql_error());
+        return( mysql_insert_id());
     }
 
     function location_delete( $id)
@@ -849,6 +864,14 @@
         $result = mysql_query( $query) or die( mysql_error());
         $data   = mysql_fetch_array( $result);
         return( $data['count']);
+    }
+
+    function location_select( $id)
+    {
+        $query  = "SELECT name, parentnode, is_full FROM storeloc".
+            " WHERE id=". smart_escape( $id) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        return( mysql_fetch_assoc( $result));
     }
     
     function location_get_id( $storeloc)
@@ -937,6 +960,7 @@
             smart_escape( $new) .",".
             smart_escape( $parent_node) .");";
         mysql_query( $query) or die( mysql_error());
+        return( mysql_insert_id());
     }
 
     function category_del( $old)
@@ -1036,6 +1060,14 @@
         $result = mysql_query( $query) or die( mysql_error());
         $data   = mysql_fetch_array( $result);
         return( $data['count']);
+    }
+
+    function category_select( $id)
+    {
+        $query  = "SELECT name, parentnode FROM categories".
+            " WHERE id=". smart_escape( $id) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        return( mysql_fetch_assoc( $result));
     }
 
     function category_get_id( $categorie)
@@ -1498,6 +1530,7 @@
             " VALUES (". smart_escape( $part_id) .",".
             smart_escape( $picture_name) .");";
         mysql_query( $query) or die( mysql_error());
+        return( mysql_insert_id());
     }
 
     function picture_delete( $id)
@@ -1554,20 +1587,21 @@
      * As the top-most device (it doesn't exist!) has the ID 0,
      * you have to supply devid=0 at the very beginning.
      */
-    function device_buildtree( $devid = 0, $level = 0)
+    function device_buildtree( $devid = 0, $level = 0, $select = -1)
     {
         $query = "SELECT id, name FROM devices".
             " WHERE parentnode=". smart_escape( $devid) .";";
         $result = mysql_query( $query) or die( mysql_error());
         while ( $data = mysql_fetch_assoc( $result))
         {
-            print "<option value=\"". smart_unescape( $data['id']) ."\">";
+            $selected = ($select == $data['id']) ? 'selected': '';
+            print "<option ". $selected ." value=\"". smart_unescape( $data['id']) ."\">";
             for ($i = 0; $i < $level; $i++)
                 print "&nbsp;&nbsp;&nbsp;";
             print smart_unescape( $data['name']) ."</option>\n";
 
             // do the same for the next level.
-            device_buildtree( $data['id'], $level + 1);
+            device_buildtree( $data['id'], $level + 1, $select);
         }
     }
 
@@ -1605,7 +1639,7 @@
             " VALUES (". smart_escape( $name) .",".
             smart_escape( $parent_node) .");";
         $result = mysql_query( $query) or die( mysql_error());
-        return( $result);
+        return( mysql_insert_id());
     }
 
     function device_delete( $device_id)
@@ -1613,7 +1647,7 @@
         // TODO: lock database
         // catch actual parent node
         $query  = "SELECT parentnode FROM devices".
-            " WHERE id=". smart_escape( $devices_id) .";";
+            " WHERE id=". smart_escape( $device_id) .";";
         $result = mysql_query( $query) or die( mysql_error());
         $data   = mysql_fetch_assoc( $result);
         $parent = $data['parentnode'];
@@ -1682,6 +1716,14 @@
         return( $data['count']);
     }
 
+    function device_select( $id)
+    {
+        $query  = "SELECT name, parentnode FROM devices".
+            " WHERE id=". smart_escape( $id) .";";
+        $result = mysql_query( $query) or die( mysql_error());
+        return( mysql_fetch_assoc( $result));
+    }
+
     function devices_select( $device_id)
     {
         $where_query = ( $device_id == 0) ? '' : " WHERE parentnode=". smart_escape( $device_id);
@@ -1711,6 +1753,7 @@
     {
         $query = "INSERT INTO preise (part_id, ma, preis, t) VALUES (". smart_escape( $part_id) .", 1, ". smart_escape( $price) .", NOW());";
         mysql_query( $query) or die( mysql_error());
+        return( mysql_insert_id());
     }
     
     function price_delete( $part_id)
@@ -1737,6 +1780,7 @@
             " VALUES (". smart_escape( $part_id).",".
             smart_escape( $url) .");";
         mysql_query( $query) or die( mysql_error());
+        return( mysql_insert_id());
     }
 
     function datasheet_delete( $id)
