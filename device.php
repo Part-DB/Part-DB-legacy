@@ -104,15 +104,17 @@ if(strcmp( $action, "deletedevice") == 0)
             
             $result = devices_select( $deviceid);
             $rowcount = 0;  // $rowcount is used for the alternating bg colors
+            ?>
             
-            print "<tr class=\"trcat\">".
-                "<td>Name</td>".
-                "<td>Anzahl Teile</td>".
-                "<td>Anzahl Einzelteile</td>".
-                "<td>Preis</td>".
-                "<td>L&ouml;schen</td>".
-                "</tr>\n";
-            
+            <tr class="trcat">
+                <td>Name</td>
+                <td>Anzahl Teile</td>
+                <td>Anzahl Einzelteile</td>
+                <td>Preis</td>
+                <td>L&ouml;schen</td>
+            </tr>
+            <?php
+
             while ( $d = mysql_fetch_assoc( $result))
             {
                 

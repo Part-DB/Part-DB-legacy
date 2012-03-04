@@ -21,7 +21,7 @@
     $Id$
 */
 
-  $sollDBVersion = 7; // Diese Version erwarten wir. Darf nur Incrementiert werden !
+  $sollDBVersion = 8; // Diese Version erwarten wir. Darf nur Incrementiert werden !
                       // Achtung, diese Nummer-"1" muss es in der Funktion setDBUpdateSteps()
                       // geben, sonst wird mit einem Fehler abgebrochen !
 
@@ -260,14 +260,18 @@
         $updateSteps[] = "ALTER TABLE  footprints ADD  parentnode INT(11) NOT NULL default '0' AFTER name;";
 		break;
 
-/*
       case 7:
+        $updateSteps[] = "ALTER TABLE  parts  ADD  obsolete boolean NOT NULL default false AFTER comment;";
+		break;
+
+/*
+      case 8:
         $updateSteps[] = "INSERT INTO internal SET keyName='test', keyValue='muh';";
         break;
-      case 8:
+      case 9:
         $updateSteps[] = ""; //INSERT INTO internal SET keyName='test2', keyValue='muh2';";
         break;
-      case 9:
+      case 1o:
         $updateSteps[] = "DELETE FROM internal WHERE keyName='test2'";
         break;
 */

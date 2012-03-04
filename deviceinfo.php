@@ -320,7 +320,7 @@
         $result = mysql_query ($query);
         $nParts = mysql_num_rows($result);
         $rowcount = 0;
-        print "<tr class=\"trcat\"><td></td><td>Anzahl</td><td>Best&uunml;ckungs<br>Daten</td><td>Teil</td><td>Footprint</td><td>Lagernd</td>\n";
+        print "<tr class=\"trcat\"><td></td><td>Anzahl</td><td>Best&uuml;ckungs<br>Daten</td><td>Teil</td><td>Footprint</td><td>Lagernd</td>\n";
         while ( $d = mysql_fetch_row ($result) )
         {
             $rowcount++;
@@ -363,7 +363,7 @@
 <div class="outer">
     <h2>Zugeordnete Teile zu &quot;<?PHP print lookup_device_name( $deviceid); ?>&quot;</h2>
     <div class="inner">
-        <script language="JavaScript" type="text/javascript">
+        <script type="text/javascript">
         
         function validateNumber(evt) 
         {
@@ -407,14 +407,15 @@
 		print "<tr class=\"trcat\"><td></td><td>Teil</td><td>Best&uuml;ckungs<br>Daten</td><td>Anzahl</td><td>Footprint</td><td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Einzelpreis</td><td>Gesamtpreis</td><td>Entfernen</td></tr>\n";
                 
         $query = "SELECT".
+            " parts.id,".
             " parts.name,".
             " parts.comment,".
-            " parts.id,".
-            " footprints.name,".
+            " parts.obsolete,".
+            " footprints.name AS 'footprint',".
             " part_device.quantity,".
             " parts.instock,".
-            " storeloc.name,".
-            " suppliers.name,".
+            " storeloc.name AS 'location',".
+            " suppliers.name AS 'supplier',".
             " preise.preis,".
             " part_device.mountname".
             " FROM parts".
@@ -425,76 +426,91 @@
 		    " LEFT JOIN suppliers ON (suppliers.id = parts.id_supplier)".
 		    " WHERE id_device = ". smart_unescape( $deviceid).
             " ORDER BY parts.id_category, parts.name ASC;";
-        debug_print($query);
         $result = mysql_query ($query);
+
         $sumprice = 0;
-        while ( $d = mysql_fetch_row ($result) )
+        $obsolete = false;
+        while ( $data = mysql_fetch_assoc( $result))
         {
-        
-        $rowcount++;
-        print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">". PHP_EOL;
-        
-        print "<td class=\"tdrow0\">";
-        print_table_image( $d[2], $d[0], $d[3]);
-        print "</td>". PHP_EOL;
-        
-        print "<td class=\"tdrow1\"><a title=\"";
-        print "Kommentar: " . smart_unescape($d[1]);
-        print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[2]) ."');\">". smart_unescape($d[0]) ."</a></td>". PHP_EOL;
+            $rowcount++;
+            if ( $data['obsolete'])
+                $obsolete = true;
+            print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">". PHP_EOL;
+            
+            print "<td class=\"tdrow0\">";
+            print_table_image( $data['id'], $data['name'], $data['footprint']);
+            print "</td>". PHP_EOL;
+            
+            print "<td class=\"tdrow1". ( $data['obsolete'] ? ' backred' : '') ."\"><a title=\"";
+            print $data['obsolete'] ? "nicht mehr erh&auml;tlich ". PHP_EOL : "";
+            print $data['comment']  ? "Kommentar: ". htmlspecialchars( smart_unescape( $data['comment'])) : "(kein Kommentar)";
+            print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape( $data['name']) ."</a></td>". PHP_EOL;
 
-        print "<td class=\"tdrow1\">". PHP_EOL;
-        
-        print "<input type=\"hidden\" name=\"partid".$rowcount."\" value=\"".smart_unescape($d[2])."\"/>". PHP_EOL;
-        print "<input type=\"text\" size=\"5\" name=\"newmountname".$rowcount."\"  value=\"".smart_unescape($d[9])."\"/>". PHP_EOL;
-		print "<input type=\"hidden\" name=\"oldmountname".$rowcount."\"  value=\"".smart_unescape($d[9])."\"/>". PHP_EOL;
-        
-        
-		print "<td class=\"tdrow1\"><input type=\"text\" size=\"5\" name=\"quant".$rowcount."\" onkeypress=\"validatePosIntNumber(event)\" value=\"".smart_unescape($d[4])."\"/>". PHP_EOL;
-		print "<input type=\"hidden\" size=\"5\"name=\"oldquant".$rowcount."\"  value=\"".smart_unescape($d[4])."\"/></td>". PHP_EOL;
-        print "<td class=\"tdrow1\">".smart_unescape($d[3])."</td>". PHP_EOL;        
-        print "<td ";
-        if($d[4] <= $d[5])
-        {
-            print "class=\"tdrow1\"";
+            print "<td class=\"tdrow1\">". PHP_EOL;
+            
+            print "<input type=\"hidden\" name=\"partid".$rowcount."\" value=\"".smart_unescape( $data['id'])."\"/>". PHP_EOL;
+            print "<input type=\"text\" size=\"8\" name=\"newmountname".$rowcount."\"  value=\"".smart_unescape($data['mountname'])."\"/>". PHP_EOL;
+            print "<input type=\"hidden\" name=\"oldmountname".$rowcount."\"  value=\"".smart_unescape( $data['mountname'])."\"/>". PHP_EOL;
+            
+            
+            print "<td class=\"tdrow1\"><input type=\"text\" size=\"4\" name=\"quant".$rowcount."\" onkeypress=\"validatePosIntNumber(event)\" value=\"".smart_unescape($data['quantity'])."\"/>". PHP_EOL;
+            print "<input type=\"hidden\" size=\"5\"name=\"oldquant".$rowcount."\"  value=\"".smart_unescape($data['quantity'])."\"/></td>". PHP_EOL;
+            print "<td class=\"tdrow1\">".smart_unescape($data['footprint'])."</td>". PHP_EOL;        
+            print "<td ";
+            if($data['quantity'] <= $data['instock'])
+            {
+                print "class=\"tdrow1\"";
+            }
+            else
+            {
+                $notallinstock = 1;
+                print "class=\"tdrowred\"";
+            }
+            print ">".smart_unescape($data['instock'])."</td>";
+            print "<td class=\"tdrow1\">".smart_unescape($data['location'])."</td>";
+            print "<td class=\"tdrow1\">".smart_unescape($data['supplier'])."</td>";
+            print "<td class=\"tdrow1\">";
+            if($data['preis'])
+                print smart_unescape($data['preis']);
+            else
+                print "-.-";
+            print "&nbsp".$currency."</td>";
+            print "<td class=\"tdrow1\">";
+            if( $data['preis'])
+                print smart_unescape($data['preis'] * $data['quantity']);
+            else
+                print "-.-";
+            print "&nbsp".$currency."</td>";
+            //Build the sum
+            $sumprice += $data['preis'] * $data['quantity'];
+            print "<td class=\"tdrow1\"><input type=\"checkbox\" name=\"selected".$rowcount."\"/></td>";
+            print "</tr>\n";
         }
-        else
-        {
-            $notallinstock = 1;
-            print "class=\"tdrowred\"";
-        }
-        print ">".smart_unescape($d[5])."</td>";
-        print "<td class=\"tdrow1\">".smart_unescape($d[6])."</td>";
-        print "<td class=\"tdrow1\">".smart_unescape($d[7])."</td>";
-        print "<td class=\"tdrow1\">";
-        if($d[8])
-            print smart_unescape($d[8]);
-        else
-            print "-.-";
-        print "&nbsp".$currency."</td>";
-        print "<td class=\"tdrow1\">";
-        if($d[8])
-            print smart_unescape($d[8]*$d[4]);
-        else
-            print "-.-";
-        print "&nbsp".$currency."</td>";
-        //Build the sum
-        $sumprice += $d[8]*$d[4];
-        print "<td class=\"tdrow1\"><input type=\"checkbox\" name=\"selected".$rowcount."\"/></td>";
-        print "</tr>\n";
-        }
         
+        // summary line
         $rowcount++;
-        print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
-		print "<input type=\"hidden\" name=\"nrofparts\" value=\"". ($rowcount-1) ."\"/>";
-        print "<td class=\"tdrow1\" colspan=\"2\"></td>". PHP_EOL.
-            "<td class=\"tdrow1\" colspan=\"2\"><input type=\"submit\" name=\"devicetableform_update\" value=\"&Uuml;bernehmen\"/></td>". PHP_EOL.
-            "<td class=\"tdrow1\" colspan=\"5\"></td>". PHP_EOL.
-            "<td class=\"tdrow0\">Gesamtpreis:<br>".$sumprice."&nbsp".$currency."</td>". PHP_EOL.
-            "<td class=\"tdrow1\" colspan=\"3\"><input type=\"submit\" name=\"devicetableform_delete\" value=\"L&ouml;schen\"/></td>". PHP_EOL;
-        
-		print "</tr></form>". PHP_EOL;
-
         ?>
+        <tr class="<?php print ( is_odd( $rowcount) ? 'trlist_odd' : 'trlist_even') ?>">
+            <input type="hidden" name="nrofparts" value="<?php print ($rowcount-1); ?>">
+            <?php
+            if ($obsolete)
+            {
+                ?>
+                <td class="tdrow1"></td>
+                <td class="tdrow1 backred">nicht mehr erh&auml;ltliche Teile</td>
+                <?php
+            }
+            else
+            {
+                print "<td class=\"tdrow1\" colspan=\"2\"></td>". PHP_EOL;
+            }
+            ?>
+            <td class="tdrow1" colspan="2"><input type="submit" name="devicetableform_update" value="&Uuml;bernehmen"></td>
+            <td class="tdrow1" colspan="5"></td>
+            <td class="tdrow0">Gesamtpreis:<br><?php $sumprice ."&nbsp". $currency; ?></td>
+            <td class="tdrow1" colspan="3"><input type="submit" name="devicetableform_delete" value="L&ouml;schen"></td>
+		</tr>
+        </form>
         </table>
     </div>
 </div>
@@ -505,15 +521,12 @@
     <div class="inner">
         <form method="post" action="">
             <table>
-            <?PHP
+            <?php
             print "<tr class=\"trcat\"><td><input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
             print "<input type=\"hidden\" name=\"action\"  value=\"createbom\"/>";
             
             print "Lieferant:</td><td><select name=\"sup_id\">";
-            if (! isset($_REQUEST["sup_id"]) )
-                print "<option selected value=\"0\">Alle</option>";
-            else
-                print "<option value=\"0\">Alle</option>";
+            print (! isset($_REQUEST["sup_id"])) ? "<option selected value=\"0\">Alle</option>" : "<option value=\"0\">Alle</option>";
             
             suppliers_build_list( $sup_id); 
             print "</select>";
@@ -530,15 +543,17 @@
             print "\"/></td></tr>";
             
             print "<tr class=\"trcat\"><td>Multiplikator:</td><td><input type=\"text\" name=\"multiplikator\" size=\"3\" onkeypress=\"validateNumber(event)\" value=\"";
-            if ( strcmp( $action, "createbom"))
-                print "1";
-            else
-                print $_REQUEST["multiplikator"];
+            print strcmp( $action, "createbom") ? "1" : $_REQUEST["multiplikator"];
             print "\"/></tr>";
+            ?>
             
             
-            print "</td></tr>";
-            print "<tr class=\"trcat\"><td>Nur fehlendes Material<br>exportieren:</td><td><input type=\"checkbox\" name=\"onlyneeded\" ";
+            </td>
+            </tr>
+            <tr class="trcat">
+                <td>Nur fehlendes Material<br>exportieren:</td>
+                <td><input type="checkbox" name="onlyneeded" 
+                <?php
             if ( strcmp( $action, "createbom"))
             {
                 print "checked=\"checked\"";
@@ -611,8 +626,9 @@
                 }
                 print "</textarea>";
             }
-            print "</td></tr>";
             ?>
+                    </td>
+                </tr>
             </table>
         </form>
     </div>
@@ -624,23 +640,17 @@
     <div class="inner">
         <form method="post" action="">
             <table>
-                
-                <?PHP
-                print "<tr class=\"trcat\"><td>Multiplikator:</td><td><input type=\"text\" name=\"bookmultiplikator\" size=\"3\" onkeypress=\"validateNumber(event)\" value=\"";
-                if ( strcmp( $action, "bookparts"))
-                    print "1";
-                else
-                    print $_REQUEST["bookmultiplikator"];
-                print "\"/><td></tr>";
-                print "<tr><td><input type=\"submit\" value=\"Ausf&uuml;hren\"";
-                if($notallinstock)
-                {
-                    print "disabled=\"disabled\"";
-                }
-                print "/>";
-                print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
-                print "<input type=\"hidden\" name=\"action\"  value=\"bookparts\"/>";
-                print "</td>";
+                <tr class="trcat">
+                    <td>Multiplikator:</td>
+                    <td><input type="text" name="bookmultiplikator" size="3" onkeypress="validateNumber(event)" value="<?php print strcmp( $action, "bookparts") ?  "1" : $_REQUEST["bookmultiplikator"]; ?>"><td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Ausf&uuml;hren" <?php print $notallinstock ? "disabled=\"disabled\"" : ""; ?>>
+                    <input type="hidden" name="deviceid" value="<?php print $deviceid; ?>">
+                    <input type="hidden" name="action" value="bookparts">
+                </td>
+                <?php
                 if($bookstate > 1)  //success
                 {
                 print "<td class=\"tdtextsmall\">";
@@ -652,8 +662,8 @@
                     print "Fehler.";
                 print "</td>";
                 }
-                print "</tr>";
                 ?>
+                </tr>
             </table>
         </form>
     </div>
@@ -665,22 +675,19 @@
     <div class="inner">
         <form method="post" action="">
             <table>
-                
-                <?PHP
-                print "<tr class=\"trcat\"><td>";
-                print "<textarea name=\"import_data\" rows=\"".$nrows."\" cols=\"40\" dir=\"ltr\">";
-                print "</textarea>";
-                print "<td></tr>";
-                print "<tr><td >";
-                print "Format: ID;Anzahl;Best&uuml;ckungsdaten;";
-                print "</textarea>";
-                print "<td></tr>";
-                print "<tr><td><input type=\"submit\" value=\"Ausf&uuml;hren\"/>";                    
-                print "<input type=\"hidden\" name=\"deviceid\" value=\"" . $deviceid ."\"/>";
-                print "<input type=\"hidden\" name=\"action\"  value=\"import\"/>";
-                print "</td>";
-                print "</tr>";
-                ?>
+                <tr class="trcat">
+                    <td><textarea name="import_data" rows="<?php print $nrows; ?>" cols="40" dir="ltr"></textarea></td>
+                </tr>
+                <tr>
+                    <td>Format: ID;Anzahl;Best&uuml;ckungsdaten;</td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Ausf&uuml;hren">
+                        <input type="hidden" name="deviceid" value="<?php print $deviceid; ?>">
+                        <input type="hidden" name="action"  value="import">
+                    </td>
+                </tr>
             </table>
         </form>
     </div>
@@ -692,36 +699,34 @@
     <div class="inner">
         <form method="post" action="">
             <table>
-                
-                <?PHP
-                print "<tr class=\"trcat\"><td>Umbenennen:</td><td><input type=\"text\" name=\"newdevname\" size=\"10\" maxlength=\"50\" value=\"";
-                print lookup_device_name( $deviceid);
-                print "\"/><td></tr>";
-                print "<tr><td><input type=\"submit\" value=\"Ausf&uuml;hren\"/>";
-                
-                print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
-                print "<input type=\"hidden\" name=\"action\"  value=\"renamedevice\"/>";
-                print "</td>";
-                print "</tr>";
-                ?>
+                <tr class="trcat">
+                    <td>Umbenennen:</td>
+                    <td><input type="text" name="newdevname" size="20" maxlength="50" value="<?php print lookup_device_name( $deviceid); ?>"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Ausf&uuml;hren">
+                        <input type="hidden" name="deviceid" value="<?php print $deviceid; ?>">
+                        <input type="hidden" name="action" value="renamedevice">
+                    </td>
+                </tr>
             </table>
         </form>
     </div>
     <div class="inner">
         <form method="post" action="">
             <table>
-                
-                <?PHP
-                print "<tr class=\"trcat\"><td>Kopieren:</td><td><input type=\"text\" name=\"newcopydevname\" size=\"10\" maxlength=\"50\" value=\"";
-                print "KopieVon". lookup_device_name( $deviceid);
-                print "\"/><td></tr>";
-                print "<tr><td><input type=\"submit\" value=\"Ausf&uuml;hren\"/>";
-                
-                print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
-                print "<input type=\"hidden\" name=\"action\"  value=\"copydevice\"/>";
-                print "</td>";
-                print "</tr>";
-                ?>
+                <tr class="trcat">
+                    <td>Kopieren:</td>
+                    <td><input type="text" name="newcopydevname" size="20" maxlength="50" value="<?php print "Kopie_von_". lookup_device_name( $deviceid)?>"></td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" value="Ausf&uuml;hren">
+                        <input type="hidden" name="deviceid" value="<?php print $deviceid; ?>">
+                        <input type="hidden" name="action"  value="copydevice">
+                    </td>
+                </tr>
             </table>
         </form>
     </div>

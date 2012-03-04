@@ -39,12 +39,14 @@
 
     if ( strcmp ($action, "edit") == 0 )
     {
+        $p_obsolete  = ( isset( $_REQUEST["p_obsolete"]) ? (bool)$_REQUEST["p_obsolete"] : false);
         part_update( $pid, 
             $_REQUEST["p_category"],
             $_REQUEST["p_name"],
             $_REQUEST["p_instock"],
             $_REQUEST["p_mininstock"],
             $_REQUEST["p_comment"],
+            $p_obsolete,
             $_REQUEST["p_footprint"],
             $_REQUEST["p_storeloc"],
             $_REQUEST["p_supplier"],
@@ -284,6 +286,10 @@
                     <tr>
                         <td><b>Bestell-Nr.:</b></td>
                         <td><input name='p_supplierpartnr' value='<?php print smart_unescape( $data['supplierpartnr']); ?>'></td>
+                    </tr>
+                    <tr>
+                        <td><b>obsolet:</b></td>
+                        <td><input type="checkbox" name="p_obsolete" value="true"<?php print $data['obsolete'] ? 'checked' : ''; ?>></td>
                     </tr>
                     <tr>
                         <td valign='top'><b>Kommentar:</b></td>

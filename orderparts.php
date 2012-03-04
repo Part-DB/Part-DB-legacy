@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -70,7 +70,7 @@
 
 
 <div class="outer">
-    <h2>Zu bestellende Teile &quot;<?PHP print category_get_name( $cid); ?>&quot;</h2>
+    <h2>Zu bestellende Teile &quot;<?php print category_get_name( $cid); ?>&quot;</h2>
     <div class="inner">
         <table>
         <?php
@@ -84,39 +84,44 @@
         include("config.php");
         print "<tr><td colspan=\"4\">Wert der zu bestellenden Artikel: ". $order_value ." ".$currency."</td></tr>". PHP_EOL;
 
-        /****/
-        print "<tr class=\"trcat\">". PHP_EOL;
-        print "<td>Name</td>". PHP_EOL.
-            "<td>Footprint</td>". PHP_EOL.
-            "<td>Bestellmenge</td>". PHP_EOL.
-            "<td>Lieferant</td>". PHP_EOL.
-            "<td>Bestell-Nr.</td>". PHP_EOL.
-            "<td>Lagerort</td>". PHP_EOL.
-            "<td>Hinzuf&uuml;gen</td>". PHP_EOL;
-        print "</tr>". PHP_EOL;
+        ?>
+        <tr class="trcat">
+            <td></td>
+            <td>Name</td>
+            <td>Footprint</td>
+            <td>Bestellmenge</td>
+            <td>Lieferant</td>
+            <td>Bestell-Nr.</td>
+            <td>Lagerort</td>
+            <td>Hinzuf&uuml;gen</td>
+        </tr>
+        <?php
         $result = parts_select_order( $sup_id); 
 
         $rowcount = 0;
         while ( $data = mysql_fetch_assoc( $result))
         {
             $rowcount++;
-            print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
+            ?>
+            <tr class="<?php print is_odd( $rowcount) ? 'trlist_odd': 'trlist_even'; ?>">
             
-            print "<td class=\"tdrow1\">".
-                "<a href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape( $data['name']) ."</a></td>";
-            print "<td class=\"tdrow3\">". smart_unescape( $data['footprint']) ."</td>". PHP_EOL;
-            print "<td class=\"tdrow4\">". smart_unescape( $data['diff']) ."</td>". PHP_EOL;
-            print "<td class=\"tdrow1\">". smart_unescape( $data['supplier']) ."</td>". PHP_EOL;
-            print "<td class=\"tdrow1\">". smart_unescape( $data['supplierpartnr']) ."</td>". PHP_EOL;
-            print "<td class=\"tdrow1\">". smart_unescape( $data['loc']) ."</td>". PHP_EOL;
-            //show text box with number to add and the add button
-            print "<td class=\"tdrow2\"><form method=\"post\" action=\"\">". PHP_EOL;
-            print "<input type=\"hidden\" name=\"pid\" value=\"".smart_unescape( $data['id'])."\"/>". PHP_EOL;
-            print "<input type=\"hidden\" name=\"action\"  value=\"an\"/>". PHP_EOL;
-            print "<input type=\"text\" style=\"width:25px;\" name=\"toadd\" value=\"" . smart_unescape( $data['diff']) . "\"/>". PHP_EOL;
-            print "<input type=\"submit\" value=\"Add\"/></form></td>". PHP_EOL;
+            <td class="tdrow0"><?php print_table_image( $data['id'], $data['name'], $data['footprint']); ?></td>
+            <td class="tdrow1">
+                <a href="javascript:popUp('partinfo.php?pid=<?php print smart_unescape( $data['id']); ?>');"><?php print smart_unescape( $data['name']); ?></a></td>
+            <td class="tdrow3"><?php print smart_unescape( $data['footprint']); ?></td>
+            <td class="tdrow4"><?php print smart_unescape( $data['diff']); ?></td>
+            <td class="tdrow1"><?php print smart_unescape( $data['supplier']); ?></td>
+            <td class="tdrow1"><?php print smart_unescape( $data['supplierpartnr']); ?></td>
+            <td class="tdrow1"><?php print smart_unescape( $data['loc']); ?></td>
+            <?php //show text box with number to add and the add button ?>
+            <td class="tdrow2"><form method="post" action="">
+            <input type="hidden" name="pid" value="<?php print smart_unescape( $data['id']); ?>">
+            <input type="hidden" name="action" value="an">
+            <input type="text" style="width:25px;" name="toadd" value="<?php print smart_unescape( $data['diff']); ?>">
+            <input type="submit" value="Add"></form></td>
             
-            print "</tr>". PHP_EOL;
+            </tr>
+            <?php
         }
         ?>
         </table>
@@ -129,7 +134,7 @@
     <div class="inner">
         <form method="post" action="">
             <table>
-            <?PHP
+            <?php
             print "<tr class=\"trcat\">\n".
                 "<td>".
                 "<input type=\"hidden\" name=\"deviceid\" value=\"" .$deviceid. "\">".

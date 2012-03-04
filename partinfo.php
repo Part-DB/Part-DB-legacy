@@ -66,29 +66,35 @@
         $result = parts_select( $_REQUEST["pid"]);
         while ( $data = mysql_fetch_assoc( $result))
         {
-            print "<tr><td><b>Name:</b></td><td>".         smart_unescape( $data['name']) ."</td></tr>". PHP_EOL;
-            print "<tr><td><b>Vorhanden:</b></td><td>".    smart_unescape( $data['instock']) ."</td></tr>". PHP_EOL;
-            print "<tr><td><b>Min. Bestand:</b></td><td>". smart_unescape( $data['mininstock']) ."</td></tr>". PHP_EOL;
-            print "<tr><td><b>Footprint:</b></td><td>".    smart_unescape( $data['footprint']);
-            
+            ?>
+            <tr><td><b>Name:</b></td><td><?php         print smart_unescape( $data['name']); ?></td></tr>
+            <tr><td><b>Vorhanden:</b></td><td><?php    print smart_unescape( $data['instock']); ?></td></tr>
+            <tr><td><b>Min. Bestand:</b></td><td><?php print smart_unescape( $data['mininstock']); ?></td></tr>
+
+            <tr><td><b>Footprint:</b></td><td><?php    print smart_unescape( $data['footprint']); ?>
+            <?php
             // footprint
             $link = footprint_picture_exists( smart_unescape( $data['footprint']));
             if ( $link)
             {
                 print "<img align=\"middle\" height=\"70\" src=\"". $link ."\" alt=\"\">";
             }
-            print "</td></tr>". PHP_EOL;
+            ?>
+            </td></tr>
 
-            print "<tr><td><b>Lagerort:</b></td><td>". smart_unescape( $data['location']). (( $data['location_is_full'] == 1 ) ? ' [voll]' : '') ."</td></tr>". PHP_EOL;
-            print "<tr><td><b>Lieferant:</b></td><td>". smart_unescape( $data['supplier']) ."</td></tr>". PHP_EOL;
-            print "<tr><td><b>Bestell-Nr.:</b></td><td>". smart_unescape( $data['supplierpartnr']) ."</td></tr>". PHP_EOL;
+            <tr><td><b>Lagerort:</b></td><td><?php    print smart_unescape( $data['location']). (( $data['location_is_full'] == 1 ) ? ' [voll]' : ''); ?></td></tr>
+            <tr><td><b>Lieferant:</b></td><td><?php   print smart_unescape( $data['supplier']); ?></td></tr>
+            <tr><td><b>Bestell-Nr.:</b></td><td><?php print smart_unescape( $data['supplierpartnr']) ?></td></tr>
+            <tr><td><b>obsolet:</b></td><td><?php     print $data['obsolete'] ? 'ja' : 'nein'; ?></td></tr>
+
+            <?php
+            include( "config.php");
             $preis = str_replace('.', ',', $data['preis']);
-            print "<tr><td><b>Preis:</b></td><td>". smart_unescape( $preis). PHP_EOL;
-            include("config.php");
-            print " ".$currency." &nbsp;</td></tr>". PHP_EOL;
-            print "<tr><td valign=\"top\"><b>Kommentar:</b></td><td>". nl2br( smart_unescape( $data['comment'])) ."&nbsp;</td></tr>". PHP_EOL;
+            ?>
+            <tr><td><b>Preis:</b></td><td><?php print smart_unescape( $preis) ." ". $currency; ?> &nbsp;</td></tr>
+            <tr><td valign="top"><b>Kommentar:</b></td><td><?php print nl2br( smart_unescape( $data['comment'])); ?>&nbsp;</td></tr>
         
-
+            <?php
         }
         ?>
         </table>

@@ -323,7 +323,7 @@
                 $storeloc_id  = location_get_id(  $storeloc[$key]);
                 $supplier_id  = supplier_get_id(  $supplier[$key]);
 
-                part_add( $category_id, $name[ $key], $count[ $key], 0, $comment[ $key], $footprint_id, $storeloc_id, $supplier_id, $sup_part[ $key]);
+                part_add( $category_id, $name[ $key], $count[ $key], 0, $comment[ $key], false, $footprint_id, $storeloc_id, $supplier_id, $sup_part[ $key]);
                        
                 // collect name for reporting
                 $add_part[] = $name[$key];

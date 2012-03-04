@@ -34,6 +34,7 @@
         $p_instock      = ( isset( $_REQUEST['p_instock']))      ? $_REQUEST['p_instock']      : '';
         $p_mininstock   = ( isset( $_REQUEST['p_mininstock']))   ? $_REQUEST['p_mininstock']   : '';
         $p_comment      = ( isset( $_REQUEST['p_comment']))      ? $_REQUEST['p_comment']      : '';
+        $p_obsolete     = ( isset( $_REQUEST["p_obsolete"])      ? (bool)$_REQUEST["p_obsolete"] : false);
         $p_footprint    = ( isset( $_REQUEST['p_footprint']))    ? $_REQUEST['p_footprint']    : '';
         $p_storeloc     = ( isset( $_REQUEST['p_storeloc']))     ? $_REQUEST['p_storeloc']     : '';
         $p_supplier     = ( isset( $_REQUEST['p_supplier']))     ? $_REQUEST['p_supplier']     : '';
@@ -60,7 +61,7 @@
                 else*/
                 {
                        
-                    $id = part_add( $_REQUEST["cid"], $p_name, $p_instock, $p_mininstock, $p_comment, $p_footprint, $p_storeloc, $p_supplier, $p_supplierpartnr);
+                    $id = part_add( $_REQUEST["cid"], $p_name, $p_instock, $p_mininstock, $p_comment, $p_obsolete, $p_footprint, $p_storeloc, $p_supplier, $p_supplierpartnr);
                     if ( strlen($_REQUEST["URLDatasheet"]) != 0)
                     {
                         datasheet_add( $id, $_REQUEST["URLDatasheet"]);
@@ -240,6 +241,11 @@
             <tr>
             <td>Bestell-Nr.:</td>
             <td><input type="text" name="p_supplierpartnr" value="<?PHP print $p_supplierpartnr ?>"></td>
+            </tr>
+                    
+            <tr>
+            <td><b>obsolet:</b></td>
+            <td><input type="checkbox" name="p_obsolete" value="true"<?php print $p_obsolete ? 'checked' : ''; ?>></td>
             </tr>
             
             <tr>

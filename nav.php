@@ -115,24 +115,25 @@
                 menue.add(6,0,'Zeige','','','');
                 menue.add(7,6,'Zu bestellende Teile','orderparts.php"','','content_frame');
                 menue.add(8,6,'Teile ohne Preis','nopriceparts.php"','','content_frame');
-                menue.add(9,6,'Statistik','stats.php"','','content_frame');
+                menue.add(9,6,'Nicht mehr erh&auml;ltliche Teile','obsoleteparts.php"','','content_frame');
+                menue.add(10,6,'Statistik','stats.php"','','content_frame');
                 <?php if (! $disable_help) { ?>
-                    menue.add(10,6,'Hilfe','help.php"','','content_frame');
+                    menue.add(11,6,'Hilfe','help.php"','','content_frame');
                 <?php } ?>
 
-                menue.add(11,0,'Bearbeiten','','','');
+                menue.add(12,0,'Bearbeiten','','','');
                 <?php if (! $disable_devices) { ?>
-                    menue.add(12,11,'Baugruppen','devmgr.php"','','content_frame');
+                    menue.add(13,12,'Baugruppen','devmgr.php"','','content_frame');
                 <?php } ?>
-                menue.add(13,11,'Lagerorte','locmgr.php"','','content_frame');
-                menue.add(14,11,'Footprints','fpmgr.php"','','content_frame');
-                menue.add(15,11,'Kategorien','catmgr.php"','','content_frame');
-                menue.add(16,11,'Lieferanten','supmgr.php','','content_frame');
+                menue.add(14,12,'Lagerorte','locmgr.php"','','content_frame');
+                menue.add(15,12,'Footprints','fpmgr.php"','','content_frame');
+                menue.add(16,12,'Kategorien','catmgr.php"','','content_frame');
+                menue.add(17,12,'Lieferanten','supmgr.php','','content_frame');
 
                 <?php if (! $disable_config) { ?>
-                    menue.add(17,0,'Konfiguration','','','');
-                    menue.add(18,17,'System',    'config_system.php', '', 'content_frame');
-                    menue.add(19,17,'Datenbank', 'config_page.php', '', 'content_frame');
+                    menue.add(18,0,'Konfiguration','','','');
+                    menue.add(19,18,'System',    'config_system.php', '', 'content_frame');
+                    menue.add(20,18,'Datenbank', 'config_page.php', '', 'content_frame');
                 <?php } ?>
                 document.write(menue);
             </script>

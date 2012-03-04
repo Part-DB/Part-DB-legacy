@@ -108,6 +108,7 @@
     parts_select
     parts_select_category
     parts_select_without_price
+    parts_select_obsolete
     parts_select_search
     parts_select_order
     parts_select_footprint
@@ -322,11 +323,11 @@
             'location'
 
     */
-    function print_table_row( $row_odd, $data) 
+    function print_table_row( $row_odd, $data)
     
     {
         // the alternating background colors are created here
-        print "<tr class=\"".( $row_odd ? 'trlist_odd': 'trlist_even')."\">\n";
+        print "<tr class=\"".( $row_odd ? 'trlist_odd': 'trlist_even')."\">". PHP_EOL;
         
         // Pictures
         print "<td class=\"tdrow0\">";
@@ -334,8 +335,11 @@
         print "</td>\n";
 
         // comment
-        print "<td class=\"tdrow1\"><a title=\"Kommentar: " . htmlspecialchars( smart_unescape( $data['comment'])) . "\"";
-        print "href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape( $data['name']) ."</a></td>\n";
+        print "<td class=\"tdrow1". ( $data['obsolete'] ? ' backred' : '') ."\"><a title=\"";
+        print $data['obsolete'] ? "nicht mehr erh&auml;tlich ". PHP_EOL : "";
+        print $data['comment']  ? "Kommentar: ". htmlspecialchars( smart_unescape( $data['comment'])) : "(kein Kommentar)";
+        print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape( $data['name']) ."</a></td>\n";
+
         // instock/ mininstock
         print "<td class=\"tdrow2\">". smart_unescape( $data['instock']) ."/". smart_unescape( $data['mininstock']) ."</td>\n";
         // footprint
@@ -1081,7 +1085,7 @@
     /* ***************************************************
      * part querys
      */
-    function part_add( $category_id, $name, $instock, $mininstock, $comment, $footprint_id, $storeloc_id, $supplier_id, $supplierpartnr)
+    function part_add( $category_id, $name, $instock, $mininstock, $comment, $obsolete, $footprint_id, $storeloc_id, $supplier_id, $supplierpartnr)
     {
         $query = 
             "INSERT INTO parts (".
@@ -1090,6 +1094,7 @@
             " instock,".
             " mininstock,".
             " comment,".
+            " obsolete,".
             " id_footprint,".
             " id_storeloc,".
             " id_supplier,".
@@ -1100,6 +1105,7 @@
             smart_escape( $instock) .",".
             smart_escape( $mininstock) .",".
             smart_escape( $comment) .",".
+            smart_escape( $obsolete) .",".
             smart_escape( $footprint_id) .",".
             smart_escape( $storeloc_id) .",".
             smart_escape( $supplier_id) .",".
@@ -1108,7 +1114,7 @@
         return( mysql_insert_id());
     }
 
-    function part_update( $part_id, $category_id, $name, $instock, $mininstock, $comment, $footprint_id, $storeloc_id, $supplier_id, $supplierpartnr)
+    function part_update( $part_id, $category_id, $name, $instock, $mininstock, $comment, $obsolete, $footprint_id, $storeloc_id, $supplier_id, $supplierpartnr)
     {
         $query = 
             "UPDATE parts".
@@ -1117,6 +1123,7 @@
             " instock=".        smart_escape( $instock)      .",".
             " mininstock=".     smart_escape( $mininstock)   .",".
             " comment=".        smart_escape( $comment)      .",".
+            " obsolete=".       smart_escape( $obsolete)     .",".
             " id_category=".    smart_escape( $category_id)  .",".
             " id_footprint=".   smart_escape( $footprint_id) .",".
             " id_storeloc=".    smart_escape( $storeloc_id)  .",".
@@ -1230,7 +1237,8 @@
             " parts.supplierpartnr,".
             " preise.preis,".
             " preise.ma,".
-            " parts.comment".
+            " parts.comment,".
+            " parts.obsolete".
             " FROM parts".
             " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
             " LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id".
@@ -1256,6 +1264,7 @@
             " footprints.name AS 'footprint',".
             " storeloc.name AS 'location',".
             " parts.comment,".
+            " parts.obsolete,".
             " parts.supplierpartnr".
             " FROM parts".
             " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
@@ -1284,7 +1293,36 @@
             " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
             " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id". 
             " LEFT JOIN preise ON parts.id=preise.part_id".
-            " WHERE (preise.id IS NULL)".
+            " WHERE".
+            " (preise.id IS NULL) AND".
+            " (parts.obsolete = false)".
+            " ORDER BY name ASC;";
+
+        $result = mysql_query( $query) or die( mysql_error());
+
+        return( $result);
+    }
+
+    function parts_select_obsolete()
+    {
+        $query = "SELECT ".
+            " parts.id,".
+            " parts.name,".
+            " parts.instock,".
+            " parts.mininstock,".
+            " footprints.name AS 'footprint',".
+            " storeloc.name AS 'location',".
+            " suppliers.name AS 'supplier',". 
+            " parts.supplierpartnr,". 
+            " parts.comment,".
+            " preise.preis".
+            " FROM parts".
+            " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
+            " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
+            " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id". 
+            " LEFT JOIN preise ON parts.id=preise.part_id".
+            " WHERE".
+            " (parts.obsolete = true)".
             " ORDER BY name ASC;";
 
         $result = mysql_query( $query) or die( mysql_error());
@@ -1311,6 +1349,7 @@
             " footprints.name AS 'footprint',".
             " storeloc.name   AS 'location',".
             " parts.comment,".
+            " parts.obsolete,".
             " parts.id_category,".
             " parts.supplierpartnr".
             " FROM parts".
@@ -1364,7 +1403,8 @@
                 " LEFT JOIN preise ON (preise.part_id = parts.id)".
                 " WHERE".
                 " (pending_orders.id IS NULL) AND".
-                " (parts.instock < parts.mininstock)".
+                " (parts.instock < parts.mininstock) AND".
+                " (parts.obsolete = false)".
                 " UNION".
                 " SELECT ".
                 " parts.id,".

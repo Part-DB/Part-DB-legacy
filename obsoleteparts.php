@@ -18,39 +18,18 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id$
+    $Id: nopriceparts.php 364 2012-02-23 17:11:52Z bubbles.red@gmail.com $
 
 */
     include ("lib.php");
     partdb_init();
-    
-    // set action to default, if not exists
-    $action = isset( $_REQUEST['action']) ? $_REQUEST['action'] : 'default';
-
-    
-    if ( strcmp( $action, "newprice") == 0)  //Set new price
-    {
-        $rowcount = $_REQUEST["selections"];
-        while( $rowcount)
-        {
-            if( $_REQUEST["selectedpid".$rowcount] && $_REQUEST["newprice".$rowcount])
-            {           
-                $_REQUEST["newprice".$rowcount] = str_replace(',', '.', $_REQUEST["newprice".$rowcount]);
-                /* Before adding the new price, delete the old one! */
-                price_delete( $_REQUEST["selectedpid".$rowcount]); 
-                price_add(    $_REQUEST["selectedpid".$rowcount], $_REQUEST["newprice".$rowcount]);
-            }
-            $rowcount--;
-        }
-    }
-    
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-    <title>Teile ohne Preis</title>
+    <title>Nicht mehr erh&auml;ltliche Teile</title>
     <?php print_http_charset(); ?>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
     <script type="text/javascript" src="popup.php"></script>
@@ -59,25 +38,8 @@
 
 
 <div class="outer">
-    <h2>Teile ohne Preis</h2>
+    <h2>Nicht mehr erh&auml;ltliche Teile</h2>
     <div class="inner">
-        <script type="text/javascript">
-        
-        function validateFloat(evt) 
-        {
-          var theEvent = evt || window.event;
-          var key = theEvent.keyCode || theEvent.which;
-          key = String.fromCharCode( key );
-          var regex = /[0-9]|\.|\,/;
-          if( !regex.test(key) ) {
-            theEvent.returnValue = false;
-            if(theEvent.preventDefault) theEvent.preventDefault();
-          }
-        }
-        </script>
-        
-        <form method="post" action="">
-        <input type="hidden" name="action" value="newprice">
         <table>
         
         <tr class="trcat">
@@ -92,7 +54,7 @@
         </tr>
 
         <?php
-        $result = parts_select_without_price();
+        $result = parts_select_obsolete();
 
         $rowcount = 0;
         while ( $data = mysql_fetch_assoc( $result))
@@ -112,20 +74,11 @@
             print "<td class=\"tdrow1\">". smart_unescape( $data['location']) ."</td>". PHP_EOL;
             print "<td class=\"tdrow1\">". smart_unescape( $data['supplier']) ."</td>". PHP_EOL; 
             print "<td class=\"tdrow1\">". smart_unescape( $data['supplierpartnr']) ."</td>". PHP_EOL; 
-            
-            //Show a text box to add new price
-            print "<td class=\"tdrow1\">". PHP_EOL;
-            print "<input type=\"hidden\" name=\"selectedpid".$rowcount."\" value=\"" . smart_unescape( $data['id']). "\"/>". PHP_EOL;
-            print "<input type=\"text\" size=\"3\" onkeypress=\"validateFloat(event)\" name=\"newprice".$rowcount."\" value=\"0\"/>". PHP_EOL;
-            print "</td>". PHP_EOL;
+            print "<td class=\"tdrow1\">". smart_unescape( $data['preis']) ."</td>". PHP_EOL; 
             print "</tr>". PHP_EOL;
         }
-        
-        print "</table>". PHP_EOL;
-        print "<input type=\"hidden\" name=\"selections\"  value=\"".$rowcount."\">";
         ?>
-        <input type="submit" value="Hinzuf&uuml;gen">
-        </form>
+        </table>
     </div>
 </div>
 
