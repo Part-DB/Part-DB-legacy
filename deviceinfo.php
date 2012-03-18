@@ -507,7 +507,7 @@
             ?>
             <td class="tdrow1" colspan="2"><input type="submit" name="devicetableform_update" value="&Uuml;bernehmen"></td>
             <td class="tdrow1" colspan="5"></td>
-            <td class="tdrow0">Gesamtpreis:<br><?php $sumprice ."&nbsp". $currency; ?></td>
+            <td class="tdrow0">Gesamtpreis:<br><?php print $sumprice ."&nbsp". $currency; ?></td>
             <td class="tdrow1" colspan="3"><input type="submit" name="devicetableform_delete" value="L&ouml;schen"></td>
 		</tr>
         </form>
