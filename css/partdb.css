@@ -180,8 +180,8 @@
 
 a:hover .hoverpic
 {
-	width: 200px;
-	height: 150px;
+	width: 240px;
+	height: 180px;
     display: block;
     position: absolute;
     bottom: -15px;
@@ -224,6 +224,8 @@ a:active {
     height: 70px;
     margin-top: 2px;
     margin-bottom: 0px;
+    margin-left: 7px;
+    margin-right: 7px;
 }
 
 .footprint p

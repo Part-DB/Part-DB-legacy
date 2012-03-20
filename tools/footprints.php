@@ -3,10 +3,6 @@
     include ('../lib.php');
     partdb_init();
                 
-    // config stuff            
-    $path         = "footprints/";
-    $max_elements = 18;
-
 
     function group_footprint_pictures( $pic_array_to_group, $depth)
     {
@@ -31,46 +27,144 @@
     }
                 
                 
-    // catch all usable footprints
-    $pic = array();
-    $verzeichnis = @opendir( $path);
-    if ( !$verzeichnis) die("Kann Verzeichnis $path nicht öffnen");
-    rewinddir( $verzeichnis);
-    while ( $file = readdir( $verzeichnis)) 
+    function group_footprints( $path, $max_elements = 12)
     {
-        if( $file != "." and $file != ".." and $file != ".db" and $file != ".svn") 
+        // catch all usable footprints
+        $pic = array();
+        $verzeichnis = @opendir( $path);
+        if ( !$verzeichnis) die("Kann Verzeichnis $path nicht öffnen");
+        rewinddir( $verzeichnis);
+        while ( $file = readdir( $verzeichnis)) 
         {
-            array_push($pic, "$file");
+            if( ( !is_dir( $path.'/'.$file)) and $file != ".db") 
+            {
+                array_push($pic, $path.'/'.$file);
+            }
+        }
+
+        // sort list
+        sort( $pic);
+        
+
+        // generate groups with first character from name
+        $groups = group_footprint_pictures( $pic, 1);
+        
+        // split groups further
+        $depth = 2;
+        while ( get_max_elements( $groups) > $max_elements)
+        {
+
+            $new_groups = array();
+            foreach( $groups as $group_key => $group)
+            {
+                if ( count( $group) > $max_elements)
+                {
+                    $new_groups = array_merge( $new_groups, group_footprint_pictures( $group, $depth));
+                }
+                else
+                {
+                    $new_groups[] = $group;
+                }
+            }
+            $groups = $new_groups;
+            $depth++;
+        }
+        return $groups;
+    }
+                
+                
+    function footprint_elements( $path)
+    {
+        // catch all usable footprints
+        $verzeichnis = @opendir( $path);
+        if ( !$verzeichnis) die("Kann Verzeichnis $path nicht öffnen");
+        rewinddir( $verzeichnis);
+
+        $elements = 0;
+
+        while ( $file = readdir( $verzeichnis)) 
+        {
+            if( ( !is_dir( $path.'/'.$file)) and $file != ".db") 
+            {
+                $elements++;
+            }
+        }
+
+        return $elements;
+    }
+
+
+    function show_table_content( $path)
+    {
+        $groups = group_footprints( $path);
+        $rowcount = 0;
+        foreach( $groups as $group)
+        {
+            $rowcount++;
+            print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">". PHP_EOL;
+            print "<td>". PHP_EOL;
+            foreach( $group as $pic)
+            {
+                $file  = $pic; 
+                $title = basename( $pic, '.png');
+                $footprint_exists = footprint_exists( $title) ? " checked" : ""; 
+                $id               = footprint_exists( $title) ? footprint_get_id( $title) : -1; 
+                print "<div class=\"footprint\">".
+                    "<img src=\"". $file ."\" title=\"". $title ."\" alt=\"\">".
+                    "<p><input type=\"checkbox\" onclick=\"process(this,'". $title ."',". $id .");\"". $footprint_exists .">". $title.
+                    "</div>". PHP_EOL;
+            }
+            print "</td></tr>". PHP_EOL;
         }
     }
 
-    // sort list
-    sort( $pic);
-    
 
-    // generate groups with first character from name
-    $groups = group_footprint_pictures( $pic, 1);
-    
-    // split groups further
-    $depth = 2;
-    while ( get_max_elements( $groups) > $max_elements)
+    function show_footprint_table( $path)
     {
+        $path_nice = str_replace( "/", " : ", $path);
+        print '<div class="outer">'. PHP_EOL;
+        print '    <h2>'. $path_nice .'</h2>'. PHP_EOL;
+        print '    <div class="inner">'. PHP_EOL;
+        print '        <table>'. PHP_EOL;
+        show_table_content( $path);
+        print '        </table>'. PHP_EOL;
+        print '    </div>'. PHP_EOL;
+        print '</div>'. PHP_EOL;
+    }
 
-        $new_groups = array();
-        foreach( $groups as $group_key => $group)
+
+    function generate_footprint_tree( $dir) 
+    {
+        $dir_array = array();
+        $d = dir( $dir);
+        while ( false !== ( $entry = $d->read())) 
         {
-            if ( count( $group) > $max_elements)
+            if( $entry != '.' && $entry != '..' && $entry != '.svn' && is_dir( $dir.$entry))
             {
-                $new_groups = array_merge( $new_groups, group_footprint_pictures( $group, $depth));
-            }
-            else
-            {
-                $new_groups[] = $group;
+                $dir_array[ $entry] = generate_footprint_tree( $dir.$entry.'/');
             }
         }
-        $groups = $new_groups;
-        $depth++;
+        $d->close();
+        return $dir_array;
     }
+
+
+    function print_footprint_tree( $dir_array, $path = "") {
+        if ( footprint_elements( $path) > 0)
+        {
+            show_footprint_table( $path);
+        }
+        
+        foreach( $dir_array as $dir => $value) 
+        {
+            if( is_array( $value))
+            {
+                $sub_dir = $path."/".$dir;
+                print_footprint_tree( $value, $sub_dir);
+            }
+        }
+    }
+
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -113,38 +207,12 @@
         }
     </script>
 
-<div class="outer">
-    <h2>Footprints</h2>
-    <div class="inner">
-        <form>
-        <table>
-        <?php
-            $rowcount = 0;
-            foreach( $groups as $group)
-            {
-                $rowcount++;
-                print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">". PHP_EOL;
-                print "<td>". PHP_EOL;
-                // debug output
-                // print count( $group).": ".implode( ', ', $group)."<p>";
-                foreach( $group as $pic)
-                {
-                    $file  = $pic; 
-                    $title = basename( $pic, '.png');
-                    $footprint_exists = footprint_exists( $title) ? " checked" : ""; 
-                    $id               = footprint_exists( $title) ? footprint_get_id( $title) : -1; 
-                    print "<div class=\"footprint\">".
-                        "<img src=\"". $path . $file ."\" title=\"". $title ."\" alt=\"\">".
-                        "<p><input type=\"checkbox\" onclick=\"process(this,'". $title ."',". $id .");\"". $footprint_exists .">". $title.
-                        "</div>". PHP_EOL;
-                }
-                print "</td></tr>". PHP_EOL;
-            }
-        ?>
-        </table>
-        </form>
-    </div>
-</div>
+    <form>
+    <?php
+        $footprint_tree = generate_footprint_tree( "footprints/");
+        print_footprint_tree( $footprint_tree, "Footprints");
+    ?>
+    </form>
 
 </body>
 </html>
