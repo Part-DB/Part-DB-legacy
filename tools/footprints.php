@@ -32,7 +32,7 @@
         // catch all usable footprints
         $pic = array();
         $verzeichnis = @opendir( $path);
-        if ( !$verzeichnis) die("Kann Verzeichnis $path nicht öffnen");
+        if ( !$verzeichnis) die("Kann Verzeichnis '$path' nicht &ouml;ffnen.");
         rewinddir( $verzeichnis);
         while ( $file = readdir( $verzeichnis)) 
         {
@@ -121,7 +121,8 @@
 
     function show_footprint_table( $path)
     {
-        $path_nice = str_replace( "/", " : ", $path);
+        $path_nice = str_replace( "//", "/", $path);
+        $path_nice = ucfirst( str_replace( "/", " : ", $path_nice));
         print '<div class="outer">'. PHP_EOL;
         print '    <h2>'. $path_nice .'</h2>'. PHP_EOL;
         print '    <div class="inner">'. PHP_EOL;
@@ -210,7 +211,7 @@
     <form>
     <?php
         $footprint_tree = generate_footprint_tree( "footprints/");
-        print_footprint_tree( $footprint_tree, "Footprints");
+        print_footprint_tree( $footprint_tree, "footprints/");
     ?>
     </form>
 
