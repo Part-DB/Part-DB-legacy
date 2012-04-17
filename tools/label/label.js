@@ -37,7 +37,7 @@ function calculate6ring() {
     var ring1 = parseInt(getValue(document.forms["resistor6ring"].elements["ring1"]));
     var ring2 = parseInt(getValue(document.forms["resistor6ring"].elements["ring2"]));
     var ring3 = parseInt(getValue(document.forms["resistor6ring"].elements["ring3"]));
-    var ring4 = parseInt(getValue(document.forms["resistor6ring"].elements["ring4"])) + 1; // exponent
+    var ring4 = parseInt(getValue(document.forms["resistor6ring"].elements["ring4"])) + 2; // exponent
     var ring5 = parseFloat(getValue(document.forms["resistor6ring"].elements["ring5"]));
     var ring6 = parseInt(getValue(document.forms["resistor6ring"].elements["ring6"]));
     
