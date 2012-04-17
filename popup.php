@@ -32,6 +32,7 @@
             d  = new Date();
             id = d.getTime();
             eval(\"page\" + id + \" = window.open(URL, '\" + id + \"', 'toolbar=1, scrollbars=1, location=1, statusbar=1, menubar=1, resizable=1, width=".$dialog_width.", height=".$dialog_height."');\");
+            location.reload(true);
             return false;
         }";
     }
