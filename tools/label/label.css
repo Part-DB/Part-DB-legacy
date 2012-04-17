@@ -1,0 +1,82 @@
+.ring_none td:not(:empty) {
+    background-color: none;
+}
+
+.ring_silver td:not(:empty) {
+    background-color: silver;
+}
+
+.ring_gold td:not(:empty) {
+    background-color: gold;
+}
+
+.ring_black td:not(:empty) {
+    background-color: black;
+    color: white;
+}
+
+.ring_brown td:not(:empty) {
+    background-color: rgb(128, 64, 0);
+    color: white;
+}
+
+.ring_red td:not(:empty) {
+    background-color: red;
+}
+
+.ring_orange td:not(:empty) {
+    background-color: orange;
+}
+
+.ring_yellow td:not(:empty) {
+    background-color: yellow;
+}
+
+.ring_green td:not(:empty) {
+    background-color: green;
+    color: white;
+}
+
+.ring_blue td:not(:empty) {
+    background-color: blue;
+    color: white;
+}
+
+.ring_violet td:not(:empty) {
+    background-color: purple;
+    color: white;
+}
+
+.ring_gray td:not(:empty) {
+    background-color: gray;
+}
+
+.ring_white td:not(:empty) {
+    background-color: white;
+}
+
+.unit {
+    margin-left: 0.3em;
+}
+
+.ringtable {
+    border: solid;
+    border-collapse: collapse;
+}
+
+.ringtable thead {
+    border-bottom: solid;
+}
+
+.ringtable th, td {
+    border: solid 1px;
+    padding: 0.1em 0.3em;
+}
+
+.ringtable td input {
+    margin-right: 0.5em;
+}
+
+.blind, .blind td, .blind th {
+    border: none;
+}
