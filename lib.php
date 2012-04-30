@@ -661,6 +661,8 @@
             while( count( $path) != 0)
             {
                 $v = array_shift( $path);
+                var_dump( $v); print "<br>";
+                var_dump( glob($v)); print "<br><hr>";
 
                 foreach( glob( $v) as $diritem)
                 {
