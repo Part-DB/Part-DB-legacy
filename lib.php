@@ -634,7 +634,7 @@
     /*
      * parameter: string to search
      * result: true  if exists in database
-     *         flase if not exist
+     *         false if not exist
      */
     function footprint_exists( $footprint)
     {
@@ -645,24 +645,41 @@
         return( ($data['count'] > 0) ? true : false );
     }
 
-
-    if ( ! function_exists('glob_recursive'))
-    {
-        // Does not support flag GLOB_BRACE
-        function glob_recursive($pattern, $flags = 0)
-        {
-            $files = array();
-            foreach (glob(dirname($pattern).'/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
-            {
-                $files = array_merge($files, glob_recursive($dir.'/'.basename($pattern), $flags));
-            }
-            return $files;
-        }
-    }
-
-
+    /*
+     * search for footprint picture on disk
+     * result: path and filename if succesful
+     *         false             if not exist
+     */
     function footprint_picture_exists( $footprint)
     {
+        // workaround for php 4 with missing glob_recursive
+        if ( ! function_exists('glob_recursive'))
+        {
+
+            $path[] = 'tools/footprints';
+
+            while( count( $path) != 0)
+            {
+                $v = array_shift( $path);
+
+                foreach( glob( $v) as $diritem)
+                {
+                    if ( is_dir( $diritem))
+                    {
+                        // search in directory for png file
+                        $result = glob( $diritem. '/'. $footprint. '.png');
+                        if ($result)
+                            return $result[0];
+
+                        $path[] = $diritem . '/*';
+                    }
+                }
+            }
+
+            // not found
+            return false;
+        }
+
         $res = glob_recursive( "tools/footprints/". $footprint .".png");
         return( $res ? $res[0] : false);
     }
