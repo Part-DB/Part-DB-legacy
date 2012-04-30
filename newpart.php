@@ -34,11 +34,14 @@
         $p_instock      = ( isset( $_REQUEST['p_instock']))      ? $_REQUEST['p_instock']      : '';
         $p_mininstock   = ( isset( $_REQUEST['p_mininstock']))   ? $_REQUEST['p_mininstock']   : '';
         $p_comment      = ( isset( $_REQUEST['p_comment']))      ? $_REQUEST['p_comment']      : '';
+        $p_price        = ( isset( $_REQUEST['p_price']))        ? $_REQUEST['p_price']        : '';
         $p_obsolete     = ( isset( $_REQUEST["p_obsolete"])      ? (bool)$_REQUEST["p_obsolete"] : false);
         $p_footprint    = ( isset( $_REQUEST['p_footprint']))    ? $_REQUEST['p_footprint']    : '';
         $p_storeloc     = ( isset( $_REQUEST['p_storeloc']))     ? $_REQUEST['p_storeloc']     : '';
         $p_supplier     = ( isset( $_REQUEST['p_supplier']))     ? $_REQUEST['p_supplier']     : '';
         $p_supplierpartnr = ( isset( $_REQUEST['p_supplierpartnr'])) ? $_REQUEST['p_supplierpartnr'] : '';
+        $URLDatasheets  = ( isset( $_REQUEST['URLDatasheets']))  ? $_REQUEST['URLDatasheets']  : '';
+        $addmoreparts   = ( isset( $_REQUEST['addmoreparts']))   ? (bool)$_REQUEST['addmoreparts'] : false;
 
         $Footprint      = ( isset( $_REQUEST['NewFootprint']))   ? $_REQUEST['NewFootprint']   : $p_footprint;
         $Storage        = ( isset( $_REQUEST['NewStorage']))     ? $_REQUEST['NewStorage']     : $p_storeloc;
@@ -153,20 +156,7 @@
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
     <script type="text/javascript" src="util-functions.js"></script>
     <script type="text/javascript" src="clear-default-text.js"></script>       
-	<script language="JavaScript" type="text/javascript">
-        function validateNumber(evt) 
-        {
-            var theEvent = evt || window.event;
-            var key = theEvent.keyCode || theEvent.which;
-            key = String.fromCharCode( key );
-            var regex = /[0-9]|\./;
-            if( !regex.test(key) ) 
-            {
-                theEvent.returnValue = false;
-                if(theEvent.preventDefault) theEvent.preventDefault();
-            }
-        }
-	</script> 
+    <script type="text/javascript" src="validatenumber.js"></script>       
 </head>
 <body class="body">
 
@@ -250,7 +240,7 @@
             
             <tr>
             <td>Preis:</td>
-            <td><input type="text" name="p_price" onkeypress="validateNumber(event)" value="<?PHP print $_REQUEST["p_price"] ?>"></td>
+            <td><input type="text" name="p_price" onkeypress="validateNumber(event)" value="<?php print $p_price ?>"></td>
             </tr>
             
             <tr>
@@ -263,13 +253,13 @@
 
             <tr>
             <td>Datenblatt (URL):</td>
-            <td><input type="text" name="URLDatasheet" value="<?PHP print $_REQUEST["URLDatasheets"] ?>"/></td>
+            <td><input type="text" name="URLDatasheet" value="<?php print $URLDatasheets ?>"/></td>
             </tr>
             <tr><td colspan="2"><input type="submit" name="AddPart" value="Teil hinzuf&uuml;gen"></td></tr>
 
             <tr>
             <td colspan="2">Weitere Bauteile erfassen:
-            <input type="checkbox" name="addmoreparts" value="true" <?PHP if($_REQUEST["addmoreparts"]) print "checked = \"checked\""; ?>></td>
+            <input type="checkbox" name="addmoreparts" value="true"<?php print $addmoreparts ? 'checked' : ''; ?>></td>
             </tr>
             </table>
         </form>

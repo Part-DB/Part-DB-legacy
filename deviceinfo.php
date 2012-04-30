@@ -278,6 +278,7 @@
     <?php print_http_charset(); ?>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
     <script type="text/javascript" src="popup.php"></script>
+    <script type="text/javascript" src="validatenumber.js"></script>       
 </head>
 <body class="body">
 
@@ -365,18 +366,6 @@
     <div class="inner">
         <script type="text/javascript">
         
-        function validateNumber(evt) 
-        {
-          var theEvent = evt || window.event;
-          var key = theEvent.keyCode || theEvent.which;
-          key = String.fromCharCode( key );
-          var regex = /[0-9]|\./;
-          if( !regex.test(key) ) {
-            theEvent.returnValue = false;
-            if(theEvent.preventDefault) theEvent.preventDefault();
-          }
-        }
-		
 		function validatePosIntNumber(evt) 
         {
           var theEvent = evt || window.event;
