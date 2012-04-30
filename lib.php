@@ -655,25 +655,25 @@
         // workaround for php 4 with missing glob_recursive
         if ( ! function_exists('glob_recursive'))
         {
-
             $path[] = 'tools/footprints';
 
             while( count( $path) != 0)
             {
-                $v = array_shift( $path);
-                var_dump( $v); print "<br>";
-                var_dump( glob($v)); print "<br><hr>";
+                $entries = glob( array_shift( $path));
 
-                foreach( glob( $v) as $diritem)
+                if ( is_array( $entries ) && count( $entries) > 0)
                 {
-                    if ( is_dir( $diritem))
+                    foreach( $entries as $diritem)
                     {
-                        // search in directory for png file
-                        $result = glob( $diritem. '/'. $footprint. '.png');
-                        if ($result)
-                            return $result[0];
+                        if ( is_dir( $diritem))
+                        {
+                            // search in directory for png file
+                            $result = glob( $diritem. '/'. $footprint. '.png');
+                            if ($result)
+                                return $result[0];
 
-                        $path[] = $diritem . '/*';
+                            $path[] = $diritem . '/*';
+                        }
                     }
                 }
             }
