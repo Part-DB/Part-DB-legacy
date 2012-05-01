@@ -164,7 +164,8 @@ print $banner;
         <strong>Michael Buesch</strong> - Reichelt/Pollin Preissuch Script<br>
         <strong>bubbles.red</strong> - Committer/Bugfix/Neue Funktionen<br>
         <strong>Matthias Wei&szlig;er</strong> f&uuml;r EAGLE3D und dem gro&szlig;artigen Bauteile Renderscript (eagle3d.py)<br> 
-        <strong>Urban B.</strong> - neue Footprints
+        <strong>Urban B.</strong> - neue Footprints<br>
+        <strong>Andr&eacute; Althaus</strong> - neue Funktionen
     </div>
 </div>
 
