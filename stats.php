@@ -96,14 +96,33 @@
 
         <b>Anzahl der Footprint Bilder:</b>
         <?PHP
+
+        function count_dir_entries( $dir) 
+        { 
+            $count = 0;
+
+            $handle = opendir( $dir); 
+            while ( $entry = readdir( $handle)) 
+            { 
+                if ( $entry != "." && $entry != ".." && $entry != ".svn") 
+                { 
+                    if ( is_dir( $dir.$entry))
+                    { 
+                        $count += count_dir_entries( $dir.$entry.'/'); 
+                    }
+                    else
+                    { 
+                        $count++;
+                    } 
+                }
+            } 
+            closedir( $handle); 
+            return( $count);
+        } 
+        
         $dir = "tools/footprints/";
-        $dh  = opendir($dir);
-        while (false !== ($filename = readdir($dh))) 
-        {
-          $files[] = $filename;
-        }
-        echo count($files)- 2;
-        unset($files);
+        echo count_dir_entries( $dir);
+
         ?><br>
 
         <b>Anzahl der Hersteller Logos:</b>
