@@ -10,13 +10,14 @@
 
     $keyword    = smart_escape_for_search( $_REQUEST['keyword']);
     $search_nam = isset( $_REQUEST['search_nam']) ? $_REQUEST['search_nam'] == 'true' : false;
+    $search_des = isset( $_REQUEST['search_des']) ? $_REQUEST['search_des'] == 'true' : false;
     $search_com = isset( $_REQUEST['search_com']) ? $_REQUEST['search_com'] == 'true' : false;
     $search_sup = isset( $_REQUEST['search_sup']) ? $_REQUEST['search_sup'] == 'true' : false;
     $search_snr = isset( $_REQUEST['search_snr']) ? $_REQUEST['search_snr'] == 'true' : false;
     $search_loc = isset( $_REQUEST['search_loc']) ? $_REQUEST['search_loc'] == 'true' : false;
     $search_fpr = isset( $_REQUEST['search_fpr']) ? $_REQUEST['search_fpr'] == 'true' : false;
 
-    $result = parts_select_search( $keyword, $search_nam, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr, true);
+    $result = parts_select_search( $keyword, $search_nam, $search_des, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr, true);
 
     $filename = "partdb_export_selection_". $_REQUEST["keyword"]; 
 
@@ -66,11 +67,11 @@
     }
     
 
-    if (( $action == output) && ( $format == 'CSV'))
+    if (( $action == "output") && ( $format == 'CSV'))
     {
 
         // header
-        $CSVDoc = "# Kategorie; Name; Anzahl; Footprint; Lagerort; Lieferant; Bestellnummer; Kommentar\n";
+        $CSVDoc = "# Kategorie; Name; Beschreibung; Anzahl; Footprint; Lagerort; Lieferant; Bestellnummer; Kommentar\n";
      
         //  catch SQL results, form CSV output 
         while( $dbrow = mysql_fetch_row( $result))
@@ -88,11 +89,11 @@
     }
 
 
-    if (( $action == output) && ( $format == 'DokuWIKI'))
+    if (( $action == "output") && ( $format == 'DokuWIKI'))
     {
 
         // header
-        $CSVDoc = "^ Kategorie^ Name^ Anzahl^ Footprint^ Lagerort^ Lieferant^ Bestellnummer^ Kommentar^ \n|";
+        $CSVDoc = "^ Kategorie^ Name^ Beschreibung^ Anzahl^ Footprint^ Lagerort^ Lieferant^ Bestellnummer^ Kommentar^ \n|";
      
         //  catch SQL results, form DokuWIKI (CSV) output 
         while( $dbrow = mysql_fetch_row( $result))
@@ -109,7 +110,7 @@
     }
 
 
-    if (( $action == output) && ( $format == 'DymoCSV'))
+    if (( $action == "output") && ( $format == 'DymoCSV'))
     {
 
         // header

@@ -45,6 +45,7 @@
         <tr class="trcat">
             <td></td>
             <td>Name</td>
+            <td>Beschreibung</td>
             <td>Vorh./<br>Min.Best.</td>
             <td>Footprint</td>
             <td>Lagerort</td>
@@ -69,6 +70,7 @@
             
             print "<td class=\"tdrow1\"><a title=\"Kommentar: ". htmlspecialchars( smart_unescape( $data['comment']));
             print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape( $data['name']) ."</a></td>". PHP_EOL;
+            print "<td class=\"tdrow1\">". smart_unescape( $data['description']) ."</td>". PHP_EOL;
             print "<td class=\"tdrow1\">". smart_unescape( $data['instock']) ."/". smart_unescape( $data['mininstock']) ."</td>". PHP_EOL;
             print "<td class=\"tdrow1\">". smart_unescape( $data['footprint']) ."</td>". PHP_EOL;
             print "<td class=\"tdrow1\">". smart_unescape( $data['location']) ."</td>". PHP_EOL;

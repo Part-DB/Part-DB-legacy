@@ -68,6 +68,7 @@
         {
             ?>
             <tr><td><b>Name:</b></td><td><?php         print smart_unescape( $data['name']); ?></td></tr>
+            <tr><td><b>Beschreibung:</b></td><td><?php print smart_unescape( $data['description']); ?></td></tr>
             <tr><td><b>Vorhanden:</b></td><td><?php    print smart_unescape( $data['instock']); ?></td></tr>
             <tr><td><b>Min. Bestand:</b></td><td><?php print smart_unescape( $data['mininstock']); ?></td></tr>
 

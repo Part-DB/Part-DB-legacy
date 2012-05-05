@@ -339,6 +339,10 @@
         print $data['obsolete'] ? "nicht mehr erh&auml;tlich ". PHP_EOL : "";
         print $data['comment']  ? "Kommentar: ". htmlspecialchars( smart_unescape( $data['comment'])) : "(kein Kommentar)";
         print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape( $data['name']) ."</a></td>\n";
+        
+        // description
+        print "<td class=\"tdrow1". ( $data['obsolete'] ? ' backred' : '') ."\">";
+        print smart_unescape( $data['description']) ."</td>\n";
 
         // instock/ mininstock
         print "<td class=\"tdrow2\">". smart_unescape( $data['instock']) ."/". smart_unescape( $data['mininstock']) ."</td>\n";
@@ -1119,12 +1123,13 @@
     /* ***************************************************
      * part querys
      */
-    function part_add( $category_id, $name, $instock, $mininstock, $comment, $obsolete, $footprint_id, $storeloc_id, $supplier_id, $supplierpartnr)
+    function part_add( $category_id, $name, $description, $instock, $mininstock, $comment, $obsolete, $footprint_id, $storeloc_id, $supplier_id, $supplierpartnr)
     {
         $query = 
             "INSERT INTO parts (".
             " id_category,".
             " name,".
+            " description,".
             " instock,".
             " mininstock,".
             " comment,".
@@ -1136,6 +1141,7 @@
             " VALUES (". 
             smart_escape( $category_id) .",".
             smart_escape( $name) .",".
+            smart_escape( $description) .",".
             smart_escape( $instock) .",".
             smart_escape( $mininstock) .",".
             smart_escape( $comment) .",".
@@ -1148,16 +1154,18 @@
         return( mysql_insert_id());
     }
 
-    function part_update( $part_id, $category_id, $name, $instock, $mininstock, $comment, $obsolete, $footprint_id, $storeloc_id, $supplier_id, $supplierpartnr)
+    function part_update( $part_id, $category_id, $name, $description, $instock, $mininstock, $comment, $obsolete, $visible, $footprint_id, $storeloc_id, $supplier_id, $supplierpartnr)
     {
         $query = 
             "UPDATE parts".
             " SET".
             " name=".           smart_escape( $name)         .",".
+            " description=".    smart_escape( $description)  .",".
             " instock=".        smart_escape( $instock)      .",".
             " mininstock=".     smart_escape( $mininstock)   .",".
             " comment=".        smart_escape( $comment)      .",".
             " obsolete=".       smart_escape( $obsolete)     .",".
+            " visible=".        smart_escape( $visible)      .",".
             " id_category=".    smart_escape( $category_id)  .",".
             " id_footprint=".   smart_escape( $footprint_id) .",".
             " id_storeloc=".    smart_escape( $storeloc_id)  .",".
@@ -1259,6 +1267,7 @@
         $query = "SELECT ".
             " parts.id,".
             " parts.name,".
+            " parts.description,".
             " parts.instock,".
             " parts.mininstock,".
             " footprints.name  AS 'footprint',".
@@ -1272,7 +1281,8 @@
             " preise.preis,".
             " preise.ma,".
             " parts.comment,".
-            " parts.obsolete".
+            " parts.obsolete,".
+            " parts.visible".
             " FROM parts".
             " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
             " LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id".
@@ -1293,6 +1303,7 @@
         $query = "SELECT".
             " parts.id,".
             " parts.name,".
+            " parts.description,".
             " parts.instock,".
             " parts.mininstock,".
             " footprints.name AS 'footprint',".
@@ -1315,6 +1326,7 @@
         $query = "SELECT ".
             " parts.id,".
             " parts.name,".
+            " parts.description,".
             " parts.instock,".
             " parts.mininstock,".
             " footprints.name AS 'footprint',".
@@ -1342,6 +1354,7 @@
         $query = "SELECT ".
             " parts.id,".
             " parts.name,".
+            " parts.description,".
             " parts.instock,".
             " parts.mininstock,".
             " footprints.name AS 'footprint',".
@@ -1364,20 +1377,22 @@
         return( $result);
     }
 
-    function parts_select_search( $keyword, $search_nam, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr, $export = false)
+    function parts_select_search( $keyword, $search_nam, $search_des, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr, $export = false)
     {
         // build search strings
         $query_nam = ( $search_nam) ? " OR (parts.name LIKE ".           $keyword.")" : "";
+        $query_des = ( $search_des) ? " OR (parts.description LIKE ".    $keyword.")" : "";
         $query_com = ( $search_com) ? " OR (parts.comment LIKE ".        $keyword.")" : ""; 
         $query_sup = ( $search_sup) ? " OR (suppliers.name LIKE ".       $keyword.")" : ""; 
         $query_snr = ( $search_snr) ? " OR (parts.supplierpartnr LIKE ". $keyword.")" : ""; 
         $query_loc = ( $search_loc) ? " OR (storeloc.name LIKE ".        $keyword.")" : ""; 
         $query_fpr = ( $search_fpr) ? " OR (footprints.name LIKE ".      $keyword.")" : ""; 
-        $search = $query_nam. $query_com. $query_sup. $query_snr. $query_loc. $query_fpr;
+        $search = $query_nam. $query_des. $query_com. $query_sup. $query_snr. $query_loc. $query_fpr;
         $query = ( ! $export) ?
             "SELECT ".
             " parts.id,".
             " parts.name,".
+            " parts.description,".
             " parts.instock,".
             " parts.mininstock,".
             " footprints.name AS 'footprint',".
@@ -1396,6 +1411,7 @@
             "SELECT ".
             " categories.name AS 'category', ".
             " parts.name,".
+            " parts.description,".
             " parts.instock   AS 'stock',    ".
             " footprints.name AS 'footprint',".
             " storeloc.name   AS 'location', ".

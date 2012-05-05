@@ -21,9 +21,9 @@
     $Id$
 */
 
-  $sollDBVersion = 9; // Diese Version erwarten wir. Darf nur Incrementiert werden !
-                      // Achtung, diese Nummer-"1" muss es in der Funktion setDBUpdateSteps()
-                      // geben, sonst wird mit einem Fehler abgebrochen !
+  $sollDBVersion = 10; // Diese Version erwarten wir. Darf nur Incrementiert werden !
+                       // Achtung, diese Nummer-"1" muss es in der Funktion setDBUpdateSteps()
+                       // geben, sonst wird mit einem Fehler abgebrochen !
 
   include ("lib.php");
   partdb_init();
@@ -213,7 +213,7 @@
   hier werden die einzelnen Schritte festgelegt um von der in "$ver" übergebenen
   Version zur nächsten zu kommen. 
   IMMER nur einen Schritt.
-  Hierdurch ist sicher gestellt, das wir auch Updates Überspringen können.
+  Hierdurch ist sicher gestellt, das wir auch Updates überspringen können.
   */
   function setDBUpdateSteps($ver)
   {
@@ -1118,15 +1118,20 @@
         $updateSteps[] = "UPDATE footprints SET name='KARTENSLOT_SD'                          WHERE name='YAMAICHI-FPS';";
         $updateSteps[] = "UPDATE footprints SET name=''                                       WHERE name='';";
 		break;
+      
+      case 9:
+        $updateSteps[] = "ALTER TABLE `parts` ADD `description` mediumtext AFTER `name`;";
+        $updateSteps[] = "ALTER TABLE `parts` ADD `visible`     boolean NOT NULL AFTER `obsolete`;";
+        break;
 
 /*
-      case 9:
+      case 10:
         $updateSteps[] = "INSERT INTO internal SET keyName='test', keyValue='muh';";
         break;
-      case 10:
+      case 11:
         $updateSteps[] = ""; //INSERT INTO internal SET keyName='test2', keyValue='muh2';";
         break;
-      case 11:
+      case 12:
         $updateSteps[] = "DELETE FROM internal WHERE keyName='test2'";
         break;
 */

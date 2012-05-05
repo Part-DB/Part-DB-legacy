@@ -40,13 +40,16 @@
     if ( strcmp ($action, "edit") == 0 )
     {
         $p_obsolete  = ( isset( $_REQUEST["p_obsolete"]) ? (bool)$_REQUEST["p_obsolete"] : false);
+        $p_visible   = ( isset( $_REQUEST["p_visible"])  ? (bool)$_REQUEST["p_visible"]  : false);
         part_update( $pid, 
             $_REQUEST["p_category"],
             $_REQUEST["p_name"],
+            $_REQUEST["p_description"],
             $_REQUEST["p_instock"],
             $_REQUEST["p_mininstock"],
             $_REQUEST["p_comment"],
             $p_obsolete,
+            $p_visible,
             $_REQUEST["p_footprint"],
             $_REQUEST["p_storeloc"],
             $_REQUEST["p_supplier"],
@@ -235,7 +238,11 @@
                     ?>
                     <tr>
                         <td><b>Name:</b></td>
-                        <td><input name='p_name' size='40' value='<?php print smart_unescape( $data['name']); ?>'></td>
+                        <td><input name='p_name' size='20' value='<?php print smart_unescape( $data['name']); ?>'></td>
+                    </tr>
+                    <tr>
+                        <td><b>Beschreibung:</b></td>
+                        <td><input name='p_description' size='40' value='<?php print smart_unescape( $data['description']); ?>'></td>
                     </tr>
                     <tr>
                         <td><b>Vorhanden:</b></td>
@@ -279,6 +286,10 @@
                         <td><input type="checkbox" name="p_obsolete" value="true"<?php print $data['obsolete'] ? 'checked' : ''; ?>></td>
                     </tr>
                     <tr>
+                        <td><b>&ouml;ffentlich sichtbar:</b></td>
+                        <td><input type="checkbox" name="p_visible" value="true"<?php print $data['visible'] ? 'checked' : ''; ?>></td>
+                    </tr>
+                    <tr>
                         <td valign='top'><b>Kommentar:</b></td>
                         <td><textarea name='p_comment' rows=2 cols=20><?php print smart_unescape( $data['comment']); ?></textarea></td>
                     </tr>
@@ -307,7 +318,7 @@
 <div class="outer">
     <h2>Preisinfos</h2>
     <div class="inner">
-        <?PHP
+        <?php
             $r = price_select( $pid); 
             if ( mysql_num_rows( $r) > 0)
             {
@@ -328,11 +339,11 @@
                 }
             ?>
                 <form action="" method="get">
-                <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
+                <input type="hidden" name="pid" value="<?php print $pid; ?>">
                 <input type="hidden" name="action" value="price_del"><br>
                 <input type="submit" value="L&ouml;sche Preisinfo!">
                 </form>
-            <?PHP
+            <?php
             }
             else
             {
@@ -341,7 +352,7 @@
             ?>
             <br>
             <form action="" method="get">
-            <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
+            <input type="hidden" name="pid" value="<?php print $pid; ?>">
             <input type="hidden" name="action" value="price_add">
             <b>Preis:</b> <input type="text" name="price" size="8"><br><br>
             <input type="submit" value="Preiseingabe!">
@@ -355,18 +366,18 @@
     <div class="inner">
         <table>
             <tr><td>
-            <?PHP
+            <?php
             if (picture_exists( $pid))
             {
                 // there's at least one picture
                 ?>
                 <form action="" method="get">
-                <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
+                <input type="hidden" name="pid" value="<?php print $pid; ?>">
                 <input type="hidden" name="action" value="img_mgr">
                 <tr>
                 <td>&nbsp;</td><td>&quot;Master-Bild&quot;</td><td>L&ouml;schen</td>
                 </tr>
-                <?PHP
+                <?php
                 $r_img = pictures_select( $pid);
                 $ncol  = mysql_num_rows( $r_img);
                 for ($i = 0; $i < $ncol; $i++)
@@ -382,7 +393,7 @@
             ?>
             <tr><td><input type="submit" value="F&uuml;hre &Auml;nderungen durch!"></td></tr>
             </form>
-            <?PHP
+            <?php
             }
             else
             {
@@ -394,7 +405,7 @@
             <tr><td>
             Hier k&ouml;nnen Sie Bilder hochladen. Im Moment werden JPG, PNG und GIF Dateien unterst&uuml;tzt.
             <form enctype="multipart/form-data" action="" method="post">
-            <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
+            <input type="hidden" name="pid" value="<?php print $pid; ?>">
             <input type="hidden" name="action" value="img_add">
             <input type="file" name="uploaded_img">
             <input type="submit" value="Lade Bild hoch!">
@@ -427,7 +438,7 @@
                 }
                 ?>
                 </select>
-                <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
+                <input type="hidden" name="pid" value="<?php print $pid; ?>">
                 <input type="hidden" name="action" value="ds_del">&nbsp;&nbsp;&nbsp;
                 <input type="submit" value="Ausgew&auml;hltes l&ouml;schen!">
                 </form>
@@ -443,7 +454,7 @@
             <input type="text"     name="ds_path"     value="<?php print $datasheet_path; ?>" size="40" <?php print ($use_datasheet_path ? '' : 'disabled'); ?> ><br>
             <div id="URL" style="float:left">URL</div><div id="file" style="float:left">Dateinamen</div>&nbsp;des hinzuf&uuml;genden Datenblattes:<br>
             <input type="text"   name="ds_url" value="" size="40">
-            <input type="hidden" name="pid"    value="<?PHP print $pid; ?>">
+            <input type="hidden" name="pid"    value="<?php print $pid; ?>">
             <input type="hidden" name="action" value="ds_add">&nbsp;&nbsp;&nbsp;
             <input type="submit" value="Hinzuf&uuml;gen!">
             </form>
@@ -462,7 +473,7 @@
         <form action="" method="get">
             <table>
             <tr><td>
-            <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
+            <input type="hidden" name="pid" value="<?php print $pid; ?>">
             <input type="hidden" name="action" value="part_del">
             </tr>
             <tr>
@@ -479,6 +490,6 @@
 </body>
 </html>
 
-<?PHP
+<?php
     }
 ?>

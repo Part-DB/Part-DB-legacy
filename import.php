@@ -51,16 +51,17 @@
 
 
     // catch data arrays, if defined
-    $active    = ( isset( $_REQUEST['active'])    ? $_REQUEST['active']    : array());
-    $category  = ( isset( $_REQUEST['category'])  ? $_REQUEST['category']  : array());
-    $name      = ( isset( $_REQUEST['name'])      ? $_REQUEST['name']      : array());
-    $nr        = ( isset( $_REQUEST['nr'])        ? $_REQUEST['nr']        : array());
-    $count     = ( isset( $_REQUEST['count'])     ? $_REQUEST['count']     : array());
-    $footprint = ( isset( $_REQUEST['footprint']) ? $_REQUEST['footprint'] : array());
-    $storeloc  = ( isset( $_REQUEST['storeloc'])  ? $_REQUEST['storeloc']  : array());
-    $supplier  = ( isset( $_REQUEST['supplier'])  ? $_REQUEST['supplier']  : array());
-    $sup_part  = ( isset( $_REQUEST['sup_part'])  ? $_REQUEST['sup_part']  : array());
-    $comment   = ( isset( $_REQUEST['comment'])   ? $_REQUEST['comment']   : array());
+    $active      = ( isset( $_REQUEST['active'])      ? $_REQUEST['active']      : array());
+    $category    = ( isset( $_REQUEST['category'])    ? $_REQUEST['category']    : array());
+    $name        = ( isset( $_REQUEST['name'])        ? $_REQUEST['name']        : array());
+    $description = ( isset( $_REQUEST['description']) ? $_REQUEST['description'] : array());
+    $nr          = ( isset( $_REQUEST['nr'])          ? $_REQUEST['nr']          : array());
+    $count       = ( isset( $_REQUEST['count'])       ? $_REQUEST['count']       : array());
+    $footprint   = ( isset( $_REQUEST['footprint'])   ? $_REQUEST['footprint']   : array());
+    $storeloc    = ( isset( $_REQUEST['storeloc'])    ? $_REQUEST['storeloc']    : array());
+    $supplier    = ( isset( $_REQUEST['supplier'])    ? $_REQUEST['supplier']    : array());
+    $sup_part    = ( isset( $_REQUEST['sup_part'])    ? $_REQUEST['sup_part']    : array());
+    $comment     = ( isset( $_REQUEST['comment'])     ? $_REQUEST['comment']     : array());
 
 
     // try to catch the file 
@@ -122,6 +123,7 @@
                 $data_arr[] = array( $index,
                     $part->category,
                     $part->name,
+                    $part->description,
                     (int) $part->stock,
                     $part->footprint,
                     $part->location,
@@ -136,15 +138,16 @@
         // fill the arrays with initial values
         foreach ($data_arr as $key => $data) 
         {
-            $nr[$key]        = isset( $data[0]) ? $data[0] : '';
-            $category[$key]  = isset( $data[0]) ? $data[1] : '';
-            $name[$key]      = isset( $data[1]) ? $data[2] : '';
-            $count[$key]     = isset( $data[2]) ? $data[3] : '';
-            $footprint[$key] = isset( $data[3]) ? $data[4] : '';
-            $storeloc[$key]  = isset( $data[4]) ? $data[5] : '';
-            $supplier[$key]  = isset( $data[5]) ? $data[6] : '';
-            $sup_part[$key]  = isset( $data[6]) ? $data[7] : '';
-            $comment[$key]   = isset( $data[7]) ? $data[8] : '';
+            $nr[$key]          = isset( $data[0]) ? $data[0] : '';
+            $category[$key]    = isset( $data[1]) ? $data[1] : '';
+            $name[$key]        = isset( $data[2]) ? $data[2] : '';
+            $description[$key] = isset( $data[3]) ? $data[3] : '';
+            $count[$key]       = isset( $data[4]) ? $data[4] : '';
+            $footprint[$key]   = isset( $data[5]) ? $data[5] : '';
+            $storeloc[$key]    = isset( $data[6]) ? $data[6] : '';
+            $supplier[$key]    = isset( $data[7]) ? $data[7] : '';
+            $sup_part[$key]    = isset( $data[8]) ? $data[8] : '';
+            $comment[$key]     = isset( $data[9]) ? $data[9] : '';
         }
         
     } // end import_file
@@ -323,7 +326,7 @@
                 $storeloc_id  = location_get_id(  $storeloc[$key]);
                 $supplier_id  = supplier_get_id(  $supplier[$key]);
 
-                part_add( $category_id, $name[ $key], $count[ $key], 0, $comment[ $key], false, $footprint_id, $storeloc_id, $supplier_id, $sup_part[ $key]);
+                part_add( $category_id, $name[ $key], $description[ $key], $count[ $key], 0, $comment[ $key], false, $footprint_id, $storeloc_id, $supplier_id, $sup_part[ $key]);
                        
                 // collect name for reporting
                 $add_part[] = $name[$key];
@@ -349,7 +352,7 @@
         if ( $refreshnav)
         {
             $refreshnav = false;
-            print "parent.frames._nav_frame.location.reload();";		
+            print "parent.frames._nav_frame.location.reload();";
         }
 	?>
 </script>
@@ -392,11 +395,11 @@
     <h2>Beispiel f&uuml;r den Dateiaufbau (CSV)</h2>
     <div class="inner">
         <pre>
-# Kategorie; Name; Anzahl; Footprint; Lagerort; Lieferant; Bestellnummer; Kommentar
-Dioden;1N4004;10;THT;Kiste;Reichelt;1N 4004;DO41, 400V 1A
-Controller;ATMega 8;1;DIP28;Kiste;Reichelt;ATMEGA 8-16 DIP
-Oszillatoren;Quarzoszillator 8 MHz;1;THT;Kiste;Reichelt;OSZI 8,000000
-Schaltkreise;MAX 232;1;DIP16;Kiste;Reichelt;MAX 232 EPE
+# Kategorie; Name; Beschreibung; Anzahl; Footprint; Lagerort; Lieferant; Bestellnummer; Kommentar
+Dioden;1N4004;Siliziumdiode 400V/1A;10;THT;Kiste;Reichelt;1N 4004;DO41, 400V 1A
+Controller;ATMega 8;Mikrocontroller 8kB Flash, 1 kB RAM;1;DIP28;Kiste;Reichelt;ATMEGA 8-16 DIP
+Oszillatoren;Quarzoszillator 8 MHz;;1;THT;Kiste;Reichelt;OSZI 8,000000
+Schaltkreise;MAX 232;Schnittstellenwandler RS232-TTL;1;DIP16;Kiste;Reichelt;MAX 232 EPE
         </pre>
     </div>
     <h2>Beispiel f&uuml;r den Dateiaufbau (XML)</h2>
@@ -408,6 +411,7 @@ Schaltkreise;MAX 232;1;DIP16;Kiste;Reichelt;MAX 232 EPE
   <part>
     <category>Dioden</category>
     <name>1N4004</name>
+    <description>Siliziumdiode 400V/1A</description>
     <stock>10</stock>
     <footprint>THT</footprint>
     <location>Kiste</location>
@@ -418,6 +422,7 @@ Schaltkreise;MAX 232;1;DIP16;Kiste;Reichelt;MAX 232 EPE
   <part>
     <category>Controller</category>
     <name>ATMega 8</name>
+    <description>Mikrocontroller 8kB Flash, 1 kB RAM</description>
     <stock>1</stock>
     <footprint>DIP28</footprint>
     <location>Kiste</location>
@@ -492,6 +497,7 @@ XML;
         <td>#</td>
         <td>Kategorie</td>
         <td>Name</td> 
+        <td>Beschreibung</td>
         <td>Anzahl<br>
         <td>Footprint</td>
         <td>Lagerort</td>
@@ -527,7 +533,11 @@ XML;
 
             // name
             print "<td class=\"tdrow2\" style=\"text-align:left\">";
-            print "<input type=\"text\" style=\"width:80%\" name=\"name[$key]\" size=\"15\" value=\"{$name[$key]}\">{$missing_name[$key]}</td>\n";
+            print "<input type=\"text\" style=\"width:80%\" name=\"name[$key]\" size=\"12\" value=\"{$name[$key]}\">{$missing_name[$key]}</td>\n";
+
+            // description 
+            print "<td class=\"tdrow2\" style=\"text-align:left\">";
+            print "<input type=\"text\" style=\"width:95%\" name=\"description[$key]\" size=\"25\" value=\"{$description[$key]}\"></td>\n";
 
             // count (in stock)
             print "<td class=\"tdrow2\" style=\"text-align:left\">";

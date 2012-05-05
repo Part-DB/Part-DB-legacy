@@ -31,6 +31,7 @@
         $NewDistributor = ( isset( $_REQUEST['AddDistributor'])) ? $_REQUEST['NewDistributor'] : '';
 
         $p_name         = ( isset( $_REQUEST['p_name']))         ? $_REQUEST['p_name']         : '';
+        $p_description  = ( isset( $_REQUEST['p_description']))  ? $_REQUEST['p_description']  : '';
         $p_instock      = ( isset( $_REQUEST['p_instock']))      ? $_REQUEST['p_instock']      : '';
         $p_mininstock   = ( isset( $_REQUEST['p_mininstock']))   ? $_REQUEST['p_mininstock']   : '';
         $p_comment      = ( isset( $_REQUEST['p_comment']))      ? $_REQUEST['p_comment']      : '';
@@ -64,7 +65,7 @@
                 else*/
                 {
                        
-                    $id = part_add( $_REQUEST["cid"], $p_name, $p_instock, $p_mininstock, $p_comment, $p_obsolete, $p_footprint, $p_storeloc, $p_supplier, $p_supplierpartnr);
+                    $id = part_add( $_REQUEST["cid"], $p_name, $p_description, $p_instock, $p_mininstock, $p_comment, $p_obsolete, $p_footprint, $p_storeloc, $p_supplier, $p_supplierpartnr);
                     if ( strlen($_REQUEST["URLDatasheet"]) != 0)
                     {
                         datasheet_add( $id, $_REQUEST["URLDatasheet"]);
@@ -170,6 +171,13 @@
             <td>Name:</td>
             <td>
             <input type="text" name="p_name" value="<?PHP print $p_name ?>" tabindex=\"1\"/>
+            </td>
+            </tr>
+            
+            <tr>
+            <td>Beschreibung:</td>
+            <td>
+            <input type="text" name="p_desciption" value="<?PHP print $p_description ?>">
             </td>
             </tr>
             

@@ -313,7 +313,8 @@
             " parts.comment,".
             " parts.id,".
             " footprints.name,".
-            " parts.instock".
+            " parts.instock,".
+            " parts.description".
             " FROM parts".
             " LEFT JOIN footprints ON (footprints.id = parts.id_footprint) ".
             " WHERE parts.name LIKE ".$kw.
@@ -342,7 +343,7 @@
             print "</td>";
             print "<td class=\"tdrow1\"><a title=\"";
             print "Kommentar: " . smart_unescape($d[1]);
-            print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[2]) ."');\">". smart_unescape($d[0]) ."</a></td>";
+            print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[2]) ."');\">". smart_unescape($d[0]) ."&nbsp;". smart_unescape($d[5]) ."</a></td>";
                 
             print "<td class=\"tdrow1\">".smart_unescape($d[3])."</td>";
             print "<td class=\"tdrow1\">".smart_unescape($d[4])."</td>";
@@ -398,6 +399,7 @@
         $query = "SELECT".
             " parts.id,".
             " parts.name,".
+            " parts.description,".
             " parts.comment,".
             " parts.obsolete,".
             " footprints.name AS 'footprint',".
@@ -433,7 +435,7 @@
             print "<td class=\"tdrow1". ( $data['obsolete'] ? ' backred' : '') ."\"><a title=\"";
             print $data['obsolete'] ? "nicht mehr erh&auml;tlich ". PHP_EOL : "";
             print $data['comment']  ? "Kommentar: ". htmlspecialchars( smart_unescape( $data['comment'])) : "(kein Kommentar)";
-            print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape( $data['name']) ."</a></td>". PHP_EOL;
+            print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape( $data['name']) ."&nbsp;". smart_unescape( $data['description']) ."</a></td>". PHP_EOL;
 
             print "<td class=\"tdrow1\">". PHP_EOL;
             

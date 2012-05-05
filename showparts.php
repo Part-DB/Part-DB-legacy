@@ -85,6 +85,7 @@
             <tr class="trcat">
                 <td></td>
                 <td>Name</td>
+                <td>Beschreibung</td>
                 <td>Vorh./<br>Min.Best.</td>
                 <td>Footprint</td>
                 <td>Lagerort</td>
