@@ -1,0 +1,53 @@
+ - Beschreibung (Was man tun will)
+ - Status (Offen, In Arbeit, Erledigt)
+ - Wer (Wer macht es oder Unassigned)
+ - Eventuell Datum
+
+
+Beschreibung: Datenblätter auf Serververzeichnis ablegen
+Status: Offen
+Wer: unassigned
+
+
+Beschreibung: Uploadfunktion für Footprint-Bilder
+Status: Offen
+Wer: unassigned
+
+
+Beschreibung: alle Tabellen (beim ersten Aufruf) automatisch erzeugen
+Status: Offen
+Wer: unassigned
+
+
+Beschreibung: Etikettendruck
+siehe: http://www.mikrocontroller.net/attachment/116345/Bild1.png
+und: http://www.mikrocontroller.net/attachment/85288/Dsc03369.jpg
+Status: Offen
+Wer: unassigned
+
+
+Beschreibung:  Nachfragen wie "Wirklich löschen?" alternativ per Javascript anstatt
+der Seite als Zwischenschritt. 
+Vielleicht auch alternativ ganz deaktivierbar?
+Status: Offen
+Wer: unassigned
+
+
+Beschreibung: pro Bauteil mehrere Lieferanten und die
+dazugehörigen Bestellnummern und Preise zuordnen können
+siehe: http://www.mikrocontroller.net/topic/135284#2553805
+Status: angefangen
+Wer: bubbles
+
+
+Beschreibung: Bilderanhänge zu Dokumentanhängen umfunktionieren
+Dateiname auf Server wahlweise wie die ursprüngliche Datei
+mit direkt-Upload von Internetadressen wäre noch cool
+Status: Offen
+Wer: unassigned
+
+
+Beschreibung: Footprint Namen anpassen (Real FP Namen), FP Sortirung 
+(eventuel mehrere ordner R,C,L.... wegen der mehrfachen bezeichnungen z.b. bei 0805)
+Status: Offen
+Wer: theborg
