@@ -90,7 +90,7 @@
 
             <?php
             include( "config.php");
-            $preis = str_replace('.', ',', $data['preis']);
+            $preis = str_replace('.', ',', $data['price']);
             ?>
             <tr><td><b>Preis:</b></td><td><?php print smart_unescape( $preis) ." ". $currency; ?> &nbsp;</td></tr>
             <tr><td valign="top"><b>Kommentar:</b></td><td><?php print nl2br( smart_unescape( $data['comment'])); ?>&nbsp;</td></tr>

@@ -407,7 +407,7 @@
             " parts.instock,".
             " storeloc.name AS 'location',".
             " suppliers.name AS 'supplier',".
-            " preise.preis,".
+            " preise.price,".
             " part_device.mountname".
             " FROM parts".
             " JOIN (part_device) ON (parts.id = part_device.id_part)".
@@ -461,19 +461,19 @@
             print "<td class=\"tdrow1\">".smart_unescape($data['location'])."</td>";
             print "<td class=\"tdrow1\">".smart_unescape($data['supplier'])."</td>";
             print "<td class=\"tdrow1\">";
-            if($data['preis'])
-                print smart_unescape($data['preis']);
+            if($data['price'])
+                print smart_unescape($data['price']);
             else
                 print "-.-";
             print "&nbsp".$currency."</td>";
             print "<td class=\"tdrow1\">";
-            if( $data['preis'])
-                print smart_unescape($data['preis'] * $data['quantity']);
+            if( $data['price'])
+                print smart_unescape($data['price'] * $data['quantity']);
             else
                 print "-.-";
             print "&nbsp".$currency."</td>";
             //Build the sum
-            $sumprice += $data['preis'] * $data['quantity'];
+            $sumprice += $data['price'] * $data['quantity'];
             print "<td class=\"tdrow1\"><input type=\"checkbox\" name=\"selected".$rowcount."\"/></td>";
             print "</tr>\n";
         }
@@ -569,7 +569,7 @@
                     " suppliers.name,".
                     " parts.name,".
                     " parts.instock,".
-                    " preise.preis".
+                    " preise.price".
                     " FROM parts".
                     " JOIN (part_device) ON (parts.id = part_device.id_part)".
                     " LEFT JOIN preise ON (preise.part_id = parts.id)".

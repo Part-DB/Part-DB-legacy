@@ -76,7 +76,7 @@
             print "<td class=\"tdrow1\">". smart_unescape( $data['location']) ."</td>". PHP_EOL;
             print "<td class=\"tdrow1\">". smart_unescape( $data['supplier']) ."</td>". PHP_EOL; 
             print "<td class=\"tdrow1\">". smart_unescape( $data['supplierpartnr']) ."</td>". PHP_EOL; 
-            print "<td class=\"tdrow1\">". smart_unescape( $data['preis']) ."</td>". PHP_EOL; 
+            print "<td class=\"tdrow1\">". smart_unescape( $data['price']) ."</td>". PHP_EOL; 
             print "</tr>". PHP_EOL;
         }
         ?>

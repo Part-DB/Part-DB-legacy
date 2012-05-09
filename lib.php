@@ -1220,7 +1220,7 @@
 
     function parts_count_sum_value()
     {
-        $query  = "SELECT sum( preise.preis * parts.instock) AS sum FROM parts".
+        $query  = "SELECT sum( preise.price * parts.instock) AS sum FROM parts".
             " LEFT JOIN preise ON parts.id=preise.part_id;";
         $result = mysql_query( $query) or die( mysql_error());
         $data   = mysql_fetch_assoc( $result);
@@ -1278,8 +1278,8 @@
             " parts.id_storeloc,".
             " parts.id_supplier,".
             " parts.supplierpartnr,".
-            " preise.preis,".
-            " preise.ma,".
+            " preise.price,".
+            " preise.manual_input,".
             " parts.comment,".
             " parts.obsolete,".
             " parts.visible".
@@ -1289,7 +1289,7 @@
             " LEFT JOIN suppliers  ON parts.id_supplier=suppliers.id".
             " LEFT JOIN preise     ON parts.id=preise.part_id".
             " WHERE parts.id=". smart_escape( $pid).
-            " ORDER BY preise.ma DESC LIMIT 1;";
+            " ORDER BY preise.manual_input DESC LIMIT 1;";
         $result = mysql_query( $query) or die( mysql_error());
 
         return( $result);
@@ -1362,7 +1362,7 @@
             " suppliers.name AS 'supplier',". 
             " parts.supplierpartnr,". 
             " parts.comment,".
-            " preise.preis".
+            " preise.price".
             " FROM parts".
             " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
             " LEFT JOIN storeloc ON parts.id_storeloc=storeloc.id".
@@ -1444,7 +1444,7 @@
                 " parts.supplierpartnr,".
                 " parts.instock,parts.mininstock,".
                 " storeloc.name AS 'loc',".
-                " preise.preis".
+                " preise.price".
                 " FROM parts".
                 " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
                 " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
@@ -1465,7 +1465,7 @@
                 " parts.supplierpartnr,".
                 " parts.instock,parts.mininstock,".
                 " storeloc.name AS 'loc',".
-                " preise.preis".
+                " preise.price".
                 " FROM parts".
                 " INNER JOIN pending_orders ON (parts.id=pending_orders.part_id)".
                 " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
@@ -1490,7 +1490,7 @@
                 " parts.instock,".
                 " parts.mininstock,".
                 " storeloc.name AS 'loc',".
-                " preise.preis".
+                " preise.price".
                 " FROM parts".
                 " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
                 " LEFT JOIN suppliers ON parts.id_supplier=suppliers.id".
@@ -1511,7 +1511,7 @@
                 " parts.instock,". 
                 " parts.mininstock,".
                 " storeloc.name AS 'loc',".
-                " preise.preis".
+                " preise.price".
                 " FROM parts".
                 " INNER JOIN pending_orders ON ( parts.id = pending_orders.part_id) ". 
                 " LEFT JOIN footprints ON parts.id_footprint = footprints.id ".
@@ -1543,7 +1543,7 @@
         if ( $supplier_id == 0)
         {
             $query = "SELECT".
-                " sum((parts.mininstock-parts.instock)*preise.preis) AS sum".
+                " sum((parts.mininstock-parts.instock)*preise.price) AS sum".
                 " FROM parts".
                 " LEFT JOIN preise ON parts.id=preise.part_id".
                 " WHERE (parts.instock < parts.mininstock);";
@@ -1551,7 +1551,7 @@
         else
         {
             $query = "SELECT".
-                " sum((parts.mininstock-parts.instock)*preise.preis) AS sum".
+                " sum((parts.mininstock-parts.instock)*preise.price) AS sum".
                 " FROM parts".
                 " LEFT JOIN preise ON parts.id=preise.part_id".
                 " WHERE (parts.instock < parts.mininstock) AND".
@@ -1798,7 +1798,7 @@
             " devices.name,".
             " SUM( part_device.quantity) AS 'parts',".
             " COUNT( part_device.quantity) AS 'pieces',".
-            " SUM( preise.preis*part_device.quantity) AS 'value'".
+            " SUM( preise.price*part_device.quantity) AS 'value'".
             " FROM devices".
             " LEFT JOIN part_device ON (devices.id = part_device.id_device)".
             " LEFT JOIN preise ON (preise.part_id = part_device.id_part) ".
@@ -1816,7 +1816,7 @@
         
     function price_add( $part_id, $price)
     {
-        $query = "INSERT INTO preise (part_id, ma, preis, t) VALUES (". smart_escape( $part_id) .", 1, ". smart_escape( $price) .", NOW());";
+        $query = "INSERT INTO preise (part_id, manual_input, price, last_update) VALUES (". smart_escape( $part_id) .", 1, ". smart_escape( $price) .", NOW());";
         mysql_query( $query) or die( mysql_error());
         return( mysql_insert_id());
     }
@@ -1830,7 +1830,7 @@
 
     function price_select( $pid)
     {
-        $query = "SELECT id, preis, ma FROM preise WHERE part_id=". smart_escape( $pid) ." ORDER BY ma DESC;";
+        $query = "SELECT id, price, manual_input FROM preise WHERE part_id=". smart_escape( $pid) ." ORDER BY manual_input DESC;";
         $result = mysql_query( $query) or die( mysql_error());
         return( $result);
     }

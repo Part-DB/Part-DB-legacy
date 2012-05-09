@@ -297,7 +297,7 @@ try:
 		supplierPartNr = part[3].strip()
  
  		if opt_missingOnly:
-			cursor.execute("SELECT preis FROM preise WHERE part_id=%s" % partId)
+			cursor.execute("SELECT price FROM preise WHERE part_id=%s" % partId)
 			price = cursor.fetchone()
 			if price is not None:
 				if float(price[0]) > 0.001:
@@ -318,14 +318,14 @@ try:
 		if price > 0.001 or opt_override:
 			cursor.execute("DELETE FROM preise WHERE part_id=%d LIMIT 1;" % partId)
 			if price > 0.001:
-				cursor.execute("INSERT INTO preise (part_id,ma,preis,t) VALUES (%s, 1, %f, NOW());" %\
+				cursor.execute("INSERT INTO preise (part_id,manual_input,price,last_update) VALUES (%s, 0, %f, NOW());" %\
 					       (partId, price))
 			else:
 				print "Deleted price for part %s" % partName
 		print ""
 
 	if 0: # Debug dump
-		cursor.execute("SELECT id,part_id,ma,preis FROM preise")
+		cursor.execute("SELECT id,part_id,manual_input,price FROM preise")
 		for price in cursor.fetchall():
 			print price
 

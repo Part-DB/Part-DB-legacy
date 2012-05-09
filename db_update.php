@@ -21,7 +21,7 @@
     $Id$
 */
 
-  $sollDBVersion = 10; // Diese Version erwarten wir. Darf nur Incrementiert werden !
+  $sollDBVersion = 11; // Diese Version erwarten wir. Darf nur Incrementiert werden !
                        // Achtung, diese Nummer-"1" muss es in der Funktion setDBUpdateSteps()
                        // geben, sonst wird mit einem Fehler abgebrochen !
 
@@ -1122,6 +1122,14 @@
       case 9:
         $updateSteps[] = "ALTER TABLE `parts` ADD `description` mediumtext AFTER `name`;";
         $updateSteps[] = "ALTER TABLE `parts` ADD `visible`     boolean NOT NULL AFTER `obsolete`;";
+        break;
+
+      case 10:
+        $updateSteps[] = "ALTER TABLE `preise` CHANGE COLUMN `t` `last_update` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';";
+        $updateSteps[] = "ALTER TABLE `preise` CHANGE COLUMN `ma` `manual_input` tinyint(1) NOT NULL DEFAULT '0';";
+        $updateSteps[] = "ALTER TABLE `preise` CHANGE COLUMN `preis` `price` decimal(6,2) NOT NULL DEFAULT '0.00';";
+        $updateSteps[] = "ALTER TABLE `preise` ADD `id_supplier` int(11) NOT NULL DEFAULT '0' AFTER `part_id`;";
+        $updateSteps[] = "ALTER TABLE `preise` ADD `supplierpartnr` mediumtext NOT NULL AFTER `id_supplier`;";
         break;
 
 /*

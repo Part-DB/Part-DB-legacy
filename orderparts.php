@@ -185,7 +185,7 @@
                                             $data['supplier'],       //$SupName
                                             $data['diff'],           //$Quantity
                                             $data['instock'],        //$Instock
-                                            $data['preis']);         //$Price
+                                            $data['price']);         //$Price
                 }
                 print "</textarea>". PHP_EOL;
             }
