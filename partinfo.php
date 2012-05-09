@@ -69,10 +69,11 @@
             ?>
             <tr><td><b>Name:</b></td><td><?php         print smart_unescape( $data['name']); ?></td></tr>
             <tr><td><b>Beschreibung:</b></td><td><?php print smart_unescape( $data['description']); ?></td></tr>
+            <tr><td><b>Kategorie:</b></td><td><?php    print part_get_category_path( $data['id_category']); ?></td></tr>
             <tr><td><b>Vorhanden:</b></td><td><?php    print smart_unescape( $data['instock']); ?></td></tr>
             <tr><td><b>Min. Bestand:</b></td><td><?php print smart_unescape( $data['mininstock']); ?></td></tr>
 
-            <tr><td><b>Footprint:</b></td><td><?php    print smart_unescape( $data['footprint']); ?>
+            <tr><td><b>Footprint:</b></td><td><?php    print part_get_footprint_path( $data['id_footprint']); ?>
             <?php
             // footprint
             $link = footprint_picture_exists( smart_unescape( $data['footprint']));
@@ -83,7 +84,7 @@
             ?>
             </td></tr>
 
-            <tr><td><b>Lagerort:</b></td><td><?php    print smart_unescape( $data['location']). (( $data['location_is_full'] == 1 ) ? ' [voll]' : ''); ?></td></tr>
+            <tr><td><b>Lagerort:</b></td><td><?php    print part_get_location_path( $data['id_storeloc']). (( $data['location_is_full'] == 1 ) ? ' [voll]' : ''); ?></td></tr>
             <tr><td><b>Lieferant:</b></td><td><?php   print smart_unescape( $data['supplier']); ?></td></tr>
             <tr><td><b>Bestell-Nr.:</b></td><td><?php print smart_unescape( $data['supplierpartnr']) ?></td></tr>
             <tr><td><b>obsolet:</b></td><td><?php     print $data['obsolete'] ? 'ja' : 'nein'; ?></td></tr>

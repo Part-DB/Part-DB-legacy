@@ -115,6 +115,9 @@
     parts_order_sum
     part_get_name
     part_get_category_id
+    part_get_category_path
+    part_get_location_path
+    part_get_footprint_path
 
     picture_add
     picture_delete
@@ -122,7 +125,8 @@
     picture_set_default
     picture_exists
 
-    device_build_tree
+    device_buildtree
+    devices_build_navtree
     device_add
     device_delete
     device_rename
@@ -347,9 +351,9 @@
         // instock/ mininstock
         print "<td class=\"tdrow2\">". smart_unescape( $data['instock']) ."/". smart_unescape( $data['mininstock']) ."</td>\n";
         // footprint
-        print "<td class=\"tdrow3\">". smart_unescape( $data['footprint']) ."</td>\n";
+        print "<td class=\"tdrow3\"><div title=\"". part_get_footprint_path( $data['id_footprint']) ."\">". smart_unescape( $data['footprint']) ."</div></td>\n";
         // store location
-        print "<td class=\"tdrow4\">". smart_unescape( $data['location']) . "</td>\n";
+        print "<td class=\"tdrow4\"><div title=\"". part_get_location_path( $data['id_storeloc']) ."\">". smart_unescape( $data['location']) . "</div></td>\n";
         // id
 		print "<td class=\"tdrow4 idclass\">". smart_unescape( $data['id']) . "</td>\n";
         // datasheet links
@@ -1277,6 +1281,7 @@
             " parts.id_footprint,".
             " parts.id_storeloc,".
             " parts.id_supplier,".
+            " parts.id_category,".
             " parts.supplierpartnr,".
             " preise.price,".
             " preise.manual_input,".
@@ -1307,7 +1312,9 @@
             " parts.instock,".
             " parts.mininstock,".
             " footprints.name AS 'footprint',".
+            " parts.id_footprint,".
             " storeloc.name AS 'location',".
+            " parts.id_storeloc,".
             " parts.comment,".
             " parts.obsolete,".
             " parts.supplierpartnr".
@@ -1585,6 +1592,69 @@
             $cat  = $data['id_category'];
         }
         return( $cat);
+    }
+
+    // determine a list of parent categories for an given part
+    function part_get_category_path( $category_id)
+    {
+        $id = $category_id;
+        $res = "";
+
+        while ( $id > 0 )
+        {
+            $query = "SELECT name, parentnode FROM categories".
+                " WHERE id=". $id .";";
+            $result = mysql_query( $query) or die( mysql_error());
+            while ( $data = mysql_fetch_assoc( $result))
+            {
+                 
+                $res = ( strlen( $res) > 0) ? $data['name']. " &rarr; ". $res : $data['name'];
+                $id  = $data['parentnode'];
+            }
+        }
+        return( $res);
+    }
+
+    // determine a hieraric list of locations for an given part
+    function part_get_location_path( $location_id)
+    {
+        $id = $location_id;
+        $res = "";
+
+        while ( $id > 0 )
+        {
+            $query = "SELECT name, parentnode FROM storeloc".
+                " WHERE id=". $id .";";
+            $result = mysql_query( $query) or die( mysql_error());
+            while ( $data = mysql_fetch_assoc( $result))
+            {
+                 
+                $res = ( strlen( $res) > 0) ? $data['name']. " &rarr; ". $res : $data['name'];
+                $id  = $data['parentnode'];
+            }
+        }
+        return( $res);
+    }
+
+    // determine a hieraric list of footprints for an given id
+    function part_get_footprint_path( $footprint_id)
+    {
+        $id = $footprint_id;
+        $res = "";
+
+        while ( $id > 0 )
+        {
+            $query = "SELECT name, parentnode FROM footprints".
+                " WHERE id=". $id .";";
+            $result = mysql_query( $query) or die( mysql_error());
+            while ( $data = mysql_fetch_assoc( $result))
+            {
+                 
+                $res = ( strlen( $res) > 0) ? $data['name']. " &rarr; ". $res : $data['name'];
+                $id  = $data['parentnode'];
+            }
+        }
+        return( $res);
     }
 
 
