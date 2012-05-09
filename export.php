@@ -10,6 +10,7 @@
 
     $keyword    = smart_escape_for_search( $_REQUEST['keyword']);
     $search_nam = isset( $_REQUEST['search_nam']) ? $_REQUEST['search_nam'] == 'true' : false;
+    $search_cat = isset( $_REQUEST['search_cat']) ? $_REQUEST['search_cat'] == 'true' : false;
     $search_des = isset( $_REQUEST['search_des']) ? $_REQUEST['search_des'] == 'true' : false;
     $search_com = isset( $_REQUEST['search_com']) ? $_REQUEST['search_com'] == 'true' : false;
     $search_sup = isset( $_REQUEST['search_sup']) ? $_REQUEST['search_sup'] == 'true' : false;
@@ -17,7 +18,7 @@
     $search_loc = isset( $_REQUEST['search_loc']) ? $_REQUEST['search_loc'] == 'true' : false;
     $search_fpr = isset( $_REQUEST['search_fpr']) ? $_REQUEST['search_fpr'] == 'true' : false;
 
-    $result = parts_select_search( $keyword, $search_nam, $search_des, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr, true);
+    $result = parts_select_search( $keyword, $search_nam, $search_cat, $search_des, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr, true);
 
     $filename = "partdb_export_selection_". $_REQUEST["keyword"]; 
 

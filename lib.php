@@ -1377,17 +1377,18 @@
         return( $result);
     }
 
-    function parts_select_search( $keyword, $search_nam, $search_des, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr, $export = false)
+    function parts_select_search( $keyword, $search_nam, $search_cat, $search_des, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr, $export = false)
     {
         // build search strings
         $query_nam = ( $search_nam) ? " OR (parts.name LIKE ".           $keyword.")" : "";
+        $query_cat = ( $search_cat) ? " OR (categories.name  LIKE ".     $keyword.")" : "";
         $query_des = ( $search_des) ? " OR (parts.description LIKE ".    $keyword.")" : "";
         $query_com = ( $search_com) ? " OR (parts.comment LIKE ".        $keyword.")" : ""; 
         $query_sup = ( $search_sup) ? " OR (suppliers.name LIKE ".       $keyword.")" : ""; 
         $query_snr = ( $search_snr) ? " OR (parts.supplierpartnr LIKE ". $keyword.")" : ""; 
         $query_loc = ( $search_loc) ? " OR (storeloc.name LIKE ".        $keyword.")" : ""; 
         $query_fpr = ( $search_fpr) ? " OR (footprints.name LIKE ".      $keyword.")" : ""; 
-        $search = $query_nam. $query_des. $query_com. $query_sup. $query_snr. $query_loc. $query_fpr;
+        $search = $query_nam. $query_cat. $query_des. $query_com. $query_sup. $query_snr. $query_loc. $query_fpr;
         $query = ( ! $export) ?
             "SELECT ".
             " parts.id,".
@@ -1405,6 +1406,7 @@
             " LEFT JOIN footprints ON parts.id_footprint=footprints.id".
             " LEFT JOIN storeloc   ON parts.id_storeloc=storeloc.id".
             " LEFT JOIN suppliers  ON parts.id_supplier=suppliers.id".
+            " LEFT JOIN categories ON parts.id_category=categories.id".
             " WHERE FALSE ". $search.
             " ORDER BY parts.id_category, parts.name ASC;" 
             :

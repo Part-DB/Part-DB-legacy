@@ -33,6 +33,7 @@
     $pid        = isset( $_REQUEST['pid'])        ? $_REQUEST['pid'] : '';
     $keyword    = isset( $_REQUEST['keyword'])    ? $_REQUEST['keyword'] : '';
     $search_nam = isset( $_REQUEST['search_nam']) ? $_REQUEST['search_nam'] == 'true' : false;
+    $search_cat = isset( $_REQUEST['search_cat']) ? $_REQUEST['search_cat'] == 'true' : false;
     $search_des = isset( $_REQUEST['search_des']) ? $_REQUEST['search_des'] == 'true' : false;
     $search_com = isset( $_REQUEST['search_com']) ? $_REQUEST['search_com'] == 'true' : false;
     $search_sup = isset( $_REQUEST['search_sup']) ? $_REQUEST['search_sup'] == 'true' : false;
@@ -89,6 +90,7 @@
                 <?php
                     print "<input type='hidden' name='keyword' value='". $keyword ."'>\n";
                     if ( $search_nam) { print "<input type='hidden' name='search_nam' value='true'>\n"; }
+                    if ( $search_cat) { print "<input type='hidden' name='search_cat' value='true'>\n"; }
                     if ( $search_des) { print "<input type='hidden' name='search_des' value='true'>\n"; }
                     if ( $search_com) { print "<input type='hidden' name='search_com' value='true'>\n"; } 
                     if ( $search_sup) { print "<input type='hidden' name='search_sup' value='true'>\n"; } 
@@ -110,7 +112,7 @@
         <table>
         <?php
             $keyword_esc = smart_escape_for_search( $keyword);
-            $result      = parts_select_search( $keyword_esc, $search_nam, $search_des, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr);
+            $result      = parts_select_search( $keyword_esc, $search_nam, $search_cat, $search_des, $search_com, $search_sup, $search_snr, $search_loc, $search_fpr);
         
             $row_odd = true; // $row_odd is used for the alternating bg colors
             $prevcat = -1;   // $prevcat remembers the previous category. -1 is
