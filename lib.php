@@ -1404,7 +1404,9 @@
             " parts.instock,".
             " parts.mininstock,".
             " footprints.name AS 'footprint',".
-            " storeloc.name   AS 'location',".
+            " parts.id_footprint,".
+            " storeloc.name AS 'location',".
+            " parts.id_storeloc,".
             " parts.comment,".
             " parts.obsolete,".
             " parts.id_category,".
