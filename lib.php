@@ -1599,20 +1599,21 @@
     // determine a list of parent categories for an given part
     function part_get_category_path( $category_id)
     {
-        $id = $category_id;
-        $res = "";
+        $id    = $category_id;
+        $res   = "";
+        $count = 0;
 
-        while ( $id > 0 )
+        while ( ($id > 0) and ($count < 10))
         {
             $query = "SELECT name, parentnode FROM categories".
                 " WHERE id=". $id .";";
             $result = mysql_query( $query) or die( mysql_error());
             while ( $data = mysql_fetch_assoc( $result))
             {
-                 
                 $res = ( strlen( $res) > 0) ? $data['name']. " &rarr; ". $res : $data['name'];
                 $id  = $data['parentnode'];
             }
+            $count++;
         }
         return( $res);
     }
@@ -1620,20 +1621,21 @@
     // determine a hieraric list of locations for an given part
     function part_get_location_path( $location_id)
     {
-        $id = $location_id;
-        $res = "";
+        $id    = $location_id;
+        $res   = "";
+        $count = 0;
 
-        while ( $id > 0 )
+        while ( ($id > 0) and ($count < 10))
         {
             $query = "SELECT name, parentnode FROM storeloc".
                 " WHERE id=". $id .";";
             $result = mysql_query( $query) or die( mysql_error());
             while ( $data = mysql_fetch_assoc( $result))
             {
-                 
                 $res = ( strlen( $res) > 0) ? $data['name']. " &rarr; ". $res : $data['name'];
                 $id  = $data['parentnode'];
             }
+            $count++;
         }
         return( $res);
     }
@@ -1641,20 +1643,21 @@
     // determine a hieraric list of footprints for an given id
     function part_get_footprint_path( $footprint_id)
     {
-        $id = $footprint_id;
-        $res = "";
+        $id    = $footprint_id;
+        $res   = "";
+        $count = 0;
 
-        while ( $id > 0 )
+        while ( ($id > 0) and ($count < 10))
         {
             $query = "SELECT name, parentnode FROM footprints".
                 " WHERE id=". $id .";";
             $result = mysql_query( $query) or die( mysql_error());
             while ( $data = mysql_fetch_assoc( $result))
             {
-                 
                 $res = ( strlen( $res) > 0) ? $data['name']. " &rarr; ". $res : $data['name'];
                 $id  = $data['parentnode'];
             }
+            $count++;
         }
         return( $res);
     }
