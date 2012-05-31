@@ -177,7 +177,7 @@
             <tr>
             <td>Beschreibung:</td>
             <td>
-            <input type="text" name="p_desciption" value="<?PHP print $p_description ?>">
+            <input type="text" name="p_description" value="<?PHP print $p_description ?>">
             </td>
             </tr>
             
