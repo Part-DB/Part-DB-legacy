@@ -48,7 +48,7 @@
             </tr>
             <tr>
                 <td><b>ALU-Elko</b><br>Der obere Wert ist die Kapazitiv in &mu;F,<br>der untere die Spannung in Volt.</td>
-                <td><img src="label/220.png" class="labelbild" alt=""></td>
+                <td><img src="label/220.png" class="labelbild" alt="">220&mu;F/16V</td>
             </tr>
         </table>
     </div>
