@@ -158,14 +158,14 @@ print $banner;
         Forum: F&uuml;r Fragen rund um die Part-DB gibt es einen Thread auf <a href="http://www.mikrocontroller.net/topic/135284">mikrocontroller.net</a><br>
         Wiki: Hilfe zur Installation gibt es im <a href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Wiki</a><br>
         <br>
-        <strong>ajfrenzel</strong> - Committer/Bugfix<br>
-        <strong>tgrziwa</strong> - Committer/Bugfix<br>
-        <strong>d.lipschinski</strong> - Committer/Bugfix/Neue Funktionen<br>
-        <strong>Michael Buesch</strong> - Reichelt/Pollin Preissuch Script<br>
-        <strong>bubbles.red</strong> - Committer/Bugfix/Neue Funktionen<br>
-        <strong>Matthias Wei&szlig;er</strong> f&uuml;r EAGLE3D und dem gro&szlig;artigen Bauteile Renderscript (eagle3d.py)<br> 
-        <strong>Urban B.</strong> - neue Footprints<br>
-        <strong>Andr&eacute; Althaus</strong> - neue Funktionen
+        <tr><td><strong>ajfrenzel</strong></td><td>Committer/Bugfix</td></tr><br>
+        <tr><td><strong>tgrziwa</strong></td><td>Committer/Bugfix</td></tr><br>
+        <tr><td><strong>d.lipschinski</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr><br>
+        <tr><td><strong>Michael Buesch</strong></td><td>Reichelt/Pollin Preissuch Script</td></tr><br>
+        <tr><td><strong>bubbles.red</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr><br>
+        <tr><td><strong>Matthias Wei&szlig;er</strong></td><td>EAGLE3D / Bauteile Renderscript (eagle3d.py)</td></tr><br> 
+        <tr><td><strong>Urban B.</strong></td><td>neue Footprints</td></tr><br>
+        <tr><td><strong>Andr&eacute; Althaus</strong></td><td>neue Funktionen</td></tr>
     </div>
 </div>
 
@@ -182,7 +182,7 @@ if (! $disable_update_list) {
             $rss_array  = explode ( "<entry>", $rss_file );
             
             // show only the last actual versions
-            $count      = 3;
+            $count      = 4;
             foreach ( $rss_array as $string ) 
             {
                 // show all lines from rss feed
