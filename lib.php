@@ -373,8 +373,10 @@
         print "<a title=\"Reichelt.de\" href=\"http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=". urlencode( smart_unescape( $searchfor)) ."\" target=\"_blank\">".
             "<img class=\"companypic\" src=\"img/partdb/reichelt.png\" alt=\"logo\">".
             "</a>\n";
-        // without icons
-        print "<a href=\"http://search.datasheetcatalog.net/key/". urlencode( smart_unescape( $data['name'])) ."\" target=\"_blank\">DC </a>\n";
+        
+        print "<a title=\"Datasheetcatalog.net\" href=\"http://search.datasheetcatalog.net/key/". urlencode( smart_unescape( $data['name'])) ."\" target=\"_blank\">".
+            "<img class=\"companypic\" src=\"img/partdb/dc.png\" alt=\"logo\">". 
+            "</a>\n";
         // show local datasheet if availible
         $ds_data = mysql_fetch_assoc( datasheet_select( $data['id']));
         if ( ! empty( $ds_data['datasheeturl']) )
