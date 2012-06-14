@@ -44,6 +44,10 @@
     $hide_id = false;
 
 
+    /* hide minimum in stock in table views */
+    $hide_mininstock = false;
+
+
     /* set size and type of dialog */
     $use_modal_dialog = true;
     $dialog_width     = 680;

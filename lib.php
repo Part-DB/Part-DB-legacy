@@ -146,7 +146,6 @@
     
 */
     
-
     /*
      * debug_print is used for printing the SQL queries
      * before submitting the queries to the DB. The
@@ -327,7 +326,7 @@
             'location'
 
     */
-    function print_table_row( $row_odd, $data)
+    function print_table_row( $row_odd, $data, $hide_mininstock = false)
     
     {
         // the alternating background colors are created here
@@ -349,7 +348,14 @@
         print smart_unescape( $data['description']) ."</td>\n";
 
         // instock/ mininstock
-        print "<td class=\"tdrow2\">". smart_unescape( $data['instock']) ."/". smart_unescape( $data['mininstock']) ."</td>\n";
+        if ( $hide_mininstock)
+        {
+            print "<td class=\"tdrow2\"><div title=\"min. Bestand: ". smart_unescape( $data['mininstock']) ."\">". smart_unescape( $data['instock']) ."</div></td>\n";
+        }
+        else
+        {
+            print "<td class=\"tdrow2\">". smart_unescape( $data['instock']) ."/". smart_unescape( $data['mininstock']) ."</td>\n";
+        }
         // footprint
         print "<td class=\"tdrow3\"><div title=\"". part_get_footprint_path( $data['id_footprint']) ."\">". smart_unescape( $data['footprint']) ."</div></td>\n";
         // store location
