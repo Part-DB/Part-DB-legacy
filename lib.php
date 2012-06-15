@@ -305,7 +305,7 @@
             else
             {
                 // dummy
-                print '<img src="img/partdb/dummytn.png" alt="">';
+                print "<img class=\"hoverpic\" src=\"img/partdb/dummytn.png\" alt=\"\">";
             }
         }
     } // end function
