@@ -158,14 +158,16 @@ print $banner;
         Forum: F&uuml;r Fragen rund um die Part-DB gibt es einen Thread auf <a href="http://www.mikrocontroller.net/topic/135284">mikrocontroller.net</a><br>
         Wiki: Hilfe zur Installation gibt es im <a href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Wiki</a><br>
         <br>
-        <tr><td><strong>ajfrenzel</strong></td><td>Committer/Bugfix</td></tr><br>
-        <tr><td><strong>tgrziwa</strong></td><td>Committer/Bugfix</td></tr><br>
-        <tr><td><strong>d.lipschinski</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr><br>
-        <tr><td><strong>Michael Buesch</strong></td><td>Reichelt/Pollin Preissuch Script</td></tr><br>
-        <tr><td><strong>bubbles.red</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr><br>
-        <tr><td><strong>Matthias Wei&szlig;er</strong></td><td>EAGLE3D / Bauteile Renderscript (eagle3d.py)</td></tr><br> 
-        <tr><td><strong>Urban B.</strong></td><td>neue Footprints</td></tr><br>
+        <table>
+        <tr><td><strong>ajfrenzel</strong></td><td>Committer/Bugfix</td></tr>
+        <tr><td><strong>tgrziwa</strong></td><td>Committer/Bugfix</td></tr>
+        <tr><td><strong>d.lipschinski</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr>
+        <tr><td><strong>Michael Buesch</strong></td><td>Reichelt/Pollin Preissuch Script</td></tr>
+        <tr><td><strong>bubbles.red</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr>
+        <tr><td><strong>Matthias Wei&szlig;er</strong></td><td>EAGLE3D / Bauteile Renderscript (eagle3d.py)</td></tr> 
+        <tr><td><strong>Urban B.</strong></td><td>neue Footprints</td></tr>
         <tr><td><strong>Andr&eacute; Althaus</strong></td><td>neue Funktionen</td></tr>
+        </table>
     </div>
 </div>
 
