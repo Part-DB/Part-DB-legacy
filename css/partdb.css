@@ -121,39 +121,46 @@
 }
 .tdrow0 {
 	font-size: 12px;
-    position: relative;
-    display: block;
+	text-align: center;
+	position: relative;
+	display: block;
 }
 .tdrowred {
 	font-size: 12px;
 	color: #ff0000;
+	text-align: center;
 }
 .tdrow1 {
 	font-size: 12px;
 	text-align: left;
+	text-align: center;
 }
 .tdrow2 {
 	font-size: 12px;
 	text-align: right;
+	text-align: center;
 }
 .tdrow3 {
 	font-size: 12px;
 	text-align: right;
+	text-align: center;
 }
 .tdrow4 {
 	font-size: 12px;
 	text-align: right;
+	text-align: center;
 }
 .tdrow5 {
 	font-size: 12px;
+	text-align: center;
 }
 .tdrow6 {
 	font-size: 12px;
-    text-align: center;
+	text-align: center;
 }
 .tdrow7 {
 	font-size: 12px;
-    text-align: center;
+	text-align: center;
 }
 
 .catbild 
@@ -168,14 +175,14 @@
 { 
 	width: 20px;
 	height: 15px;
-    display: inline;
+	display: inline;
 }
 
 .hoverpic
 { 
 	width: 20px;
 	height: 15px;
-    display: block;
+	display: block;
 }
 
 a:hover .hoverpic
@@ -254,13 +261,13 @@ a:active {
     width: 18em;
     padding: 2px;
 }
+
 .search_selection p
 {
     margin: 0px;
     width: 9em;
     float: left;
 }
-
 .clear 
 {
     height: 1px;
