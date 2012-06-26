@@ -176,6 +176,7 @@
 	width: 20px;
 	height: 15px;
 	display: inline;
+	text-align: center;
 }
 
 .hoverpic
@@ -189,13 +190,13 @@ a:hover .hoverpic
 {
 	width: 240px;
 	height: 180px;
-    display: block;
-    position: absolute;
-    bottom: -15px;
-    left: 3px;
-    z-index: 1;
-    background: #ffffff;
-    border: 1px solid #800000;
+	display: block;
+	position: absolute;
+	bottom: -15px;
+	left: 3px;
+	z-index: 1;
+	background: #ffffff;
+	border: 1px solid #800000;
 }
 
 
