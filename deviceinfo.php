@@ -403,6 +403,7 @@
             " parts.comment,".
             " parts.obsolete,".
             " footprints.name AS 'footprint',".
+            " footprints.filename AS 'footprint_filename',".
             " part_device.quantity,".
             " parts.instock,".
             " storeloc.name AS 'location',".
@@ -429,7 +430,7 @@
             print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">". PHP_EOL;
             
             print "<td class=\"tdrow0\">";
-            print_table_image( $data['id'], $data['name'], $data['footprint']);
+            print_table_image( $data['id'], $data['name'], $data['footprint_filename']);
             print "</td>". PHP_EOL;
             
             print "<td class=\"tdrow1". ( $data['obsolete'] ? ' backred' : '') ."\"><a title=\"";

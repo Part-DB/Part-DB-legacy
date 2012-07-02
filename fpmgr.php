@@ -33,17 +33,18 @@
      * this is the dispatcher ...
      */
     $action = 'default';
-    if ( isset( $_REQUEST["add"]))        { $action = 'add';}
-    if ( isset( $_REQUEST["delete"]))     { $action = 'delete';}
-    if ( isset( $_REQUEST["rename"]))     { $action = 'rename';}
-    if ( isset( $_REQUEST["new_parent"])) { $action = 'new_parent';}
+    if ( isset( $_REQUEST["add"]))           { $action = 'add';}
+    if ( isset( $_REQUEST["delete"]))        { $action = 'delete';}
+    if ( isset( $_REQUEST["rename"]))        { $action = 'rename';}
+    if ( isset( $_REQUEST["new_filename"]))  { $action = 'new_filename';}
+    if ( isset( $_REQUEST["new_parent"]))    { $action = 'new_parent';}
 
     $footprint_sel = isset( $_REQUEST["footprint_sel"]) ? $_REQUEST["footprint_sel"] : -1;
     $parentnode    = isset( $_REQUEST["parentnode"])    ? $_REQUEST["parentnode"] : 0;
 
     if ( $action == 'add')
     {
-        footprint_add( $_REQUEST["new_footprint"], $parentnode);
+        footprint_add( $_REQUEST["new_footprint"], $_REQUEST["new_footprint_filename"], $parentnode);
     }
    
 
@@ -93,6 +94,10 @@
         footprint_rename( $footprint_sel, $_REQUEST["new_name"]);
     }
    
+    if ( $action == 'new_filename')
+    {
+        footprint_new_filename( $footprint_sel, $_REQUEST["new_filename_edit"]);
+    }
 
     if ( $action == 'new_parent')
     {
@@ -101,6 +106,7 @@
 
     $data       = footprint_select( $footprint_sel);
     $name       = $data['name'];
+    $filename   = $data['filename'];
     $parentnode = $data['parentnode'];
 
     $size       = min( footprint_count(), 30);
@@ -136,9 +142,15 @@
                     </td>
                 </tr>
                 <tr>
-                    <td>Neuer Footprint:</td>
+                    <td>Neuer Footprint-Name:</td>
                     <td>
                         <input type="text"     name="new_footprint">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Neuer Footprint-Dateiname:</td>
+                    <td>
+                        <input type="text"     name="new_footprint_filename">
                         <input type="submit"   name="add" value="Anlegen">
                     </td>
                 </tr>
@@ -155,7 +167,7 @@
             <table>
                 <tr>
                     <td rowspan="3">
-                        Zu bearbeitenden Footprint w&auml;hlen:<br>
+                        Zu bearbeitenden <br> Footprint w&auml;hlen:<br>
                         <select name="footprint_sel" size="<?php print $size;?>" onChange="this.form.submit()">
                         <?php footprint_build_tree( 0, 0, $footprint_sel); ?>
                         </select>
@@ -164,6 +176,13 @@
                         Neuer Name:<br>
                         <input type="text"   name="new_name" value="<?php print $name; ?>">
                         <input type="submit" name="rename" value="Umbenennen">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Neuer Dateiname:<br>
+                        <input type="text"   name="new_filename_edit" value="<?php print $filename; ?>">
+                        <input type="submit" name="new_filename" value="Umbenennen">
                     </td>
                 </tr>
                 <tr>

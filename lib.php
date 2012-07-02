@@ -50,6 +50,7 @@
     footprint_del
     footprint_rename
     footprint_find_child_nodes
+    footprint_new_filename
     footprint_new_parent
     footprint_count
     footprint_select
@@ -283,7 +284,7 @@
      * 2. use footprint (if exists)
      * 3. give dummy image
      */
-    function print_table_image( $id, $name, $footprint)
+    function print_table_image( $id, $name, $footprint_filename)
     {
         if ( picture_exists( $id))
         {
@@ -294,7 +295,7 @@
         }
         else
         {
-            $link = footprint_picture_exists( smart_unescape( $footprint));
+            $link = footprint_picture_exists( smart_unescape( $footprint_filename));
             if ( $link)
             {
                 // footprint
@@ -334,7 +335,7 @@
         
         // Pictures
         print "<td class=\"tdrow0\">";
-        print_table_image( $data['id'], $data['name'], $data['footprint']);
+        print_table_image( $data['id'], $data['name'], $data['footprint_filename']);
         print "</td>\n";
 
         // comment
@@ -552,10 +553,11 @@
         }
     }
     
-    function footprint_add( $new, $parent_node = 0)
+    function footprint_add( $name, $filename, $parent_node = 0)
     {
-        $query = "INSERT INTO footprints (name, parentnode) VALUES (".
-            smart_escape( $new) .",".
+        $query = "INSERT INTO footprints (name, filename, parentnode) VALUES (".
+            smart_escape( $name) .",".
+            smart_escape( $filename) .",".
             smart_escape( $parent_node) .");";
         mysql_query( $query) or die( mysql_error());
         return( mysql_insert_id());
@@ -607,6 +609,12 @@
         return( $ret_val);
     }
 
+    function footprint_new_filename( $id, $new_filename)
+    {
+        $query = "UPDATE footprints SET filename=". smart_escape( $new_filename) . " WHERE id=". smart_escape( $id) ." LIMIT 1";
+        mysql_query( $query) or die( mysql_error());
+    }
+
     function footprint_new_parent( $id, $new_parent)
     {
         // check if new parent is not anywhere in a child node
@@ -628,7 +636,7 @@
 
     function footprint_select( $id)
     {
-        $query  = "SELECT name, parentnode FROM footprints".
+        $query  = "SELECT name, filename, parentnode FROM footprints".
             " WHERE id=". smart_escape( $id) .";";
         $result = mysql_query( $query) or die( mysql_error());
         return( mysql_fetch_assoc( $result));
@@ -666,7 +674,7 @@
      * result: path and filename if succesful
      *         false             if not exist
      */
-    function footprint_picture_exists( $footprint)
+    function footprint_picture_exists( $filename)
     {
         // workaround for php 4 with missing glob_recursive
         if ( ! function_exists('glob_recursive'))
@@ -684,7 +692,7 @@
                         if ( is_dir( $diritem))
                         {
                             // search in directory for png file
-                            $result = glob( $diritem. '/'. $footprint. '.png');
+                            $result = glob( $diritem. '/'. $filename. '.png');
                             if ($result)
                                 return $result[0];
 
@@ -698,7 +706,7 @@
             return false;
         }
 
-        $res = glob_recursive( "tools/footprints/". $footprint .".png");
+        $res = glob_recursive( "tools/footprints/". $filename .".png");
         return( $res ? $res[0] : false);
     }
 
@@ -1283,6 +1291,7 @@
             " parts.instock,".
             " parts.mininstock,".
             " footprints.name  AS 'footprint',".
+            " footprints.filename  AS 'footprint_filename',".
             " storeloc.name    AS 'location',".
             " storeloc.is_full AS 'location_is_full',".
             " suppliers.name   AS 'supplier',".
@@ -1320,6 +1329,7 @@
             " parts.instock,".
             " parts.mininstock,".
             " footprints.name AS 'footprint',".
+            " footprints.filename AS 'footprint_filename',".
             " parts.id_footprint,".
             " storeloc.name AS 'location',".
             " parts.id_storeloc,".
@@ -1345,6 +1355,7 @@
             " parts.instock,".
             " parts.mininstock,".
             " footprints.name AS 'footprint',".
+            " footprints.filename  AS 'footprint_filename',".
             " storeloc.name AS 'location',".
             " suppliers.name AS 'supplier',". 
             " parts.supplierpartnr,". 
@@ -1373,6 +1384,7 @@
             " parts.instock,".
             " parts.mininstock,".
             " footprints.name AS 'footprint',".
+            " footprints.filename  AS 'footprint_filename',".
             " storeloc.name AS 'location',".
             " suppliers.name AS 'supplier',". 
             " parts.supplierpartnr,". 
@@ -1412,6 +1424,7 @@
             " parts.instock,".
             " parts.mininstock,".
             " footprints.name AS 'footprint',".
+            " footprints.filename  AS 'footprint_filename',".
             " parts.id_footprint,".
             " storeloc.name AS 'location',".
             " parts.id_storeloc,".
@@ -1433,6 +1446,7 @@
             " parts.description,".
             " parts.instock   AS 'stock',    ".
             " footprints.name AS 'footprint',".
+            " footprints.filename  AS 'footprint_filename',".
             " storeloc.name   AS 'location', ".
             " suppliers.name  AS 'supplier', ".
             " parts.supplierpartnr AS 'order_number',".
@@ -1458,6 +1472,7 @@
                 " parts.id,".
                 " parts.name,".
                 " footprints.name AS 'footprint',".
+                " footprints.filename  AS 'footprint_filename',".
                 " parts.mininstock-parts.instock AS 'diff',".
                 " suppliers.name AS 'supplier',".
                 " parts.supplierpartnr,".
@@ -1479,6 +1494,7 @@
                 " parts.id,".
                 " parts.name,".
                 " footprints.name AS 'footprint',".
+                " footprints.filename  AS 'footprint_filename',".
                 " parts.mininstock-parts.instock-SUM(pending_orders.quantity),".
                 " suppliers.name AS 'supplier',".
                 " parts.supplierpartnr,".
@@ -1503,6 +1519,7 @@
                 " parts.id,".
                 " parts.name,".
                 " footprints.name AS 'footprint',".
+                " footprints.filename  AS 'footprint_filename',".
                 " parts.mininstock-parts.instock AS 'diff',".
                 " suppliers.name AS 'supplier',".
                 " parts.supplierpartnr,".
@@ -1524,6 +1541,7 @@
                 " parts.id,".
                 " parts.name,". 
                 " footprints.name AS 'footprint',". 
+                " footprints.filename  AS 'footprint_filename',".
                 " parts.mininstock - parts.instock - SUM( pending_orders.quantity),". 
                 " suppliers.name AS 'supplier',". 
                 " parts.supplierpartnr," .
@@ -1549,7 +1567,7 @@
 
     function parts_select_footprint( $footprint_id)
     {
-        $query  = "SELECT name".
+        $query  = "SELECT name, filename".
             " FROM parts".
             " WHERE id_footprint=". smart_escape( $footprint_id) .";";
         $result = mysql_query( $query);

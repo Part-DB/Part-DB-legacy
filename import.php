@@ -47,7 +47,7 @@
 
     // data processing
     $accepted_coding = array( 'UTF-8', 'ISO-8859-1', 'ISO-8859-15', 'ASCII');
-    $accepted_types = array( 'text/plain', 'text/csv', 'text/x-csv', 'text/xml', 'application/vnd.ms-excel', 'application/x-csv');
+    $accepted_types = array( 'text/plain', 'text/csv', 'text/xml', 'application/vnd.ms-excel');
 
 
     // catch data arrays, if defined
@@ -286,13 +286,13 @@
 
         if ( ! footprint_exists('Import') && count( $open_footprint) > 0)
         {
-            footprint_add( 'Import');
+            footprint_add( 'Import', '');
         }
         $id = footprint_get_id( 'Import');
         $add_footprint = array();
         foreach ($open_footprint as $entry)
         {
-            footprint_add( $entry, $id);
+            footprint_add( $entry, '', $id);
             $add_footprint[] = $entry;
         }
 

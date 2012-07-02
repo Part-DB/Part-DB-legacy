@@ -103,7 +103,7 @@
             
             // Pictures
             print "<td class=\"tdrow0\">";
-            print_table_image( $data['id'], $data['name'], $data['footprint']);
+            print_table_image( $data['id'], $data['name'], $data['footprint_filename']);
             print "</td>". PHP_EOL;
             
             print "<td class=\"tdrow1\"><a title=\"Kommentar: ". htmlspecialchars( smart_unescape( $data['comment']));

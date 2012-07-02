@@ -105,7 +105,7 @@
             ?>
             <tr class="<?php print is_odd( $rowcount) ? 'trlist_odd': 'trlist_even'; ?>">
             
-            <td class="tdrow0"><?php print_table_image( $data['id'], $data['name'], $data['footprint']); ?></td>
+            <td class="tdrow0"><?php print_table_image( $data['id'], $data['name'], $data['footprint_filename']); ?></td>
             <td class="tdrow1">
                 <a href="javascript:popUp('partinfo.php?pid=<?php print smart_unescape( $data['id']); ?>');"><?php print smart_unescape( $data['name']); ?></a></td>
             <td class="tdrow3"><?php print smart_unescape( $data['footprint']); ?></td>

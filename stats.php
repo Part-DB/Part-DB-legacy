@@ -62,6 +62,10 @@
         <?php print categories_count(); ?>
         <br>
 
+        <b>Anzahl der Footprints:</b>
+        <?php print footprint_count(); ?>
+        <br>
+
         <b>Anzahl der Lagerorte:</b>
         <?php print location_count(); ?>
         <br>

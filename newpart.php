@@ -142,7 +142,7 @@
         {
             if (( $NewFootprint != "Direkteingabe/Neu") && (! footprint_exists( $NewFootprint)))
             {
-                footprint_add( $NewFootprint);
+                footprint_add( $NewFootprint, '');
             }
         }
 
