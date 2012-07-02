@@ -524,8 +524,19 @@
 
     function get_svn_revision()
     {
-        $repo_version = shell_exec( 'svnversion');
-        return( $repo_version);
+        global $conf;
+        
+        if ( !$repo_version = shell_exec( 'svnversion') )
+        {
+            if ( file_exists( '.svn/entries') )
+            {
+                $svn = File( '.svn/entries');
+                $repo_version = $svn[ 3];
+                unset($svn);
+            }
+        }
+
+        return( $repo_version . $conf['version']['string'] );
     }
 
     
