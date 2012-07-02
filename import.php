@@ -47,7 +47,7 @@
 
     // data processing
     $accepted_coding = array( 'UTF-8', 'ISO-8859-1', 'ISO-8859-15', 'ASCII');
-    $accepted_types = array( 'text/plain', 'text/csv', 'text/xml', 'application/vnd.ms-excel');
+    $accepted_types = array( 'text/plain', 'text/csv', 'text/x-csv', 'text/xml', 'application/vnd.ms-excel', 'application/x-csv');
 
 
     // catch data arrays, if defined
