@@ -111,7 +111,16 @@
                 $id               = footprint_exists( $title) ? footprint_get_id( $title) : -1; 
                 print "<div class=\"footprint\">".
                     "<img src=\"". $file ."\" title=\"". $title ."\" alt=\"\">".
-                    "<p><input type=\"checkbox\" onclick=\"process(this,'". $title ."',". $id .");\"". $footprint_exists .">". $title.
+
+                    // TODO: Hinzufügen/Löschen von Footprints ist vorübergehend deaktiviert,
+                    // da die Funktion noch an die neue Footprint-Datenbankstruktur angepasst werden muss.
+                    // Ausserdem sollte das Löschen von Footprints nicht so einfach gestaltet werden.
+                    // Eine Sicherheitsabfrage wäre hier angebracht, da sonst schnell etwas aus versehen gelöscht wird.
+
+                    //"<p><input type=\"checkbox\" onclick=\"process(this,'". $title ."',". $id .");\"". $footprint_exists .">". $title.
+
+                    "<p>" . $title. // Vorübergehend wird nur noch der Name (ohne Checkbox) angezeigt
+
                     "</div>". PHP_EOL;
             }
             print "</td></tr>". PHP_EOL;
