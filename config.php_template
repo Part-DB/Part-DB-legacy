@@ -38,6 +38,9 @@
 
     /* common (e.g. on server) datasheet path */
     $datasheet_path = "file:///C:/datasheets/";
+    
+    /* backup path for database backups*/
+    $db_backup_path = "backup/";
 
 
     /* hide the id in table views */
