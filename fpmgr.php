@@ -335,6 +335,7 @@
                         <?php list_defect_filenames($defect_filename_id_array); ?>
                     </TABLE>
                     <br> 
+                    Es wird empfohlen vor der &Uuml;bernahme eine <a href="config_page.php" target="content_frame">Sicherung der Datenbank</a> zu machen.<br>
                     Vorgeschlagene Dateinamen &uuml;bernehmen:
                     <input type="submit" name="save_proposed_filenames" value="Nur die markierten">   
                     <input type="submit" name="save_all_proposed_filenames" value="Alle">    
