@@ -76,8 +76,8 @@
             <tr><td><b>Footprint:</b></td><td><?php    print part_get_footprint_path( $data['id_footprint']); ?>
             <?php
             // footprint
-            $link = footprint_picture_exists( smart_unescape( $data['footprint_filename']));
-            if ( $link)
+            $link = smart_unescape( $data['footprint_filename']);
+            if ( file_exists($link))
             {
                 print "<img align=\"middle\" height=\"70\" src=\"". $link ."\" alt=\"\">";
             }

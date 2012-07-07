@@ -60,6 +60,7 @@
     $missing_footprint = $good;
     $missing_category  = $good;
     $missing_supplier  = $good;
+    $broken_footprints = false;
 
     if ( categories_count() == 0)
     {
@@ -75,6 +76,12 @@
 
     if ( suppliers_count() == 0)
         $missing_supplier = $bad;
+        
+    if (count(footprint_get_defect_filename_ids()) > 0)
+    {
+        $display_warning  = true;
+        $broken_footprints = true;
+    }
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -100,8 +107,12 @@
 ?>
 
 <div class="outer">
-    <h2 class="red">Achtung!</h2>
+    <h2 class="red">Hinweis</h2>
     <div class="inner">
+    <?php 
+        if ($missing_category == $bad)
+        {
+    ?>
         Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>
         <blockquote><?php print $missing_category  ?>eine      <a href="catmgr.php" target="content_frame">Kategorie</a>   </blockquote>
         hinzuf&uuml;gt werden muss.<br>
@@ -110,6 +121,22 @@
         <blockquote><?php print $missing_footprint ?>einen     <a href="fpmgr.php"  target="content_frame">Footprint</a>   </blockquote>
         <blockquote><?php print $missing_supplier  ?>und einen <a href="supmgr.php" target="content_frame">Lieferanten</a> </blockquote>
         anzugeben.
+        <br>
+        <br>
+    <?php
+        }
+        if ($broken_footprints)
+        {
+    ?>
+        In ihrer Tabelle gibt es Footprints, die einen fehlerhaften Dateinamen hinterlegt haben.
+        Dies kann durch ein Datenbankupdate, ein Update von Part-DB, 
+        oder durch nicht mehr existierende Dateien ausgel&ouml;st worden sein.
+        <br>
+        Sie k&ouml;nnen dies unter <a href="fpmgr.php" target="content_frame">Bearbeiten/Footprints</a> (ganz unten, "Fehlerhafte Dateinamen") korrigieren.
+        
+    <?php
+        }
+    ?>  
     </div>
 </div>
 <?php } ?>
@@ -165,7 +192,7 @@ print $banner;
         <tr><td><strong>Michael Buesch</strong></td><td>Reichelt/Pollin Preissuch Script</td></tr>
         <tr><td><strong>bubbles.red</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr>
         <tr><td><strong>Matthias Wei&szlig;er</strong></td><td>EAGLE3D / Bauteile Renderscript (eagle3d.py)</td></tr> 
-        <tr><td><strong>Urban B.</strong></td><td>neue Footprints</td></tr>
+        <tr><td><strong>Urban B.</strong></td><td>Committer/Neue Footprints</td></tr>
         <tr><td><strong>Andr&eacute; Althaus</strong></td><td>neue Funktionen</td></tr>
         </table>
     </div>

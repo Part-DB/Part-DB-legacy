@@ -45,7 +45,7 @@
     </h2>
     <div class="inner">
         <form action="search.php" method="get" target="content_frame">
-            <input type="text" name="keyword" size="17" maxlength="20">
+            <input type="text" name="keyword" size="14" maxlength="20">
             <input type="submit" name="s" value="Los!"><br>
             <div class="search_selection">
                 <p><input type="checkbox" name="search_nam" value="true" checked>Name</p>

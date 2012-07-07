@@ -44,6 +44,9 @@
 
     print_http_charset
     get_svn_revision
+    
+    find_all_files
+    search_for_files
 
     footprint_build_tree
     footprint_add
@@ -56,7 +59,8 @@
     footprint_select
     footprint_get_id
     footprint_exists
-    footprint_picture_exists
+    footprint_get_defect_filename_ids
+    footprint_get_full_path
 
     supplier_add
     supplier_delete
@@ -295,8 +299,8 @@
         }
         else
         {
-            $link = footprint_picture_exists( smart_unescape( $footprint_filename));
-            if ( $link)
+            $link = smart_unescape( $footprint_filename);
+            if ($link)
             {
                 // footprint
                 print "<a href=\"javascript:popUp('". $link ."')\">".
@@ -538,29 +542,83 @@
 
         return( $repo_version . $conf['version']['string'] );
     }
-
     
+    /*
+     * lists all files (or all files with a specific string in the filename) in a directory
+     * this function is recursive, but not case sensitive.
+     * returns an array with all found filenames (incl. paths)
+     */
+    function find_all_files($directory, $search_string="")
+    {
+        $files = array();
+        if (is_dir($directory))
+        {
+            $fh = opendir($directory);
+            while (($file = readdir($fh)) !== false)
+            {
+                if (($file != ".") && ($file != "..") && ($file != ".svn"))
+                {
+                    if ( is_dir($directory . $file) )
+                    {
+                        $files = array_merge($files, find_all_files($directory . $file . "/", $search_string));
+                    }
+                    else
+                    {   
+                        if (($search_string == "") || (substr_count(strtolower($file), strtolower($search_string)) > 0))
+                        {
+                            array_push($files, $directory . $file);
+                        }
+                    }
+                }
+            }
+            closedir($fh);
+        }
+        else
+        {
+            $files = false;
+        }
+        return $files;
+    }
+
+    /*
+     * search for files in a array of files (with path)
+     * this function is not case sensitive
+     * returns an array of the found files
+     */
+    function search_for_files($file_array, $search_string)
+    {
+        $result = array();
+        foreach ($file_array as $file)
+        {
+            if (substr_count(strtolower(basename($file)), strtolower($search_string)) > 0)
+            {
+                $result[] = $file;
+            }
+        }
+        return $result;
+    }
 
     /* ***************************************************
      * footprint querys
      */
-    function footprint_build_tree( $id = 0, $level = 0, $select = -1)
+    function footprint_build_tree( $id = 0, $level = 0, $select = -1, $highlight_no_picture = false)
     {
-        $query  = "SELECT id, name FROM footprints".
+        $query  = "SELECT id, name, filename FROM footprints".
             " WHERE parentnode=". smart_escape( $id).
             " ORDER BY name ASC;";
         $result = mysql_query( $query) or die( mysql_error());
         while ( $data = mysql_fetch_assoc( $result))
         {
-            $selected = ($select == $data['id']) ? 'selected': '';
-            print "<option ". $selected ." value=\"". smart_unescape( $data['id']) . "\">";
+            $selected = ($select == $data['id']) ? 'selected ': ' ';
+            $color = (($highlight_no_picture) && (smart_unescape($data['filename']) == "")) ? 'style="color:#ff0000" ' : '';
+            print "<option ". $selected . $color . "value=\"". smart_unescape( $data['id']) . "\">";
             for ( $i = 0; $i < $level; $i++) 
                 print "&nbsp;&nbsp;&nbsp;";
             print smart_unescape( $data['name']).
                 "</option>\n";
 
             // do the same for the next level.
-            footprint_build_tree( $data['id'], $level + 1, $select);
+            footprint_build_tree( $data['id'], $level + 1, $select, $highlight_no_picture);
         }
     }
     
@@ -681,46 +739,49 @@
     }
 
     /*
-     * search for footprint picture on disk
-     * result: path and filename if succesful
-     *         false             if not exist
+     * searches all footprints with a filename wich does not exists
+     * 
+     * returns an array of all IDs of these footprints
      */
-    function footprint_picture_exists( $filename)
+    function footprint_get_defect_filename_ids()
     {
-        // workaround for php 4 with missing glob_recursive
-        if ( ! function_exists('glob_recursive'))
+        $query  = "SELECT id, name, filename FROM footprints";
+        $result = mysql_query( $query) or die( mysql_error());
+        $id_array = array();
+
+        while ( $data = mysql_fetch_assoc( $result))
         {
-            $path[] = 'tools/footprints';
+            $id = smart_unescape($data['id']);
+            $filename = smart_unescape($data['filename']);
 
-            while( count( $path) != 0)
+            if ((file_exists($filename) == false) && ($filename != ""))
             {
-                $entries = glob( array_shift( $path));
-
-                if ( is_array( $entries ) && count( $entries) > 0)
-                {
-                    foreach( $entries as $diritem)
-                    {
-                        if ( is_dir( $diritem))
-                        {
-                            // search in directory for png file
-                            $result = glob( $diritem. '/'. $filename. '.png');
-                            if ($result)
-                                return $result[0];
-
-                            $path[] = $diritem . '/*';
-                        }
-                    }
-                }
+                $id_array[] = $id;
             }
-
-            // not found
-            return false;
         }
 
-        $res = glob_recursive( "tools/footprints/". $filename .".png");
-        return( $res ? $res[0] : false);
+        return $id_array;
     }
-
+    
+    /*
+     * returns the footprint-name with all parent-footprints
+     * 
+     * example: "DIP/DIP28" if DIP is the only parent of DIP28
+     */
+    function footprint_get_full_path($id)
+    {
+        $path = "";
+        do
+        {
+            $data = footprint_select($id);
+            $path = smart_unescape($data['name'])."/".$path;
+            $parentnode = smart_unescape($data['parentnode']);
+            $id = $parentnode;
+        
+        } while ($parentnode > 0);
+        
+        return substr($path, 0, -1); // remove the slash at the end of the string
+    }
 
 
     /* ***************************************************

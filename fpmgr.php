@@ -33,11 +33,13 @@
      * this is the dispatcher ...
      */
     $action = 'default';
-    if ( isset( $_REQUEST["add"]))           { $action = 'add';}
-    if ( isset( $_REQUEST["delete"]))        { $action = 'delete';}
-    if ( isset( $_REQUEST["rename"]))        { $action = 'rename';}
-    if ( isset( $_REQUEST["new_filename"]))  { $action = 'new_filename';}
-    if ( isset( $_REQUEST["new_parent"]))    { $action = 'new_parent';}
+    if ( isset( $_REQUEST["add"]))                              { $action = 'add';}
+    if ( isset( $_REQUEST["delete"]))                           { $action = 'delete';}
+    if ( isset( $_REQUEST["rename"]))                           { $action = 'rename';}
+    if ( isset( $_REQUEST["new_filename"]))                     { $action = 'new_filename';}
+    if ( isset( $_REQUEST["new_parent"]))                       { $action = 'new_parent';}
+    if ( isset( $_REQUEST["save_proposed_filenames"]))          { $action = 'save_proposed_filenames';}
+    if ( isset( $_REQUEST["save_all_proposed_filenames"]))      { $action = 'save_proposed_filenames';}
 
     $footprint_sel = isset( $_REQUEST["footprint_sel"]) ? $_REQUEST["footprint_sel"] : -1;
     $parentnode    = isset( $_REQUEST["parentnode"])    ? $_REQUEST["parentnode"] : 0;
@@ -103,13 +105,112 @@
     {
         footprint_new_parent( $footprint_sel, $parentnode);
     }
+    
+    if ( $action == 'save_proposed_filenames')
+    {
+        $query  = "SELECT id, name, filename FROM footprints";
+        $result = mysql_query( $query) or die( mysql_error());
+        while ( $data = mysql_fetch_assoc( $result))
+        {
+            $name = smart_unescape($data['name']);
+            $filename = smart_unescape($data['filename']);
+            $id = smart_unescape($data['id']);
+            
+            if ((file_exists(smart_unescape($filename)) == false) && ($filename != ""))
+            {
+                $checkbox_checked = isset( $_REQUEST["filename_checkbox_".$id]) ? $_REQUEST["filename_checkbox_".$id] : false;
+                
+                if (($checkbox_checked == true) || (isset($_REQUEST["save_all_proposed_filenames"])))
+                {
+                    if (isset($_REQUEST["proposed_filename_".$id]))
+                    {
+                        footprint_new_filename($id, $_REQUEST["proposed_filename_".$id]);
+                    }
+                }
+            }
+            
+        }
+    }
+    
+    function list_defect_filenames($id_array)
+    {
+        $files = find_all_files("tools/footprints/", ".png");
+        $files = array_merge($files, find_all_files("media/", ".png"));
+                
+        $row_odd = true;
+        foreach ($id_array as $id)
+        {
+            $data = footprint_select($id);
+            
+            $name = smart_unescape($data['name']);
+            $filename = smart_unescape($data['filename']);
+            
+            if ((file_exists($filename) == false) && ($filename != ""))
+            {
+                $proposed_filenames = search_for_files($files, basename($filename, ".png"));
+                          
+                // the alternating background colors are created here
+                print "<tr class=\"".( $row_odd ? 'trlist_odd': 'trlist_even')."\">". PHP_EOL;
+                $row_odd = ! $row_odd;
+                
+                // checkboxes + footprint names
+                print "<td class=\"tdrow0\">";
+                print "<input type=\"checkbox\" ";
+                foreach ($proposed_filenames as $file)
+                {
+                    if (strtolower(basename($file, ".png")) == strtolower(basename($filename, ".png")))
+                    {
+                        print "checked ";
+                        break;
+                    }
+                }
+                print "name=\"filename_checkbox_".$id."\">".footprint_get_full_path($id);
+                print "</td>\n";
+                
+                // broken footprint filenames
+                print "<td class=\"tdrow1\">";
+                print "<FONT COLOR=\"#FF0000\">".$filename."</FONT>";
+                print "</td>\n";
+                
+                // proposed filenames
+                print "<td class=\"tdrow0\">";
+                
+                if (count($proposed_filenames) == 0)
+                {
+                    print "<input type=\"hidden\" name=\"proposed_filename_".$id."\" value=\"".$proposed_filenames[0]."\">";
+                    print "<FONT COLOR=\"#FF0000\">Dateiname l&ouml;schen und sp&auml;ter selber von Hand setzen.</FONT>";
+                }
+                else
+                {
+                    print "<select name=\"proposed_filename_".$id."\">";
+                    print "<option value=\"\">Dateiname l&ouml;schen und sp&auml;ter selber von Hand setzen.</option>";
+  
+                    $has_one_selected = false;
+                    foreach ($proposed_filenames as $file)
+                    {
+                        print "<option ";
+                        if ((strtolower(basename($file, ".png")) == strtolower(basename($filename, ".png"))) && ($has_one_selected == false))
+                        {
+                            print "selected ";
+                            $has_one_selected = true;
+                        }
+                        print "value=\"".$file."\">".$file."</option>";
+                    }
+                    print "</select>";
+                }
+                
+                print "</td>\n";
+            }
+            
+        }
+    }
 
     $data       = footprint_select( $footprint_sel);
     $name       = $data['name'];
     $filename   = $data['filename'];
     $parentnode = $data['parentnode'];
 
-    $size       = min( footprint_count(), 30);
+    $size       = min( footprint_count(), 25);
    
     /*
      * Don't show the default text when there's a msg.
@@ -166,11 +267,13 @@
         <form action="" method="post">
             <table>
                 <tr>
-                    <td rowspan="3">
+                    <td rowspan="5">
                         Zu bearbeitenden <br> Footprint w&auml;hlen:<br>
                         <select name="footprint_sel" size="<?php print $size;?>" onChange="this.form.submit()">
-                        <?php footprint_build_tree( 0, 0, $footprint_sel); ?>
+                        <?php footprint_build_tree( 0, 0, $footprint_sel, true); ?>
                         </select>
+                        <br>
+                        (rot = ohne Bild)
                     </td>
                     <td>
                         Neuer Name:<br>
@@ -183,6 +286,12 @@
                         Neuer Dateiname:<br>
                         <input type="text"   name="new_filename_edit" value="<?php print $filename; ?>">
                         <input type="submit" name="new_filename" value="Umbenennen">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Bild:<br>
+                        <img align="middle" height="70" src="<?php print $filename ?>" alt="">
                     </td>
                 </tr>
                 <tr>
@@ -202,6 +311,39 @@
                 </tr>
             </table>
         </form>
+    </div>
+</div>
+
+<div class="outer">
+    <h2>Fehlerhafte Dateinamen</h2>
+    <div class="inner">
+        <?php
+            $defect_filename_id_array = footprint_get_defect_filename_ids();
+            if (count($defect_filename_id_array) > 0)
+            {
+        ?>
+                <br>Die Dateinamen der folgenden Footprints konnten keiner Bilddatei zugeordnet werden.<br>
+                Bitte &uuml;berpr&uuml;fen bzw. korrigieren Sie die vorgeschlagenen Dateien kurz, um sie dann zu &uuml;bernehmen.<br>
+                Bereits gesetzte Haken bedeuten, dass f&uuml;r die jeweiligen Footprints exakt gleichnamige Dateien gefunden wurden.<br><br>
+                <form action="" method="POST">
+                    <TABLE>
+                        <tr class="trcat">
+                            <td>Footprint-Name</td>
+                            <td>Fehlerhafter Dateiname</td>
+                            <td>Vorgeschlagene Dateinamen</td>
+                        </tr>
+                        <?php list_defect_filenames($defect_filename_id_array); ?>
+                    </TABLE>
+                    <br> 
+                    Vorgeschlagene Dateinamen &uuml;bernehmen:
+                    <input type="submit" name="save_proposed_filenames" value="Nur die markierten">   
+                    <input type="submit" name="save_all_proposed_filenames" value="Alle">    
+                </form>
+        <?php
+            }
+            else
+                print "Keine fehlerhaften Dateinamen gefunden.";
+        ?>
     </div>
 </div>
 
