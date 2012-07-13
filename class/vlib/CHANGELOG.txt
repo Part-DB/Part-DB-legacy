@@ -1,0 +1,68 @@
+CHANGELOG
+------------
+
+4.0.2.3
+-------------------
+
+*   [General] Fixed bug where Error constants threw a notice when re-defining themselves. Kelvin Jones (2004-01-07)
+*   [vlibTemplate] Fixed bug where the loop context vars (i.e. __ROWNUM__) now work with the CASELESS option. 
+    Kelvin Jones (2004-02-10)
+
+4.0.2.2
+-------------------
+
+*   [vlibTemplate] changed template "format" option to call PHP function if not found in vlibTemplate::FORMAT_TAGS array. 
+    PHP function must accept 1 argument only. Kelvin Jones (2003-11-24)
+
+4.0.2.1
+-------------------
+
+ *  [vlibTemplate] removed Call time reference from Db functions for Forward Compatibility. Kelvin Jones (2003-11-13)
+
+
+4.0.2
+-------------------
+
+ *  [vlibTemplate] added option to vlibIni.php for 'ENABLE_SHORTTAGS' this is to toggle between the new functionality
+    of being able to use <VAR ...> instead of <TMPL_VAR ...> ...etc. It is off by default for backwards compatibility
+    sake. Kelvin Jones (2003-07-23)
+ *  [General] Deprecated the Release notes file as it is no longer useful due as I use the changelog for everything now.
+    It will still be held in CVS for historical purposes but will no longer be distributed. Kelvin Jones (2003-07-23)
+
+
+4.0.1
+-------------------
+
+ *  [vlibTemplate] added ability to reference a global variable from within <TMPL_INCLUDE> tags, i.e. 
+    <TMPL_INCLUDE file="{var:header}" /> would include the file set by: $tmpl->setVar('header', ...);.
+    Kelvin Jones (2003-07-23)
+ *  [vlibTemplate] bugfix when calling ob_start() from _parse() causing output buffering to fail in some configurations.
+    Kelvin Jones (2003-08-06);
+
+
+4.0.1RC
+-------------------
+
+ *	[vlibMimeMail] validateEmail was case-insensitive. changed from ereg to preg_match. Kelvin Jones (2002-12-11)
+ *	[vlibTemplateError] Added error message for when a loop name is not specified. Kelvin Jones (2002-12-13)
+ * 	[vlibTemplate] added a getLoop() function for use with the 3-step-loop process. This returns the loop in an array
+ 	and removes the internal loop from $this->_currloop. Kelvin Jones (2002-12-13)
+ *	[vlibTemplate] fixed bug in addRow() function which caused it to not recognize the last loop set using newLoop()
+ 	when not specifying a loop name. Kelvin Jones (2002-12-16)
+ *	[vlibDate] added Russian language pack. Kelvin Jones (2003-01-02)
+ *	[General] Renamed old CHANGELOG to RELEASENOTES.txt and created CHANGELOG.txt for tracking all changes made, big
+ 	or small. Kelvin Jones (2003-01-02)
+ *	[General] Created CONTRIBUTIONS.txt, a guide for how to develop on vLIB. Kelvin Jones (2003-01-02)
+ *	[General] Added new class, vlibSearchToSQL. This allows you to convert a boolean search string to SQL. Kelvin Jones
+ 	(2003-02-13)
+ *	[vlibIni] Added config params for vlibSearchToSQL.
+ *	[vlibSearchToSQL] Added getStoppedWords() and getShortWords() functions to return the words that were excluded from
+ 	the search for that particular reason. Kelvin Jones (2003-03-03)
+ *	[vlibTemplate] removed the 9th capture from the regex which checked for a new line. This was pretty much useless, and also
+ 	didn't work in particular versions of php. Kelvin Jones (2003-03-03)
+ *	[vlibTemplate] added the ability to omit the TMPL_ bit of the tag, so you can write <VAR name="title" /> now. This
+ 	is completely optional. Kelvin Jones (2003-03-03)
+ *	[vlibTemplate] fixed bug that caused a "undefined variable" notice to be thrown when using a TMPL_INCLUDE. Kelvin
+    Jones (2003-03-07)
+ *  [vlibTemplateCache] fixed bug pointed out by Andre in the forum, which caused a recache every time in certain circumstances.
+    Kelvin Jones (2003-05-15)

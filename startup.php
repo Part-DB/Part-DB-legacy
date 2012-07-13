@@ -1,0 +1,210 @@
+<?php
+/*
+    part-db version 0.1
+    Copyright (C) 2005 Christoph Lechner
+    http://www.cl-projects.de/
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+
+    $Id: startup.php 446 2012-06-16 06:21:08Z bubbles.red@gmail.com $
+
+*/
+
+    include ('db_update.php');
+    // catch output to do fine formating later
+    ob_start();
+    {
+        if ( checkDBUpdateNeeded())
+        {
+            $ver = getDBVersion();
+            print "Datenbank-Version: ". $ver .", ben&ouml;tigt ein Update.<br><br>";
+            if ( getDBAutomaticUpdateActive())
+            {
+                doDBUpdate();
+            }
+            else
+            {
+                print "Automatische Datenbankupdates sind deaktiviert.<br>";
+                print "Updates bitte manuell durchf&uuml;ren: Verwaltung/Tools --> Konfiguration --> Datenbank";
+            }
+        }
+    }
+    $database_update = ob_get_contents();
+    ob_end_clean();
+
+    require_once ('config.php');
+    require_once ('lib.php');
+
+    $tmpl = new vlibTemplate("templates/vlib_head.tmpl");
+    $tmpl -> setVar('head_title', $title);
+    $tmpl -> setVar('head_charset', $http_charset);
+    $tmpl -> setVar('head_css', $css);
+    $tmpl -> setVar('head_menu', true);
+    $tmpl -> pparse();
+
+    /*
+     * This variable determines wheater the user is reminded to add
+     * add least one loc, one footprint, one category and one supplier.
+     */
+    $display_warning = false;
+    // predefines
+    $good = "&#x2714; ";
+    $bad  = "&#x2718; ";
+    // defaults
+    $missing_storeloc  = $good;
+    $missing_footprint = $good;
+    $missing_category  = $good;
+    $missing_supplier  = $good;
+
+    if ( categories_count() == 0)
+    {
+        $display_warning  = true;
+        $missing_category = $bad;
+    }
+
+    if ( location_count() == 0)
+        $missing_storeloc = $bad;
+
+    if ( footprint_count() == 0)
+        $missing_footprint = $bad;
+
+    if ( suppliers_count() == 0)
+        $missing_supplier = $bad;
+
+?>
+<div class="outer">
+    <h1>
+        <img src="img/partdb/partdb.png" alt="logo"><?php print $startup_title ?><img src="img/partdb/partdb.png" alt="logo">
+    </h1>
+    <?php print get_svn_revision() ? "<h3>SVN-Revision: ". get_svn_revision() ."</h3>" : ""; ?>
+</div>
+
+<?php   // display Warning 
+    if ($display_warning)
+    {
+?>
+
+<div class="outer">
+    <h2 class="red">Achtung!</h2>
+    <div class="inner">
+        Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>
+        <blockquote><?php print $missing_category  ?>eine      <a href="catmgr.php" target="content_frame">Kategorie</a>   </blockquote>
+        hinzuf&uuml;gt werden muss.<br>
+        Um das Potential der Suchfunktion zu nutzen wird empfohlen
+        <blockquote><?php print $missing_storeloc  ?>einen     <a href="locmgr.php" target="content_frame">Lagerort</a>    </blockquote>
+        <blockquote><?php print $missing_footprint ?>einen     <a href="fpmgr.php"  target="content_frame">Footprint</a>   </blockquote>
+        <blockquote><?php print $missing_supplier  ?>und einen <a href="supmgr.php" target="content_frame">Lieferanten</a> </blockquote>
+        anzugeben.
+    </div>
+</div>
+<?php } ?>
+
+
+<?php   // display database update 
+if ( strlen( $database_update) > 0)
+{
+?>
+
+<div class="outer">
+    <h2>Datenbankupdate</h2>
+    <div class="inner red">
+    <?php print $database_update; ?>
+    </div>
+</div>
+<?php 
+} 
+
+print $banner;
+
+?>
+
+<div class="outer">
+    <h2>Lizenz</h2>
+    <div class="inner">
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+            <input type="hidden" name="cmd" value="_donations">
+            <input type="hidden" name="business" value="theborg@grautier.com">
+            <input type="hidden" name="lc" value="DE">
+            <input type="hidden" name="item_name" value="Part-DB">
+            <input type="hidden" name="no_note" value="0">
+            <input type="hidden" name="currency_code" value="EUR">
+            <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
+            <input type="image" src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" name="submit" align="right" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
+            <img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" align="right">
+        </form>
+        Part-DB, Copyright &copy; 2005 of <strong>Christoph Lechner</strong>. Part-DB is published under the <strong>GPL</strong>,
+        so it comes with <strong>ABSOLUTELY NO WARRANTY</strong>, click <a href="readme/gpl.txt">here</a> for details.
+        This is free software, and you are welcome to redistribute it under certain conditions.
+        Click <a href="readme/gpl.txt">here</a> for details.<br>
+        <br> 
+        The first Author's Homepage <a href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
+        Author since 2009 by <strong>K.Jacobs</strong> - <a href="http://www.grautier.com/">http://grautier.com</a><br>
+        <br> 
+        Forum: F&uuml;r Fragen rund um die Part-DB gibt es einen Thread auf <a href="http://www.mikrocontroller.net/topic/135284">mikrocontroller.net</a><br>
+        Wiki: Hilfe zur Installation gibt es im <a href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Wiki</a><br>
+        <br>
+        <table>
+        <tr><td><strong>ajfrenzel</strong></td><td>Committer/Bugfix</td></tr>
+        <tr><td><strong>tgrziwa</strong></td><td>Committer/Bugfix</td></tr>
+        <tr><td><strong>d.lipschinski</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr>
+        <tr><td><strong>Michael Buesch</strong></td><td>Reichelt/Pollin Preissuch Script</td></tr>
+        <tr><td><strong>bubbles.red</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr>
+        <tr><td><strong>Matthias Wei&szlig;er</strong></td><td>EAGLE3D / Bauteile Renderscript (eagle3d.py)</td></tr> 
+        <tr><td><strong>Urban B.</strong></td><td>neue Footprints</td></tr>
+        <tr><td><strong>Andr&eacute; Althaus</strong></td><td>neue Funktionen</td></tr>
+        </table>
+    </div>
+</div>
+
+<?php
+if (! $disable_update_list) {
+?>
+
+<div class="outer">
+    <h2>Updates</h2>
+    <div class="inner small">
+        <?php
+            $rss_file   = join ( ' ', file ("http://code.google.com/feeds/p/part-db/downloads/basic"));
+            $rss_zeilen = array ( "title", "updated", "id" );
+            $rss_array  = explode ( "<entry>", $rss_file );
+            
+            // show only the last actual versions
+            $count      = 4;
+            foreach ( $rss_array as $string ) 
+            {
+                // show all lines from rss feed
+                foreach ( $rss_zeilen as $zeile ) 
+                {
+                    // find tags
+                    preg_match_all( "|<$zeile>(.*)</$zeile>|Usim", $string, $preg_match);
+                    $$zeile = $preg_match [1] [0];
+                    // make clickable if http url
+                    $$zeile = preg_replace('`((?:http)://\S+[[:alnum:]]/?)`si', '<a href="\\1">\\1</a>', $$zeile); 
+                    print $$zeile ."<br>". PHP_EOL;
+                } 
+                if (!(--$count))
+                    break;
+                print "<br>". PHP_EOL;
+            }
+        ?>
+    </div>
+</div>
+
+<?php
+}
+
+$tmpl = new vlibTemplate("templates/vlib_foot.tmpl");
+$tmpl -> pparse();
+?>

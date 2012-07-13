@@ -1,0 +1,141 @@
+@charset "UTF-8";
+
+/* Default Tabellen */
+.table {
+	border: none;
+	width: 100%;
+	padding:10px;
+	background-color: #ffffff;
+}
+.tablenone {
+	border: none;
+	width: 100%;
+}
+.tdtop {
+	padding-left: 2px;
+	font-weight: bold;
+	font-size: 1.0em;
+	background: url(img/lrline.gif) no-repeat top left;
+}
+.tdtext {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	border: none;
+	width: 80%;
+	font-size: 15px;
+	background-color: #FFFFFF;
+}
+.tdtextsmall {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	border: none;
+	width: 80%;
+	font-size: small;
+	background-color: #FFFFFF;
+
+}
+.body {
+	background-color: #cdcdcd;
+}
+
+/* Tabellen/Listen */
+.trlist1 {
+	background: url(img/rlline.gif) repeat-y top right;
+}
+.trlist2 {
+	background: url(img/rlline.gif) repeat-y top right;
+}
+.trcat {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+	background: url(img/rlline.gif) repeat-y top right;
+}
+.tdrow0 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+}
+.tdrow1 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	text-align: left;
+}
+.tdrow2 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	text-align: right;
+}
+.tdrow3 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	text-align: right;
+}
+.tdrow4 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	text-align: right;
+}
+.tdrow5 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+}
+.tdrow6 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+}
+.catbild {
+	width: 20;
+	height: 20;
+}
+
+
+/* Sonstiges */
+.tdstartup {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 60px;
+	text-align: center;
+}
+a img {
+	border: none;
+}
+a:link {
+	color: #7A9833;
+}
+a:visited {
+	color: #7A9833;
+}
+a:hover {
+	color: #7A9833;
+}
+a:active {
+	color: #7A9833;
+}
+
+
+/* Nav Menue */
+.dtree {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 15px;
+	color: #666;
+	white-space: nowrap;
+}
+.dtree img {
+	border: 0px;
+	vertical-align: middle;
+}
+.dtree a {
+	color: #7A9833;
+	text-decoration: none;
+}
+.dtree a.node, .dtree a.nodeSel {
+	white-space: nowrap;
+	padding: 1px 2px 1px 2px;
+}
+.dtree a.node:hover, .dtree a.nodeSel:hover {
+	color: #7A9833;
+	text-decoration: underline;
+}
+.dtree a.nodeSel {
+	background-color: #FFFFFF;
+}
+.dtree .clip {
+	overflow: hidden;
+}

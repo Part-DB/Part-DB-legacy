@@ -1,0 +1,9 @@
+<FilesMatch "\.(xml|php|key)$">
+Order deny,allow
+Deny from all
+Allow from localhost
+</FilesMatch>
+
+# HTML für individuelle Fehleranzeige
+ErrorDocument 403 "<html><head><title>Zugriff verweigert</title></head><body><h1>Fehler 403</h1><p>Der Zugriff auf die angeforderte URL ist verboten.</p><p>Probieren Sie es bitte erneut mit einem Aufruf der <a href='../'>Startseite</a>.</p></body></html>"
+ErrorDocument 404 "<html><head><title>Seite nicht vorhanden</title></head><body><h1>Fehler 404</h1><p>Die angeforderte URL kann nicht gefunden werden.</p><p>Probieren Sie es bitte erneut mit einem Aufruf der <a href='../'>Startseite</a>.</p></body></html>"
