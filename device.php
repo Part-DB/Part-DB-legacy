@@ -41,26 +41,23 @@
         device_delete( $deviceid);
         $refreshnav = 1;
     }
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>Baugruppen</title>
-    <?php print_http_charset(); ?>
-    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
-</head>
-<body class="body">
 
-	<script language="JavaScript" type="text/javascript">
-		<?PHP
-		if($refreshnav == 1)
-		{
-			$refreshnav = 0;
-			print "parent.frames._nav_frame.location.reload();";
-		}
-		?>
-	</script>
+	$tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
+	$tmpl -> setVar('head_title', 'Neues Teil');
+	$tmpl -> setVar('head_charset', $http_charset);
+	$tmpl -> setVar('head_css', $css);
+	$tmpl -> pparse();
+
+?>
+<script language="JavaScript" type="text/javascript">
+	<?PHP
+	if($refreshnav == 1)
+	{
+		$refreshnav = 0;
+		print "parent.frames._nav_frame.location.reload();";
+	}
+	?>
+</script>
 
 <div class="outer">
     <h2>Neues Ger&auml;t erzeugen</h2>
@@ -141,6 +138,7 @@ if(strcmp( $action, "deletedevice") == 0)
         </table>
     </div>
 </div>
-
-</body>
-</html>
+<?php
+	$tmpl = new vlibTemplate(BASE."/templates/vlib_foot.tmpl");
+	$tmpl -> pparse();
+?>

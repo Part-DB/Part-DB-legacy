@@ -60,13 +60,13 @@ if ( $action == 'delete')
 		$special_dialog = true;
 		if ( parts_count_on_category( $catsel) != 0)
 		{
-			$tmpl = new vlibTemplate("templates/catmgr.php/vlib_cat_delete.tmpl");
+			$tmpl = new vlibTemplate(BASE."/templates/catmgr.php/vlib_cat_delete.tmpl");
 			$tmpl -> setVar('question_delete',true);
 			$tmpl -> pparse();
 		}
 		else
 		{
-			$tmpl = new vlibTemplate("templates/catmgr.php/vlib_cat_delete.tmpl");
+			$tmpl = new vlibTemplate(BASE."/templates/catmgr.php/vlib_cat_delete.tmpl");
 			$tmpl -> setVar('nothing_delete',true);
 			$tmpl -> setVar('category_name',category_get_name($catsel));
 			$tmpl -> setVar('category_sel',$catsel);
@@ -103,23 +103,30 @@ $size       = min( categories_count(), 30);
 
 if ($special_dialog == false)
 {
-	$tmpl = new vlibTemplate("templates/vlib_head.tmpl");
+	$tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
 	$tmpl -> setVar('head_title', 'Kategorien');
 	$tmpl -> setVar('head_charset', $http_charset);
 	$tmpl -> setVar('head_css', $css);
 	$tmpl -> setVar('head_menu', true);
 	$tmpl -> pparse();
 
-	$tmpl = new vlibTemplate("templates/catmgr.php/vlib_cat_edit.tmpl");
-	$tmpl -> setVar('categories_build_tree_1', categories_build_tree( 0, 0, $parentnode));
-	$tmpl -> setVar('categories_build_tree_2', categories_build_tree( 0, 0, $catsel));
-	$tmpl -> setVar('categories_build_tree_3', categories_build_tree( 0, 0, $parentnode));
+	$tmpl = new vlibTemplate(BASE."/templates/catmgr.php/vlib_cat_edit.tmpl");
+	ob_start();
+	categories_build_tree( 0, 0, $parentnode);
+	$categories = ob_get_contents();
+	ob_end_clean();
+	$tmpl -> setVar('categories_build_tree_1', $categories);
+	ob_start();
+	categories_build_tree( 0, 0, $catsel);
+	$categories = ob_get_contents();
+	ob_end_clean();
+	$tmpl -> setVar('categories_build_tree_2', $categories);
 	$tmpl -> setVar('categories_refreshnav',$refreshnav);
 	$tmpl -> setVar('categories_build_size',$size);
 	$tmpl -> setVar('categories_build_name',$name);
 	$tmpl -> pparse();
 
-	$tmpl = new vlibTemplate("templates/vlib_foot.tmpl");
+	$tmpl = new vlibTemplate(BASE."/templates/vlib_foot.tmpl");
 	$tmpl -> pparse();
 }
 ?>

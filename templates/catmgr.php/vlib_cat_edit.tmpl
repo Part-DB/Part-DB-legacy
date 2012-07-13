@@ -1,7 +1,7 @@
 {TMPL_IF NAME="categories_refresh"}
 <script type="text/javascript">
             $refreshnav = false;
-            print "parent.frames._nav_frame.location.reload();";		
+            print "parent.frames._nav_frame.location.reload();";
 </script>
 {/TMPL_IF}
 
@@ -63,7 +63,7 @@
                         Neue &Uuml;berkategorie:<br>
                         <select name="parentnode">
                         <option value="0">root node</option>
-                        {TMPL_VAR NAME="categories_build_tree_3" ESCAPE="none"}
+                        {TMPL_VAR NAME="categories_build_tree_1" ESCAPE="none"}
                         </select>
                         <input type="submit" name="new_parent" value="Umsortieren">
                     </td>

@@ -1,14 +1,12 @@
 <?php
-        
+
     /*
      * we have multiple states:
      * choose file (default)
      * detect and select entries
      * push entries in database
      */
-    include ("lib.php");
-    partdb_init();
-
+	require_once ('lib.php');
 
     /* work around for older php: before 5.3.0
     */
@@ -30,7 +28,7 @@
                     $resArr = array_merge( $resArr, $expDelArr);
                 }
             }
-            return $resArr; 
+            return $resArr;
         }
     }
 
@@ -40,7 +38,7 @@
     $show_file = false;
 
     // determine action
-    // this is a kind of a state machine 
+    // this is a kind of a state machine
     if ( isset( $_REQUEST['check']))  { $action = "check_data";  }
     if ( isset( $_REQUEST['import'])) { $action = "commit_data"; }
 
@@ -64,13 +62,13 @@
     $comment     = ( isset( $_REQUEST['comment'])     ? $_REQUEST['comment']     : array());
 
 
-    // try to catch the file 
-    if ( $action == "import_file") 
+    // try to catch the file
+    if ( $action == "import_file")
     {
         if ( is_uploaded_file( $_FILES['import_file']['tmp_name']))
         {
             // read file content
-            $filename        = $_FILES['import_file']['name']; 
+            $filename        = $_FILES['import_file']['name'];
             $filestring      = file_get_contents( $_FILES['import_file']['tmp_name']);
             $filestring_conv = mb_convert_encoding( $filestring, $_REQUEST['coding'], mb_detect_encoding( $filestring, implode( ',', $accepted_coding), true));
             $content_arr     = explode("\n", $filestring_conv);
@@ -94,13 +92,13 @@
             $action = "error";
             $error  = $_FILES["file"]["error"];
         }
-       
+
 
         // fill data_arr
         $data_arr = array();
         if ( $file_type == 'CSV')
         {
-            foreach ($content_arr as $line_num => $line) 
+            foreach ($content_arr as $line_num => $line)
             {
                 // remove whitespaces etc.
                 $line = trim( $line);
@@ -116,10 +114,10 @@
 
         if ( $file_type == 'XML')
         {
-            $xml   = simplexml_load_string( $filestring_conv); 
+            $xml   = simplexml_load_string( $filestring_conv);
             $index = 1;
             foreach( $xml->part as $index => $part)
-            { 
+            {
                 $data_arr[] = array( $index,
                     $part->category,
                     $part->name,
@@ -132,11 +130,11 @@
                     $part->comment);
             }
         }
-       
+
 
         // extract data from data_arr
         // fill the arrays with initial values
-        foreach ($data_arr as $key => $data) 
+        foreach ($data_arr as $key => $data)
         {
             $nr[$key]          = isset( $data[0]) ? $data[0] : '';
             $category[$key]    = isset( $data[1]) ? $data[1] : '';
@@ -149,12 +147,12 @@
             $sup_part[$key]    = isset( $data[8]) ? $data[8] : '';
             $comment[$key]     = isset( $data[9]) ? $data[9] : '';
         }
-        
+
     } // end import_file
 
 
     // interpret import file content
-    if ( $action == "check_data") 
+    if ( $action == "check_data")
     {
         // predefines
         $ok     = "&nbsp;&#x2714;"; // check mark
@@ -168,7 +166,7 @@
         $add_supplier  = array();
 
         // do sanity checks
-        foreach ($nr as $key => $data) 
+        foreach ($nr as $key => $data)
         {
             $active[$key]            = true;
             $missing_name[$key]      = $ok;
@@ -177,23 +175,23 @@
             $missing_footprint[$key] = $ok;
             $missing_storeloc[$key]  = $ok;
             $missing_supplier[$key]  = $ok;
-            
+
 
             // empty name?
-            if ( strlen( $name[$key]) == 0)       
-            { 
-                $active[$key]       = false; 
-                $missing_name[$key] = $bad; 
+            if ( strlen( $name[$key]) == 0)
+            {
+                $active[$key]       = false;
+                $missing_name[$key] = $bad;
             }
             // count not numeric?
             if ( !( is_numeric( $count[$key])))
-            { 
-                $active[$key]        = false; 
-                $missing_count[$key] = $bad; 
+            {
+                $active[$key]        = false;
+                $missing_count[$key] = $bad;
             }
             // missing category?
             if ( strlen( $category[$key]) == 0)
-            { 
+            {
                 $active[$key]            = false;
                 $missing_category[$key]  = $bad;
             }
@@ -208,7 +206,7 @@
             }
             // missing footprint?
             if ( strlen( $footprint[$key]) == 0)
-            { 
+            {
                 $active[$key]            = false;
                 $missing_footprint[$key] = $bad;
             }
@@ -222,7 +220,7 @@
             }
             // missing storeloc?
             if ( strlen( $storeloc[$key]) == 0)
-            { 
+            {
                 $active[$key]           = false;
                 $missing_storeloc[$key] = $bad;
             }
@@ -236,7 +234,7 @@
             }
             // missing supplier?
             if ( strlen( $supplier[$key]) == 0)
-            { 
+            {
                 $active[$key]           = false;
                 $missing_supplier[$key] = $bad;
             }
@@ -314,9 +312,9 @@
             supplier_add( $entry);
             $add_supplier[] = $entry;
         }
-        
+
         // add selected parts to database
-        foreach ($nr as $key => $data) 
+        foreach ($nr as $key => $data)
         {
             if ($active[$key] == "true")
             {
@@ -327,26 +325,24 @@
                 $supplier_id  = supplier_get_id(  $supplier[$key]);
 
                 part_add( $category_id, $name[ $key], $description[ $key], $count[ $key], 0, $comment[ $key], false, $footprint_id, $storeloc_id, $supplier_id, $sup_part[ $key]);
-                       
+
                 // collect name for reporting
                 $add_part[] = $name[$key];
             }
         }
 
-    } // end commit_data 
+    } // end commit_data
 
     // start data presentation
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>Import</title>
-    <?php print_http_charset(); ?>
-    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
-</head>
-<body class="body">
 
+    $tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
+    $tmpl -> setVar('head_title', 'Import');
+    $tmpl -> setVar('head_charset', $http_charset);
+    $tmpl -> setVar('head_css', $css);
+    $tmpl -> setVar('head_menu', true);
+    $tmpl -> pparse();
+
+?>
 <script type="text/javascript">
 	<?php
         if ( $refreshnav)
@@ -373,7 +369,7 @@
             &nbsp;&nbsp;&nbsp;
             Trennzeichen: <input type="text" name="divider" size="1" maxlength="1" value=";">
             &nbsp;&nbsp;&nbsp;
-            Kodierung: 
+            Kodierung:
                 <select name="coding" size="1">
                 <?php
                     foreach( $accepted_coding as $code)
@@ -446,7 +442,7 @@ XML;
     <h2>Daten importieren (<?php print $filename ?>)</h2>
     <div class="inner">
         <?php
-        foreach ( $content_arr as $line_num => $line) 
+        foreach ( $content_arr as $line_num => $line)
         {
             print "#{$line_num}: ". htmlspecialchars( $line) ."<br>\n";
         }
@@ -469,7 +465,7 @@ XML;
 <div class="outer">
     <h2>Daten pr&uuml;fen</h2>
     <div class="inner">
-        <?php 
+        <?php
             if ( sizeof($add_category) > 0 )
             {
                 print "fehlende Kategorien: ". implode(', ', $add_category) ."<br>";
@@ -496,7 +492,7 @@ XML;
         <td>Import</td>
         <td>#</td>
         <td>Kategorie</td>
-        <td>Name</td> 
+        <td>Name</td>
         <td>Beschreibung</td>
         <td>Anzahl<br>
         <td>Footprint</td>
@@ -507,19 +503,19 @@ XML;
     </tr>
 <?php
         $rowcount = 1;
-        foreach ($nr as $key => $data) 
+        foreach ($nr as $key => $data)
         {
             $rowcount++;
             print "<tr class=\"trlist". (($rowcount % 2) + 1) ."\">";
-            
+
             // active and valid checkbox
             print "<td class=\"tdrow0\"><input type=\"checkbox\" name=\"active[{$key}]\" value=\"true\"";
-            if ( $active[$key] ) 
-            { 
+            if ( $active[$key] )
+            {
                 print " checked";
             }
             else
-            { 
+            {
                 print " disabled";
             }
             print "></td>\n";
@@ -535,7 +531,7 @@ XML;
             print "<td class=\"tdrow2\" style=\"text-align:left\">";
             print "<input type=\"text\" style=\"width:80%\" name=\"name[$key]\" size=\"12\" value=\"{$name[$key]}\">{$missing_name[$key]}</td>\n";
 
-            // description 
+            // description
             print "<td class=\"tdrow2\" style=\"text-align:left\">";
             print "<input type=\"text\" style=\"width:95%\" name=\"description[$key]\" size=\"25\" value=\"{$description[$key]}\"></td>\n";
 
@@ -555,17 +551,17 @@ XML;
             print "<td class=\"tdrow2\" style=\"text-align:left\">";
             print "<input type=\"text\" style=\"width:75%\" name=\"supplier[$key]\" size=\"8\" value=\"{$supplier[$key]}\">{$missing_supplier[$key]}</td>\n";
 
-            // supplierpartnr 
+            // supplierpartnr
             print "<td class=\"tdrow2\" style=\"text-align:left\">";
             print "<input type=\"text\" style=\"width:90%\" name=\"sup_part[$key]\" size=\"10\" value=\"{$sup_part[$key]}\"></td>\n";
 
-            // comment 
+            // comment
             print "<td class=\"tdrow2\" style=\"text-align:left\">";
             print "<input type=\"text\" style=\"width:90%\" name=\"comment[$key]\" size=\"10\" value=\"{$comment[$key]}\"></td>\n";
 
             print "</tr>\n";
         }
-        
+
     ?>
         </td>
     </tr>
@@ -588,7 +584,7 @@ XML;
 <div class="outer">
     <h2>Datenbank aktualisiert</h2>
     <div class="inner">
-        <?php 
+        <?php
             if ( sizeof($add_category) > 0 )
             {
                 print "Kategorien hinzugef&uuml;gt: ". implode(', ', $add_category) ."<br>";
@@ -626,7 +622,7 @@ XML;
 
 <?php
     }
-?>
 
-</body>
-</html>
+    $tmpl = new vlibTemplate(BASE."/templates/vlib_foot.tmpl");
+    $tmpl -> pparse();
+?>

@@ -47,7 +47,7 @@
     require_once ('config.php');
     require_once ('lib.php');
 
-    $tmpl = new vlibTemplate("templates/vlib_head.tmpl");
+    $tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
     $tmpl -> setVar('head_title', $title);
     $tmpl -> setVar('head_charset', $http_charset);
     $tmpl -> setVar('head_css', $css);
@@ -91,7 +91,7 @@
     <?php print get_svn_revision() ? "<h3>SVN-Revision: ". get_svn_revision() ."</h3>" : ""; ?>
 </div>
 
-<?php   // display Warning 
+<?php   // display Warning
     if ($display_warning)
     {
 ?>
@@ -112,7 +112,7 @@
 <?php } ?>
 
 
-<?php   // display database update 
+<?php   // display database update
 if ( strlen( $database_update) > 0)
 {
 ?>
@@ -123,8 +123,8 @@ if ( strlen( $database_update) > 0)
     <?php print $database_update; ?>
     </div>
 </div>
-<?php 
-} 
+<?php
+}
 
 print $banner;
 
@@ -148,10 +148,10 @@ print $banner;
         so it comes with <strong>ABSOLUTELY NO WARRANTY</strong>, click <a href="readme/gpl.txt">here</a> for details.
         This is free software, and you are welcome to redistribute it under certain conditions.
         Click <a href="readme/gpl.txt">here</a> for details.<br>
-        <br> 
+        <br>
         The first Author's Homepage <a href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
         Author since 2009 by <strong>K.Jacobs</strong> - <a href="http://www.grautier.com/">http://grautier.com</a><br>
-        <br> 
+        <br>
         Forum: F&uuml;r Fragen rund um die Part-DB gibt es einen Thread auf <a href="http://www.mikrocontroller.net/topic/135284">mikrocontroller.net</a><br>
         Wiki: Hilfe zur Installation gibt es im <a href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Wiki</a><br>
         <br>
@@ -161,7 +161,7 @@ print $banner;
         <tr><td><strong>d.lipschinski</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr>
         <tr><td><strong>Michael Buesch</strong></td><td>Reichelt/Pollin Preissuch Script</td></tr>
         <tr><td><strong>bubbles.red</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr>
-        <tr><td><strong>Matthias Wei&szlig;er</strong></td><td>EAGLE3D / Bauteile Renderscript (eagle3d.py)</td></tr> 
+        <tr><td><strong>Matthias Wei&szlig;er</strong></td><td>EAGLE3D / Bauteile Renderscript (eagle3d.py)</td></tr>
         <tr><td><strong>Urban B.</strong></td><td>neue Footprints</td></tr>
         <tr><td><strong>Andr&eacute; Althaus</strong></td><td>neue Funktionen</td></tr>
         </table>
@@ -179,21 +179,21 @@ if (! $disable_update_list) {
             $rss_file   = join ( ' ', file ("http://code.google.com/feeds/p/part-db/downloads/basic"));
             $rss_zeilen = array ( "title", "updated", "id" );
             $rss_array  = explode ( "<entry>", $rss_file );
-            
+
             // show only the last actual versions
             $count      = 4;
-            foreach ( $rss_array as $string ) 
+            foreach ( $rss_array as $string )
             {
                 // show all lines from rss feed
-                foreach ( $rss_zeilen as $zeile ) 
+                foreach ( $rss_zeilen as $zeile )
                 {
                     // find tags
                     preg_match_all( "|<$zeile>(.*)</$zeile>|Usim", $string, $preg_match);
                     $$zeile = $preg_match [1] [0];
                     // make clickable if http url
-                    $$zeile = preg_replace('`((?:http)://\S+[[:alnum:]]/?)`si', '<a href="\\1">\\1</a>', $$zeile); 
+                    $$zeile = preg_replace('`((?:http)://\S+[[:alnum:]]/?)`si', '<a href="\\1">\\1</a>', $$zeile);
                     print $$zeile ."<br>". PHP_EOL;
-                } 
+                }
                 if (!(--$count))
                     break;
                 print "<br>". PHP_EOL;
@@ -205,6 +205,6 @@ if (! $disable_update_list) {
 <?php
 }
 
-$tmpl = new vlibTemplate("templates/vlib_foot.tmpl");
+$tmpl = new vlibTemplate(BASE."/templates/vlib_foot.tmpl");
 $tmpl -> pparse();
 ?>

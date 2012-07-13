@@ -54,7 +54,7 @@
             debug_print ($query);
             $result = mysql_query ($query);
             $nDevices = mysql_num_rows($result);
-            if( $nDevices == 0)file:///mnt/pc33hr/intranet/htdocs/part-db/deviceinfo.php
+            if( $nDevices == 0)
             {
                 //now add a part to the device
                 $query = "INSERT INTO part_device (id_part,id_device,quantity) VALUES (". smart_escape($partid[0]) .",". smart_escape( $deviceid) .",1);";
@@ -267,19 +267,20 @@
 		}
 	}
 
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>Deviceinfo</title>
-    <?php print_http_charset(); ?>
-    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
-    <script type="text/javascript" src="popup.php"></script>
-    <script type="text/javascript" src="validatenumber.js"></script>
-</head>
-<body class="body">
+    /** new: 20120712 Udo Neist **/
 
+    $tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
+    $tmpl -> setVar('head_title', 'Deviceinfo');
+    $tmpl -> setVar('head_charset', $http_charset);
+    $tmpl -> setVar('head_css', $css);
+    $tmpl -> setVar('head_menu', true);
+    $tmpl -> setVar('head_popup', true);
+    $tmpl -> setVar('head_validate', true);
+    $tmpl -> pparse();
+
+    /** end: 20120712 Udo Neist **/
+
+?>
 <div class="outer">
     <h2>Teile per Name zuordnen</h2>
     <div class="inner">

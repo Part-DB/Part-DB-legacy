@@ -21,10 +21,9 @@
         $Id: newpart.php 475 2012-07-02 16:09:22Z kami89@gmx.ch $
 
 */
-        include ("lib.php");
-        partdb_init();
-       
-       
+
+        require_once ('lib.php');
+
         // global params to
         $NewFootprint   = ( isset( $_REQUEST['AddFootprint']))   ? $_REQUEST['NewFootprint']   : '';
         $NewStorage     = ( isset( $_REQUEST['AddStorage']))     ? $_REQUEST['NewStorage']     : '';
@@ -64,7 +63,7 @@
                 }
                 else*/
                 {
-                       
+
                     $id = part_add( $_REQUEST["cid"], $p_name, $p_description, $p_instock, $p_mininstock, $p_comment, $p_obsolete, $p_footprint, $p_storeloc, $p_supplier, $p_supplierpartnr);
                     if ( strlen($_REQUEST["URLDatasheet"]) != 0)
                     {
@@ -147,20 +146,15 @@
         }
 
 
+	$tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
+	$tmpl -> setVar('head_title', 'Neues Teil');
+	$tmpl -> setVar('head_charset', $http_charset);
+	$tmpl -> setVar('head_css', $css);
+	$tmpl -> setVar('head_util_functions', true);
+	$tmpl -> setVar('head_clear_default_text', true);
+	$tmpl -> setVar('head_validate', true);
+	$tmpl -> pparse();
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>Neues Teil</title>
-    <?php print_http_charset(); ?>
-    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
-    <script type="text/javascript" src="util-functions.js"></script>
-    <script type="text/javascript" src="clear-default-text.js"></script>       
-    <script type="text/javascript" src="validatenumber.js"></script>       
-</head>
-<body class="body">
-
 <div class="outer">
     <h2>Neues Teil in der Kategorie &quot;<?php print category_get_name( $_REQUEST["cid"]); ?>&quot;</h2>
     <div class="inner">
@@ -173,24 +167,24 @@
             <input type="text" name="p_name" value="<?PHP print $p_name ?>" tabindex=\"1\"/>
             </td>
             </tr>
-            
+
             <tr>
             <td>Beschreibung:</td>
             <td>
             <input type="text" name="p_description" value="<?PHP print $p_description ?>">
             </td>
             </tr>
-            
+
             <tr>
             <td>Lagerbestand:</td>
             <td><input type="text" name="p_instock" onkeypress="validateNumber(event)" value="<?PHP print $p_instock ?>"/></td>
             </tr>
-            
+
             <tr>
             <td>Min. Bestand:</td>
             <td><input type="text" name="p_mininstock" onkeypress="validateNumber(event)" value="<?PHP print $p_mininstock ?>"/></td>
             </tr>
-            
+
             <tr>
             <td>Footprint:</td>
             <td>
@@ -205,7 +199,7 @@
             <input type="submit" name="AddFootprint" value="Search/Add"/>
             </td>
             </tr>
-            
+
             <tr>
             <td>Lagerort:</td>
             <td>
@@ -220,7 +214,7 @@
             <input type="submit" name="AddStorage" value="Search/Add"/>
             </td>
             </tr>
-            
+
             <tr>
             <td>Lieferant:</td>
             <td>
@@ -235,22 +229,22 @@
             <input type="submit" name="AddDistributor" value="Search/Add"/>
             </td>
             </tr>
-            
+
             <tr>
             <td>Bestell-Nr.:</td>
             <td><input type="text" name="p_supplierpartnr" value="<?PHP print $p_supplierpartnr ?>"></td>
             </tr>
-                    
+
             <tr>
             <td><b>obsolet:</b></td>
             <td><input type="checkbox" name="p_obsolete" value="true"<?php print $p_obsolete ? 'checked' : ''; ?>></td>
             </tr>
-            
+
             <tr>
             <td>Preis:</td>
             <td><input type="text" name="p_price" onkeypress="validateNumber(event)" value="<?php print $p_price ?>"></td>
             </tr>
-            
+
             <tr>
             <td valign="top">Kommentar:</td>
             <td colspan="2"><textarea name="p_comment" rows=2 cols=40><?PHP print $p_comment ?></textarea></td>
@@ -273,8 +267,8 @@
         </form>
     </div>
 </div>
-
-
-</body>
-</html>
+<?php
+	$tmpl = new vlibTemplate(BASE."/templates/vlib_foot.tmpl");
+	$tmpl -> pparse();
+?>
 

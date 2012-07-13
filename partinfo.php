@@ -21,8 +21,8 @@
     $Id: partinfo.php 480 2012-07-07 12:23:24Z kami89@gmx.ch $
 
 */
-    include ("lib.php");
-    partdb_init();
+
+    require_once ('lib.php');
 
     /*
      * 'action' is a hidden field in the form.
@@ -36,28 +36,24 @@
     {
         parts_stock_decrease( $_REQUEST["pid"], $_REQUEST["n_less"]);
     }
-    
+
     if ( $action == "inc")
     {
         parts_stock_increase( $_REQUEST["pid"], $_REQUEST["n_more"]);
     }
 
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>Detailinfo</title>
-    <?php print_http_charset(); ?>
-    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
-    <script type="text/javascript" src="popup.php"></script>
-</head>
-<body class="body">
+	$tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
+	$tmpl -> setVar('head_title', 'Neues Teil');
+	$tmpl -> setVar('head_charset', $http_charset);
+	$tmpl -> setVar('head_css', $css);
+	$tmpl -> setVar('head_popup', true);
+	$tmpl -> pparse();
 
+?>
 <div class="outer">
     <h2>Detailinfo zu &quot;<?PHP print part_get_name( $_REQUEST["pid"]); ?>&quot;</h2>
     <div class="inner">
-        
+
         <table>
         <tr valign="top">
         <td>
@@ -95,7 +91,7 @@
             ?>
             <tr><td><b>Preis:</b></td><td><?php print smart_unescape( $preis) ." ". $currency; ?> &nbsp;</td></tr>
             <tr><td valign="top"><b>Kommentar:</b></td><td><?php print nl2br( smart_unescape( $data['comment'])); ?>&nbsp;</td></tr>
-        
+
             <?php
         }
         ?>
@@ -130,8 +126,8 @@
         if ( picture_exists( $_REQUEST["pid"]))
         {
             print "<br><b>Bilder:</b><br>". PHP_EOL;
-            
-            $result = pictures_select( $_REQUEST["pid"]); 
+
+            $result = pictures_select( $_REQUEST["pid"]);
 
             while ($data = mysql_fetch_assoc( $result))
             {
@@ -145,7 +141,7 @@
         ?>
     </div>
 </div>
-
-
-</body>
-</html>
+<?php
+	$tmpl = new vlibTemplate(BASE."/templates/vlib_foot.tmpl");
+	$tmpl -> pparse();
+?>

@@ -20,8 +20,8 @@
 
     $Id: showparts.php 442 2012-06-14 05:40:48Z bubbles.red@gmail.com $
 */
-    include ("lib.php");
-    partdb_init();
+
+    require_once ('lib.php');
 
     $cid    = isset( $_REQUEST['cid'])    ? $_REQUEST['cid']          : '';
     $pid    = isset( $_REQUEST['pid'])    ? $_REQUEST['pid']          : '';
@@ -30,7 +30,7 @@
 
     // logical inverted text
     $subcat_text = $subcat ? 'ausblenden' : 'einblenden';
-    
+
     if ( $action == 'dec')
     {
         // remove one part
@@ -42,27 +42,22 @@
         // add one part
         parts_stock_increase( $pid);
     }
-    
+
+
+    /** new: 20120712 Udo Neist **/
+
+    $tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
+    $tmpl -> setVar('head_title', 'Deviceinfo');
+    $tmpl -> setVar('head_charset', $http_charset);
+    $tmpl -> setVar('head_css', $css);
+    $tmpl -> setVar('head_menu', true);
+    $tmpl -> setVar('head_popup', true);
+    $tmpl -> setVar('hide_id', $hide_id);
+    $tmpl -> pparse();
+
+    /** end: 20120712 Udo Neist **/
 
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>Teileansicht</title>
-    <?php print_http_charset(); ?>
-    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
-    <?php
-        require( 'config.php');
-        if ( $hide_id)
-        {
-            print '<style type="text/css">.idclass { display: none; } </style>';
-        } 
-    ?>
-    <script type="text/javascript" src="dtree.js"></script>
-    <script type="text/javascript" src="popup.php"></script>
-</head>
-<body class="body">
 
 <div class="outer">
     <h2>Sonstiges</h2>

@@ -104,6 +104,15 @@
 
 
 /* Tabellen/Listen */
+
+/** new: 20120712 Udo Neist **/
+
+a.headline {color: #2652BA;}
+a.headline:before {content:"- "}
+a.headline:after {content:" -"}
+
+/** end: 20120712 Udo Neist **/
+
 .trlist_odd {
 	background-color: #d0d0d0;
 }

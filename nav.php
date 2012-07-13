@@ -23,21 +23,29 @@
 
 require_once ('lib.php');
 
-$tmpl = new vlibTemplate("templates/vlib_head.tmpl");
+$tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
 $tmpl -> setVar('head_title', $title);
 $tmpl -> setVar('head_charset', $http_charset);
 $tmpl -> setVar('head_css', $css);
 $tmpl -> setVar('head_menu', true);
 $tmpl -> pparse();
 
-$tmpl = new vlibTemplate("templates/nav.php/vlib_menu.tmpl");
+$tmpl = new vlibTemplate(BASE."/templates/nav.php/vlib_menu.tmpl");
 $tmpl -> setVar('enable_devices', ! $disable_devices);
 $tmpl -> setVar('enable_help', ! $disable_help);
 $tmpl -> setVar('enable_config', ! $disable_config);
-$tmpl -> setVar('categories_build_navtree', categories_build_navtree());
-$tmpl -> setVar('devices_build_navtree', devices_build_navtree());
+ob_start();
+categories_build_navtree();
+$javascript = ob_get_contents();
+ob_end_clean();
+$tmpl -> setVar('categories_build_navtree', $javascript);
+ob_start();
+devices_build_navtree();
+$javascript = ob_get_contents();
+ob_end_clean();
+$tmpl -> setVar('devices_build_navtree', $javascript);
 $tmpl -> pparse();
 
-$tmpl = new vlibTemplate("templates/vlib_foot.tmpl");
+$tmpl = new vlibTemplate(BASE."/templates/vlib_foot.tmpl");
 $tmpl -> pparse();
 ?>
