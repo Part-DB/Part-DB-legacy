@@ -46,7 +46,7 @@
 
     /** new: 20120712 Udo Neist **/
 
-    $tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
     $tmpl -> setVar('head_title', 'Deviceinfo');
     $tmpl -> setVar('head_charset', $http_charset);
     $tmpl -> setVar('head_css', $css);
@@ -101,6 +101,7 @@
         </table>
     </div>
 </div>
-
-</body>
-</html>
+<?php
+	$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
+	$tmpl -> pparse();
+?>

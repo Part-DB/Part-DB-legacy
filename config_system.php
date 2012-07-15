@@ -11,16 +11,16 @@
 
     $action = ( isset( $_REQUEST["action"]) ? $_REQUEST["action"] : 'default');
 
-    /** edit: 20120711 Udo Neist **/
+    /** edit: 20120715 Udo Neist **/
 
-    $tmpl = new vlibTemplate("templates/vlib_head.tmpl");
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
     $tmpl -> setVar('head_title', $title);
     $tmpl -> setVar('head_charset', $http_charset);
     $tmpl -> setVar('head_css', $css);
     $tmpl -> setVar('head_menu', true);
     $tmpl -> pparse();
 
-    $tmpl = new vlibTemplate("templates/config_system.php/vlib_config_system.tmpl");
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/config_system.php/vlib_config_system.tmpl");
     $tmpl -> setVar('version', 'SVN '.get_svn_revision());
 
     $charsets = array();
@@ -52,8 +52,8 @@
 
     $tmpl -> pparse();
 
-    $tmpl = new vlibTemplate("templates/vlib_foot.tmpl");
+    $tmpl = new vlibTemplate(BASE."/templates/$theme//vlib_foot.tmpl");
     $tmpl -> pparse();
 
-    /** end: 20120711 Udo Neist **/
+    /** end: 20120715 Udo Neist **/
 ?>

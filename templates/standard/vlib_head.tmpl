@@ -4,8 +4,7 @@
 	{TMPL_IF NAME="head_title"}<title>{TMPL_VAR NAME="head_title"}</title>{/TMPL_IF}
 	{TMPL_IF NAME="head_charset"}<meta http-equiv="content-type" content="text/html; charset={TMPL_VAR NAME="head_charset"}">{/TMPL_IF}
 	<link rel="icon" href="img/partdb/favicon.ico" type="image/x-icon">
-	<link rel="StyleSheet" href="css/standard/partdb.css" type="text/css">
-	{TMPL_IF NAME="head_css"}<link rel="StyleSheet" href="css/{TMPL_VAR NAME="head_css"}/partdb.css" type="text/css">{/TMPL_IF}
+	{TMPL_IF NAME="head_css"}<link rel="stylesheet" href="{TMPL_VAR NAME="head_css"}/partdb.css" type="text/css">{/TMPL_IF}
 	{TMPL_IF NAME="head_menu"}<script type="text/javascript" src="dtree.js"></script>{/TMPL_IF}
 	{TMPL_IF NAME="head_popup"}<script type="text/javascript" src="popup.php"></script>{/TMPL_IF}
 	{TMPL_IF NAME="head_util_functions"}<script type="text/javascript" src="util-functions.js"></script>{/TMPL_IF}

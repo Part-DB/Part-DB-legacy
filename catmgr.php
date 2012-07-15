@@ -103,14 +103,17 @@ $size       = min( categories_count(), 30);
 
 if ($special_dialog == false)
 {
-	$tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
+
+	/** edit: 20120715 Udo Neist **/
+
+	$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
 	$tmpl -> setVar('head_title', 'Kategorien');
 	$tmpl -> setVar('head_charset', $http_charset);
 	$tmpl -> setVar('head_css', $css);
 	$tmpl -> setVar('head_menu', true);
 	$tmpl -> pparse();
 
-	$tmpl = new vlibTemplate(BASE."/templates/catmgr.php/vlib_cat_edit.tmpl");
+	$tmpl = new vlibTemplate(BASE."/templates/$theme/catmgr.php/vlib_cat_edit.tmpl");
 	ob_start();
 	categories_build_tree( 0, 0, $parentnode);
 	$categories = ob_get_contents();
@@ -126,7 +129,10 @@ if ($special_dialog == false)
 	$tmpl -> setVar('categories_build_name',$name);
 	$tmpl -> pparse();
 
-	$tmpl = new vlibTemplate(BASE."/templates/vlib_foot.tmpl");
+	$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
 	$tmpl -> pparse();
+
+	/** end: 20120715 Udo Neist **/
+
 }
 ?>

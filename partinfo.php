@@ -42,7 +42,7 @@
         parts_stock_increase( $_REQUEST["pid"], $_REQUEST["n_more"]);
     }
 
-	$tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
+	$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
 	$tmpl -> setVar('head_title', 'Neues Teil');
 	$tmpl -> setVar('head_charset', $http_charset);
 	$tmpl -> setVar('head_css', $css);
@@ -142,6 +142,6 @@
     </div>
 </div>
 <?php
-	$tmpl = new vlibTemplate(BASE."/templates/vlib_foot.tmpl");
+	$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
 	$tmpl -> pparse();
 ?>

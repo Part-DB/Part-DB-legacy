@@ -47,7 +47,7 @@
     require_once ('config.php');
     require_once ('lib.php');
 
-    $tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
     $tmpl -> setVar('head_title', $title);
     $tmpl -> setVar('head_charset', $http_charset);
     $tmpl -> setVar('head_css', $css);
@@ -70,7 +70,7 @@
 
     if ( categories_count() == 0)
     {
-        $display_warning  = true;
+        $display_warning  = true;file:///mnt/server.venus.prv/www/htdocs/part-db/startup.php
         $missing_category = $bad;
     }
 
@@ -204,7 +204,6 @@ if (! $disable_update_list) {
 
 <?php
 }
-
-$tmpl = new vlibTemplate(BASE."/templates/vlib_foot.tmpl");
+$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
 $tmpl -> pparse();
 ?>

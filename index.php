@@ -33,7 +33,7 @@ if ( check_mobile())
 	require ('mobil/mobil.php');
 }
 else {
-	$tmpl = new vlibTemplate(BASE."/templates/index.php/vlib_frameset.tmpl");
+	$tmpl = new vlibTemplate(BASE."/templates/$theme/index.php/vlib_frameset.tmpl");
 }
 
 if ($tmpl)

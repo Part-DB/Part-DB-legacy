@@ -335,7 +335,7 @@
 
     // start data presentation
 
-    $tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
     $tmpl -> setVar('head_title', 'Import');
     $tmpl -> setVar('head_charset', $http_charset);
     $tmpl -> setVar('head_css', $css);
@@ -623,6 +623,6 @@ XML;
 <?php
     }
 
-    $tmpl = new vlibTemplate(BASE."/templates/vlib_foot.tmpl");
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
     $tmpl -> pparse();
 ?>

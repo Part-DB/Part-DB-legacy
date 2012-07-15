@@ -25,12 +25,14 @@
     require ('vlibMimeMail.php');
     //require ('class.error.php');
 
-    /** edit: 20120711 Udo Neist **/
+    /** edit: 20120715 Udo Neist **/
 
-    /* define additional stylesheet, e.g. Greenway*/
-    $css = "";
+    /* define theme, e.g. standard, Greenway */
+    $theme = "standard";
+    /* corrects path of theme. do not edit this! */
+    $css = ((is_readable(BASE."/templates/$theme/partdb.css"))?"templates/$theme":"css/$theme");
 
-    /** end: 20120711 Udo Neist **/
+    /** end: 20120715 Udo Neist **/
 
     /** end: 20120617 Udo Neist **/
 
@@ -49,7 +51,7 @@
 
     /* set version */
     $conf['version']['author'] = 'Udo Neist';
-    $conf['version']['build'] = '20120713 (freaky friday)';
+    $conf['version']['build'] = '20120715';
     $conf['version']['string'] = ' (modified by '.$conf['version']['author'].', Build: '.$conf['version']['build'].')';
 
     /* load database configuration */

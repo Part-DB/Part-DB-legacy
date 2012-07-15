@@ -93,16 +93,16 @@
         }
     }
 
-    /** edit: 20120711 Udo Neist **/
+    /** edit: 20120715 Udo Neist **/
 
-    $tmpl = new vlibTemplate("templates/vlib_head.tmpl");
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
     $tmpl -> setVar('head_title', $title);
     $tmpl -> setVar('head_charset', $http_charset);
     $tmpl -> setVar('head_css', $css);
     $tmpl -> setVar('head_menu', true);
     $tmpl -> pparse();
 
-    $tmpl = new vlibTemplate("templates/config_page.php/vlib_config_page.tmpl");
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/config_page.php/vlib_config_page.tmpl");
     $tmpl -> setVar('db_version_1', getDBVersion());
     $tmpl -> setVar('db_version_2', getSollDBVersion());
     $tmpl -> setVar('db_version_update', checkDBUpdateNeeded());
@@ -116,9 +116,9 @@
     $tmpl -> setLoop('db_list_backups', list_backup_files($backup_path));
     $tmpl -> pparse();
 
-    $tmpl = new vlibTemplate("templates/vlib_foot.tmpl");
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
     $tmpl -> pparse();
 
-    /** end: 20120711 Udo Neist **/
+    /** end: 20120715 Udo Neist **/
 
 ?>

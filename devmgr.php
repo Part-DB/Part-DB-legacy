@@ -57,21 +57,21 @@
 
            /** edit: 20120711 Udo Neist **/
 
-           $tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
+           $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
            $tmpl -> setVar('head_title', $title);
            $tmpl -> setVar('head_charset', $http_charset);
            $tmpl -> setVar('head_css', $css);
            $tmpl -> setVar('head_menu', true);
            $tmpl -> pparse();
 
-           $tmpl = new vlibTemplate(BASE."/templates/devmgr.php/vlib_devmgr.tmpl");
+           $tmpl = new vlibTemplate(BASE."/templates/$theme/devmgr.php/vlib_devmgr.tmpl");
            $tmpl -> setVar('lookup_device_name', lookup_device_name($dev_sel));
            $tmpl -> setVar('size', $size);
            $tmpl -> setVar('name', $name);
            $tmpl -> setVar('dev_sel', $dev_sel);
            $tmpl -> pparse();
 
-           $tmpl = new vlibTemplate(BASE."/templates/vlib_foot.tmpl");
+           $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
            $tmpl -> pparse();
 
            /** end: 20120711 Udo Neist **/
@@ -112,14 +112,14 @@
     {
         /** edit: 20120711 Udo Neist **/
 
-        $tmpl = new vlibTemplate(BASE."/templates/vlib_head.tmpl");
+        $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
         $tmpl -> setVar('head_title', $title);
         $tmpl -> setVar('head_charset', $http_charset);
         $tmpl -> setVar('head_css', $css);
         $tmpl -> setVar('head_menu', true);
         $tmpl -> pparse();
 
-        $tmpl = new vlibTemplate(BASE."/templates/devmgr.php/vlib_devmgr.tmpl");
+        $tmpl = new vlibTemplate(BASE."/templates/$theme/devmgr.php/vlib_devmgr.tmpl");
         $tmpl -> setVar('refreshnav', $refreshnav);
 
         ob_start();
@@ -135,7 +135,7 @@
         $tmpl -> setVar('device_buildtree_2', $devices);
         $tmpl -> pparse();
 
-        $tmpl = new vlibTemplate(BASE."/templates/vlib_foot.tmpl");
+        $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
         $tmpl -> pparse();
 
         /** end: 20120711 Udo Neist **/
