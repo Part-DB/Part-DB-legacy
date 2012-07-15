@@ -1,8 +1,6 @@
 <?php
-    
-    include ('../lib.php');
-    partdb_init();
-                
+
+    require_once ('../lib.php');
 
     function group_footprint_pictures( $pic_array_to_group, $depth)
     {
@@ -96,20 +94,21 @@
 
     function show_table_content( $path)
     {
+	$text = '';
         $groups = group_footprints( $path);
         $rowcount = 0;
         foreach( $groups as $group)
         {
             $rowcount++;
-            print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">". PHP_EOL;
-            print "<td>". PHP_EOL;
+            $text .= "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">". PHP_EOL;
+            $text .= "<td>". PHP_EOL;
             foreach( $group as $pic)
             {
                 $file  = $pic; 
                 $title = basename( $pic, '.png');
                 $footprint_exists = footprint_exists( $title) ? " checked" : ""; 
                 $id               = footprint_exists( $title) ? footprint_get_id( $title) : -1; 
-                print "<div class=\"footprint\">".
+                $text .= "<div class=\"footprint\">".
                     "<img src=\"". $file ."\" title=\"". $title ."\" alt=\"\">".
 
                     // TODO: Hinzufügen/Löschen von Footprints ist vorübergehend deaktiviert,
@@ -123,8 +122,9 @@
 
                     "</div>". PHP_EOL;
             }
-            print "</td></tr>". PHP_EOL;
+            $text .= "</td></tr>". PHP_EOL;
         }
+        return $text;
     }
 
 
@@ -132,14 +132,8 @@
     {
         $path_nice = str_replace( "//", "/", $path);
         $path_nice = ucfirst( str_replace( "/", " : ", $path_nice));
-        print '<div class="outer">'. PHP_EOL;
-        print '    <h2>'. $path_nice .'</h2>'. PHP_EOL;
-        print '    <div class="inner">'. PHP_EOL;
-        print '        <table>'. PHP_EOL;
-        show_table_content( $path);
-        print '        </table>'. PHP_EOL;
-        print '    </div>'. PHP_EOL;
-        print '</div>'. PHP_EOL;
+
+        return '<div class="outer"><h2>'. $path_nice .'</h2><div class="inner"><table>'.show_table_content( $path).'</table></div></div>';
     }
 
 
@@ -162,7 +156,7 @@
     function print_footprint_tree( $dir_array, $path = "") {
         if ( footprint_elements( $path) > 0)
         {
-            show_footprint_table( $path);
+            echo show_footprint_table( $path);
         }
         
         foreach( $dir_array as $dir => $value) 
@@ -176,53 +170,22 @@
     }
 
 
+$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
+$tmpl -> setVar('head_title', $title);
+$tmpl -> setVar('head_charset', $http_charset);
+$tmpl -> setVar('head_css', "../".$css);
+$tmpl -> setVar('head_menu', true);
+$tmpl -> pparse();
+
+$tmpl = new vlibTemplate(BASE."/templates/$theme/footprints.php/vlib_footprints.tmpl");
+ob_start();
+print_footprint_tree( generate_footprint_tree( "footprints/"), "footprints/");
+$list = ob_get_contents();
+$tmpl -> setVar('list', $list);
+$tmpl -> pparse();
+
+$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
+$tmpl -> pparse();
+
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>Footprints</title>
-    <link rel="StyleSheet" href="../css/partdb.css" type="text/css">
-</head>
-<body class="body">
-            
-    <script type="text/javascript">
-        function process( element, footprint, id)
-        {
-            var xmlHttpReq = false;
-            var self = this;
-            var send;
 
-            // Mozilla/Safari
-            if (window.XMLHttpRequest) {
-                self.xmlHttpReq = new XMLHttpRequest();
-            }
-            // IE
-            else if (window.ActiveXObject) {
-                self.xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-
-            self.xmlHttpReq.open( 'POST', '../fpmgr.php', true);
-            self.xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-            if ( element.checked)
-            {
-                send = 'add=&new_footprint=' + footprint + '&parent_node=0';
-            }
-            else
-            {
-                send = 'delete=&footprint_sel=' + id;
-            }
-            self.xmlHttpReq.setRequestHeader('Content-length', send.length);
-            self.xmlHttpReq.send( send); 
-        }
-    </script>
-
-    <form>
-    <?php
-        $footprint_tree = generate_footprint_tree( "footprints/");
-        print_footprint_tree( $footprint_tree, "footprints/");
-    ?>
-    </form>
-
-</body>
-</html>
