@@ -535,7 +535,7 @@
 
         global $conf;
 
-	if ( function_exists('svnversion') )
+	if ( function_exists('shell_exec') )
         {
             $repo_version = shell_exec('svnversion');
         }
