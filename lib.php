@@ -531,24 +531,24 @@
     function get_svn_revision()
     {
 
-        /** new: 201207xx Udo Neist **/
+        /** edit: 20120715 Udo Neist **/
 
         global $conf;
 
-        if ( !$repo_version = shell_exec( 'svnversion') )
+	if ( function_exists('svnversion') )
         {
-
-            if ( file_exists( BASE.'/.svn/entries') )
-            {
+            $repo_version = shell_exec('svnversion');
+        }
+	elseif ( file_exists( BASE.'/.svn/entries') )
+        {
                 $svn = File( BASE.'/.svn/entries');
                 $repo_version = $svn[ 3];
                 unset($svn);
-            }
         }
 
         return( $repo_version . $conf['version']['string'] );
 
-        /** end: 201207xx Udo Neist **/
+        /** end: 20120715 Udo Neist **/
     }
 
 
