@@ -1,0 +1,148 @@
+<div class="outer">
+    <h2>Systemeinstellungen aus config.php (momentan nur Ansicht)</h2>
+    <div class="inner">
+      <form action="" method="post">
+        <table width="100%">
+            <tr>
+                <td width="30%">Version:</td>
+                <td width="70%">{TMPL_VAR NAME="version"}</td>
+            </tr>
+
+             <tr>
+                <td colspan="2">
+                    <hr>
+                </td>
+            </tr>
+
+            <tr>
+                <td width="30%">HTTP-Zeichensatz:</td>
+                <td width="70%">
+                  <select name="head_charset">
+                    {TMPL_LOOP name='head_charset'}
+                      <option value="{TMPL_VAR NAME="charsets"}"{TMPL_IF NAME="checked"} selected{/TMPL_IF}>{TMPL_VAR NAME="charsets"}</option>
+                    {/TMPL_LOOP}
+                </td>
+            </tr>
+
+             <tr>
+                <td>Thema (CSS):</td>
+                <td>{TMPL_IF NAME="head_css"}{TMPL_VAR NAME="head_css"}{TMPL_ELSE}Part-DB Standard{/TMPL_IF}</td>
+            </tr>
+
+           <tr>
+                <td>W&auml;hrungssymbol:</td>
+                <td>{TMPL_VAR NAME="currency" ESCAPE="none"}</td>
+            </tr>
+
+            <tr>
+                <td>Pfad f&uuml;r Datenbl&auml;tter:</td>
+                <td>{TMPL_VAR NAME="datasheet_path"}</td>
+            </tr>
+
+            <tr>
+                <td>Pfad f&uuml;r Datenbl&auml;tter als Standard verwenden:</td>
+                <td>
+                  <select name="use_datasheet_path">
+                    <option value="ja"{TMPL_IF NAME="use_datasheet_path" OP="==" VALUE="1"} selected{/TMPL_IF}>ja</option>
+                    <option value="nein"{TMPL_IF NAME="use_datasheet_path" OP="==" VALUE="0"} selected{/TMPL_IF}>nein</option>
+                  </select>
+                </td>
+            </tr>
+
+             <tr>
+                <td colspan="2">
+                    <hr>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Datenbankserver:</td>
+                <td>{TMPL_VAR NAME="db_server"}</td>
+            </tr>
+
+            <tr>
+                <td>Datenbank:</td>
+                <td>{TMPL_VAR NAME="db_database"}</td>
+            </tr>
+
+            <tr>
+                <td>Datenbankversion:</td>
+                <td>{TMPL_VAR NAME="db_version_1"}{TMPL_IF NAME="db_version_2"} (Update erforderlich){/TMPL_IF}</td>
+            </tr>
+
+           <tr>
+                <td colspan="2">
+                    <hr>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Updateliste auf Startseite verstecken:</td>
+                <td>
+                  <select name="disable_update_list">
+                    <option value="ja"{TMPL_IF NAME="disable_update_list" OP="==" VALUE="1"} selected{/TMPL_IF}>ja</option>
+                    <option value="nein"{TMPL_IF NAME="disable_update_list" OP="==" VALUE="0"} selected{/TMPL_IF}>nein</option>
+                  </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Baugruppenfunktion abschalten:</td>
+                <td>
+                  <select name="disable_devices">
+                    <option value="ja"{TMPL_IF NAME="disable_devices" OP="==" VALUE="1"} selected{/TMPL_IF}>ja</option>
+                    <option value="nein"{TMPL_IF NAME="disable_devices" OP="==" VALUE="0"} selected{/TMPL_IF}>nein</option>
+                  </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Bauteil-ID in Listen verstecken:</td>
+                <td>
+                  <select name="hide_id">
+                    <option value="ja"{TMPL_IF NAME="hide_id" OP="==" VALUE="1"} selected{/TMPL_IF}>ja</option>
+                    <option value="nein"{TMPL_IF NAME="hide_id" OP="==" VALUE="0"} selected{/TMPL_IF}>nein</option>
+                  </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td>Hilfefunktion abschalten:</td>
+                <td>
+                  <select name="disable_help">
+                    <option value="ja"{TMPL_IF NAME="disable_help" OP="==" VALUE="1"} selected{/TMPL_IF}>ja</option>
+                    <option value="nein"{TMPL_IF NAME="disable_help" OP="==" VALUE="0"} selected{/TMPL_IF}>nein</option>disable_help
+                  </select>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2">
+                    <hr>
+                </td>
+            </tr>
+
+            <tr>
+                <td>modale Dialoge verwenden:</td>
+                <td>
+                  <select name="use_modal_dialog">
+                    <option value="ja"{TMPL_IF NAME="use_modal_dialog" OP="==" VALUE="1"} selected{/TMPL_IF}>ja</option>
+                    <option value="nein"{TMPL_IF NAME="use_modal_dialog" OP="==" VALUE="0"} selected{/TMPL_IF}>nein</option>
+                  </select>
+                </td>
+            </tr>
+
+
+            <tr>
+                <td>Dialogbreite:</td>
+                <td>{TMPL_VAR NAME="dialog_width"}</td>
+            </tr>
+
+            <tr>
+                <td>Dialogh&ouml;he:</td>
+                <td>{TMPL_VAR NAME="dialog_height"}</td>
+            </tr>
+        </table>
+      </form>
+    </div>
+</div>

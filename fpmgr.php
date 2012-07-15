@@ -21,8 +21,8 @@
     $Id: fpmgr.php 481 2012-07-07 12:47:35Z kami89@gmx.ch $
 
 */
-    include('lib.php');
-    partdb_init();
+
+    require_once ('lib.php');
 
     /*
      * In some cases a confirmation question has to be displayed.
@@ -217,17 +217,14 @@
      */
     if ($special_dialog == false)
     {
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>Footprints</title>
-    <?php print_http_charset(); ?>
-    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
-</head>
-<body class="body">
 
+        $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
+        $tmpl -> setVar('head_title', 'Footprints');
+        $tmpl -> setVar('head_charset', $http_charset);
+        $tmpl -> setVar('head_css', $css);
+        $tmpl -> pparse();
+
+?>
 <div class="outer">
     <h2>Footprint anlegen</h2> 
     <div class="inner">
@@ -348,6 +345,8 @@
     </div>
 </div>
 
-</body>
-</html>
-<?php } ?>
+<?php
+        $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
+        $tmpl -> pparse();
+   }
+?>

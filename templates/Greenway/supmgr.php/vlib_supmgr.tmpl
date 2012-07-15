@@ -1,0 +1,38 @@
+<div class="outer">
+    <h2>Lieferant anlegen</h2>
+    <div class="inner">
+        <form action="" method="post">
+            Neuer Lieferant:
+            <input type="text" name="new_supplier">
+            <input type="submit" name="add" value="Anlegen">
+        </form>
+    </div>
+</div>
+
+
+<div class="outer">
+    <h2>Lieferant umbenennen/löschen</h2>
+    <div class="inner">
+        <form action="" method="post">
+            <table>
+                <tr>
+                    <td rowspan="2">
+                        <select name="supplier_sel" size="{TMPL_VAR NAME="size"}" onChange="this.form.submit()">
+                        {TMPL_VAR NAME="suppliers_build_list"}
+                        </select>
+                    </td>
+                    <td>
+                        Neuer Name:<br>
+                        <input type="text"   name="new_name" value="{TMPL_VAR NAME="name"}">
+                        <input type="submit" name="rename" value="Umbenennen">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="submit" name="delete" value="Löschen">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

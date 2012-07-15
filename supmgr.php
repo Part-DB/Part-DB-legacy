@@ -21,9 +21,9 @@
     $Id: supmgr.php 392 2012-03-03 06:30:03Z bubbles.red@gmail.com $
 
 */
-    include('lib.php');
-    partdb_init();
-    
+
+    require_once ('lib.php');
+
     $action = 'default';
     if ( isset( $_REQUEST["add"]))    { $action = 'add';}
     if ( isset( $_REQUEST["delete"])) { $action = 'delete';}
@@ -46,60 +46,24 @@
         supplier_rename( $supplier_sel, $_REQUEST["new_name"]);
     }
 
-    $data       = supplier_select( $supplier_sel);
-    $name       = $data['name'];
+    $data = supplier_select( $supplier_sel);
 
-    $size       = min( suppliers_count(), 30);
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
+    $tmpl -> setVar('head_title', 'Lieferanten');
+    $tmpl -> setVar('head_charset', $http_charset);
+    $tmpl -> setVar('head_css', $css);
+    $tmpl -> pparse();
 
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/supmgr.php/vlib_supmgr.tmpl");
+    $tmpl -> setVar('size', min(suppliers_count(), 30));
+    ob_start();
+    suppliers_build_list($supplier_sel);
+    $list = ob_get_contents();
+    ob_end_clean();
+    $tmpl -> setVar('suppliers_build_list', $list);
+    $tmpl -> setVar('name', $data['name']);
+    $tmpl -> pparse();
+
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
+    $tmpl -> pparse();
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>Lieferanten</title>
-    <?php print_http_charset(); ?>
-    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
-</head>
-<body class="body">
-
-<div class="outer">
-    <h2>Lieferant anlegen</h2>
-    <div class="inner">
-        <form action="" method="post">
-            Neuer Lieferant:
-            <input type="text" name="new_supplier">
-            <input type="submit" name="add" value="Anlegen">
-        </form>
-    </div>
-</div>
-
-
-<div class="outer">
-    <h2>Lieferant umbenennen/l&ouml;schen</h2>
-    <div class="inner">
-        <form action="" method="post">
-            <table>
-                <tr>
-                    <td rowspan="2">
-                        <select name="supplier_sel" size="<?php print $size;?>" onChange="this.form.submit()">
-                        <?php suppliers_build_list( $supplier_sel); ?>
-                        </select>
-                    </td>
-                    <td>
-                        Neuer Name:<br>
-                        <input type="text"   name="new_name" value="<?php print $name; ?>">
-                        <input type="submit" name="rename" value="Umbenennen">
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="submit" name="delete" value="L&ouml;schen">
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-</div>
-
-</body>
-</html>

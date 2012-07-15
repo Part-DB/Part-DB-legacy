@@ -1,0 +1,21 @@
+<html>
+<body>
+	<div style="text-align:center;">
+		{TMPL_IF NAME="nothing_delete"}
+			<div style="color:red;font-size:x-large;">Kategorie kann nicht gel&ouml;scht werden!</div>
+			Es gibt noch Teile, die in dieser Kategorie eingetragen sind
+			<form method="get" action=""><input type="submit" value="OK"></form>
+		{/TMPL_IF}
+		{TMPL_IF NAME="question_delete"}
+			<div style="color:red;font-size:x-large;">M&ouml;chten Sie die Kategorie &quot;{TMPL_VAR NAME="category_name"}&quot; wirklich l&ouml;schen?</div>
+			Der L&ouml;schvorgang ist irreversibel!
+			<form action="" method="post">
+				<input type="hidden" name="catsel"  value="{TMPL_VAR NAME="category_sel"}">
+				<input type="hidden" name="delete"  value="x">
+				<input type="submit" name="del_nok" value="Nicht L&ouml;schen">
+				<input type="submit" name="del_ok"  value="L&ouml;schen">
+			</form>
+		{/TMPL_IF}
+	</div>
+</body>
+</html>

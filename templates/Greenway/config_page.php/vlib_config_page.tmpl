@@ -1,0 +1,59 @@
+<div class="outer">
+    <h2>Datenbank Status / Update</h2>
+    <div class="inner">
+    <table class="table">
+      <tr>
+        <td class="tdtext">Datenbank Version: {TMPL_VAR NAME="db_version_1"}</td>
+        <td class="tdtext">Ben&ouml;tigte Version: {TMPL_VAR NAME="db_version_2"}</td>
+        <td class="tdtext">{TMPL_IF NAME="db_version_update"}Update notwendig{TMPL_ELSE}up-to-date{/TMPL_IF}</td>
+      </tr>
+      <tr>
+        <td class="tdtext">{TMPL_IF NAME="db_version_update_log"}Updateverlauf:<br>{TMPL_VAR NAME="db_version_update_log" ESCAPE="none"}{/TMPL_IF}</td>
+        <td class="tdtext">{TMPL_VAR NAME="db_version_autoupdate_set" ESCAPE="none"}
+          <form action="" method="post">
+            <input type="checkbox" name="active" value="active"{TMPL_IF NAME="db_version_autoupdate_check"} checked{/TMPL_IF}>Automatisches Update<br>
+            <input type="submit" name="set_auto_update" value="&Uuml;bernehmen">
+          </form>
+        </td>
+        <td class="tdtext">
+          <form action="" method="post">
+            <input type="submit" name="db_update" value="Jetzt Datenbank Updaten">
+          </form>
+        </td>
+      </tr>
+    </table>
+    </div>
+</div>
+
+<div class="outer">
+    <h2>Datenbank-Backup</h2>
+    <div class="inner">
+    <form action="" method="post">
+    <table class="table">
+      <tr>
+        <td class="tdtext">
+          Hinweis: Damit die Backups erstellt werden k&ouml;nnen, muss der Benutzer "www-data" im Backup-Ordner Schreibrechte haben.
+        </td>
+      </tr>
+      <tr>
+        <td class="tdtext">
+          Jetzt eine Datenbanksicherung durchf&uuml;hren:
+          <input type="submit" name="backup" value="Datenbank-Backup erstellen">
+        </td>
+      </tr>
+      <tr>
+        <td class="tdtext">
+            Existierende Datenbanksicherungen:
+            <select name="selected_backup_file" size=1>
+            {TMPL_LOOP name='db_list_backups'}
+              <option value="{TMPL_VAR NAME="db_backup_filename"}">{TMPL_VAR NAME="db_backup_filename"}</option>
+            {/TMPL_LOOP}
+            </select>
+            <input type="submit" name="download_file" value="Download">
+            <input type="submit" name="delete_file" value="L&ouml;schen">
+        </td>
+      </tr>
+    </table>
+    </form>
+    </div>
+</div>

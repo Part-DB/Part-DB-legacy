@@ -23,7 +23,6 @@
     require ('vlibTemplate.php');
     require ('vlibDate.php');
     require ('vlibMimeMail.php');
-    //require ('class.error.php');
 
     /** edit: 20120715 Udo Neist **/
 
