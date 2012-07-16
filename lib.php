@@ -418,8 +418,13 @@
      */
     function GetFormatStrings()
     {
-        $aRetVal = array("CSV","CSV Reichelt","CSV Farnell");
-        return $aRetVal;
+
+        /** edit: 20120716 Udo Neist **/
+
+        return array("CSV","CSV Reichelt","CSV Farnell");
+
+        /** edit: 20120716 Udo Neist **/
+
     }
 
 
@@ -428,16 +433,21 @@
      */
     function PrintsFormats($Request)
     {
+
+        /** edit: 20120716 Udo Neist **/
+
         $Formats = GetFormatStrings();
         $NrOfFormats = count($Formats);
+        $array = array();
         for ($i = 0; $i < $NrOfFormats; $i++)
         {
-            if (($i==0 && isset($_REQUEST[$Request])==0 ) ||
-                (isset($_REQUEST[$Request]) && $i == $_REQUEST[$Request]))
-                print "<option selected value=\"".smart_unescape($i)."\">".$Formats[$i]."</option>";
-            else
-                print "<option value=\"".smart_unescape($i)."\">".$Formats[$i]."</option>";
+            $array[]['format'] = "<option ".((($i==0 && isset($_REQUEST[$Request])==0 ) ||
+                (isset($_REQUEST[$Request]) && $i == $_REQUEST[$Request]))?"selected ":"")."value=\"".smart_unescape($i)."\">".$Formats[$i]."</option>";
         }
+        return $array;
+
+        /** edit: 20120716 Udo Neist **/
+
     }
 
 
@@ -448,20 +458,26 @@
     {
         if( $Format == 0 ) //CSV
         {
+
+            /** edit: 20120716 Udo Neist **/
+
             $strRetVal = "\r\n";
-            $strRetVal = $strRetVal."Name:";
-            $strRetVal = $strRetVal.smart_unescape($Spacer);
-            $strRetVal = $strRetVal."Anzahl:";
-            $strRetVal = $strRetVal.smart_unescape($Spacer);
-            $strRetVal = $strRetVal."Lieferant:";
-            $strRetVal = $strRetVal.smart_unescape($Spacer);
-            $strRetVal = $strRetVal."Bestellnummer:";
-            $strRetVal = $strRetVal.smart_unescape($Spacer);
-            $strRetVal = $strRetVal."Preis:";
-            $strRetVal = $strRetVal.smart_unescape($Spacer);
-            $strRetVal = $strRetVal."Lagernd:";
-            $strRetVal = $strRetVal.smart_unescape($Spacer);
-            $strRetVal = $strRetVal."\r\n";
+            $strRetVal .= "Name:";
+            $strRetVal .= smart_unescape($Spacer);
+            $strRetVal .= "Anzahl:";
+            $strRetVal .= smart_unescape($Spacer);
+            $strRetVal .= "Lieferant:";
+            $strRetVal .= smart_unescape($Spacer);
+            $strRetVal .= "Bestellnummer:";
+            $strRetVal .= smart_unescape($Spacer);
+            $strRetVal .= "Preis:";
+            $strRetVal .= smart_unescape($Spacer);
+            $strRetVal .= "Lagernd:";
+            $strRetVal .= smart_unescape($Spacer);
+            $strRetVal .= "\r\n";
+
+            /** edit: 20120716 Udo Neist **/
+
             return $strRetVal;
         }
         else if( $Format == 1 ) //CSV Reichelt
@@ -485,18 +501,23 @@
     {
         if( $Format == 0 ) //CSV
         {
+
+            /** edit: 20120716 Udo Neist **/
+
             $strRetVal = "\r\n";
-            $strRetVal = $strRetVal.smart_unescape($PartName);
-            $strRetVal = $strRetVal.smart_unescape($Spacer);
-            $strRetVal = $strRetVal.smart_unescape($Quantity);
-            $strRetVal = $strRetVal.smart_unescape($Spacer);
-            $strRetVal = $strRetVal.smart_unescape($SupName);
-            $strRetVal = $strRetVal.smart_unescape($Spacer);
-            $strRetVal = $strRetVal.smart_unescape($SupNr);
-            $strRetVal = $strRetVal.smart_unescape($Spacer);
-            $strRetVal = $strRetVal.smart_unescape($Price);
-            $strRetVal = $strRetVal.smart_unescape($Spacer);
-            $strRetVal = $strRetVal.smart_unescape($Instock);
+            $strRetVal .= smart_unescape($PartName);
+            $strRetVal .= smart_unescape($Spacer);
+            $strRetVal .= smart_unescape($Quantity);
+            $strRetVal .= smart_unescape($Spacer);
+            $strRetVal .= smart_unescape($SupName);
+            $strRetVal .= smart_unescape($Spacer);
+            $strRetVal .= smart_unescape($SupNr);
+            $strRetVal .= smart_unescape($Spacer);
+            $strRetVal .= smart_unescape($Price);
+            $strRetVal .= smart_unescape($Spacer);
+            $strRetVal .= smart_unescape($Instock);
+
+            /** edit: 20120716 Udo Neist **/
 
             return $strRetVal;
         }
@@ -515,40 +536,47 @@
     }
 
 
+    /** edit: 20120716 Udo Neist **/
+
     /*
      * generate http header line, use
      * charset defined in config
      */
     function print_http_charset()
     {
+
+        /** obsolete function **/
+
         require( 'config.php');
         if ( strlen( $http_charset) > 0 )
         {
             print "<meta http-equiv=\"content-type\" content=\"text/html; charset=". $http_charset ."\">\n";
         }
     }
+    /** end: 20120716 Udo Neist **/
+
 
     function get_svn_revision()
     {
 
-        /** edit: 20120715 Udo Neist **/
+        /** new: 201207xx Udo Neist **/
 
         global $conf;
 
-	if ( function_exists('shell_exec') )
+        if ( !$repo_version = shell_exec( 'svnversion') )
         {
-            $repo_version = shell_exec('svnversion');
-        }
-	elseif ( file_exists( BASE.'/.svn/entries') )
-        {
+
+            if ( file_exists( BASE.'/.svn/entries') )
+            {
                 $svn = File( BASE.'/.svn/entries');
                 $repo_version = $svn[ 3];
                 unset($svn);
+            }
         }
 
         return( $repo_version . $conf['version']['string'] );
 
-        /** end: 20120715 Udo Neist **/
+        /** end: 201207xx Udo Neist **/
     }
 
 
@@ -763,14 +791,23 @@
 
     function suppliers_build_list( $select = -1)
     {
+
+        /** edit: 20120716 Udo Neist **/
+
         $query  = "SELECT id, name FROM suppliers ORDER BY name ASC;";
         $result = mysql_query( $query);
 
+        $array = '';
         while ( $data = mysql_fetch_assoc( $result))
         {
-            $selected = ($select == $data['id']) ? 'selected': '';
-            print "<option ". $selected ." value=\"". smart_unescape( $data['id']) ."\">". smart_unescape( $data['name']) ."</option>\n";
+            $array[]['selected'] = ($select == $data['id']) ? 'selected': '';
+            $array[]['value'] = smart_unescape($data['id']);
+            $array[]['name'] = smart_unescape($data['name']);
         }
+        return $array;
+
+        /** end: 20120716 Udo Neist **/
+
     }
 
     function suppliers_count()

@@ -1,0 +1,98 @@
+<div class="outer">
+    <h2>Sonstiges</h2>
+    <div class="inner">
+        <form method="get" action="">
+            <input type="hidden" name="cid" value="0">
+            <input type="hidden" name="type" value="toless">
+            Lieferant(en):
+            <select name="sup_id">
+            <option{TMPL_IF NAME="selected"} selected{/TMPL_IF} value="0">Alle</option>
+            {TMPL_LOOP NAME="suppliers_build_list"}
+            <option{TMPL_IF NAME="selected"} selected{/TMPL_IF} value="{TMPL_VAR NAME="value"}">{TMPL_VAR NAME="name"}</option>
+            {/TMPL_LOOP}
+            </select>
+            <input type="submit" value="Wähle Lieferanten!">
+        </form>
+    </div>
+</div>
+
+<div class="outer">
+    <h2>Zu bestellende Teile &quot;{TMPL_VAR NAME="category_get_name" ESCAPE="none"}&quot;</h2>
+    <div class="inner">
+        <table>
+        <tr><td colspan="4">Wert der zu bestellenden Artikel: {TMPL_VAR NAME="order_value"}{TMPL_VAR NAME="currency" ESCAPE="none"}</td></tr>
+        <tr class="trcat">
+            <td></td>
+            <td>Name</td>
+            <td>Footprint</td>
+            <td>Bestellmenge</td>
+            <td>Lieferant</td>
+            <td>Bestell-Nr.</td>
+            <td>Lagerort</td>
+            <td>Hinzufügen</td>
+        </tr>
+       {TMPL_LOOP NAME="loop1"}
+        <tr class="{TMPL_IF NAME="even_odd"}trlist_odd{TMPL_ELSE}trlist_even{/TMPL_IF}">
+            <td class="tdrow0">{TMPL_VAR NAME="tdrow0"}</td>
+            <td class="tdrow1"><a href="javascript:popUp('partinfo.php?pid={TMPL_VAR NAME="id"}');">{TMPL_VAR NAME="name"}</a></td>
+            <td class="tdrow3">{TMPL_VAR NAME="footprint"}</td>
+            <td class="tdrow4">{TMPL_VAR NAME="diff"}</td>
+            <td class="tdrow1">{TMPL_VAR NAME="supplier"}</td>
+            <td class="tdrow1">{TMPL_VAR NAME="supplierpartnr"}</td>
+            <td class="tdrow1">{TMPL_VAR NAME="loc"}</td>
+            <!-- show text box with number to add and the add button -->
+            <td class="tdrow2"><form method="post" action="">
+            <input type="hidden" name="pid" value="{TMPL_VAR NAME="id"}">
+            <input type="hidden" name="action" value="an">
+            <input type="text" style="width:25px;" name="toadd" value="{TMPL_VAR NAME="diff"}">
+            <input type="submit" value="Add"></form></td>
+        </tr>
+        {/TMPL_LOOP}
+        </table>
+    </div>
+</div>
+
+<div class="outer">
+    <h2>Bauteile Export</h2>
+    <div class="inner">
+        <form method="post" action="">
+            <input type="hidden" name="deviceid" value="{TMPL_VAR NAME="deviceid"}">
+            <input type="hidden" name="action" value="createbom">
+            <table>
+            <tr class="trcat">
+                <td>Format:</td>
+                <td>
+                    <select name="format">
+                    {TMPL_LOOP NAME="loop2"}
+                    {TMPL_VAR NAME="format" ESCAPE="none"}
+                    {/TMPL_LOOP}
+                </td>
+            </tr>
+            <tr class="trcat">
+                <td>Trennzeichen:</td>
+                <td>
+                    <input type="text" name="spacer" size="3" value="{TMPL_VAR NAME="spacer"}"> <span style="font-weight:normal">(nur bei Export CSV anzugeben)</span>
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit" value="Ausführen"></td>
+            </tr>
+            {TMPL_IF NAME="createbom"}
+            <tr>
+                <td colspan="4">
+                    <textarea name="bom" rows="{TMPL_VAR NAME="nrows"}" cols="80" dir="ltr">
+______________________________
+
+Bestell-Liste:
+{TMPL_VAR NAME="GenerateBOMHeadline" ESCAPE="none"}
+{TMPL_LOOP NAME="loop3"}
+{TMPL_VAR NAME="GenerateBOMResult" ESCAPE="none"}
+{/TMPL_LOOP}
+                    </textarea>
+                </td>
+            </tr>
+            {/TMPL_IF}
+            </table>
+        </form>
+    </div>
+</div>

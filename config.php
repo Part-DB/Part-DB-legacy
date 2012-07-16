@@ -50,7 +50,7 @@
 
     /* set version */
     $conf['version']['author'] = 'Udo Neist';
-    $conf['version']['build'] = '20120715';
+    $conf['version']['build'] = '20120716';
     $conf['version']['string'] = ' (modified by '.$conf['version']['author'].', Build: '.$conf['version']['build'].')';
 
     /* load database configuration */

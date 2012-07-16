@@ -21,26 +21,26 @@
     $Id: device.php 395 2012-03-04 08:41:23Z bubbles.red@gmail.com $
 */
 
-    require_once ('lib.php');
+	require_once ('lib.php');
 
-    // set action to default, if not exists
-    $action        = isset( $_REQUEST['action'])   ? $_REQUEST['action']   : 'default';
-    $deviceid      = isset( $_REQUEST['deviceid']) ? $_REQUEST['deviceid'] : 0;
+	// set action to default, if not exists
+	$action        = isset( $_REQUEST['action'])   ? $_REQUEST['action']   : 'default';
+	$deviceid      = isset( $_REQUEST['deviceid']) ? $_REQUEST['deviceid'] : 0;
 
-    $confirmdelete = 0;
-    $refreshnav    = 0;
+	$confirmdelete = 0;
+	$refreshnav    = 0;
 
-    if( strcmp( $action, "createdevice") == 0)  //add a new device
-    {
-        device_add( $_REQUEST["newdevicename"], $deviceid);
-        $refreshnav = 1;
-    }
+	if( strcmp( $action, "createdevice") == 0)  //add a new device
+	{
+		device_add( $_REQUEST["newdevicename"], $deviceid);
+		$refreshnav = 1;
+	}
 
-    if( strcmp($action, "confirmeddelete") == 0)
-    {
-        device_delete( $deviceid);
-        $refreshnav = 1;
-    }
+	if( strcmp($action, "confirmeddelete") == 0)
+	{
+		device_delete( $deviceid);
+		$refreshnav = 1;
+	}
 
 	$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
 	$tmpl -> setVar('head_title', 'Neues Teil');
