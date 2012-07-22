@@ -22,37 +22,31 @@
 
 */
 
-    include ('db_update.php');
-    // catch output to do fine formating later
-    ob_start();
-    {
-        if ( checkDBUpdateNeeded())
-        {
-            $ver = getDBVersion();
-            print "Datenbank-Version: ". $ver .", ben&ouml;tigt ein Update.<br><br>";
-            if ( getDBAutomaticUpdateActive())
-            {
-                doDBUpdate();
-            }
-            else
-            {
-                print "Automatische Datenbankupdates sind deaktiviert.<br>";
-                print "Updates bitte manuell durchf&uuml;ren: Verwaltung/Tools --> Konfiguration --> Datenbank";
-            }
-        }
-    }
-    $database_update = ob_get_contents();
-    ob_end_clean();
-
-    require_once ('config.php');
+    require_once ('db_update.php');
+    require_once ('authors.php');
     require_once ('lib.php');
 
     $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
     $tmpl -> setVar('head_title', $title);
     $tmpl -> setVar('head_charset', $http_charset);
+    $tmpl -> setVar('head_theme', $theme);
     $tmpl -> setVar('head_css', $css);
     $tmpl -> setVar('head_menu', true);
     $tmpl -> pparse();
+
+    // catch output to do fine formating later
+    if ( checkDBUpdateNeeded())
+    {
+        $tmpl -> setVar('db_version', getDBVersion());
+        if ( getDBAutomaticUpdateActive())
+        {
+            doDBUpdate();
+        }
+        else
+        {
+            $tmpl -> setVar('disabled_autoupdate', true);
+        }
+    }
 
     /*
      * This variable determines wheater the user is reminded to add
@@ -62,148 +56,50 @@
     // predefines
     $good = "&#x2714; ";
     $bad  = "&#x2718; ";
-    // defaults
-    $missing_storeloc  = $good;
-    $missing_footprint = $good;
-    $missing_category  = $good;
-    $missing_supplier  = $good;
 
-    if ( categories_count() == 0)
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/startup.php/vlib_startup.tmpl");
+    $tmpl -> setVar('startup_title', $startup_title);
+    $tmpl -> setVar('get_svn_revision', get_svn_revision());
+
+    if (categories_count() == 0 || location_count() == 0 || footprint_count() == 0 || suppliers_count() == 0)
     {
-        $display_warning  = true;file:///mnt/server.venus.prv/www/htdocs/part-db/startup.php
-        $missing_category = $bad;
+        $tmpl -> setVar('display_warning', true);
+        $tmpl -> setVar('missing_category', ((categories_count()==0)?$bad:$good));
+        $tmpl -> setVar('missing_storeloc', ((location_count()==0)?$bad:$good));
+        $tmpl -> setVar('missing_footprint', ((footprint_count()==0)?$bad:$good));
+        $tmpl -> setVar('missing_supplier', ((suppliers_count()==0)?$bad:$good));
     }
+    $tmpl -> setVar('database_update', $database_update);
+    $tmpl -> setVar('banner', $banner);
 
-    if ( location_count() == 0)
-        $missing_storeloc = $bad;
-
-    if ( footprint_count() == 0)
-        $missing_footprint = $bad;
-
-    if ( suppliers_count() == 0)
-        $missing_supplier = $bad;
-
-?>
-<div class="outer">
-    <h1>
-        <img src="img/partdb/partdb.png" alt="logo"><?php print $startup_title ?><img src="img/partdb/partdb.png" alt="logo">
-    </h1>
-    <?php print get_svn_revision() ? "<h3>SVN-Revision: ". get_svn_revision() ."</h3>" : ""; ?>
-</div>
-
-<?php   // display Warning
-    if ($display_warning)
+    if (! $disable_update_list)
     {
-?>
+        $rss_file   = join ( ' ', file ("http://code.google.com/feeds/p/part-db/downloads/basic"));
+        $rss_zeilen = array ( "title", "updated", "id" );
+        $rss_array  = explode ( "<entry>", $rss_file );
 
-<div class="outer">
-    <h2 class="red">Achtung!</h2>
-    <div class="inner">
-        Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>
-        <blockquote><?php print $missing_category  ?>eine      <a href="catmgr.php" target="content_frame">Kategorie</a>   </blockquote>
-        hinzuf&uuml;gt werden muss.<br>
-        Um das Potential der Suchfunktion zu nutzen wird empfohlen
-        <blockquote><?php print $missing_storeloc  ?>einen     <a href="locmgr.php" target="content_frame">Lagerort</a>    </blockquote>
-        <blockquote><?php print $missing_footprint ?>einen     <a href="fpmgr.php"  target="content_frame">Footprint</a>   </blockquote>
-        <blockquote><?php print $missing_supplier  ?>und einen <a href="supmgr.php" target="content_frame">Lieferanten</a> </blockquote>
-        anzugeben.
-    </div>
-</div>
-<?php } ?>
-
-
-<?php   // display database update
-if ( strlen( $database_update) > 0)
-{
-?>
-
-<div class="outer">
-    <h2>Datenbankupdate</h2>
-    <div class="inner red">
-    <?php print $database_update; ?>
-    </div>
-</div>
-<?php
-}
-
-print $banner;
-
-?>
-
-<div class="outer">
-    <h2>Lizenz</h2>
-    <div class="inner">
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-            <input type="hidden" name="cmd" value="_donations">
-            <input type="hidden" name="business" value="theborg@grautier.com">
-            <input type="hidden" name="lc" value="DE">
-            <input type="hidden" name="item_name" value="Part-DB">
-            <input type="hidden" name="no_note" value="0">
-            <input type="hidden" name="currency_code" value="EUR">
-            <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
-            <input type="image" src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" name="submit" align="right" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
-            <img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" align="right">
-        </form>
-        Part-DB, Copyright &copy; 2005 of <strong>Christoph Lechner</strong>. Part-DB is published under the <strong>GPL</strong>,
-        so it comes with <strong>ABSOLUTELY NO WARRANTY</strong>, click <a href="readme/gpl.txt">here</a> for details.
-        This is free software, and you are welcome to redistribute it under certain conditions.
-        Click <a href="readme/gpl.txt">here</a> for details.<br>
-        <br>
-        The first Author's Homepage <a href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
-        Author since 2009 by <strong>K.Jacobs</strong> - <a href="http://www.grautier.com/">http://grautier.com</a><br>
-        <br>
-        Forum: F&uuml;r Fragen rund um die Part-DB gibt es einen Thread auf <a href="http://www.mikrocontroller.net/topic/135284">mikrocontroller.net</a><br>
-        Wiki: Hilfe zur Installation gibt es im <a href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Wiki</a><br>
-        <br>
-        <table>
-        <tr><td><strong>ajfrenzel</strong></td><td>Committer/Bugfix</td></tr>
-        <tr><td><strong>tgrziwa</strong></td><td>Committer/Bugfix</td></tr>
-        <tr><td><strong>d.lipschinski</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr>
-        <tr><td><strong>Michael Buesch</strong></td><td>Reichelt/Pollin Preissuch Script</td></tr>
-        <tr><td><strong>bubbles.red</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr>
-        <tr><td><strong>Matthias Wei&szlig;er</strong></td><td>EAGLE3D / Bauteile Renderscript (eagle3d.py)</td></tr>
-        <tr><td><strong>Urban B.</strong></td><td>neue Footprints</td></tr>
-        <tr><td><strong>Andr&eacute; Althaus</strong></td><td>neue Funktionen</td></tr>
-        </table>
-    </div>
-</div>
-
-<?php
-if (! $disable_update_list) {
-?>
-
-<div class="outer">
-    <h2>Updates</h2>
-    <div class="inner small">
-        <?php
-            $rss_file   = join ( ' ', file ("http://code.google.com/feeds/p/part-db/downloads/basic"));
-            $rss_zeilen = array ( "title", "updated", "id" );
-            $rss_array  = explode ( "<entry>", $rss_file );
-
-            // show only the last actual versions
-            $count      = 4;
-            foreach ( $rss_array as $string )
+        // show only the last actual versions
+        $count = 4;
+        $rss_text = array();
+        foreach ( $rss_array as $string )
+        {
+            // show all lines from rss feed
+            foreach ( $rss_zeilen as $zeile )
             {
-                // show all lines from rss feed
-                foreach ( $rss_zeilen as $zeile )
-                {
-                    // find tags
-                    preg_match_all( "|<$zeile>(.*)</$zeile>|Usim", $string, $preg_match);
-                    $$zeile = $preg_match [1] [0];
-                    // make clickable if http url
-                    $$zeile = preg_replace('`((?:http)://\S+[[:alnum:]]/?)`si', '<a href="\\1">\\1</a>', $$zeile);
-                    print $$zeile ."<br>". PHP_EOL;
-                }
-                if (!(--$count))
-                    break;
-                print "<br>". PHP_EOL;
+                // find tags
+                preg_match_all( "|<$zeile>(.*)</$zeile>|Usim", $string, $preg_match);
+                $$zeile = $preg_match [1] [0];
+                // make clickable if http url
+                $$zeile = preg_replace('`((?:http)://\S+[[:alnum:]]/?)`si', '<a href="\\1">\\1</a>', $$zeile);
+                $rss_text[]['zeile'] = $$zeile;
             }
-        ?>
-    </div>
-</div>
+            if (!(--$count)) break;
+        }
+        $tmpl -> setLoop('update_list', $rss_text);
+    }
+    $tmpl -> setLoop('authors', $authors);
+    $tmpl -> pparse();
 
-<?php
-}
-$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
-$tmpl -> pparse();
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
+    $tmpl -> pparse();
 ?>

@@ -24,14 +24,15 @@
     require ('vlibDate.php');
     require ('vlibMimeMail.php');
 
-    /** edit: 20120715 Udo Neist **/
+    /** edit: 20120720 Udo Neist **/
 
     /* define theme, e.g. standard, Greenway */
     $theme = "standard";
-    /* corrects path of theme. do not edit this! */
-    $css = ((is_readable(BASE."/templates/$theme/partdb.css"))?"templates/$theme":"css/$theme");
+    /* if an alternative css named css/$theme.css exists,
+       it will used additional to the standard theme partdb.css */
+    $css = ((is_readable(BASE."/css/$theme.css"))?"css/$theme.css":"templates/$theme/partdb.css");
 
-    /** end: 20120715 Udo Neist **/
+    /** end: 20120720 Udo Neist **/
 
     /** end: 20120617 Udo Neist **/
 
@@ -50,7 +51,7 @@
 
     /* set version */
     $conf['version']['author'] = 'Udo Neist';
-    $conf['version']['build'] = '20120716';
+    $conf['version']['build'] = '20120720';
     $conf['version']['string'] = ' (modified by '.$conf['version']['author'].', Build: '.$conf['version']['build'].')';
 
     /* load database configuration */

@@ -35,7 +35,7 @@
     {
         supplier_add( $_REQUEST['new_supplier']);
     }
-    
+
     if ( $action == 'delete')
     {
         supplier_delete( $supplier_sel);
@@ -51,6 +51,7 @@
     $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
     $tmpl -> setVar('head_title', 'Lieferanten');
     $tmpl -> setVar('head_charset', $http_charset);
+    $tmpl -> setVar('head_theme', $theme);
     $tmpl -> setVar('head_css', $css);
     $tmpl -> pparse();
 

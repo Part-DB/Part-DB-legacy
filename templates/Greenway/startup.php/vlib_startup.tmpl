@@ -1,0 +1,79 @@
+<div class="outer">
+	<h1><img src="img/partdb/partdb.png" alt="logo">{TMPL_VAR NAME="startup_title"}<img src="img/partdb/partdb.png" alt="logo"></h1>
+	{TMPL_IF NAME="get_svn_revision"}<h3>SVN-Revision: {TMPL_VAR NAME="get_svn_revision"}</h3>{/TMPL_IF}
+</div>
+
+{TMPL_IF NAME="display_warning"}
+<div class="outer">
+    <h2 class="red">Achtung!</h2>
+    <div class="inner">
+        Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>
+        <blockquote>{TMPL_VAR NAME="missing_category" ESCAPE="none"}eine <a href="catmgr.php" target="content_frame">Kategorie</a> </blockquote>hinzufügt werden muss.<br><br>
+        Um das Potential der Suchfunktion zu nutzen wird empfohlen
+        <blockquote>{TMPL_VAR NAME="missing_storeloc" ESCAPE="none"}einen <a href="locmgr.php" target="content_frame">Lagerort</a> </blockquote>
+        <blockquote>{TMPL_VAR NAME="missing_footprint" ESCAPE="none"}einen <a href="fpmgr.php"  target="content_frame">Footprint</a> </blockquote>
+        <blockquote>{TMPL_VAR NAME="missing_supplier" ESCAPE="none"}und einen <a href="supmgr.php" target="content_frame">Lieferanten</a> </blockquote>
+        anzugeben.
+    </div>
+</div>
+{/TMPL_IF}
+
+{TMPL_IF NAME="database_update"}
+<div class="outer">
+    <h2>Datenbankupdate</h2>
+    <div class="inner red">
+        Datenbank-Version{TMPL_VAR NAME="db_version"} benötigt ein Update.<br><br>
+        {TMPL_IF NAME="disabled_autoupdate"}
+        Automatische Datenbankupdates sind deaktiviert.<br>
+        Updates bitte manuell durchführen: Verwaltung/Tools -> Konfiguration -> Datenbank
+        {/TMPL_IF}
+    </div>
+</div>
+{/TMPL_IF}
+
+{TMPL_VAR NAME="banner" ESCAPE="none"}
+
+<div class="outer">
+    <h2>Lizenz</h2>
+    <div class="inner">
+        {TMPL_IF NAME="update_list"}
+        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
+            <input type="hidden" name="cmd" value="_donations">
+            <input type="hidden" name="business" value="theborg@grautier.com">
+            <input type="hidden" name="lc" value="DE">
+            <input type="hidden" name="item_name" value="Part-DB">
+            <input type="hidden" name="no_note" value="0">
+            <input type="hidden" name="currency_code" value="EUR">
+            <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
+            <input type="image" src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" name="submit" align="right" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
+            <img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" align="right">
+        </form>
+        {/TMPL_IF}
+        Part-DB, Copyright &copy; 2005 of <strong>Christoph Lechner</strong>. Part-DB is published under the <strong>GPL</strong>, so it comes with <strong>ABSOLUTELY NO WARRANTY</strong>, click <a href="readme/gpl.txt">here</a> for details. This is free software, and you are welcome to redistribute it under certain conditions. Click <a href="readme/gpl.txt">here</a> for details.<br>
+        <br>
+        Initiator: Christoph Lechner - <a href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
+        Autor seit 2009: <strong>K. Jacobs</strong> - <a href="http://www.grautier.com/">http://grautier.com</a><br>
+        <br>
+        Forum: Für Fragen rund um die Part-DB gibt es einen Thread auf <a href="http://www.mikrocontroller.net/topic/135284">mikrocontroller.net</a><br>
+        Wiki: Hilfe zur Installation gibt es im <a href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Wiki</a><br>
+        <br>
+        Weitere Autoren:
+        <table>
+        {TMPL_LOOP NAME="authors"}
+            <tr><td><strong>{TMPL_VAR NAME="name" ESCAPE="none"}</strong></td><td>{TMPL_VAR NAME="role" ESCAPE="none"}</td></tr>
+        {/TMPL_LOOP}
+        </table>
+    </div>
+</div>
+
+{TMPL_IF NAME="update_list"}
+<div class="outer">
+    <h2>Updates</h2>
+    <div class="inner small">
+    {TMPL_LOOP NAME="update_list"}
+        {TMPL_VAR NAME="zeile" ESCAPE="none"}<br>
+    {/TMPL_LOOP}
+    <br>
+    </div>
+</div>
+{/TMPL_IF}

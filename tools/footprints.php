@@ -12,7 +12,7 @@
         }
         return( $group_array);
     }
-   
+
 
     function get_max_elements( $groups)
     {
@@ -23,8 +23,8 @@
         }
         return $max_count;
     }
-                
-                
+
+
     function group_footprints( $path, $max_elements = 12)
     {
         // catch all usable footprints
@@ -32,9 +32,9 @@
         $verzeichnis = @opendir( $path);
         if ( !$verzeichnis) die("Kann Verzeichnis '$path' nicht &ouml;ffnen.");
         rewinddir( $verzeichnis);
-        while ( $file = readdir( $verzeichnis)) 
+        while ( $file = readdir( $verzeichnis))
         {
-            if( ( !is_dir( $path.'/'.$file)) and $file != ".db") 
+            if( ( !is_dir( $path.'/'.$file)) and $file != ".db")
             {
                 array_push($pic, $path.'/'.$file);
             }
@@ -42,11 +42,11 @@
 
         // sort list
         sort( $pic);
-        
+
 
         // generate groups with first character from name
         $groups = group_footprint_pictures( $pic, 1);
-        
+
         // split groups further
         $depth = 2;
         while ( get_max_elements( $groups) > $max_elements)
@@ -69,8 +69,8 @@
         }
         return $groups;
     }
-                
-                
+
+
     function footprint_elements( $path)
     {
         // catch all usable footprints
@@ -80,9 +80,9 @@
 
         $elements = 0;
 
-        while ( $file = readdir( $verzeichnis)) 
+        while ( $file = readdir( $verzeichnis))
         {
-            if( ( !is_dir( $path.'/'.$file)) and $file != ".db") 
+            if( ( !is_dir( $path.'/'.$file)) and $file != ".db")
             {
                 $elements++;
             }
@@ -104,10 +104,10 @@
             $text .= "<td>". PHP_EOL;
             foreach( $group as $pic)
             {
-                $file  = $pic; 
+                $file  = $pic;
                 $title = basename( $pic, '.png');
-                $footprint_exists = footprint_exists( $title) ? " checked" : ""; 
-                $id               = footprint_exists( $title) ? footprint_get_id( $title) : -1; 
+                $footprint_exists = footprint_exists( $title) ? " checked" : "";
+                $id               = footprint_exists( $title) ? footprint_get_id( $title) : -1;
                 $text .= "<div class=\"footprint\">".
                     "<img src=\"". $file ."\" title=\"". $title ."\" alt=\"\">".
 
@@ -137,11 +137,11 @@
     }
 
 
-    function generate_footprint_tree( $dir) 
+    function generate_footprint_tree( $dir)
     {
         $dir_array = array();
         $d = dir( $dir);
-        while ( false !== ( $entry = $d->read())) 
+        while ( false !== ( $entry = $d->read()))
         {
             if( $entry != '.' && $entry != '..' && $entry != '.svn' && is_dir( $dir.$entry))
             {
@@ -158,8 +158,8 @@
         {
             echo show_footprint_table( $path);
         }
-        
-        foreach( $dir_array as $dir => $value) 
+
+        foreach( $dir_array as $dir => $value)
         {
             if( is_array( $value))
             {
@@ -173,6 +173,7 @@
 $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
 $tmpl -> setVar('head_title', $title);
 $tmpl -> setVar('head_charset', $http_charset);
+$tmpl -> setVar('head_theme', $theme);
 $tmpl -> setVar('head_css', "../".$css);
 $tmpl -> setVar('head_menu', true);
 $tmpl -> pparse();

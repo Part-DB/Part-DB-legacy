@@ -48,7 +48,7 @@
     {
         footprint_add( $_REQUEST["new_footprint"], $_REQUEST["new_footprint_filename"], $parentnode);
     }
-   
+
 
     if ( $action == 'delete')
     {
@@ -56,7 +56,7 @@
          * Delete a footprint
          * Don't delete when there are parts use this footprint
          */
-        $result = parts_select_footprint( $footprint_sel); 
+        $result = parts_select_footprint( $footprint_sel);
         $ncol   = mysql_num_rows( $result);
         if ( $ncol > 0)
         {
@@ -95,7 +95,7 @@
     {
         footprint_rename( $footprint_sel, $_REQUEST["new_name"]);
     }
-   
+
     if ( $action == 'new_filename')
     {
         footprint_new_filename( $footprint_sel, $_REQUEST["new_filename_edit"]);
@@ -105,7 +105,7 @@
     {
         footprint_new_parent( $footprint_sel, $parentnode);
     }
-    
+
     if ( $action == 'save_proposed_filenames')
     {
         $query  = "SELECT id, name, filename FROM footprints";
@@ -115,11 +115,11 @@
             $name = smart_unescape($data['name']);
             $filename = smart_unescape($data['filename']);
             $id = smart_unescape($data['id']);
-            
+
             if ((file_exists(smart_unescape($filename)) == false) && ($filename != ""))
             {
                 $checkbox_checked = isset( $_REQUEST["filename_checkbox_".$id]) ? $_REQUEST["filename_checkbox_".$id] : false;
-                
+
                 if (($checkbox_checked == true) || (isset($_REQUEST["save_all_proposed_filenames"])))
                 {
                     if (isset($_REQUEST["proposed_filename_".$id]))
@@ -128,31 +128,31 @@
                     }
                 }
             }
-            
+
         }
     }
-    
+
     function list_defect_filenames($id_array)
     {
         $files = find_all_files("tools/footprints/", ".png");
         $files = array_merge($files, find_all_files("media/", ".png"));
-                
+
         $row_odd = true;
         foreach ($id_array as $id)
         {
             $data = footprint_select($id);
-            
+
             $name = smart_unescape($data['name']);
             $filename = smart_unescape($data['filename']);
-            
+
             if ((file_exists($filename) == false) && ($filename != ""))
             {
                 $proposed_filenames = search_for_files($files, basename($filename, ".png"));
-                          
+
                 // the alternating background colors are created here
                 print "<tr class=\"".( $row_odd ? 'trlist_odd': 'trlist_even')."\">". PHP_EOL;
                 $row_odd = ! $row_odd;
-                
+
                 // checkboxes + footprint names
                 print "<td class=\"tdrow0\">";
                 print "<input type=\"checkbox\" ";
@@ -166,15 +166,15 @@
                 }
                 print "name=\"filename_checkbox_".$id."\">".footprint_get_full_path($id);
                 print "</td>\n";
-                
+
                 // broken footprint filenames
                 print "<td class=\"tdrow1\">";
                 print "<FONT COLOR=\"#FF0000\">".$filename."</FONT>";
                 print "</td>\n";
-                
+
                 // proposed filenames
                 print "<td class=\"tdrow0\">";
-                
+
                 if (count($proposed_filenames) == 0)
                 {
                     print "<input type=\"hidden\" name=\"proposed_filename_".$id."\" value=\"".$proposed_filenames[0]."\">";
@@ -184,7 +184,7 @@
                 {
                     print "<select name=\"proposed_filename_".$id."\">";
                     print "<option value=\"\">Dateiname l&ouml;schen und sp&auml;ter selber von Hand setzen.</option>";
-  
+
                     $has_one_selected = false;
                     foreach ($proposed_filenames as $file)
                     {
@@ -198,10 +198,10 @@
                     }
                     print "</select>";
                 }
-                
+
                 print "</td>\n";
             }
-            
+
         }
     }
 
@@ -211,7 +211,7 @@
     $parentnode = $data['parentnode'];
 
     $size       = min( footprint_count(), 25);
-   
+
     /*
      * Don't show the default text when there's a msg.
      */
@@ -221,12 +221,13 @@
         $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
         $tmpl -> setVar('head_title', 'Footprints');
         $tmpl -> setVar('head_charset', $http_charset);
+        $tmpl -> setVar('head_theme', $theme);
         $tmpl -> setVar('head_css', $css);
         $tmpl -> pparse();
 
 ?>
 <div class="outer">
-    <h2>Footprint anlegen</h2> 
+    <h2>Footprint anlegen</h2>
     <div class="inner">
         <form action="" method="post">
             <table>
@@ -331,11 +332,11 @@
                         </tr>
                         <?php list_defect_filenames($defect_filename_id_array); ?>
                     </TABLE>
-                    <br> 
+                    <br>
                     Es wird empfohlen vor der &Uuml;bernahme eine <a href="config_page.php" target="content_frame">Sicherung der Datenbank</a> zu machen.<br>
                     Vorgeschlagene Dateinamen &uuml;bernehmen:
-                    <input type="submit" name="save_proposed_filenames" value="Nur die markierten">   
-                    <input type="submit" name="save_all_proposed_filenames" value="Alle">    
+                    <input type="submit" name="save_proposed_filenames" value="Nur die markierten">
+                    <input type="submit" name="save_all_proposed_filenames" value="Alle">
                 </form>
         <?php
             }

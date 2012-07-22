@@ -149,6 +149,7 @@
 	$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
 	$tmpl -> setVar('head_title', 'Neues Teil');
 	$tmpl -> setVar('head_charset', $http_charset);
+	$tmpl -> setVar('head_theme', $theme);
 	$tmpl -> setVar('head_css', $css);
 	$tmpl -> setVar('head_util_functions', true);
 	$tmpl -> setVar('head_clear_default_text', true);

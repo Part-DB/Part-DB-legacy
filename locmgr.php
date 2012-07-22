@@ -110,19 +110,19 @@
             location_delete( $location_sel);
         }
     }
-    
+
     if ( $action == 'rename')
     {
         location_rename( $location_sel, $_REQUEST["new_name"]);
     }
-   
+
 
     if ( $action == 'new_parent')
     {
         /* resort */
         location_new_parent( $location_sel, $parentnode);
     }
-    
+
     if ( $action == 'update')
     {
         $value = isset( $_REQUEST["is_full"]) ? $_REQUEST["is_full"] == "true" : false;
@@ -146,12 +146,13 @@
         $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
         $tmpl -> setVar('head_title', 'Lagerorte');
         $tmpl -> setVar('head_charset', $http_charset);
+        $tmpl -> setVar('head_theme', $theme);
         $tmpl -> setVar('head_css', $css);
         $tmpl -> pparse();
 
 ?>
 <script type="text/javascript">
-    function switch_series() 
+    function switch_series()
     {
         if(document.create.series.checked)
         {
@@ -164,11 +165,11 @@
             document.create.series_end.disabled=true;
         }
     }
-</script> 
+</script>
 
 
 <div class="outer">
-    <h2>Lagerorte anlegen</h2> 
+    <h2>Lagerorte anlegen</h2>
     <div class="inner">
         <form action="" method="post" name="create">
             <table>

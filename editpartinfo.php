@@ -21,8 +21,18 @@
     $Id: editpartinfo.php 430 2012-05-05 20:42:34Z bubbles.red@gmail.com $
 
 */
-    include('lib.php');
-    partdb_init();
+
+    require_once ('lib.php');
+
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
+    $tmpl -> setVar('head_title', $title);
+    $tmpl -> setVar('head_charset', $http_charset);
+    $tmpl -> setVar('head_theme', $theme);
+    $tmpl -> setVar('head_css', $css);
+    $tmpl -> setVar('head_menu', true);
+    $tmpl -> setVar('head_popup', true);
+    $tmpl -> setVar('head_validate', true);
+    $tmpl -> pparse();
 
     /*
      * If there's a confirmation question or if the part has been
@@ -41,7 +51,7 @@
     {
         $p_obsolete  = ( isset( $_REQUEST["p_obsolete"]) ? (bool)$_REQUEST["p_obsolete"] : false);
         $p_visible   = ( isset( $_REQUEST["p_visible"])  ? (bool)$_REQUEST["p_visible"]  : false);
-        part_update( $pid, 
+        part_update( $pid,
             $_REQUEST["p_category"],
             $_REQUEST["p_name"],
             $_REQUEST["p_description"],
@@ -75,14 +85,12 @@
         if ((! isset($_REQUEST["del_ok"])) && (! isset($_REQUEST["del_nok"])) )
         {
             /* display the confirmation text */
+
             $special_dialog = 1;
-            print "<html><body class=\"body\"><link rel=\"StyleSheet\" href=\"css/partdb.css\" type=\"text/css\" /><div style=\"text-align:center;\">\n";
-            print "<table class=\"table\">\n";
-            print "<tr><td class=\"tdtop\"><div style=\"color:red;\">M&ouml;chten Sie das Bauteil &quot;". part_get_name( $pid) ."&quot; wirklich l&ouml;schen? </td></tr>\n";
-            print "<tr><td class=\"tdtext\"><table><tr><td></div>Der L&ouml;schvorgang ist irreversibel!</td></tr>\n";
-            print "<tr><td><form action=\"\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $pid ."\"></td></tr>\n";
-            print "<tr><td><input type=\"hidden\" name=\"action\" value=\"part_del\"><input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen!\"><input type=\"submit\" name=\"del_ok\" value=\"L&ouml;schen!\"></td></tr>\n";
-            print "</table></td></tr></table></form></div></body></html>\n";
+            $tmpl = new vlibTemplate(BASE."/templates/$theme/editpartinfo.php/vlib_editpartinfo_del.tmpl");
+            $tmpl -> setVar('del_part',true);
+            $tmpl -> setVar('part_get_name',part_get_name($pid));
+            $tmpl -> pparse();
         }
         else if (isset($_REQUEST["del_ok"]))
         {
@@ -103,7 +111,7 @@
         if (isset($_REQUEST["default_img"]))
         {
             picture_set_default( $pid, $_REQUEST["default_img"]);
-        }   
+        }
         /* check if the user wants to delete an image */
         if (isset($_REQUEST["del_img"]))
         {
@@ -112,17 +120,16 @@
             {
                 /* print the confirmation text */
                 $special_dialog = 1;
-                print "<html><body class=\"body\"><link rel=\"StyleSheet\" href=\"css/partdb.css\" type=\"text/css\"/>";
-                print "<table class=\"table\">";
-                print "<tr><td class=\"tdtop\"><div style=\"color:red\">M&ouml;chten Sie das ausgew&auml;hlte Bild/die ausgew&auml;hlen Bilder wirklich l&ouml;schen?</div></td></tr>";
-                print "<tr><td class=\"tdtext\"><table><tr><td>Der L&ouml;schvorgang ist irreversibel!</td></tr>";
-                print "<tr><td><form action=\"\" method=\"post\"><input type=\"hidden\" name=\"pid\" value=\"". $pid ."\"><input type=\"hidden\" name=\"action\" value=\"img_mgr\">";
+                $tmpl = new vlibTemplate(BASE."/templates/$theme/editpartinfo.php/vlib_editpartinfo_del.tmpl");
+                $tmpl -> setVar('del_part',false);
+                $tmpl -> setVar('pid',$pid);
+                $images=array();
                 for ($i = 0; $i < count( $img_del_id_array); $i++)
                 {
-                    print "<input type=\"hidden\" name=\"del_img[]\" value=\"". $img_del_id_array[$i] ."\">";
-                    print "<input type=\"submit\" name=\"del_nok\" value=\"Nicht L&ouml;schen!\"><input type=\"submit\" name=\"del_ok\" value=\"L&ouml;schen!\"></form></div></body></html>";
+                    $images[]['images']=$img_del_id_array[$i];
                 }
-                print "</form></td></tr></table></td></tr></table>";
+                $tmpl -> setLoop('img_del_id_array',$img_del_id_array);
+                $tmpl -> pparse();
             }
             else if (isset($_REQUEST["del_ok"]))
             {
@@ -192,7 +199,7 @@
         }
     }
     if ($special_dialog == 0)
-    {   
+    {
     ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
           "http://www.w3.org/TR/html4/loose.dtd">
@@ -202,9 +209,9 @@
     <?php print_http_charset(); ?>
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
     <script type="text/javascript" src="popup.php"></script>
-    <script type="text/javascript" src="validatenumber.js"></script>       
+    <script type="text/javascript" src="validatenumber.js"></script>
     <script type="text/javascript">
-        function switch_ds_path() 
+        function switch_ds_path()
         {
             if(document.ds.use_ds_path.checked)
             {
@@ -219,7 +226,7 @@
                 document.getElementById('file').style.display='none';
             }
         }
-    </script> 
+    </script>
 </head>
 <body class="body" onload="switch_ds_path()">
 
@@ -230,8 +237,8 @@
         <form action="" method="get">
             <input type="hidden" name="pid" value="<?PHP print $pid; ?>">
             <table>
-                <?php  
-                
+                <?php
+
                 $result = parts_select( $pid);
                 while ( ($data = mysql_fetch_assoc( $result)) )
                 {
@@ -266,7 +273,7 @@
                             <option value=""></option>
                             <?php location_tree_build( 0, 1, $data['id_storeloc'], false); ?>
                             </select>
- 
+
                         </td>
                     </tr>
                     <tr>
@@ -319,7 +326,7 @@
     <h2>Preisinfos</h2>
     <div class="inner">
         <?php
-            $r = price_select( $pid); 
+            $r = price_select( $pid);
             if ( mysql_num_rows( $r) > 0)
             {
                 /*
@@ -445,7 +452,7 @@
             <?php
             }
             ?>
-            
+
             </td></tr>
             <tr><td>
             <form action="" method="get" name="ds">
@@ -487,9 +494,9 @@
     </div>
 </div>
 
-</body>
-</html>
-
 <?php
     }
+
+    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
+    $tmpl -> pparse();
 ?>
