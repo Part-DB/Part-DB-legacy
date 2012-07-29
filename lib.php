@@ -149,6 +149,8 @@
 */
 
     require_once ('config.php');
+    require_once ('class/class_html.php');
+
     partdb_init();
 
     /*

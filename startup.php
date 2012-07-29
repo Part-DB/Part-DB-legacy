@@ -26,27 +26,11 @@
     require_once ('authors.php');
     require_once ('lib.php');
 
-    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
-    $tmpl -> setVar('head_title', $title);
-    $tmpl -> setVar('head_charset', $http_charset);
-    $tmpl -> setVar('head_theme', $theme);
-    $tmpl -> setVar('head_css', $css);
-    $tmpl -> setVar('head_menu', true);
-    $tmpl -> pparse();
+    $html = new HTML;
+    $html -> set_html_meta ( array('title'=>$title,'http_charset'=>$http_charset,'theme'=>$theme,'css'=>$css,'menu'=>true) );
+    $html -> print_html_header();
 
-    // catch output to do fine formating later
-    if ( checkDBUpdateNeeded())
-    {
-        $tmpl -> setVar('db_version', getDBVersion());
-        if ( getDBAutomaticUpdateActive())
-        {
-            doDBUpdate();
-        }
-        else
-        {
-            $tmpl -> setVar('disabled_autoupdate', true);
-        }
-    }
+    $html -> load_html_template('startup');
 
     /*
      * This variable determines wheater the user is reminded to add
@@ -57,20 +41,33 @@
     $good = "&#x2714; ";
     $bad  = "&#x2718; ";
 
-    $tmpl = new vlibTemplate(BASE."/templates/$theme/startup.php/vlib_startup.tmpl");
-    $tmpl -> setVar('startup_title', $startup_title);
-    $tmpl -> setVar('get_svn_revision', get_svn_revision());
+    $html -> set_html_variable('startup_title', $startup_title, 'string');
+    $html -> set_html_variable('get_svn_revision', get_svn_revision(), 'string');
+
+    // catch output to do fine formating later
+    if ( checkDBUpdateNeeded())
+    {
+        $html -> set_html_variable('db_version', getDBVersion(), 'integer');
+        if ( getDBAutomaticUpdateActive())
+        {
+            doDBUpdate();
+        }
+        else
+        {
+            $html -> set_html_variable('disabled_autoupdate', true, 'boolean');
+        }
+    }
 
     if (categories_count() == 0 || location_count() == 0 || footprint_count() == 0 || suppliers_count() == 0)
     {
-        $tmpl -> setVar('display_warning', true);
-        $tmpl -> setVar('missing_category', ((categories_count()==0)?$bad:$good));
-        $tmpl -> setVar('missing_storeloc', ((location_count()==0)?$bad:$good));
-        $tmpl -> setVar('missing_footprint', ((footprint_count()==0)?$bad:$good));
-        $tmpl -> setVar('missing_supplier', ((suppliers_count()==0)?$bad:$good));
+        $html -> set_html_variable('display_warning', true,'boolean');
+        $html -> set_html_variable('missing_category', ((categories_count()==0)?$bad:$good),'string');
+        $html -> set_html_variable('missing_storeloc', ((location_count()==0)?$bad:$good),'string');
+        $html -> set_html_variable('missing_footprint', ((footprint_count()==0)?$bad:$good),'string');
+        $html -> set_html_variable('missing_supplier', ((suppliers_count()==0)?$bad:$good),'string');
     }
-    $tmpl -> setVar('database_update', $database_update);
-    $tmpl -> setVar('banner', $banner);
+    $html -> set_html_variable('database_update', $database_update, 'boolean');
+    $html -> set_html_variable('banner', $banner, 'string');
 
     if (! $disable_update_list)
     {
@@ -95,11 +92,12 @@
             }
             if (!(--$count)) break;
         }
-        $tmpl -> setLoop('update_list', $rss_text);
+        $html -> set_html_loop('update_list', $rss_text);
     }
-    $tmpl -> setLoop('authors', $authors);
-    $tmpl -> pparse();
+    $html -> set_html_loop('authors', $authors);
 
-    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
-    $tmpl -> pparse();
+    $html -> print_html_template();
+
+    $html -> print_html_footer();
+
 ?>
