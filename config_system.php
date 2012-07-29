@@ -3,16 +3,10 @@
     $Id: nav.php 377 2012-02-27 23:21:10Z bubbles.red@gmail.com $
 */
 
-/** edit: 20120711 Udo Neist **/
-
 require_once ('lib.php');
 include_once ('db_update.php');
 
-/** end: 20120711 Udo Neist **/
-
 $action = ( isset( $_REQUEST["action"]) ? $_REQUEST["action"] : 'default');
-
-/** edit: 20120729 Udo Neist **/
 
 $html = new HTML;
 $html -> set_html_meta ( array('title'=>$title,'http_charset'=>$http_charset,'theme'=>$theme,'css'=>$css,'menu'=>true) );
@@ -44,7 +38,5 @@ $array = array(
 $html -> parse_html_template( 'config_system', $array );
 
 $html -> print_html_footer();
-
-/** end: 20120729 Udo Neist **/
 
 ?>

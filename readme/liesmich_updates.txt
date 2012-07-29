@@ -1,0 +1,16 @@
+Edits
+
+*** Update zu Revison 492 Version 20120715 ***
+
+- CSS und Thema aufgetrennt: Alternative CSS (css/$theme/partdb.cs) zum gewählten Thema hat Vorrang vor der Themen-CSS
+
+*** Update zu Revison 499 Version 20120720 ***
+
+- Diverse Scripte auf Templates umgestellt
+
+*** Update zu Revison 505 Version 20120729 ***
+
+- Klasse html.php (in Revision 505 noch class_html.php) erstellt. startup.php, config_system.php und config_page.php daran angepasst
+- config_page.php enthält eine umgeschriebene und gekürzte list_backup_files(), Unterstützung von mod_xsendfile des Apache2-Webservers
+- Kommentare (mehr oder weniger gut) ins Englische übersetzt (Google Translate sei Dank).
+

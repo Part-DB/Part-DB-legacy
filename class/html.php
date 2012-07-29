@@ -31,38 +31,40 @@ class HTML
 	private $variable;
 	private $loop;
 
+	private $grab;
 	private $debug;
 
 	function __construct()
 	{
 
-		/* Hier werden die Standardwerte für die Klassenvariablen gesetzt */
+		/*  default values ​​set for the class variables */
 
-		// Variablentyp festlegen
+		// specify the variable type
 		settype ($this->meta,'array');
 		settype ($this->variable,'array');
 		settype ($this->template,'string');
 
-		// Variablen erzeugen
+		// default variable type
 		$this->meta = array();
 		$this->variable = array();
 		$this->template = '';
 
-		// String
+		// strings
 		$this->meta['theme']='standard';
 		$this->meta['title']='';
 		$this->meta['http_charset']='utf-8';
 		$this->meta['css']='';
 
-		// Boolean
+		// boolean
 		$this->meta['menu']=true;
 		$this->meta['head_popup']=false;
 		$this->meta['util_functions']=false;
 		$this->meta['clear_default_text']=false;
 		$this->meta['validate']=false;
 		$this->meta['id']=false;
+		$this->grab=false;
 
-		// Fehlersuche
+		// to debug
 		$this->debug=false;
 	}
 
@@ -72,8 +74,8 @@ class HTML
 	{
 
 		/* 
-		*	Im Array $meta werden die Konfigurations- oder userspezifischen Daten übergeben, die die Standardwerte überschreiben
-		*	Es werden keine Prüfungen durchgeführt!
+		*	In $meta, the configuration or user-specific data is passed that override the default values.
+		*	There are no tests conducted!
 		*/
 
 		$this->meta = $meta;
@@ -85,17 +87,17 @@ class HTML
 	{
 
 		/*
-		*	Setzt eine Variable
+		*	Sets a variable in the template
 		*
-		*	Ist $type mit 'boolean', 'integer', 'float' oder 'string' angegeben, wird der Variablentyp gesetzt.
-		*	Wird $format['format'] mit 'nf' übergeben und der Typ ist 'integer' oder 'float', so wird nach number_format() formatiert. Die Standardwerte entsprechen dem deutschen Format.
-		*	Gibt man dagegen $format['format'] mit 'sf' an, so wird der String durch sprintf() und der Formatangabe in $format['printf'] formatiert.
+		*	If $type to 'boolean', 'integer', 'float' or 'string' is specified, the variable type is set on it.
+		*	Setting $format['format'] to 'nf' and $type is 'integer' or 'flot', the variable is parsed by number_format(). The default values ​​correspond to the German format.
+		*	However, if $format['format'] specify with 'sf', the string with the format specified in $format['printf'] is formatted by sprintf().
 		*
 		*/
 
 
 
-		if ( strlen($key)==0 || strlen($var) ==0 ) return 1; // Fehlercode 1: Variable nicht angeben
+		if ( strlen($key)==0 || strlen($var) ==0 ) return 1; // Error code 1: variable not set
 
 		if ( in_array( $type, array('boolean', 'integer', 'float', 'string')) )
 		{
@@ -109,7 +111,7 @@ class HTML
 			/*
 			*	number_format()
 			*
-			*	Definiert die Ausgabe nach deutschem Standard, falls keine anderen Angaben vorhanden sind
+			*	The default values ​​correspond to the German format.
 			*/
 
 			if ( ! $format['dec_point'] ) $format['dec_point'] =',';
@@ -125,7 +127,7 @@ class HTML
 			/*
 			*	sprintf()
 			*
-			*	Formatiert nach den Regeln von sprintf() -> http://php.net/manual/de/function.sprintf.php
+			*	Formatted according to the rules of sprintf() -> http://php.net/manual/de/function.sprintf.php
 			*/
 
 			$var = sprintf( $var, $fomat['printf'] );
@@ -139,9 +141,9 @@ class HTML
 	function unset_html_variable ( $key = '' )
 	{
 
-		/* Löscht eine Variable */
+		/* unset variable */
 
-		if ( strlen($key) == 0 ) return 1; // Fehlercode 1: Variable nicht angeben
+		if ( strlen($key) == 0 ) return 1; // Error code 1: variable not set
 
 		$this->variable[$key] = '';
 		unset( $this->variable[$key] );
@@ -152,7 +154,7 @@ class HTML
 	function clr_html_variable ()
 	{
 
-		/* Löscht das ganze Array */
+		/* unset array $this->variable */
 
 		unset ( $this->variable );
 		$this->variable = array();
@@ -164,9 +166,9 @@ class HTML
 	function set_html_loop ( $key = '', $array = array() )
 	{
 
-		/* Setzt ein Array für Loops */
+		/* using $array for a loop */
 
-		if ( strlen($key)==0 || count($array) ==0 ) return 1; // Fehlercode 1: Variable nicht angeben
+		if ( strlen($key)==0 || count($array) ==0 ) return 1; // Error code 1: variable not set
 
 		$this->loop[$key] = $array;
 
@@ -176,9 +178,9 @@ class HTML
 	function unset_html_loop ( $key = '' )
 	{
 
-		/* Löscht ein Loop */
+		/* delete loop */
 
-		if ( strlen($key) == 0 ) return 1; // Fehlercode 1: Variable nicht angeben
+		if ( strlen($key) == 0 ) return 1; // Error code 1: variable not set
 
 		$this->loop[$key] = array();
 		unset( $this->loop[$key] );
@@ -189,7 +191,7 @@ class HTML
 	function clr_html_loop ()
 	{
 
-		/* Löscht alle Loops */
+		/* clear all loops */
 
 		unset ( $this->loop );
 		$this->loop = array();
@@ -199,13 +201,23 @@ class HTML
 
 	/** Ausgabefunktionen **/
 
+	function set_grab()
+	{
+		$this->grab = true;
+	}
+
+	function unset_grab()
+	{
+		$this->grab = false;
+	}
+
 	function print_html_header ()
 	{
 
-		/* HTML-Header */
+		/* HTML-header */
 
-		if ( !is_array($this->meta) || count ($this->meta) == 0 || strlen($this->meta['theme'])==0 ) return 1; // Fehlercode 1: Metadaten nicht angegeben, mindestens $this->meta['theme'] ist notwendig!
-		if ( ! is_readable(BASE."/templates/".$this->meta['theme']."/vlib_head.tmpl") ) return 2; // Fehlercode 2: Datei nicht gefunden
+		if ( !is_array($this->meta) || count ($this->meta) == 0 || strlen($this->meta['theme'])==0 ) return 1; // Error code 1: variable not set
+		if ( ! is_readable(BASE."/templates/".$this->meta['theme']."/vlib_head.tmpl") ) return 2; // Error code 2: file not found
 
 		$tmpl = new vlibTemplate(BASE."/templates/".$this->meta['theme']."/vlib_head.tmpl");
 		$tmpl -> setVar('head_title', $this->meta['title']);
@@ -221,20 +233,27 @@ class HTML
 		$tmpl -> setVar('head_util_functions', $this->meta['util_functions']);
 		$tmpl -> setVar('head_clear_default_text', $this->meta['clear_default_text']);
 		$tmpl -> setVar('head_validate', $this->meta['validate']);
-		$tmpl -> setVar('hide_id', $this->meta['id']);
-		$tmpl -> pparse();
-
-		return 0;
+		$tmpl -> setVar('head_popup', $this->meta['popup']);
+		$tmpl -> setVar('hide_id', $this->meta['hide_id']);
+		if ( ! $this->grab )
+		{
+			$tmpl -> pparse();
+			return 0;
+		}
+		else
+		{
+			return $tmpl -> grab();
+		}
 
 	}
 
 	function print_html_footer ()
 	{
 
-		/* Footer ausgeben */
+		/* HTML-footer */
 
-		if ( !is_array($this->meta) || count ($this->meta) == 0 || strlen($this->meta['theme'])==0 ) return 1; // Fehlercode 1: Metadaten nicht angegeben, $this->meta['theme'] ist notwendig!
-		if ( ! is_readable(BASE."/templates/".$this->meta['theme']."/vlib_foot.tmpl") ) return 2; // Fehlercode 2: Datei nicht gefunden
+		if ( !is_array($this->meta) || count ($this->meta) == 0 || strlen($this->meta['theme'])==0 ) return 1; // Error code 1: Metadaten nicht angegeben, $this->meta['theme'] ist notwendig!
+		if ( ! is_readable(BASE."/templates/".$this->meta['theme']."/vlib_foot.tmpl") ) return 2; // Error code 2: file not found
 
 		$tmpl = new vlibTemplate(BASE."/templates/".$this->meta['theme']."/vlib_foot.tmpl");
 		$tmpl -> pparse();
@@ -243,23 +262,32 @@ class HTML
 
 	}
 
-	function load_html_template ( $template = '' )
+	function load_html_template ( $template = '', $use_scriptname = true )
 	{
 
 		/*
-		*	Definiert das Template für nachfolgende Funktionen.
+		*	Defines the template for subsequent functions.
 		*
-		*	Variablen
-		*	$template: gekürzter Name für das Template. Scriptname und "vlib_" sowie ".tmpl" müssen weggelassen werden!
+		*	Variables
+		*	$template: abbreviated name for the template. Script name, "vlib_" and ".tmpl" must be left out!
 		*
 		*/
 
+
 		$this->template = '';
 
-		if ( strlen($template) == 0 ) return 1; // Fehlercode 1: Variablen nicht angeben
-		if ( ! is_readable(BASE."/templates/".$this->meta['theme']."/".basename($_SERVER['PHP_SELF'])."/vlib_".$template.".tmpl") ) return 2; // Fehlercode 2: Datei nicht gefunden
+		if ( strlen($template) == 0 ) return 1; // Error code 1: variable not set
 
-		$this->template = BASE."/templates/".$this->meta['theme']."/".basename($_SERVER['PHP_SELF'])."/vlib_".$template.".tmpl";
+		if ( $use_scriptname === true )
+		{
+			if ( ! is_readable(BASE."/templates/".$this->meta['theme']."/".basename($_SERVER['PHP_SELF'])."/vlib_".$template.".tmpl") ) return 2; // Error code 2: file not found
+			$this->template = BASE."/templates/".$this->meta['theme']."/".basename($_SERVER['PHP_SELF'])."/vlib_".$template.".tmpl";
+		}
+		else
+		{
+			if ( ! is_readable(BASE."/templates/".$this->meta['theme']."/vlib_".$template.".tmpl") ) return 2; // Error code 2: file not found
+			$this->template = BASE."/templates/".$this->meta['theme']."/vlib_".$template.".tmpl";
+		}
 		$this->clr_html_loop();
 		$this->clr_html_variable();
 
@@ -269,20 +297,20 @@ class HTML
 
 	}
 
-	function parse_html_template ( $template = '', $array = array() )
+	function parse_html_template ( $template = '', $array = array(), $use_scriptname = true)
 	{
 
 		/*
-		*	Meta-Funktion, fasst die Funktionen load_html_template(), set_html_*() und print_html_template() zusammen.
+		*	Meta function! Summarizes the functions load_html_template(), set_html_*() and print_html_template().
 		*
-		*	Variable: $array[$key]=>$value
-		*	Loop: $array[$index][$key]=>$value
+		*	Variables: $array[$key]=>$value
+		*	Loops: $array[$index][$key]=>$value
 		*
-		*	Erkennt automatisch anhand von $value ob Loop oder Variable.
+		*	Detects based on $value is whether variable or loop.
 		*/
 
-		if ( count($array) == 0) return 1; // Fehlercode 1: Variablen nicht angeben
-		if ( $this->load_html_template($template) > 0 ) return 2; // Fehlercode 2: Datei nicht gefunden
+		if ( count($array) == 0) return 1; // Error code 1: variable not set
+		if ( $this->load_html_template($template,$use_scriptname) > 0 ) return 2; // Error code 2: file not found
 
 		if ( count($array) >0 )
 		{
@@ -302,7 +330,6 @@ class HTML
 		}
 
 		if ( $this->print_html_template()==2 ) echo $this->template;
-		
 
 		return 0;
 
@@ -311,9 +338,9 @@ class HTML
 	function parse_html_table ( $array = array() )
 	{
 
-		/* Alias für parse_html_template(), übergibt aber einen festen Dateinamen */
+		/* Alias for parse_html_template(). Template is set to "vlib_table.tmpl". */
 
-		$this->parse_html_template( 'table', $array );
+		return $this->parse_html_template( 'table', $array, false);
 
 	}
 
@@ -321,10 +348,10 @@ class HTML
 	{
 
 		/*
-		*	Gibt das zuvor mit load_html_template() und set_html_*() bzw. parse_html_*() definierte Template aus.
+		*	Print template. Use load_html_template(), set_html_*() or parse_html_*() for creating pages.
 		*/
 
-		if ( ! is_readable($this->template) ) return 2; // Fehlercode 2: Datei nicht gefunden
+		if ( ! is_readable($this->template) ) return 2; // Error code 2: file not found
 
 		if ( $this->debug )
 		{
@@ -340,7 +367,16 @@ class HTML
 		if ( count($this->variable) >0 ) while ( list( $key, $value ) = each( $this->variable ) ) $tmpl -> setVar ( $key, $value );
 		if ( count($this->loop) >0 ) while ( list( $key, $loop ) = each( $this->loop ) ) $tmpl -> setLoop ( $key, $loop );
 
-		$tmpl->pparse();
+		if ( ! $this->grab )
+		{
+			$tmpl -> pparse();
+			return 0;
+		}
+		else
+		{
+			return $tmpl -> grab();
+		}
+
 	}
 
 	/** Misc **/
@@ -348,7 +384,7 @@ class HTML
 	function print_error_state( $error = 0 )
 	{
 
-		/* Gibt Fehlercodes der Funktionen als Klartext zurück */
+		/* returns the error code as plain text */
 
 		$errorcodes = array ('0' => 'success','1' => 'no variable found','2' => 'file not found');
 		return $errorcodes[$error];

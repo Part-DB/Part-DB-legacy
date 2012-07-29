@@ -21,88 +21,52 @@
     $Id: showparts.php 442 2012-06-14 05:40:48Z bubbles.red@gmail.com $
 */
 
-    require_once ('lib.php');
+require_once ('lib.php');
 
-    $cid    = isset( $_REQUEST['cid'])    ? $_REQUEST['cid']          : '';
-    $pid    = isset( $_REQUEST['pid'])    ? $_REQUEST['pid']          : '';
-    $subcat = isset( $_REQUEST['subcat']) ? (bool)$_REQUEST['subcat'] : true;
-    $action = isset( $_REQUEST['action']) ? $_REQUEST['action']       : 'default';
+$cid    = isset( $_REQUEST['cid'])    ? $_REQUEST['cid']          : '';
+$pid    = isset( $_REQUEST['pid'])    ? $_REQUEST['pid']          : '';
+$subcat = isset( $_REQUEST['subcat']) ? (bool)$_REQUEST['subcat'] : true;
+$action = isset( $_REQUEST['action']) ? $_REQUEST['action']       : 'default';
 
-    // logical inverted text
-    $subcat_text = $subcat ? 'ausblenden' : 'einblenden';
+// logical inverted text
+$subcat_text = $subcat ? 'ausblenden' : 'einblenden';
 
-    if ( $action == 'dec')
-    {
-        // remove one part
-        parts_stock_decrease( $pid);
-    }
+if ( $action == 'dec')
+{
+	// remove one part
+	parts_stock_decrease($pid);
+}
 
-    if ( $action == 'inc')
-    {
-        // add one part
-        parts_stock_increase( $pid);
-    }
+if ( $action == 'inc')
+{
+	// add one part
+	parts_stock_increase($pid);
+}
 
+$html = new HTML;
+$html -> set_html_meta ( array('title'=>'Deviceinfo','http_charset'=>$http_charset,'theme'=>$theme,'css'=>$css,'menu'=>true,'popup'=>true,'hide_id'=>$hide_id) );
+$html -> print_html_header();
 
-    /** new: 20120712 Udo Neist **/
+$table = array(array('new_category'=>true));
+$result   = parts_select_category( $cid, $subcat);
+$row_odd = true;
+while ( $data = mysql_fetch_assoc( $result))
+{
+	$table[] = print_table_row( $row_odd, $data, $hide_mininstock);
+	$row_odd = ! $row_odd;
+}
 
-    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
-    $tmpl -> setVar('head_title', 'Deviceinfo');
-    $tmpl -> setVar('head_charset', $http_charset);
-    $tmpl -> setVar('head_theme', $theme);
-    $tmpl -> setVar('head_css', $css);
-    $tmpl -> setVar('head_menu', true);
-    $tmpl -> setVar('head_popup', true);
-    $tmpl -> setVar('hide_id', $hide_id);
-    $tmpl -> pparse();
+$array = array(
+	'cid'			=>	$cid,
+	'subcat'		=>	(! $subcat),
+	'subcat_text'		=>	$subcat_text,
+	'category_get_name'	=>	category_get_name($cid),
+	'hide_mininstock'	=>	$hide_mininstock,
+	'table'			=>	$table
+	);
 
-    /** end: 20120712 Udo Neist **/
+$html -> parse_html_template( 'table', $array );
 
-?>
+$html -> print_html_footer();
 
-<div class="outer">
-    <h2>Sonstiges</h2>
-    <div class="inner">
-        <form action="" method="post">
-            Unterkategorien:
-            <input type="hidden" name="cid" value="<?php print $cid; ?>">
-            <input type="hidden" name="subcat" value="<?php print (! $subcat); ?>">
-            <input type="submit" value="<?php print $subcat_text; ?>">
-        </form>
-        <a href="newpart.php?cid=<?php print $cid; ?>" onclick="return popUp('newpart.php?cid=<?php print $cid; ?>');">Neues Teil in dieser Kategorie</a>
-    </div>
-</div>
-
-
-<div class="outer">
-    <h2>Anzeige der Kategorie &quot;<?php print category_get_name( $cid); ?>&quot;</h2>
-    <div class="inner">
-        <table>
-            <tr class="trcat">
-                <td></td>
-                <td>Name</td>
-                <td>Beschreibung</td>
-                <?php print "<td>".($hide_mininstock ? "Bestand" : "Vorh./<br>Min.Best.")."</td>"; ?>
-                <td>Footprint</td>
-                <td>Lagerort</td>
-                <td class="idclass">ID</td>
-                <td>Datenbl&auml;tter</td>
-                <td align="center">-</td>
-                <td align="center">+</td>
-            </tr>
-            <?php
-                $result   = parts_select_category( $cid, $subcat);
-                $row_odd = true;
-                while ( $data = mysql_fetch_assoc( $result))
-                {
-                    print_table_row( $row_odd, $data, $hide_mininstock);
-                    $row_odd = ! $row_odd;
-                }
-            ?>
-        </table>
-    </div>
-</div>
-<?php
-	$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
-	$tmpl -> pparse();
 ?>

@@ -4,7 +4,7 @@
     <table class="table">
       <tr>
         <td class="tdtext">Datenbank Version: {TMPL_VAR NAME="db_version_1"}</td>
-        <td class="tdtext">Ben&ouml;tigte Version: {TMPL_VAR NAME="db_version_2"}</td>
+        <td class="tdtext">Benötigte Version: {TMPL_VAR NAME="db_version_2"}</td>
         <td class="tdtext">{TMPL_IF NAME="db_version_update"}Update notwendig{TMPL_ELSE}up-to-date{/TMPL_IF}</td>
       </tr>
       <tr>
@@ -12,7 +12,7 @@
         <td class="tdtext">{TMPL_VAR NAME="db_version_autoupdate_set" ESCAPE="none"}
           <form action="" method="post">
             <input type="checkbox" name="active" value="active"{TMPL_IF NAME="db_version_autoupdate_check"} checked{/TMPL_IF}>Automatisches Update<br>
-            <input type="submit" name="set_auto_update" value="&Uuml;bernehmen">
+            <input type="submit" name="set_auto_update" value="Übernehmen">
           </form>
         </td>
         <td class="tdtext">
@@ -32,7 +32,7 @@
     <table class="table">
       <tr>
         <td class="tdtext">
-          Hinweis: Damit die Backups erstellt werden k&ouml;nnen, muss der Benutzer "www-data" im Backup-Ordner Schreibrechte haben.
+          Hinweis: Damit die Backups erstellt werden können, muss der Benutzer "www-data" im Backup-Ordner Schreibrechte haben.
         </td>
       </tr>
       <tr>
@@ -50,7 +50,7 @@
             {/TMPL_LOOP}
             </select>
             <input type="submit" name="download_file" value="Download">
-            <input type="submit" name="delete_file" value="L&ouml;schen">
+            <input type="submit" name="delete_file" value="Löschen">
         </td>
       </tr>
     </table>

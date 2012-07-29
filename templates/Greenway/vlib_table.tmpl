@@ -1,0 +1,71 @@
+{TMPL_LOOP NAME="table"}
+{TMPL_IF NAME="new_category"}
+	<tr class="trcat">
+		<td></td>
+		<td>Name</td>
+		<td>Beschreibung</td>
+		<td>{TMPL_IF NAME="hide_mininstock"}Bestand{TMPL_ELSE}Vorh./<br>Min.Best{/TMPL_IF}</td>
+		<td>Footprint</td>
+		<td>Lagerort</td>
+		<td class="idclass">ID</td>
+		<td>Datenblätter</td>
+		<td align="center">-</td>
+		<td align="center">+</td>
+	</tr>
+{TMPL_ELSE}
+	<!--the alternating background colors are created here-->
+	<tr class="{TMPL_IF NAME="row_odd"}trlist_odd{TMPL_ELSE}trlist_even{/TMPL_IF}">
+		
+		<!--Pictures-->
+		<td class="tdrow0">{TMPL_VAR NAME="print_table_image" ESCAPE="none"}</td>
+		
+		<!--comment-->
+		<td class="tdrow1{TMPL_IF NAME="obsolete"} backred{/TMPL_IF}"><a title="{TMPL_IF NAME="obsolete"}nicht mehr erhätlich{/TMPL_IF}{TMPL_IF NAME="comment"}Kommentar: {TMPL_VAR NAME="comment" ESCAPE="none"}{/TMPL_IF}" href="javascript:popUp('partinfo.php?pid={TMPL_VAR NAME="id"}');">{TMPL_VAR NAME="name"}</a>
+		</td>
+		
+		<!--description-->
+		<td class="tdrow1{TMPL_IF NAME="obsolete"} backred{/TMPL_IF}">{TMPL_VAR NAME="description"}</td>
+		
+		<!--instock/mininstock-->
+		{TMPL_IF NAME="hide_mininstock"}
+		<td class="tdrow2"><div title="min. Bestand: {TMPL_VAR NAME="mininstock"}">{TMPL_VAR NAME="instock"}</div></td>
+		{TMPL_ELSE}
+		<td class="tdrow2">{TMPL_VAR NAME="instock"}/{TMPL_VAR NAME="mininstock"}</td>
+		{/TMPL_IF}
+		
+		<!--footprint-->
+		<td class="tdrow3"><div title="{TMPL_VAR NAME="part_get_footprint_path"}">{TMPL_VAR NAME="footprint"}</div></td>
+		<!--store location-->
+		<td class="tdrow4"><div title="{TMPL_VAR NAME="part_get_location_path"}">{TMPL_VAR NAME="location"}</div></td>
+		<!--id-->
+		<td class="tdrow4 idclass">{TMPL_VAR NAME="id"}</td>
+		<!--datasheet links-->
+		<td class="tdrow5">
+			<!--with icons-->
+			<a title="alldatasheet.com" href="http://www.alldatasheet.com/view.jsp?Searchword={TMPL_VAR NAME="urlenc_name"}" target="_blank"><img class="companypic" src="img/partdb/ads.png" alt="logo"></a>
+			<a title="Reichelt.de" href="http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH={TMPL_VAR NAME="urlenc_searchfor"}" target="_blank"><img class="companypic" src="img/partdb/reichelt.png" alt="logo"></a>
+			<a title="Datasheetcatalog.net" href="http://search.datasheetcatalog.net/key/{TMPL_VAR NAME="urlenc_name"}" target="_blank"><img class="companypic" src="img/partdb/dc.png" alt="logo"></a>
+			<!--show local datasheet if availible-->
+			{TMPL_IF NAME="local_datasheet"}<a href="{TMPL_VAR NAME="local_datasheet"}">Datenblatt</a>{/TMPL_IF}
+		</td>
+		
+		<!--build the "-" button, only if more then 0 parts on stock-->
+		<td class="tdrow6">
+			<form action="" method="post">
+				<input type="hidden" name="pid" value="{TMPL_VAR NAME="id"}">
+				<input type="hidden" name="action" value="dec">
+				<input type="submit" value="-"{TMPL_IF NAME="instock" OP="==" VALUE="0"}disabled="disabled"{/TMPL_IF}>
+			</form>
+		</td>
+		
+		<!--build the "+" button-->
+		<td class="tdrow7">
+			<form action="" method="post">
+				<input type="hidden" name="pid" value="{TMPL_VAR NAME="id"}">
+				<input type="hidden" name="action" value="inc">
+				<input type="submit" value="+">
+			</form>
+		</td>
+	</tr>
+{/TMPL_IF}
+{/TMPL_LOOP}

@@ -24,6 +24,8 @@
 
 require_once ('lib.php');
 
+$html = new HTML;
+
 $refreshnav = false;
 
 /*
@@ -40,13 +42,11 @@ if ( isset( $_REQUEST["new_parent"])) { $action = 'new_parent';}
 $catsel      = isset( $_REQUEST["catsel"]) ? $_REQUEST["catsel"] : -1;
 $parentnode  = isset( $_REQUEST["parentnode"])  ? $_REQUEST["parentnode"] : 0;
 
-
 if ( $action == 'add')
 {
 	category_add( $_REQUEST["new_category"], $parentnode);
 	$refreshnav = true;
 }
-
 
 if ( $action == 'delete')
 {
@@ -60,24 +60,19 @@ if ( $action == 'delete')
 		$special_dialog = true;
 		if ( parts_count_on_category( $catsel) != 0)
 		{
-			$tmpl = new vlibTemplate(BASE."/templates/catmgr.php/vlib_cat_delete.tmpl");
-			$tmpl -> setVar('question_delete',true);
-			$tmpl -> pparse();
+			$array = array('question_delete'=>true);
 		}
 		else
 		{
-			$tmpl = new vlibTemplate(BASE."/templates/catmgr.php/vlib_cat_delete.tmpl");
-			$tmpl -> setVar('nothing_delete',true);
-			$tmpl -> setVar('category_name',category_get_name($catsel));
-			$tmpl -> setVar('category_sel',$catsel);
-			$tmpl -> pparse();
+			$array = array('nothing_delete'=>true,'category_name'=>category_get_name($catsel),'category_sel'=>$catsel);
 		}
+		$html -> parse_html_template( 'cat_delete', $array );
 	}
 	else if (isset($_REQUEST["del_ok"]))
 	{
-	// the user said it's OK to delete the category
-	category_del( $catsel);
-			$refreshnav = true;
+		// the user said it's OK to delete the category
+		category_del( $catsel);
+		$refreshnav = true;
 	}
 }
 
@@ -98,42 +93,33 @@ if ( $action == 'new_parent')
 $data       = category_select( $catsel);
 $name       = $data['name'];
 $parentnode = $data['parentnode'];
-
 $size       = min( categories_count(), 30);
 
 if ($special_dialog == false)
 {
 
-	/** edit: 20120715 Udo Neist **/
+	$html -> set_html_meta ( array('title'=>'Kategorien','http_charset'=>$http_charset,'theme'=>$theme,'css'=>$css,'menu'=>true) );
+	$html -> print_html_header();
 
-	$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
-	$tmpl -> setVar('head_title', 'Kategorien');
-	$tmpl -> setVar('head_charset', $http_charset);
-	$tmpl -> setVar('head_theme', $theme);
-	$tmpl -> setVar('head_css', $css);
-	$tmpl -> setVar('head_menu', true);
-	$tmpl -> pparse();
+	$array = array (
+		'categories_refreshnav'=>$refreshnav,
+		'categories_build_size'=>$size,
+		'categories_build_name'=>$name
+	);
 
-	$tmpl = new vlibTemplate(BASE."/templates/$theme/catmgr.php/vlib_cat_edit.tmpl");
 	ob_start();
 	categories_build_tree( 0, 0, $parentnode);
-	$categories = ob_get_contents();
+	$array['categories_build_tree_1'] = ob_get_contents();
 	ob_end_clean();
-	$tmpl -> setVar('categories_build_tree_1', $categories);
 	ob_start();
 	categories_build_tree( 0, 0, $catsel);
-	$categories = ob_get_contents();
+	$array['categories_build_tree_2'] = ob_get_contents();
 	ob_end_clean();
-	$tmpl -> setVar('categories_build_tree_2', $categories);
-	$tmpl -> setVar('categories_refreshnav',$refreshnav);
-	$tmpl -> setVar('categories_build_size',$size);
-	$tmpl -> setVar('categories_build_name',$name);
-	$tmpl -> pparse();
 
-	$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
-	$tmpl -> pparse();
+	$tmpl = new vlibTemplate(BASE."/templates/$theme/catmgr.php/vlib_cat_edit.tmpl");
+	$html -> parse_html_template( 'cat_edit', $array );
 
-	/** end: 20120715 Udo Neist **/
+	$html -> print_html_footer();
 
 }
 ?>

@@ -22,29 +22,29 @@
 
 */
 
-    require_once ('lib.php');
+require_once ('lib.php');
 
-    /*
-     * 'action' is a hidden field in the form.
-     * The 'instock' value has to be changed before the output begins.
-     */
+/*
+* 'action' is a hidden field in the form.
+* The 'instock' value has to be changed before the output begins.
+*/
 
-    // set action to default, if not exists
-    $action = ( isset( $_REQUEST["action"]) ? $_REQUEST["action"] : 'default');
+// set action to default, if not exists
+$action = ( isset( $_REQUEST["action"]) ? $_REQUEST["action"] : 'default');
 
-    if ( $action == "dec")
-    {
-        parts_stock_decrease( $_REQUEST["pid"], $_REQUEST["n_less"]);
-    }
+if ( $action == "dec")
+{
+	parts_stock_decrease( $_REQUEST["pid"], $_REQUEST["n_less"]);
+}
 
-    if ( $action == "inc")
-    {
-        parts_stock_increase( $_REQUEST["pid"], $_REQUEST["n_more"]);
-    }
+if ( $action == "inc")
+{
+	parts_stock_increase( $_REQUEST["pid"], $_REQUEST["n_more"]);
+}
 
-	$html -> new HTML;
-	$html -> set_html_meta ( array('title'=>'Neues Teil','http_charset'=>$http_charset,'theme'=>$theme,'css'=>$css,'popup'=>true) );
-	$html -> put_html_header();
+$html = new HTML;
+$html -> set_html_meta ( array('title'=>'Neues Teil','http_charset'=>$http_charset,'theme'=>$theme,'css'=>$css,'popup'=>true) );
+$html -> print_html_header();
 
 ?>
 <div class="outer">
@@ -139,5 +139,5 @@
     </div>
 </div>
 <?php
-	$html -> put_html_footer();
+$html -> print_html_footer();
 ?>
