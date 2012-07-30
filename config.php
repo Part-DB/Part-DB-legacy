@@ -33,7 +33,7 @@ setlocale(LC_ALL, LANGUAGE);
 
 /* set version */
 $conf['version']['author'] = 'Udo Neist';
-$conf['version']['build'] = '20120729';
+$conf['version']['build'] = '20120730';
 $conf['version']['string'] = ' (modified by '.$conf['version']['author'].', Build: '.$conf['version']['build'].')';
 
 /* load database configuration */

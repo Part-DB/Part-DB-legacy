@@ -1,10 +1,14 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 
 <html>
-<head>{TMPL_IF NAME="head_title"}<title>{TMPL_VAR NAME="head_title"}></title>{/TMPL_IF}</head>
+<head>{TMPL_IF NAME="title"}<title>{TMPL_VAR NAME="title"}</title>{/TMPL_IF}</head>
 
+{TMPL_IF NAME="mobile"}
+<body class="body">Sorry, aber mobile Geräte werden derzeit nicht unterstützt.</body>
+{TMPL_ELSE}
 <frameset cols="300,*" frameborder="0" framespacing="0" border="0">
 	<frame name="_nav_frame" src="nav.php">
 	<frame name="content_frame" src="startup.php">
 </frameset>
+{/TMPL_IF}
 </html>

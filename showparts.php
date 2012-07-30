@@ -44,7 +44,16 @@ if ( $action == 'inc')
 }
 
 $html = new HTML;
-$html -> set_html_meta ( array('title'=>'Deviceinfo','http_charset'=>$http_charset,'theme'=>$theme,'css'=>$css,'menu'=>true,'popup'=>true,'hide_id'=>$hide_id) );
+$html -> set_html_meta ( array(
+	'title'			=>	'Deviceinfo',
+	'http_charset'		=>	$http_charset,
+	'theme'			=>	$theme,
+	'css'			=>	$css,
+	'menu'			=>	true,
+	'popup'			=>	true,
+	'hide_id'		=>	$hide_id
+	)
+);
 $html -> print_html_header();
 
 $table = array(array('new_category'=>true));
@@ -66,7 +75,6 @@ $array = array(
 	);
 
 $html -> parse_html_template( 'table', $array );
-
 $html -> print_html_footer();
 
 ?>

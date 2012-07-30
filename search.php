@@ -54,7 +54,16 @@ if ( $action == 'inc')
 }
 
 $html = new HTML;
-$html -> set_html_meta ( array('title'=>'Suchergebnisse','http_charset'=>$http_charset,'theme'=>$theme,'css'=>$css,'menu'=>true,'popup'=>true,'hide_id'=>$hide_id) );
+$html -> set_html_meta ( array(
+	'title'		=>	'Suchergebnisse',
+	'http_charset'	=>	$http_charset,
+	'theme'		=>	$theme,
+	'css'		=>	$css,
+	'menu'		=>	true,
+	'popup'		=>	true,
+	'hide_id'	=>	$hide_id
+	)
+);
 $html -> print_html_header();
 
 $keyword_esc = smart_escape_for_search( $keyword);
@@ -79,18 +88,17 @@ while ( $data = mysql_fetch_assoc( $result))
 	$row_odd = ! $row_odd;
 }
 
-
 $array = array (
-	'keyword'			=>	$keyword,
-	'search_nam'			=>	$search_nam,
-	'search_cat'			=>	$search_cat,
-	'search_des'			=>	$search_des,
-	'search_com'			=>	$search_com,
-	'search_sup'			=>	$search_sup,
-	'search_snr'			=>	$search_snr,
-	'search_loc'			=>	$search_loc,
-	'search_fpr'			=>	$search_fpr,
-	'table'				=>	$table
+	'keyword'	=>	$keyword,
+	'search_nam'	=>	$search_nam,
+	'search_cat'	=>	$search_cat,
+	'search_des'	=>	$search_des,
+	'search_com'	=>	$search_com,
+	'search_sup'	=>	$search_sup,
+	'search_snr'	=>	$search_snr,
+	'search_loc'	=>	$search_loc,
+	'search_fpr'	=>	$search_fpr,
+	'table'		=>	$table
 );
 
 $html -> parse_html_template( 'table', $array );

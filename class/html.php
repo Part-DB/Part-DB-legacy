@@ -235,6 +235,7 @@ class HTML
 		$tmpl -> setVar('head_validate', $this->meta['validate']);
 		$tmpl -> setVar('head_popup', $this->meta['popup']);
 		$tmpl -> setVar('hide_id', $this->meta['hide_id']);
+
 		if ( ! $this->grab )
 		{
 			$tmpl -> pparse();
@@ -256,6 +257,7 @@ class HTML
 		if ( ! is_readable(BASE."/templates/".$this->meta['theme']."/vlib_foot.tmpl") ) return 2; // Error code 2: file not found
 
 		$tmpl = new vlibTemplate(BASE."/templates/".$this->meta['theme']."/vlib_foot.tmpl");
+		$tmpl -> setVar('html_body', $this->meta['body']);
 		$tmpl -> pparse();
 
 		return 0;
@@ -381,7 +383,18 @@ class HTML
 
 	/** Misc **/
 
-	function print_error_state( $error = 0 )
+
+	function set_debug()
+	{
+		$this->debug = true;
+	}
+
+	function unset_debug()
+	{
+		$this->debug = false;
+	}
+
+	function get_error_state( $error = 0 )
 	{
 
 		/* returns the error code as plain text */
