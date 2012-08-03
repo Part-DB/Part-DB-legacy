@@ -1,4 +1,7 @@
 <?php
+/*
+    $Id: config.php 510 2012-08-03 weinbauer73@gmail.com $
+*/
 
 /*  start session */
 session_name ("Part-DB");
@@ -20,9 +23,8 @@ require ('vlibMimeMail.php');
 
 /* define theme, e.g. standard, Greenway */
 $theme = "standard";
-/* if an alternative css named css/$theme.css exists,
-it will used additional to the standard theme partdb.css */
-$css = ((is_readable(BASE."/css/$theme.css"))?"css/$theme.css":"templates/$theme/partdb.css");
+/* if you want to use an alternative css named css/$theme.css, set this to true */
+$css = false;
 
 /* set timezone (e.g. Europe/Berlin) */
 date_default_timezone_set("Europe/Berlin");
@@ -33,8 +35,11 @@ setlocale(LC_ALL, LANGUAGE);
 
 /* set version */
 $conf['version']['author'] = 'Udo Neist';
-$conf['version']['build'] = '20120730';
+$conf['version']['build'] = '20120803';
 $conf['version']['string'] = ' (modified by '.$conf['version']['author'].', Build: '.$conf['version']['build'].')';
+
+/* set system variables, e.g. email of an administrator or master user */
+$conf['sys']['email'] = '';
 
 /* load database configuration */
 include ('config_db.php');

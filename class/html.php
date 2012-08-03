@@ -18,9 +18,11 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: class_html.php 501 2012-07-29 weinbauer73@gmail.com $
+    $Id: class/html.php 510 2012-08-03 weinbauer73@gmail.com $
 
 */
+
+require_once ('error.php');
 
 class HTML
 {
@@ -37,12 +39,36 @@ class HTML
 	function __construct()
 	{
 
-		/*  default values ​​set for the class variables */
+		/* check for loaded classes */
+		$e =& new _exception;
+
+		$classes = array('vlibTemplate');
+		$text = array();
+		foreach ($classes as $class) if (class_exists($class)===false) $text[]=$class;
+		if (count($text)>0) $e -> throwClassError($text,basename(__FILE__));
+
+		/* default values ​​set for the class variables */
+
+		global $http_charset, $theme, $css;
 
 		// specify the variable type
 		settype ($this->meta,'array');
 		settype ($this->variable,'array');
 		settype ($this->template,'string');
+		settype ($this->grab,'boolean');
+		settype ($this->debug,'boolean');
+
+		// specify the variable type of array $this->meta
+		settype ($this->meta['theme'],'string');
+		settype ($this->meta['title'],'string');
+		settype ($this->meta['http_charset'],'string');
+		settype ($this->meta['css'],'string');
+		settype ($this->meta['menu'],'boolean');
+		settype ($this->meta['head_popup'],'boolean');
+		settype ($this->meta['util_functions'],'boolean');
+		settype ($this->meta['clear_default_text'],'boolean');
+		settype ($this->meta['validate'],'boolean');
+		settype ($this->meta['id'],'boolean');
 
 		// default variable type
 		$this->meta = array();
@@ -50,10 +76,10 @@ class HTML
 		$this->template = '';
 
 		// strings
-		$this->meta['theme']='standard';
+		$this->meta['theme']=(($theme<>'standard' && is_readable(BASE."/templates/$theme/partdb.css"))?$theme:'standard');
 		$this->meta['title']='';
-		$this->meta['http_charset']='utf-8';
-		$this->meta['css']='';
+		$this->meta['http_charset']=(($http_charset)?$http_charset:'utf-8');
+		$this->meta['css']=((is_readable(BASE."/css/custom-$theme.css"))?"css/custom-$theme.css":"templates/$theme/partdb.css");
 
 		// boolean
 		$this->meta['menu']=true;
@@ -66,6 +92,7 @@ class HTML
 
 		// to debug
 		$this->debug=false;
+
 	}
 
 	/** Funktionen für Variablen **/
@@ -78,7 +105,12 @@ class HTML
 		*	There are no tests conducted!
 		*/
 
-		$this->meta = $meta;
+		settype($meta,'array');
+
+		foreach ($meta as $key=>$value)
+		{
+			$this->meta[$key] = $value;
+		}
 
 		return 0;
 	}
@@ -95,9 +127,19 @@ class HTML
 		*
 		*/
 
+		settype($key,'string');
+		settype($var,'string');
+		settype($type,'string');
+		settype($format,'array');
 
-
-		if ( strlen($key)==0 || strlen($var) ==0 ) return 1; // Error code 1: variable not set
+		try
+		{
+			if ( strlen($key) == 0 ) throw new Exception(1);  // Error code 1: variable not set
+		}
+		catch (Exception $error)
+		{
+			$this -> print_error_state( $error->getTrace(), $error -> getMessage(), '$key => $var, optional $type and $format' );
+		}
 
 		if ( in_array( $type, array('boolean', 'integer', 'float', 'string')) )
 		{
@@ -143,7 +185,16 @@ class HTML
 
 		/* unset variable */
 
-		if ( strlen($key) == 0 ) return 1; // Error code 1: variable not set
+		settype($key,'string');
+
+		try
+		{
+			if ( strlen($key)==0 ) throw new Exception(1);  // Error code 1: variable not set
+		}
+		catch (Exception $error)
+		{
+			$this -> print_error_state( $error->getTrace(), $error -> getMessage(), '$key' );
+		}
 
 		$this->variable[$key] = '';
 		unset( $this->variable[$key] );
@@ -162,13 +213,22 @@ class HTML
 		return 0;
 	}
 
-
 	function set_html_loop ( $key = '', $array = array() )
 	{
 
 		/* using $array for a loop */
 
-		if ( strlen($key)==0 || count($array) ==0 ) return 1; // Error code 1: variable not set
+		settype($array,'array');
+		settype($key,'string');
+
+		try
+		{
+			if ( strlen($key) == 0 ) throw new Exception(1);  // Error code 1: variable not set
+		}
+		catch (Exception $error)
+		{
+			$this -> print_error_state( $error->getTrace(), $error -> getMessage(), '$key => $array' );
+		}
 
 		$this->loop[$key] = $array;
 
@@ -180,7 +240,16 @@ class HTML
 
 		/* delete loop */
 
-		if ( strlen($key) == 0 ) return 1; // Error code 1: variable not set
+		settype($key,'string');
+
+		try
+		{
+			if ( strlen($key) == 0 ) throw new Exception(1);  // Error code 1: variable not set
+		}
+		catch (Exception $error)
+		{
+			$this -> print_error_state( $error->getTrace(), $error -> getMessage(), '$key' );
+		}
 
 		$this->loop[$key] = array();
 		unset( $this->loop[$key] );
@@ -216,10 +285,17 @@ class HTML
 
 		/* HTML-header */
 
-		if ( !is_array($this->meta) || count ($this->meta) == 0 || strlen($this->meta['theme'])==0 ) return 1; // Error code 1: variable not set
-		if ( ! is_readable(BASE."/templates/".$this->meta['theme']."/vlib_head.tmpl") ) return 2; // Error code 2: file not found
+		try
+		{
+			if ( !is_array($this->meta) || count ($this->meta) == 0 || strlen($this->meta['theme'])==0 ) throw new Exception(1);  // Error code 1: variable not set
+			if ( ! is_readable(BASE."/templates/".$this->meta['theme']."/vlib_head.tmpl") ) throw new Exception(2); // Error code 2: file not found
+		}
+		catch (Exception $error)
+		{
+			$this -> print_error_state( $error->getTrace(), $error -> getMessage(), (($error -> getMessage()==1)?'$theme':'file templates/'.$this->meta['theme'].'/vlib_head.tmpl' ));
+		}
 
-		$tmpl = new vlibTemplate(BASE."/templates/".$this->meta['theme']."/vlib_head.tmpl");
+		$tmpl =& new vlibTemplate(BASE."/templates/".$this->meta['theme']."/vlib_head.tmpl");
 		$tmpl -> setVar('head_title', $this->meta['title']);
 		$tmpl -> setVar('head_charset', $this->meta['http_charset']);
 		$tmpl -> setVar('head_theme', $this->meta['theme']);
@@ -253,10 +329,17 @@ class HTML
 
 		/* HTML-footer */
 
-		if ( !is_array($this->meta) || count ($this->meta) == 0 || strlen($this->meta['theme'])==0 ) return 1; // Error code 1: Metadaten nicht angegeben, $this->meta['theme'] ist notwendig!
-		if ( ! is_readable(BASE."/templates/".$this->meta['theme']."/vlib_foot.tmpl") ) return 2; // Error code 2: file not found
+		try
+		{
+			if ( !is_array($this->meta) || count ($this->meta) == 0 || strlen($this->meta['theme'])==0 ) throw new Exception(1); // Error code 1: Metadaten nicht angegeben, $this->meta['theme'] ist notwendig!
+			if ( ! is_readable(BASE."/templates/".$this->meta['theme']."/vlib_foot.tmpl") ) throw new Exception(2); // Error code 2: file not found
+		}
+		catch (Exception $error)
+		{
+			$this -> print_error_state( $error->getTrace(), $error -> getMessage(), (($error -> getMessage()==1)?'$theme':'file templates/'.$this->meta['theme'].'/vlib_foot.tmpl' ));
+		}
 
-		$tmpl = new vlibTemplate(BASE."/templates/".$this->meta['theme']."/vlib_foot.tmpl");
+		$tmpl =& new vlibTemplate(BASE."/templates/".$this->meta['theme']."/vlib_foot.tmpl");
 		$tmpl -> setVar('html_body', $this->meta['body']);
 		$tmpl -> pparse();
 
@@ -275,10 +358,19 @@ class HTML
 		*
 		*/
 
+		settype($template,'string');
+		settype($use_scriptname,'boolean');
+
+		try
+		{
+			if ( strlen($template) == 0 ) throw new Exception(1); // Error code 1: variable not set
+		}
+		catch (Exception $error)
+		{
+			$this -> print_error_state( $error->getTrace(), $error -> getMessage(), '$template');
+		}
 
 		$this->template = '';
-
-		if ( strlen($template) == 0 ) return 1; // Error code 1: variable not set
 
 		if ( $use_scriptname === true )
 		{
@@ -311,8 +403,19 @@ class HTML
 		*	Detects based on $value is whether variable or loop.
 		*/
 
-		if ( count($array) == 0) return 1; // Error code 1: variable not set
-		if ( $this->load_html_template($template,$use_scriptname) > 0 ) return 2; // Error code 2: file not found
+		settype($template,'string');
+		settype($array,'array');
+		settype($use_scriptname,'boolean');
+
+		try
+		{
+			if ( count($array) == 0) throw new Exception(1); // Error code 1: variable not set
+			if ( $this->load_html_template($template,$use_scriptname) > 0 ) throw new Exception(2); // Error code 2: file not found
+		}
+		catch (Exception $error)
+		{
+			$this -> print_error_state( $error->getTrace(), $error -> getMessage(), (($error -> getMessage()==1)?'$array':'file templates/'.$this->meta['theme'].'/vlib_'.$template.'.tmpl' ));
+		}
 
 		if ( count($array) >0 )
 		{
@@ -342,6 +445,8 @@ class HTML
 
 		/* Alias for parse_html_template(). Template is set to "vlib_table.tmpl". */
 
+		settype($array,'array');
+
 		return $this->parse_html_template( 'table', $array, false);
 
 	}
@@ -353,7 +458,14 @@ class HTML
 		*	Print template. Use load_html_template(), set_html_*() or parse_html_*() for creating pages.
 		*/
 
-		if ( ! is_readable($this->template) ) return 2; // Error code 2: file not found
+		try
+		{
+			if ( ! is_readable($this->template) ) throw new Exception(2); // Error code 2: file not found
+		}
+		catch (Exception $error)
+		{
+			$this -> print_error_state( $error->getTrace(), $error -> getMessage() );
+		}
 
 		if ( $this->debug )
 		{
@@ -364,7 +476,7 @@ class HTML
 			print_r($this->loop);
 		}
 
-		$tmpl = new vlibTemplate($this->template);
+		$tmpl =& new vlibTemplate($this->template);
 
 		if ( count($this->variable) >0 ) while ( list( $key, $value ) = each( $this->variable ) ) $tmpl -> setVar ( $key, $value );
 		if ( count($this->loop) >0 ) while ( list( $key, $loop ) = each( $this->loop ) ) $tmpl -> setLoop ( $key, $loop );
@@ -383,7 +495,6 @@ class HTML
 
 	/** Misc **/
 
-
 	function set_debug()
 	{
 		$this->debug = true;
@@ -394,15 +505,52 @@ class HTML
 		$this->debug = false;
 	}
 
-	function get_error_state( $error = 0 )
+	private function get_error_state( $errno = 0 )
 	{
 
 		/* returns the error code as plain text */
 
-		$errorcodes = array ('0' => 'success','1' => 'no variable found','2' => 'file not found');
-		return $errorcodes[$error];
+		settype($errno,'integer');
+
+		$errorcodes = array (0 => 'success',1 => 'no variable found',2 => 'file not found');
+		return $errorcodes[$errno];
 
 	}
+
+	private function print_error_state ( $debug=array(), $error = 0, $variable = '' )
+	{
+
+		/* throw error */
+
+		settype($debug,'array');
+		settype($error,'integer');
+		settype($variable,'string');
+
+		global $title;
+
+		$text = "args:\n\n";
+		ob_start();
+		var_dump($debug[0]['args']);
+		$text .= ob_get_contents();
+		ob_end_clean();
+
+		$text .="\n\$_REQUEST:\n\n";
+		ob_start();
+		var_dump($_REQUEST);
+		$text .= ob_get_contents();
+		ob_end_clean();
+
+		$e =& new _exception;
+		$e -> throwError( array(
+			'<strong>Error</strong><br><br>system name: '.$title.'.<br><br>running <em>'.basename($debug[0]['file']).'</em> at line #<em>'.$debug[0]['line'].'</em> error code: <em>'.$this->get_error_state($error).'</em>',
+			'using class <em>'.$debug[0]['class'].'()</em>',
+			'function name: <em>'.$debug[0]['function'].'()</em>',
+			'missing or wrong argument: <em>'.$variable.'</em>'
+			),
+			$text
+		);
+	}
+
 
 }
 

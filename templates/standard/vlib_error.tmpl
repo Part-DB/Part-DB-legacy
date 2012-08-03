@@ -1,0 +1,24 @@
+{TMPL_IF NAME="SQL"}
+	<p>Der SQL-Befehl</p>
+	<fieldset>{TMPL_VAR NAME="SQL"}</fieldset>
+	<p>von der Methode <span class="thick">«{TMPL_VAR NAME="class"}»</span> nähe Zeile <span class="thick">{TMPL_VAR NAME="line"}</span> ergab den folgenden Fehler:</p>
+	<fieldset>{TMPL_VAR NAME="SQLError"}</fieldset>
+{TMPL_ELSE}
+	{TMPL_VAR NAME="Error" ESCAPE="none"}
+	{TMPL_IF NAME="loop"}
+		<ul type="square">
+		{TMPL_LOOP NAME='loop'}
+			<li>{TMPL_VAR NAME="Errors" ESCAPE="none"}</li>
+		{/TMPL_LOOP}
+		</ul>
+	{/TMPL_IF}
+	variable dump:<br>
+	{TMPL_IF NAME="var_dump"}<pre style="background-color:white;">{TMPL_VAR NAME='var_dump'}</pre><br>{/TMPL_IF}
+	{TMPL_IF NAME="variables"}
+	<ul type="square">
+	{TMPL_LOOP NAME='variables'}
+		<li><em>{TMPL_VAR NAME="key"}</em> = <em>{TMPL_VAR NAME="value"} [{TMPL_VAR NAME="type"}]</em></li>
+	{/TMPL_LOOP}
+	</ul>
+	{/TMPL_IF}
+{/TMPL_IF}

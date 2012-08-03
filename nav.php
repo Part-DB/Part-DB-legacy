@@ -18,35 +18,33 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: nav.php 433 2012-05-09 22:13:52Z bubbles.red@gmail.com $
+    $Id: nav.php 510 2012-08-03 weinbauer73@gmail.com $
+
 */
 
 require_once ('lib.php');
 
-$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
-$tmpl -> setVar('head_title', $title);
-$tmpl -> setVar('head_charset', $http_charset);
-$tmpl -> setVar('head_theme', $theme);
-$tmpl -> setVar('head_css', $css);
-$tmpl -> setVar('head_menu', true);
-$tmpl -> pparse();
+$html = new HTML;
+$html -> set_html_meta ( array('title'=>$title, 'menu'=>true) );
+$html -> print_html_header();
 
-$tmpl = new vlibTemplate(BASE."/templates/$theme/nav.php/vlib_menu.tmpl");
-$tmpl -> setVar('enable_devices', ! $disable_devices);
-$tmpl -> setVar('enable_help', ! $disable_help);
-$tmpl -> setVar('enable_config', ! $disable_config);
+$html -> load_html_template('menu');
+$html -> set_html_variable('enable_devices', ! $disable_devices);
+$html -> set_html_variable('enable_help', ! $disable_help);
+$html -> set_html_variable('enable_config', ! $disable_config);
+
 ob_start();
 categories_build_navtree();
 $javascript = ob_get_contents();
 ob_end_clean();
-$tmpl -> setVar('categories_build_navtree', $javascript);
+$html -> set_html_variable('categories_build_navtree', $javascript);
 ob_start();
 devices_build_navtree();
 $javascript = ob_get_contents();
 ob_end_clean();
-$tmpl -> setVar('devices_build_navtree', $javascript);
-$tmpl -> pparse();
 
-$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
-$tmpl -> pparse();
+$html -> set_html_variable('devices_build_navtree', $javascript);
+$html -> print_html_template();
+$html -> print_html_footer();
+
 ?>

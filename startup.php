@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: startup.php 446 2012-06-16 06:21:08Z bubbles.red@gmail.com $
+    $Id: startup.php 510 2012-08-03 weinbauer73@gmail.com $
 
 */
 
@@ -27,16 +27,9 @@ require_once ('authors.php');
 require_once ('lib.php');
 
 $html = new HTML;
-$html -> set_html_meta ( array(
-		'title'		=>	$title,
-		'http_charset'	=>	$http_charset,
-		'theme'		=>	$theme,
-		'css'		=>	$css,
-		'menu'		=>	true
-	)
-);
+$html -> set_html_meta ( array('title'=>$title, 'menu'=>true) );
 $html -> print_html_header();
-$html -> load_html_template('startup');
+
 /*
 * This variable determines wheater the user is reminded to add
 * add least one loc, one footprint, one category and one supplier.
@@ -46,8 +39,12 @@ $display_warning = false;
 $good = "&#x2714; ";
 $bad  = "&#x2718; ";
 
-$html -> set_html_variable('startup_title', $startup_title, 'string');
-$html -> set_html_variable('get_svn_revision', get_svn_revision(), 'string');
+$array = array(
+	'startup_title'=>$startup_title,
+	'get_svn_revision'=>get_svn_revision(),
+	'database_update'=>$database_update,
+	'banner'=>$banner
+);
 
 // catch output to do fine formating later
 if ( checkDBUpdateNeeded())
@@ -65,15 +62,15 @@ if ( checkDBUpdateNeeded())
 
 if (categories_count() == 0 || location_count() == 0 || footprint_count() == 0 || suppliers_count() == 0)
 {
-	$html -> set_html_variable('display_warning', true,'boolean');
-	$html -> set_html_variable('missing_category', ((categories_count()==0)?$bad:$good),'string');
-	$html -> set_html_variable('missing_storeloc', ((location_count()==0)?$bad:$good),'string');
-	$html -> set_html_variable('missing_footprint', ((footprint_count()==0)?$bad:$good),'string');
-	$html -> set_html_variable('missing_supplier', ((suppliers_count()==0)?$bad:$good),'string');
+	$array = array_merge($array,array(
+		'display_warning'=>true,
+		'missing_category'=>((categories_count()==0)?$bad:$good),
+		'missing_storeloc'=>((location_count()==0)?$bad:$good),
+		'missing_footprint'=>((footprint_count()==0)?$bad:$good),
+		'missing_supplier'=>((suppliers_count()==0)?$bad:$good)
+		)
+	);
 }
-
-$html -> set_html_variable('database_update', $database_update, 'boolean');
-$html -> set_html_variable('banner', $banner, 'string');
 
 if (! $disable_update_list)
 {
@@ -98,11 +95,10 @@ if (! $disable_update_list)
 		}
 		if (!(--$count)) break;
 	}
-	$html -> set_html_loop('update_list', $rss_text);
+	$array = array_merge($array,array('update_list'=>$rss_text));
 }
 
-$html -> set_html_loop('authors', $authors);
-$html -> print_html_template();
+$html -> parse_html_template( 'startup', array_merge($array,array('authors'=>$authors)) );
 $html -> print_html_footer();
 
 ?>

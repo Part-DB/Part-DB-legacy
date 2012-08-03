@@ -16,9 +16,6 @@ while(list($agent) = each($agents) && isset($_SERVER["HTTP_USER_AGENT"]) && !$mo
 
 $frameset = array(
 	'title'		=>	$title,
-	'http_charset'	=>	$http_charset,
-	'theme'		=>	$theme,
-	'css'		=>	$css,
 	'mobile'	=>	$mobile
 );
 

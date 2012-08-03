@@ -18,7 +18,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: catmgr.php 392 2012-03-03 06:30:03Z bubbles.red@gmail.com $
+    $Id: nav.php 510 2012-08-03 weinbauer73@gmail.com $
 
 */
 
@@ -116,7 +116,6 @@ if ($special_dialog == false)
 	$array['categories_build_tree_2'] = ob_get_contents();
 	ob_end_clean();
 
-	$tmpl = new vlibTemplate(BASE."/templates/$theme/catmgr.php/vlib_cat_edit.tmpl");
 	$html -> parse_html_template( 'cat_edit', $array );
 
 	$html -> print_html_footer();
