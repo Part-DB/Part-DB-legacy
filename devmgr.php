@@ -4,6 +4,10 @@
     Copyright (C) 2005 Christoph Lechner
     http://www.cl-projects.de/
 
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
+
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
     as published by the Free Software Foundation; either version 2
@@ -18,7 +22,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: devmgr.php 392 2012-03-03 06:30:03Z bubbles.red@gmail.com $
+    $Id: devmgr.php 511 2012-08-05 weinbauer73@gmail.com $
 */
 
     require_once ('lib.php');
@@ -53,28 +57,22 @@
          */
         if ((! isset($_REQUEST["del_ok"])) && (! isset($_REQUEST["del_nok"])) && $dev_sel >= 0)
         {
+
             $special_dialog = true;
 
-           /** edit: 20120711 Udo Neist **/
+            $html = new HTML;
+            $html -> set_html_meta ( array('title'=>$title) );
+            $html -> print_html_header();
 
-           $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
-           $tmpl -> setVar('head_title', $title);
-           $tmpl -> setVar('head_charset', $http_charset);
-           $tmpl -> setVar('head_css', $css);
-           $tmpl -> setVar('head_menu', true);
-           $tmpl -> pparse();
+            $array = array(
+                'lookup_device_name'	=>	lookup_device_name($dev_sel),
+                'size'			=>	$size,
+                'name'			=>	$name,
+                'dev_sel'		=>	$dev_sel
+            );
+            $html -> parse_html_template( 'devmgr', $array );
 
-           $tmpl = new vlibTemplate(BASE."/templates/$theme/devmgr.php/vlib_devmgr.tmpl");
-           $tmpl -> setVar('lookup_device_name', lookup_device_name($dev_sel));
-           $tmpl -> setVar('size', $size);
-           $tmpl -> setVar('name', $name);
-           $tmpl -> setVar('dev_sel', $dev_sel);
-           $tmpl -> pparse();
-
-           $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
-           $tmpl -> pparse();
-
-           /** end: 20120711 Udo Neist **/
+            $html -> print_html_footer();
 
         }
         else if (isset($_REQUEST["del_ok"]))
@@ -110,36 +108,29 @@
 
     if ($special_dialog == false)
     {
-        /** edit: 20120711 Udo Neist **/
 
-        $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
-        $tmpl -> setVar('head_title', $title);
-        $tmpl -> setVar('head_charset', $http_charset);
-        $tmpl -> setVar('head_theme', $theme);
-        $tmpl -> setVar('head_css', $css);
-        $tmpl -> setVar('head_menu', true);
-        $tmpl -> pparse();
-
-        $tmpl = new vlibTemplate(BASE."/templates/$theme/devmgr.php/vlib_devmgr.tmpl");
-        $tmpl -> setVar('refreshnav', $refreshnav);
+        $html = new HTML;
+        $html -> set_html_meta ( array('title'=>$title) );
+        $html -> print_html_header();
 
         ob_start();
         device_buildtree( 0, 0, $parentnode);
-        $devices = ob_get_contents();
+        $devices1 = ob_get_contents();
         ob_end_clean();
-        $tmpl -> setVar('device_buildtree_1', $devices);
 
         ob_start();
         device_buildtree( 0, 0, $dev_sel);
-        $devices = ob_get_contents();
+        $devices2 = ob_get_contents();
         ob_end_clean();
-        $tmpl -> setVar('device_buildtree_2', $devices);
-        $tmpl -> pparse();
 
-        $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
-        $tmpl -> pparse();
+        $array = array(
+            'device_buildtree_1'	=>	$devices1,
+            'device_buildtree_2'	=>	$devices2,
+            'refreshnav'		=>	$refreshnav
+        );
+        $html -> parse_html_template( 'devmgr', $array );
 
-        /** end: 20120711 Udo Neist **/
+        $html -> print_html_footer();
     }
 
     $refreshnav = false;

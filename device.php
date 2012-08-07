@@ -4,6 +4,10 @@
     Copyright (C) 2005 Christoph Lechner
     http://www.cl-projects.de/
 
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
+
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
     as published by the Free Software Foundation; either version 2
@@ -18,36 +22,33 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: device.php 395 2012-03-04 08:41:23Z bubbles.red@gmail.com $
+    $Id: device.php 511 2012-08-05 weinbauer73@gmail.com $
 */
 
-	require_once ('lib.php');
+require_once ('lib.php');
 
-	// set action to default, if not exists
-	$action        = isset( $_REQUEST['action'])   ? $_REQUEST['action']   : 'default';
-	$deviceid      = isset( $_REQUEST['deviceid']) ? $_REQUEST['deviceid'] : 0;
+// set action to default, if not exists
+$action        = isset( $_REQUEST['action'])   ? $_REQUEST['action']   : 'default';
+$deviceid      = isset( $_REQUEST['deviceid']) ? $_REQUEST['deviceid'] : 0;
 
-	$confirmdelete = 0;
-	$refreshnav    = 0;
+$confirmdelete = 0;
+$refreshnav    = 0;
 
-	if( strcmp( $action, "createdevice") == 0)  //add a new device
-	{
-		device_add( $_REQUEST["newdevicename"], $deviceid);
-		$refreshnav = 1;
-	}
+if( strcmp( $action, "createdevice") == 0)  //add a new device
+{
+	device_add( $_REQUEST["newdevicename"], $deviceid);
+	$refreshnav = 1;
+}
 
-	if( strcmp($action, "confirmeddelete") == 0)
-	{
-		device_delete( $deviceid);
-		$refreshnav = 1;
-	}
+if( strcmp($action, "confirmeddelete") == 0)
+{
+	device_delete( $deviceid);
+	$refreshnav = 1;
+}
 
-	$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
-	$tmpl -> setVar('head_title', 'Neues Teil');
-	$tmpl -> setVar('head_charset', $http_charset);
-	$tmpl -> setVar('head_theme', $theme);
-	$tmpl -> setVar('head_css', $css);
-	$tmpl -> pparse();
+$html = new HTML;
+$html -> set_html_meta ( array('title'=>'Neues Teil','menu'=>true) );
+$html -> print_html_header();
 
 ?>
 <script language="JavaScript" type="text/javascript">
@@ -119,7 +120,7 @@ if(strcmp( $action, "deletedevice") == 0)
                 $rowcount++;
                 print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
 
-                print "<td class=\"tdrow1\"><a href=\"deviceinfo.php?deviceid=". smart_unescape( $d['id']) ."\">". smart_unescape( $d['name']) ."</a></td>\n";
+                print "<td class=\"tdrow1\"><a href=\"showdevices.php?deviceid=". smart_unescape( $d['id']) ."\">". smart_unescape( $d['name']) ."</a></td>\n";
                 print "<td class=\"tdrow2\">". smart_unescape( $d['parts']) ."</td>\n";
                 print "<td class=\"tdrow3\">". smart_unescape( $d['pieces']) ."</td>\n";
                 print "<td class=\"tdrow3\">". smart_unescape( $d['value']) ."&nbsp". $currency."</td>\n";
@@ -140,6 +141,5 @@ if(strcmp( $action, "deletedevice") == 0)
     </div>
 </div>
 <?php
-	$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
-	$tmpl -> pparse();
+$html -> print_html_footer();
 ?>

@@ -4,6 +4,10 @@
     Copyright (C) 2005 Christoph Lechner
     http://www.cl-projects.de/
 
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
+
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
     as published by the Free Software Foundation; either version 2
@@ -18,13 +22,15 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: class/error.php 510 2012-08-03 weinbauer73@gmail.com $
-
+    $Id: nav.php 511 2012-08-04 weinbauer73@gmail.com $
 */
 
-class _exception {
 
-	function __construct() {
+class _exception
+{
+
+	function __construct ()
+	{
 	
 		/*
 		*	Tests of available classes
@@ -33,11 +39,19 @@ class _exception {
 		$classes = array('vlibTemplate','vlibMimeMail');
 		$text = array();
 		foreach ($classes as $class) if (class_exists($class)===false) $text[]=$class;
-		if (count($text)>0) $this -> throwClassError($text,basename(__FILE__));
+		if (count($text)>0) $this -> throw_class_error($text,basename(__FILE__));
 
 	}
 	
-	function throwClassError( $e, $script ) {
+	function __destruct()
+	{
+		foreach ($this as $key => $value) {
+			unset($this->$key);
+		}
+	}
+
+	function throw_class_error ( $e, $script )
+	{
 
 		/*
 		*	Shows class loading error
@@ -52,10 +66,11 @@ class _exception {
 		foreach($e as $key => $value) {
 			$e[$key]='Class <em">"'.$value.'"</em> doesn`t exists, not loadable or faulty.';
 		}
-		$this -> throwError(array_merge($array,$e),'Nothing to do :-(');
+		$this -> throw_error(array_merge($array,$e),'Nothing to do :-(');
 	}
 	
-	function throwFunctionError( $e, $script ) {
+	function throw_function_error ( $e, $script )
+	{
 
 		/*
 		*	Shows function loading error
@@ -70,15 +85,16 @@ class _exception {
 		foreach($e as $key => $value) {
 			$e[$key]='Function <em">"'.$value.'"</em> doesn`t exists, not loadable or faulty.';
 		}
-		$this -> throwError(array_merge($array,$e),'Nothing to do :-(');
+		$this -> throw_error(array_merge($array,$e),'Nothing to do :-(');
 	}
 	
-	function throwError( $e='', $variable ) {
+	function throw_error ( $title = '', $e='', $variable )
+	{
 
 		/*
 		*	Shows error
 		*
-		*	Variables: $e (string oder array) with error code(s), $array with variables
+		*	Variables: $title contains the headline, $e (string oder array) error code(s) and $variable the used variables
 		*/
 
 		global $theme, $title;
@@ -89,6 +105,7 @@ class _exception {
 
 		// loading template
 		$tmpl =& new vlibTemplate(BASE."/templates/$theme/vlib_error.tmpl");
+		$tmpl -> setVar('title',$title);
 		if (is_array($e)) {
 			if (strlen($e['SQL'])>0 && strlen($e['SQLError'])>0) {
 				$tmpl -> setVar('line',$e['line']);
@@ -96,7 +113,7 @@ class _exception {
 				$tmpl -> setVar('SQL',$e['SQL']);
 				$tmpl -> setVar('SQLError',$e['SQLError']);
 			}else{
-				$tmpl -> setVar('Error',$e[0]);
+				$tmpl -> setVar('error',$e[0]);
 				if ( is_array($variable) && count($variable)>0 )
 				{
 					$tmpl -> newloop('variables');
@@ -112,7 +129,7 @@ class _exception {
 				$tmpl -> addLoop();
 			}
 		}elseif (strlen($e)>0) {
-				$tmpl -> setVar('Error',$e);
+				$tmpl -> setVar('error',$e);
 		}
 		$error = $tmpl->grab();
 		// shows error
@@ -125,13 +142,16 @@ class _exception {
 		exit;
 	}
 	
-	private function header() {
+	private function header ()
+	{
 
 		/*
 		*	Prints header of site
 		*/
 
 		global $http_charset, $theme, $title;
+
+		if ( headers_sent() ) return;
 
 		$tmpl =& new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
 		$tmpl -> setVar('head_title', $title);
@@ -141,7 +161,8 @@ class _exception {
 
 	}
 	
-	private function footer() {
+	private function footer ()
+	{
 
 		global $theme;
 
@@ -150,7 +171,8 @@ class _exception {
 
 	}
 	
-	private function mail($body='') {
+	private function mail ( $body='' )
+	{
 		/*
 		*	Mail to admin or master user
 		*/

@@ -4,6 +4,10 @@
     Copyright (C) 2005 Christoph Lechner
     http://www.cl-projects.de/
 
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
+
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
     as published by the Free Software Foundation; either version 2
@@ -18,11 +22,9 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: getimage.php 359 2012-02-22 19:11:51Z bubbles.red@gmail.com $
-
-    06/03/06:
-        Added escape stuff
+    $Id: getimage.php 511 2012-08-04 weinbauer73@gmail.com $
 */
+
     include ("lib.php");
     partdb_init();
     

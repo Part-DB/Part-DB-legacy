@@ -4,6 +4,10 @@
     Copyright (C) 2005 Christoph Lechner
     http://www.cl-projects.de/
 
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
+
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
     as published by the Free Software Foundation; either version 2
@@ -19,7 +23,6 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
     $Id: startup.php 510 2012-08-03 weinbauer73@gmail.com $
-
 */
 
 require_once ('db_update.php');

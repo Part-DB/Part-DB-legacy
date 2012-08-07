@@ -1,6 +1,28 @@
 <?php
 /*
-    $Id: config.php 510 2012-08-03 weinbauer73@gmail.com $
+    part-db version 0.1
+    Copyright (C) 2005 Christoph Lechner
+    http://www.cl-projects.de/
+
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+
+    $Id: config.php 511 2012-08-04 weinbauer73@gmail.com $
 */
 
 /*  start session */
@@ -22,9 +44,14 @@ require ('vlibDate.php');
 require ('vlibMimeMail.php');
 
 /* define theme, e.g. standard, Greenway */
-$theme = "standard";
+$conf['html']['theme'] = "standard";
 /* if you want to use an alternative css named css/$theme.css, set this to true */
-$css = false;
+$conf['html']['css'] = false;
+/* set charset for web pages (empty for none, ISO-8859-1, utf-8) */
+$conf['html']['http_charset'] = "utf-8"; // Default geändert: Udo Neist 20120705
+
+/* set internal encoding to http_charset */
+mb_internal_encoding($conf['html']['http_charset']);
 
 /* set timezone (e.g. Europe/Berlin) */
 date_default_timezone_set("Europe/Berlin");
@@ -35,7 +62,7 @@ setlocale(LC_ALL, LANGUAGE);
 
 /* set version */
 $conf['version']['author'] = 'Udo Neist';
-$conf['version']['build'] = '20120803';
+$conf['version']['build'] = '20120807';
 $conf['version']['string'] = ' (modified by '.$conf['version']['author'].', Build: '.$conf['version']['build'].')';
 
 /* set system variables, e.g. email of an administrator or master user */
@@ -46,12 +73,6 @@ include ('config_db.php');
 
 /* choose your currency */
 $currency  = "&euro;";
-
-/* set charset for web pages (empty for none, ISO-8859-1, utf-8) */
-$http_charset  = "utf-8"; // Default geändert: Udo Neist 20120705
-
-/* set internal encoding to $http_charset */
-mb_internal_encoding($http_charset);
 
 /* set your own title here, and prevent it from updates */
 $title = "PART-DB Elektronische Bauteile-Datenbank";
@@ -74,9 +95,6 @@ $use_datasheet_path = false;
 
 /* common (e.g. on server) datasheet path */
 $datasheet_path = BASE.'/datasheets/';
-
-/* backup path for database backups*/
-$db_backup_path = "backup/";
 
 /* hide the id in table views */
 $hide_id = false;

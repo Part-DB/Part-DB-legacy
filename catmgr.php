@@ -4,6 +4,10 @@
     Copyright (C) 2005 Christoph Lechner
     http://www.cl-projects.de/
 
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
+
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
     as published by the Free Software Foundation; either version 2
@@ -18,8 +22,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: nav.php 510 2012-08-03 weinbauer73@gmail.com $
-
+    $Id: catmgr.php 511 2012-08-04 weinbauer73@gmail.com $
 */
 
 require_once ('lib.php');
@@ -98,7 +101,7 @@ $size       = min( categories_count(), 30);
 if ($special_dialog == false)
 {
 
-	$html -> set_html_meta ( array('title'=>'Kategorien','http_charset'=>$http_charset,'theme'=>$theme,'css'=>$css,'menu'=>true) );
+	$html -> set_html_meta ( array('title'=>'Kategorien') );
 	$html -> print_html_header();
 
 	$array = array (

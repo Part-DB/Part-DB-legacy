@@ -1,0 +1,122 @@
+<div class="outer">
+	<h2>Teile per Name zuordnen</h2>
+	<div class="inner">
+		<form method="post" action="">
+			<input type="text" name="newpartname">
+			<input type="hidden" name="action"  value="assignbytext">
+			<input type="hidden" name="deviceid" value="{TMPL_VAR NAME="deviceid"}">
+			<input type="submit" value="Hinzufügen">
+		</form>
+		<form method="post" action="">
+			<input type="hidden" name="action"  value="refresh">
+			<input type="hidden" name="deviceid" value="{TMPL_VAR NAME="deviceid"}">
+			<input type="submit" value="Aktualisieren">
+		</form>
+	</div>
+	{TMPL_IF NAME="showsearchedparts"}
+	<div class="inner">
+		<form method="post" action="">
+			<input type="hidden" name="deviceid" value="{TMPL_VAR NAME="deviceid"}">
+			<input type="hidden" name="action"  value="assignbyselected">
+			<table>
+				<tr class="trcat"><td></td><td>Anzahl</td><td>Bestückungs-<br>daten</td><td>Teil</td><td>Footprint</td><td>Lagernd</td></tr>
+				{TMPL_LOOP NAME="showsearchedparts"}
+				<tr class="{TMPL_VAR NAME="row_odd"}">
+					<td class="tdrow0">
+						{TMPL_LOOP NAME="picture"}
+						<a href="javascript:popUp('getimage.php?pict_id={TMPL_VAR NAME="id"}');"><img src="getimage.php?pict_id={TMPL_VAR NAME="id"}&maxx=200&maxy=150" alt="Zum Vergrößern klicken!"></a><br>
+						{/TMPL_LOOP}
+					</td>
+					<td class="tdrow1" >
+						<input type="hidden" name="selectedid{TMPL_VAR NAME="rowcount"}" value="{TMPL_VAR NAME="id"}">
+						<input type="text" size="3" onkeypress="validateNumber(event)" name="selectedquantity{TMPL_VAR NAME="rowcount"}" value="0">
+					</td>
+					<td class="tdrow1" ><input type="text" size="9" name="mounttext{TMPL_VAR NAME="rowcount"}" value=""></td>
+					<td class="tdrow1">
+						<a title="Kommentar: {TMPL_VAR NAME="comment"}" href="javascript:popUp('partinfo.php?pid={TMPL_VAR NAME="id"}');">{TMPL_VAR NAME="name"}&nbsp;{TMPL_VAR NAME="description"}</a>
+					</td>
+					<td class="tdrow1">{TMPL_VAR NAME="footprint"}</td>
+					<td class="tdrow1">{TMPL_VAR NAME="instock"}</td>
+				</tr>
+				{/TMPL_LOOP}
+			</table>
+			<input type="hidden" name="selections"  value="{TMPL_VAR NAME="rowcount"}">
+			<input type="submit" value="Hinzufügen">
+		</form>
+	</div>
+	{/TMPL_IF}
+</div>
+
+<div class="outer">
+	<h2>Zugeordnete Teile zu "{TMPL_VAR NAME="lookup_device_name"}"</h2>
+	<div class="inner">
+		<script type="text/javascript">
+		function validatePosIntNumber(evt)
+		{
+			var theEvent = evt || window.event;
+			var key = theEvent.keyCode || theEvent.which;
+			if ( key == 8 || key == 45 || key == 46 || key == 37 || key == 39 ) return key;
+			key = String.fromCharCode( key );
+			var regex = /[0-9]/;
+			if( !regex.test(key) ) {
+				theEvent.returnValue = false;
+				if(theEvent.preventDefault) theEvent.preventDefault();
+			}
+		}
+		{TMPL_IF NAME="refreshnav"}parent.frames._nav_frame.location.reload();{/TMPL_IF}
+		</script>
+		{TMPL_IF NAME="table"}
+		<form method="post" action="">
+			<input type="hidden" name="deviceid" value="{TMPL_VAR NAME="deviceid"}">
+			<input type="hidden" name="nrofparts" value="{TMPL_VAR NAME="nrofparts"}">
+			<table>
+				<tr class="trcat"><td></td><td>Teil</td><td>Bestückungs-<br>daten</td><td>Anzahl</td><td>Footprint</td><td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Einzelpreis</td><td>Gesamtpreis</td><td>Entfernen</td></tr>
+				{TMPL_LOOP NAME="table"}
+				<tr class="{TMPL_VAR NAME="row_odd"}">
+					<td class="tdrow0">
+						{TMPL_LOOP NAME="picture"}
+						<a href="javascript:popUp('getimage.php?pict_id={TMPL_VAR NAME="id"}');"><img src="getimage.php?pict_id={TMPL_VAR NAME="id"}&maxx=200&maxy=150" alt="Zum Vergrößern klicken!"></a><br>
+						{/TMPL_LOOP}
+					</td>
+					<td class="tdrow1{TMPL_IF NAME="obsolete"} backred{/TMPL_IF}">
+						<a title="{TMPL_IF NAME="obsolete"}nicht mehr erhältlich{/TMPL_IF}{TMPL_IF NAME="comment"}Kommentar: {TMPL_VAR NAME="comment" ESCAPE="none"}{TMPL_ELSE}(kein Kommentar){/TMPL_IF}" href="javascript:popUp('partinfo.php?pid={TMPL_VAR NAME="id"}');">{TMPL_VAR NAME="name"}&nbsp;{TMPL_VAR NAME="description"}</a>
+					</td>
+					<td class="tdrow1">
+						<input type="hidden" name="partid{TMPL_VAR NAME="rowcount"}" value="{TMPL_VAR NAME="id"}">
+						<input type="text" size="8" name="newmountname{TMPL_VAR NAME="rowcount"}" value="{TMPL_VAR NAME="mountname"}">
+						<input type="hidden" name="oldmountname{TMPL_VAR NAME="rowcount"}"  value="{TMPL_VAR NAME="mountname"}">
+					</td>
+					<td class="tdrow1">
+						<input type="text" size="4" name="quant{TMPL_VAR NAME="rowcount"}" onkeypress="validatePosIntNumber(event)" value="{TMPL_VAR NAME="quantity"}">
+						<input type="hidden" size="5" name="oldquant{TMPL_VAR NAME="rowcount"}"  value="{TMPL_VAR NAME="quantity"}">
+					</td>
+					<td class="tdrow1">{TMPL_VAR NAME="footprint"}</td>
+					<td class="{TMPL_IF NAME="quantitiy_lt_instock"}tdrow1{TMPL_ELSE}tdrowred{/TMPL_IF}">{TMPL_VAR NAME="instock"}</td>
+					<td class="tdrow1">{TMPL_VAR NAME="location"}</td>
+					<td class="tdrow1">{TMPL_VAR NAME="supplier"}</td>
+					<td class="tdrow1">{TMPL_IF NAME="price"}{TMPL_VAR NAME="price"}{TMPL_ELSE}-.-{/TMPL_IF}&nbsp;{TMPL_VAR NAME="currency" ESCAPE="none"}</td>
+					<td class="tdrow1">{TMPL_IF NAME="price"}{TMPL_VAR NAME="price_x_quantity"}{TMPL_ELSE}-.-{/TMPL_IF}&nbsp;{TMPL_VAR NAME="currency" ESCAPE="none"}</td>
+					<td class="tdrow1"><input type="checkbox" name="selected{TMPL_VAR NAME="rowcount"}"></td>
+				</tr>
+				{/TMPL_LOOP}
+			</table>
+			<table>
+				<tr class="{TMPL_VAR NAME="tablesum_rowodd"}">
+					{TMPL_IF NAME="obsolete"}
+					<td class="tdrow1"></td>
+					<td class="tdrow1 backred">nicht mehr erhältliche Teile</td>
+					{TMPL_ELSE}
+					<td class="tdrow1" colspan="2"></td>
+					{/TMPL_IF}
+					<td class="tdrow1" colspan="2"><input type="submit" name="devicetableform_update" value="Übernehmen"></td>
+					<td class="tdrow1" colspan="5"></td>
+					<td class="tdrow0">Gesamtpreis:<br>{TMPL_IF NAME="sum_price"}{TMPL_VAR NAME="sum_price"}{TMPL_ELSE}-.-{/TMPL_IF}&nbsp;{TMPL_VAR NAME="currency" ESCAPE="none"}</td>
+					<td class="tdrow1" colspan="3"><input type="submit" name="devicetableform_delete" value="Löschen"></td>
+				</tr>
+			</table>
+		</form>
+		{TMPL_ELSE}
+		Keine Bauteile zugeordnet.
+		{/TMPL_IF}
+	</div>
+</div>

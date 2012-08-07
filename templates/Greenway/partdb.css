@@ -140,3 +140,13 @@ a:active {
 .dtree .clip {
 	overflow: hidden;
 }
+
+/* Help */
+dl.help dt {
+	font-weight:bold;
+	text-decoration: underline;
+	margin:1em;
+}
+dl.help dd {
+	margin-bottom:1em;
+}

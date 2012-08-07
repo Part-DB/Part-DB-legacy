@@ -1,39 +1,38 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>Hilfe</title>
-    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
-</head>
-<body class="body">
+<?php
+/*
+    part-db version 0.1
+    Copyright (C) 2005 Christoph Lechner
+    http://www.cl-projects.de/
 
-<div class="outer">
-    <h2>Hilfe</h2>
-    <div class="inner">
-        <h3>Footprint Bilder</h3>
-        <p>
-        In ../tools/footprints/ k&ouml;nnen Bilder f&uuml;r die Footprints abgelegt werden.
-        Wenn man z.B. ein Footprint mit dem Namen DIP40W anlegt und ein Bild DIP40W.png (Gross-/Kleinschreibung beachten) in den Ordner schmeisst wird dieses automatisch angezeigt wenn kein anderes Bild gesetzt wurde.
-        ICs und einige Standard-Bauteile sind schon vorhanden die Bezeichnung daf&uuml;r findet man anhand der Bildnamen in "Tools->Footprints" raus.
-        </p>
-        
-        <h3>Sicherheitseinstellungen (.htaccess/.htpasswd)</h3>
-        <p>
-        Um die Datenbank vor unerlaubten Zugriff zu sch&uuml;tzen sollte man unbedingt das Verzeichnis mit einem Passwort sch&uuml;tzen, am sinnvollsten ist es, dies serverseitig mit .htaccess zu machen. Eine Anleitung daf&uuml;r findet man unter folgendem <a href="http://www.grammiweb.de/anleitungen/ka_htaccess.shtml">Link</a>.
-        </p>
-        
-        <h3>Template &auml;ndern</h3>
-        <p>
-        Momentan sind zwei Templates f&uuml;r die Part-DB vorhanden. Zum Wechseln einfach die gew&uuml;nschte Dateie in ../css/partdb.css umbenennen.
-        </p>
-        
-        <h3>&Ouml;ffentliche Liste</h3>
-        <p>
-        Am einfachsten geht es, wenn ihr auf dem Server einen extra Ordner erstellt. In diesen kopiert ihr die openlist.php, stats.php, config.php, lib.php und den CSS Ordner.
-        Alternativ k&ouml;nnt Ihr auch den Ordner ../partdb/openlist/ mit .htaccess wieder freigeben dieses klappt aber nur wenn der Webserver dieses erlaubt. 
-        </p>
-    </div>
-</div>
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
 
-</body>
-</html>
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+
+    $Id: help.php 511 2012-08-05 weinbauer73@gmail.com $
+*/
+
+require_once ('lib.php');
+
+$html = new HTML;
+$html -> set_html_meta ( array('title'=>'Hilfe') );
+$html -> print_html_header();
+$html -> load_html_template( 'help' );
+$html -> print_html_template();
+$html -> print_html_footer();
+
+?>
+

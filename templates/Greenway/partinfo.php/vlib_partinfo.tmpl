@@ -1,0 +1,93 @@
+<div class="outer">
+    <h2>Detailinfo zu "{TMPL_VAR NAME="part_get_name"}"</h2>
+    <div class="inner">
+
+        <table>
+        <tr valign="top">
+        <td>
+        <table>
+        {TMPL_LOOP NAME="loop"}
+           <tr>
+               <td><b>Name:</b></td>
+               <td>{TMPL_VAR NAME="name"}</td>
+           </tr>
+           <tr>
+               <td><b>Beschreibung:</b></td>
+               <td>{TMPL_IF NAME="description"}{TMPL_VAR NAME="description"}{TMPL_ELSE}-{/TMPL_IF}</td>
+           </tr>
+           <tr>
+               <td><b>Kategorie:</b></td>
+               <td>{TMPL_IF NAME="id_category"}{TMPL_VAR NAME="id_category" ESCAPE="none"}{TMPL_ELSE}-{/TMPL_IF}</td>
+           </tr>
+           <tr>
+               <td><b>Vorhanden:</b></td>
+               <td>{TMPL_IF NAME="instock"}{TMPL_VAR NAME="instock"}{TMPL_ELSE}-{/TMPL_IF}</td>
+           </tr>
+           <tr>
+               <td><b>Min. Bestand:</b></td>
+               <td>{TMPL_IF NAME="mininstock"}{TMPL_VAR NAME="mininstock"}{TMPL_ELSE}-{/TMPL_IF}</td>
+           </tr>
+           <tr>
+               <td><b>Footprint:</b></td>
+               <td>{TMPL_IF NAME="id_footprint"}{TMPL_VAR NAME="id_footprint"}{TMPL_IF NAME="link"}<img align="middle" height="70" src="{TMPL_VAR NAME="link}" alt="">{/TMPL_IF}{TMPL_ELSE}-{/TMPL_IF}</td>
+           </tr>
+           <tr>
+               <td><b>Lagerort:</b></td>
+               <td>{TMPL_IF NAME="part_get_location_path"}{TMPL_VAR NAME="part_get_location_path"}{TMPL_VAR NAME="id_storeloc"}{TMPL_ELSE}-{/TMPL_IF}</td>
+           </tr>
+           <tr>
+               <td><b>Lieferant:</b></td>
+               <td>{TMPL_IF NAME="supplier"}{TMPL_VAR NAME="supplier"}{TMPL_ELSE}-{/TMPL_IF}</td>
+           </tr>
+           <tr>
+               <td><b>Bestell-Nr.:</b></td>
+               <td>{TMPL_IF NAME="supplierpartnr"}{TMPL_VAR NAME="supplierpartnr"}{TMPL_ELSE}-{/TMPL_IF}</td>
+           </tr>
+           <tr>
+               <td><b>obsolet:</b></td>
+               <td>{TMPL_IF NAME="obsolete"}{TMPL_VAR NAME="obsolete"}{TMPL_ELSE}-{/TMPL_IF}</td>
+           </tr>
+           <tr>
+               <td><b>Preis:</b></td>
+               <td>{TMPL_IF NAME="price"}{TMPL_VAR NAME="price"}{TMPL_VAR NAME="currency" ESCAPE="none"}{TMPL_ELSE}-{/TMPL_IF}</td>
+           </tr>
+           <tr>
+               <td valign="top"><b>Kommentar:</b></td>
+               <td>{TMPL_IF NAME="comment"}{TMPL_VAR NAME="comment"}{TMPL_ELSE}-{/TMPL_IF}</td>
+           </tr>
+        {/TMPL_LOOP}
+        </table>
+        <br>Angaben <a href="editpartinfo.php?pid={TMPL_VAR NAME="pid"}">verändern</a>
+        </td>
+        <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+        <td>
+        <table>
+        <form action="" method="post">
+        <input type="hidden" name="pid" value="{TMPL_VAR NAME="pid"}">
+        <input type="hidden" name="action" value="dec">
+        <tr><td colspan="2">Teile entnehmen</td></tr>
+        <tr valign="top">
+        <td>Anzahl:</td><td><input type="text" size="3" name="n_less" value="1"></td>
+        </tr><tr><td colspan="2" align="center"><input type="submit" value="Entnehmen!"></td></tr>
+        </form>
+        <tr><td colspan="2">&nbsp;</td></tr>
+        <form action="" method="post">
+        <input type="hidden" name="pid" value="{TMPL_VAR NAME="pid"}">
+        <input type="hidden" name="action" value="inc">
+        <tr><td colspan="2">Teile hinzufügen</td></tr>
+        <tr valign="top">
+        <td>Anzahl:</td><td><input type="text" size="3" name="n_more" value="1"></td>
+        </tr><tr><td colspan="2" align="center"><input type="submit" value="Hinzufügen!"></td></tr>
+        </form>
+        </table>
+        </td>
+        </tr>
+        </table>
+        {TMPL_IF NAME="picture"}
+        <br><b>Bilder:</b><br>
+        {TMPL_LOOP NAME="picture"}
+        <a href="javascript:popUp('getimage.php?pict_id={TMPL_VAR NAME="id"}');"><img src="getimage.php?pict_id={TMPL_VAR NAME="id"}&maxx=200&maxy=150" alt="Zum Vergrößern klicken!"></a><br>
+        {/TMPL_LOOP}
+        {/TMPL_IF}
+    </div>
+</div>

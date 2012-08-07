@@ -4,6 +4,10 @@
     Copyright (C) 2005 Christoph Lechner
     http://www.cl-projects.de/
 
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
+
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
     as published by the Free Software Foundation; either version 2
@@ -18,8 +22,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: lib.php 477 2012-07-02 18:39:47Z bubbles.red@gmail.com $
-
+    $Id: lib.php 511 2012-08-05 weinbauer73@gmail.com $
 
     this file contain the following functions:
 
@@ -149,7 +152,11 @@
 */
 
     require_once ('config.php');
-    require_once ('class/html.php');
+
+    function __autoload($classname) {
+	if ( $classname == '_exception' ) $classname = 'error';
+        include_once(strtolower($classname).".php");
+    }
 
     partdb_init();
 
@@ -171,7 +178,6 @@
 
     function partdb_init()
     {
-        /** Modified by Udo Neist 20120624 **/
 
         global $db;
 
@@ -363,7 +369,6 @@
 	return $array;
 
     }
-
 
     /*
      * no comment
@@ -1805,7 +1810,7 @@
                 $count_row    = mysql_fetch_array( $count_result);
                 $count        = $count_row['count'];
 
-                $target_url = ($count > 0) ? "','device.php?deviceid=" : "','deviceinfo.php?deviceid=";
+                $target_url = ($count > 0) ? "','device.php?deviceid=" : "','showdevices.php?deviceid=";
                 print "dev_tree.add(". smart_unescape( $data['id']) .",".
                     smart_unescape( $parent_id) .",'".
                     smart_unescape( $data['name']).

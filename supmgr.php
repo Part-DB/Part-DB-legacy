@@ -4,6 +4,10 @@
     Copyright (C) 2005 Christoph Lechner
     http://www.cl-projects.de/
 
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
+
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
     as published by the Free Software Foundation; either version 2
@@ -18,53 +22,51 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: supmgr.php 392 2012-03-03 06:30:03Z bubbles.red@gmail.com $
-
+    $Id: supmgr.php 511 2012-08-05 weinbauer73@gmail.com $
 */
 
-    require_once ('lib.php');
+require_once ('lib.php');
 
-    $action = 'default';
-    if ( isset( $_REQUEST["add"]))    { $action = 'add';}
-    if ( isset( $_REQUEST["delete"])) { $action = 'delete';}
-    if ( isset( $_REQUEST["rename"])) { $action = 'rename';}
+$action = 'default';
+if ( isset( $_REQUEST["add"]))    { $action = 'add';}
+if ( isset( $_REQUEST["delete"])) { $action = 'delete';}
+if ( isset( $_REQUEST["rename"])) { $action = 'rename';}
 
-    $supplier_sel = isset( $_REQUEST["supplier_sel"]) ? $_REQUEST["supplier_sel"] : -1;
+$supplier_sel = isset( $_REQUEST["supplier_sel"]) ? $_REQUEST["supplier_sel"] : -1;
 
-    if ( $action == 'add')
-    {
-        supplier_add( $_REQUEST['new_supplier']);
-    }
+if ( $action == 'add')
+{
+	supplier_add( $_REQUEST['new_supplier']);
+}
 
-    if ( $action == 'delete')
-    {
-        supplier_delete( $supplier_sel);
-    }
+if ( $action == 'delete')
+{
+	supplier_delete( $supplier_sel);
+}
 
-    if ( $action == 'rename')
-    {
-        supplier_rename( $supplier_sel, $_REQUEST["new_name"]);
-    }
+if ( $action == 'rename')
+{
+	supplier_rename( $supplier_sel, $_REQUEST["new_name"]);
+}
 
-    $data = supplier_select( $supplier_sel);
+$data = supplier_select( $supplier_sel);
 
-    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
-    $tmpl -> setVar('head_title', 'Lieferanten');
-    $tmpl -> setVar('head_charset', $http_charset);
-    $tmpl -> setVar('head_theme', $theme);
-    $tmpl -> setVar('head_css', $css);
-    $tmpl -> pparse();
+$html = new HTML;
+$html -> set_html_meta ( array('title'=>'Lieferanten','menu'=>true) );
+$html -> print_html_header();
 
-    $tmpl = new vlibTemplate(BASE."/templates/$theme/supmgr.php/vlib_supmgr.tmpl");
-    $tmpl -> setVar('size', min(suppliers_count(), 30));
-    ob_start();
-    suppliers_build_list($supplier_sel);
-    $list = ob_get_contents();
-    ob_end_clean();
-    $tmpl -> setVar('suppliers_build_list', $list);
-    $tmpl -> setVar('name', $data['name']);
-    $tmpl -> pparse();
+ob_start();
+suppliers_build_list($supplier_sel);
+$list = ob_get_contents();
+ob_end_clean();
 
-    $tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
-    $tmpl -> pparse();
+$array = array(
+	'size'=>min(suppliers_count(), 30),
+	'suppliers_build_list'=>$list,
+	'name'=>$data['name']
+);
+
+$html -> parse_html_template( 'supmgr', $array );
+$html -> print_html_footer();
+
 ?>

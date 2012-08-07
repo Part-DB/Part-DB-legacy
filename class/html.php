@@ -4,6 +4,10 @@
     Copyright (C) 2005 Christoph Lechner
     http://www.cl-projects.de/
 
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
+
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
     as published by the Free Software Foundation; either version 2
@@ -18,25 +22,20 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: class/html.php 510 2012-08-03 weinbauer73@gmail.com $
-
+    $Id: nav.php 511 2012-08-04 weinbauer73@gmail.com $
 */
-
-require_once ('error.php');
 
 class HTML
 {
 
 	private $meta;
 	private $template;
-
-	private $variable;
 	private $loop;
 
 	private $grab;
 	private $debug;
 
-	function __construct()
+	function __construct ()
 	{
 
 		/* check for loaded classes */
@@ -45,11 +44,11 @@ class HTML
 		$classes = array('vlibTemplate');
 		$text = array();
 		foreach ($classes as $class) if (class_exists($class)===false) $text[]=$class;
-		if (count($text)>0) $e -> throwClassError($text,basename(__FILE__));
+		if (count($text)>0) $e -> throw_class_error($text,basename(__FILE__));
 
 		/* default values ​​set for the class variables */
 
-		global $http_charset, $theme, $css;
+		global $conf;
 
 		// specify the variable type
 		settype ($this->meta,'array');
@@ -76,10 +75,10 @@ class HTML
 		$this->template = '';
 
 		// strings
-		$this->meta['theme']=(($theme<>'standard' && is_readable(BASE."/templates/$theme/partdb.css"))?$theme:'standard');
+		$this->meta['theme']=( ( $conf['html']['theme'] <> 'standard' && is_readable( BASE."/templates/".$conf['html']['theme']."/partdb.css" ) ) ? $conf['html']['theme'] : 'standard' );
 		$this->meta['title']='';
-		$this->meta['http_charset']=(($http_charset)?$http_charset:'utf-8');
-		$this->meta['css']=((is_readable(BASE."/css/custom-$theme.css"))?"css/custom-$theme.css":"templates/$theme/partdb.css");
+		$this->meta['http_charset']=( ( $conf['html']['http_charset'] ) ? $conf['html']['http_charset'] : 'utf-8' );
+		$this->meta['css']=( ( is_readable( BASE."/css/custom-".$conf['html']['theme'].".css" ) && $conf['html']['css']===true ) ? "css/custom-".$conf['html']['theme'].".css" : "templates/".$conf['html']['theme']."/partdb.css" );
 
 		// boolean
 		$this->meta['menu']=true;
@@ -93,6 +92,13 @@ class HTML
 		// to debug
 		$this->debug=false;
 
+	}
+
+	function __destruct()
+	{
+		foreach ($this as $key => $value) {
+			unset($this->$key);
+		}
 	}
 
 	/** Funktionen für Variablen **/
@@ -296,6 +302,7 @@ class HTML
 		}
 
 		$tmpl =& new vlibTemplate(BASE."/templates/".$this->meta['theme']."/vlib_head.tmpl");
+		$tmpl -> setVar('path',str_replace($_SERVER['DOCUMENT_ROOT'],'',str_replace('class','',dirname(__FILE__))));
 		$tmpl -> setVar('head_title', $this->meta['title']);
 		$tmpl -> setVar('head_charset', $this->meta['http_charset']);
 		$tmpl -> setVar('head_theme', $this->meta['theme']);
@@ -409,7 +416,6 @@ class HTML
 
 		try
 		{
-			if ( count($array) == 0) throw new Exception(1); // Error code 1: variable not set
 			if ( $this->load_html_template($template,$use_scriptname) > 0 ) throw new Exception(2); // Error code 2: file not found
 		}
 		catch (Exception $error)
@@ -541,16 +547,15 @@ class HTML
 		ob_end_clean();
 
 		$e =& new _exception;
-		$e -> throwError( array(
-			'<strong>Error</strong><br><br>system name: '.$title.'.<br><br>running <em>'.basename($debug[0]['file']).'</em> at line #<em>'.$debug[0]['line'].'</em> error code: <em>'.$this->get_error_state($error).'</em>',
-			'using class <em>'.$debug[0]['class'].'()</em>',
-			'function name: <em>'.$debug[0]['function'].'()</em>',
-			'missing or wrong argument: <em>'.$variable.'</em>'
+		$e -> throw_error( '<strong>Error</strong><br><br>system name: '.$title.'.<br><br>running <em>'.basename($debug[0]['file']).'</em> at line #<em>'.$debug[0]['line'].'</em> error code: <em>'.$this->get_error_state($error).'</em>',
+			array(
+				'using class <em>'.$debug[0]['class'].'()</em>',
+				'function name: <em>'.$debug[0]['function'].'()</em>',
+				'missing or wrong argument: <em>'.$variable.'</em>'
 			),
 			$text
 		);
 	}
-
 
 }
 

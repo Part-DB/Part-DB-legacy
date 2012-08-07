@@ -4,11 +4,12 @@
 	<p>von der Methode <span class="thick">«{TMPL_VAR NAME="class"}»</span> nähe Zeile <span class="thick">{TMPL_VAR NAME="line"}</span> ergab den folgenden Fehler:</p>
 	<fieldset>{TMPL_VAR NAME="SQLError"}</fieldset>
 {TMPL_ELSE}
-	{TMPL_VAR NAME="Error" ESCAPE="none"}
+	{TMPL_VAR NAME="title" ESCAPE="none"}
+	{TMPL_VAR NAME="error" ESCAPE="none"}
 	{TMPL_IF NAME="loop"}
 		<ul type="square">
 		{TMPL_LOOP NAME='loop'}
-			<li>{TMPL_VAR NAME="Errors" ESCAPE="none"}</li>
+			<li>{TMPL_VAR NAME="errors" ESCAPE="none"}</li>
 		{/TMPL_LOOP}
 		</ul>
 	{/TMPL_IF}

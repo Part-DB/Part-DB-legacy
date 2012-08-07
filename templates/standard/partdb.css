@@ -221,8 +221,16 @@ a:active {
 
 /* label.php */
 .labelbild {
-	height: 70px;
+	float: left;
+	margin:3px;
 }
+td.labelbild {
+	text-align:center;
+	color: #193FE6;
+	font-size:0.9em;
+	font-weight:bold;
+}
+
 /* footprint.php */
 .footprint
 {
@@ -319,4 +327,14 @@ a:active {
 	padding:0px;
 	border: 0px;
 	overflow: hidden;
+}
+
+/* Help */
+dl.help dt {
+	font-weight:bold;
+	text-decoration: underline;
+	margin:1em;
+}
+dl.help dd {
+	margin-bottom:1em;
 }

@@ -4,6 +4,10 @@
     Copyright (C) 2005 Christoph Lechner
     http://www.cl-projects.de/
 
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
+
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
     as published by the Free Software Foundation; either version 2
@@ -18,130 +22,64 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: stats.php 475 2012-07-02 16:09:22Z kami89@gmx.ch $
+    $Id: stats.php 511 2012-08-05 weinbauer73@gmail.com $
 */
-    include('lib.php');
-    partdb_init();
+
+require_once ('lib.php');
+
+function count_dir_entries($dir)
+{
+	$count = 0;
+	$handle = opendir($dir) ;
+	while ($entry = readdir($handle))
+	{
+		if ($entry != "." && $entry != ".." && $entry != ".svn")
+		{
+			if (is_dir( $dir.$entry))
+			{
+				$count += count_dir_entries($dir.$entry.'/');
+			}
+			else
+			{
+				$count++;
+			}
+		}
+	}
+	closedir( $handle );
+	return( $count );
+}
+
+function count_files($dir)
+{
+	$count=0;
+	$dh  = opendir($dir);
+	while (false !== ($filename = readdir($dh))) if (!is_dir($filename)) $count++;
+	closedir($dh);
+	return $count;
+}
+
+$html = new HTML;
+$html -> set_html_meta ( array('title'=>'Statistik') );
+$html -> print_html_header();
+
+$array = array (
+	'parts_count_sum_value' => parts_count_sum_value(),
+	'currency'		=> $currency,
+	'parts_count_with_prices'=> parts_count_with_prices(),
+	'parts_count'=> parts_count(),
+	'parts_count_sum_instock'=> parts_count_sum_instock(),
+	'categories_count'=> categories_count(),
+	'footprint_count'=> footprint_count(),
+	'location_count'=> location_count(),
+	'suppliers_count'=> suppliers_count(),
+	'devices_count'=> ((!$disable_devices)?devices_count():false),
+	'images_count'=>$countimages,
+	'count_footprints'=>count_dir_entries('tools/footprints/'),
+	'count_images'=>count_files('img/'),
+	'count_iclogos'=>count_files('tools/iclogos/')
+);
+
+$html -> parse_html_template( 'stats', $array );
+
+$html -> print_html_footer();
 ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>Statistik</title>
-    <?php print_http_charset(); ?>
-    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
-</head>
-<body class="body">
-
-<div class="outer">
-    <h2>Statistik</h2>
-    <div class="inner">
-        <b>Wert aller mit Preis erfassten Bauteile:</b>
-        <?php 
-            print parts_count_sum_value();
-            require( 'config.php');
-            print " ". $currency .PHP_EOL;
-        ?>
-        <br>
-
-        <b>Mit Preis erfasste Bauteile:</b>
-        <?php print parts_count_with_prices(); ?>
-        <br>
-        <br>
-
-        <b>Anzahl der verschiedenen Bauteile:</b>
-        <?php print parts_count(); ?>
-        <br>
-
-        <b>Anzahl der vorhandenen Bauteile:</b>
-        <?php print parts_count_sum_instock(); ?>
-        <br>
-        <br>
-
-        <b>Anzahl der Kategorien:</b>
-        <?php print categories_count(); ?>
-        <br>
-
-        <b>Anzahl der Footprints:</b>
-        <?php print footprint_count(); ?>
-        <br>
-
-        <b>Anzahl der Lagerorte:</b>
-        <?php print location_count(); ?>
-        <br>
-
-        <b>Anzahl der Lieferanten:</b>
-        <?php print suppliers_count(); ?>
-        <br>
-
-<?php
-    if (! $disable_devices) {
-?>
-        <b>Anzahl der Baugruppen:</b>
-        <?php print devices_count(); ?>
-        <br>
-<?php
-    }
-?>
-
-        <br>
-
-        <b>Anzahl der hochgeladenen Bilder:</b>
-        <?PHP
-        $dir = "img/";
-        $dh  = opendir($dir);
-        while (false !== ($filename = readdir($dh))) 
-        {
-          $files[] = $filename;
-        }
-        echo count($files)- 2;
-        unset($files);
-        ?><br>
-
-        <b>Anzahl der Footprint Bilder:</b>
-        <?PHP
-
-        function count_dir_entries( $dir) 
-        { 
-            $count = 0;
-
-            $handle = opendir( $dir); 
-            while ( $entry = readdir( $handle)) 
-            { 
-                if ( $entry != "." && $entry != ".." && $entry != ".svn") 
-                { 
-                    if ( is_dir( $dir.$entry))
-                    { 
-                        $count += count_dir_entries( $dir.$entry.'/'); 
-                    }
-                    else
-                    { 
-                        $count++;
-                    } 
-                }
-            } 
-            closedir( $handle); 
-            return( $count);
-        } 
-        
-        $dir = "tools/footprints/";
-        echo count_dir_entries( $dir);
-
-        ?><br>
-
-        <b>Anzahl der Hersteller Logos:</b>
-        <?PHP
-        $dir = "tools/iclogos/";
-        $dh  = opendir($dir);
-        while (false !== ($filename = readdir($dh))) 
-        {
-          $files[] = $filename;
-        }
-        echo count($files)- 2;
-        unset($files);
-        ?>
-    </div>
-</div>
-
-</body>
-</html>

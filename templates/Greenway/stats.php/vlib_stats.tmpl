@@ -1,0 +1,35 @@
+<div class="outer">
+	<h2>Statistik</h2>
+	<div class="inner">
+		<table>
+		<tr><td width="300"><strong>Mit Preis erfasste Bauteile:</strong></td><td>{TMPL_VAR NAME="parts_count_with_prices"}</td></tr>
+		{TMPL_IF NAME="parts_count_sum_value"}
+		<tr>
+		<td width="300"><strong>Wert aller mit Preis erfassten Bauteile:</strong></td>
+		<td>{TMPL_VAR NAME="parts_count_sum_value"}&nbsp;{TMPL_VAR NAME="currency" ESCAPE="none"}</td>
+		</tr>
+		</table>
+		<br>
+		<table>
+		{/TMPL_IF}
+		<tr><td width="300"><strong>Anzahl der verschiedenen Bauteile:</strong></td><td>{TMPL_VAR NAME="parts_count"}</td></tr>
+		<tr><td width="300"><strong>Anzahl der vorhandenen Bauteile:</strong></td><td>{TMPL_VAR NAME="parts_count_sum_instock"}</td></tr>
+		</table>
+		<br>
+		<table>
+		<tr><td width="300"><strong>Anzahl der Kategorien:</strong></td><td>{TMPL_VAR NAME="categories_count"}</td></tr>
+		<tr><td width="300"><strong>Anzahl der Footprints:</strong></td><td>{TMPL_VAR NAME="footprint_count"}</td></tr>
+		<tr><td width="300"><strong>Anzahl der Lagerorte:</strong></td><td>{TMPL_VAR NAME="location_count"}</td></tr>
+		<tr><td width="300"><strong>Anzahl der Lieferanten:</strong></td><td>{TMPL_VAR NAME="suppliers_count"}</td></tr>
+		{TMPL_IF NAME="disable_devices"}
+		<tr><td width="300"><strong>Anzahl der Baugruppen:</strong></td><td></td></tr>
+		{/TMPL_IF}
+		</table>
+		<br>
+		<table>
+		<tr><td width="300"><strong>Anzahl der hochgeladenen Bilder:</strong></td><td>{TMPL_VAR NAME="count_footprints"}</td></tr>
+		<tr><td width="300"><strong>Anzahl der Footprint Bilder:</strong></td><td>{TMPL_VAR NAME="count_images"}</td></tr>
+		<tr><td width="300"><strong>Anzahl der Hersteller Logos:</strong></td><td>{TMPL_VAR NAME="count_iclogos"}</td></tr>
+		</table>
+	</div>
+</div>

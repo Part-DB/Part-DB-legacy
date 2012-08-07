@@ -14,3 +14,18 @@ Edits
 - config_page.php enthält eine umgeschriebene und gekürzte list_backup_files(), Unterstützung von mod_xsendfile des Apache2-Webservers
 - Kommentare (mehr oder weniger gut) ins Englische übersetzt (Google Translate sei Dank).
 
+*** Update zu Revison 509 Version 20120803 ***
+
+- Fehlerbehandlungsklasse eingeführt (error.php: class _exception)
+- HTML-Klasse mit Exceptions versehen
+- HTML-Klasse nimmt Defaults für Thema, CSS und Charset aus der config.php, braucht nicht mehr mit angegeben zu werden (kann aber überschrieben werden)
+- startup.php auf HTML->parse_html_template() umgestellt
+
+*** Update zu Revison 510 Version 20120804 ***
+
+- Lizenzinfo in die einzelnen Scripte reinkopiert bzw. aktualisiert
+- error.php entsprechend dem Namensschema umgeschrieben
+- Einige Variablen aus der config.php in das Array $conf verschoben
+- html.php angepasst
+- install.sh geändert: Lizenz und Abfrage ob diese akzeptiert wird, Abfrage der Daten zur Installation der Datenbank, backup-Verzeichnis wird für Apache beschreibbar gemacht (root-Rechte erforderlich!)
+- SQL-Script an install.sh angepasst

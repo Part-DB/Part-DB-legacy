@@ -1,0 +1,56 @@
+class HTML {
+
+	*** Folgende Variablen können _nicht_ von aussen genutzt werden. Dazu sind Funktionen in der Klasse vorgesehen! ***
+        private $meta : Array für die Angaben im HTML-Kopf "<head></head>"
+        private $template : Name des vlibTemplates
+        private $loop : Array für die LOOPs in den Templates
+        private $grab : Legt fest, ob die Templates ausgegeben oder als String zurückgeben (grab) werden (Boolean)
+        private $debug : Ist für das Debuggen der Templates gedacht und gibt einige Daten direkt auf der Webseite aus
+
+	*** Funktionen ***
+        function __construct () : Klassenkonstruktur - prüft auf notwendige Klassen und setzt Variablen
+        function set_html_meta ( $meta = array() ) - Setzt die Angaben für den HTML-Kopf ($this->meta)
+        function set_html_variable ( $key = '', $var = '', $type = '', $format = array() ) : Setzt Variablen für Templates
+        function unset_html_variable ( $key = '' ) : Löscht einzelne Variablen aus den Templates
+        function clr_html_variable () : Löscht alle Variablen, falls man das Template wiederholt einsetzen will
+        function set_html_loop ( $key = '', $array = array() ) : Setzt ein Array für LOOPs
+        function unset_html_loop ( $key = '' ) : Löscht ein Array für LOOPs
+        function clr_html_loop () : Löscht alle LOOPs
+        function set_grab() : Setzt Flag für die Rückgabe eines Strings anstelle der Ausgabe des Templates
+        function unset_grab() : Löscht das Flag wieder
+        function print_html_header () : Gibt den HTML-Kopf aus
+        function print_html_footer () : Gibt den Footer aus (Schließtags zu <body> und <html>)
+        function load_html_template ( $template = '', $use_scriptname = true ) : Lädt das angegebene Template und setzt den Scriptnamen als Verzeichnis dafür (default)
+        function parse_html_template ( $template = '', $array = array(), $use_scriptname = true) : Meta-Klasse, kapselt load_html_template(), set_html_*() und print_html_template()
+        function parse_html_table ( $array = array() ) : Alias für parse_html_template, aber mit dem festen Template "vlib_table.tmpl"
+        function print_html_template () : Gibt das Template aus oder als String zurück (siehe set_grab()/clr_grab())
+        function set_debug() : Setzt das Debug-Flag für die Fehlerausgabe beim Parsen
+        function unset_debug() : Löscht das Flag wieder
+
+	*** Nachfolgende Funktionen dienen der Fehlerbehandlung und sind nur innerhalb der Klasse verfügbar (TODO: print_error_state() muss zusammen mit throw_error() überarbeitet werden!) ***
+        private function get_error_state( $errno = 0 )
+        private function print_error_state ( $debug=array(), $error = 0, $variable = '' )
+
+}
+
+class _execption {
+
+	*** Funktionen (TODO: print_error_state() muss zusammen mit throw_error() überarbeitet werden!) ***
+        function __construct () : Klassenkonstruktur - prüft auf die notwendigen Klassen
+        function throw_class_error ( $e, $script ) : Fehlerbehandlung für fehlende Klassen - $e enthält den Fehlercode, $script den Scriptnamen
+        function throw_function_error ( $e, $script ) : Fehlerbehandlung für fehlende Funktionen - $e enthält den Fehlercode, $script den Scriptnamen 
+        function throw_error ( $e='', $variable ) : Gibt den Fehler aus (vlib_error.tmpl) -  - $e enthält den Fehlercode, $variable ein Array oder String mit der Fehlermeldung
+
+	*** Nachfolgende Funktionen sind nur innerhalb der Klasse verfügbar ***
+        private function header () : Gibt einen HTML-Kopf aus (TODO: Prüfen, ob bereits eine Ausgabe erfolgte, dann zurück)
+        private function footer ()  : Gibt den Footer aus (Schließtags zu <body> und <html>)
+        private function mail ( $body='' ) : Mail an den zuständigen Administrator mit den Fehlerangaben aus throwError() (TODO: Komplett erneuern, da noch nicht angepasst!)
+
+}
+
+class pack {
+
+	*** Funktionen ***
+        function zip ( $file = '', $files = array() ) : Erstellt ein Zip-Archiv mit den Dateien aus dem Array $files
+        function unzip ( $file = '', $path = '' ) : Extrahiert ein Zip-Archiv in das angebene Verzeichnis
+}
