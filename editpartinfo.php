@@ -76,6 +76,7 @@
         {
             /* display the confirmation text */
             $special_dialog = 1;
+            print '<head><base target="_self" /></head>'; // FIXME: this is ugly!
             print "<html><body class=\"body\"><link rel=\"StyleSheet\" href=\"css/partdb.css\" type=\"text/css\" /><div style=\"text-align:center;\">\n";
             print "<table class=\"table\">\n";
             print "<tr><td class=\"tdtop\"><div style=\"color:red;\">M&ouml;chten Sie das Bauteil &quot;". part_get_name( $pid) ."&quot; wirklich l&ouml;schen? </td></tr>\n";
@@ -112,6 +113,7 @@
             {
                 /* print the confirmation text */
                 $special_dialog = 1;
+                print '<head><base target="_self" /></head>'; // FIXME: this is ugly!
                 print "<html><body class=\"body\"><link rel=\"StyleSheet\" href=\"css/partdb.css\" type=\"text/css\"/>";
                 print "<table class=\"table\">";
                 print "<tr><td class=\"tdtop\"><div style=\"color:red\">M&ouml;chten Sie das ausgew&auml;hlte Bild/die ausgew&auml;hlen Bilder wirklich l&ouml;schen?</div></td></tr>";
@@ -220,6 +222,7 @@
             }
         }
     </script> 
+    <base target="_self" />
 </head>
 <body class="body" onload="switch_ds_path()">
 

@@ -115,7 +115,7 @@
                         print "<script>window.close();</script>";
                     }
                     // autoincrement name
-                    $p_name = ++$_REQUEST["p_name"];
+                    //$p_name = ++$_REQUEST["p_name"];
                 }
         }
 
@@ -124,7 +124,7 @@
         {
             if (( $NewStorage != "Direkteingabe/Neu") && (! location_exists( $NewStorage)))
             {
-                location_add( $_REQUEST["NewStorage"], 0);
+                $p_storeloc = location_add( $_REQUEST["NewStorage"], 0);
             }
         }
 
@@ -133,7 +133,7 @@
         {
             if (( $NewDistributor != "Direkteingabe/Neu") && (! supplier_exists( $NewDistributor)))
             {
-                supplier_add( $NewDistributor);
+                $p_supplier = supplier_add( $NewDistributor);
             }
         }
 
@@ -142,7 +142,7 @@
         {
             if (( $NewFootprint != "Direkteingabe/Neu") && (! footprint_exists( $NewFootprint)))
             {
-                footprint_add( $NewFootprint, '');
+                $p_footprint = footprint_add( $NewFootprint, '');
             }
         }
 
@@ -157,7 +157,8 @@
     <link rel="StyleSheet" href="css/partdb.css" type="text/css">
     <script type="text/javascript" src="util-functions.js"></script>
     <script type="text/javascript" src="clear-default-text.js"></script>       
-    <script type="text/javascript" src="validatenumber.js"></script>       
+    <script type="text/javascript" src="validatenumber.js"></script>   
+    <base target="_self" />
 </head>
 <body class="body">
 
@@ -196,7 +197,7 @@
             <td>
             <select name="p_footprint">
             <option value="X"></option>
-            <?php footprint_build_tree( 0, 1, footprint_get_id( $NewFootprint)); ?>
+            <?php footprint_build_tree( 0, 1, $p_footprint); ?>
             </select>
             </td>
             <td>
@@ -210,8 +211,8 @@
             <td>Lagerort:</td>
             <td>
             <select name="p_storeloc">
-            <option value=""></option>;
-            <?php location_tree_build(0, 1, location_get_id( $NewStorage), false); ?>
+            <option value="X"></option>;
+            <?php location_tree_build(0, 1, $p_storeloc, false); ?>
             </select>
             </td>
             <td>
@@ -226,7 +227,7 @@
             <td>
             <select name="p_supplier">
             <option value="X"></option>
-            <?php suppliers_build_list( supplier_get_id( $NewDistributor)); ?>
+            <?php suppliers_build_list( $p_supplier); ?>
             </select>
             </td>
             <td>

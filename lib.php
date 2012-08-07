@@ -1639,7 +1639,7 @@
 
     function parts_select_footprint( $footprint_id)
     {
-        $query  = "SELECT name, filename".
+        $query  = "SELECT name".
             " FROM parts".
             " WHERE id_footprint=". smart_escape( $footprint_id) .";";
         $result = mysql_query( $query);
