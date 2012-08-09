@@ -22,6 +22,7 @@
 
 */
         include ("lib.php");
+        include ("config.php");
         partdb_init();
        
        
@@ -192,20 +193,22 @@
             <td><input type="text" name="p_mininstock" onkeypress="validateNumber(event)" value="<?PHP print $p_mininstock ?>"/></td>
             </tr>
             
-            <tr>
-            <td>Footprint:</td>
-            <td>
-            <select name="p_footprint">
-            <option value="X"></option>
-            <?php footprint_build_tree( 0, 1, $p_footprint); ?>
-            </select>
-            </td>
-            <td>
-            <input type="hidden" name="a" value="AddFootprint"/>
-            <input type="text" name="NewFootprint" value="Direkteingabe/Neu" class="cleardefault"/>
-            <input type="submit" name="AddFootprint" value="Search/Add"/>
-            </td>
-            </tr>
+            <?php if (! $disable_footprints) { ?>
+                <tr>
+                <td>Footprint:</td>
+                <td>
+                <select name="p_footprint">
+                <option value="X"></option>
+                <?php footprint_build_tree( 0, 1, $p_footprint); ?>
+                </select>
+                </td>
+                <td>
+                <input type="hidden" name="a" value="AddFootprint"/>
+                <input type="text" name="NewFootprint" value="Direkteingabe/Neu" class="cleardefault"/>
+                <input type="submit" name="AddFootprint" value="Search/Add"/>
+                </td>
+                </tr>
+            <?php } ?>
             
             <tr>
             <td>Lagerort:</td>

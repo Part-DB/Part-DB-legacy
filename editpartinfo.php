@@ -22,6 +22,7 @@
 
 */
     include('lib.php');
+    include("config.php");
     partdb_init();
 
     /*
@@ -255,14 +256,16 @@
                         <td><b>Min. Bestand:</b></td>
                         <td><input name='p_mininstock' size='5' onkeypress="validateNumber(event)" value='<?php print smart_unescape( $data['mininstock']); ?>'></td>
                     </tr>
-                    <tr>
-                        <td><b>Footprint:</b></td>
-                        <td><select name='p_footprint'>
-                            <option value=""></option>
-                            <?php footprint_build_tree( 0, 1, $data['id_footprint']); ?>
-                            </select>
-                        </td>
-                    </tr>
+                    <?php if (! $disable_footprints) { ?>
+                        <tr>
+                            <td><b>Footprint:</b></td>
+                            <td><select name='p_footprint'>
+                                <option value=""></option>
+                                <?php footprint_build_tree( 0, 1, $data['id_footprint']); ?>
+                                </select>
+                            </td>
+                        </tr>
+                    <?php } ?>
                     <tr>
                         <td><b>Lagerort:</b></td>
                         <td><select name='p_storeloc'>

@@ -22,6 +22,7 @@
 
 */
     include ("lib.php");
+    include ("config.php");
     partdb_init();
     
     
@@ -88,7 +89,9 @@
         <tr class="trcat">
             <td></td>
             <td>Name</td>
-            <td>Footprint</td>
+            <?php if (! $disable_footprints) { ?>
+                <td>Footprint</td>
+            <?php } ?>
             <td>Bestellmenge</td>
             <td>Lieferant</td>
             <td>Bestell-Nr.</td>
@@ -108,7 +111,9 @@
             <td class="tdrow0"><?php print_table_image( $data['id'], $data['name'], $data['footprint_filename']); ?></td>
             <td class="tdrow1">
                 <a href="javascript:popUp('partinfo.php?pid=<?php print smart_unescape( $data['id']); ?>');"><?php print smart_unescape( $data['name']); ?></a></td>
-            <td class="tdrow3"><?php print smart_unescape( $data['footprint']); ?></td>
+            <?php if (! $disable_footprints) { ?>
+                <td class="tdrow3"><?php print smart_unescape( $data['footprint']); ?></td>
+            <?php } ?>
             <td class="tdrow4"><?php print smart_unescape( $data['diff']); ?></td>
             <td class="tdrow1"><?php print smart_unescape( $data['supplier']); ?></td>
             <td class="tdrow1"><?php print smart_unescape( $data['supplierpartnr']); ?></td>

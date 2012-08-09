@@ -87,7 +87,9 @@
                 <td>Name</td>
                 <td>Beschreibung</td>
                 <?php print "<td>".($hide_mininstock ? "Bestand" : "Vorh./<br>Min.Best.")."</td>"; ?>
-                <td>Footprint</td>
+                <?php if (! $disable_footprints) { ?>
+                    <td>Footprint</td>
+                <?php } ?>
                 <td>Lagerort</td>
                 <td class="idclass">ID</td>
                 <td>Datenbl&auml;tter</td>
@@ -99,7 +101,7 @@
                 $row_odd = true;
                 while ( $data = mysql_fetch_assoc( $result))
                 {
-                    print_table_row( $row_odd, $data, $hide_mininstock);
+                    print_table_row( $row_odd, $data, $hide_mininstock, $disable_footprints);
                     $row_odd = ! $row_odd;
                 }
             ?>

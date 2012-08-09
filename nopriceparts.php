@@ -22,6 +22,7 @@
 
 */
     include ("lib.php");
+    include ("config.php");
     partdb_init();
     
     // set action to default, if not exists
@@ -85,7 +86,9 @@
             <td>Name</td>
             <td>Beschreibung</td>
             <td>Vorh./<br>Min.Best.</td>
-            <td>Footprint</td>
+            <?php if (! $disable_footprints) { ?>
+                <td>Footprint</td>
+            <?php } ?>
             <td>Lagerort</td>
             <td>Lieferant</td>
             <td>Bestell-Nr.</td>
@@ -110,7 +113,8 @@
             print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape( $data['name']) ."</a></td>". PHP_EOL;
             print "<td class=\"tdrow1\">". smart_unescape( $data['description']) ."</td>". PHP_EOL;
             print "<td class=\"tdrow1\">". smart_unescape( $data['instock']) ."/". smart_unescape( $data['mininstock']) ."</td>". PHP_EOL;
-            print "<td class=\"tdrow1\">". smart_unescape( $data['footprint']) ."</td>". PHP_EOL;
+            if (! $disable_footprints)
+                print "<td class=\"tdrow1\">". smart_unescape( $data['footprint']) ."</td>". PHP_EOL;
             print "<td class=\"tdrow1\">". smart_unescape( $data['location']) ."</td>". PHP_EOL;
             print "<td class=\"tdrow1\">". smart_unescape( $data['supplier']) ."</td>". PHP_EOL; 
             print "<td class=\"tdrow1\">". smart_unescape( $data['supplierpartnr']) ."</td>". PHP_EOL; 

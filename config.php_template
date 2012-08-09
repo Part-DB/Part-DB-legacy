@@ -26,6 +26,9 @@
 
     /* disable devices function, in case you don't need it */
     $disable_devices = false;
+    
+    /* disable footprint function, in case you don't need it */
+    $disable_footprints = false;
 
     /* disable help (it's not useful for multiuser environments) */
     $disable_help = false;

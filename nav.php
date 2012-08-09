@@ -112,7 +112,9 @@
                 menue.add(2,1,'Import','import.php"','','content_frame');
                 menue.add(3,1,'Labels','tools/label.php"','','content_frame');
                 menue.add(4,1,'Widerstandsrechner','tools/rechner.php"','','content_frame');
-                menue.add(5,1,'Footprints','tools/footprints.php"','','content_frame');
+                <?php if (! $disable_footprints) { ?>
+                    menue.add(5,1,'Footprints','tools/footprints.php"','','content_frame');
+                <?php } ?>
                 menue.add(6,1,'IC-Logos','tools/iclogos.php"','','content_frame');
 
                 menue.add(7,0,'Zeige','','','');
@@ -129,7 +131,9 @@
                     menue.add(14,13,'Baugruppen','devmgr.php"','','content_frame');
                 <?php } ?>
                 menue.add(15,13,'Lagerorte','locmgr.php"','','content_frame');
+                <?php if (! $disable_footprints) { ?>
                 menue.add(16,13,'Footprints','fpmgr.php"','','content_frame');
+                <?php } ?>
                 menue.add(17,13,'Kategorien','catmgr.php"','','content_frame');
                 menue.add(18,13,'Lieferanten','supmgr.php','','content_frame');
 

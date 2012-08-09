@@ -21,6 +21,7 @@
     $Id$
 */
     include('lib.php');
+    include("config.php");
     partdb_init();
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -39,7 +40,6 @@
         <b>Wert aller mit Preis erfassten Bauteile:</b>
         <?php 
             print parts_count_sum_value();
-            require( 'config.php');
             print " ". $currency .PHP_EOL;
         ?>
         <br>
@@ -61,10 +61,12 @@
         <b>Anzahl der Kategorien:</b>
         <?php print categories_count(); ?>
         <br>
-
-        <b>Anzahl der Footprints:</b>
-        <?php print footprint_count(); ?>
-        <br>
+        
+        <?php if (! $disable_footprints) { ?>
+            <b>Anzahl der Footprints:</b>
+            <?php print footprint_count(); ?>
+            <br>
+        <?php } ?>
 
         <b>Anzahl der Lagerorte:</b>
         <?php print location_count(); ?>

@@ -22,6 +22,7 @@
 
 */
     include ("lib.php");
+    include ("config.php");
     partdb_init();
 
     /*
@@ -73,14 +74,17 @@
             <tr><td><b>Kategorie:</b></td><td><?php    print part_get_category_path( $data['id_category']); ?></td></tr>
             <tr><td><b>Vorhanden:</b></td><td><?php    print smart_unescape( $data['instock']); ?></td></tr>
             <tr><td><b>Min. Bestand:</b></td><td><?php print smart_unescape( $data['mininstock']); ?></td></tr>
-
-            <tr><td><b>Footprint:</b></td><td><?php    print part_get_footprint_path( $data['id_footprint']); ?>
+            
             <?php
             // footprint
-            $link = smart_unescape( $data['footprint_filename']);
-            if ( file_exists($link))
+            if (! $disable_footprints)
             {
-                print "<img align=\"middle\" height=\"70\" src=\"". $link ."\" alt=\"\">";
+                print "<tr><td><b>Footprint:</b></td><td>". part_get_footprint_path( $data['id_footprint']);
+                $link = smart_unescape( $data['footprint_filename']);
+                if ( file_exists($link))
+                {
+                    print "<img align=\"middle\" height=\"70\" src=\"". $link ."\" alt=\"\">";
+                }
             }
             ?>
             </td></tr>
@@ -91,7 +95,6 @@
             <tr><td><b>obsolet:</b></td><td><?php     print $data['obsolete'] ? 'ja' : 'nein'; ?></td></tr>
 
             <?php
-            include( "config.php");
             $preis = str_replace('.', ',', $data['price']);
             ?>
             <tr><td><b>Preis:</b></td><td><?php print smart_unescape( $preis) ." ". $currency; ?> &nbsp;</td></tr>
