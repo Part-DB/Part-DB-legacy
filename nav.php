@@ -54,7 +54,9 @@
                 <p><input type="checkbox" name="search_loc" value="true" checked>Lagerort</p>
                 <p><input type="checkbox" name="search_com" value="true" checked>Kommentar</p>
                 <p><input type="checkbox" name="search_sup" value="true"        >Lieferant</p>
-                <p><input type="checkbox" name="search_fpr" value="true" checked>Footprint</p>
+                <?php if (! $disable_footprints) { ?>
+                    <p><input type="checkbox" name="search_fpr" value="true" checked>Footprint</p>
+                <?php } ?>
                 <p><input type="checkbox" name="search_snr" value="true"        >Bestellnr.</p>
             </div>
             <div class="clear"></div>

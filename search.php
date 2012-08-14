@@ -24,6 +24,7 @@
     05/12/09    Edit Parts over Popup (k.jacobs)
 */
     include('lib.php');
+    include('config.php');
     partdb_init();
 
     // set action
@@ -134,7 +135,7 @@
                         "<td>Name</td>".
                         "<td>Beschreibung</td>".
                         "<td>".($hide_mininstock ? "Bestand" : "Vorh./<br>Min.Best.")."</td>".
-                        "<td>Footprint</td>".
+                        ($disable_footprints ? "" : "<td>Footprint</td>").
                         "<td>Lagerort</td>".
                         "<td class='idclass'>ID</td>".
                         "<td>Datenbl&auml;tter</td>".
@@ -145,7 +146,7 @@
                     $row_odd = true;
                 }
 
-                print_table_row( $row_odd, $data_array, $hide_mininstock);
+                print_table_row( $row_odd, $data_array, $hide_mininstock, $disable_footprints);
                 $row_odd = ! $row_odd;
             }
         ?>
