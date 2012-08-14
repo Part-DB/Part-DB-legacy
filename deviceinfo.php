@@ -314,7 +314,8 @@
             " parts.id,".
             " footprints.name,".
             " parts.instock,".
-            " parts.description".
+            " parts.description,".
+            " footprints.filename AS 'footprint_filename'".
             " FROM parts".
             " LEFT JOIN footprints ON (footprints.id = parts.id_footprint) ".
             " WHERE parts.name LIKE ".$kw.
@@ -322,14 +323,17 @@
         $result = mysql_query ($query);
         $nParts = mysql_num_rows($result);
         $rowcount = 0;
-        print "<tr class=\"trcat\"><td></td><td>Anzahl</td><td>Best&uuml;ckungs<br>Daten</td><td>Teil</td><td>Footprint</td><td>Lagernd</td>\n";
+        print "<tr class=\"trcat\"><td></td><td>Anzahl</td><td>Best&uuml;ckungs<br>Daten</td><td>Teil</td>";
+        if (! $disable_footprints)
+            print "<td>Footprint</td>";
+        print "<td>Lagernd</td>\n";
         while ( $d = mysql_fetch_row ($result) )
         {
             $rowcount++;
             print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
             
             print "<td class=\"tdrow0\">";
-            print_table_image( $d[2], $d[0], $d[3]);
+            print_table_image( $d[2], $d[0], $d[6]);
             print "</td>". PHP_EOL;
                 
             print "<td class=\"tdrow1\" >";
@@ -344,8 +348,9 @@
             print "<td class=\"tdrow1\"><a title=\"";
             print "Kommentar: " . smart_unescape($d[1]);
             print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape($d[2]) ."');\">". smart_unescape($d[0]) ."&nbsp;". smart_unescape($d[5]) ."</a></td>";
-                
-            print "<td class=\"tdrow1\">".smart_unescape($d[3])."</td>";
+            
+            if (! $disable_footprints)
+                print "<td class=\"tdrow1\">".smart_unescape($d[3])."</td>";
             print "<td class=\"tdrow1\">".smart_unescape($d[4])."</td>";
         
             print "</tr>\n";
@@ -394,7 +399,10 @@
 		print "<form method=\"post\" action=\"\">";
         print "<input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
 		
-		print "<tr class=\"trcat\"><td></td><td>Teil</td><td>Best&uuml;ckungs<br>Daten</td><td>Anzahl</td><td>Footprint</td><td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Einzelpreis</td><td>Gesamtpreis</td><td>Entfernen</td></tr>\n";
+		print "<tr class=\"trcat\"><td></td><td>Teil</td><td>Best&uuml;ckungs<br>Daten</td><td>Anzahl</td>";
+		if (! $disable_footprints)
+		    print "<td>Footprint</td>";
+		print "<td>Lagernd</td><td>Lagerort</td><td>Lieferant</td><td>Einzelpreis</td><td>Gesamtpreis</td><td>Entfernen</td></tr>\n";
                 
         $query = "SELECT".
             " parts.id,".
@@ -447,7 +455,9 @@
             
             print "<td class=\"tdrow1\"><input type=\"text\" size=\"4\" name=\"quant".$rowcount."\" onkeypress=\"validatePosIntNumber(event)\" value=\"".smart_unescape($data['quantity'])."\"/>". PHP_EOL;
             print "<input type=\"hidden\" size=\"5\"name=\"oldquant".$rowcount."\"  value=\"".smart_unescape($data['quantity'])."\"/></td>". PHP_EOL;
-            print "<td class=\"tdrow1\">".smart_unescape($data['footprint'])."</td>". PHP_EOL;        
+            
+            if (! $disable_footprints)
+                print "<td class=\"tdrow1\">".smart_unescape($data['footprint'])."</td>". PHP_EOL;        
             print "<td ";
             if($data['quantity'] <= $data['instock'])
             {
