@@ -6,14 +6,14 @@
     <link rel="StyleSheet" href="../css/partdb.css" type="text/css">
     <link rel="StyleSheet" href="rechner.css"       type="text/css">
     <script src="rechner.js" type="text/javascript"></script>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 </head>
-<body class="body" onload="reset4ring(); reset6ring();" >
+<body class="body" onload="reset4ring(); reset6ring(); ratio_reset(); resistor_reset()" >
 
 <div class="outer">
     <h2>Widerstandsrechner</h2>
     <div class="inner">
-        <table>
-            <tr>
+        <table><tr>
                 <td>
                     <form id="resistor4ring" name="resistor4ring">
                         <table class="ringtable">
@@ -258,8 +258,67 @@
                         <input type="button" onclick="reset6ring()" value="R&uuml;cksetzten" />
                     </form>
                 </td>
-            </tr>
-        </table>
+        </tr></table>
+    </div>
+</div>
+
+<div class="outer">
+    <h2>Widerstand w&auml;hlen</h2>
+    <div class="inner">
+        <form id="resistor" name="resistor">
+            <p><b>Widerstandsreihe:</b><br/>
+              <span><input type="radio" value="3"   name="resistor_series" onclick="resistor_calculate()" />E3</span>
+              <span><input type="radio" value="6"   name="resistor_series" onclick="resistor_calculate()" />E6</span>
+              <span><input type="radio" value="12"  name="resistor_series" onclick="resistor_calculate()" />E12</span>
+              <span><input type="radio" value="24"  name="resistor_series" onclick="resistor_calculate()" />E24</span>
+              <span><input type="radio" value="48"  name="resistor_series" onclick="resistor_calculate()" />E48</span>
+              <span><input type="radio" value="96"  name="resistor_series" onclick="resistor_calculate()" />E96</span>
+              <span><input type="radio" value="192" name="resistor_series" onclick="resistor_calculate()" />E192</span>
+          </p>
+            <p>Widerstandswert: <input type="text" name="resistor_input" size="10"/></p>
+            <p>Beste Wahl: <span id="resistor_value">?</span><span id="resistor_unit" class="unit">Ohm</span></p>
+            <p>Fehler: <span id="resistor_error">?</span><span class="unit">%</span></p>
+            <p><input type="button" value="Berechne" onclick="resistor_calculate()" /></p>
+        </form>
+    </div>
+</div>
+
+<div class="outer">
+    <h2>Widerstandsverh&auml;ltnis</h2>
+    <div class="inner">
+      <table class="blind"><tr>
+        <td>
+          <img src="rechner/ratio.png" alt="Spannungsteiler"/>
+        </td>
+        <td>
+          <form id="ratio" name="ratio">
+              <p><b>Widerstandsreihe:</b><br/>
+                  <span><input type="radio" value="3"   name="ratio_series" onclick="ratio_calculate()" />E3</span>
+                  <span><input type="radio" value="6"   name="ratio_series" onclick="ratio_calculate()" />E6</span>
+                  <span><input type="radio" value="12"  name="ratio_series" onclick="ratio_calculate()" />E12</span>
+                  <span><input type="radio" value="24"  name="ratio_series" onclick="ratio_calculate()" />E24</span>
+                  <span><input type="radio" value="48"  name="ratio_series" onclick="ratio_calculate()" />E48</span>
+                  <span><input type="radio" value="96"  name="ratio_series" onclick="ratio_calculate()" />E96</span>
+                  <span><input type="radio" value="192" name="ratio_series" onclick="ratio_calculate()" />E192</span>
+              </p>
+              <p><b>Typ:</b><br/>
+                      <span><input type="radio" value="1" name="ratio_type" onclick="ratio_calculate()" />Verh&auml;nis <img src="rechner/v1.png" alt="V=R1/R2"/></span>
+                      <span><input type="radio" value="2" name="ratio_type" onclick="ratio_calculate()" />Spannungsteiler <img src="rechner/v2.png" alt="V=R1/(R1+R2)"/></span>
+              </p>
+              <p>
+                  <b>Verh&auml;ltnis:</b> <input type="text" value="" name="ratio_value" size="10"/> <span><input type="checkbox" name="ratio_reciprocal" onclick="ratio_calculate()"/> Kehrwert</span>
+              </p>
+              <p>
+                  <span>R<sub>1</sub>=<span id="ratio_r1_value">?</span><span id="ratio_r1_unit" class="unit">kOhm</span><br/>
+                  <span>R<sub>2</sub>=<span id="ratio_r2_value">?</span><span id="ratio_r2_unit" class="unit">kOhm</span><br/>
+                  <span>Fehler: <span id="ratio_error">?</span><span id="ratio_error_unit" class="unit">%</span>
+              </p>
+              <p>
+                  <input type="button" value="Berechne" onclick="ratio_calculate()"/>
+              </p>
+          </form>
+        </td>
+      </tr></table>
     </div>
 </div>
 

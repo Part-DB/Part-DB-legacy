@@ -1,5 +1,15 @@
+input[type="radio"], input[type="checkbox"]
+{
+    vertical-align: middle;
+    margin: 0.2em 0.5em 0.2em 0;
+}
+
+img {
+    vertical-align: middle;
+}
+
 .ring_none td:not(:empty) {
-    background-color: none;
+    background-color: transparent;
 }
 
 .ring_silver td:not(:empty) {
@@ -68,15 +78,15 @@
     border-bottom: solid;
 }
 
-.ringtable th, td {
+.ringtable th, .ringtable td {
     border: solid 1px;
     padding: 0.1em 0.3em;
 }
 
-.ringtable td input {
-    margin-right: 0.5em;
-}
-
 .blind, .blind td, .blind th {
     border: none;
+}
+
+#ratio span > input {
+    margin-left: 1em;
 }
