@@ -25,9 +25,8 @@
     $Id: gettn.php 511 2012-08-04 weinbauer73@gmail.com $
 */
 
-    include ("lib.php");
-    partdb_init();
-    
+    require_once ('lib.php');
+
     // Standard height & width
     // The user can set them
     if (!isset($_REQUEST["maxx"]))

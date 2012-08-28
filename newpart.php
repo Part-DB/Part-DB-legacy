@@ -149,16 +149,10 @@
             }
         }
 
+        $html = new HTML;
+        $html -> set_html_meta ( array('title'=>'Neues Teil','util_functions'=>true,'clear_default_text'=>true,'validate'=>true) );
+        $html -> print_html_header();
 
-	$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
-	$tmpl -> setVar('head_title', 'Neues Teil');
-	$tmpl -> setVar('head_charset', $http_charset);
-	$tmpl -> setVar('head_theme', $theme);
-	$tmpl -> setVar('head_css', $css);
-	$tmpl -> setVar('head_util_functions', true);
-	$tmpl -> setVar('head_clear_default_text', true);
-	$tmpl -> setVar('head_validate', true);
-	$tmpl -> pparse();
 ?>
 <div class="outer">
     <h2>Neues Teil in der Kategorie &quot;<?php print category_get_name( $_REQUEST["cid"]); ?>&quot;</h2>
@@ -273,7 +267,6 @@
     </div>
 </div>
 <?php
-	$tmpl = new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
-	$tmpl -> pparse();
+        $html -> print_html_footer();
 ?>
 

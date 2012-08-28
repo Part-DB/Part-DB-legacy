@@ -22,21 +22,19 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: update.php 511 2012-08-12 weinbauer73@gmail.com $
+    $Id: authors.php 511 2012-08-04 weinbauer73@gmail.com $
 */
 
-require_once ('lib.php');
-require_once ('class/update.php');
+	$authors = array();
+	//$authors[]=array('name'=>'K. Jacobs','role'=>'Owner since 2009');
+	$authors[]=array('name'=>'ajfrenzel','role'=>'Committer/Bugfix');
+	$authors[]=array('name'=>'tgrziwa','role'=>'Committer/Bugfix');
+	$authors[]=array('name'=>'d.lipschinski','role'=>'Committer/Bugfix/Neue Funktionen');
+	$authors[]=array('name'=>'Michael Buesch','role'=>'Reichelt/Pollin Preissuch Script');
+	$authors[]=array('name'=>'bubbles.red','role'=>'Committer/Bugfix/Neue Funktionen');
+	$authors[]=array('name'=>'Matthias Weißer','role'=>'EAGLE3D / Bauteile Renderscript (eagle3d.py)');
+	$authors[]=array('name'=>'Urban B.','role'=>'Neue Footprints');
+	$authors[]=array('name'=>'André Althaus','role'=>'Neue Funktionen');
+	$authors[]=array('name'=>'Udo Neist','role'=>'Committer/Templates/Neue Funktionen');
 
-$update =& new update;
-
-// downloading a list of updates from url and get some files
-$update -> download_list( 'ftp://' );
-$update -> download_file( 'part-db_up515.zip' );
-
-// parse an update script
-$update -> check_script(515);
-$update -> load_script('update/update.ups');
-$update -> parse_script();
-if ( ! $update -> get_debug() ) $update -> show_report();
 ?>

@@ -416,26 +416,11 @@
         if( $Format == 0 ) //CSV
         {
 
-            /** edit: 20120716 Udo Neist **/
+            /** edit: 20120828 Udo Neist **/
 
-            $strRetVal = "\r\n";
-            $strRetVal .= "Name:";
-            $strRetVal .= smart_unescape($Spacer);
-            $strRetVal .= "Anzahl:";
-            $strRetVal .= smart_unescape($Spacer);
-            $strRetVal .= "Lieferant:";
-            $strRetVal .= smart_unescape($Spacer);
-            $strRetVal .= "Bestellnummer:";
-            $strRetVal .= smart_unescape($Spacer);
-            $strRetVal .= "Preis:";
-            $strRetVal .= smart_unescape($Spacer);
-            $strRetVal .= "Lagernd:";
-            $strRetVal .= smart_unescape($Spacer);
-            $strRetVal .= "\r\n";
+            return "\r\n".implode(smart_unescape($Spacer),array("Name:","Anzahl:","Lieferant:","Bestellnummer:","Preis:","Lagernd:"))."\r\n";
 
-            /** edit: 20120716 Udo Neist **/
-
-            return $strRetVal;
+            /** edit: 20120828 Udo Neist **/
         }
         else if( $Format == 1 ) //CSV Reichelt
         {
@@ -480,11 +465,11 @@
         }
         else if( $Format == 1 ) //CSV Reichelt
         {
-            return "\r\n".smart_unescape($SupNr).";".smart_unescape($Quantity);
+            return (($SupNr)?"\r\n".smart_unescape($SupNr).";".smart_unescape($Quantity):"");
         }
         else if( $Format == 2 ) //CSV Farnell
         {
-            return "\r\n".smart_unescape($SupNr).",".smart_unescape($Quantity);
+            return (($SupNr)?"\r\n".smart_unescape($SupNr).",".smart_unescape($Quantity):"");
         }
         else
         {
@@ -543,9 +528,8 @@
      */
     function footprint_build_tree( $id = 0, $level = 0, $select = -1, $highlight_no_picture = false)
     {
-        $query  = "SELECT id, name, filename FROM footprints".
-            " WHERE parentnode=". smart_escape( $id).
-            " ORDER BY name ASC;";
+        $query  = "SELECT id, name, filename FROM footprints WHERE parentnode=". smart_escape( $id)." ORDER BY name ASC;";
+	echo "$query<br>";
         $result = mysql_query( $query) or die( mysql_error());
         while ( $data = mysql_fetch_assoc( $result))
         {
@@ -749,21 +733,24 @@
     function suppliers_build_list( $select = -1)
     {
 
-        /** edit: 20120716 Udo Neist **/
+        /** edit: 20120828 Udo Neist **/
 
         $query  = "SELECT id, name FROM suppliers ORDER BY name ASC;";
         $result = mysql_query( $query);
 
         $array = '';
-        while ( $data = mysql_fetch_assoc( $result))
+        while ( $data = mysql_fetch_assoc( $result ))
         {
-            $array[]['selected'] = ($select == $data['id']) ? 'selected': '';
-            $array[]['value'] = smart_unescape($data['id']);
-            $array[]['name'] = smart_unescape($data['name']);
+            $array[] = array(
+			'selected'	=>	(($select == $data['id'])?'selected':''),
+			'value'		=>	smart_unescape($data['id']),
+			'name'		=>	smart_unescape($data['name'])
+		);
         }
+
         return $array;
 
-        /** end: 20120716 Udo Neist **/
+        /** end: 20120828 Udo Neist **/
 
     }
 

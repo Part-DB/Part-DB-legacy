@@ -31,7 +31,8 @@
      * detect and select entries
      * push entries in database
      */
-	require_once ('lib.php');
+
+    require_once ('lib.php');
 
     /* work around for older php: before 5.3.0
     */

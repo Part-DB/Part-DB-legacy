@@ -25,8 +25,8 @@
     $Id: nopriceparts.php 364 2012-02-23 17:11:52Z bubbles.red@gmail.com $
 
 */
-    include ("lib.php");
-    partdb_init();
+
+    require_once ('lib.php');
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"

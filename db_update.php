@@ -258,18 +258,9 @@
         $updateSteps[] = "CREATE TABLE internal (keyName CHAR(30) CHARACTER SET ASCII UNIQUE NOT NULL, keyValue CHAR(30));";
         $updateSteps[] = "INSERT INTO internal SET keyName='dbVersion', keyValue='0';"; // nur beim Anlegen sonst nie nehmen !
         // devices anlegen
-        $updateSteps[] = "CREATE TABLE `devices` (".
-            "`id` int(11) NOT NULL auto_increment,".
-            "`name` mediumtext NOT NULL,".
-            " PRIMARY KEY  (`id`)".
-            ") ENGINE=MyISAM;";
+        $updateSteps[] = "CREATE TABLE `devices` (`id` int(11) NOT NULL auto_increment,`name` mediumtext NOT NULL, PRIMARY KEY  (`id`)) ENGINE=MyISAM;";
         // part_device anlegen
-        $updateSteps[] = "CREATE TABLE `part_device` (".
-            "`id_part` int(11) NOT NULL default '0',".
-            "`id_device` int(11) NOT NULL default '0',".
-            "`quantity` int(11) NOT NULL default '0',".
-            " PRIMARY KEY  (`id_part`)".
-            ") ENGINE=MyISAM;";
+        $updateSteps[] = "CREATE TABLE `part_device` (`id_part` int(11) NOT NULL default '0',`id_device` int(11) NOT NULL default '0',`quantity` int(11) NOT NULL default '0', PRIMARY KEY  (`id_part`)) ENGINE=MyISAM;";
         break;
 
       case 2:

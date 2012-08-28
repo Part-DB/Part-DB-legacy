@@ -29,3 +29,13 @@ Edits
 - html.php angepasst
 - install.sh geändert: Lizenz und Abfrage ob diese akzeptiert wird, Abfrage der Daten zur Installation der Datenbank, backup-Verzeichnis wird für Apache beschreibbar gemacht (root-Rechte erforderlich!)
 - SQL-Script an install.sh angepasst
+
+*** Update zu Revision 513 Version 20120809 ***
+
+- Kleinere Bugfixes im Bezug auf Templates
+- Update-Mechanismus vorbereitet: Klasse pack.php und Script update.php erstellt, erste Version einer Spezifikation
+
+*** Update zu Revision 513 Version 20120809 ***
+
+- update.php: Spezifikation geändert, Interpreter für eine Scriptsprache angedacht (neue config_update.php) (siehe auch http://www.mikrocontroller.net/topic/135284?goto=2788264#2788263)
+- update/update.sh als Hilfstool für die Erstellung der config_update.php neu eingeführt (erste Version; svn diff zur letzten offiziellen Version und Ausgabe als copy-Befehl)

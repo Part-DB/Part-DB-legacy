@@ -25,9 +25,9 @@
     $Id: nopriceparts.php 475 2012-07-02 16:09:22Z kami89@gmx.ch $
 
 */
-    include ("lib.php");
-    partdb_init();
-    
+
+    require_once ('lib.php');
+
     // set action to default, if not exists
     $action = isset( $_REQUEST['action']) ? $_REQUEST['action'] : 'default';
 

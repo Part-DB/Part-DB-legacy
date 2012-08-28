@@ -94,29 +94,155 @@
 					<td class="{TMPL_IF NAME="quantitiy_lt_instock"}tdrow1{TMPL_ELSE}tdrowred{/TMPL_IF}">{TMPL_VAR NAME="instock"}</td>
 					<td class="tdrow1">{TMPL_VAR NAME="location"}</td>
 					<td class="tdrow1">{TMPL_VAR NAME="supplier"}</td>
-					<td class="tdrow1">{TMPL_IF NAME="price"}{TMPL_VAR NAME="price"}{TMPL_ELSE}-.-{/TMPL_IF}&nbsp;{TMPL_VAR NAME="currency" ESCAPE="none"}</td>
-					<td class="tdrow1">{TMPL_IF NAME="price"}{TMPL_VAR NAME="price_x_quantity"}{TMPL_ELSE}-.-{/TMPL_IF}&nbsp;{TMPL_VAR NAME="currency" ESCAPE="none"}</td>
+					<td class="tdrow1">{TMPL_IF NAME="price"}{TMPL_VAR NAME="price"}{TMPL_ELSE}-.-{/TMPL_IF}</td>
+					<td class="tdrow1">{TMPL_IF NAME="price"}{TMPL_VAR NAME="price_x_quantity"}{TMPL_ELSE}-.-{/TMPL_IF}</td>
 					<td class="tdrow1"><input type="checkbox" name="selected{TMPL_VAR NAME="rowcount"}"></td>
 				</tr>
 				{/TMPL_LOOP}
-			</table>
-			<table>
+				{TMPL_IF NAME="obsolete"}
 				<tr class="{TMPL_VAR NAME="tablesum_rowodd"}">
-					{TMPL_IF NAME="obsolete"}
-					<td class="tdrow1"></td>
-					<td class="tdrow1 backred">nicht mehr erhältliche Teile</td>
-					{TMPL_ELSE}
-					<td class="tdrow1" colspan="2"></td>
-					{/TMPL_IF}
-					<td class="tdrow1" colspan="2"><input type="submit" name="devicetableform_update" value="Übernehmen"></td>
-					<td class="tdrow1" colspan="5"></td>
-					<td class="tdrow0">Gesamtpreis:<br>{TMPL_IF NAME="sum_price"}{TMPL_VAR NAME="sum_price"}{TMPL_ELSE}-.-{/TMPL_IF}&nbsp;{TMPL_VAR NAME="currency" ESCAPE="none"}</td>
-					<td class="tdrow1" colspan="3"><input type="submit" name="devicetableform_delete" value="Löschen"></td>
+					<td class="tdrow1 backred" colspan="11">nicht mehr erhältliche Teile</td>
 				</tr>
+				{/TMPL_IF}
 			</table>
+			<br><em>Gesamtpreis:</em>{TMPL_IF NAME="sum_price"}{TMPL_VAR NAME="sum_price"}{TMPL_ELSE}-.-{/TMPL_IF}<br>
+			<br><input type="submit" name="devicetableform_update" value="Übernehmen"> <input type="submit" name="devicetableform_delete" value="Löschen">
 		</form>
 		{TMPL_ELSE}
 		Keine Bauteile zugeordnet.
 		{/TMPL_IF}
+	</div>
+</div>
+
+<div class="outer">
+	<h2>Bauteile Export</h2>
+	<div class="inner">
+		<form method="post" action="">
+		<table>
+			<tr class="trcat">
+				<td><input type="hidden" name="deviceid" value="{TMPL_VAR NAME="deviceid"}"><input type="hidden" name="action"  value="createbom">Lieferant:</td>
+				<td><select name="sup_id"><option {TMPL_IF NAME="sup_id"}selected {/TMPL_IF}value="0">Alle</option>{TMPL_LOOP NAME="sup_build_list"}<option value="{TMPL_VAR NAME="value"}">{TMPL_VAR NAME="name"}</option>{/TMPL_LOOP}</select></td>
+			<tr class="trcat">
+				<td>Format:</td>
+				<td><select name="format">{TMPL_LOOP NAME="printsformats"}{TMPL_VAR NAME="format" ESCAPE="none"}{/TMPL_LOOP}</select></td>
+			</tr>
+			<tr class="trcat">
+				<td>Trennzeichen:</td>
+				<td><input type="text" name="spacer" size="3" value="{TMPL_VAR NAME="spacer"}"></td>
+			</tr>
+			<tr class="trcat">
+				<td>Multiplikator:</td>
+				<td><input type="text" name="multiplikator" size="3" onkeypress="validateNumber(event)" value="{TMPL_VAR NAME="multiplikator"}"></td>
+			</tr>
+			<tr class="trcat">
+				<td>Nur fehlendes Material<br>exportieren:</td>
+				<td><input type="checkbox" name="onlyneeded"{TMPL_IF NAME="onlyneeded"} checked="checked"{/TMPL_IF}></td>
+			</tr>
+			<tr>
+				<td><input type="submit" value="Ausführen"></td>
+			</tr>
+			<tr>
+				<td colspan="4">
+<textarea name="sql_query" rows="{TMPL_VAR NAME="nrows"}" cols="40" dir="ltr" >
+______________________________
+Bestell-Liste:
+{TMPL_VAR NAME="GenerateBOMHeadline"}
+{TMPL_LOOP NAME="orders"}{TMPL_VAR NAME="row"}{/TMPL_LOOP}
+
+</textarea>
+				</td>
+			</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<div class="outer">
+	<h2>Benötigte Teile abfassen</h2>
+	<div class="inner">
+		<form method="post" action="">
+			<table>
+				<tr class="trcat">
+					<td>Multiplikator:</td>
+					<td><input type="text" name="bookmultiplikator" size="3" onkeypress="validateNumber(event)" value="{TMPL_VAR NAME="bookmultiplikator"}"><td>
+				</tr>
+				<tr>
+					<td>
+						<input type="submit" value="Ausführen"{TMPL_IF NAME="deviceid"} disabled="disabled"{/TMPL_IF}>
+						<input type="hidden" name="deviceid" value="{TMPL_VAR NAME="deviceid"}">
+						<input type="hidden" name="action" value="bookparts">
+					</td>
+					{TMPL_IF NAME="bookstate"}
+					<td class="tdtextsmall">
+					{TMPL_IF NAME="bookstate" OP="==" VALUE=2}Keine Teile zum Gerät zugeordnet.
+					{TMPL_ELSEIF NAME="bookstate" OP="==" VALUE=3}<strong>Nicht genug Teile verfügbar.<br>Teil/e:</strong>{TMPL_VAR NAME="bookerrorstring"}
+					{TMPL_ELSEIF NAME="bookstate" OP="==" VALUE=4}Fehler.
+					{/TMPL_IF}
+					</td>
+					{/TMPL_IF}
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<div class="outer">
+	<h2>Bauteile importieren</h2>
+	<div class="inner">
+		<form method="post" action="">
+			<table>
+				<tr class="trcat">
+					<td><textarea name="import_data" rows="{TMPL_VAR NAME="nrows"}" cols="40" dir="ltr"></textarea></td>
+				</tr>
+				<tr>
+					<td>Format: ID;Anzahl;Bestückungsdaten;</td>
+				</tr>
+				<tr>
+					<td>
+						<input type="submit" value="Ausführen">
+						<input type="hidden" name="deviceid" value="{TMPL_VAR NAME="deviceid"}">
+						<input type="hidden" name="action"  value="import">
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+</div>
+
+<div class="outer">
+	<h2>Baugruppe verwalten</h2>
+	<div class="inner">
+	<form method="post" action="">
+		<table>
+			<tr class="trcat">
+				<td>Umbenennen:</td>
+				<td><input type="text" name="newdevname" size="20" maxlength="50" value="{TMPL_VAR NAME="lookup_device_name"}"></td>
+			</tr>
+			<tr>
+				<td>
+					<input type="submit" value="Ausführen">
+					<input type="hidden" name="deviceid" value="{TMPL_VAR NAME="deviceid"}">
+					<input type="hidden" name="action" value="renamedevice">
+				</td>
+			</tr>
+		</table>
+	</form>
+	</div>
+	<div class="inner">
+	<form method="post" action="">
+		<table>
+			<tr class="trcat">
+				<td>Kopieren:</td>
+				<td><input type="text" name="newcopydevname" size="20" maxlength="50" value="Kopie_von_{TMPL_VAR NAME="lookup_device_name"}"></td>
+			</tr>
+			<tr>
+				<td>
+					<input type="submit" value="Ausführen">
+					<input type="hidden" name="deviceid" value="{TMPL_VAR NAME="deviceid"}">
+					<input type="hidden" name="action"  value="copydevice">
+				</td>
+			</tr>
+		</table>
+	</form>
 	</div>
 </div>

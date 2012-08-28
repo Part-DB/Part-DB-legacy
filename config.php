@@ -59,10 +59,13 @@ date_default_timezone_set("Europe/Berlin");
 /* set language */
 define('LANGUAGE','de_DE');
 setlocale(LC_ALL, LANGUAGE);
+/* use this instead of $currency! */
+setlocale(LC_MONETARY, LANGUAGE);
+$currency_format = '%=*^-14#6.2i';
 
 /* set version */
 $conf['version']['author'] = 'Udo Neist';
-$conf['version']['build'] = '20120807';
+$conf['version']['build'] = '20120828';
 $conf['version']['string'] = ' (modified by '.$conf['version']['author'].', Build: '.$conf['version']['build'].')';
 
 /* set system variables, e.g. email of an administrator or master user */
@@ -71,12 +74,12 @@ $conf['sys']['email'] = '';
 /* load database configuration */
 include ('config_db.php');
 
-/* choose your currency */
+/** obsolete! use setlocale(LC_MONETARY, 'de_DE') and $currency_format **/
 $currency  = "&euro;";
 
 /* set your own title here, and prevent it from updates */
 $title = "PART-DB Elektronische Bauteile-Datenbank";
-$startup_title = "Part-DB V0.2.1";
+$startup_title = "Part-DB V0.2.2";
 
 /* disable the update list on the startup page (e.g. for standalone systems without internet)*/
 $disable_update_list = true;

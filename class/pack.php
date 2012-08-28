@@ -22,7 +22,7 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: config_update.php 511 2012-08-04 weinbauer73@gmail.com $
+    $Id: config_update.php 511 2012-08-12 weinbauer73@gmail.com $
 */
 
 class pack
@@ -71,8 +71,9 @@ class pack
 
 		$zip = new ZipArchive();
 		$zip->open($file);
-		$zip->extractTo($path);
+		$error = $zip->extractTo($path);
 		$zip->close();
+		return (($error)?1:0); // Errorcode 1: Archive is corrupt or something else get wrong
 	}
 
 }

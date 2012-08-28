@@ -25,9 +25,8 @@
     $Id: getimage.php 511 2012-08-04 weinbauer73@gmail.com $
 */
 
-    include ("lib.php");
-    partdb_init();
-    
+    require_once ('lib.php');
+
     if (isset($_REQUEST["pid"]))
     {
         $pict_id_query = "SELECT pictures.id FROM pictures WHERE (pictures.part_id=". smart_escape($_REQUEST["pid"]). ") AND (pictures.pict_type='P') ORDER BY pictures.pict_masterpict DESC LIMIT 1;";

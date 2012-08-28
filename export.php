@@ -24,9 +24,8 @@
 
     $Id: export.php 511 2012-08-04 weinbauer73@gmail.com $
 */
-    
-    include ("lib.php");
-    partdb_init();
+
+    require_once ('lib.php');
 
     // database query
 

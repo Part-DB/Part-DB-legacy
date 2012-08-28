@@ -23,6 +23,11 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
     $Id: showdevices.php 511 2012-08-05 weinbauer73@gmail.com $
+
+    Edits:
+
+    20120828 weinbauer73@gmail.com
+	- replacing $currency by money_format()
 */
 
 require_once ('lib.php');
@@ -319,11 +324,51 @@ if ( mysql_num_rows($result) >0 )
 			'quantitiy_lt_instock'	=>	(($data['quantity'] <= $data['instock'])?true:false),
 			'location'		=>	smart_unescape($data['location']),
 			'supplier'		=>	smart_unescape($data['supplier']),
-			'price'			=>	smart_unescape($data['supplier']),
-			'currency'		=>	smart_unescape($data['currency']),
-			'price_x_quantity'	=>	smart_unescape($data['price']*$data['quantity'])
+			'price'			=>	money_format($currency_format,smart_unescape($data['price'])),
+			'price_x_quantity'	=>	money_format($currency_format,smart_unescape($data['price']*$data['quantity']))
 		);
 		$sumprice += $data['price'] * $data['quantity'];
+	}
+}
+
+if ( strcmp( $action, "createbom") == 0 )
+{
+	$query= "SELECT parts.supplierpartnr,part_device.quantity,storeloc.name,suppliers.name as 'supplier',parts.name,parts.instock,preise.price".
+		" FROM parts ".
+		" JOIN (part_device) ON (parts.id = part_device.id_part)".
+		" LEFT JOIN preise ON (preise.part_id = parts.id)".
+		" LEFT JOIN footprints ON (footprints.id = parts.id_footprint)".
+		" LEFT JOIN storeloc ON (storeloc.id = parts.id_storeloc)".
+		" LEFT JOIN suppliers ON (suppliers.id = parts.id_supplier)".
+		" WHERE id_device = ". smart_escape( $deviceid).
+		(( $_REQUEST["sup_id"] != 0) ?" AND parts.id_supplier = ". $sup_id:"").
+		" ORDER BY parts.id_category,parts.name ASC;";
+	$result = mysql_query ($query);
+	$nrows = mysql_num_rows($result)+6;
+	
+	$orderrows = array();
+	$order = 1;
+	while ( $row = mysql_fetch_assoc ($result) )
+	{
+		if(isset($_REQUEST["onlyneeded"]))
+		{
+			$quant = smart_unescape($d['quantity']) * $_REQUEST["multiplikator"];
+			 //Check if instock is greater
+			if( $quant > $row['instock'] )
+			{
+				$quant = $quant - $row['instock'];
+				$order = 1;
+			}
+			else
+			{
+				$order = 0;
+			}
+		}
+
+		if ( $order )
+		{
+			$orderrows[]['row'] = GenerateBOMResult($_REQUEST["format"],$_REQUEST["spacer"],$row['name'],$row['supplierpartnr'],$row['supplier'],$quant,$row['instock'],money_format($currency_format,$row['price']));
+		}
 	}
 }
 
@@ -335,232 +380,25 @@ $array = array(
 	'refreshnav'		=>	$refreshnav,
 	'table'			=>	$table1,
 	'sum_rowodd'		=>	((is_odd($rowcount))?'trlist_odd':'trlist_even'),
-	'sum_price'		=>	$sumprice,
-	'currency'		=>	$currency,
+	'sum_price'		=>	money_format($currency_format,$sumprice),
 	'obsolete'		=>	$obsolete,
-	'nrofparts'		=>	$rowcount
+	'nrofparts'		=>	$rowcount,
+	'sup_id'		=>	isset($_REQUEST["sup_id"]),
+	'sup_build_list'	=>	suppliers_build_list( $sup_id ),
+	'printsformats'		=>	PrintsFormats("format"),
+	'spacer'		=>	((strcmp( $action, "createbom" ))?";":$_REQUEST["spacer"]),
+	'multiplikator'		=>	((strcmp( $action, "createbom" ))?1:$_REQUEST["multiplikator"]),
+	'onlyneeded'		=>	(strcmp( $action, "createbom" ) || isset($_REQUEST["onlyneeded"])),
+	'nrows'			=>	$nrows,
+	'GenerateBOMHeadline'	=>	GenerateBOMHeadline($_REQUEST["format"],$_REQUEST["spacer"]),
+	'orders'		=>	$orderrows,
+	'bookmultiplikator'	=>	((strcmp( $action, "bookparts" ))?1:$_REQUEST["bookmultiplikator"]),
+	'notallinstock'		=>	$notallinstock,
+	'bookstate'		=>	$bookstate,
+	'bookerrorstring'	=>	$bookerrorstring,
 );
 
 $html -> parse_html_template( 'showdevices', $array );
 
-?>
-
-<div class="outer">
-    <h2>Bauteile Export</h2>
-    <div class="inner">
-        <form method="post" action="">
-            <table>
-            <?php
-            print "<tr class=\"trcat\"><td><input type=\"hidden\" name=\"deviceid\" value=\"". $deviceid ."\"/>";
-            print "<input type=\"hidden\" name=\"action\"  value=\"createbom\"/>";
-
-            print "Lieferant:</td><td><select name=\"sup_id\">";
-            print (! isset($_REQUEST["sup_id"])) ? "<option selected value=\"0\">Alle</option>" : "<option value=\"0\">Alle</option>";
-
-            suppliers_build_list( $sup_id);
-            print "</select>";
-            print "<tr class=\"trcat\"><td>";
-            print "Format:</td><td><select name=\"format\">";
-            PrintsFormats("format");
-            print "</select>";
-            print "</td></tr><tr class=\"trcat\"><td>";
-            print "Trennzeichen:</td><td><input type=\"text\" name=\"spacer\" size=\"3\" value=\"";
-            if ( strcmp( $action, "createbom"))
-                print ";";
-            else
-                print $_REQUEST["spacer"];
-            print "\"/></td></tr>";
-
-            print "<tr class=\"trcat\"><td>Multiplikator:</td><td><input type=\"text\" name=\"multiplikator\" size=\"3\" onkeypress=\"validateNumber(event)\" value=\"";
-            print strcmp( $action, "createbom") ? "1" : $_REQUEST["multiplikator"];
-            print "\"/></tr>";
-            ?>
-
-
-            </td>
-            </tr>
-            <tr class="trcat">
-                <td>Nur fehlendes Material<br>exportieren:</td>
-                <td><input type="checkbox" name="onlyneeded"
-                <?php
-            if ( strcmp( $action, "createbom"))
-            {
-                print "checked=\"checked\"";
-            }
-            else
-            {
-                if(isset($_REQUEST["onlyneeded"]))
-                    print "checked=\"checked\"";
-            }
-            print "\"></tr></td>";
-            print "<tr><td><input type=\"submit\" value=\"Ausführen\"/></tr></td>";
-
-            print "<tr><td colspan=\"4\">";
-
-            if ( strcmp( $action, "createbom") == 0 )
-            {
-
-                $query = "SELECT".
-                    " parts.supplierpartnr,".
-                    " part_device.quantity,".
-                    " storeloc.name,".
-                    " suppliers.name,".
-                    " parts.name,".
-                    " parts.instock,".
-                    " preise.price".
-                    " FROM parts".
-                    " JOIN (part_device) ON (parts.id = part_device.id_part)".
-                    " LEFT JOIN preise ON (preise.part_id = parts.id)".
-                    " LEFT JOIN footprints ON (footprints.id = parts.id_footprint)".
-                    " LEFT JOIN storeloc ON (storeloc.id = parts.id_storeloc)".
-                    " LEFT JOIN suppliers ON (suppliers.id = parts.id_supplier)".
-                    " WHERE id_device = ". smart_escape( $deviceid);
-                    if( $_REQUEST["sup_id"] != 0)
-                    {
-                        $query = $query ." AND parts.id_supplier = ". $sup_id;
-                    }
-                    $query = $query ." ORDER BY parts.id_category,parts.name ASC;";
-
-                $result = mysql_query ($query);
-                $nrows = mysql_num_rows($result)+6;
-
-                print "<textarea name=\"sql_query\" rows=\"".$nrows."\" cols=\"40\" dir=\"ltr\" >";
-                print "______________________________\r\n";
-                print "Bestell-Liste:\r\n";
-                print GenerateBOMHeadline($_REQUEST["format"],$_REQUEST["spacer"]);
-                while ( $d = mysql_fetch_row ($result) )
-                {
-                    $order = 1;
-                    $orderstring = "";
-                    //print partnr.
-                    $orderstring = $orderstring.smart_unescape($d[0]);
-                    //print spacer
-                    $orderstring = $orderstring.$_REQUEST["spacer"];
-                    //print quantity
-                    $quant = (smart_unescape($d[1])*$_REQUEST["multiplikator"]);
-                    if(isset($_REQUEST["onlyneeded"]))
-                    {
-                        if( $quant > $d[5]) //Check if instock is greater
-                        {
-                            $quant = ($quant-$d[5]);
-                        }
-                        else
-                        {
-                            $order = 0;
-                        }
-                    }
-
-                    if($order)
-                        print GenerateBOMResult($_REQUEST["format"],$_REQUEST["spacer"],$d[4],$d[0],$d[3],$quant,$d[5],$d[6]);
-                }
-                print "</textarea>";
-            }
-            ?>
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-</div>
-
-
-<div class="outer">
-    <h2>Benötigte Teile abfassen</h2>
-    <div class="inner">
-        <form method="post" action="">
-            <table>
-                <tr class="trcat">
-                    <td>Multiplikator:</td>
-                    <td><input type="text" name="bookmultiplikator" size="3" onkeypress="validateNumber(event)" value="<?php print strcmp( $action, "bookparts") ?  "1" : $_REQUEST["bookmultiplikator"]; ?>"><td>
-                </tr>
-                <tr>
-                    <td>
-                       <input type="submit" value="Ausführen" <?php print $notallinstock ? "disabled=\"disabled\"" : ""; ?>>
-                       <input type="hidden" name="deviceid" value="<?php print $deviceid; ?>">
-                       <input type="hidden" name="action" value="bookparts">
-                    </td>
-                <?php
-                if($bookstate > 1)  //success
-                {
-                	print "<td class=\"tdtextsmall\">";
-                	if($bookstate == 2) {//no parts in device
-                    		print "Keine Teile zum Ger&auml;t zugeordnet.";
-                	} else if($bookstate == 3) {    //not enough parts in stock
-                    		print "<b>Nicht genug Teile verfügbar.<br>Teil/e:</b>" . $bookerrorstring;
-                	} else if($bookstate == 4) {   //querry error
-                    		print "Fehler.";
-                	}
-			print "</td>";
-                }
-                ?>
-                </tr>
-            </table>
-        </form>
-    </div>
-</div>
-
-
-<div class="outer">
-    <h2>Bauteile importieren</h2>
-    <div class="inner">
-        <form method="post" action="">
-            <table>
-                <tr class="trcat">
-                    <td><textarea name="import_data" rows="<?php print $nrows; ?>" cols="40" dir="ltr"></textarea></td>
-                </tr>
-                <tr>
-                    <td>Format: ID;Anzahl;Bestückungsdaten;</td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="submit" value="Ausführen">
-                        <input type="hidden" name="deviceid" value="<?php print $deviceid; ?>">
-                        <input type="hidden" name="action"  value="import">
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-</div>
-
-
-<div class="outer">
-    <h2>Baugruppe verwalten</h2>
-    <div class="inner">
-        <form method="post" action="">
-            <table>
-                <tr class="trcat">
-                    <td>Umbenennen:</td>
-                    <td><input type="text" name="newdevname" size="20" maxlength="50" value="<?php print lookup_device_name( $deviceid); ?>"></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="submit" value="Ausführen">
-                        <input type="hidden" name="deviceid" value="<?php print $deviceid; ?>">
-                        <input type="hidden" name="action" value="renamedevice">
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-    <div class="inner">
-        <form method="post" action="">
-            <table>
-                <tr class="trcat">
-                    <td>Kopieren:</td>
-                    <td><input type="text" name="newcopydevname" size="20" maxlength="50" value="<?php print "Kopie_von_". lookup_device_name( $deviceid)?>"></td>
-                </tr>
-                <tr>
-                    <td>
-                        <input type="submit" value="Ausführen">
-                        <input type="hidden" name="deviceid" value="<?php print $deviceid; ?>">
-                        <input type="hidden" name="action"  value="copydevice">
-                    </td>
-                </tr>
-            </table>
-        </form>
-    </div>
-</div>
-<?php
 $html -> print_html_footer();
 ?>

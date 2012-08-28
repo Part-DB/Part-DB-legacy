@@ -1,0 +1,10 @@
+log :: update to revision xxx
+copy :: authors.php
+chmod :: authors.php 0755
+#chmod :: update 0775
+mkdir :: tmp 0775
+rmdir :: tmp
+critical :: false
+sql :: part-db_update_rev12.sql
+critical :: true
+sql :: part-db_update_rev12.sql
