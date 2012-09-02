@@ -96,7 +96,7 @@ while [ "$1" != "" ]; do
             svn add * --force
             echo -e "- committing..."
             shift
-            svn commit $1
+            svn commit -m "$1"
             svn up
             ;;
         --ups)
