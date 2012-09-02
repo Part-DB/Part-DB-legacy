@@ -23,12 +23,18 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
     $Id: update.php 511 2012-08-12 weinbauer73@gmail.com $
+
+    Edits:
+
+    2012-08-29 weinbauer73@gmail.com
+    - move class update to namespace system/interpreter
 */
 
 require_once ('lib.php');
-require_once ('class/update.php');
+require_once ('class/interpreter.php');
 
-$update =& new update;
+$update =& new system\interpreter;
+// $update -> set_hash('sha256'); -> default!
 
 // downloading a list of updates from url and get some files
 $update -> download_list( 'ftp://' );

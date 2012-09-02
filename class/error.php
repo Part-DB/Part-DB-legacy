@@ -29,172 +29,172 @@
 class _exception
 {
 
-	function __construct ()
-	{
-	
-		/*
-		*	Tests of available classes
-		*/
-	
-		$classes = array('vlibTemplate','vlibMimeMail');
-		$text = array();
-		foreach ($classes as $class) if (class_exists($class)===false) $text[]=$class;
-		if (count($text)>0) $this -> throw_class_error($text,basename(__FILE__));
+    function __construct ()
+    {
 
-	}
-	
-	function __destruct()
-	{
-		foreach ($this as $key => $value) {
-			unset($this->$key);
-		}
-	}
+        /*
+        *   Tests of available classes
+        */
 
-	function throw_class_error ( $e, $script )
-	{
+        $classes = array('vlibTemplate','vlibMimeMail');
+        $text = array();
+        foreach ($classes as $class) if (class_exists($class)===false) $text[]=$class;
+        if (count($text)>0) $this -> throw_class_error($text,basename(__FILE__));
 
-		/*
-		*	Shows class loading error
-		*
-		*	Variables: $e (array) with error code(s), $script as filename
-		*/
+    }
 
-		settype($e,'array');
-		settype($script,'string');
+    function __destruct()
+    {
+        foreach ($this as $key => $value) {
+            unset($this->$key);
+        }
+    }
 
-		$array=array('Error in script <em>"'.$script.'"</em>:');
-		foreach($e as $key => $value) {
-			$e[$key]='Class <em">"'.$value.'"</em> doesn`t exists, not loadable or faulty.';
-		}
-		$this -> throw_error(array_merge($array,$e),'Nothing to do :-(');
-	}
-	
-	function throw_function_error ( $e, $script )
-	{
+    function throw_class_error ( $e, $script )
+    {
 
-		/*
-		*	Shows function loading error
-		*
-		*	Variables: $e (array) with error code(s), $script as filename
-		*/
+        /*
+        *   Shows class loading error
+        *
+        *   Variables: $e (array) with error code(s), $script as filename
+        */
 
-		settype($e,'array');
-		settype($script,'string');
+        settype($e,'array');
+        settype($script,'string');
 
-		$array=array('Error in script <em>"'.$script.'"</em>:');
-		foreach($e as $key => $value) {
-			$e[$key]='Function <em">"'.$value.'"</em> doesn`t exists, not loadable or faulty.';
-		}
-		$this -> throw_error(array_merge($array,$e),'Nothing to do :-(');
-	}
-	
-	function throw_error ( $title = '', $e='', $variable )
-	{
+        $array=array('Error in script <em>"'.$script.'"</em>:');
+        foreach($e as $key => $value) {
+            $e[$key]='Class <em">"'.$value.'"</em> doesn`t exists, not loadable or faulty.';
+        }
+        $this -> throw_error(array_merge($array,$e),'Nothing to do :-(');
+    }
 
-		/*
-		*	Shows error
-		*
-		*	Variables: $title contains the headline, $e (string oder array) error code(s) and $variable the used variables
-		*/
+    function throw_function_error ( $e, $script )
+    {
 
-		global $theme, $title;
+        /*
+        *   Shows function loading error
+        *
+        *   Variables: $e (array) with error code(s), $script as filename
+        */
 
-		settype($e,'array');
+        settype($e,'array');
+        settype($script,'string');
 
-		$this -> header();
+        $array=array('Error in script <em>"'.$script.'"</em>:');
+        foreach($e as $key => $value) {
+            $e[$key]='Function <em">"'.$value.'"</em> doesn`t exists, not loadable or faulty.';
+        }
+        $this -> throw_error(array_merge($array,$e),'Nothing to do :-(');
+    }
 
-		// loading template
-		$tmpl =& new vlibTemplate(BASE."/templates/$theme/vlib_error.tmpl");
-		$tmpl -> setVar('title',$title);
-		if (is_array($e)) {
-			if (strlen($e['SQL'])>0 && strlen($e['SQLError'])>0) {
-				$tmpl -> setVar('line',$e['line']);
-				$tmpl -> setVar('class',$e['class']);
-				$tmpl -> setVar('SQL',$e['SQL']);
-				$tmpl -> setVar('SQLError',$e['SQLError']);
-			}else{
-				$tmpl -> setVar('error',$e[0]);
-				if ( is_array($variable) && count($variable)>0 )
-				{
-					$tmpl -> newloop('variables');
-					foreach ($variable as $key=>$value) $tmpl -> addRow(array('key'=>$key,'value'=>$value));
-					$tmpl -> addLoop();
-				}
-				else
-				{
-					$tmpl -> setVar('var_dump',$variable);
-				}
-				$tmpl -> newloop('loop');
-				for ($i=1;$i<count($e);$i++) $tmpl -> addRow(array('Errors'=>$e[$i]));
-				$tmpl -> addLoop();
-			}
-		}elseif (strlen($e)>0) {
-				$tmpl -> setVar('error',$e);
-		}
-		$error = $tmpl->grab();
-		// shows error
-		echo $error;
-		// mail to...
-//		if ($conf['sys']['debug']=='true' && $this -> mail($error)) echo '<br>Die Fehlermeldung wurde einem Administrator automatisch zugesendet.';
-	
-		$this -> footer();
+    function throw_error ( $title = '', $e='', $variable )
+    {
 
-		exit;
-	}
-	
-	private function header ()
-	{
+        /*
+        *   Shows error
+        *
+        *   Variables: $title contains the headline, $e (string oder array) error code(s) and $variable the used variables
+        */
 
-		/*
-		*	Prints header of site
-		*/
+        global $theme, $title;
 
-		global $http_charset, $theme, $title;
+        settype($e,'array');
 
-		if ( headers_sent() ) return;
+        $this -> header();
 
-		$tmpl =& new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
-		$tmpl -> setVar('head_title', $title);
-		$tmpl -> setVar('head_charset', $http_charset);
-		$tmpl -> setVar('head_theme', $theme);
-		$tmpl->pparse();
+        // loading template
+        $tmpl =& new vlibTemplate(BASE."/templates/$theme/vlib_error.tmpl");
+        $tmpl -> setVar('title',$title);
+        if (is_array($e)) {
+            if (strlen($e['SQL'])>0 && strlen($e['SQLError'])>0) {
+                $tmpl -> setVar('line',$e['line']);
+                $tmpl -> setVar('class',$e['class']);
+                $tmpl -> setVar('SQL',$e['SQL']);
+                $tmpl -> setVar('SQLError',$e['SQLError']);
+            }else{
+                $tmpl -> setVar('error',$e[0]);
+                if ( is_array($variable) && count($variable)>0 )
+                {
+                    $tmpl -> newloop('variables');
+                    foreach ($variable as $key=>$value) $tmpl -> addRow(array('key'=>$key,'value'=>$value));
+                    $tmpl -> addLoop();
+                }
+                else
+                {
+                    $tmpl -> setVar('var_dump',$variable);
+                }
+                $tmpl -> newloop('loop');
+                for ($i=1;$i<count($e);$i++) $tmpl -> addRow(array('Errors'=>$e[$i]));
+                $tmpl -> addLoop();
+            }
+        }elseif (strlen($e)>0) {
+                $tmpl -> setVar('error',$e);
+        }
+        $error = $tmpl->grab();
+        // shows error
+        echo $error;
+        // mail to...
+//      if ($conf['sys']['debug']=='true' && $this -> mail($error)) echo '<br>Die Fehlermeldung wurde einem Administrator automatisch zugesendet.';
 
-	}
-	
-	private function footer ()
-	{
+        $this -> footer();
 
-		global $theme;
+        exit;
+    }
 
-		$tmpl =& new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
-		$tmpl->pparse();
+    private function header ()
+    {
 
-	}
-	
-	private function mail ( $body='' )
-	{
-		/*
-		*	Mail to admin or master user
-		*/
+        /*
+        *   Prints header of site
+        */
 
-/*		global $conf;
-	
-		$mail =& new vlibMimeMail;
-		// Mail-From setzen
-		$mail->from($conf['sys']['email'],'Chemikalienverwaltung');
-		// Mail-To setzen
-		$mail->to($conf['sys']['email'],'Chemikalienverwaltung');
-		// Subject
-		$mail -> subject('ChemDB - Fehlermeldung vom Rechner '.$_SERVER['REMOTE_ADDR'].(($_SESSION['chem_var']['username'])?' / Angemeldeter User: '.$_SESSION['chem_var']['username']:''));
-	
-		$tmplbody = "<tmpl><body><strong>Chemikalienverwaltung: Fehlermeldung</strong><br>".$body."Mfg.<br>Chemikalienverwaltung</body></tmpl>";
-		$mail->tmplbody(utf8_decode($tmplbody));
-	
-		// Setze die Priorität auf Hoch
-		$mail->priority(2);
-		// Versenden
-		return $mail -> send();*/
-	}
+        global $http_charset, $theme, $title;
+
+        if ( headers_sent() ) return;
+
+        $tmpl =& new vlibTemplate(BASE."/templates/$theme/vlib_head.tmpl");
+        $tmpl -> setVar('head_title', $title);
+        $tmpl -> setVar('head_charset', $http_charset);
+        $tmpl -> setVar('head_theme', $theme);
+        $tmpl->pparse();
+
+    }
+
+    private function footer ()
+    {
+
+        global $theme;
+
+        $tmpl =& new vlibTemplate(BASE."/templates/$theme/vlib_foot.tmpl");
+        $tmpl->pparse();
+
+    }
+
+    private function mail ( $body='' )
+    {
+        /*
+        *   Mail to admin or master user
+        */
+
+/*      global $conf;
+
+        $mail =& new vlibMimeMail;
+        // Mail-From setzen
+        $mail->from($conf['sys']['email'],'Chemikalienverwaltung');
+        // Mail-To setzen
+        $mail->to($conf['sys']['email'],'Chemikalienverwaltung');
+        // Subject
+        $mail -> subject('ChemDB - Fehlermeldung vom Rechner '.$_SERVER['REMOTE_ADDR'].(($_SESSION['chem_var']['username'])?' / Angemeldeter User: '.$_SESSION['chem_var']['username']:''));
+
+        $tmplbody = "<tmpl><body><strong>Chemikalienverwaltung: Fehlermeldung</strong><br>".$body."Mfg.<br>Chemikalienverwaltung</body></tmpl>";
+        $mail->tmplbody(utf8_decode($tmplbody));
+
+        // Setze die Priorität auf Hoch
+        $mail->priority(2);
+        // Versenden
+        return $mail -> send();*/
+    }
 
 }
 

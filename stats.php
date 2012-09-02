@@ -29,33 +29,33 @@ require_once ('lib.php');
 
 function count_dir_entries($dir)
 {
-	$count = 0;
-	$handle = opendir($dir) ;
-	while ($entry = readdir($handle))
-	{
-		if ($entry != "." && $entry != ".." && $entry != ".svn")
-		{
-			if (is_dir( $dir.$entry))
-			{
-				$count += count_dir_entries($dir.$entry.'/');
-			}
-			else
-			{
-				$count++;
-			}
-		}
-	}
-	closedir( $handle );
-	return( $count );
+    $count = 0;
+    $handle = opendir($dir) ;
+    while ($entry = readdir($handle))
+    {
+        if ($entry != "." && $entry != ".." && $entry != ".svn")
+        {
+            if (is_dir( $dir.$entry))
+            {
+                $count += count_dir_entries($dir.$entry.'/');
+            }
+            else
+            {
+                $count++;
+            }
+        }
+    }
+    closedir( $handle );
+    return( $count );
 }
 
 function count_files($dir)
 {
-	$count=0;
-	$dh  = opendir($dir);
-	while (false !== ($filename = readdir($dh))) if (!is_dir($filename)) $count++;
-	closedir($dh);
-	return $count;
+    $count=0;
+    $dh  = opendir($dir);
+    while (false !== ($filename = readdir($dh))) if (!is_dir($filename)) $count++;
+    closedir($dh);
+    return $count;
 }
 
 $html = new HTML;
@@ -63,20 +63,20 @@ $html -> set_html_meta ( array('title'=>'Statistik') );
 $html -> print_html_header();
 
 $array = array (
-	'parts_count_sum_value' => parts_count_sum_value(),
-	'currency'		=> $currency,
-	'parts_count_with_prices'=> parts_count_with_prices(),
-	'parts_count'=> parts_count(),
-	'parts_count_sum_instock'=> parts_count_sum_instock(),
-	'categories_count'=> categories_count(),
-	'footprint_count'=> footprint_count(),
-	'location_count'=> location_count(),
-	'suppliers_count'=> suppliers_count(),
-	'devices_count'=> ((!$disable_devices)?devices_count():false),
-	'images_count'=>$countimages,
-	'count_footprints'=>count_dir_entries('tools/footprints/'),
-	'count_images'=>count_files('img/'),
-	'count_iclogos'=>count_files('tools/iclogos/')
+    'parts_count_sum_value' => parts_count_sum_value(),
+    'currency'      => $currency,
+    'parts_count_with_prices'=> parts_count_with_prices(),
+    'parts_count'=> parts_count(),
+    'parts_count_sum_instock'=> parts_count_sum_instock(),
+    'categories_count'=> categories_count(),
+    'footprint_count'=> footprint_count(),
+    'location_count'=> location_count(),
+    'suppliers_count'=> suppliers_count(),
+    'devices_count'=> ((!$disable_devices)?devices_count():false),
+    'images_count'=>$countimages,
+    'count_footprints'=>count_dir_entries('tools/footprints/'),
+    'count_images'=>count_files('img/'),
+    'count_iclogos'=>count_files('tools/iclogos/')
 );
 
 $html -> parse_html_template( 'stats', $array );

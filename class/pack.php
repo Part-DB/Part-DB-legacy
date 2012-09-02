@@ -28,53 +28,53 @@
 class pack
 {
 
-	function __construct ()
-	{
-		/* check for loaded classes */
-		$e =& new _exception;
+    function __construct ()
+    {
+        /* check for loaded classes */
+        $e =& new _exception;
 
-		$classes = array('ZipArchive');
-		$text = array();
-		foreach ($classes as $class) if (class_exists($class)===false) $text[]=$class;
-		if (count($text)>0) $e -> throw_class_error($text,basename(__FILE__));
-	}
+        $classes = array('ZipArchive');
+        $text = array();
+        foreach ($classes as $class) if (class_exists($class)===false) $text[]=$class;
+        if (count($text)>0) $e -> throw_class_error($text,basename(__FILE__));
+    }
 
-	function __destruct()
-	{
-		foreach ($this as $key => $value) {
-			unset($this->$key);
-		}
-	}
+    function __destruct()
+    {
+        foreach ($this as $key => $value) {
+            unset($this->$key);
+        }
+    }
 
-	function zip ( $file = '', $files = array() )
-	{
+    function zip ( $file = '', $files = array() )
+    {
 
-		if ( strlen($file) == 0 || count ($files) == 0 ) return 2; // Errorcode 2: File(s) not found
+        if ( strlen($file) == 0 || count ($files) == 0 ) return 2; // Errorcode 2: File(s) not found
 
-		$zip = new ZipArchive();
-		
-		if ($zip->open($file, ZIPARCHIVE::CREATE)!==TRUE) return 4; // Errorcode 4: File not createable
+        $zip = new ZipArchive();
 
-		foreach ( $files as $file2zip )
-		{
-			$zip->addFile($file2zip);
-		}
-		$array = array( 'count' => $zip->numFiles, 'status' => $zip->status );
-		$zip->close();
-		return $array;
-	}
+        if ($zip->open($file, ZIPARCHIVE::CREATE)!==TRUE) return 4; // Errorcode 4: File not createable
 
-	function unzip ( $file = '', $path = '' )
-	{
+        foreach ( $files as $file2zip )
+        {
+            $zip->addFile($file2zip);
+        }
+        $array = array( 'count' => $zip->numFiles, 'status' => $zip->status );
+        $zip->close();
+        return $array;
+    }
 
-		if ( strlen($file) == 0 || !is_readable($file) || !is_dir($path) ) return 2; // Errorcode 2: File or directory not found
+    function unzip ( $file = '', $path = '' )
+    {
 
-		$zip = new ZipArchive();
-		$zip->open($file);
-		$error = $zip->extractTo($path);
-		$zip->close();
-		return (($error)?1:0); // Errorcode 1: Archive is corrupt or something else get wrong
-	}
+        if ( strlen($file) == 0 || !is_readable($file) || !is_dir($path) ) return 2; // Errorcode 2: File or directory not found
+
+        $zip = new ZipArchive();
+        $zip->open($file);
+        $error = $zip->extractTo($path);
+        $zip->close();
+        return (($error)?1:0); // Errorcode 1: Archive is corrupt or something else get wrong
+    }
 
 }
 

@@ -24,6 +24,12 @@
 
     $Id: lib.php 511 2012-08-05 weinbauer73@gmail.com $
 
+    Edits:
+
+    20120828 weinbauer73@gmail.com
+    - check if function strfmon() exists
+
+    ------------------------------------------------------------------------------
     this file contain the following functions:
 
     debug_print
@@ -154,11 +160,94 @@
     require_once ('config.php');
 
     function __autoload($classname) {
-	if ( $classname == '_exception' ) $classname = 'error';
+    if ( $classname == '_exception' ) $classname = 'error';
         include_once(strtolower($classname).".php");
     }
 
     partdb_init();
+
+    if ( ! function_exists('money_format') ) {
+    function money_format($format, $number)
+    {
+        /* http://www.php.net/manual/de/function.money-format.php#89060 */
+        $regex  = '/%((?:[\^!\-]|\+|\(|\=.)*)([0-9]+)?(?:#([0-9]+))?(?:\.([0-9]+))?([in%])/';
+        if (setlocale(LC_MONETARY, 0) == 'C') { setlocale(LC_MONETARY, ''); }
+        $locale = localeconv();
+        preg_match_all($regex, $format, $matches, PREG_SET_ORDER);
+        foreach ($matches as $fmatch)
+        {
+            $value = floatval($number);
+            $flags = array(
+                'fillchar'  => preg_match('/\=(.)/', $fmatch[1], $match) ? $match[1] : ' ',
+                'nogroup'   => preg_match('/\^/', $fmatch[1]) > 0, 
+                'usesignal' => preg_match('/\+|\(/', $fmatch[1], $match) ? $match[0] : '+',
+                'nosimbol'  => preg_match('/\!/', $fmatch[1]) > 0,
+                'isleft'    => preg_match('/\-/', $fmatch[1]) > 0
+            );
+            $width      = trim($fmatch[2]) ? (int)$fmatch[2] : 0;
+            $left       = trim($fmatch[3]) ? (int)$fmatch[3] : 0;
+            $right      = trim($fmatch[4]) ? (int)$fmatch[4] : $locale['int_frac_digits'];
+            $conversion = $fmatch[5];
+
+            $positive = true;
+            if ($value < 0)
+            {
+                $positive = false;
+                $value  *= -1;
+            }
+            $letter = $positive ? 'p' : 'n';
+    
+            $prefix = $suffix = $cprefix = $csuffix = $signal = '';
+    
+            $signal = $positive ? $locale['positive_sign'] : $locale['negative_sign'];
+            switch (true)
+            {
+                case $locale["{$letter}_sign_posn"] == 1 && $flags['usesignal'] == '+':
+                    $prefix = $signal;
+                break;
+                case $locale["{$letter}_sign_posn"] == 2 && $flags['usesignal'] == '+':
+                    $suffix = $signal;
+                break;
+                case $locale["{$letter}_sign_posn"] == 3 && $flags['usesignal'] == '+':
+                    $cprefix = $signal;
+                break;
+                case $locale["{$letter}_sign_posn"] == 4 && $flags['usesignal'] == '+':
+                    $csuffix = $signal;
+                break;
+                case $flags['usesignal'] == '(':
+                case $locale["{$letter}_sign_posn"] == 0:
+                    $prefix = '(';
+                    $suffix = ')';
+                break;
+            }
+            $currency =  ((!$flags['nosimbol'])? $cprefix . ($conversion == 'i' ? $locale['int_curr_symbol'] : $locale['currency_symbol']) . $csuffix: '');
+            $space  = $locale["{$letter}_sep_by_space"] ? ' ' : '';
+            $value = number_format($value, $right, $locale['mon_decimal_point'],$flags['nogroup'] ? '' : $locale['mon_thousands_sep']);
+            $value = @explode($locale['mon_decimal_point'], $value);
+    
+            $n = strlen($prefix) + strlen($currency) + strlen($value[0]);
+            if ($left > 0 && $left > $n)
+            {
+                $value[0] = str_repeat($flags['fillchar'], $left - $n) . $value[0];
+            }
+            $value = implode($locale['mon_decimal_point'], $value);
+            if ($locale["{$letter}_cs_precedes"])
+            {
+                $value = $prefix . $currency . $space . $value . $suffix;
+            }
+            else
+            {
+                $value = $prefix . $value . $space . $currency . $suffix;
+            }
+            if ($width > 0)
+            {
+                $value = str_pad($value, $width, $flags['fillchar'], $flags['isleft'] ? STR_PAD_RIGHT : STR_PAD_LEFT);
+            }
+            $format = str_replace($fmatch[0], $value, $format);
+        }
+        return $format;
+    }
+    }
 
     /*
      * debug_print is used for printing the SQL queries
@@ -344,29 +433,29 @@
     function print_table_row( $row_odd, $data, $hide_mininstock = false)
     {
 
-	$ds_data = mysql_fetch_assoc( datasheet_select( $data['id']));
-	$array = array (
-		'new_category'			=>	false,
-		'row_odd'			=>	$row_odd,
-		'print_table_image'		=>	print_table_image($data['id'], $data['name'], $data['footprint_filename']),
-		'obsolete'			=>	$data['obsolete'],
-		'comment'			=>	htmlspecialchars(smart_unescape($data['comment'])),
-		'id'				=>	smart_unescape($data['id']),
-		'name'				=>	smart_unescape($data['name']),
-		'description'			=>	smart_unescape($data['description']),
-		'hide_ministock'		=>	$hide_mininstock,
-		'mininstock'			=>	smart_unescape($data['mininstock']),
-		'instock'			=>	smart_unescape($data['instock']),
-		'footprint'			=>	smart_unescape($data['footprint']),
-		'location'			=>	smart_unescape($data['location']),
-		'part_get_footprint_path'	=>	part_get_footprint_path($data['id_footprint']),
-		'part_get_location_path'	=>	part_get_location_path($data['id_storeloc']),
-		'urlenc_name'			=>	urlencode( smart_unescape($data['name'])),
-		'urlenc_searchfor'		=>	urlencode( smart_unescape(((strlen($data['supplierpartnr']) > 0)?$data['supplierpartnr']:$data['name']))),
-		'local_datasheet'		=>	((!empty($ds_data['datasheeturl']))?smart_unescape($ds_data['datasheeturl']):''),
-	);
+    $ds_data = mysql_fetch_assoc( datasheet_select( $data['id']));
+    $array = array (
+        'new_category'          =>  false,
+        'row_odd'           =>  $row_odd,
+        'print_table_image'     =>  print_table_image($data['id'], $data['name'], $data['footprint_filename']),
+        'obsolete'          =>  $data['obsolete'],
+        'comment'           =>  htmlspecialchars(smart_unescape($data['comment'])),
+        'id'                =>  smart_unescape($data['id']),
+        'name'              =>  smart_unescape($data['name']),
+        'description'           =>  smart_unescape($data['description']),
+        'hide_ministock'        =>  $hide_mininstock,
+        'mininstock'            =>  smart_unescape($data['mininstock']),
+        'instock'           =>  smart_unescape($data['instock']),
+        'footprint'         =>  smart_unescape($data['footprint']),
+        'location'          =>  smart_unescape($data['location']),
+        'part_get_footprint_path'   =>  part_get_footprint_path($data['id_footprint']),
+        'part_get_location_path'    =>  part_get_location_path($data['id_storeloc']),
+        'urlenc_name'           =>  urlencode( smart_unescape($data['name'])),
+        'urlenc_searchfor'      =>  urlencode( smart_unescape(((strlen($data['supplierpartnr']) > 0)?$data['supplierpartnr']:$data['name']))),
+        'local_datasheet'       =>  ((!empty($ds_data['datasheeturl']))?smart_unescape($ds_data['datasheeturl']):''),
+    );
 
-	return $array;
+    return $array;
 
     }
 
@@ -505,7 +594,7 @@
 
         global $conf;
 
-	if ( function_exists('shell_exec') )
+    if ( function_exists('shell_exec') )
         {
             $repo_version = shell_exec('svnversion');
         }
@@ -529,7 +618,7 @@
     function footprint_build_tree( $id = 0, $level = 0, $select = -1, $highlight_no_picture = false)
     {
         $query  = "SELECT id, name, filename FROM footprints WHERE parentnode=". smart_escape( $id)." ORDER BY name ASC;";
-	echo "$query<br>";
+    echo "$query<br>";
         $result = mysql_query( $query) or die( mysql_error());
         while ( $data = mysql_fetch_assoc( $result))
         {
@@ -742,10 +831,10 @@
         while ( $data = mysql_fetch_assoc( $result ))
         {
             $array[] = array(
-			'selected'	=>	(($select == $data['id'])?'selected':''),
-			'value'		=>	smart_unescape($data['id']),
-			'name'		=>	smart_unescape($data['name'])
-		);
+            'selected'  =>  (($select == $data['id'])?'selected':''),
+            'value'     =>  smart_unescape($data['id']),
+            'name'      =>  smart_unescape($data['name'])
+        );
         }
 
         return $array;

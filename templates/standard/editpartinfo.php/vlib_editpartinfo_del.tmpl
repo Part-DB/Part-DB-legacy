@@ -1,42 +1,42 @@
 <div style="text-align:center;">
-	<table class="table">
-		<tr>
-			<td class="tdtop">
+    <table class="table">
+        <tr>
+            <td class="tdtop">
 {TMPL_IF NAME="del_part"}
-				<div style="color:red;">Möchten Sie das Bauteil &quot;{TMPL_VAR NAME="part_get_name"}&quot; wirklich löschen?
-			</td>
-		</tr>
-		<tr>
-			<td class="tdtext">
-				<form action="" method="post"><input type="hidden" name="pid" value="". $pid ."">
-				<table>
-					<tr><td>Der Löschvorgang ist irreversibel!</td></tr>
-            			<tr><td></td></tr>
-            			<tr><td><input type="hidden" name="action" value="part_del"><input type="submit" name="del_nok" value="Nicht Löschen!"><input type="submit" name="del_ok" value="Löschen!"></td></tr>
-            		</table>
-				</form>
+                <div style="color:red;">Möchten Sie das Bauteil &quot;{TMPL_VAR NAME="part_get_name"}&quot; wirklich löschen?
+            </td>
+        </tr>
+        <tr>
+            <td class="tdtext">
+                <form action="" method="post"><input type="hidden" name="pid" value="". $pid ."">
+                <table>
+                    <tr><td>Der Löschvorgang ist irreversibel!</td></tr>
+                        <tr><td></td></tr>
+                        <tr><td><input type="hidden" name="action" value="part_del"><input type="submit" name="del_nok" value="Nicht Löschen!"><input type="submit" name="del_ok" value="Löschen!"></td></tr>
+                    </table>
+                </form>
 {TMPL_ELSE}
-				<div style="color:red">Möchten Sie das ausgewählte Bild/die ausgewählen Bilder wirklich löschen?</div>
-			</td>
-		</tr>
-		<tr>
-			<td class="tdtext">
-				<table>
-					<tr><td>Der Löschvorgang ist irreversibel!</td></tr>
-                		<tr>
-						<td>
-							<form action="" method="post">
-							<input type="hidden" name="pid" value="{TMPL_VAR NAME="pid"}"><input type="hidden" name="action" value="img_mgr">
-							{TMPL_LOOP NAME="img_del_id_array"}
-							<input type="hidden" name="del_img[]" value="{TMPL_VAR NAME="image"}">
-							{/TMPL_LOOP}
-                    			<input type="submit" name="del_nok" value="Nicht Löschen!"><input type="submit" name="del_ok" value="Löschen!">
-							</form>
-						</td>
-					</tr>
-				</table>
+                <div style="color:red">Möchten Sie das ausgewählte Bild/die ausgewählen Bilder wirklich löschen?</div>
+            </td>
+        </tr>
+        <tr>
+            <td class="tdtext">
+                <table>
+                    <tr><td>Der Löschvorgang ist irreversibel!</td></tr>
+                        <tr>
+                        <td>
+                            <form action="" method="post">
+                            <input type="hidden" name="pid" value="{TMPL_VAR NAME="pid"}"><input type="hidden" name="action" value="img_mgr">
+                            {TMPL_LOOP NAME="img_del_id_array"}
+                            <input type="hidden" name="del_img[]" value="{TMPL_VAR NAME="image"}">
+                            {/TMPL_LOOP}
+                                <input type="submit" name="del_nok" value="Nicht Löschen!"><input type="submit" name="del_ok" value="Löschen!">
+                            </form>
+                        </td>
+                    </tr>
+                </table>
 {/TMPL_IF}
-			</td>
-		</tr>
-	</table>
+            </td>
+        </tr>
+    </table>
 </div>

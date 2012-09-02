@@ -68,7 +68,7 @@
         while( $dbrow = mysql_fetch_object( $result))
         {
             $xmlrow = $XMLDoc->addChild( "part");
-     
+
             foreach( $dbrow as $column => $value)
             {
                 $xmlrow->$column = utf8_encode( $value);
@@ -80,27 +80,27 @@
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $dom->loadXML( $XMLDoc->asXML());
-     
+
         // output
         header("Content-Type: text/xml; charset=utf-8");
         header("Content-disposition: attachment; filename=\"". $filename .".xml\"");
         header("Pragma: no-cache");
         print $dom->saveXML();
     }
-    
+
 
     if (( $action == "output") && ( $format == 'CSV'))
     {
 
         // header
         $CSVDoc = "# Kategorie; Name; Beschreibung; Anzahl; Footprint; Lagerort; Lieferant; Bestellnummer; Kommentar\n";
-     
+
         //  catch SQL results, form CSV output 
         while( $dbrow = mysql_fetch_row( $result))
         {
             $CSVDoc .= implode( ";", $dbrow) . "\n";
         }
-     
+
 
         // output
         header("Content-Type: text/x-csv");
@@ -116,7 +116,7 @@
 
         // header
         $CSVDoc = "^ Kategorie^ Name^ Beschreibung^ Anzahl^ Footprint^ Lagerort^ Lieferant^ Bestellnummer^ Kommentar^ \n|";
-     
+
         //  catch SQL results, form DokuWIKI (CSV) output 
         while( $dbrow = mysql_fetch_row( $result))
         {
@@ -137,13 +137,13 @@
 
         // header
         $CSVDoc = "# Name; Footprint; Lagerort;\n";
-     
+
         //  catch SQL results, form DokuWIKI (CSV) output 
         while( $dbrow = mysql_fetch_assoc( $result))
         {
             $CSVDoc .= $dbrow['name'] ."; ". $dbrow['footprint'] ."; ". $dbrow['location'] ."\n"; 
         }
-     
+
 
         // output
         header("Content-Type: text/plain");

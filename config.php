@@ -61,11 +61,17 @@ define('LANGUAGE','de_DE');
 setlocale(LC_ALL, LANGUAGE);
 /* use this instead of $currency! */
 setlocale(LC_MONETARY, LANGUAGE);
-$currency_format = '%=*^-14#6.2i';
+$currency_format = array(
+    'de_DE'=>'%=*^-14#6.2i',
+    'en_US'=>'%i',
+    'en_GB'=>'%i',
+    'it_IT'=>'%.2n'
+);
+$currency_format = $currency_format[LANGUAGE];
 
 /* set version */
 $conf['version']['author'] = 'Udo Neist';
-$conf['version']['build'] = '20120828';
+$conf['version']['build'] = '20120829';
 $conf['version']['string'] = ' (modified by '.$conf['version']['author'].', Build: '.$conf['version']['build'].')';
 
 /* set system variables, e.g. email of an administrator or master user */

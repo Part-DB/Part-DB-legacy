@@ -35,7 +35,7 @@ $deviceid     = ( isset( $_REQUEST['deviceid)']) ? $_REQUEST['deviceid'] : '');
 
 if ( strcmp( $action, "an") == 0) //add number of parts
 {
-	parts_stock_increase( $_REQUEST["pid"], $_REQUEST["toadd"]);
+    parts_stock_increase( $_REQUEST["pid"], $_REQUEST["toadd"]);
 }
 
 $html = new HTML;
@@ -47,56 +47,56 @@ $rowcount = 0;
 $loop = array();
 while ($data = mysql_fetch_assoc($result))
 {
-	$rowcount++;
-	$loop[]['even_odd'] = is_odd($rowcount);
-	$loop[]['tdrow0'] = print_table_image( $data['id'], $data['name'], $data['footprint_filename']);
-	$loop[]['id'] = smart_unescape($data['id']);
-	$loop[]['name'] = smart_unescape($data['name']);
-	$loop[]['footprint'] = smart_unescape($data['footprint']);
-	$loop[]['diff'] = smart_unescape($data['diff']);
-	$loop[]['supplier'] = smart_unescape($data['supplier']);
-	$loop[]['supplierpartnr'] = smart_unescape($data['supplierpartnr']);
-	$loop[]['loc'] = smart_unescape($data['loc']);
+    $rowcount++;
+    $loop[]['even_odd'] = is_odd($rowcount);
+    $loop[]['tdrow0'] = print_table_image( $data['id'], $data['name'], $data['footprint_filename']);
+    $loop[]['id'] = smart_unescape($data['id']);
+    $loop[]['name'] = smart_unescape($data['name']);
+    $loop[]['footprint'] = smart_unescape($data['footprint']);
+    $loop[]['diff'] = smart_unescape($data['diff']);
+    $loop[]['supplier'] = smart_unescape($data['supplier']);
+    $loop[]['supplierpartnr'] = smart_unescape($data['supplierpartnr']);
+    $loop[]['loc'] = smart_unescape($data['loc']);
 }
 
 $orders_sum = parts_order_sum($sup_id);
 
 $array = array (
-	'selected' => ((isset($_REQUEST["sup_id"]))?false:true),
-	'suppliers_build_list' => suppliers_build_list($sup_id),
-	'category_get_name' => category_get_name($cid),
-	'currency' => $currency,
-	'order_value' => (($orders_sum>0)?$orders_sum:' - '),
-	'loop1' => $loop,
-	'loop2' => PrintsFormats("format"),
-	'deviceid' => $deviceid,
-	'spacer' => ((strcmp ($action, "createbom"))?";":$_REQUEST["spacer"])
+    'selected' => ((isset($_REQUEST["sup_id"]))?false:true),
+    'suppliers_build_list' => suppliers_build_list($sup_id),
+    'category_get_name' => category_get_name($cid),
+    'currency' => $currency,
+    'order_value' => (($orders_sum>0)?$orders_sum:' - '),
+    'loop1' => $loop,
+    'loop2' => PrintsFormats("format"),
+    'deviceid' => $deviceid,
+    'spacer' => ((strcmp ($action, "createbom"))?";":$_REQUEST["spacer"])
 );
 
 if ( strcmp($action, "createbom") == 0 )
 {
-	$result = parts_select_order($sup_id);
-	$loop=array();
-	while ( $data = mysql_fetch_assoc( $result))
-	{
-		$loop[]['GenerateBOMResult']=GenerateBOMResult(
-					$_REQUEST["format"],     //$Format
-					$_REQUEST["spacer"],     //$Spacer
-					$data['name'],           //$PartName
-					$data['supplierpartnr'], //$SupNr
-					$data['supplier'],       //$SupName
-					$data['diff'],           //$Quantity
-					$data['instock'],        //$Instock
-					$data['price']           //$Price
-					);
-	}
-	$array = array_merge($array,array(
-		'createbom'		=>	true,
-		'nrows'			=>	mysql_num_rows($result) + 6,
-		'GenerateBOMHeadline'	=>	GenerateBOMHeadline( $_REQUEST["format"], $_REQUEST["spacer"] ),
-		'loop3'			=>	$loop
-		)
-	);
+    $result = parts_select_order($sup_id);
+    $loop=array();
+    while ( $data = mysql_fetch_assoc( $result))
+    {
+        $loop[]['GenerateBOMResult']=GenerateBOMResult(
+                    $_REQUEST["format"],     //$Format
+                    $_REQUEST["spacer"],     //$Spacer
+                    $data['name'],           //$PartName
+                    $data['supplierpartnr'], //$SupNr
+                    $data['supplier'],       //$SupName
+                    $data['diff'],           //$Quantity
+                    $data['instock'],        //$Instock
+                    $data['price']           //$Price
+                    );
+    }
+    $array = array_merge($array,array(
+        'createbom'     =>  true,
+        'nrows'         =>  mysql_num_rows($result) + 6,
+        'GenerateBOMHeadline'   =>  GenerateBOMHeadline( $_REQUEST["format"], $_REQUEST["spacer"] ),
+        'loop3'         =>  $loop
+        )
+    );
 }
 
 $html -> parse_html_template( 'orderparts', $array );

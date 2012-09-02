@@ -78,7 +78,7 @@ if (!defined('vlibIniClassLoaded')) {
                                                                    // your template. You then use the function: getParseTime().
 
                         'ENABLE_PHPINCLUDE' => '1',                // Will allow template to include a php file using <TMPL_PHPINCLUDE>
-                        
+
                         'ENABLE_SHORTTAGS'  => '0',                // Will allow you to use short tags in your script i.e.: <VAR name="my_var">, <LOOP name="my_loop">...</LOOP>
 
 
@@ -120,10 +120,10 @@ if (!defined('vlibIniClassLoaded')) {
 
                         'ENCLOSE_FIELDS_WITH'   =>   '', // i.e., enclose with ` will give you `search_field` LIKE ... Leave Empty for nothing
 
-                        'DEFAULT_SEPERATOR'     => 	 'OR', // default clause seperator, can have 'AND' or 'OR'
+                        'DEFAULT_SEPERATOR'     =>   'OR', // default clause seperator, can have 'AND' or 'OR'
 
-                   		// list of words that are not used in search
-                        'STOP_WORDS'			=> 	 'a all an and are as at be but by can for from had have he her his in is it may not of on or that the there this to was where which will with you your'
+                        // list of words that are not used in search
+                        'STOP_WORDS'            =>   'a all an and are as at be but by can for from had have he her his in is it may not of on or that the there this to was where which will with you your'
                     );
 
         }// << end function vlibSearchToSQL

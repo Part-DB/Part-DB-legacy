@@ -20,7 +20,7 @@ if (!defined('vlibSearchToSQLClassLoaded')) {
      * vlibSearchToSQL is a class used to turn a boolean text
      * string, i.e., "+cats -dogs" or "cats NOT dogs".. into a
      * fully qualified SQL where clause, i.e.,
-     * 	"field1 LIKE '%cats%' AND field1 NOT LIKE '%dogs%'".
+     *  "field1 LIKE '%cats%' AND field1 NOT LIKE '%dogs%'".
      *
      * @since 13/02/2003
      * @author Kelvin Jones <kelvin@kelvinjones.co.uk>
@@ -41,13 +41,13 @@ if (!defined('vlibSearchToSQLClassLoaded')) {
                         'ALLOW_WILDCARDS'       => '',
                         'ENCLOSE_FIELDS_WITH'   => '',
                         'DEFAULT_SEPERATOR'     => '',
-                        'STOP_WORDS'			=> ''
+                        'STOP_WORDS'            => ''
                              );
 
-		var $stop_words = '';
-		var $escapechars = "\0\r\n\t\\";
-		var $words_stopped = array();
-		var $words_too_short = array();
+        var $stop_words = '';
+        var $escapechars = "\0\r\n\t\\";
+        var $words_stopped = array();
+        var $words_too_short = array();
 
 
         /**
@@ -59,7 +59,7 @@ if (!defined('vlibSearchToSQLClassLoaded')) {
          * @return boolean true/false
          * @access private
          */
-		function vlibSearchToSQL ($options=null) {
+        function vlibSearchToSQL ($options=null) {
 
             if (is_array(vlibIni::vlibSearchToSQL())) {
                 foreach (vlibIni::vlibSearchToSQL() as $name => $val) {
@@ -69,20 +69,20 @@ if (!defined('vlibSearchToSQLClassLoaded')) {
 
             if (is_array($options)) {
                 foreach($options as $key => $val) {
-                	if (strtoupper($key) == 'STOP_WORDS') {
-                		$this->OPTIONS['STOP_WORDS'] .= ' '.$val;
-                	}
-                	else {
-                    	$this->OPTIONS[strtoupper($key)] = $val;
+                    if (strtoupper($key) == 'STOP_WORDS') {
+                        $this->OPTIONS['STOP_WORDS'] .= ' '.$val;
+                    }
+                    else {
+                        $this->OPTIONS[strtoupper($key)] = $val;
                     }
                 }
             }
 
-			$this->stop_words = str_replace(' ', '|', $this->OPTIONS['STOP_WORDS']);
-			if (!$this->OPTIONS['allow_wildcards']) $this->escapechars .= '%_';
+            $this->stop_words = str_replace(' ', '|', $this->OPTIONS['STOP_WORDS']);
+            if (!$this->OPTIONS['allow_wildcards']) $this->escapechars .= '%_';
 
-			return true;
-		}
+            return true;
+        }
 
 
         /**
@@ -94,89 +94,89 @@ if (!defined('vlibSearchToSQLClassLoaded')) {
          * @return boolean true/false
          * @access private
          */
-		function convert ($fields, $str) {
-			$this->reset(); // reset vars before we start, in case a search was done previous to this.
+        function convert ($fields, $str) {
+            $this->reset(); // reset vars before we start, in case a search was done previous to this.
 
-			// run regex against search string
-			$rgx = "/
-					\s*
-					(AND|OR|NOT|\+|\-|\|\||\!)? # any inclusion exclusion identifier
-					\s*
-					([\"\']?) # first quote
-					\s*
-					((?<=[\"\']) # if last one was a quote
-						[^\"\']+ # search for any non quote
-					| # else
-						[^\s]+ # search for a word
-					) # endif
-					\s*
-					([\"\']?) # second quote
-				/ix";
+            // run regex against search string
+            $rgx = "/
+                    \s*
+                    (AND|OR|NOT|\+|\-|\|\||\!)? # any inclusion exclusion identifier
+                    \s*
+                    ([\"\']?) # first quote
+                    \s*
+                    ((?<=[\"\']) # if last one was a quote
+                        [^\"\']+ # search for any non quote
+                    | # else
+                        [^\s]+ # search for a word
+                    ) # endif
+                    \s*
+                    ([\"\']?) # second quote
+                /ix";
 
-			preg_match_all($rgx, $str, $matches, PREG_SET_ORDER);
+            preg_match_all($rgx, $str, $matches, PREG_SET_ORDER);
 
-			$words_used = array();
+            $words_used = array();
 
-			// convert matches to readable SQL
-			$sql = '';
-			foreach ($matches as $m) {
+            // convert matches to readable SQL
+            $sql = '';
+            foreach ($matches as $m) {
 
-				if (strlen($m[3]) < $this->OPTIONS['MIN_WORD_LENGTH']) { // word to short
-					array_push($this->words_too_short, $m[3]);
-					continue;
-				}
-				if (in_array(strtolower($m[3]), $words_used)) { // word duplicated
-					continue;
-				}
-				if (preg_match('/^('.$this->stop_words.')$/i', $m[3]) && $m[1] != '+') { // stop word
-					array_push($this->words_stopped, $m[3]);
-					continue;
-				}
+                if (strlen($m[3]) < $this->OPTIONS['MIN_WORD_LENGTH']) { // word to short
+                    array_push($this->words_too_short, $m[3]);
+                    continue;
+                }
+                if (in_array(strtolower($m[3]), $words_used)) { // word duplicated
+                    continue;
+                }
+                if (preg_match('/^('.$this->stop_words.')$/i', $m[3]) && $m[1] != '+') { // stop word
+                    array_push($this->words_stopped, $m[3]);
+                    continue;
+                }
 
-				$preclause = null;
-				$clause = null;
-				switch (strtoupper($m[1])) {
-					case 'AND':
-					case '+':
-						if ($sql) $preclause = ' AND ';
-						$clause = ' LIKE ';
-						break;
+                $preclause = null;
+                $clause = null;
+                switch (strtoupper($m[1])) {
+                    case 'AND':
+                    case '+':
+                        if ($sql) $preclause = ' AND ';
+                        $clause = ' LIKE ';
+                        break;
 
-					case 'OR':
-					case '||':
-						if ($sql) $preclause = ' OR ';
-						$clause = ' LIKE ';
-						break;
+                    case 'OR':
+                    case '||':
+                        if ($sql) $preclause = ' OR ';
+                        $clause = ' LIKE ';
+                        break;
 
-					case 'NOT':
-					case '-':
-						if ($sql) $preclause = ' AND ';
-						$clause = ' IS NOT LIKE ';
-						break;
+                    case 'NOT':
+                    case '-':
+                        if ($sql) $preclause = ' AND ';
+                        $clause = ' IS NOT LIKE ';
+                        break;
 
-					default:
-						if ($sql) $preclause = ' '.$this->OPTIONS['DEFAULT_SEPERATOR'].' ';
-						$clause = ' LIKE ';
-						break;
-				}
+                    default:
+                        if ($sql) $preclause = ' '.$this->OPTIONS['DEFAULT_SEPERATOR'].' ';
+                        $clause = ' LIKE ';
+                        break;
+                }
 
-				$sql .= $preclause.'$fieldname$'.$clause.'\'%'.addcslashes($m[3], $this->escapechars).'%\'';
+                $sql .= $preclause.'$fieldname$'.$clause.'\'%'.addcslashes($m[3], $this->escapechars).'%\'';
 
-				$words_used[] = strtolower($m[3]);
-			}
+                $words_used[] = strtolower($m[3]);
+            }
 
-			// loop through Db fields, creating identical SQL for each
-			$where_clauses = array();
-			foreach ($fields as $f) {
-				if ($this->OPTIONS['ENCLOSE_FIELDS_WITH']) {
-					$f = $this->OPTIONS['ENCLOSE_FIELDS_WITH'] . $f . $this->OPTIONS['ENCLOSE_FIELDS_WITH'];
-				}
-				$where_clauses[] = '('.str_replace('$fieldname$', $f, $sql).')';
-			}
+            // loop through Db fields, creating identical SQL for each
+            $where_clauses = array();
+            foreach ($fields as $f) {
+                if ($this->OPTIONS['ENCLOSE_FIELDS_WITH']) {
+                    $f = $this->OPTIONS['ENCLOSE_FIELDS_WITH'] . $f . $this->OPTIONS['ENCLOSE_FIELDS_WITH'];
+                }
+                $where_clauses[] = '('.str_replace('$fieldname$', $f, $sql).')';
+            }
 
 
-			return '('.implode(' OR ', $where_clauses).')';
-		}
+            return '('.implode(' OR ', $where_clauses).')';
+        }
 
 
         /**
@@ -188,9 +188,9 @@ if (!defined('vlibSearchToSQLClassLoaded')) {
          * @return array
          * @access public
          */
-		function getStoppedWords () {
-			return $this->words_stopped;
-		}
+        function getStoppedWords () {
+            return $this->words_stopped;
+        }
 
         /**
          * FUNCTION: getShortWords
@@ -201,9 +201,9 @@ if (!defined('vlibSearchToSQLClassLoaded')) {
          * @return array
          * @access public
          */
-		function getShortWords () {
-			return $this->words_too_short;
-		}
+        function getShortWords () {
+            return $this->words_too_short;
+        }
 
         /**
          * FUNCTION: reset
@@ -213,11 +213,11 @@ if (!defined('vlibSearchToSQLClassLoaded')) {
          * @return true
          * @access public
          */
-		function reset () {
-			$this->words_stopped = array();
-			$this->words_too_short = array();
-		}
+        function reset () {
+            $this->words_stopped = array();
+            $this->words_too_short = array();
+        }
 
-	} // end of class
+    } // end of class
 }// end of if (defined)
 ?>

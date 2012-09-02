@@ -493,10 +493,10 @@ if (!defined('vlibMimeMailClassLoaded')) {
             // if yes...
             if ($encode) {
 
-				$this->fullBody = "This is a multi-part message in MIME format.\n\n";
-				$this->fullBody .= '--'.$this->boundary."\nContent-Type: multipart/alternative;\n\tboundary=\"".$this->boundary_alt."\"\n\n\n";
-				$body_boundary = $this->boundary_alt;
-				$this->xheaders['Content-Type'] = "multipart/mixed;\n\tboundary=\"".$this->boundary.'"';
+                $this->fullBody = "This is a multi-part message in MIME format.\n\n";
+                $this->fullBody .= '--'.$this->boundary."\nContent-Type: multipart/alternative;\n\tboundary=\"".$this->boundary_alt."\"\n\n\n";
+                $body_boundary = $this->boundary_alt;
+                $this->xheaders['Content-Type'] = "multipart/mixed;\n\tboundary=\"".$this->boundary.'"';
 
                 if (!empty($this->body)) {
                     $this->fullBody .= '--'.$body_boundary."\nContent-Type: text/plain; charset=".$this->charset."\nContent-Transfer-Encoding: ".$this->ctencoding."\n\n".$this->body."\n\n";
@@ -505,7 +505,7 @@ if (!defined('vlibMimeMailClassLoaded')) {
                     $this->fullBody .= '--'.$body_boundary."\nContent-Type: text/html; charset=".$this->charset."\nContent-Transfer-Encoding: ".$this->ctencoding."\n\n".$this->htmlbody."\n\n";
                 }
 
-               	$this->fullBody .= '--'.$body_boundary."--\n\n";
+                $this->fullBody .= '--'.$body_boundary."--\n\n";
 
                 if (!empty($this->attachments)) {
                     $this->_build_attachments();
@@ -542,31 +542,31 @@ if (!defined('vlibMimeMailClassLoaded')) {
                 $disposition = $this->dispositions[$i];
                 $contentID = $this->contentIDs[$i];
                 if (preg_match('/^[a-zA-Z]+:\/\//', $filename)) { // figure out if local or remote
-                	$upart = parse_url($filename);
-                	$newfilename = $upart['scheme'].'://';
-                	if (!empty($upart['user'])) $newfilename .= $upart['user'].':'.$upart['pass'].'@';
-                	$newfilename .= $upart['host'];
-                	if (!empty($upart['port'])) $newfilename .= ':'.$upart['port'];
-                	$newfilename .= '/';
-                	if (!empty($upart['path'])) {
-                		$upart['path'] = substr($upart['path'], 1);
-                		$newpath = explode('/', $upart['path']);
-                		for($i=0; $i<count($newpath); $i++) $newpath[$i] = rawurlencode($newpath[$i]);
-                		$newfilename .= implode('/',$newpath);
-                	}
-                	if (!empty($upart['query'])) $newfilename .= '?'.urlencode($upart['query']);
-                	if (!empty($upart['fragment'])) $newfilename .= ':'.$upart['fragment'];
+                    $upart = parse_url($filename);
+                    $newfilename = $upart['scheme'].'://';
+                    if (!empty($upart['user'])) $newfilename .= $upart['user'].':'.$upart['pass'].'@';
+                    $newfilename .= $upart['host'];
+                    if (!empty($upart['port'])) $newfilename .= ':'.$upart['port'];
+                    $newfilename .= '/';
+                    if (!empty($upart['path'])) {
+                        $upart['path'] = substr($upart['path'], 1);
+                        $newpath = explode('/', $upart['path']);
+                        for($i=0; $i<count($newpath); $i++) $newpath[$i] = rawurlencode($newpath[$i]);
+                        $newfilename .= implode('/',$newpath);
+                    }
+                    if (!empty($upart['query'])) $newfilename .= '?'.urlencode($upart['query']);
+                    if (!empty($upart['fragment'])) $newfilename .= ':'.$upart['fragment'];
 
-	                $fp = fopen($newfilename, 'rb');
-	                while(!feof($fp)) $data .= fread($fp,1024);
-	            }
-	            else {
-	                if(!file_exists($filename)) {
-	                    vlibMimeMailError::raiseError('VM_ERROR_NOFILE', FATAL, $filename);
-	                }
-	                $fp = fopen($filename, 'rb');
-	                $data = fread($fp, filesize($filename));
-	            }
+                    $fp = fopen($newfilename, 'rb');
+                    while(!feof($fp)) $data .= fread($fp,1024);
+                }
+                else {
+                    if(!file_exists($filename)) {
+                        vlibMimeMailError::raiseError('VM_ERROR_NOFILE', FATAL, $filename);
+                    }
+                    $fp = fopen($filename, 'rb');
+                    $data = fread($fp, filesize($filename));
+                }
                 $subhdr = '--'.$this->boundary."\nContent-type: ".$mimetype.";\n\tname=\"".$basename."\"\nContent-Transfer-Encoding: base64\nContent-Disposition: ".$disposition.";\n\tfilename=\"".$basename."\"\n";
                 if ($contentID) $subhdr .= 'Content-ID: <'.$contentID.">\n";
                 $ata[$k++] = $subhdr;

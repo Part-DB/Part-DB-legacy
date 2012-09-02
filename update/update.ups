@@ -1,5 +1,5 @@
 log :: update to revision xxx
-copy :: authors.php
+copy :: authors.php 7288ab7ae43396f73e3109466d4ab6da2843056e6e3ec8ab959dc870d6984406
 chmod :: authors.php 0755
 #chmod :: update 0775
 mkdir :: tmp 0775

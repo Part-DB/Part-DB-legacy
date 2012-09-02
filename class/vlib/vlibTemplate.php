@@ -547,7 +547,7 @@ if (!defined('vlibTemplateClassLoaded')) {
          * @access public
          */
         function getLoop ($loopname=null) {
-        	if (!$loopname) $loopname = end($this->_currloopname);
+            if (!$loopname) $loopname = end($this->_currloopname);
 
             if (!isset($this->_currloop[$loopname]) || empty($this->_currloopname)) {
                 vlibTemplateError::raiseError('VT_WARNING_LOOP_NOT_SET',WARNING);
@@ -556,7 +556,7 @@ if (!defined('vlibTemplateClassLoaded')) {
 
             $loop = $this->_currloop[$loopname];
             unset($this->_currloopname[$loopname], $this->_currloop[$loopname]);
-			return $loop;
+            return $loop;
         }
 
         /**
@@ -1100,7 +1100,7 @@ if (!defined('vlibTemplateClassLoaded')) {
                     $retstr .= "['".$this->_namespace[$i]."'][\$_".$i."]";
                 }
             }
-            
+
             if ($this->OPTIONS['GLOBAL_VARS'] && empty($namespace)) {
                 return '(('.$retstr.'[\''.$varname.'\'] !== null) ? '.$retstr.'[\''.$varname.'\'] : $this->_vars[\''.$varname.'\'])'.$comp_str;
             }
@@ -1237,7 +1237,7 @@ if (!defined('vlibTemplateClassLoaded')) {
             $file = preg_replace($regex, "'.\$this->_vars['\\1'].'", $file);
             return $file;
         }
-        
+
 
         /**
          * FUNCTION: _parseTag
@@ -1277,17 +1277,17 @@ if (!defined('vlibTemplateClassLoaded')) {
             if (isset($name)) {
                 $var = ($this->OPTIONS['CASELESS']) ? strtolower($name) : $name;
 
-	            if ($this->_debug && !empty($var)) {
-	                if (preg_match("/^global\.([A-Za-z_]+[_A-Za-z0-9]*)$/", $var, $matches)) $var2 = $matches[1];
-	                if (empty($this->_debugTemplatevars[$tag])) $this->_debugTemplatevars[$tag] = array();
-	                if (!isset($var2)) $var2 = $var;
-	                if (!in_array($var2, $this->_debugTemplatevars[$tag])) array_push($this->_debugTemplatevars[$tag], $var2);
-	            }
+                if ($this->_debug && !empty($var)) {
+                    if (preg_match("/^global\.([A-Za-z_]+[_A-Za-z0-9]*)$/", $var, $matches)) $var2 = $matches[1];
+                    if (empty($this->_debugTemplatevars[$tag])) $this->_debugTemplatevars[$tag] = array();
+                    if (!isset($var2)) $var2 = $var;
+                    if (!in_array($var2, $this->_debugTemplatevars[$tag])) array_push($this->_debugTemplatevars[$tag], $var2);
+                }
 
-	            if (preg_match("/^([A-Za-z_]+[_A-Za-z0-9]*(\.)+)?([A-Za-z_]+[_A-Za-z0-9]*)$/", $var, $matches)) {
-	                $var = $matches[3];
-	                $namespace = $matches[1];
-	            }
+                if (preg_match("/^([A-Za-z_]+[_A-Za-z0-9]*(\.)+)?([A-Za-z_]+[_A-Za-z0-9]*)$/", $var, $matches)) {
+                    $var = $matches[3];
+                    $namespace = $matches[1];
+                }
             }
 
 
@@ -1326,8 +1326,8 @@ if (!defined('vlibTemplateClassLoaded')) {
                 break;
 
                 case 'phpinclude':
-                	if ($this->OPTIONS['ENABLE_PHPINCLUDE']) {
-                    	return '<?php include(\''.$file.'\'); ?>';
+                    if ($this->OPTIONS['ENABLE_PHPINCLUDE']) {
+                        return '<?php include(\''.$file.'\'); ?>';
                     }
                 break;
 

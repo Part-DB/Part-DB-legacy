@@ -119,7 +119,7 @@
 
     function show_table_content( $path)
     {
-	$text = '';
+    $text = '';
         $groups = group_footprints( $path);
         $rowcount = 0;
         foreach( $groups as $group)

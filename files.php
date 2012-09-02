@@ -22,28 +22,19 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id: config_db.php 511 2012-08-04 weinbauer73@gmail.com $
+    $Id: files.php 518 2012-08-12 weinbauer73@gmail.com $
 */
 
-/* Enter your MySQL username and password */
-$db['mysql_server'] = "localhost";
-$db['user']         = "part-db";
-$db['password']     = "part-db";
+require_once ('lib.php');
+require_once ('class/interpreter.php');
 
-/* This is the name of the mysql database */
-$db['database']     = "part-db";
+$files =& new system\interpreter;
 
-/*
-*   Backup path
-*
-*   Replacements:
-*
-*   %Y%: Year
-*   %M%: Month
-*   %W%: Day of week
-*   %WY%: Week of year
-*/
-
-$db['backup_path'] = BASE.'/backup/%Y%/%M%/';
-
+// parse files.ups script
+$files -> check_script(-1);
+$files -> clear_debug();
+$files -> set_silent();
+$files -> load_script('update/files.ups');
+$files -> parse_script();
+//if ( ! $files -> get_debug() ) $files -> show_report();
 ?>

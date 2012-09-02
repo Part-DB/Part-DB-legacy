@@ -36,14 +36,14 @@ $refreshnav    = 0;
 
 if( strcmp( $action, "createdevice") == 0)  //add a new device
 {
-	device_add( $_REQUEST["newdevicename"], $deviceid);
-	$refreshnav = 1;
+    device_add( $_REQUEST["newdevicename"], $deviceid);
+    $refreshnav = 1;
 }
 
 if( strcmp($action, "confirmeddelete") == 0)
 {
-	device_delete( $deviceid);
-	$refreshnav = 1;
+    device_delete( $deviceid);
+    $refreshnav = 1;
 }
 
 $html = new HTML;
@@ -52,13 +52,13 @@ $html -> print_html_header();
 
 ?>
 <script language="JavaScript" type="text/javascript">
-	<?PHP
-	if($refreshnav == 1)
-	{
-		$refreshnav = 0;
-		print "parent.frames._nav_frame.location.reload();";
-	}
-	?>
+    <?PHP
+    if($refreshnav == 1)
+    {
+        $refreshnav = 0;
+        print "parent.frames._nav_frame.location.reload();";
+    }
+    ?>
 </script>
 
 <div class="outer">

@@ -278,15 +278,15 @@
 
       case 5:
         $updateSteps[] = "ALTER TABLE  `devices` ADD  `parentnode` int(11) NOT NULL default '0' AFTER  `name` ;";
-		break;
+        break;
 
       case 6:
         $updateSteps[] = "ALTER TABLE  footprints ADD  parentnode INT(11) NOT NULL default '0' AFTER name;";
-		break;
+        break;
 
       case 7:
         $updateSteps[] = "ALTER TABLE  parts  ADD  obsolete boolean NOT NULL default false AFTER comment;";
-		break;
+        break;
 
       case 8:
         // footprints auf neues schema umbennenen
@@ -1141,7 +1141,7 @@
         $updateSteps[] = "UPDATE footprints SET name='QUARZOSZILLATOR_DIP14'                  WHERE name='XTAL-DIP14';";
         $updateSteps[] = "UPDATE footprints SET name='KARTENSLOT_SD'                          WHERE name='YAMAICHI-FPS';";
         $updateSteps[] = "UPDATE footprints SET name=''                                       WHERE name='';";
-		break;
+        break;
 
       case 9:
         $updateSteps[] = "ALTER TABLE `parts` ADD `description` mediumtext AFTER `name`;";

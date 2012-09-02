@@ -37,12 +37,12 @@ $action = ( isset( $_REQUEST["action"]) ? $_REQUEST["action"] : 'default');
 
 if ( $action == "dec")
 {
-	parts_stock_decrease( $_REQUEST["pid"], $_REQUEST["n_less"]);
+    parts_stock_decrease( $_REQUEST["pid"], $_REQUEST["n_less"]);
 }
 
 if ( $action == "inc")
 {
-	parts_stock_increase( $_REQUEST["pid"], $_REQUEST["n_more"]);
+    parts_stock_increase( $_REQUEST["pid"], $_REQUEST["n_more"]);
 }
 
 $html = new HTML;
@@ -51,36 +51,36 @@ $html -> print_html_header();
 
 $data = mysql_fetch_assoc( parts_select( $_REQUEST["pid"]) );
 $loop = array (
-	'name'			=>	smart_unescape( $data['name']),
-	'description'		=>	smart_unescape( $data['description']),
-	'id_category'		=>	part_get_category_path( $data['id_category']),
-	'instock'		=>	smart_unescape( $data['instock']),
-	'mininstock'		=>	smart_unescape( $data['mininstock']),
-	'id_footprint'		=>	part_get_footprint_path( $data['id_footprint']),
-	'link'			=>	((file_exists(smart_unescape($data['footprint_filename'])))?smart_unescape($data['footprint_filename']):''),
-	'part_get_location_path'=>	part_get_location_path( $data['id_storeloc']),
-	'location_is_full'	=>	(($data['location_is_full'] == 1 )?' [voll]':''),
-	'supplier'		=>	smart_unescape( $data['supplier']),
-	'supplierpartnr'	=>	smart_unescape( $data['supplierpartnr']),
-	'obsolete'		=>	(($data['obsolete'])?'ja':'nein'),
-	'price'			=>	smart_unescape(str_replace('.', ',', $data['price'])),
-	'currency'		=>	smart_unescape($currency),
-	'comment'		=>	nl2br( smart_unescape( $data['comment']))
+    'name'          =>  smart_unescape( $data['name']),
+    'description'       =>  smart_unescape( $data['description']),
+    'id_category'       =>  part_get_category_path( $data['id_category']),
+    'instock'       =>  smart_unescape( $data['instock']),
+    'mininstock'        =>  smart_unescape( $data['mininstock']),
+    'id_footprint'      =>  part_get_footprint_path( $data['id_footprint']),
+    'link'          =>  ((file_exists(smart_unescape($data['footprint_filename'])))?smart_unescape($data['footprint_filename']):''),
+    'part_get_location_path'=>  part_get_location_path( $data['id_storeloc']),
+    'location_is_full'  =>  (($data['location_is_full'] == 1 )?' [voll]':''),
+    'supplier'      =>  smart_unescape( $data['supplier']),
+    'supplierpartnr'    =>  smart_unescape( $data['supplierpartnr']),
+    'obsolete'      =>  (($data['obsolete'])?'ja':'nein'),
+    'price'         =>  smart_unescape(str_replace('.', ',', $data['price'])),
+    'currency'      =>  smart_unescape($currency),
+    'comment'       =>  nl2br( smart_unescape( $data['comment']))
 );
 
 if ( picture_exists( $_REQUEST["pid"]) )
 {
-	$picture=array();
-	while ($data = mysql_fetch_assoc( pictures_select( $_REQUEST["pid"]) )) $picture[] = array('id'=>$data['id']);
+    $picture=array();
+    while ($data = mysql_fetch_assoc( pictures_select( $_REQUEST["pid"]) )) $picture[] = array('id'=>$data['id']);
 }
 
 $array = array(
-	'part_get_name'		=>	part_get_name( $_REQUEST["pid"] ),
-	'suppliers_build_list'	=>	$list,
-	'name'			=>	$data['name'],
-	'loop'			=>	$loop,
-	'pid'			=>	$_REQUEST["pid"],
-	'picture'		=>	$picture,
+    'part_get_name'     =>  part_get_name( $_REQUEST["pid"] ),
+    'suppliers_build_list'  =>  $list,
+    'name'          =>  $data['name'],
+    'loop'          =>  $loop,
+    'pid'           =>  $_REQUEST["pid"],
+    'picture'       =>  $picture,
 );
 
 $html -> parse_html_template( 'partinfo', $array );

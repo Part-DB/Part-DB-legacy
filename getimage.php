@@ -61,7 +61,7 @@
     }
     else
         print "No picture!!!";
-    
+
     $pict_query = "SELECT pictures.pict_fname FROM pictures WHERE (pictures.id=". smart_escape($pictID). ") LIMIT 1;";
     debug_print ($pict_query);
     $r = mysql_query ($pict_query); 

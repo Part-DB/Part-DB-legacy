@@ -55,7 +55,7 @@
         if ( isset( $_REQUEST["AddPart"]))
         {
                 /* some sanity checks */
-				//Removed check for testing
+                //Removed check for testing
                 /*if ( (strcmp ($p_footprint, "X") == 0) || (strcmp ($p_storeloc, "X") == 0) || (strcmp ($p_supplier, "X") == 0) )
                 {
                     print "<h2>\nFehler:</h2>\n";
@@ -103,14 +103,14 @@
                                 picture_add( $id, $fname);
                         }
                     }
-					if ( strlen( $_REQUEST["p_price"]) != 0)
-					{
-						if (preg_match("/^[-+]?[0-9]*\.?[0-9]+/", $_REQUEST["p_price"]) == true)
-						{
-							$_REQUEST["price"] = str_replace(',', '.', $_REQUEST["price"]);
+                    if ( strlen( $_REQUEST["p_price"]) != 0)
+                    {
+                        if (preg_match("/^[-+]?[0-9]*\.?[0-9]+/", $_REQUEST["p_price"]) == true)
+                        {
+                            $_REQUEST["price"] = str_replace(',', '.', $_REQUEST["price"]);
                             price_add( $id, $_REQUEST["p_price"]);
-						}
-					}
+                        }
+                    }
                     // close the window on success
                     // but only if we don't want another part
                     if ( !($_REQUEST['addmoreparts'] == "true"))

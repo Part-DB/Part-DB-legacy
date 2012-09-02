@@ -1,31 +1,31 @@
 <script type="text/javascript">
 function process( element, footprint, id)
 {
-	var xmlHttpReq = false;
-	var self = this;
-	var send;
+    var xmlHttpReq = false;
+    var self = this;
+    var send;
 
-	// Mozilla/Safari
-	if (window.XMLHttpRequest) {
-	self.xmlHttpReq = new XMLHttpRequest();
-	}
-	// IE
-	else if (window.ActiveXObject) {
-	self.xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
-	}
+    // Mozilla/Safari
+    if (window.XMLHttpRequest) {
+    self.xmlHttpReq = new XMLHttpRequest();
+    }
+    // IE
+    else if (window.ActiveXObject) {
+    self.xmlHttpReq = new ActiveXObject("Microsoft.XMLHTTP");
+    }
 
-	self.xmlHttpReq.open( 'POST', '../fpmgr.php', true);
-	self.xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-	if ( element.checked)
-	{
-	send = 'add=&new_footprint=' + footprint + '&parent_node=0';
-	}
-	else
-	{
-	send = 'delete=&footprint_sel=' + id;
-	}
-	self.xmlHttpReq.setRequestHeader('Content-length', send.length);
-	self.xmlHttpReq.send( send); 
+    self.xmlHttpReq.open( 'POST', '../fpmgr.php', true);
+    self.xmlHttpReq.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+    if ( element.checked)
+    {
+    send = 'add=&new_footprint=' + footprint + '&parent_node=0';
+    }
+    else
+    {
+    send = 'delete=&footprint_sel=' + id;
+    }
+    self.xmlHttpReq.setRequestHeader('Content-length', send.length);
+    self.xmlHttpReq.send( send); 
 }
 </script>
 

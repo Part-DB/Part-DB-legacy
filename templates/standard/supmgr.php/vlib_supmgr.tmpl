@@ -1,35 +1,35 @@
 <div class="outer">
-	<h2>Lieferant anlegen</h2>
-	<div class="inner">
-		<form action="" method="post">
-			Neuer Lieferant: <input type="text" name="new_supplier"><input type="submit" name="add" value="Anlegen">
-		</form>
-	</div>
+    <h2>Lieferant anlegen</h2>
+    <div class="inner">
+        <form action="" method="post">
+            Neuer Lieferant: <input type="text" name="new_supplier"><input type="submit" name="add" value="Anlegen">
+        </form>
+    </div>
 </div>
 
 <div class="outer">
-	<h2>Lieferant umbenennen/löschen</h2>
-	<div class="inner">
-		<form action="" method="post" id="suppliers_edit">
-		<table>
-			<tr>
-				<td rowspan="2">
-					<select name="supplier_sel" size="{TMPL_VAR NAME="size"}" onChange="document.forms['suppliers_edit'].elements['new_name'].value=document.forms['suppliers_edit'].elements['supplier_sel'].options[this.selectedIndex].text;">
-					{TMPL_LOOP NAME="suppliers_build_list"}
-					<option value="{TMPL_VAR NAME="value"}"{TMPL_IF NAME="selected"} selected{/TMPL_IF}>{TMPL_VAR NAME="name"}</option>
-					{/TMPL_LOOP}
-					</select>
-				</td>
-				<td>
-					Neuer Name:<br>
-					<input type="text"   name="new_name" id="new_name" value="{TMPL_VAR NAME="name"}">
-					<input type="submit" name="rename" value="Umbenennen">
-				</td>
-			</tr>
-			<tr>
-				<td><input type="submit" name="delete" value="Löschen"></td>
-			</tr>
-		</table>
-		</form>
-	</div>
+    <h2>Lieferant umbenennen/löschen</h2>
+    <div class="inner">
+        <form action="" method="post" id="suppliers_edit">
+        <table>
+            <tr>
+                <td rowspan="2">
+                    <select name="supplier_sel" size="{TMPL_VAR NAME="size"}" onChange="document.forms['suppliers_edit'].elements['new_name'].value=document.forms['suppliers_edit'].elements['supplier_sel'].options[this.selectedIndex].text;">
+                    {TMPL_LOOP NAME="suppliers_build_list"}
+                    <option value="{TMPL_VAR NAME="value"}"{TMPL_IF NAME="selected"} selected{/TMPL_IF}>{TMPL_VAR NAME="name"}</option>
+                    {/TMPL_LOOP}
+                    </select>
+                </td>
+                <td>
+                    Neuer Name:<br>
+                    <input type="text"   name="new_name" id="new_name" value="{TMPL_VAR NAME="name"}">
+                    <input type="submit" name="rename" value="Umbenennen">
+                </td>
+            </tr>
+            <tr>
+                <td><input type="submit" name="delete" value="Löschen"></td>
+            </tr>
+        </table>
+        </form>
+    </div>
 </div>

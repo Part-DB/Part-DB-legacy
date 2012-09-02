@@ -28,7 +28,7 @@
     require_once ('lib.php');
 
     $html = new HTML;
-    $html -> set_html_meta ( array('title'=>$title,'popup'=>true,'validate'=>true) );
+    $html -> set_html_meta ( array('title'=>'Angaben verändern','popup'=>true,'validate'=>true,'switch_ds_path'=>true) );
     $html -> print_html_header();
 
     /*
@@ -198,35 +198,6 @@
     if ($special_dialog == 0)
     {
     ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>Angaben ver&auml;ndern</title>
-    <?php print_http_charset(); ?>
-    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
-    <script type="text/javascript" src="popup.php"></script>
-    <script type="text/javascript" src="validatenumber.js"></script>
-    <script type="text/javascript">
-        function switch_ds_path()
-        {
-            if(document.ds.use_ds_path.checked)
-            {
-                document.ds.ds_path.disabled=false;
-                document.getElementById('URL').style.display='none';
-                document.getElementById('file').style.display='block';
-            }
-            else
-            {
-                document.ds.ds_path.disabled=true;
-                document.getElementById('URL').style.display='block';
-                document.getElementById('file').style.display='none';
-            }
-        }
-    </script>
-</head>
-<body class="body" onload="switch_ds_path()">
-
 <div class="outer">
     <h2>&Auml;ndere Detailinfos von &quot;<?PHP print part_get_name( $pid); ?>&quot;</h2>
     <div class="inner">

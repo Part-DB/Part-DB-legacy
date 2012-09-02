@@ -45,13 +45,13 @@ $search_fpr = isset( $_REQUEST['search_fpr']) ? $_REQUEST['search_fpr'] == 'true
 // remove one part
 if ( $action == 'dec')
 {
-	parts_stock_decrease( $pid);
+    parts_stock_decrease( $pid);
 }
 
 // add one part
 if ( $action == 'inc')
 {
-	parts_stock_increase( $pid);
+    parts_stock_increase( $pid);
 }
 
 $html = new HTML;
@@ -63,34 +63,34 @@ $result      = parts_select_search( $keyword_esc, $search_nam, $search_cat, $sea
 
 $row_odd = true; // $row_odd is used for the alternating bg colors
 $prevcat = -1;   // $prevcat remembers the previous category. -1 is
-		// an invalid category id.
+        // an invalid category id.
 
 $table = array();
 while ( $data = mysql_fetch_assoc( $result))
 {
 
-	/* print new header, if a diffrent category is started */
-	if ( $prevcat != $data['id_category'])
-	{
-		$table[] = array('new_category'=>true);
-		$prevcat = $data['id_category'];
-		$row_odd = true;
-	}
-	$table[] = print_table_row( $row_odd, $data, $hide_mininstock);
-	$row_odd = ! $row_odd;
+    /* print new header, if a diffrent category is started */
+    if ( $prevcat != $data['id_category'])
+    {
+        $table[] = array('new_category'=>true);
+        $prevcat = $data['id_category'];
+        $row_odd = true;
+    }
+    $table[] = print_table_row( $row_odd, $data, $hide_mininstock);
+    $row_odd = ! $row_odd;
 }
 
 $array = array (
-	'keyword'	=>	$keyword,
-	'search_nam'	=>	$search_nam,
-	'search_cat'	=>	$search_cat,
-	'search_des'	=>	$search_des,
-	'search_com'	=>	$search_com,
-	'search_sup'	=>	$search_sup,
-	'search_snr'	=>	$search_snr,
-	'search_loc'	=>	$search_loc,
-	'search_fpr'	=>	$search_fpr,
-	'table'		=>	$table
+    'keyword'   =>  $keyword,
+    'search_nam'    =>  $search_nam,
+    'search_cat'    =>  $search_cat,
+    'search_des'    =>  $search_des,
+    'search_com'    =>  $search_com,
+    'search_sup'    =>  $search_sup,
+    'search_snr'    =>  $search_snr,
+    'search_loc'    =>  $search_loc,
+    'search_fpr'    =>  $search_fpr,
+    'table'     =>  $table
 );
 
 $html -> parse_html_template( 'table', $array );

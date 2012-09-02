@@ -27,8 +27,8 @@
     Edits:
 
     20120828 weinbauer73@gmail.com
-	- suppliers_build_list() returns an array
-	- javascript selector now use "input.value = object[this.selectedIndex].text" instead of submit form
+    - suppliers_build_list() returns an array
+    - javascript selector now use "input.value = object[this.selectedIndex].text" instead of submit form
 */
 
 require_once ('lib.php');
@@ -42,17 +42,17 @@ $supplier_sel = isset( $_REQUEST["supplier_sel"]) ? $_REQUEST["supplier_sel"] : 
 
 if ( $action == 'add')
 {
-	supplier_add( $_REQUEST['new_supplier'] );
+    supplier_add( $_REQUEST['new_supplier'] );
 }
 
 if ( $action == 'delete')
 {
-	supplier_delete( $supplier_sel );
+    supplier_delete( $supplier_sel );
 }
 
 if ( $action == 'rename')
 {
-	supplier_rename( $supplier_sel, $_REQUEST["new_name"] );
+    supplier_rename( $supplier_sel, $_REQUEST["new_name"] );
 }
 
 $data = supplier_select( $supplier_sel );
@@ -62,9 +62,9 @@ $html -> set_html_meta ( array('title'=>'Lieferanten','menu'=>true) );
 $html -> print_html_header();
 
 $array = array(
-	'size'=>min(suppliers_count(), 30),
-	'suppliers_build_list'=>suppliers_build_list( $supplier_sel ),
-	'name'=>$data['name']
+    'size'=>min(suppliers_count(), 30),
+    'suppliers_build_list'=>suppliers_build_list( $supplier_sel ),
+    'name'=>$data['name']
 );
 
 $html -> parse_html_template( 'supmgr', $array );

@@ -65,10 +65,10 @@
             $html -> print_html_header();
 
             $array = array(
-                'lookup_device_name'	=>	lookup_device_name($dev_sel),
-                'size'			=>	$size,
-                'name'			=>	$name,
-                'dev_sel'		=>	$dev_sel
+                'lookup_device_name'    =>  lookup_device_name($dev_sel),
+                'size'          =>  $size,
+                'name'          =>  $name,
+                'dev_sel'       =>  $dev_sel
             );
             $html -> parse_html_template( 'devmgr', $array );
 
@@ -124,9 +124,9 @@
         ob_end_clean();
 
         $array = array(
-            'device_buildtree_1'	=>	$devices1,
-            'device_buildtree_2'	=>	$devices2,
-            'refreshnav'		=>	$refreshnav
+            'device_buildtree_1'    =>  $devices1,
+            'device_buildtree_2'    =>  $devices2,
+            'refreshnav'        =>  $refreshnav
         );
         $html -> parse_html_template( 'devmgr', $array );
 

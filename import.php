@@ -367,13 +367,13 @@
 
 ?>
 <script type="text/javascript">
-	<?php
+    <?php
         if ( $refreshnav)
         {
             $refreshnav = false;
             print "parent.frames._nav_frame.location.reload();";
         }
-	?>
+    ?>
 </script>
 
 <?php

@@ -62,7 +62,7 @@ $currency_format = '%=*^-14#6.2i';
 
 /* set version */
 $conf['version']['author'] = 'Udo Neist';
-$conf['version']['build'] = '20120828';
+$conf['version']['build'] = '20120829';
 $conf['version']['string'] = ' (modified by '.$conf['version']['author'].', Build: '.$conf['version']['build'].')';
 
 /* set system variables, e.g. email of an administrator or master user */

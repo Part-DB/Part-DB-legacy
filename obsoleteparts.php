@@ -45,7 +45,7 @@
     <h2>Nicht mehr erh&auml;ltliche Teile</h2>
     <div class="inner">
         <table>
-        
+
         <tr class="trcat">
             <td></td>
             <td>Name</td>
@@ -66,12 +66,12 @@
         {
             $rowcount++;
             print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
-            
+
             // Pictures
             print "<td class=\"tdrow0\">";
             print_table_image( $data['id'], $data['name'], $data['footprint_filename']);
             print "</td>". PHP_EOL;
-            
+
             print "<td class=\"tdrow1\"><a title=\"Kommentar: ". htmlspecialchars( smart_unescape( $data['comment']));
             print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape( $data['name']) ."</a></td>". PHP_EOL;
             print "<td class=\"tdrow1\">". smart_unescape( $data['description']) ."</td>". PHP_EOL;

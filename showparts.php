@@ -37,23 +37,23 @@ $subcat_text = $subcat ? 'ausblenden' : 'einblenden';
 
 if ( $action == 'dec')
 {
-	// remove one part
-	parts_stock_decrease($pid);
+    // remove one part
+    parts_stock_decrease($pid);
 }
 
 if ( $action == 'inc')
 {
-	// add one part
-	parts_stock_increase($pid);
+    // add one part
+    parts_stock_increase($pid);
 }
 
 $html = new HTML;
 $html -> set_html_meta ( array(
-	'title'			=>	'Deviceinfo',
-	'menu'			=>	true,
-	'popup'			=>	true,
-	'hide_id'		=>	$hide_id
-	)
+    'title'         =>  'Deviceinfo',
+    'menu'          =>  true,
+    'popup'         =>  true,
+    'hide_id'       =>  $hide_id
+    )
 );
 $html -> print_html_header();
 
@@ -62,18 +62,18 @@ $result   = parts_select_category( $cid, $subcat);
 $row_odd = true;
 while ( $data = mysql_fetch_assoc( $result))
 {
-	$table[] = print_table_row( $row_odd, $data, $hide_mininstock);
-	$row_odd = ! $row_odd;
+    $table[] = print_table_row( $row_odd, $data, $hide_mininstock);
+    $row_odd = ! $row_odd;
 }
 
 $array = array(
-	'cid'			=>	$cid,
-	'subcat'		=>	(! $subcat),
-	'subcat_text'		=>	$subcat_text,
-	'category_get_name'	=>	category_get_name($cid),
-	'hide_mininstock'	=>	$hide_mininstock,
-	'table'			=>	$table
-	);
+    'cid'           =>  $cid,
+    'subcat'        =>  (! $subcat),
+    'subcat_text'       =>  $subcat_text,
+    'category_get_name' =>  category_get_name($cid),
+    'hide_mininstock'   =>  $hide_mininstock,
+    'table'         =>  $table
+    );
 
 $html -> parse_html_template( 'table', $array );
 $html -> print_html_footer();

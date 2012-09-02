@@ -31,7 +31,7 @@
     // set action to default, if not exists
     $action = isset( $_REQUEST['action']) ? $_REQUEST['action'] : 'default';
 
-    
+
     if ( strcmp( $action, "newprice") == 0)  //Set new price
     {
         $rowcount = $_REQUEST["selections"];
@@ -47,7 +47,7 @@
             $rowcount--;
         }
     }
-    
+
 
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
@@ -66,7 +66,7 @@
     <h2>Teile ohne Preis</h2>
     <div class="inner">
         <script type="text/javascript">
-        
+
         function validateFloat(evt) 
         {
           var theEvent = evt || window.event;
@@ -79,11 +79,11 @@
           }
         }
         </script>
-        
+
         <form method="post" action="">
         <input type="hidden" name="action" value="newprice">
         <table>
-        
+
         <tr class="trcat">
             <td></td>
             <td>Name</td>
@@ -104,12 +104,12 @@
         {
             $rowcount++;
             print "<tr class=\"".( is_odd( $rowcount) ? 'trlist_odd': 'trlist_even')."\">";
-            
+
             // Pictures
             print "<td class=\"tdrow0\">";
             print_table_image( $data['id'], $data['name'], $data['footprint_filename']);
             print "</td>". PHP_EOL;
-            
+
             print "<td class=\"tdrow1\"><a title=\"Kommentar: ". htmlspecialchars( smart_unescape( $data['comment']));
             print "\" href=\"javascript:popUp('partinfo.php?pid=". smart_unescape( $data['id']) ."');\">". smart_unescape( $data['name']) ."</a></td>". PHP_EOL;
             print "<td class=\"tdrow1\">". smart_unescape( $data['description']) ."</td>". PHP_EOL;
@@ -118,7 +118,7 @@
             print "<td class=\"tdrow1\">". smart_unescape( $data['location']) ."</td>". PHP_EOL;
             print "<td class=\"tdrow1\">". smart_unescape( $data['supplier']) ."</td>". PHP_EOL; 
             print "<td class=\"tdrow1\">". smart_unescape( $data['supplierpartnr']) ."</td>". PHP_EOL; 
-            
+
             //Show a text box to add new price
             print "<td class=\"tdrow1\">". PHP_EOL;
             print "<input type=\"hidden\" name=\"selectedpid".$rowcount."\" value=\"" . smart_unescape( $data['id']). "\"/>". PHP_EOL;
@@ -126,7 +126,7 @@
             print "</td>". PHP_EOL;
             print "</tr>". PHP_EOL;
         }
-        
+
         print "</table>". PHP_EOL;
         print "<input type=\"hidden\" name=\"selections\"  value=\"".$rowcount."\">";
         ?>

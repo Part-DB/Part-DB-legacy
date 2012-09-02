@@ -1,21 +1,22 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html>
 <head>
-	{TMPL_IF NAME="head_title"}<title>{TMPL_VAR NAME="head_title"}</title>{/TMPL_IF}
-	{TMPL_IF NAME="head_charset"}<meta http-equiv="content-type" content="text/html; charset={TMPL_VAR NAME="head_charset"}">{/TMPL_IF}
-	<link rel="icon" href="{TMPL_VAR NAME="path"}img/partdb/favicon.ico" type="image/x-icon">
-	{TMPL_IF NAME="head_theme"}<link rel="stylesheet" href="{TMPL_VAR NAME="path"}templates/{TMPL_VAR NAME="head_theme"}/partdb.css" type="text/css">{/TMPL_IF}
-	{TMPL_IF NAME="head_css"}<link rel="stylesheet" href="{TMPL_VAR NAME="path"}{TMPL_VAR NAME="head_css"}" type="text/css">{/TMPL_IF}
-	{TMPL_IF NAME="head_menu"}<script type="text/javascript" src="{TMPL_VAR NAME="path"}dtree.js"></script>{/TMPL_IF}
-	{TMPL_IF NAME="head_popup"}<script type="text/javascript" src="{TMPL_VAR NAME="path"}popup.php"></script>{/TMPL_IF}
-	{TMPL_IF NAME="head_util_functions"}<script type="text/javascript" src="{TMPL_VAR NAME="path"}util-functions.js"></script>{/TMPL_IF}
-	{TMPL_IF NAME="head_clear_default_text"}<script type="text/javascript" src="{TMPL_VAR NAME="path"}clear-default-text.js"></script>{/TMPL_IF}
-	{TMPL_IF NAME="head_validate"}<script type="text/javascript" src="{TMPL_VAR NAME="path"}validatenumber.js"></script>{/TMPL_IF}
+    {TMPL_IF NAME="head_title"}<title>{TMPL_VAR NAME="head_title"}</title>{/TMPL_IF}
+    {TMPL_IF NAME="head_charset"}<meta http-equiv="content-type" content="text/html; charset={TMPL_VAR NAME="head_charset"}">{/TMPL_IF}
+    <link rel="icon" href="{TMPL_VAR NAME="path"}img/partdb/favicon.ico" type="image/x-icon">
+    {TMPL_IF NAME="head_theme"}<link rel="stylesheet" href="{TMPL_VAR NAME="path"}templates/{TMPL_VAR NAME="head_theme"}/partdb.css" type="text/css">{/TMPL_IF}
+    {TMPL_IF NAME="head_css"}<link rel="stylesheet" href="{TMPL_VAR NAME="path"}{TMPL_VAR NAME="head_css"}" type="text/css">{/TMPL_IF}
+    {TMPL_IF NAME="head_menu"}<script type="text/javascript" src="{TMPL_VAR NAME="path"}dtree.js"></script>{/TMPL_IF}
+    {TMPL_IF NAME="head_popup"}<script type="text/javascript" src="{TMPL_VAR NAME="path"}popup.php"></script>{/TMPL_IF}
+    {TMPL_IF NAME="head_util_functions"}<script type="text/javascript" src="{TMPL_VAR NAME="path"}util-functions.js"></script>{/TMPL_IF}
+    {TMPL_IF NAME="head_clear_default_text"}<script type="text/javascript" src="{TMPL_VAR NAME="path"}clear-default-text.js"></script>{/TMPL_IF}
+    {TMPL_IF NAME="head_validate"}<script type="text/javascript" src="{TMPL_VAR NAME="path"}validatenumber.js"></script>{/TMPL_IF}
+    {TMPL_IF NAME="head_switch_ds_path"}<script type="text/javascript" src="{TMPL_VAR NAME="path"}switch_ds_path.js"></script>{/TMPL_IF}
 
-	{TMPL_IF NAME="hide_id"}<style type="text/css">.idclass { display: none; } </style>{/TMPL_IF}
+    {TMPL_IF NAME="hide_id"}<style type="text/css">.idclass { display: none; } </style>{/TMPL_IF}
 
-	<base target="_self">
+    <base target="_self">
 
 </head>
 
-<body class="body">
+<body class="body"{TMPL_IF NAME="head_switch_ds_path"} onload="switch_ds_path()"{/TMPL_IF}>

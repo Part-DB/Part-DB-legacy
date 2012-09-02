@@ -33,12 +33,12 @@
         $maxX = 32;
     else
         $maxX = $_REQUEST["maxx"];
-        
+
     if (!isset($_REQUEST["maxy"]))
         $maxY = 32;
     else
         $maxY = $_REQUEST["maxy"];
-    
+
     if (isset($_REQUEST["pid"]))
     {
         $pict_id_query = "SELECT pictures.id FROM pictures WHERE (pictures.part_id='". mysql_real_escape_string ($_REQUEST["pid"]). "') AND (pictures.pict_type='P') ORDER BY pictures.pict_masterpict DESC, pictures.id ASC LIMIT 1;";
@@ -73,7 +73,7 @@
     }
     else
         print "No picture!!!";
-    
+
     $pict_query = "SELECT pictures.pict_fname FROM pictures WHERE (pictures.id='". mysql_real_escape_string ($pictID). "') LIMIT 1;";
     debug_print ($pict_query);
     $r = mysql_query ($pict_query); 
@@ -129,7 +129,7 @@
         $cols = explode(",", "0,0,0");
         $bgcolor = imageColorAllocate($theimage, trim($cols[0]), trim($cols[1]), trim($cols[2]));
         imageFill($theimage, 0, 0, $bgcolor);
-    
+
         imageCopyResampled($theimage, $orig_image, $posX, $posY, 0, 0, $newX, $newY, $img_data[0], $img_data[1]);
 
         imagePNG($theimage, .$pict_cache_fname);
@@ -155,7 +155,7 @@
             debug_print($del_query);
             mysql_query($del_query);
         }
-        
+
         $cache_update_query = "INSERT INTO pictures (part_id,pict_fname,pict_width,pict_height,pict_type,tn_t,tn_pictid) VALUES ('". mysql_real_escape_string($partID) ."','". $pict_cache_fname ."','". mysql_real_escape_string($maxX) ."','". mysql_real_escape_string($maxY). "','T',NOW(),'". mysql_real_escape_string($pictID). "');";
         debug_print($cache_update_query);
         mysql_query($cache_update_query);
