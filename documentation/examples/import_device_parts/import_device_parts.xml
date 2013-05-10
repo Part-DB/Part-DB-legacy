@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<device_parts>
+  <part>
+    <part_id>123</part_id>
+    <quantity>3</quantity>
+    <mountnames>R1, R2, R3</mountnames>
+  </part>
+  <part>
+    <part_id>567</part_id>
+    <quantity>10</quantity>
+    <mountnames></mountnames>
+  </part>
+</device_parts>

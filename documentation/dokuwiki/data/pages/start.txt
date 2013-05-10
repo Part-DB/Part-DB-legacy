@@ -1,0 +1,20 @@
+
+===== Installation =====
+
+  * [[Anforderungen]]
+
+  * [[Installation]]
+
+  * [[htaccess|Datenbank Absichern]]
+
+==== Part-DB Lizenz ====
+
+  * [[GPLv2|GPL v2]]
+
+  * [[gpl-erklärung|Open-Source-Software im Unternehmen]]
+
+==== Andere Lizenzen ===
+
+  * [[GPLv2|Dokuwiki - GPL v2]]
+
+  * [[GPLv2|Doxigen - GPL v2]]

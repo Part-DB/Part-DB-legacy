@@ -1,0 +1,52 @@
+===== Installation =====
+
+=== config.php anlegen: ===
+
+Am Einfachsten eine Kopie des Templates anlegen:
+<code language="xml">
+cp config.php_template config.php
+</code>
+
+Dort können diverse Einstellungen vorgenommen werden.
+Wichtig für den Datenbankzugriff sind die Variablen, die mit $db_ beginnen.
+
+===  Anlegen der Datenbank: ===
+
+<code language="bash">
+mysql -u root -p
+GRANT ALL ON <DATENBANKNAME>.* TO <USERNAME>@localhost IDENTIFIED BY "<PASSWORD>";
+quit
+</code>
+
+dann kurz testen, ob der Datenbankzugriff funktioniert:
+
+<code language="xml">
+mysql -u <USER> -<DATENBANKNAME> -p
+quit
+</code>
+
+Der Datenbanknutzer und das Password müssen mit dem in der config.php übereinstimmen.
+
+Das Einspielen der Datenbank-Tabellenstruktur erfolgt mit:
+<code language="xml">
+mysql -u <USER> -p <DATENBANKNAME> < readme/createtables-FOR-V0.2.1.sql
+</code>
+
+=== Webserver konfigurieren: ===
+
+Jetzt muß noch das Verzeichnis in dem part-db liegt dem Webserver bekannt gemacht werden.
+Dazu bietet sich ein Soft-Link an:
+
+<code language="xml">
+ln -s /home/user/path/to/part-db /var/www/partdb
+</code>
+
+Dann sollte die Startseite unter  http://localhost/partdb  erscheinen.
+
+===  Zugriffsrechte für Verzeichnisse setzen: === 
+
+Das Verzeichnis img muß für den Webserver schreibbar sein, damit der Bilder Upload funktioniert:
+
+<code language="bash">
+chmod 664 img
+</code>

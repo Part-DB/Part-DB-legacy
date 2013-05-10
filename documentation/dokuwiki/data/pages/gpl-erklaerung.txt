@@ -1,0 +1,25 @@
+==== Was sie als Unternehmen wissen sollten ====
+
+Es gelten unabhängig der hier genanten Erklärungen immer die Konditionen der GNU GPLv2, dieses ist nur ein kleiner Leitfaden für die Nutzung in Unternehmen.
+==== Support ====
+
+Die Part-DB steht unter der GNU GPLv2, es wird kein Support geleistet Fehler/Bugs/Wünsche können im Bugtracker unter [[https://code.google.com/p/part-db/issues/list]] eingetragen werden die Bearbeitung dieser liegt anleine bei dem Entwicklern und kann nicht eingefordert werden.
+
+==== Grobe Richtlinien ====
+
+Die Part-DB kann jeder der es möchte Frei benutzen, verändern und weitergeben zu den Bedingungen der GPLv2.
+
+  * Verbesserungen Änderungen müssen dem Projekt bereitgestellt werden.
+  * Bei Weitergabe / Verkauf muss der Komplette Quellcode beigefügt werden.
+  * Keine Haftung der Entwickler oder Projekt beteiligten.
+  * Die Lizenz kann nicht geändert werden.
+==== Doxigen / Dokuwiki ====
+
+Die Part-DB enthehlt Bestandteile von Doxigen und dem Dokuwiki, bei Probleme und fragen finden sie Hilfe bei dem jeweiligen Projekt.
+
+  * http://dokuwiki.org
+  * http://www.stack.nl/~dimitri/doxygen/
+ 
+==== Kosten ====
+
+  * Die Part-DB kostet nichts über eine kleine Spende würde sich das Projekt aber freuen.

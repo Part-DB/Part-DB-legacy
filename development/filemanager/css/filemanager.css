@@ -1,0 +1,201 @@
+/*
+    ---------------------------------------------------------------------------------------
+
+    phpBookWorm: Filemanager
+
+    Copyright: CC-BY-SA 3.0, 2012-2013
+    Author: Udo Neist (webmaster@singollo.de, GPG-Fingerprint 4A8F B229 2AE9 9634 04D1 E2F0 21F2 E27D FE97 D87F)
+
+    Part: filemanager.css
+
+    Info: CSS-Definitionen
+
+    ---------------------------------------------------------------------------------------
+
+    03.01.2013: Erste Version (Udo Neist)
+    04.01.2013: Verlegung der Funktionen in einen eigenen Namensraum (Udo Neist)
+                Kopfzeilen geändert (Udo Neist)
+    26.01.2013: Lädt eine zusätzliche CSS für Dialoge nach (Udo Neist)
+    28.01.2013: Durch den Umstieg auf dom.showDialog() wird die zuvor hinzugefügte CSS hinfällig (Udo Neist)
+    30.03.2013: Upload-Link unabhängig vom Rest der Commands gemacht (Udo Neist)
+
+*/
+
+@charset "UTF-8";
+
+/* CSS Document */
+
+/*
+    Filemanager
+*/
+
+#file_dirs {
+    position:           absolute;
+    top:                50px;
+    left:               0px;
+    width:              195px;
+    height:             110px;
+    border-right:       1px solid #C3D9FF;
+    padding-top:        0.1em;
+    padding-right:      0.2em;
+}
+
+#file_info {
+    position:           absolute;
+    top:                160px;
+    left:               0px;
+    width:              190px;
+    height:             280px;
+    border-top:         1px solid #C3D9FF;
+    border-right:       1px solid #C3D9FF;
+    border-bottom:      1px solid #C3D9FF;
+    padding-top:        0.5em;
+    padding-left:       5px;
+    padding-right:      0.2em;
+}
+
+#file_info img {
+    max-width:100px;
+    max-height:100px;
+}
+
+#file_info div.filename {
+    color: #3E4551;
+    margin-bottom:0.5em;
+}
+
+#file_command {
+    position:           absolute;
+    top:                448px;
+    left:               0px;
+    width:              195px;
+    height:             200px;
+    border-right:       1px solid #C3D9FF;
+    padding-top:        0.5em;
+    padding-right:      0.2em;
+}
+
+#file_explorer {
+    position:           absolute;
+    top:                50px;
+    left:               210px;
+    width:              70%;
+    height:             600px;
+    overflow:           auto;
+    padding-right:      0.2em;
+}
+
+#file_iframe, #file_commands {
+    display:            none;
+}
+
+#file_upload {
+    display:            block;
+}
+
+#file_dirs .list ul, #file_command .list ul, #file_explorer .list ul {
+    margin-left:        2.5em;
+    padding:            0;
+}
+
+#file_dirs .list li, #file_command .list li, #file_explorer .list li {
+    line-height:        1.7em;
+    width:              80%;
+    padding-left:       0.3em;
+    padding-right:      0.2em;
+}
+
+#file_dirs .list li:hover, #file_command .list li:hover, #file_explorer .list li.dir:hover, #file_explorer .list li.hover:hover {
+    color:              #252A33;
+    background-color:   #DDDDE9;
+    cursor:             pointer;
+}
+
+#file_dirs .list li.home {
+    list-style-image:   url("gfx/icon_home.gif");
+}
+
+#file_dirs .list li.dir {
+    list-style-image:   url("gfx/ordner-13x10.gif");
+}
+
+#file_command .list li.command {
+    list-style-image:   url("gfx/icon_back_top.gif");
+}
+
+#file_command .list li.next, #file_info .list li.next  {
+    list-style-image:   url("gfx/symbol-info.gif");
+}
+
+#file_explorer .list li.dir {
+    list-style-image:   url("gfx/ordner-13x10.gif");
+}
+
+#file_explorer .list li.hover {
+    list-style-image:   url("gfx/marker02.gif");
+    background-color:   #fff;
+}
+
+#file_explorer .list li.selected {
+    list-style-image:   url("gfx/marker02.gif");
+    background-color:   #ddd;
+}
+
+#file_explorer .list li.selected:hover {
+    background-color:   #eee;
+    cursor:             pointer;
+}
+
+#file_info .list {
+    padding:            0;
+    padding-left:       20px;
+}
+
+#file_explorer table {
+    width:              100%;
+    padding-left:       1.0em;
+}
+
+#file_explorer table td {
+    height:             20px;
+}
+
+#file_explorer table td.upload_file {
+    min-width:          320px;
+}
+
+#file_explorer table td.upload_bar {
+    width:              280px;
+}
+
+#file_explorer span.upload_text {
+    text-align:         center;
+    font-size:          0.9em;
+}
+
+#file_explorer span.upload_file {
+    padding-left:       0.3em;
+}
+
+#file_explorer span.upload_file:before {
+    content:            url("gfx/marker02.gif") " ";
+}
+
+#file_explorer div.upload_bar {
+    height:             15px;
+    background-image:   url(gfx/progress.png);
+    background-repeat:  no-repeat;
+    width:              0%;
+}
+
+.breadcrumb {
+    font-size:          0.8em;
+    color:              #7D8EAB;
+    margin-top:         2px;
+    border-bottom:      1px solid #D4E4FF;
+    width:              auto;
+}
+
+.breadcrumb[title]:before {
+    content:           attr(title);
+}

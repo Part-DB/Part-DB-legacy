@@ -1,0 +1,67 @@
+<div class="outer">
+    <h2>Bauteile importieren</h2>
+    <div class="inner">
+        <form method="post" action="">
+            <table>
+                <tr valign="top">
+                    <td><textarea name="import_file_content" rows="10" cols="60" dir="ltr">{TMPL_VAR NAME="import_file_content"}</textarea></td>
+                    <td>
+                        <b>CSV-Beispiel:</b>
+<pre>
+#Bauteile-ID;Anzahl;Bestückungsdaten
+100;1;
+10;4;R5,R6,R7,R8
+</pre>
+                        <b>oder:</b>
+<pre>
+#Bauteil-Name;Anzahl;Bestückungsdaten
+Resistor_SMD_10M_5;4;R5,R6,R7,R8
+ATMEGA328_SMD;1;
+</pre>
+                    </td>
+
+                    <td>&nbsp;&nbsp;&nbsp;</td>
+                    <td><b>XML-Beispiel:</b><pre>
+&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
+&lt;deviceparts&gt;
+  &lt;devicepart&gt;
+    &lt;part_id&gt;123&lt;/part_id&gt;
+    &lt;mount_quantity&gt;3&lt;/mount_quantity&gt;
+    &lt;mount_names&gt;R1, R2, R3&lt;/mount_names&gt;
+  &lt;/devicepart&gt;
+  &lt;devicepart&gt;
+    &lt;part_name&gt;ATMEGA328_SMD&lt;/part_name&gt;
+    &lt;mount_quantity&gt;3&lt;/mount_quantity&gt;
+    &lt;mount_names&gt;U1&lt;/mount_names&gt;
+  &lt;/devicepart&gt;
+&lt;/deviceparts&gt;
+                    </pre></td>
+                </tr>
+                <tr>
+                    <td colspan="4">
+                        <input type="hidden" name="device_id" value="{TMPL_VAR NAME="device_id"}">
+                        <select name="import_format">
+                            <option value="CSV" {TMPL_IF NAME="import_format" VALUE="CSV"}selected{/TMPL_IF}>CSV</option>
+                            <option value="XML" {TMPL_IF NAME="import_format" VALUE="XML"}selected{/TMPL_IF}>XML</option>
+                        </select>
+                        Trennzeichen für CSV:
+                        <input type="text" name="import_separator" value="{TMPL_VAR NAME="import_separator"}" size="5">
+                        <input type="submit" name="import_readtext" value="Daten zum Überprüfen hochladen">
+                    </td>
+                </tr>
+            </table>
+        </form>
+        {TMPL_IF NAME="table"}
+            <hr>
+            <form action="" method="post" id="table">
+                <input type="hidden" name="import_rowcount" value="{TMPL_VAR NAME="import_rowcount"}">
+                <input type="hidden" name="import_file_content" value="{TMPL_VAR NAME="import_file_content"}">
+                <table>
+                    {TMPL_INCLUDE FILE="../vlib_table.tmpl"}
+                </table>
+                <input type="submit" name="check_import_data"  value="Daten übernehmen und prüfen">
+                <input type="submit" name="import_data" value="Daten übernehmen und importieren!">
+            </form>
+        {/TMPL_IF}
+    </div>
+</div>

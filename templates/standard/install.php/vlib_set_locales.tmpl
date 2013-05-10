@@ -1,0 +1,38 @@
+<div class="outer">
+    <h2>Installation/Update: Zeitzone und Sprache</h2>
+    <div class="inner">
+        Stellen Sie hier bitte Ihre Zeitzone und Ihre Sprache ein.<br>
+        Anhand der gewählten Sprache wird dann auch die Währung gesetzt.
+        <hr>
+        <form action="" method="post">
+            <table>
+                <tr>
+                    <td>Zeitzone:</td>
+                    <td>
+                        <select name="timezone">
+                            {TMPL_LOOP NAME = "timezone_loop"}
+                                <option value="{TMPL_VAR NAME="value"}" {TMPL_IF NAME="selected"}selected{/TMPL_IF}>{TMPL_VAR NAME="text"}</option>
+                            {/TMPL_LOOP}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Sprache:</td>
+                    <td>
+                        <select name="language">
+                            {TMPL_LOOP NAME = "language_loop"}
+                                <option value="{TMPL_VAR NAME="value"}" {TMPL_IF NAME="selected"}selected{/TMPL_IF}>{TMPL_VAR NAME="text"}</option>
+                            {/TMPL_LOOP}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" name="save_locales" value="Weiter">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

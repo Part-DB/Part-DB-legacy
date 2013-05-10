@@ -1,0 +1,163 @@
+@charset "UTF-8";
+@import url(../standard/partdb.css);
+
+.outer h2 {
+    background: url(greenway/lrline.gif) no-repeat top left;
+    margin-top:    0px;
+    margin-bottom: 1px;
+    border-bottom: 2px solid #F76B02;
+    border-left:   1px solid #F76B02;
+    padding: 1px;
+    font-size:   15px;
+    font-weight: bold;
+}
+
+/* Default Tabellen */
+.table {
+	border: none;
+	width: 100%;
+	padding:10px;
+	background-color: #ffffff;
+}
+.tablenone {
+	border: none;
+	width: 100%;
+}
+.tdtop {
+	padding-left: 2px;
+	font-weight: bold;
+	font-size: 1.0em;
+	background: url(greenway/lrline.gif) no-repeat top left;
+}
+.tdtext {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	border: none;
+	width: 80%;
+	font-size: 12px;
+	background-color: #FFFFFF;
+}
+.tdtextsmall {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	border: none;
+	width: 80%;
+	font-size: small;
+	background-color: #FFFFFF;
+
+}
+.body {
+	background-color: #cdcdcd;
+}
+
+/* Tabellen/Listen */
+.trlist_odd {
+	background: url(greenway/rlline.gif) repeat-y top right;
+}
+.trlist_even {
+	background: url(greenway/rlline.gif) repeat-y top right;
+}
+.trcat {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-weight: bold;
+	background: url(greenway/rlline.gif) repeat-y top right;
+}
+.tdrow0 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.tdrow1 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-align: left;
+}
+.tdrow2 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-align: right;
+}
+.tdrow3 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-align: right;
+}
+.tdrow4 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	text-align: right;
+}
+.tdrow5 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.tdrow6 {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+}
+.catbild {
+	width: 20;
+	height: 20;
+}
+
+
+/* Sonstiges */
+.tdstartup {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 60px;
+	text-align: center;
+}
+a img {
+	border: none;
+}
+a:link {
+	color: #7A9833;
+}
+a:visited {
+	color: #7A9833;
+}
+a:hover {
+	color: #7A9833;
+}
+a:active {
+	color: #7A9833;
+}
+
+
+/* Nav Menue */
+.dtree {
+	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #666;
+	white-space: nowrap;
+}
+.dtree img {
+	border: 0px;
+	vertical-align: middle;
+}
+.dtree a {
+	color: #7A9833;
+	text-decoration: none;
+}
+.dtree a.node, .dtree a.nodeSel {
+	white-space: nowrap;
+	padding: 1px 2px 1px 2px;
+}
+.dtree a.node:hover, .dtree a.nodeSel:hover {
+	color: #7A9833;
+	text-decoration: underline;
+}
+.dtree a.nodeSel {
+	background-color: #FFFFFF;
+}
+.dtree .clip {
+	overflow: hidden;
+}
+
+/* Help */
+dl.help dt {
+	font-weight:bold;
+	text-decoration: underline;
+	margin:1em;
+}
+dl.help dd {
+	margin-bottom:1em;
+}

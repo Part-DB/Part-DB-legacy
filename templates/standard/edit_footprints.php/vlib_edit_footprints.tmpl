@@ -1,0 +1,142 @@
+<div class="outer">
+    <h2>Footprints</h2>
+    <div class="inner">
+        <form action="" method="post">
+        <table>
+            <tr>
+                <td rowspan="6">
+                    <select name="selected_id" size="30" onChange="this.form.submit()">
+                        <optgroup label="Neu">
+                            <option value="0" {TMPL_IF NAME="id" VALUE="0"}selected{/TMPL_IF}>Neuer Footprint</option>
+                        </option>
+                        <optgroup label="Bearbeiten">
+                            {TMPL_VAR NAME="footprint_list" ESCAPE="none"}
+                        </option>
+                    </select>
+                </td>
+                <td colspan="2">
+                    {TMPL_IF NAME="id" VALUE="0"}
+                        <strong>Neuer Footprint hinzufügen:</strong>
+                    {TMPL_ELSE}
+                        {TMPL_IF NAME="name"}
+                            <strong>Footprint bearbeiten:</strong>
+                        {TMPL_ELSE}
+                            <strong>Es ist kein Footprint angewählt!</strong>
+                        {/TMPL_IF}
+                    {/TMPL_IF}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    ID:
+                </td>
+                <td>
+                    {TMPL_IF NAME="id"}{TMPL_VAR NAME="id"}{TMPL_ELSE}-{/TMPL_IF}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Name*:
+                </td>
+                <td>
+                    <input type="text" name="name" value="{TMPL_VAR NAME="name"}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Übergeordneter Footprint*:
+                </td>
+                <td>
+                    <select name="parent_id" size="1">
+                        {TMPL_VAR NAME="parent_footprint_list" ESCAPE="none"}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Bild:
+                </td>
+                 <td>
+                    <input type="text" name="filename" value="{TMPL_VAR NAME="filename"}" style="width:100%;"><br>
+                    <i>Hinweis: Sie können hier z.B. "DIP28" eintippen und übernehmen.<br>
+                    Der Footprint wird dann unter "Footprints mit fehlerhaften Dateinamen" aufgelistet,<br>
+                    wo Sie vorschläge für Dateinaben bekommen und so einfach übernehmen können.</i><br>
+                    <img align="middle" height="70" src="{TMPL_VAR NAME="filename"}" alt="">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <i>* = Pflichtfelder</i>
+                </td>
+                <td>
+                    {TMPL_IF NAME="id" VALUE="0"}
+                        <input type="submit" name="add" value="Neuer Footprint anlegen"><br>
+                        <input type="checkbox" name="add_more" {TMPL_IF NAME="add_more"}checked{/TMPL_IF}>Weitere Footprints anlegen
+                    {TMPL_ELSE}
+                        <input type="submit" name="apply" value="Änderungen übernehmen">
+                        <input type="submit" name="delete" value="Footprint löschen">
+                    {/TMPL_IF}
+                </td>
+            </tr>
+        </table>
+        </form>
+    </div>
+</div>
+
+{TMPL_IF NAME="broken_filename_footprints"}
+    <div class="outer">
+        <h2>Footprints mit fehlerhaften Dateinamen</h2>
+        <div class="inner">
+            Die Dateinamen der folgenden Footprints konnten keiner Bilddatei zugeordnet werden.<br>
+            Bitte überprüfen bzw. korrigieren Sie die vorgeschlagenen Dateien, um sie dann zu übernehmen.<br>
+            Bereits gesetzte Haken bedeuten, dass für die jeweiligen Footprints exakt gleichnamige Dateien gefunden wurden.<br><br>
+            <form action="" method="POST">
+                <table>
+                    <tr class="trcat">
+                        <td>Footprint</td>
+                        <td>Fehlerhafter Dateiname</td>
+                        <td>Vorgeschlagene Dateinamen</td>
+                    </tr>
+
+                    {TMPL_LOOP NAME="broken_filename_footprints"}
+                        <!--the alternating background colors are created here-->
+                        <tr class="{TMPL_IF NAME="row_odd"}trlist_odd{TMPL_ELSE}trlist_even{/TMPL_IF}">
+
+                        <input type="hidden" name="broken_footprint_id_{TMPL_VAR NAME="index"}" value="{TMPL_VAR NAME="broken_id"}">
+
+                        <!--checkbox + footprint name-->
+                        <td class="tdrow0">
+                            <input type="checkbox" {TMPL_IF NAME="checked"}checked {/TMPL_IF}
+                                name="filename_checkbox_{TMPL_VAR NAME="index"}">{TMPL_VAR NAME="broken_full_path"}
+                        </td>
+
+                        <!--broken filename-->
+                        <td class="tdrow1">
+                            <font color="#FF0000">{TMPL_VAR NAME="broken_filename"}</font>
+                        </td>
+
+                        <!--proposed filenames-->
+                        <td class="tdrow0">
+                            {TMPL_IF NAME="proposed_filenames"}
+                                <select name="proposed_filename_{TMPL_VAR NAME="index"}">
+                                    <option value="">Dateiname löschen und später selber von Hand setzen.</option>
+                                    {TMPL_LOOP NAME="proposed_filenames"}
+                                        <option {TMPL_IF NAME="selected"}selected{/TMPL_IF} value="{TMPL_VAR NAME="proposed_filename"}">{TMPL_VAR NAME="proposed_filename"}</option>
+                                    {/TMPL_LOOP}
+                                </select>
+                            {TMPL_ELSE}
+                                <input type="hidden" name="proposed_filename_{TMPL_VAR NAME="index"}" value="">
+                                <font color="#FF0000">Dateiname löschen und später selber von Hand setzen.</font>
+                            {/TMPL_IF}
+                        </td>
+                    {/TMPL_LOOP}
+                </table>
+                <br>
+                Vorgeschlagene Dateinamen übernehmen:
+                <input type="hidden" name="broken_footprints_count" value="{TMPL_VAR NAME="broken_footprints_count"}">
+                <input type="submit" name="save_proposed_filenames" value="Nur die markierten">
+                <input type="submit" name="save_all_proposed_filenames" value="Alle">
+            </form>
+        </div>
+    </div>
+{/TMPL_IF}

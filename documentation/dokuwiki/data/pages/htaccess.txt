@@ -1,0 +1,5 @@
+===== Sicherheitseinstellungen =====
+
+Um die Datenbank vor unerlaubten Zugriff zu schützen sollte man unbedingt das Verzeichnis mit einem Passwort schützen, am sinnvollsten ist es, dies Serverseitig mit .htaccess zu machen. Eine Anleitung dafür findet man unter folgendem.
+
+[[http://www.grammiweb.de/anleitungen/ka_htaccess.shtml]]

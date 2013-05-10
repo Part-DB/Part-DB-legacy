@@ -4,6 +4,10 @@
     Copyright (C) 2005 Christoph Lechner
     http://www.cl-projects.de/
 
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
+
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
     as published by the Free Software Foundation; either version 2
@@ -20,223 +24,170 @@
 
     $Id$
 
+    Changelog (sorted by date):
+        [DATE]      [NICKNAME]          [CHANGES]
+        2012-??-??  weinbauer73         - changed to templates
+        2012-09-03  kami89              - changed to OOP
 */
 
-    include ('db_update.php');
-    // catch output to do fine formating later
-    ob_start();
+    include_once('start_session.php');
+    include_once('authors.php');
+
+    $messages = array();
+    $fatal_error = false;
+
+    /********************************************************************************
+    *
+    *   Initialize Objects
+    *
+    *********************************************************************************/
+
+    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Startseite');
+
+    try
     {
-        if ( checkDBUpdateNeeded())
-        {
-            $ver = getDBVersion();
-            print "Datenbank-Version: ". $ver .", ben&ouml;tigt ein Update.<br><br>";
-            if ( getDBAutomaticUpdateActive())
-            {
-                doDBUpdate();
-            }
-            else
-            {
-                print "Automatische Datenbankupdates sind deaktiviert.<br>";
-                print "Updates bitte manuell durchf&uuml;ren: Verwaltung/Tools --> Konfiguration --> Datenbank";
-            }
-        }
+        $database           = new Database();
+        $log                = new Log($database);
+        $system             = new System($database, $log);
+        $current_user       = new User($database, $current_user, $log, 1); // admin
     }
-    $database_update = ob_get_contents();
-    ob_end_clean();
-
-    include("config.php");
-    partdb_init();
-
-    /*
-     * This variable determines wheater the user is reminded to add
-     * add least one loc, one footprint, one category and one supplier.
-     */
-    $display_warning = false;
-    // predefines
-    $good = "&#x2714; ";
-    $bad  = "&#x2718; ";
-    // defaults
-    $missing_storeloc  = $good;
-    $missing_footprint = $good;
-    $missing_category  = $good;
-    $missing_supplier  = $good;
-    $broken_footprints = false;
-
-    if ( categories_count() == 0)
+    catch (Exception $e)
     {
-        $display_warning  = true;
-        $missing_category = $bad;
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+        $fatal_error = true;
     }
 
-    if ( location_count() == 0)
-        $missing_storeloc = $bad;
+    /********************************************************************************
+    *
+    *   Database Update (if required and automatic updates are enabled)
+    *
+    *********************************************************************************/
 
-    if ( footprint_count() == 0)
-        $missing_footprint = $bad;
-
-    if ( suppliers_count() == 0)
-        $missing_supplier = $bad;
-        
-    if (count(footprint_get_defect_filename_ids()) > 0)
+    if ((! $fatal_error) && ($database->is_update_required()))
     {
-        $display_warning  = true;
-        $broken_footprints = true;
+        if (($database->get_current_version() < 13) && ($database->get_latest_version() >= 13)) // v12 to v13 was a huge update! disable auto-update temporary!
+        {
+            $config['db']['auto_update'] = false;
+            $html->set_variable('auto_disabled_autoupdate', true, 'boolean');
+        }
+
+        $html->set_variable('database_update', true, 'boolean');
+        $html->set_variable('disabled_autoupdate', ! $config['db']['auto_update'], 'boolean');
+        $html->set_variable('db_version_current', $database->get_current_version(), 'integer');
+        $html->set_variable('db_version_latest', $database->get_latest_version(), 'integer');
+
+        if ($config['db']['auto_update'] == true)
+        {
+            $update_log = $database->update();
+            $html->set_variable('database_update_log', nl2br($update_log));
+        }
     }
 
-?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-    <title>Startup</title>
-    <?php print_http_charset(); ?>
-    <link rel="StyleSheet" href="css/partdb.css" type="text/css">
-</head>
-<body class="body">
+    /********************************************************************************
+    *
+    *   Show a warning if there are empty tables
+    *       (categories, storelocations, footprints, suppliers)
+    *
+    *********************************************************************************/
 
-<div class="outer">
-    <h1>
-        <img src="img/partdb/partdb.png" alt="logo"><?php print $startup_title ?><img src="img/partdb/partdb.png" alt="logo">
-    </h1>
-    <?php print get_svn_revision() ? "<h3>SVN-Revision: ". get_svn_revision() ."</h3>" : ""; ?>
-</div>
-
-<?php   // display Warning 
-    if ($display_warning)
+    if (( ! $fatal_error) && ( ! $database->is_update_required()))
     {
-?>
+        $good = "&#x2714; ";
+        $bad  = "&#x2718; ";
 
-<div class="outer">
-    <h2 class="red">Hinweis</h2>
-    <div class="inner">
-    <?php 
-        if ($missing_category == $bad)
+        try
         {
-    ?>
-        Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>
-        <blockquote><?php print $missing_category  ?>eine      <a href="catmgr.php" target="content_frame">Kategorie</a>   </blockquote>
-        hinzuf&uuml;gt werden muss.<br>
-        Um das Potential der Suchfunktion zu nutzen wird empfohlen
-        <blockquote><?php print $missing_storeloc  ?>einen     <a href="locmgr.php" target="content_frame">Lagerort</a>    </blockquote>
-        <blockquote><?php print $missing_footprint ?>einen     <a href="fpmgr.php"  target="content_frame">Footprint</a>   </blockquote>
-        <blockquote><?php print $missing_supplier  ?>und einen <a href="supmgr.php" target="content_frame">Lieferanten</a> </blockquote>
-        anzugeben.
-        <br>
-        <br>
-    <?php
+            $missing_category       = ((Category::      get_count($database) == 0) ? $bad : $good);
+            $missing_storelocation  = ((Storelocation:: get_count($database) == 0) ? $bad : $good);
+            $missing_footprint      = ((Footprint::     get_count($database) == 0) ? $bad : $good);
+            $missing_supplier       = ((Supplier::      get_count($database) == 0) ? $bad : $good);
+
+            $display_warning        = (($missing_category == $bad) || ($missing_storelocation == $bad)
+                                        || ($missing_footprint == $bad) || ($missing_supplier == $bad));
+
+            $html->set_variable('missing_category',    $missing_category);
+            $html->set_variable('missing_storeloc',    $missing_storelocation);
+            $html->set_variable('missing_footprint',   $missing_footprint);
+            $html->set_variable('missing_supplier',    $missing_supplier);
+            $html->set_variable('display_warning',     $display_warning, 'boolean');
         }
-        if ($broken_footprints)
+        catch (Exception $e)
         {
-    ?>
-        In ihrer Tabelle gibt es Footprints, die einen fehlerhaften Dateinamen hinterlegt haben.
-        Dies kann durch ein Datenbankupdate, ein Update von Part-DB, 
-        oder durch nicht mehr existierende Dateien ausgel&ouml;st worden sein.
-        <br>
-        Sie k&ouml;nnen dies unter <a href="fpmgr.php" target="content_frame">Bearbeiten/Footprints</a> (ganz unten, "Fehlerhafte Dateinamen") korrigieren.
-        
-    <?php
+            $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         }
-    ?>  
-    </div>
-</div>
-<?php } ?>
+    }
 
+    /********************************************************************************
+    *
+    *   Show Update List (RSS Feed from Google Code) if enabled
+    *
+    *********************************************************************************/
 
-<?php   // display database update 
-if ( strlen( $database_update) > 0)
-{
-?>
+    if (( ! $fatal_error) && ( ! $config['startup']['disable_update_list']))
+    {
+        $rss_file = implode(' ', file('http://code.google.com/feeds/p/part-db/downloads/basic'));
+        $rss_rows = array('title', 'updated', 'id');
+        $rss_array = explode('<entry>', $rss_file);
 
-<div class="outer">
-    <h2>Datenbankupdate</h2>
-    <div class="inner red">
-    <?php print $database_update; ?>
-    </div>
-</div>
-<?php 
-} 
-
-print $banner;
-
-?>
-
-<div class="outer">
-    <h2>Lizenz</h2>
-    <div class="inner">
-        <form action="https://www.paypal.com/cgi-bin/webscr" method="post">
-            <input type="hidden" name="cmd" value="_donations">
-            <input type="hidden" name="business" value="theborg@grautier.com">
-            <input type="hidden" name="lc" value="DE">
-            <input type="hidden" name="item_name" value="Part-DB">
-            <input type="hidden" name="no_note" value="0">
-            <input type="hidden" name="currency_code" value="EUR">
-            <input type="hidden" name="bn" value="PP-DonationsBF:btn_donateCC_LG.gif:NonHostedGuest">
-            <input type="image" src="https://www.paypal.com/de_DE/DE/i/btn/btn_donateCC_LG.gif" name="submit" align="right" alt="Jetzt einfach, schnell und sicher online bezahlen – mit PayPal.">
-            <img alt="" border="0" src="https://www.paypal.com/de_DE/i/scr/pixel.gif" width="1" height="1" align="right">
-        </form>
-        Part-DB, Copyright &copy; 2005 of <strong>Christoph Lechner</strong>. Part-DB is published under the <strong>GPL</strong>,
-        so it comes with <strong>ABSOLUTELY NO WARRANTY</strong>, click <a href="readme/gpl.txt">here</a> for details.
-        This is free software, and you are welcome to redistribute it under certain conditions.
-        Click <a href="readme/gpl.txt">here</a> for details.<br>
-        <br> 
-        The first Author's Homepage <a href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
-        Author since 2009 by <strong>K.Jacobs</strong> - <a href="http://www.grautier.com/">http://grautier.com</a><br>
-        <br> 
-        Forum: F&uuml;r Fragen rund um die Part-DB gibt es einen Thread auf <a href="http://www.mikrocontroller.net/topic/269289">mikrocontroller.net</a><br>
-        Wiki: Hilfe zur Installation gibt es im <a href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Wiki</a><br>
-        <br>
-        <table>
-        <tr><td><strong>ajfrenzel</strong></td><td>Committer/Bugfix</td></tr>
-        <tr><td><strong>tgrziwa</strong></td><td>Committer/Bugfix</td></tr>
-        <tr><td><strong>d.lipschinski</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr>
-        <tr><td><strong>Michael Buesch</strong></td><td>Reichelt/Pollin Preissuch Script</td></tr>
-        <tr><td><strong>bubbles.red</strong></td><td>Committer/Bugfix/Neue Funktionen</td></tr>
-        <tr><td><strong>Matthias Wei&szlig;er</strong></td><td>EAGLE3D / Bauteile Renderscript (eagle3d.py)</td></tr> 
-        <tr><td><strong>Urban B.</strong></td><td>Committer/Neue Footprints</td></tr>
-        <tr><td><strong>Andr&eacute; Althaus</strong></td><td>neue Funktionen</td></tr>
-        </table>
-    </div>
-</div>
-
-<?php
-if (! $disable_update_list) {
-?>
-
-<div class="outer">
-    <h2>Updates</h2>
-    <div class="inner small">
-        <?php
-            $rss_file   = join ( ' ', file ("http://code.google.com/feeds/p/part-db/downloads/basic"));
-            $rss_zeilen = array ( "title", "updated", "id" );
-            $rss_array  = explode ( "<entry>", $rss_file );
-            
-            // show only the last actual versions
-            $count      = 4;
-            foreach ( $rss_array as $string ) 
+        // show only the last actual versions
+        $count = 4;
+        $rss_text = array();
+        foreach ($rss_array as $string)
+        {
+            // show all lines from rss feed
+            foreach ($rss_rows as $row)
             {
-                // show all lines from rss feed
-                foreach ( $rss_zeilen as $zeile ) 
-                {
-                    // find tags
-                    preg_match_all( "|<$zeile>(.*)</$zeile>|Usim", $string, $preg_match);
-                    $$zeile = $preg_match [1] [0];
-                    // make clickable if http url
-                    $$zeile = preg_replace('`((?:http)://\S+[[:alnum:]]/?)`si', '<a href="\\1">\\1</a>', $$zeile); 
-                    print $$zeile ."<br>". PHP_EOL;
-                } 
-                if (!(--$count))
-                    break;
-                print "<br>". PHP_EOL;
+                // find tags
+                preg_match_all("|<$row>(.*)</$row>|Usim", $string, $preg_match);
+                $$row = $preg_match[1][0];
+                // make clickable if http url
+                $$row = preg_replace('`((?:http)://\S+[[:alnum:]]/?)`si', '<a target="_new" href="\\1">\\1</a>', $$row);
+                $rss_text[]['row'] = $$row;
             }
-        ?>
-    </div>
-</div>
+            if (!(--$count)) break;
+            $rss_text[]['row'] = '';
+        }
 
-<?php
-}
+        $html->set_loop('update_list', $rss_text);
+    }
+
+    /********************************************************************************
+    *
+    *   Set the rest of the HTML variables
+    *
+    *********************************************************************************/
+
+    $html->set_loop('authors', $authors);
+
+    if (! $fatal_error)
+    {
+        $html->set_variable('banner', $config['startup']['custom_banner'], 'string');
+
+        try
+        {
+            $system_version = $system->get_installed_version();
+            $html->set_variable('system_version',       $system_version->as_string(false, true, true, false),   'string');
+            $html->set_variable('system_version_full',  $system_version->as_string(false, false, false, true),  'string');
+            $html->set_variable('svn_revision',         get_svn_revision(),                                     'integer');
+        }
+        catch (Exception $e)
+        {
+            $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+        }
+    }
+
+    /********************************************************************************
+    *
+    *   Generate HTML Output
+    *
+    *********************************************************************************/
+
+    $reload_link = $fatal_error ? 'startup.php' : '';   // an empty string means that the...
+    $html->print_header($messages, $reload_link);       // ...reload-button won't be visible
+
+    if (! $fatal_error)
+        $html->print_template('startup');
+
+    $html->print_footer();
+
 ?>
-
-</body>
-</html>
-
-

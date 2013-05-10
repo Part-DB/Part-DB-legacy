@@ -1,10 +1,37 @@
 <?php
 /*
+    part-db version 0.1
+    Copyright (C) 2005 Christoph Lechner
+    http://www.cl-projects.de/
+
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+
     $Id$
+
+    Changelog (sorted by date):
+        [DATE]      [NICKNAME]          [CHANGES]
+        ????-??-??  kami89              - changed to OOP
 */
-    
-    include ("lib.php");
-    partdb_init();
+
+    die('File is not yet changed to Templates/OOP');
+
+    require_once ('lib.php');
 
     // database query
 
@@ -47,7 +74,7 @@
         while( $dbrow = mysql_fetch_object( $result))
         {
             $xmlrow = $XMLDoc->addChild( "part");
-     
+
             foreach( $dbrow as $column => $value)
             {
                 $xmlrow->$column = utf8_encode( $value);
@@ -59,27 +86,27 @@
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $dom->loadXML( $XMLDoc->asXML());
-     
+
         // output
         header("Content-Type: text/xml; charset=utf-8");
         header("Content-disposition: attachment; filename=\"". $filename .".xml\"");
         header("Pragma: no-cache");
         print $dom->saveXML();
     }
-    
+
 
     if (( $action == "output") && ( $format == 'CSV'))
     {
 
         // header
         $CSVDoc = "# Kategorie; Name; Beschreibung; Anzahl; Footprint; Lagerort; Lieferant; Bestellnummer; Kommentar\n";
-     
+
         //  catch SQL results, form CSV output 
         while( $dbrow = mysql_fetch_row( $result))
         {
             $CSVDoc .= implode( ";", $dbrow) . "\n";
         }
-     
+
 
         // output
         header("Content-Type: text/x-csv");
@@ -95,7 +122,7 @@
 
         // header
         $CSVDoc = "^ Kategorie^ Name^ Beschreibung^ Anzahl^ Footprint^ Lagerort^ Lieferant^ Bestellnummer^ Kommentar^ \n|";
-     
+
         //  catch SQL results, form DokuWIKI (CSV) output 
         while( $dbrow = mysql_fetch_row( $result))
         {
@@ -116,13 +143,13 @@
 
         // header
         $CSVDoc = "# Name; Footprint; Lagerort;\n";
-     
+
         //  catch SQL results, form DokuWIKI (CSV) output 
         while( $dbrow = mysql_fetch_assoc( $result))
         {
             $CSVDoc .= $dbrow['name'] ."; ". $dbrow['footprint'] ."; ". $dbrow['location'] ."\n"; 
         }
-     
+
 
         // output
         header("Content-Type: text/plain");

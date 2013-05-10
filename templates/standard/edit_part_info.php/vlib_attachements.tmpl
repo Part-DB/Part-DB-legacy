@@ -1,0 +1,82 @@
+<div class="outer">
+    <h2>Dateianhänge</h2>
+    <div class="inner">
+        <table width="100%">
+            <tr class="trcat">
+                <td>Bild / Link</td>
+                <td>Eigenschaften</td>
+                <td></td>
+            </tr>
+
+            {TMPL_LOOP NAME="attachements_loop"}
+                <form action="" method="post" enctype="multipart/form-data">
+                    <!--the alternating background colors are created here-->
+                    <tr class="{TMPL_IF NAME="row_odd"}trlist_odd{TMPL_ELSE}trlist_even{/TMPL_IF}">
+
+                        <!--Picture-->
+                        <td class="tdrow0">
+                            {TMPL_IF NAME="id" VALUE="new"}
+                                <b>Neue Datei hinzufügen:</b>
+                            {TMPL_ELSE}
+                                {TMPL_IF NAME="picture_filename"}
+                                    <a href="javascript:popUp('{TMPL_VAR NAME="picture_filename"}',
+                                                                {TMPL_IF NAME="use_modal_popup"}true {TMPL_ELSE}false {/TMPL_IF},
+                                                                {TMPL_VAR NAME="popup_width"}, {TMPL_VAR NAME="popup_height"})">
+                                        <img style="max-height:180px; max-width:180px" src="{TMPL_VAR NAME="picture_filename"}" alt="{TMPL_VAR NAME="name"}">
+                                    </a>
+                                {TMPL_ELSE}
+                                    {TMPL_IF NAME="filename"}
+                                        <a href="{TMPL_VAR NAME="filename"}">{TMPL_VAR NAME="name"}</a>
+                                    {TMPL_ELSE}
+                                        {TMPL_VAR NAME="name"}
+                                    {/TMPL_IF}
+                                {/TMPL_IF}
+                            {/TMPL_IF}
+                        </td>
+
+                        <td>
+                            <table width="100%">
+                                <tr>
+                                    <td>
+                                        <b>Name:</b><br>
+                                        <input type="text" name="name" size="12" value="{TMPL_VAR NAME="name"}">
+                                    </td>
+                                    <td>
+                                        <b>Dateityp:</b><br>
+                                        <select name="attachement_type_id">
+                                            {TMPL_VAR NAME="attachement_types_list" ESCAPE="none"}
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" name="show_in_table" {TMPL_IF NAME="show_in_table"} checked{/TMPL_IF}>In Tabelle anzeigen<br>
+                                        {TMPL_IF NAME="is_picture"}
+                                            <input type="checkbox" name="is_master_picture" {TMPL_IF NAME="is_master_picture"} checked{/TMPL_IF}>Als Hauptbild verwenden
+                                        {/TMPL_IF}
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="3">
+                                    <b>Dateiname / URL:</b><br>
+                                    <!-- <input type="text" name="filename" value="{TMPL_VAR NAME="filename"}"> -->
+                                    <input type="file" name="attachement_file">
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+
+                        <td class="tdrow1">
+                            <input type="hidden" name="pid" value="{TMPL_VAR NAME="pid"}">
+                            <input type="hidden" name="attachement_id" value="{TMPL_VAR NAME="id"}">
+                            {TMPL_IF NAME="id" VALUE="new"}
+                                <input type="submit" name="attachement_add" value="Hinzufügen">
+                            {TMPL_ELSE}
+                                <input type="submit" name="attachement_apply" value="Übernehmen"><br>
+                                <input type="submit" name="attachement_delete" value="Löschen">
+                            {/TMPL_IF}
+                        </td>
+                    </tr>
+                </form>
+            {/TMPL_LOOP}
+        </table>
+    </div>
+</div>

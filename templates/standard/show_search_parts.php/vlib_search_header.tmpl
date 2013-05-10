@@ -1,0 +1,29 @@
+<div class="outer">
+    <h2>Suchergebnis</h2>
+    <div class="inner">
+        Sie suchten nach "{TMPL_VAR NAME="keyword"}"
+        <div style="float: right; display: inline;">
+            <form action="" method="post" style="display: inline;">
+                <input type='hidden' name='keyword' value='{TMPL_VAR NAME="keyword"}'>
+                {TMPL_IF NAME="search_name"}            <input type='hidden' name='search_name'>{/TMPL_IF}
+                {TMPL_IF NAME="search_category"}        <input type='hidden' name='search_category'>{/TMPL_IF}
+                {TMPL_IF NAME="search_description"}     <input type='hidden' name='search_description'>{/TMPL_IF}
+                {TMPL_IF NAME="search_comment"}         <input type='hidden' name='search_comment'>{/TMPL_IF}
+                {TMPL_IF NAME="search_supplier"}        <input type='hidden' name='search_supplier'>{/TMPL_IF}
+                {TMPL_IF NAME="search_supplierpartnr"}  <input type='hidden' name='search_supplierpartnr'>{/TMPL_IF}
+                {TMPL_IF NAME="search_storelocation"}   <input type='hidden' name='search_storelocation'>{/TMPL_IF}
+                {TMPL_IF NAME="search_footprint"}       <input type='hidden' name='search_footprint'>{/TMPL_IF}
+                {TMPL_IF NAME="search_manufacturer"}    <input type='hidden' name='search_manufacturer'>{/TMPL_IF}
+
+                <select name="export_format">
+                    {TMPL_LOOP NAME = "export_formats"}
+                        <option value="{TMPL_VAR NAME="value"}" {TMPL_IF NAME="selected"}selected{/TMPL_IF}>{TMPL_VAR NAME="text"}</option>
+                    {/TMPL_LOOP}
+                </select>
+
+                <input type="submit" name="export" value="Export">
+            </form>
+        </div>
+        <div class="clear"></div>
+    </div>
+</div>

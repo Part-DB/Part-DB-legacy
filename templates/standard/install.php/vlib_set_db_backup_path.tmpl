@@ -1,0 +1,38 @@
+<div class="outer">
+    <h2>Installation/Update: Datenbank Backupsystem</h2>
+    <div class="inner">
+        <font color="red"><b>Es wird dringend empfohlen, regelmässig Sicherungskopien der Datenbank zu erstellen!</b><br>
+        Auch sollte vor jedem Datenbankupdate ein Backup durchgeführt werden. Die Entwickler von Part-DB übernehmen<br>
+        keinerlei Haftung für Schäden jeglicher Art, die durch fehlende Backups oder durch Fehler in Part-DB verursacht werden.</font>
+        <br><br>
+        Sie können dafür ein externes System benutzen, das sich mit einem Link ins Menü von Part-DB integrieren lässt.<br>
+        Ein solches Backup-System ist z.B. <a target="_new" href="http://www.mysqldumper.net/">MySQLDumper</a>.
+        <br><br>
+        Lassen Sie beide Felder leer, wenn Sie keine Verknüpfung zu einem Backup-System haben möchten.
+        <hr>
+        <form action="" method="post">
+            <table>
+                <tr>
+                    <td>Name des Backup-Systems:</td>
+                    <td>
+                        <input type="text" name="db_backup_name" value="{TMPL_VAR NAME="db_backup_name"}">
+                        z.B. "MySQLDumper"
+                    </td>
+                </tr>
+                <tr>
+                    <td>Link zum Backup-System:</td>
+                    <td>
+                        <input type="text" name="db_backup_path" value="{TMPL_VAR NAME="db_backup_path"}">
+                        z.B. "../mysqldumper/"
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" name="save_db_backup_path" value="Weiter">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,115 @@
+<div class="outer">
+    <h2>Lieferanten</h2>
+    <div class="inner">
+        <form action="" method="post">
+        <table>
+            <tr>
+                <td rowspan="11">
+                    <select name="selected_id" size="30" onChange="this.form.submit()">
+                        <optgroup label="Neu">
+                            <option value="0" {TMPL_IF NAME="id" VALUE="0"}selected{/TMPL_IF}>Neuer Lieferant</option>
+                        </option>
+                        <optgroup label="Bearbeiten">
+                            {TMPL_VAR NAME="supplier_list" ESCAPE="none"}
+                        </option>
+                    </select>
+                </td>
+                <td colspan="2">
+                    {TMPL_IF NAME="id" VALUE="0"}
+                        <strong>Neuen Lieferanten hinzufügen:</strong>
+                    {TMPL_ELSE}
+                        {TMPL_IF NAME="name"}
+                            <strong>Lieferant bearbeiten:</strong>
+                        {TMPL_ELSE}
+                            <strong>Es ist kein Lieferant angewählt!</strong>
+                        {/TMPL_IF}
+                    {/TMPL_IF}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    ID:
+                </td>
+                <td>
+                    {TMPL_IF NAME="id"}{TMPL_VAR NAME="id"}{TMPL_ELSE}-{/TMPL_IF}
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Name*:
+                </td>
+                <td>
+                    <input type="text" name="name" value="{TMPL_VAR NAME="name"}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Übergeordneter Lieferant*:
+                </td>
+                <td>
+                    <select name="parent_id" size="1">
+                        {TMPL_VAR NAME="parent_supplier_list" ESCAPE="none"}
+                    </select>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Adresse:
+                </td>
+                 <td>
+                    <textarea name="address" rows="5" cols="30">{TMPL_VAR NAME="address" ESCAPE="HTML"}</textarea>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Telefonnummer:
+                </td>
+                <td>
+                    <input type="text" name="phone_number" value="{TMPL_VAR NAME="phone_number"}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Faxnummer:
+                </td>
+                <td>
+                    <input type="text" name="fax_number" value="{TMPL_VAR NAME="fax_number"}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    E-Mail Adresse:
+                </td>
+                <td>
+                    <input type="text" name="email_address" value="{TMPL_VAR NAME="email_address"}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    Webseite:
+                </td>
+                <td>
+                    {TMPL_IF NAME="website"}
+                    <a href="{TMPL_VAR NAME="website"}" target="_new">{TMPL_VAR NAME="website"}</a><br>
+                    {/TMPL_IF}
+                    <input type="text" name="website" value="{TMPL_VAR NAME="website"}">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <i>* = Pflichtfelder</i>
+                </td>
+                <td>
+                    {TMPL_IF NAME="id" VALUE="0"}
+                        <input type="submit" name="add" value="Neuen Lieferanten anlegen"><br>
+                        <input type="checkbox" name="add_more" {TMPL_IF NAME="add_more"}checked{/TMPL_IF}>Weitere Lieferanten anlegen
+                    {TMPL_ELSE}
+                        <input type="submit" name="apply" value="Änderungen übernehmen">
+                        <input type="submit" name="delete" value="Lieferant löschen">
+                    {/TMPL_IF}
+                </td>
+            </tr>
+        </table>
+        </form>
+    </div>
+</div>

@@ -1,55 +1,104 @@
 <?php
-    @( include('config.php')) or die('<h2>Fehler: config.php ist nicht vorhanden!</h2>Bitte mit <em>cp config.php_template config.php</em> anlegen');
-?>
+/*
+    part-db version 0.1
+    Copyright (C) 2005 Christoph Lechner
+    http://www.cl-projects.de/
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN"                                  "http://www.w3.org/TR/html4/frameset.dtd">
+    part-db version 0.2+
+    Copyright (C) 2009 K. Jacobs and others (see authors.php)
+    http://code.google.com/p/part-db/
 
-<html>
-  <head>
-      <title><?php print $title ?></title>
-      <link rel="icon" href="img/partdb/favicon.ico" type="image/x-icon">
-  </head>
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
 
-<?php
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-function check_mobile() 
-{
-    $agents = array(
-        'Windows CE', 'Pocket', 'Mobile',
-        'Portable', 'Smartphone', 'SDA',
-        'PDA', 'Handheld', 'Symbian',
-        'WAP', 'Palm', 'Avantgo',
-        'cHTML', 'BlackBerry', 'Opera Mini',
-        'Nokia', 'PSP', 'J2ME'
-    );
-    $result = false;
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    if ( isset( $_SERVER["HTTP_USER_AGENT"]))
+    $Id$
+
+    Changelog (sorted by date):
+        [DATE]      [NICKNAME]          [CHANGES]
+        2012-??-??  weinbauer73         - changed to templates
+        2012-09-03  kami89              - changed to OOP
+*/
+
+    include_once('start_session.php');
+
+    $messages = array();
+    $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
+
+    /********************************************************************************
+    *
+    *   Check if all installation steps are done. If not, go to the installer.
+    *
+    *********************************************************************************/
+
+    if (( ! is_array($config['installation_complete']))
+        || in_array(false, $config['installation_complete'], true)) // is at least one array item 'false'?...
     {
-        foreach( $agents as $agent)
+        header('Location: install.php'); // ...then go to the installation page
+        exit;
+    }
+
+    /********************************************************************************
+    *
+    *   Initialize Objects
+    *
+    *********************************************************************************/
+
+    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], $config['page_title']);
+    $html->set_variable('title', $config['page_title'], 'string');
+
+    /********************************************************************************
+    *
+    *   Check if client is a mobile device
+    *
+    *********************************************************************************/
+
+    $mobile = false;
+    if (isset($_SERVER["HTTP_USER_AGENT"]))
+    {
+        $agents = array(
+            'Windows CE', 'Pocket', 'Mobile',
+            'Portable', 'Smartphone', 'SDA',
+            'PDA', 'Handheld', 'Symbian',
+            'WAP', 'Palm', 'Avantgo',
+            'cHTML', 'BlackBerry', 'Opera Mini',
+            'Nokia', 'PSP', 'J2ME'
+        );
+
+        foreach ($agents as $agent)
         {
-            if ( strpos( $_SERVER["HTTP_USER_AGENT"], $agent))
+            if (strpos($_SERVER["HTTP_USER_AGENT"], $agent))
             {
-                $result = true;
+                $mobile = true;
                 break;
             }
         }
     }
-    return $result;
-}
 
-if ( check_mobile()) 
-{
-    @( include('mobil/mobil.php')) or die('<h2>Part-DB Mobile ist nicht installiert!</h2>');
-}
-else { 
-?>
-    <frameset cols="300,*" frameborder="0" framespacing="0" border="0">
-        <frame name="_nav_frame" src="nav.php">
-        <frame name="content_frame" src="startup.php">
-    </frameset>
-<?php
-}
-?>
-</html> 
+    $html->set_variable('mobile', $mobile, 'boolean');
 
+    /********************************************************************************
+    *
+    *   Generate HTML Output
+    *
+    *********************************************************************************/
+
+    if ($fatal_error)
+    {
+        $html->print_header($messages, 'index.php');
+        $html->print_footer();
+    }
+    else
+        $html->print_template('frameset');
+
+?>

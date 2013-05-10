@@ -1,0 +1,6 @@
+====== Anforderungen ======
+
+  * PHP5 (Version 5.3.8)(PHP4 wird gelegentlich getestet)
+  * Webserver mit mindestens 15MB Platz + ~300MB Footprints
+  * MySQL Datenbank (Version 5.1.61)
+  * Webbrowser mit JavaScript und HTML4 Unterstützung.

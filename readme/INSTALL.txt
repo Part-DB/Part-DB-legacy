@@ -1,18 +1,9 @@
-Anforderung:
+Anforderungen:
 
-* Webserver mit mindestens 15MB Platz
-* PHP5 (Version 5.3.8) (PHP4 wird gelegentlich getestet, Fehlermeldungen bitte ins Forum)
-* MySQL Datenbank (Version 5.1.61)
+* Webserver mit mindestens 15MB Platz (mit Footprint-Bilder mindestens 60MB)
+* PHP >= 5.3.0 mit PDO inkl. MySQL Plugin
+* MySQL Datenbank mit der Speicherengine InnoDB
 * Webbrowser mit JavaScript und HTML4 Unterstützung
-
-
-config.php anlegen:
-
-Am Einfachsten eine Kopie des Templates anlegen:
-cp config.php_template config.php
-
-Dort können diverse Einstellungen vorgenommen werden.
-Wichtig für den Datenbankzugriff sind die Variablen, die mit $db_ beginnen.
 
 
 Anlegen der Datenbank:
@@ -20,36 +11,37 @@ entweder händisch über PhpMyAdmin (siehe: http://www.mikrocontroller.net/artic
 
 oder direkt auf der Kommandzeile:
 
-mysql -u root -p
-CREATE DATABASE part-db;
-grant usage on *.* to part-db@localhost identified by 'PARTdb';
-grant all privileges on part-db.* to part-db@localhost;
-quit
+> mysql -u root -p
+> CREATE DATABASE part-db;
+> grant usage on *.* to part-db@localhost identified by 'PARTdb';
+> grant all privileges on part-db.* to part-db@localhost;
+> quit
 
 dann kurz testen, ob der Datenbankzugriff funktioniert:
 
-mysql -u part-db -pPARTdb
-quit
+> mysql -u part-db -pPARTdb
+> quit
 
-Der Datenbanknutzer und das Password müssen mit dem in der config.php übereinstimmen.
 
-Das Einspielen der Datenbank-Tabellenstruktur erfolgt mit:
-mysql -u part-db -pPARTdb part-db < readme/createtables-FOR-V0.2.1.sql
+Das Einspielen der Datenbank-Tabellenstruktur erfolgt entweder mit:
+> mysql -u part-db -pPARTdb part-db < readme/createtables_DBv13.sql
+oder mit dem Part-DB Installer direkt im Webbrowser.
 
 
 Webserver konfigurieren:
 
 Jetzt muß noch das Verzeichnis in dem part-db liegt dem Webserver bekannt gemacht werden.
 Dazu bietet sich ein Soft-Link an:
-
-ln -s /home/user/path/to/part-db /var/www/partdb
+> ln -s /home/user/path/to/part-db /var/www/partdb
 
 Dann sollte die Startseite unter  http://localhost/partdb  erscheinen.
 
 
 Zugriffsrechte für Verzeichnisse setzen:
 
-Dsa Verzeichnis img muß für den Webserver schreibbar sein, damit der Bilderupload funktioniert:
+Dsa Verzeichnis media/ muß für den Webserver schreibbar sein, damit der Dateiupload funktioniert:
+> chmod 664 media
 
-chmod 664 img
 
+Beim ersten Aufruf von Part-DB im Webbrowser wird automatisch der Installations-Assistent angezeigt.
+Folgen Sie dort den Anweisungen. Nach wenigen Klicks ist Part-DB installiert und einsatzbereit.

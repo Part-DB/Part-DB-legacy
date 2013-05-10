@@ -1,0 +1,14 @@
+<input type="hidden" name="type" id="base" value="{TMPL_VAR NAME="base"}">
+<input type="hidden" name="path" id="path" value="{TMPL_VAR NAME="path"}">
+<input type="hidden" name="type" id="type" value="{TMPL_VAR NAME="type"}">
+<p>{TMPL_IF NAME="dir"}
+<ul class="list">
+    {TMPL_LOOP NAME="dir"}<li class="dir" id="fm_dir_{TMPL_VAR NAME="name"}" onclick="filemanager.showFiles('{TMPL_VAR NAME="path"}');"{TMPL_IF NAME="longname"} long="{TMPL_VAR NAME="longname"}"{/TMPL_IF}>{TMPL_VAR NAME="name"}</li>{/TMPL_LOOP}
+</ul>{/TMPL_IF}
+{TMPL_IF NAME="file"}
+<ul class="list">
+    {TMPL_LOOP NAME="file"}<li class="hover" id="fm_file_{TMPL_VAR NAME="b64name"}" file="{TMPL_VAR NAME="name"}" path="{TMPL_VAR NAME="path"}" onclick="filemanager.showFileInfo('{TMPL_VAR NAME="b64name"}',this.id);"{TMPL_IF NAME="longname"} long="{TMPL_VAR NAME="longname"}"{/TMPL_IF}>{TMPL_VAR NAME="name"}</li>{/TMPL_LOOP}
+</ul>
+{/TMPL_IF}
+{TMPL_IF NAME="nofile"}<ul class="list"><li class="hover">Kein Eintrag vorhanden.</li></ul>{/TMPL_IF}
+</p>

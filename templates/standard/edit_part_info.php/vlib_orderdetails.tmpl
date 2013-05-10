@@ -1,0 +1,93 @@
+<div class="outer">
+    <h2>Einkaufsinformationen</h2>
+    <div class="inner">
+        <table>
+            <tr class="trcat">
+                <td></td>
+                <td>Lieferant<br>Bestellnummer</td>
+                <td>Eigenschaften</td>
+                <td>Preise</td>
+                <td></td>
+            </tr>
+
+            {TMPL_LOOP NAME="orderdetails"}
+                <tr class="{TMPL_IF NAME="row_odd"}trlist_odd{TMPL_ELSE}trlist_even{/TMPL_IF}">
+                    <td>
+                        {TMPL_IF NAME="orderdetails_id" VALUE="new"}<b>Neu:</b>{/TMPL_IF}
+                    </td>
+
+                    <form action="" method="post">
+                        <td>
+                            <select name="supplier_id">
+                                {TMPL_VAR NAME="supplier_list" ESCAPE="none"}
+                            </select>
+                            <br>
+                            <input type="text" name="supplierpartnr" size="12" value="{TMPL_VAR NAME="supplierpartnr"}">
+                            <br>
+                            <input type="hidden" name="pid" value="{TMPL_VAR NAME="pid"}">
+                            <input type="hidden" name="orderdetails_id" value="{TMPL_VAR NAME="orderdetails_id"}">
+                        </td>
+
+                        <td>
+                            <input type="checkbox" name="obsolete" {TMPL_IF NAME="obsolete"}checked{/TMPL_IF}>Obsolet<br>
+                            {TMPL_IF NAME="orderdetails_id" VALUE="new"}
+                                <input type="submit" name="orderdetails_add" value="Hinzufügen">
+                            {TMPL_ELSE}
+                                <input type="submit" name="orderdetails_apply" value="Übernehmen"><br>
+                                <input type="submit" name="orderdetails_delete" value="Löschen">
+                            {/TMPL_IF}
+                        </td>
+                    </form>
+
+                    <td>
+                        {TMPL_IF NAME="orderdetails_id" OP="<>" VALUE="new"}
+                            <table>
+                                <tr class="trcat">
+                                    <td></td>
+                                    <td>Ab Bestellmenge</td>
+                                    <td>Preis</td>
+                                    <td></td>
+                                </tr>
+
+                                {TMPL_LOOP NAME="pricedetails"}
+                                    <form action="" method="post">
+                                        <!--the alternating background colors are created here-->
+                                        <tr class="{TMPL_IF NAME="row_odd"}trlist_odd{TMPL_ELSE}trlist_even{/TMPL_IF}">
+                                            <td class="tdrow1">
+                                                {TMPL_IF NAME="pricedetails_id" VALUE="new"}<b>Neu:</b>{/TMPL_IF}
+                                            </td>
+
+                                            <td class="tdrow1">
+                                                <input type="text" name="min_discount_quantity" size="5" onkeypress="validatePosIntNumber(event)" value="{TMPL_VAR NAME="min_discount_quantity"}" {TMPL_IF NAME="min_discount_quantity" VALUE="1"}disabled{/TMPL_IF}>
+                                            </td>
+
+                                            <td class="tdrow1">
+                                                <input type="text" name="price" size="7" onkeypress="validatePosFloatNumber(event)" value="{TMPL_VAR NAME="price"}">
+                                                pro
+                                                <input type="text" name="price_related_quantity" size="5" onkeypress="validatePosIntNumber(event)" value="{TMPL_VAR NAME="price_related_quantity"}">
+                                                Stk.
+                                            </td>
+
+                                            <td class="tdrow1">
+                                                <input type="hidden" name="pid" value="{TMPL_VAR NAME="pid"}">
+                                                <input type="hidden" name="pricedetails_id" value="{TMPL_VAR NAME="pricedetails_id"}">
+                                                <input type="hidden" name="orderdetails_id" value="{TMPL_VAR NAME="orderdetails_id"}">
+                                                {TMPL_IF NAME="pricedetails_id" VALUE="new"}
+                                                    <input type="submit" name="pricedetails_add" value="Hinzufügen">
+                                                {TMPL_ELSE}
+                                                    <input type="submit" name="pricedetails_apply" value="Übernehmen">
+                                                    <input type="submit" name="pricedetails_delete" value="Löschen">
+                                                {/TMPL_IF}
+                                            </td>
+                                        </tr>
+                                    </form>
+                                {/TMPL_LOOP}
+                            </table>
+                        <br>
+                        {/TMPL_IF}
+                    </td>
+                </tr>
+            {/TMPL_LOOP}
+        </table>
+    </div>
+</div>

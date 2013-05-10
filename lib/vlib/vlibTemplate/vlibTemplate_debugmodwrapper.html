@@ -1,0 +1,24 @@
+<script language="JavaScript1.1">
+    if (vLIB_DEBUGWIN_OPENED != 1) {
+
+        var vlib_window_obj = window.open('', 'vlibdebugwinwinwin_{tmpl_var name="securecode" escape="sq"}', 'toolbar=no,location=no,status=no,directories=no,menubar=no,scrollbars=yes,resizable=yes');
+
+        // write header
+        vlib_window_obj.document.open();
+        vlib_window_obj.document.write("<html>\n<head>\n<title>vlibTemplate :: Debug Module</title>\n\n");
+        vlib_window_obj.document.write("<style>\n.vLIBtdheader {\nbackground-color: #D1E2F3;\ncolor: #000000;\nfont-family: Arial, Helvetica, sans-serif;\nfont-weight: bold;\n}\n</style>\n\n</head>\n<body>\n\n");
+
+        function vLIB_DEBUG_onload () {
+            // write selector object
+            vlib_window_obj.document.write("<form name='vLIB_form'><select name=\"vLIB_selector\" class=vLIBtdheader><option value=\" \">Select a template to view..</option>"+vLIB_DEBUG_OPTIONS+"</select><input type=button value='View Template' onClick=\"vLIBshowlayer(document.vLIB_form.vLIB_selector.value)\" class=vLIBtdheader></form><br><br>");
+            vlib_window_obj.document.write("</body></html>");
+            vlib_window_obj.document.close();
+        }
+        window.onload = vLIB_DEBUG_onload;
+
+        var vLIB_DEBUGWIN_OPENED = 1, vLIB_DEBUG_OPTIONS="";
+    }
+
+    vLIB_DEBUG_OPTIONS += "<option value=\"{tmpl_var name="filename_enc" escape="dq"}\">{tmpl_var name='filename' escape='html'}</option>\n";
+    <tmpl_var name="debug_content" escape="none">
+</script>

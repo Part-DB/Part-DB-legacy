@@ -1,0 +1,44 @@
+CHANGELOG
+===================
+
+4.2.1
+-------------------
+* A lot of Refactoring
+* Bugfix for vlibMimeMail: Sending mails with text (not HTML) and attachments is working again.
+
+
+4.2.0
+-------------------
+
+PHP4 is not supported any longer, please use PHP5. vlibMimeMail has been replaced by Swift. Swift is a free feature-rich PHP Mailer. It's released under the LGPL, which is now part of "LICENSE.txt". Swift is a fully OOP library for sending e-mails from PHP websites and applications. It does not rely on PHP's native mail() function which is known for using high server resources when sending multiple emails. Instead, Swift communicates directly with an SMTP server or a MTA binary to send mail quickly and efficiently. Therefore it's now needed to create vlibMimeMail objects with a host. You need to replace
+$mail = new vlibMimeMail();
+with
+$mail = new vlibMimeMail('127.0.0.1');
+or any other IP address.
+
+
+4.1.0
+-------------------
+
+All prior releases allowed to use PHP within a template, which was major bug. You can now use "vlibTemplateDebug" without JavaScript.
+
+
+4.0.2.3
+-------------------
+
+*   [General] Fixed bug where Error constants threw a notice when re-defining themselves. Kelvin Jones (2004-01-07)
+*   [vlibTemplate] Fixed bug where the loop context vars (i.e. __ROWNUM__) now work with the CASELESS option.
+    Kelvin Jones (2004-02-10)
+
+
+4.0.2.2
+-------------------
+
+*   [vlibTemplate] changed template "format" option to call PHP function if not found in vlibTemplate::FORMAT_TAGS array.
+    PHP function must accept 1 argument only. Kelvin Jones (2003-11-24)
+
+
+4.0.2.1
+-------------------
+
+ *  [vlibTemplate] removed Call time reference from Db functions for Forward Compatibility. Kelvin Jones (2003-11-13)
