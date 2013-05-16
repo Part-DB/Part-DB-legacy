@@ -1,2 +1,0 @@
-mysql -u &lt;USER&gt; -&lt;DATENBANKNAME&gt; -p
-quit

@@ -7,14 +7,8 @@
 
   * [[htaccess|Sicherheit]]
 
-==== Part-DB Lizenz ====
-
-  * [[GPLv2|GPL v2]]
+===== Lizenz =====
 
   * [[gpl-erklärung|Open-Source-Software im Unternehmen]]
 
-==== Andere Lizenzen ===
-
-  * [[GPLv2|DokuWiki - GPL v2]]
-
-  * [[GPLv2|Doxygen - GPL v2]]
+  * [[GPLv2|GNU GPL v2]] (Lizenz von Part-DB, DokuWiki, Doxygen)
