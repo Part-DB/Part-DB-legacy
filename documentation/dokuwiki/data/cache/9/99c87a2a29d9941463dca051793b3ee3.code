@@ -1,0 +1,3 @@
+mysql -u root -p
+GRANT ALL ON &lt;DATENBANKNAME&gt;.* TO &lt;USERNAME&gt;@localhost IDENTIFIED BY &quot;&lt;PASSWORD&gt;&quot;;
+quit

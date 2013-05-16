@@ -1,0 +1,78 @@
+
+<h2 class="sectionedit1" id="installation">Installation</h2>
+<div class="level2">
+
+</div>
+
+<h4 id="anlegen_der_datenbank">Anlegen der Datenbank</h4>
+<div class="level4">
+
+<p>
+Als Erstes muss auf dem MySQL Server eine neue Datenbank für Part-DB angelegt werden. Es empfiehlt sich, auch einen neuen Benutzer anzulegen, der ausschliesslich für Part-DB bestimmt ist. <strong>Der Benutzer muss unbedingt jegliche Rechte an der Datenbank von Part-DB besitzen, ansonsten funktionieren die Datenbankupdates eventuell nicht richtig!</strong>
+Die Datenbank und der Benutzer können z.B. über das Webinterface phpMyAdmin, oder in der Konsole angelegt werden:
+</p>
+<pre class="code language="bash"">mysql -u root -p
+GRANT ALL ON &lt;DATENBANKNAME&gt;.* TO &lt;USERNAME&gt;@localhost IDENTIFIED BY &quot;&lt;PASSWORD&gt;&quot;;
+quit</pre>
+
+<p>
+dann kurz testen, ob der Datenbankzugriff funktioniert:
+</p>
+<pre class="code language="xml"">mysql -u &lt;USER&gt; -&lt;DATENBANKNAME&gt; -p
+quit</pre>
+
+</div>
+
+<h4 id="webserver_konfigurieren">Webserver konfigurieren</h4>
+<div class="level4">
+
+<p>
+Liegen die Dateien von Part-DB nicht im Hauptverzeichnis des Webservers (unter Linux häufig “/var/www/“), muss Part-DB dem Webserver noch bekannt gemacht werden. Dazu bietet sich z.B. ein Softlink an:
+</p>
+<pre class="code language="xml"">ln -s /home/user/path/to/part-db /var/www/partdb</pre>
+
+<p>
+Dann sollte die Startseite unter <a href="http://localhost/partdb" class="urlextern" title="http://localhost/partdb"  rel="nofollow">http://localhost/partdb</a> erscheinen. Möchte man Part-DB von einem anderen PC im Netzwerk aufrufen, muss „localhost“ durch die IP-Adresse des Servers ersetzt werden.
+</p>
+
+</div>
+
+<h4 id="zugriffsrechte_fuer_verzeichnisse_setzen">Zugriffsrechte für Verzeichnisse setzen</h4>
+<div class="level4">
+
+<p>
+Das Verzeichnis „media“ muß für den Webserver schreibbar sein, damit der Dateiupload funktioniert:
+</p>
+<pre class="code language="bash"">chmod 664 media</pre>
+
+</div>
+
+<h4 id="konfiguration_von_part-db">Konfiguration von Part-DB</h4>
+<div class="level4">
+
+<p>
+Beim ersten Aufrufen von Part-DB wird automatisch ein Installationsassistent gestartet. Dort müssen Sie u.A. die Angaben für die soeben angelegte Datenbank und Benutzer eingegeben werden. Danach werden Sie darauf hingewiesen, dass die Datenbank aktualisiert werden muss. Mit diesem Update werden dann alle Tabellen in der Datenbank angelegt bzw. aktualisiert, wenn sie schon vorhanden sind.
+</p>
+
+<p>
+Schlägt dieses Update fehl, sollten Sie überprüfen ob der angegebene Benutzer genügend Rechte an der Datenbank besitzt. Fehlende Rechte ist die häufigste Ursache für fehlgeschlagene Datenbankupdates!
+</p>
+
+<p>
+Ist das Update erfolgreich durchgelaufen, ist Part-DB vollständig einsatzbereit!
+</p>
+
+</div>
+
+<h4 id="updates">Updates</h4>
+<div class="level4">
+
+<p>
+Möchte man eine bereits vorhandene Installation von Part-DB aktualisieren, muss man einfach das heruntergeladene Paket der neuen Part-DB Version im Installationsordner von Part-DB entpacken. Dabei müssen die bereits existierenden Dateien überschrieben werden.
+</p>
+
+<p>
+Es wird empfohlen, vor jedem Update eine Sicherung der Datenbank, sowie vom Verzeichnis „media“ zu erstellen. Die Entwickler von Part-DB übernehmen keinerlei Haftung für Schäden, die durch fehlgeschlagene Updates verursacht wurden.
+</p>
+
+</div>

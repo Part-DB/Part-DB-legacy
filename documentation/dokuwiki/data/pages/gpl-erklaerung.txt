@@ -1,25 +1,25 @@
-==== Was sie als Unternehmen wissen sollten ====
+====== Was sie als Unternehmen wissen sollten ======
 
-Es gelten unabhängig der hier genanten Erklärungen immer die Konditionen der GNU GPLv2, dieses ist nur ein kleiner Leitfaden für die Nutzung in Unternehmen.
+//Es gelten unabhängig der hier genanten Erklärungen immer die Konditionen der GNU GPLv2, dieses ist nur ein kleiner Leitfaden für die Nutzung in Unternehmen.//
 ==== Support ====
 
-Die Part-DB steht unter der GNU GPLv2, es wird kein Support geleistet Fehler/Bugs/Wünsche können im Bugtracker unter [[https://code.google.com/p/part-db/issues/list]] eingetragen werden die Bearbeitung dieser liegt anleine bei dem Entwicklern und kann nicht eingefordert werden.
-
+Die Part-DB steht unter der GNU GPLv2. Benutzer von Part-DB haben keinerlei Anspruch auf Support. Fehler, Verbesserungsvorschläge und Wünsche können im Bugtracker unter [[https://code.google.com/p/part-db/issues/list]] eingetragen werden, die Bearbeitung dieser liegt jedoch alleine bei dem Entwicklern und kann nicht eingefordert werden, auch nicht gegen Entgelt.
 ==== Grobe Richtlinien ====
 
-Die Part-DB kann jeder der es möchte Frei benutzen, verändern und weitergeben zu den Bedingungen der GPLv2.
+Die Part-DB kann jeder frei benutzen, verändern und weitergeben zu den Bedingungen der GPLv2. Diese sind im Groben:
 
-  * Verbesserungen Änderungen müssen dem Projekt bereitgestellt werden.
-  * Bei Weitergabe / Verkauf muss der Komplette Quellcode beigefügt werden.
-  * Keine Haftung der Entwickler oder Projekt beteiligten.
-  * Die Lizenz kann nicht geändert werden.
-==== Doxigen / Dokuwiki ====
+  * Die Lizenz darf nicht geändert werden.
+  * Verbesserungen und jegliche Änderungen müssen dem Projekt bereitgestellt werden.
+  * Bei Weitergabe / Verkauf muss der komplette Quellcode beigefügt werden.
+  * Es kann keine Haftung der Entwickler oder Projektbeteiligten geltend gemacht werden.
+==== Bestandteile von Drittanbietern ====
 
-Die Part-DB enthehlt Bestandteile von Doxigen und dem Dokuwiki, bei Probleme und fragen finden sie Hilfe bei dem jeweiligen Projekt.
+Die Part-DB enthält auch Bestandteile von Drittanbietern. Bei Fragen und Problemen, sowie für weitere Informationen über deren Lizenz, besuchen Sie bitte direkt deren Projektseiten:
 
-  * http://dokuwiki.org
-  * http://www.stack.nl/~dimitri/doxygen/
- 
+  * DokuWiki (Endbenutzer-Dokumentation): [[http://dokuwiki.org]]
+  * Doxygen (Entwickler-Dokumentation): [[http://www.stack.nl/~dimitri/doxygen/]]
+  * vLibTemplate (PHP/HTML Template-Engine): [[https://en.wikipedia.org/wiki/VlibTemplate]]
+  * eagle3d (Footprint-Bilder): [[http://www.matwei.de/doku.php?id=de:eagle3d:eagle3d]]
 ==== Kosten ====
 
-  * Die Part-DB kostet nichts über eine kleine Spende würde sich das Projekt aber freuen.
+Part-DB ist [[http://www.gnu.org/philosophy/free-sw.de.html|Freie Software]]. Das bedeutet auch, dass sie nichts kostet. Über eine kleine Spende würde sich das Projekt aber sehr freuen. Einen Link zum spenden finden Sie auf der Startseite von Part-DB.

@@ -1,0 +1,1 @@
+mysql -u &lt;USER&gt; -p &lt;DATENBANKNAME&gt; &lt; readme/createtables-FOR-V0.2.1.sql

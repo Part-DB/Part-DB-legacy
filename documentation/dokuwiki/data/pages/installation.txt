@@ -1,16 +1,9 @@
 ===== Installation =====
 
-=== config.php anlegen: ===
+===  Anlegen der Datenbank ===
 
-Am Einfachsten eine Kopie des Templates anlegen:
-<code language="xml">
-cp config.php_template config.php
-</code>
-
-Dort können diverse Einstellungen vorgenommen werden.
-Wichtig für den Datenbankzugriff sind die Variablen, die mit $db_ beginnen.
-
-===  Anlegen der Datenbank: ===
+Als Erstes muss auf dem MySQL Server eine neue Datenbank für Part-DB angelegt werden. Es empfiehlt sich, auch einen neuen Benutzer anzulegen, der ausschliesslich für Part-DB bestimmt ist. **Der Benutzer muss unbedingt jegliche Rechte an der Datenbank von Part-DB besitzen, ansonsten funktionieren die Datenbankupdates eventuell nicht richtig!**
+Die Datenbank und der Benutzer können z.B. über das Webinterface phpMyAdmin, oder in der Konsole angelegt werden:
 
 <code language="bash">
 mysql -u root -p
@@ -25,28 +18,34 @@ mysql -u <USER> -<DATENBANKNAME> -p
 quit
 </code>
 
-Der Datenbanknutzer und das Password müssen mit dem in der config.php übereinstimmen.
+=== Webserver konfigurieren ===
 
-Das Einspielen der Datenbank-Tabellenstruktur erfolgt mit:
-<code language="xml">
-mysql -u <USER> -p <DATENBANKNAME> < readme/createtables-FOR-V0.2.1.sql
-</code>
-
-=== Webserver konfigurieren: ===
-
-Jetzt muß noch das Verzeichnis in dem part-db liegt dem Webserver bekannt gemacht werden.
-Dazu bietet sich ein Soft-Link an:
+Liegen die Dateien von Part-DB nicht im Hauptverzeichnis des Webservers (unter Linux häufig "/var/www/"), muss Part-DB dem Webserver noch bekannt gemacht werden. Dazu bietet sich z.B. ein Softlink an:
 
 <code language="xml">
 ln -s /home/user/path/to/part-db /var/www/partdb
 </code>
 
-Dann sollte die Startseite unter  http://localhost/partdb  erscheinen.
+Dann sollte die Startseite unter [[http://localhost/partdb]] erscheinen. Möchte man Part-DB von einem anderen PC im Netzwerk aufrufen, muss "localhost" durch die IP-Adresse des Servers ersetzt werden.
 
-===  Zugriffsrechte für Verzeichnisse setzen: === 
+===  Zugriffsrechte für Verzeichnisse setzen === 
 
-Das Verzeichnis img muß für den Webserver schreibbar sein, damit der Bilder Upload funktioniert:
+Das Verzeichnis "media" muß für den Webserver schreibbar sein, damit der Dateiupload funktioniert:
 
 <code language="bash">
-chmod 664 img
+chmod 664 media
 </code>
+
+=== Konfiguration von Part-DB ===
+
+Beim ersten Aufrufen von Part-DB wird automatisch ein Installationsassistent gestartet. Dort müssen Sie u.A. die Angaben für die soeben angelegte Datenbank und Benutzer eingegeben werden. Danach werden Sie darauf hingewiesen, dass die Datenbank aktualisiert werden muss. Mit diesem Update werden dann alle Tabellen in der Datenbank angelegt bzw. aktualisiert, wenn sie schon vorhanden sind.
+
+Schlägt dieses Update fehl, sollten Sie überprüfen ob der angegebene Benutzer genügend Rechte an der Datenbank besitzt. Fehlende Rechte ist die häufigste Ursache für fehlgeschlagene Datenbankupdates!
+
+Ist das Update erfolgreich durchgelaufen, ist Part-DB vollständig einsatzbereit!
+
+=== Updates ===
+
+Möchte man eine bereits vorhandene Installation von Part-DB aktualisieren, muss man einfach das heruntergeladene Paket der neuen Part-DB Version im Installationsordner von Part-DB entpacken. Dabei müssen die bereits existierenden Dateien überschrieben werden.
+
+Es wird empfohlen, vor jedem Update eine Sicherung der Datenbank, sowie vom Verzeichnis "media" zu erstellen. Die Entwickler von Part-DB übernehmen keinerlei Haftung für Schäden, die durch fehlgeschlagene Updates verursacht wurden.

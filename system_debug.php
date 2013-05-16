@@ -177,9 +177,6 @@
                         print '<input type="submit" name="enable" value="Aktivieren"><br>';
                     }
 
-                    if (isset($_REQUEST['admin_password']) && isset($_REQUEST['enable']) && (! $autorefresh))
-                        print 'MD5-Hash des eingegebenen Passwortes: '.md5($_REQUEST['admin_password']).'<br>';
-
                     if (count($errors) > 0)
                     {
                         print '<br><br><strong><font color="#ff0000">';

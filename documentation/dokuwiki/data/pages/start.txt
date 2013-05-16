@@ -5,7 +5,7 @@
 
   * [[Installation]]
 
-  * [[htaccess|Datenbank Absichern]]
+  * [[htaccess|Sicherheit]]
 
 ==== Part-DB Lizenz ====
 
@@ -15,6 +15,6 @@
 
 ==== Andere Lizenzen ===
 
-  * [[GPLv2|Dokuwiki - GPL v2]]
+  * [[GPLv2|DokuWiki - GPL v2]]
 
-  * [[GPLv2|Doxigen - GPL v2]]
+  * [[GPLv2|Doxygen - GPL v2]]
