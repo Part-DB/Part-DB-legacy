@@ -143,14 +143,10 @@
             case 'save_admin_password':
                 try
                 {
-                    if (strlen($adminpass_1) == 0)
-                        throw new Exception('Das Administratorpasswort darf nicht leer sein!');
+                    // set_admin_password() throws an exception if the new passwords are not valid
+                    set_admin_password(NULL, $adminpass_1, $adminpass_2, false);
 
-                    if ($adminpass_1 !== $adminpass_2)
-                        throw new Exception('Die Passwörter stimmen nicht überein!');
-
-                    $config['admin']['password'] = md5($adminpass_1);
-                    $config['installation_complete']['admin_password'] = true; // locales successful set
+                    $config['installation_complete']['admin_password'] = true; // admin password successful set
                 }
                 catch (Exception $e)
                 {

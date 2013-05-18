@@ -271,11 +271,8 @@
             return;
         }
 
-        // to activate the debug log, we have to check the password
-        $admin_password_md5     = trim($config['admin']['password']);
-        $passed_password_md5    = md5(trim($admin_password));
-
-        if ($admin_password_md5 != $passed_password_md5)
+        // to activate the debug log, we have to check the admin password
+        if ( ! is_admin_password($admin_password))
             throw new Exception('Das Passwort ist nicht korrekt!');
 
         // create new debug log file if it does not exist already

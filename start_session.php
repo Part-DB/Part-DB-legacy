@@ -149,6 +149,13 @@
 
     $config['html']['http_charset'] = 'utf-8'; ///< @todo remove this later; see config_defaults.php
 
+    // just temporary!! switch from MD5 to SHA256 password encryption!
+    if (strlen($config['admin']['password']) == 32) // MD5 has 32 bytes
+    {
+        $config['admin']['password'] = NULL;
+        $config['installation_complete']['admin_password'] = false; // this will show the installer to set a new password
+    }
+
     /********************************************************************************
     *
     *   set internal encoding / timezone / locale / error reporting

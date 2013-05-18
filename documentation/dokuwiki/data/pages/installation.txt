@@ -1,8 +1,17 @@
 ===== Installation =====
 
+<note>
+Diese Anleitung beschreibt nur die Installation von Part-DB, die Infrastruktur (Apache, PHP, MySQL) wird hier vorausgesetzt. Möchten Sie Ihren eigenen Webserver installieren, müssen Sie zuerst die notwendigen Serverkomponenten installieren. Wie das geht, ist in den [[Anforderungen]] beschrieben.
+</note>
+
 ===  Anlegen der Datenbank ===
 
-Als Erstes muss auf dem MySQL Server eine neue Datenbank für Part-DB angelegt werden. Es empfiehlt sich, auch einen neuen Benutzer anzulegen, der ausschliesslich für Part-DB bestimmt ist. **Der Benutzer muss unbedingt jegliche Rechte an der Datenbank von Part-DB besitzen, ansonsten funktionieren die Datenbankupdates eventuell nicht richtig!**
+Als Erstes muss auf dem MySQL Server eine neue Datenbank für Part-DB angelegt werden. Es empfiehlt sich, auch einen neuen Benutzer anzulegen, der ausschliesslich für Part-DB bestimmt ist. 
+
+<note important>
+Der Benutzer muss unbedingt jegliche Rechte an der Datenbank von Part-DB besitzen, ansonsten funktionieren die Datenbankupdates eventuell nicht richtig!
+</note>
+
 Die Datenbank und der Benutzer können z.B. über das Webinterface phpMyAdmin, oder in der Konsole angelegt werden:
 
 <code language="bash">
@@ -48,4 +57,6 @@ Ist das Update erfolgreich durchgelaufen, ist Part-DB vollständig einsatzbereit
 
 Möchte man eine bereits vorhandene Installation von Part-DB aktualisieren, muss man einfach das heruntergeladene Paket der neuen Part-DB Version im Installationsordner von Part-DB entpacken. Dabei müssen die bereits existierenden Dateien überschrieben werden.
 
+<note important>
 Es wird empfohlen, vor jedem Update eine Sicherung der Datenbank, sowie vom Verzeichnis "media" zu erstellen. Die Entwickler von Part-DB übernehmen keinerlei Haftung für Schäden, die durch fehlgeschlagene Updates verursacht wurden.
+</note>

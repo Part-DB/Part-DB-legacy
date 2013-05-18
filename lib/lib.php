@@ -38,6 +38,7 @@
         2013-02-14  kami89          - implemented function "get_proposed_filenames()"
         2013-05-04  kami89          - added function "upload_file()"
         2013-05-07  kami89          - added function "check_requirements()"
+        2013-05-18  kami89          - added functions "set_admin_password()" and "is_admin_password()"
 */
 
     /**
@@ -262,6 +263,85 @@
             throw new Exception('Es gab ein Fehler beim Hochladen der Datei!');
 
         return $destination;
+    }
+
+    /**
+     * @brief Set a new administrator password
+     *
+     * @note    The password will be trimmed, salted, crypted with sha256 and stored in $config.
+     *          Optionally, $config can be written in config.php.
+     *
+     * @param string    $old_password       The current administrator password (plain, not crypted)
+     * @param string    $new_password_1     The new administrator password (plain, not crypted) (first time)
+     * @param string    $new_password_2     The new administrator password (plain, not crypted) (second time)
+     * @param boolean   $save_config        If true, the config.php file will be overwritten.
+     *                                      If false, the new password will be stored in $config,
+     *                                      but you must manually save the $config with save_config()!
+     *
+     * @throws Exception    if the old password is not correct
+     * @throws Exception    if the new password is not allowed (maybe empty)
+     * @throws Exception    if the new passworts are different
+     * @throws Exception    if $config could not be saved in config.php
+     */
+    function set_admin_password($old_password, $new_password_1, $new_password_2, $save_config = true)
+    {
+        global $config;
+        $salt = 'h>]gW3$*j&o;O"s;@&G)';
+
+        settype($old_password, 'string');
+        settype($new_password_1, 'string');
+        settype($new_password_2, 'string');
+        $old_password = trim($old_password);
+        $new_password_1 = trim($new_password_1);
+        $new_password_2 = trim($new_password_2);
+
+        if ( ! is_admin_password($old_password))
+            throw new Exception('Das eingegebene Administratorpasswort ist nicht korrekt!');
+
+        if (strlen($new_password_1) < 4)
+            throw new Exception('Das neue Passwort muss mindestens 4 Zeichen lange sein!');
+
+        if ($new_password_1 !== $new_password_2)
+            throw new Exception('Die neuen Passwörter stimmen nicht überein!');
+
+        // all ok, save the new password
+        $config['admin']['password'] = hash('sha256', $salt.$new_password_1);
+
+        if ($save_config)
+            save_config();
+    }
+
+    /**
+     * @brief Check if a string is the correct admin password
+     *
+     * @param string $passwort      The password (plain, not crypted) we want to check
+     *                              (compare with the administrators password)
+     *
+     * @retval boolean      true if the password is correct
+     *                      false if the password is not correct
+     *
+     * @todo    Remove the temporary code for MD5 crypted passwords!!
+     */
+    function is_admin_password($password)
+    {
+        global $config;
+        $salt = 'h>]gW3$*j&o;O"s;@&G)';
+
+        settype($password, 'string');
+        $password = trim($password);
+
+        // If the admin password is not set yet, we will always return true.
+        // This is needed for the first use of Part-DB.
+        // In this case, the installer will be shown to set an admin password.
+        if (( ! $config['installation_complete']['admin_password']) && ( ! $config['admin']['password']))
+            return true;
+
+        // Just temporary!! We will also return true, if the password in the config.php is crypted with md5
+        if (md5($password) === $config['admin']['password'])
+            return true;
+        // end of temporary code
+
+        return (hash('sha256', $salt.$password) === $config['admin']['password']);
     }
 
     /**

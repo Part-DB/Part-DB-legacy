@@ -198,17 +198,8 @@
                     if ($config['is_online_demo'])
                         throw new Exception('Diese Funktion steht in der Online-Demo nicht zur Verfügung!');
 
-                    if (md5($current_admin_password) !== $config['admin']['password'])
-                        throw new Exception('Das eingegebene Administratorpasswort ist nicht korrekt!');
-
-                    if (strlen($new_admin_password_1) == 0)
-                        throw new Exception('Das neue Passwort darf nicht leer sein!');
-
-                    if ($new_admin_password_1 !== $new_admin_password_2)
-                        throw new Exception('Die neuen Passwörter stimmen nicht überein!');
-
-                    // all ok, save the new password
-                    $config['admin']['password'] = md5($new_admin_password_1);
+                    // set_admin_password() throws an exception if the old or the new passwords are not valid
+                    set_admin_password($current_admin_password, $new_admin_password_1, $new_admin_password_2, false);
 
                     save_config();
 
