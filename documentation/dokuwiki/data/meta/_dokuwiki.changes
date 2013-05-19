@@ -1,23 +1,16 @@
-1360719596	192.168.1.74	C	start		created	
-1368267054	127.0.0.1	E	gpl-erklaerung		Externe Bearbeitung	
 1368731808	192.168.1.74	E	gpl-erklaerung		[Support] Leicht überarbeitet	
 1368732580	192.168.1.74	E	gpl-erklaerung		[Grobe Richtlinien] Leichte Überarbeitung	
 1368732951	192.168.1.74	E	gpl-erklaerung		[Doxigen / Dokuwiki] Schreibfehler korrigiert und leicht überarbeitet	
 1368733479	192.168.1.74	E	gpl-erklaerung		[Bestandteile von Drittanbietern] Um vLib und eagle3d ergänzt	
 1368734071	192.168.1.74	E	gpl-erklaerung		[Kosten] Leicht überarbeitet	
-1368267054	127.0.0.1	E	anforderungen		Externe Bearbeitung	
 1368734560	192.168.1.74	E	anforderungen		Voraussetzungen an Part-DB 0.3.0 angepasst	
 1368734653	192.168.1.74	E	gpl-erklaerung		[Was sie als Unternehmen wissen sollten] Überschrift vergrössert	
-1368267054	127.0.0.1	E	start		Externe Bearbeitung	
 1368734734	192.168.1.74	E	start		[Andere Lizenzen] 	
 1368734878	192.168.1.74	E	start		[Installation] 	
-1368267054	127.0.0.1	E	htaccess		Externe Bearbeitung	
 1368736218	192.168.1.74	E	htaccess		Ausführlichere Anmerkungen zum Thema Sicherheit	
-1368267054	127.0.0.1	E	installation		Externe Bearbeitung	
 1368737531	192.168.1.74	E	installation			
 1368741770	192.168.1.74	E	start			
 1368873769	192.168.1.74	E	anforderungen		Installationsanleitung für Debian/Ubuntu hinzugefügt	
-1368267054	127.0.0.1	E	playground:playground		Externe Bearbeitung	
 1368874749	192.168.1.74	E	playground:playground			
 1368875935	192.168.1.74	E	playground:playground			
 1368876011	192.168.1.74	E	anforderungen		[Debian / Ubuntu] Plugin "note" verwendet	
@@ -27,3 +20,9 @@
 1368877979	192.168.1.74	E	anforderungen		[Debian / Ubuntu] 	
 1368878083	192.168.1.74	E	anforderungen		[Debian / Ubuntu] 	
 1368878710	192.168.1.74	E	anforderungen		[Installation von Part-DB] 	
+1368988028	192.168.1.74	E	anforderungen		[Installation der notwendigen Serverkomponenten] 	
+1368988246	192.168.1.74	E	anforderungen		[Installation von Part-DB] 	
+1368990696	192.168.1.74	E	installation			
+1368990800	192.168.1.74	E	installation			
+1368992149	192.168.1.74	E	installation			
+1368992184	192.168.1.74	E	installation			
