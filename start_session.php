@@ -57,32 +57,22 @@
     /********************************************************************************
     *
     *   For the Update from Part-DB 0.2.2 to 0.3.0:
-    *   Move file "config.php" and folder "backup" to "data/..."
+    *   Move the file "config.php" and the folders "backup", "media" and "log" to "data/..."
     *
     *********************************************************************************/
 
-    if (is_readable($BASE_tmp.'/config.php'))
+    if ((is_readable($BASE_tmp.'/config.php')) || (is_readable($BASE_tmp.'/backup')) ||
+        (is_readable($BASE_tmp.'/media')) || (is_readable($BASE_tmp.'/log')))
     {
-        if ( ! rename($BASE_tmp.'/config.php', $BASE_tmp.'/data/config.php'))
-            die('Die Datei "config.php" kann nicht in den Unterordner "data" verschoben werden! '.
-                'Führen Sie dies bitte von Hand durch.');
+        die('Bitte verschieben Sie die folgenden Dateien und Ordner ins Verzeichnis "data": <br><br>'.
+            '"config.php" --> "data/config.php"<br>'.
+            '"backup/" --> "data/backup/"<br>'.
+            '"media/" --> "data/media/"<br>'.
+            '"log/" --> "data/log/"<br><br>'.
+            'WICHTIG:<br>Kopieren Sie jeweils nur den Inhalt der genannten Ordner, nicht den ganzen Ordner an sich!<br>'.
+            'Die Zielordner enthalten bereits (teilweise versteckte) Dateien, die auf keinen Fall &uuml;berschrieben werden d&uuml;rfen!<br>'.
+            'Kopieren Sie also nur den Inhalt dieser Ordner und l&ouml;schen Sie danach die Ordner "backup", "log" und "media" im Hauptverzeichnis.');
     }
-
-    if (is_readable($BASE_tmp.'/backup'))
-    {
-        if ( ! rename($BASE_tmp.'/backup', $BASE_tmp.'/data/backup'))
-            die('Das Verzeichnis "backup" kann nicht in den Unterordner "data" verschoben werden! '.
-                'Führen Sie dies bitte von Hand durch.');
-    }
-
-    // just temporary!! move "media" and "log" to "data/..."
-    if ((is_readable($BASE_tmp.'/media')) || (is_readable($BASE_tmp.'/log')))
-    {
-        die('Bitte alle Dateien, die sich in "media" oder in "log" befinden, nach "data/media/" bzw. "data/log/" verschieben! '.
-            'ACHTUNG: Nicht den ganzen Ordner verschieben, sonst wird die .htaccess Datei in "data/media/" gelöscht! '.
-            'Danach die Ordner "media" und "log" im Hauptverzeichnis von Part-DB löschen.');
-    }
-    // end of temporary code
 
     /********************************************************************************
     *
