@@ -99,7 +99,7 @@
                 {TMPL_UNLESS NAME="disable_config"}
                     menue.add(60,0,'System','','','');
                     menue.add(61,60,'Konfiguration','{TMPL_VAR NAME="relative_path"}system_config.php','','content_frame');
-                    menue.add(62,60,'Updates','{TMPL_VAR NAME="relative_path"}system_updates.php','','content_frame');
+                    <!-- menue.add(62,60,'Updates','{TMPL_VAR NAME="relative_path"}system_updates.php','','content_frame'); -->
                     menue.add(63,60,'Datenbank','{TMPL_VAR NAME="relative_path"}system_database.php','','content_frame');
                     {TMPL_IF NAME="db_backup_url"}
                         menue.add(64,60,'{TMPL_VAR NAME="db_backup_name"}','{TMPL_VAR NAME="db_backup_url"}','','__new');
