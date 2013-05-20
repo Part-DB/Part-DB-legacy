@@ -1,47 +1,174 @@
-Anforderungen:
+###################################################################################################################
+#                                                                                                                 #
+# Eine Installationsanleitung gibt es in der Online-Demo von Part-DB:                                             #
+#                                                                                                                 #
+#     http://www.partdb.grautier.com/partdb/documentation/dokuwiki/doku.php                                       #
+#                                                                                                                 #
+# Nach der Installation ist diese Dokumentation auch lokal verfügbar (URL nach "localhost" ev. manuell anpassen): #
+#                                                                                                                 #
+#     http://localhost/part-db/documentation/dokuwiki/doku.php                                                    #
+#                                                                                                                 #
+###################################################################################################################
+#                                                                                                                 #
+# Neben der Installationsanleitung gibt es in der Online-Demo auch noch wichtige Links,                           #
+# z.B: zum Diskussions-Thread auf mikrocontroller.net. Es lohnt sich, mal einen Blick darauf zu werfen:           #
+#                                                                                                                 #
+#     http://www.partdb.grautier.com/partdb/                                                                      #
+#                                                                                                                 #
+###################################################################################################################
 
-* Webserver mit mindestens 15MB Platz (mit Footprint-Bilder mindestens 60MB)
-* PHP >= 5.3.0 mit PDO inkl. MySQL Plugin
-* MySQL Datenbank mit der Speicherengine InnoDB
-* Webbrowser mit JavaScript und HTML4 Unterstützung
+Für den Fall dass die Installationsanleitung in der Online-Demo nicht erreichbar ist, 
+gibt es hier einen (in Wiki-Syntax verfassten und ev. veralteten) Auszug daraus:
 
 
-Anlegen der Datenbank:
-entweder händisch über PhpMyAdmin (siehe: http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung#Anlegen_der_Datenbank)
+====== Anforderungen ======
 
-oder direkt auf der Kommandzeile:
+Damit Part-DB einwandfrei läuft, müssen folgende Kriterien erfüllt sein:
 
-> mysql -u root -p
-> CREATE DATABASE part-db;
-> grant usage on *.* to part-db@localhost identified by 'PARTdb';
-> grant all privileges on part-db.* to part-db@localhost;
-> quit
+  * Webserver mit mindestens 15MB Platz (mit Footprint-Bilder mindestens 60MB)
+  * PHP >= 5.3.0 mit [[http://php.net/manual/de/book.pdo.php|PDO]] inkl. [[http://www.php.net/manual/de/ref.pdo-mysql.php|MySQL Plugin]]
+  * MySQL Datenbank mit der Speicherengine InnoDB
+  * Webbrowser mit JavaScript und HTML4 Unterstützung.
+
+
+===== Installation der notwendigen Serverkomponenten =====
+
+Wenn Sie Ihren eigenen Webserver aufsetzten möchten, finden Sie hier eine kleine Anleitung. Der Server kann dabei ein physischer Computer im Netzwerk, oder auch nur eine virtuelle Maschine (z.B. [[https://www.virtualbox.org/|VirtualBox]] oder [[http://www.vmware.com/de/|VMware]]) sein. Sie können Part-DB aber auch auf einem Webspace installieren, den Sie bei einem Hoster mieten, sofern dieser die Anforderungen von Part-DB erfüllt. Dann brauchen Sie die Serverkomponenten nicht selber zu installieren, sondern können direkt mit der [[Installation]] von Part-DB beginnen.
+
+==== Debian / Ubuntu ====
+
+Alle erforderlichen Komponenten können über das Terminal installiert werden (oder auch im Software-Center):
+<code>
+sudo apt-get install apache2 php5 mysql-server php5-mysql php5-curl libapache2-mod-php5 phpmyadmin
+</code>
+
+<note important>
+Bei der Installation von MySQL wird nach einem Passwort für den MySQL-Benutzer "root" gefragt. Lassen Sie dieses Feld auf keinen Fall leer, sonst haben Sie später keinen Zugriff über phpMyAdmin! Dieses Passwort (das **nicht** mit dem Passwort des System-Benutzers "root" übereinstimmen muss) brauchen Sie, um sich später über phpMyAdmin einzuloggen.
+</note>
+
+<note important>
+Bei der Installation von phpMyAdmin werden Sie eventuell mit Fragen konfrontiert. Diese sollten wie folgt beantwortet werden:
+  * Frage: Welchen Webserver möchte man automatisch konfigurieren?
+    * Antwort: apache2
+  * Frage: Möchte man phpMyAdmin mit "dbconfig-common" konfigurieren?
+    * Antwort: Ja
+  * Frage: Passwort des administrativen Datenbank-Benutzers?
+    * Antwort: Das gleiche Passwort, das man für den Benutzer "root" bei der Installation von MySQL angegeben hat
+  * Frage: MySQL-Anwendungspasswort für phpMyAdmin?
+    * Antwort: Ohne Eingabe einfach OK (bzw. Enter) drücken
+</note>
+
+<note tip>
+Weitere Informationen und Installationsanleitungen gibts (speziell für Ubuntu) im [[http://wiki.ubuntuusers.de/Startseite|ubuntuusers Wiki]]: 
+[[http://wiki.ubuntuusers.de/Apache|Apache]], [[http://wiki.ubuntuusers.de/PHP|PHP]], [[http://wiki.ubuntuusers.de/MySQL|MySQL]], [[http://wiki.ubuntuusers.de/MySQL/Werkzeuge|MySQL-Werkzeuge]]
+</note>
+
+==== Apache konfigurieren ====
+
+<note warning>
+Part-DB verwendet ".htaccess"-Dateien, um gewisse Verzeichnisse vor unerlaubtem Zugriff zu schützen. Diese werden aber in der Standardkonfiguration von Apache meistens **nicht** berücksichtigt, was ein Sicherheitsrisiko darstellt! Sie sollten die Apache-Option "AllowOverride" unbedingt auf "All" stellen um dies zu aktivieren.
+</note>
+
+Unter Debian/Ubuntu wird dies folgendermassen gemacht:
+<code>
+sudo gedit /etc/apache2/sites-available/default
+</code>
+
+Dort im Block "<Directory /var/www/> ... </Directory>" die Zeile "AllowOverride None" durch die Zeile "AllowOverride All" ersetzen. Datei speichern und schliessen. Danach Apache neu starten:
+<code>
+sudo service apache2 restart
+</code>
+
+Nähere Informationen dazu gibts z.B. hier: [[https://help.ubuntu.com/community/EnablingUseOfApacheHtaccessFiles]]
+==== Installation überprüfen ====
+
+Ob Apache erfolgreich installiert wurde, kann man überprüfen, indem man auf dem Server die Seite http://localhost im Webbrowser aufruft. Hier muss die Meldung "It works!" erscheinen.
+
+Ob phpMyAdmin und MySQL korrekt funktionieren, kann man überprüfen, indem man sich auf http://localhost/phpmyadmin mit dem MySQL Benutzer "root" und dem bei der Installation von MySQL angegebenen Passwort einloggt.
+
+<note>
+Die Adresse http://localhost funktioniert jeweils nur auf dem Server selbst. Die genannten Webseiten können aber auch von anderen PCs, die sich im gleichen Netzwerk wie der Server befinden, aufgerufen werden. Dann müssen Sie "localhost" durch die IP-Adresse des Servers ersetzen.
+</note>
+
+Falls phpMyAdmin nicht aufgerufen werden kann, muss eventuell noch ein Symbolischer Link erzeugt werden:
+<code>
+sudo ln -s /usr/share/phpmyadmin /var/www/phpmyadmin
+</code>
+
+==== Installation von Part-DB ====
+
+Ist die Installation der Serverkomponenten erfolgreich abgeschlossen, kann man nun mit der Installation von Part-DB beginnen. 
+
+===  Anlegen der Datenbank ===
+
+Als Erstes muss auf dem MySQL Server eine neue Datenbank für Part-DB angelegt werden. Es empfiehlt sich, auch einen neuen Benutzer anzulegen, der ausschliesslich für Part-DB bestimmt ist. 
+
+<note important>
+Der Benutzer muss unbedingt jegliche Rechte an der Datenbank von Part-DB besitzen, ansonsten funktionieren die Datenbankupdates eventuell nicht richtig!
+</note>
+
+Die Datenbank und der Benutzer können z.B. über das Webinterface phpMyAdmin, oder in der Konsole angelegt werden (DATENBANKNAME, BENUTZER und PASSWORT entsprechend ersetzen):
+
+<code language="bash">
+mysql -u root -p
+CREATE DATABASE `DATENBANKNAME`;
+GRANT ALL ON `DATENBANKNAME`.* TO `BENUTZERNAME`@localhost IDENTIFIED BY 'PASSWORT';
+quit
+</code>
 
 dann kurz testen, ob der Datenbankzugriff funktioniert:
 
-> mysql -u part-db -pPARTdb
-> quit
+<code language="xml">
+mysql -u BENUTZERNAME -DATENBANKNAME -p
+quit
+</code>
 
+===  Part-DB herunterladen ===
 
-Das Einspielen der Datenbank-Tabellenstruktur erfolgt entweder mit:
-> mysql -u part-db -pPARTdb part-db < readme/createtables_DBv13.sql
-oder mit dem Part-DB Installer direkt im Webbrowser.
+Dann lädt man Part-DB herunter und entpackt das Archiv in das Verzeichnis des Webservers (unter Linux häufig "/var/www/").
 
+<note important>Den Link zur aktuellsten Version bitte von der [[https://code.google.com/p/part-db/downloads/list|Downloadseite]] holen!
+</note>
 
-Webserver konfigurieren:
+<code>
+wget -O part-db.tar.gz https://part-db.googlecode.com/files/Part-DB-0.2.2.tar.gz
+sudo mkdir /var/www/part-db
+sudo tar xfv part-db.tar.gz -C /var/www/part-db
+</code>
 
-Jetzt muß noch das Verzeichnis in dem part-db liegt dem Webserver bekannt gemacht werden.
-Dazu bietet sich ein Soft-Link an:
-> ln -s /home/user/path/to/part-db /var/www/partdb
+===  Zugriffsrechte für Verzeichnisse setzen === 
 
-Dann sollte die Startseite unter  http://localhost/partdb  erscheinen.
+Damit Part-DB korrekt funktioniert, müssen die Dateirechte noch gesetzt werden. Die Rechte von Verzeichnissen sollten auf 555, die Rechte von Dateien auf 444 gesetzt werden. Nur das Verzeichnis "data" muss auf 755 bzw. 644 gesetzt werden. Ausserdem sollten alle Dateien dem Besitzer "www-data" gehören:
 
+<code language="bash">
+cd /var/www
+sudo chown -R www-data:www-data part-db
+find part-db -type d -exec sudo chmod 555 {} +
+find part-db -type f -exec sudo chmod 444 {} +
+find part-db/data -type d -exec sudo chmod 755 {} +
+find part-db/data -type f -exec sudo chmod 644 {} +
+</code>
 
-Zugriffsrechte für Verzeichnisse setzen:
+=== Konfiguration von Part-DB ===
 
-Dsa Verzeichnis media/ muß für den Webserver schreibbar sein, damit der Dateiupload funktioniert:
-> chmod 664 media
+Beim ersten Aufrufen von Part-DB wird automatisch ein Installationsassistent gestartet. Dort müssen Sie u.A. die Angaben für die soeben angelegte Datenbank und Benutzer eingegeben werden. Danach werden Sie darauf hingewiesen, dass die Datenbank aktualisiert werden muss. Mit diesem Update werden dann alle Tabellen in der Datenbank angelegt bzw. aktualisiert, wenn sie schon vorhanden sind.
 
+Schlägt dieses Update fehl, sollten Sie überprüfen ob der angegebene Benutzer genügend Rechte an der Datenbank besitzt. Fehlende Rechte ist die häufigste Ursache für fehlgeschlagene Datenbankupdates!
 
-Beim ersten Aufruf von Part-DB im Webbrowser wird automatisch der Installations-Assistent angezeigt.
-Folgen Sie dort den Anweisungen. Nach wenigen Klicks ist Part-DB installiert und einsatzbereit.
+Ist das Update erfolgreich durchgelaufen, ist Part-DB vollständig einsatzbereit!
+
+=== Funktion von .htaccess überprüfen ===
+
+Ob der Server die .htaccess-Dateien auch wirklich richtig interpretiert, kann leicht überprüft werden indem man z.B. versucht, die Seite [[http://localhost/part-db/data/]] aufzurufen. Dort muss die Fehlermeldung "403 Forbidden" erscheinen. Für den Fall dass der Verzeichnisschutz nicht funktioniert, gibt es in "data" vorsichtshalber noch eine "index.html", die direkt auf die Startseite von Part-DB umleitet. Dies ersetzt aber keineswegs den Verzeichnisschutz der .htaccess!
+
+=== Updates ===
+
+Möchte man eine bereits vorhandene Installation von Part-DB aktualisieren, muss man einfach das heruntergeladene Paket der neuen Part-DB Version im Installationsordner von Part-DB entpacken. Dabei müssen die bereits existierenden Dateien überschrieben werden. Für ein sauberes Update, bei dem die nicht mehr benötigten Dateien gelöscht werden, müssen Sie alle Dateien und Verzeichnisse, **ausser das Verzeichnis "data"** löschen. Im Verzeichnis "data" sind alle Ihre Einstellungen und hochgeladenen Dateien gespeichert, diese dürfen nicht gelöscht werden.
+
+<note>
+Bei Part-DB vor der Version 0.3.0 gab es das Verzeichnis "data" noch nicht. Hier müssen Sie die Datei "config.php" und die Verzeichnisse "backup" (falls es benutzt wurde) und "img" sichern.
+</note>
+
+<note important>
+Es wird empfohlen, vor jedem Update eine Sicherung der Datenbank und vom Verzeichnis "data" zu erstellen. Die Entwickler von Part-DB übernehmen keinerlei Haftung für Schäden, die durch fehlgeschlagene Updates verursacht werden.
+</note>

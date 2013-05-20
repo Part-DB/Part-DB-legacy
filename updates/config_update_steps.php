@@ -94,8 +94,9 @@
 
                     $messages[] =   'ACHTUNG: Für hochgeladene Bilder und andere Dateien gibt es jetzt das Verzeichnis "media" im Unterverzeichnis "data". '.
                                     'Falls Sie bereits eigene Dateien im Verzeichnis "img" haben (was für hochgeladene Bilder bisher der Zielordner war), '.
-                                    'müssen Sie diese nun von Hand in der Ordner "data/media/" verschieben! '.
-                                    'Die Dateipfade werden beim folgenden Datenbankupdate automatisch angepasst.';
+                                    'müssen Sie diese nun von Hand in der Ordner "data/media/" verschieben! Dabei dürfen Sie nicht den ganzen Ordner, sondern '.
+                                    'nur deren Inhalt kopieren, sonst wird die Datei ".htaccess" in "data/media/" gelöscht! Danach den Ordner "media" im '.
+                                    'Hauptverzeichnis löschen. Die Dateipfade werden beim folgenden Datenbankupdate automatisch angepasst.';
 
                     break;
 

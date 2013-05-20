@@ -76,13 +76,11 @@
     }
 
     // just temporary!! move "media" and "log" to "data/..."
-    if (is_readable($BASE_tmp.'/media'))
+    if ((is_readable($BASE_tmp.'/media')) || (is_readable($BASE_tmp.'/log')))
     {
-        rename($BASE_tmp.'/media', $BASE_tmp.'/data/media') or die('Das Verzeichnis "media" kann nicht in den Unterordner "data" verschoben werden!');
-    }
-    if (is_readable($BASE_tmp.'/log'))
-    {
-        rename($BASE_tmp.'/log', $BASE_tmp.'/data/log') or die('Das Verzeichnis "log" kann nicht in den Unterordner "data" verschoben werden!');
+        die('Bitte alle Dateien, die sich in "media" oder in "log" befinden, nach "data/media/" bzw. "data/log/" verschieben! '.
+            'ACHTUNG: Nicht den ganzen Ordner verschieben, sonst wird die .htaccess Datei in "data/media/" gelöscht! '.
+            'Danach die Ordner "media" und "log" im Hauptverzeichnis von Part-DB löschen.');
     }
     // end of temporary code
 
@@ -200,6 +198,8 @@
         error_reporting(E_ALL & ~E_STRICT);
         ini_set("display_errors", 1);
     }
+    else
+        ini_set("display_errors", 0);
 
     mb_internal_encoding($config['html']['http_charset']);
     date_default_timezone_set($config['timezone']);

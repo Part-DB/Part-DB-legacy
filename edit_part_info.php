@@ -309,7 +309,7 @@
                 try
                 {
                     if (strlen($_FILES['attachement_file']['name']) > 0)
-                        $new_filename = upload_file($_FILES['attachement_file'], BASE.'/media/');
+                        $new_filename = upload_file($_FILES['attachement_file'], BASE.'/data/media/');
 
                     $new_attachement = Attachement::add($database, $current_user, $log, $part, $new_attachement_type_id,
                                                         $new_filename, $new_name, $new_show_in_table);
@@ -330,7 +330,7 @@
                         throw new Exception('Es ist kein Dateianhang ausgewählt!');
 
                     if (strlen($_FILES['attachement_file']['name']) > 0)
-                        $new_filename = upload_file($_FILES['attachement_file'], BASE.'/media/');
+                        $new_filename = upload_file($_FILES['attachement_file'], BASE.'/data/media/');
                     else
                         $new_filename = $attachement->get_filename();
 

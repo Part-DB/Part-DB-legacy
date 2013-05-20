@@ -62,6 +62,10 @@ Schlägt dieses Update fehl, sollten Sie überprüfen ob der angegebene Benutzer
 
 Ist das Update erfolgreich durchgelaufen, ist Part-DB vollständig einsatzbereit!
 
+=== Funktion von .htaccess überprüfen ===
+
+Ob der Server die .htaccess-Dateien auch wirklich richtig interpretiert, kann leicht überprüft werden indem man z.B. versucht, die Seite [[http://localhost/part-db/data/]] aufzurufen. Dort muss die Fehlermeldung "403 Forbidden" erscheinen. Für den Fall dass der Verzeichnisschutz nicht funktioniert, gibt es in "data" vorsichtshalber noch eine "index.html", die direkt auf die Startseite von Part-DB umleitet. Dies ersetzt aber keineswegs den Verzeichnisschutz der .htaccess!
+
 === Updates ===
 
 Möchte man eine bereits vorhandene Installation von Part-DB aktualisieren, muss man einfach das heruntergeladene Paket der neuen Part-DB Version im Installationsordner von Part-DB entpacken. Dabei müssen die bereits existierenden Dateien überschrieben werden. Für ein sauberes Update, bei dem die nicht mehr benötigten Dateien gelöscht werden, müssen Sie alle Dateien und Verzeichnisse, **ausser das Verzeichnis "data"** löschen. Im Verzeichnis "data" sind alle Ihre Einstellungen und hochgeladenen Dateien gespeichert, diese dürfen nicht gelöscht werden.
