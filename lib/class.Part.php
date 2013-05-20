@@ -963,6 +963,7 @@
                         break;
 
                     case 'instock':
+                    case 'mininstock':
                     case 'instock_mininstock':
                     case 'instock_edit_buttons':
                         $row_field['instock']               = $this->get_instock();
@@ -1063,6 +1064,10 @@
                         $row_field['datasheets'] = $datasheet_loop;
                         break;
 
+                    case 'average_single_price':
+                        $row_field['average_single_price'] = $this->get_average_price(true, 1);
+                        break;
+
                     case 'single_prices':
                         if ($table_type == 'order_parts')
                             //$row_field['single_prices'] = $this->get_prices(false, '<br>', $this->get_order_quantity(), 1, true); // prices from obsolete orderdetails will not be shown
@@ -1103,7 +1108,6 @@
                         $row_field['total_prices'] = $prices_loop;
                         break;
 
-                    case 'order_quantity':
                     case 'order_quantity_edit':
                         if ($table_type == 'order_parts')
                         {
@@ -1134,6 +1138,17 @@
                         }
                         $row_field['attachements'] = $attachements;
                         break;
+
+                    case 'id':
+                    case 'button_increment':
+                    case 'quantity_edit': // for DevicePart Objects
+                    case 'mountnames_edit': // for DevicePart Objects
+                        // nothing to do, only to avoid the Exception in the default-case
+                        break;
+
+                    default:
+                        throw new Exception('Unbekannte Tabellenspalte: "'.$caption.'". Überprüfen Sie die Einstellungen '.
+                                            'für den Tabellentyp "'.$table_type.'" in Ihrer "config.php"');
                 }
 
                 // maybe there are any additional values to add...

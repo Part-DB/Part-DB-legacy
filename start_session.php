@@ -37,6 +37,8 @@
     * @brief This file must be included in every PHP file which produces HTML output!
     */
 
+    $BASE_tmp = dirname(__FILE__); // temporary base path of Part-DB, without slash at the end
+
     /********************************************************************************
     *
     *   define an exception handler for uncaught exceptions
@@ -54,16 +56,46 @@
 
     /********************************************************************************
     *
+    *   For the Update from Part-DB 0.2.2 to 0.3.0:
+    *   Move file "config.php" and folder "backup" to "data/..."
+    *
+    *********************************************************************************/
+
+    if (is_readable($BASE_tmp.'/config.php'))
+    {
+        if ( ! rename($BASE_tmp.'/config.php', $BASE_tmp.'/data/config.php'))
+            die('Die Datei "config.php" kann nicht in den Unterordner "data" verschoben werden! '.
+                'Führen Sie dies bitte von Hand durch.');
+    }
+
+    if (is_readable($BASE_tmp.'/backup'))
+    {
+        if ( ! rename($BASE_tmp.'/backup', $BASE_tmp.'/data/backup'))
+            die('Das Verzeichnis "backup" kann nicht in den Unterordner "data" verschoben werden! '.
+                'Führen Sie dies bitte von Hand durch.');
+    }
+
+    // just temporary!! move "media" and "log" to "data/..."
+    if (is_readable($BASE_tmp.'/media'))
+    {
+        rename($BASE_tmp.'/media', $BASE_tmp.'/data/media') or die('Das Verzeichnis "media" kann nicht in den Unterordner "data" verschoben werden!');
+    }
+    if (is_readable($BASE_tmp.'/log'))
+    {
+        rename($BASE_tmp.'/log', $BASE_tmp.'/data/log') or die('Das Verzeichnis "log" kann nicht in den Unterordner "data" verschoben werden!');
+    }
+    // end of temporary code
+
+    /********************************************************************************
+    *
     *   include config files
     *
     *********************************************************************************/
 
-    $BASE_tmp = dirname(__FILE__);
-
     include_once($BASE_tmp.'/config_defaults.php'); // first, we load all default values of the $config array...
 
-    if (is_readable($BASE_tmp.'/config.php'))
-        include_once($BASE_tmp.'/config.php'); // ...and then we overwrite them with the user settings, if they exist
+    if (is_readable($BASE_tmp.'/data/config.php'))
+        include_once($BASE_tmp.'/data/config.php'); // ...and then we overwrite them with the user settings, if they exist
 
     if (count($manual_config) > 0) // $manual_config is defined in "config_defaults.php" and can be filled in "config.php"
         $config = array_merge($config, $manual_config); // if there are manual configs, add them to $config
@@ -117,7 +149,8 @@
     *
     *********************************************************************************/
 
-    if (($config['system']['current_config_version'] < $config['system']['latest_config_version']) && (is_readable(BASE.'/config.php')))
+    if (($config['system']['current_config_version'] < $config['system']['latest_config_version'])
+        && (is_readable(BASE.'/data/config.php')) && (filesize(BASE.'/data/config.php') > 0))
     {
         include_once(BASE.'/updates/config_update_steps.php');
 
@@ -150,7 +183,7 @@
     $config['html']['http_charset'] = 'utf-8'; ///< @todo remove this later; see config_defaults.php
 
     // just temporary!! switch from MD5 to SHA256 password encryption!
-    if (strlen($config['admin']['password']) == 32) // MD5 has 32 bytes
+    if (strlen($config['admin']['password']) == 32) // MD5 has 32 HEX chars
     {
         $config['admin']['password'] = NULL;
         $config['installation_complete']['admin_password'] = false; // this will show the installer to set a new password

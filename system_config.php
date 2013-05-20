@@ -82,7 +82,7 @@
     // section "system settings"
     $http_charset               = isset($_REQUEST['http_charset'])      ? (string)$_REQUEST['http_charset']     : 'utf-8';
     $theme                      = isset($_REQUEST['theme'])             ? (string)$_REQUEST['theme']            : 'standard';
-    $custom_css                 = isset($_REQUEST['custom_css'])        ? (string)$_REQUEST['custom_css']       : '';
+    $custom_css                 = isset($_REQUEST['custom_css'])        ? (string)$_REQUEST['custom_css']       : $config['html']['custom_css']; // '';
     $timezone                   = isset($_REQUEST['timezone'])          ? (string)$_REQUEST['timezone']         : 'Europe/Berlin';
     $language                   = isset($_REQUEST['language'])          ? (string)$_REQUEST['language']         : 'de_DE';
     $disable_updatelist         = isset($_REQUEST['disable_updatelist']);
@@ -120,7 +120,7 @@
     *
     *********************************************************************************/
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Konfiguration');
+    $html = new HTML($config['html']['theme'], /*$config['html']['custom_css']*/ $custom_css, 'Konfiguration');
 
     try
     {

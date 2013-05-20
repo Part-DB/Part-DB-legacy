@@ -319,8 +319,6 @@
      *
      * @retval boolean      true if the password is correct
      *                      false if the password is not correct
-     *
-     * @todo    Remove the temporary code for MD5 crypted passwords!!
      */
     function is_admin_password($password)
     {
@@ -336,11 +334,6 @@
         if (( ! $config['installation_complete']['admin_password']) && ( ! $config['admin']['password']))
             return true;
 
-        // Just temporary!! We will also return true, if the password in the config.php is crypted with md5
-        if (md5($password) === $config['admin']['password'])
-            return true;
-        // end of temporary code
-
         return (hash('sha256', $salt.$password) === $config['admin']['password']);
     }
 
@@ -351,7 +344,7 @@
      */
     function save_config()
     {
-        if ((file_exists(BASE.'/config.php')) && (! is_writeable(BASE.'/config.php')))
+        if ((file_exists(BASE.'/data/config.php')) && (! is_writeable(BASE.'/data/config.php')))
             throw new Exception('Es sind nicht genügend Rechte vorhanden um die Datei "config.php" zu beschreiben!');
 
         global $config;
@@ -368,7 +361,7 @@
         $content .= array_to_php_lines($manual_config, $manual_config, '    $manual_config', false);
         $content .= "\n?>";
 
-        if ( ! ($fp = fopen(BASE.'/config.php', 'wb')))
+        if ( ! ($fp = fopen(BASE.'/data/config.php', 'wb')))
             throw new Exception('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.');
 
         if ( ! fwrite($fp, $content))

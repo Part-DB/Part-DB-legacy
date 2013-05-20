@@ -92,9 +92,10 @@
                      */
                     $config['installation_complete']['database'] = true;
 
-                    $messages[] =   'ACHTUNG: Für hochgeladene Bilder und andere Dateien gibt es jetzt das Verzeichnis "media" im Part-DB Hauptverzeichnis. '.
-                                    'Fall Sie bereits eigene Dateien im Verzeichnis "img" haben (was für hochgeladene Bilder bisher der Zielordner war), '.
-                                    'sollten Sie diese nun von Hand in der Ordner "media" verschieben. Die Dateipfade werden beim folgenden Datenbankupdate automatisch angepasst.';
+                    $messages[] =   'ACHTUNG: Für hochgeladene Bilder und andere Dateien gibt es jetzt das Verzeichnis "media" im Unterverzeichnis "data". '.
+                                    'Falls Sie bereits eigene Dateien im Verzeichnis "img" haben (was für hochgeladene Bilder bisher der Zielordner war), '.
+                                    'müssen Sie diese nun von Hand in der Ordner "data/media/" verschieben! '.
+                                    'Die Dateipfade werden beim folgenden Datenbankupdate automatisch angepasst.';
 
                     break;
 

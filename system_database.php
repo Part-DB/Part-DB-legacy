@@ -167,7 +167,7 @@
             $html->set_variable('latest_version', $latest, 'integer');
             $html->set_variable('update_required', ($latest > $current), 'boolean');
 
-            if (($current < 13) && ($latest >= 13)) // v12 to v13 was a huge update! show warning!
+            if (($current > 0) && ($current < 13) && ($latest >= 13)) // v12 to v13 was a huge update! show warning!
             {
                 $messages[] = array('text' =>   'Achtung!<br><br>'.
                                                 'Das Datenbankupdate auf Version 13 ist sehr umfangreich, es finden sehr viele Veränderungen statt.<br>'.
@@ -177,7 +177,7 @@
                                                 'Fehler in der Software oder durch andere Ursachen hervorgerufen werden.',
                                                 'strong' => true, 'color' => 'red', );
             }
-            elseif ($latest > $current) // normal update...we will show a hint
+            elseif (($current > 0) && ($latest > $current)) // normal update...we will show a hint
             {
                 $messages[] = array('text' =>   'Hinweis:<br><br>'.
                                                 'Es wird dringend empfohlen, vor jedem Datenbankupdate eine Sicherung der Datenbank anzulegen.<br>'.

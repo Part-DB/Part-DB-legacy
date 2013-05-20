@@ -38,7 +38,7 @@
      * @author kami89
      */
 
-    define('DEBUG_LOG_FILENAME', BASE.'/log/debug_log.xml');
+    define('DEBUG_LOG_FILENAME', BASE.'/data/log/debug_log.xml');
 
     /********************************************************************************
     *

@@ -57,6 +57,7 @@
                 {TMPL_IF NAME="caption" VALUE="quantity_edit"}<td>Anzahl</td>{/TMPL_IF} {TMPL_COMMENT}  only for device parts  {/TMPL_COMMENT}
                 {TMPL_IF NAME="caption" VALUE="mountnames_edit"}<td>Bestückungs-<br>daten</td>{/TMPL_IF} {TMPL_COMMENT}  only for device parts  {/TMPL_COMMENT}
                 {TMPL_IF NAME="caption" VALUE="price_edit"}<td>Preis</td>{/TMPL_IF} {TMPL_COMMENT}  only for import parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="average_single_price"}<td>Einzel-<br>preis Ø</td>{/TMPL_IF}
                 {TMPL_IF NAME="caption" VALUE="single_prices"}<td>Einzel-<br>preise</td>{/TMPL_IF}
                 {TMPL_IF NAME="caption" VALUE="total_prices"}<td>Gesamt-<br>preise</td>{/TMPL_IF} {TMPL_COMMENT}  only for device parts  {/TMPL_COMMENT}
                 {TMPL_IF NAME="caption" VALUE="supplier_partnrs"}<td>Bestell-<br>nummern</td>{/TMPL_IF}
@@ -287,6 +288,12 @@
             {TMPL_IF NAME="caption" VALUE="price_edit"}
                 {TMPL_COMMENT} price edit {/TMPL_COMMENT}
                 <td class="tdrow1"><input type="text" style="width:45px" name="price_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="price"}" onkeypress="validatePosFloatNumber(event)"></td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="average_single_price"}
+                {TMPL_COMMENT} average single price for one piece {/TMPL_COMMENT}
+                <td class="tdrow4" nowrap>
+                    {TMPL_VAR NAME="average_single_price"}
+                </td>
             {/TMPL_IF}
             {TMPL_IF NAME="caption" VALUE="single_prices"}
                 {TMPL_COMMENT} single prices {/TMPL_COMMENT}

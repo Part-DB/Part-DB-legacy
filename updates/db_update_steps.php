@@ -45,7 +45,7 @@
      *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
      */
 
-    define('LATEST_DB_VERSION', 13);  // <-- increment here
+    define('LATEST_DB_VERSION', 14);  // <-- increment here
 
     /*
      * Get update steps
@@ -2347,6 +2347,11 @@
             break;
 
           case 13:
+            // we have created the new directory "data", now we have to rename all filenames
+            $updateSteps[] = "UPDATE `attachements` set `filename` = REPLACE(`filename`,'%BASE%/media/','%BASE%/data/media/')";
+            break;
+
+          case 14:
             /*
             // create table "users"
             $updateSteps[] = "CREATE TABLE `users` (".
