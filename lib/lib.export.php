@@ -151,6 +151,9 @@
                         break;
 
                     // general parts stuff
+                    case 'id':
+                        $value = $part->get_id();
+                        break;
                     case 'name':
                         $value = $part->get_name();
                         break;
@@ -165,11 +168,35 @@
                         break;
                     case 'footprint':
                         if (is_object($part->get_footprint()))
+                            $value = $part->get_footprint()->get_name();
+                        else
+                            $value = '';
+                        break;
+                    case 'footprint_fullpath':
+                        if (is_object($part->get_footprint()))
                             $value = $part->get_footprint()->get_full_path();
                         else
                             $value = '';
                         break;
+                    case 'manufacturer':
+                        if (is_object($part->get_manufacturer()))
+                            $value = $part->get_manufacturer()->get_name();
+                        else
+                            $value = '';
+                        break;
+                    case 'manufacturer_fullpath':
+                        if (is_object($part->get_manufacturer()))
+                            $value = $part->get_manufacturer()->get_full_path();
+                        else
+                            $value = '';
+                        break;
                     case 'storelocation':
+                        if (is_object($part->get_storelocation()))
+                            $value = $part->get_storelocation()->get_name();
+                        else
+                            $value = '';
+                        break;
+                    case 'storelocation_fullpath':
                         if (is_object($part->get_storelocation()))
                             $value = $part->get_storelocation()->get_full_path();
                         else
@@ -178,11 +205,15 @@
                     case 'suppliers':
                         $value = $part->get_suppliers(false, $items_separator, false, true);
                         break;
+                    case 'suppliers_fullpath':
+                        $value = $part->get_suppliers(false, $items_separator, true, true);
+                        break;
                     case 'supplierpartnrs':
                         $value = $part->get_supplierpartnrs($items_separator, true);
                         break;
                     case 'average_single_price':
                         $value = $part->get_average_price(true);
+                        break;
                     case 'single_prices':
                         $value = $part->get_prices(false, $items_separator, 1, NULL, true);
                         break;
@@ -190,7 +221,7 @@
                     // order parts stuff
                     case 'order_supplier':
                         if (is_object($part->get_order_orderdetails()))
-                            $value = $part->get_order_orderdetails()->get_supplier()->get_full_path();
+                            $value = $part->get_order_orderdetails()->get_supplier()->get_name();
                         else
                             $value = '';
                         break;

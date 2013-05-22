@@ -99,6 +99,12 @@ sudo ln -s /usr/share/phpmyadmin /var/www/phpmyadmin
 
 Ist die Installation der Serverkomponenten erfolgreich abgeschlossen, kann man nun mit der Installation von Part-DB beginnen. 
 
+
+
+
+
+
+
 ===  Anlegen der Datenbank ===
 
 Als Erstes muss auf dem MySQL Server eine neue Datenbank für Part-DB angelegt werden. Es empfiehlt sich, auch einen neuen Benutzer anzulegen, der ausschliesslich für Part-DB bestimmt ist. 
@@ -143,10 +149,12 @@ Damit Part-DB korrekt funktioniert, müssen die Dateirechte noch gesetzt werden.
 <code language="bash">
 cd /var/www
 sudo chown -R www-data:www-data part-db
-find part-db -type d -exec sudo chmod 555 {} +
-find part-db -type f -exec sudo chmod 444 {} +
-find part-db/data -type d -exec sudo chmod 755 {} +
-find part-db/data -type f -exec sudo chmod 644 {} +
+sudo chmod 555 part-db
+sudo chmod 755 part-db/data
+find part-db -type d -print0 | sudo xargs -0 chmod 555
+find part-db -type f -print0 | sudo xargs -0 chmod 444
+find part-db/data -type d -print0 | sudo xargs -0 chmod 755
+find part-db/data -type f -print0 | sudo xargs -0 chmod 644
 </code>
 
 === Konfiguration von Part-DB ===
