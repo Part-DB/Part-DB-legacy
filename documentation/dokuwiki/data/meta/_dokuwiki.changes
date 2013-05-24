@@ -1,15 +1,3 @@
-1368731808	192.168.1.74	E	gpl-erklaerung		[Support] Leicht überarbeitet	
-1368732580	192.168.1.74	E	gpl-erklaerung		[Grobe Richtlinien] Leichte Überarbeitung	
-1368732951	192.168.1.74	E	gpl-erklaerung		[Doxigen / Dokuwiki] Schreibfehler korrigiert und leicht überarbeitet	
-1368733479	192.168.1.74	E	gpl-erklaerung		[Bestandteile von Drittanbietern] Um vLib und eagle3d ergänzt	
-1368734071	192.168.1.74	E	gpl-erklaerung		[Kosten] Leicht überarbeitet	
-1368734560	192.168.1.74	E	anforderungen		Voraussetzungen an Part-DB 0.3.0 angepasst	
-1368734653	192.168.1.74	E	gpl-erklaerung		[Was sie als Unternehmen wissen sollten] Überschrift vergrössert	
-1368734734	192.168.1.74	E	start		[Andere Lizenzen] 	
-1368734878	192.168.1.74	E	start		[Installation] 	
-1368736218	192.168.1.74	E	htaccess		Ausführlichere Anmerkungen zum Thema Sicherheit	
-1368737531	192.168.1.74	E	installation			
-1368741770	192.168.1.74	E	start			
 1368873769	192.168.1.74	E	anforderungen		Installationsanleitung für Debian/Ubuntu hinzugefügt	
 1368874749	192.168.1.74	E	playground:playground			
 1368875935	192.168.1.74	E	playground:playground			
@@ -30,8 +18,8 @@
 1368998262	192.168.1.74	E	installation			
 1369049814	192.168.1.74	E	installation			
 1369061263	127.0.0.1	E	anforderungen		Externe Bearbeitung	
-1369071202	192.168.1.74	E	anforderungen		[Debian / Ubuntu] 	
 1369061263	127.0.0.1	E	installation		Externe Bearbeitung	
+1369071202	192.168.1.74	E	anforderungen		[Debian / Ubuntu] 	
 1369071621	192.168.1.74	E	installation			
 1369072234	127.0.0.1	E	installation		Externe Bearbeitung	
 1369075360	192.168.1.74	E	installation			

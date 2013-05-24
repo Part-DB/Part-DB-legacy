@@ -9,3 +9,6 @@ $conf['lang'] = 'de';
 $conf['license'] = '';
 $conf['useacl'] = 0;
 $conf['superuser'] = '@admin';
+$conf['cachetime'] = -1;
+$conf['updatecheck'] = 0;
+$conf['locktime'] = 0;

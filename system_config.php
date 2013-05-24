@@ -33,6 +33,9 @@
 
     include_once('start_session.php');
 
+    // this file enables write permissions in the DokuWiki
+    $dokuwiki_perms_filename = BASE.'/documentation/dokuwiki/PART-DB_ENABLE-DOKUWIKI-WRITE-PERMS.txt';
+
     $messages = array();
     $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
@@ -99,6 +102,7 @@
     $disable_tools_footprints   = isset($_REQUEST['disable_tools_footprints']);
     $tools_footprints_autoload  = isset($_REQUEST['tools_footprints_autoload']);
     $enable_developer_mode      = isset($_REQUEST['enable_developer_mode']);
+    $enable_dokuwiki_write_perms= isset($_REQUEST['enable_dokuwiki_write_perms']);
     $use_modal_popup            = isset($_REQUEST['use_modal_popup']);
     $popup_width                = isset($_REQUEST['popup_width'])       ? (integer)$_REQUEST['popup_width']     : 800;
     $popup_height               = isset($_REQUEST['popup_height'])      ? (integer)$_REQUEST['popup_height']    : 600;
@@ -177,6 +181,30 @@
                     $config['page_title']                   = $page_title;
                     $config['startup']['custom_banner']     = $startup_banner;
                 }
+                else
+                {
+                    // this is an online demo!
+                    $enable_dokuwiki_write_perms = false; // the DokuWiki must be in read-only mode in the online demo!!
+                }
+
+                // change DokuWiki write permissions
+                if (($enable_dokuwiki_write_perms) && ( ! file_exists($dokuwiki_perms_filename)))
+                {
+                    // enable write permissions
+                    $filehandle = fopen($dokuwiki_perms_filename, 'w');
+                    if ( ! $filehandle)
+                        $messages[] = array('text' => 'Die Datei "'.$dokuwiki_perms_filename.'" kann nicht gelöscht werden! '.
+                                            'Überprüfen Sie, ob Sie die nötigen Schreibrechte besitzen.', 'strong' => true, 'color' => 'red');
+                    else
+                        fclose($filehandle);
+                }
+                elseif (( ! $enable_dokuwiki_write_perms) && (file_exists($dokuwiki_perms_filename)))
+                {
+                    // disable write permissions
+                    if ( ! unlink($dokuwiki_perms_filename))
+                        $messages[] = array('text' => 'Die Datei "'.$dokuwiki_perms_filename.'" kann nicht gelöscht werden! '.
+                                            'Überprüfen Sie, ob Sie die nötigen Schreibrechte besitzen.', 'strong' => true, 'color' => 'red');
+                }
 
                 try
                 {
@@ -232,34 +260,35 @@
     $html->set_loop('language_loop',        array_to_template_loop($config['languages'], $config['language']));
 
     // checkboxes
-    $html->set_variable('disable_updatelist',       $config['startup']['disable_update_list'],  'boolean');
-    $html->set_variable('disable_help',             $config['menu']['disable_help'],            'boolean');
-    $html->set_variable('disable_config',           $config['menu']['disable_config'],          'boolean');
-    $html->set_variable('enable_debug_link',        $config['menu']['enable_debug'],            'boolean');
-    $html->set_variable('disable_devices',          $config['devices']['disable'],              'boolean');
-    $html->set_variable('disable_footprints',       $config['footprints']['disable'],           'boolean');
-    $html->set_variable('disable_manufacturers',    $config['manufacturers']['disable'],        'boolean');
-    $html->set_variable('disable_labels',           $config['menu']['disable_labels'],          'boolean');
-    $html->set_variable('disable_calculator',       $config['menu']['disable_calculator'],      'boolean');
-    $html->set_variable('disable_iclogos',          $config['menu']['disable_iclogos'],         'boolean');
-    $html->set_variable('disable_auto_datasheets',  $config['auto_datasheets']['disable'],      'boolean');
-    $html->set_variable('disable_tools_footprints', $config['menu']['disable_footprints'],      'boolean');
-    $html->set_variable('tools_footprints_autoload',$config['tools']['footprints']['autoload'], 'boolean');
-    $html->set_variable('developer_mode_available', file_exists(BASE.'/development'),           'boolean');
-    $html->set_variable('enable_developer_mode',    $config['developer_mode'],                  'boolean');
+    $html->set_variable('disable_updatelist',           $config['startup']['disable_update_list'],  'boolean');
+    $html->set_variable('disable_help',                 $config['menu']['disable_help'],            'boolean');
+    $html->set_variable('disable_config',               $config['menu']['disable_config'],          'boolean');
+    $html->set_variable('enable_debug_link',            $config['menu']['enable_debug'],            'boolean');
+    $html->set_variable('disable_devices',              $config['devices']['disable'],              'boolean');
+    $html->set_variable('disable_footprints',           $config['footprints']['disable'],           'boolean');
+    $html->set_variable('disable_manufacturers',        $config['manufacturers']['disable'],        'boolean');
+    $html->set_variable('disable_labels',               $config['menu']['disable_labels'],          'boolean');
+    $html->set_variable('disable_calculator',           $config['menu']['disable_calculator'],      'boolean');
+    $html->set_variable('disable_iclogos',              $config['menu']['disable_iclogos'],         'boolean');
+    $html->set_variable('disable_auto_datasheets',      $config['auto_datasheets']['disable'],      'boolean');
+    $html->set_variable('disable_tools_footprints',     $config['menu']['disable_footprints'],      'boolean');
+    $html->set_variable('tools_footprints_autoload',    $config['tools']['footprints']['autoload'], 'boolean');
+    $html->set_variable('developer_mode_available',     file_exists(BASE.'/development'),           'boolean');
+    $html->set_variable('enable_developer_mode',        $config['developer_mode'],                  'boolean');
+    $html->set_variable('enable_dokuwiki_write_perms',  file_exists($dokuwiki_perms_filename),      'boolean');
 
     // popup settings
-    $html->set_variable('use_modal_popup',          $config['popup']['modal'],                  'boolean');
-    $html->set_variable('popup_width',              $config['popup']['width'],                  'integer');
-    $html->set_variable('popup_height',             $config['popup']['height'],                 'integer');
+    $html->set_variable('use_modal_popup',              $config['popup']['modal'],                  'boolean');
+    $html->set_variable('popup_width',                  $config['popup']['width'],                  'integer');
+    $html->set_variable('popup_height',                 $config['popup']['height'],                 'integer');
 
     // site properties
-    $html->set_variable('page_title',               $config['page_title'],                      'string');
-    $html->set_variable('startup_banner',           $config['startup']['custom_banner'],        'string');
+    $html->set_variable('page_title',                   $config['page_title'],                      'string');
+    $html->set_variable('startup_banner',               $config['startup']['custom_banner'],        'string');
 
     // server
-    $html->set_variable('php_version',              phpversion(),                               'string');
-    $html->set_variable('is_online_demo',           $config['is_online_demo'],                  'boolean');
+    $html->set_variable('php_version',                  phpversion(),                               'string');
+    $html->set_variable('is_online_demo',               $config['is_online_demo'],                  'boolean');
 
     // check if the server supports the selected language and print a warning if not
     if ( ! setlocale(LC_ALL, $config['language']))

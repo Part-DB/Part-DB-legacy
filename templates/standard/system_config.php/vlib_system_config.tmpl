@@ -204,6 +204,14 @@
                         Entwickler-Werkzeuge aktivieren (für Entwickler und Tester)
                     </td>
                 </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="enable_dokuwiki_write_perms" {TMPL_IF NAME="enable_dokuwiki_write_perms"} checked{/TMPL_IF} {TMPL_IF NAME="is_online_demo"}disabled{/TMPL_IF}>
+                        Schreibrechte im DokuWiki aktivieren
+                    </td>
+                </tr>
                 {/TMPL_IF}
 
                 <tr>

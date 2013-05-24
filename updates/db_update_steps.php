@@ -28,10 +28,9 @@
         [DATE]      [NICKNAME]          [CHANGES]
         2012-??-??  kami89              - moved some functions to class "Database"
         2012-??-??  kami89              - added "case 12" (a lot of updates for the new OOP design)
-        2012-??-??  kami89              - added "case 13"
         2013-01-26  kami89              - added "case 0" (database initialization)
-                                        - removed "case 13"
-                                        - added "case 14" (change all tables to "ENGINE=InnoDB")
+        2013-05-20  kami89              - added "case 13" (change attachements file path from "/media/" to "/data/media/")
+        2013-05-24  kami89              - added "case 14" (BUGFIX: set parts.id_master_picture_attachement where it is NULL)
 */
 
     /*
@@ -45,7 +44,7 @@
      *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
      */
 
-    define('LATEST_DB_VERSION', 14);  // <-- increment here
+    define('LATEST_DB_VERSION', 15);  // <-- increment here
 
     /*
      * Get update steps
@@ -2352,6 +2351,20 @@
             break;
 
           case 14:
+            // if a part has only one picture, set that as the master picture
+            $updateSteps[] = "UPDATE `parts`, `attachements` SET ".
+                                "parts.id_master_picture_attachement=attachements.id ".
+                                "WHERE (parts.id_master_picture_attachement IS NULL) ".
+                                    "AND (attachements.class_name='Part') ".
+                                    "AND (attachements.element_id=parts.id) ".
+                                    "AND ((LOCATE('.jpg', LOWER(attachements.filename)) > 0) ".
+                                        "OR (LOCATE('.jpeg', LOWER(attachements.filename)) > 0) ".
+                                        "OR (LOCATE('.png', LOWER(attachements.filename)) > 0) ".
+                                        "OR (LOCATE('.gif', LOWER(attachements.filename)) > 0) ".
+                                        "OR (LOCATE('.bmp', LOWER(attachements.filename)) > 0)) ";
+            break;
+
+          case 15:
             /*
             // create table "users"
             $updateSteps[] = "CREATE TABLE `users` (".

@@ -500,6 +500,10 @@ function auth_isMember($memberlist, $user, array $groups) {
 function auth_quickaclcheck($id) {
     global $conf;
     global $USERINFO;
+
+    // for PART-DB
+    return (((!$conf['useacl']) && (file_exists(DOKU_INC.'PART-DB_ENABLE-DOKUWIKI-WRITE-PERMS.txt'))) ? AUTH_ADMIN : AUTH_READ);
+
     # if no ACL is used always return upload rights
     if(!$conf['useacl']) return AUTH_UPLOAD;
     return auth_aclcheck($id, $_SERVER['REMOTE_USER'], $USERINFO['grps']);
@@ -521,6 +525,9 @@ function auth_aclcheck($id, $user, $groups) {
     global $AUTH_ACL;
     /* @var auth_basic $auth */
     global $auth;
+
+    // for PART-DB
+    return (((!$conf['useacl']) && (file_exists(DOKU_INC.'PART-DB_ENABLE-DOKUWIKI-WRITE-PERMS.txt'))) ? AUTH_ADMIN : AUTH_READ);
 
     // if no ACL is used always return upload rights
     if(!$conf['useacl']) return AUTH_UPLOAD;
