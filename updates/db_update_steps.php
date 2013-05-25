@@ -2351,17 +2351,18 @@
             break;
 
           case 14:
-            // if a part has only one picture, set that as the master picture
-            $updateSteps[] = "UPDATE `parts`, `attachements` SET ".
-                                "parts.id_master_picture_attachement=attachements.id ".
-                                "WHERE (parts.id_master_picture_attachement IS NULL) ".
+            // if a part has no master picture attachement, but it has picture attachements, set one of them as the master picture attachement
+            $updateSteps[] = "UPDATE `parts` ".
+                                "INNER JOIN `attachements` ".
+                                "ON (attachements.element_id=parts.id) ".
                                     "AND (attachements.class_name='Part') ".
-                                    "AND (attachements.element_id=parts.id) ".
                                     "AND ((LOCATE('.jpg', LOWER(attachements.filename)) > 0) ".
                                         "OR (LOCATE('.jpeg', LOWER(attachements.filename)) > 0) ".
                                         "OR (LOCATE('.png', LOWER(attachements.filename)) > 0) ".
                                         "OR (LOCATE('.gif', LOWER(attachements.filename)) > 0) ".
-                                        "OR (LOCATE('.bmp', LOWER(attachements.filename)) > 0)) ";
+                                        "OR (LOCATE('.bmp', LOWER(attachements.filename)) > 0)) ".
+                                "SET parts.id_master_picture_attachement=attachements.id ".
+                                "WHERE (parts.id_master_picture_attachement IS NULL)";
             break;
 
           case 15:
