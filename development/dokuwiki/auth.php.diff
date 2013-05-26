@@ -1,14 +1,14 @@
 Index: auth.php
 ===================================================================
---- auth.php	(Revision 639)
-+++ auth.php	(Arbeitskopie)
+--- auth.php    (Revision 639)
++++ auth.php    (Arbeitskopie)
 @@ -500,6 +500,10 @@
  function auth_quickaclcheck($id) {
      global $conf;
      global $USERINFO;
 +
 +    // for PART-DB
-+    return (((!$conf['useacl']) && (file_exists(DOKU_INC.'PART-DB_ENABLE-DOKUWIKI-WRITE-PERMS.txt'))) ? AUTH_ADMIN : AUTH_READ);
++    return (((!$conf['useacl']) && (file_exists(DOKU_INC.'../../data/ENABLE-DOKUWIKI-WRITE-PERMS.txt'))) ? AUTH_ADMIN : AUTH_READ);
 +
      # if no ACL is used always return upload rights
      if(!$conf['useacl']) return AUTH_UPLOAD;
@@ -16,9 +16,9 @@ Index: auth.php
 @@ -522,6 +526,9 @@
      /* @var auth_basic $auth */
      global $auth;
- 
+
 +    // for PART-DB
-+    return (((!$conf['useacl']) && (file_exists(DOKU_INC.'PART-DB_ENABLE-DOKUWIKI-WRITE-PERMS.txt'))) ? AUTH_ADMIN : AUTH_READ);
++    return (((!$conf['useacl']) && (file_exists(DOKU_INC.'../../data/ENABLE-DOKUWIKI-WRITE-PERMS.txt'))) ? AUTH_ADMIN : AUTH_READ);
 +
      // if no ACL is used always return upload rights
      if(!$conf['useacl']) return AUTH_UPLOAD;

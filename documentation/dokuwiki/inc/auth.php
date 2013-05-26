@@ -502,7 +502,7 @@ function auth_quickaclcheck($id) {
     global $USERINFO;
 
     // for PART-DB
-    return (((!$conf['useacl']) && (file_exists(DOKU_INC.'PART-DB_ENABLE-DOKUWIKI-WRITE-PERMS.txt'))) ? AUTH_ADMIN : AUTH_READ);
+    return (((!$conf['useacl']) && (file_exists(DOKU_INC.'../../data/ENABLE-DOKUWIKI-WRITE-PERMS.txt'))) ? AUTH_ADMIN : AUTH_READ);
 
     # if no ACL is used always return upload rights
     if(!$conf['useacl']) return AUTH_UPLOAD;
@@ -527,7 +527,7 @@ function auth_aclcheck($id, $user, $groups) {
     global $auth;
 
     // for PART-DB
-    return (((!$conf['useacl']) && (file_exists(DOKU_INC.'PART-DB_ENABLE-DOKUWIKI-WRITE-PERMS.txt'))) ? AUTH_ADMIN : AUTH_READ);
+    return (((!$conf['useacl']) && (file_exists(DOKU_INC.'../../data/ENABLE-DOKUWIKI-WRITE-PERMS.txt'))) ? AUTH_ADMIN : AUTH_READ);
 
     // if no ACL is used always return upload rights
     if(!$conf['useacl']) return AUTH_UPLOAD;

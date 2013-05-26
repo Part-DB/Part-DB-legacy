@@ -34,7 +34,7 @@
     include_once('start_session.php');
 
     // this file enables write permissions in the DokuWiki
-    $dokuwiki_perms_filename = BASE.'/documentation/dokuwiki/PART-DB_ENABLE-DOKUWIKI-WRITE-PERMS.txt';
+    define('DOKUWIKI_PERMS_FILENAME', BASE.'/data/ENABLE-DOKUWIKI-WRITE-PERMS.txt');
 
     $messages = array();
     $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
@@ -188,21 +188,21 @@
                 }
 
                 // change DokuWiki write permissions
-                if (($enable_dokuwiki_write_perms) && ( ! file_exists($dokuwiki_perms_filename)))
+                if (($enable_dokuwiki_write_perms) && ( ! file_exists(DOKUWIKI_PERMS_FILENAME)))
                 {
                     // enable write permissions
-                    $filehandle = fopen($dokuwiki_perms_filename, 'w');
+                    $filehandle = fopen(DOKUWIKI_PERMS_FILENAME, 'w');
                     if ( ! $filehandle)
-                        $messages[] = array('text' => 'Die Datei "'.$dokuwiki_perms_filename.'" kann nicht gelöscht werden! '.
+                        $messages[] = array('text' => 'Die Datei "'.DOKUWIKI_PERMS_FILENAME.'" kann nicht gelöscht werden! '.
                                             'Überprüfen Sie, ob Sie die nötigen Schreibrechte besitzen.', 'strong' => true, 'color' => 'red');
                     else
                         fclose($filehandle);
                 }
-                elseif (( ! $enable_dokuwiki_write_perms) && (file_exists($dokuwiki_perms_filename)))
+                elseif (( ! $enable_dokuwiki_write_perms) && (file_exists(DOKUWIKI_PERMS_FILENAME)))
                 {
                     // disable write permissions
-                    if ( ! unlink($dokuwiki_perms_filename))
-                        $messages[] = array('text' => 'Die Datei "'.$dokuwiki_perms_filename.'" kann nicht gelöscht werden! '.
+                    if ( ! unlink(DOKUWIKI_PERMS_FILENAME))
+                        $messages[] = array('text' => 'Die Datei "'.DOKUWIKI_PERMS_FILENAME.'" kann nicht gelöscht werden! '.
                                             'Überprüfen Sie, ob Sie die nötigen Schreibrechte besitzen.', 'strong' => true, 'color' => 'red');
                 }
 
@@ -275,7 +275,7 @@
     $html->set_variable('tools_footprints_autoload',    $config['tools']['footprints']['autoload'], 'boolean');
     $html->set_variable('developer_mode_available',     file_exists(BASE.'/development'),           'boolean');
     $html->set_variable('enable_developer_mode',        $config['developer_mode'],                  'boolean');
-    $html->set_variable('enable_dokuwiki_write_perms',  file_exists($dokuwiki_perms_filename),      'boolean');
+    $html->set_variable('enable_dokuwiki_write_perms',  file_exists(DOKUWIKI_PERMS_FILENAME),       'boolean');
 
     // popup settings
     $html->set_variable('use_modal_popup',              $config['popup']['modal'],                  'boolean');

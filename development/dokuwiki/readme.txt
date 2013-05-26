@@ -6,6 +6,6 @@ If we update our DokuWiki to a newer version, we have to apply the patch again:
 > patch -p0 -i auth.php.diff
 
 That patch enables a read-only mode, which is enabled by default.
-It can be disabled by creating an empty file in the DokuWiki base folder, 
-which is called "PART-DB_ENABLE-DOKUWIKI-WRITE-PERMS.txt".
+It can be disabled by creating an empty file in the Part-DB data-folder, 
+which is called "ENABLE-DOKUWIKI-WRITE-PERMS.txt".
 This file can easily be created with the Part-DB configuration page.
