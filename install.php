@@ -98,21 +98,6 @@
 
     /********************************************************************************
     *
-    *   Check requirements
-    *
-    *********************************************************************************/
-
-    $requirements_problems = check_requirements();
-    if (count($requirements_problems) > 0)
-    {
-        foreach ($requirements_problems as $message)
-            $messages[] = array('text' => nl2br($message), 'strong' => true, 'color' => 'red');
-
-        $fatal_error = true;
-    }
-
-    /********************************************************************************
-    *
     *   Execute actions
     *
     *********************************************************************************/
@@ -128,7 +113,7 @@
                     $config['language'] = $language;
 
                     // check if the server supports the selected language and print a warning if not
-                    if ( ! setlocale(LC_ALL, $config['language']))
+                    if ( ! own_setlocale(LC_ALL, $config['language']))
                         throw new Exception('Die gewählte Sprache "'.$config['language'].'" wird vom Server nicht unterstützt!'.
                                             "\nBitte installieren Sie diese Sprache oder wählen Sie eine andere.");
 

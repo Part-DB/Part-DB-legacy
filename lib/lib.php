@@ -39,6 +39,7 @@
         2013-05-04  kami89          - added function "upload_file()"
         2013-05-07  kami89          - added function "check_requirements()"
         2013-05-18  kami89          - added functions "set_admin_password()" and "is_admin_password()"
+        2013-05-26  kami89          - moved function "check_requirements()" to "lib.start_session.php"
 */
 
     /**
@@ -423,27 +424,21 @@
         if (strlen($language) == 0)
             $language = $config['language'];
 
-        // catch only the characters before the point (if there is one),
-        // like "de_DE" if the language is "de_DE.uft-8"
-        if (strpos($language, '.') > 0)
-            $main_language = substr($language, 0, strpos($language, '.'));
-        else
-            $main_language = $language;
-
         // get the money format from config(_defaults).php
-        $format = $config['money_format'][$main_language];
+        $format = $config['money_format'][$language];
 
         if ($language != $config['language'])
         {
             // change locale, because the $language is not the default language!
-            if ( ! setlocale(LC_MONETARY, $language))
+            if ( ! setlocale(LC_MONETARY, $language.'.utf8', $language.'.UTF8', $language.'.utf-8', $language.'.UTF-8', $language))
                 debug('error', 'Sprache "'.$language.'" kann nicht gesetzt werden!', __FILE__, __LINE__, __METHOD__);
         }
 
         $result = trim(money_format($format, $number));
 
         if ($language != $config['language'])
-            setlocale(LC_MONETARY, $config['language']); // change locale back to default
+            setlocale(LC_MONETARY,  $config['language'].'.utf8', $config['language'].'.UTF8', $config['language'].'.utf-8',
+                                    $config['language'].'.UTF-8', $config['language']); // change locale back to default
 
         return $result;
     }
@@ -524,48 +519,6 @@
         foreach ($array as $key => $value)
             $loop[] = array('value' => $key, 'text' => $value, 'selected' => ($key == $selected_value));
         return $loop;
-    }
-
-    /**
-     * @brief Check if the server complies all minimum requirements of Part-DB
-     *
-     * @warning    All requirements must be defined in the array "$config['requirements']" in "config_defaults.php"!
-     *
-     * @retval array    For every requirement which is not complied there's an message
-     *                  (This array is empty if the server complies all requirements)
-     *
-     * @throws Exception if there was an error
-     */
-    function check_requirements()
-    {
-        global $config;
-        $messages = array();
-
-        foreach ($config['requirements'] as $key => $value)
-        {
-            switch ($key)
-            {
-                case 'php_version':
-                    if (version_compare(PHP_VERSION, $value) < 0)
-                    {
-                        $messages[] =   'Für Part-DB wird mindestens PHP '.$value.' vorausgesetzt! '.
-                                        'Die derzeit installierte Version ist PHP '.PHP_VERSION.'.';
-                    }
-                    break;
-
-                case 'pdo':
-                    if ( ! class_exists('PDO', false))
-                    {
-                        $messages[] =   'PDO (PHP Data Objects) wird benötigt, ist aber nicht installiert!';
-                    }
-                    break;
-
-                default:
-                    throw new Exception('Unbekannte Mindestanforderung: '.$key);
-            }
-        }
-
-        return $messages;
     }
 
 ?>

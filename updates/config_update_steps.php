@@ -95,9 +95,15 @@
                     $messages[] =   'ACHTUNG: Für hochgeladene Bilder und andere Dateien gibt es jetzt das Verzeichnis "media" im Unterverzeichnis "data". '.
                                     'Falls Sie bereits eigene Dateien im Verzeichnis "img" haben (was für hochgeladene Bilder bisher der Zielordner war), '.
                                     'müssen Sie diese nun von Hand in der Ordner "data/media/" verschieben! Achten Sie darauf, dass die versteckte Datei '.
-                                    '"data/media/.htaccess" nicht gelöscht wird, diese ist sehr wichtig für den Betrieb von Part-DB. '.
+                                    '"data/media/.htaccess" nicht gelöscht wird, diese ist wichtig für den sicheren Betrieb von Part-DB. '.
                                     'Die Dateipfade werden beim folgenden Datenbankupdate automatisch angepasst.';
 
+                    break;
+
+                case 1:
+                    // remove for example ".utf8" in $config['language'] because of a change in start_session.php
+                    if (strpos($config['language'], '.') > 0)
+                        $config['language'] = substr($config['language'], 0, strpos($config['language'], '.'));
                     break;
 
                 default:

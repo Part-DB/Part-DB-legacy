@@ -39,6 +39,8 @@
 
     $BASE_tmp = dirname(__FILE__); // temporary base path of Part-DB, without slash at the end
 
+    include_once($BASE_tmp.'/lib/lib.start_session.php');
+
     /********************************************************************************
     *
     *   define an exception handler for uncaught exceptions
@@ -47,9 +49,11 @@
 
     function exception_handler($e)
     {
-        print "<br><br><strong>Es ist ein schwerwiegender Fehler aufgetreten:</strong><br><br>".
-                nl2br($e->getMessage()).'<br><br>'.
-                '(Exception wurde geworfen in '.$e->getFile().', Zeile '.$e->getLine().')';
+        print_messages_without_template(    'Part-DB: Schwerwiegender Fehler!', NULL,
+                                            '<font color="red"><strong>Es ist ein schwerwiegender Fehler aufgetreten:'.
+                                            '<br><br>'.nl2br($e->getMessage()).'</strong><br><br>'.
+                                            '(Exception wurde geworfen in '.$e->getFile().', Zeile '.$e->getLine().')</font>');
+        exit;
     }
 
     set_exception_handler('exception_handler');
@@ -61,17 +65,19 @@
     *
     *********************************************************************************/
 
-    if ((is_readable($BASE_tmp.'/config.php')) || (is_readable($BASE_tmp.'/backup')) ||
-        (is_readable($BASE_tmp.'/media')) || (is_readable($BASE_tmp.'/log')))
+    if ((file_exists($BASE_tmp.'/config.php')) || (file_exists($BASE_tmp.'/backup')) ||
+        (file_exists($BASE_tmp.'/media')) || (file_exists($BASE_tmp.'/log')))
     {
-        die('Bitte verschieben Sie die folgenden Dateien und Ordner ins Verzeichnis "data": <br><br>'.
+        print_messages_without_template('Part-DB', 'Update von Part-DB: Manuelle Eingriffe notwendig',
+            '<strong>Bitte verschieben Sie die folgenden Dateien und Ordner ins Verzeichnis "data": <br><br>'.
             '"config.php" --> "data/config.php"<br>'.
             '"backup/" --> "data/backup/"<br>'.
             '"media/" --> "data/media/"<br>'.
             '"log/" --> "data/log/"<br><br>'.
-            'WICHTIG:<br>Kopieren Sie jeweils nur den Inhalt der genannten Ordner, nicht den ganzen Ordner an sich!<br>'.
+            '<font color="red">WICHTIG:<br>Kopieren Sie jeweils nur den Inhalt der genannten Ordner, nicht den ganzen Ordner an sich!<br>'.
             'Die Zielordner enthalten bereits (teilweise versteckte) Dateien, die auf keinen Fall &uuml;berschrieben werden d&uuml;rfen!<br>'.
-            'Kopieren Sie also nur den Inhalt dieser Ordner und l&ouml;schen Sie danach die Ordner "backup", "log" und "media" im Hauptverzeichnis.');
+            'Kopieren Sie also nur den Inhalt dieser Ordner und l&ouml;schen Sie danach die Ordner "backup", "log" und "media" im Hauptverzeichnis.</font></strong>');
+        exit;
     }
 
     /********************************************************************************
@@ -82,7 +88,7 @@
 
     include_once($BASE_tmp.'/config_defaults.php'); // first, we load all default values of the $config array...
 
-    if (is_readable($BASE_tmp.'/data/config.php'))
+    if (file_exists($BASE_tmp.'/data/config.php') && is_readable($BASE_tmp.'/data/config.php'))
         include_once($BASE_tmp.'/data/config.php'); // ...and then we overwrite them with the user settings, if they exist
 
     if (count($manual_config) > 0) // $manual_config is defined in "config_defaults.php" and can be filled in "config.php"
@@ -133,49 +139,90 @@
 
     /********************************************************************************
     *
+    *   make some checks
+    *
+    *********************************************************************************/
+
+    $messages = check_requirements();
+    if (count($messages) > 0)
+    {
+        print_messages_without_template('Part-DB', 'Mindestanforderungen von Part-DB nicht erfüllt!',
+            '<font color="red"><strong>&bull;'.implode('<br>&bull;', $messages).'</strong></font><br><br>'.
+            'Nähere Informationen gibt es in der <a target="_new" href="'.BASE_RELATIVE.
+            'documentation/dokuwiki/doku.php?id=anforderungen">Dokumentation</a>');
+        exit;
+    }
+
+    $messages = check_and_set_file_permissions();
+    if (count($messages) > 0)
+    {
+        $message = '<strong>';
+        foreach ($messages as $msg)
+            $message .= '&bull;'.$msg.'<br>';
+        $message .= '</strong><br><br>';
+        $message .= 'Nähere Informationen zu den Dateirechten gibt es in der <a target="_new" href="'.BASE_RELATIVE.
+                    'documentation/dokuwiki/doku.php?id=installation">Dokumentation</a><br><br>';
+        $message .= '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>';
+
+        print_messages_without_template('Part-DB', 'Anpassung der Rechte von Verzeichnissen und Dateien', $message);
+        exit;
+
+        // please note: the messages and the "exit;" here are very important, even if all permissions could set successfully!
+        // the reasen is: if the config.php was not readable, the array $config is now not loaded successfully, even if it is readable now.
+        // so we show a message with a reload button, and after reloading the site all should work correctly.
+    }
+
+    $message = check_if_config_is_valid();
+    if (is_string($message))
+    {
+        print_messages_without_template('Part-DB', 'Ihre config.php ist fehlerhaft!',
+            '<font color="red"><strong>'.$message.'</strong></font><br><br>'.
+            'Nähere Informationen gibt es in der <a target="_new" href="'.BASE_RELATIVE.
+            'documentation/dokuwiki/doku.php?id=installation">Dokumentation</a><br><br>'.
+            '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>');
+        exit;
+    }
+
+    /********************************************************************************
+    *
     *   update the config.php if the system is newer than the user's config.php
     *
     *********************************************************************************/
 
     if (($config['system']['current_config_version'] < $config['system']['latest_config_version'])
-        && (is_readable(BASE.'/data/config.php')) && (filesize(BASE.'/data/config.php') > 0))
+        && (file_exists(BASE.'/data/config.php')) && (is_readable(BASE.'/data/config.php'))
+        && (filesize(BASE.'/data/config.php') > 0))
     {
         include_once(BASE.'/updates/config_update_steps.php');
-
-        $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Aktualisierung ihrer config.php');
 
         try
         {
             $update_messages = update_users_config_php();
-            $messages[] = array('text' =>   'Ihre config.php wurde erfolgreich aktualisiert!<br><br>'.
-                                            'Es kann sein, dass jetzt der Installationsassistent startet, '.
-                                            'um noch einige neue Einstellungen zu tätigen.', 'strong' => true, 'color' => 'darkgreen');
+            $message =  '<strong><font color="darkgreen">Ihre config.php wurde erfolgreich aktualisiert!</font></strong><br><br>'.
+                        'Es kann sein, dass jetzt der Installationsassistent startet, '.
+                        'um noch einige neue Einstellungen zu tätigen.<br><br>';
 
             if (count($update_messages) > 0)
             {
+                $message .= '<strong><font color="red">';
                 foreach ($update_messages as $text)
-                    $messages[] = array('text' => '<br>'.$text, 'color' => 'red', 'strong' => true);
+                    $message .= '&bull;'.$text.'<br>';
+                $message .= '</font></strong><br>';
             }
         }
         catch (Exception $e)
         {
-            $messages[] = array('text' => 'Es gab ein Fehler bei der Aktualisierung ihrer config.php:', 'strong' => true, 'color' => 'red');
-            $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+            $message =  '<strong><font color="red">Es gab ein Fehler bei der Aktualisierung ihrer config.php:<br><br>'.
+                        nl2br($e->getMessage()).'</font></strong><br><br>';
         }
 
-        $html->print_header($messages, 'index.php');
-        $html->print_footer();
+        $message .= '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>';
+
+        print_messages_without_template('Part-DB', 'Aktualisierung ihrer config.php', $message);
         exit;
     }
 
     $config['html']['http_charset'] = 'utf-8'; ///< @todo remove this later; see config_defaults.php
-
-    // just temporary!! switch from MD5 to SHA256 password encryption!
-    if (strlen($config['admin']['password']) == 32) // MD5 has 32 HEX chars
-    {
-        $config['admin']['password'] = NULL;
-        $config['installation_complete']['admin_password'] = false; // this will show the installer to set a new password
-    }
 
     /********************************************************************************
     *
@@ -193,7 +240,7 @@
 
     mb_internal_encoding($config['html']['http_charset']);
     date_default_timezone_set($config['timezone']);
-    setlocale(LC_ALL, $config['language']);
+    own_setlocale(LC_ALL, $config['language']);
 
     /********************************************************************************
     *

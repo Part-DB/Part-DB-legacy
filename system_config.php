@@ -291,7 +291,7 @@
     $html->set_variable('is_online_demo',               $config['is_online_demo'],                  'boolean');
 
     // check if the server supports the selected language and print a warning if not
-    if ( ! setlocale(LC_ALL, $config['language']))
+    if ( ! own_setlocale(LC_ALL, $config['language']))
     {
         $messages[] = array('text' => 'Achtung:', 'strong' => true, 'color' => 'red');
         $messages[] = array('text' => 'Die gewählte Sprache "'.$config['language'].'" wird vom Server nicht unterstützt!', 'color' => 'red', );
