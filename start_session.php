@@ -149,27 +149,26 @@
         print_messages_without_template('Part-DB', 'Mindestanforderungen von Part-DB nicht erfüllt!',
             '<font color="red"><strong>&bull;'.implode('<br>&bull;', $messages).'</strong></font><br><br>'.
             'Nähere Informationen gibt es in der <a target="_new" href="'.BASE_RELATIVE.
-            'documentation/dokuwiki/doku.php?id=anforderungen">Dokumentation</a>');
+            'documentation/dokuwiki/doku.php?id=anforderungen">Dokumentation</a>.');
         exit;
     }
 
-    $messages = check_and_set_file_permissions();
+    $messages = check_file_permissions();
     if (count($messages) > 0)
     {
-        $message = '<strong>';
+        $message = '<strong><font color="red">';
         foreach ($messages as $msg)
             $message .= '&bull;'.$msg.'<br>';
-        $message .= '</strong><br><br>';
+        $message .= '</font></strong><br><br>';
         $message .= 'Nähere Informationen zu den Dateirechten gibt es in der <a target="_new" href="'.BASE_RELATIVE.
-                    'documentation/dokuwiki/doku.php?id=installation">Dokumentation</a><br><br>';
+                    'documentation/dokuwiki/doku.php?id=installation">Dokumentation</a>.<br><br>';
         $message .= '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>';
 
         print_messages_without_template('Part-DB', 'Anpassung der Rechte von Verzeichnissen und Dateien', $message);
         exit;
 
-        // please note: the messages and the "exit;" here are very important, even if all permissions could set successfully!
-        // the reasen is: if the config.php was not readable, the array $config is now not loaded successfully, even if it is readable now.
-        // so we show a message with a reload button, and after reloading the site all should work correctly.
+        // please note: the messages and the "exit;" here are very important, we mustn't continue the script!
+        // the reasen is: if the config.php is not readable, the array $config is now not loaded successfully.
     }
 
     $message = check_if_config_is_valid();
@@ -178,7 +177,7 @@
         print_messages_without_template('Part-DB', 'Ihre config.php ist fehlerhaft!',
             '<font color="red"><strong>'.$message.'</strong></font><br><br>'.
             'Nähere Informationen gibt es in der <a target="_new" href="'.BASE_RELATIVE.
-            'documentation/dokuwiki/doku.php?id=installation">Dokumentation</a><br><br>'.
+            'documentation/dokuwiki/doku.php?id=installation">Dokumentation</a>.<br><br>'.
             '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>');
         exit;
     }

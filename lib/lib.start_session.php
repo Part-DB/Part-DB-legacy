@@ -92,7 +92,19 @@
      */
     function own_setlocale($category, $locale)
     {
-        $ret = setlocale($category, $locale.'.utf8', $locale.'.UTF8', $locale.'.utf-8', $locale.'.UTF-8', $locale);
+        // workaround for Windows/XAMPP:
+        switch ($locale)
+        {
+            case 'de_AT': $locale_xampp = 'aut'; break;
+            case 'de_CH': $locale_xampp = 'che'; break;
+            case 'de_DE': $locale_xampp = 'deu'; break;
+            case 'de_LU': $locale_xampp = 'deu'; break;
+            case 'en_GB': $locale_xampp = 'gbr'; break;
+            case 'en_US': $locale_xampp = 'usa'; break;
+            default:      $locale_xampp = $locale;
+        }
+
+        $ret = setlocale($category, $locale.'.utf8', $locale.'.UTF8', $locale.'.utf-8', $locale.'.UTF-8', $locale, $locale_xampp);
         return ($ret !== false);
     }
 
@@ -139,101 +151,41 @@
     }
 
     /**
-     * @brief Check and try to set file permissions
+     * @brief Check file permissions
      *
-     * @retval array    @li an array with a string for each message
+     * @retval array    @li an array with a string for each error message
      *                  @li an empty array means everything is fine
-     *
-     * @todo    This function is quite ugly, make it better! :-)
      */
-    function check_and_set_file_permissions()
+    function check_file_permissions()
     {
         $messages = array();
 
-        $write_permissions = array( BASE.'/data/'                   => true, // false = read, true = read+write
-                                    BASE.'/data/config.php'         => true,
-                                    BASE.'/data/index.html'         => false,
-                                    BASE.'/data/.htaccess'          => false,
-                                    BASE.'/data/backup/'            => true,
-                                    BASE.'/data/backup/index.html'  => false,
-                                    BASE.'/data/log/'               => true,
-                                    BASE.'/data/log/index.html'     => false,
-                                    BASE.'/data/media/'             => true,
-                                    BASE.'/data/media/.htaccess'    => false);
+        $permissions = array(   '/data/'                   => 'rwx',
+                                '/data/config.php'         => 'rw',
+                                '/data/index.html'         => 'r',
+                                '/data/.htaccess'          => 'r',
+                                '/data/backup/'            => 'rwx',
+                                '/data/backup/index.html'  => 'r',
+                                '/data/log/'               => 'rwx',
+                                '/data/log/index.html'     => 'r',
+                                '/data/media/'             => 'rwx',
+                                '/data/media/.htaccess'    => 'r');
 
-        foreach ($write_permissions as $filename => $write)
+        foreach ($permissions as $filename => $needed_perms)
         {
-            if (( ! $write) && (file_exists($filename)) && (( ! is_readable($filename)) || (is_writable($filename))))
-            {
-                // file or directory should be (only) readable, but isn't it!
-                $new_mode = set_file_permissions($filename, false);
+            $whole_filename = BASE.$filename;
 
-                if ($new_mode)
-                    $messages[] = '<font color="darkgreen">Datei oder Verzeichnis "'.$filename.'" wurde erfolgreich auf "'.$new_mode.'" gesetzt.</font>';
-                else
-                    $messages[] = '<font color="red">Datei oder Verzeichnis "'.$filename.'" ist nicht lesbar, muss aber lesbar sein. Bitte manuell anpassen!</font>';
-            }
-            elseif (($write) && (file_exists($filename)) && (( ! is_readable($filename)) || ( ! is_writable($filename))))
+            if ((file_exists($whole_filename))
+                && (((strpos($needed_perms, 'r') !== false) && ( ! is_readable($whole_filename)))
+                 || ((strpos($needed_perms, 'w') !== false) && ( ! is_writable($whole_filename)))
+                 || ((strpos($needed_perms, 'x') !== false) && ( ! is_executable($whole_filename)))))
             {
-                // file or directory should be writeable and readable, but isn't it!
-                $new_mode = set_file_permissions($filename, true);
-
-                if ($new_mode)
-                    $messages[] = '<font color="darkgreen">Datei oder Verzeichnis "'.$filename.'" wurde erfolgreich auf "'.$new_mode.'" gesetzt.</font>';
-                else
-                    $messages[] = '<font color="red">Datei oder Verzeichnis "'.$filename.'" ist nicht beschreibbar, muss aber beschreibbar sein. Bitte manuell anpassen!</font>';
+                $messages[] =   'Das Verzeichnis bzw. die Datei "'.$filename.'" hat nicht die richtigen Dateirechte! '.
+                                'Benötigt werden "'.$needed_perms.'". Bitte manuell korrigieren.';
             }
         }
 
         return $messages;
-    }
-
-    /**
-     * @brief set permissions for a file or directory (helper function for check_and_set_file_permissions() )
-     *
-     * This function will try to set the file permissions first to 644.
-     * If this is not enought to make it readable, we will try 664.
-     * If this is still not enought we will try 666.
-     * For directories we use 755/775/777.
-     *
-     * @param string    $filename       filename to a file or directory
-     * @param boolean   $write          @li true: set read + write permissions
-     *                                  @li false: set read permissions
-     *
-     * @retval  @li (integer) the new file permissions (as a number, like 755) if success
-     *          @li false if fails
-     *
-     * @todo    This function is quite ugly, make it better! :-)
-     */
-    function set_file_permissions($filename, $write)
-    {
-        if ( ! $write)
-        {
-            // only read permissions
-            $mode = is_dir($filename) ? 555 : 444;
-            chmod($filename, octdec($mode));
-            clearstatcache();
-            if (is_readable($filename)) return $mode;
-        }
-        else
-        {
-            // read + write permissions
-            $mode = is_dir($filename) ? 755 : 644;
-            chmod($filename, octdec($mode));
-            clearstatcache();
-            if (is_writable($filename) && is_readable($filename)) return $mode;
-
-            $mode = is_dir($filename) ? 775 : 664;
-            chmod($filename, octdec($mode));
-            clearstatcache();
-            if (is_writable($filename) && is_readable($filename)) return $mode;
-
-            $mode = is_dir($filename) ? 777 : 666;
-            chmod($filename, octdec($mode));
-            clearstatcache();
-            if (is_writable($filename) && is_readable($filename)) return $mode;
-        }
-        return false;
     }
 
     /**

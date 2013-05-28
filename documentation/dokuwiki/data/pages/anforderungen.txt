@@ -44,6 +44,8 @@ Weitere Informationen und Installationsanleitungen gibts (speziell für Ubuntu) 
 
 <note warning>
 Part-DB verwendet ".htaccess"-Dateien, um gewisse Verzeichnisse vor unerlaubtem Zugriff zu schützen. Diese werden aber in der Standardkonfiguration von Apache meistens **nicht** berücksichtigt, was ein Sicherheitsrisiko darstellt! Sie sollten die Apache-Option "AllowOverride" unbedingt auf "All" stellen um dies zu aktivieren.
+
+Zusätzlich empfiehlt es sich, "Directory Listing" global zu deaktivieren. Dazu ersetzt man in der selben Datei, im selben Abschnitt, die Angabe "Options Indexes [...]" durch "Options -Indexes [...]"
 </note>
 
 Unter Debian/Ubuntu wird dies folgendermassen gemacht:

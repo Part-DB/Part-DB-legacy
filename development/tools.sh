@@ -66,6 +66,52 @@ doxygen_build () # create / update the doxygen documentation
     cd "../../"
 }
 
+build_install_package () # create a *.tar.gz        TODO: this function is not really pretty, we should make it better
+{
+    # line with version number in config_defaults.php:
+    # $config['system']['version']                            = '0.3.0.RC1';  // examples: '0.2.2' or '0.2.2.RC2' (see class.SystemVersion.php)
+    
+    # get the Part-DB version, like "0.3.0.RC1"
+    VERSION=$(grep -E "config\['system'\]\['version'\]\s*=\s*'" config_defaults.php | cut -d\' -f6)
+    
+    echo -e "- build install package for Part-DB $VERSION..."
+    
+    #clean up output directory
+    rm -f development/package_output/Part-DB_*
+    chmod -R 777 development/package_output/files/ # we need permissions to delete this folder
+    rm -f -r development/package_output/files/
+    mkdir development/package_output/files/
+    
+    # copy all needed files to development/package_output/files/
+    .htaccess????
+    find . -not \(      -path "./.svn*" \
+                    -o  -path "./development*" \
+                    -o  -path "./documentation/dokuwiki/data/cache*" \
+                    -o  -path "./documentation/dokuwiki/data/tmp*" \
+                    -o  \(          -path "./data*" \
+                            -a -not -path "./data/backup" \
+                            -a -not -path "./data/media" \
+                            -a -not -path "./data/log" \
+                            -a -not -name "index.html" \
+                            -a -not -name ".htaccess" \
+                        \) \
+                \) > "development/package_output/filelist.txt"
+
+    cd "development/package_output/files/"
+    
+    # set file permissions correct for using Part-DB
+    #find * -type d -print0 | xargs -0 chmod 555
+    #find * -type f -print0 | xargs -0 chmod 444
+    #find data/ -type d -print0 | xargs -0 chmod 755
+    #find data/ -type f -print0 | xargs -0 chmod 644
+    
+    # create *.tar.gz
+    #tar -czvf "development/package_output/Part-DB_$VERSION.tar.gz" -T "development/package_output/filelist.txt" --no-recursion --owner=www-data --group=www-data
+    #tar -czvf "../Part-DB_$VERSION.tar.gz" * --owner=www-data --group=www-data
+    
+    cd "../../../"
+}
+
 while [ "$1" != "" ]; do
     case $1 in
         -o)
@@ -75,6 +121,11 @@ while [ "$1" != "" ]; do
             ;;
         -t|--tab)
             tab2spaces
+            ;;
+        -p|--pack)
+            #remove_backups
+            #tab2spaces
+            build_install_package
             ;;
         -d|--doxygen)
             doxygen_build
