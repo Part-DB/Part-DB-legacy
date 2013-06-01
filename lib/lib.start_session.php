@@ -85,8 +85,10 @@
      * @brief This is an improved version of the setlocale() from PHP
      *
      * This function will first try to set an UTF-8 locale.
+     * This function is used in start_session.php, install.php, lib.functions.php and system_config.php
      *
-     * This function is used in start_session.php, install.php and system_config.php
+     * @param integer $category     locale category, see PHP documentation of setlocale()
+     * @param string  $locale       locale string, see PHP documentation of setlocale()
      *
      * @retval boolean  true if success, false if fail
      *

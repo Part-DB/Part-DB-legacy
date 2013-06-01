@@ -38,6 +38,8 @@
 
     /*
      * money_format()
+     *
+     * money_format() is not available on Windows!
      */
     if ( ! function_exists('money_format') )
     {
@@ -45,8 +47,19 @@
         function money_format($format, $number)
         {
             $regex  = '/%((?:[\^!\-]|\+|\(|\=.)*)([0-9]+)?(?:#([0-9]+))?(?:\.([0-9]+))?([in%])/';
-            if (setlocale(LC_MONETARY, 0) == 'C') { setlocale(LC_MONETARY, ''); }
+            //if (setlocale(LC_MONETARY, 0) == 'C') { setlocale(LC_MONETARY, ''); }
             $locale = localeconv();
+
+            if (strpos(strtoupper(setlocale(LC_MONETARY, 0)), 'UTF') === false) // charset is NOT UTF-8
+            {
+                // convert $locale to UTF-8
+                foreach ($locale as $key => $value)
+                {
+                    if ( ! is_array($value))
+                        $locale[$key] = iconv('Windows-1252', 'UTF-8', $value);
+                }
+            }
+
             preg_match_all($regex, $format, $matches, PREG_SET_ORDER);
             foreach ($matches as $fmatch)
             {
