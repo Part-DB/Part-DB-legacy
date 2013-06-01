@@ -84,10 +84,10 @@
 
     // section "system settings"
     $http_charset               = isset($_REQUEST['http_charset'])      ? (string)$_REQUEST['http_charset']     : 'utf-8';
-    $theme                      = isset($_REQUEST['theme'])             ? (string)$_REQUEST['theme']            : 'standard';
-    $custom_css                 = isset($_REQUEST['custom_css'])        ? (string)$_REQUEST['custom_css']       : $config['html']['custom_css']; // '';
-    $timezone                   = isset($_REQUEST['timezone'])          ? (string)$_REQUEST['timezone']         : 'Europe/Berlin';
-    $language                   = isset($_REQUEST['language'])          ? (string)$_REQUEST['language']         : 'de_DE';
+    $theme                      = isset($_REQUEST['theme'])             ? (string)$_REQUEST['theme']            : $config['html']['theme'];
+    $custom_css                 = isset($_REQUEST['custom_css'])        ? (string)$_REQUEST['custom_css']       : $config['html']['custom_css'];
+    $timezone                   = isset($_REQUEST['timezone'])          ? (string)$_REQUEST['timezone']         : $config['timezone'];
+    $language                   = isset($_REQUEST['language'])          ? (string)$_REQUEST['language']         : $config['language'];
     $disable_updatelist         = isset($_REQUEST['disable_updatelist']);
     $disable_help               = isset($_REQUEST['disable_help']);
     $disable_config             = isset($_REQUEST['disable_config']);
@@ -104,10 +104,10 @@
     $enable_developer_mode      = isset($_REQUEST['enable_developer_mode']);
     $enable_dokuwiki_write_perms= isset($_REQUEST['enable_dokuwiki_write_perms']);
     $use_modal_popup            = isset($_REQUEST['use_modal_popup']);
-    $popup_width                = isset($_REQUEST['popup_width'])       ? (integer)$_REQUEST['popup_width']     : 800;
-    $popup_height               = isset($_REQUEST['popup_height'])      ? (integer)$_REQUEST['popup_height']    : 600;
-    $page_title                 = isset($_REQUEST['page_title'])        ? (string)$_REQUEST['page_title']       : 'PART-DB Elektronische Bauteile-Datenbank';
-    $startup_banner             = isset($_REQUEST['startup_banner'])    ? (string)$_REQUEST['startup_banner']   : '';
+    $popup_width                = isset($_REQUEST['popup_width'])       ? (integer)$_REQUEST['popup_width']     : $config['popup']['width'];
+    $popup_height               = isset($_REQUEST['popup_height'])      ? (integer)$_REQUEST['popup_height']    : $config['popup']['height'];
+    $page_title                 = isset($_REQUEST['page_title'])        ? (string)$_REQUEST['page_title']       : $config['page_title'];
+    $startup_banner             = isset($_REQUEST['startup_banner'])    ? (string)$_REQUEST['startup_banner']   : $config['startup']['custom_banner'];
 
     // section "change administrator password"
     $current_admin_password     = isset($_REQUEST['current_admin_password'])    ? (string)$_REQUEST['current_admin_password']   : '';
@@ -152,7 +152,7 @@
             case 'apply':
                 $config_old = $config;
 
-                $config['html']['http_charset']             = $http_charset;
+                //$config['html']['http_charset']             = $http_charset;
                 $config['html']['theme']                    = $theme;
                 $config['html']['custom_css']               = $custom_css;
                 $config['timezone']                         = $timezone;

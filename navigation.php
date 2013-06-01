@@ -48,12 +48,14 @@
     {
         $config['debug']['template_debugging_enable'] = isset($_REQUEST["enable_template_debugging"]);
         save_config();
+        header('Location: navigation.php'); // reload the navigation frame
     }
 
     if ((isset($_REQUEST["enable_request_debugging"])) || (isset($_REQUEST["disable_request_debugging"])))
     {
         $config['debug']['request_debugging_enable'] = isset($_REQUEST["enable_request_debugging"]);
         save_config();
+        header('Location: navigation.php'); // reload the navigation frame
     }
 
     /********************************************************************************

@@ -136,6 +136,7 @@
     $config['language']                                     = 'de_DE';
     $config['is_online_demo']                               = false; // disables some (safety-)critical features
     $config['developer_mode']                               = false; // enables the "Debug-Tools" menu
+    $config['page_title']                                   = 'Part-DB Elektronische Bauteile-Datenbank';
 
 
     /********************************************************************************
@@ -165,7 +166,7 @@
 
     // system version: this must be increased for every release(-candidate)!
     // IMPORTANT: please note that (for example) "0.3.0" is a HIGHER (!) version than "0.3.0.RC5".
-    $config['system']['version']                            = '0.3.0.RC1';  // examples: '0.2.2' or '0.2.2.RC2' (see class.SystemVersion.php)
+    $config['system']['version']                            = '0.3.0.RC2';  // examples: '0.2.2' or '0.2.2.RC2' (see class.SystemVersion.php)
 
     // the version of the latest config style. Increase this for one if we need an update for the user's config.php (see also updates/config_update_steps.php)
     $config['system']['latest_config_version']              = 2; // only increase for one!
@@ -173,9 +174,6 @@
     // minimum requirements of the system (PHP, PHP Modules, Apache, ...) [used in "install.php"]
     $config['requirements']['php_version']                  = '5.3.0';
     $config['requirements']['pdo']                          = true; // PDO must be installed
-
-    // page title
-    $config['page_title']                                   = 'Part-DB Elektronische Bauteile-Datenbank';
 
     // HTTP charsets* (the key is used for the HTML header, the value is only used for displaying)
     $config['http_charsets']['utf-8']                       = 'UTF-8 Unicode';
