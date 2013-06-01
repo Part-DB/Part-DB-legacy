@@ -4,7 +4,7 @@ Damit Part-DB einwandfrei läuft, müssen folgende Kriterien erfüllt sein:
 
   * Webserver mit mindestens 15MB Platz (mit Footprint-Bilder mindestens 60MB)
   * PHP >= 5.3.0 mit [[http://php.net/manual/de/book.pdo.php|PDO]] inkl. [[http://www.php.net/manual/de/ref.pdo-mysql.php|MySQL Plugin]]
-  * MySQL Datenbank mit der Speicherengine InnoDB
+  * MySQL Datenbank mit der Speicherengine InnoDB (MariaDB wurde auch schon erfolgreich getestet)
   * Webbrowser mit JavaScript und HTML4 Unterstützung.
 
 
@@ -45,7 +45,7 @@ Weitere Informationen und Installationsanleitungen gibts (speziell für Ubuntu) 
 <note warning>
 Part-DB verwendet ".htaccess"-Dateien, um gewisse Verzeichnisse vor unerlaubtem Zugriff zu schützen. Diese werden aber in der Standardkonfiguration von Apache meistens **nicht** berücksichtigt, was ein Sicherheitsrisiko darstellt! Sie sollten die Apache-Option "AllowOverride" unbedingt auf "All" stellen um dies zu aktivieren.
 
-Zusätzlich empfiehlt es sich, "Directory Listing" global zu deaktivieren. Dazu ersetzt man in der selben Datei, im selben Abschnitt, die Angabe "Options Indexes [...]" durch "Options -Indexes [...]"
+Zusätzlich empfiehlt es sich, "Directory Listing" global zu deaktivieren. Dazu ersetzt man die Angabe "Options Indexes [...]" durch "Options -Indexes [...]".
 </note>
 
 Unter Debian/Ubuntu wird dies folgendermassen gemacht:
@@ -53,7 +53,7 @@ Unter Debian/Ubuntu wird dies folgendermassen gemacht:
 sudo gedit /etc/apache2/sites-available/default
 </code>
 
-Dort im Block "<Directory /var/www/> ... </Directory>" die Zeile "AllowOverride None" durch die Zeile "AllowOverride All" ersetzen. Datei speichern und schliessen. Danach Apache neu starten:
+Dort im Block "<Directory /var/www/> ... </Directory>" die Zeile "AllowOverride None" durch "AllowOverride All", und "Options Indexes [...]" durch "Options -Indexes [...]" ersetzen. Datei speichern und schliessen. Danach Apache neu starten:
 <code>
 sudo service apache2 restart
 </code>
@@ -74,6 +74,18 @@ Falls phpMyAdmin nicht aufgerufen werden kann, muss eventuell noch ein Symbolisc
 sudo ln -s /usr/share/phpmyadmin /var/www/phpmyadmin
 </code>
 
-==== Installation von Part-DB ====
+===== Installation der Sprachdateien =====
+
+Falls die gewünschte Sprache für Part-DB noch nicht installiert ist, kann man sie noch nachinstallieren. Dies ist meistens nicht notwendig, da man normalerweise das Betriebssystem ja schon in derjenigen Sprache installiert, die man nachher benutzen möchte. Es kann aber mal sein dass man nur ein englisches Betriebssystem zur Verfügung hat, dann muss man die deutschen Sprachdateien noch manuell installieren.
+
+Dies sollte mit folgendem Befehl möglich sein:
+
+<code>
+sudo locale-gen de_DE.utf8
+</code>
+
+Damit wird die Sprache "Deutsch (Deutschland)" installiert. Es kann sein, dass man "de_DE.utf8@euro" eingeben muss, damit das Eurozeichen als Währungssymbol verwendet wird.
+
+===== Installation von Part-DB =====
 
 Ist die Installation der Serverkomponenten erfolgreich abgeschlossen, kann man nun mit der Installation von Part-DB beginnen. Wie das geht, ist [[Installation|hier]] beschrieben.

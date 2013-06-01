@@ -54,17 +54,17 @@
     *
     *********************************************************************************/
 
-    $selected_id                    = isset($_REQUEST['selected_id'])                   ? (integer)$_REQUEST['selected_id']             : 0;
-    $new_name                       = isset($_REQUEST['name'])                          ? (string)$_REQUEST['name']                     : '';
-    $new_parent_id                  = isset($_REQUEST['parent_id'])                     ? (integer)$_REQUEST['parent_id']               : 0;
-    $new_filename                   = isset($_REQUEST['filename'])                      ? to_unix_path((string)$_REQUEST['filename'])   : '';
+    $selected_id                    = isset($_REQUEST['selected_id'])                   ? (integer)$_REQUEST['selected_id']                 : 0;
+    $new_name                       = isset($_REQUEST['name'])                          ? trim((string)$_REQUEST['name'])                   : '';
+    $new_parent_id                  = isset($_REQUEST['parent_id'])                     ? (integer)$_REQUEST['parent_id']                   : 0;
+    $new_filename                   = isset($_REQUEST['filename'])                      ? to_unix_path(trim((string)$_REQUEST['filename'])) : '';
 
-    if ( ! is_path_absolute_and_unix($new_filename))
+    if ((strlen($new_filename) > 0) && ( ! is_path_absolute_and_unix($new_filename)))
         $new_filename = BASE.'/'.$new_filename; // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
     $add_more                       = isset($_REQUEST['add_more']);
 
-    $broken_footprints_count        = isset($_REQUEST['broken_footprints_count'])       ? (integer)$_REQUEST['broken_footprints_count'] : 0;
+    $broken_footprints_count        = isset($_REQUEST['broken_footprints_count'])       ? (integer)$_REQUEST['broken_footprints_count']     : 0;
     $save_all_proposed_filenames    = isset($_REQUEST["save_all_proposed_filenames"]);
 
     $action = 'default';
@@ -204,7 +204,7 @@
                     $spf_new_filename   = isset($_REQUEST['proposed_filename_'.$i])    ? to_unix_path($_REQUEST['proposed_filename_'.$i])   : NULL;
                     $spf_checked        = isset($_REQUEST['filename_checkbox_'.$i]) || $save_all_proposed_filenames;
 
-                    if ( ! is_path_absolute_and_unix($spf_new_filename))
+                    if ((strlen($spf_new_filename) > 0) && (! is_path_absolute_and_unix($spf_new_filename)))
                         $spf_new_filename = BASE.'/'.$spf_new_filename; // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
                     try

@@ -552,7 +552,8 @@
      * @param boolean $accept_protocols     if true, protocols like http:// or ftp:// are interpreted as valid, absolute UNIX paths
      *
      * @retval boolean          @li true if the path is (maybe) absolute (we cannot say it with 100% probability) and UNIX style
-     *                          @li false if the path is definitive not absolute or definitive not ad UNIX path
+     *                          @li false if the path is definitive not absolute or definitive not an UNIX path
+     *                          @li if $path is an empty string, this function will return "false"
      */
     function is_path_absolute_and_unix($path, $accept_protocols = true)
     {

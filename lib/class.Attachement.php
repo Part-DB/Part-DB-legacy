@@ -385,6 +385,10 @@
             // trim $values['filename']
             $values['filename'] = trim($values['filename']);
 
+            // empty filenames are not allowed!
+            if (strlen($values['filename']) == 0)
+                throw new Exception('Der Dateiname ist leer, das ist nicht erlaubt!');
+
             // check if "filename" is a valid (absolute and UNIX) filepath
             if ( ! is_path_absolute_and_unix($values['filename']))
                 throw new Exception('Der Dateipfad "'.$values['filename'].'" ist kein gültiger absoluter UNIX Dateipfad!');

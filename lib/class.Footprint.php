@@ -172,7 +172,7 @@
             $values['filename'] = trim($values['filename']);
 
             // check if "filename" is a valid (absolute and UNIX) filepath
-            if ( ! is_path_absolute_and_unix($values['filename']))
+            if ((strlen($values['filename']) > 0) && ( ! is_path_absolute_and_unix($values['filename'])))
                 throw new Exception('Der Dateipfad "'.$values['filename'].'" ist kein gültiger absoluter UNIX Dateipfad!');
 
             // we replace the path of the Part-DB installation directory (Constant "BASE") with a placeholder ("%BASE%")
