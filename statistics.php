@@ -37,34 +37,6 @@
 
     /********************************************************************************
     *
-    *   Some special functions for this site
-    *
-    *********************************************************************************/
-
-    function count_files_in_directory($dir)
-    {
-        $count = 0;
-        $handle = opendir($dir) ;
-        while ($entry = readdir($handle))
-        {
-            if ($entry != "." && $entry != ".." && $entry != ".svn")
-            {
-                if (is_dir( $dir.$entry))
-                {
-                    $count += count_files_in_directory($dir.$entry.'/');
-                }
-                else
-                {
-                    $count++;
-                }
-            }
-        }
-        closedir( $handle );
-        return( $count );
-    }
-
-    /********************************************************************************
-    *
     *   Initialize Objects
     *
     *********************************************************************************/
@@ -93,12 +65,11 @@
     {
         try
         {
-            $noprice_parts = Part::get_noprice_parts($database, $current_user, $log);
-            $count_of_parts_with_price = Part::get_count($database) - count($noprice_parts); // :-)
+            $noprice_parts              = Part::get_noprice_parts($database, $current_user, $log);
+            $count_of_parts_with_price  = Part::get_count($database) - count($noprice_parts); // :-)
 
             $html->set_variable('parts_count_with_prices',  $count_of_parts_with_price,             'integer');
-            $html->set_variable('parts_count_sum_value',
-                                Part::get_sum_price_instock($database, $current_user, $log, true),  'string');
+            $html->set_variable('parts_count_sum_value',    Part::get_sum_price_instock($database, $current_user, $log, true), 'string');
 
             $html->set_variable('parts_count',              Part::get_count($database),             'integer');
             $html->set_variable('parts_count_sum_instock',  Part::get_sum_count_instock($database), 'integer');
@@ -111,8 +82,8 @@
             $html->set_variable('devices_count',            Device::get_count($database),           'integer');
             $html->set_variable('attachements_count',       Attachement::get_count($database),      'integer');
 
-            $html->set_variable('footprint_picture_count',  count_files_in_directory('img/footprints/'),    'integer');
-            $html->set_variable('iclogos_picture_count',    count_files_in_directory('img/iclogos/'),       'integer');
+            $html->set_variable('footprint_picture_count',  count(find_all_files(BASE.'/img/footprints/',   true)), 'integer');
+            $html->set_variable('iclogos_picture_count',    count(find_all_files(BASE.'/img/iclogos/',      true)), 'integer');
         }
         catch (Exception $e)
         {

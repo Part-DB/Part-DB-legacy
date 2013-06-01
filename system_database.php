@@ -88,7 +88,7 @@
                 if ($config['is_online_demo'])
                     break;
 
-                if (md5($admin_password) != $config['admin']['password'])
+                if ( ! is_admin_password($admin_password))
                     throw new Exception('Das Administratorpasswort ist falsch!');
 
                 $config['db']['type'] = $db_type;

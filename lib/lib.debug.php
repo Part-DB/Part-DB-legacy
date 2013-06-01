@@ -84,7 +84,7 @@
         $dom = new DOMDocument('1.0', 'utf-8');
         $dom->formatOutput = true;
         $dom->preserveWhiteSpace = false;
-        $success = $dom->load(realpath(DEBUG_LOG_FILENAME)/*, LIBXML_NOERROR | LIBXML_NOWARNING*/);
+        $success = $dom->load(DEBUG_LOG_FILENAME/*, LIBXML_NOERROR | LIBXML_NOWARNING*/);
 
         if ( ! $success)
         {
@@ -170,7 +170,7 @@
             throw new Exception('Es existiert kein Debug-Log!');
 
         $dom = new DOMDocument('1.0', 'utf-8');
-        $success = $dom->load(realpath(DEBUG_LOG_FILENAME), LIBXML_NOERROR | LIBXML_NOWARNING);
+        $success = $dom->load(DEBUG_LOG_FILENAME/*, LIBXML_NOERROR | LIBXML_NOWARNING*/);
 
         if ( ! $success)
             throw new Exception('Das DOMDocument-Objekt konnte nicht erstellt werden!');

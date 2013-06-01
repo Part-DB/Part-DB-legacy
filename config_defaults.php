@@ -175,7 +175,7 @@
     $config['requirements']['pdo']                          = true; // PDO must be installed
 
     // page title
-    $config['page_title']                                   = 'PART-DB Elektronische Bauteile-Datenbank';
+    $config['page_title']                                   = 'Part-DB Elektronische Bauteile-Datenbank';
 
     // HTTP charsets* (the key is used for the HTML header, the value is only used for displaying)
     $config['http_charsets']['utf-8']                       = 'UTF-8 Unicode';

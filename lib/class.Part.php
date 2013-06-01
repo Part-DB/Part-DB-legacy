@@ -683,53 +683,33 @@
         }
 
         /**
-         * @brief Get the filename of the master picture
+         * @brief Get the filename of the master picture (absolute path from filesystem root)
          *
          * @param boolean $use_footprint_filename   @li if true, and this part has no picture, this method
          *                                              will return the filename of its footprint (if available)
          *                                          @li if false, and this part has no picture,
          *                                              this method will return NULL
-         * @param boolean $hide_document_root       @li if true, and the filename begins with the document root path
-         *                                              (constant "DOCUMENT_ROOT"), this part of the path will be
-         *                                              removed. You should use this if the returned filename
-         *                                              is directly used for HTML output.
-         *                                          @li if false, the whole path from filesystem root will be returned
          *
-         * @retval string   the whole path + filename from filesystem root
-         *                  (if "$hide_document_root == false" or the file is located outside of the document root)
-         * @retval string   the path after DOCUMENT_ROOT [with slash at the beginning]
-         *                  (if "$hide_document_root == false" and the file is located in the document root)
+         * @retval string   the whole path + filename from filesystem root as a UNIX path (with slashes)
          * @retval NULL     if there is no picture
          *
-         * @throws Exception if there was an error (but not if there was an error with the footprint)
+         * @throws Exception if there was an error
          */
-        public function get_master_picture_filename($use_footprint_filename = false, $hide_document_root = true)
+        public function get_master_picture_filename($use_footprint_filename = false)
         {
-            $filename = '';
-
             $master_picture = $this->get_master_picture_attachement(); // returns an Attachement-object
 
             if (is_object($master_picture))
-                $filename = $master_picture->get_filename($hide_document_root);
+                return $master_picture->get_filename();
 
-            if ((strlen($filename) == 0) && ($use_footprint_filename))
+            if ($use_footprint_filename)
             {
-                try
-                {
-                    $footprint = $this->get_footprint();
-                    if (is_object($footprint))
-                        $filename = $footprint->get_filename($hide_document_root);
-                }
-                catch (Exception $e)
-                {
-                    debug('warning', 'Footprint wurde nicht gefunden!', __FILE__, __LINE__, __METHOD__);
-                }
+                $footprint = $this->get_footprint();
+                if (is_object($footprint))
+                    return $footprint->get_filename();
             }
 
-            if (strlen($filename) == 0)
-                return NULL;
-            else
-                return $filename;
+            return NULL;
         }
 
         /********************************************************************************
@@ -947,7 +927,7 @@
                 switch($caption)
                 {
                     case 'hover_picture':
-                        $picture_filename = $this->get_master_picture_filename(true);
+                        $picture_filename = str_replace(BASE, BASE_RELATIVE, $this->get_master_picture_filename(true));
                         $row_field['picture_name']  = strlen($picture_filename) ? basename($picture_filename) : '';
                         $row_field['small_picture'] = strlen($picture_filename) ? $picture_filename : '';
                         $row_field['hover_picture'] = strlen($picture_filename) ? $picture_filename : '';
@@ -1005,8 +985,6 @@
                         break;
 
                     case 'suppliers':
-                        //$row_field['supplier_names'] = $this->get_suppliers(false, '<br>', false, true); // suppliers from obsolete orderdetails will not be shown
-
                         $suppliers_loop = array();
                         foreach ($this->get_suppliers(false, NULL, false, true) as $supplier_name) // suppliers from obsolete orderdetails will not be shown
                         {
@@ -1043,8 +1021,6 @@
                         break;
 
                     case 'supplier_partnrs':
-                        //$row_field['supplier_partnrs'] = $this->get_supplierpartnrs('<br>', true); // partnrs from obsolete orderdetails will not be shown
-
                         $partnrs_loop = array();
                         foreach ($this->get_supplierpartnrs(NULL, true) as $partnr) // partnrs from obsolete orderdetails will not be shown
                         {
@@ -1070,10 +1046,8 @@
 
                     case 'single_prices':
                         if ($table_type == 'order_parts')
-                            //$row_field['single_prices'] = $this->get_prices(false, '<br>', $this->get_order_quantity(), 1, true); // prices from obsolete orderdetails will not be shown
                             $min_discount_quantity = $this->get_order_quantity();
                         else
-                            //$row_field['single_prices'] = $this->get_prices(false, '<br>', 1, NULL, true); // prices from obsolete orderdetails will not be shown
                             $min_discount_quantity = 1;
 
                         $prices_loop = array();
@@ -1087,7 +1061,6 @@
                         break;
 
                     case 'total_prices':
-                        // $row_field['total_prices'] = $this->get_prices(false, '<br>', $this->get_order_quantity(), NULL, true); // prices from obsolete orderdetails will not be shown
                         switch ($table_type)
                         {
                             case 'order_parts':
@@ -1133,7 +1106,7 @@
                         foreach ($this->get_attachements(NULL, true) as $attachement)
                         {
                             $attachements[] = array(    'name'      => $attachement->get_name(),
-                                                        'filename'  => $attachement->get_filename(true),
+                                                        'filename'  => str_replace(BASE, BASE_RELATIVE, $attachement->get_filename()),
                                                         'type'      => $attachement->get_type()->get_full_path());
                         }
                         $row_field['attachements'] = $attachements;
@@ -1360,11 +1333,10 @@
             // check "id_master_picture_attachement"
             try
             {
-                if (($values['id_master_picture_attachement'] == 0) && ($values['id_master_picture_attachement'] !== NULL))
-                    $values['id_master_picture_attachement'] = NULL;
-
-                if ($values['id_master_picture_attachement'] != NULL)
+                if ($values['id_master_picture_attachement'])
                     $master_picture_attachement = new Attachement($database, $current_user, $log, $values['id_master_picture_attachement']);
+                else
+                    $values['id_master_picture_attachement'] = NULL; // this will replace the integer "0" with NULL
             }
             catch (Exception $e)
             {

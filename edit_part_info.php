@@ -574,8 +574,8 @@
                                                     'show_in_table'             => $attachement->get_show_in_table(),
                                                     'is_picture'                => $attachement->is_picture(),
                                                     'is_master_picture'         => ($attachement->get_id() == $master_picture_id),
-                                                    'filename'                  => $attachement->get_filename(true),
-                                                    'picture_filename'          => ($attachement->is_picture() ? $attachement->get_filename(true) : ''));
+                                                    'filename'                  => str_replace(BASE, BASE_RELATIVE, $attachement->get_filename()),
+                                                    'picture_filename'          => ($attachement->is_picture() ? str_replace(BASE, BASE_RELATIVE, $attachement->get_filename()) : ''));
                     $row_odd = ! $row_odd;
                 }
 
@@ -588,7 +588,8 @@
                                                 'is_picture'                => true,
                                                 'show_in_table'             => false,
                                                 'is_master_picture'         => false,
-                                                'filename'                  => '');
+                                                'filename'                  => '',
+                                                'picture_filename'          => '');
 
                 $html->set_loop('attachements_loop', $attachements_loop);
             }

@@ -106,7 +106,7 @@
     $use_modal_popup            = isset($_REQUEST['use_modal_popup']);
     $popup_width                = isset($_REQUEST['popup_width'])       ? (integer)$_REQUEST['popup_width']     : 800;
     $popup_height               = isset($_REQUEST['popup_height'])      ? (integer)$_REQUEST['popup_height']    : 600;
-    $page_title                 = isset($_REQUEST['page_title'])        ? (string)$_REQUEST['page_title']       : '';
+    $page_title                 = isset($_REQUEST['page_title'])        ? (string)$_REQUEST['page_title']       : 'PART-DB Elektronische Bauteile-Datenbank';
     $startup_banner             = isset($_REQUEST['startup_banner'])    ? (string)$_REQUEST['startup_banner']   : '';
 
     // section "change administrator password"

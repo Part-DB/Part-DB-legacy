@@ -71,10 +71,10 @@
             $html->set_variable('auto_disabled_autoupdate', true, 'boolean');
         }
 
-        $html->set_variable('database_update', true, 'boolean');
-        $html->set_variable('disabled_autoupdate', ! $config['db']['auto_update'], 'boolean');
-        $html->set_variable('db_version_current', $database->get_current_version(), 'integer');
-        $html->set_variable('db_version_latest', $database->get_latest_version(), 'integer');
+        $html->set_variable('database_update',      true,                               'boolean');
+        $html->set_variable('disabled_autoupdate',  ! $config['db']['auto_update'],     'boolean');
+        $html->set_variable('db_version_current',   $database->get_current_version(),   'integer');
+        $html->set_variable('db_version_latest',    $database->get_latest_version(),    'integer');
 
         if ($config['db']['auto_update'] == true)
         {

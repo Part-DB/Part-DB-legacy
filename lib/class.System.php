@@ -147,10 +147,12 @@
          * @brief Download and extract all available update archives to the folder "updates/"
          *
          * @throws Exception if there was an error
+         *
+         * @todo ...not finished...
          */
         public function download_and_extract_update_archives()
         {
-            if ( ! class_exists('ZipArchive'))
+            /*if ( ! class_exists('ZipArchive'))
                 throw new Exception('"ZipArchive" scheint nicht installiert zu sein!');
 
             $current = $this->get_installed_version();
@@ -213,7 +215,7 @@
                     throw new Exception('Unendliche Schleife in Updates entdeckt!');
 
                 $current = new SystemVersion($next_version);
-            }
+            }*/
         }
 
         /*
@@ -225,10 +227,12 @@
          *                              @li @see SystemVersion::_construct()
          *
          * @throws Exception if there was an error
+         *
+         * @todo ...not finished...
          */
         public function update($to_version = '')
         {
-            global $config;
+            /*global $config;
 
             $current = $this->get_installed_version();
 
@@ -245,17 +249,19 @@
 
                 if ($current->as_string() == $last_version_string)
                     throw new Exception('Das Update schlug fehl (unbekannte Ursache)!');
-            }
+            }*/
         }
 
         /*
          * @brief Update the system to the next highter version
          *
          * @throws Exception if there was an error
+         *
+         * @todo ...not finished...
          */
         public function update_to_next_version()
         {
-            $current_version = $this->get_installed_version();
+            /*$current_version = $this->get_installed_version();
             $update_folder = BASE.'/updates/update_for_'.$current_version->as_string().'/';
 
             // check validity of update
@@ -274,7 +280,7 @@
             if ($current_version->as_string() != $required_version_nodes->item(0)->nodeValue)
                 throw new Exception('Das Update ist nicht für die installierte Version bestimmt!');
 
-            $next_version = new SystemVersion($version_nodes->item(0)->nodeValue);
+            $next_version = new SystemVersion($version_nodes->item(0)->nodeValue);*/
 
             // TODO: make backup of database!!
 
@@ -309,7 +315,7 @@
                 }
             }*/
 
-            $error = false;
+            //$error = false;
 
             /*foreach ($files_to_backup as $old_filename)
                 copy($old_filename, $old_filename.'.backup');*/
@@ -365,7 +371,7 @@
                 }
             }*/
 
-            if ($error)
+            /*if ($error)
             {
                 // restore files
                 //foreach ($files_to_backup as $old_filename)
@@ -382,7 +388,7 @@
                 // cleanup backup files
                 //foreach($files_to_backup as $old_filename)
                 //    unlink($old_filename.'.backup');
-            }
+            }*/
         }
 
     }

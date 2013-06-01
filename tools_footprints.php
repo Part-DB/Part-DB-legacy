@@ -140,7 +140,7 @@
             foreach ($pictures as $filename)
             {
                 $pictures_loop[] = array(   'title' => str_replace('.png', '', basename($filename)),
-                                            'filename' => str_replace(BASE.DIRECTORY_SEPARATOR, BASE_RELATIVE, $filename));
+                                            'filename' => str_replace(BASE, BASE_RELATIVE, $filename));
             }
 
             if (count($pictures_loop) > 0)

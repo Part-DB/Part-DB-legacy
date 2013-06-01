@@ -527,7 +527,7 @@
                         $row_field['row'] = $row_index + 1;
                         break;
                     case 'hover_picture':
-                        $picture_filename = is_object($part) ? $part->get_master_picture_filename(true) : '';
+                        $picture_filename = is_object($part) ? str_replace(BASE, BASE_RELATIVE, $part->get_master_picture_filename(true)) : '';
                         $row_field['picture_name']  = strlen($picture_filename) ? basename($picture_filename) : '';
                         $row_field['small_picture'] = strlen($picture_filename) ? $picture_filename : '';
                         $row_field['hover_picture'] = strlen($picture_filename) ? $picture_filename : '';

@@ -108,12 +108,12 @@
      *
      * @note This function is not case sensitive.
      *
-     * @param string    $directory          Path to the directory (with slash at the end!)
+     * @param string    $directory          Path to the directory (IMPORTANT: absolute UNIX path, with slash at the end! see to_unix_path())
      * @param boolean   $recursive          If true, the file search is recursive
      * @param string    $search_string      If this is a non-empty string, only files with
      *                                      that substring in the filename will be returned.
      *
-     * @retval array    all found filenames (incl. paths, sorted alphabetically)
+     * @retval array    all found filenames (incl. absolute UNIX paths, sorted alphabetically)
      *
      * @throws Exception if there was an error
      */
@@ -121,8 +121,8 @@
     {
         $files = array();
 
-        if ( ! is_dir($directory))
-            throw new Exception('"'.$directory.'" ist kein Verzeichnis!');
+        if (( ! is_dir($directory)) || (substr($directory, -1, 1) != '/') || ( ! is_path_absolute_and_unix($directory, false)))
+            throw new Exception('"'.$directory.'" ist kein gültiges Verzeichnis!');
 
         $dirfiles = scandir($directory);
         foreach ($dirfiles as $file)
@@ -147,10 +147,10 @@
     /**
      * @brief Find all subdirectories of a directory (not recursive)
      *
-     * @param string    $directory          Path to the directory (with slash at the end!)
+     * @param string    $directory          Path to the directory (IMPORTANT: absolute UNIX path, with slash at the end! see to_unix_path())
      * @param boolean   $recursive          if true, all subdirectories will be listed too
      *
-     * @retval array    all found directories (without slashes at the end!)
+     * @retval array    all found directories (without slashes at the end, incl. absolute UNIX paths, sorted alphabetically)
      *
      * @throws Exception if there was an error
      */
@@ -158,8 +158,8 @@
     {
         $directories = array();
 
-        if ( ! is_dir($directory))
-            throw new Exception('"'.$directory.'" ist kein Verzeichnis!');
+        if (( ! is_dir($directory)) || (substr($directory, -1, 1) != '/') || ( ! is_path_absolute_and_unix($directory, false)))
+            throw new Exception('"'.$directory.'" ist kein gültiges Verzeichnis!');
 
         $dirfiles = scandir($directory);
         foreach ($dirfiles as $file)
@@ -238,7 +238,7 @@
      * @param array         $file_array                 The file array, for example $_FILES['my_file']
      * @param string        $destination_directory      The directory where the file should be saved.
      *                                                  IMPORTANT: there must be a slash at the end!
-     *                                                  Example: BASE.'/media/'
+     *                                                  Example: BASE.'/data/media/'
      * @param string|NULL   $destination_filename       The destination filename (without path).
      *                                                  NULL means same filename like the uploaded file.
      *
@@ -251,6 +251,9 @@
     {
         if ( ! isset($file_array['name']))
             throw new Exception('Ungültiges Array übergeben!');
+
+        if (( ! is_dir($destination_directory)) || (substr($destination_directory, -1, 1) != '/') || ( ! is_path_absolute_and_unix($destination_directory, false)))
+            throw new Exception('"'.$destination_directory.'" ist kein gültiges Verzeichnis!');
 
         if ($destination_filename == NULL)
             $destination_filename = $file_array['name'];
@@ -477,26 +480,33 @@
      * @brief Get proposed filenames for an invalid filename
      *
      * If the user moves a file (e.g. in the media/ directory), the files will be found no longer.
-     * To re-assign "File"-objects (see "class.File.php") with the missing file,
+     * To re-assign "Attachement"-objects (see "class.Attachement.php") with the missing file,
      * this function is needed. You can pass the old filename, and you will get
      * proposed filenames. Maybe the original file can be found again this way.
      *
-     * @param string $missing_filename      The filename of the missing file
-     * @param string $search_path           The path where we will search for similar files (with slash at the end!)
+     * @param string $missing_filename      The filename of the missing file (absolute UNIX path from filesystem root [only slashes]!!)
+     * @param string $search_path           The path where we will search for similar files (absolute UNIX path with slash at the end!)
      *
-     * @retval array        @li All proposed filenames as an array of strings
+     * @retval array        @li All proposed filenames as an array of strings (absolute UNIX filenames)
      *                      @li Best matches are at the beginning of the array,
      *                          worst matches are at the end of the array
      */
     function get_proposed_filenames($missing_filename, $search_path)
     {
-        $original_path = pathinfo($missing_filename, PATHINFO_DIRNAME);
+        if (( ! is_dir($search_path)) || (substr($search_path, -1, 1) != '/') || ( ! is_path_absolute_and_unix($search_path, false)))
+            throw new Exception('"'.$search_path.'" ist kein gültiges Verzeichnis!');
+
+        if ( ! is_path_absolute_and_unix($missing_filename))
+            throw new Exception('"'.$missing_filename.'" ist kein gültiger, absoluter UNIX Dateiname!');
+
+        $original_path = dirname($missing_filename).'/';
         $basename = basename($missing_filename);
 
         if (is_dir($original_path))
             $filenames = find_all_files($original_path, false, $basename);
         else
             $filenames = array();
+
         $filenames_2 = array_diff(find_all_files($search_path, true, $basename), $filenames);
         $filenames = array_merge($filenames, $filenames_2);
 
@@ -519,6 +529,63 @@
         foreach ($array as $key => $value)
             $loop[] = array('value' => $key, 'text' => $value, 'selected' => ($key == $selected_value));
         return $loop;
+    }
+
+    /**
+     * @brief Convert a Windows file path (with backslashes) to an UNIX path (with slashes)
+     *
+     * @note    If you pass a UNIX path, this function will return that path without any changes.
+     *
+     * @param string $path      a Windows or UNIX path
+     *
+     * @retval string           the UNIX path
+     */
+    function to_unix_path($path)
+    {
+        return str_replace('\\', '/', trim($path)); // replace all "\" with "/"
+    }
+
+    /**
+     * @brief Check if a path is absolute UNIX path (begins with filesystem root and has no backslashes)
+     *
+     * @param string $path                  a UNIX path
+     * @param boolean $accept_protocols     if true, protocols like http:// or ftp:// are interpreted as valid, absolute UNIX paths
+     *
+     * @retval boolean          @li true if the path is (maybe) absolute (we cannot say it with 100% probability) and UNIX style
+     *                          @li false if the path is definitive not absolute or definitive not ad UNIX path
+     */
+    function is_path_absolute_and_unix($path, $accept_protocols = true)
+    {
+        if (strpos($path, '\\') !== false) // $path contains backslashes -> it's not a UNIX path
+            return false;
+
+        if (strpos($path, DOCUMENT_ROOT) === 0) // $path begins with DOCUMENT_ROOT
+            return true;
+
+        if (strpos($path, BASE_RELATIVE) === 0) // $path begins with BASE_RELATIVE
+            return false;
+
+        if ((strpos($path, '://') !== false) && ($accept_protocols)) // there is a protocol in $path, like http://, ftp://, ...
+            return true;
+
+        if (DIRECTORY_SEPARATOR == '/')
+        {
+            // for UNIX/Linux
+
+            if (strpos($path, '/') !== 0) // $path does not begin with a slash
+                return false;
+            else
+                return true; // we are not sure; maybe $path is absolute, maybe not...
+        }
+        else
+        {
+            // for Windows
+
+            if (strpos($path, ':/') === 1) // there is something like C:/ at the begin of $path
+                return true;
+            else
+                return false;
+        }
     }
 
 ?>

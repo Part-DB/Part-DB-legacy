@@ -54,12 +54,13 @@
     *
     *
     * @section classes          Klassen und Funktionen
-    * @li Sich wiederholende Funktionen bitte in Klassen auslagern.
+    * @li Sich wiederholende Funktionen bitte in Klassen oder Libraries auslagern.
     * @li Namespaces sind möglich.
     * @li Klassen mit dem Konstruktur construct() für die Prüfung auf Abhängigkeiten der Klasse und eventuell fehlenden Funktionen versehen.
     * @li Includes am Anfang der Dateien bitte durch include_once() oder require_once() ersetzen. Ist meistens aber nicht notwendig wegen der Autoload-Funktion von PHP.
     * @li Debug-Meldungen einfügen für eine einfachere Fehlersuche. Dazu gibt es einen Debug-Mechanismus in lib.debug.php.
     * @li Exceptions verwenden (try...catch)! Das ermöglicht eine saubere Trennung zwischen Normalfall und Ausnahmefall.
+    * @li In Klassen und Libraries bei Dateipfaden IMMER absolute Pfade verwenden, nie relative! Die absoluten Pfade werden denn wieder in relative Pfade umgewandelt wenn nötig.
     *
     *
     */

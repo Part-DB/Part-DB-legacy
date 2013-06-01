@@ -89,6 +89,8 @@
      * This function is used in start_session.php, install.php and system_config.php
      *
      * @retval boolean  true if success, false if fail
+     *
+     * @todo    the Workaround for Windows is not really pretty -> make it better!
      */
     function own_setlocale($category, $locale)
     {
@@ -178,7 +180,7 @@
             if ((file_exists($whole_filename))
                 && (((strpos($needed_perms, 'r') !== false) && ( ! is_readable($whole_filename)))
                  || ((strpos($needed_perms, 'w') !== false) && ( ! is_writable($whole_filename)))
-                 || ((strpos($needed_perms, 'x') !== false) && ( ! is_executable($whole_filename)))))
+                 || ((strpos($needed_perms, 'x') !== false) && ( ! is_executable($whole_filename)) && (DIRECTORY_SEPARATOR == '/')))) // execution only for UNIX/Linux
             {
                 $messages[] =   'Das Verzeichnis bzw. die Datei "'.$filename.'" hat nicht die richtigen Dateirechte! '.
                                 'Benötigt werden "'.$needed_perms.'". Bitte manuell korrigieren.';

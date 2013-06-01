@@ -37,7 +37,7 @@
     * @brief This file must be included in every PHP file which produces HTML output!
     */
 
-    $BASE_tmp = dirname(__FILE__); // temporary base path of Part-DB, without slash at the end
+    $BASE_tmp = str_replace('\\', '/', dirname(__FILE__)); // temporary base path of Part-DB, without slash at the end
 
     include_once($BASE_tmp.'/lib/lib.start_session.php');
 
@@ -98,6 +98,8 @@
     *
     *   define directory constants of the part-db installation
     *
+    *   please note: we always use slashes, even if the script runs on Windows!
+    *
     *   If the paths BASE, DOCUMENT_ROOT or BASE_RELATIVE are not correct,
     *   the user can set them manually in his config.php.
     *   Example how to define it in the config.php: $manual_config['BASE'] = '/my/base';
@@ -105,30 +107,30 @@
     *********************************************************************************/
 
     // directory to the part-db installation, without slash at the end
-    // Example (Linux): "/var/www/part-db"
-    // Example (Windows): "C:\wamp\www\part-db"
-    if (isset($manual_config['BASE']))
-        define('BASE', $manual_config['BASE']);
+    // Example (UNIX/Linux):    "/var/www/part-db"
+    // Example (Windows):       "C:/wamp/www/part-db"
+    if (isset($config['BASE']))
+        define('BASE', $config['BASE']);
     else
         define('BASE', $BASE_tmp);
 
     // server-directory without slash at the end
-    // Example (Linux): "/var/www"
-    // Example (Windows): "C:/wamp/www"
-    if (isset($manual_config['DOCUMENT_ROOT']))
-        define('DOCUMENT_ROOT', $manual_config['DOCUMENT_ROOT']);
+    // Example (UNIX/Linux):    "/var/www"
+    // Example (Windows):       "C:/wamp/www"
+    if (isset($config['DOCUMENT_ROOT']))
+        define('DOCUMENT_ROOT', $config['DOCUMENT_ROOT']);
     else
-        define('DOCUMENT_ROOT', rtrim($_SERVER['DOCUMENT_ROOT'], '/\\'));
+        define('DOCUMENT_ROOT', rtrim(str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']), '/'));
 
-    // the part-db installation directory without document root, with slash at the end
-    // Example (Linux): "/part-db/"
-    // Example (Windows): "/part-db/"
-    if (isset($manual_config['BASE_RELATIVE']))
-        define('BASE_RELATIVE', $manual_config['BASE_RELATIVE']);
-    elseif (strpos(str_replace(DIRECTORY_SEPARATOR, '/', BASE), DOCUMENT_ROOT) === false)   // workaround for STRATO servers (see german post on uC.net:
-        define('BASE_RELATIVE', './');                                                      // http://www.mikrocontroller.net/topic/269289#3152928)
+    // the part-db installation directory without document root, without slash at the end
+    // Example (UNIX/Linux):    "/part-db"
+    // Example (Windows):       "/part-db"
+    if (isset($config['BASE_RELATIVE']))
+        define('BASE_RELATIVE', $config['BASE_RELATIVE']);
+    elseif (strpos(BASE, DOCUMENT_ROOT) === false)   // workaround for STRATO servers (see german post on uC.net:
+        define('BASE_RELATIVE', '.');                                                       // http://www.mikrocontroller.net/topic/269289#3152928)
     else
-        define('BASE_RELATIVE', str_replace(DOCUMENT_ROOT, '', str_replace(DIRECTORY_SEPARATOR, '/', BASE.DIRECTORY_SEPARATOR)));
+        define('BASE_RELATIVE', str_replace(DOCUMENT_ROOT, '', BASE));
 
     // for debugging uncomment these lines:
     //print 'BASE = "'.BASE.'"<br>';

@@ -42,6 +42,10 @@
      * This class is used for generating HTML output with the template system "vlib".
      *
      * @author weinbauer73
+     *
+     * @todo    In the PHP scripts, BASE_RELATIVE has no slash at the end,
+     *          but in the template files this constant has another name and has a slash at the end.
+     *          It would be better if that constant was identical with BASE_RELATIVE.
      */
     class HTML
     {
@@ -337,7 +341,7 @@
                 $tmpl = new vlibTemplate($vlib_head);
 
             // header stuff
-            $tmpl->setVar('relative_path',              BASE_RELATIVE); // constant from start_session.php
+            $tmpl->setVar('relative_path',              BASE_RELATIVE.'/'); // constant from start_session.php
             $tmpl->setVar('page_title',                 $this->meta['title']);
             $tmpl->setVar('http_charset',               $config['html']['http_charset']);
             $tmpl->setVar('body_onload',                $this->body_onload);
@@ -421,7 +425,7 @@
             else
                 $tmpl = new vlibTemplate($vlib_template);
 
-            $tmpl->setVar('relative_path', BASE_RELATIVE); // constant from start_session.php
+            $tmpl->setVar('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
 
             foreach ($this->variables as $key => $value)
             {
@@ -467,7 +471,7 @@
             else
                 $tmpl = new vlibTemplate($vlib_foot);
 
-            $tmpl->setVar('relative_path', BASE_RELATIVE); // constant from start_session.php
+            $tmpl->setVar('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
 
             // messages
             if ((is_array($messages) && (count($messages) > 0)))

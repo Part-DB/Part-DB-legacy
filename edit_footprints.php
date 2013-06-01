@@ -57,7 +57,11 @@
     $selected_id                    = isset($_REQUEST['selected_id'])                   ? (integer)$_REQUEST['selected_id']             : 0;
     $new_name                       = isset($_REQUEST['name'])                          ? (string)$_REQUEST['name']                     : '';
     $new_parent_id                  = isset($_REQUEST['parent_id'])                     ? (integer)$_REQUEST['parent_id']               : 0;
-    $new_filename                   = isset($_REQUEST['filename'])                      ? (string)$_REQUEST['filename']                 : '';
+    $new_filename                   = isset($_REQUEST['filename'])                      ? to_unix_path((string)$_REQUEST['filename'])   : '';
+
+    if ( ! is_path_absolute_and_unix($new_filename))
+        $new_filename = BASE.'/'.$new_filename; // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
+
     $add_more                       = isset($_REQUEST['add_more']);
 
     $broken_footprints_count        = isset($_REQUEST['broken_footprints_count'])       ? (integer)$_REQUEST['broken_footprints_count'] : 0;
@@ -196,16 +200,19 @@
                 $errors = array();
                 for ($i=0; $i < $broken_footprints_count; $i++)
                 {
-                    $footprint_id   = isset($_REQUEST['broken_footprint_id_'.$i])  ? $_REQUEST['broken_footprint_id_'.$i] : -1; // -1 will produce an error
-                    $new_filename   = isset($_REQUEST['proposed_filename_'.$i])    ? $_REQUEST['proposed_filename_'.$i]   : NULL;
-                    $checked        = isset($_REQUEST['filename_checkbox_'.$i]) || $save_all_proposed_filenames;
+                    $spf_footprint_id   = isset($_REQUEST['broken_footprint_id_'.$i])  ? $_REQUEST['broken_footprint_id_'.$i] : -1; // -1 will produce an error
+                    $spf_new_filename   = isset($_REQUEST['proposed_filename_'.$i])    ? to_unix_path($_REQUEST['proposed_filename_'.$i])   : NULL;
+                    $spf_checked        = isset($_REQUEST['filename_checkbox_'.$i]) || $save_all_proposed_filenames;
+
+                    if ( ! is_path_absolute_and_unix($spf_new_filename))
+                        $spf_new_filename = BASE.'/'.$spf_new_filename; // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
                     try
                     {
-                        if ($checked)
+                        if ($spf_checked)
                         {
-                            $broken_footprint = new Footprint($database, $current_user, $log, $footprint_id);
-                            $broken_footprint->set_filename($new_filename);
+                            $spf_broken_footprint = new Footprint($database, $current_user, $log, $spf_footprint_id);
+                            $spf_broken_footprint->set_filename($spf_new_filename);
                         }
                     }
                     catch (Exception $e)
@@ -238,16 +245,16 @@
             {
                 $footprint = $broken_filename_footprints[$i];
                 $proposed_filenames_loop = array();
-                $proposed_filenames = get_proposed_filenames($footprint->get_filename(false), BASE.'/');
+                $proposed_filenames = get_proposed_filenames($footprint->get_filename(), BASE.'/');
 
-                if ((count($proposed_filenames) > 0) && (basename($proposed_filenames[0]) == basename($footprint->get_filename(false))))
+                if ((count($proposed_filenames) > 0) && (basename($proposed_filenames[0]) == basename($footprint->get_filename())))
                     $exact_match = true;
                 else
                     $exact_match = false;
 
                 foreach ($proposed_filenames as $filename)
                 {
-                    $filename = str_replace(BASE.DIRECTORY_SEPARATOR, '', $filename);
+                    $filename = str_replace(BASE.'/', '', $filename);
                     $proposed_filenames_loop[] = array( 'selected' => true,
                                                         'proposed_filename' => $filename);
                 }
@@ -256,7 +263,7 @@
                                                     'checked'               => $exact_match,
                                                     'broken_id'             => $footprint->get_id(),
                                                     'broken_full_path'      => $footprint->get_full_path(),
-                                                    'broken_filename'       => $footprint->get_filename(true, true),
+                                                    'broken_filename'       => str_replace(BASE.'/', '', $footprint->get_filename()),
                                                     'proposed_filenames'    => $proposed_filenames_loop);
             }
 
@@ -290,7 +297,7 @@
                 $parent_id = $selected_footprint->get_parent_id();
                 $html->set_variable('id', $selected_footprint->get_id(), 'integer');
                 $name = $selected_footprint->get_name();
-                $filename = $selected_footprint->get_filename(true, true);
+                $filename = $selected_footprint->get_filename();
             }
             elseif ($action == 'add')
             {
@@ -306,7 +313,7 @@
             }
 
             $html->set_variable('name', $name, 'string');
-            $html->set_variable('filename', $filename, 'string');
+            $html->set_variable('filename', str_replace(BASE.'/', '', $filename), 'string');
 
             $footprint_list = $root_footprint->build_html_tree($selected_id, true, false);
             $html->set_variable('footprint_list', $footprint_list, 'string');

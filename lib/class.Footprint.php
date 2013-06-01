@@ -78,35 +78,14 @@
         *********************************************************************************/
 
         /**
-         * @brief Get the filename
+         * @brief Get the filename of the picture (absolute path from filesystem root)
          *
-         * @param boolean $hide_document_root   @li if true, and the filename begins with the document root
-         *                                          (constant DOCUMENT_ROOT), this part of the path will be removed.
-         *                                          This is useful if you use the returned path directly for HTML output.
-         *                                      @li if false, the whole path from filesystem root will be returned.
-         * @param boolean $hide_base_relative   If "$hide_document_root == true" and "$hide_base_relative == true",
-         *                                      this method will return the path from the base path of the installation
-         *                                      directory of Part-DB (without the relative path from document root!).
-         *
-         * @note    if "$hide_document_root == true" and the file is outside the document root,
-         *          this method will return the whole path, like "$hide_document_root == false".
-         *
-         * @retval string   @li if "$hide_document_root == true": filename, related to the document root.
-         *                      Example: "/part-db/img/foo.png" if the filename is "/var/www/part-db/img/foo.png"
-         *                  @li if "$hide_document_root == false": the whole filename,
-         *                      like "/var/www/part-db/img/foo.png"
+         * @retval string   @li the absolute path to the picture (from filesystem root), as a UNIX path (with slashes)
+         *                  @li an empty string if there is no picture
          */
-        public function get_filename($hide_document_root = true, $hide_base_relative = false)
+        public function get_filename()
         {
-            if ($hide_document_root)
-            {
-                if ($hide_base_relative)
-                    return str_replace('%BASE%/', '', $this->db_data['filename']);
-                else
-                    return str_replace('%BASE%/', BASE_RELATIVE, $this->db_data['filename']);
-            }
-            else
-                return str_replace('%BASE%', BASE, $this->db_data['filename']);
+            return str_replace('%BASE%', BASE, $this->db_data['filename']);
         }
 
         /**
@@ -138,10 +117,10 @@
          */
         public function is_filename_valid()
         {
-            if (strlen($this->get_filename(false)) == 0)
+            if (strlen($this->get_filename()) == 0)
                 return true;
 
-            return file_exists($this->get_filename(false));
+            return file_exists($this->get_filename());
         }
 
         /********************************************************************************
@@ -157,9 +136,10 @@
          *          It's not really a Problem if there is no such file...
          *          (For this purpose we have the method Footprint::get_broken_filename_footprints())
          *
-         * @param string $new_filename      the new filename (absolute path from filesystem root!!)
+         * @param string $new_filename      @li the new filename (absolute path from filesystem root, as a UNIX path [only slashes!] !! )
+         *                                  @li see also lib.functions.php::to_unix_path()
          *
-         * @warning     It's really important that you pass the whole path from filesystem root!
+         * @warning     It's really important that you pass the whole (UNIX) path from filesystem root!
          *              If the file is located in the base directory of Part-DB, the base path
          *              will be automatically replaced with a placeholder before write it in the database.
          *              This way, the filenames are still correct if the installation directory
@@ -188,22 +168,15 @@
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
 
-            // we will replace the base path from the filename with a placeholder (see Footprint::set_filename())
-            if (is_string($values['filename']) && (strlen($values['filename']) > 0))
-            {
-                // first, we convert the filename in the absolute filepath from filesystem root
-                // (but you shouldn't use relative paths anyway because it could give problems...)
-                if (strpos($values['filename'], BASE.DIRECTORY_SEPARATOR) === false)
-                {
-                    $filename_absolute = realpath(str_replace(BASE_RELATIVE, '', $values['filename']));
-                    if ($filename_absolute != false)
-                        $values['filename'] = $filename_absolute;
-                    else
-                        debug('warning', 'realpath('.$filename_absolute.') == FALSE! [Footprint ID '.$values['id'].']', __FILE__, __LINE__, __METHOD__);
-                }
-            }
-            // and then we replace the path of the Part-DB installation directory with a placeholder
-            $values['filename'] = str_replace(BASE, '%BASE%', trim($values['filename']));
+            // trim $values['filename']
+            $values['filename'] = trim($values['filename']);
+
+            // check if "filename" is a valid (absolute and UNIX) filepath
+            if ( ! is_path_absolute_and_unix($values['filename']))
+                throw new Exception('Der Dateipfad "'.$values['filename'].'" ist kein gültiger absoluter UNIX Dateipfad!');
+
+            // we replace the path of the Part-DB installation directory (Constant "BASE") with a placeholder ("%BASE%")
+            $values['filename'] = str_replace(BASE, '%BASE%', $values['filename']);
         }
 
         /**
@@ -258,9 +231,9 @@
          * @param Log       &$log           reference to the Log-object
          * @param string    $name           the name of the new footprint (see Footprint::set_name())
          * @param integer   $parent_id      the parent ID of the new footprint (see Footprint::set_parent_id())
-         * @param boolean   $filename       the filename of the new footprint (see Footprint::set_filename())
+         * @param boolean   $filename       the filename of the new footprint (IMPORTANT: see Footprint::set_filename())
          *
-         * @warning         You should use the absolute path from filesystem root for $filename!!
+         * @warning         You have to use the absolute path from filesystem root for $filename, as a UNIX path (only slashes)!!
          *                  More details: Footprint::set_filename()
          *
          * @retval Footprint    the new footprint

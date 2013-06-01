@@ -93,13 +93,15 @@
         {
             global $config;
 
+            // connect with database
             try
             {
                 switch($config['db']['type'])
                 {
                     case 'mysql': // MySQL
                         $this->pdo = new PDO('mysql:host='.$config['db']['host'].';dbname='.$config['db']['name'].';charset=utf8',
-                                            $config['db']['user'], $config['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'));
+                                            $config['db']['user'], $config['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
+                                                                                                    PDO::ATTR_PERSISTENT            => true));
                         break;
 
                     //case 'sqlite': // SQLite 3
@@ -122,6 +124,24 @@
 
                 throw new Exception("Es konnte nicht mit der Datenbank verbunden werden! \n".
                                     'Überprüfen Sie, ob die Zugangsdaten korrekt sind.');
+            }
+
+            // make some checks
+            if ($this->get_current_version() > 12)
+            {
+                // Check if all tables uses the engine "InnoDB" (this is very important for all database versions greater than 12!)
+                // Without InnoDB, transactions are not supported!
+                $wrong_engine_tables = array();
+                $query_data = $this->query('SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=?', array($config['db']['name']));
+                foreach ($query_data as $row)
+                {
+                    if (strtoupper($row['ENGINE']) != 'INNODB')
+                        $wrong_engine_tables[] = '"'.$row['TABLE_NAME'].'" ('.$row['ENGINE'].')';
+                }
+
+                if (count($wrong_engine_tables) > 0)
+                    throw new Exception("Die folgenden MySQL Tabellen haben eine falsche Speicherengine (benötigt wird \"InnoDB\"): \n".
+                                        implode(', ', $wrong_engine_tables));
             }
         }
 
@@ -606,9 +626,6 @@
             if (! is_array($values))
                 throw new Exception('$values ist kein Array!');
 
-            //if ($this->active_transactions == 0)
-            //    throw new Exception('Es wurde noch keine Transaktion gestartet!');
-
             if (stripos($query, 'INSERT') === 0)
                 $is_insert_statement = true;
             else
@@ -616,8 +633,6 @@
 
             try
             {
-                //$this->pdo->beginTransaction();
-
                 $pdo_statement = $this->pdo->prepare($query);
 
                 if ( ! $pdo_statement)
@@ -649,12 +664,9 @@
                     $result = $this->pdo->lastInsertId('id');
                 else
                     $result = $pdo_statement->rowCount();
-
-                //$this->pdo->commit();
             }
             catch (PDOException $e)
             {
-                //$this->pdo->rollBack();
                 debug('error', '$query="'.$query.'"', __FILE__, __LINE__, __METHOD__);
                 debug('error', '$values="'.print_r($values, true).'"', __FILE__, __LINE__, __METHOD__);
                 debug('error', 'Fehlermeldung: "'.$e->getMessage().'"', __FILE__, __LINE__, __METHOD__);
@@ -692,13 +704,8 @@
             if ( ! is_array($values))
                 throw new Exception('$values ist kein Array!');
 
-           // if ($this->active_transactions == 0)
-            //    throw new Exception('Es wurde noch keine Transaktion gestartet!');
-
             try
             {
-                //$this->pdo->beginTransaction();
-
                 $pdo_statement = $this->pdo->prepare($query);
 
                 if ( ! $pdo_statement)
@@ -727,12 +734,9 @@
                 }
 
                 $data = $pdo_statement->fetchAll($fetch_style);
-
-                //$this->pdo->commit();
             }
             catch (PDOException $e)
             {
-                //$this->pdo->rollBack();
                 debug('error', '$query="'.$query.'"', __FILE__, __LINE__, __METHOD__);
                 debug('error', '$values="'.print_r($values, true).'"', __FILE__, __LINE__, __METHOD__);
                 debug('error', 'Fehlermeldung: "'.$e->getMessage().'"', __FILE__, __LINE__, __METHOD__);

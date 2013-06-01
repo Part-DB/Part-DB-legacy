@@ -137,7 +137,7 @@
             // now delete the file (if desired)
             if ($delete_from_hdd)
             {
-                $filename = $this->get_filename(false);
+                $filename = $this->get_filename();
 
                 // we will delete the file only from HDD if there are no other "Attachement" objects with the same filename!
                 $attachements = Attachement::get_attachements_by_filename($this->database, $this->current_user, $this->log, $filename);
@@ -175,22 +175,13 @@
         *********************************************************************************/
 
         /**
-         * @brief Get the filename
+         * @brief Get the filename (absolute path from filesystem root, as a UNIX path [only slashes])
          *
-         * @param boolean $hide_document_root   @li if true, and the file is located in the document root,
-         *                                          the document root (constant "DOCUMENT_ROOT") will be
-         *                                          removed from the path. This is useful to use the paths
-         *                                          directly for HTML outputs.
-         *                                      @li if false, the whole path from filesystem root will be returned
-         *
-         * @retval string   the filename (details see above)
+         * @retval string   the filename as an absolute UNIX filepath from filesystem root
          */
-        public function get_filename($hide_document_root = false)
+        public function get_filename()
         {
-            if ($hide_document_root)
-                return str_replace('%BASE%/', BASE_RELATIVE, $this->db_data['filename']);
-            else
-                return str_replace('%BASE%', BASE, $this->db_data['filename']);
+            return str_replace('%BASE%', BASE, $this->db_data['filename']);
         }
 
         /**
@@ -234,13 +225,14 @@
          * @note    The filename will not be checked, it's not really important that the filename is valid...
          *          For this reason we have the method Attachement::get_invalid_filename_attachements() :-)
          *
-         * @param string $new_filename      the new filename (absolute path from filesystem root!!)
+         * @param string $new_filename      @li the new filename (absolute path from filesystem root as a UNIX path [only slashes]!!)
+         *                                  @li see also lib.functions.php::to_unix_path()
          *
-         * @warning     You have to pass the whole path from filesystem root! If the file is located
-         *              in the installation directory of Part-DB, the base path (constant "BASE")
-         *              will be replaced with a placeholder to ensure that the filename will work
-         *              even if the installation directory will be changed. But this works only if you
-         *              pass the whole path from filesystem root!!
+         * @warning     It's really important that you pass the whole (UNIX) path from filesystem root!
+         *              If the file is located in the base directory of Part-DB, the base path
+         *              will be automatically replaced with a placeholder before write it in the database.
+         *              This way, the filenames are still correct if the installation directory
+         *              of Part-DB is moved.
          *
          * @throws Exception if there was an error
          */
@@ -274,7 +266,7 @@
          * @param Database  &$database          reference to the Database-object
          * @param User      &$current_user      reference to the current user which is logged in
          * @param Log       &$log               reference to the Log-object
-         * @param string    $filename           the exact filename with the whole path from filesystem root!
+         * @param string    $filename           the exact filename with the whole path from filesystem root as a UNIX path!
          *                                      (see Attachement::set_filename())
          *
          * @retval array    all attachements as a one-dimensional array of "Attachement"-objects, sorted by their names
@@ -284,14 +276,16 @@
         public static function get_attachements_by_filename(&$database, &$current_user, &$log, $filename)
         {
             $attachements = array();
-            $filename_2 = str_replace(BASE, '%BASE%', $filename);
+
+            // if the path is relative, we will make it absolute, but you should always use absolute paths anyway!
+            // Then we replace the path of the Part-DB installation directory (Constant "BASE") with a placeholder ("%BASE%")
+            $filename = str_replace(BASE, '%BASE%', trim($filename));
 
             $query =    'SELECT id FROM attachements '.
                         'WHERE filename=? '.
-                        'OR filename=? '.
                         'ORDER BY name ASC';
             // we will search for both, the original filename and the filename with replaced base-path
-            $query_data = $database->query($query, array($filename, $filename_2));
+            $query_data = $database->query($query, array($filename));
 
             foreach ($query_data as $row)
                 $attachements[] = new Attachement($database, $current_user, $log, $row['id']);
@@ -322,7 +316,7 @@
 
             foreach ($query_data as $row)
             {
-                if ( ! file_exists($row['filename']))
+                if ( ! file_exists(str_replace('%BASE%', BASE, $row['filename'])))
                     $attachements[] = new Attachement($database, $current_user, $log, $row['id']);
             }
 
@@ -388,19 +382,15 @@
                 throw new Exception('Das gewählte Element existiert nicht!');
             }
 
-            // we will replace the base path from the filename with a placeholder (see Attachement::set_filename())
-            if (is_string($values['filename']) && (strlen($values['filename']) > 0))
-            {
-                // first, we convert the filename in the absolute filepath from filesystem root
-                // (but you shouldn't use relative paths anyway because it could give problems...)
-                $filename_absolute = realpath(str_replace(BASE_RELATIVE, '', $values['filename']));
-                if ($filename_absolute != false)
-                    $values['filename'] = $filename_absolute;
-                else
-                    debug('warning', 'realpath('.$filename_absolute.') == FALSE!', __FILE__, __LINE__, __METHOD__);
-            }
-            // and then we replace the path of the Part-DB installation directory with a placeholder
-            $values['filename'] = str_replace(BASE, '%BASE%', trim($values['filename']));
+            // trim $values['filename']
+            $values['filename'] = trim($values['filename']);
+
+            // check if "filename" is a valid (absolute and UNIX) filepath
+            if ( ! is_path_absolute_and_unix($values['filename']))
+                throw new Exception('Der Dateipfad "'.$values['filename'].'" ist kein gültiger absoluter UNIX Dateipfad!');
+
+            // we replace the path of the Part-DB installation directory (Constant "BASE") with a placeholder ("%BASE%")
+            $values['filename'] = str_replace(BASE, '%BASE%', $values['filename']);
         }
 
         /**

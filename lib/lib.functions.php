@@ -154,7 +154,7 @@
     /*
      * get the mime type of a file
      *
-     * @param string    $filename   The file to check
+     * @param string    $filename   The file to check (absolute filename from filesystem root!)
      */
     function get_mimetype($filename)
     {
@@ -244,7 +244,7 @@
     /*
      * Delete a directory recursive
      *
-     * @param string    $dir   The path to the directory
+     * @param string    $dir   The path to the directory (absolute filename from filesystem root!)
      */
     function rmdir_recursive($dir)
     {
