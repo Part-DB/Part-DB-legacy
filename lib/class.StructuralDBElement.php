@@ -376,9 +376,9 @@
 
             foreach ($subelements as $element)
             {
-                $javascript[] = $tree_name.'.add('. strval($element->get_id()+1) .','.
-                                strval($element->get_parent_id()+1) .",'". $element->get_name() . "','".
-                                $page .'?'. $parameter .'='. $element->get_id() . "','','". $target ."');";
+                $javascript[] = $tree_name.'.add('.strval($element->get_id()+1).','.strval($element->get_parent_id()+1).
+                                ",'".addslashes(htmlentities($element->get_name(), ENT_QUOTES | ENT_SUBSTITUTE))."','".
+                                $page.'?'.$parameter.'='.$element->get_id()."','','".$target."');";
             }
 
             $javascript[] = "document.write($tree_name);";
