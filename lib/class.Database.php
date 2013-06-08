@@ -58,6 +58,8 @@
      *              @link http://www.php.net/manual/de/book.pdo.php http://www.php.net/manual/de/book.pdo.php @endlink
      *              (for example)
      *
+     * @todo        Activate the MySQL strict mode. This requires that Part-DB uses always correct data types to work correctly.
+     *
      * @author kami89
      */
     class Database
@@ -74,6 +76,9 @@
         /** @brief (integer)    See Database::begin_transaction(), Database::commit() and Database::rollback() */
         private $transaction_active = false;
         private $active_transaction_id = 0;
+
+        /** @brief (string) The SQL Mode */
+        private $sql_mode = '';//'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE'; TODO!
 
         /********************************************************************************
         *
@@ -116,6 +121,7 @@
                 }
 
                 $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                $this->pdo->exec("SET SQL_MODE='".$this->sql_mode."'");
             }
             catch (PDOException $e)
             {
@@ -315,6 +321,19 @@
                 }
             }
 
+            // change SQL mode
+            try
+            {
+                $log[] = 'SQL_MODE wird gesetzt...';
+                $this->execute("SET SQL_MODE=''");
+            }
+            catch (Exception $exception)
+            {
+                $log[] = 'FEHLER!';
+                $log[] = 'Fehlermeldung: '.$exception->getMessage();
+                $error = true;
+            }
+
             while (($current < $latest) && (! $error))
             {
                 $log[] = '';
@@ -343,11 +362,14 @@
 
                     try
                     {
+                        $this->pdo->beginTransaction();
                         $this->pdo->exec($query);
+                        $this->pdo->commit();
                         $log[] = 'Schritt: '.$query.'...OK';
                     }
                     catch (PDOException $e)
                     {
+                        try {$this->pdo->rollback();} catch (PDOException $e2) {} // rollback last query, ignore exceptions
                         debug('error', '$query="'.$query.'"', __FILE__, __LINE__, __METHOD__);
                         debug('error', 'Fehlermeldung: "'.$e->getMessage().'"', __FILE__, __LINE__, __METHOD__);
                         $log[] = 'Schritt: '.$query.'...FEHLER!';
@@ -427,22 +449,32 @@
 
             $log[] = '';
 
-            if (! $error)
+            // change SQL mode
+            try
             {
-                // Release Database
-                if ( ! in_array($config['db']['type'], array('sqlite', 'sqlite2')))
+                $log[] = 'SQL_MODE wird gesetzt...';
+                $this->execute("SET SQL_MODE='".$this->sql_mode."'");
+            }
+            catch (Exception $exception)
+            {
+                $log[] = 'FEHLER!';
+                $log[] = 'Fehlermeldung: '.$exception->getMessage();
+                $error = true;
+            }
+
+            // Release Database
+            if ( ! in_array($config['db']['type'], array('sqlite', 'sqlite2')))
+            {
+                try
                 {
-                    try
-                    {
-                        $log[] = 'Datenbank wird freigegeben...';
-                        $query_data = $this->query("SELECT RELEASE_LOCK('UpdatePartDB')");
-                    }
-                    catch (Exception $exception)
-                    {
-                        $log[] = 'FEHLER: Die Datenbank konnte nicht entsperrt werden!';
-                        $log[] = 'Fehlermeldung: '.$exception->getMessage();
-                        $error = true;
-                    }
+                    $log[] = 'Datenbank wird freigegeben...';
+                    $query_data = $this->query("SELECT RELEASE_LOCK('UpdatePartDB')");
+                }
+                catch (Exception $exception)
+                {
+                    $log[] = 'FEHLER: Die Datenbank konnte nicht entsperrt werden!';
+                    $log[] = 'Fehlermeldung: '.$exception->getMessage();
+                    $error = true;
                 }
             }
 
