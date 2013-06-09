@@ -60,6 +60,12 @@
      *
      * @todo        Activate the MySQL strict mode. This requires that Part-DB uses always correct data types to work correctly.
      *
+     * @todo        If the user rolls back his database to an older version after an error occured while updating it,
+     *              the update process will start at the position where the error occurs. This will produce
+     *              a lot of new errors, the update will fail again and again. So we have to recognize if the user
+     *              has rolled back his database, then we can start the next update from the beginning, even if the
+     *              last update was not successfully.
+     *
      * @author kami89
      */
     class Database

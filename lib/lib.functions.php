@@ -37,6 +37,15 @@
 
 
     /*
+     * ENT_SUBSTITUTE is not available in PHP 5.3.0, it was introduced in PHP 5.4.0
+     * Note: ENT_SUBSTITUTE is used in htmlspecialchars() and htmlentities()
+     */
+    if ( ! defined('ENT_SUBSTITUTE'))
+    {
+        define('ENT_SUBSTITUTE', 0);
+    }
+
+    /*
      * money_format()
      *
      * money_format() is not available on Windows!

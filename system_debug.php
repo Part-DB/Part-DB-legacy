@@ -109,7 +109,7 @@
     <meta http-equiv="content-type" content="text/html; charset=<?php print $config['html']['http_charset']; ?>">
     <?php if ($autorefresh) print '<meta http-equiv="refresh" content="5" >'; ?>
 
-    <!-- For maximum stability of this page, we don't use templates! So we include the stylesheet directly here...-->
+    <!-- For maximum stability of this page, we don't use templates! So we include the stylesheet directly here... -->
     <style type="text/css">
         .body {     background-color: #cdcdcd;
                     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;}
@@ -141,6 +141,11 @@
 </head>
 
 <body class="body">
+
+    <!-- Reload the navigation frame because of the debugging buttons at the top of the navigation frame -->
+    <script type="text/javascript">
+        parent.frames.navigation_frame.location.reload();
+    </script>
 
     <div class="outer">
         <h2>Debug-Konsole</h2>
