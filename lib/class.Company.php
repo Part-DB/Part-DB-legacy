@@ -212,8 +212,10 @@
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
 
-            if (strpos($values['website'], '://') === false)        // if there is no protocol defined,
-                $values['website'] = 'http://'.$values['website'];  // add "http://" to the begin
+            // optimize attribute "website"
+            $values['website'] = trim($values['website']);
+            if ((strlen($values['website']) > 0) && (strpos($values['website'], '://') === false))  // if there is no protocol defined,
+                $values['website'] = 'http://'.$values['website'];                                  // add "http://" to the begin
         }
 
     }
