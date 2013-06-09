@@ -195,10 +195,12 @@
     $config['timezones']['Europe/London']                   = 'Europe/London';
     $config['timezones']['Europe/Zurich']                   = 'Europe/Zurich';
 
-    // languages* (the key is used for "setlocale()", the value is only used for displaying)
+    // languages (the key is used for "setlocale()", the value is only used for displaying)
     $config['languages']['de_AT']                           = '[de_AT] Deutsch (Österreich)';
+    $config['languages']['de_BE']                           = '[de_BE] Deutsch (Belgien)';
     $config['languages']['de_CH']                           = '[de_CH] Deutsch (Schweiz)';
     $config['languages']['de_DE']                           = '[de_DE] Deutsch (Deutschland)';
+    $config['languages']['de_LI']                           = '[de_LI] Deutsch (Liechtenstein)';
     $config['languages']['de_LU']                           = '[de_LU] Deutsch (Luxemburg)';
     $config['languages']['en_GB']                           = '[en_GB] English (United Kingdom)';
     $config['languages']['en_US']                           = '[en_US] Endlish (United States)';
