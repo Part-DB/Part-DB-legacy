@@ -207,8 +207,10 @@
 
     // currency formats (for every language there must be a currency format!)
     $config['money_format']['de_AT']                        = '%n';
+    $config['money_format']['de_BE']                        = '%n';
     $config['money_format']['de_CH']                        = '%!n Fr.';
     $config['money_format']['de_DE']                        = '%n';
+    $config['money_format']['de_LI']                        = '%n';
     $config['money_format']['de_LU']                        = '%n';
     $config['money_format']['en_GB']                        = '%i';
     $config['money_format']['en_US']                        = '%i';
