@@ -206,7 +206,7 @@
                         <a target="_new" href="{TMPL_VAR NAME="filename"}">{TMPL_VAR NAME="attachement_name"}</a><br>
                     {/TMPL_IF}
                 {/TMPL_LOOP}
-                <br>
+                {TMPL_UNLESS NAME="__LAST__"}<br><br>{/TMPL_UNLESS}
             {/TMPL_LOOP}
         {TMPL_ELSE}
             Dieses Bauteil besitzt keine Dateianhänge.

@@ -249,22 +249,49 @@
      */
     function upload_file($file_array, $destination_directory, $destination_filename = NULL)
     {
-        if ( ! isset($file_array['name']))
+        if (( ! isset($file_array['name'])) || ( ! isset($file_array['tmp_name'])) || ( ! isset($file_array['error'])))
             throw new Exception('Ungültiges Array übergeben!');
-
-        if (( ! is_dir($destination_directory)) || (substr($destination_directory, -1, 1) != '/') || ( ! is_path_absolute_and_unix($destination_directory, false)))
-            throw new Exception('"'.$destination_directory.'" ist kein gültiges Verzeichnis!');
 
         if ($destination_filename == NULL)
             $destination_filename = $file_array['name'];
 
         $destination = $destination_directory.$destination_filename;
 
+        if (( ! is_dir($destination_directory)) || (substr($destination_directory, -1, 1) != '/') || ( ! is_path_absolute_and_unix($destination_directory, false)))
+            throw new Exception('"'.$destination_directory.'" ist kein gültiges Verzeichnis!');
+
+        if ( ! is_writable($destination_directory))
+            throw new Exception('Sie haben keine Schreibrechte im Verzeichnis "'.$destination_directory.'"!');
+
         if (file_exists($destination))
             throw new Exception('Die Datei "'.$destination.'" existiert bereits!');
 
+        switch ($file_array['error'])
+        {
+            case UPLOAD_ERR_OK:
+                // all OK, upload was successfully
+                break;
+            case UPLOAD_ERR_INI_SIZE:
+                throw new Exception('Die maximal mögliche Dateigrösse für Uploads wurde überschritten ("upload_max_filesize" in "php.ini")! '.
+                                    '<a target="_new" href="'.BASE_RELATIVE.'/documentation/dokuwiki/doku.php?id=anforderungen">Hilfe</a>');
+            case UPLOAD_ERR_FORM_SIZE:
+                throw new Exception('Die maximal mögliche Dateigrösse für Uploads wurde überschritten!');
+            case UPLOAD_ERR_PARTIAL:
+                throw new Exception('Die Datei wurde nur teilweise hochgeladen!');
+            case UPLOAD_ERR_NO_FILE:
+                throw new Exception('Es wurde keine Datei hochgeladen!');
+            case UPLOAD_ERR_NO_TMP_DIR:
+                throw new Exception('Es gibt keinen temporären Ordner für hochgeladene Dateien!');
+            case UPLOAD_ERR_CANT_WRITE:
+                throw new Exception('Das Speichern der Datei auf die Festplatte ist fehlgeschlagen!');
+            case UPLOAD_ERR_EXTENSION:
+                throw new Exception('Eine PHP Erweiterung hat den Upload der Datei gestoppt!');
+            default:
+                throw new Exception('Beim Hochladen der Datei trat ein unbekannter Fehler auf!');
+        }
+
         if ( ! move_uploaded_file($file_array['tmp_name'], $destination))
-            throw new Exception('Es gab ein Fehler beim Hochladen der Datei!');
+            throw new Exception('Beim Hochladen der Datei trat ein unbekannter Fehler auf!');
 
         return $destination;
     }

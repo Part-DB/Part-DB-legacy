@@ -55,10 +55,20 @@
                                     </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="3">
-                                    <b>Dateiname / URL:</b><br>
-                                    <!-- <input type="text" name="filename" value="{TMPL_VAR NAME="filename"}"> -->
-                                    <input type="file" name="attachement_file">
+                                    <td>
+                                        <b>Dateiname / URL:</b>
+                                    </td>
+                                    <td colspan="2">
+                                        <input type="text" name="attachement_filename" value="{TMPL_VAR NAME="filename_base_relative"}" style="width:98%">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <b>Neue Datei hochladen:</b>
+                                    </td>
+                                    <td colspan="2">
+                                        <input type="file" name="attachement_file">
+                                        (max. {TMPL_VAR NAME="max_upload_filesize"})
                                     </td>
                                 </tr>
                             </table>

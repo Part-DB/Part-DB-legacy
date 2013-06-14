@@ -93,12 +93,15 @@
     $new_price_related_quantity = isset($_REQUEST['price_related_quantity'])    ? (integer)$_REQUEST['price_related_quantity']   : 1;
 
     // section: attachements
+    $new_show_in_table          = isset($_REQUEST['show_in_table']);
+    $new_is_master_picture      = isset($_REQUEST['is_master_picture']);
     $attachement_id             = isset($_REQUEST['attachement_id'])            ? (integer)$_REQUEST['attachement_id']           : 0;
     $new_attachement_type_id    = isset($_REQUEST['attachement_type_id'])       ? (integer)$_REQUEST['attachement_type_id']      : 0;
     $new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
-    $new_filename               = isset($_REQUEST['filename'])                  ? (string)$_REQUEST['filename']                  : '';
-    $new_show_in_table          = isset($_REQUEST['show_in_table']);
-    $new_is_master_picture      = isset($_REQUEST['is_master_picture']);
+    $new_filename               = isset($_REQUEST['attachement_filename'])      ? to_unix_path(trim((string)$_REQUEST['attachement_filename'])) : '';
+
+    if ((strlen($new_filename) > 0) && ( ! is_path_absolute_and_unix($new_filename)))
+        $new_filename = BASE.'/'.$new_filename; // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
     // section: delete part
     $delete_files_from_hdd      = isset($_REQUEST['delete_files_from_hdd']);
@@ -331,8 +334,6 @@
 
                     if (strlen($_FILES['attachement_file']['name']) > 0)
                         $new_filename = upload_file($_FILES['attachement_file'], BASE.'/data/media/');
-                    else
-                        $new_filename = $attachement->get_filename();
 
                     $attachement->set_attributes(array( 'type_id'           => $new_attachement_type_id,
                                                         'name'              => $new_name,
@@ -575,6 +576,7 @@
                                                     'is_picture'                => $attachement->is_picture(),
                                                     'is_master_picture'         => ($attachement->get_id() == $master_picture_id),
                                                     'filename'                  => str_replace(BASE, BASE_RELATIVE, $attachement->get_filename()),
+                                                    'filename_base_relative'    => str_replace(BASE.'/', '', $attachement->get_filename()),
                                                     'picture_filename'          => ($attachement->is_picture() ? str_replace(BASE, BASE_RELATIVE, $attachement->get_filename()) : ''));
                     $row_odd = ! $row_odd;
                 }
@@ -589,6 +591,7 @@
                                                 'show_in_table'             => false,
                                                 'is_master_picture'         => false,
                                                 'filename'                  => '',
+                                                'filename_base_relative'    => '',
                                                 'picture_filename'          => '');
 
                 $html->set_loop('attachements_loop', $attachements_loop);
@@ -641,6 +644,7 @@
             $category = new Category($database, $current_user, $log, $category_id);
             $html->set_variable('disable_footprints',       ($config['footprints']['disable'] || $category->get_disable_footprints(true)), 'boolean');
             $html->set_variable('disable_manufacturers',    ($config['manufacturers']['disable'] || $category->get_disable_manufacturers(true)), 'boolean');
+            $html->set_variable('max_upload_filesize',      ini_get('upload_max_filesize'), 'string');
         }
         catch (Exception $e)
         {

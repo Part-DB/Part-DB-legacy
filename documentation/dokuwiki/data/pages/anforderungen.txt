@@ -68,7 +68,7 @@ Die Standardeinstellungen von PHP sind in der Regel ganz in Ordnung. Möchte man
 sudo gedit /etc/php5/apache2/php.ini
 </code>
 
-In dieser Datei nach dem Stickwort "upload_max_filesize" suchen und den Wert entsprechend anpassen.
+In dieser Datei nach dem Stickwort "upload_max_filesize" suchen und den Wert entsprechend anpassen. Ausserdem müssen die Werte "post_max_size" und "memory_limit" mindestens gleich gross sein wie "upload_max_filesize".
 ==== Installation überprüfen ====
 
 Ob Apache erfolgreich installiert wurde, kann man überprüfen, indem man auf dem Server die Seite http://localhost im Webbrowser aufruft. Hier muss die Meldung "It works!" erscheinen.
