@@ -47,7 +47,7 @@
     function print_messages_without_template($page_title, $div_title, $messages)
     {
         print '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head>';
-        print '<title>'.htmlspecialchars($page_title).'</title>';
+        print '<title>'.htmlspecialchars($page_title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8').'</title>';
         print '<meta http-equiv="content-type" content="text/html; charset=utf-8">
                 <style type="text/css">
                 .body {     background-color: #cdcdcd;

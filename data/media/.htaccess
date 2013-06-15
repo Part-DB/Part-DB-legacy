@@ -1,4 +1,2 @@
 Allow from all
 Options -Indexes
-
-AddDefaultCharset UTF-8

@@ -37,6 +37,9 @@
     * @brief This file must be included in every PHP file which produces HTML output!
     */
 
+    // set HTTP charset to UTF-8
+    header('Content-type: text/html; charset=utf-8');
+
     $BASE_tmp = str_replace('\\', '/', dirname(__FILE__)); // temporary base path of Part-DB, without slash at the end
 
     include_once($BASE_tmp.'/lib/lib.start_session.php');
@@ -127,7 +130,7 @@
     // Example (Windows):       "/part-db"
     if (isset($config['BASE_RELATIVE']))
         define('BASE_RELATIVE', $config['BASE_RELATIVE']);
-    elseif (strpos(BASE, DOCUMENT_ROOT) === false)   // workaround for STRATO servers (see german post on uC.net:
+    elseif (mb_strpos(BASE, DOCUMENT_ROOT) === false)   // workaround for STRATO servers (see german post on uC.net:
         define('BASE_RELATIVE', '.');                                                       // http://www.mikrocontroller.net/topic/269289#3152928)
     else
         define('BASE_RELATIVE', str_replace(DOCUMENT_ROOT, '', BASE));
@@ -239,7 +242,8 @@
     else
         ini_set("display_errors", 0);
 
-    mb_internal_encoding($config['html']['http_charset']);
+    mb_internal_encoding(/*$config['html']['http_charset']*/ 'UTF-8');
+    mb_regex_encoding('UTF-8');
     date_default_timezone_set($config['timezone']);
     own_setlocale(LC_ALL, $config['language']);
 

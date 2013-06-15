@@ -393,7 +393,7 @@
         if (isset($export_string))
             $html->set_variable('export_result',        str_replace("\n", '<br>', str_replace("\n  ", '<br>&nbsp;&nbsp;',   // yes, this is quite ugly,
                                                         str_replace("\n    ", '<br>&nbsp;&nbsp;&nbsp;&nbsp;',               // but the result is pretty ;-)
-                                                        htmlspecialchars($export_string, ENT_QUOTES | ENT_SUBSTITUTE)))), 'string');
+                                                        htmlspecialchars($export_string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')))), 'string');
 
         // import stuff
         $html->set_variable('import_rowcount',          (isset($import_data) ? count($import_data) : 0), 'integer');

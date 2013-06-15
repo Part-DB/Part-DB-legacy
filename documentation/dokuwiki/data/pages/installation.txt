@@ -43,7 +43,11 @@ sudo tar xfv part-db.tar.gz -C /var/www/part-db
 
 =====  Zugriffsrechte für Verzeichnisse setzen ===== 
 
-Damit Part-DB korrekt funktioniert, müssen die Dateirechte noch gesetzt werden. Die Rechte von allen Verzeichnissen sollten auf 555, die Rechte von allen Dateien auf 444 gesetzt werden. Nur das Verzeichnis "data" muss (rekursiv) auf 755 bzw. 644 gesetzt werden. Ausserdem sollten alle Dateien dem Besitzer gehören, unter dem Apache läuft (unter Linux normalerweise "www-data"). All dies erreicht man mit folgenden Befehlen:
+Damit Part-DB korrekt funktioniert, müssen die Dateirechte noch gesetzt werden. Die Rechte von allen Verzeichnissen sollten auf 555, die Rechte von allen Dateien auf 444 gesetzt werden. Nur das Verzeichnis "data" muss (rekursiv) auf 755 bzw. 644 gesetzt werden. 
+
+Ausserdem sollten alle Dateien dem Besitzer gehören, unter dem Apache läuft (unter Linux normalerweise "www-data"). 
+
+All dies erreicht man mit folgenden Befehlen:
 
 <code language="bash">
 cd /var/www

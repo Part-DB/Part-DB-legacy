@@ -377,7 +377,7 @@
             foreach ($subelements as $element)
             {
                 $javascript[] = $tree_name.'.add('.strval($element->get_id()+1).','.strval($element->get_parent_id()+1).
-                                ",'".addslashes(htmlentities($element->get_name(), ENT_QUOTES | ENT_SUBSTITUTE))."','".
+                                ",'".addslashes(htmlentities($element->get_name(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'))."','".
                                 $page.'?'.$parameter.'='.$element->get_id()."','','".$target."');";
             }
 

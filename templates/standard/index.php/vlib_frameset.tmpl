@@ -1,17 +1,4 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
-
-<html>
-    <head>
-        {TMPL_IF NAME="title"}<title>{TMPL_VAR NAME="title"}</title>{/TMPL_IF}  
-        <link rel="icon" href="{TMPL_VAR NAME="relative_path"}img/partdb/favicon.ico" type="image/x-icon">  
-    </head>
-
-    {TMPL_IF NAME="mobile"}
-        <body class="body">Sorry, aber mobile Geräte werden derzeit nicht unterstützt.</body>
-    {TMPL_ELSE}
-        <frameset cols="300,*" frameborder="0" framespacing="0" border="0">
-            <frame name="navigation_frame" src="{TMPL_VAR NAME="relative_path"}navigation.php">
-            <frame name="content_frame" src="{TMPL_VAR NAME="relative_path"}startup.php">
-        </frameset>
-    {/TMPL_IF}
-</html>
+<frameset cols="300,*" frameborder="0" framespacing="0" border="0">
+        <frame name="navigation_frame" src="{TMPL_VAR NAME="relative_path"}navigation.php">
+        <frame name="content_frame" src="{TMPL_VAR NAME="relative_path"}startup.php">
+</frameset>

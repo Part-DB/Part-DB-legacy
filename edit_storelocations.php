@@ -110,7 +110,7 @@
                 {
                     if ($create_series)
                     {
-                        $width  = strlen((string) $series_to); // determine the width of second argument
+                        $width  = mb_strlen((string) $series_to); // determine the width of second argument
                         $format = "%0". (int)$width ."s";
 
                         foreach (range($series_from, $series_to) as $index)

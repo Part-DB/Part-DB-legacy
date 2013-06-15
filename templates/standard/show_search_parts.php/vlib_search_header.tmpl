@@ -1,7 +1,8 @@
 <div class="outer">
     <h2>Suchergebnis</h2>
     <div class="inner">
-        Sie suchten nach "{TMPL_VAR NAME="keyword"}"
+        Die Suche nach <b>"{TMPL_VAR NAME="keyword"}"</b> ergab <b>{TMPL_VAR NAME="hits_count"} Treffer</b>.
+
         <div style="float: right; display: inline;">
             <form action="" method="post" style="display: inline;">
                 <input type='hidden' name='keyword' value='{TMPL_VAR NAME="keyword"}'>

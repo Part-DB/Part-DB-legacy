@@ -121,7 +121,7 @@
                 $value = number_format($value, $right, $locale['mon_decimal_point'],$flags['nogroup'] ? '' : $locale['mon_thousands_sep']);
                 $value = @explode($locale['mon_decimal_point'], $value);
 
-                $n = strlen($prefix) + strlen($currency) + strlen($value[0]);
+                $n = mb_strlen($prefix) + mb_strlen($currency) + mb_strlen($value[0]);
                 if ($left > 0 && $left > $n)
                 {
                     $value[0] = str_repeat($flags['fillchar'], $left - $n) . $value[0];

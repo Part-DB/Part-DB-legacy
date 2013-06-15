@@ -191,6 +191,8 @@
                                     $search_footprint, $search_category, $search_storelocation,
                                     $search_supplier, $search_supplierpartnr, $search_manufacturer);
 
+            $hits_count = count($category_parts, COUNT_RECURSIVE) - count($category_parts);
+
             $parts_table_loops = array();
 
             foreach($category_parts as $category_full_path => $parts)
@@ -213,16 +215,17 @@
 
     $html->use_javascript(array('popup'));
 
-    $html->set_variable('keyword',                  $keyword,               'string');
-    $html->set_variable('search_name',              $search_name,           'boolean');
-    $html->set_variable('search_category',          $search_category,       'boolean');
-    $html->set_variable('search_description',       $search_description,    'boolean');
-    $html->set_variable('search_comment',           $search_comment,        'boolean');
-    $html->set_variable('search_supplier',          $search_supplier,       'boolean');
-    $html->set_variable('search_supplierpartnr',    $search_supplierpartnr, 'boolean');
-    $html->set_variable('search_storelocation',     $search_storelocation,  'boolean');
-    $html->set_variable('search_footprint',         $search_footprint,      'boolean');
-    $html->set_variable('search_manufacturer',      $search_manufacturer,   'boolean');
+    $html->set_variable('keyword',                  $keyword,                               'string');
+    $html->set_variable('hits_count',               (isset($hits_count) ? $hits_count : 0), 'integer');
+    $html->set_variable('search_name',              $search_name,                           'boolean');
+    $html->set_variable('search_category',          $search_category,                       'boolean');
+    $html->set_variable('search_description',       $search_description,                    'boolean');
+    $html->set_variable('search_comment',           $search_comment,                        'boolean');
+    $html->set_variable('search_supplier',          $search_supplier,                       'boolean');
+    $html->set_variable('search_supplierpartnr',    $search_supplierpartnr,                 'boolean');
+    $html->set_variable('search_storelocation',     $search_storelocation,                  'boolean');
+    $html->set_variable('search_footprint',         $search_footprint,                      'boolean');
+    $html->set_variable('search_manufacturer',      $search_manufacturer,                   'boolean');
 
     if ( ! $fatal_error)
     {

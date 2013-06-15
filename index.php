@@ -63,7 +63,7 @@
     *
     *********************************************************************************/
 
-    $mobile = false;
+    /*$mobile = false;
     if (isset($_SERVER["HTTP_USER_AGENT"]))
     {
         $agents = array(
@@ -85,7 +85,7 @@
         }
     }
 
-    $html->set_variable('mobile', $mobile, 'boolean');
+    $html->set_variable('mobile', $mobile, 'boolean');*/
 
     /********************************************************************************
     *
@@ -93,12 +93,14 @@
     *
     *********************************************************************************/
 
-    if ($fatal_error)
-    {
-        $html->print_header($messages, 'index.php');
-        $html->print_footer();
-    }
-    else
+    // no <body></body> in header and footer because of the <frameset></frameset>
+    $html->set_meta(array('no_body' => true));
+
+    $html->print_header($messages, 'index.php');
+
+    if ( ! $fatal_error)
         $html->print_template('frameset');
+
+    $html->print_footer();
 
 ?>

@@ -121,7 +121,7 @@
     {
         $files = array();
 
-        if (( ! is_dir($directory)) || (substr($directory, -1, 1) != '/') || ( ! is_path_absolute_and_unix($directory, false)))
+        if (( ! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || ( ! is_path_absolute_and_unix($directory, false)))
             throw new Exception('"'.$directory.'" ist kein gültiges Verzeichnis!');
 
         $dirfiles = scandir($directory);
@@ -134,7 +134,7 @@
                     if ($recursive)
                         $files = array_merge($files, find_all_files($directory.$file.'/', true, $search_string));
                 }
-                elseif (($search_string == '') || (substr_count(strtolower($file), strtolower($search_string)) > 0))
+                elseif (($search_string == '') || (mb_substr_count(mb_strtolower($file), mb_strtolower($search_string)) > 0))
                 {
                     $files[] = $directory.$file;
                 }
@@ -158,7 +158,7 @@
     {
         $directories = array();
 
-        if (( ! is_dir($directory)) || (substr($directory, -1, 1) != '/') || ( ! is_path_absolute_and_unix($directory, false)))
+        if (( ! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || ( ! is_path_absolute_and_unix($directory, false)))
             throw new Exception('"'.$directory.'" ist kein gültiges Verzeichnis!');
 
         $dirfiles = scandir($directory);
@@ -257,7 +257,7 @@
 
         $destination = $destination_directory.$destination_filename;
 
-        if (( ! is_dir($destination_directory)) || (substr($destination_directory, -1, 1) != '/') || ( ! is_path_absolute_and_unix($destination_directory, false)))
+        if (( ! is_dir($destination_directory)) || (mb_substr($destination_directory, -1, 1) != '/') || ( ! is_path_absolute_and_unix($destination_directory, false)))
             throw new Exception('"'.$destination_directory.'" ist kein gültiges Verzeichnis!');
 
         if ( ! is_writable($destination_directory))
@@ -329,7 +329,7 @@
         if ( ! is_admin_password($old_password))
             throw new Exception('Das eingegebene Administratorpasswort ist nicht korrekt!');
 
-        if (strlen($new_password_1) < 4)
+        if (mb_strlen($new_password_1) < 4)
             throw new Exception('Das neue Passwort muss mindestens 4 Zeichen lange sein!');
 
         if ($new_password_1 !== $new_password_2)
@@ -421,7 +421,7 @@
                 {
                     if (($array[$key] !== $array_defaults[$key]) || ( ! $ignore_defaults))
                     {
-                        $space_count = max(60-strlen($full_path), 0);
+                        $space_count = max(60-mb_strlen($full_path), 0);
                         $spaces = str_repeat(' ', $space_count);
                         $lines .= $full_path.$spaces.' = '.var_export($array[$key], true).";\n";
                     }
@@ -520,7 +520,7 @@
      */
     function get_proposed_filenames($missing_filename, $search_path)
     {
-        if (( ! is_dir($search_path)) || (substr($search_path, -1, 1) != '/') || ( ! is_path_absolute_and_unix($search_path, false)))
+        if (( ! is_dir($search_path)) || (mb_substr($search_path, -1, 1) != '/') || ( ! is_path_absolute_and_unix($search_path, false)))
             throw new Exception('"'.$search_path.'" ist kein gültiges Verzeichnis!');
 
         if ( ! is_path_absolute_and_unix($missing_filename))
@@ -584,23 +584,23 @@
      */
     function is_path_absolute_and_unix($path, $accept_protocols = true)
     {
-        if (strpos($path, '\\') !== false) // $path contains backslashes -> it's not a UNIX path
+        if (mb_strpos($path, '\\') !== false) // $path contains backslashes -> it's not a UNIX path
             return false;
 
-        if (strpos($path, DOCUMENT_ROOT) === 0) // $path begins with DOCUMENT_ROOT
+        if (mb_strpos($path, DOCUMENT_ROOT) === 0) // $path begins with DOCUMENT_ROOT
             return true;
 
-        if (strpos($path, BASE_RELATIVE) === 0) // $path begins with BASE_RELATIVE
+        if (mb_strpos($path, BASE_RELATIVE) === 0) // $path begins with BASE_RELATIVE
             return false;
 
-        if ((strpos($path, '://') !== false) && ($accept_protocols)) // there is a protocol in $path, like http://, ftp://, ...
+        if ((mb_strpos($path, '://') !== false) && ($accept_protocols)) // there is a protocol in $path, like http://, ftp://, ...
             return true;
 
         if (DIRECTORY_SEPARATOR == '/')
         {
             // for UNIX/Linux
 
-            if (strpos($path, '/') !== 0) // $path does not begin with a slash
+            if (mb_strpos($path, '/') !== 0) // $path does not begin with a slash
                 return false;
             else
                 return true; // we are not sure; maybe $path is absolute, maybe not...
@@ -609,7 +609,7 @@
         {
             // for Windows
 
-            if (strpos($path, ':/') === 1) // there is something like C:/ at the begin of $path
+            if (mb_strpos($path, ':/') === 1) // there is something like C:/ at the begin of $path
                 return true;
             else
                 return false;

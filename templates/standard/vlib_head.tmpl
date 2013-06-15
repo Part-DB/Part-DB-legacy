@@ -1,15 +1,15 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html>
 <head>
-    {TMPL_IF NAME="page_title"} <title>{TMPL_VAR NAME="page_title"}</title>{/TMPL_IF}   
-    {TMPL_IF NAME="http_charset"}<meta http-equiv="content-type" content="text/html; charset={TMPL_VAR NAME="http_charset"}">{/TMPL_IF}  
-    <link rel="icon" href="{TMPL_VAR NAME="relative_path"}img/partdb/favicon.ico" type="image/x-icon">   
-    {TMPL_IF NAME="theme"}<link rel="stylesheet" href="{TMPL_VAR NAME="relative_path"}templates/{TMPL_VAR NAME="theme"}/partdb.css" type="text/css">{/TMPL_IF} 
-    {TMPL_IF NAME="custom_css"}<link rel="stylesheet" href="{TMPL_VAR NAME="relative_path"}{TMPL_VAR NAME="custom_css"}" type="text/css">{/TMPL_IF}  
+    {TMPL_IF NAME="page_title"} <title>{TMPL_VAR NAME="page_title"}</title>{/TMPL_IF}
+    {TMPL_IF NAME="http_charset"}<meta http-equiv="content-type" content="text/html; charset={TMPL_VAR NAME="http_charset"}">{/TMPL_IF}
+    <link rel="icon" href="{TMPL_VAR NAME="relative_path"}img/partdb/favicon.ico" type="image/x-icon">
+    {TMPL_IF NAME="theme"}<link rel="stylesheet" href="{TMPL_VAR NAME="relative_path"}templates/{TMPL_VAR NAME="theme"}/partdb.css" type="text/css">{/TMPL_IF}
+    {TMPL_IF NAME="custom_css"}<link rel="stylesheet" href="{TMPL_VAR NAME="relative_path"}{TMPL_VAR NAME="custom_css"}" type="text/css">{/TMPL_IF}
 
     {TMPL_IF NAME="javascript_files"}
         {TMPL_LOOP NAME="javascript_files"}
-            <script type="text/javascript" src="{TMPL_VAR NAME="relative_path"}javascript/{TMPL_VAR NAME="filename"}.js"></script> 
+            <script type="text/javascript" src="{TMPL_VAR NAME="relative_path"}javascript/{TMPL_VAR NAME="filename"}.js"></script>
 
             {TMPL_IF NAME="filename" VALUE="calculator"}
                 <link rel="stylesheet" href="{TMPL_VAR NAME="relative_path"}templates/{TMPL_VAR NAME="theme"}/tools_calculator.php/calculator.css" type="text/css">
@@ -20,7 +20,7 @@
     <base target="_self">
 </head>
 
-<body class="body" onload="{TMPL_VAR NAME="body_onload"}">
+{TMPL_UNLESS NAME="no_body"}<body class="body" onload="{TMPL_VAR NAME="body_onload"}">{/TMPL_UNLESS}
 
 {TMPL_IF NAME="messages"}
     <div class="outer">

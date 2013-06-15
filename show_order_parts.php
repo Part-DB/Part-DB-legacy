@@ -324,7 +324,7 @@
         if (isset($export_string))
             $html->set_variable('export_result',    str_replace("\n", '<br>', str_replace("\n  ", '<br>&nbsp;&nbsp;',   // yes, this is quite ugly,
                                                     str_replace("\n    ", '<br>&nbsp;&nbsp;&nbsp;&nbsp;',               // but the result is pretty ;-)
-                                                    htmlspecialchars($export_string, ENT_QUOTES | ENT_SUBSTITUTE)))), 'string');
+                                                    htmlspecialchars($export_string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')))), 'string');
 
         // global stuff
         $html->set_variable('disable_footprints',       $config['footprints']['disable'],       'boolean');

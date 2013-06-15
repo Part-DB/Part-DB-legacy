@@ -243,7 +243,7 @@
                 if (count($file_array) < 2)
                     throw new Exception('Die Datei muss mindestens eine Header-Zeile und eine Daten-Zeile haben!');
 
-                if (substr_count($file_array[0], '#') == 0)
+                if (mb_substr_count($file_array[0], '#') == 0)
                     throw new Exception("Es wurde kein Header gefunden (das erste Zeichen der ersten Zeile muss '#' sein)!");
                 else
                     $file_array[0] = trim(str_replace('#', '', $file_array[0]));

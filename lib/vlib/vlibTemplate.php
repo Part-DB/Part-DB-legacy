@@ -55,7 +55,7 @@ if (!defined('vlibTemplateClassLoaded'))
 
         /** open and close tags used for escaping */
         var $ESCAPE_TAGS = array(
-            'html' => array('open' => 'htmlspecialchars(', 'close'=> ', ENT_QUOTES | ENT_SUBSTITUTE)'), // <--- For Part-DB: Added "ENT_SUBSTITUTE" (if there are invalid characters in the string...) kami89
+            'html' => array('open' => 'htmlspecialchars(', 'close'=> ', ENT_QUOTES | ENT_SUBSTITUTE, "UTF-8")'), // <--- For Part-DB: Added "ENT_SUBSTITUTE" (if there are invalid characters in the string...) kami89
             'url' => array('open' => 'urlencode(', 'close'=> ')'),
             'rawurl'=>array('open' => 'rawurlencode(', 'close'=> ')'),
             'sq' => array('open' => 'addcslashes(', 'close'=> ", \"'\")"),
