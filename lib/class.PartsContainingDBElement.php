@@ -187,8 +187,27 @@
                 foreach ($subelements as $element)
                     $parts = array_merge($parts, $element->get_parts($parts_rowname, true));
 
+                usort($parts, 'PartsContainingDBElement::usort_compare'); // Sort all parts by their names
+
                 return $parts;
             }
+        }
+
+        /**
+         * @brief Compare function for "usort()"
+         *
+         * From php.net:    The comparison function must return an integer less than,
+         *                  equal to, or greater than zero if the first argument is considered
+         *                  to be respectively less than, equal to, or greater than the second.
+         *
+         * @param Part $part_1      The Part Object #1
+         * @param Part $part_2      The Part Object #2
+         *
+         * @retval integer
+         */
+        static function usort_compare($part_1, $part_2)
+        {
+            return strcasecmp($part_1->get_name(), $part_2->get_name());
         }
 
     }

@@ -1,10 +1,10 @@
-===== Installation =====
+====== Installation ======
 
 <note>
 Diese Anleitung beschreibt nur die Installation von Part-DB, die Infrastruktur (Apache, PHP, MySQL) wird hier vorausgesetzt. Möchten Sie Ihren eigenen Webserver installieren, müssen Sie zuerst die notwendigen Serverkomponenten installieren. Wie das geht, ist in den [[Anforderungen]] beschrieben.
 </note>
 
-===  Anlegen der Datenbank ===
+=====  Anlegen der Datenbank =====
 
 Als Erstes muss auf dem MySQL Server eine neue Datenbank für Part-DB angelegt werden. Es empfiehlt sich, auch einen neuen Benutzer anzulegen, der ausschliesslich für Part-DB bestimmt ist. 
 
@@ -28,7 +28,7 @@ mysql -u BENUTZERNAME -DATENBANKNAME -p
 quit
 </code>
 
-===  Part-DB herunterladen ===
+=====  Part-DB herunterladen =====
 
 Dann lädt man Part-DB herunter und entpackt das Archiv in das Verzeichnis des Webservers (unter Linux häufig "/var/www/").
 
@@ -41,9 +41,9 @@ sudo mkdir /var/www/part-db
 sudo tar xfv part-db.tar.gz -C /var/www/part-db
 </code>
 
-===  Zugriffsrechte für Verzeichnisse setzen === 
+=====  Zugriffsrechte für Verzeichnisse setzen ===== 
 
-Damit Part-DB korrekt funktioniert, müssen die Dateirechte noch gesetzt werden. Die Rechte von Verzeichnissen sollten auf 555, die Rechte von Dateien auf 444 gesetzt werden. Nur das Verzeichnis "data" muss auf 755 bzw. 644 gesetzt werden. Ausserdem sollten alle Dateien dem Besitzer "www-data" gehören:
+Damit Part-DB korrekt funktioniert, müssen die Dateirechte noch gesetzt werden. Die Rechte von allen Verzeichnissen sollten auf 555, die Rechte von allen Dateien auf 444 gesetzt werden. Nur das Verzeichnis "data" muss (rekursiv) auf 755 bzw. 644 gesetzt werden. Ausserdem sollten alle Dateien dem Besitzer gehören, unter dem Apache läuft (unter Linux normalerweise "www-data"). All dies erreicht man mit folgenden Befehlen:
 
 <code language="bash">
 cd /var/www
@@ -54,7 +54,11 @@ find part-db/data -type d -print0 | sudo xargs -0 chmod 755
 find part-db/data -type f -print0 | sudo xargs -0 chmod 644
 </code>
 
-=== Konfiguration von Part-DB ===
+<note>
+Bei gemieteten Webservern, bei denen man die Dateien per FTP hochlädt, ist der Besitzer der Dateien häufig ein FTP-Benutzer, und nicht der Benutzer von Apache. In diesem Fall müssen die Rechte für "data" 775 bzw. 664, oder sogar 777 bzw. 666 lauten, damit Apache auch Schreibrechte in diesem Verzeichnis erhält.
+</note>
+
+===== Konfiguration von Part-DB =====
 
 Beim ersten Aufrufen von Part-DB wird automatisch ein Installationsassistent gestartet. Dort müssen Sie u.A. die Angaben für die soeben angelegte Datenbank und Benutzer eingegeben werden. Danach werden Sie darauf hingewiesen, dass die Datenbank aktualisiert werden muss. Mit diesem Update werden dann alle Tabellen in der Datenbank angelegt bzw. aktualisiert, wenn sie schon vorhanden sind.
 
@@ -62,11 +66,11 @@ Schlägt dieses Update fehl, sollten Sie überprüfen ob der angegebene Benutzer
 
 Ist das Update erfolgreich durchgelaufen, ist Part-DB vollständig einsatzbereit!
 
-=== Funktion von .htaccess überprüfen ===
+===== Funktion von .htaccess überprüfen =====
 
 Ob der Server die .htaccess-Dateien auch wirklich richtig interpretiert, kann leicht überprüft werden indem man z.B. versucht, die Seite [[http://localhost/part-db/data/]] aufzurufen. Dort muss die Fehlermeldung "403 Forbidden" erscheinen. Für den Fall dass der Verzeichnisschutz nicht funktioniert, gibt es in "data" vorsichtshalber noch eine "index.html", die direkt auf die Startseite von Part-DB umleitet. Dies ersetzt aber keineswegs den Verzeichnisschutz der .htaccess!
 
-=== Updates ===
+====== Updates ======
 
 Möchte man eine bereits vorhandene Installation von Part-DB aktualisieren, muss man einfach das heruntergeladene Paket der neuen Part-DB Version im Installationsordner von Part-DB entpacken. Dabei müssen die bereits existierenden Dateien überschrieben werden. Für ein sauberes Update, bei dem die nicht mehr benötigten Dateien gelöscht werden, müssen Sie alle Dateien und Verzeichnisse, **ausser das Verzeichnis "data"** löschen. Im Verzeichnis "data" sind alle Ihre Einstellungen und hochgeladenen Dateien gespeichert, diese dürfen nicht gelöscht werden.
 

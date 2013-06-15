@@ -146,7 +146,12 @@
         $current_user           = new User($database, $current_user, $log, 1); // admin
 
         if ( ! $is_new_part)
+        {
             $part               = new Part($database, $current_user, $log, $part_id);
+
+            ///@todo: remove this line:
+            $new_visible = $part->get_visible();
+        }
 
         $root_storelocation     = new Storelocation($database, $current_user, $log, 0);
         $root_category          = new Category($database, $current_user, $log, 0);

@@ -1,3 +1,4 @@
 Deny from all
 Options -Indexes
 
+AddDefaultCharset UTF-8
