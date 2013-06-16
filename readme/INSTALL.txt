@@ -2,7 +2,7 @@
 #                                                                                                                 #
 # Eine Installationsanleitung gibt es in der Online-Demo von Part-DB:                                             #
 #                                                                                                                 #
-#     http://www.partdb.grautier.com/partdb/documentation/dokuwiki/doku.php                                       #
+#     http://www.partdb.grautier.com/svn/documentation/dokuwiki/doku.php                                          #
 #                                                                                                                 #
 # Nach der Installation ist diese Dokumentation auch lokal verfügbar (URL nach "localhost" ev. manuell anpassen): #
 #                                                                                                                 #
@@ -27,7 +27,7 @@ Damit Part-DB einwandfrei läuft, müssen folgende Kriterien erfüllt sein:
 
   * Webserver mit mindestens 15MB Platz (mit Footprint-Bilder mindestens 60MB)
   * PHP >= 5.3.0 mit [[http://php.net/manual/de/book.pdo.php|PDO]] inkl. [[http://www.php.net/manual/de/ref.pdo-mysql.php|MySQL Plugin]]
-  * MySQL Datenbank mit der Speicherengine InnoDB
+  * MySQL Datenbank mit der Speicherengine InnoDB (MariaDB wurde auch schon erfolgreich getestet)
   * Webbrowser mit JavaScript und HTML4 Unterstützung.
 
 
@@ -67,6 +67,8 @@ Weitere Informationen und Installationsanleitungen gibts (speziell für Ubuntu) 
 
 <note warning>
 Part-DB verwendet ".htaccess"-Dateien, um gewisse Verzeichnisse vor unerlaubtem Zugriff zu schützen. Diese werden aber in der Standardkonfiguration von Apache meistens **nicht** berücksichtigt, was ein Sicherheitsrisiko darstellt! Sie sollten die Apache-Option "AllowOverride" unbedingt auf "All" stellen um dies zu aktivieren.
+
+Zusätzlich empfiehlt es sich, "Directory Listing" global zu deaktivieren. Dazu ersetzt man die Angabe "Options Indexes [...]" durch "Options -Indexes [...]".
 </note>
 
 Unter Debian/Ubuntu wird dies folgendermassen gemacht:
@@ -74,12 +76,22 @@ Unter Debian/Ubuntu wird dies folgendermassen gemacht:
 sudo gedit /etc/apache2/sites-available/default
 </code>
 
-Dort im Block "<Directory /var/www/> ... </Directory>" die Zeile "AllowOverride None" durch die Zeile "AllowOverride All" ersetzen. Datei speichern und schliessen. Danach Apache neu starten:
+Dort im Block "<Directory /var/www/> ... </Directory>" die Zeile "AllowOverride None" durch "AllowOverride All", und "Options Indexes [...]" durch "Options -Indexes [...]" ersetzen. Datei speichern und schliessen. Danach Apache neu starten:
 <code>
 sudo service apache2 restart
 </code>
 
 Nähere Informationen dazu gibts z.B. hier: [[https://help.ubuntu.com/community/EnablingUseOfApacheHtaccessFiles]]
+
+==== PHP konfigurieren ====
+
+Die Standardeinstellungen von PHP sind in der Regel ganz in Ordnung. Möchte man aber auch etwas grössere Dateien hochladen können (z.B. Dateianhänge in Part-DB), muss man eventuell das Dateigrössen-Limit für Uploads anpassen. Dies macht man in der Datei "php.ini", welche sich bei Debian-basierten Betriebssystemen im Verzeichnis "/etc/php5/apache2/" befindet.
+
+<code>
+sudo gedit /etc/php5/apache2/php.ini
+</code>
+
+In dieser Datei nach dem Stickwort "upload_max_filesize" suchen und den Wert entsprechend anpassen. Ausserdem müssen die Werte "post_max_size" und "memory_limit" mindestens gleich gross sein wie "upload_max_filesize".
 ==== Installation überprüfen ====
 
 Ob Apache erfolgreich installiert wurde, kann man überprüfen, indem man auf dem Server die Seite http://localhost im Webbrowser aufruft. Hier muss die Meldung "It works!" erscheinen.
@@ -95,17 +107,27 @@ Falls phpMyAdmin nicht aufgerufen werden kann, muss eventuell noch ein Symbolisc
 sudo ln -s /usr/share/phpmyadmin /var/www/phpmyadmin
 </code>
 
-==== Installation von Part-DB ====
+===== Installation der Sprachdateien =====
 
-Ist die Installation der Serverkomponenten erfolgreich abgeschlossen, kann man nun mit der Installation von Part-DB beginnen. 
+Falls die gewünschte Sprache für Part-DB noch nicht installiert ist, kann man sie noch nachinstallieren. Dies ist meistens nicht notwendig, da man normalerweise das Betriebssystem ja schon in derjenigen Sprache installiert, die man nachher benutzen möchte. Es kann aber mal sein dass man nur ein englisches Betriebssystem zur Verfügung hat, dann muss man die deutschen Sprachdateien noch manuell installieren.
 
+Dies sollte mit folgendem Befehl möglich sein:
 
+<code>
+sudo locale-gen de_DE.utf8
+</code>
 
+Damit wird die Sprache "Deutsch (Deutschland)" installiert. Es kann sein, dass man "de_DE.utf8@euro" eingeben muss, damit das Eurozeichen als Währungssymbol verwendet wird.
 
+===== Installation von Part-DB =====
 
+Ist die Installation der Serverkomponenten erfolgreich abgeschlossen, kann man nun mit der Installation von Part-DB beginnen.
 
+<note>
+Diese Anleitung beschreibt nur die Installation von Part-DB, die Infrastruktur (Apache, PHP, MySQL) wird hier vorausgesetzt. Möchten Sie Ihren eigenen Webserver installieren, müssen Sie zuerst die notwendigen Serverkomponenten installieren. Wie das geht, ist in den [[Anforderungen]] beschrieben.
+</note>
 
-===  Anlegen der Datenbank ===
+=====  Anlegen der Datenbank =====
 
 Als Erstes muss auf dem MySQL Server eine neue Datenbank für Part-DB angelegt werden. Es empfiehlt sich, auch einen neuen Benutzer anzulegen, der ausschliesslich für Part-DB bestimmt ist. 
 
@@ -129,7 +151,7 @@ mysql -u BENUTZERNAME -DATENBANKNAME -p
 quit
 </code>
 
-===  Part-DB herunterladen ===
+=====  Part-DB herunterladen =====
 
 Dann lädt man Part-DB herunter und entpackt das Archiv in das Verzeichnis des Webservers (unter Linux häufig "/var/www/").
 
@@ -142,22 +164,28 @@ sudo mkdir /var/www/part-db
 sudo tar xfv part-db.tar.gz -C /var/www/part-db
 </code>
 
-===  Zugriffsrechte für Verzeichnisse setzen === 
+=====  Zugriffsrechte für Verzeichnisse setzen ===== 
 
-Damit Part-DB korrekt funktioniert, müssen die Dateirechte noch gesetzt werden. Die Rechte von Verzeichnissen sollten auf 555, die Rechte von Dateien auf 444 gesetzt werden. Nur das Verzeichnis "data" muss auf 755 bzw. 644 gesetzt werden. Ausserdem sollten alle Dateien dem Besitzer "www-data" gehören:
+Damit Part-DB korrekt funktioniert, müssen die Dateirechte noch gesetzt werden. Die Rechte von allen Verzeichnissen sollten auf 555, die Rechte von allen Dateien auf 444 gesetzt werden. Nur das Verzeichnis "data" muss (rekursiv) auf 755 bzw. 644 gesetzt werden. 
+
+Ausserdem sollten alle Dateien dem Besitzer gehören, unter dem Apache läuft (unter Linux normalerweise "www-data"). 
+
+All dies erreicht man mit folgenden Befehlen:
 
 <code language="bash">
 cd /var/www
 sudo chown -R www-data:www-data part-db
-sudo chmod 555 part-db
-sudo chmod 755 part-db/data
 find part-db -type d -print0 | sudo xargs -0 chmod 555
 find part-db -type f -print0 | sudo xargs -0 chmod 444
 find part-db/data -type d -print0 | sudo xargs -0 chmod 755
 find part-db/data -type f -print0 | sudo xargs -0 chmod 644
 </code>
 
-=== Konfiguration von Part-DB ===
+<note>
+Bei gemieteten Webservern, bei denen man die Dateien per FTP hochlädt, ist der Besitzer der Dateien häufig ein FTP-Benutzer, und nicht der Benutzer von Apache. In diesem Fall müssen die Rechte für "data" 775 bzw. 664, oder sogar 777 bzw. 666 lauten, damit Apache auch Schreibrechte in diesem Verzeichnis erhält.
+</note>
+
+===== Konfiguration von Part-DB =====
 
 Beim ersten Aufrufen von Part-DB wird automatisch ein Installationsassistent gestartet. Dort müssen Sie u.A. die Angaben für die soeben angelegte Datenbank und Benutzer eingegeben werden. Danach werden Sie darauf hingewiesen, dass die Datenbank aktualisiert werden muss. Mit diesem Update werden dann alle Tabellen in der Datenbank angelegt bzw. aktualisiert, wenn sie schon vorhanden sind.
 
@@ -165,11 +193,11 @@ Schlägt dieses Update fehl, sollten Sie überprüfen ob der angegebene Benutzer
 
 Ist das Update erfolgreich durchgelaufen, ist Part-DB vollständig einsatzbereit!
 
-=== Funktion von .htaccess überprüfen ===
+===== Funktion von .htaccess überprüfen =====
 
 Ob der Server die .htaccess-Dateien auch wirklich richtig interpretiert, kann leicht überprüft werden indem man z.B. versucht, die Seite [[http://localhost/part-db/data/]] aufzurufen. Dort muss die Fehlermeldung "403 Forbidden" erscheinen. Für den Fall dass der Verzeichnisschutz nicht funktioniert, gibt es in "data" vorsichtshalber noch eine "index.html", die direkt auf die Startseite von Part-DB umleitet. Dies ersetzt aber keineswegs den Verzeichnisschutz der .htaccess!
 
-=== Updates ===
+====== Updates ======
 
 Möchte man eine bereits vorhandene Installation von Part-DB aktualisieren, muss man einfach das heruntergeladene Paket der neuen Part-DB Version im Installationsordner von Part-DB entpacken. Dabei müssen die bereits existierenden Dateien überschrieben werden. Für ein sauberes Update, bei dem die nicht mehr benötigten Dateien gelöscht werden, müssen Sie alle Dateien und Verzeichnisse, **ausser das Verzeichnis "data"** löschen. Im Verzeichnis "data" sind alle Ihre Einstellungen und hochgeladenen Dateien gespeichert, diese dürfen nicht gelöscht werden.
 

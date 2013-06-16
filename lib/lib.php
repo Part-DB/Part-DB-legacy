@@ -264,7 +264,16 @@
             throw new Exception('Sie haben keine Schreibrechte im Verzeichnis "'.$destination_directory.'"!');
 
         if (file_exists($destination))
-            throw new Exception('Die Datei "'.$destination.'" existiert bereits!');
+        {
+            // there is already a file with the same filename, check if it is exactly the same file
+            $new_file_md5 = md5_file($file_array['tmp_name']);
+            $existing_file_md5 = md5_file($destination);
+
+            if (($new_file_md5 == $existing_file_md5) && ($new_file_md5 != false))
+                return $destination; // it's exactly the same file, we don't need to upload it again, re-use it!
+
+            throw new Exception('Es existiert bereits eine Datei mit dem Dateinamen "'.$destination.'"!');
+        }
 
         switch ($file_array['error'])
         {

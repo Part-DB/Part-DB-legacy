@@ -108,6 +108,28 @@
          */
         public function delete($delete_from_hdd = false)
         {
+            $filename = $this->get_filename();
+            $must_file_delete = false;
+
+            if (($delete_from_hdd) && (strlen($filename) > 0))
+            {
+                // we will delete the file only from HDD if there are no other "Attachement" objects with the same filename!
+                $attachements = Attachement::get_attachements_by_filename($this->database, $this->current_user, $this->log, $filename);
+
+                if ((count($attachements) <= 1) && (file_exists($filename)))
+                {
+                    // check if there are enought permissions to delete the file
+                    if ( ! is_writable(dirname($filename)))
+                    {
+                        throw new Exception('Die Datei "'.$filename.'" kann nicht gelöscht werden, '.
+                                            'da im übergeordneten Ordner keine Schreibrechte vorhanden sind!');
+                    }
+
+                    // all OK, file must be deleted after deleting the database record successfully
+                    $must_file_delete = true;
+                }
+            }
+
             try
             {
                 $transaction_id = $this->database->begin_transaction(); // start transaction
@@ -125,30 +147,24 @@
                 // Now we can delete the database record of this attachement
                 parent::delete();
 
+                // now delete the file (if desired)
+                if ($must_file_delete)
+                {
+                    if ( ! unlink($filename))
+                        throw new Exception('Die Datei "'.$filename.'" kann nicht von der Festplatte gelöscht '.
+                                            "werden! \nÜberprüfen Sie, ob die nötigen Rechte vorhanden sind.");
+                }
+
                 $this->database->commit($transaction_id); // commit transaction
             }
             catch (Exception $e)
             {
                 $this->database->rollback(); // rollback transaction
 
+                // restore the settings from BEFORE the transaction
+                $this->reset_attributes();
+
                 throw new Exception("Der Dateianhang \"".$this->get_name()."\" konnte nicht entfernt werden!\nGrund: ".$e->getMessage());
-            }
-
-            // now delete the file (if desired)
-            if ($delete_from_hdd)
-            {
-                $filename = $this->get_filename();
-
-                // we will delete the file only from HDD if there are no other "Attachement" objects with the same filename!
-                $attachements = Attachement::get_attachements_by_filename($this->database, $this->current_user, $this->log, $filename);
-
-                if ((count($attachements) == 0) && (file_exists($filename)))
-                {
-                    $res = unlink($filename);
-                    if ( ! $res)
-                        throw new Exception('Die Datei "'.$filename.'" kann nicht von der Festplatte gelöscht '.
-                                            "werden! \nÜberprüfen Sie, ob die nötigen Rechte vorhanden sind.");
-                }
             }
         }
 
@@ -279,13 +295,13 @@
 
             // if the path is relative, we will make it absolute, but you should always use absolute paths anyway!
             // Then we replace the path of the Part-DB installation directory (Constant "BASE") with a placeholder ("%BASE%")
-            $filename = str_replace(BASE, '%BASE%', trim($filename));
+            $filename_2 = str_replace(BASE, '%BASE%', trim($filename));
 
             $query =    'SELECT id FROM attachements '.
-                        'WHERE filename=? '.
+                        'WHERE filename=? OR filename=? '.
                         'ORDER BY name ASC';
             // we will search for both, the original filename and the filename with replaced base-path
-            $query_data = $database->query($query, array($filename));
+            $query_data = $database->query($query, array($filename, $filename_2));
 
             foreach ($query_data as $row)
                 $attachements[] = new Attachement($database, $current_user, $log, $row['id']);

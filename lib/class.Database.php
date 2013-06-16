@@ -286,11 +286,20 @@
          *              because transactions don't work with "DROP TABLE" and "CREATE TABLE"!!
          *              So we use the config "$config['update']['next_step']" to memorize an error.
          *
+         * @param boolean $continue_last_attempt        @li if true and the last update attempt was not successfully,
+         *                                                  the update will continue at the last step which has produced an error
+         *                                              @li if false, the update will start with the first update step,
+         *                                                  even if there was an error. this is used if the user has loaded a
+         *                                                  new database (backup last imported) after an update error.
+         *
          * @retval string       the update log as a string (with "\n" as line break)
          *
          * @throws Exception if there was an error
+         *
+         * @todo    the parameter "$continue_last_attempt" is not very pretty, it would be better if this function
+         *          detects automatically if the user has loaded a new database.
          */
-        public function update()
+        public function update($continue_last_attempt = true)
         {
             global $config;
             $error = false;
@@ -354,7 +363,7 @@
                     break;
                 }
 
-                if (($config['db']['update_error']['version'] > 0) && ($current > 0))
+                if ($config['db']['update_error']['version'] == $current)
                     $start_position = $config['db']['update_error']['next_step']; // there was an error in the last update process
                 else
                     $start_position = 0; // no error, start with the first update step
@@ -417,7 +426,7 @@
                     else
                     {
                         $config['db']['update_error']['next_step'] = 0;
-                        $config['db']['update_error']['version'] = 0;
+                        $config['db']['update_error']['version'] = -1;
                     }
 
                     save_config();

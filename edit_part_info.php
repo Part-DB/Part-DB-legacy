@@ -374,7 +374,7 @@
                     if (is_object($master_picture) && ($master_picture->get_id() == $attachement->get_id()))
                         $part->set_master_picture_attachement_id(NULL); // remove master picture
 
-                    $attachement->delete();
+                    $attachement->delete(true); // the file will be deleted only if there are no other attachements with the same filename
                 }
                 catch (Exception $e)
                 {

@@ -1,18 +1,10 @@
 <div class="outer">
     <h2>Tabs durch Leerzeichen ersetzen / Backup-Dateien löschen</h2>
     <div class="inner">
-        {TMPL_IF NAME="tab2spaces_output"}
-            <font style="color:{TMPL_IF NAME="tab2spaces_successful"}green{TMPL_ELSE}red{/TMPL_IF}"><b>
-                {TMPL_LOOP NAME="tab2spaces_output"}
-                    {TMPL_VAR NAME="text"}<br>
-                {/TMPL_LOOP}
-            </b></font>
-            <br><br>
-        {/TMPL_IF}
         <form action="" method="post">
             <input type="checkbox" name="trim_exec_output" checked>Ausgabe stutzen (nur die ersten und letzten 20 Einträge anzeigen)<br>
             <input type="submit" name="tab2spaces" value="Ausführen">
-            <i>Der Vorgang kann mehrere Sekunden dauern!</i>
+            <i>Der Vorgang kann mehrere Minuten in Anspruch nehmen!</i>
         </form>
     </div>
 </div>
@@ -20,39 +12,41 @@
 <div class="outer">
     <h2>Doxygen-Dokumentation erstellen bzw. updaten</h2>
     <div class="inner">
-        {TMPL_IF NAME="doxygen_output"}
-            <font style="color:{TMPL_IF NAME="doxygen_successful"}green{TMPL_ELSE}red{/TMPL_IF}"><b>
-                {TMPL_LOOP NAME="doxygen_output"}
-                    {TMPL_VAR NAME="text"}<br>
-                {/TMPL_LOOP}
-            </b></font>
-            <br><br>
-        {/TMPL_IF}
         <form action="" method="post">
             <b><font style="color:red">Doxygen muss auf dem Server installiert sein!</font></b><br>
             <input type="checkbox" name="trim_exec_output" checked>Ausgabe stutzen (nur die ersten und letzten 20 Einträge anzeigen)<br>
             <input type="submit" name="build_doxygen" value="Dokumentation erstellen/updaten">
-            <i>Das Erstellen der Dokumentation kann über 10 Sekunden dauern!</i>
+            <i>Der Vorgang kann mehrere Minuten in Anspruch nehmen!</i>
         </form>
     </div>
 </div>
 
 <div class="outer">
-    <h2>Update-Paket erstellen</h2>
+    <h2>Release-Paket erstellen</h2>
     <div class="inner">
-        {TMPL_IF NAME="packing_output"}
-            <font style="color:{TMPL_IF NAME="packing_successful"}green{TMPL_ELSE}red{/TMPL_IF}"><b>
-                {TMPL_LOOP NAME="packing_output"}
-                    {TMPL_VAR NAME="text"}<br>
-                {/TMPL_LOOP}
-            </b></font>
-            <br><br>
-        {/TMPL_IF}
         <form action="" method="post">
-            <!-- <b><font style="color:red">Das Update muss sich im Ordner "updates/new/" befinden!</font></b><br> -->
-            Version: <input type="text" name="package_version" value="{TMPL_VAR NAME="current_system_version"}" disabled><br>
-            Beispiele: "0.3.0", "0.3.0 RC1"<br>
-            <input type="submit" name="build_update_package" value="Paket erstellen" disabled>
+            <b>Version: {TMPL_VAR NAME="current_system_version"}</b>
+            {TMPL_IF NAME="release_archive_link"}
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a href="{TMPL_VAR NAME="release_archive_link"}">Download "{TMPL_VAR NAME="release_archive_basename"}"</a>
+            {/TMPL_IF}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_new" href="{TMPL_VAR NAME="packing_checklist_link"}">Checkliste</a>
+            <br>
+            <input type="checkbox" name="trim_exec_output" checked>Ausgabe stutzen (nur die ersten und letzten 20 Einträge anzeigen)<br>
+            <input type="submit" name="build_release_package" value="Paket erstellen">
+            <i>Der Vorgang kann mehrere Minuten in Anspruch nehmen!</i>
         </form>
     </div>
 </div>
+
+{TMPL_IF NAME="exec_output"}
+<div class="outer">
+    <h2>Ausgabe</h2>
+    <div class="inner">
+        <font style="color:{TMPL_IF NAME="exec_successful"}green{TMPL_ELSE}red{/TMPL_IF}"><b>
+            {TMPL_LOOP NAME="exec_output"}
+                {TMPL_VAR NAME="text"}<br>
+            {/TMPL_LOOP}
+        </b></font>
+    </div>
+</div>
+{/TMPL_IF}

@@ -72,7 +72,7 @@
     $config['db']['auto_update']                            = false;
     $config['db']['backup']['name']                         = ''; // If you use an external database backup system, set here "MySQLDumper" for example
     $config['db']['backup']['url']                          = ''; // the link to the database backup system, e.g. "../mysqldumper/"
-    $config['db']['update_error']['version']                = 0; // Momerize the database version in case of an error (see Database::update())
+    $config['db']['update_error']['version']                = -1; // Momerize the database version in case of an error (see Database::update())
     $config['db']['update_error']['next_step']              = 0; // Momerize the position of the update step in case of an error (see Database::update())
 
     // html/template settings

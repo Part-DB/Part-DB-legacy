@@ -144,8 +144,11 @@
                 //$this->database =       NULL; // we still need them...
                 //$this->current_user =   NULL; // ...for commit/rollback...
                 //$this->log =            NULL; // ...after deleting an element!
-                $this->tablename =      NULL;
+                //$this->tablename =      NULL;
+
+                $id_tmp = $this->db_data['id']; // backup ID
                 $this->db_data =        NULL;
+                $this->db_data['id'] = $id_tmp; // restore ID
             }
             else
             {

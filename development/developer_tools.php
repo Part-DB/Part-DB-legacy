@@ -97,6 +97,20 @@
         return (($return == 0) && ($return2 == 0)) ? true : false;
     }
 
+    function build_release_package($trim, &$output_loop)
+    {
+        $output = array();
+        $output[] = 'Befehl: sh tools.sh -p';
+        $output[] = '';
+        exec('sh tools.sh -p 2>&1', $output, $return);
+        $output[] = '';
+        $output[] = 'Returncode: '.$return;
+
+        $output_loop = exec_output_to_tmpl_loop($output, $trim);
+
+        return ($return == 0) ? true : false;
+    }
+
     /********************************************************************************
     *
     *   Evaluate $_REQUEST
@@ -106,8 +120,9 @@
     $trim_exec_output = isset($_REQUEST["trim_exec_output"]);
 
     $action = 'default';
-    if (isset($_REQUEST["build_doxygen"]))      {$action = 'build_doxygen';}
-    if (isset($_REQUEST["tab2spaces"]))         {$action = 'tab2spaces';}
+    if (isset($_REQUEST["build_doxygen"]))          {$action = 'build_doxygen';}
+    if (isset($_REQUEST["tab2spaces"]))             {$action = 'tab2spaces';}
+    if (isset($_REQUEST["build_release_package"]))  {$action = 'build_release_package';}
 
     /********************************************************************************
     *
@@ -147,6 +162,10 @@
             case 'tab2spaces':
                 $remove_spaces_successful = tab2spaces($trim_exec_output, $tab2spaces_output_loop);
                 break;
+
+            case 'build_release_package':
+                $release_packing_successful = build_release_package($trim_exec_output, $release_packing_output_loop);
+                break;
         }
     }
 
@@ -156,16 +175,34 @@
     *
     *********************************************************************************/
 
+    $html->set_variable('current_system_version', $config['system']['version'], 'string');
+
+    $release_package_filename = BASE.'/development/package_output/Part-DB_'.$config['system']['version'].'.tar.gz';
+
+    if (file_exists($release_package_filename))
+    {
+        $html->set_variable('release_archive_link', str_replace(BASE, BASE_RELATIVE, $release_package_filename), 'string');
+        $html->set_variable('release_archive_basename', basename($release_package_filename), 'string');
+    }
+
+    $html->set_variable('packing_checklist_link', BASE_RELATIVE.'/development/package_output/readme.txt', 'string');
+
     if (isset($doxygen_output_loop))
     {
-        //$html->set_variable('doxygen_successful', $doxygen_successful, 'boolean');
-        $html->set_loop('doxygen_output', $doxygen_output_loop);
+        //$html->set_variable('exec_successful', $doxygen_successful, 'boolean');
+        $html->set_loop('exec_output', $doxygen_output_loop);
     }
 
     if (isset($tab2spaces_output_loop))
     {
-        //$html->set_variable('tab2spaces_successful', $tab2spaces_successful, 'boolean');
-        $html->set_loop('tab2spaces_output', $tab2spaces_output_loop);
+        //$html->set_variable('exec_successful', $tab2spaces_successful, 'boolean');
+        $html->set_loop('exec_output', $tab2spaces_output_loop);
+    }
+
+    if (isset($release_packing_output_loop))
+    {
+        //$html->set_variable('exec_successful', $release_packing_successful, 'boolean');
+        $html->set_loop('exec_output', $release_packing_output_loop);
     }
 
     /********************************************************************************

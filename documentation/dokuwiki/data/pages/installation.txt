@@ -28,7 +28,7 @@ mysql -u BENUTZERNAME -DATENBANKNAME -p
 quit
 </code>
 
-=====  Part-DB herunterladen =====
+=====  Part-DB herunterladen und entpacken =====
 
 Dann lädt man Part-DB herunter und entpackt das Archiv in das Verzeichnis des Webservers (unter Linux häufig "/var/www/").
 
@@ -36,18 +36,28 @@ Dann lädt man Part-DB herunter und entpackt das Archiv in das Verzeichnis des W
 </note>
 
 <code>
-wget -O part-db.tar.gz https://part-db.googlecode.com/files/Part-DB-0.2.2.tar.gz
-sudo mkdir /var/www/part-db
-sudo tar xfv part-db.tar.gz -C /var/www/part-db
+wget -O part-db.tar.gz https://part-db.googlecode.com/files/Part-DB-0.3.0.RC2.tar.gz
+sudo tar xfv part-db.tar.gz -C /var/www
 </code>
 
-=====  Zugriffsrechte für Verzeichnisse setzen ===== 
+Hat man keinen direkten Zugriff (z.B. über SSH) auf den Server, muss man die Dateien per FTP auf den Server hochladen. Dazu lädt man das Archiv auf dem persönlichen Computer herunter, entpackt es und kopiert die entpackten Dateien dann per FTP-Client (z.B. FileZilla) auf den Server.
+=====  Zugriffsrechte für Verzeichnisse setzen =====
 
-Damit Part-DB korrekt funktioniert, müssen die Dateirechte noch gesetzt werden. Die Rechte von allen Verzeichnissen sollten auf 555, die Rechte von allen Dateien auf 444 gesetzt werden. Nur das Verzeichnis "data" muss (rekursiv) auf 755 bzw. 644 gesetzt werden. 
+<note>
+Wenn man Part-DB direkt auf einem Linux/UNIX Server gemäss der Anleitung weiter oben (wget/tar) installiert hat (**nicht** über FTP hochgeladen!), kann dieser Abschnitt übersprungen werden, da im heruntergeladenen Archiv der Besitzer und die Rechte aller Dateien bereits korrekt (gemäss diesem Abschnitt) gesetzt sind. Beim Entpacken mit dem oben erwähnten tar-Befehl werden die Rechte für die entpackten Dateien dann automatisch aus dem Archiv übernommen.
 
-Ausserdem sollten alle Dateien dem Besitzer gehören, unter dem Apache läuft (unter Linux normalerweise "www-data"). 
+Installiert man Part-DB auf eine andere Weise (z.B. per FTP-Upload), oder ist man sich unsicher, sollte man diesen Abschnitt nicht überspringen!
+</note>
 
-All dies erreicht man mit folgenden Befehlen:
+Damit Part-DB korrekt funktioniert und maximale Sicherheit gewährleistet ist, müssen die Dateirechte noch gesetzt werden. Die Rechte von allen Verzeichnissen sollten auf 555, die Rechte von allen Dateien auf 444 gesetzt werden. Nur das Verzeichnis "data" muss (rekursiv) auf 755 bzw. 644 gesetzt werden.
+
+<note warning>
+Zu grosszügige Dateirechte (z.B. 777) sind zwar sehr bequem weil damit Part-DB ganz sicher problemlos funktioniert, stellen aber ein unnötiges Sicherheitsrisiko dar und sollten deshalb auf keinen Fall verwendet werden (wenn dies aufgrund der vorhandenen Infrastruktur nicht zwingend notwendig ist)!
+</note>
+
+Ausserdem sollten alle Dateien dem Besitzer gehören, unter dem Apache läuft (unter Linux normalerweise "www-data").
+
+All dies erreicht man auf einem Linux/UNIX Server mit folgenden Befehlen:
 
 <code language="bash">
 cd /var/www
@@ -58,8 +68,10 @@ find part-db/data -type d -print0 | sudo xargs -0 chmod 755
 find part-db/data -type f -print0 | sudo xargs -0 chmod 644
 </code>
 
-<note>
-Bei gemieteten Webservern, bei denen man die Dateien per FTP hochlädt, ist der Besitzer der Dateien häufig ein FTP-Benutzer, und nicht der Benutzer von Apache. In diesem Fall müssen die Rechte für "data" 775 bzw. 664, oder sogar 777 bzw. 666 lauten, damit Apache auch Schreibrechte in diesem Verzeichnis erhält.
+Hat man keinen direkten Zugriff auf das Dateisystem des Servers, können die Rechte mit einem FTP-Client gesetzt werden.
+
+<note important>
+Lädt man die Dateien per FTP auf den Server, ist der Besitzer der Dateien häufig ein FTP-Benutzer, und nicht der Benutzer von Apache. In diesem Fall müssen die Rechte für "data" 775 bzw. 664, oder ev. sogar 777 bzw. 666 lauten, damit Apache auch Schreibrechte in diesem Verzeichnis erhält!
 </note>
 
 ===== Konfiguration von Part-DB =====

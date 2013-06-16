@@ -54,6 +54,7 @@
     if (isset($_REQUEST["apply_connection_settings"]))  {$action = 'apply_connection_settings';}
     if (isset($_REQUEST["apply_auto_updates"]))         {$action = 'apply_auto_updates';}
     if (isset($_REQUEST["make_update"]))                {$action = 'make_update';}
+    if (isset($_REQUEST["make_new_update"]))            {$action = 'make_new_update';}
 
     /********************************************************************************
     *
@@ -124,6 +125,10 @@
             }
             break;
 
+        case 'make_new_update':
+            // start the next update attempt from the beginning, not from the step of the last error
+            $config['db']['update_error']['version']    = -1;
+            $config['db']['update_error']['next_step']  = 0;
         case 'make_update':
             try
             {
@@ -163,9 +168,10 @@
         {
             $current = $database->get_current_version();
             $latest = $database->get_latest_version();
-            $html->set_variable('current_version', $current, 'integer');
-            $html->set_variable('latest_version', $latest, 'integer');
-            $html->set_variable('update_required', ($latest > $current), 'boolean');
+            $html->set_variable('current_version',      $current,               'integer');
+            $html->set_variable('latest_version',       $latest,                'integer');
+            $html->set_variable('update_required',      ($latest > $current),   'boolean');
+            $html->set_variable('last_update_failed',   ($config['db']['update_error']['version'] == $current), 'boolean');
 
             if (($current > 0) && ($current < 13) && ($latest >= 13)) // v12 to v13 was a huge update! show warning!
             {

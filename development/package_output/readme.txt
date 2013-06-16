@@ -13,7 +13,7 @@ IMPORTANT: Checklist for publishing a new release
 =================================================
 
     1. check the system version in "config_defaults.php", it must be higher than the last release!
-    2. run "./tools.sh -p"
+    2. run "./tools.sh -p" (can also be done with the developer tools in a browser)
     3. check if the files in the archive have the right owner and group "www-data:www-data"
     4. check if the files in the archive have the right permissions:
         - 555 for all directories (with exceptions)
@@ -28,9 +28,9 @@ IMPORTANT: Checklist for publishing a new release
         - data/backup/* (except index.html)
         - data/log/* (except index.html)
         - data/media/* (except .htaccess)
-    6. check if there directories are NOT in the archive:
+    6. check if these directories are NOT in the archive:
         - .svn/
         - development/
-        - documentation/dokuwiki/data/cache/
-        - documentation/dokuwiki/data/tmp/
+        - documentation/dokuwiki/data/cache/*
+        - documentation/dokuwiki/data/tmp/*
     7. check if .htaccess exists in the main directory and in data/
