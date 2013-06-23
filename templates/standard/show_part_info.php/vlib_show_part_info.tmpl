@@ -203,7 +203,7 @@ remove this                <td>{TMPL_IF NAME="visible"}ja{TMPL_ELSE}nein{/TMPL_I
                                                     {TMPL_VAR NAME="popup_width"}, {TMPL_VAR NAME="popup_height"});">
                         <img src="{TMPL_VAR NAME="filename"}" alt="Zum Vergrößern klicken!" style="max-height:180px; max-width:180px"></a>
                     {TMPL_ELSE}
-                        <a target="_new" href="{TMPL_VAR NAME="filename"}">{TMPL_VAR NAME="attachement_name"}</a><br>
+                        <a target="_blank" href="{TMPL_VAR NAME="filename"}">{TMPL_VAR NAME="attachement_name"}</a><br>
                     {/TMPL_IF}
                 {/TMPL_LOOP}
                 {TMPL_UNLESS NAME="__LAST__"}<br><br>{/TMPL_UNLESS}

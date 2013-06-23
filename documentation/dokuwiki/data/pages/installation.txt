@@ -37,7 +37,7 @@ Dann lädt man Part-DB herunter und entpackt das Archiv in das Verzeichnis des W
 
 <code>
 wget -O part-db.tar.gz https://part-db.googlecode.com/files/Part-DB-0.3.0.RC2.tar.gz
-sudo tar xfv part-db.tar.gz -C /var/www
+sudo tar xzf part-db.tar.gz -C /var/www
 </code>
 
 Hat man keinen direkten Zugriff (z.B. über SSH) auf den Server, muss man die Dateien per FTP auf den Server hochladen. Dazu lädt man das Archiv auf dem persönlichen Computer herunter, entpackt es und kopiert die entpackten Dateien dann per FTP-Client (z.B. FileZilla) auf den Server.
@@ -49,7 +49,7 @@ Wenn man Part-DB direkt auf einem Linux/UNIX Server gemäss der Anleitung weiter
 Installiert man Part-DB auf eine andere Weise (z.B. per FTP-Upload), oder ist man sich unsicher, sollte man diesen Abschnitt nicht überspringen!
 </note>
 
-Damit Part-DB korrekt funktioniert und maximale Sicherheit gewährleistet ist, müssen die Dateirechte noch gesetzt werden. Die Rechte von allen Verzeichnissen sollten auf 555, die Rechte von allen Dateien auf 444 gesetzt werden. Nur das Verzeichnis "data" muss (rekursiv) auf 755 bzw. 644 gesetzt werden.
+Damit Part-DB korrekt funktioniert und maximale Sicherheit gewährleistet ist, müssen die Dateirechte noch gesetzt werden. Die Rechte von allen Verzeichnissen sollten auf 555, die Rechte von allen Dateien auf 444 gesetzt werden. Nur die Verzeichnisse "data" und "documentation/dokuwiki/data" müssen (rekursiv) auf 755 bzw. 644 gesetzt werden.
 
 <note warning>
 Zu grosszügige Dateirechte (z.B. 777) sind zwar sehr bequem weil damit Part-DB ganz sicher problemlos funktioniert, stellen aber ein unnötiges Sicherheitsrisiko dar und sollten deshalb auf keinen Fall verwendet werden (wenn dies aufgrund der vorhandenen Infrastruktur nicht zwingend notwendig ist)!
@@ -66,17 +66,27 @@ find part-db -type d -print0 | sudo xargs -0 chmod 555
 find part-db -type f -print0 | sudo xargs -0 chmod 444
 find part-db/data -type d -print0 | sudo xargs -0 chmod 755
 find part-db/data -type f -print0 | sudo xargs -0 chmod 644
+find part-db/documentation/dokuwiki/data -type d -print0 | sudo xargs -0 chmod 755
+find part-db/documentation/dokuwiki/data -type f -print0 | sudo xargs -0 chmod 644
 </code>
 
 Hat man keinen direkten Zugriff auf das Dateisystem des Servers, können die Rechte mit einem FTP-Client gesetzt werden.
 
 <note important>
 Lädt man die Dateien per FTP auf den Server, ist der Besitzer der Dateien häufig ein FTP-Benutzer, und nicht der Benutzer von Apache. In diesem Fall müssen die Rechte für "data" 775 bzw. 664, oder ev. sogar 777 bzw. 666 lauten, damit Apache auch Schreibrechte in diesem Verzeichnis erhält!
+
+Bei manchen Hostern kann man jedoch über ein Webinterface des Hosters den Besitzer der (per FTP hochgeladenen) Dateien ändern. Dies ist die bessere/sicherere Variante als die Anpassung der Dateirechte und sollte deshalb bevorzugt werden!
 </note>
+
+===== Part-DB im Browser aufrufen =====
+
+Part-DB ist jetzt installiert und kann über die Adresse [[http://localhost/part-db/]] in einem beliebigen Browser aufgerufen werden.
+
+Diese Adresse funktioniert jedoch nur auf dem Server selbst, bei anderen PCs im gleichen Netzwerk muss man "localhost" durch die IP-Adresse des Servers ersetzen, z.B. [[http://192.168.1.100/part-db/]]. Statt der IP-Adresse kann man meistens auch der Computername des Servers verwenden, dann lautet die Adresse z.B. [[http://name-des-servers/part-db/]] (hat der Server eine dynamische IP, sollte diese Variante bevorzugt werden).
 
 ===== Konfiguration von Part-DB =====
 
-Beim ersten Aufrufen von Part-DB wird automatisch ein Installationsassistent gestartet. Dort müssen Sie u.A. die Angaben für die soeben angelegte Datenbank und Benutzer eingegeben werden. Danach werden Sie darauf hingewiesen, dass die Datenbank aktualisiert werden muss. Mit diesem Update werden dann alle Tabellen in der Datenbank angelegt bzw. aktualisiert, wenn sie schon vorhanden sind.
+Beim ersten Aufrufen von Part-DB wird automatisch ein Installationsassistent gestartet. Dort müssen Sie u.A. die Angaben für die soeben angelegte Datenbank und dessen Benutzer eingegeben werden. Danach werden Sie darauf hingewiesen, dass die Datenbank aktualisiert werden muss. Mit diesem Update werden dann alle Tabellen in der Datenbank angelegt bzw. aktualisiert, wenn sie schon vorhanden sind.
 
 Schlägt dieses Update fehl, sollten Sie überprüfen ob der angegebene Benutzer genügend Rechte an der Datenbank besitzt. Fehlende Rechte ist die häufigste Ursache für fehlgeschlagene Datenbankupdates!
 
@@ -91,7 +101,7 @@ Ob der Server die .htaccess-Dateien auch wirklich richtig interpretiert, kann le
 Möchte man eine bereits vorhandene Installation von Part-DB aktualisieren, muss man einfach das heruntergeladene Paket der neuen Part-DB Version im Installationsordner von Part-DB entpacken. Dabei müssen die bereits existierenden Dateien überschrieben werden. Für ein sauberes Update, bei dem die nicht mehr benötigten Dateien gelöscht werden, müssen Sie alle Dateien und Verzeichnisse, **ausser das Verzeichnis "data"** löschen. Im Verzeichnis "data" sind alle Ihre Einstellungen und hochgeladenen Dateien gespeichert, diese dürfen nicht gelöscht werden.
 
 <note>
-Bei Part-DB vor der Version 0.3.0 gab es das Verzeichnis "data" noch nicht. Hier müssen Sie die Datei "config.php" und die Verzeichnisse "backup" (falls es benutzt wurde) und "img" sichern.
+Bei Part-DB vor der Version 0.3.0 gab es das Verzeichnis "data" noch nicht. Hier müssen Sie die Datei "config.php" und die Verzeichnisse "backup" (falls es benutzt wurde), "img" (falls Dateien hochgeladen wurden) und "media" (falls vorhanden) sichern.
 </note>
 
 <note important>

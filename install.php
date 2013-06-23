@@ -202,7 +202,7 @@
     if (! $fatal_error)
     {
         // global variables
-        $html->set_variable('system_version',       $system_version->as_string(true, true, false),  'string');
+        $html->set_variable('system_version',       $system_version->as_string(false, true, true, false),  'string');
         $html->set_variable('system_version_full',  $system_version->as_string(false, false, false, true), 'string');
 
         if ( ! $config['installation_complete']['locales'])

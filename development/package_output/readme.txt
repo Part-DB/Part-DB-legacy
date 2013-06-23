@@ -18,10 +18,10 @@ IMPORTANT: Checklist for publishing a new release
     4. check if the files in the archive have the right permissions:
         - 555 for all directories (with exceptions)
         - 444 for all files (with exceptions)
-        - 755 for data/
-        - 755 for data/backup/
-        - 755 for data/log/
-        - 755 for data/media/
+        - 755 for data/ and all their subdirectories
+        - 644 for all files in data/ (recursive)
+        - 755 for documentation/dokuwiki/data/ and all their subdirectories
+        - 644 for all files in documentation/dokuwiki/data/ (recursive)
     5. check if there are NO PERSONAL FILES in the archive:
         - data/config.php
         - data/ENABLE-DOKUWIKI-WRITE-PERMS.txt

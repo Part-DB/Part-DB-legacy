@@ -245,26 +245,27 @@
             {
                 $footprint = $broken_filename_footprints[$i];
                 $proposed_filenames_loop = array();
-                $proposed_filenames = get_proposed_filenames($footprint->get_filename(), BASE.'/');
+                $proposed_filenames = get_proposed_filenames($footprint->get_filename(), array(BASE.'/img/', BASE.'/data/media/'));
 
-                if ((count($proposed_filenames) > 0) && (basename($proposed_filenames[0]) == basename($footprint->get_filename())))
+                if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->get_filename(), PATHINFO_FILENAME)))
                     $exact_match = true;
                 else
                     $exact_match = false;
 
-                foreach ($proposed_filenames as $filename)
+                foreach ($proposed_filenames as $index => $filename)
                 {
                     $filename = str_replace(BASE.'/', '', $filename);
-                    $proposed_filenames_loop[] = array( 'selected' => true,
+                    $proposed_filenames_loop[] = array( 'selected' => (($index == 0) && $exact_match),
                                                         'proposed_filename' => $filename);
                 }
 
-                $broken_filename_loop[] = array(    'index'                 => $i,
-                                                    'checked'               => $exact_match,
-                                                    'broken_id'             => $footprint->get_id(),
-                                                    'broken_full_path'      => $footprint->get_full_path(),
-                                                    'broken_filename'       => str_replace(BASE.'/', '', $footprint->get_filename()),
-                                                    'proposed_filenames'    => $proposed_filenames_loop);
+                $broken_filename_loop[] = array(    'index'                     => $i,
+                                                    'checked'                   => $exact_match,
+                                                    'broken_id'                 => $footprint->get_id(),
+                                                    'broken_full_path'          => $footprint->get_full_path(),
+                                                    'broken_filename'           => str_replace(BASE.'/', '', $footprint->get_filename()),
+                                                    'proposed_filenames_count'  => count($proposed_filenames_loop),
+                                                    'proposed_filenames'        => $proposed_filenames_loop);
             }
 
             $html->set_variable('broken_footprints_count', count($broken_filename_loop), 'integer');

@@ -3,7 +3,7 @@
 Damit Part-DB einwandfrei läuft, müssen folgende Kriterien erfüllt sein:
 
   * Webserver mit mindestens 15MB Platz (mit Footprint-Bilder mindestens 60MB)
-  * PHP >= 5.3.0 mit [[http://php.net/manual/de/book.pdo.php|PDO]] inkl. [[http://www.php.net/manual/de/ref.pdo-mysql.php|MySQL Plugin]]
+  * **PHP >= 5.3.0** mit [[http://php.net/manual/de/book.pdo.php|PDO]] inkl. [[http://www.php.net/manual/de/ref.pdo-mysql.php|MySQL Plugin]]
   * MySQL Datenbank mit der Speicherengine InnoDB (MariaDB wurde auch schon erfolgreich getestet)
   * Webbrowser mit JavaScript und HTML4 Unterstützung.
 
@@ -25,9 +25,9 @@ Bei der Installation von MySQL wird nach einem Passwort für den MySQL-Benutzer 
 
 <note important>
 Bei der Installation von phpMyAdmin werden Sie eventuell mit Fragen konfrontiert. Diese sollten wie folgt beantwortet werden:
-  * Frage: Welchen Webserver möchte man automatisch konfigurieren?
+  * Frage: Welchen Webserver möchten Sie automatisch konfigurieren?
     * Antwort: apache2
-  * Frage: Möchte man phpMyAdmin mit "dbconfig-common" konfigurieren?
+  * Frage: Möchten Sie phpMyAdmin mit "dbconfig-common" konfigurieren?
     * Antwort: Ja
   * Frage: Passwort des administrativen Datenbank-Benutzers?
     * Antwort: Das gleiche Passwort, das man für den Benutzer "root" bei der Installation von MySQL angegeben hat
@@ -43,9 +43,9 @@ Weitere Informationen und Installationsanleitungen gibts (speziell für Ubuntu) 
 ==== Apache konfigurieren ====
 
 <note warning>
-Part-DB verwendet ".htaccess"-Dateien, um gewisse Verzeichnisse vor unerlaubtem Zugriff zu schützen. Diese werden aber in der Standardkonfiguration von Apache meistens **nicht** berücksichtigt, was ein Sicherheitsrisiko darstellt! Sie sollten die Apache-Option "AllowOverride" unbedingt auf "All" stellen um dies zu aktivieren.
+Part-DB verwendet ".htaccess"-Dateien, um gewisse Verzeichnisse vor unerlaubtem Zugriff zu schützen. Diese werden aber in der Standardkonfiguration von Apache meistens **nicht** berücksichtigt, was ein Sicherheitsrisiko darstellt! Diese Einstellung sollte unbedingt geändert werden.
 
-Zusätzlich empfiehlt es sich, "Directory Listing" global zu deaktivieren. Dazu ersetzt man die Angabe "Options Indexes [...]" durch "Options -Indexes [...]".
+Zusätzlich empfiehlt es sich, "Directory Listing" global zu deaktivieren, damit die Dateien und Verzeichnisse des Webservers nicht über den Webbrowser durchsucht werden können.
 </note>
 
 Unter Debian/Ubuntu wird dies folgendermassen gemacht:
@@ -68,7 +68,7 @@ Die Standardeinstellungen von PHP sind in der Regel ganz in Ordnung. Möchte man
 sudo gedit /etc/php5/apache2/php.ini
 </code>
 
-In dieser Datei nach dem Stickwort "upload_max_filesize" suchen und den Wert entsprechend anpassen. Ausserdem müssen die Werte "post_max_size" und "memory_limit" mindestens gleich gross sein wie "upload_max_filesize".
+In dieser Datei nach dem Stichwort "upload_max_filesize" suchen und den Wert entsprechend anpassen. Ausserdem müssen die Werte "post_max_size" und "memory_limit" mindestens gleich gross sein wie "upload_max_filesize".
 ==== Installation überprüfen ====
 
 Ob Apache erfolgreich installiert wurde, kann man überprüfen, indem man auf dem Server die Seite http://localhost im Webbrowser aufruft. Hier muss die Meldung "It works!" erscheinen.

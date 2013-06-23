@@ -333,7 +333,7 @@ function init_path($path){
     }
 
     // check writability
-    if(!@is_writable($p)){
+    if((file_exists(DOKU_INC.'../../data/ENABLE-DOKUWIKI-WRITE-PERMS.txt')) && (!@is_writable($p))){
         return '';
     }
 

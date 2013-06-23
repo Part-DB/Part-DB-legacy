@@ -282,7 +282,7 @@
                 break;
             case UPLOAD_ERR_INI_SIZE:
                 throw new Exception('Die maximal mögliche Dateigrösse für Uploads wurde überschritten ("upload_max_filesize" in "php.ini")! '.
-                                    '<a target="_new" href="'.BASE_RELATIVE.'/documentation/dokuwiki/doku.php?id=anforderungen">Hilfe</a>');
+                                    '<a target="_blank" href="'.BASE_RELATIVE.'/documentation/dokuwiki/doku.php?id=anforderungen">Hilfe</a>');
             case UPLOAD_ERR_FORM_SIZE:
                 throw new Exception('Die maximal mögliche Dateigrösse für Uploads wurde überschritten!');
             case UPLOAD_ERR_PARTIAL:
@@ -520,31 +520,55 @@
      * this function is needed. You can pass the old filename, and you will get
      * proposed filenames. Maybe the original file can be found again this way.
      *
-     * @param string $missing_filename      The filename of the missing file (absolute UNIX path from filesystem root [only slashes]!!)
-     * @param string $search_path           The path where we will search for similar files (absolute UNIX path with slash at the end!)
+     * @param string        $missing_filename       The filename of the missing file (absolute UNIX path from filesystem root [only slashes]!!)
+     * @param string|array  $search_paths           @li The path where we will search for similar files (absolute UNIX path with slash at the end!)
+     *                                              @li An array of strings with more than one search paths
      *
      * @retval array        @li All proposed filenames as an array of strings (absolute UNIX filenames)
      *                      @li Best matches are at the beginning of the array,
      *                          worst matches are at the end of the array
      */
-    function get_proposed_filenames($missing_filename, $search_path)
+    function get_proposed_filenames($missing_filename, $search_paths)
     {
-        if (( ! is_dir($search_path)) || (mb_substr($search_path, -1, 1) != '/') || ( ! is_path_absolute_and_unix($search_path, false)))
-            throw new Exception('"'.$search_path.'" ist kein gültiges Verzeichnis!');
+        if ( ! is_array($search_paths))
+            $search_paths = array($search_paths);
 
-        if ( ! is_path_absolute_and_unix($missing_filename))
-            throw new Exception('"'.$missing_filename.'" ist kein gültiger, absoluter UNIX Dateiname!');
+        $filenames_tmp = array();
 
-        $original_path = dirname($missing_filename).'/';
-        $basename = basename($missing_filename);
+        // then, we will search in all search paths
+        foreach($search_paths as $search_path)
+        {
+            if (( ! is_dir($search_path)) || (mb_substr($search_path, -1, 1) != '/') || ( ! is_path_absolute_and_unix($search_path, false)))
+                throw new Exception('"'.$search_path.'" ist kein gültiges Verzeichnis!');
 
-        if (is_dir($original_path))
-            $filenames = find_all_files($original_path, false, $basename);
-        else
-            $filenames = array();
+            $filenames_tmp = array_merge($filenames_tmp, find_all_files($search_path, true, basename($missing_filename)));
+        }
 
-        $filenames_2 = array_diff(find_all_files($search_path, true, $basename), $filenames);
-        $filenames = array_merge($filenames, $filenames_2);
+        // remove duplicates, sort $filenames
+        $filenames_tmp = array_unique($filenames_tmp);
+        sort($filenames_tmp);
+
+        // move best matches to top
+        foreach ($filenames_tmp as $key => $filename)
+        {
+            if (basename($filename) == basename($missing_filename))
+            {
+                $filenames[] = $filename;
+                unset($filenames_tmp[$key]);
+            }
+        }
+        foreach ($filenames_tmp as $key => $filename)
+        {
+            if (pathinfo($filename, PATHINFO_FILENAME) == pathinfo($missing_filename, PATHINFO_FILENAME))
+            {
+                $filenames[] = $filename;
+                unset($filenames_tmp[$key]);
+            }
+        }
+        foreach ($filenames_tmp as $key => $filename)
+        {
+            $filenames[] = $filename;
+        }
 
         return $filenames;
     }

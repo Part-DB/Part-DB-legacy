@@ -117,7 +117,8 @@
 
                         <!--proposed filenames-->
                         <td class="tdrow0">
-                            {TMPL_IF NAME="proposed_filenames"}
+                            ({TMPL_VAR NAME="proposed_filenames_count"})
+                            {TMPL_IF NAME="proposed_filenames_count"}
                                 <select name="proposed_filename_{TMPL_VAR NAME="index"}">
                                     <option value="">Dateiname löschen und später selber von Hand setzen.</option>
                                     {TMPL_LOOP NAME="proposed_filenames"}

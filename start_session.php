@@ -68,18 +68,25 @@
     *
     *********************************************************************************/
 
-    if ((file_exists($BASE_tmp.'/config.php')) || (file_exists($BASE_tmp.'/backup')) ||
-        (file_exists($BASE_tmp.'/media')) || (file_exists($BASE_tmp.'/log')))
+    $old_config_exists = file_exists($BASE_tmp.'/config.php');
+    $old_backup_exists = file_exists($BASE_tmp.'/backup');
+    $old_media_exists = file_exists($BASE_tmp.'/media');
+    $old_log_exists = file_exists($BASE_tmp.'/log');
+
+    if (($old_config_exists) || ($old_backup_exists) || ($old_media_exists) || ($old_log_exists))
     {
-        print_messages_without_template('Part-DB', 'Update von Part-DB: Manuelle Eingriffe notwendig',
-            '<strong>Bitte verschieben Sie die folgenden Dateien und Ordner ins Verzeichnis "data": <br><br>'.
-            '"config.php" --> "data/config.php"<br>'.
-            '"backup/" --> "data/backup/"<br>'.
-            '"media/" --> "data/media/"<br>'.
-            '"log/" --> "data/log/"<br><br>'.
-            '<font color="red">WICHTIG:<br>Kopieren Sie jeweils nur den Inhalt der genannten Ordner, nicht den ganzen Ordner an sich!<br>'.
-            'Die Zielordner enthalten bereits (teilweise versteckte) Dateien, die auf keinen Fall &uuml;berschrieben werden d&uuml;rfen!<br>'.
-            'Kopieren Sie also nur den Inhalt dieser Ordner und l&ouml;schen Sie danach die Ordner "backup", "log" und "media" im Hauptverzeichnis.</font></strong>');
+        $messages = '<strong>Bitte verschieben Sie die folgenden Dateien und Ordner ins Verzeichnis "data": <br><br>';
+
+        if ($old_config_exists) {$messages .= '"config.php" --> "data/config.php"<br>';}
+        if ($old_backup_exists) {$messages .= '"backup/" --> "data/backup/"<br>';}
+        if ($old_media_exists)  {$messages .= '"media/" --> "data/media/"<br>';}
+        if ($old_log_exists)    {$messages .= '"log/" --> "data/log/"<br>';}
+
+        $messages .=    '<br><font color="red">WICHTIG:<br>Kopieren Sie jeweils nur den Inhalt der genannten Ordner, nicht den ganzen Ordner an sich!<br>'.
+                        'Die Zielordner enthalten bereits (teilweise versteckte) Dateien, die auf keinen Fall &uuml;berschrieben werden d&uuml;rfen!<br>'.
+                        'Kopieren Sie also nur den Inhalt dieser Ordner und l&ouml;schen Sie danach die alten, leeren Ordner im Hauptverzeichnis.</font></strong>';
+
+        print_messages_without_template('Part-DB', 'Update von Part-DB: Manuelle Eingriffe notwendig', $messages);
         exit;
     }
 
@@ -153,8 +160,8 @@
     {
         print_messages_without_template('Part-DB', 'Mindestanforderungen von Part-DB nicht erfüllt!',
             '<font color="red"><strong>&bull;'.implode('<br>&bull;', $messages).'</strong></font><br><br>'.
-            'Nähere Informationen gibt es in der <a target="_new" href="'.BASE_RELATIVE.
-            'documentation/dokuwiki/doku.php?id=anforderungen">Dokumentation</a>.');
+            'Nähere Informationen gibt es in der <a target="_blank" href="'.BASE_RELATIVE.
+            '/documentation/dokuwiki/doku.php?id=anforderungen">Dokumentation</a>.');
         exit;
     }
 
@@ -165,8 +172,8 @@
         foreach ($messages as $msg)
             $message .= '&bull;'.$msg.'<br>';
         $message .= '</font></strong><br><br>';
-        $message .= 'Nähere Informationen zu den Dateirechten gibt es in der <a target="_new" href="'.BASE_RELATIVE.
-                    'documentation/dokuwiki/doku.php?id=installation">Dokumentation</a>.<br><br>';
+        $message .= 'Nähere Informationen zu den Dateirechten gibt es in der <a target="_blank" href="'.BASE_RELATIVE.
+                    '/documentation/dokuwiki/doku.php?id=installation">Dokumentation</a>.<br><br>';
         $message .= '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>';
 
         print_messages_without_template('Part-DB', 'Anpassung der Rechte von Verzeichnissen und Dateien', $message);
@@ -181,8 +188,8 @@
     {
         print_messages_without_template('Part-DB', 'Ihre config.php ist fehlerhaft!',
             '<font color="red"><strong>'.$message.'</strong></font><br><br>'.
-            'Nähere Informationen gibt es in der <a target="_new" href="'.BASE_RELATIVE.
-            'documentation/dokuwiki/doku.php?id=installation">Dokumentation</a>.<br><br>'.
+            'Nähere Informationen gibt es in der <a target="_blank" href="'.BASE_RELATIVE.
+            '/documentation/dokuwiki/doku.php?id=installation">Dokumentation</a>.<br><br>'.
             '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>');
         exit;
     }

@@ -115,6 +115,8 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
     find part-db -type f -print0 | xargs -0 chmod 444
     find part-db/data -type d -print0 | xargs -0 chmod 755
     find part-db/data -type f -print0 | xargs -0 chmod 644
+    find part-db/documentation/dokuwiki/data -type d -print0 | xargs -0 chmod 755
+    find part-db/documentation/dokuwiki/data -type f -print0 | xargs -0 chmod 644
     
     # create *.tar.gz
     tar -czvf "Part-DB_$VERSION.tar.gz" "part-db/" --owner=www-data --group=www-data

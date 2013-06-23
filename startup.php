@@ -119,6 +119,27 @@
 
     /********************************************************************************
     *
+    *   Show a warning if there are footprints with broken filenames
+    *
+    *********************************************************************************/
+
+    if (( ! $fatal_error) && ( ! $database->is_update_required()))
+    {
+        try
+        {
+            if (count(Footprint::get_broken_filename_footprints($database, $current_user, $log)) > 0)
+                $html->set_variable('broken_filename_footprints', true);
+            else
+                $html->set_variable('broken_filename_footprints', false);
+        }
+        catch (Exception $e)
+        {
+            $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+        }
+    }
+
+    /********************************************************************************
+    *
     *   Show Update List (RSS Feed from Google Code) if enabled
     *
     *********************************************************************************/
@@ -141,7 +162,7 @@
                 preg_match_all("|<$row>(.*)</$row>|Usim", $string, $preg_match);
                 $$row = $preg_match[1][0];
                 // make clickable if http url
-                $$row = preg_replace('`((?:http)://\S+[[:alnum:]]/?)`si', '<a target="_new" href="\\1">\\1</a>', $$row);
+                $$row = preg_replace('`((?:http)://\S+[[:alnum:]]/?)`si', '<a target="_blank" href="\\1">\\1</a>', $$row);
                 $rss_text[]['row'] = $$row;
             }
             if (!(--$count)) break;
