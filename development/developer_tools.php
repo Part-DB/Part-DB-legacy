@@ -64,9 +64,9 @@
     function build_doxygen($trim, &$output_loop)
     {
         $output = array();
-        $output[] = 'Befehl: sh tools.sh -d';
+        $output[] = 'Befehl: ./tools.sh -d';
         $output[] = '';
-        exec('sh tools.sh -d 2>&1', $output, $return);
+        exec('./tools.sh -d 2>&1', $output, $return);
         $output[] = '';
         $output[] = 'Returncode: '.$return;
 
@@ -78,17 +78,17 @@
     function tab2spaces($trim, &$output_loop)
     {
         $output = array();
-        $output[] = 'Befehl: sh tools.sh -r';
+        $output[] = 'Befehl: ./tools.sh -r';
         $output[] = '';
-        exec('sh tools.sh -r 2>&1', $output, $return);
+        exec('./tools.sh -r 2>&1', $output, $return);
         $output[] = '';
         $output[] = 'Returncode: '.$return;
         $output[] = '';
 
         $output2 = array();
-        $output2[] = 'Befehl: sh tools.sh -t';
+        $output2[] = 'Befehl: ./tools.sh -t';
         $output2[] = '';
-        exec('sh tools.sh -t 2>&1', $output2, $return2);
+        exec('./tools.sh -t 2>&1', $output2, $return2);
         $output2[] = '';
         $output2[] = 'Returncode: '.$return2;
 
@@ -100,9 +100,9 @@
     function build_release_package($trim, &$output_loop)
     {
         $output = array();
-        $output[] = 'Befehl: sh tools.sh -p';
+        $output[] = 'Befehl: ./tools.sh -p';
         $output[] = '';
-        exec('sh tools.sh -p 2>&1', $output, $return);
+        exec('./tools.sh -p 2>&1', $output, $return);
         $output[] = '';
         $output[] = 'Returncode: '.$return;
 

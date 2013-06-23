@@ -164,16 +164,23 @@
     {
         $messages = array();
 
-        $permissions = array(   '/data/'                   => 'rwx',
-                                '/data/config.php'         => 'rw',
-                                '/data/index.html'         => 'r',
-                                '/data/.htaccess'          => 'r',
-                                '/data/backup/'            => 'rwx',
-                                '/data/backup/index.html'  => 'r',
-                                '/data/log/'               => 'rwx',
-                                '/data/log/index.html'     => 'r',
-                                '/data/media/'             => 'rwx',
-                                '/data/media/.htaccess'    => 'r');
+        $permissions = array(   // Part-DB/data
+                                '/data/'                                => 'rwx',
+                                '/data/config.php'                      => 'rw',
+                                '/data/index.html'                      => 'r',
+                                '/data/.htaccess'                       => 'r',
+                                '/data/backup/'                         => 'rwx',
+                                '/data/backup/index.html'               => 'r',
+                                '/data/log/'                            => 'rwx',
+                                '/data/log/index.html'                  => 'r',
+                                '/data/media/'                          => 'rwx',
+                                '/data/media/.htaccess'                 => 'r',
+                                // DokuWiki/data
+                                '/documentation/dokuwiki/data/'         => 'rwx',
+                                '/documentation/dokuwiki/data/cache/'   => 'rwx',
+                                '/documentation/dokuwiki/data/meta/'    => 'rwx',
+                                '/documentation/dokuwiki/data/pages/'   => 'rwx',
+                                '/documentation/dokuwiki/data/tmp/'     => 'rwx');
 
         foreach ($permissions as $filename => $needed_perms)
         {
