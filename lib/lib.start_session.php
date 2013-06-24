@@ -96,20 +96,59 @@
      */
     function own_setlocale($category, $locale)
     {
+        $charsets = array('utf8', 'UTF8', 'utf-8', 'UTF-8');
+        $base_locales = array($locale);
+
         // workaround for Windows/XAMPP:
         switch ($locale)
         {
-            case 'de_AT': $locale_xampp = 'aut'; break;
-            case 'de_CH': $locale_xampp = 'che'; break;
-            case 'de_DE': $locale_xampp = 'deu'; break;
-            case 'de_LU': $locale_xampp = 'deu'; break;
-            case 'en_GB': $locale_xampp = 'gbr'; break;
-            case 'en_US': $locale_xampp = 'usa'; break;
-            default:      $locale_xampp = $locale;
+            case 'de_AT':
+                $base_locales[] = 'german-austrian';
+                $base_locales[] = 'dea';
+                break;
+            case 'de_CH':
+                $base_locales[] = 'german-swiss';
+                $base_locales[] = 'swiss';
+                $base_locales[] = 'des';
+                break;
+            case 'de_DE':
+                $base_locales[] = 'german';
+                $base_locales[] = 'deu';
+                break;
+            case 'de_LU':
+                $base_locales[] = 'german';
+                $base_locales[] = 'deu';
+                break;
+            case 'en_GB':
+                $base_locales[] = 'english-uk';
+                $base_locales[] = 'uk';
+                $base_locales[] = 'eng';
+                break;
+            case 'en_US':
+                $base_locales[] = 'english-us';
+                $base_locales[] = 'english-usa';
+                $base_locales[] = 'english-american';
+                $base_locales[] = 'american-english';
+                $base_locales[] = 'american english';
+                $base_locales[] = 'american';
+                $base_locales[] = 'usa';
+                $base_locales[] = 'us';
+                $base_locales[] = 'enu';
+                break;
+            default:
+                break;
         }
 
-        $ret = setlocale($category, $locale.'.utf8', $locale.'.UTF8', $locale.'.utf-8', $locale.'.UTF-8', $locale, $locale_xampp);
-        return ($ret !== false);
+        $locales = array();
+        foreach ($base_locales as $base_locale)
+        {
+            foreach ($charsets as $charset)
+                $locales[] = $base_locale.'.'.$charset;
+
+            $locales[] = $base_locale;
+        }
+
+        return (setlocale($category, $locales) !== false);
     }
 
     /**

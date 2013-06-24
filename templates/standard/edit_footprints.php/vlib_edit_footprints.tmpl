@@ -61,7 +61,7 @@
                     <i>Hinweis: Sie können hier z.B. "DIP28" eintippen und übernehmen.<br>
                     Der Footprint wird dann unter "Footprints mit fehlerhaften Dateinamen" aufgelistet,<br>
                     wo Sie vorschläge für Dateinamen bekommen und so einfach übernehmen können.</i><br>
-                    <img align="middle" height="70" src="{TMPL_VAR NAME="filename"}" alt="">
+                    {TMPL_IF NAME="filename"}<img align="middle" height="70" src="{TMPL_VAR NAME="filename"}" alt="">{/TMPL_IF}
                 </td>
             </tr>
             <tr>

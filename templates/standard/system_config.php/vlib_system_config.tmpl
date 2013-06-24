@@ -135,6 +135,14 @@
                 <tr>
                     <td></td>
                     <td>
+                        <input type="checkbox" name="disable_help" {TMPL_IF NAME="disable_help"} checked{/TMPL_IF}>
+                        Menüpunkt "Hilfe" deaktivieren
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
                         <input type="checkbox" name="disable_config" {TMPL_IF NAME="disable_config"} checked{/TMPL_IF} {TMPL_IF NAME="is_online_demo"}disabled{/TMPL_IF}>
                         Menüpunkt "System" deaktivieren
                     </td>
@@ -145,14 +153,6 @@
                     <td>
                         <input type="checkbox" name="enable_debug_link" {TMPL_IF NAME="enable_debug_link"} checked{/TMPL_IF}>
                         Menüpunkt "System -> Debugging" aktivieren
-                    </td>
-                </tr>
-
-                <tr>
-                    <td></td>
-                    <td>
-                        <input type="checkbox" name="disable_help" {TMPL_IF NAME="disable_help"} checked{/TMPL_IF}>
-                        Menüpunkt "Zeige -> Hilfe" deaktivieren
                     </td>
                 </tr>
 

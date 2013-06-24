@@ -43,8 +43,10 @@
                        {TMPL_UNLESS NAME="disable_footprints"}
                            <tr>
                                <td><b>Footprint:</b></td>
-                               <td>{TMPL_VAR NAME="footprint_full_path"}
-                               <img align="middle" src="{TMPL_VAR NAME="footprint_filename"}" alt="" height="70"></td>
+                               <td>
+                                   {TMPL_VAR NAME="footprint_full_path"}<br>
+                                   {TMPL_IF NAME="footprint_filename"}<img align="middle" src="{TMPL_VAR NAME="footprint_filename"}" alt="" height="70">{/TMPL_IF}
+                               </td>
                            </tr>
                        {/TMPL_UNLESS}
 <!--                   <tr>
