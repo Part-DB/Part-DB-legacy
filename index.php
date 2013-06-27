@@ -93,12 +93,12 @@
     *
     *********************************************************************************/
 
-    // no <body></body> in header and footer because of the <frameset></frameset>
-    $html->set_meta(array('no_body' => true));
+    if (count($messages) == 0)
+        $html->set_meta(array('no_body' => true)); // no <body></body> in header and footer because of the <frameset></frameset>
 
     $html->print_header($messages, 'index.php');
 
-    if ( ! $fatal_error)
+    if (( ! $fatal_error) && (count($messages) == 0))
         $html->print_template('frameset');
 
     $html->print_footer();

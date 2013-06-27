@@ -20,36 +20,40 @@
     <base target="_self">
 </head>
 
-{TMPL_UNLESS NAME="no_body"}<body class="body" onload="{TMPL_VAR NAME="body_onload"}">{/TMPL_UNLESS}
+{TMPL_UNLESS NAME="no_body"}
 
-{TMPL_IF NAME="messages"}
-    <div class="outer">
-        {TMPL_IF NAME="messages_div_title"}<h2>{TMPL_VAR NAME="messages_div_title"}</h2>{/TMPL_IF}
-        {TMPL_IF NAME="messages_div_title"}<div class="inner">{/TMPL_IF}
-            <form action="" method="post">
-                {TMPL_LOOP NAME="messages"}
-                    {TMPL_IF NAME="text"}
-                        {TMPL_IF NAME="strong"}<strong>{/TMPL_IF}
-                        {TMPL_IF NAME="color"}<font color="{TMPL_VAR NAME="color"}">{/TMPL_IF}
-                        {TMPL_VAR NAME="text" ESCAPE="HTML"}
-                        {TMPL_IF NAME="color"}</font>{/TMPL_IF}
-                        {TMPL_IF NAME="strong"}</strong>{/TMPL_IF}
+    <body class="body" onload="{TMPL_VAR NAME="body_onload"}">
+
+    {TMPL_IF NAME="messages"}
+        <div class="outer">
+            {TMPL_IF NAME="messages_div_title"}<h2>{TMPL_VAR NAME="messages_div_title"}</h2>{/TMPL_IF}
+            {TMPL_IF NAME="messages_div_title"}<div class="inner">{/TMPL_IF}
+                <form action="" method="post">
+                    {TMPL_LOOP NAME="messages"}
+                        {TMPL_IF NAME="text"}
+                            {TMPL_IF NAME="strong"}<strong>{/TMPL_IF}
+                            {TMPL_IF NAME="color"}<font color="{TMPL_VAR NAME="color"}">{/TMPL_IF}
+                            {TMPL_VAR NAME="text" ESCAPE="HTML"}
+                            {TMPL_IF NAME="color"}</font>{/TMPL_IF}
+                            {TMPL_IF NAME="strong"}</strong>{/TMPL_IF}
+                        {/TMPL_IF}
+
+                        {TMPL_IF NAME="html"}
+                            {TMPL_VAR NAME="html" ESCAPE="none"}
+                        {/TMPL_IF}
+
+                        {TMPL_IF NAME="no_linebreak"}{TMPL_ELSE}<br>{/TMPL_IF}
+                    {/TMPL_LOOP}
+
+                    {TMPL_IF NAME="reload_link"}
+                        <br>
+                        <a href="{TMPL_VAR NAME="reload_link"}">
+                            <button>Seite neu laden</button>
+                        </a>
                     {/TMPL_IF}
+                </form>
+            {TMPL_IF NAME="messages_div_title"}</div>{/TMPL_IF}
+        </div>
+    {/TMPL_IF}
 
-                    {TMPL_IF NAME="html"}
-                        {TMPL_VAR NAME="html" ESCAPE="none"}
-                    {/TMPL_IF}
-
-                    {TMPL_IF NAME="no_linebreak"}{TMPL_ELSE}<br>{/TMPL_IF}
-                {/TMPL_LOOP}
-
-                {TMPL_IF NAME="reload_link"}
-                    <br>
-                    <a href="{TMPL_VAR NAME="reload_link"}">
-                        <button>Seite neu laden</button>
-                    </a>
-                {/TMPL_IF}
-            </form>
-        {TMPL_IF NAME="messages_div_title"}</div>{/TMPL_IF}
-    </div>
-{/TMPL_IF}
+{/TMPL_UNLESS}
