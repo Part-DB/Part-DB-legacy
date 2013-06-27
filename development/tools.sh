@@ -91,7 +91,7 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
     mkdir development/package_output/part-db/
     
     # copy all needed files to development/package_output/part-db/
-    find . -not \(      -path "./.svn*" \
+    find . -not \(      -path "*/.svn*" \
                     -o  -path "./development*" \
                     -o  -path "./documentation/dokuwiki/data/cache/*" \
                     -o  -path "./documentation/dokuwiki/data/tmp/*" \

@@ -32,7 +32,10 @@
             &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" href="{TMPL_VAR NAME="packing_checklist_link"}">Checkliste</a>
             <br>
             <input type="checkbox" name="trim_exec_output" checked>Ausgabe stutzen (nur die ersten und letzten 20 Einträge anzeigen)<br>
-            <input type="submit" name="build_release_package" value="Paket erstellen">
+            {TMPL_IF NAME="release_archive_link"}
+                <input type="submit" name="delete_release_package" value="Paket löschen">
+            {/TMPL_IF}
+            <input type="submit" name="build_release_package" value="Paket neu erstellen">
             <i>Der Vorgang kann mehrere Minuten in Anspruch nehmen!</i>
         </form>
     </div>

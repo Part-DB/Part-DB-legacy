@@ -123,6 +123,7 @@
     if (isset($_REQUEST["build_doxygen"]))          {$action = 'build_doxygen';}
     if (isset($_REQUEST["tab2spaces"]))             {$action = 'tab2spaces';}
     if (isset($_REQUEST["build_release_package"]))  {$action = 'build_release_package';}
+    if (isset($_REQUEST["delete_release_package"])) {$action = 'delete_release_package';}
 
     /********************************************************************************
     *
@@ -151,6 +152,8 @@
     *
     *********************************************************************************/
 
+    $release_package_filename = BASE.'/development/package_output/Part-DB_'.$config['system']['version'].'.tar.gz';
+
     if ( ! $fatal_error)
     {
         switch ($action)
@@ -166,6 +169,10 @@
             case 'build_release_package':
                 $release_packing_successful = build_release_package($trim_exec_output, $release_packing_output_loop);
                 break;
+
+            case 'delete_release_package':
+                unlink($release_package_filename);
+                break;
         }
     }
 
@@ -176,8 +183,6 @@
     *********************************************************************************/
 
     $html->set_variable('current_system_version', $config['system']['version'], 'string');
-
-    $release_package_filename = BASE.'/development/package_output/Part-DB_'.$config['system']['version'].'.tar.gz';
 
     if (file_exists($release_package_filename))
     {
