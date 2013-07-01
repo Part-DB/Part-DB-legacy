@@ -533,6 +533,7 @@
         if ( ! is_array($search_paths))
             $search_paths = array($search_paths);
 
+        $filenames = array();
         $filenames_tmp = array();
 
         // then, we will search in all search paths
