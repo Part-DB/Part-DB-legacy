@@ -173,6 +173,7 @@
                         break;
                     case 'part_price':
                         $value = isset($_REQUEST['price_'.$i]) ? $_REQUEST['price_'.$i] : $import_data_default_values[$column];
+                        $value = str_replace(',', '.', $value); // TODO: use the PHP class "NumberFormatter"
                         break;
 
                     // import device parts
@@ -193,7 +194,11 @@
                     default:
                         throw new Exception('Unbekannte Spalte: '.$column);
                 }
+
                 settype($value, $import_data_column_datatypes[$column]);
+                if (is_string($value))
+                    $value = trim($value);
+
                 $data_row[$column] = $value;
             }
             $data[] = $data_row;

@@ -33,17 +33,6 @@
      * This site is used for editing an existing part.
      * But it is also used for creating new parts,
      * because this way we don't have to create another, quite similar site.
-     *
-     * If this site is called from "show_category_parts.php",
-     * the category ID is passed, but no part ID.
-     * This constellation means that we will create a new part.
-     *
-     * In order that we can add orderdetails and files to a part,
-     * the part has to exist at that moment. So we will create a new part
-     * directly after calling this site (with a name like "new part").
-     *
-     * If the user want to abort the creating process, we have to delete the part.
-     *
      */
 
     include_once('start_session.php');
@@ -88,7 +77,7 @@
 
     // section: pricedetails
     $pricedetails_id            = isset($_REQUEST['pricedetails_id'])           ? (integer)$_REQUEST['pricedetails_id']          : 0;
-    $new_price                  = isset($_REQUEST['price'])                     ? (float)$_REQUEST['price']                      : 0;
+    $new_price                  = isset($_REQUEST['price'])                     ? (float)str_replace(',', '.', $_REQUEST['price']) : 0; // TODO: use the PHP class "NumberFormatter"
     $new_min_discount_quantity  = isset($_REQUEST['min_discount_quantity'])     ? (integer)$_REQUEST['min_discount_quantity']    : 1;
     $new_price_related_quantity = isset($_REQUEST['price_related_quantity'])    ? (integer)$_REQUEST['price_related_quantity']   : 1;
 

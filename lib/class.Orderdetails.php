@@ -62,6 +62,8 @@
         *
         *********************************************************************************/
 
+        /** @brief (Part) the part of this orderdetails */
+        private $part           = NULL;
         /** @brief (Supplier) the supplier of this orderdetails */
         private $supplier       = NULL;
         /** @brief (array) all pricedetails of this orderdetails, as a one-dimensional array of Pricedetails objects */
@@ -94,6 +96,7 @@
          */
         public function reset_attributes($all = false)
         {
+            $this->part             = NULL;
             $this->supplier         = NULL;
             $this->pricedetails     = NULL;
 
@@ -123,6 +126,8 @@
                 foreach ($all_pricedetails as $pricedetails)
                     $pricedetails->delete();
 
+                $this->get_part()->set_attributes(array()); // save part attributes to update its "last_modified"
+
                 // now we can delete this orderdetails
                 parent::delete();
 
@@ -144,6 +149,24 @@
         *   Getters
         *
         *********************************************************************************/
+
+        /**
+         * @brief Get the part
+         *
+         * @retval Part     the part of this orderdetails
+         *
+         * @throws Exception if there was an error
+         */
+        public function get_part()
+        {
+            if ( ! is_object($this->part))
+            {
+                $this->part = new Part($this->database, $this->current_user,
+                                                $this->log, $this->db_data['part_id']);
+            }
+
+            return $this->part;
+        }
 
         /**
          * @brief Get the supplier
@@ -336,6 +359,7 @@
             try
             {
                 $part = new Part($database, $current_user, $log, $values['part_id']);
+                $part->set_attributes(array()); // save part attributes to update its "last_modified"
             }
             catch (Exception $e)
             {

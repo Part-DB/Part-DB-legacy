@@ -53,6 +53,8 @@
         *
         *********************************************************************************/
 
+        /** @brief (object) the element of this attachement (for example a "Part" object) */
+        private $element          = NULL;
         /** (AttachementType) the type of this attachement */
         private $attachement_type = NULL;
 
@@ -83,6 +85,7 @@
          */
         public function reset_attributes($all = false)
         {
+            $this->element          = NULL;
             $this->attachement_type = NULL;
 
             parent::reset_attributes($all);
@@ -144,6 +147,8 @@
                     $part->set_master_picture_attachement_id(NULL);
                 }
 
+                $this->get_element()->set_attributes(array()); // save element attributes to update its "last_modified"
+
                 // Now we can delete the database record of this attachement
                 parent::delete();
 
@@ -189,6 +194,24 @@
         *   Getters
         *
         *********************************************************************************/
+
+        /**
+         * @brief Get the element (for example a "Part" object)
+         *
+         * @retval object     the element of this attachement
+         *
+         * @throws Exception if there was an error
+         */
+        public function get_element()
+        {
+            if ( ! is_object($this->element))
+            {
+                $this->element = new $this->db_data['class_name'] ($this->database, $this->current_user,
+                                                $this->log, $this->db_data['element_id']);
+            }
+
+            return $this->element;
+        }
 
         /**
          * @brief Get the filename (absolute path from filesystem root, as a UNIX path [only slashes])
@@ -389,6 +412,7 @@
                     throw new Exception('"element_id" ist Null!');
 
                 $element = new $values['class_name'] ($database, $current_user, $log, $values['element_id']);
+                $element->set_attributes(array()); // save element attributes to update its "last_modified"
             }
             catch (Exception $e)
             {

@@ -121,6 +121,9 @@
                                         'wenn es sonst keine weiteren Preisinformationen gibt!');
             }
 
+            // save orderdetails attributes to update its "last_modified" and "last_modified" of the part
+            $this->get_orderdetails()->set_attributes(array());
+
             // now we can delete this orderdetails
             parent::delete();
         }
@@ -286,6 +289,9 @@
             try
             {
                 $orderdetails = new Orderdetails($database, $current_user, $log, $values['orderdetails_id']);
+
+                // save orderdetails attributes to update its "last_modified" and "last_modified" of the part
+                $orderdetails->set_attributes(array());
             }
             catch (Exception $e)
             {

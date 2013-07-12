@@ -1766,6 +1766,9 @@
                                         'manual_order'                  => false,
                                         'order_orderdetails_id'         => NULL,
                                         'order_quantity'                => 1));
+                                        // the column "datetime_added" will be automatically filled by MySQL
+                                        // the column "last_modified" will be filled in the function check_values_validity()
+
         }
 
     }
