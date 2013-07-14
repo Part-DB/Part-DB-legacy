@@ -139,6 +139,8 @@
                 break;
         }
 
+        $base_locales[] = 'C';
+
         $locales = array();
         foreach ($base_locales as $base_locale)
         {

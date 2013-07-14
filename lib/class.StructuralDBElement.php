@@ -29,6 +29,7 @@
         2012-08-??  kami89          - created
         2012-09-28  kami89          - added doxygen comments
         2013-01-29  kami89          - added support for transactions in "delete()"
+        2013-07-14  kami89          - added function "is_child_of()"
 */
 
      /**
@@ -172,6 +173,31 @@
                 $this->reset_attributes();
 
                 throw new Exception("Das Element \"".$this->get_name()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
+            }
+        }
+
+        /**
+         * @brief Check if this element is a child of another element (recursive)
+         *
+         * @param object $another_element       the object to compare
+         *                                      IMPORTANT: both objects to compare must be from the same class (for example two "Device" objects)!
+         *
+         * @retval true|false
+         *
+         * @throws Exception if there was an error
+         */
+        public function is_child_of($another_element)
+        {
+            if ($this->get_id() == NULL) // this is the root node
+            {
+                return false;
+            }
+            else
+            {
+                $class_name = get_class($this);
+                $parent_element = new $class_name($this->database, $this->current_user, $this->log, $this->get_parent_id());
+
+                return (($parent_element->get_id() == $another_element->get_id()) || ($parent_element->is_child_of($another_element)));
             }
         }
 
