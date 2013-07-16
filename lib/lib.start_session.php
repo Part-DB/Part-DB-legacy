@@ -135,11 +135,11 @@
                 $base_locales[] = 'us';
                 $base_locales[] = 'enu';
                 break;
+            case 'POSIX':
+                $base_locales[] = 'C';
             default:
                 break;
         }
-
-        $base_locales[] = 'C';
 
         $locales = array();
         foreach ($base_locales as $base_locale)
@@ -150,7 +150,9 @@
             $locales[] = $base_locale;
         }
 
-        return (setlocale($category, $locales) !== false);
+        $retval = setlocale($category, $locales);
+
+        return (($retval !== false) || ($locale == 'POSIX'));
     }
 
     /**

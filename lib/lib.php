@@ -339,7 +339,7 @@
             throw new Exception('Das eingegebene Administratorpasswort ist nicht korrekt!');
 
         if (mb_strlen($new_password_1) < 4)
-            throw new Exception('Das neue Passwort muss mindestens 4 Zeichen lange sein!');
+            throw new Exception('Das neue Passwort muss mindestens 4 Zeichen lang sein!');
 
         if ($new_password_1 !== $new_password_2)
             throw new Exception('Die neuen Passwörter stimmen nicht überein!');
@@ -464,20 +464,19 @@
             $language = $config['language'];
 
         // get the money format from config(_defaults).php
-        $format = $config['money_format'][$language];
+        $format = isset($config['money_format'][$language]) ? $config['money_format'][$language] : (($language == $config['language']) ? '%n' : '%i');
 
         if ($language != $config['language'])
         {
             // change locale, because the $language is not the default language!
-            if ( ! setlocale(LC_MONETARY, $language.'.utf8', $language.'.UTF8', $language.'.utf-8', $language.'.UTF-8', $language))
+            if ( ! own_setlocale(LC_MONETARY, $language))
                 debug('error', 'Sprache "'.$language.'" kann nicht gesetzt werden!', __FILE__, __LINE__, __METHOD__);
         }
 
         $result = trim(money_format($format, $number));
 
         if ($language != $config['language'])
-            setlocale(LC_MONETARY,  $config['language'].'.utf8', $config['language'].'.UTF8', $config['language'].'.utf-8',
-                                    $config['language'].'.UTF-8', $config['language']); // change locale back to default
+            own_setlocale(LC_MONETARY,  $config['language']); // change locale back to default
 
         return $result;
     }

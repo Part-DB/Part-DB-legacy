@@ -196,6 +196,7 @@
     $config['timezones']['Europe/Zurich']                   = 'Europe/Zurich';
 
     // languages (the key is used for "setlocale()", the value is only used for displaying)
+    $config['languages']['POSIX']                           = '[POSIX] C-Standard';
     $config['languages']['de_AT']                           = '[de_AT] Deutsch (Österreich)';
     $config['languages']['de_BE']                           = '[de_BE] Deutsch (Belgien)';
     $config['languages']['de_CH']                           = '[de_CH] Deutsch (Schweiz)';
@@ -204,16 +205,6 @@
     $config['languages']['de_LU']                           = '[de_LU] Deutsch (Luxemburg)';
     $config['languages']['en_GB']                           = '[en_GB] English (United Kingdom)';
     $config['languages']['en_US']                           = '[en_US] Endlish (United States)';
-
-    // currency formats (for every language there must be a currency format!)
-    $config['money_format']['de_AT']                        = '%n';
-    $config['money_format']['de_BE']                        = '%n';
-    $config['money_format']['de_CH']                        = '%!n Fr.';
-    $config['money_format']['de_DE']                        = '%n';
-    $config['money_format']['de_LI']                        = '%n';
-    $config['money_format']['de_LU']                        = '%n';
-    $config['money_format']['en_GB']                        = '%i';
-    $config['money_format']['en_US']                        = '%i';
 
     // table settings
     $config['table']['category_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment';
