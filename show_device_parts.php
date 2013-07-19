@@ -320,7 +320,7 @@
                     'name'                  => $subdevice->get_name(),
                     'parts_count'           => $subdevice->get_parts_count(),
                     'parts_sum_count'       => $subdevice->get_parts_sum_count(),
-                    'sum_price'             => $subdevice->get_total_price(true)
+                    'sum_price'             => $subdevice->get_total_price(true, false)
                     );
 
                 $row_odd = ! $row_odd;
@@ -349,7 +349,7 @@
             $device_parts_loop = DevicePart::build_template_table_array($device_parts, 'device_parts');
 
             $html->set_variable('device_parts_rowcount', count($device_parts), 'integer');
-            $html->set_variable('sum_price', float_to_money_string($device->get_total_price()), 'string');
+            $html->set_variable('sum_price', $device->get_total_price(true, false), 'string');
         }
         catch (Exception $e)
         {

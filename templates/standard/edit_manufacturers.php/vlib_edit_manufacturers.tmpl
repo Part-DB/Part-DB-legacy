@@ -81,6 +81,9 @@
                     E-Mail Adresse:
                 </td>
                 <td>
+                    {TMPL_IF NAME="email_address"}
+                    <a href="mailto:{TMPL_VAR NAME="email_address"}">{TMPL_VAR NAME="email_address"}</a><br>
+                    {/TMPL_IF}
                     <input type="text" name="email_address" value="{TMPL_VAR NAME="email_address"}">
                 </td>
             </tr>

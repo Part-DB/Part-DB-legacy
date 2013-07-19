@@ -200,16 +200,20 @@
             case 'apply_attributes':
                 try
                 {
-                    $part->set_attributes(array(    'name'              => $new_name,
+                    $new_attributes = array(        'name'              => $new_name,
                                                     'description'       => $new_description,
-                                                    'id_manufacturer'   => $new_manufacturer_id,
                                                     'instock'           => $new_instock,
                                                     'mininstock'        => $new_mininstock,
                                                     'id_category'       => $new_category_id,
                                                     'id_storelocation'  => $new_storelocation_id,
-                                                    'id_footprint'      => $new_footprint_id,
                                                     'visible'           => $new_visible,
-                                                    'comment'           => $new_comment));
+                                                    'comment'           => $new_comment);
+
+                    // do not overwrite (remove!) the footprint or manufacturer if they are disabled (global or in the part's category)
+                    if (isset($_REQUEST['footprint_id']))       {$new_attributes['id_footprint']    = $new_footprint_id;}
+                    if (isset($_REQUEST['manufacturer_id']))    {$new_attributes['id_manufacturer'] = $new_manufacturer_id;}
+
+                    $part->set_attributes($new_attributes);
                 }
                 catch (Exception $e)
                 {
