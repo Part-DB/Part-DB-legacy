@@ -207,7 +207,10 @@
          */
         static function usort_compare($part_1, $part_2)
         {
-            return strcasecmp($part_1->get_name(), $part_2->get_name());
+            if ($part_1->get_name() != $part_2->get_name())
+                return strcasecmp($part_1->get_name(), $part_2->get_name());
+            else // names are identical, so we compare the description of the parts
+                return strcasecmp($part_1->get_description(), $part_2->get_description());
         }
 
     }

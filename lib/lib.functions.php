@@ -126,7 +126,8 @@
                 {
                     $value[0] = str_repeat($flags['fillchar'], $left - $n) . $value[0];
                 }
-                $value = implode($locale['mon_decimal_point'], $value);
+                //$value = implode($locale['mon_decimal_point'], $value);
+                $value = (is_array($value) ? implode($locale['mon_decimal_point'], $value) : '');
                 if ($locale["{$letter}_cs_precedes"])
                 {
                     $value = $prefix . $currency . $space . $value . $suffix;

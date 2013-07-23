@@ -83,13 +83,15 @@
     </div>
 </div>
 
-{TMPL_IF NAME="update_list"}
+{TMPL_IF NAME="rss_feed_loop"}
 <div class="outer">
     <h2>Updates</h2>
     <div class="inner small">
-    {TMPL_LOOP NAME="update_list"}
-        {TMPL_VAR NAME="row" ESCAPE="none"}<br>
-    {/TMPL_LOOP}
+        {TMPL_LOOP NAME="rss_feed_loop"}
+            <b>{TMPL_VAR NAME="title"}</b><br>
+            {TMPL_VAR NAME="datetime"}<br>
+            <a href="{TMPL_VAR NAME="link"}" target="_blank">{TMPL_VAR NAME="link"}</a><br><br>
+        {/TMPL_LOOP}
     <br>
     </div>
 </div>

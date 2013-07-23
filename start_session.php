@@ -129,16 +129,27 @@
     // Example (Windows):       "C:/wamp/www"
     if (isset($config['DOCUMENT_ROOT']))
         define('DOCUMENT_ROOT', $config['DOCUMENT_ROOT']);
-    else
+    elseif (isset($_SERVER['DOCUMENT_ROOT']))
         define('DOCUMENT_ROOT', rtrim(str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']), '/'));
+    elseif (isset($_SERVER['SCRIPT_FILENAME']) && isset($_SERVER['PHP_SELF']))
+        define('DOCUMENT_ROOT', rtrim(str_replace('\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF'])))));
+    elseif (isset($_SERVER['PATH_TRANSLATED']) && isset($_SERVER['PHP_SELF']))
+        define('DOCUMENT_ROOT', rtrim(str_replace('\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0-strlen($_SERVER['PHP_SELF'])))));
+    else
+    {
+        $messages = 'Die Konstante "DOCUMENT_ROOT" konnte auf Ihrem Server nicht ermittelt werden.<br>'.
+                    'Bitte definieren Sie diese Konstante manuell in Ihrer Konfigurationsdatei "data/config.php".';
+        print_messages_without_template('Part-DB', 'DOCUMENT_ROOT kann nicht ermittelt werden', $messages);
+        exit;
+    }
 
     // the part-db installation directory without document root, without slash at the end
     // Example (UNIX/Linux):    "/part-db"
     // Example (Windows):       "/part-db"
     if (isset($config['BASE_RELATIVE']))
         define('BASE_RELATIVE', $config['BASE_RELATIVE']);
-    elseif (mb_strpos(BASE, DOCUMENT_ROOT) === false)   // workaround for STRATO servers (see german post on uC.net:
-        define('BASE_RELATIVE', '.');                                                       // http://www.mikrocontroller.net/topic/269289#3152928)
+    elseif (mb_strpos(BASE, DOCUMENT_ROOT) === false)   // workaround for STRATO servers, see german post on uC.net:
+        define('BASE_RELATIVE', '.');                   // http://www.mikrocontroller.net/topic/269289#3152928
     else
         define('BASE_RELATIVE', str_replace(DOCUMENT_ROOT, '', BASE));
 

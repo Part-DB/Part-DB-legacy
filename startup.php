@@ -146,30 +146,40 @@
 
     if (( ! $fatal_error) && ( ! $config['startup']['disable_update_list']))
     {
-        $rss_file = implode(' ', file('http://code.google.com/feeds/p/part-db/downloads/basic'));
-        $rss_rows = array('title', 'updated', 'id');
-        $rss_array = explode('<entry>', $rss_file);
+        $feed_link = 'http://code.google.com/feeds/p/part-db/downloads/basic';
+        $item_count = 4;
 
-        // show only the last actual versions
-        $count = 4;
-        $rss_text = array();
-        foreach ($rss_array as $string)
+        try
         {
-            // show all lines from rss feed
-            foreach ($rss_rows as $row)
+            $rss_loop = array();
+            $feed_content = curl_get_data($feed_link);
+            $xml = simplexml_load_string($feed_content);
+
+            $rss_loop[] = array('title' => $xml->title, 'datetime' => $xml->updated, 'link' => $xml->id);
+
+            $item_index = 1;
+            foreach ($xml->entry as $entry)
             {
-                // find tags
-                preg_match_all("|<$row>(.*)</$row>|Usim", $string, $preg_match);
-                $$row = $preg_match[1][0];
-                // make clickable if http url
-                $$row = preg_replace('`((?:http)://\S+[[:alnum:]]/?)`si', '<a target="_blank" href="\\1">\\1</a>', $$row);
-                $rss_text[]['row'] = $$row;
+                if ($item_index >= $item_count)
+                    break;
+
+                $link = '';
+                foreach ($entry->link as $link_entry)
+                {
+                    if ($link_entry->attributes()['rel'] == 'alternate')
+                        $link = $link_entry->attributes()['href'];
+                }
+
+                $rss_loop[] = array('title' => $entry->title, 'datetime' => $entry->updated, 'link' => $link);
+                $item_index++;
             }
-            if (!(--$count)) break;
-            $rss_text[]['row'] = '';
+        }
+        catch (Exception $e)
+        {
+            $rss_loop = array(array('title' => $e->getMessage()));
         }
 
-        $html->set_loop('update_list', $rss_text);
+        $html->set_loop('rss_feed_loop', $rss_loop);
     }
 
     /********************************************************************************
