@@ -90,7 +90,8 @@
         {TMPL_LOOP NAME="rss_feed_loop"}
             <b>{TMPL_VAR NAME="title"}</b><br>
             {TMPL_VAR NAME="datetime"}<br>
-            <a href="{TMPL_VAR NAME="link"}" target="_blank">{TMPL_VAR NAME="link"}</a><br><br>
+            <a href="{TMPL_VAR NAME="link"}" target="_blank">{TMPL_VAR NAME="link"}</a>
+            {TMPL_UNLESS NAME="__LAST__"}<br><br>{/TMPL_UNLESS}
         {/TMPL_LOOP}
     <br>
     </div>

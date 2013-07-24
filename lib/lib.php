@@ -493,7 +493,7 @@
      */
     function curl_get_data($url)
     {
-        if ( ! function_exists('curl_init'))
+        if ( ! extension_loaded('curl'))
             throw new Exception('"curl" scheint auf ihrem System nicht installiert zu sein! '.
                                 "\nBitte installieren Sie das entsprechende Modul, ".
                                 'oder es werden gewisse Funktionen nicht zur Verfügung stehen.');

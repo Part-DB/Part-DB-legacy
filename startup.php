@@ -152,8 +152,28 @@
         try
         {
             $rss_loop = array();
-            $feed_content = curl_get_data($feed_link);
+            $feed_content = '';
+
+            try
+            {
+                $feed_content = curl_get_data($feed_link);
+            }
+            catch (Exception $e)
+            {
+                $feed_content = file_get_contents($feed_link);
+            }
+
+            if (strlen($feed_content) == 0)
+                throw new Exception('Der RSS-Feed konnte nicht aus dem Internet heruntergeladen werden. '.
+                                    'Prüfen Sie bitte, ob Ihre PHP Konfiguration das Herunterladen aus dem Internet zulässt.');
+
+            if ( ! class_exists('SimpleXMLElement'))
+                throw new Exception('Die Klasse "SimpleXMLElement" ist nicht vorhanden!');
+
             $xml = simplexml_load_string($feed_content);
+
+            if ( ! is_object($xml))
+                throw new Exception('Das SimpleXMLElement konnte nicht erzeugt werden!');
 
             $rss_loop[] = array('title' => $xml->title, 'datetime' => $xml->updated, 'link' => $xml->id);
 
