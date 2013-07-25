@@ -9,3 +9,15 @@ Part-DB legt die eingegebenen Daten (Artikel, Lagerorte usw.) in einer MySQL Dat
 ????? Warum kann Ich nur Dateien bis maximal #MB hochladen? ?????
 
 Die maximale Dateigrösse für Uploads wird nicht von Part-DB beschränkt, sondern vom Server. Betreibt man Part-DB auf dem Server eines Hosters, muss man dessen Support in Anspruch nehmen um abzuklären wie man das Limit hochsetzen kann. Betreibt man Part-DB auf einem eigenen Server, ist in [[Anforderungen#PHP konfigurieren|dieser Anleitung]] beschrieben, wie man PHP für grössere Uploads konfigurieren kann.
+
+????? Die Startseite braucht sehr lange zum laden, was kann ich dagegen tun? ?????
+
+Auf der Startseite wird standardmässig der RSS-Feed der Part-DB Downloads angezeigt, damit Sie direkt sehen wenn es neue Versionen gibt. Allerdings wird dazu bei jedem Aufruf der Startseite der RSS-Feed von der Google Code Seite heruntergeladen, was jedes Mal einen kurzen Moment dauert. Bei einer langsamen Internetverbindung kann dies die Ladezeit erheblich verlängern. Dies lässt sich vermeiden, indem man den RSS-Feed deaktiviert. Dazu aktiviert man unter "System" -> "Konfiguration" die Checkbox "Updateliste (RSS-Feed) auf Startseite verstecken".
+
+????? Ich möchte in den Artikel-Tabellen andere Spalten haben, ist das möglich? ?????
+
+Ja, man kann die Spalten in der Konfigurationsdatei "config.php" selber definieren. Dazu öffnet man die Datei "config_defaults.php". Dort gibt es mehrere Zeilen, die mit "$config['table']" beginnen. Jede dieser Zeilen definiert die Spalten für eine spezifische Tabelle. Kopieren Sie diejenigen Zeilen, die sie ändern möchten, in die Datei "data/config.php" (ACHTUNG: Ändern Sie die Zeilen NICHT in der "config_defaults.php"!). In der "config.php" muss der Beginn dieser Zeilen von "$config" in "$manual_config" geändert werden. Nun können Sie die Werte dieser Variablen ändern, um die Spalten anzupassen. Die verfügbaren Spalten sind in der "config_defaults.php" aufgelistet. Achtung: Zur Zeit werden nicht alle Spalten auf jeder Seite unterstützt (z.B. die +/- Buttons funktionieren bisher nur auf einer Seite).
+
+????? Footprints: Das Zuweisen von Bildern ist mühsam, geht das nicht einfacher? ?????
+
+Im Moment geht das leider nicht einfacher. Der einzige Workaround wird im Hinweistext unter dem Textfeld des Dateipfades für das Bild erklärt. In späteren Versionen von Part-DB wird dieses Manko allerdings korrigiert, es wird nämlich einen Dialog zum Auswählen einer Bilddatei geben.

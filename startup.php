@@ -183,11 +183,12 @@
                 if ($item_index >= $item_count)
                     break;
 
-                $link = '';
+                $link = 'FEHLER - Kein Link im RSS-Feed gefunden!';
                 foreach ($entry->link as $link_entry)
                 {
-                    if ($link_entry->attributes()['rel'] == 'alternate')
-                        $link = $link_entry->attributes()['href'];
+                    $attributes = $link_entry->attributes();
+                    if (isset($attributes['rel']) && ($attributes['rel'] == 'alternate') && isset($attributes['href']))
+                        $link = $attributes['href'];
                 }
 
                 $rss_loop[] = array('title' => $entry->title, 'datetime' => $entry->updated, 'link' => $link);

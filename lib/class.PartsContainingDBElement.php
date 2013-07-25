@@ -168,7 +168,7 @@
             {
                 $this->parts = array();
 
-                $query = 'SELECT id FROM parts WHERE '.$parts_rowname.'=? ORDER BY name';
+                $query = 'SELECT id FROM parts WHERE '.$parts_rowname.'=? ORDER BY name, description';
                 $query_data = $this->database->query($query, array($this->get_id()));
 
                 foreach ($query_data as $row)

@@ -207,6 +207,8 @@
     $config['languages']['en_US']                           = '[en_US] Endlish (United States)';
 
     // table settings
+    // available columns:       hover_picture,id,name,description,name_description,comment,instock,mininstock,instock_mininstock,category,footprint,manufacturer,
+    //                          storelocation, suppliers,datasheets,button_increment,button_decrement,average_single_price,single_prices,supplier_partnrs,attachements
     $config['table']['category_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment';
     $config['table']['search_parts']['columns']             = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices;datasheets;attachements;button_decrement;button_increment';
     $config['table']['obsolete_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices';
