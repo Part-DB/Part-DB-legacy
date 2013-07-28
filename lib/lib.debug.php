@@ -76,8 +76,24 @@
         if ( ! $config['debug']['enable'])
             return;
 
-        if ( ! is_readable(DEBUG_LOG_FILENAME))
+        if ( ! file_exists(DEBUG_LOG_FILENAME))
             return;
+
+        if ( ! is_readable(DEBUG_LOG_FILENAME))
+        {
+            if ($silent)
+                return;
+            else
+                throw new Exception('Die Debug-Log Datei ist nicht lesbar!');
+        }
+
+        if ( ! is_writable(DEBUG_LOG_FILENAME))
+        {
+            if ($silent)
+                return;
+            else
+                throw new Exception('Die Debug-Log Datei ist nicht beschreibbar!');
+        }
 
         $file = str_replace(BASE, '', $file); // we don't need the whole filename, the relative path is enought
 

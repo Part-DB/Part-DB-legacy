@@ -1,3 +1,15 @@
+<script language="JavaScript">
+    function toggle_all_checkboxes(source, prefix)
+    {
+        for(var i=0, n={TMPL_VAR NAME="table_rowcount"};i<n;i++)
+        {
+            var elements = document.getElementsByName(prefix + i);
+            if (elements.length > 0)
+                elements[0].checked = source.checked;
+        }
+    }
+</script>
+
 <div class="outer">
     <h2>Lieferant wählen</h2>
     <div class="inner">
@@ -32,6 +44,11 @@
             <b>Gesamtpreis: {TMPL_VAR NAME="sum_price"}</b><br>
             <br>
             <input type="hidden" name="selected_supplier_id" value="{TMPL_VAR NAME="selected_supplier_id"}">
+
+            Alle an/abwählen:&nbsp;&nbsp;
+            <input type="checkbox" onClick="toggle_all_checkboxes(this, 'tostock_')"/>Einbuchen &nbsp;&nbsp;&nbsp;
+            <input type="checkbox" onClick="toggle_all_checkboxes(this, 'remove_')"/>Aus Liste löschen (für manuell zum Bestellen markierte Artikel)
+            <br>
             <input type="submit" name="apply_changes" value="Änderungen übernehmen">
             <input type="submit" name="abort" value="Änderungen verwerfen">
             <input type="submit" name="autoset_quantities" value="Bestellmengen automatisch setzen">
