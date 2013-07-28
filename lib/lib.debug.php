@@ -271,8 +271,9 @@
             return;
         }
 
-        // to activate the debug log, we have to check the admin password
-        if ( ! is_admin_password($admin_password))
+        // to activate the debug log, we have to check the admin password.
+        // or, for online demos, it's allowed to activate debugging for everyone.
+        if (( ! is_admin_password($admin_password)) && ( ! $config['is_online_demo']))
             throw new Exception('Das Passwort ist nicht korrekt!');
 
         // create new debug log file if it does not exist already

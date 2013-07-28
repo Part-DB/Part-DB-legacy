@@ -397,7 +397,7 @@
         $content = "<?php\n\n";
         $content .= array_to_php_lines($config_defaults, $config, '    $config', false);
         $content .= "\n    //How to declare manual configs:\n";
-        $content .= '    //$manual_config[\'money_format\'][\'de_DE\']                = \'%!n Euro\';'."\n";
+        $content .= '    //$manual_config[\'money_format\'][\'POSIX\']                = \'%!n €\';'."\n";
         $content .= '    //$manual_config[\'DOCUMENT_ROOT\']                        = \'/var/www\';'."\n";
         $content .= array_to_php_lines($manual_config, $manual_config, '    $manual_config', false);
         $content .= "\n?>";

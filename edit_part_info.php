@@ -309,6 +309,9 @@
             case 'attachement_add':
                 try
                 {
+                    if ((strlen($_FILES['attachement_file']['name']) == 0) == (strlen($new_filename) == 0))
+                        throw new Exception('Sie müssen entweder ein Dateiname angeben, oder eine Datei zum Hochladen wählen!');
+
                     if (strlen($_FILES['attachement_file']['name']) > 0)
                         $new_filename = upload_file($_FILES['attachement_file'], BASE.'/data/media/');
 

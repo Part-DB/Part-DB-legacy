@@ -255,10 +255,10 @@
     if (($config['debug']['enable']) && ( ! $config['debug']['template_debugging_enable'])) // template debugging produces a lot of warnings!
     {
         error_reporting(E_ALL & ~E_STRICT);
-        ini_set("display_errors", 1);
+        @ini_set("display_errors", 1);
     }
     else
-        ini_set("display_errors", 0);
+        @ini_set("display_errors", 0);
 
     mb_internal_encoding(/*$config['html']['http_charset']*/ 'UTF-8');
     mb_regex_encoding('UTF-8');

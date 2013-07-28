@@ -21,3 +21,10 @@ Ja, man kann die Spalten in der Konfigurationsdatei "config.php" selber definier
 ????? Footprints: Das Zuweisen von Bildern ist mühsam, geht das nicht einfacher? ?????
 
 Im Moment geht das leider nicht einfacher. Der einzige Workaround wird im Hinweistext unter dem Textfeld des Dateipfades für das Bild erklärt. In späteren Versionen von Part-DB wird dieses Manko allerdings korrigiert, es wird nämlich einen Dialog zum Auswählen einer Bilddatei geben.
+
+????? Beim wählen der Sprache kommt immer "Die gewählte Sprache wird vom Server nicht unterstützt."! ?????
+
+Diese Fehlermeldung bedeutet, dass auf Ihrem Server-Betriebssystem die gewählte Sprache nicht installiert ist. Falls Sie einen Linux-Server haben, können Sie die Sprache wie [[Anforderungen#Installation_der_Sprachdateien|hier]] beschrieben installieren. Ist die Installation von zusätzlichen Sprachen auf Ihrem Server nicht möglich, können Sie die Sprache "POSIX" wählen, diese sollte auf jedem System verfügbar sein. Zusätzlich müssen Sie in Ihrer Konfigurationsdatei die zu verwendende Währung definieren. Dazu fügen Sie in der Datei "data/config.php" diese Zeile ein (z.B. für Euro):
+<code>
+$manual_config['money_format']['POSIX'] = '%!n €';
+</code>
