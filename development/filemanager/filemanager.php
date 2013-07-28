@@ -32,12 +32,18 @@
                 Kommentare ergänzt oder geändert (Udo Neist)
                 GeSHi für Syntax-Highlightning integriert (Udo Neist)
     07.04.2013: Kleinere Anpassung für eine Integration in eine andere Webseite (Udo Neist)
+    28.07.2013: Verzeichnisliste (Udo Neist)
 */
 
 /*
 *   Aufruf der Konfiguration
 */
 require_once ('inc/conf.php');
+
+// Korrektur des Hauptverzeichnisses, falls leer
+if ($dirs['dir']=='' || $dirs['dir']=='/') $dirs['dir']='.';
+// Wenn keine Unterverzeichnisse definiert wurden, dann wird das Hauptverzeichnis freigeschaltet
+if (count($dirs['dirs'])==0) $dirs['root']=true;
 
 if (file_exists('lib/libs/geshi/geshi.php')) {
     include_once ('lib/libs/geshi/geshi.php');
@@ -84,9 +90,9 @@ function searchFiles() {
     if (substr($_GET['list'],1,1)!="/") $_GET['list']='/'.$_GET['list'];
 
     $tmpl = new vlibTemplateCache('templates/vlib/vlib_filemanager_list.html');
-    $tmpl -> setVar('base',$dirs['dir']);
-    $tmpl -> setVar('path',$_GET['list']);
-    $tmpl -> setVar('type',$_GET['type']);
+    $tmpl -> setVar('hbase',$dirs['dir']);
+    $tmpl -> setVar('hpath',$_GET['list']);
+    $tmpl -> setVar('htype',$_GET['type']);
 
     $fileIO = new fileIO;
     $fileIO -> readDir($dirs['dir'].$_GET['list'],'','cached',array('mime'=>$dirs['mime'][$_GET['type']],'recursive'=>false,'onlydir'=>false,'onlyfiles'=>false,'stripdir'=>true));
@@ -139,16 +145,23 @@ function searchDirs() {
 
     global $dirs;
 
-    $fileIO = new fileIO;
-    $fileIO -> readDir($dirs['dir'],'','cached',array('recursive'=>true,'onlydir'=>true,'stripdir'=>false));
-    $files = $fileIO -> getFiles();
-    if (count($files)>0) {
-        asort($files);
-        $array=array();
-        foreach($files as $file) {
-            if (is_dir($file)) {
-                // Directory
-                $array['dir'][]=str_replace($dirs['dir'].'/','',$file);
+    $array=array();
+
+    if ($dirs['dir']=='.') {
+        for ($i=0; $i<count($dirs['dirs']); $i++) {
+            $array['dir'][]=$dirs['dirs'][$i]['path'];
+        }
+    }else{
+        $fileIO = new fileIO;
+        $fileIO -> readDir($dirs['dir'],'','cached',array('recursive'=>true,'onlydir'=>true,'stripdir'=>false));
+        $files = $fileIO -> getFiles();
+        if (count($files)>0) {
+            asort($files);
+            foreach($files as $file) {
+                if (is_dir($file)) {
+                    // Directory
+                    $array['dir'][]=str_replace($dirs['dir'].'/','',$file);
+                }
             }
         }
     }
@@ -175,6 +188,7 @@ function getFile($file,$mime) {
 /*
 *   Kommandos
 */
+
 if (array_key_exists('list',$_GET)) {
 
     searchFiles();
@@ -183,6 +197,23 @@ if (array_key_exists('list',$_GET)) {
 
     searchDirs();
 
+}elseif (array_key_exists('lsdir',$_GET)) {
+
+    $tmpl = new vlibTemplateCache('templates/vlib/vlib_filemanager_listdir.html');
+    $tmpl -> setVar('root',(($dirs['root'])?1:0));
+    $tmpl -> newLoop("listdir");
+    $max = ((count($dirs['dirs'])>5)?5:count($dirs['dirs']));
+    for ($i=0; $i<$max; $i++) {
+        $tmpl -> addRow(
+            array(
+                'path'      =>  $dirs['dirs'][$i]['path'],
+                'type'      =>  $dirs['dirs'][$i]['type'],
+                'name'      =>  $dirs['dirs'][$i]['name'],
+            )
+        );
+    }
+    $tmpl -> addLoop(); 
+    $tmpl -> pparse();
 
 }elseif (class_exists('GeSHi') && array_key_exists('geshi',$_GET) && strlen($_GET['geshi'])>0 && strlen($_GET['mime'])>0) {
 
@@ -242,7 +273,7 @@ if (array_key_exists('list',$_GET)) {
     $fileIO = new fileIO;
     $fileIO -> setFileName(base64_decode($_GET['info']));
     $dir = dirname(base64_decode($_GET['info']));
-    if (substr($dir,0,1)=='.' || substr($dir,0,1)=='/') {
+    if ($dirs['dir']!='.' && (substr($dir,0,1)=='.' || substr($dir,0,1)=='/')) {
         header ('HTTP/1.0 404 Not Found');
     }elseif ($info = $fileIO -> aboutFile()) {
         $tmpl = new vlibTemplateCache('templates/vlib/vlib_filemanager_info.html');

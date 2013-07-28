@@ -70,8 +70,12 @@ if (($ua['firefox'] && $ua['firefox']<1.5) || ($ua['msie'] && $ua['msie'] <= 6) 
     $dirs['mime'][x]: Mimetypen, die angezeigt werden. Dabei ist "x" einfach ein Namen für die Aufzählung (z.B. "office" für alle Dokumenttypen, "gfx" für Grafiken). 
                       "x" wird in vlib_filemanager.html definiert.
 */
-$dirs['dir']     = 'tmp';
+$dirs['root']    = false; // Hauptverzeichnis erlaubt ja/nein
+$dirs['dir']     = '/'; // Hauptverzeichnis
 $dirs['mimegfx'] = 'gfx/mimetypes/';
+
+$dirs['dirs'][]  = array('path'=>'tmp/gfx','type'=>'image','name'=>'Grafik');
+$dirs['dirs'][]  = array('path'=>'tmp/import','type'=>'all','name'=>'Import');
 
 /*
 *   Vordefinierte Sammlungen

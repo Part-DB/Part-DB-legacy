@@ -2,25 +2,24 @@
 <div id="file_breadcrumb" class="breadcrumb" title='Aktuelles Verzeichnis: '>keines ausgewählt</div>
 
 <div id="filemanager" class="content">
-    <div id="file_dirs">
-        <ul class="list">
-            <li onclick="filemanager.showFiles('','all');" class="dir">Hauptverzeichnis</li>
-        </ul>
-    </div>
+    <div id="file_dirs"></div>
     <div id="file_command">
         <span id="file_commands">
             <ul class="list">
-                <li onclick="filemanager.command('rename');" class="command">Rename</li>
-                <li onclick="filemanager.command('delete');" class="command">Delete</li>
-                <li onclick="filemanager.command('copy');" class="command">Copy</li>
-                <li onclick="filemanager.command('move');" class="command">Move</li>
+                <li onclick="filemanager.command('rename');" class="command">Umbenennen</li>
+                <li onclick="filemanager.command('delete');" class="command">Löschen</li>
+                <li onclick="filemanager.command('copy');" class="command">Kopieren</li>
+                <li onclick="filemanager.command('move');" class="command">Verschieben</li>
             </ul>
             <ul class="list">
                 <li onclick="filemanager.command('upload');" class="command">Upload</li>
                 <li onclick="filemanager.command('download');" class="command">Download</li>
             </ul>
-            <ul class="list">
+            <ul class="list" id="file_viewer">
                 <li onclick="filemanager.viewer();" class="command">Viewer</li>
+            </ul>
+            <ul class="list" id="file_selector">
+                <li onclick="filemanager.command('select');" class="command">Select</li>
             </ul>
         </span>
         <span id="file_upload">

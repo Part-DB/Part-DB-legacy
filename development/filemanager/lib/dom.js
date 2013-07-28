@@ -28,6 +28,10 @@
                 showViewer() für die Anzeige von PDF und Images eingebaut (Udo Neist)
     06.04.2013: Kommentare zu den Funktionsaufrufen hinzugefügt (Udo Neist)
                 Style-Guide für Programmierung erstellt (Udo Neist)
+    02.05.2013: dom.debug() prüft auf Konsole (Udo Neist)
+                Button für Upload eingebaut (Udo Neist)
+    27.07.2013: createElement() (dummy) und removeElement() hinzugefügt (Udo Neist)
+    28.07.2013: clrClass(), setClass() und getClass() zur Bearbeitung des class-Attributes eingebaut (Udo Neist)
 */
 
 /*
@@ -126,11 +130,19 @@ var dom = {
         dom.setStyle('dom_buttonsavecancel',{'display': "none"});
         dom.setStyle('dom_buttondocancel',{'display': "none"});
         dom.setStyle('dom_buttoncancel',{'display': "none"});
+        dom.setStyle('dom_buttonupload',{'display': "none"});
+        dom.setAttribute('dom_button_upload','disabled','disabled');
         dom.setStyle('dom_foot',{'display': "none"});
         dom.setStyle('dom_selectdir',{'display': "none"});
         dom.setStyle('dom_uploadfile',{'display': "none"});
+        dom.setStyle('dom_uploadfiles',{'display': "none"});
+        dom.setStyle('dom_countfiles',{'display': "none"});
         dom.setStyle('dom_filename',{'display': "none"});
         dom.setStyle('dom_change2dir',{'display': "none"});
+        // Höhe des Dialogs festlegen, da der Upload-Dialog die Höhe ändert
+        dom.setStyle('dom_dialog',{'height':'220px'});
+        // Zusätzliche Text-Elemente löschen
+        dom.clrContent('dom_uploadfiles');
 
         // Dialogelemente aktivieren
         if (!_type || _type.length==0) dom.setStyle('dom_body',{'backgroundImage': ""});
@@ -142,8 +154,12 @@ var dom = {
             if (_button=='docancel') dom.setStyle('dom_buttondocancel',{'display': "block"});
             if (_button=='cancel') dom.setStyle('dom_buttoncancel',{'display': "block"});
             if (_input=='upload') {
+                dom.setStyle('dom_dialog',{'height':'370px'});
+                dom.setStyle('dom_buttonupload',{'display': "block"});
                 dom.setStyle('dom_selectdir',{'display': "block"});
                 dom.setStyle('dom_uploadfile',{'display': "block"});
+                dom.setStyle('dom_uploadfiles',{'display': "block"});
+                dom.setStyle('dom_countfiles',{'display': "block"});
                 dom.setStyle('dom_change2dir',{'display': "block"});
             }else if (_input=='dir+file') {
                 dom.setStyle('dom_selectdir',{'display': "block"});
@@ -221,7 +237,7 @@ var dom = {
     setStyle : function (_element,_propertyObject) {
         dom._obj = dom.byId(_element);
         if (dom._obj && _propertyObject) {
-            if (dom._debug===true) dom.debug(_element+' '+_propertyObject);
+            if (dom._debug==true) dom.debug(_element+' '+_propertyObject);
             for (var property in _propertyObject) dom._obj.style[property] = _propertyObject[property];
             return true;
         } else {
@@ -242,7 +258,7 @@ var dom = {
     getStyle : function (_element,_property) {
         dom._obj = dom.byId(_element);
         if (dom._obj && _property) {
-            if (dom._debug===true) dom.debug(_element+' '+_property);
+            if (dom._debug==true) dom.debug(_element+' '+_property);
             return dom._obj.style[_property];
         } else {
             return false;
@@ -261,7 +277,7 @@ var dom = {
     clrOptions : function (_element) {
         dom._obj = dom.byId(_element);
         if (dom._obj) {
-            if (dom._debug===true) dom.debug(_element);
+            if (dom._debug==true) dom.debug(_element);
             dom._obj.options.length = 0;
             return true;
         } else {
@@ -282,7 +298,7 @@ var dom = {
     addOptions : function (_element,_values) {
         dom._obj = dom.byId(_element);
         if (dom._obj) {
-            if (dom._debug===true) dom.debug(_element);
+            if (dom._debug==true) dom.debug(_element);
             dom.clrOptions(_element);
             for(index in _values) {
                 dom._obj.options[dom._obj.options.length] = new Option(_values[index], _values[index]);
@@ -320,7 +336,7 @@ var dom = {
     setContent : function (_element,_value) {
         dom._obj = dom.byId(_element);
         if (dom._obj) {
-            if (dom._debug===true) dom.debug(_element+' '+_value);
+            if (dom._debug==true) dom.debug(_element+' '+_value);
             while (dom._obj.childNodes.length > 0) {
                 dom._obj.removeChild(dom._obj.lastChild);
             }
@@ -343,7 +359,7 @@ var dom = {
     getContent : function (_element) {
         dom._obj = dom.byId(_element);
         if (dom._obj) {
-            if (dom._debug===true) dom.debug(_element);
+            if (dom._debug==true) dom.debug(_element);
             return dom._obj.innerHTML;
         } else {
             return false;
@@ -377,7 +393,7 @@ var dom = {
     setValue : function (_element,_value) {
         dom._obj = dom.byId(_element);
         if (dom._obj) {
-            if (dom._debug===true) dom.debug(_element);
+            if (dom._debug==true) dom.debug(_element);
             if(dom._obj.checked) {
                 dom._obj.checked = _value;
             }else{
@@ -401,7 +417,7 @@ var dom = {
     getValue : function (_element) {
         dom._obj = dom.byId(_element);
         if (dom._obj) {
-            if (dom._debug===true) dom.debug(_element);
+            if (dom._debug==true) dom.debug(_element);
             if(dom._obj.options && dom._obj.options>0) {
                 return dom._obj.options[dom._obj.selectedIndex].text;
             }else if(dom._obj.checked) {
@@ -415,20 +431,40 @@ var dom = {
     },
 
     /*
-    *   setAttribute()
-    *
-    *   Setzt ein Attribut eines Elements. Wenn es noch nicht vorhanden ist, wird es erzeugt.
-    *
-    *   Variablen:
-    *   _element: ID des entsprechenden Objekts
-    *   _attribute: Attribut
-    *   _value: Wert
-    */
+     *  clrAttribute()
+     *
+     *  Löscht ein Attribut eines Elements.
+     *
+     *  Variablen:
+     *  _element: ID des entsprechenden Objekts
+     *  _attribute: Attribut
+     */
+
+    clrAttribute : function (_element,_attribute) {
+        dom._obj = dom.byId(_element);
+        if (dom._obj) {
+            if (dom._debug==true) dom.debug(_element);
+            dom._obj.removeAttribute(_attribute);
+        } else {
+            return false;
+        }
+    },
+
+    /*
+     *  setAttribute()
+     *
+     *  Setzt ein Attribut eines Elements. Wenn es noch nicht vorhanden ist, wird es erzeugt.
+     *
+     *  Variablen:
+     *  _element: ID des entsprechenden Objekts
+     *  _attribute: Attribut
+     *  _value: Wert
+     */
 
     setAttribute : function (_element,_attribute,_value) {
         dom._obj = dom.byId(_element);
         if (dom._obj) {
-            if (dom._debug===true) dom.debug(_element);
+            if (dom._debug==true) dom.debug(_element);
             dom._obj.setAttribute(_attribute,_value);
         } else {
             return false;
@@ -436,19 +472,19 @@ var dom = {
     },
 
     /*
-    *   getAttribute()
-    *
-    *   Gibt den Wert eines Attributes eines Elements zurück.
-    *
-    *   Variablen:
-    *   _element: ID des entsprechenden Objekts
-    *   _attribute: Attribut
-    */
+     *  getAttribute()
+     *
+     *  Gibt den Wert eines Attributes eines Elements zurück.
+     *
+     *  Variablen:
+     *  _element: ID des entsprechenden Objekts
+     *  _attribute: Attribut
+     */
 
     getAttribute : function (_element,_attribute) {
         dom._obj = dom.byId(_element);
         if (dom._obj) {
-            if (dom._debug===true) dom.debug(_element);
+            if (dom._debug==true) dom.debug(_element);
             if(dom._obj.getAttribute(_attribute)) {
                 return dom._obj.getAttribute(_attribute);
             }else{
@@ -459,20 +495,67 @@ var dom = {
         }
     },
 
-    
+    /*
+     *  clrClass()
+     *  
+     *  Löscht eine CSS-Klassenzuordnung
+     *  
+     *  Variablen:
+     *  _element: ID des entsprechenden Objekts
+     */
+     
+    clrClass : function (_element) {
+        dom._obj = dom.byId(_element);
+        if (dom._obj) {
+            rdom._obj.className='';
+        }
+    },
 
     /*
-    *   byId()
-    *
-    *   Sucht ein Element mit einer ID und gibt das Objekt zurück.
-    *
-    *   Variablen:
-    *   _element: ID des entsprechenden Objekts
-    */
+     *  setClass()
+     *  
+     *  Setzt eine CSS-Klassenzuordnung
+     *  
+     *  Variablen:
+     *  _element: ID des entsprechenden Objekts
+     *  _class: CSS-Klasse
+     */
+     
+    setClass : function (_element,_class) {
+        dom._obj = dom.byId(_element);
+        if (dom._obj) {
+            dom._obj.className=_class;
+        }
+    },
+
+    /*
+     *  getClass()
+     *  
+     *  Gibt die CSS-Klassenzuordnung eines Elements zurück
+     *  
+     *  Variablen:
+     *  _element: ID des entsprechenden Objekts
+     */
+     
+    getClass : function (_element) {
+        dom._obj = dom.byId(_element);
+        if (dom._obj) {
+            return dom._obj.className;
+        }
+    },
+
+    /*
+     *  byId()
+     *
+     *  Sucht ein Element mit einer ID und gibt das Objekt zurück.
+     *
+     *  Variablen:
+     *  _element: ID des entsprechenden Objekts
+     */
 
     byId : function (_element) {
         if (_element && document.getElementById(_element)) {
-            if (dom._debug===true) dom.debug(_element);
+            if (dom._debug==true) dom.debug(_element);
             return document.getElementById(_element);
         } else {
             return false;
@@ -480,14 +563,14 @@ var dom = {
     },
 
     /*
-    *   query()
-    *
-    *   Sucht ein spezielles Tag gibt das Objekt oder mehrere Objekte zurück. Optional kann auch ein Element (ID) angegeben werden, das der Ausgangspunkt der Suche ist.
-    *
-    *   Variablen:
-    *   _tag: Tag (HTML-Element)
-    *   _element (optional): ID eines Objekts
-    */
+     *  query()
+     *
+     *  Sucht ein spezielles Tag gibt das Objekt oder mehrere Objekte zurück. Optional kann auch ein Element (ID) angegeben werden, das der Ausgangspunkt der Suche ist.
+     *
+     *  Variablen:
+     *  _tag: Tag (HTML-Element)
+     *  _element (optional): ID eines Objekts
+     */
 
     query : function (_tag,_element) {
         var node;
@@ -504,15 +587,15 @@ var dom = {
     */
 
     /*
-    *   addEvent()
-    *
-    *   Event hinzufügen.
-    *
-    *   Variablen:
-    *   _element: ID des entsprechenden Objekts
-    *   _type: Typ des Events (ohne das "on"!)
-    *   _fn: Externe Funktion, die beim Eintritt des Events aufgerufen wird.
-    */
+     *  addEvent()
+     *
+     *  Event hinzufügen.
+     *
+     *  Variablen:
+     *  _element: ID des entsprechenden Objekts
+     *  _type: Typ des Events (ohne das "on"!)
+     *  _fn: Externe Funktion, die beim Eintritt des Events aufgerufen wird.
+     */
 
     addEvent : function (_element,_type,_fn ) {
         dom._obj = dom.byId(_element);
@@ -526,15 +609,15 @@ var dom = {
     },
 
     /*
-    *   removeEvent()
-    *
-    *   Event löschen.
-    *
-    *   Variablen:
-    *   _element: ID des entsprechenden Objekts
-    *   _type: Typ des Events (ohne das "on"!)
-    *   _fn: Externe Funktion, die beim Eintritt des Events aufgerufen wird.
-    */
+     *  removeEvent()
+     *
+     *  Event löschen.
+     *
+     *  Variablen:
+     *  _element: ID des entsprechenden Objekts
+     *  _type: Typ des Events (ohne das "on"!)
+     *  _fn: Externe Funktion, die beim Eintritt des Events aufgerufen wird.
+     */
 
     removeEvent : function (_element,_type,_fn ) {
         dom._obj = dom.byId(_element);
@@ -547,18 +630,77 @@ var dom = {
         }
     },
 
+    /*  createElement()
+     * 
+     *  Erstellt ein Element
+     * 
+     *  Variablen:
+     *  _element: ID des Elternelements
+     *  _var (Array, optional): Eigenschaften des Elements  
+     */
+
+    createElement : function (_element,_var) {
+    },
+    
+    /*  removeElement()
+     * 
+     *  Löscht ein Element aus dem DOM
+     *   
+     *  Variablen:
+     *  _element: ID des Elements
+     */
+     
+    removeElement : function (_element) {
+        dom._obj = dom.byId(_element);
+        if (dom._obj) {
+            var papa = dom._obj.parentNode;
+            dom._purge(papa);
+            if (papa) papa.removeChild(dom._obj);
+        }
+    },
+
     /*
-    *   debug()
-    *
-    *   Gibt einen Text auf der Javascript-Konsole aus.
-    *
-    *   Variablen:
-    *   _txt: Text
-    */
+     *  debug()
+     *
+     *  Gibt einen Text auf der Javascript-Konsole aus.
+     *
+     *  Variablen:
+     *  _txt: Text
+     */
 
     debug : function (_txt) {
-        if (!_txt || _txt.length==0) return false;
-        console.log(_txt);
-    }
+        if (! _txt || _txt.length==0 || ! console || ! console.log) {
+            return false;
+        }else{
+            console.log(_txt);
+        }
+    },
+            
+    /*
+     *  _purge()
+     *  
+     *  Bereinigt ein Element vor dem Löschen
+     *  
+     *  Variablen
+     *  _element: Node
+     */
 
+    _purge : function (_element) {
+        var a = _element.attributes, i, l, n;
+        if (a) {
+            for (i = a.length - 1; i >= 0; i -= 1) {
+                n = a[i].name;
+                if (typeof _element[n] == 'function') {
+                    _element[n] = null;
+                }
+            }
+        }
+        a = _element.childNodes;
+        if (a) {
+            l = a.length;
+            for (i = 0; i < l; i += 1) {
+                dom._purge(_element.childNodes[i]);
+            }
+        }
+    }
 }

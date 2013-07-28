@@ -26,6 +26,8 @@
     30.03.2013: Upload per POST hinzugefügt (Udo Neist)
     06.04.2013: Kommentare hinzugefügt bzw. geändert(Udo Neist)
                 Style-Guide für Programmierung erstellt (Udo Neist)
+    02.05.2013: xmlHttp-Handler ausgelagert (Udo Neist)
+
 */
 
 /*
@@ -40,20 +42,20 @@
 var ajax = {
 
     /*
-    *   Globale Variablen
-    */
+     *   Globale Variablen
+     */
 
     /*
-    *
-    *   http://www.ipaste.org/GJd
-    *
-    *   parms()
-    *
-    *   Erzeugt einen URL-String aus einem Array.
-    *
-    *   Variablen:
-    *   al: JSON-Array
-    */
+     *
+     *   http://www.ipaste.org/GJd
+     *
+     *   parms()
+     *
+     *   Erzeugt einen URL-String aus einem Array.
+     *
+     *   Variablen:
+     *   al: JSON-Array
+     */
 
     parms : function (a1) {
         t=[];
@@ -64,61 +66,43 @@ var ajax = {
     },
 
     /*
-    *
-    *   xhr()
-    *
-    *   XMLHttpRequest
-    *
-    *   Variablen:
-    *   data: Objekt
-    *
-    *       - Alle Methoden
-    *       method: POST oder GET
-    *       sync: Sync/Async-Modus
-    *
-    *       - Kein Upload
-    *       value: Werte für die Datenübergabe
-    *
-    *       - Upload
-    *       id: ID eines HTML-Elements für Fortschrittbalken bei Upload
-    *       file: File für Upload
-    *       target: Zielverzeichnis bei Upload
-    *
-    *       - Externe Funktionen, soweit vom Browser unterstützt
-    *       load() (normal und Upload)
-    *       error() (normal und Upload)
-    *       progress() (normal und Upload)
-    *       abort() (normal und Upload)
-    *       loadstart() (ohne Upload)
-    *       loadend() (ohne Upload)
-    */
+     *
+     *   xhr()
+     *
+     *   XMLHttpRequest
+     *
+     *   Variablen:
+     *   xmlHttp: Globales Objekt für 
+     *   data: Objekt
+     *
+     *       - Alle Methoden
+     *       method: POST oder GET
+     *       sync: Sync/Async-Modus
+     *
+     *       - Kein Upload
+     *       value: Werte für die Datenübergabe
+     *
+     *       - Upload
+     *       id: ID eines HTML-Elements für Fortschrittbalken bei Upload
+     *       file: File für Upload
+     *       target: Zielverzeichnis bei Upload
+     *
+     *       - Externe Funktionen, soweit vom Browser unterstützt
+     *       load() (normal und Upload)
+     *       error() (normal und Upload)
+     *       progress() (normal und Upload)
+     *       abort() (normal und Upload)
+     *       loadstart() (ohne Upload)
+     *       loadend() (ohne Upload)
+     */
 
     xhr : function (data) {
 
-        var xmlHttp;
-        /*
-            Korrekten Aufruf für XMLHttpRequest herausfinden.
-        */
-        if (window.XMLHttpRequest) {
-            xmlHttp=new XMLHttpRequest();
-        } else {
-            try {
-                xmlHttp=new ActiveXObject('Microsoft.XMLHTTP');
-            } catch (e) {
-                try {
-                    xmlHttp=new ActiveXObject('Msxml2.XMLHTTP');
-                } catch (e) {
-                    try {
-                        xmlHttp=new ActiveXObject('Msxml3.XMLHTTP');
-                    } catch (e) {
-                        return false;
-                    }
-                }
-            }
-        }
+        var xmlHttp = ajax.getHandler();
+        if (!xmlHttp) return false;
         /*
             Handler definieren
-        */
+        */       
         if (typeof xmlHttp.addEventListener == 'function') {
             xmlHttp.addEventListener('loadstart',function(e){if (typeof data.loadstart == 'function') {data.loadstart(xmlHttp.response,xmlHttp.status)}},false);
             xmlHttp.addEventListener('loadend',function(e){if (typeof data.loadend == 'function') {data.loadend(xmlHttp.response,xmlHttp.status)}},false);
@@ -162,34 +146,68 @@ var ajax = {
                 }
             }
         }
-        if (typeof xmlHttp.upload.addEventListener == 'function') {
+        if (xmlHttp.upload && typeof xmlHttp.upload.addEventListener == 'function') {
             var id=data.id;
             xmlHttp.upload.addEventListener('progress',function(e){if (typeof data.progress == 'function') {data.progress(xmlHttp.response,xmlHttp.status)}},false);
             xmlHttp.upload.addEventListener('load',function(e){if (typeof data.load == 'function') {data.load(xmlHttp.response,xmlHttp.status)}},false);
             xmlHttp.upload.addEventListener('error',function(e){if (typeof data.load == 'function') {data.error(xmlHttp.response,xmlHttp.status)}}, false);
             xmlHttp.upload.addEventListener('abort',function(e){if (typeof data.load == 'function') {data.abort(xmlHttp.response,xmlHttp.status)}}, false);
+        }else{
+            xmlHttp.onprogress=function(e){if (typeof data.progress == 'function') {data.progress(xmlHttp.response,xmlHttp.status)}};
         }
         /*
             XMLHttpRequest
         */
+
         if (!data.sync) data.sync=true;
         xmlHttp.open(data.method,data.url,data.sync);
 /*        xmlHttp.setRequestHeader('User-Agent','XMLHTTP/1.0');*/
-        data.value=ajax.parms(data.value);
-        if (data.value && data.method=='POST') {
-            xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-            xmlHttp.setRequestHeader('Content-length', data.value.length);
-            xmlHttp.setRequestHeader('Connection', 'close');
-        }
         if (data.file && data.method=='POST') {
-            xmlHttp.overrideMimeType('text/plain; charset=x-user-defined-binary');
-            var fd = new FormData;
-            fd.append('File',data.file);
-            fd.append('target',data.target);
-            xmlHttp.send(fd);
+            if ( typeof FormData !== 'undefined') {
+                xmlHttp.setRequestHeader("X_FILENAME", data.file.name);
+                xmlHttp.overrideMimeType('text/plain; charset=x-user-defined-binary');
+                var fd = new FormData;
+                fd.append('File',data.file.file);
+                fd.append('target',data.target);
+                xmlHttp.send(fd);
+            }else{
+                dom.debug(data.file.content);
+            }       
         }else{
+            data.value=ajax.parms(data.value);
+            if (data.value && data.method=='POST') {
+                xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+                xmlHttp.setRequestHeader('Content-length', data.value.length);
+                xmlHttp.setRequestHeader('Connection', 'close');
+            }
             xmlHttp.send(data.value);
         }
-    }
+    },
 
-}
+    getHandler: function() {
+        /*
+            Korrekten Aufruf für XMLHttpRequest herausfinden.
+        */
+        var xmlHttp;
+        
+        if (window.XMLHttpRequest) {
+            xmlHttp=new XMLHttpRequest();
+        } else {
+            try {
+                xmlHttp=new ActiveXObject('Microsoft.XMLHTTP');
+            } catch (e) {
+                try {
+                    xmlHttp=new ActiveXObject('Msxml2.XMLHTTP');
+                } catch (e) {
+                    try {
+                        xmlHttp=new ActiveXObject('Msxml3.XMLHTTP');
+                    } catch (e) {
+                        return false;
+                    }
+                }
+            }
+        }
+        
+        return xmlHttp;
+    }
+};

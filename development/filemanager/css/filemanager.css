@@ -85,7 +85,7 @@
     padding-right:      0.2em;
 }
 
-#file_iframe, #file_commands {
+#file_iframe, #file_commands, #file_selector, #file_viewer {
     display:            none;
 }
 

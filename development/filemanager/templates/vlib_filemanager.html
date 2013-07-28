@@ -2,25 +2,30 @@
 <div id="file_breadcrumb" class="breadcrumb" title='Aktuelles Verzeichnis: '>keines ausgewählt</div>
 
 <div id="filemanager" class="content">
-    <div id="file_dirs">
-        <ul class="list">
-            <li onclick="filemanager.showFiles('','all');" class="dir">Hauptverzeichnis</li>
-        </ul>
-    </div>
+    <div id="file_dirs"></div>
     <div id="file_command">
+        <span>
+            <ul class="list">
+                <li onclick="filemanager.showVersion();" class="command">Info</li>
+            </ul>
+        </span>
         <span id="file_commands">
             <ul class="list">
-                <li onclick="filemanager.command('rename');" class="command">Rename</li>
-                <li onclick="filemanager.command('delete');" class="command">Delete</li>
-                <li onclick="filemanager.command('copy');" class="command">Copy</li>
-                <li onclick="filemanager.command('move');" class="command">Move</li>
+                <li onclick="filemanager.command('rename');" class="command">Umbenennen</li>
+                <li onclick="filemanager.command('delete');" class="command">Löschen</li>
+                <li onclick="filemanager.command('copy');" class="command">Kopieren</li>
+                <li onclick="filemanager.command('move');" class="command">Verschieben</li>
             </ul>
             <ul class="list">
                 <li onclick="filemanager.command('upload');" class="command">Upload</li>
                 <li onclick="filemanager.command('download');" class="command">Download</li>
             </ul>
-            <ul class="list">
+
+            <ul class="list" id="file_viewer">
                 <li onclick="filemanager.viewer();" class="command">Viewer</li>
+            </ul>
+            <ul class="list" id="file_selector">
+                <li onclick="filemanager.command('select');" class="command">Select</li>
             </ul>
         </span>
         <span id="file_upload">
@@ -34,36 +39,4 @@
     <iframe id="file_iframe" src="" style="display:none;"></iframe>
 </div>
 
-<div id="dom_overlay">
-    <div id="dom_dialog" class="dom_dialog">
-        <div id="dom_body" class="dom_body">
-            <div id="dom_head" class="dom_head"></div>
-            <div id="dom_text" class="dom_text"></div>
-            <div id="dom_select" class="dom_select">
-                <form enctype="multipart/form-data">
-                    <div id="dom_selectdir" class="dom_select"><label for="select_dir">Verzeichnis:</label> <select id="select_dir" name="dir"></select></div>
-                    <div id="dom_uploadfile" class="dom_select"><label for="select_uploadfile">Datei(en)name:</label> <input type="file" name="files[]" id="select_uploadfile" multiple="true" onchange="filemanager.upload(this.files)"></div>
-                    <div id="dom_filename" class="dom_select"><label for="select_filename">Dateiname:</label> <input type="text" name="filename" id="select_filename"></div>
-                    <div id="dom_change2dir" class="dom_radiobutton"><input type="checkbox" name="change2dir" id="select_change2dir" class="radio"> <label for="select_change2dir">Nach Upload ins Zielverzeichnis wechseln</label></div>
-                </form>
-            </div>
-        <div id="dom_foot" class="dom_foot">
-                <span id="dom_buttonok" class="dom_button"><button onclick="dom.hideDialog('ok');" class="dom_button">Ok</button></span>
-                <span id="dom_buttonyesno" class="dom_button"><button onclick="dom.hideDialog('yes');" class="dom_button">Ja</button> <button onclick="dom.hideDialog('cancel');" class="dom_button">Nein</button></span>
-                <span id="dom_buttonsavecancel" class="dom_button"><button onclick="dom.hideDialog('save');" class="dom_button">Speichern</button> <button onclick="dom.hideDialog('cancel');" class="dom_button">Abbruch</button></span>
-                <span id="dom_buttondocancel" class="dom_button"><button onclick="dom.hideDialog('execute');" class="dom_button">Ausführen</button> <button onclick="dom.hideDialog('cancel');" class="dom_button">Abbruch</button></span>
-                <span id="dom_buttoncancel" class="dom_button"><button onclick="dom.hideDialog('cancel');" class="dom_button">Abbruch</button></span>
-            </div>
-        </div>
-    </div>
-    <div id="dom_viewer" class="dom_viewer">
-        <div id="dom_vbody" class="dom_body">
-            <div id="dom_vhead" class="dom_head" onclick="dom.hideViewer();"></div>
-            <div id="dom_vtext" class="dom_text">
-                <object data="" type="" id="dom_objectviewer"></object>
-                <img src="" id="dom_imageviewer">
-                <div id="dom_textviewer"></div>
-            </div>
-        </div>
-    </div>
-</div>
+<div id="dom_overlay"></div>

@@ -1,6 +1,6 @@
-<input type="hidden" name="type" id="base" value="{TMPL_VAR NAME="base"}">
-<input type="hidden" name="path" id="path" value="{TMPL_VAR NAME="path"}">
-<input type="hidden" name="type" id="type" value="{TMPL_VAR NAME="type"}">
+<input type="hidden" name="type" id="base" value="{TMPL_VAR NAME="hbase"}">
+<input type="hidden" name="path" id="path" value="{TMPL_VAR NAME="hpath"}">
+<input type="hidden" name="type" id="type" value="{TMPL_VAR NAME="htype"}">
 <p>{TMPL_IF NAME="dir"}
 <ul class="list">
     {TMPL_LOOP NAME="dir"}<li class="dir" id="fm_dir_{TMPL_VAR NAME="name"}" onclick="filemanager.showFiles('{TMPL_VAR NAME="path"}');"{TMPL_IF NAME="longname"} long="{TMPL_VAR NAME="longname"}"{/TMPL_IF}>{TMPL_VAR NAME="name"}</li>{/TMPL_LOOP}

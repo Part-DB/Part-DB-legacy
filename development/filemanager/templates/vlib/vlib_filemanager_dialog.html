@@ -3,18 +3,21 @@
         <div id="dom_head" class="dom_head"></div>
         <div id="dom_text" class="dom_text"></div>
         <div id="dom_select" class="dom_select">
-            <form enctype="multipart/form-data">
+            <form enctype="multipart/form-data" id="dom_form_upload" name="dom_form_upload" action="filemanager.php" target = "upload_iframe">
                 <div id="dom_selectdir" class="dom_select"><label for="select_dir">Verzeichnis:</label> <select id="select_dir" name="dir"></select></div>
-                <div id="dom_uploadfile" class="dom_select"><label for="select_uploadfile">Datei(en)name:</label> <input type="file" name="files[]" id="select_uploadfile" multiple="true" onchange="filemanager.upload(this.files)"></div>
+                <div id="dom_uploadfile" class="dom_select"><label for="select_uploadfile">Dateiname(n):</label> <input type="file" name="file" id="select_uploadfile" onchange="filemanager.addUploadFile(this)"></div>
                 <div id="dom_filename" class="dom_select"><label for="select_filename">Dateiname:</label> <input type="text" name="filename" id="select_filename"></div>
-                <div id="dom_change2dir" class="dom_radiobutton"><input type="checkbox" name="change2dir" id="select_change2dir" class="radio"> <label for="select_change2dir">Nach Upload ins Zielverzeichnis wechseln</label></div>
+                <div id="dom_change2dir" class="dom_radiobutton"><input type="checkbox" name="change2dir" id="select_change2dir"> <label for="select_change2dir">Nach Upload ins Zielverzeichnis wechseln</label></div>
             </form>
+            <div id="dom_uploadfiles" class="dom_info"></div>
+            <div id="dom_countfiles"></div>
         </div>
     <div id="dom_foot" class="dom_foot">
             <span id="dom_buttonok" class="dom_button"><button onclick="dom.hideDialog('ok');" class="dom_button">Ok</button></span>
             <span id="dom_buttonyesno" class="dom_button"><button onclick="dom.hideDialog('yes');" class="dom_button">Ja</button> <button onclick="dom.hideDialog('cancel');" class="dom_button">Nein</button></span>
             <span id="dom_buttonsavecancel" class="dom_button"><button onclick="dom.hideDialog('save');" class="dom_button">Speichern</button> <button onclick="dom.hideDialog('cancel');" class="dom_button">Abbruch</button></span>
             <span id="dom_buttondocancel" class="dom_button"><button onclick="dom.hideDialog('execute');" class="dom_button">Ausführen</button> <button onclick="dom.hideDialog('cancel');" class="dom_button">Abbruch</button></span>
+            <span id="dom_buttonupload" class="dom_button"><button id="dom_button_upload" onclick="filemanager.upload();" class="dom_button" disabled>Upload</button> <button onclick="dom.hideDialog('cancel');" class="dom_button">Abbruch</button></span>
             <span id="dom_buttoncancel" class="dom_button"><button onclick="dom.hideDialog('cancel');" class="dom_button">Abbruch</button></span>
         </div>
     </div>

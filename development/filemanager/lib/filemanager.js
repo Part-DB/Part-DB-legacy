@@ -37,6 +37,10 @@
                 showFiles() erlaubt jetzt auch das in filemanager.php definierte Hauptverzeichnis zu nutzen (Udo Neist)
     07.04.2013: Kleine Änderung in viewer() (Udo Neist)
                 Breadcrumb-Navigation hinzugefügt (Udo Neist)
+    27..7.2013: Befehlsbeschreibungen in den Templates ins Deutsche übersetzt (Udo Neist)
+                showVersion() zeigt Version über Filemanager an (Udo Neist)
+                Auswahl im Popup-Modus wird an Hauptfenster übertragen (Select-Kommand) (Udo Neist)
+                init() zur Initialisierung eingebaut (Udo Neist)
 */
 
 /*
@@ -51,30 +55,78 @@
 var filemanager = {
 
     /*
-    *   Globale Variablen:
-    *
-    *   token: Beinhaltet einen String zur Identifizierung des gesendeten Kommandos an den Server
-    *   loading (HTML-String): Grafischer Platzhalter für den Inhalt (Warteschleife)
-    */
+     *   Globale Variablen:
+     *
+     *   token: Beinhaltet einen String zur Identifizierung des gesendeten Kommandos an den Server
+     *   loading (HTML-String): Grafischer Platzhalter für den Inhalt (Warteschleife)
+     */
 
     token : '',
     loading : '<img src="css/gfx/ajax-loader.gif">',
-    _userootdir : true,
+    _userootdir : false,
+    _uploadfiles: [],
+    
+    version : '0.1.0',
+    build : '20130728',
+    
+    popup : false,
 
     /*
-    *   showFiles()
-    *
-    *   Holt eine Liste von Dateien vom Server, wird als fertige Webseite übergeben.
-    *
-    *   Variablen:
-    *   _file: File
-    *   _type: Mime-Typ für die Auswahl des Viewers
-    */
+     *  init()
+     * 
+     *  Initialisiert einige Variablen
+     */
+
+    init : function () {
+        if (dom.byId('popup') && opener) {
+            filemanager.popup=true;
+        }else{
+            filemanager.popup=false;
+        }
+        // Breadcrumb-Navigation starten
+        filemanager.breadcrumb();
+    },
+
+    /*
+     *  showVersion()
+     *  
+     *  Zeigt Infos zum Filemanager an
+     *  
+     */
+
+    showVersion : function () {
+        var data = {
+            method:'GET',
+            url:path()+'templates/vlib/vlib_filemanager_version.html',
+            load: function(response, ioArgs) {
+                dom.showDialog('Filemanager: Info','Version: '+filemanager.version + '<br>Build: '+filemanager.build+'<br><br>'+response,'prompt','ok');
+            }
+        };
+        ajax.xhr(data);
+        
+    },
+    
+    /*
+     *   showFiles()
+     *
+     *   Holt eine Liste von Dateien vom Server, wird als fertige Webseite übergeben.
+     *
+     *   Variablen:
+     *   _file: File
+     *   _type: Mime-Typ für die Auswahl des Viewers
+     */
 
     showFiles : function (_file,_type) {
 
         dom.setStyle('file_commands',{'display':'none'});
         dom.setStyle('file_upload',{'display':'block'});
+        if (filemanager.popup) {
+            dom.setStyle('file_viewer',{'display':'none'});
+            dom.setStyle('file_selector',{'display':'block'});            
+        }else{
+            dom.setStyle('file_viewer',{'display':'block'});
+            dom.setStyle('file_selector',{'display':'none'});            
+        }
         dom.setContent('file_explorer',filemanager.loading);
 
         _file = filemanager._clrDirNames(_file);
@@ -91,17 +143,17 @@ var filemanager = {
     },
 
     /*
-    *   showFileInfo()
-    *
-    *   Zeigt Infos zu einem File an. Wird als fertige Webseite übergeben.
-    *
-    *   Variablen:
-    *   _file: File
-    *   _id: HTML-Objekt des ausgewählten Files (ändert die CSS-Klasse von "hover" nach "selected")
-    */
+     *   showFileInfo()
+     *
+     *   Zeigt Infos zu einem File an. Wird als fertige Webseite übergeben.
+     *
+     *   Variablen:
+     *   _file: File
+     *   _id: HTML-Objekt des ausgewählten Files (ändert die CSS-Klasse von "hover" nach "selected")
+     */
 
     showFileInfo : function (_file,_id) {
-        if (dom.byId(_id).className == 'selected') return false;
+        if (dom.byId(_id).className === 'selected') return false;
         dom.setContent('file_info',filemanager.loading);
         filemanager.xhrGet('file_info','filemanager.php?token='+filemanager.token+'&info='+_file);
         dom.setStyle('file_upload',{'display':'none'});
@@ -115,54 +167,87 @@ var filemanager = {
     },
 
     /*
-    *   command()
-    *
-    *   Kommandofunktionen
-    *
-    *   Variablen:
-    *   _command: Kommando (download, upload, rename, delete, copy, move)
-    *   _files: Zeigt einen Filetransfer an
-    */
+     *   command()
+     *
+     *   Kommandofunktionen
+     *
+     *   Variablen:
+     *   _command: Kommando (download, upload, rename, delete, copy, move)
+     *   _files: Zeigt einen Filetransfer an
+     */
 
     command : function (_command,_files) {
         dom.clrDialog();
-        if (_command == 'download') return filemanager._download();
-        if (_command == 'upload') {filemanager._getDirs((function(){dom.showDialog('Filemanager','Datei(en) hochladen','prompt','cancel','upload');})());}
+        if (_command === 'select' && filemanager.popup === true) {
+            opener.document.getElementById("content").innerHTML = filemanager._clrDirNames(dom.getValue("path")) + "/" + filemanager._selectedFile();
+        } 
+        if (_command === 'download') return filemanager._download();
+        if (_command === 'upload') {
+            filemanager._uploadfiles = [];
+            dom.setContent('dom_countfiles',filemanager._uploadfiles.length+" Datei(en) zum Upload ausgewählt.");
+            dom.setStyle('dom_dialog',{'height':'370px'});
+            filemanager._getDirs((function(){dom.showDialog('Filemanager','Datei(en) hochladen','prompt','','upload');})());
+        }
 
         if (!_files) {
-            if (_command == 'rename') {
+            if (_command === 'rename') {
                dom.setValue('select_filename',filemanager._selectedFile());
                dom.showDialog('Filemanager','Datei »'+filemanager._selectedFile()+'« umbenennen nach','prompt','docancel','file',"filemanager._fcommand('rename')");
             };
-            if (_command == 'delete') {dom.showDialog('Filemanager','Datei »'+filemanager._selectedFile()+'« löschen','prompt','docancel','',"filemanager._fcommand('delete')");};
-            if (_command == 'copy') {filemanager._getDirs((function(){dom.showDialog('Filemanager','Datei »'+filemanager._selectedFile()+'« kopieren nach','prompt','docancel','dir+file',"filemanager._fcommand('copy')");})());};
-            if (_command == 'move') {filemanager._getDirs((function(){dom.showDialog('Filemanager','Datei »'+filemanager._selectedFile()+'« verschieben nach','prompt','docancel','dir',"filemanager._fcommand('move')");})());};
+            if (_command === 'delete') {dom.showDialog('Filemanager','Datei »'+filemanager._selectedFile()+'« löschen','prompt','docancel','',"filemanager._fcommand('delete')");};
+            if (_command === 'copy') {filemanager._getDirs((function(){dom.showDialog('Filemanager','Datei »'+filemanager._selectedFile()+'« kopieren nach','prompt','docancel','dir+file',"filemanager._fcommand('copy')");})());};
+            if (_command === 'move') {filemanager._getDirs((function(){dom.showDialog('Filemanager','Datei »'+filemanager._selectedFile()+'« verschieben nach','prompt','docancel','dir',"filemanager._fcommand('move')");})());};
         }
     },
 
     /*
-    *   upload()
-    *
-    *   Zeigt den Upload von Dateien an. Ruft zum Upload eines Files aus der Liste die Unterfunktion _upload() per new() auf, da sonst der Upload nicht richtig angezeigt werden kann!
-    *
-    *   Variablen:
-    *   _files: Liste von Dateien aus dem Formular
-    */
+     *  addUploadFile()
+     *  
+     *  Fügt das angegebene File der Liste von hochzuladenen Files hinzu
+     *  
+     *  Variablen:
+     *  _file: File-Objekt
+     */
+
+    addUploadFile: function(_file) {
+        if (typeof(FormData) === 'undefined') {
+            dom.byId('file_explorer').innerHTML="<p>Upload...</p><input type='hidden' id='uploadcounter' value='0' maxcount='0'><table><tr><td class='upload_file'><span class='upload_file'>"+_file.value+"</span></td></tr></table>";
+            //document.forms['dom_form_upload'].submit();
+        }else{
+            _file=_file.files[0];
+            filemanager._uploadfiles.push({'name':_file.name,'file':_file,'target':dom.getValue('select_dir')});
+            dom.setContent('dom_countfiles',filemanager._uploadfiles.length+" Datei(en) zum Upload ausgewählt.");
+            dom.setContent('dom_uploadfiles',dom.getContent('dom_uploadfiles')+_file.name+'<br>');
+            dom.clrValue('select_uploadfile');
+            dom.clrAttribute('dom_button_upload','disabled');
+        }
+        dom.debug(filemanager._uploadfiles);
+        
+    },
+
+    /*
+     *   upload()
+     *
+     *   Zeigt den Upload von Dateien an. Ruft zum Upload eines Files aus der Liste die Unterfunktion _upload() per new() auf, da sonst der Upload nicht richtig angezeigt werden kann!
+     *
+     *   Variablen:
+     *   filemanager._uploadfiles: Liste von Dateien aus dem Formular
+     */
 
 
-    upload: function (_files) {
+    upload: function () {
         dom.hideDialog();
         var text ="<p>Upload...</p><input type='hidden' id='uploadcounter' value='0' maxcount='0'><table>";
-        // Jede einzelne ausgewählte Datei wird über XMLHttpRequest versendet.
-        for (var i=0;i<_files.length;i++) {
-            text += "<tr><td class='upload_file'><span class='upload_file'>"+_files[i].name+"</span></td><td class='upload_bar'><div class='upload_bar' id='upload_bar"+i+"'><span class='upload_text' id='upload_text"+i+"'></span></div></td></tr>";
+        for (var i=0;i<filemanager._uploadfiles.length;i++) {
+            var filename = filemanager._uploadfiles[i].name;
+            text += "<tr><td class='upload_file'><span class='upload_file'>"+filename+"</span></td><td class='upload_bar'><div class='upload_bar' id='upload_bar"+i+"'><span class='upload_text' id='upload_text"+i+"'></span></div></td></tr>";
         }
         text+='</table>';
         dom.byId('file_explorer').innerHTML=text;
-        dom.setAttribute('uploadcounter','maxcount',_files.length);
+        dom.setAttribute('uploadcounter','maxcount',filemanager._uploadfiles.length);
         //dom.addEvent('uploadcounter','change', filemanager.change());
-        for (var i=0;i<_files.length;i++) {
-            new filemanager._upload(_files[i],i);
+        for (var i=0;i<filemanager._uploadfiles.length;i++) {
+            new filemanager._upload(filemanager._uploadfiles[i],i);
         }
     },
 
@@ -289,10 +374,7 @@ var filemanager = {
 
     breadcrumb : function(_text) {
         if (!dom.byId('file_breadcrumb')) return false;
-        if (_text=='') {
-            _text = 'keines ausgewählt';
-        }else{
-        }
+        if (_text=='') _text = 'keines ausgewählt';
         dom.setContent('file_breadcrumb',_text);
     },
 
@@ -364,7 +446,7 @@ var filemanager = {
                         dom.setValue('uploadcounter',parseInt(dom.getValue('uploadcounter'))+1);
                         if (dom.byId('upload_bar'+data.id)) {dom.setStyle('upload_bar'+data.id,{'width': '100%'});}
                         if (dom.byId('upload_text'+data.id)) {dom.byId('upload_text'+data.id).innerHTML='100%';}
-                        if (parseInt(dom.getValue('uploadcounter')) == parseInt(dom.getAttribute('uploadcounter','maxcount')) && dom.getValue('select_change2dir') == true) {
+                        if (parseInt(dom.getValue('uploadcounter')) === parseInt(dom.getAttribute('uploadcounter','maxcount')) && dom.getValue('select_change2dir') === true) {
                              setTimeout("filemanager.showFiles('"+dom.getValue('select_dir')+"')",5000);
                         }
                     }
@@ -414,7 +496,7 @@ var filemanager = {
     _selectedFile : function () {
         var file,obj = dom.byId('file_explorer'),list = obj.getElementsByTagName('li');
         for(var i=0; i<list.length; i++) {
-            if (dom.byId(list[i].id).className == 'selected') {
+            if (dom.byId(list[i].id).className === 'selected') {
                 file=dom.byId(list[i].id).getAttribute('file');
                 break;
             }
@@ -440,6 +522,7 @@ var filemanager = {
                 if (response.length>0) {
                     var response = eval('(' + response + ')');
                     filemanager.token = response.token;
+                    return response.token;
                 }
             },
             error: function(response, ioArgs) {
