@@ -349,6 +349,10 @@
                     <td>PHP-Version:</td>
                     <td>{TMPL_VAR NAME="php_version"}</td>
                 </tr>
+                <tr>
+                    <td>.htaccess funktioniert:</td>
+                    <td>{TMPL_IF NAME="htaccess_works"}<font color="green">ja</font>{TMPL_ELSE}<font color="red">nein</font>{/TMPL_IF}</td>
+                </tr>
             </table>
         </div>
     </div>

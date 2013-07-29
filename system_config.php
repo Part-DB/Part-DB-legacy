@@ -288,6 +288,7 @@
 
     // server
     $html->set_variable('php_version',                  phpversion(),                               'string');
+    $html->set_variable('htaccess_works',               (getenv('htaccessWorking')=='true'),        'boolean');
     $html->set_variable('is_online_demo',               $config['is_online_demo'],                  'boolean');
 
     // check if the server supports the selected language and print a warning if not

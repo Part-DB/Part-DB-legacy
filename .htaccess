@@ -1,1 +1,11 @@
+<IfModule mod_php5.c>
+php_value upload_max_filesize 513M
+php_value post_max_size 513M
+php_value memory_limit 512M
+<IfModule env_module>
+  SetEnv htaccessWorking true
+</IfModule>
+</IfModule>
+
+AddDefaultCharset utf-8
 Options -Indexes
