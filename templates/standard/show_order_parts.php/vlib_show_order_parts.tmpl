@@ -36,22 +36,26 @@
     <h2>Zu bestellende Teile</h2>
     <div class="inner">
         <form method="post" action="">
-            <input type="hidden" name="table_rowcount" value="{TMPL_VAR NAME="table_rowcount"}">
-            <table>
-                {TMPL_INCLUDE FILE="../vlib_table.tmpl"}
-            </table>
-            <br>
-            <b>Gesamtpreis: {TMPL_VAR NAME="sum_price"}</b><br>
-            <br>
-            <input type="hidden" name="selected_supplier_id" value="{TMPL_VAR NAME="selected_supplier_id"}">
+            {TMPL_IF NAME="table_rowcount"}
+                <input type="hidden" name="table_rowcount" value="{TMPL_VAR NAME="table_rowcount"}">
+                <table>
+                    {TMPL_INCLUDE FILE="../vlib_table.tmpl"}
+                </table>
+                <br>
+                <b>Gesamtpreis: {TMPL_VAR NAME="sum_price"}</b><br>
+                <br>
+                <input type="hidden" name="selected_supplier_id" value="{TMPL_VAR NAME="selected_supplier_id"}">
 
-            Alle an/abwählen:&nbsp;&nbsp;
-            <input type="checkbox" onClick="toggle_all_checkboxes(this, 'tostock_')"/>Einbuchen &nbsp;&nbsp;&nbsp;
-            <input type="checkbox" onClick="toggle_all_checkboxes(this, 'remove_')"/>Aus Liste löschen (für manuell zum Bestellen markierte Artikel)
-            <br>
-            <input type="submit" name="apply_changes" value="Änderungen übernehmen">
-            <input type="submit" name="abort" value="Änderungen verwerfen">
-            <input type="submit" name="autoset_quantities" value="Bestellmengen automatisch setzen">
+                Alle an/abwählen:&nbsp;&nbsp;
+                <input type="checkbox" onClick="toggle_all_checkboxes(this, 'tostock_')"/>Einbuchen &nbsp;&nbsp;&nbsp;
+                <input type="checkbox" onClick="toggle_all_checkboxes(this, 'remove_')"/>Aus Liste löschen (für manuell zum Bestellen markierte Artikel)
+                <br>
+                <input type="submit" name="apply_changes" value="Änderungen übernehmen">
+                <input type="submit" name="abort" value="Änderungen verwerfen">
+                <input type="submit" name="autoset_quantities" value="Bestellmengen automatisch setzen">
+            {TMPL_ELSE}
+                Es gibt keine Teile, die bestellt werden müssen.
+            {/TMPL_IF}
         </form>
     </div>
 </div>
