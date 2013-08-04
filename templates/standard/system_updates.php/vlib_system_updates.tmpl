@@ -1,0 +1,117 @@
+<div class="outer">
+    <h2>Status / Update</h2>
+    <div class="inner">
+        <form action="" method="post">
+            <table>
+                <tr>
+                    <td>
+                        Aktuelle Version:
+                    </td>
+                    <td>
+                        {TMPL_VAR NAME="current_version"}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Neuste stabile Version:
+                    </td>
+                    <td>
+                        {TMPL_VAR NAME="latest_stable_version"}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Neuster Release-Kandidat:
+                    </td>
+                    <td>
+                        {TMPL_VAR NAME="latest_unstable_version"}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Neuste SVN-Revision:
+                    </td>
+                    <td>
+                        {TMPL_VAR NAME="latest_svn_revision"}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        {TMPL_IF NAME="update_available"}
+                            <strong><font color="red">Es steht eine neue Version zur Verfügung!</font></strong><br>
+                            <input type="submit" name="make_update" value="System jetzt updaten">
+                        {TMPL_ELSE}
+                            <font color="darkgreen">Das System ist auf dem neusten Stand.</font>
+                        {/TMPL_IF}
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div class="outer">
+    <h2>Update-Einstellungen</h2>
+    <div class="inner">
+        <form action="" method="post">
+            <table width="100%">
+
+                <tr>
+                    <td>Update-Typ:</td>
+                    <td>
+                        <select name="update_type">
+                            {TMPL_LOOP NAME = "update_type_loop"}
+                                <option value="{TMPL_VAR NAME="value"}" {TMPL_IF NAME="selected"}selected{/TMPL_IF}>{TMPL_VAR NAME="text"}</option>
+                            {/TMPL_LOOP}
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" name="apply" value="Einstellungen übernehmen" {TMPL_IF NAME="is_online_demo"}disabled{/TMPL_IF}>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div class="outer">
+    <h2>Lokal verfügbare Updates (bereit zur Installation)</h2>
+    <div class="inner">
+        <form action="" method="post">
+            {TMPL_IF NAME="table"}
+                <table>
+                    {TMPL_INCLUDE FILE="../vlib_table.tmpl"}
+                </table>
+            {TMPL_ELSE}
+                Keine Updates gefunden.
+            {/TMPL_IF}
+            <br>
+            <input type="submit" name="download_update_packages" value="Aktualisieren (Updatepakete aus dem Internet herunterladen)">
+        </form>
+    </div>
+</div>
