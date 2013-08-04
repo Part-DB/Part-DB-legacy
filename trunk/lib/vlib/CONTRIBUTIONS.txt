@@ -1,0 +1,25 @@
+CONTRIBUTIONS
+--------------
+
+This document is for people who wish to aid in the development of vLIB.
+
+
+1. Getting started
+---------------------
+Now if you would like to contribute to the project you're going to need CVS access to vLIB, which is hosted on SourceForge.net. Visit "http://vlib.clausvb.de/forum/index.php" and and leave a message. Please give us your sf.net username and what it is that you're interested in developing.
+
+If all is well you'll be given CVS access to vLIB where you can start modifying, adding etc.
+
+NB: If you don't know how to use CVS you can learn more about it using the sourceforge documentation. The basics aren't very difficult and you should be able to pick it up fairly quickly. If you're using Win32, I suggest you use a tool called TortoiseCVS. This is easy to setup and lets you access CVS commands from Windows Explorer. You can find it at http://www.tortoisecvs.org/.
+
+
+2. Coding Standards
+-------------------
+English: http://www.dagbladet.no/development/phpcodingstandard/
+German: http://php-coding-standard.de/php_coding_standard.php
+
+Whenever you make a change, however small, make a note in the CHANGELOG.txt file. Briefly describe what you've done and put your name and the date on it (the date is in YYYY-MM-DD format to avoid confusion).
+
+----------------------------------------------------------------------------------------------------------------------------
+
+If you have any other questions, then visit "http://vlib.clausvb.de/forum/index.php" and leave a message.

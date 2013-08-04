@@ -1,0 +1,22 @@
+{TMPL_IF NAME="refresh_navigation_frame"}
+    <script type="text/javascript">
+        parent.frames.navigation_frame.location.reload();
+    </script>
+{/TMPL_IF}
+
+<div class="outer">
+    <h2>Datei ausw&auml;hlen</h2>
+    <div class="inner">
+        <form enctype="multipart/form-data" action="" method="post">
+            Dateityp: <select name="file_format">
+                <option value="CSV" {TMPL_IF NAME="file_format" VALUE="CSV"}selected{/TMPL_IF}>CSV</option>
+                <option value="XML" {TMPL_IF NAME="file_format" VALUE="XML"}selected{/TMPL_IF}>XML</option>
+            </select>
+            &nbsp;&nbsp;&nbsp;
+            Trennzeichen für CSV: <input type="text" name="separator" size="5" maxlength="10" value="{TMPL_VAR NAME="separator"}">
+            <br>
+            <input type="file" name="uploaded_file" size="30">
+            <input type="submit" name="upload_file" value="Datei hochladen">
+        </form>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+/**
+ * FAQs are just headers with a different class in them. Here's a simple
+ * style sheet for them.
+ * 
+ * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
+ * @author     Dion Nicolaas <dion@nicolaas.net>
+ */
+span.faq {
+    color: brown;
+}

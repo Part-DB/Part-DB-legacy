@@ -1,0 +1,145 @@
+<div class="outer">
+    <h2>
+        {TMPL_UNLESS NAME="is_new_part"}
+            Ändere Detailinfos von "<a href="{TMPL_VAR NAME="relative_path"}show_part_info.php?pid={TMPL_VAR NAME="pid"}">{TMPL_VAR NAME="name"}</a>"
+
+            <div style="float: right; display: inline;">
+                ID: {TMPL_VAR NAME="pid"}
+            </div>
+        {TMPL_ELSE}
+            Neues Bauteil erstellen
+        {/TMPL_UNLESS}
+    </h2>
+    <div class="inner">
+        <form action="" method="post">
+            <table>
+                <tr>
+                    <td>
+                        <b>Name:</b>
+                    </td>
+                    <td>
+                        <input type="text" name="name" size="35" value="{TMPL_VAR NAME="name"}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Beschreibung:</b>
+                    </td>
+                    <td>
+                        <input type="text" name="description" size="35" value="{TMPL_VAR NAME="description"}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Vorhanden:</b>
+                    </td>
+                    <td>
+                        <input type="text" name="instock" size="5" onkeypress="validateNumber(event)" value="{TMPL_VAR NAME="instock"}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Min. Bestand:</b>
+                    </td>
+                    <td>
+                        <input type="text" name="mininstock" size="5" onkeypress="validateNumber(event)" value="{TMPL_VAR NAME="mininstock"}">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Kategorie:</b>
+                    </td>
+                    <td>
+                        <select name="category_id" onChange="document.getElementById('search_category_name').value='__ID__='+this.value; document.getElementById('search_category').click();">
+                            {TMPL_VAR NAME="category_list" ESCAPE="none"}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" name="search_category_name" id="search_category_name" value="Suchen / Hinzufügen" class="cleardefault" onkeydown="if (event.keyCode == 13) { document.getElementById('search_category').click();} ">
+                        <input type="submit" name="search_category" id="search_category" value="OK!">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <b>Lagerort:</b>
+                    </td>
+                    <td>
+                        <select name="storelocation_id">
+                            <option value="0"></option>
+                            {TMPL_VAR NAME="storelocation_list" ESCAPE="none"}
+                        </select>
+                    </td>
+                    <td>
+                        <input type="text" name="search_storelocation_name" value="Suchen / Hinzufügen" class="cleardefault" onkeydown="if (event.keyCode == 13) { document.getElementById('search_storelocation').click();} ">
+                        <input type="submit" name="search_storelocation" id="search_storelocation" value="OK!">
+                    </td>
+                </tr>
+                {TMPL_UNLESS NAME="disable_manufacturers"}
+                    <tr>
+                        <td>
+                            <b>Hersteller:</b>
+                        </td>
+                        <td>
+                            <select name="manufacturer_id">
+                                <option value="0"></option>
+                                {TMPL_VAR NAME="manufacturer_list" ESCAPE="none"}
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" name="search_manufacturer_name" value="Suchen / Hinzufügen" class="cleardefault" onkeydown="if (event.keyCode == 13) { document.getElementById('search_manufacturer').click();} ">
+                            <input type="submit" name="search_manufacturer" id="search_manufacturer" value="OK!">
+                        </td>
+                    </tr>
+                {/TMPL_UNLESS}
+                {TMPL_UNLESS NAME="disable_footprints"}
+                    <tr>
+                        <td>
+                            <b>Footprint:</b>
+                        </td>
+                        <td>
+                            <select name="footprint_id">
+                                <option value="0"></option>
+                                {TMPL_VAR NAME="footprint_list" ESCAPE="none"}
+                            </select>
+                        </td>
+                        <td>
+                            <input type="text" name="search_footprint_name" value="Suchen / Hinzufügen" class="cleardefault" onkeydown="if (event.keyCode == 13) { document.getElementById('search_footprint').click();} ">
+                            <input type="submit" name="search_footprint" id="search_footprint" value="OK!">
+                        </td>
+                    </tr>
+                {/TMPL_UNLESS}
+<!--            <tr>
+                    <td>
+                        <b>Öffentlich sichtbar:</b>
+                    </td>
+TODO:               <td>
+remove this             <input type="checkbox" name="visible" {TMPL_IF NAME="visible"}checked{/TMPL_IF}>
+                        Teil ist öffentlich sichtbar
+                    </td>
+                </tr>
+--!>            <tr>
+                    <td valign="top">
+                        <b>Kommentar:</b>
+                    </td>
+                    <td>
+                        <textarea name="comment" rows="4" cols="40">{TMPL_VAR NAME="comment"}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+
+                    </td>
+                    <td>
+                        {TMPL_IF NAME="is_new_part"}
+                            <input type="submit" name="create_new_part" value="Bauteil erstellen">
+                        {TMPL_ELSE}
+                            <input type="hidden" name="pid" value="{TMPL_VAR NAME="pid"}">
+                            <input type="submit" name="apply_attributes" value="Änderungen übernehmen">
+                            <input type="submit" value="Änderungen verwerfen">
+                        {/TMPL_IF}
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>

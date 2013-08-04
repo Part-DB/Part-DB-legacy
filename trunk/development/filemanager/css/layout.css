@@ -1,0 +1,194 @@
+@charset "UTF-8";
+
+/* CSS Document */
+
+html {
+    height:             100%;
+    width:              100%;
+    margin:             0;
+    padding:            0;
+}
+
+body {
+    height:             100%;
+    width:              100%;
+    margin:             0;
+    padding:            0;
+    font-family:        Verdana,Helvetica,sans-serif;
+    font-size:          9pt;
+    background:         white;
+    width:              auto;
+    height:             auto;
+    overflow:           auto;
+    text-align:         center;
+}
+
+div {
+    text-align:         left;
+}
+
+#footer {
+    text-align:         center;
+    font-size:          10px;
+    color:              white;
+    position:           absolute;
+    bottom:             3px;
+    height:             18px;
+    width:              auto;
+    left:               0;
+    right:              0;
+    padding-top:        5px;
+    background-color:   #97ACD0;
+    z-index:            0;
+}
+
+#logo {
+    width:              468px;
+    height:             60px;
+    top:                8px;
+    left:               8px;
+    position:           absolute;
+    z-index:            64;
+}
+
+#content {
+    position:           absolute;
+    top:                110px;
+    left:               340px;
+    min-width:          600px;
+    max-width:          1200px;
+    height:             85%;
+    z-index:            100;
+    background-color:   transparent;
+    opacity:            0.90;
+    -ms-filter:         "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+    filter:             alpha(opacity=90);
+}
+
+#content .head {
+    width:              auto;
+}
+
+#content .content {
+    margin-top:         1em;
+    overflow:           auto;
+    height:             90%;
+}
+
+#popup {
+    position:           absolute;
+    top:                10px;
+    left:               10px;
+    min-width:          800px;
+    max-width:          1200px;
+    height:             auto;
+    z-index:            100;
+    background-color:   transparent;
+    opacity:            0.90;
+    -ms-filter:         "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+    filter:             alpha(opacity=90);
+}
+
+#popup .head {
+    width:              auto;
+}
+
+#popup .content {
+    margin-top:         1em;
+    overflow:           auto;
+    height:             85%;
+}
+
+#menu {
+    position:           absolute;
+    top:                110px;
+    left:               30px;
+    width:              240px;
+    height:             85%;
+    z-index:            100;
+    background-color:   transparent;
+    border-right:       1px solid #D4E4FF;
+    opacity:            0.90;
+    -ms-filter:         "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+    filter:             alpha(opacity=90);
+    overflow:           hidden;
+}
+
+#menu .head {
+    width:              17em;
+}
+
+#menu .head, #content .head, #popup .head {
+    color:              #515C6F;
+    background:         url("gfx/accordionItemActive.gif") repeat-x scroll center bottom #F7FAFF;
+    border-bottom:      1px solid #D4E4FF;
+    padding:            0.1em 0.3em 0.3em 1em;
+}
+
+#menu .menu {
+    font-size:          0.8em;
+    color:              #444D5D;
+    margin-top:         1em;
+    margin-bottom:      1em;
+}
+
+#menu .menu ul {
+    margin-left:        2.5em;
+    padding:            0;
+}
+
+#menu .menu li {
+    list-style-image:   url("gfx/pfeil-querverweis.gif");
+    list-style-type:    none;
+    line-height:        1.6em;
+    width:              17em;
+    margin-bottom:      0.2em;
+    padding-left:       0.2em;
+}
+
+#menu .menu li:hover {
+    color:              #252A33;
+    background-color:   #DDDDE9;
+    cursor:             pointer;
+}
+
+#menubar {
+    color:              white;
+    background-color:   #97ACD0;
+    font-size:          0.8em;
+    z-index:            64;
+    width:              auto;
+    height:             60px;
+    position:           absolute;
+    left:               0;
+    right:              0;
+}
+
+#menubar .logo {
+}
+
+#menubar .head {
+    font-size:          2em;
+    width:              50%;
+    position:           absolute;
+    top:                10px;
+    left:               30px;
+    right:              0;
+}
+
+#menubar .head2 {
+    font-size:          1em;
+    width:              50%;
+    position:           absolute;
+    top:                40px;
+    left:               30px;
+    right:              0;
+}
+
+.head[title]:before, .headline[title]:before {
+    content:           ".:: " attr(title);
+}
+
+.headline[missing]:before {
+    content:           ".:: Seufz... Hier fehlt noch etwas";
+}

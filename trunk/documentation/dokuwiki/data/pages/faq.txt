@@ -1,0 +1,30 @@
+====== FAQ - Häufig gestellte Fragen ======
+
+Hier werden Antworten auf die wichtigsten Fragen gegeben. Bevor Sie bei Problemen Kontakt mit den Entwicklern aufnehmen, prüfen Sie bitte ob Ihre Frage auf dieser Seite noch nicht beantwortet wurde.
+
+????? Was bedeutet "Datenbank-Update notwendig!"? Was muss ich tun? ?????
+
+Part-DB legt die eingegebenen Daten (Artikel, Lagerorte usw.) in einer MySQL Datenbank ab. Da Part-DB laufend weiterentwickelt wird, muss die Datenbank ab und zu etwas angepasst werden (neue Tabellen, neue Spalten, ...). Die Meldung "Datenbank-Update notwendig!" bedeutet nur, dass Ihre Datenbank nicht mehr auf dem neusten Stand ist und deshalb aktualisiert werden muss. Dies ist jeweils nur notwendig, nachdem man eine neue(re) Version von Part-DB installiert hat. Das Update muss man unter dem Menüpunkt "System -> Datenbank" mit der Schaltfläche "Jetzt Datenbank updaten" aktualisieren (lassen). Es empfiehlt sich, **vor** dem Update ein Backup der Datenbank anzulegen.
+
+????? Warum kann Ich nur Dateien bis maximal #MB hochladen? ?????
+
+Die maximale Dateigrösse für Uploads wird nicht von Part-DB beschränkt, sondern vom Server. Betreibt man Part-DB auf dem Server eines Hosters, muss man dessen Support in Anspruch nehmen um abzuklären wie man das Limit hochsetzen kann. Betreibt man Part-DB auf einem eigenen Server, ist in [[Anforderungen#PHP konfigurieren|dieser Anleitung]] beschrieben, wie man PHP für grössere Uploads konfigurieren kann.
+
+????? Die Startseite braucht sehr lange zum laden, was kann ich dagegen tun? ?????
+
+Auf der Startseite wird standardmässig der RSS-Feed der Part-DB Downloads angezeigt, damit Sie direkt sehen wenn es neue Versionen gibt. Allerdings wird dazu bei jedem Aufruf der Startseite der RSS-Feed von der Google Code Seite heruntergeladen, was jedes Mal einen kurzen Moment dauert. Bei einer langsamen Internetverbindung kann dies die Ladezeit erheblich verlängern. Dies lässt sich vermeiden, indem man den RSS-Feed deaktiviert. Dazu aktiviert man unter "System" -> "Konfiguration" die Checkbox "Updateliste (RSS-Feed) auf Startseite verstecken".
+
+????? Ich möchte in den Artikel-Tabellen andere Spalten haben, ist das möglich? ?????
+
+Ja, man kann die Spalten in der Konfigurationsdatei "config.php" selber definieren. Dazu öffnet man die Datei "config_defaults.php". Dort gibt es mehrere Zeilen, die mit "$config['table']" beginnen. Jede dieser Zeilen definiert die Spalten für eine spezifische Tabelle. Kopieren Sie diejenigen Zeilen, die sie ändern möchten, in die Datei "data/config.php" (ACHTUNG: Ändern Sie die Zeilen NICHT in der "config_defaults.php"!). In der "config.php" muss der Beginn dieser Zeilen von "$config" in "$manual_config" geändert werden. Nun können Sie die Werte dieser Variablen ändern, um die Spalten anzupassen. Die verfügbaren Spalten sind in der "config_defaults.php" aufgelistet. Achtung: Zur Zeit werden nicht alle Spalten auf jeder Seite unterstützt (z.B. die +/- Buttons funktionieren bisher nur auf einer Seite).
+
+????? Footprints: Das Zuweisen von Bildern ist mühsam, geht das nicht einfacher? ?????
+
+Im Moment geht das leider nicht einfacher. Der einzige Workaround wird im Hinweistext unter dem Textfeld des Dateipfades für das Bild erklärt. In späteren Versionen von Part-DB wird dieses Manko allerdings korrigiert, es wird nämlich einen Dialog zum Auswählen einer Bilddatei geben.
+
+????? Beim wählen der Sprache kommt immer "Die gewählte Sprache wird vom Server nicht unterstützt."! ?????
+
+Diese Fehlermeldung bedeutet, dass auf Ihrem Server-Betriebssystem die gewählte Sprache nicht installiert ist. Falls Sie einen Linux-Server haben, können Sie die Sprache wie [[Anforderungen#Installation_der_Sprachdateien|hier]] beschrieben installieren. Ist die Installation von zusätzlichen Sprachen auf Ihrem Server nicht möglich, können Sie die Sprache "POSIX" wählen, diese sollte auf jedem System verfügbar sein. Zusätzlich müssen Sie in Ihrer Konfigurationsdatei die zu verwendende Währung definieren. Dazu fügen Sie in der Datei "data/config.php" diese Zeile ein (z.B. für Euro):
+<code>
+$manual_config['money_format']['POSIX'] = '%!n €';
+</code>

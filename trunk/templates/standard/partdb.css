@@ -1,0 +1,367 @@
+@charset "UTF-8";
+
+/* allgemeine Gestaltung */
+.body {
+    background-color: #cdcdcd;
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+input[type=text], input[type=password] {
+    /* this is for the combination of ubuntu + firefox, because if the ubuntu font is used, the input form is too long.
+     * see: https://bugs.launchpad.net/ubuntu/+source/firefox/+bug/885920 */
+    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
+}
+
+.outer {
+    background-color: #ffffff;
+    margin-top:    10px;
+    margin-bottom: 15px;
+    border: none;
+    border-bottom: 1px solid #000000;
+    border-left:   1px solid #000000;
+    padding:   11px;
+    font-size: 12px;
+}
+
+.outer h1 {
+    margin:  0px;
+    padding: 0px;
+    font-size: 70px;
+    text-align: center;
+    text-shadow: grey 2px 2px 4px;
+}
+
+.outer h2 {
+    background-color: #BABABA;
+    margin-top:    0px;
+    margin-bottom: 1px;
+    border-bottom: 2px solid #F76B02;
+    border-left:   1px solid #F76B02;
+    padding: 1px;
+    font-size:   15px;
+    font-weight: bold;
+}
+
+.outer h3 {
+    text-align: center;
+}
+
+.inner {
+    background-color: #F2F2F2;
+    border-bottom: 3px solid #d0d0d0;
+    border-left:   1px solid #d0d0d0;
+    border-right:  1px solid #d0d0d0;
+    padding: 1px;
+}
+
+.red {
+    color: #f00000;
+}
+
+.backred {
+    background-color: #D19F9F;
+}
+
+.backgreen {
+    background-color: #34D746;
+}
+
+.small {
+    font-size: small;
+}
+
+
+/* Default Tabellen */
+.table {
+    border: none;
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid #000000;
+    border-left: 1px solid #000000;
+    background-color: #ffffff;
+}
+.tablenone {
+    border: none;
+    width: 100%;
+}
+.tdtop {
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    width: 80%;
+    border-bottom: 2px solid #F76B02;
+    border-left:  1px solid #F76B02;
+    background-color: #BABABA;
+}
+.tdtext {
+    border: none;
+    width: 80%;
+    font-size: 12px;
+    background-color: #F2F2F2;
+    border-bottom: 3px solid #d0d0d0;
+    border-left: 1px solid #d0d0d0;
+    border-right: 1px solid #d0d0d0;
+}
+.tdtextsmall {
+    border: none;
+    width: 80%;
+    font-size: small;
+    background-color: #F2F2F2;
+    border-bottom: 3px solid #d0d0d0;
+    border-left: 1px solid #d0d0d0;
+    border-right: 1px solid #d0d0d0;
+}
+
+/* Tabellen/Listen */
+
+/** new: 20120712 Udo Neist **/
+
+a.headline {color: #2652BA;}
+a.headline:before {content:"- "}
+a.headline:after {content:" -"}
+
+/** end: 20120712 Udo Neist **/
+
+.trlist_odd {
+    background-color: #d0d0d0;
+}
+.trlist_even {
+    background-color: #b0b0b0;
+}
+.trlist1 {
+    background-color: #b0b0b0;
+}
+.trlist2 {
+    background-color: #d0d0d0;
+}
+.trcat {
+    font-size: 12px;
+    font-weight: bold;
+}
+.tdrow0 {
+    font-size: 12px;
+    position: relative;
+    display: block;
+    min-width: 20px; /* If there is no picture, the column should have a width of 20px anyway (that was a bug if there is only one row) */
+}
+.tdrowred {
+    font-size: 12px;
+    color: #ff0000;
+}
+.tdrow1 {
+    font-size: 12px;
+    text-align: left;
+}
+.tdrow2 {
+    font-size: 12px;
+    text-align: right;
+}
+.tdrow3 {
+    font-size: 12px;
+    text-align: right;
+}
+.tdrow4 {
+    font-size: 12px;
+    text-align: right;
+}
+.tdrow5 {
+    font-size: 12px;
+}
+.tdrow6 {
+    font-size: 12px;
+    text-align: center;
+}
+.tdrow7 {
+    font-size: 12px;
+    text-align: center;
+}
+
+.catbild
+{
+    width: 20px;
+    height: 15px;
+}
+
+/* hover stuff */
+
+.companypic
+{
+    width: 20px;
+    height: 15px;
+    display: inline;
+}
+
+.hoverpic
+{
+    min-width: 10px;
+    max-width: 20px;
+    min-height: 8px;
+    max-height: 15px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+a:hover .hoverpic
+{
+    max-width: 480px;
+    max-height: 180px;
+    display: block;
+    position: absolute;
+    bottom: -15px;
+    left: 3px;
+    z-index: 1;
+    background: #ffffff;
+    border: 1px solid #800000;
+}
+
+
+/* Sonstiges */
+a img {
+    border: none;
+}
+a:link {
+    color: #2652BA;
+}
+a:visited {
+    color: #2652BA;
+}
+a:hover {
+    color: #2652BA;
+}
+a:active {
+    color: #2652BA;
+}
+
+/* label.php */
+.labelbild {
+    float: left;
+    margin:3px;
+}
+td.labelbild {
+    text-align:center;
+    color: #193FE6;
+    font-size:0.9em;
+    font-weight:bold;
+}
+
+/* footprint.php */
+.footprint_outer
+{
+    overflow: hidden;
+    clear: both;
+    background-color: #F2F2F2;
+    border-bottom: 3px solid #d0d0d0;
+    border-left:   1px solid #d0d0d0;
+    border-right:  1px solid #d0d0d0;
+    padding: 1px;
+}
+
+.footprint_inner
+{
+    word-wrap: break-word;
+    float: left;
+    margin-top: 5px;
+    margin-left: 5px;
+    width: 110px;
+    min-height: 130px;
+    font-size: 12px;
+}
+
+.footprint_inner img
+{
+    height: 80px;
+    border: 1px;
+}
+
+.footprint_inner p
+{
+    text-align: center;
+    text-indent: 0;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#homelink
+{
+    padding: 1%;
+    float: right;
+}
+#homelink img
+{
+    height: 15px;
+}
+
+.search_selection
+{
+    width: 18em;
+    padding: 2px;
+}
+.search_selection p
+{
+    margin: 0px;
+    width: 9em;
+    float: left;
+}
+
+.clear
+{
+    height: 1px;
+    clear: both;
+    overflow: hidden;
+}
+
+
+/* Nav Menue */
+.dtree {
+    padding:0px;
+    border: 0px;
+    font-size: 12px;
+    color: #666;
+    white-space: nowrap;
+}
+.dtree img {
+    padding:0px;
+    border: 0px;
+    vertical-align: middle;
+}
+.dtree a {
+    padding:0px;
+    border: 0px;
+    color: #333;
+    text-decoration: none;
+}
+.dtree a.node, .dtree a.nodeSel {
+    padding:0px;
+    border: 0px;
+    white-space: nowrap;
+    padding: 1px 2px 1px 2px;
+}
+.dtree a.node:hover, .dtree a.nodeSel:hover {
+    padding:0px;
+    border: 0px;
+    color: #333;
+    text-decoration: underline;
+}
+.dtree a.nodeSel {
+    padding:0px;
+    border: 0px;
+    background-color: #c0d2ec;
+}
+.dtree .clip {
+    padding:0px;
+    border: 0px;
+    overflow: hidden;
+}
+
+/* Help */
+dl.help dt {
+    font-weight:bold;
+    text-decoration: underline;
+    margin:1em;
+}
+dl.help dd {
+    margin-bottom:1em;
+}

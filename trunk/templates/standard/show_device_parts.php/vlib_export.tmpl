@@ -1,0 +1,54 @@
+<div class="outer">
+    <h2>Teile abfassen/einbuchen/vormerken/exportieren</h2>
+    <div class="inner">
+        <form method="post" action="" id="export">
+            <input type="hidden" name="device_id" value="{TMPL_VAR NAME="device_id"}">
+            <table>
+                <tr>
+                    <td>Multiplikator:</td>
+                    <td>
+                        <input type="text" name="export_multiplier" size="3" onkeypress="validatePosIntNumber(event)" value="{TMPL_IF NAME="export_multiplier"}{TMPL_VAR NAME="export_multiplier"}{TMPL_ELSE}1{/TMPL_IF}">
+                        <input type="button" value="+" onClick="document.forms['export'].elements['export_multiplier'].value++">
+                        <input type="button" value="-" onClick="if (document.forms['export'].elements['export_multiplier'].value > 1) document.forms['export'].elements['export_multiplier'].value--">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Teile abfassen oder einbuchen:</td>
+                    <td>
+                        <input type="submit" name="book_parts" value="Abfassen (-)">
+                        <input type="submit" name="book_parts_in" value="Einbuchen (+)">
+                    </td>
+                </tr>
+                <tr>
+                    <td>Zum Bestellen vormerken:</td>
+                    <td>
+                        {TMPL_IF NAME="order_quantity"}
+                            Es sind {TMPL_VAR NAME="order_quantity"}Stk. von dieser Baugruppe zum Bestellen vorgemerkt
+                            ({TMPL_IF NAME="order_only_missing_parts"}Nur fehlende Teile{TMPL_ELSE}Alle Teile{/TMPL_IF}).
+                            <input type="submit" name="remove_order" value="Aufheben">
+                        {TMPL_ELSE}
+                            <input type="submit" name="add_order" value="Alle">
+                            <input type="submit" name="add_order_only_missing" value="Nur fehlende Teile">
+                        {/TMPL_IF}
+                    </td>
+                </tr>
+                <tr>
+                    <td>Exportieren:</td>
+                    <td>
+                        <select name="export_format">
+                            {TMPL_LOOP NAME = "export_formats"}
+                                <option value="{TMPL_VAR NAME="value"}" {TMPL_IF NAME="selected"}selected{/TMPL_IF}>{TMPL_VAR NAME="text"}</option>
+                            {/TMPL_LOOP}
+                        </select>
+                        <input type="checkbox" name="only_missing_material" {TMPL_IF NAME="export_only_missing"}checked{/TMPL_IF}>Nur fehlendes Material
+                        <input type="submit" name="export_show" value="Anzeigen">
+                        <input type="submit" name="export_download" value="Herunterladen">
+                    </td>
+                </tr>
+            </table>
+            {TMPL_IF NAME="export_result"}
+                <hr>{TMPL_VAR NAME="export_result" ESCAPE="none"}
+            {/TMPL_IF}
+        </form>
+    </div>
+</div>

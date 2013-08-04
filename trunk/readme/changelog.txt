@@ -1,0 +1,43 @@
+###############################################################################
+##                                                                           ##
+## Part-DB Changelog                                                         ##
+##                                                                           ##
+###############################################################################
+
+
+Part-DB 0.3.0
+=============
+
+    - Neue Mindestanforderungen:
+        - Es wird mindestens PHP 5.3.0 vorausgesetzt!
+        - Es wird PDO (PHP Data Objects) inkl. MySQL Plugin vorausgesetzt!
+        - Die MySQL Engine "InnoDB" wird vorausgesetzt!
+
+    - Interne Veränderungen:
+        - Sehr umfangreiche Änderungen durch Umstellung auf objektorientierte Programmierung
+        - Verwendung des Template-Systems "vlib"
+        - Verwendung von Fremdschlüssel und Transaktionen in der Datenbank für mehr Datensicherheit
+        - Neue Debug-Möglichkeiten
+        - Quellcode-Dokumentation mit Doxygen
+
+    - Neue / aktualisierte Funktionen:
+        - Installer hinzugefügt, der auch die Datenbankstruktur erzeugen kann
+        - DokuWiki für die Dokumentation/Hilfe
+        - Bauteile können mehrere Lieferanten, Bestellnummern und Preise haben
+        - Bauteilpreise, die sich auf eine bestimmte Bestellmenge beziehen
+        - Einzelne Bauteile und ganze Baugruppen können zum Bestellen vorgemerkt werden
+        - Herstellerverwaltung hinzugefügt
+        - Umfangreichere Konfigurationsmöglichkeiten
+
+    - Bugfixes:
+        - Fehlgeschlagene Datenbankupdates führen nicht mehr automatisch zu einem weiteren Fehlschlag
+        - Verbesserung der Kompatibilität mit den Browsern IE und FF
+
+    - Sonstiges:
+        - Sehr viele weitere neue Funktionen, Veränderungen und Bugfixes
+
+
+Part-DB 0.2.2
+=============
+
+    - Bis zu dieser Version ist kein Changelog vorhanden.

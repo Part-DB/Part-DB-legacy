@@ -1,0 +1,19 @@
+<div class="outer">
+    <h2>Sonstiges</h2>
+    <div class="inner">
+        <form action="" method="post">
+            Teile ohne Einkaufsinformationen:
+            <input type="hidden" name="show_no_orderdetails_parts" value="{TMPL_IF NAME="show_no_orderdetails_parts"}0{TMPL_ELSE}1{/TMPL_IF}">
+            <input type="submit" name="change_show_no_orderdetails" value="{TMPL_IF NAME="show_no_orderdetails_parts"}ausblenden{TMPL_ELSE}einblenden{/TMPL_IF}">
+        </form>
+    </div>
+</div>
+
+<div class="outer">
+    <h2>Nicht mehr erh&auml;ltliche Teile</h2>
+    <div class="inner">
+        <table>
+            {TMPL_INCLUDE FILE="../vlib_table.tmpl"}
+        </table>
+    </div>
+</div>

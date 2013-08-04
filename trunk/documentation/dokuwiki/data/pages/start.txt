@@ -1,0 +1,19 @@
+
+===== Installation =====
+
+  * [[Anforderungen]]
+
+  * [[Installation]]
+
+  * [[htaccess|Sicherheit]]
+
+===== Support =====
+
+  * [[FAQ|FAQ - Häufig gestellte Fragen]]
+
+  * [[Kontakt|Kontakt - Fehler melden, Verbesserungsvorschläge, Kritik]]
+===== Lizenz =====
+
+  * [[gpl-erklärung|Open-Source-Software im Unternehmen]]
+
+  * [[GPLv2|GNU GPL v2]] (Lizenz von Part-DB, DokuWiki, Doxygen)

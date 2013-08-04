@@ -1,0 +1,49 @@
+INSTALLATION INSTRUCTIONS
+---------------------------
+
+The vLIB Library has been built to be installed with minimal changes needed.
+The following steps will guide you through the install proceedure:
+
+1) Download the current version of vLIB, which you probably did by now :-).
+
+2) Unpack the version of vLIB that you downloaded (eg: vLIB_3-0-6.zip) into a directory of
+   your choise accessible to your php scripts.
+
+3) Read the LICENCE file. Using vLIB in your applications testifies your agreement with this
+   software licence.
+
+4) If you are installing vLIB then see 4a. If you're upgrading vLIB then see 4b.
+
+    4a) Rename the file vlibIni.php-dist to vlibIni.php.
+        Open vlibIni.php and edit the configuration parameters to suit your needs. If you need any help
+        then please visit http://vlib.clausvb.de/
+
+    4b) As you are upgrading you probably do not want to overwrite the configuration parameters that
+        you have already set in vlibIni.php. So what you need to do is copy each configuration parameter
+        from your current vlibIni.php file into vlibIni.php-dist. It should be straight forward as the
+        parameters should be completely backward compatible and therefore the parameter names should
+        not have changed.
+
+        ***************************************************************************************************
+        NB: From version 3.0.3, the old ini.php file has been replace with vlibIni.php. This is now a class
+        which which is included once, and not an array which was included every  time it was needed. This
+        change was made to increase performance.
+        If you're upgrading to this version, it does not mean an immense change in your installation.
+        You just need to copy all values from your old ini.php file to vlibIni.php. It should be straight
+        forward.
+        ***************************************************************************************************
+
+        Once you are happy that you have copied all of your original parameters into vlibIni.php-dist you
+        should backup you current vlibIni.php file to say vlibIni.php.bk. All you need to do now is rename the
+        vlibIni.php-dist file to vlibIni.php.
+
+        ****************************************************************************************************
+        NB: There was a major renaming change in the upgrade from vERSION 2.0.2 to 3.0.0 as the names
+        of all classes are now called vlib* instead of v*, i.e. vTemplate is now vlibTemplate.
+        Therefore you must now update any files which you used with the vTemplate class to use vlibTemplate.
+        If you do not, you will not be able to use the new versions of vLIB.
+        This is the only naming change I can see in the future. It was made because of conflicts with
+        other php classes.
+        ****************************************************************************************************
+
+NB: Make sure that you read the LICENCE file (step 3).

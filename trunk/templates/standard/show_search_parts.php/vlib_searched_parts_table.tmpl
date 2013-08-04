@@ -1,0 +1,23 @@
+<div class="outer">
+    <h2>Treffer in der Kategorie "{TMPL_VAR NAME="category_full_path"}"</h2>
+    <div class="inner">
+        <form method="post" action="">
+            <input type="hidden" name="table_rowcount" value="{TMPL_VAR NAME="table_rowcount"}">
+
+            <input type='hidden' name='keyword' value='{TMPL_VAR NAME="keyword"}'>
+            {TMPL_IF NAME="search_name"}            <input type='hidden' name='search_name'>{/TMPL_IF}
+            {TMPL_IF NAME="search_category"}        <input type='hidden' name='search_category'>{/TMPL_IF}
+            {TMPL_IF NAME="search_description"}     <input type='hidden' name='search_description'>{/TMPL_IF}
+            {TMPL_IF NAME="search_comment"}         <input type='hidden' name='search_comment'>{/TMPL_IF}
+            {TMPL_IF NAME="search_supplier"}        <input type='hidden' name='search_supplier'>{/TMPL_IF}
+            {TMPL_IF NAME="search_supplierpartnr"}  <input type='hidden' name='search_supplierpartnr'>{/TMPL_IF}
+            {TMPL_IF NAME="search_storelocation"}   <input type='hidden' name='search_storelocation'>{/TMPL_IF}
+            {TMPL_IF NAME="search_footprint"}       <input type='hidden' name='search_footprint'>{/TMPL_IF}
+            {TMPL_IF NAME="search_manufacturer"}    <input type='hidden' name='search_manufacturer'>{/TMPL_IF}
+
+            <table>
+                {TMPL_INCLUDE FILE="../vlib_table.tmpl"}
+            </table>
+        </form>
+    </div>
+</div>
