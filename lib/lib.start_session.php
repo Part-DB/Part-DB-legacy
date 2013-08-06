@@ -207,35 +207,45 @@
     {
         $messages = array();
 
+        // directories must have a slash at the end!
+        // e: must exist
+        // r: must be readable
+        // w: must be writable
+        // x: executable bit must be set (important for directories with write access! will be ignored on Windows)
         $permissions = array(   // Part-DB/data
-                                '/data/'                                => 'rwx',
-                                '/data/config.php'                      => 'rw',
-                                '/data/index.html'                      => 'r',
-                                '/data/.htaccess'                       => 'r',
-                                '/data/backup/'                         => 'rwx',
-                                '/data/backup/index.html'               => 'r',
-                                '/data/log/'                            => 'rwx',
-                                '/data/log/index.html'                  => 'r',
-                                '/data/media/'                          => 'rwx',
-                                '/data/media/.htaccess'                 => 'r',
+                                '/data/'                                => 'erwx',
+                                '/data/config.php'                      => 'rw',    // don't need to exist (for first startup)
+                                '/data/backup/'                         => 'erwx',
+                                '/data/log/'                            => 'erwx',
+                                '/data/media/'                          => 'erwx',
                                 // DokuWiki/data
-                                '/documentation/dokuwiki/data/'         => 'rwx',
-                                '/documentation/dokuwiki/data/cache/'   => 'rwx',
-                                '/documentation/dokuwiki/data/meta/'    => 'rwx',
-                                '/documentation/dokuwiki/data/pages/'   => 'rwx',
-                                '/documentation/dokuwiki/data/tmp/'     => 'rwx');
+                                '/documentation/dokuwiki/data/'         => 'erwx',
+                                '/documentation/dokuwiki/data/cache/'   => 'erwx',
+                                '/documentation/dokuwiki/data/meta/'    => 'erwx',
+                                '/documentation/dokuwiki/data/pages/'   => 'erwx',
+                                '/documentation/dokuwiki/data/tmp/'     => 'erwx');
 
         foreach ($permissions as $filename => $needed_perms)
         {
             $whole_filename = BASE.$filename;
 
-            if ((file_exists($whole_filename))
-                && (((strpos($needed_perms, 'r') !== false) && ( ! is_readable($whole_filename)))
+            if ( ! file_exists($whole_filename))
+            {
+                if (strpos($needed_perms, 'e') !== false)
+                    $messages[] =   'Das Verzeichnis bzw. die Datei "'.$filename.'" existiert nicht oder kann nicht gelesen werden!';
+
+                continue; // file does not exist - go to next file
+            }
+
+            // is_executable() may does not work correctly, see comment at "http://www.php.net/manual/de/function.is-executable.php#44454"
+            $is_executable = (is_executable($whole_filename) || @file_exists($whole_filename.'.'));
+
+            if (    ((strpos($needed_perms, 'r') !== false) && ( ! is_readable($whole_filename)))
                  || ((strpos($needed_perms, 'w') !== false) && ( ! is_writable($whole_filename)))
-                 || ((strpos($needed_perms, 'x') !== false) && ( ! is_executable($whole_filename)) && (DIRECTORY_SEPARATOR == '/')))) // execution only for UNIX/Linux
+                 || ((strpos($needed_perms, 'x') !== false) && (DIRECTORY_SEPARATOR == '/') && ( ! $is_executable))) // check for execution bit only for UNIX/Linux
             {
                 $messages[] =   'Das Verzeichnis bzw. die Datei "'.$filename.'" hat nicht die richtigen Dateirechte! '.
-                                'Benötigt werden "'.$needed_perms.'". Bitte manuell korrigieren.';
+                                'Benötigt werden "'.str_replace('e', '', $needed_perms).'". Bitte manuell korrigieren.';
             }
         }
 
