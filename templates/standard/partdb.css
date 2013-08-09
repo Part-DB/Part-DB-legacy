@@ -1,7 +1,27 @@
 @charset "UTF-8";
 
+/* Frames */
+#menu {
+    position: absolute;
+    top: 0px;
+    left: 5px;
+    width: 290px;
+    height: 100%;
+    overflow: none;
+}
+
+#content {
+    position: absolute;
+    top: 0px;
+    left: 300px;
+    width: 700px;
+    height: 100%;
+    overflow: auto;
+}
+
+
 /* allgemeine Gestaltung */
-.body {
+body {
     background-color: #cdcdcd;
     font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 }
@@ -327,25 +347,30 @@ td.labelbild {
     border: 0px;
     vertical-align: middle;
 }
-.dtree a {
+.dtree a, .dtree span {
     padding:0px;
     border: 0px;
     color: #333;
     text-decoration: none;
 }
-.dtree a.node, .dtree a.nodeSel {
+.dtree a.node, .dtree a.nodeSel, .dtree span.nodeSel {
     padding:0px;
     border: 0px;
     white-space: nowrap;
     padding: 1px 2px 1px 2px;
 }
-.dtree a.node:hover, .dtree a.nodeSel:hover {
+
+.dtree span.node:hover, .dtree span.nodeSel:hover {
+    cursor: pointer;
+}
+
+.dtree a.node:hover, .dtree a.nodeSel:hover, .dtree span.nodeSel:hover {
     padding:0px;
     border: 0px;
     color: #333;
     text-decoration: underline;
 }
-.dtree a.nodeSel {
+.dtree a.nodeSel, .dtree span.nodeSel {
     padding:0px;
     border: 0px;
     background-color: #c0d2ec;

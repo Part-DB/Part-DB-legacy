@@ -1,3 +1,4 @@
+{TMPL_UNLESS NAME="no_header"}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
 <html>
 <head>
@@ -7,18 +8,12 @@
     {TMPL_IF NAME="theme"}<link rel="stylesheet" href="{TMPL_VAR NAME="relative_path"}templates/{TMPL_VAR NAME="theme"}/partdb.css" type="text/css">{/TMPL_IF}
     {TMPL_IF NAME="custom_css"}<link rel="stylesheet" href="{TMPL_VAR NAME="relative_path"}{TMPL_VAR NAME="custom_css"}" type="text/css">{/TMPL_IF}
 
-    {TMPL_IF NAME="javascript_files"}
-        {TMPL_LOOP NAME="javascript_files"}
-            <script type="text/javascript" src="{TMPL_VAR NAME="relative_path"}javascript/{TMPL_VAR NAME="filename"}.js"></script>
-
-            {TMPL_IF NAME="filename" VALUE="calculator"}
-                <link rel="stylesheet" href="{TMPL_VAR NAME="relative_path"}templates/{TMPL_VAR NAME="theme"}/tools_calculator.php/calculator.css" type="text/css">
-            {/TMPL_IF}
-        {/TMPL_LOOP}
-    {/TMPL_IF}
+    <link rel="stylesheet" href="{TMPL_VAR NAME="relative_path"}templates/{TMPL_VAR NAME="theme"}/tools_calculator.php/calculator.css" type="text/css">
+    <script type="text/javascript" src="{TMPL_VAR NAME="relative_path"}javascript/main.js"></script>
 
     <base target="_self">
 </head>
+{/TMPL_UNLESS}
 
 {TMPL_UNLESS NAME="no_body"}
 

@@ -48,14 +48,14 @@
     {
         $config['debug']['template_debugging_enable'] = isset($_REQUEST["enable_template_debugging"]);
         save_config();
-        header('Location: navigation.php'); // reload the navigation frame
+        //header('Location: navigation.php'); // reload the navigation frame
     }
 
     if ((isset($_REQUEST["enable_request_debugging"])) || (isset($_REQUEST["disable_request_debugging"])))
     {
         $config['debug']['request_debugging_enable'] = isset($_REQUEST["enable_request_debugging"]);
         save_config();
-        header('Location: navigation.php'); // reload the navigation frame
+        //header('Location: navigation.php'); // reload the navigation frame
     }
 
     /********************************************************************************
@@ -64,7 +64,7 @@
     *
     *********************************************************************************/
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Navigation');
+    $html = new HTML();
 
     try
     {
@@ -92,7 +92,7 @@
     *
     *********************************************************************************/
 
-    $html->use_javascript(array('dtree', 'toggle'));
+    //$html->use_javascript(array('dtree', 'toggle'));
 
     if (! $fatal_error)
     {
@@ -153,6 +153,7 @@
     *
     *********************************************************************************/
 
+    $html->set_meta(array('no_header'=>true));
     $reload_link = $fatal_error ? 'navigation.php' : '';    // an empty string means that the...
     $html->print_header($messages, $reload_link);           // ...reload-button won't be visible
 

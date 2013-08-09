@@ -30,6 +30,8 @@
         2012-08-29  weinbauer73     - adding head_switch_ds_path-switch
         2012-09-28  kami89          - added Exceptions
                                     - added doxygen comments
+        2013-08-09  weinbauer73     - use_javascript() is obsolete, see javascript/main.js
+                                    - adding flag no_header
 */
 
     /**
@@ -100,8 +102,9 @@
             settype($this->meta['theme'],               'string');
             settype($this->meta['title'],               'string');
             settype($this->meta['custom_css'],          'string');
+            settype($this->meta['no_header'],           'boolean');
             settype($this->meta['no_body'],             'boolean');
-
+            
             // check passed parameters
             if (($theme != 'standard') && ( ! is_readable(BASE.'/templates/'.$theme."/partdb.css" )))
             {
@@ -125,6 +128,7 @@
             $this->meta['theme']        = $theme;
             $this->meta['custom_css']   = $custom_css_file;
             $this->meta['title']        = $page_title;
+            $this->meta['no_header']    = false;
             $this->meta['no_body']      = false;
         }
 
@@ -159,40 +163,11 @@
         /**
          * @brief Set all JavaScript filenames which must be included in the HTML header.
          *
-         * @note    The JavaScript files must be located in "/javascript/".
-         * @note    You only have to supply the filename, without path and without extension.
-         *          Example: pass "popup" if you need the file "/javascript/popup.js".
-         *
-         * @param array  $filenames     @li all filenames (without path/extension) which you need
-         *                              @li Example: array([0] => 'popup', [1] => 'validatenumber', ...)
-         * @param string $body_onload   If you need some JavaScript functions in the "onLoad" of the body,
-         *                              you can pass it here. If there is already a onLoad string set,
-         *                              the new string will be attached to the end of the existing onLoad string!
-         *
-         * @throws Exception if there was an error
+         * @note  This function is obsolete, see javascript/main.js.
          */
         public function use_javascript($filenames = array(), $body_onload = '')
         {
-            if ( ! is_array($filenames))
-            {
-                debug('error', '$filenames='.print_r($filenames, true), __FILE__, __LINE__, __METHOD__);
-                throw new Exception('$filenames ist kein Array!');
-            }
-
-            foreach ($filenames as $filename)
-            {
-                if ( ! in_array($filename, $this->javascript_files))
-                {
-                    $full_filename = BASE.'/javascript/'.$filename.'.js';
-                    if ( ! is_readable($full_filename))
-                        throw new Exception('Die JavaScript-Datei "'.$full_filename.'" existiert nicht!');
-
-                    $this->javascript_files[] = $filename;
-                }
-            }
-
-            settype($body_onload, 'string');
-            $this->body_onload .= $body_onload;
+            
         }
 
         /**
@@ -348,6 +323,7 @@
             $tmpl->setVar('http_charset',               $config['html']['http_charset']);
             $tmpl->setVar('body_onload',                $this->body_onload);
             $tmpl->setVar('theme',                      $this->meta['theme']);
+            $tmpl->setVar('no_header',                  $this->meta['no_header']);
             $tmpl->setVar('no_body',                    $this->meta['no_body']);
             if (strlen($this->meta['custom_css']) > 0)
                 $tmpl->setVar('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
