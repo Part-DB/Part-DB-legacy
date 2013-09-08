@@ -1,0 +1,5 @@
+# Kategorie; Name; Beschreibung; Bestand; Mindestbestand; Footprint; Lagerort; Hersteller; Kommentar; Lieferant; Bestellnummer; Preis
+Dioden;1N4004;Siliziumdiode 400V/1A;10;5;THT;Kiste;IR;DO41, 400V 1A;Reichelt;1N 4004;0.20
+Controller;ATMega 8;Mikrocontroller 8kB Flash, 1 kB RAM;1;2;DIP28;Kiste;Atmel;;Reichelt;ATMEGA 8-16 DIP;3.50
+Oszillatoren;Quarzoszillator 8 MHz;;1;2;THT;Kiste;;;Reichelt;OSZI 8,000000;1.20
+Schaltkreise;MAX 232;Schnittstellenwandler RS232-TTL;1;0;DIP16;Kiste;;;Reichelt;MAX 232 EPE;2.15

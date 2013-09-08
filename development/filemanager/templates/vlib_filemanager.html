@@ -1,0 +1,42 @@
+<div class="head" title='Filemanager'></div>
+<div id="file_breadcrumb" class="breadcrumb" title='Aktuelles Verzeichnis: '>keines ausgewählt</div>
+
+<div id="filemanager" class="content">
+    <div id="file_dirs"></div>
+    <div id="file_command">
+        <span>
+            <ul class="list">
+                <li onclick="filemanager.showVersion();" class="command">Info</li>
+            </ul>
+        </span>
+        <span id="file_commands">
+            <ul class="list">
+                <li onclick="filemanager.command('rename');" class="command">Umbenennen</li>
+                <li onclick="filemanager.command('delete');" class="command">Löschen</li>
+                <li onclick="filemanager.command('copy');" class="command">Kopieren</li>
+                <li onclick="filemanager.command('move');" class="command">Verschieben</li>
+            </ul>
+            <ul class="list">
+                <li onclick="filemanager.command('upload');" class="command">Upload</li>
+                <li onclick="filemanager.command('download');" class="command">Download</li>
+            </ul>
+
+            <ul class="list" id="file_viewer">
+                <li onclick="filemanager.viewer();" class="command">Viewer</li>
+            </ul>
+            <ul class="list" id="file_selector">
+                <li onclick="filemanager.command('select');" class="command">Select</li>
+            </ul>
+        </span>
+        <span id="file_upload">
+            <ul class="list">
+                <li onclick="filemanager.command('upload');" class="command">Upload</li>
+            </ul>
+        </span>
+    </div>
+    <div id="file_info">Bitte wählen Sie eine Datei aus.</div>
+    <div id="file_explorer"></div>
+    <iframe id="file_iframe" src="" style="display:none;"></iframe>
+</div>
+
+<div id="dom_overlay"></div>
