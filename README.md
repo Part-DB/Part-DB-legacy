@@ -25,7 +25,7 @@ Part-DB ist eine webbasierte Datenbank zum Verwalten von Elektronischen Bauteile
 
 ### Lizenz
 
-Mit Ausnahme des Java-Menü stehen alle Module unter der GPL. Das Java-Menü ist Bierware. Somit ist eine kommerzielle Nutzung nur möglich, wenn es vom Ersteller des Menüs genehmigt wird.
+Mit Ausnahme des JavaScript-Menü stehen alle Module unter der GPL. Das JavaScript-Menü ist Bierware. Somit ist eine kommerzielle Nutzung nur möglich, wenn es vom Ersteller des Menüs genehmigt wird.
 
 ### Installationsanleitung & Dokumentation
 
