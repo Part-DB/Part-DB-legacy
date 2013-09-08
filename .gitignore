@@ -1,0 +1,57 @@
+# data/
+data/config.php
+data/ENABLE-DOKUWIKI-WRITE-PERMS.txt
+data/backup/
+data/log/
+data/media/
+
+# DokuWiki
+documentation/dokuwiki/data/tmp/
+documentation/dokuwiki/data/cache/
+
+# Doxygen builds
+development/doxygen/html/
+
+###########################################################################
+# From https://github.com/github/gitignore
+###########################################################################
+
+# Archives
+*.7z
+*.jar
+*.rar
+*.zip
+*.gz
+*.bzip
+*.bz2
+*.xz
+*.lzma
+*.iso
+*.tar
+
+# Eclipse
+.project
+.metadata
+
+# Logs
+*.log
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+nbactions.xml
+nb-configuration.xml
+
