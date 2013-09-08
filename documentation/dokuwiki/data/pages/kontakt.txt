@@ -8,16 +8,16 @@ Sie haben...
 
 Dann finden Sie hier die entsprechenden Anlaufstellen.
 
-===== Entwicklerseite: Google Code =====
+===== Entwicklerseite: GitHub =====
 
-Part-DB wird mit [[https://de.wikipedia.org/wiki/Apache_Subversion|Subversion (SVN)]] verwaltet. Das Repository liegt auf [[https://code.google.com/p/part-db/|Google Code]]. Dort gibt es auch eine [[https://code.google.com/p/part-db/issues/list|TODO-Liste]] ("Issues").
+Part-DB wird mit [[https://de.wikipedia.org/wiki/Git|Git]] verwaltet. Das Repository liegt auf [[https://github.com/sandboxgangster/Part-DB|GitHub]]. Dort gibt es auch eine [[https://github.com/sandboxgangster/Part-DB/issues|TODO-Liste]] ("Issues").
 
-Sie können die TODO-Liste nutzen, um Fehler zu melden und Verbesserungsvorschläge zu äussern. Bitte prüfen Sie aber jeweils zuerst, ob nicht schon ein entsprechender Eintrag existiert. Bei Unsicherheit dürfen Sie aber Ihr Anliegen gerne auch in der [[http://www.mikrocontroller.net/topic/269289|Diskussion]] äussern, die Entwickler übernehmen es dann in die TODO-Liste falls nötig.
+Sie können die TODO-Liste nutzen, um Fehler zu melden und Verbesserungsvorschläge zu äussern. Bitte prüfen Sie aber jeweils zuerst, ob nicht schon ein entsprechender Eintrag existiert. Bei Unsicherheit dürfen Sie aber Ihr Anliegen gerne auch in der [[https://www.mikrocontroller.net/topic/305023|Diskussion]] äussern, die Entwickler übernehmen es dann in die TODO-Liste falls nötig.
 
-Die [[https://code.google.com/p/part-db/downloads/list|Downloads]] befinden sich ebenfalls auf Google Code.
+Die [[https://github.com/sandboxgangster/Part-DB/releases|Downloads]] befinden sich ebenfalls auf GitHub.
 ===== Diskussion: Mikrocontroller.net =====
 
-In [[http://www.mikrocontroller.net/topic/269289|diesem Thread]] auf [[http://www.mikrocontroller.net|Mikrocontroller.net]] wird über die Part-DB diskutiert. Hier sind auch die Entwickler erreichbar. Fragen, Feedback usw. werden hier gerne entgegengenommen.
+In [[https://www.mikrocontroller.net/topic/305023|diesem Thread]] auf [[https://www.mikrocontroller.net|Mikrocontroller.net]] wird über die Part-DB diskutiert. Hier sind auch die Entwickler erreichbar. Fragen, Feedback usw. werden hier gerne entgegengenommen.
 ===== Online-Demos =====
 
 <note>Mit "Demo" ist hier nicht etwa eine "abgespeckte Version" o.ä. gemeint. Bei den Online-Demos handelt es sich um vollwertige Installationen von Part-DB, genau so wie sie nach der Installation auf Ihrem eigenen Server aussehen/funktionieren würde. Nur ein paar kritische Funktionen sind in den Demos aus Sicherheitsgründen deaktiviert.</note>

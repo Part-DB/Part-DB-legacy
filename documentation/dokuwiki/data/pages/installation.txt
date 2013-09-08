@@ -32,11 +32,11 @@ quit
 
 Dann lädt man Part-DB herunter und entpackt das Archiv in das Verzeichnis des Webservers (unter Linux häufig "/var/www/").
 
-<note important>Den Link zur aktuellsten Version bitte von der [[https://code.google.com/p/part-db/downloads/list|Downloadseite]] holen!
+<note important>Den Link zur aktuellsten Version bitte von der [[https://github.com/sandboxgangster/Part-DB/releases|Downloadseite]] holen!
 </note>
 
 <code>
-wget -O part-db.tar.gz https://part-db.googlecode.com/files/Part-DB-0.3.0.RC2.tar.gz
+wget -O part-db.tar.gz https://github.com/sandboxgangster/Part-DB/releases/download/v0.3.0/Part-DB_0.3.0.tar.gz
 sudo tar xzf part-db.tar.gz -C /var/www
 </code>
 

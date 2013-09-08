@@ -146,7 +146,7 @@
 
     if (( ! $fatal_error) && ( ! $config['startup']['disable_update_list']))
     {
-        $feed_link = 'http://code.google.com/feeds/p/part-db/downloads/basic';
+        $feed_link = 'https://github.com/sandboxgangster/Part-DB/releases.atom';
         $item_count = 4;
 
         try
@@ -164,7 +164,7 @@
             }
 
             if (strlen($feed_content) == 0)
-                throw new Exception('Der RSS-Feed konnte nicht aus dem Internet heruntergeladen werden. '.
+                throw new Exception('Der Atom-Feed konnte nicht aus dem Internet heruntergeladen werden. '.
                                     'Prüfen Sie bitte, ob Ihre PHP Konfiguration das Herunterladen aus dem Internet zulässt.');
 
             if ( ! class_exists('SimpleXMLElement'))
@@ -175,7 +175,7 @@
             if ( ! is_object($xml))
                 throw new Exception('Das SimpleXMLElement konnte nicht erzeugt werden!');
 
-            $rss_loop[] = array('title' => $xml->title, 'datetime' => $xml->updated, 'link' => $xml->id);
+            $rss_loop[] = array('title' => 'Part-DB Releases Atom-Feed', 'datetime' => $xml->updated, 'link' => $feed_link);
 
             $item_index = 1;
             foreach ($xml->entry as $entry)
@@ -183,12 +183,12 @@
                 if ($item_index >= $item_count)
                     break;
 
-                $link = 'FEHLER - Kein Link im RSS-Feed gefunden!';
+                $link = 'FEHLER - Kein Link im Atom-Feed gefunden!';
                 foreach ($entry->link as $link_entry)
                 {
                     $attributes = $link_entry->attributes();
                     if (isset($attributes['rel']) && ($attributes['rel'] == 'alternate') && isset($attributes['href']))
-                        $link = $attributes['href'];
+                        $link = 'https://github.com'.$attributes['href'];
                 }
 
                 $rss_loop[] = array('title' => $entry->title, 'datetime' => $entry->updated, 'link' => $link);
@@ -220,7 +220,7 @@
             $system_version = $system->get_installed_version();
             $html->set_variable('system_version',       $system_version->as_string(false, true, true, false),   'string');
             $html->set_variable('system_version_full',  $system_version->as_string(false, false, false, true),  'string');
-            $html->set_variable('svn_revision',         get_svn_revision(),                                     'integer');
+            $html->set_variable('git_branch_name',      get_git_branch_name(),                                  'string');
         }
         catch (Exception $e)
         {

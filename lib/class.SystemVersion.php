@@ -42,25 +42,20 @@
      *  - minor version
      *  - update version
      *  - (release candidate number)
-     *  - (SVN revision number)
-     *  - type ('stable', 'unstable' or 'svn', depends on release candidate number and SVN revision number)
+     *  - type ('stable' or 'unstable', depends on release candidate number)
      *
      * A version string has this structure:
-     *      "major.minor.update.[RC].[r]" --> "#.#.#.[RC#].[r#]" (brackets means "optional", # stands for numbers)
+     *      "major.minor.update.[RC]" --> "#.#.#[.RC#]" (brackets means "optional", # stands for numbers)
      *
-     * @note    We will always use the format "#.#.#.[RC#].[r#]" for handling with version numbers!
+     * @note    We will always use the format "#.#.#[.RC#]" for handling with version numbers!
      *          Also the filenames of update packages and their version descriptions uses that format!
-     *          Only for displaying the version number in a HTML output, we use the format "#.#.# [RC#] [r#]" (spaces instead of dots).
+     *          Only for displaying the version number in a HTML output, we use the format "#.#.# [RC#]" (space instead of dot).
      *
      * @par Examples:
      *  - "0.2.3":          stable version 0.2.3
      *  - "0.2.3.RC4":      unstable version 0.2.3, release candidate 4
-     *  - "0.2.3.r456":     svn revision 456, system version 0.2.3
-     *  - "0.2.3.RC4.r456": svn revision 456, system version 0.2.3 RC4
      *
      * @author kami89
-     *
-     * @todo SVN versions are not supported yet
      */
     class SystemVersion
     {
@@ -78,9 +73,7 @@
         private $update_version     = NULL;
         /** (integer) Release Candidate number, zero means "stable version" */
         private $release_candidate  = NULL;
-        /** (integer) the svn revision number, zero means "no SVN version" */
-        private $svn_revision       = NULL;
-        /** (string) the version type ('stable', 'unstable' or 'svn') */
+        /** (string) the version type ('stable' or 'unstable') */
         private $type               = NULL;
 
         /********************************************************************************
@@ -93,8 +86,6 @@
         private static $latest_stable_version      = NULL;
         /** (SystemVersion) the latest unstable version which is available */
         private static $latest_unstable_version    = NULL;
-        /** (SystemVersion) the latest svn version which is available */
-        private static $latest_svn_version         = NULL;
 
         /********************************************************************************
         *
@@ -106,7 +97,7 @@
          * @brief Constructor
          *
          * @param string $version_string        @li here we have to supply the version string
-         *                                      @li Format: "#.#.#.[RC#].[r#]" (brackets means "optional", # stands for numbers)
+         *                                      @li Format: "#.#.#[.RC#]" (brackets means "optional", # stands for numbers)
          *                                      @li Examples see in the description of this class SystemVersion.
          *
          * @throws Exception if the parameter was not valid
@@ -115,23 +106,18 @@
         {
             $version = str_replace(' ', '.', trim(strtolower($version_string)));
 
-            // if $version is a stable version with a svn revision number, we add "RC0" to the string
-            if ((strpos($version, 'r') > 0) && (strpos($version, 'rc') === false))
-                $version = str_replace('r', 'rc0.r', $version);
-
             // if $version has no "RC", we will add it
             if (strpos($version, 'rc') === false)
                 $version .= '.rc0';
 
             $version = str_replace('rc', '', $version);
-            $version = str_replace('r', '', $version);
             $array = explode('.', $version);
 
-            if ((count($array) < 3) || (count($array) > 5)
-                || ((count($array) == 5) && (( ! is_int($array[4])) && ( ! ctype_digit($array[4]))))
+            if (    (count($array) != 4)
                 || (( ! is_int($array[0])) && ( ! ctype_digit($array[0])))
                 || (( ! is_int($array[1])) && ( ! ctype_digit($array[1])))
-                || (( ! is_int($array[2])) && ( ! ctype_digit($array[2]))))
+                || (( ! is_int($array[2])) && ( ! ctype_digit($array[2])))
+                || (( ! is_int($array[3])) && ( ! ctype_digit($array[3]))))
             {
                 debug('error', 'Fehlerhafte Version: "'.$version.'"', __FILE__, __LINE__, __METHOD__);
                 throw new Exception('Es gab ein Fehler bei der Auswertung des Version-Strings!');
@@ -146,14 +132,6 @@
                 $this->type = 'stable';
             else
                 $this->type = 'unstable';
-
-            if (count($array) == 5)
-            {
-                $this->svn_revision = $array[4];
-                $this->type = 'svn';
-            }
-            else
-                $this->svn_revision = 0;
         }
 
         /********************************************************************************
@@ -168,13 +146,12 @@
          * @param boolean $internal_format  If true, the internal format (with points instead of spaces) will be used.
          *                                  All other parameters will be ignored if this is true.
          * @param boolean $hide_rc          if true, the release candidate number will never be printed
-         * @param boolean $hide_rev         if true, the svn revision number will never be printed
-         * @param boolean $show_type        if true, the type (stable, unstable or svn) will be printed in brackets
+         * @param boolean $hide_rev         if true, the svn revision number will never be printed @deprecated
+         * @param boolean $show_type        if true, the type (stable or unstable) will be printed (in brackets)
          *
          * @retval string       the version string, like "0.2.3.RC2" (internal format), "0.2.3", "0.2.3 RC5", "0.2.3 (stable)", and so on...
          *
          * @note    The release candidate number won't be printed if it is zero (even if "$hide_rc == false")!
-         * @note    The SVN revision number won't be printed if this is not a svn version (even if "$hide_rev == false")!
          */
         public function as_string($internal_format = true, $hide_rc = false, $hide_rev = false, $show_type = false)
         {
@@ -185,18 +162,12 @@
                 if ($this->release_candidate > 0)
                     $string .= '.RC'.$this->release_candidate;
 
-                if ($this->svn_revision > 0)
-                    $string .= '.r'.$this->svn_revision;
-
                 return $string;
             }
             else
             {
                 if (($this->release_candidate > 0) && ( ! $hide_rc))
                     $string .= ' RC'.$this->release_candidate;
-
-                if (($this->svn_revision > 0) && ( ! $hide_rev))
-                    $string .= ' r'.$this->svn_revision;
 
                 if ($show_type)
                     $string .= ' ('.$this->type.')';
@@ -242,10 +213,7 @@
 
             // both versions have the same major, minor, update and release candidate number!
 
-            if ($this->svn_revision > $version_2->svn_revision)
-                return true; // the svn revision of this version is higher than the revision of $version_2
-
-            return false; // this svn revision is equal to or lower than $version_2
+            return false; // this version is equal to or lower than $version_2
         }
 
         /********************************************************************************
@@ -255,9 +223,9 @@
         *********************************************************************************/
 
         /**
-         * @brief Get the version type of this version ('stable', 'unstable' or 'svn')
+         * @brief Get the version type of this version ('stable' or 'unstable')
          *
-         * @retval string       'stable', 'unstable' or 'svn'
+         * @retval string       'stable' or 'unstable'
          */
         public function get_version_type()
         {
@@ -281,15 +249,6 @@
         {
             global $config;
 
-            /* TODO
-            $file_svn_revision = get_svn_revision();
-            settype($file_svn_revision, 'integer');
-            if ($file_svn_revision > $svn_revision)
-                $version = new Version($log, $file_svn_revision);
-            else
-                $version = new Version($log, $svn_revision, $version_string);
-            */
-
             $version = new SystemVersion($config['system']['version']);
 
             return $version;
@@ -298,7 +257,7 @@
         /**
          * @brief Get the latest system version which is available (in the internet or in the directory "/updates/")
          *
-         * @param string $type      'stable', 'unstable' or 'svn'
+         * @param string $type      'stable' or 'unstable'
          *
          * @retval Version          the latest available system version
          *
@@ -319,34 +278,12 @@
                 SystemVersion::$latest_unstable_version  = new SystemVersion($ini_array['unstable']['version']);
             }
 
-            if (($type == 'svn') && ( ! is_object(SystemVersion::$latest_svn_version)))
-            {
-                if ( ! function_exists('svn_log'))
-                    throw new Exception('Die Funktion "svn_log()" existiert nicht auf ihrem System, daher kann die '.
-                                        'neuste verfügbare SVN Revision nicht aus dem Internet gelesen werden!');
-
-                // first, we will read the revision number of the latest svn revision (e.g. 567)
-                $svn = svn_log('https://part-db.googlecode.com/svn/branches/uneist_kami89/', SVN_REVISION_HEAD);
-                $svn_revision = $svn[0]['rev'];
-                settype($svn_revision, 'integer');
-                if ($svn_revision < 1)
-                    throw new Exception('Die Revisionsnummer konnte nicht aus dem Internet gelesen werden!');
-
-                // then we will read the system version of the latest svn revision (e.g. "0.2.3 RC2")
-                $latest_config = curl_get_data('https://part-db.googlecode.com/svn/branches/uneist_kami89/config_defaults.php');
-                // TODO: read the value from $config['system']['version']
-
-                SystemVersion::$latest_svn_version = new SystemVersion('0.2.2 RC3 r123'); // just a dummy...
-            }
-
             switch ($type)
             {
                 case 'stable':
                     return SystemVersion::$latest_stable_version;
                 case 'unstable':
                     return SystemVersion::$latest_unstable_version;
-                case 'svn':
-                    return SystemVersion::$latest_svn_version;
                 default:
                     debug('error', '$type='.print_r($type, true), __FILE__, __LINE__, __METHOD__);
                     throw new Exception('$type hat einen ungültigen Inhalt!');

@@ -1,7 +1,7 @@
 <div class="outer">
     <h1><img src="{TMPL_VAR NAME="relative_path"}img/partdb/partdb.png" alt="logo">Part-DB {TMPL_VAR NAME="system_version"}<img src="{TMPL_VAR NAME="relative_path"}img/partdb/partdb.png" alt="logo"></h1>
     {TMPL_IF NAME="system_version_full"}
-        <h3>Version: {TMPL_VAR NAME="system_version_full"}{TMPL_IF NAME="svn_revision"}, SVN-Revision: {TMPL_VAR NAME="svn_revision"}{/TMPL_IF}</h3>
+        <h3>Version: {TMPL_VAR NAME="system_version_full"}{TMPL_IF NAME="git_branch_name"}, GIT-Branch: {TMPL_VAR NAME="git_branch_name"}{/TMPL_IF}</h3>
     {/TMPL_IF}
 </div>
 
@@ -67,9 +67,9 @@
 
         Part-DB, Copyright &copy; 2005 of <strong>Christoph Lechner</strong>. Part-DB is published under the <strong>GPL</strong>, so it comes with <strong>ABSOLUTELY NO WARRANTY</strong>, click <a href="{TMPL_VAR NAME="relative_path"}readme/gpl.txt">here</a> for details. This is free software, and you are welcome to redistribute it under certain conditions. Click <a href="{TMPL_VAR NAME="relative_path"}readme/gpl.txt">here</a> for details.<br>
         <br>
-        <strong>Projektseite:</strong> Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a target="_blank" href="https://code.google.com/p/part-db/">Google Code Projektseite</a><br>
-        <strong>Forum:</strong> Für Fragen rund um die Part-DB gibt es einen Thread auf <a target="_blank" href="http://www.mikrocontroller.net/topic/269289#new">mikrocontroller.net</a><br>
-        <strong>Wiki:</strong> Hilfe zur Installation gibt es im <a target="_blank" href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Wiki</a> und im <a target="_blank" href="https://code.google.com/p/part-db/wiki/Index">Google Code Wiki</a><br>
+        <strong>Projektseite:</strong> Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a target="_blank" href="https://github.com/sandboxgangster/Part-DB">GitHub Projektseite</a><br>
+        <strong>Forum:</strong> Für Fragen rund um die Part-DB gibt es einen Thread auf <a target="_blank" href="https://www.mikrocontroller.net/topic/305023">mikrocontroller.net</a><br>
+        <strong>Wiki:</strong> Weitere Informationen gibt es im <a target="_blank" href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Artikel</a><br>
         <br>
         Initiator: <strong>Christoph Lechner</strong> - <a target="_blank" href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
         Autor seit 2009: <strong>K. Jacobs</strong> - <a target="_blank" href="http://www.grautier.com/">http://grautier.com</a><br>
