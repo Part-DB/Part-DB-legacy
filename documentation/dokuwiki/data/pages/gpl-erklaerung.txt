@@ -3,7 +3,7 @@
 //Es gelten unabhängig der hier genanten Erklärungen immer die Konditionen der GNU GPLv2, dieses ist nur ein kleiner Leitfaden für die Nutzung in Unternehmen.//
 ==== Support ====
 
-Die Part-DB steht unter der GNU GPLv2. Benutzer von Part-DB haben keinerlei Anspruch auf Support. Fehler, Verbesserungsvorschläge und Wünsche können im Bugtracker unter [[https://code.google.com/p/part-db/issues/list]] eingetragen werden, die Bearbeitung dieser liegt jedoch alleine bei dem Entwicklern und kann nicht eingefordert werden, auch nicht gegen Entgelt.
+Die Part-DB steht unter der GNU GPLv2. Benutzer von Part-DB haben keinerlei Anspruch auf Support. Fehler, Verbesserungsvorschläge und Wünsche können im Bugtracker unter [[https://github.com/sandboxgangster/Part-DB/issues]] eingetragen werden, die Bearbeitung dieser liegt jedoch alleine bei dem Entwicklern und kann nicht eingefordert werden, auch nicht gegen Entgelt.
 ==== Grobe Richtlinien ====
 
 Die Part-DB kann jeder frei benutzen, verändern und weitergeben zu den Bedingungen der GPLv2. Diese sind im Groben:

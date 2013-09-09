@@ -1,16 +1,14 @@
-# data/
-data/config.php
-data/ENABLE-DOKUWIKI-WRITE-PERMS.txt
-data/backup/
-data/log/
-data/media/
+# more .gitignore files are in:
+#   - data/
+#   - data/backup/
+#   - data/log/
+#   - data/media/
+#   - documentation/dokuwiki/cache/
+#   - documentation/dokuwiki/tmp/
 
-# DokuWiki
-documentation/dokuwiki/data/tmp/
-documentation/dokuwiki/data/cache/
-
-# Doxygen builds
+# ignore Doxygen builds
 development/doxygen/html/
+
 
 ###########################################################################
 # From https://github.com/github/gitignore

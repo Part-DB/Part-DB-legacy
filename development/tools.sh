@@ -92,6 +92,9 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
     
     # copy all needed files to development/package_output/part-db/
     find . -not \(      -path "*/.svn*" \
+                    -o  -path "*/.git*" \
+                    -o  -name "README.md" \
+                    -o  -name ".gitignore" \
                     -o  -path "./development*" \
                     -o  -path "./documentation/dokuwiki/data/cache/*" \
                     -o  -path "./documentation/dokuwiki/data/tmp/*" \

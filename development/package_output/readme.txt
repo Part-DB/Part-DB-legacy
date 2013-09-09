@@ -30,6 +30,7 @@ IMPORTANT: Checklist for publishing a new release
         - data/media/* (except .htaccess)
     6. check if these directories are NOT in the archive:
         - .svn/
+        - .git/
         - development/
         - documentation/dokuwiki/data/cache/*
         - documentation/dokuwiki/data/tmp/*

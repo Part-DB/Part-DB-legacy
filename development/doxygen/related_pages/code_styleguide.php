@@ -16,7 +16,7 @@
     * @section development      Entwicklung
     * @li PHP 4 ist veraltet und wird nicht mehr unterstützt. Es muss daher keine Rücksicht genommen werden auf Versionen vor PHP 5.3.
     * @li Alle neuen Funktionen werden in den Branches zuerst getestet und dann in die offizielle Version übernommen.
-    * @li Kennzeichnung von stable, unstable und non public (oder ähnlich)-Versionen. Diese Kennzeichnung wird nur für die gepackten Archive genommen und nicht für die Entwicklerversionen im SVN.
+    * @li Kennzeichnung von stable, unstable und non public (oder ähnlich)-Versionen. Diese Kennzeichnung wird nur für die gepackten Archive genommen und nicht für die Entwicklerversionen im Repository.
     *
     *
     * @section documentation    Dokumentation

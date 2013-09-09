@@ -112,7 +112,7 @@
         /**
          * @brief Get the latest version which is available
          *
-         * @param string $type          the version type ('stable', 'unstable' or 'svn')
+         * @param string $type          the version type ('stable' or 'unstable')
          *
          * @retval SystemVersion        the latest available version
          *
