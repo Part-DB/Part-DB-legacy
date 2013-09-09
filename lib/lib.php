@@ -85,7 +85,9 @@
     }
 
     /**
-     * @brief Get hash of the last git commit
+     * @brief Get hash of the last git commit (on remote "origin"!)
+     *
+     * @note    If this method does not work, try to make a "git pull" first!
      *
      * @param integer $length       if this is smaller than 40, only the first $length characters will be returned
      *
@@ -96,13 +98,11 @@
      */
     function get_git_commit_hash($length = 40)
     {
-        if (file_exists(BASE.'/.git/HEAD'))
+        $filename = BASE.'/.git/refs/remotes/origin/'.get_git_branch_name();
+
+        if (file_exists($filename))
         {
-            $git = File(BASE.'/.git/HEAD');
-            $path = trim(str_replace('ref:', '', $git[0])); // example: $path = "refs/heads/master"
-            if ( ! file_exists(BASE.'/.git/'.$path))
-                return NULL;
-            $head = File(BASE.'/.git/'.$path);
+            $head = File($filename);
             $hash = $head[0];
             return substr($hash, 0, $length);
         }
