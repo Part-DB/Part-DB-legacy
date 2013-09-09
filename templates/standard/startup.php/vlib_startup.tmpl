@@ -1,7 +1,7 @@
 <div class="outer">
     <h1><img src="{TMPL_VAR NAME="relative_path"}img/partdb/partdb.png" alt="logo">Part-DB {TMPL_VAR NAME="system_version"}<img src="{TMPL_VAR NAME="relative_path"}img/partdb/partdb.png" alt="logo"></h1>
     {TMPL_IF NAME="system_version_full"}
-        <h3>Version: {TMPL_VAR NAME="system_version_full"}{TMPL_IF NAME="git_branch_name"}, GIT-Branch: {TMPL_VAR NAME="git_branch_name"}{/TMPL_IF}</h3>
+        <h3>Version: {TMPL_VAR NAME="system_version_full"}{TMPL_IF NAME="git_branch"}, Git: {TMPL_VAR NAME="git_branch"}{TMPL_IF NAME="git_commit"}/{TMPL_VAR NAME="git_commit"}{/TMPL_IF}{/TMPL_IF}</h3>
     {/TMPL_IF}
 </div>
 

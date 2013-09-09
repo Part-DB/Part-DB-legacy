@@ -40,7 +40,7 @@
         2013-05-07  kami89          - added function "check_requirements()"
         2013-05-18  kami89          - added functions "set_admin_password()" and "is_admin_password()"
         2013-05-26  kami89          - moved function "check_requirements()" to "lib.start_session.php"
-        2013-09-09  kami89          - changed "get_svn_revision()" to "get_git_branch_name()"
+        2013-09-09  kami89          - replaced "get_svn_revision()" with "get_git_branch_name()" and "get_git_commit_hash()"
 */
 
     /**
@@ -77,8 +77,34 @@
         {
             $git = File(BASE.'/.git/HEAD');
             $head = explode("/", $git[0]);
-            $branch = $head[2];
+            $branch = trim($head[2]);
             return $branch;
+        }
+
+        return NULL; // this is not a Git installation
+    }
+
+    /**
+     * @brief Get hash of the last git commit
+     *
+     * @param integer $length       if this is smaller than 40, only the first $length characters will be returned
+     *
+     * @retval string       The hash of the last commit
+     * @retval NULL         If this is no Git installation
+     *
+     * @throws Exception if there was an error
+     */
+    function get_git_commit_hash($length = 40)
+    {
+        if (file_exists(BASE.'/.git/HEAD'))
+        {
+            $git = File(BASE.'/.git/HEAD');
+            $path = trim(str_replace('ref:', '', $git[0])); // example: $path = "refs/heads/master"
+            if ( ! file_exists(BASE.'/.git/'.$path))
+                return NULL;
+            $head = File(BASE.'/.git/'.$path);
+            $hash = $head[0];
+            return substr($hash, 0, $length);
         }
 
         return NULL; // this is not a Git installation

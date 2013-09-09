@@ -220,7 +220,8 @@
             $system_version = $system->get_installed_version();
             $html->set_variable('system_version',       $system_version->as_string(false, true, true, false),   'string');
             $html->set_variable('system_version_full',  $system_version->as_string(false, false, false, true),  'string');
-            $html->set_variable('git_branch_name',      get_git_branch_name(),                                  'string');
+            $html->set_variable('git_branch',           get_git_branch_name(),                                  'string');
+            $html->set_variable('git_commit',           get_git_commit_hash(10),                                'string');
         }
         catch (Exception $e)
         {
