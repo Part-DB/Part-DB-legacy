@@ -1,0 +1,3 @@
+# ignore update directories & files
+update_from_*
+update_list.ini

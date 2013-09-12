@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<update_info>
+    <!-- some general information about this update -->
+    <header>
+        <from_version>0.3.0</from_version>
+        <to_version>0.4.0.RC1</to_version>
+        <release_date>01.01.2012</release_date>
+    </header>
+    
+    <!-- changelog -->
+    <changelog_items>
+        <changelog>BUGFIX: Bug?</changelog>
+        <changelog>BUGFIX: Gugus</changelog>
+    </changelog_items>
+    
+    <!-- texts, which will displayed to the user before updating (e.g. warnings, notifications,...) -->
+    <pre_notifications>
+        <notification>Hinweis: All ihre hochgeladenen Dateien werden durch dieses Update in den Ordner "media" verschoben!</notification>
+    </pre_notifications>
+
+    <!-- texts, which will displayed to the user after updating (e.g. warnings, notifications,...) -->
+    <post_notifications>
+        <notification>Achtung: Foo!</notification>
+    </post_notifications>
+    
+    <!-- all operations which have to be done (e.g. copy new files, update the database, ...) -->
+    <instructions>
+    
+        <!-- copy all new files, rename files, delete files, ... -->
+        <instruction type="file" action="copy" md5="55251569ea15c29bd004b4b25d0585eb">foo.php</instruction>
+        <instruction type="file" action="rename" new_name="goo.php">foo.php</instruction>
+        <instruction type="file" action="delete">devmgr.php</instruction>
+        
+        <!-- update the database -->
+        <instruction type="sql">INSERT INTO internal SET keyName='test', keyValue='42'</instruction>
+        
+        <!-- execute some special update routines -->
+        <instruction type="script">update.php</instruction>
+        
+    </instructions>
+
+</update_info>

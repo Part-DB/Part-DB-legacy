@@ -53,8 +53,8 @@
     *       you can answer it with 'false' in the default value.
     *       Example:    Use "disable_footprints" instead of "enable_footprints",
     *                   because the default is "disable_footprints == false".
-    *       Reason:     If a config variable is undefined, the default value
-    *                   will be used automatically.
+    *       Reason:     If a config variable is undefined, the default value will be
+    *                   used automatically (undefined will be interpreted as "false").
     *
     *********************************************************************************/
 
@@ -68,20 +68,21 @@
     $config['db']['name']                                   = '';
     $config['db']['user']                                   = '';
     $config['db']['password']                               = '';
-    $config['db']['charset']                                = 'utf8'; ///< @todo THIS IS NOT USED AT THE MOMENT (hardcoded to "uft8" in class.Database.php)!! Do we need this parameter?!?!
+    $config['db']['charset']                                = 'utf8';   ///< @todo THIS IS NOT USED AT THE MOMENT (hardcoded to "uft8" in class.Database.php)!! Do we need this parameter?!?!
     $config['db']['auto_update']                            = false;
-    $config['db']['backup']['name']                         = ''; // If you use an external database backup system, set here "MySQLDumper" for example
-    $config['db']['backup']['url']                          = ''; // the link to the database backup system, e.g. "../mysqldumper/"
-    $config['db']['update_error']['version']                = -1; // Momerize the database version in case of an error (see Database::update())
-    $config['db']['update_error']['next_step']              = 0; // Momerize the position of the update step in case of an error (see Database::update())
+    $config['db']['backup']['name']                         = '';       // If you use an external database backup system, set here "MySQLDumper" for example
+    $config['db']['backup']['url']                          = '';       // the link to the database backup system, e.g. "../mysqldumper/"
+    $config['db']['update_error']['version']                = -1;       // Momerize the database version in case of an error (see Database::update())
+    $config['db']['update_error']['next_step']              = 0;        // Momerize the position of the update step in case of an error (see Database::update())
 
     // html/template settings
-    $config['html']['http_charset']                         = 'utf-8'; ///< @todo remove this parameter completely, I think we don't need it! temporary hardcoded in start_session.php
+    $config['html']['http_charset']                         = 'utf-8';  ///< @todo remove this parameter completely, I think we don't need it! temporary hardcoded in start_session.php
     $config['html']['theme']                                = 'standard';
     $config['html']['custom_css']                           = '';
 
     // system update settings
-    $config['update']['type']                               = 'stable';
+    $config['updates']['use_release_candidates']            = false;    // Testers should set this to "true" to get release candidates. otherwise, only stable version will be showed.
+    $config['updates']['disable_startup_check']             = false;    // do not search for updates on startup (startup.php)
 
     // startup page settings
     $config['startup']['custom_banner']                     = '';
@@ -131,12 +132,17 @@
     $config['installation_complete']['database']            = false;
     $config['installation_complete']['db_backup_path']      = false;
 
+    // maintenance mode
+    $config['maintenance_mode']['active']                   = false;
+    $config['maintenance_mode']['admin_cookie']             = '';
+
     // miscellaneous settings
     $config['timezone']                                     = 'Europe/Berlin';
     $config['language']                                     = 'de_DE';
     $config['is_online_demo']                               = false; // disables some (safety-)critical features
     $config['developer_mode']                               = false; // enables the "Debug-Tools" menu
     $config['page_title']                                   = 'Part-DB Elektronische Bauteile-Datenbank';
+    $config['disable_internet_access']                      = false; // if your server does not have internet access, set this variable to "true"! this will disable the Atom-Feed, the search for newer versions, downloading system updates and so on
 
 
     /********************************************************************************
@@ -174,6 +180,9 @@
     // minimum requirements of the system (PHP, PHP Modules, Apache, ...) [used in "install.php"]
     $config['requirements']['php_version']                  = '5.3.0';
     $config['requirements']['pdo']                          = true; // PDO must be installed
+
+    // URL for system updates (@todo: see start_session.php, lines 163-165)
+    $config['update']['download_base_url']                  = 'http://server.tld/url/to/updates/';
 
     // HTTP charsets* (the key is used for the HTML header, the value is only used for displaying)
     $config['http_charsets']['utf-8']                       = 'UTF-8 Unicode';

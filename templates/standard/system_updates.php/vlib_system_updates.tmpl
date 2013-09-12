@@ -1,0 +1,159 @@
+{TMPL_IF NAME="refresh_navigation_frame"}
+<script type="text/javascript">
+    parent.frames.navigation_frame.location.reload();
+</script>
+{/TMPL_IF}
+
+<div class="outer">
+    <h2>Status</h2>
+    <div class="inner">
+        <form action="" method="post">
+            <table>
+                <tr>
+                    <td>
+                        Aktuelle Version:
+                    </td>
+                    <td>
+                        {TMPL_VAR NAME="current_version"}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Neuste verfügbare Version:
+                    </td>
+                    <td>
+                        {TMPL_VAR NAME="latest_version"}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        {TMPL_IF NAME="is_update_available"}
+                            <font color="red"><b>Es ist eine neue Version verfügbar!</b></font>
+                        {TMPL_ELSE}
+                            <font color="darkgreen"><b>Das System ist auf dem neusten Stand.</b></font>
+                        {/TMPL_IF}
+                        <br>
+                        <input type="submit" name="download_update_packages" value="Verfügbare Updates herunterladen / entpacken">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div class="outer">
+    <h2>Einstellungen</h2>
+    <div class="inner">
+        <form action="" method="post">
+            <table>
+                <tr>
+                    <td>
+                        Release-Kandidaten verwenden:
+                    </td>
+                    <td>
+                        <input type="checkbox" name="use_release_candidates" {TMPL_IF NAME="use_release_candidates"}checked{/TMPL_IF}>
+                        Zeige auch unstabile Versionen an, sofern diese neuer als die letzten stabilen Versionen sind
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Automatische Update-Suche:
+                    </td>
+                    <td>
+                        <input type="checkbox" name="check_updates_on_startup" {TMPL_IF NAME="check_updates_on_startup"}checked{/TMPL_IF}>
+                        Beim Laden der Startseite automatisch nach Updates suchen und ggf. einen Hinweis anzeigen
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        Wartungs-Modus:
+                    </td>
+                    <td>
+                        <input type="checkbox" name="maintenance_mode_enabled" {TMPL_IF NAME="maintenance_mode_enabled"}checked{/TMPL_IF}>
+                        Seite für alle anderen Benutzer sperren
+                        {TMPL_IF NAME="maintenance_mode_enabled"}<font style="background-color:red; color:white"><b>AKTIV!</b></font>{/TMPL_IF}
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" name="apply_settings" value="Einstellungen übernehmen" {TMPL_IF NAME="is_online_demo"}disabled{/TMPL_IF}>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div class="outer">
+    <h2>Verfügbare Updates (bereit zur Installation)</h2>
+    <div class="inner">
+        <form action="" method="post">
+
+            {TMPL_IF NAME = "available_versions_loop"}
+                <b>Gewünschte Ziel-Version:</b>
+                <select name="selected_target_version">
+                    {TMPL_LOOP NAME = "available_versions_loop"}
+                        <option value="{TMPL_VAR NAME="value"}" {TMPL_IF NAME="selected"}selected{/TMPL_IF}>{TMPL_VAR NAME="text"}</option>
+                    {/TMPL_LOOP}
+                </select>
+                <input type="submit" value="Updateschritte anzeigen">
+                <br><br>
+            {/TMPL_IF}
+
+            {TMPL_IF NAME="table"}
+                <table>
+                    {TMPL_INCLUDE FILE="../vlib_table.tmpl"}
+                </table>
+
+                <br>
+                <input type="submit" name="make_update" value="System auf gewählte Ziel-Version updaten">
+            {TMPL_ELSE}
+                <b>Keine Updates gefunden.</b>
+                <br>
+                {TMPL_IF NAME="disable_internet_access"}
+                    Laden Sie die Updatepakete manuell herunter und kopieren Sie diese in den Part-DB Ordner "updates".
+                    Danach können die manuell heruntergeladenen Pakete mit dem Button "Verfügbare Updates herunterladen / entpacken" (unter "Status") entpackt werden.
+                {TMPL_ELSE}
+                    Klicken Sie unter "Status" auf "Verfügbare Updates herunterladen / entpacken", um die verfügbaren Update auf den Server herunterzuladen.
+                {/TMPL_IF}
+            {/TMPL_IF}
+        </form>
+    </div>
+</div>
+
+{TMPL_IF NAME="update_log_loop"}
+<div class="outer">
+    <h2>Update-Log</h2>
+    <div class="inner">
+        {TMPL_LOOP NAME="update_log_loop"}
+            {TMPL_IF NAME="color"}<font color="{TMPL_VAR NAME="color"}">{/TMPL_IF}
+                <b>{TMPL_VAR NAME="message"}</b>
+            {TMPL_IF NAME="color"}</font>{/TMPL_IF}
+            <br>
+        {/TMPL_LOOP}
+    </div>
+</div>
+{/TMPL_IF}

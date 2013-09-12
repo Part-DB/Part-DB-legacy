@@ -134,6 +134,11 @@
     $html->set_variable('db_backup_name',           $config['db']['backup']['name'],                                'string');
     $html->set_variable('db_backup_url',            $config['db']['backup']['url'],                                 'string');
 
+    if ($config['maintenance_mode']['active'])
+    {
+        $messages[] = array('text' => 'ACHTUNG: Wartungsmodus ist aktiv!', 'strong' => true, 'color' => 'red');
+    }
+
     if ($config['debug']['enable'])
     {
         if ($config['debug']['request_debugging_enable'])

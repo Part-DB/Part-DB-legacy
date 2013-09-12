@@ -82,10 +82,14 @@
         *
         *********************************************************************************/
 
-        /** (SystemVersion) the latest stable version which is available */
-        private static $latest_stable_version      = NULL;
-        /** (SystemVersion) the latest unstable version which is available */
-        private static $latest_unstable_version    = NULL;
+        /** (SystemVersion) the installed version */
+        private static $installed_version   = NULL;
+
+        /** (SystemVersion) the latest version which is available
+         *                  Normally, this is a stable version. But if
+         *                  $config['update']['use_release_candidates']
+         *                  is "true", it can be unstable */
+        private static $latest_version      = NULL;
 
         /********************************************************************************
         *
@@ -120,7 +124,7 @@
                 || (( ! is_int($array[3])) && ( ! ctype_digit($array[3]))))
             {
                 debug('error', 'Fehlerhafte Version: "'.$version.'"', __FILE__, __LINE__, __METHOD__);
-                throw new Exception('Es gab ein Fehler bei der Auswertung des Version-Strings!');
+                throw new Exception('Es gab ein Fehler bei der Auswertung des Version-Strings "'.$version_string.'"!');
             }
 
             $this->major_version = $array[0];
@@ -213,7 +217,22 @@
 
             // both versions have the same major, minor, update and release candidate number!
 
-            return false; // this version is equal to or lower than $version_2
+            return false; // this version is equal to $version_2
+        }
+
+        /**
+         * @brief Check if this Version is equal to another Version
+         *
+         * With this function we can compare two objects.
+         *
+         * @param Version $version_2    the Version which we want to compare with this Version
+         *
+         * @retval boolean  @li true if this Version is equal to $version_2
+         *                  @li otherwise false (newer or older)
+         */
+        public function is_equal_to($version_2)
+        {
+            return ($this->as_string(true) == $version_2->as_string(true));
         }
 
         /********************************************************************************
@@ -249,45 +268,64 @@
         {
             global $config;
 
-            $version = new SystemVersion($config['system']['version']);
+            if ( ! is_object(SystemVersion::$installed_version))
+            {
+                SystemVersion::$installed_version = new SystemVersion($config['system']['version']);
+            }
 
-            return $version;
+            return SystemVersion::$installed_version;
         }
 
         /**
-         * @brief Get the latest system version which is available (in the internet or in the directory "/updates/")
+         * @brief Get the latest system version which is available
          *
-         * @param string $type      'stable' or 'unstable'
+         * If "$config['disable_internet_access']" is false,
+         * this function will search only in the internet for a newer version.
+         * Otherwise, it will search only in the "updates" directory.
          *
-         * @retval Version          the latest available system version
+         * If "$config['update']['use_release_candidates']" is true, this function
+         * can return an unstable version. Otherwise, only stable versions will be returned.
+         *
+         * @retval SystemVersion    the latest available system version, stable or unstable
+         *                          depends on $config['update']['use_release_candidates']
          *
          * @throws Exception if there was an error
-         *
-         * @todo    Search also in the local direcotry "/updates/" for updates.
-         *          This is needed for manual updates (maybe the server has no internet access, or no "curl").
          */
-        public static function get_latest_version($type)
+        public static function get_latest_version()
         {
-            if ((($type == 'stable') && ( ! is_object(SystemVersion::$latest_stable_version)))
-                || (($type == 'unstable') && ( ! is_object(SystemVersion::$latest_unstable_version))))
-            {
-                $ini = curl_get_data('http://kami89.myparts.info/updates/latest.ini');
-                $ini_array = parse_ini_string($ini, true);
+            global $config;
 
-                SystemVersion::$latest_stable_version    = new SystemVersion($ini_array['stable']['version']);
-                SystemVersion::$latest_unstable_version  = new SystemVersion($ini_array['unstable']['version']);
+            if ( ! is_object(SystemVersion::$latest_version))
+            {
+                if ( ! $config['disable_internet_access'])
+                {
+                    // search in the internet for the latest version
+                    $ini = curl_get_data($config['update']['download_base_url'].'latest.ini');
+                    $ini_array = parse_ini_string($ini, true);
+
+                    if ($config['updates']['use_release_candidates'])
+                        SystemVersion::$latest_version = new SystemVersion($ini_array['unstable']['version']);
+                    else
+                        SystemVersion::$latest_version = new SystemVersion($ini_array['stable']['version']);
+                }
+                else
+                {
+                    // search in the "updates" directory for the latest version
+                    $updates = SystemUpdate::get_all_available_local_updates();
+                    SystemVersion::$latest_version = SystemVersion::get_installed_version();
+
+                    foreach ($updates as $update)
+                    {
+                        if ($update->get_to_version()->is_newer_than(SystemVersion::$latest_version))
+                        {
+                            if (($update->get_to_version()->get_type() == 'stable') || ($config['updates']['use_release_candidates']))
+                                SystemVersion::$latest_version = $update->get_to_version();
+                        }
+                    }
+                }
             }
 
-            switch ($type)
-            {
-                case 'stable':
-                    return SystemVersion::$latest_stable_version;
-                case 'unstable':
-                    return SystemVersion::$latest_unstable_version;
-                default:
-                    debug('error', '$type='.print_r($type, true), __FILE__, __LINE__, __METHOD__);
-                    throw new Exception('$type hat einen ungültigen Inhalt!');
-            }
+            return SystemVersion::$latest_version;
         }
     }
 

@@ -156,12 +156,14 @@
      *
      * @param string    $directory          Path to the directory (IMPORTANT: absolute UNIX path, with slash at the end! see to_unix_path())
      * @param boolean   $recursive          if true, all subdirectories will be listed too
+     * @param string    $search_string      If this is a non-empty string, only directories with
+     *                                      that substring in the filename will be returned.
      *
      * @retval array    all found directories (without slashes at the end, incl. absolute UNIX paths, sorted alphabetically)
      *
      * @throws Exception if there was an error
      */
-    function find_all_directories($directory, $recursive = false)
+    function find_all_directories($directory, $recursive = false, $search_string = '')
     {
         $directories = array();
 
@@ -173,7 +175,9 @@
         {
             if (($file != ".") && ($file != "..") && ($file != ".svn") && ($file != ".git") && (is_dir($directory.$file)))
             {
-                $directories[] = $directory.$file;
+                if (($search_string == '') || (mb_substr_count(mb_strtolower($file), mb_strtolower($search_string)) > 0))
+                    $directories[] = $directory.$file;
+
                 if ($recursive)
                     $directories = array_merge($directories, find_all_directories($directory.$file.'/', true));
             }
@@ -497,6 +501,8 @@
      * @retval string       The downloaded file
      *
      * @throws Exception if there was an error (maybe "curl" is not installed on the server)
+     *
+     * @todo throw better exceptions, see http://www.php.net/manual/de/function.curl-getinfo.php
      */
     function curl_get_data($url)
     {
@@ -511,7 +517,11 @@
         curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
         curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
         $data = curl_exec($ch);
+        $http_code = curl_getinfo($ch, CURLINFO_HTTP_CODE); // $http_code > 400 -> not found, $http_code = 200, found.
         curl_close($ch);
+
+        if ($http_code != 200)
+            throw new Exception('Der Download der Datei "'.$url.'" schlug fehl!');
 
         if ($data === false)
             throw new Exception('Der Download mit "curl" lieferte kein Ergebnis!');
@@ -655,6 +665,40 @@
             else
                 return false;
         }
+    }
+
+    /**
+     * @brief Enable/Disable the maintenance mode
+     *
+     * In the maintenance mode, only one user (with a specific cookie) can use Part-DB.
+     * All other users will see the maintenance site (maintenance.php).
+     *
+     * This function will set the needed cookie automatically. It's name is "maintenance_admin".
+     *
+     * @warning The array "$config" will not be written to the file config.php,
+     *          you have to do this yourself after calling this method!
+     *
+     * @param boolean $active               true/false for enabled/disabled
+     *
+     * @throws Exception if there was an error (maybe not enought permissions)
+     */
+    function set_maintenance_mode($active)
+    {
+        global $config;
+
+        if ($config['maintenance_mode']['active'] == $active)
+            return;
+
+        if (($config['maintenance_mode']['active']) && ( ! $active) &&
+            ($_COOKIE['maintenance_admin'] != $config['maintenance_mode']['admin_cookie']))
+        {
+            throw new Exception('Sie sind nicht berechtigt, den Wartungsmodus zu beenden!');
+        }
+
+        $config['maintenance_mode']['active']       = $active;
+        $config['maintenance_mode']['admin_cookie'] = ($active ? sha1(rand()) : '');
+
+        setcookie('maintenance_admin', $config['maintenance_mode']['admin_cookie'], time()+60*60*24*365);
     }
 
 ?>

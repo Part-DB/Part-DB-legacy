@@ -37,6 +37,21 @@
     * @brief This file must be included in every PHP file which produces HTML output!
     */
 
+    /********************************************************************************
+    *
+    *   start session
+    *
+    *********************************************************************************/
+
+    session_name('Part-DB');
+    session_start();
+
+    /********************************************************************************
+    *
+    *   some stuff...
+    *
+    *********************************************************************************/
+
     // set HTTP charset to UTF-8
     header('Content-type: text/html; charset=utf-8');
 
@@ -160,6 +175,22 @@
     //print 'DIRECTORY_SEPARATOR = "'.DIRECTORY_SEPARATOR.'"<br>';
     //exit;
 
+    // TEMPORARY, ONLY FOR THIS BRANCH:
+    // change the updates server-URL for development, so we use the local system as the remote server
+    $config['update']['download_base_url'] = $_SERVER["SERVER_NAME"].BASE_RELATIVE.'/development/systemupdates_testserver/';
+
+    /********************************************************************************
+    *
+    *   check if the maintenace mode is enabled
+    *
+    *********************************************************************************/
+
+    if (($config['maintenance_mode']['active']) && ($_COOKIE['maintenance_admin'] != $config['maintenance_mode']['admin_cookie']))
+    {
+        header('Location: maintenance.php');
+        exit;
+    }
+
     /********************************************************************************
     *
     *   make some checks
@@ -264,15 +295,6 @@
     mb_regex_encoding('UTF-8');
     date_default_timezone_set($config['timezone']);
     own_setlocale(LC_ALL, $config['language']);
-
-    /********************************************************************************
-    *
-    *   start session
-    *
-    *********************************************************************************/
-
-    session_name('Part-DB');
-    session_start();
 
     /********************************************************************************
     *
