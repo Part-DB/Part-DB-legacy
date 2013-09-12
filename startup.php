@@ -217,7 +217,7 @@
 
         try
         {
-            $system_version = $system->get_installed_version();
+            $system_version = SystemVersion::get_installed_version();
             $html->set_variable('system_version',       $system_version->as_string(false, true, true, false),   'string');
             $html->set_variable('system_version_full',  $system_version->as_string(false, false, false, true),  'string');
             $html->set_variable('git_branch',           get_git_branch_name(),                                  'string');
