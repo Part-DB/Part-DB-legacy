@@ -1,5 +1,5 @@
-<?php
 /**
+
     @mainpage Doxygen Quick Reference
 
     <b>Files:</b><br>
@@ -33,6 +33,5 @@
         &nbsp;&nbsp;&nbsp;&nbsp;@@todo foo<br>
         &nbsp;&nbsp;&nbsp;&nbsp;@@see foo<br>
         &nbsp;&nbsp;&nbsp;&nbsp;@@bug foo<br>
-*/
 
-?>
+*/
