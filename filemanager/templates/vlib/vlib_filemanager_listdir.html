@@ -1,0 +1,6 @@
+<div id="root" value="{TMPL_VAR NAME="root"}"></div>
+<ul class="list">
+    {TMPL_LOOP NAME="listdir"}
+    <li class="dir" onclick="filemanager.showFiles('{TMPL_VAR NAME="path"}','{TMPL_VAR NAME="type"}');">{TMPL_VAR NAME="name"}</li>
+    {/TMPL_LOOP}
+</ul>

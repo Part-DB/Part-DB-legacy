@@ -1,0 +1,9 @@
+Dieser Filemanager ist als Standalone-System für Webseiten gedacht. Das System läuft innerhalb eines DIV-Elements oder auch einem eigenen Fenster.
+
+Er nutzt auf Seiten von Javascript vier Klassen:
+- ajax.js für die Kapselung der XMLHttpRequests
+- dom.js für alle Operationen im DOM
+- base64.js (hier base64.xd.js) für Base64-Kodierung
+- filemanager.js als Herzstück
+
+Templates und CSS erlauben die Anpassung des UI. Die beiden Dateien index.html, popup.html und main.js demonstriert den Aufruf des Filemanagers.

@@ -1,0 +1,79 @@
+/*
+    ---------------------------------------------------------------------------------------
+
+    phpBookWorm: Layout
+
+    Copyright: CC-BY-SA 3.0, 2013
+    Author: Udo Neist (webmaster@singollo.de, GPG-Fingerprint 4A8F B229 2AE9 9634 04D1 E2F0 21F2 E27D FE97 D87F)
+
+    Part: layout.css
+
+    Info: CSS-Definitionen
+
+    ---------------------------------------------------------------------------------------
+
+    26.01.2013: Erste Version (Udo Neist)
+    15.09.2013: Anpassungen an Part-DB (Udo Neist)
+
+*/
+
+@charset "UTF-8";
+
+/* CSS Document */
+
+html {
+    height:             100%;
+    width:              100%;
+    margin:             0;
+    padding:            0;
+}
+
+body {
+    height:             100%;
+    width:              100%;
+    margin:             0;
+    padding:            0;
+    background:         white;
+    width:              auto;
+    height:             auto;
+    overflow:           auto;
+    text-align:         center;
+}
+
+div {
+    text-align:         left;
+}
+
+#content {
+    position:           absolute;
+    top:                0px;
+    left:               0px;
+    min-width:          900px;
+    max-width:          1200px;
+    height:             720px;
+    z-index:            100;
+    background-color:   white;
+    opacity:            0.90;
+    -ms-filter:         "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+    filter:             alpha(opacity=90);
+    border-bottom:      1px solid #000000;
+    border-left:        1px solid #000000;
+}
+
+#content .head {
+    width:              auto;
+}
+
+#content .content {
+    margin-top:         1em;
+    overflow:           auto;
+    height:             90%;
+}
+
+.head[title]:before, .headline[title]:before {
+    content:           ".:: " attr(title);
+}
+
+.headline[missing]:before {
+    content:           ".:: Seufz... Hier fehlt noch etwas";
+}

@@ -1,0 +1,49 @@
+CONTRIBUTIONS
+--------------
+
+This document is for people who wish to aid in the development of vLIB.
+
+NB: If you would just like to inform us of a bugfix, then please either send details of the fix to
+	vlib@activefish.com or visit http://vlib.activefish.com/forum/ and leave a message on the forum,
+	there is no signup required for the Feedback and Suggestions forums.
+
+
+1. Getting started
+---------------------
+Now if you would like to contribute to the project you're going to need CVS access to vLIB, which is
+hosted on SourceForge.net. Send an e-mail to vlib@activefish.com with your sf.net username and what it
+is that you're interested in developing.
+If all is well you'll be given CVS access to vLIB where you can start modifying, adding ..etc.
+
+NB: If you don't know how to use CVS you can learn more about it using the sourceforge documentation.
+The basics aren't very difficult and you should be able to pick it up fairly quickly. If you're using
+Win32, I suggest you use a tool called TortoiseCVS. This is easy to setup and lets you access CVS commands
+from Windows Explorer. You can find it at http://www.tortoisecvs.org/.
+
+
+2. Coding Standards
+---------------------
+vLIB is programmed using the same standards as the PEAR repository (http://pear.php.net/manual/en/standards.php).
+Make sure you program in this style as we don't like sloppy code. Most importantly, make sure your naming
+conventions are correct, the only difference between vLIB naming conventions and PEAR naming conventions is that
+vLIB classes use the "studly caps" method, like functions do, and the name of the file will represent the name of
+the main class within it; all other naming conventions are the same.
+
+Read the PEAR "Coding Standards" docs thouroughly to make sure you understand how to comment your code using PHPDoc
+style comments (http://phpdocu.sourceforge.net/) and to also see whether you should be on the list of authors in the
+header of each file.
+
+If you wish to add a new class to the library then create the file, copying the header from another file and away you
+go. If you file requires other classes than the main one to run, i.e. error classes ...etc then create a folder with
+the same name as the main class and put the file(s) in there.
+You're new class will probably need documentation, so you should checkout vlibdocs from CVS and create a new XML file.
+The easiest way is to do this is to probably copy one of the other files and modify it. The docs used by vLIB are in
+Aurigadoc format, download it at http://aurigadoc.sourceforge.net.
+
+Whenever you make a change, however small, make a note in the CHANGELOG.txt file. Briefly describe what you've done and
+put your name and the date on it (the date is in YYYY-MM-DD format to avoid confusion). When you commit the changelog back
+to CVS, just use '.' as the message.
+
+----------------------------------------------------------------------------------------------------------------------------
+If you have any other questions, then please email vlib@activefish.com or visit http://vlib.activefish.com/forum/ and leave
+a message.

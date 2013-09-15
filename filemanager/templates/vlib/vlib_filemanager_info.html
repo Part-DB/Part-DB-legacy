@@ -1,0 +1,26 @@
+<div id="filemanager_filename" class="filename">{TMPL_VAR NAME="name"}</div>
+<div align="center" style="margin:1em;">
+{TMPL_IF NAME="gfx"}
+    <img src="{TMPL_VAR NAME="file"}">
+{TMPL_ELSE}
+    {TMPL_IF NAME="mimetype_gfx"}
+        <img src="{TMPL_VAR NAME="mimetype_gfx"}">
+    {TMPL_ELSE}
+        Keine Vorschau vorhanden.
+    {/TMPL_IF}
+{/TMPL_IF}
+</div>
+
+<div>
+Dateiinfos:
+<ul class="list">
+    {TMPL_IF NAME="size"}<li class="next" id="filemanager_size">{TMPL_VAR NAME="size"}kB</li>{/TMPL_IF}
+    {TMPL_IF NAME="date"}<li class="next" id="filemanager_date">{TMPL_VAR NAME="date"}</li>{/TMPL_IF}
+</ul>
+<ul class="list">
+    {TMPL_IF NAME="mode"}<li class="next" id="filemanager_mode">{TMPL_VAR NAME="mode"}</li>{/TMPL_IF}
+    {TMPL_IF NAME="mime"}<li class="next" id="filemanager_mime">{TMPL_VAR NAME="mimetype"}</li>{/TMPL_IF}
+</ul>
+<input type="hidden" name="mime" id="filemanager_b64mime" value="{TMPL_VAR NAME="b64mimetype"}">
+<input type="hidden" name="filename" id="filemanager_b64filename" value="{TMPL_VAR NAME="filename"}">
+</div>
