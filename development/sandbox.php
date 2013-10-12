@@ -87,7 +87,14 @@
                 $randomString = substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 10);
                 $parent = ((isset($_REQUEST['with_error'])) && ($i == ($_REQUEST['count']/2))) ? -1 : 0;
 
-                $footprint = Footprint::add($database, $current_user, $log, $randomString, $parent);
+                if ($i % 3 == 0)
+                    $filename = '/IC_DIP02'; // correct filename, but without path and extension
+                elseif ($i % 3 == 1)
+                    $filename = '/asdf'; // incorrect filename
+                elseif ($i % 3 == 2)
+                    $filename = ''; // no filename
+
+                $footprint = Footprint::add($database, $current_user, $log, $randomString, $parent, $filename);
             }
             $database->commit($trans_id);
         }
