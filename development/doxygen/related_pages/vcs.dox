@@ -1,0 +1,78 @@
+/**
+
+    @page vcs Versionsverwaltungssystem
+    @tableofcontents
+
+    Zur Versionsverwaltung verwendeten wir bis August 2013 Subversion, das Repository befand sich auf Google Code.
+    Seit September 2013 setzen wir Git ein, das Repository befindet sich jetzt auf Github.
+    Für den Umgang mit Git haben wir ein paar Regeln aufgestellt, die hier erläutert werden sollen.
+
+
+    @section versions Part-DB Versionen
+    Für die Versionsbezeichnungen verwenden wir das Schema "major.minor.update", z.B. "0.3.2".
+    Die erste Zahl bezeichnet die Hauptversion, die zweite Zahl die Unterversion, die dritte das Update.
+    Eine Unterversion (z.B. "0.3") bekommt KEINE neuen Features mehr, sondern nur noch Bugfixes.
+    Heisst also, die Version "0.3.99" hat immer genau die gleichen Funktionen wie die Version "0.3.0".
+    Gibt es für eine Unterversion keine Bugfixes, kommt z.B. nach der "0.3.0" direkt die Version "0.4.0".
+
+
+    @section master_branch Der Master-Branch
+    Im Branch "master" wir jeweils nur an einer ganz bestimmten Unterversion gearbeitet. Neue Funktionen,
+    die nicht in dieser Unterversion landen sollen, werden in einem separaten Branch implementiert.
+    Erst wenn der master die gewünschte Version enthält, wird dieser Branch in den master übernommen.
+    
+    
+    @section releases_branch Branches für veröffentlichte Versionen
+    Sobald im master eine neue Version fertiggestellt und getestet wurde, wird ein neuer Branch für diese Version angelegt:
+    @code
+        git branch Part-DB-0.3.x        (Branch "Part-DB-0.3.x" anlegen)
+        git checkout Part-DB-0.3.x      (In den Branch "Part-DB-0.3.x" wechseln)
+        git add/commit/...              (Änderungen am neuen Branch durchführen und commiten)
+        git push origin Part-DB-0.3.x   (Den neuen Branch auf GitHub hochladen)
+    @endcode
+    
+    Das Namensschema dieser Branches ist immer "Part-DB-0.3.x" (Branch für die Unterversion "0.3").
+    Jegliche Commits, die ab nun im master getätigt werden, müssen zwingend auch in diesen neuen Branch übernommen werden!
+    @code
+        git checkout Part-DB-0.3.x      (In den Branch "Part-DB-0.3.x" wechseln)
+        git merge master                ("master" in den Branch "Part-DB-0.3.x" mergen)
+    @endcode
+    
+    @warning Niemals soll ein Commit direkt in einen solchen Release-Branch getätigt werden, das bringt nur den "working flow" durcheinander!
+    
+    Die Release-Branches machen immer den folgenden, endlosen Zyklus durch (Beispiel für Version "0.3"):
+        -# Branch "Part-DB-0.3.x" wird angelegt
+        -# Im master werden Commits für die Version "0.3" getätigt und getestet
+        -# Die Commits vom master werden in den Branch "Part-DB-0.3.x" übernommen (git merge)
+        -# Im Branch "Part-DB-0.3.x" wird ein Tag für ein neues Release gesetzt (git tag)
+        -# gehe wieder zu Schritt 2.
+    
+        @subsection tags Tags
+        Sobald nun eine Version veröffentlicht werden soll, wird im entsprechenden Branch (z.B. "Part-DB-0.3.x") ein Tag mit der
+        Versionsbezeichnung nach dem Schema "v0.3.0.RC1" erstellt. Diese Versionsbezeichnung wird von GitHub automatisch als Release erkannt.
+        @code
+            git checkout Part-DB-0.3.x                      (In den Branch "Part-DB-0.3.x" wechseln)
+            git tag -a v0.3.0.RC1 -m 'Version 0.3.0 RC1'    (Tag "v0.3.0.RC1" mit dem Kommentar "Version 0.3.0 RC1" anlegen)
+            git push origin v0.3.0.RC1                      (den neuen Tag auf GitHub hochladen)
+        @endcode
+        Nun kann auf GitHub das Release noch mit einer Beschreibung und dem *.tar.gz-Archiv ergänzt werden.
+
+
+    @section github GitHub
+    Link zum Projekt: https://github.com/sandboxgangster/Part-DB
+    
+        @subsection issues Issues
+        Als ToDo-Liste/Bugtracker verwenden wir die GitHub Issues Seite: https://github.com/sandboxgangster/Part-DB/issues
+        @note   GitHub erkennt in den Commit-Mitteilungen Verweise auf GitHub Issues, wenn sie bestimmte Kriterien erfüllen.
+                Informationen dazu gibts hier: https://help.github.com/articles/closing-issues-via-commit-messages.
+                Wird ein solcher Commit auf GitHub hochgeladen (git push), wird automatisch im entsprechenden Issue ein Verweis
+                auf diesen Commit hinzugefügt. Zusätzlich wird dieses Issue automatisch geschlossen, sobald dieser Commit im
+                master ankommt. Solange der Commit nur in einem separaten Branch existiert, bleibt das Issue offen.
+                Es empfiehlt sich, dieses Issue dann von Hand zu schliessen.
+
+
+    @section vcs_flow_image Arbeitsablauf grafisch dargestellt
+    
+    @image html vcs_flow.png
+
+*/

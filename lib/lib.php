@@ -527,29 +527,23 @@
      * this function is needed. You can pass the old filename, and you will get
      * proposed filenames. Maybe the original file can be found again this way.
      *
-     * @param string        $missing_filename       The filename of the missing file (absolute UNIX path from filesystem root [only slashes]!!)
-     * @param string|array  $search_paths           @li The path where we will search for similar files (absolute UNIX path with slash at the end!)
-     *                                              @li An array of strings with more than one search paths
+     * @param string $missing_filename      The filename of the missing file (absolute UNIX path from filesystem root [only slashes]!!)
+     * @param array  $available_files       An array of absolute UNIX filenames with all available files.
+     *                                      This function will search for proposed filenames in this array.
      *
      * @retval array        @li All proposed filenames as an array of strings (absolute UNIX filenames)
      *                      @li Best matches are at the beginning of the array,
      *                          worst matches are at the end of the array
      */
-    function get_proposed_filenames($missing_filename, $search_paths)
+    function get_proposed_filenames($missing_filename, $available_files)
     {
-        if ( ! is_array($search_paths))
-            $search_paths = array($search_paths);
-
         $filenames = array();
         $filenames_tmp = array();
 
-        // then, we will search in all search paths
-        foreach($search_paths as $search_path)
+        foreach($available_files as $filename)
         {
-            if (( ! is_dir($search_path)) || (mb_substr($search_path, -1, 1) != '/') || ( ! is_path_absolute_and_unix($search_path, false)))
-                throw new Exception('"'.$search_path.'" ist kein gültiges Verzeichnis!');
-
-            $filenames_tmp = array_merge($filenames_tmp, find_all_files($search_path, true, basename($missing_filename)));
+            if (mb_substr_count(mb_strtolower($filename), mb_strtolower(basename($missing_filename))) > 0)
+                $filenames_tmp[] = $filename;
         }
 
         // remove duplicates, sort $filenames

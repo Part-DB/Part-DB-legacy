@@ -1,9 +1,20 @@
-###############################################################################
-##                                                                           ##
-## Part-DB Changelog                                                         ##
-##                                                                           ##
-###############################################################################
+#################################################################################################
+##                                                                                             ##
+## Part-DB Changelog                                                                           ##
+##                                                                                             ##
+#################################################################################################
 
+Part-DB 0.3.1
+=============
+
+    - Bugfixes:
+        - Issue #25: Bei zu vielen fehlerhaften Footprints unter Bearbeiten->Footprints konnte es 
+          zu einer leeren oder nicht richtig funktionierenden Seite führen
+        - Fehler beim Lesen von Dateirechten haben die Installation auf einigen PHP Installationen 
+          verunmöglicht
+        
+    - Sonstiges:
+        - Umstellung von SVN auf Git (RSS-Feed auf Startseite angepasst, diverse Links angepasst)
 
 Part-DB 0.3.0
 =============
