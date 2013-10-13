@@ -45,10 +45,111 @@
 
     /********************************************************************************
     *
+    *   Footprint Sortiments
+    *
+    *********************************************************************************/
+
+    // the common footprints
+    $common_footprints = array(
+        array('text' => 'Widerstände', 'root_name' => 'Widerstände', 'root_image' => '',
+            'tht' => array(
+                array('name' => '0204',             'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-KOHLE_0204.png'),
+                array('name' => '0207',             'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-KOHLE_0207.png'),
+                array('name' => '0309',             'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-KOHLE_0309.png'),
+                array('name' => '0414',             'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-KOHLE_0414.png'),
+                array('name' => '0617',             'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-KOHLE_0617.png'),
+                array('name' => '0922',             'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-KOHLE_0922.png')
+            ),
+            'smt' => array(
+                array('name' => '0102 MICRO-MELF',  'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-SMD_0102-MLF.png'),
+                array('name' => '0204 MINI-MELF',   'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-SMD_0204-MLF.png'),
+                array('name' => '0207 MELF',        'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-SMD_0207-MLF.png'),
+                array('name' => '0402',             'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-SMD_0402.png'),
+                array('name' => '0603',             'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-SMD_0603.png'),
+                array('name' => '0805',             'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-SMD_0805.png'),
+                array('name' => '1206',             'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-SMD_1206.png'),
+                array('name' => '1210',             'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-SMD_1210.png'),
+                array('name' => '1218',             'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-SMD_1218.png'),
+                array('name' => '2010',             'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-SMD_2010.png'),
+                array('name' => '2512',             'image' => '/img/footprints/Passiv/Widerstaende/SMD/WIDERSTAND-SMD_2512.png')
+            )
+        ),
+        array('text' => 'Kondensatoren', 'root_name' => 'Kondensatoren', 'root_image' => '',
+            'tht' => array(
+                array('name' => 'AXIAL', 'image' => '',
+                    'footprints' => array(
+                        array('name' => 'RM=22.86mm D=10mm', 'image' => '') // TODO
+                    )
+                )
+                array('name' => 'RADIAL', 'image' => '',
+                    'footprints' => array(
+                        array('name' => 'RM=2mm D=5mm',     'image' => '/img/footprints/Passiv/Kondensatoren/Elektrolyt/Radial/ELKO_RADIAL_2RM_5D.png'),
+                        array('name' => 'RM=2.5mm D=5mm',   'image' => '/img/footprints/Passiv/Kondensatoren/Elektrolyt/Radial/ELKO_RADIAL_2RM5_5D.png'),
+                        array('name' => 'RM=2.5mm D=6.3mm', 'image' => '/img/footprints/Passiv/Kondensatoren/Elektrolyt/Radial/ELKO_RADIAL_2RM5_6D3.png'),
+                        array('name' => 'RM=3.5mm D=8mm',   'image' => '/img/footprints/Passiv/Kondensatoren/Elektrolyt/Radial/ELKO_RADIAL_3RM5_8D.png'),
+                        array('name' => 'RM=5mm D=10mm',    'image' => '/img/footprints/Passiv/Kondensatoren/Elektrolyt/Radial/ELKO_RADIAL_5RM_10D.png'),
+                        array('name' => 'RM=5mm D=12.5mm',  'image' => '/img/footprints/Passiv/Kondensatoren/Elektrolyt/Radial/ELKO_RADIAL_5RM_12D5.png'),
+                        array('name' => 'RM=7.5mm D=16mm',  'image' => '/img/footprints/Passiv/Kondensatoren/Elektrolyt/Radial/ELKO_RADIAL_7RM5_16D.png'),
+                        array('name' => 'RM=7.5mm D=18mm',  'image' => '/img/footprints/Passiv/Kondensatoren/Elektrolyt/Radial/ELKO_RADIAL_7RM5_18D.png')
+                    )
+                )
+            ),
+            'smt' => array(
+                array('name' => 'Elektrolyth', 'image' => '',
+                    'footprints' => array(
+                        array('name' => 'RM=22.86mm D=10mm', 'image' => '') // TODO
+                    )
+                )
+            )
+        ),
+
+
+
+
+
+
+        array('text' => 'Induktivitäten / Spulen',                'tht' => true,  'smt' => true),
+        array('text' => 'Transistoren / FETs',                    'tht' => true,  'smt' => true),
+        array('text' => 'Dioden',                                 'tht' => true,  'smt' => true),
+        array('text' => 'Quarze / Resonatoren / Oszillatoren',    'tht' => true,  'smt' => true),
+        array('text' => 'LEDs',                                   'tht' => true,  'smt' => true),
+        array('text' => 'Potentiometer / Trimmer',                'tht' => true,  'smt' => true),
+        array('text' => 'DIP-Switches',                           'tht' => true,  'smt' => true),
+        array('text' => 'Schalter / Taster',                      'tht' => true,  'smt' => true),
+        array('text' => 'Stift-/Buchsenleisten',                  'tht' => true,  'smt' => array()),
+        array('text' => 'Schraubklemmen',                         'tht' => true,  'smt' => array()),
+        array('text' => 'IC-Sockel DIP',                          'tht' => true,  'smt' => array()),
+        array('text' => 'Gehäuse: DIP',                           'tht' => true,  'smt' => array()),
+        array('text' => 'Gehäuse: *QFP (TQFP, LQFP, ...)',        'tht' => array(), 'smt' => true),
+        array('text' => 'Gehäuse: *SOP/SOT (SSOP, TSOP, ...)',    'tht' => array(), 'smt' => true),
+        array('text' => 'Gehäuse: *GA (LGA, BGA, ...)',           'tht' => array(), 'smt' => true),
+        array('text' => 'Gehäuse: PLCC (IC und Sockel)',          'tht' => array(), 'smt' => true),
+        array('text' => 'Mechanik: Kühlkörper',                   'tht' => true,  'smt' => array())
+    );
+
+    // function to build a template loop array from the first level of $common_footprints
+    function build_sortiment_loop($footprints)
+    {
+        $loop = array();
+
+        foreach ($footprints as $key => $footprint)
+        {
+            $loop[] = array('index'     => $key,
+                            'text'      => $footprint['text'],
+                            'tht_count' => count($footprint['tht']),
+                            'smt_count' => count($footprint['smt']));
+        }
+
+        return $loop;
+    }
+
+    /********************************************************************************
+    *
     *   Evaluate $_REQUEST
     *
     *   Notes:
     *       - "$selected_id == 0" means that we will show the form for creating a new footprint
+    *       - "$selected_id == -1" means that we will show the form for creating a lot of common footprints (sortiments)
     *       - the $new_* variables contains the new values after editing an existing
     *           or creating a new footprint
     *
@@ -58,12 +159,16 @@
     $new_name                       = isset($_REQUEST['name'])                          ? trim((string)$_REQUEST['name'])                   : '';
     $new_parent_id                  = isset($_REQUEST['parent_id'])                     ? (integer)$_REQUEST['parent_id']                   : 0;
     $new_filename                   = isset($_REQUEST['filename'])                      ? to_unix_path(trim((string)$_REQUEST['filename'])) : '';
+    $add_more                       = isset($_REQUEST['add_more']);
 
     if ((strlen($new_filename) > 0) && ( ! is_path_absolute_and_unix($new_filename)))
         $new_filename = BASE.'/'.$new_filename; // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
-    $add_more                       = isset($_REQUEST['add_more']);
+    // footprint sortiments
+    $sortiment_overwrite_existing   = isset($_REQUEST['sortiment_overwrite_existing']);
+    $sortiment_use_hierarchy        = isset($_REQUEST['sortiment_use_hierarchy']);
 
+    // broken footprints
     $broken_footprints_count        = isset($_REQUEST['broken_footprints_count'])       ? (integer)$_REQUEST['broken_footprints_count']     : 0;
     $save_all_proposed_filenames    = isset($_REQUEST["save_all_proposed_filenames"]);
 
@@ -74,6 +179,7 @@
     if (isset($_REQUEST["apply"]))                          {$action = 'apply';}
     if (isset($_REQUEST["save_proposed_filenames"]))        {$action = 'save_proposed_filenames';}
     if (isset($_REQUEST["save_all_proposed_filenames"]))    {$action = 'save_proposed_filenames';}
+    if (isset($_REQUEST["create_sortiments"]))              {$action = 'create_sortiments';}
 
     /********************************************************************************
     *
@@ -225,6 +331,20 @@
                     $messages[] = array('text' => 'Fehlermeldung: '.$error, 'color' => 'red');
 
                 breaK;
+
+            case 'create_sortiments':
+                try
+                {
+                    // todo
+                    //$sortiment_overwrite_existing
+                    //$sortiment_use_hierarchy
+                }
+                catch (Exception $e)
+                {
+                    $messages[] = array('text' => 'Die neuen Footprints konnten nicht angelegt werden!', 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                }
+                break;
         }
     }
 
@@ -287,27 +407,40 @@
     *
     *********************************************************************************/
 
-    $html->set_variable('add_more', $add_more, 'boolean');
-
     if (! $fatal_error)
     {
         try
         {
+            $html->set_variable('add_more', $add_more, 'boolean');
+
+            $html->set_loop('sortiment_loop', build_sortiment_loop($common_footprints));
+
             if (is_object($selected_footprint))
             {
-                $parent_id = $selected_footprint->get_parent_id();
+                // show the footprint $selected_footprint
                 $html->set_variable('id', $selected_footprint->get_id(), 'integer');
+                $parent_id = $selected_footprint->get_parent_id();
                 $name = $selected_footprint->get_name();
                 $filename = $selected_footprint->get_filename();
             }
             elseif ($action == 'add')
             {
+                // show the "add footprint" form with the data from the last created footprint
                 $parent_id = $new_parent_id;
                 $name = $new_name;
                 $filename = $new_filename;
             }
+            elseif (($selected_id == -1) /*&& ($action != 'create_sortiments')*/)
+            {
+                // show the "add common footprint sortiments" form
+                $html->set_variable('id', '-1', 'integer');
+                $parent_id = 0;
+                $name = '';
+                $filename = '';
+            }
             else
             {
+                // show the "add footprint" form with empty input boxes (this is the default case)
                 $parent_id = 0;
                 $name = '';
                 $filename = '';

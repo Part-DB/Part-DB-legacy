@@ -1,13 +1,26 @@
+<script language="JavaScript">
+    function toggle_checkboxes(source, prefix)
+    {
+        var inputs = document.getElementsByTagName("input");
+        for (var i=0; i<inputs.length; i++)
+        {
+            if (inputs[i].name.indexOf(prefix) == 0)
+                inputs[i].checked = source.checked;
+        }
+    }
+</script>
+
 <div class="outer">
     <h2>Footprints</h2>
     <div class="inner">
         <form action="" method="post">
         <table>
             <tr>
-                <td rowspan="6">
-                    <select name="selected_id" size="30" onChange="this.form.submit()">
+                <td rowspan="0">
+                    <select name="selected_id" size="40" onChange="this.form.submit()">
                         <optgroup label="Neu">
                             <option value="0" {TMPL_IF NAME="id" VALUE="0"}selected{/TMPL_IF}>Neuer Footprint</option>
+                            <option value="-1" {TMPL_IF NAME="id" VALUE="-1"}selected{/TMPL_IF}>Sortimente anlegen&nbsp;&nbsp;</option>
                         </option>
                         <optgroup label="Bearbeiten">
                             {TMPL_VAR NAME="footprint_list" ESCAPE="none"}
@@ -18,14 +31,62 @@
                     {TMPL_IF NAME="id" VALUE="0"}
                         <strong>Neuer Footprint hinzufügen:</strong>
                     {TMPL_ELSE}
-                        {TMPL_IF NAME="name"}
-                            <strong>Footprint bearbeiten:</strong>
+                        {TMPL_IF NAME="id" VALUE="-1"}
+                            <strong>Footprint-Sortimente anlegen:</strong>
                         {TMPL_ELSE}
-                            <strong>Es ist kein Footprint angewählt!</strong>
+                            {TMPL_IF NAME="name"}
+                                <strong>Footprint bearbeiten:</strong>
+                            {TMPL_ELSE}
+                                <strong>Es ist kein Footprint angewählt!</strong>
+                            {/TMPL_IF}
                         {/TMPL_IF}
                     {/TMPL_IF}
                 </td>
             </tr>
+
+        {TMPL_IF NAME="id" VALUE="-1"}
+            <tr>
+                <td style="border-bottom: 1px solid #C0C0C0">
+                    <b>Sortiment</b>
+                </td>
+                <td style="border-bottom: 1px solid #C0C0C0; text-align:center">
+                    <b>THT</b><br>
+                    <input type="checkbox" onClick="toggle_checkboxes(this, 'create_sortiment_tht_')"/>
+                </td>
+                <td style="border-bottom: 1px solid #C0C0C0; text-align:center">
+                    <b>SMT</b><br>
+                    <input type="checkbox" onClick="toggle_checkboxes(this, 'create_sortiment_smt_')"/>
+                </td>
+            <tr>
+            {TMPL_LOOP NAME="sortiment_loop"}
+            <tr>
+                <td style="border-bottom: 1px solid #C0C0C0">{TMPL_VAR NAME="text"}</td>
+                <td style="border-bottom: 1px solid #C0C0C0; text-align:center">{TMPL_IF NAME="tht_count"}<input type="checkbox" name="create_sortiment_tht_{TMPL_VAR NAME="index"}">{/TMPL_IF}</td>
+                <td style="border-bottom: 1px solid #C0C0C0; text-align:center">{TMPL_IF NAME="smt_count"}<input type="checkbox" name="create_sortiment_smt_{TMPL_VAR NAME="index"}">{/TMPL_IF}</td>
+            </tr>
+            {/TMPL_LOOP}
+            <tr>
+                <td colspan="3">
+                    <br>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <input type="checkbox" name="sortiment_overwrite_existing">Bilder bereits existierender Footprints überschreiben<br>
+                    <input type="checkbox" name="sortiment_use_hierarchy" checked>Footprints hierarchisch einordnen (max. 2 Ebenen)
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <hr>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <input type="submit" name="create_sortiments" value="Sortimente anlegen">
+                </td>
+            </tr>
+        {TMPL_ELSE}
             <tr>
                 <td>
                     ID:
@@ -78,6 +139,8 @@
                     {/TMPL_IF}
                 </td>
             </tr>
+        {/TMPL_IF}
+
         </table>
         </form>
     </div>
