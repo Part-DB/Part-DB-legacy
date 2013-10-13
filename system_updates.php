@@ -275,7 +275,7 @@
             $html->set_variable('current_version',          $current_version->as_string(false, false, false, true),             'string');
 
             $latest_version = SystemVersion::get_latest_version();
-            $html->set_variable('latest_version',           $latest_version->as_string(false, false, false, false),             'string');
+            $html->set_variable('latest_version',           $latest_version->as_string(false, false, false, true),              'string');
 
             $html->set_variable('is_update_available',      $latest_version->is_newer_than($current_version),                   'boolean');
         }

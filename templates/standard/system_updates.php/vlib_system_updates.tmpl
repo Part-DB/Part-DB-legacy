@@ -19,12 +19,6 @@
                 </tr>
 
                 <tr>
-                    <td colspan="2">
-                        <hr>
-                    </td>
-                </tr>
-
-                <tr>
                     <td>
                         Neuste verfügbare Version:
                     </td>
@@ -34,6 +28,19 @@
                 </tr>
 
                 <tr>
+                    <td>
+                        Status:
+                    </td>
+                    <td>
+                        {TMPL_IF NAME="is_update_available"}
+                            <font color="red"><b>Nicht aktuell</b></font>
+                        {TMPL_ELSE}
+                            <font color="darkgreen"><b>Aktuell</b></font>
+                        {/TMPL_IF}
+                    </td>
+                </tr>
+
+                <tr>
                     <td colspan="2">
                         <hr>
                     </td>
@@ -41,12 +48,6 @@
 
                 <tr>
                     <td colspan="2">
-                        {TMPL_IF NAME="is_update_available"}
-                            <font color="red"><b>Es ist eine neue Version verfügbar!</b></font>
-                        {TMPL_ELSE}
-                            <font color="darkgreen"><b>Das System ist auf dem neusten Stand.</b></font>
-                        {/TMPL_IF}
-                        <br>
                         <input type="submit" name="download_update_packages" value="Verfügbare Updates herunterladen / entpacken">
                     </td>
                 </tr>
