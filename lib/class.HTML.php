@@ -100,7 +100,7 @@
             settype($this->meta['theme'],               'string');
             settype($this->meta['title'],               'string');
             settype($this->meta['custom_css'],          'string');
-            settype($this->meta['no_body'],             'boolean');
+            settype($this->meta['frameset'],            'boolean');
 
             // check passed parameters
             if (($theme != 'standard') && ( ! is_readable(BASE.'/templates/'.$theme."/partdb.css" )))
@@ -125,7 +125,7 @@
             $this->meta['theme']        = $theme;
             $this->meta['custom_css']   = $custom_css_file;
             $this->meta['title']        = $page_title;
-            $this->meta['no_body']      = false;
+            $this->meta['frameset']     = false;
         }
 
         /********************************************************************************
@@ -348,7 +348,7 @@
             $tmpl->setVar('http_charset',               $config['html']['http_charset']);
             $tmpl->setVar('body_onload',                $this->body_onload);
             $tmpl->setVar('theme',                      $this->meta['theme']);
-            $tmpl->setVar('no_body',                    $this->meta['no_body']);
+            $tmpl->setVar('frameset',                   $this->meta['frameset']);
             if (strlen($this->meta['custom_css']) > 0)
                 $tmpl->setVar('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
 
@@ -475,7 +475,7 @@
                 $tmpl = new vlibTemplate($vlib_foot);
 
             $tmpl->setVar('relative_path',  BASE_RELATIVE.'/'); // constant from start_session.php
-            $tmpl->setVar('no_body',        $this->meta['no_body']);
+            $tmpl->setVar('frameset',       $this->meta['frameset']);
 
             // messages
             if ((is_array($messages) && (count($messages) > 0)))
