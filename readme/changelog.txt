@@ -12,6 +12,7 @@ Part-DB 0.3.1
           zu einer leeren oder nicht richtig funktionierenden Seite führen
         - Fehler beim Lesen von Dateirechten haben die Installation auf einigen PHP Installationen
           verunmöglicht
+        - Darstellungsfehler im IE9 behoben
 
     - Sonstiges:
         - Umstellung von SVN auf Git (RSS-Feed auf Startseite angepasst, diverse Links angepasst)
