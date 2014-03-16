@@ -302,27 +302,27 @@ class vlibTemplateDebug extends vlibTemplate {
         $regex.=    '[\"\']?';
         $regex.= ')?\s*';
         $regex.= '(?:>|\/>|}|-->){1}';
-        $regex.= '/ie';
+        $regex.= '/i';
+
+        $obj = $this; // for compatibility with PHP versions before 5.4
 
         for ($i = 0; $i < count($data); $i++) {
-            $file = preg_replace(
+            $file = preg_replace_callback(
                                     $regex,
-                                  "\$this->arrangeTags(array(
-                                                    'tag' => strtolower('\\2'),
-                                                    'paramname1' => strtolower('\\3'),
-                                                    'paramval1' => strtolower('\\4'),
-                                                    'paramname2' => strtolower('\\5'),
-                                                    'paramval2' => strtolower('\\6'),
-                                                    'paramname3' => strtolower('\\7'),
-                                                    'paramval3' => strtolower('\\8'),
-                                                    'openclose' => '\\1',
-                                                    'file' => realpath('$filename'),
-                                                    'line' => ".($i+1).",
-                                                    'entire_tag' => '\\0')
-                                                    );"
-                                ,
-
-                               $data[$i]
+                                    function($m) use($obj) {return $obj->arrangeTags(
+                                        array(  'tag' => strtolower($m[2]),
+                                                'paramname1' => strtolower($m[3]),
+                                                'paramval1' => strtolower($m[4]),
+                                                'paramname2' => strtolower($m[5]),
+                                                'paramval2' => strtolower($m[6]),
+                                                'paramname3' => strtolower($m[7]),
+                                                'paramval3' => strtolower($m[8]),
+                                                'openclose' => $m[1],
+                                                'file' => realpath($filename),
+                                                'line' => ($i+1),
+                                                'entire_tag' => $m[0]));
+                                                },
+                                    $data[$i]
                                );
         }
     }
