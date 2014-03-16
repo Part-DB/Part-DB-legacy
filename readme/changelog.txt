@@ -8,13 +8,14 @@ Part-DB 0.3.1
 =============
 
     - Bugfixes:
-        - Issue #25: Bei zu vielen fehlerhaften Footprints unter Bearbeiten->Footprints konnte es 
+        - Issue #25: Bei zu vielen fehlerhaften Footprints unter Bearbeiten->Footprints konnte es
           zu einer leeren oder nicht richtig funktionierenden Seite führen
-        - Fehler beim Lesen von Dateirechten haben die Installation auf einigen PHP Installationen 
+        - Fehler beim Lesen von Dateirechten haben die Installation auf einigen PHP Installationen
           verunmöglicht
-        
+
     - Sonstiges:
         - Umstellung von SVN auf Git (RSS-Feed auf Startseite angepasst, diverse Links angepasst)
+        - Kompatibilität mit PHP 5.5 verbessert
 
 Part-DB 0.3.0
 =============
