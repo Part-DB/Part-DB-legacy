@@ -126,7 +126,12 @@
                 foreach ($all_pricedetails as $pricedetails)
                     $pricedetails->delete();
 
-                $this->get_part()->set_attributes(array()); // save part attributes to update its "last_modified"
+                // Check if this Orderdetails is the Part's selected Orderdetails for ordering and delete this reference if neccessary
+                $order_orderdetails = $this->get_part()->get_order_orderdetails();
+                if (is_object($order_orderdetails) && ($order_orderdetails->get_id() == $this->get_id()))
+                    $this->get_part()->set_order_orderdetails_id(NULL);
+                else
+                    $this->get_part()->set_attributes(array()); // save part attributes to update its "last_modified"
 
                 // now we can delete this orderdetails
                 parent::delete();
