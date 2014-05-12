@@ -160,6 +160,7 @@
             // part attributes
             $html->set_variable('pid',                      $part->get_id(), 'integer');
             $html->set_variable('name',                     $part->get_name(), 'string');
+            $html->set_variable('manufacturer_product_url', $part->get_manufacturer_product_url(), 'string');
             $html->set_variable('description',              $part->get_description(), 'string');
             $html->set_variable('category_full_path',       $part->get_category()->get_full_path(), 'string');
             $html->set_variable('instock',                  $part->get_instock(), 'integer');
@@ -192,6 +193,7 @@
                 $orderdetails_loop[] = array(   'row_odd'                   => $row_odd,
                                                 'supplier_full_path'        => $orderdetails->get_supplier()->get_full_path(),
                                                 'supplierpartnr'            => $orderdetails->get_supplierpartnr(),
+                                                'supplier_product_url'      => $orderdetails->get_supplier_product_url(),
                                                 'obsolete'                  => $orderdetails->get_obsolete(),
                                                 'pricedetails'              => (count($pricedetails_loop) > 0) ? $pricedetails_loop : NULL);
                 $row_odd = ! $row_odd;

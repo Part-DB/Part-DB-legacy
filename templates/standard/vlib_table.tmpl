@@ -320,7 +320,11 @@
                 <td class="tdrow1" nowrap valign="top">
                     {TMPL_LOOP NAME="supplier_partnrs"}
                         <div style="display:inline-block; height:1.7em; line-height:1.7em;">
-                            {TMPL_VAR NAME="supplier_partnr"}
+                            {TMPL_IF NAME="supplier_product_url"}
+                                <a title="{TMPL_VAR NAME="supplier_product_url"}" href="{TMPL_VAR NAME="supplier_product_url"}" target="_blank">{TMPL_VAR NAME="supplier_partnr"}</a>
+                            {TMPL_ELSE}
+                                {TMPL_VAR NAME="supplier_partnr"}
+                            {/TMPL_IF}
                         </div><br>
                     {/TMPL_LOOP}
                 </td>

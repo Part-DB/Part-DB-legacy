@@ -34,6 +34,7 @@
         2013-01-29  kami89          - added support for transactions in "delete()"
                                     - moved attrubute "obsolete" from Parts to Orderdetails
         2013-02-16  kami89          - changes "order_supplier" to "order_orderdetails"
+        2014-05-12  kami89          - added "get_manufacturer_product_url()"
 */
 
     /**
@@ -347,6 +348,21 @@
         public function get_manual_order()
         {
             return $this->db_data['manual_order'];
+        }
+
+        /**
+         * @brief Get the link to the website of the article on the manufacturers website
+         *
+         * @retval string           the link to the article
+         */
+        public function get_manufacturer_product_url()
+        {
+            if (strlen($this->db_data['manufacturer_product_url']) > 0)
+                return $this->db_data['manufacturer_product_url'];  // a manual url is available
+            elseif (is_object($this->get_manufacturer()))
+                return $this->get_manufacturer()->get_auto_product_url($this->db_data['name']); // an automatic url is available
+            else
+                return ''; // no url is available
         }
 
         /**
@@ -1022,10 +1038,11 @@
 
                     case 'supplier_partnrs':
                         $partnrs_loop = array();
-                        foreach ($this->get_supplierpartnrs(NULL, true) as $partnr) // partnrs from obsolete orderdetails will not be shown
+                        foreach ($this->get_orderdetails(true) as $details) // partnrs from obsolete orderdetails will not be shown
                         {
-                            $partnrs_loop[] = array(    'row_index'         => $row_index,
-                                                        'supplier_partnr'   => $partnr);
+                            $partnrs_loop[] = array(    'row_index'            => $row_index,
+                                                        'supplier_partnr'      => $details->get_supplierpartnr(),
+                                                        'supplier_product_url' => $details->get_supplier_product_url());
                         }
 
                         $row_field['supplier_partnrs'] = $partnrs_loop;

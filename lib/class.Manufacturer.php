@@ -123,6 +123,7 @@
          * @param string    $fax_number         the fax number of the new manufacturer (see Manufacturer::set_fax_number())
          * @param string    $email_address      the e-mail address of the new manufacturer (see Manufacturer::set_email_address())
          * @param string    $website            the website of the new manufacturer (see Manufacturer::set_website())
+         * @param string    $auto_product_url   the automatic link to the product website (see Company::set_auto_product_url())
          *
          * @retval Manufacturer     the new manufacturer
          *
@@ -132,7 +133,8 @@
          * @see DBElement::add()
          */
         public static function add(&$database, &$current_user, &$log, $name, $parent_id, $address = '',
-                                    $phone_number = '', $fax_number = '', $email_address = '', $website = '')
+                                    $phone_number = '', $fax_number = '', $email_address = '', $website = '',
+                                    $auto_product_url = '')
         {
             return parent::add($database, $current_user, $log, 'manufacturers',
                                 array(  'name'              => $name,
@@ -141,7 +143,8 @@
                                         'phone_number'      => $phone_number,
                                         'fax_number'        => $fax_number,
                                         'email_address'     => $email_address,
-                                        'website'           => $website));
+                                        'website'           => $website,
+                                        'auto_product_url'  => $auto_product_url));
         }
 
         /**
