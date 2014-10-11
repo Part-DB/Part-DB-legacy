@@ -9,6 +9,8 @@
 # ignore Doxygen builds
 development/doxygen/html/
 
+# ignore IDE project files
+*.geany
 
 ###########################################################################
 # From https://github.com/github/gitignore

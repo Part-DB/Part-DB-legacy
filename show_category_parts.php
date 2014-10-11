@@ -160,7 +160,7 @@
     {
         try
         {
-            $parts = $category->get_parts($with_subcategories);
+            $parts = $category->get_parts($with_subcategories, true);
             $table_loop = Part::build_template_table_array($parts, 'category_parts');
             $html->set_variable('table_rowcount', count($parts), 'integer');
             $html->set_loop('table', $table_loop);

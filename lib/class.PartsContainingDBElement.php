@@ -153,16 +153,17 @@
          * @note    To get the DevicePart-objects of a Device, there is the method Device::get_parts().
          *          (This method here allows only to get Part objects, but a Device has DevicePart objects!)
          *
-         * @param string    $parts_rowname  @li this is the name of the table row of the parts table,
-         *                                      where the ID of this element is located (example: 'id_category')
-         *                                  @li example: "id_manufacturer", "id_category", ...
-         * @param boolean   $recursive      if true, the parts of all subelements will be listed too
+         * @param string    $parts_rowname              @li this is the name of the table row of the parts table,
+         *                                                  where the ID of this element is located (example: 'id_category')
+         *                                              @li example: "id_manufacturer", "id_category", ...
+         * @param boolean   $recursive                  if true, the parts of all subelements will be listed too
+         * @param boolean   $hide_obsolete_and_zero     if true, obsolete parts with "instock == 0" will not be returned
          *
          * @retval array    all parts as a one-dimensional array of Part objects
          *
          * @throws Exception if there was an error
          */
-        public function get_parts($parts_rowname, $recursive = false)
+        public function get_parts($parts_rowname, $recursive = false, $hide_obsolete_and_zero = false)
         {
             if ( ! is_array($this->parts))
             {
@@ -175,22 +176,25 @@
                     $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['id']);
             }
 
-            if ( ! $recursive)
+            $parts = $this->parts;
+
+            if ($hide_obsolete_and_zero)
             {
-                return $this->parts;
+                // remove obsolete parts from array
+                $parts = array_values(array_filter($parts, function($part) {return (( ! $part->get_obsolete()) || ($part->get_instock() > 0));}));
             }
-            else
+
+            if ($recursive)
             {
-                $parts = $this->parts;
                 $subelements = $this->get_subelements(false);
 
                 foreach ($subelements as $element)
-                    $parts = array_merge($parts, $element->get_parts($parts_rowname, true));
+                    $parts = array_merge($parts, $element->get_parts(true, $hide_obsolete_and_zero));
 
-                usort($parts, 'PartsContainingDBElement::usort_compare'); // Sort all parts by their names
-
-                return $parts;
+                usort($parts, 'PartsContainingDBElement::usort_compare'); // Sort all parts by their names and descriptions
             }
+
+            return $parts;
         }
 
         /**
