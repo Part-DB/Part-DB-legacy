@@ -94,7 +94,7 @@
     *********************************************************************************/
 
     if (count($messages) == 0)
-        $html->set_meta(array('no_body' => true)); // no <body></body> in header and footer because of the <frameset></frameset>
+        $html->set_meta(array('frameset' => true));
 
     $html->print_header($messages, 'index.php');
 
