@@ -73,7 +73,8 @@
         /**
          * @brief Get all parts from this manufacturer
          *
-         * @param boolean $recursive    if true, the parts of all sub-manufacturers will be listed too
+         * @param boolean $recursive                if true, the parts of all sub-manufacturers will be listed too
+         * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
          *
          * @retval array        all parts as a one-dimensional array of Manufacturer objects,
          *                      sorted by their names
@@ -82,9 +83,9 @@
          *
          * @see PartsContainingDBElement::get_parts()
          */
-        public function get_parts($recursive = false)
+        public function get_parts($recursive = false, $hide_obsolete_and_zero = false)
         {
-            return parent::get_parts('id_manufacturer', $recursive);
+            return parent::get_parts('id_manufacturer', $recursive, $hide_obsolete_and_zero);
         }
 
         /********************************************************************************
