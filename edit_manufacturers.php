@@ -27,6 +27,7 @@
     Changelog (sorted by date):
         [DATE]      [NICKNAME]      [CHANGES]
         2012-09-08  kami89          - created (copied from edit_suppliers.php)
+        2014-05-12  kami89          - added attribute "auto_product_url"
 */
 
     /*
@@ -53,15 +54,16 @@
     *
     *********************************************************************************/
 
-    $selected_id        = isset($_REQUEST['selected_id'])   ? (integer)$_REQUEST['selected_id']     : 0;
-    $new_name           = isset($_REQUEST['name'])          ? (string)$_REQUEST['name']             : '';
-    $new_parent_id      = isset($_REQUEST['parent_id'])     ? (integer)$_REQUEST['parent_id']       : 0;
-    $new_address        = isset($_REQUEST['address'])       ? (string)$_REQUEST['address']          : '';
-    $new_phone_number   = isset($_REQUEST['phone_number'])  ? (string)$_REQUEST['phone_number']     : '';
-    $new_fax_number     = isset($_REQUEST['fax_number'])    ? (string)$_REQUEST['fax_number']       : '';
-    $new_email_address  = isset($_REQUEST['email_address']) ? (string)$_REQUEST['email_address']    : '';
-    $new_website        = isset($_REQUEST['website'])       ? (string)$_REQUEST['website']          : '';
-    $add_more           = isset($_REQUEST['add_more']);
+    $selected_id          = isset($_REQUEST['selected_id'])      ? (integer)$_REQUEST['selected_id']     : 0;
+    $new_name             = isset($_REQUEST['name'])             ? (string)$_REQUEST['name']             : '';
+    $new_parent_id        = isset($_REQUEST['parent_id'])        ? (integer)$_REQUEST['parent_id']       : 0;
+    $new_address          = isset($_REQUEST['address'])          ? (string)$_REQUEST['address']          : '';
+    $new_phone_number     = isset($_REQUEST['phone_number'])     ? (string)$_REQUEST['phone_number']     : '';
+    $new_fax_number       = isset($_REQUEST['fax_number'])       ? (string)$_REQUEST['fax_number']       : '';
+    $new_email_address    = isset($_REQUEST['email_address'])    ? (string)$_REQUEST['email_address']    : '';
+    $new_website          = isset($_REQUEST['website'])          ? (string)$_REQUEST['website']          : '';
+    $new_auto_product_url = isset($_REQUEST['auto_product_url']) ? (string)$_REQUEST['auto_product_url'] : '';
+    $add_more             = isset($_REQUEST['add_more']);
 
     $action = 'default';
     if (isset($_REQUEST["add"]))                {$action = 'add';}
@@ -110,7 +112,8 @@
                 {
                     $new_manufacturer = Manufacturer::add(  $database, $current_user, $log, $new_name,
                                                             $new_parent_id, $new_address, $new_phone_number,
-                                                            $new_fax_number, $new_email_address, $new_website);
+                                                            $new_fax_number, $new_email_address, $new_website,
+                                                            $new_auto_product_url);
 
                     if ( ! $add_more)
                     {
@@ -180,13 +183,14 @@
                     if ( ! is_object($selected_manufacturer))
                         throw new Exception('Es ist kein Hersteller markiert oder es trat ein Fehler auf!');
 
-                    $selected_manufacturer->set_attributes(array(   'name'          => $new_name,
-                                                                    'parent_id'     => $new_parent_id,
-                                                                    'address'       => $new_address,
-                                                                    'phone_number'  => $new_phone_number,
-                                                                    'fax_number'    => $new_fax_number,
-                                                                    'email_address' => $new_email_address,
-                                                                    'website'       => $new_website));
+                    $selected_manufacturer->set_attributes(array(   'name'             => $new_name,
+                                                                    'parent_id'        => $new_parent_id,
+                                                                    'address'          => $new_address,
+                                                                    'phone_number'     => $new_phone_number,
+                                                                    'fax_number'       => $new_fax_number,
+                                                                    'email_address'    => $new_email_address,
+                                                                    'website'          => $new_website,
+                                                                    'auto_product_url' => $new_auto_product_url));
                 }
                 catch (Exception $e)
                 {
@@ -219,6 +223,7 @@
                 $html->set_variable('fax_number', $selected_manufacturer->get_fax_number(), 'string');
                 $html->set_variable('email_address', $selected_manufacturer->get_email_address(), 'string');
                 $html->set_variable('website', $selected_manufacturer->get_website(), 'string');
+                $html->set_variable('auto_product_url', $selected_manufacturer->get_auto_product_url(NULL), 'string');
             }
             elseif ($action == 'add')
             {

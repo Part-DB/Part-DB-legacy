@@ -1,4 +1,8 @@
+{TMPL_IF NAME="frameset"}
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Frameset//EN" "http://www.w3.org/TR/html4/frameset.dtd">
+{TMPL_ELSE}
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+{/TMPL_IF}
 <html>
 <head>
     {TMPL_IF NAME="page_title"} <title>{TMPL_VAR NAME="page_title"}</title>{/TMPL_IF}
@@ -20,7 +24,7 @@
     <base target="_self">
 </head>
 
-{TMPL_UNLESS NAME="no_body"}
+{TMPL_UNLESS NAME="frameset"}
 
     <body class="body" onload="{TMPL_VAR NAME="body_onload"}">
 
