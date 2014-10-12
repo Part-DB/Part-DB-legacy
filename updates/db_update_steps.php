@@ -31,6 +31,7 @@
         2013-01-26  kami89              - added "case 0" (database initialization)
         2013-05-20  kami89              - added "case 13" (change attachements file path from "/media/" to "/data/media/")
         2013-05-24  kami89              - added "case 14" (BUGFIX: set parts.id_master_picture_attachement where it is NULL)
+        2014-05-12  kami89              - added "case 15" (new feature: automatic links to products on the suppliers/manufacturers website)
 */
 
     /*
@@ -44,7 +45,7 @@
      *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
      */
 
-    define('LATEST_DB_VERSION', 15);  // <-- increment here
+    define('LATEST_DB_VERSION', 16);  // <-- increment here
 
     /*
      * Get update steps
@@ -2366,7 +2367,15 @@
             break;
 
           case 15:
-            /*
+            // add new columns to the suppliers/manufacturers table for the new automatic links to the parts on the company's website
+            $updateSteps[] = "ALTER TABLE `suppliers` ADD `auto_product_url` TINYTEXT NOT NULL AFTER `website`";
+            $updateSteps[] = "ALTER TABLE `manufacturers` ADD `auto_product_url` TINYTEXT NOT NULL AFTER `website`";
+            // add some additional columns for manual links, maybe this will be fully supported in future...
+            $updateSteps[] = "ALTER TABLE `parts` ADD `manufacturer_product_url` TINYTEXT NOT NULL AFTER `id_master_picture_attachement`";
+            $updateSteps[] = "ALTER TABLE `orderdetails` ADD `supplier_product_url` TINYTEXT NOT NULL AFTER `obsolete`";
+            break;
+
+          /*case 16:
             // create table "users"
             $updateSteps[] = "CREATE TABLE `users` (".
                 // Benutzerinformationen
@@ -2505,8 +2514,7 @@
                 "perms_categories='127',".
                 "perms_suppliers='127',".
                 "perms_manufacturers='127'";
-            */
-            break;
+            break;*/
 
 /*
         Templates:
