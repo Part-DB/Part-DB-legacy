@@ -32,6 +32,7 @@
         2012-09-30  kami89          - moved some methods to the new class "Pricedetails"
         2013-01-29  kami89          - added support for transactions in "delete()"
                                     - moved attrubute "obsolete" from Parts to Orderdetails
+        2014-05-12  kami89          - added function "get_supplier_product_url()"
 */
 
     /**
@@ -126,7 +127,12 @@
                 foreach ($all_pricedetails as $pricedetails)
                     $pricedetails->delete();
 
-                $this->get_part()->set_attributes(array()); // save part attributes to update its "last_modified"
+                // Check if this Orderdetails is the Part's selected Orderdetails for ordering and delete this reference if neccessary
+                $order_orderdetails = $this->get_part()->get_order_orderdetails();
+                if (is_object($order_orderdetails) && ($order_orderdetails->get_id() == $this->get_id()))
+                    $this->get_part()->set_order_orderdetails_id(NULL);
+                else
+                    $this->get_part()->set_attributes(array()); // save part attributes to update its "last_modified"
 
                 // now we can delete this orderdetails
                 parent::delete();
@@ -208,6 +214,19 @@
         public function get_obsolete()
         {
             return $this->db_data['obsolete'];
+        }
+
+        /**
+         * @brief Get the link to the website of the article on the suppliers website
+         *
+         * @retval string           the link to the article
+         */
+        public function get_supplier_product_url()
+        {
+            if (strlen($this->db_data['supplier_product_url']) > 0)
+                return $this->db_data['supplier_product_url'];  // a manual url is available
+            else
+                return $this->get_supplier()->get_auto_product_url($this->db_data['supplierpartnr']); // maybe an automatic url is available...
         }
 
         /**

@@ -167,15 +167,16 @@
         /**
          * @brief Get all parts from this element
          *
-         * @param boolean $recursive        if true, the parts of all subcategories will be listed too
+         * @param boolean $recursive                if true, the parts of all subcategories will be listed too
+         * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
          *
          * @retval array        all parts as a one-dimensional array of Part-objects, sorted by their names
          *
          * @throws Exception if there was an error
          */
-        public function get_parts($recursive = false)
+        public function get_parts($recursive = false, $hide_obsolete_and_zero = false)
         {
-            return parent::get_parts('id_category', $recursive);
+            return parent::get_parts('id_category', $recursive, $hide_obsolete_and_zero);
         }
 
         /********************************************************************************

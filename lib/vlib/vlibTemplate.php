@@ -967,8 +967,10 @@ if (!defined('vlibTemplateClassLoaded'))
                 $regex.=    '[\"\']?';
                 $regex.= ')?\s*';
                 $regex.= '(?:>|\/>|}|-->){1}';
-                $regex.= '/ie';
-                $data = preg_replace($regex,"\$this->_parseTag(array('\\0','\\1','\\2','\\3','\\4','\\5','\\6','\\7','\\8'));",$data);
+                $regex.= '/i';
+
+                $obj = $this; // for compatibility with PHP versions before 5.4
+                $data = preg_replace_callback($regex, function($m) use($obj) {return $obj->_parseTag($m);}, $data);
 
                 if ($this->_cache) { // add cache if need be
                     $this->_createCache($data);

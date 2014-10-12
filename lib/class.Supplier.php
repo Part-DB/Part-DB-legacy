@@ -75,13 +75,14 @@
         /**
          * @brief Get all parts from this element
          *
-         * @param boolean $recursive        if true, the parts of all sub-suppliers will be listed too
+         * @param boolean $recursive                if true, the parts of all sub-suppliers will be listed too
+         * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
          *
          * @retval array        all parts in a one-dimensional array of Part objects
          *
          * @throws Exception    if there was an error
          */
-        public function get_parts($recursive = false)
+        public function get_parts($recursive = false, $hide_obsolete_and_zero = false)
         {
             if ( ! is_array($this->parts))
             {
@@ -98,21 +99,23 @@
                     $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['part_id']);
             }
 
-            if ( ! $recursive)
+            $parts = $this->parts;
+
+            if ($hide_obsolete_and_zero)
             {
-                return $this->parts;
+                // remove obsolete parts from array
+                $parts = array_values(array_filter($parts, function($part) {return (( ! $part->get_obsolete()) || ($part->get_instock() > 0));}));
             }
-            else
+
+            if ($recursive)
             {
-                $parts = $this->parts;
                 $sub_suppliers = $this->get_subelements(true);
 
                 foreach ($sub_suppliers as $sub_supplier)
-                    $parts = array_merge($parts, $sub_supplier->get_parts(false));
-
-                return $parts;
+                    $parts = array_merge($parts, $sub_supplier->get_parts(false, $hide_obsolete_and_zero));
             }
 
+            return $parts;
         }
 
         /**
@@ -225,6 +228,7 @@
          * @param string    $fax_number         the fax number of the new supplier (see Supplier::set_fax_number())
          * @param string    $email_address      the e-mail address of the new supplier (see Supplier::set_email_address())
          * @param string    $website            the website of the new supplier (see Supplier::set_website())
+         * @param string    $auto_product_url   the automatic link to the product website (see Company::set_auto_product_url())
          *
          * @retval Supplier     the new supplier
          *
@@ -234,7 +238,8 @@
          * @see DBElement::add()
          */
         public static function add(&$database, &$current_user, &$log, $name, $parent_id, $address = '',
-                                    $phone_number = '', $fax_number = '', $email_address = '', $website = '')
+                                    $phone_number = '', $fax_number = '', $email_address = '', $website = '',
+                                    $auto_product_url = '')
         {
             return parent::add($database, $current_user, $log, 'suppliers',
                                 array(  'name'              => $name,
@@ -243,7 +248,8 @@
                                         'phone_number'      => $phone_number,
                                         'fax_number'        => $fax_number,
                                         'email_address'     => $email_address,
-                                        'website'           => $website));
+                                        'website'           => $website,
+                                        'auto_product_url'  => $auto_product_url));
         }
 
         /**
