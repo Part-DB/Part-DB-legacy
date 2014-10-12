@@ -12,7 +12,13 @@
                     <table>
                        <tr>
                            <td><b>Name:</b></td>
-                           <td>{TMPL_VAR NAME="name"}</td>
+                           <td>
+                                {TMPL_IF NAME="manufacturer_product_url"}
+                                    <a title="{TMPL_VAR NAME="manufacturer_product_url"}" href="{TMPL_VAR NAME="manufacturer_product_url"}" target="_blank">{TMPL_VAR NAME="name"}</a>
+                                {TMPL_ELSE}
+                                    {TMPL_VAR NAME="name"}
+                                {/TMPL_IF}
+                            </td>
                        </tr>
                        <tr>
                            <td><b>Beschreibung:</b></td>
@@ -49,11 +55,7 @@
                                </td>
                            </tr>
                        {/TMPL_UNLESS}
-<!--                   <tr>
-TODO:                      <td><b>Öffentlich sichtbar:</b></td>
-remove this                <td>{TMPL_IF NAME="visible"}ja{TMPL_ELSE}nein{/TMPL_IF}</td>
-                       </tr>
---!>                   <tr>
+                       <tr>
                            <td valign="top"><b>Kommentar:</b></td>
                            <td>{TMPL_IF NAME="comment"}{TMPL_VAR NAME="comment" ESCAPE="none"}{TMPL_ELSE}-{/TMPL_IF}</td>
                        </tr>
@@ -141,7 +143,11 @@ remove this                <td>{TMPL_IF NAME="visible"}ja{TMPL_ELSE}nein{/TMPL_I
                         </td>
 
                         <td class="tdrow1{TMPL_IF NAME="obsolete"} backred{/TMPL_IF}">
-                            {TMPL_VAR NAME="supplierpartnr"}
+                            {TMPL_IF NAME="supplier_product_url"}
+                                <a title="{TMPL_VAR NAME="supplier_product_url"}" href="{TMPL_VAR NAME="supplier_product_url"}" target="_blank">{TMPL_VAR NAME="supplierpartnr"}</a>
+                            {TMPL_ELSE}
+                                {TMPL_VAR NAME="supplierpartnr"}
+                            {/TMPL_IF}
                         </td>
 
                         <td class="tdrow2{TMPL_IF NAME="obsolete"} backred{/TMPL_IF}">

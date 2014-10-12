@@ -210,7 +210,7 @@
                 {
                     save_config();
                     $html->set_variable('refresh_navigation_frame', true, 'boolean');
-                    //header('Location: system_config.php'); // Reload the page that we can see if the new settings are stored successfully
+                    //header('Location: system_config.php'); // Reload the page that we can see if the new settings are stored successfully --> does not work correctly?!
                 }
                 catch (Exception $e)
                 {

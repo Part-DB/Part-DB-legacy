@@ -28,6 +28,7 @@
         [DATE]      [NICKNAME]      [CHANGES]
         2012-08-??  kami89          - created
         2012-09-27  kami89          - added doxygen comments
+        2014-05-12  kami89          - added "get_auto_product_url()" and "set_auto_product_url()"
 */
 
     /**
@@ -132,6 +133,22 @@
             return $this->db_data['website'];
         }
 
+        /**
+         * @brief Get the link to the website of an article
+         *
+         * @param string $partnr    @li NULL for returning the URL with a placeholder for the part number
+         *                          @li or the part number for returning the direct URL to the article
+         *
+         * @retval string           the link to the article
+         */
+        public function get_auto_product_url($partnr = NULL)
+        {
+            if (is_string($partnr))
+                return str_replace('%PARTNUMBER%', $partnr, $this->db_data['auto_product_url']);
+            else
+                return $this->db_data['auto_product_url'];
+        }
+
         /********************************************************************************
         *
         *   Setters
@@ -198,6 +215,18 @@
             $this->set_attributes(array('website' => $new_website));
         }
 
+        /**
+         * @brief Set the link to the website of an article
+         *
+         * @param string $new_url       the new URL with the placeholder %PARTNUMBER% for the part number
+         *
+         * @throws Exception if there was an error
+         */
+        public function set_auto_product_url($new_url)
+        {
+            $this->set_attributes(array('auto_product_url' => $new_url));
+        }
+
         /********************************************************************************
         *
         *   Static Methods
@@ -215,7 +244,12 @@
             // optimize attribute "website"
             $values['website'] = trim($values['website']);
             if ((strlen($values['website']) > 0) && (mb_strpos($values['website'], '://') === false))  // if there is no protocol defined,
-                $values['website'] = 'http://'.$values['website'];                                  // add "http://" to the begin
+                $values['website'] = 'http://'.$values['website'];                                     // add "http://" to the begin
+
+            // optimize attribute "auto_product_url"
+            $values['auto_product_url'] = trim($values['auto_product_url']);
+            if ((strlen($values['auto_product_url']) > 0) && (mb_strpos($values['auto_product_url'], '://') === false))  // if there is no protocol defined,
+                $values['auto_product_url'] = 'http://'.$values['auto_product_url'];                                     // add "http://" to the begin
         }
 
     }

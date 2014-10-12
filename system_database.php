@@ -115,7 +115,7 @@
             {
                 $config['db']['auto_update'] = $automatic_updates_enabled;
                 save_config();
-                header('Location: system_database.php'); // Reload the page that we can see if the new settings are stored successfully
+                //header('Location: system_database.php'); // Reload the page that we can see if the new settings are stored successfully --> does not work correctly?!
             }
             catch (Exception $e)
             {

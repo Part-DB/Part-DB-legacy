@@ -60,7 +60,7 @@
                     <input type="text" name="filename" value="{TMPL_VAR NAME="filename"}" style="width:100%;"><br>
                     <i>Hinweis: Sie können hier z.B. "DIP28" eintippen und übernehmen.<br>
                     Der Footprint wird dann unter "Footprints mit fehlerhaften Dateinamen" aufgelistet,<br>
-                    wo Sie vorschläge für Dateinamen bekommen und so einfach übernehmen können.</i><br>
+                    wo Sie Vorschläge für Dateinamen bekommen und dann einfach übernehmen können.</i><br>
                     {TMPL_IF NAME="filename"}<img align="middle" height="70" src="{TMPL_VAR NAME="filename"}" alt="">{/TMPL_IF}
                 </td>
             </tr>
@@ -85,7 +85,7 @@
 
 {TMPL_IF NAME="broken_filename_footprints"}
     <div class="outer">
-        <h2>Footprints mit fehlerhaften Dateinamen</h2>
+        <h2>Footprints mit fehlerhaften Dateinamen ({TMPL_VAR NAME="broken_footprints_count"}/{TMPL_VAR NAME="broken_footprints_count_total"})</h2>
         <div class="inner">
             Die Dateinamen der folgenden Footprints konnten keiner Bilddatei zugeordnet werden.<br>
             Bitte überprüfen bzw. korrigieren Sie die vorgeschlagenen Dateien, um sie dann zu übernehmen.<br>
