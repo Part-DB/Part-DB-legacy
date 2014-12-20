@@ -204,7 +204,7 @@
     $config['languages']['de_LI']                           = '[de_LI] Deutsch (Liechtenstein)';
     $config['languages']['de_LU']                           = '[de_LU] Deutsch (Luxemburg)';
     $config['languages']['en_GB']                           = '[en_GB] English (United Kingdom)';
-    $config['languages']['en_US']                           = '[en_US] Endlish (United States)';
+    $config['languages']['en_US']                           = '[en_US] English (United States)';
 
     // table settings
     // available columns:       hover_picture,id,name,description,name_description,comment,instock,mininstock,instock_mininstock,category,footprint,manufacturer,

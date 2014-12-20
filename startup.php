@@ -165,7 +165,7 @@
 
             if (strlen($feed_content) == 0)
                 throw new Exception('Der Atom-Feed konnte nicht aus dem Internet heruntergeladen werden. '.
-                                    'Prüfen Sie bitte, ob Ihre PHP Konfiguration das Herunterladen aus dem Internet zulässt.');
+                                    'Prüfen Sie bitte, ob Ihre PHP-Konfiguration das Herunterladen aus dem Internet zulässt.');
 
             if ( ! class_exists('SimpleXMLElement'))
                 throw new Exception('Die Klasse "SimpleXMLElement" ist nicht vorhanden!');
