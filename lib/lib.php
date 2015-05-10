@@ -472,7 +472,7 @@
             $language = $config['language'];
 
         // get the money format from config(_defaults).php
-        $format = isset($config['money_format'][$language]) ? $config['money_format'][$language] : (($language == $config['language']) ? '%n' : '%i');
+        $format = isset($config['money_format'][$language]) ? $config['money_format'][$language] : (($language == $config['language']) ? '%.3n' : '%.3i');
 
         if ($language != $config['language'])
         {

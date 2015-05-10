@@ -32,6 +32,7 @@
         2013-05-20  kami89              - added "case 13" (change attachements file path from "/media/" to "/data/media/")
         2013-05-24  kami89              - added "case 14" (BUGFIX: set parts.id_master_picture_attachement where it is NULL)
         2014-05-12  kami89              - added "case 15" (new feature: automatic links to products on the suppliers/manufacturers website)
+        2015-05-10  susnux              - added "case 16" (intern part price is stored with 4 decimal places)
 */
 
     /*
@@ -45,7 +46,7 @@
      *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
      */
 
-    define('LATEST_DB_VERSION', 16);  // <-- increment here
+    define('LATEST_DB_VERSION', 17);  // <-- increment here
 
     /*
      * Get update steps
@@ -2375,7 +2376,12 @@
             $updateSteps[] = "ALTER TABLE `orderdetails` ADD `supplier_product_url` TINYTEXT NOT NULL AFTER `obsolete`";
             break;
 
-          /*case 16:
+          case 16:
+            //Price is now stored with 4 decimal places (8 or 9 digits are the same amout of bytes in the db, so I choose 9)
+            $updateSteps[] = "ALTER TABLE `pricedetails` MODIFY `price` DECIMAL(9,4)";
+            break;
+
+          /*case 17:
             // create table "users"
             $updateSteps[] = "CREATE TABLE `users` (".
                 // Benutzerinformationen
