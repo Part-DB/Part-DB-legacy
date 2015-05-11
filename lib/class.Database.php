@@ -292,7 +292,7 @@
          *                                                  even if there was an error. this is used if the user has loaded a
          *                                                  new database (backup last imported) after an update error.
          *
-         * @retval string       the update log as a string (with "\n" as line break)
+         * @retval array       the update log as an array: 'text' as string and 'error' as boolean (if this message is associated with an error).
          *
          * @throws Exception if there was an error
          *
@@ -304,6 +304,10 @@
             global $config;
             $error = false;
             $log = array();
+            //Lambda function to simply add a message to log
+            $add_log = function ($msg, $err = false) use (&$log) {
+                $log[] = array('text' => $msg, 'error' => $err);
+            };
 
             $current = $this->get_current_version();
             $latest = $this->get_latest_version();
@@ -318,20 +322,20 @@
             save_config();
 
             debug('hint', 'Update von Datenbankversion "'.$current.'" auf Version "'.$latest.'" wird gestartet...');
-            $log[] = 'Ihre Datenbank wird von der Version '. $current .' auf die Version '. $latest .' aktualisiert:';
+            $add_log('Ihre Datenbank wird von der Version '. $current .' auf die Version '. $latest .' aktualisiert:');
 
             if ( ! in_array($config['db']['type'], array('sqlite', 'sqlite2'))) // @todo: Can we also lock/unlock a SQLite Database?
             {
                 // Lock Database
                 try
                 {
-                    $log[] = 'Datenbank wird gesperrt...';
+                    $add_log('Datenbank wird gesperrt...');
                     $query_data = $this->query("SELECT GET_LOCK('UpdatePartDB', 3)");
                 }
                 catch (Exception $exception)
                 {
-                    $log[] = 'FEHLER: Wird zur Zeit schon ein Update durchgeführt?';
-                    $log[] = 'Fehlermeldung: '.$exception->getMessage();
+                    $add_log('FEHLER: Wird zur Zeit schon ein Update durchgeführt?', true);
+                    $add_log('Fehlermeldung: '.$exception->getMessage(), true);
                     $error = true;
                 }
             }
@@ -339,26 +343,26 @@
             // change SQL mode
             try
             {
-                $log[] = 'SQL_MODE wird gesetzt...';
+                $add_log('SQL_MODE wird gesetzt...');
                 $this->execute("SET SQL_MODE=''");
             }
             catch (Exception $exception)
             {
-                $log[] = 'FEHLER!';
-                $log[] = 'Fehlermeldung: '.$exception->getMessage();
+                $add_log('FEHLER!', true);
+                $add_log('Fehlermeldung: '.$exception->getMessage(), true);
                 $error = true;
             }
 
             while (($current < $latest) && (! $error))
             {
-                $log[] = '';
-                $log[] = 'Update v'.$current.' --> v'.($current+1).'...';
+                $add_log('');
+                $add_log('Update v'.$current.' --> v'.($current+1).'...');
 
                 $steps = get_db_update_steps($current);
 
                 if (count($steps) == 0)
                 {
-                    $log[] = 'FEHLER: Keine Updateschritte für Version '.$current.' gefunden!';
+                    $add_log('FEHLER: Keine Updateschritte für Version '.$current.' gefunden!', true);
                     $error = true;
                     break;
                 }
@@ -380,15 +384,15 @@
                         $this->pdo->beginTransaction();
                         $this->pdo->exec($query);
                         $this->pdo->commit();
-                        $log[] = 'Schritt: '.$query.'...OK';
+                        $add_log('Schritt: '.$query.'...OK');
                     }
                     catch (PDOException $e)
                     {
                         try {$this->pdo->rollback();} catch (PDOException $e2) {} // rollback last query, ignore exceptions
                         debug('error', '$query="'.$query.'"', __FILE__, __LINE__, __METHOD__);
                         debug('error', 'Fehlermeldung: "'.$e->getMessage().'"', __FILE__, __LINE__, __METHOD__);
-                        $log[] = 'Schritt: '.$query.'...FEHLER!';
-                        $log[] = 'Fehlermeldung: '.$e->getMessage();
+                        $add_log('Schritt: '.$query.'...FEHLER!', true);
+                        $add_log('Fehlermeldung: '.$e->getMessage(), true);
                         $error = true;
                         break;
                     }
@@ -408,8 +412,8 @@
                     }
                     catch (Exception $exception)
                     {
-                        $log[] = 'FEHLER: Die neue Version konnte nicht gesetzt werden!';
-                        $log[] = 'Fehlermeldung: '.$exception->getMessage();
+                        $add_log('FEHLER: Die neue Version konnte nicht gesetzt werden!', true);
+                        $add_log('Fehlermeldung: '.$exception->getMessage(), true);
                         $error = true;
                         break;
                     }
@@ -433,8 +437,8 @@
                 }
                 catch (Exception $exception)
                 {
-                    $log[] = 'FEHLER: Die aktuelle Update-Position konnte nicht in der config.php gespeichert werden!';
-                    $log[] = 'Fehlermeldung: '.$exception->getMessage();
+                    $add_log('FEHLER: Die aktuelle Update-Position konnte nicht in der config.php gespeichert werden!', true);
+                    $add_log('Fehlermeldung: '.$exception->getMessage(), true);
                     $error = true;
                     break;
                 }
@@ -447,8 +451,8 @@
                     }
                     catch (Exception $exception)
                     {
-                        $log[] = 'FEHLER: Die aktuelle Version konnte nicht gelesen werden!';
-                        $log[] = 'Fehlermeldung: '.$exception->getMessage();
+                        $add_log('FEHLER: Die aktuelle Version konnte nicht gelesen werden!', true);
+                        $add_log('Fehlermeldung: '.$exception->getMessage(), true);
                         $error = true;
                         break;
                     }
@@ -456,24 +460,24 @@
 
                 if (($current <= 1) && ( ! $error))
                 {
-                    $log[] = 'FEHLER: Die neue Version konnte nicht gesetzt werden!';
+                    $add_log('FEHLER: Die neue Version konnte nicht gesetzt werden!', true);
                     $error = true;
                     break;
                 }
             }
 
-            $log[] = '';
+            $add_log('');
 
             // change SQL mode
             try
             {
-                $log[] = 'SQL_MODE wird gesetzt...';
+                $add_log('SQL_MODE wird gesetzt...');
                 $this->execute("SET SQL_MODE='".$this->sql_mode."'");
             }
             catch (Exception $exception)
             {
-                $log[] = 'FEHLER!';
-                $log[] = 'Fehlermeldung: '.$exception->getMessage();
+                $add_log('FEHLER!', true);
+                $add_log('Fehlermeldung: '.$exception->getMessage(), true);
                 $error = true;
             }
 
@@ -482,13 +486,13 @@
             {
                 try
                 {
-                    $log[] = 'Datenbank wird freigegeben...';
+                    $add_log('Datenbank wird freigegeben...');
                     $query_data = $this->query("SELECT RELEASE_LOCK('UpdatePartDB')");
                 }
                 catch (Exception $exception)
                 {
-                    $log[] = 'FEHLER: Die Datenbank konnte nicht entsperrt werden!';
-                    $log[] = 'Fehlermeldung: '.$exception->getMessage();
+                    $add_log('FEHLER: Die Datenbank konnte nicht entsperrt werden!', true);
+                    $add_log('Fehlermeldung: '.$exception->getMessage(), true);
                     $error = true;
                 }
             }
@@ -496,17 +500,17 @@
             if ($error)
             {
                 debug('error', 'ABBRUCH: Das Update konnte nicht durchgeführt werden!');
-                debug('error', 'Zweitletzte Zeile: '.$log[count($log)-2]);
-                debug('error', 'Letzte Zeile: '.$log[count($log)-1]);
-                $log[] = 'ABBRUCH: Das Update konnte nicht durchgeführt werden!';
+                debug('error', 'Zweitletzte Zeile: '.$log[count($log)-2]['text']);
+                debug('error', 'Letzte Zeile: '.$log[count($log)-1]['text']);
+                $add_log('ABBRUCH: Das Update konnte nicht durchgeführt werden!', true);
             }
             else
             {
                 debug('success', 'Das Update wurde erfolgreich durchgeführt.');
-                $log[] = 'Das Update wurde erfolgreich durchgeführt.';
+                $add_log('Das Update wurde erfolgreich durchgeführt.');
             }
 
-            return implode("\n", $log);
+            return $log;
         }
 
         /********************************************************************************

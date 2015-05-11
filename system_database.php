@@ -137,13 +137,16 @@
 
                 $database_update_executed = true;
                 $update_log = $database->update();
-                $messages[] = array('text' => nl2br($update_log), 'color' => 'red');
+                foreach ($update_log as $message) {
+                    $messages[] = array('text' => nl2br($message['text']), 'color' => ($message['error'] == true ? 'red' : 'black'));
+                }
             }
             catch (Exception $e)
             {
                 $messages[] = array('text' => 'Es trat ein Fehler auf!', 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
             }
+            $messages[count($messages)-1]['text'] .= nl2br("\n");
             break;
     }
 
