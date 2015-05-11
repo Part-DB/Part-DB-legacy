@@ -34,6 +34,7 @@
                                         - rollback()
                                         - example how to use it
         2013-02-03  kami89          - the update process will now memorize the position if an error occurs
+        2015-05-11  susnux          - updated update() function to distinguish between error and normal message
 */
 
     include_once(BASE.'/updates/db_update_steps.php');

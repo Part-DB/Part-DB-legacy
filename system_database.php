@@ -28,6 +28,7 @@
         [DATE]      [NICKNAME]          [CHANGES]
         2012-??-??  weinbauer73         - changed to templates
         2012-09-14  kami89              - changed to OOP
+        2015-05-11  susnux              - updated db update log
 */
 
     include_once('start_session.php');
