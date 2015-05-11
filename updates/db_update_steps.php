@@ -2377,8 +2377,8 @@
             break;
 
           case 16:
-            //Price is now stored with 4 decimal places (8 or 9 digits are the same amout of bytes in the db, so I choose 9)
-            $updateSteps[] = "ALTER TABLE `pricedetails` MODIFY `price` DECIMAL(9,4)";
+            //Price is now stored with 5 decimal places.
+            $updateSteps[] = "ALTER TABLE `pricedetails` MODIFY `price` DECIMAL(9,5)";
             break;
 
           /*case 17:
