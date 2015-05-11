@@ -36,8 +36,8 @@ Dann lädt man Part-DB herunter und entpackt das Archiv in das Verzeichnis des W
 </note>
 
 <code>
-wget -O part-db.tar.gz https://github.com/sandboxgangster/Part-DB/releases/download/v0.3.0/Part-DB_0.3.0.tar.gz
-sudo tar xzf part-db.tar.gz -C /var/www
+wget -O part-db.tar.gz https://github.com/sandboxgangster/Part-DB/releases/download/v0.3.1/Part-DB_0.3.1.tar.gz
+sudo tar -xzf part-db.tar.gz -C /var/www
 </code>
 
 Hat man keinen direkten Zugriff (z.B. über SSH) auf den Server, muss man die Dateien per FTP auf den Server hochladen. Dazu lädt man das Archiv auf dem persönlichen Computer herunter, entpackt es und kopiert die entpackten Dateien dann per FTP-Client (z.B. FileZilla) auf den Server.

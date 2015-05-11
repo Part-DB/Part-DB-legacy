@@ -41,6 +41,7 @@
         2013-05-18  kami89          - added functions "set_admin_password()" and "is_admin_password()"
         2013-05-26  kami89          - moved function "check_requirements()" to "lib.start_session.php"
         2013-09-09  kami89          - replaced "get_svn_revision()" with "get_git_branch_name()" and "get_git_commit_hash()"
+        2015-05-11  susnux          - modified "float_to_money_string()" to show up to 5 decimal places
 */
 
     /**
@@ -464,21 +465,40 @@
         if ($number === NULL)
             return '-';
 
-        settype($number, 'float');
+       // settype($number, 'float');
 
         global $config;
 
         if (strlen($language) == 0)
             $language = $config['language'];
 
-        // get the money format from config(_defaults).php
-        $format = isset($config['money_format'][$language]) ? $config['money_format'][$language] : (($language == $config['language']) ? '%n' : '%i');
-
         if ($language != $config['language'])
         {
             // change locale, because the $language is not the default language!
             if ( ! own_setlocale(LC_MONETARY, $language))
                 debug('error', 'Sprache "'.$language.'" kann nicht gesetzt werden!', __FILE__, __LINE__, __METHOD__);
+        }
+
+        // get the money format from config(_defaults).php
+        if (isset($config['money_format'][$language]) ) {
+            $format = $config['money_format'][$language];
+        } else {
+            // not set in config, so generate it
+            $locale = localeconv();
+            // number of digits used in current language
+            $local_digits = $locale['int_frac_digits'];
+            // digits of the number
+            $number_digits = ( (int) $number != $number ) ? (strlen($number) - strpos($number,  $locale['decimal_point'])) - 1 : 0;
+
+            // international or local format?
+            $format_type = ($language == $config['language']) ? 'n' : 'i';
+
+            if ($number_digits > $local_digits) {
+                $n = $number_digits > 5 ? 5 : $number_digits;
+                $format = "%." . $n . $format_type;
+            } else {
+                $format = '%' . $format_type;
+            }
         }
 
         $result = trim(money_format($format, $number));

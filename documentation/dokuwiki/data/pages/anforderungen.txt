@@ -3,7 +3,7 @@
 Damit Part-DB einwandfrei läuft, müssen folgende Kriterien erfüllt sein:
 
   * Webserver mit mindestens 15MB Platz (mit Footprint-Bilder mindestens 60MB)
-  * **PHP >= 5.3.0** mit [[http://php.net/manual/de/book.pdo.php|PDO]] inkl. [[http://www.php.net/manual/de/ref.pdo-mysql.php|MySQL Plugin]]
+  * **PHP >= 5.3.0** mit [[http://php.net/manual/de/book.pdo.php|PDO]] inkl. [[http://www.php.net/manual/de/ref.pdo-mysql.php|MySQL Plugin]] und [[http://php.net/manual/de/book.mbstring.php|mbstring]]
   * MySQL Datenbank mit der Speicherengine InnoDB (MariaDB wurde auch schon erfolgreich getestet)
   * Webbrowser mit JavaScript und HTML4 Unterstützung.
 
