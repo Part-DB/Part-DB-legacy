@@ -1624,6 +1624,8 @@
                                             $supplierpartnr = false,
                                             $manufacturer_name = false)
         {
+            global $config;
+            
             $keyword = trim($keyword);
 
             if (strlen($keyword) == 0)
