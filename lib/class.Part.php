@@ -1699,14 +1699,27 @@
                 $values[] = $keyword;
             }
 
+            if (!isset($config['db']['limit']['search_parts']))
+            {
+                $config['db']['limit']['search_parts'] = 200;
+            }
+            
             switch($group_by)
             {
                 case '':
-                    $query .= ' GROUP BY parts.id ORDER BY parts.name ASC LIMIT 200';
+                    $query .= ' GROUP BY parts.id ORDER BY parts.name ASC';
+                    if (isset($config['db']['limit']['search_parts']) && $config['db']['limit']['search_parts']>0)
+                    {
+                        $query .= ' LIMIT '.$config['db']['limit']['search_parts'];
+                    }
                     break;
 
                 case 'categories':
-                    $query .= ' GROUP BY parts.id ORDER BY categories.id, parts.name ASC LIMIT 200';
+                    $query .= ' GROUP BY parts.id ORDER BY categories.id, parts.name ASC';
+                    if (isset($config['db']['limit']['search_parts']) && $config['db']['limit']['search_parts']>0)
+                    {
+                        $query .= ' LIMIT '.$config['db']['limit']['search_parts'];
+                    }
                     break;
 
                 default:

@@ -74,6 +74,7 @@
     $config['db']['backup']['url']                          = ''; // the link to the database backup system, e.g. "../mysqldumper/"
     $config['db']['update_error']['version']                = -1; // Momerize the database version in case of an error (see Database::update())
     $config['db']['update_error']['next_step']              = 0; // Momerize the position of the update step in case of an error (see Database::update())
+    $config['db']['limit']['search_parts']                  = 200; // Limits the number of search results 
 
     // html/template settings
     $config['html']['http_charset']                         = 'utf-8'; ///< @todo remove this parameter completely, I think we don't need it! temporary hardcoded in start_session.php
