@@ -36,13 +36,14 @@
     @li Ausgabe von HTML nicht im PHP Script vornehmen, dazu Templates (vlibTemplate) nutzen!
 
 
-    @section indentation Einrückungen
+    @section indentation Einrückungen / Zeilenende
     @li Die Einrückung wird mit 4 Spaces vorgenommen. Keine Tabs verwenden (ev. eigenen Editor entsprechend konfigurieren)!
     @li Öffnende und schliessende geschweifte Klammern in einer eigenen Zeile.
     @li Jeder Block innerhalb geschweifter Klammern einrücken.
     @li Ausnahmen für einzeilige Blöcke. Auf Klammern sollte der Lesbarkeit wegen nicht verzichtet werden.
     @li IF-THEN-ELSE als ternärer Operator ((...) ? ... : ...) ist erlaubt, sollte möglichst aber nur bei der Zuweisung von Werten verwendet werden.
     @li Arrays oder längere Strings so formatieren, das eine gute Lesbarkeit gewährleistet ist (ev. nur ein Element pro Zeile, schön untereinander).
+    @li Immer UNIX Zeilenende verwenden (\\n)
 
 
     @section naming Benennungen
