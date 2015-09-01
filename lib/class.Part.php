@@ -35,6 +35,7 @@
                                     - moved attrubute "obsolete" from Parts to Orderdetails
         2013-02-16  kami89          - changes "order_supplier" to "order_orderdetails"
         2014-05-12  kami89          - added "get_manufacturer_product_url()"
+        2015-09-01  susnux          - fixed "get_sum_price_instock()" to use quantity discount
 */
 
     /**
@@ -1426,16 +1427,29 @@
             if (get_class($database) != 'Database')
                 throw new Exception('$database ist kein Database-Objekt!');
 
-            $query =    'SELECT SUM(part_price) AS price_sum '.
-                        'FROM (SELECT parts.id, AVG(pricedetails.price * parts.instock / pricedetails.price_related_quantity) AS part_price '.
-                        'FROM pricedetails '.
-                        'LEFT JOIN orderdetails ON pricedetails.orderdetails_id=orderdetails.id '.
-                        'LEFT JOIN parts ON orderdetails.part_id=parts.id '.
-                        'WHERE pricedetails.min_discount_quantity=1 '.
-                        'GROUP BY parts.id) part_price';
+            $query =    'SELECT part_id, min_discount_quantity, price_related_quantity, price, instock FROM pricedetails ' .
+                        'LEFT JOIN orderdetails ON pricedetails.orderdetails_id=orderdetails.id ' .
+                        'LEFT JOIN parts ON orderdetails.part_id=parts.id ' .
+                        'WHERE min_discount_quantity <= instock ' .
+                        'ORDER BY part_id ASC, min_discount_quantity DESC';
 
             $query_data = $database->query($query);
-            $price_sum = $query_data[0]['price_sum'];
+            $price_sum = 0.0;
+            $id = -1;
+            $instock = 0;
+            foreach ($query_data as $row) {
+                if ($id != $row['part_id']) {
+                    $id = $row['part_id'];
+                    $instock = $row['instock'];
+                }
+                if ($instock == 0)
+                    continue;
+                $price_per_piece = $row['price'] / $row['price_related_quantity'];
+                $taken_parts = $row['min_discount_quantity'] * (integer)($instock / $row['min_discount_quantity']);
+                $price_sum += $price_per_piece * $taken_parts;
+                $instock = $instock - $taken_parts;
+            }
+            $price_sum = round($price_sum, 2);
 
             if ($as_money_string)
                 return float_to_money_string($price_sum);
