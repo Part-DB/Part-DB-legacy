@@ -77,7 +77,7 @@
         if (file_exists(BASE.'/.git/HEAD'))
         {
             $git = File(BASE.'/.git/HEAD');
-            $head = explode("/", $git[0]);
+            $head = explode("/", $git[0], 3);
             $branch = trim($head[2]);
             return $branch;
         }
