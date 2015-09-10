@@ -21,14 +21,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-
-    Changelog (sorted by date):
-        [DATE]      [NICKNAME]      [CHANGES]
-        2012-08-28  weinbauer73     - changed to templates
-                                    - suppliers_build_list() returns an array
-                                    - javascript selector now use "input.value = object[this.selectedIndex].text" instead of submit form
-        2012-09-08  kami89          - changed to OOP
-        2014-05-12  kami89          - added attribute "auto_product_url"
 */
 
     /*

@@ -21,25 +21,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-
-    Changelog (sorted by date):
-        [DATE]      [NICKNAME]      [CHANGES]
-        2012-08-28  weinbauer73     - check if function strfmon() exists
-        2012-09-03  kami89          - removed all functions which are already implemented in classes
-        2012-09-30  weinbauer73     - replaced settype($svn, 'integer') with settype($revision, 'integer') in function get_svn_revision()
-        2012-10-21  kami89          - added doxygen comments
-                                    - added Exceptions
-                                    - renamed "download_file()" to "send_file()" ("download_file()" is ambiguous)
-        2012-10-26  kami89          - Function save_config(): Now, only configuration parameters which are different
-                                      from default configuration parameters will be stored in "config.php".
-        2013-01-22  kami89          - added array_to_template_loop()
-        2013-02-14  kami89          - implemented function "get_proposed_filenames()"
-        2013-05-04  kami89          - added function "upload_file()"
-        2013-05-07  kami89          - added function "check_requirements()"
-        2013-05-18  kami89          - added functions "set_admin_password()" and "is_admin_password()"
-        2013-05-26  kami89          - moved function "check_requirements()" to "lib.start_session.php"
-        2013-09-09  kami89          - replaced "get_svn_revision()" with "get_git_branch_name()" and "get_git_commit_hash()"
-        2015-05-11  susnux          - modified "float_to_money_string()" to show up to 5 decimal places
 */
 
     /**

@@ -21,13 +21,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-
-    Changelog (sorted by date):
-        [DATE]      [NICKNAME]      [CHANGES]
-        2012-??-??  weinbauer73     - created
-        2012-08-29  weinbauer73     - adding head_switch_ds_path-switch
-        2012-09-28  kami89          - added Exceptions
-                                    - added doxygen comments
 */
 
     /**
