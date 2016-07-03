@@ -30,9 +30,9 @@ Mit Ausnahme des JavaScript-Menü stehen alle Module unter der GPL. Das JavaScri
 ### Installationsanleitung & Dokumentation
 
 Die gesamte Dokumentation inkl. Installationsanleitung gibts hier:
-http://www.partdb.grautier.com/svn/documentation/dokuwiki/index.php
+http://phpbookworm.singollo.de/project/part-db/documentation/dokuwiki/index.php
 
 ### Online-Demo zum Ausprobieren
 
-Eine Test-Datenbank ist unter http://partdb.grautier.com/ zu finden.
+Eine Test-Datenbank ist unter http://phpbookworm.singollo.de/project/part-db/ zu finden.
 
