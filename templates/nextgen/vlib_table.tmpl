@@ -1,0 +1,373 @@
+{TMPL_COMMENT}
+    This file is used to create tables for Part or DevicePart objects, or for check the import data (tools_import.php).
+    Maybe later we can use it also for other objects, if this is required.
+    The table columns are very flexible, you have to declare them in config.php.
+
+    Quite important methods for creating the loop arrays are:
+    - Part::build_template_table_row_array()
+    - Part::build_template_table_array()
+    - DevicePart::build_template_table_row_array()
+    - DevicePart::build_template_table_array()
+    - lib.import.php::data_array_to_template_loop()
+
+    Please Note: There are no empty lines between the {TMPL_IF}{/TMPL_IF} groups, because they would produce extremely large HTML output files (because of the loops)!
+{/TMPL_COMMENT}
+
+{TMPL_LOOP NAME="table"}
+    {TMPL_IF NAME="print_header"}
+        <tr class="trcat">
+            {TMPL_LOOP NAME="columns"}
+                {TMPL_IF NAME="caption" VALUE="row"}<td>Nr.</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="hover_picture"}<td></td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="id"}<td class="idclass">ID</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="row_index"}<td class="idclass">Nr.</td>{/TMPL_IF} {TMPL_COMMENT}  only for import parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="name"}<td>Name</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="name_edit"}<td>Name</td>{/TMPL_IF} {TMPL_COMMENT}  only for import parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="description"}<td>Beschreibung</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="description_edit"}<td>Beschreibung</td>{/TMPL_IF} {TMPL_COMMENT}  only for import parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="comment"}<td>Kommentar</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="comment_edit"}<td>Kommentar</td>{/TMPL_IF} {TMPL_COMMENT}  only for import parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="name_description"}<td>Name / Beschreibung</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="instock"}<td>Bestand</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="instock_edit"}<td>Bestand</td>{/TMPL_IF} {TMPL_COMMENT}  only for import parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="instock_edit_buttons"}<td>Bestand ändern</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="order_quantity_edit"}<td>Bestell-<br>menge</td>{/TMPL_IF} {TMPL_COMMENT}  only for order parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="mininstock"}<td>Mindest-<br>bestand</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="mininstock_edit"}<td>Mindest-<br>bestand</td>{/TMPL_IF} {TMPL_COMMENT}  only for import parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="instock_mininstock"}<td>Vorh./<br>Min.Best</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="category"}<td>Kategorie</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="category_edit"}<td>Kategorie</td>{/TMPL_IF} {TMPL_COMMENT}  only for import parts  {/TMPL_COMMENT}
+                {TMPL_UNLESS NAME="disable_footprints"}
+                    {TMPL_IF NAME="caption" VALUE="footprint"}<td>Footprint</td>{/TMPL_IF}
+                    {TMPL_IF NAME="caption" VALUE="footprint_edit"}<td>Footprint</td>{/TMPL_IF} {TMPL_COMMENT}  only for import parts  {/TMPL_COMMENT}
+                {/TMPL_UNLESS}
+                {TMPL_UNLESS NAME="disable_manufacturers"}
+                    {TMPL_IF NAME="caption" VALUE="manufacturer"}<td>Hersteller</td>{/TMPL_IF}
+                    {TMPL_IF NAME="caption" VALUE="manufacturer_edit"}<td>Hersteller</td>{/TMPL_IF} {TMPL_COMMENT}  only for import parts  {/TMPL_COMMENT}
+                {/TMPL_UNLESS}
+                {TMPL_IF NAME="caption" VALUE="storelocation"}<td>Lagerort</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="storelocation_edit"}<td>Lagerort</td>{/TMPL_IF} {TMPL_COMMENT}  only for import parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="suppliers"}<td>Lieferanten</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="supplier_edit"}<td>Lieferant</td>{/TMPL_IF} {TMPL_COMMENT}  only for import parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="suppliers_radiobuttons"}<td>Lieferanten</td>{/TMPL_IF} {TMPL_COMMENT}  only for order parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="datasheets"}{TMPL_UNLESS NAME="disable_auto_datasheets"}<td>Datenblätter</td>{/TMPL_UNLESS}{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="button_decrement"}<td align="center">-</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="button_increment"}<td align="center">+</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="order_options"}<td>Optionen</td>{/TMPL_IF} {TMPL_COMMENT}  only for order parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="quantity_edit"}<td>Anzahl</td>{/TMPL_IF} {TMPL_COMMENT}  only for device parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="mountnames_edit"}<td>Bestückungs-<br>daten</td>{/TMPL_IF} {TMPL_COMMENT}  only for device parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="price_edit"}<td>Preis</td>{/TMPL_IF} {TMPL_COMMENT}  only for import parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="average_single_price"}<td>Einzel-<br>preis Ø</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="single_prices"}<td>Einzel-<br>preise</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="total_prices"}<td>Gesamt-<br>preise</td>{/TMPL_IF} {TMPL_COMMENT}  only for device parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="supplier_partnrs"}<td>Bestell-<br>nummern</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="supplier_partnr_edit"}<td>Bestell-<br>nummer</td>{/TMPL_IF} {TMPL_COMMENT}  only for import parts  {/TMPL_COMMENT}
+                {TMPL_IF NAME="caption" VALUE="attachements"}<td>Dateianhänge</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="systemupdate_from_version"}<td>Von Version</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="systemupdate_to_version"}<td>Auf Version</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="systemupdate_release_date"}<td>Veröffentlichung</td>{/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="systemupdate_changelog"}<td>Changelog</td>{/TMPL_IF}
+            {/TMPL_LOOP}
+        </tr>
+    {TMPL_ELSE}
+        <input type="hidden" name="id_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="id"}">
+        {TMPL_COMMENT} the alternating background colors are created here {/TMPL_COMMENT}
+        <tr class="{TMPL_IF NAME="row_odd"}trlist_odd{TMPL_ELSE}trlist_even{/TMPL_IF}">
+        {TMPL_LOOP NAME="row_fields"}
+            {TMPL_IF NAME="caption" VALUE="row"}
+                {TMPL_COMMENT} row number {/TMPL_COMMENT}
+                <td class="tdrow1">{TMPL_VAR NAME="row"}</td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="hover_picture"}
+                {TMPL_COMMENT} Pictures {/TMPL_COMMENT}
+                <td class="tdrow0">
+                    {TMPL_IF NAME="hover_picture"}
+                        <a href="javascript:popUp('{TMPL_VAR NAME="hover_picture"}',
+                                                    {TMPL_IF NAME="use_modal_popup"}true {TMPL_ELSE}false {/TMPL_IF},
+                                                    {TMPL_VAR NAME="popup_width"}, {TMPL_VAR NAME="popup_height"})">
+                            <img class="hoverpic" src="{TMPL_VAR NAME="small_picture"}" alt="{TMPL_VAR NAME="picture_name"}">
+                        </a>
+                    {TMPL_ELSE}
+                        {TMPL_IF NAME="small_picture"}
+                            <img class="hoverpic" src="{TMPL_VAR NAME="small_picture"}" alt="">
+                        {/TMPL_IF}
+                    {/TMPL_IF}
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="id"}
+                {TMPL_COMMENT} id (note: "part_not_found" is used in lib.import.php::build_deviceparts_import_template_loop() ){/TMPL_COMMENT}
+                <td class="tdrow4 idclass{TMPL_IF NAME="part_not_found"} backred{/TMPL_IF}">{TMPL_VAR NAME="id"}</td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="row_index"}
+                {TMPL_COMMENT} row index {/TMPL_COMMENT}
+                <td class="tdrow4 idclass">{TMPL_VAR NAME="row_index"}</td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="name"}
+                {TMPL_COMMENT} name/comment with link {/TMPL_COMMENT}
+                <td class="tdrow1{TMPL_IF NAME="obsolete"} backred{/TMPL_IF}">
+                    <a title="{TMPL_IF NAME="obsolete"}(nicht mehr erhätlich) {/TMPL_IF}{TMPL_IF NAME="comment"}Kommentar: {TMPL_VAR NAME="comment" ESCAPE="none"}{/TMPL_IF}"
+                        href="show_part_info.php?pid={TMPL_VAR NAME="id"}"
+                        onclick="return popUp('show_part_info.php?pid={TMPL_VAR NAME="id"}', {TMPL_IF NAME="use_modal_popup"}true {TMPL_ELSE}false {/TMPL_IF},
+                                {TMPL_VAR NAME="popup_width"}, {TMPL_VAR NAME="popup_height"});">{TMPL_VAR NAME="name"}
+                    </a>
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="name_edit"}
+                {TMPL_COMMENT} name edit {/TMPL_COMMENT}
+                <td class="tdrow1"><input type="text" style="width:150px" name="name_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="name"}"></td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="description"}
+                {TMPL_COMMENT} description {/TMPL_COMMENT}
+                <td class="tdrow1{TMPL_IF NAME="obsolete"} backred{/TMPL_IF}">{TMPL_VAR NAME="description"}</td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="description_edit"}
+                {TMPL_COMMENT} description edit {/TMPL_COMMENT}
+                <td class="tdrow1"><input type="text" style="width:150px" name="description_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="description"}"></td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="comment"}
+                {TMPL_COMMENT} comment {/TMPL_COMMENT}
+                <td class="tdrow1">{TMPL_VAR NAME="comment"}</td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="comment_edit"}
+                {TMPL_COMMENT} comment edit {/TMPL_COMMENT}
+                <td class="tdrow1"><input type="text" style="width:150px" name="comment_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="comment"}"></td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="name_description"}
+                {TMPL_COMMENT} name/comment/description {/TMPL_COMMENT}
+                <td class="tdrow1{TMPL_IF NAME="obsolete"} backred{/TMPL_IF}">
+                    <a title="{TMPL_IF NAME="obsolete"}(nicht mehr erhätlich) {/TMPL_IF}{TMPL_IF NAME="comment"}Kommentar: {TMPL_VAR NAME="comment" ESCAPE="none"}{/TMPL_IF}"
+                        href="javascript:popUp('show_part_info.php?pid={TMPL_VAR NAME="id"}', {TMPL_IF NAME="use_modal_popup"}true {TMPL_ELSE}false {/TMPL_IF},
+                                {TMPL_VAR NAME="popup_width"}, {TMPL_VAR NAME="popup_height"});">
+                        {TMPL_VAR NAME="name"}{TMPL_IF NAME="description"}&nbsp;{TMPL_VAR NAME="description"}{/TMPL_IF}
+                    </a>
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="instock"}
+                {TMPL_COMMENT} instock {/TMPL_COMMENT}
+                <td class="tdrow2 {TMPL_IF NAME="not_enought_instock"} backred{/TMPL_IF}">
+                    <div title="min. Bestand: {TMPL_VAR NAME="mininstock"}">{TMPL_VAR NAME="instock"}</div>
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="instock_edit"}
+                {TMPL_COMMENT} instock edit {/TMPL_COMMENT}
+                <td class="tdrow1"><input type="text" style="width:45px" name="instock_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="instock"}" onkeypress="validatePosIntNumber(event)"></td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="order_quantity_edit"}
+                {TMPL_COMMENT} order quantity edit (only for order parts)  {/TMPL_COMMENT}
+                <td class="tdrow1" nowrap>
+                    <input type="text" style="width:45px" name="order_quantity_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="order_quantity"}" onkeypress="validatePosIntNumber(event)"><br>
+                    (mind. {TMPL_VAR NAME="min_order_quantity"})
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="mininstock"}
+                {TMPL_COMMENT} mininstock {/TMPL_COMMENT}
+                <td class="tdrow2">
+                    {TMPL_VAR NAME="mininstock"}
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="mininstock_edit"}
+                {TMPL_COMMENT} instock edit {/TMPL_COMMENT}
+                <td class="tdrow1"><input type="text" style="width:45px" name="mininstock_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="mininstock"}" onkeypress="validatePosIntNumber(event)"></td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="instock_mininstock"}
+                {TMPL_COMMENT} instock/mininstock {/TMPL_COMMENT}
+                <td class="tdrow2 {TMPL_IF NAME="not_enought_instock"} backred{/TMPL_IF}">
+                    {TMPL_VAR NAME="instock"}/{TMPL_VAR NAME="mininstock"}
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="category"}
+                {TMPL_COMMENT} category {/TMPL_COMMENT}
+                <td class="tdrow1">
+                    <div title="{TMPL_VAR NAME="category_path"}">{TMPL_VAR NAME="category_name"}</div>
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="category_edit"}
+                {TMPL_COMMENT} category edit {/TMPL_COMMENT}
+                <td class="tdrow1"><input type="text" style="width:100px" name="category_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="category_name"}"></td>
+            {/TMPL_IF}
+            {TMPL_UNLESS NAME="disable_footprints"}
+                {TMPL_IF NAME="caption" VALUE="footprint"}
+                    {TMPL_COMMENT} footprint {/TMPL_COMMENT}
+                    <td class="tdrow1">
+                        <div title="{TMPL_VAR NAME="footprint_path"}">{TMPL_VAR NAME="footprint_name"}</div>
+                    </td>
+                {/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="footprint_edit"}
+                    {TMPL_COMMENT} footprint edit (only for import parts) {/TMPL_COMMENT}
+                    <td class="tdrow1"><input type="text" style="width:100px" name="footprint_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="footprint_name"}"></td>
+                {/TMPL_IF}
+            {/TMPL_UNLESS}
+            {TMPL_UNLESS NAME="disable_manufacturers"}
+                {TMPL_IF NAME="caption" VALUE="manufacturer"}
+                    {TMPL_COMMENT} manufacturer {/TMPL_COMMENT}
+                    <td class="tdrow1">
+                        <div title="{TMPL_VAR NAME="manufacturer_path"}">{TMPL_VAR NAME="manufacturer_name"}</div>
+                    </td>
+                {/TMPL_IF}
+                {TMPL_IF NAME="caption" VALUE="manufacturer_edit"}
+                    {TMPL_COMMENT} manufacturer edit {/TMPL_COMMENT}
+                    <td class="tdrow1"><input type="text" style="width:100px" name="manufacturer_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="manufacturer_name"}"></td>
+                {/TMPL_IF}
+            {/TMPL_UNLESS}
+            {TMPL_IF NAME="caption" VALUE="storelocation"}
+                {TMPL_COMMENT} storelocation {/TMPL_COMMENT}
+                <td class="tdrow1">
+                    <div title="{TMPL_VAR NAME="storelocation_path"}">{TMPL_VAR NAME="storelocation_name"}</div>
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="storelocation_edit"}
+                {TMPL_COMMENT} storelocation edit {/TMPL_COMMENT}
+                <td class="tdrow1"><input type="text" style="width:100px" name="storelocation_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="storelocation_name"}"></td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="datasheets"}
+                {TMPL_UNLESS NAME="disable_auto_datasheets"}
+                    {TMPL_COMMENT} datasheet links with icons {/TMPL_COMMENT}
+                    <td class="tdrow5">
+                        {TMPL_LOOP NAME="datasheets"}
+                            <a title="{TMPL_VAR NAME="name"}" href="{TMPL_VAR NAME="url"}" target="_blank"><img class="companypic" src="{TMPL_VAR NAME="relative_path"}{TMPL_VAR NAME="image"}" alt="{TMPL_VAR NAME="name"}"></a>
+                        {/TMPL_LOOP}
+                    </td>
+                {/TMPL_UNLESS}
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="button_decrement"}
+                {TMPL_COMMENT} build the "-" button, only if more than 0 parts on stock {/TMPL_COMMENT}
+                <td class="tdrow6">
+                    <input type="submit" name="decrement_{TMPL_VAR NAME="row_index"}" value="-"{TMPL_IF NAME="decrement_disabled"}disabled="disabled"{/TMPL_IF}>
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="button_increment"}
+                {TMPL_COMMENT} build the "+" button {/TMPL_COMMENT}
+                <td class="tdrow7">
+                    <input type="submit" name="increment_{TMPL_VAR NAME="row_index"}" value="+">
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="order_options"}
+                {TMPL_COMMENT} build the order options (e.g. the "to stock" checkbox) (only for order parts) {/TMPL_COMMENT}
+                <td class="tdrow1" nowrap>
+                    <input type="checkbox" name="tostock_{TMPL_VAR NAME="row_index"}">Einbuchen<br>
+                    {TMPL_IF NAME="enable_remove"}<input type="checkbox" name="remove_{TMPL_VAR NAME="row_index"}">Aus Liste löschen{/TMPL_IF}
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="quantity_edit"}
+                {TMPL_COMMENT} quantity for DevicePart elements {/TMPL_COMMENT}
+                <td class="tdrow1" nowrap>
+                    <input type="text" style="width:45px" name="quantity_{TMPL_VAR NAME="row_index"}" onkeypress="validatePosIntNumber(event)" value="{TMPL_IF NAME="quantity"}{TMPL_VAR NAME="quantity"}{TMPL_ELSE}0{/TMPL_IF}">
+                    <input type="button" value="X" onClick="elements['quantity_{TMPL_VAR NAME="row_index"}'].value=0">
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="mountnames_edit"}
+                {TMPL_COMMENT} mountnames for DevicePart elements {/TMPL_COMMENT}
+                <td class="tdrow1">
+                    <input type="text" size="8" name="mountnames_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="mountnames"}">
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="suppliers"}
+                {TMPL_COMMENT} suppliers {/TMPL_COMMENT}
+                <td class="tdrow4" nowrap valign="top">
+                    {TMPL_LOOP NAME="suppliers"}
+                        <div style="display:inline-block; height:1.7em; line-height:1.7em;">
+                            {TMPL_VAR NAME="supplier_name"}
+                        </div><br>
+                    {/TMPL_LOOP}
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="supplier_edit"}
+                {TMPL_COMMENT} supplier edit (only for import parts) {/TMPL_COMMENT}
+                <td class="tdrow1"><input type="text" style="width:100px" name="supplier_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="supplier_name"}"></td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="suppliers_radiobuttons"}
+                {TMPL_COMMENT} supplier-radiobuttons (only for order parts) {/TMPL_COMMENT}
+                <td class="tdrow1" nowrap valign="top">
+                    {TMPL_LOOP NAME="suppliers_radiobuttons"}
+                        <div style="display:inline-block; height:1.7em; line-height:1.7em;">
+                            <input type="radio" name="orderdetails_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="orderdetails_id"}" {TMPL_IF NAME="selected"}checked{/TMPL_IF}>{TMPL_VAR NAME="supplier_name"}<br>
+                        </div><br>
+                    {/TMPL_LOOP}
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="price_edit"}
+                {TMPL_COMMENT} price edit {/TMPL_COMMENT}
+                <td class="tdrow1"><input type="text" style="width:45px" name="price_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="price"}" onkeypress="validatePosFloatNumber(event)"></td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="average_single_price"}
+                {TMPL_COMMENT} average single price for one piece {/TMPL_COMMENT}
+                <td class="tdrow4" nowrap>
+                    {TMPL_VAR NAME="average_single_price"}
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="single_prices"}
+                {TMPL_COMMENT} single prices {/TMPL_COMMENT}
+                <td class="tdrow4" nowrap valign="top">
+                    {TMPL_LOOP NAME="single_prices"}
+                        <div style="display:inline-block; height:1.7em; line-height:1.7em;">
+                            {TMPL_VAR NAME="single_price"}
+                        </div><br>
+                    {/TMPL_LOOP}
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="total_prices"}
+                {TMPL_COMMENT} total prices {/TMPL_COMMENT}
+                <td class="tdrow4" nowrap valign="top">
+                    {TMPL_LOOP NAME="total_prices"}
+                        <div style="display:inline-block; height:1.7em; line-height:1.7em;">
+                            {TMPL_VAR NAME="total_price"}
+                        </div><br>
+                    {/TMPL_LOOP}
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="supplier_partnrs"}
+                {TMPL_COMMENT} supplier part-nrs {/TMPL_COMMENT}
+                <td class="tdrow1" nowrap valign="top">
+                    {TMPL_LOOP NAME="supplier_partnrs"}
+                        <div style="display:inline-block; height:1.7em; line-height:1.7em;">
+                            {TMPL_IF NAME="supplier_product_url"}
+                                <a title="{TMPL_VAR NAME="supplier_product_url"}" href="{TMPL_VAR NAME="supplier_product_url"}" target="_blank">{TMPL_VAR NAME="supplier_partnr"}</a>
+                            {TMPL_ELSE}
+                                {TMPL_VAR NAME="supplier_partnr"}
+                            {/TMPL_IF}
+                        </div><br>
+                    {/TMPL_LOOP}
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="supplier_partnr_edit"}
+                {TMPL_COMMENT} supplier part-nr edit {/TMPL_COMMENT}
+                <td class="tdrow1"><input type="text" style="width:120px" name="supplier_partnr_{TMPL_VAR NAME="row_index"}" value="{TMPL_VAR NAME="supplier_partnr"}"></td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="attachements"}
+                {TMPL_COMMENT} attachements (names with hyperlinks) {/TMPL_COMMENT}
+                <td class="tdrow5">
+                    {TMPL_LOOP NAME="attachements"}
+                        <a title="{TMPL_VAR NAME="type"}" href="{TMPL_VAR NAME="filename"}" target="_blank">{TMPL_VAR NAME="name"}</a><br>
+                    {/TMPL_LOOP}
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="systemupdate_from_version"}
+                {TMPL_COMMENT} only for systemupdates {/TMPL_COMMENT}
+                <td class="tdrow1{TMPL_IF NAME="stable"} backgreen{/TMPL_IF}" style="min-width:100px">
+                    {TMPL_VAR NAME="from_version"}
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="systemupdate_to_version"}
+                {TMPL_COMMENT} only for systemupdates {/TMPL_COMMENT}
+                <td class="tdrow1{TMPL_IF NAME="stable"} backgreen{/TMPL_IF}" style="min-width:100px">
+                    <b>{TMPL_VAR NAME="to_version"}</b>
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="systemupdate_release_date"}
+                {TMPL_COMMENT} only for systemupdates {/TMPL_COMMENT}
+                <td class="tdrow1{TMPL_IF NAME="stable"} backgreen{/TMPL_IF}" style="min-width:100px">
+                    {TMPL_VAR NAME="release_date"}
+                </td>
+            {/TMPL_IF}
+            {TMPL_IF NAME="caption" VALUE="systemupdate_changelog"}
+                {TMPL_COMMENT} only for systemupdates {/TMPL_COMMENT}
+                <td class="tdrow1{TMPL_IF NAME="stable"} backgreen{/TMPL_IF}" style="min-width:100px">
+                    {TMPL_LOOP NAME="changelog"}
+                        {TMPL_IF NAME="log_item"}&nbsp;&bull;&nbsp;{TMPL_VAR NAME="log_item"}<br>{/TMPL_IF}
+                    {/TMPL_LOOP}
+                </td>
+            {/TMPL_IF}
+        {/TMPL_LOOP}
+        </tr>
+    {/TMPL_IF}
+{/TMPL_LOOP}

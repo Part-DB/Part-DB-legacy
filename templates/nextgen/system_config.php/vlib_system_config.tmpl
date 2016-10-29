@@ -1,0 +1,359 @@
+{TMPL_IF NAME="refresh_navigation_frame"}
+<script type="text/javascript">
+    parent.frames.navigation_frame.location.reload();
+</script>
+{/TMPL_IF}
+
+<div class="outer">
+    <h2>Systemeinstellungen</h2>
+    <div class="inner">
+        <form action="" method="post">
+            <table width="100%">
+
+                <tr>
+                    <td colspan="2">
+                        <i>Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere
+                        Einstellungen kann man direkt in der "config.php" vornehmen. Mögliche Parameter
+                        entnehmen Sie bitte der "config_defaults.php" oder der Dokumentation.</i>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
+
+<!--            <tr>
+                    <td>HTTP Zeichensatz:</td>
+                    <td>
+                        <select name="http_charset">
+                            {TMPL_LOOP NAME = "http_charset_loop"}
+                                <option value="{TMPL_VAR NAME="value"}" {TMPL_IF NAME="selected"}selected{/TMPL_IF}>{TMPL_VAR NAME="text"}</option>
+                            {/TMPL_LOOP}
+                        </select>
+                    </td>
+                </tr>
+--!>
+                <tr>
+                    <td>Theme:</td>
+                    <td>
+                        <select name="theme">
+                            {TMPL_LOOP NAME = "theme_loop"}
+                                <option value="{TMPL_VAR NAME="value"}" {TMPL_IF NAME="selected"}selected{/TMPL_IF}>{TMPL_VAR NAME="text"}</option>
+                            {/TMPL_LOOP}
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>CSS-Datei:</td>
+                    <td>
+                        <select name="custom_css">
+                            <option value="">Standard des verwendeten Themes verwenden</option>
+                            {TMPL_LOOP NAME = "custom_css_loop"}
+                                <option value="{TMPL_VAR NAME="value"}" {TMPL_IF NAME="selected"}selected{/TMPL_IF}>{TMPL_VAR NAME="text"}</option>
+                            {/TMPL_LOOP}
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Zeitzone:</td>
+                    <td>
+                        <select name="timezone">
+                            {TMPL_LOOP NAME = "timezone_loop"}
+                                <option value="{TMPL_VAR NAME="value"}" {TMPL_IF NAME="selected"}selected{/TMPL_IF}>{TMPL_VAR NAME="text"}</option>
+                            {/TMPL_LOOP}
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Sprache:</td>
+                    <td>
+                        <select name="language">
+                            {TMPL_LOOP NAME = "language_loop"}
+                                <option value="{TMPL_VAR NAME="value"}" {TMPL_IF NAME="selected"}selected{/TMPL_IF}>{TMPL_VAR NAME="text"}</option>
+                            {/TMPL_LOOP}
+                        </select>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Allgemeine Einstellungen:</td>
+                    <td>
+                        <input type="checkbox" name="disable_updatelist" {TMPL_IF NAME="disable_updatelist"} checked{/TMPL_IF}>
+                        Updateliste (RSS-Feed) auf Startseite verstecken (verringert die Ladezeit)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="disable_footprints" {TMPL_IF NAME="disable_footprints"} checked{/TMPL_IF}>
+                        Footprints global deaktivieren<b>*</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="disable_manufacturers" {TMPL_IF NAME="disable_manufacturers"} checked{/TMPL_IF}>
+                        Hersteller global deaktivieren
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="disable_devices" {TMPL_IF NAME="disable_devices"} checked{/TMPL_IF}>
+                        Baugruppenfunktion global deaktivieren<b>*</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="disable_auto_datasheets" {TMPL_IF NAME="disable_auto_datasheets"} checked{/TMPL_IF}>
+                        Automatische Links zu Datenblättern global deaktivieren<b>*</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="disable_help" {TMPL_IF NAME="disable_help"} checked{/TMPL_IF}>
+                        Menüpunkt "Hilfe" deaktivieren
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="disable_config" {TMPL_IF NAME="disable_config"} checked{/TMPL_IF} {TMPL_IF NAME="is_online_demo"}disabled{/TMPL_IF}>
+                        Menüpunkt "System" deaktivieren
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="enable_debug_link" {TMPL_IF NAME="enable_debug_link"} checked{/TMPL_IF}>
+                        Menüpunkt "System -> Debugging" aktivieren
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="disable_labels" {TMPL_IF NAME="disable_labels"} checked{/TMPL_IF}>
+                        Menüpunkt "Tools -> Labels" deaktivieren<b>*</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="disable_calculator" {TMPL_IF NAME="disable_calculator"} checked{/TMPL_IF}>
+                        Menüpunkt "Tools -> Widerstandsrechner" deaktivieren<b>*</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="disable_iclogos" {TMPL_IF NAME="disable_iclogos"} checked{/TMPL_IF}>
+                        Menüpunkt "Tools -> IC-Logos" deaktivieren<b>*</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="disable_tools_footprints" {TMPL_IF NAME="disable_tools_footprints"} checked{/TMPL_IF}>
+                        Menüpunkt "Tools -> Footprints" deaktivieren<b>*</b>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="tools_footprints_autoload" {TMPL_IF NAME="tools_footprints_autoload"} checked{/TMPL_IF}>
+                        Unter "Tools -> Footprints" beim Aufruf automatisch alle Bilder laden (lange Ladezeit!)
+                    </td>
+                </tr>
+
+                {TMPL_IF NAME="developer_mode_available"}
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="enable_developer_mode" {TMPL_IF NAME="enable_developer_mode"} checked{/TMPL_IF}>
+                        Entwickler-Werkzeuge aktivieren (für Entwickler und Tester)
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="checkbox" name="enable_dokuwiki_write_perms" {TMPL_IF NAME="enable_dokuwiki_write_perms"} checked{/TMPL_IF} {TMPL_IF NAME="is_online_demo"}disabled{/TMPL_IF}>
+                        Schreibrechte im DokuWiki aktivieren
+                    </td>
+                </tr>
+                {/TMPL_IF}
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <b>*</b><i>Durch das Aktivieren dieser Checkboxen ist Part-DB auch für Nicht-Elektronische Bauteile hervorragend geeignet.</i>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Modale Dialoge verwenden:</td>
+                    <td>
+                        <input type="checkbox" name="use_modal_popup" id="use_modal_popup" {TMPL_IF NAME="use_modal_popup"}checked{/TMPL_IF}>Ja
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Dialogbreite:</td>
+                    <td>
+                        <input name="popup_width" id="popup_width" size="5" onkeypress="validateNumber(event)" value="{TMPL_VAR NAME="popup_width"}">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Dialoghöhe:</td>
+                    <td>
+                        <input name="popup_height" id="popup_height" size="5" onkeypress="validateNumber(event)" value="{TMPL_VAR NAME="popup_height"}">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td></td>
+                    <td>
+                        <a href=""
+                        onclick="return popUp('about:blank',    document.getElementById('use_modal_popup').checked,
+                                                                document.getElementById('popup_width').value,
+                                                                document.getElementById('popup_height').value, true);">
+                        Test-Popup öffnen</a>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Titel der Seite:</td>
+                    <td>
+                        Standard: "Part-DB Elektronische Bauteile-Datenbank"<br>
+                        <input type="text" name="page_title" value="{TMPL_VAR NAME="page_title"}" style="width:98%" {TMPL_IF NAME="is_online_demo"}disabled{/TMPL_IF}>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Eigener Banner für die Startseite (HTML):</td>
+                    <td>
+                        <textarea name="startup_banner" rows="5" style="width:98%" {TMPL_IF NAME="is_online_demo"}disabled{/TMPL_IF}>{TMPL_VAR NAME="startup_banner" ESCAPE="none"}</textarea>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" name="apply" value="Einstellungen übernehmen">
+                        <input type="submit" value="Änderungen verwerfen">
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+<div class="outer">
+    <h2>Administratorpasswort ändern</h2>
+    <div class="inner">
+        <form action="" method="post">
+            <table>
+
+                <tr>
+                    <td>Aktuelles Passwort:</td>
+                    <td>
+                        <input type="password" name="current_admin_password" {TMPL_IF NAME="is_online_demo"}disabled{/TMPL_IF}>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Neues Passwort:</td>
+                    <td>
+                        <input type="password" name="new_admin_password_1" {TMPL_IF NAME="is_online_demo"}disabled{/TMPL_IF}>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Neues Passwort (Wiederholung):</td>
+                    <td>
+                        <input type="password" name="new_admin_password_2" {TMPL_IF NAME="is_online_demo"}disabled{/TMPL_IF}>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <hr>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td colspan="2">
+                        <input type="submit" name="change_admin_password" value="Passwort ändern" {TMPL_IF NAME="is_online_demo"}disabled{/TMPL_IF}>
+                    </td>
+                </tr>
+            </table>
+        </form>
+    </div>
+</div>
+
+{TMPL_UNLESS NAME="is_online_demo"}
+    <div class="outer">
+        <h2>Server</h2>
+        <div class="inner">
+            <table width="100%">
+                <tr>
+                    <td>PHP-Version:</td>
+                    <td>{TMPL_VAR NAME="php_version"}</td>
+                </tr>
+                <tr>
+                    <td>.htaccess funktioniert:</td>
+                    <td>{TMPL_IF NAME="htaccess_works"}<font color="green">ja</font>{TMPL_ELSE}<font color="red">nein</font>{/TMPL_IF}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+{/TMPL_UNLESS}

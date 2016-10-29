@@ -1,0 +1,26 @@
+<div class="outer">
+    <h2>Aktionen</h2>
+    <div class="inner">
+        <table>
+            <tr>
+                <td><b>Bauteil löschen:</b></td>
+                <td>
+                    <form action="" method="post">
+                        <input type="hidden" name="pid" value="{TMPL_VAR NAME="pid"}">
+                        <input type="checkbox" name="delete_files_from_hdd"><font style="color:red">Dateien dieses Bauteiles, die von keinem anderen Bauteil verwendet werden, auch von der Festplatte löschen</font><br>
+                        <input type="submit" name="delete_part" value="Lösche Teil!">
+                    </form>
+                </td>
+            </tr>
+            <tr>
+                <td><b>Weiteres Bauteil anlegen:</b></td>
+                <td>
+                    <form action="" method="post">
+                        <input type="hidden" name="pid" value="{TMPL_VAR NAME="pid"}">
+                        <input type="submit" name="add_one_more_part" value="Neues Bauteil erfassen">
+                    </form>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

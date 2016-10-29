@@ -32,6 +32,9 @@
                                     - added doxygen comments
 */
 
+//CHANGE ME: Move to real include dir
+//include("smarty/Smarty.class.php");
+
     /**
      * @file class.HTML.php
      * @brief class HTML
@@ -67,6 +70,9 @@
         private $variables          = array();
         /** (array) loops for the HTML template */
         private $loops              = array();
+
+        /** (boolean) should smarty be used instead of vLibTemplate? */
+        private $use_smarty         = true;
 
         /********************************************************************************
         *
@@ -326,58 +332,117 @@
                 debug('warning', 'Meta not set!', __FILE__, __LINE__, __METHOD__);
             }
 
-            $vlib_head = BASE.'/templates/'.$this->meta['theme'].'/vlib_head.tmpl';
-
-            if ( ! is_readable($vlib_head))
+            if(!$this->use_smarty)
             {
-                debug('error', 'File "'.$vlib_head.'" not found!', __FILE__, __LINE__, __METHOD__);
-                throw new Exception('Template Header-Datei "'.$vlib_head.'" wurde nicht gefunden!');
-            }
+                $vlib_head = BASE.'/templates/'.$this->meta['theme'].'/vlib_head.tmpl';
 
-            if ($config['debug']['template_debugging_enable'])
-            {
-                include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
-                $tmpl = new vlibTemplateDebug($vlib_head);
-            }
-            else
-                $tmpl = new vlibTemplate($vlib_head);
-
-            // header stuff
-            $tmpl->setVar('relative_path',              BASE_RELATIVE.'/'); // constant from start_session.php
-            $tmpl->setVar('page_title',                 $this->meta['title']);
-            $tmpl->setVar('http_charset',               $config['html']['http_charset']);
-            $tmpl->setVar('body_onload',                $this->body_onload);
-            $tmpl->setVar('theme',                      $this->meta['theme']);
-            $tmpl->setVar('frameset',                   $this->meta['frameset']);
-            if (strlen($this->meta['custom_css']) > 0)
-                $tmpl->setVar('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
-
-            // JavaScript files
-            $javascript_loop = array();
-            foreach ($this->javascript_files as $filename)
-            {
-                $javascript_loop[] = array('filename' => $filename);
-            }
-            if (count($javascript_loop) > 0)
-                $tmpl->setLoop('javascript_files', $javascript_loop);
-
-            // messages
-            if ((is_array($messages) && (count($messages) > 0)) || ($config['debug']['request_debugging_enable']))
-            {
-                if ($config['debug']['request_debugging_enable'])
+                if ( ! is_readable($vlib_head))
                 {
-                    if ((is_array($messages) && (count($messages) > 0)))
-                        $messages[] = array('text' => '');
-                    $messages[] = array('text' => '$_REQUEST:', 'strong' => true, 'color' => 'darkblue');
-                    $messages[] = array('text' => print_r($_REQUEST, true), 'color' => 'darkblue');
+                    debug('error', 'File "'.$vlib_head.'" not found!', __FILE__, __LINE__, __METHOD__);
+                    throw new Exception('Template Header-Datei "'.$vlib_head.'" wurde nicht gefunden!');
                 }
 
-                $tmpl->setLoop('messages',              $messages);
-                $tmpl->setVar('messages_div_title',     $messages_div_title);
-                $tmpl->setVar('reload_link',            $reload_link);
+                if ($config['debug']['template_debugging_enable'])
+                {
+                    include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
+                    $tmpl = new vlibTemplateDebug($vlib_head);
+                }
+                else
+                    $tmpl = new vlibTemplate($vlib_head);
+
+                // header stuff
+                $tmpl->setVar('relative_path',              BASE_RELATIVE.'/'); // constant from start_session.php
+                $tmpl->setVar('page_title',                 $this->meta['title']);
+                $tmpl->setVar('http_charset',               $config['html']['http_charset']);
+                $tmpl->setVar('body_onload',                $this->body_onload);
+                $tmpl->setVar('theme',                      $this->meta['theme']);
+                $tmpl->setVar('frameset',                   $this->meta['frameset']);
+                if (strlen($this->meta['custom_css']) > 0)
+                    $tmpl->setVar('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
+
+                // JavaScript files
+                $javascript_loop = array();
+                foreach ($this->javascript_files as $filename)
+                {
+                    $javascript_loop[] = array('filename' => $filename);
+                }
+                if (count($javascript_loop) > 0)
+                    $tmpl->setLoop('javascript_files', $javascript_loop);
+
+                // messages
+                if ((is_array($messages) && (count($messages) > 0)) || ($config['debug']['request_debugging_enable']))
+                {
+                    if ($config['debug']['request_debugging_enable'])
+                    {
+                        if ((is_array($messages) && (count($messages) > 0)))
+                            $messages[] = array('text' => '');
+                        $messages[] = array('text' => '$_REQUEST:', 'strong' => true, 'color' => 'darkblue');
+                        $messages[] = array('text' => print_r($_REQUEST, true), 'color' => 'darkblue');
+                    }
+
+                    $tmpl->setLoop('messages',              $messages);
+                    $tmpl->setVar('messages_div_title',     $messages_div_title);
+                    $tmpl->setVar('reload_link',            $reload_link);
+                }
+
+                $tmpl->pparse();
             }
 
-            $tmpl->pparse();
+            else //Use Smarty
+            {
+                $smarty_head = BASE.'/templates/'.$this->meta['theme'].'/smarty_head.tpl';
+                if ( ! is_readable($smarty_head))
+                {
+                    debug('error', 'File "'.$smarty_head.'" not found!', __FILE__, __LINE__, __METHOD__);
+                    throw new Exception('Template Header-Datei "'.$smarty_head.'" wurde nicht gefunden!');
+                }
+
+                $tmpl = new Smarty;
+
+                if ($config['debug']['template_debugging_enable'])
+                {
+                    $tmpl->debugging = true;
+                }
+
+                // header stuff
+                $tmpl->assign('relative_path',              BASE_RELATIVE.'/'); // constant from start_session.php
+                $tmpl->assign('page_title',                 $this->meta['title']);
+                $tmpl->assign('http_charset',               $config['html']['http_charset']);
+                $tmpl->assign('body_onload',                $this->body_onload);
+                $tmpl->assign('theme',                      $this->meta['theme']);
+                $tmpl->assign('frameset',                   $this->meta['frameset']);
+                if (strlen($this->meta['custom_css']) > 0)
+                    $tmpl->assign('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
+
+                // JavaScript files
+                $javascript_loop = array();
+                foreach ($this->javascript_files as $filename)
+                {
+                    $javascript_loop[] = array('filename' => $filename);
+                }
+                if (count($javascript_loop) > 0)
+                    $tmpl->assign('javascript_files', $javascript_loop);
+
+
+                // messages
+                if ((is_array($messages) && (count($messages) > 0)) || ($config['debug']['request_debugging_enable']))
+                {
+                    if ($config['debug']['request_debugging_enable'])
+                    {
+                        if ((is_array($messages) && (count($messages) > 0)))
+                            $messages[] = array('text' => '');
+                        $messages[] = array('text' => '$_REQUEST:', 'strong' => true, 'color' => 'darkblue');
+                        $messages[] = array('text' => print_r($_REQUEST, true), 'color' => 'darkblue');
+                    }
+
+                    $tmpl->assign('messages',              $messages);
+                    $tmpl->assign('messages_div_title',     $messages_div_title);
+                    $tmpl->assign('reload_link',            $reload_link);
+                }
+
+                $tmpl->display($smarty_head);
+
+            }
         }
 
          /**
@@ -403,45 +468,91 @@
             settype($template, 'string');
             settype($use_scriptname, 'boolean');
 
-            if ($use_scriptname)
+            if(!$this->use_smarty)
             {
-                $vlib_template =    BASE.'/templates/'.$this->meta['theme'].'/'.
-                                    basename($_SERVER['SCRIPT_NAME']).'/vlib_'.$template.'.tmpl';
+
+                if ($use_scriptname)
+                {
+                    $vlib_template =    BASE.'/templates/'.$this->meta['theme'].'/'.
+                                        basename($_SERVER['SCRIPT_NAME']).'/vlib_'.$template.'.tmpl';
+                }
+                else
+                {
+                    $vlib_template = BASE.'/templates/'.$this->meta['theme'].'/vlib_'.$template.'.tmpl';
+                }
+
+                if ( ! is_readable($vlib_template))
+                {
+                    debug('error', 'Template-Datei "'.$vlib_template.'" konnte nicht gefunden werden!',
+                                            __FILE__, __LINE__, __METHOD__);
+                    throw new Exception('Template-Datei "'.$vlib_template.'" konnte nicht gefunden werden!');
+                }
+
+                if ($config['debug']['template_debugging_enable'])
+                {
+                    include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
+                    $tmpl = new vlibTemplateDebug($vlib_template);
+                }
+                else
+                    $tmpl = new vlibTemplate($vlib_template);
+
+                $tmpl->setVar('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
+
+                foreach ($this->variables as $key => $value)
+                {
+                    //debug('temp', $key.' => '.$value);
+                    $tmpl->setVar($key, $value);
+                }
+
+                foreach ($this->loops as $key => $loop)
+                {
+                    $tmpl->setLoop($key, $loop);
+                }
+
+                $tmpl->pparse();
             }
-            else
+            else //use smarty
             {
-                $vlib_template = BASE.'/templates/'.$this->meta['theme'].'/vlib_'.$template.'.tmpl';
+                if ($use_scriptname)
+                {
+                    $smarty_template =    BASE.'/templates/'.$this->meta['theme'].'/'.
+                                        basename($_SERVER['SCRIPT_NAME']).'/smarty_'.$template.'.tpl';
+                }
+                else
+                {
+                    $smarty_template = BASE.'/templates/'.$this->meta['theme'].'/smarty_'.$template.'.tpl';
+                }
+
+                if ( ! is_readable($smarty_template))
+                {
+                    debug('error', 'Template-Datei "'.$smarty_template.'" konnte nicht gefunden werden!',
+                                            __FILE__, __LINE__, __METHOD__);
+                    throw new Exception('Template-Datei "'.$smarty_template.'" konnte nicht gefunden werden!');
+                }
+
+                $tmpl = new Smarty();
+
+                if ($config['debug']['template_debugging_enable'])
+                {
+                    $tmpl->debugging = true;
+                }
+
+                $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
+
+                foreach ($this->variables as $key => $value)
+                {
+                    //debug('temp', $key.' => '.$value);
+                    $tmpl->assign($key, $value);
+                }
+
+                foreach ($this->loops as $key => $loop)
+                {
+                    $tmpl->assign($key, $loop);
+                }
+
+                $tmpl->display($smarty_template);
             }
 
-            if ( ! is_readable($vlib_template))
-            {
-                debug('error', 'Template-Datei "'.$vlib_template.'" konnte nicht gefunden werden!',
-                                        __FILE__, __LINE__, __METHOD__);
-                throw new Exception('Template-Datei "'.$vlib_template.'" konnte nicht gefunden werden!');
-            }
-
-            if ($config['debug']['template_debugging_enable'])
-            {
-                include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
-                $tmpl = new vlibTemplateDebug($vlib_template);
-            }
-            else
-                $tmpl = new vlibTemplate($vlib_template);
-
-            $tmpl->setVar('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
-
-            foreach ($this->variables as $key => $value)
-            {
-                //debug('temp', $key.' => '.$value);
-                $tmpl->setVar($key, $value);
-            }
-
-            foreach ($this->loops as $key => $loop)
-            {
-                $tmpl->setLoop($key, $loop);
-            }
-
-            $tmpl->pparse();
         }
 
         /**
@@ -458,33 +569,65 @@
         {
             global $config;
 
-            $vlib_foot = BASE.'/templates/'.$this->meta['theme'].'/vlib_foot.tmpl';
-
-            if ( ! is_readable($vlib_foot))
+            if(!$this->use_smarty)
             {
-                debug('error', 'File "'.$vlib_foot.'" not found!', __FILE__, __LINE__, __METHOD__);
-                throw new Exception('Template Footer-Datei "'.$vlib_foot.'" wurde nicht gefunden!');
-            }
+                $vlib_foot = BASE.'/templates/'.$this->meta['theme'].'/vlib_foot.tmpl';
 
-            if ($config['debug']['template_debugging_enable'])
+                if ( ! is_readable($vlib_foot))
+                {
+                    debug('error', 'File "'.$vlib_foot.'" not found!', __FILE__, __LINE__, __METHOD__);
+                    throw new Exception('Template Footer-Datei "'.$vlib_foot.'" wurde nicht gefunden!');
+                }
+
+                if ($config['debug']['template_debugging_enable'])
+                {
+                    include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
+                    $tmpl = new vlibTemplateDebug($vlib_foot);
+                }
+                else
+                    $tmpl = new vlibTemplate($vlib_foot);
+
+                $tmpl->setVar('relative_path',  BASE_RELATIVE.'/'); // constant from start_session.php
+                $tmpl->setVar('frameset',       $this->meta['frameset']);
+
+                // messages
+                if ((is_array($messages) && (count($messages) > 0)))
+                {
+                    $tmpl->setLoop('messages',              $messages);
+                    $tmpl->setVar('messages_div_title',     $messages_div_title);
+                }
+
+                $tmpl->pparse();
+            }
+            else //use smarty
             {
-                include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
-                $tmpl = new vlibTemplateDebug($vlib_foot);
+                $smarty_foot = BASE.'/templates/'.$this->meta['theme'].'/smarty_foot.tpl';
+
+                if ( ! is_readable($smarty_foot))
+                {
+                    debug('error', 'File "'.$smarty_foot.'" not found!', __FILE__, __LINE__, __METHOD__);
+                    throw new Exception('Template Footer-Datei "'.$smarty_foot.'" wurde nicht gefunden!');
+                }
+
+                $tmpl = new Smarty();
+
+                if ($config['debug']['template_debugging_enable'])
+                {
+                    $tmpl->debugging = true;
+                }
+
+                $tmpl->assign('relative_path',  BASE_RELATIVE.'/'); // constant from start_session.php
+                $tmpl->assign('frameset',       $this->meta['frameset']);
+
+                // messages
+                if ((is_array($messages) && (count($messages) > 0)))
+                {
+                    $tmpl->assign('messages',              $messages);
+                    $tmpl->assign('messages_div_title',     $messages_div_title);
+                }
+
+                $tmpl->display($smarty_foot);
             }
-            else
-                $tmpl = new vlibTemplate($vlib_foot);
-
-            $tmpl->setVar('relative_path',  BASE_RELATIVE.'/'); // constant from start_session.php
-            $tmpl->setVar('frameset',       $this->meta['frameset']);
-
-            // messages
-            if ((is_array($messages) && (count($messages) > 0)))
-            {
-                $tmpl->setLoop('messages',              $messages);
-                $tmpl->setVar('messages_div_title',     $messages_div_title);
-            }
-
-            $tmpl->pparse();
         }
     }
 

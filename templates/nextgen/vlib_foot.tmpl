@@ -1,0 +1,25 @@
+{TMPL_IF NAME="messages"}
+    <div class="outer">
+        <form action="" method="post">
+            {TMPL_LOOP NAME="messages"}
+                {TMPL_IF NAME="text"}
+                    {TMPL_IF NAME="strong"}<strong>{/TMPL_IF}
+                    {TMPL_IF NAME="color"}<font color="{TMPL_VAR NAME="color"}">{/TMPL_IF}
+                    {TMPL_VAR NAME="text" ESCAPE="HTML"}
+                    {TMPL_IF NAME="color"}</font>{/TMPL_IF}
+                    {TMPL_IF NAME="strong"}</strong>{/TMPL_IF}
+                {/TMPL_IF}
+
+                {TMPL_IF NAME="html"}
+                    {TMPL_VAR NAME="html" ESCAPE="none"}
+                {/TMPL_IF}
+
+                {TMPL_IF NAME="no_linebreak"}{TMPL_ELSE}<br>{/TMPL_IF}
+            {/TMPL_LOOP}
+        </form>
+    </div>
+{/TMPL_IF}
+
+{TMPL_UNLESS NAME="frameset"}</body>{/TMPL_UNLESS}
+
+</html>

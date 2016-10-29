@@ -279,8 +279,8 @@
     *   autoload function for classes
     *
     *********************************************************************************/
-
-    function __autoload($classname)
+    // __autoload should not be used,  because only one handler can be used! Smarty doesnt work if this is overwritten
+    function load($classname)
     {
         if (strpos($classname, 'vlib') === 0)
             include_once(BASE.'/lib/vlib/'.$classname.'.php');
@@ -297,5 +297,16 @@
     include_once(BASE.'/lib/lib.functions.php');
     include_once(BASE.'/lib/lib.debug.php');
     include_once(BASE.'/lib/lib.php');
+
+    /********************************************************************************
+     *
+     *  Register Autoloaders
+     *
+     ********************************************************************************/
+
+    spl_autoload_register("load");
+
+    include_once(BASE.'/lib/smarty/Autoloader.php');
+    Smarty_Autoloader::register();
 
 ?>
