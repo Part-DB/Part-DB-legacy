@@ -71,9 +71,6 @@
         /** (array) loops for the HTML template */
         private $loops              = array();
 
-        /** (boolean) should smarty be used instead of vLibTemplate? */
-        private $use_smarty         = true;
-
         /********************************************************************************
         *
         *   Constructor / Destructor
@@ -321,9 +318,11 @@
          * @param string    $messages_div_title     If this is a non-empty string, and there are messages to display,
          *                                          the messages will be displayed in a box with this title.
          *
+         * @param bool      $redirect               If this true, the page will redirect to startup.
+         *
          * @throws Exception if there was an error
          */
-        public function print_header($messages = array(), $reload_link = '', $messages_div_title = '')
+        public function print_header($messages = array(), $reload_link = '', $messages_div_title = '', $redirect = false)
         {
             global $config;
 
@@ -332,7 +331,7 @@
                 debug('warning', 'Meta not set!', __FILE__, __LINE__, __METHOD__);
             }
 
-            if(!$this->use_smarty)
+            if(!$config['design']['use_smarty'])
             {
                 $vlib_head = BASE.'/templates/'.$this->meta['theme'].'/vlib_head.tmpl';
 
@@ -404,6 +403,11 @@
                     $tmpl->debugging = true;
                 }
 
+                //CHANGE ME
+                $tmpl->caching=false;
+                $tmpl->setCaching(false);
+                $tmpl->clearAllCache();
+
                 // header stuff
                 $tmpl->assign('relative_path',              BASE_RELATIVE.'/'); // constant from start_session.php
                 $tmpl->assign('page_title',                 $this->meta['title']);
@@ -411,6 +415,7 @@
                 $tmpl->assign('body_onload',                $this->body_onload);
                 $tmpl->assign('theme',                      $this->meta['theme']);
                 $tmpl->assign('frameset',                   $this->meta['frameset']);
+                $tmpl->assign('redirect',                   $redirect);
                 if (strlen($this->meta['custom_css']) > 0)
                     $tmpl->assign('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
 
@@ -468,7 +473,7 @@
             settype($template, 'string');
             settype($use_scriptname, 'boolean');
 
-            if(!$this->use_smarty)
+            if(!$config['design']['use_smarty'])
             {
 
                 if ($use_scriptname)
@@ -569,7 +574,7 @@
         {
             global $config;
 
-            if(!$this->use_smarty)
+            if(!$config['design']['use_smarty'])
             {
                 $vlib_foot = BASE.'/templates/'.$this->meta['theme'].'/vlib_foot.tmpl';
 

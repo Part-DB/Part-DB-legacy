@@ -96,7 +96,7 @@
     if (count($messages) == 0)
         $html->set_meta(array('frameset' => true));
 
-    $html->print_header($messages, 'index.php');
+    $html->print_header($messages, 'index.php','', true);
 
     if (( ! $fatal_error) && (count($messages) == 0))
         $html->print_template('frameset');
