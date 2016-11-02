@@ -1,6 +1,6 @@
 <div class="panel panel-success">
     <div class="panel-heading">
-        <h3>Suchergebnis</h3>
+        <h4>Suchergebnis</h4>
     </div>
     <div class="panel-body">
         Die Suche nach <b>"{$keyword}"</b> ergab <b>{$hits_count} Treffer</b>.
@@ -18,13 +18,16 @@
                 {if isset($search_footprint)}           <input type='hidden' name='search_footprint'>{/if}
                 {if isset($search_manufacturer)}        <input type='hidden' name='search_manufacturer'>{/if}
 
-                <select name="export_format">
+               <div class="form-inline">
+                <select name="export_format" class="form-control">
                     {foreach $export_formats as $format}
                         <option value="{$format.value}" {if isset($format.selected)}selected{/if}>{$format.text}</option>
                     {/foreach}
                 </select>
 
-                <input type="submit" name="export" value="Export">
+                <input class="btn btn-primary" type="submit" name="export" value="Export">
+               </div>
+               
             </form>
         </div>
         <div class="clear"></div>

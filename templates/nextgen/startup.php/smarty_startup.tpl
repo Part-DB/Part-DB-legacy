@@ -4,7 +4,7 @@
         {if isset($system_version_full)}
         <h3>Version: {$system_version_full}{if isset($git_branch)}, Git: {$git_branch}{if isset($git_commit)}/{$git_commit}{/if}{/if}</h3>
         {/if}
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+        <p><button onclick="fill()" class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
     </div>
     
     {if $database_update}

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-10-29 22:15:35
+/* Smarty version 3.1.30, created on 2016-11-01 22:33:36
   from "C:\xampp\htdocs\part-db\templates\nextgen\startup.php\smarty_startup.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_58150367635897_40390306',
+  'unifunc' => 'content_58190a30995b39_36978558',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e4eae8eebf0a70dd43b7f76d48defab879bd5d63' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\startup.php\\smarty_startup.tpl',
-      1 => 1477772129,
+      1 => 1478036002,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_58150367635897_40390306 (Smarty_Internal_Template $_smarty_tpl) {
+function content_58190a30995b39_36978558 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 
     <div class="jumbotron">
@@ -32,7 +32,7 @@ if (isset($_smarty_tpl->tpl_vars['git_commit']->value)) {?>/<?php echo $_smarty_
 }
 }?></h3>
         <?php }?>
-        <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+        <p><button onclick="fill()" class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
     </div>
     
     <?php if ($_smarty_tpl->tpl_vars['database_update']->value) {?>

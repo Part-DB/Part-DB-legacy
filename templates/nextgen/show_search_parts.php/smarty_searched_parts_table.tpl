@@ -1,8 +1,7 @@
 <div class="panel panel-info">
    <div class="panel-heading">
-      <h4>Treffer in der Kategorie <b>"{$category_full_path}"</b></h4>
+      <h5>Treffer in der Kategorie <b>"{$category_full_path}"</b></h5>
    </div>
-    <div class="panel-body">
         <form method="post" action="">
             <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
 
@@ -18,15 +17,15 @@
             {if isset($search_footprint)}           <input type='hidden' name='search_footprint'>{/if}
             {if isset($search_manufacturer)}        <input type='hidden' name='search_manufacturer'>{/if}
 
+          
            </form>
            
            <!-- For responsive design -->
            <div class="table-responsive">
-            <table class="table table-hover table-striped">
+            <table class="table table-small table-condensed table-hover table-striped">
                {include file='../smarty_table.tpl'}
             </table>
            </div> 
         
-    </div>
 </div>
 

@@ -20,7 +20,7 @@
         <![endif]-->
         
         <!-- Include Sidebar -->
-        <!-- <link href="{$relative_path}templates/{$theme}/css/simple-sidebar.css" rel="stylesheet"> -->
+        <link href="{$relative_path}templates/{$theme}/css/simple-sidebar.css" rel="stylesheet">
        
         <!-- Include Part-DB Theme -->
         <link href="{$relative_path}templates/{$theme}/nextgen.css" rel="stylesheet">
@@ -45,16 +45,11 @@
         
     </head>
     
-<body onload="fill()">
+<body>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{$relative_path}templates/nextgen/js/bootstrap.min.js"></script>
-    
-    <!-- Treeview -->
-    <script src="{$relative_path}templates/nextgen/js/bootstrap-treeview.js"></script>
-    
-   
   
    <header>
       <nav class="navbar navbar-default">
@@ -72,6 +67,21 @@
 
           <!-- Navbar -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kategorien<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+
+                </ul>
+              </li>
+
+              <li class="dropdown">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Verwaltung<span class="caret"></span></a>
+                <ul class="dropdown-menu">
+
+                </ul> 
+                </li>
+            </ul>
 
             <!-- Searchbar -->
 
@@ -111,53 +121,34 @@
    <main>
       <div class="container-fluid">
    
-           <div class="row">
-                <aside>
-                    <div class="col-sm-3 col-md-2 sidebar">
-                        <ul class="nav nav-sidebar">
-                           <h4>Verwaltung</h4>
-                            <div id="tree-categories">
-                                
-                            </div>
-                        </ul>
-                        
-                        <ul class="nav nav-sidebar" id="tree-managment">
+         {if isset($messages)}
+              <div class="panel panel-error">
+                  {if isset($messages_div_title)}<div class="panel-heading"><h2>{$messages_div_title}</h2></div>{/if}
+                  <div class="panel-body">
+                      <form action="" method="post">
+                          {foreach $messages as $msg}
+                              {if isset($msg.text)}
+                                  {if $msg.strong}<strong>{/if}
+                                  {if isset($msg.color)}<font color="{$msg.color}">{/if}
+                                  {$msg.text}
+                                  {if isset($msg.color)}</font>{/if}
+                                  {if $msg.strong}</strong>{/if}
+                              {/if}
 
-                        </ul>
-                    </div>
-                </aside>
-                <div class="col-xs-12 col-sm-9 col-md-10" main>
+                              {if isset($html)}
+                                  {$html}
+                              {/if}
 
-         <script src="{$relavtive_path}templates/nextgen/js/treeview-fill.js"></script>
-                  
-                   {if isset($messages)}
-                        <div class="panel panel-error">
-                            {if isset($messages_div_title)}<div class="panel-heading"><h2>{$messages_div_title}</h2></div>{/if}
-                            <div class="panel-body">
-                                <form action="" method="post">
-                                    {foreach $messages as $msg}
-                                        {if isset($msg.text)}
-                                            {if $msg.strong}<strong>{/if}
-                                            {if isset($msg.color)}<font color="{$msg.color}">{/if}
-                                            {$msg.text}
-                                            {if isset($msg.color)}</font>{/if}
-                                            {if $msg.strong}</strong>{/if}
-                                        {/if}
+                              {if !$no_linebreak}<br>{/if}
+                          {/foreach}
 
-                                        {if isset($html)}
-                                            {$html}
-                                        {/if}
-
-                                        {if !$no_linebreak}<br>{/if}
-                                    {/foreach}
-
-                                    {if isset($reload_link)}
-                                        <br>
-                                        <a href="{$reload_link}">
-                                            <button>Seite neu laden</button>
-                                        </a>
-                                    {/if}
-                                </form>
-                            </div>
-                        </div>
-                    {/if}
+                          {if isset($reload_link)}
+                              <br>
+                              <a href="{$reload_link}">
+                                  <button>Seite neu laden</button>
+                              </a>
+                          {/if}
+                      </form>
+                  </div>
+              </div>
+          {/if}

@@ -14,63 +14,65 @@
 *}
 
 {foreach $table as $t}
-    {if $t.print_header}
-   
+    {if $t.print_header}   
+      <thead class="thead-default">
        <tr class="trcat">
             {foreach $t.columns as $col}
-                {if $col.caption=="row"}<td>Nr.</td>{/if}
-                {if $col.caption=="hover_picture"}<td></td>{/if}
-                {if $col.caption=="id"}<td class="idclass">ID</td>{/if}
-                {if $col.caption=="row_index"}<td class="idclass">Nr.</td>{/if} {*  only for import parts  *}
-                {if $col.caption=="name"}<td>Name</td>{/if}
-                {if $col.caption=="name_edit"}<td>Name</td>{/if} {*  only for import parts  *}
-                {if $col.caption=="description"}<td>Beschreibung</td>{/if}
-                {if $col.caption=="description_edit"}<td>Beschreibung</td>{/if} {*  only for import parts  *}
-                {if $col.caption=="comment"}<td>Kommentar</td>{/if}
-                {if $col.caption=="comment_edit"}<td>Kommentar</td>{/if} {*  only for import parts  *}
-                {if $col.caption=="name_description"}<td>Name / Beschreibung</td>{/if}
-                {if $col.caption=="instock"}<td>Bestand</td>{/if}
-                {if $col.caption=="instock_edit"}<td>Bestand</td>{/if} {*  only for import parts  *}
-                {if $col.caption=="instock_edit_buttons"}<td>Bestand ändern</td>{/if}
-                {if $col.caption=="order_quantity_edit"}<td>Bestell-<br>menge</td>{/if} {*  only for order parts  *}
-                {if $col.caption=="mininstock"}<td>Mindest-<br>bestand</td>{/if}
-                {if $col.caption=="mininstock_edit"}<td>Mindest-<br>bestand</td>{/if} {*  only for import parts  *}
-                {if $col.caption=="instock_mininstock"}<td>Vorh./<br>Min.Best</td>{/if}
-                {if $col.caption=="category"}<td>Kategorie</td>{/if}
-                {if $col.caption=="category_edit"}<td>Kategorie</td>{/if} {*  only for import parts  *}
+                {if $col.caption=="row"}<th>Nr.</th>{/if}
+                {if $col.caption=="hover_picture"}<th></th>{/if}
+                {if $col.caption=="id"}<th class="idclass">ID</th>{/if}
+                {if $col.caption=="row_index"}<th class="idclass">Nr.</th>{/if} {*  only for import parts  *}
+                {if $col.caption=="name"}<th>Name</th>{/if}
+                {if $col.caption=="name_edit"}<th>Name</th>{/if} {*  only for import parts  *}
+                {if $col.caption=="description"}<th>Beschreibung</th>{/if}
+                {if $col.caption=="description_edit"}<th>Beschreibung</th>{/if} {*  only for import parts  *}
+                {if $col.caption=="comment"}<th>Kommentar</th>{/if}
+                {if $col.caption=="comment_edit"}<th>Kommentar</th>{/if} {*  only for import parts  *}
+                {if $col.caption=="name_description"}<th>Name / Beschreibung</th>{/if}
+                {if $col.caption=="instock"}<th>Bestand</th>{/if}
+                {if $col.caption=="instock_edit"}<th>Bestand</th>{/if} {*  only for import parts  *}
+                {if $col.caption=="instock_edit_buttons"}<th>Bestand ändern</th>{/if}
+                {if $col.caption=="order_quantity_edit"}<th>Bestell-<br>menge</th>{/if} {*  only for order parts  *}
+                {if $col.caption=="mininstock"}<th>Mindest-<br>bestand</th>{/if}
+                {if $col.caption=="mininstock_edit"}<th>Mindest-<br>bestand</th>{/if} {*  only for import parts  *}
+                {if $col.caption=="instock_mininstock"}<th>Vorh./<br>Min.Best</th>{/if}
+                {if $col.caption=="category"}<th>Kategorie</th>{/if}
+                {if $col.caption=="category_edit"}<th>Kategorie</th>{/if} {*  only for import parts  *}
                 {if !isset($col.disable_footprints)}
-                    {if $col.caption=="footprint"}<td>Footprint</td>{/if}
-                    {if $col.caption=="footprint_edit"}<td>Footprint</td>{/if} {*  only for import parts  *}
+                    {if $col.caption=="footprint"}<th>Footprint</th>{/if}
+                    {if $col.caption=="footprint_edit"}<th>Footprint</th>{/if} {*  only for import parts  *}
                 {/if}
                 {if !isset($col.disable_manufacturers)}
-                    {if $col.caption=="manufacturer"}<td>Hersteller</td>{/if}
-                    {if $col.caption=="manufacturer_edit"}<td>Hersteller</td>{/if} {*  only for import parts  *}
+                    {if $col.caption=="manufacturer"}<th>Hersteller</th>{/if}
+                    {if $col.caption=="manufacturer_edit"}<th>Hersteller</th>{/if} {*  only for import parts  *}
                 {/if}
-                {if $col.caption=="storelocation"}<td>Lagerort</td>{/if}
-                {if $col.caption=="storelocation_edit"}<td>Lagerort</td>{/if} {*  only for import parts  *}
-                {if $col.caption=="suppliers"}<td>Lieferanten</td>{/if}
-                {if $col.caption=="supplier_edit"}<td>Lieferant</td>{/if} {*  only for import parts  *}
-                {if $col.caption=="suppliers_radiobuttons"}<td>Lieferanten</td>{/if} {*  only for order parts  *}
-                {if $col.caption=="datasheets"}{if !$row.disable_auto_datasheets}<td>Datenblätter</td>{/if}{/if}
-                {if $col.caption=="button_decrement"}<td align="center">-</td>{/if}
-                {if $col.caption=="button_increment"}<td align="center">+</td>{/if}
-                {if $col.caption=="order_options"}<td>Optionen</td>{/if} {*  only for order parts  *}
-                {if $col.caption=="quantity_edit"}<td>Anzahl</td>{/if} {*  only for device parts  *}
-                {if $col.caption=="mountnames_edit"}<td>Bestückungs-<br>daten</td>{/if} {*  only for device parts  *}
-                {if $col.caption=="price_edit"}<td>Preis</td>{/if} {*  only for import parts  *}
-                {if $col.caption=="average_single_price"}<td>Einzel-<br>preis Ø</td>{/if}
-                {if $col.caption=="single_prices"}<td>Einzel-<br>preise</td>{/if}
-                {if $col.caption=="total_prices"}<td>Gesamt-<br>preise</td>{/if} {*  only for device parts  *}
-                {if $col.caption=="supplier_partnrs"}<td>Bestell-<br>nummern</td>{/if}
-                {if $col.caption=="supplier_partnr_edit"}<td>Bestell-<br>nummer</td>{/if} {*  only for import parts  *}
-                {if $col.caption=="attachements"}<td>Dateianhänge</td>{/if}
-                {if $col.caption=="systemupdate_from_version"}<td>Von Version</td>{/if}
-                {if $col.caption=="systemupdate_to_version"}<td>Auf Version</td>{/if}
-                {if $col.caption=="systemupdate_release_date"}<td>Veröffentlichung</td>{/if}
-                {if $col.caption=="systemupdate_changelog"}<td>Changelog</td>{/if}
+                {if $col.caption=="storelocation"}<th>Lagerort</th>{/if}
+                {if $col.caption=="storelocation_edit"}<th>Lagerort</th>{/if} {*  only for import parts  *}
+                {if $col.caption=="suppliers"}<th>Lieferanten</th>{/if}
+                {if $col.caption=="supplier_edit"}<th>Lieferant</th>{/if} {*  only for import parts  *}
+                {if $col.caption=="suppliers_radiobuttons"}<th>Lieferanten</th>{/if} {*  only for order parts  *}
+                {if $col.caption=="datasheets"}{if !$row.disable_auto_datasheets}<th>Datenblätter</th>{/if}{/if}
+                {if $col.caption=="button_decrement"}<th align="center">-</th>{/if}
+                {if $col.caption=="button_increment"}<th align="center">+</th>{/if}
+                {if $col.caption=="order_options"}<th>Optionen</th>{/if} {*  only for order parts  *}
+                {if $col.caption=="quantity_edit"}<th>Anzahl</th>{/if} {*  only for device parts  *}
+                {if $col.caption=="mountnames_edit"}<th>Bestückungs-<br>daten</th>{/if} {*  only for device parts  *}
+                {if $col.caption=="price_edit"}<th>Preis</th>{/if} {*  only for import parts  *}
+                {if $col.caption=="average_single_price"}<th>Einzel-<br>preis Ø</th>{/if}
+                {if $col.caption=="single_prices"}<th>Einzel-<br>preise</th>{/if}
+                {if $col.caption=="total_prices"}<th>Gesamt-<br>preise</th>{/if} {*  only for device parts  *}
+                {if $col.caption=="supplier_partnrs"}<th>Bestell-<br>nummern</th>{/if}
+                {if $col.caption=="supplier_partnr_edit"}<th>Bestell-<br>nummer</th>{/if} {*  only for import parts  *}
+                {if $col.caption=="attachements"}<th>Dateianhänge</th>{/if}
+                {if $col.caption=="systemupdate_from_version"}<th>Von Version</th>{/if}
+                {if $col.caption=="systemupdate_to_version"}<th>Auf Version</th>{/if}
+                {if $col.caption=="systemupdate_release_date"}<th>Veröffentlichung</th>{/if}
+                {if $col.caption=="systemupdate_changelog"}<th>Changelog</th>{/if}
             {/foreach}
         </tr>
+      </thead>
     {else}
+      <tbody>
         <input type="hidden" name="id_{$row_index}" value="{$id}">
         {* the alternating background colors are created here *}
         <tr class="{if isset($row_odd)}trlist_odd{else}trlist_even{/if}">
@@ -233,13 +235,13 @@
             {if $row.caption == "button_decrement"}
                 {* build the "-" button, only if more than 0 parts on stock *}
                 <td class="tdrow6">
-                    <input type="submit" name="decrement_{$row.row_index}" value="-"{if !$row.decrement_disabled}disabled="disabled"{/if}>
+                   <input type="submit" class="btn btn-sm btn-outline-secondary" name="decrement_{$row.row_index}" value="-"{if $row.decrement_disabled}disabled="disabled"{/if}>
                 </td>
             {/if}
             {if $row.caption == "button_increment"}
                 {* build the "+" button *}
                 <td class="tdrow7">
-                    <input type="submit" name="increment_{$row.row_index}" value="+">
+                    <input type="submit" class="btn btn-sm btn-outline-secondary" name="increment_{$row.row_index}" value="+">
                 </td>
             {/if}
             {if $row.caption == "order_options"}
@@ -370,5 +372,6 @@
             {/if}
         {/foreach}
         </tr>
+      </tbody>
     {/if}
 {/foreach}

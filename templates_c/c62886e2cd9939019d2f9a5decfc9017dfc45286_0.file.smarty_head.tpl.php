@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-10-29 22:26:34
+/* Smarty version 3.1.30, created on 2016-11-01 23:08:21
   from "C:\xampp\htdocs\part-db\templates\nextgen\smarty_head.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_581505fae50ff1_55327727',
+  'unifunc' => 'content_5819125568bc77_38170854',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c62886e2cd9939019d2f9a5decfc9017dfc45286' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\smarty_head.tpl',
-      1 => 1477772790,
+      1 => 1478038096,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_581505fae50ff1_55327727 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5819125568bc77_38170854 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -51,6 +51,11 @@ templates/<?php echo $_smarty_tpl->tpl_vars['theme']->value;?>
 >
         <![endif]-->
         
+        <!-- Include Sidebar -->
+        <!-- <link href="<?php echo $_smarty_tpl->tpl_vars['relative_path']->value;?>
+templates/<?php echo $_smarty_tpl->tpl_vars['theme']->value;?>
+/css/simple-sidebar.css" rel="stylesheet"> -->
+       
         <!-- Include Part-DB Theme -->
         <link href="<?php echo $_smarty_tpl->tpl_vars['relative_path']->value;?>
 templates/<?php echo $_smarty_tpl->tpl_vars['theme']->value;?>
@@ -96,7 +101,7 @@ startup.php" /> <?php }?>
         
     </head>
     
-<body>
+<body onload="fill()">
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <?php echo '<script'; ?>
  src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"><?php echo '</script'; ?>
@@ -106,7 +111,15 @@ startup.php" /> <?php }?>
  src="<?php echo $_smarty_tpl->tpl_vars['relative_path']->value;?>
 templates/nextgen/js/bootstrap.min.js"><?php echo '</script'; ?>
 >
+    
+    <!-- Treeview -->
+    <?php echo '<script'; ?>
+ src="<?php echo $_smarty_tpl->tpl_vars['relative_path']->value;?>
+templates/nextgen/js/bootstrap-treeview.js"><?php echo '</script'; ?>
+>
+    
    
+  
    <header>
       <nav class="navbar navbar-default">
          <div class="container-fluid">
@@ -124,21 +137,6 @@ startup.php">Part-DB</a>
 
           <!-- Navbar -->
           <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Kategorien<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-
-                </ul>
-              </li>
-
-              <li class="dropdown">
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Verwaltung<span class="caret"></span></a>
-                <ul class="dropdown-menu">
-
-                </ul> 
-                </li>
-            </ul>
 
             <!-- Searchbar -->
 
@@ -179,50 +177,72 @@ show_search_parts.php" method="get">
    <main>
       <div class="container-fluid">
    
-         <?php if (isset($_smarty_tpl->tpl_vars['messages']->value)) {?>
-              <div class="panel panel-error">
-                  <?php if (isset($_smarty_tpl->tpl_vars['messages_div_title']->value)) {?><div class="panel-heading"><h2><?php echo $_smarty_tpl->tpl_vars['messages_div_title']->value;?>
+           <div class="row">
+                <aside>
+                    <div class="col-sm-3 col-md-2 sidebar">
+                        <ul class="nav nav-sidebar">
+                           <h4>Verwaltung</h4>
+                            <div id="tree-categories">
+                                
+                            </div>
+                        </ul>
+                        
+                        <ul class="nav nav-sidebar" id="tree-managment">
+
+                        </ul>
+                    </div>
+                </aside>
+                <div class="col-xs-12 col-sm-9 col-md-10" main>
+
+         <?php echo '<script'; ?>
+ src="<?php echo $_smarty_tpl->tpl_vars['relavtive_path']->value;?>
+templates/nextgen/js/treeview-fill.js"><?php echo '</script'; ?>
+>
+                  
+                   <?php if (isset($_smarty_tpl->tpl_vars['messages']->value)) {?>
+                        <div class="panel panel-error">
+                            <?php if (isset($_smarty_tpl->tpl_vars['messages_div_title']->value)) {?><div class="panel-heading"><h2><?php echo $_smarty_tpl->tpl_vars['messages_div_title']->value;?>
 </h2></div><?php }?>
-                  <div class="panel-body">
-                      <form action="" method="post">
-                          <?php
+                            <div class="panel-body">
+                                <form action="" method="post">
+                                    <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['messages']->value, 'msg');
 if ($_from !== null) {
 foreach ($_from as $_smarty_tpl->tpl_vars['msg']->value) {
 ?>
-                              <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['text'])) {?>
-                                  <?php if ($_smarty_tpl->tpl_vars['msg']->value['strong']) {?><strong><?php }?>
-                                  <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['color'])) {?><font color="<?php echo $_smarty_tpl->tpl_vars['msg']->value['color'];?>
+                                        <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['text'])) {?>
+                                            <?php if ($_smarty_tpl->tpl_vars['msg']->value['strong']) {?><strong><?php }?>
+                                            <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['color'])) {?><font color="<?php echo $_smarty_tpl->tpl_vars['msg']->value['color'];?>
 "><?php }?>
-                                  <?php echo $_smarty_tpl->tpl_vars['msg']->value['text'];?>
+                                            <?php echo $_smarty_tpl->tpl_vars['msg']->value['text'];?>
 
-                                  <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['color'])) {?></font><?php }?>
-                                  <?php if ($_smarty_tpl->tpl_vars['msg']->value['strong']) {?></strong><?php }?>
-                              <?php }?>
+                                            <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['color'])) {?></font><?php }?>
+                                            <?php if ($_smarty_tpl->tpl_vars['msg']->value['strong']) {?></strong><?php }?>
+                                        <?php }?>
 
-                              <?php if (isset($_smarty_tpl->tpl_vars['html']->value)) {?>
-                                  <?php echo $_smarty_tpl->tpl_vars['html']->value;?>
+                                        <?php if (isset($_smarty_tpl->tpl_vars['html']->value)) {?>
+                                            <?php echo $_smarty_tpl->tpl_vars['html']->value;?>
 
-                              <?php }?>
+                                        <?php }?>
 
-                              <?php if (!$_smarty_tpl->tpl_vars['no_linebreak']->value) {?><br><?php }?>
-                          <?php
+                                        <?php if (!$_smarty_tpl->tpl_vars['no_linebreak']->value) {?><br><?php }?>
+                                    <?php
 }
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
 ?>
 
 
-                          <?php if (isset($_smarty_tpl->tpl_vars['reload_link']->value)) {?>
-                              <br>
-                              <a href="<?php echo $_smarty_tpl->tpl_vars['reload_link']->value;?>
+                                    <?php if (isset($_smarty_tpl->tpl_vars['reload_link']->value)) {?>
+                                        <br>
+                                        <a href="<?php echo $_smarty_tpl->tpl_vars['reload_link']->value;?>
 ">
-                                  <button>Seite neu laden</button>
-                              </a>
-                          <?php }?>
-                      </form>
-                  </div>
-              </div>
-          <?php }
+                                            <button>Seite neu laden</button>
+                                        </a>
+                                    <?php }?>
+                                </form>
+                            </div>
+                        </div>
+                    <?php }
 }
 }

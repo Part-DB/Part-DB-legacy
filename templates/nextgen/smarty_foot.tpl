@@ -4,7 +4,7 @@
                         {foreach $messages as $msg}
                             {if isset($msg.text)}
                                 {if isset($msg.strong)}<strong>{/if}
-                                {if isset($msg.color)}<font color="{msg.$color}">{/if}
+                                {if isset($msg.color)}<font color="{$msg.color}">{/if}
                                 {$text}
                                 {if isset($msg.color)}</font>{/if}
                                 {if isset($msg.strong)}</strong>{/if}
@@ -20,10 +20,12 @@
                 </div>
             {/if}
 
-         </div> //.container-float
+         </div> <!-- .container-float -->
+      </div> <!-- page-content-wrapper -->
 
       </main>
 
+</div>   <!-- Wrapper -->
    </body>
 
 </html>

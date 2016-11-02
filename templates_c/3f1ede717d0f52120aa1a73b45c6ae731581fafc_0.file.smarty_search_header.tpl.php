@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-10-29 22:36:55
+/* Smarty version 3.1.30, created on 2016-10-29 23:35:58
   from "C:\xampp\htdocs\part-db\templates\nextgen\show_search_parts.php\smarty_search_header.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_5815086721c819_70705362',
+  'unifunc' => 'content_5815163e55a889_89026383',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '3f1ede717d0f52120aa1a73b45c6ae731581fafc' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\show_search_parts.php\\smarty_search_header.tpl',
-      1 => 1477773281,
+      1 => 1477776954,
       2 => 'file',
     ),
   ),
@@ -20,11 +20,11 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5815086721c819_70705362 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5815163e55a889_89026383 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <div class="panel panel-success">
     <div class="panel-heading">
-        <h3>Suchergebnis</h3>
+        <h4>Suchergebnis</h4>
     </div>
     <div class="panel-body">
         Die Suche nach <b>"<?php echo $_smarty_tpl->tpl_vars['keyword']->value;?>
@@ -45,7 +45,8 @@ function content_5815086721c819_70705362 (Smarty_Internal_Template $_smarty_tpl)
                 <?php if (isset($_smarty_tpl->tpl_vars['search_footprint']->value)) {?>           <input type='hidden' name='search_footprint'><?php }?>
                 <?php if (isset($_smarty_tpl->tpl_vars['search_manufacturer']->value)) {?>        <input type='hidden' name='search_manufacturer'><?php }?>
 
-                <select name="export_format">
+               <div class="form-inline">
+                <select name="export_format" class="form-control">
                     <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['export_formats']->value, 'format');
 if ($_from !== null) {
@@ -62,7 +63,9 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
 
                 </select>
 
-                <input type="submit" name="export" value="Export">
+                <input class="btn btn-primary" type="submit" name="export" value="Export">
+               </div>
+               
             </form>
         </div>
         <div class="clear"></div>

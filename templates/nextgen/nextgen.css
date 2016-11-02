@@ -1,5 +1,6 @@
 body {
   padding-bottom: 20px;
+   overflow-x: hidden;
 }
 
 
@@ -8,5 +9,16 @@ body {
 }
 
 .drop-radio {
-   margin-left: 10px;
+   margin-left: 10px;    
+}
+
+.companypic
+{
+    width: 25px;
+    display: inline;
+}
+
+.td .table-small
+{
+    font-size: 12px;
 }

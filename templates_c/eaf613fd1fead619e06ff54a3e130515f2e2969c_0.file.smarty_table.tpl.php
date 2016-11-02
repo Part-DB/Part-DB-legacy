@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-10-29 22:41:43
+/* Smarty version 3.1.30, created on 2016-10-29 23:28:14
   from "C:\xampp\htdocs\part-db\templates\nextgen\show_search_parts.php\..\smarty_table.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_58150987052af8_98658792',
+  'unifunc' => 'content_5815146e5a8375_08311156',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'eaf613fd1fead619e06ff54a3e130515f2e2969c' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\show_search_parts.php\\..\\smarty_table.tpl',
-      1 => 1477773689,
+      1 => 1477776489,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_58150987052af8_98658792 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5815146e5a8375_08311156 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 
 
@@ -29,66 +29,66 @@ $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->t
 if ($_from !== null) {
 foreach ($_from as $_smarty_tpl->tpl_vars['t']->value) {
 ?>
-    <?php if ($_smarty_tpl->tpl_vars['t']->value['print_header']) {?>
-   
+    <?php if ($_smarty_tpl->tpl_vars['t']->value['print_header']) {?>   
+      <thead class="thead-default">
        <tr class="trcat">
             <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['t']->value['columns'], 'col');
 if ($_from !== null) {
 foreach ($_from as $_smarty_tpl->tpl_vars['col']->value) {
 ?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "row") {?><td>Nr.</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "hover_picture") {?><td></td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "id") {?><td class="idclass">ID</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "row_index") {?><td class="idclass">Nr.</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "name") {?><td>Name</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "name_edit") {?><td>Name</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "description") {?><td>Beschreibung</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "description_edit") {?><td>Beschreibung</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "comment") {?><td>Kommentar</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "comment_edit") {?><td>Kommentar</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "name_description") {?><td>Name / Beschreibung</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "instock") {?><td>Bestand</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "instock_edit") {?><td>Bestand</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "instock_edit_buttons") {?><td>Bestand ändern</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "order_quantity_edit") {?><td>Bestell-<br>menge</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "mininstock") {?><td>Mindest-<br>bestand</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "mininstock_edit") {?><td>Mindest-<br>bestand</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "instock_mininstock") {?><td>Vorh./<br>Min.Best</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "category") {?><td>Kategorie</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "category_edit") {?><td>Kategorie</td><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "row") {?><th>Nr.</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "hover_picture") {?><th></th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "id") {?><th class="idclass">ID</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "row_index") {?><th class="idclass">Nr.</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "name") {?><th>Name</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "name_edit") {?><th>Name</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "description") {?><th>Beschreibung</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "description_edit") {?><th>Beschreibung</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "comment") {?><th>Kommentar</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "comment_edit") {?><th>Kommentar</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "name_description") {?><th>Name / Beschreibung</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "instock") {?><th>Bestand</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "instock_edit") {?><th>Bestand</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "instock_edit_buttons") {?><th>Bestand ändern</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "order_quantity_edit") {?><th>Bestell-<br>menge</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "mininstock") {?><th>Mindest-<br>bestand</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "mininstock_edit") {?><th>Mindest-<br>bestand</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "instock_mininstock") {?><th>Vorh./<br>Min.Best</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "category") {?><th>Kategorie</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "category_edit") {?><th>Kategorie</th><?php }?> 
                 <?php if (!isset($_smarty_tpl->tpl_vars['col']->value['disable_footprints'])) {?>
-                    <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "footprint") {?><td>Footprint</td><?php }?>
-                    <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "footprint_edit") {?><td>Footprint</td><?php }?> 
+                    <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "footprint") {?><th>Footprint</th><?php }?>
+                    <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "footprint_edit") {?><th>Footprint</th><?php }?> 
                 <?php }?>
                 <?php if (!isset($_smarty_tpl->tpl_vars['col']->value['disable_manufacturers'])) {?>
-                    <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "manufacturer") {?><td>Hersteller</td><?php }?>
-                    <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "manufacturer_edit") {?><td>Hersteller</td><?php }?> 
+                    <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "manufacturer") {?><th>Hersteller</th><?php }?>
+                    <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "manufacturer_edit") {?><th>Hersteller</th><?php }?> 
                 <?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "storelocation") {?><td>Lagerort</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "storelocation_edit") {?><td>Lagerort</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "suppliers") {?><td>Lieferanten</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "supplier_edit") {?><td>Lieferant</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "suppliers_radiobuttons") {?><td>Lieferanten</td><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "storelocation") {?><th>Lagerort</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "storelocation_edit") {?><th>Lagerort</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "suppliers") {?><th>Lieferanten</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "supplier_edit") {?><th>Lieferant</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "suppliers_radiobuttons") {?><th>Lieferanten</th><?php }?> 
                 <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "datasheets") {
-if (!$_smarty_tpl->tpl_vars['row']->value['disable_auto_datasheets']) {?><td>Datenblätter</td><?php }
+if (!$_smarty_tpl->tpl_vars['row']->value['disable_auto_datasheets']) {?><th>Datenblätter</th><?php }
 }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "button_decrement") {?><td align="center">-</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "button_increment") {?><td align="center">+</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "order_options") {?><td>Optionen</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "quantity_edit") {?><td>Anzahl</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "mountnames_edit") {?><td>Bestückungs-<br>daten</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "price_edit") {?><td>Preis</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "average_single_price") {?><td>Einzel-<br>preis Ø</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "single_prices") {?><td>Einzel-<br>preise</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "total_prices") {?><td>Gesamt-<br>preise</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "supplier_partnrs") {?><td>Bestell-<br>nummern</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "supplier_partnr_edit") {?><td>Bestell-<br>nummer</td><?php }?> 
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "attachements") {?><td>Dateianhänge</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "systemupdate_from_version") {?><td>Von Version</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "systemupdate_to_version") {?><td>Auf Version</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "systemupdate_release_date") {?><td>Veröffentlichung</td><?php }?>
-                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "systemupdate_changelog") {?><td>Changelog</td><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "button_decrement") {?><th align="center">-</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "button_increment") {?><th align="center">+</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "order_options") {?><th>Optionen</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "quantity_edit") {?><th>Anzahl</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "mountnames_edit") {?><th>Bestückungs-<br>daten</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "price_edit") {?><th>Preis</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "average_single_price") {?><th>Einzel-<br>preis Ø</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "single_prices") {?><th>Einzel-<br>preise</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "total_prices") {?><th>Gesamt-<br>preise</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "supplier_partnrs") {?><th>Bestell-<br>nummern</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "supplier_partnr_edit") {?><th>Bestell-<br>nummer</th><?php }?> 
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "attachements") {?><th>Dateianhänge</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "systemupdate_from_version") {?><th>Von Version</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "systemupdate_to_version") {?><th>Auf Version</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "systemupdate_release_date") {?><th>Veröffentlichung</th><?php }?>
+                <?php if ($_smarty_tpl->tpl_vars['col']->value['caption'] == "systemupdate_changelog") {?><th>Changelog</th><?php }?>
             <?php
 }
 }
@@ -96,7 +96,9 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
 ?>
 
         </tr>
+      </thead>
     <?php } else { ?>
+      <tbody>
         <input type="hidden" name="id_<?php echo $_smarty_tpl->tpl_vars['row_index']->value;?>
 " value="<?php echo $_smarty_tpl->tpl_vars['id']->value;?>
 ">
@@ -338,14 +340,14 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
             <?php if ($_smarty_tpl->tpl_vars['row']->value['caption'] == "button_decrement") {?>
                 
                 <td class="tdrow6">
-                    <input type="submit" name="decrement_<?php echo $_smarty_tpl->tpl_vars['row']->value['row_index'];?>
-" value="-"<?php if (!$_smarty_tpl->tpl_vars['row']->value['decrement_disabled']) {?>disabled="disabled"<?php }?>>
+                   <input type="submit" class="btn btn-sm btn-outline-secondary" name="decrement_<?php echo $_smarty_tpl->tpl_vars['row']->value['row_index'];?>
+" value="-"<?php if ($_smarty_tpl->tpl_vars['row']->value['decrement_disabled']) {?>disabled="disabled"<?php }?>>
                 </td>
             <?php }?>
             <?php if ($_smarty_tpl->tpl_vars['row']->value['caption'] == "button_increment") {?>
                 
                 <td class="tdrow7">
-                    <input type="submit" name="increment_<?php echo $_smarty_tpl->tpl_vars['row']->value['row_index'];?>
+                    <input type="submit" class="btn btn-sm btn-outline-secondary" name="increment_<?php echo $_smarty_tpl->tpl_vars['row']->value['row_index'];?>
 " value="+">
                 </td>
             <?php }?>
@@ -577,6 +579,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
 ?>
 
         </tr>
+      </tbody>
     <?php }
 }
 }
