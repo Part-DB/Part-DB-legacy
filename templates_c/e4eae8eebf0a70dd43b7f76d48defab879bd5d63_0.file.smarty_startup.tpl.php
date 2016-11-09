@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-01 22:33:36
+/* Smarty version 3.1.30, created on 2016-11-06 18:39:04
   from "C:\xampp\htdocs\part-db\templates\nextgen\startup.php\smarty_startup.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_58190a30995b39_36978558',
+  'unifunc' => 'content_581f6ab8af9825_35216240',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e4eae8eebf0a70dd43b7f76d48defab879bd5d63' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\startup.php\\smarty_startup.tpl',
-      1 => 1478036002,
+      1 => 1478453935,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_58190a30995b39_36978558 (Smarty_Internal_Template $_smarty_tpl) {
+function content_581f6ab8af9825_35216240 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 
     <div class="jumbotron">
@@ -32,10 +32,11 @@ if (isset($_smarty_tpl->tpl_vars['git_commit']->value)) {?>/<?php echo $_smarty_
 }
 }?></h3>
         <?php }?>
-        <p><button onclick="fill()" class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+        <h4><i>"NextGen"</i></h4>
     </div>
     
-    <?php if ($_smarty_tpl->tpl_vars['database_update']->value) {?>
+    <?php if (isset($_smarty_tpl->tpl_vars['database_update']->value)) {?>
+        <?php if ($_smarty_tpl->tpl_vars['database_update']->value) {?>
         <div class="panel panel-danger">
             <div class="panel-heading">
                 <h2>Datenbankupdate</h2>
@@ -56,8 +57,9 @@ if (isset($_smarty_tpl->tpl_vars['git_commit']->value)) {?>/<?php echo $_smarty_
             <?php echo $_smarty_tpl->tpl_vars['database_update_log']->value;?>
 
         <?php }?>
+            </div>
         </div>
-    </div>
+        <?php }?>
     <?php }?>
 
 <?php if ($_smarty_tpl->tpl_vars['display_warning']->value) {?>
@@ -101,7 +103,7 @@ und einen <a href="edit_suppliers.php">Lieferanten</a> </blockquote>
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h2>Lizenz</h2>
+        <h3>Lizenz</h3>
     </div>
     <div class="panel-body">
        <!-- Doesnt work! Paypal has changed API?
@@ -147,7 +149,7 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
 <?php if (isset($_smarty_tpl->tpl_vars['rss_feed_loop']->value)) {?>
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h2>Updates</h2>
+        <h3>Updates</h3>
     </div>
     <div class="panel-body">
         <?php

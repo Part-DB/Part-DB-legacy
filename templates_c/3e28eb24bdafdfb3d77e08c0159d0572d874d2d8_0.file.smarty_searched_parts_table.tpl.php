@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-01 23:05:43
+/* Smarty version 3.1.30, created on 2016-11-06 12:02:34
   from "C:\xampp\htdocs\part-db\templates\nextgen\show_search_parts.php\smarty_searched_parts_table.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_581911b734d5c1_99257676',
+  'unifunc' => 'content_581f0dca53b1b3_61025323',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '3e28eb24bdafdfb3d77e08c0159d0572d874d2d8' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\show_search_parts.php\\smarty_searched_parts_table.tpl',
-      1 => 1478037897,
+      1 => 1478375170,
       2 => 'file',
     ),
   ),
@@ -21,7 +21,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
     'file:../smarty_table.tpl' => 1,
   ),
 ),false)) {
-function content_581911b734d5c1_99257676 (Smarty_Internal_Template $_smarty_tpl) {
+function content_581f0dca53b1b3_61025323 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <div class="panel panel-info">
    <div class="panel-heading">
@@ -48,15 +48,9 @@ function content_581911b734d5c1_99257676 (Smarty_Internal_Template $_smarty_tpl)
           
            </form>
            
-           <!-- For responsive design -->
-           <div class="table-responsive">
-            <table class="table table-small table-condensed table-hover table-striped">
-               <?php $_smarty_tpl->_subTemplateRender("file:../smarty_table.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
+            <?php $_smarty_tpl->_subTemplateRender("file:../smarty_table.tpl", $_smarty_tpl->cache_id, $_smarty_tpl->compile_id, 0, $_smarty_tpl->cache_lifetime, array(), 0, false);
 ?>
 
-            </table>
-           </div> 
-        
 </div>
 
 <?php }

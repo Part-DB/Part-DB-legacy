@@ -22,3 +22,43 @@ body {
 {
     font-size: 12px;
 }
+
+.hoverpic
+{
+    min-width: 10px;
+    max-width: 30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+p:hover .hoverpic
+{
+    max-width: 480px;
+    max-height: 180px;
+    display: block;
+    position: absolute;
+    bottom: 10px;
+    left: 3px;
+    z-index: 1;
+    background: #ffffff;
+    border: 1px solid #800000;
+}
+
+.treeview {
+    font-size: 12px;
+}
+
+.table-compact>tbody>tr>td, 
+.table-compact>tbody>tr>th, 
+.table-compact>tfoot>tr>td, 
+.tablle-compact>tfoot>tr>th, 
+.table-compact>thead>tr>td, 
+.table-compact>thead>tr>th {
+    padding: 3px;
+}
+
+.list-group-item {
+    padding: 5px 10px;
+}

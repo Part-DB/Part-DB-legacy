@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-10-29 23:35:58
+/* Smarty version 3.1.30, created on 2016-11-06 12:02:34
   from "C:\xampp\htdocs\part-db\templates\nextgen\show_search_parts.php\smarty_search_header.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_5815163e55a889_89026383',
+  'unifunc' => 'content_581f0dca43db71_42511737',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5815163e55a889_89026383 (Smarty_Internal_Template $_smarty_tpl) {
+function content_581f0dca43db71_42511737 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 <div class="panel panel-success">
     <div class="panel-heading">

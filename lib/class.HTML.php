@@ -32,9 +32,6 @@
                                     - added doxygen comments
 */
 
-//CHANGE ME: Move to real include dir
-//include("smarty/Smarty.class.php");
-
     /**
      * @file class.HTML.php
      * @brief class HTML

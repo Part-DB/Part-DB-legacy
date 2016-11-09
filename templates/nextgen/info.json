@@ -1,0 +1,13 @@
+{
+    "title":        "NextGen Theme",
+    "description":  "A HTML5 Theme for Part-DB",
+    "type":         "theme",
+    "version":      "0.1.0",
+    "author":       "Jan Boehmer",
+    "theme":
+    {
+        "legacy":       false,
+        "usesmarty":    true
+    }
+    
+}

@@ -4,10 +4,11 @@
         {if isset($system_version_full)}
         <h3>Version: {$system_version_full}{if isset($git_branch)}, Git: {$git_branch}{if isset($git_commit)}/{$git_commit}{/if}{/if}</h3>
         {/if}
-        <p><button onclick="fill()" class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+        <h4><i>"NextGen"</i></h4>
     </div>
     
-    {if $database_update}
+    {if isset($database_update)}
+        {if $database_update}
         <div class="panel panel-danger">
             <div class="panel-heading">
                 <h2>Datenbankupdate</h2>
@@ -25,8 +26,9 @@
         {else}
             {$database_update_log}
         {/if}
+            </div>
         </div>
-    </div>
+        {/if}
     {/if}
 
 {if $display_warning}
@@ -65,7 +67,7 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h2>Lizenz</h2>
+        <h3>Lizenz</h3>
     </div>
     <div class="panel-body">
        <!-- Doesnt work! Paypal has changed API?
@@ -98,7 +100,7 @@
 {if isset($rss_feed_loop)}
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h2>Updates</h2>
+        <h3>Updates</h3>
     </div>
     <div class="panel-body">
         {foreach $rss_feed_loop as $rss}

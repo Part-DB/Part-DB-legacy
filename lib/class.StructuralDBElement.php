@@ -465,6 +465,55 @@
             return implode("\n", $html);
         }
 
+
+        public function build_bootstrap_tree($page, $parameter, $recursive = false,
+                                        $show_root = false, $root_name = 'Oberste Ebene')
+        {
+            $subelements = $this->get_subelements(false);
+            $nodes = array();
+
+            foreach ($subelements as $element)
+            {
+                $nodes[] = $element->build_bootstrap_tree($page,$parameter);
+            }
+
+            // if we are on root level?
+            if($this->get_parent_id()==-1)
+            {
+                if($show_root)
+                {
+                    $tree = array(
+                                array('text' => $this->get_name(),
+                                'href' => $page ."?". $parameter ."=".$this->get_id(),
+                                'nodes' => $nodes)
+                    );
+                }
+                else //Dont show root node
+                {
+                    $tree = $nodes;
+                }
+            }
+            else
+            {
+                if(!empty($nodes))
+                {
+                    $tree = array('text' => $this->get_name(),
+                              'href' => $page ."?". $parameter ."=".$this->get_id(),
+                              'nodes' => $nodes
+                    );
+                }
+                else
+                {
+                    $tree = array('text' => $this->get_name(),
+                                'href' => $page ."?". $parameter ."=".$this->get_id()
+                    );
+                }
+            }
+
+
+            return $tree;
+        }
+
         /********************************************************************************
         *
         *   Static Methods

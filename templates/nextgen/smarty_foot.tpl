@@ -5,7 +5,7 @@
                             {if isset($msg.text)}
                                 {if isset($msg.strong)}<strong>{/if}
                                 {if isset($msg.color)}<font color="{$msg.color}">{/if}
-                                {$text}
+                                {$msg.text}
                                 {if isset($msg.color)}</font>{/if}
                                 {if isset($msg.strong)}</strong>{/if}
                             {/if}

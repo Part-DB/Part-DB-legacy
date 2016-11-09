@@ -20,12 +20,6 @@
           
            </form>
            
-           <!-- For responsive design -->
-           <div class="table-responsive">
-            <table class="table table-small table-condensed table-hover table-striped">
-               {include file='../smarty_table.tpl'}
-            </table>
-           </div> 
-        
+            {include file='../smarty_table.tpl'}
 </div>
 

@@ -7,10 +7,13 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
-        <title>{$title}</title> 
+        <title>{$page_title}</title> 
         
         <!-- Include Bootstrap -->
-        <link href="{$relative_path}templates/{$theme}/css/bootstrap.min.css" rel="stylesheet">
+        <link href="{$relative_path}css/bootstrap.min.css" rel="stylesheet">
+        
+        <!-- Include Awsome Font -->
+        <link rel="stylesheet" href="{$relative_path}css/font-awesome.min.css">
         
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -19,16 +22,38 @@
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
         
-        <!-- Include Sidebar -->
+        <!-- Includes Sidebar -->
         <!-- <link href="{$relative_path}templates/{$theme}/css/simple-sidebar.css" rel="stylesheet"> -->
+        
+        <!-- Checkboxes -->
+        <link href="{$relative_path}css/awesome-bootstrap-checkbox.css" rel="stylesheet">
+        
+        <!-- Fileinput -->
+        <link href="{$relative_path}css/fileinput.min.css" media="all" rel="stylesheet"/>
        
         <!-- Include Part-DB Theme -->
         <link href="{$relative_path}templates/{$theme}/nextgen.css" rel="stylesheet">
         <!-- <link href="{$relative_path}templates/{$theme}/partdb.css" rel="stylesheet"> -->
         {if isset($custom_css)}<link rel="stylesheet" href="{$relative_path}{$custom_css}"> {/if}
         
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="{$relative_path}js/jquery-3.1.1.min.js"></script>
+        
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="{$relative_path}js/bootstrap.min.js"></script>   
+        
+        <!-- jQuery Form lib -->
+        <script src="{$relative_path}js/jquery.form.min.js"></script>   
+        
+        
+        
+        <link rel="stylesheet" type="text/css" href="{$relative_path}DataTables-1.10.12/css/jquery.dataTables.min.css"/>
+ 
+        <script type="text/javascript" src="{$relative_path}DataTables-1.10.12/js/jquery.dataTables.min.js"></script>
+        <script type="text/javascript" src="{$relative_path}DataTables-1.10.12/js/dataTables.bootstrap.min.js"></script>
+        
         {if isset($javascript_files)}
-        {foreach javascript_files as $file}
+        {foreach $javascript_files as $file}
             <script type="text/javascript" src="{$relative_path}javascript/{$file.filename}.js"></script>
 
             {if $file.filename=="calculator"}
@@ -36,27 +61,26 @@
             {/if}
         {/foreach}
         {/if}
-        
-        
-        <base target="_self">
-        
+                
         <!-- Redirect -->
-        {if $redirect } <meta http-equiv="refresh" content="0; url={$relative_path}startup.php" /> {/if}
+       {* {if $redirect } <meta http-equiv="refresh" content="0; url={$relative_path}startup.php" /> {/if} *}
         
     </head>
     
-<body onload="fill()">
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{$relative_path}templates/nextgen/js/bootstrap.min.js"></script>
+<body>
+
     
     <!-- Treeview -->
-    <script src="{$relative_path}templates/nextgen/js/bootstrap-treeview.js"></script>
+    <script src="{$relative_path}js/bootstrap-treeview.js"></script>
     
+    <!-- FileInput -->
+    <script src="{$relative_path}js/fileinput.min.js"></script>
+    
+    <script src="{$relative_path}templates/nextgen/js/part-db.js"></script>
+    
+
    
-  
-   <header>
+     <header>
       <nav class="navbar navbar-default">
          <div class="container-fluid">
          <!-- Brand and toggle get grouped for better mobile display -->
@@ -82,21 +106,32 @@
                         Suchoptionen
                         <span class="caret"></span>
                         </button>
-                        <ul class="dropdown-menu dropdown-menu-radio" aria-labelledby="dropdownMenu1">
-                           <li><input class="drop-radio" type="checkbox" name="search_name" value="true" checked>Name</li>
-                           <li><input type="checkbox" name="search_category" value="true" checked>Kategorie</li>
-                           <li><input type="checkbox" name="search_description" value="true" checked>Beschreibung</li>
-                           <li><input type="checkbox" name="search_storelocation" value="true" checked>Lagerort</li>
-                           <li><input type="checkbox" name="search_comment" value="true" checked>Kommentar</li>
-                           <li><input type="checkbox" name="search_supplierpartnr" value="true" checked>Bestellnr.</li>
-                           <li><input type="checkbox" name="search_supplier" value="true">Lieferant</li>
-                           <li><input type="checkbox" name="search_manufacturer" value="true">Hersteller</li>
-                           <li><input type="checkbox" name="search_footprint" value="true">Footprint</li>
+                        <ul class="dropdown-menu" aria-labelledby="SearchOptions">
+                           <li class="checkbox"><input type="checkbox" name="search_name" value="true" checked>
+                                <label for="search_name">Name</label></li>
+                           <li class="checkbox"><input type="checkbox" class="styled" name="search_category" value="true" checked>
+                               <label for="search_category">Kategorie</label></li>
+                           <li class="checkbox"><input type="checkbox" name="search_description" value="true" checked>
+                               <label for="search_description"></label>Beschreibung</li>
+                           <li class="checkbox"><input type="checkbox" name="search_storelocation" value="true" checked>
+                               <label for="search_storelocation">Lagerort</label></li>
+                           <li class="checkbox"><input type="checkbox" name="search_comment" value="true" checked>
+                               <label for="search_comment">Kommentar</label></li>
+                           <li class="checkbox"><input type="checkbox" name="search_supplierpartnr" value="true" checked>
+                               <label for="search_supplierpartnr">Bestellnr.</label></li>
+                           <li class="checkbox"><input type="checkbox" name="search_supplier" value="true">
+                               <label for="search_supplier">Lieferant</label></li>
+                           <li class="checkbox"><input type="checkbox" name="search_manufacturer" value="true">
+                               <label for="search_manufacturer">Hersteller</label></li>
+                           <li class="checkbox"><input type="checkbox" name="search_footprint" value="true">
+                               <label for="search_footprint">Footprint</label></li>
                         </ul>
                      </div>
-                     <input type="text" class="form-control" placeholder="Suche" name="keyword">
-                     <button type="submit" class="btn btn-default">Los!</button>
-
+                     
+                    <input type="search" class="form-control" placeholder="Suche" name="keyword">
+                    <button type="submit" class="btn btn-default">Los!</button>
+                 
+                 
                   </div>
                </form>
       
@@ -115,9 +150,17 @@
                 <aside>
                     <div class="col-sm-3 col-md-2 sidebar">
                         <ul class="nav nav-sidebar">
-                           <h4>Verwaltung</h4>
-                            <div id="tree-categories">
-                                
+                            <div id="categories">
+                               <h4>Kategorien</h4>
+                                <div id="tree-categories"/>
+                            </div>
+                            <div id="devices">
+                                <h4>Baugruppen</h4>
+                                <div id="tree-devices"/>
+                            </div>
+                            <div id="tools">
+                                <h4>Verwaltung</h4>
+                                <div id="tree-tools"/>
                             </div>
                         </ul>
                         
@@ -126,11 +169,9 @@
                         </ul>
                     </div>
                 </aside>
-                <div class="col-xs-12 col-sm-9 col-md-10" main>
-
-         <script src="{$relavtive_path}templates/nextgen/js/treeview-fill.js"></script>
-                  
-                   {if isset($messages)}
+                <div class="col-xs-12 col-sm-9 col-md-10" id="main" main >
+                   <div class="container-fluid" id="content">
+                       {if isset($messages)}
                         <div class="panel panel-error">
                             {if isset($messages_div_title)}<div class="panel-heading"><h2>{$messages_div_title}</h2></div>{/if}
                             <div class="panel-body">

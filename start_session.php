@@ -283,9 +283,14 @@
     function load($classname)
     {
         if (strpos($classname, 'vlib') === 0)
+        {
             include_once(BASE.'/lib/vlib/'.$classname.'.php');
-        else
+        }
+        //Smarty has its own loader, so ignore smarty classes or this will produce many warnings!
+        else if(strpos(strtolower($classname), 'smarty') == false )
+        {
             include_once(BASE.'/lib/class.'.$classname.'.php');
+        }
     }
 
     /********************************************************************************
@@ -304,9 +309,9 @@
      *
      ********************************************************************************/
 
-    spl_autoload_register("load");
-
     include_once(BASE.'/lib/smarty/Autoloader.php');
     Smarty_Autoloader::register();
+
+    spl_autoload_register("load");
 
 ?>

@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-10-30 15:22:18
+/* Smarty version 3.1.30, created on 2016-11-06 12:37:47
   from "C:\xampp\htdocs\part-db\templates\nextgen\smarty_foot.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_5816021a1f9de5_19677927',
+  'unifunc' => 'content_581f160bdc4887_90271551',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70ca3354147cd17ffb37168b3004d450afea05ce' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\smarty_foot.tpl',
-      1 => 1477837334,
+      1 => 1478432258,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5816021a1f9de5_19677927 (Smarty_Internal_Template $_smarty_tpl) {
+function content_581f160bdc4887_90271551 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
             <?php if (isset($_smarty_tpl->tpl_vars['messages']->value)) {?>
                 <div class="outer">
@@ -34,7 +34,7 @@ foreach ($_from as $_smarty_tpl->tpl_vars['msg']->value) {
                                 <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['strong'])) {?><strong><?php }?>
                                 <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['color'])) {?><font color="<?php echo $_smarty_tpl->tpl_vars['msg']->value['color'];?>
 "><?php }?>
-                                <?php echo $_smarty_tpl->tpl_vars['text']->value;?>
+                                <?php echo $_smarty_tpl->tpl_vars['msg']->value['text'];?>
 
                                 <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['color'])) {?></font><?php }?>
                                 <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['strong'])) {?></strong><?php }?>
