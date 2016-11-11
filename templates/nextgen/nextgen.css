@@ -1,40 +1,34 @@
 body {
-  padding-bottom: 20px;
-   overflow-x: hidden;
+    padding-bottom: 20px;
+    overflow-x: hidden;
 }
 
-
 .dropdown-menu-radio {
-   padding-left: 10px;
+    padding-left: 10px;
 }
 
 .drop-radio {
-   margin-left: 10px;    
+    margin-left: 10px;
 }
 
-.companypic
-{
+.companypic {
     width: 25px;
     display: inline;
 }
 
-.td .table-small
-{
+.td .table-small {
     font-size: 12px;
 }
 
-.hoverpic
-{
+.hoverpic {
     min-width: 10px;
     max-width: 30px;
     display: block;
     margin-left: auto;
     margin-right: auto;
-    
 }
 
-p:hover .hoverpic
-{
+p:hover .hoverpic {
     max-width: 480px;
     max-height: 180px;
     display: block;
@@ -50,11 +44,11 @@ p:hover .hoverpic
     font-size: 12px;
 }
 
-.table-compact>tbody>tr>td, 
-.table-compact>tbody>tr>th, 
-.table-compact>tfoot>tr>td, 
-.tablle-compact>tfoot>tr>th, 
-.table-compact>thead>tr>td, 
+.table-compact>tbody>tr>td,
+.table-compact>tbody>tr>th,
+.table-compact>tfoot>tr>td,
+.tablle-compact>tfoot>tr>th,
+.table-compact>thead>tr>td,
 .table-compact>thead>tr>th {
     padding: 3px;
 }

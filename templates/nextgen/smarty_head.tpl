@@ -1,3 +1,5 @@
+{locale path="locale" domain="template"}
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -103,16 +105,16 @@
                   <div class=class="navbar-form navbar-right">
                      <div class="btn-group">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        Suchoptionen
+                        {t}Suchoptionen{/t}
                         <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="SearchOptions">
                            <li class="checkbox"><input type="checkbox" name="search_name" value="true" checked>
-                                <label for="search_name">Name</label></li>
+                                <label for="search_name">{t}Name{/t}</label></li>
                            <li class="checkbox"><input type="checkbox" class="styled" name="search_category" value="true" checked>
-                               <label for="search_category">Kategorie</label></li>
+                               <label for="search_category">{t}Kategorie{/t}</label></li>
                            <li class="checkbox"><input type="checkbox" name="search_description" value="true" checked>
-                               <label for="search_description"></label>Beschreibung</li>
+                               <label for="search_description"></label>{t}Beschreibung{/t}</li>
                            <li class="checkbox"><input type="checkbox" name="search_storelocation" value="true" checked>
                                <label for="search_storelocation">Lagerort</label></li>
                            <li class="checkbox"><input type="checkbox" name="search_comment" value="true" checked>
@@ -128,7 +130,7 @@
                         </ul>
                      </div>
                      
-                    <input type="search" class="form-control" placeholder="Suche" name="keyword">
+                    <input type="search" class="form-control" placeholder="{t}Suche{/t}" name="keyword">
                     <button type="submit" class="btn btn-default">Los!</button>
                  
                  
@@ -189,7 +191,7 @@
                                             {$html}
                                         {/if}
 
-                                        {if !$no_linebreak}<br>{/if}
+                                        {if isset($no_linebreak) && $no_linebreak}<br>{/if}
                                     {/foreach}
 
                                     {if isset($reload_link)}

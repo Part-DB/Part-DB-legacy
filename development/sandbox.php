@@ -73,6 +73,8 @@
                     $config['db']['user'], $config['db']['password'], $options);
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
+
+    /*
     // Insert some Footprints
     print '<div class="outer"><h2>Footprints hinzufügen</h2><div class="inner">';
     print '<form action="" method="post">';
@@ -112,7 +114,16 @@
     if (isset($footprint_milliseconds)) {print 'Zeit: '.$footprint_milliseconds.'ms<br>';}
     if (isset($footprint_error)) {print '<b><font style="color:red">Fehlermeldung: '.$footprint_error.'</font></b><br>';}
     print '</form></div></div>';
+    */
 
+
+    $domain = 'test';
+    $d3 = bindtextdomain($domain, "../locale");
+    $d4 = textdomain($domain);
+
+    echo gettext("Statistik");
+
+    phpinfo();
 
 
 

@@ -150,7 +150,13 @@
             $locales[] = $base_locale;
         }
 
+
+        //Set locale in env, will work on windows servers too.
+        putenv('LANG='.$locale);
+        putenv('LC_ALL='.$locale);
+
         $retval = setlocale($category, $locales);
+        $debug =  setlocale($category,"0");
 
         return (($retval !== false) || ($locale == 'POSIX'));
     }

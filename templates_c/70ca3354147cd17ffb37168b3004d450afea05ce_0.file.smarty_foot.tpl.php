@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-06 12:37:47
+/* Smarty version 3.1.30, created on 2016-11-10 19:25:08
   from "C:\xampp\htdocs\part-db\templates\nextgen\smarty_foot.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_581f160bdc4887_90271551',
+  'unifunc' => 'content_5824bb84a04823_73751562',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_581f160bdc4887_90271551 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5824bb84a04823_73751562 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
             <?php if (isset($_smarty_tpl->tpl_vars['messages']->value)) {?>
                 <div class="outer">

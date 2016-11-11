@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-06 18:39:04
+/* Smarty version 3.1.30, created on 2016-11-10 19:25:58
   from "C:\xampp\htdocs\part-db\templates\nextgen\startup.php\smarty_startup.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_581f6ab8af9825_35216240',
+  'unifunc' => 'content_5824bbb6e41830_81536852',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_581f6ab8af9825_35216240 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5824bbb6e41830_81536852 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
 
     <div class="jumbotron">

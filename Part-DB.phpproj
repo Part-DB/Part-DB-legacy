@@ -8,6 +8,12 @@
     </RootNamespace>
     <OutputType>Library</OutputType>
     <ProjectTypeGuids>{A0786B88-2ADB-4C21-ABE8-AA2D79766269}</ProjectTypeGuids>
+    <SaveServerSettingsInUserFile>false</SaveServerSettingsInUserFile>
+    <Runtime>PHP</Runtime>
+    <RuntimeVersion>7.0</RuntimeVersion>
+    <EnvName>PHPDev</EnvName>
+    <PHPDevHostName>localhost</PHPDevHostName>
+    <PHPDevAutoPort>true</PHPDevAutoPort>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
     <IncludeDebugInformation>true</IncludeDebugInformation>
@@ -38,6 +44,7 @@
     <Compile Include="development\doxygen\Doxyfile" />
     <Compile Include="development\doxygen\readme.txt" />
     <Compile Include="development\package_output\readme.txt" />
+    <Compile Include="development\test.php" />
     <Compile Include="development\testfiles\database\v12_kami89.sql" />
     <Compile Include="development\testfiles\database\v12_kami89_utf8.sql" />
     <Compile Include="development\testfiles\import_device_parts\correct_csv.csv" />
@@ -3299,6 +3306,7 @@
     <Compile Include="lib\class.API.php" />
     <Compile Include="lib\class.APIMode.php" />
     <Compile Include="lib\smarty\Autoloader.php" />
+    <Compile Include="lib\smarty\plugins\block.t.php" />
     <Compile Include="lib\smarty\plugins\block.textformat.php" />
     <Compile Include="lib\smarty\plugins\function.counter.php" />
     <Compile Include="lib\smarty\plugins\function.cycle.php" />
@@ -3310,6 +3318,7 @@
     <Compile Include="lib\smarty\plugins\function.html_select_date.php" />
     <Compile Include="lib\smarty\plugins\function.html_select_time.php" />
     <Compile Include="lib\smarty\plugins\function.html_table.php" />
+    <Compile Include="lib\smarty\plugins\function.locale.php" />
     <Compile Include="lib\smarty\plugins\function.mailto.php" />
     <Compile Include="lib\smarty\plugins\function.math.php" />
     <Compile Include="lib\smarty\plugins\modifier.capitalize.php" />
