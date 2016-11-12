@@ -153,22 +153,19 @@
                     <div class="col-sm-3 col-md-2 sidebar">
                         <ul class="nav nav-sidebar">
                             <div id="categories">
-                               <h4>{t}Kategorien{/t}</h4>
-                                <div id="tree-categories"/>
+                                <h4>{t}Kategorien{/t}</h4>
+                                <div id="tree-categories"></div>
                             </div>
                             <div id="devices">
                                 <h4>{t}Baugruppen{/t}</h4>
-                                <div id="tree-devices"/>
+                                <div id="tree-devices"></div>
                             </div>
                             <div id="tools">
                                 <h4>{t}Verwaltung{/t}</h4>
-                                <div id="tree-tools"/>
+                                <div id="tree-tools"></div>
                             </div>
                         </ul>
-                        
-                        <ul class="nav nav-sidebar" id="tree-managment">
 
-                        </ul>
                     </div>
                 </aside>
                 <div class="col-xs-12 col-sm-9 col-md-10" id="main" main >

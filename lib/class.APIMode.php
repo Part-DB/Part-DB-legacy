@@ -43,6 +43,10 @@ class APIMode
         {
             return APIMode::TREE_DEVICES;
         }
+        else if(strpos($s, "get_part_info") !== false)
+        {
+            return APIMode::GET_PART_INFO;
+        }
         else
         {
             return APIMode::INVALID;

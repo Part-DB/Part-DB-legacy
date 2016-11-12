@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-12 14:36:40
+/* Smarty version 3.1.30, created on 2016-11-12 23:53:59
   from "C:\xampp\htdocs\part-db\templates\nextgen\smarty_head.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_58271ae8c775d9_34191569',
+  'unifunc' => 'content_58279d874dd036_92387037',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c62886e2cd9939019d2f9a5decfc9017dfc45286' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\smarty_head.tpl',
-      1 => 1478956178,
+      1 => 1478991135,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_58271ae8c775d9_34191569 (Smarty_Internal_Template $_smarty_tpl) {
+function content_58279d874dd036_92387037 (Smarty_Internal_Template $_smarty_tpl) {
 if (!is_callable('smarty_function_locale')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\function.locale.php';
 if (!is_callable('smarty_block_t')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\block.t.php';
 echo smarty_function_locale(array('path'=>"nextgen/locale",'domain'=>"partdb"),$_smarty_tpl);?>
@@ -144,7 +144,8 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
         
     </head>
     
-<body>
+<body onload="setEnv(<?php echo $_smarty_tpl->tpl_vars['relative_path']->value;?>
+)">
 
     
     <!-- Treeview -->

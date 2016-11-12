@@ -1,6 +1,13 @@
 /*jslint browser: true*/
 /*global $, jQuery, alert*/
 
+var BASE = "";
+
+function setEnv(path) {
+    'use strict';
+    BASE = path;
+}
+
 function openLink(page) {
     'use strict';
     $("#main").load(page + " #content");
@@ -44,14 +51,19 @@ function registerForm() {
 
 function tree_fill() {
     'use strict';
-    $.getJSON('./api_json.php/api_json.php?mode="tree_category"', function (tree) {
+    $.getJSON(BASE + 'api_json.php/api_json.php?mode="tree_category"', function (tree) {
         $('#tree-categories').treeview({data: tree, enableLinks: true, showBorder: true});
         $('#tree-categories').treeview('collapseAll', { silent: true });
     });
     
-    $.getJSON('./api_json.php/api_json.php?mode="tree_devices"', function (tree) {
+    $.getJSON(BASE + 'api_json.php/api_json.php?mode="tree_devices"', function (tree) {
         $('#tree-devices').treeview({data: tree, enableLinks: true, showBorder: true});
         $('#tree-devices').treeview('collapseAll', { silent: true });
+    });
+    
+    $.getJSON(BASE + 'api_json.php/api_json.php?mode="tree_tools"', function (tree) {
+        $('#tree-tools').treeview({data: tree, enableLinks: true, showBorder: true});
+        $('#tree-tools').treeview('collapseAll', { silent: true });
     });
 }
 

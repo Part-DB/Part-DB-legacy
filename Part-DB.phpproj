@@ -3682,9 +3682,6 @@
     <Compile Include="templates\nextgen\install.php\vlib_set_db_backup_path.tmpl" />
     <Compile Include="templates\nextgen\install.php\vlib_set_db_settings.tmpl" />
     <Compile Include="templates\nextgen\install.php\vlib_set_locales.tmpl" />
-    <Compile Include="templates\nextgen\js\bootstrap.js" />
-    <Compile Include="templates\nextgen\js\bootstrap.min.js" />
-    <Compile Include="templates\nextgen\js\npm.js" />
     <Compile Include="templates\nextgen\navigation.php\vlib_navigation.tmpl" />
     <Compile Include="templates\nextgen\show_category_parts.php\vlib_show_category_parts.tmpl" />
     <Compile Include="templates\nextgen\show_device_parts.php\vlib_add_parts.tmpl" />
@@ -3715,7 +3712,6 @@
     <Compile Include="templates\nextgen\tools_labels.php\vlib_import.tmpl" />
     <Compile Include="templates\nextgen\tools_labels.php\vlib_labels.tmpl" />
     <Compile Include="templates\nextgen\partdb.css" />
-    <Compile Include="templates\nextgen\vlib_foot.tmpl" />
     <Compile Include="templates\nextgen\vlib_head.html" />
     <Compile Include="templates\nextgen\vlib_table.tmpl" />
     <Compile Include="templates\standard\developer_tools.php\vlib_developer_tools.tmpl" />
@@ -3771,13 +3767,6 @@
     <Compile Include="templates\standard\vlib_foot.tmpl" />
     <Compile Include="templates\standard\vlib_head.tmpl" />
     <Compile Include="templates\standard\vlib_table.tmpl" />
-    <Compile Include="templates_c\26fd5d34c9b7ee46207967e60c0506b6b74f42e1_0.file.smarty_show_category_parts.tpl.php" />
-    <Compile Include="templates_c\60fc701c1a78e0106d7e8124fed272faacfc09b8_0.file.smarty_show_part_info.tpl.php" />
-    <Compile Include="templates_c\678e4fbb9e64d4d9fc51ae4531ae5bf6eff70809_0.file.smarty_frameset.tpl.php" />
-    <Compile Include="templates_c\70ca3354147cd17ffb37168b3004d450afea05ce_0.file.smarty_foot.tpl.php" />
-    <Compile Include="templates_c\83a96b8c71d036c8012cc637888ae1dcaedb82da_0.file.smarty_table.tpl.php" />
-    <Compile Include="templates_c\c62886e2cd9939019d2f9a5decfc9017dfc45286_0.file.smarty_head.tpl.php" />
-    <Compile Include="templates_c\e4eae8eebf0a70dd43b7f76d48defab879bd5d63_0.file.smarty_startup.tpl.php" />
     <Compile Include="updates\config_update_steps.php" />
     <Compile Include="updates\db_update_steps.php" />
     <Compile Include=".gitignore" />
@@ -4171,7 +4160,6 @@
     <Folder Include="templates\nextgen\help.php" />
     <Folder Include="templates\nextgen\index.php" />
     <Folder Include="templates\nextgen\install.php" />
-    <Folder Include="templates\nextgen\js" />
     <Folder Include="templates\nextgen\navigation.php" />
     <Folder Include="templates\nextgen\show_category_parts.php" />
     <Folder Include="templates\nextgen\show_device_parts.php" />
@@ -4221,7 +4209,6 @@
     <Folder Include="templates\standard\tools_labels.php" />
     <Folder Include="templates\standard" />
     <Folder Include="templates" />
-    <Folder Include="templates_c\" />
     <Folder Include="updates" />
   </ItemGroup>
   <ItemGroup>

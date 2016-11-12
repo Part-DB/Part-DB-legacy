@@ -111,6 +111,36 @@
         return NULL; // this is not a Git installation
     }
 
+
+    function treeview_node($name, $href=null, $nodes = null )
+    {/*
+        if(isset($nodes))
+        {
+            $ret = array('text' => $name,
+                  'href' => $href,
+                  'nodes' => $nodes);
+        }
+        else
+        {
+            $ret = array('text' => $name,
+                  'href' => $href);
+        } */
+
+        $ret = array('text' => $name);
+
+        if(isset($href))
+        {
+            $ret['href'] = $href;
+        }
+
+        if(isset($nodes))
+        {
+            $ret['nodes'] = $nodes;
+        }
+
+        return $ret;
+    }
+
     /**
      * @brief List all files (or all files with a specific string in the filename) in a directory
      *

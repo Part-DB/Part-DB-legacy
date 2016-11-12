@@ -114,16 +114,9 @@
     if (isset($footprint_milliseconds)) {print 'Zeit: '.$footprint_milliseconds.'ms<br>';}
     if (isset($footprint_error)) {print '<b><font style="color:red">Fehlermeldung: '.$footprint_error.'</font></b><br>';}
     print '</form></div></div>';
-    */
-
-
-    $domain = 'test';
-    $d3 = bindtextdomain($domain, "../locale");
-    $d4 = textdomain($domain);
-
-    echo gettext("Statistik");
-
-    phpinfo();
+    
+    
+    //phpinfo();
 
 
 

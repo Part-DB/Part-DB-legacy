@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-12 14:38:39
+/* Smarty version 3.1.30, created on 2016-11-13 00:18:40
   from "C:\xampp\htdocs\part-db\templates\nextgen\smarty_head.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_58271b5fba1aa8_50223863',
+  'unifunc' => 'content_5827a3508cab63_23026094',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c62886e2cd9939019d2f9a5decfc9017dfc45286' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\smarty_head.tpl',
-      1 => 1478956178,
+      1 => 1478992716,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_58271b5fba1aa8_50223863 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5827a3508cab63_23026094 (Smarty_Internal_Template $_smarty_tpl) {
 if (!is_callable('smarty_function_locale')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\function.locale.php';
 if (!is_callable('smarty_block_t')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\block.t.php';
 echo smarty_function_locale(array('path'=>"nextgen/locale",'domain'=>"partdb"),$_smarty_tpl);?>
@@ -369,7 +369,7 @@ array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
                     <div class="col-sm-3 col-md-2 sidebar">
                         <ul class="nav nav-sidebar">
                             <div id="categories">
-                               <h4><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+                                <h4><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
 $_block_repeat1=true;
 echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
 while ($_block_repeat1) {
@@ -380,7 +380,7 @@ echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
 }
 array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
 </h4>
-                                <div id="tree-categories"/>
+                                <div id="tree-categories"></div>
                             </div>
                             <div id="devices">
                                 <h4><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
@@ -394,7 +394,7 @@ echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
 }
 array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
 </h4>
-                                <div id="tree-devices"/>
+                                <div id="tree-devices"></div>
                             </div>
                             <div id="tools">
                                 <h4><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
@@ -408,13 +408,10 @@ echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
 }
 array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
 </h4>
-                                <div id="tree-tools"/>
+                                <div id="tree-tools"></div>
                             </div>
                         </ul>
-                        
-                        <ul class="nav nav-sidebar" id="tree-managment">
 
-                        </ul>
                     </div>
                 </aside>
                 <div class="col-xs-12 col-sm-9 col-md-10" id="main" main >
