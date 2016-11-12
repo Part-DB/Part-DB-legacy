@@ -44,7 +44,6 @@
     <Compile Include="development\doxygen\Doxyfile" />
     <Compile Include="development\doxygen\readme.txt" />
     <Compile Include="development\package_output\readme.txt" />
-    <Compile Include="development\test.php" />
     <Compile Include="development\testfiles\database\v12_kami89.sql" />
     <Compile Include="development\testfiles\database\v12_kami89_utf8.sql" />
     <Compile Include="development\testfiles\import_device_parts\correct_csv.csv" />

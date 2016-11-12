@@ -1,6 +1,6 @@
             {if isset($messages)}
-                <div class="outer">
-                    <form action="" method="post">
+                <div class="panel panel-default">
+                    <form action="" method="post" class="panel-body">
                         {foreach $messages as $msg}
                             {if isset($msg.text)}
                                 {if isset($msg.strong)}<strong>{/if}

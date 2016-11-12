@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-08 22:36:10
+/* Smarty version 3.1.30, created on 2016-11-12 13:57:26
   from "C:\xampp\htdocs\part-db\templates\nextgen\smarty_foot.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_5822454a77ef91_52921145',
+  'unifunc' => 'content_582711b658daa1_91419492',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '70ca3354147cd17ffb37168b3004d450afea05ce' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\smarty_foot.tpl',
-      1 => 1478432258,
+      1 => 1478951218,
       2 => 'file',
     ),
   ),
@@ -20,11 +20,11 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5822454a77ef91_52921145 (Smarty_Internal_Template $_smarty_tpl) {
+function content_582711b658daa1_91419492 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
             <?php if (isset($_smarty_tpl->tpl_vars['messages']->value)) {?>
-                <div class="outer">
-                    <form action="" method="post">
+                <div class="panel panel-default">
+                    <form action="" method="post" class="panel-body">
                         <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['messages']->value, 'msg');
 if ($_from !== null) {

@@ -256,9 +256,18 @@
     {
         error_reporting(E_ALL & ~E_STRICT);
         @ini_set("display_errors", 1);
+
+        //Dont show errors because of function override in php7
+        if (PHP_MAJOR_VERSION >= 7) {
+            set_error_handler(function ($errno, $errstr) {
+                return strpos($errstr, 'Declaration of') === 0;
+            }, E_WARNING);
+        }
     }
     else
         @ini_set("display_errors", 0);
+
+
 
     mb_internal_encoding(/*$config['html']['http_charset']*/ 'UTF-8');
     mb_regex_encoding('UTF-8');

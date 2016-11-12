@@ -1,4 +1,4 @@
-{locale path="locale" domain="template"}
+{locale path="nextgen/locale" domain="partdb"}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -88,7 +88,7 @@
          <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
+              <span class="sr-only">{t}Toggle Navigation{/t}</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -116,22 +116,22 @@
                            <li class="checkbox"><input type="checkbox" name="search_description" value="true" checked>
                                <label for="search_description"></label>{t}Beschreibung{/t}</li>
                            <li class="checkbox"><input type="checkbox" name="search_storelocation" value="true" checked>
-                               <label for="search_storelocation">Lagerort</label></li>
+                               <label for="search_storelocation">{t}Lagerort{/t}</label></li>
                            <li class="checkbox"><input type="checkbox" name="search_comment" value="true" checked>
-                               <label for="search_comment">Kommentar</label></li>
+                               <label for="search_comment">{t}Kommentar{/t}</label></li>
                            <li class="checkbox"><input type="checkbox" name="search_supplierpartnr" value="true" checked>
-                               <label for="search_supplierpartnr">Bestellnr.</label></li>
+                               <label for="search_supplierpartnr">{t}Bestellnr.{/t}</label></li>
                            <li class="checkbox"><input type="checkbox" name="search_supplier" value="true">
-                               <label for="search_supplier">Lieferant</label></li>
+                               <label for="search_supplier">{t}Lieferant{/t}</label></li>
                            <li class="checkbox"><input type="checkbox" name="search_manufacturer" value="true">
-                               <label for="search_manufacturer">Hersteller</label></li>
+                               <label for="search_manufacturer">{t}Hersteller{/t}</label></li>
                            <li class="checkbox"><input type="checkbox" name="search_footprint" value="true">
-                               <label for="search_footprint">Footprint</label></li>
+                               <label for="search_footprint">{t}Footprint{/t}</label></li>
                         </ul>
                      </div>
                      
                     <input type="search" class="form-control" placeholder="{t}Suche{/t}" name="keyword">
-                    <button type="submit" class="btn btn-default">Los!</button>
+                    <button type="submit" class="btn btn-default">{t}Los!{/t}</button>
                  
                  
                   </div>
@@ -153,15 +153,15 @@
                     <div class="col-sm-3 col-md-2 sidebar">
                         <ul class="nav nav-sidebar">
                             <div id="categories">
-                               <h4>Kategorien</h4>
+                               <h4>{t}Kategorien{/t}</h4>
                                 <div id="tree-categories"/>
                             </div>
                             <div id="devices">
-                                <h4>Baugruppen</h4>
+                                <h4>{t}Baugruppen{/t}</h4>
                                 <div id="tree-devices"/>
                             </div>
                             <div id="tools">
-                                <h4>Verwaltung</h4>
+                                <h4>{t}Verwaltung{/t}</h4>
                                 <div id="tree-tools"/>
                             </div>
                         </ul>
@@ -197,7 +197,7 @@
                                     {if isset($reload_link)}
                                         <br>
                                         <a href="{$reload_link}">
-                                            <button>Seite neu laden</button>
+                                            <button class="btn btn-default>{t}Seite neu laden{/t}</button>
                                         </a>
                                     {/if}
                                 </form>

@@ -1,8 +1,10 @@
-<div class="panel panel-primary">
+{locale path="nextgen/locale" domain="partdb"}
+
+  <div class="panel panel-primary">
    <div class="panel-heading">
-       <h4>Detailinfo zu <b>"{$name}"</b>
+       <h4>{t}Detailinfo zu{/t} <b>"{$name}"</b>
             <div style="float: right; display: inline;">
-                ID: {$pid}
+                {t}ID:{/t} {$pid}
             </div>
         </h4>
     </div>
@@ -12,7 +14,7 @@
                 <div class="col-md-9">
                     <table class="table">
                        <tr>
-                           <td><b>Name:</b></td>
+                           <td><b>{t}Name:{/t}</b></td>
                            <td>
                                 {if isset($manufacturer_product_url)}
                                     <a title="{$manufacturer_product_url}" href="{$manufacturer_product_url}" target="_blank">{$name}</a>
@@ -22,34 +24,34 @@
                             </td>
                        </tr>
                        <tr>
-                           <td><b>Beschreibung:</b></td>
+                           <td><b>{t}Beschreibung:{/t}</b></td>
                            <td>{if isset($description)}{$description}{else}-{/if}</td>
                        </tr>
                        <tr>
-                           <td><b>Vorhanden:</b></td>
+                           <td><b>{t}Vorhanden:{/t}</b></td>
                            <td>{$instock}</td>
                        </tr>
                        <tr>
-                           <td><b>Min. Bestand:</b></td>
+                           <td><b>{t}Min. Bestand:{/t}</b></td>
                            <td>{$mininstock}</td>
                        </tr>
                        <tr>
-                           <td><b>Kategorie:</b></td>
+                           <td><b>{t}Kategorie:{/t}</b></td>
                            <td>{$category_full_path}</td>
                        </tr>
                        <tr>
-                           <td><b>Lagerort:</b></td>
+                           <td><b>{t}Lagerort:{/t}</b></td>
                            <td>{$storelocation_full_path}{if $storelocation_is_full} [voll]{/if}</td>
                        </tr>
                        {if !$disable_manufacturers}
                            <tr>
-                               <td><b>Hersteller:</b></td>
+                               <td><b>{t}Hersteller:{/t}</b></td>
                                <td>{$manufacturer_full_path}</td>
                            </tr>
                        {/if}
                        {if !$disable_footprints}
                            <tr>
-                               <td><b>Footprint:</b></td>
+                               <td><b>{t}Footprint:{/t}</b></td>
                                <td>
                                    {$footprint_full_path}<br>
                                    {if isset($footprint_filename)}<img align="middle" src="{$footprint_filename}" alt="" height="70">{/if}
@@ -57,7 +59,7 @@
                            </tr>
                        {/if}
                        <tr>
-                           <td valign="top"><b>Kommentar:</b></td>
+                           <td valign="top"><b>{t}Kommentar:{/t}</b></td>
                            <td>{if isset($comment)}{$comment}{else}-{/if}</td>
                        </tr>
                     </table>
@@ -70,11 +72,11 @@
                             <input type="hidden" name="pid" value="{$pid}">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label for="n_less">Teile entnehmen:</label>
+                                    <label for="n_less">{t}Teile entnehmen:{/t}</label>
                                     <div class="input-group">
                                         <input type="number" class="form-control" name="n_less" min="0" max="999" value="1" placeholder="Anzahl" onkeypress="validatePosIntNumber(event)">
                                         <div class="input-group-btn">
-                                            <button type="submit" class="btn btn-default" name="dec">Entnehmen</button>
+                                            <button type="submit" class="btn btn-default" name="dec">{t}Entnehmen{/t}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -87,11 +89,11 @@
                             <input type="hidden" name="pid" value="{$pid}">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <label for="n_more">Teile hinzufügen</label>
+                                    <label for="n_more">{t}Teile hinzufügen{/t}</label>
                                     <div class="input-group">
                                         <input type="number" class="form-control" name="n_more" min="0" max="999" value="1" onkeypress="validatePosIntNumber(event)">
                                         <div class="input-group-btn">
-                                            <button type="submit" class="btn btn-default" name="inc">Hinzufügen</button>
+                                            <button type="submit" class="btn btn-default" name="inc">{t}Hinzufügen{/t}</button>
                                         </div>
                                     </div>
                                 </div>
@@ -105,17 +107,17 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     {if $manual_order_exists}
-                                        <label for="remove_mark_to_order">Bauteil wurde manuell zum Bestellen vorgemerkt.</label>  
-                                        <button type="submit" class="btn btn-default" name="remove_mark_to_order">Aufheben</button>
+                                        <label for="remove_mark_to_order">{t}Bauteil wurde manuell zum Bestellen vorgemerkt.{/t}</label>  
+                                        <button type="submit" class="btn btn-default" name="remove_mark_to_order">{t}Aufheben{/t}</button>
                                     {else}
                                         {if $auto_order_exists}
-                                            <i>Das Bauteil wird unter "Zu bestellende Teile"aufgelistet, da der Bestand kleiner als der Mindestbestand ist.</i>
+                                            <i>{t}Das Bauteil wird unter "Zu bestellende Teile"aufgelistet, da der Bestand kleiner als der Mindestbestand ist.{/t}</i>
                                         {else}
-                                            <label for="order_quantity">Zum Bestellen vormerken:</label>
+                                            <label for="order_quantity">{t}Zum Bestellen vormerken:{/t}</label>
                                             <div class="input-group">
                                                 <input type="number" min="0" max="999" class="form-control" value="1" name="order_quantity" placeholder="Bestellmenge" onkeypress="validatePosIntNumber(event)"><br>
                                                 <div class="input-group-btn">
-                                                    <button type="submit" class="btn btn-default" name="mark_to_order">Übernehmen</button>
+                                                    <button type="submit" class="btn btn-default" name="mark_to_order">{t}Übernehmen{/t}</button>
                                                 </div>
                                             </div>
                                         {/if}

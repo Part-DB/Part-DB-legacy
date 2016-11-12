@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-10 19:25:58
+/* Smarty version 3.1.30, created on 2016-11-12 14:38:39
   from "C:\xampp\htdocs\part-db\templates\nextgen\startup.php\smarty_startup.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_5824bbb6e41830_81536852',
+  'unifunc' => 'content_58271b5fe3f180_91255604',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'e4eae8eebf0a70dd43b7f76d48defab879bd5d63' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\startup.php\\smarty_startup.tpl',
-      1 => 1478453935,
+      1 => 1478957570,
       2 => 'file',
     ),
   ),
@@ -20,13 +20,25 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5824bbb6e41830_81536852 (Smarty_Internal_Template $_smarty_tpl) {
-?>
+function content_58271b5fe3f180_91255604 (Smarty_Internal_Template $_smarty_tpl) {
+if (!is_callable('smarty_function_locale')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\function.locale.php';
+if (!is_callable('smarty_block_t')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\block.t.php';
+echo smarty_function_locale(array('path'=>"nextgen/locale",'domain'=>"partdb"),$_smarty_tpl);?>
 
     <div class="jumbotron">
         <h1>Part-DB</h1>
         <?php if (isset($_smarty_tpl->tpl_vars['system_version_full']->value)) {?>
-        <h3>Version: <?php echo $_smarty_tpl->tpl_vars['system_version_full']->value;
+        <h3><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Version:<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+ <?php echo $_smarty_tpl->tpl_vars['system_version_full']->value;
 if (isset($_smarty_tpl->tpl_vars['git_branch']->value)) {?>, Git: <?php echo $_smarty_tpl->tpl_vars['git_branch']->value;
 if (isset($_smarty_tpl->tpl_vars['git_commit']->value)) {?>/<?php echo $_smarty_tpl->tpl_vars['git_commit']->value;
 }
@@ -39,7 +51,17 @@ if (isset($_smarty_tpl->tpl_vars['git_commit']->value)) {?>/<?php echo $_smarty_
         <?php if ($_smarty_tpl->tpl_vars['database_update']->value) {?>
         <div class="panel panel-danger">
             <div class="panel-heading">
-                <h2>Datenbankupdate</h2>
+                <h2<?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+>Datenbankupdate<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</h2>
             </div>
             <div class="panel-body">
             <b>Datenbank-Version <?php echo $_smarty_tpl->tpl_vars['db_version_current']->value;?>
@@ -103,7 +125,17 @@ und einen <a href="edit_suppliers.php">Lieferanten</a> </blockquote>
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h3>Lizenz</h3>
+        <h3><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Lizenz<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</h3>
     </div>
     <div class="panel-body">
        <!-- Doesnt work! Paypal has changed API?
@@ -119,14 +151,54 @@ und einen <a href="edit_suppliers.php">Lieferanten</a> </blockquote>
 readme/gpl.txt">here</a> for details. This is free software, and you are welcome to redistribute it under certain conditions. Click <a href="<?php echo $_smarty_tpl->tpl_vars['relative_path']->value;?>
 readme/gpl.txt">here</a> for details.<br>
         <br>
-        <strong>Projektseite:</strong> Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a target="_blank" href="https://github.com/sandboxgangster/Part-DB">GitHub Projektseite</a><br>
+        <strong><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Projektseite:<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</strong> Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a target="_blank" href="https://github.com/sandboxgangster/Part-DB">GitHub Projektseite</a><br>
         <strong>Forum:</strong> Für Fragen rund um die Part-DB gibt es einen Thread auf <a target="_blank" href="https://www.mikrocontroller.net/topic/305023">mikrocontroller.net</a><br>
         <strong>Wiki:</strong> Weitere Informationen gibt es im <a target="_blank" href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Artikel</a><br>
         <br>
-        Initiator: <strong>Christoph Lechner</strong> - <a target="_blank" href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
-        Autor seit 2009: <strong>K. Jacobs</strong> - <a target="_blank" href="http://www.grautier.com/">http://grautier.com</a><br>
+        <?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Initiator:<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+ <strong>Christoph Lechner</strong> - <a target="_blank" href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
+        <?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Autor seit 2009:<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+ <strong>K. Jacobs</strong> - <a target="_blank" href="http://www.grautier.com/">http://grautier.com</a><br>
         <br>
-        Weitere Autoren:
+        <?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Weitere Autoren:<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+
         <table class="table">
         <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['authors']->value, 'author');
@@ -147,9 +219,19 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
 </div>
 
 <?php if (isset($_smarty_tpl->tpl_vars['rss_feed_loop']->value)) {?>
-<div class="panel panel-info">
+<div class="panel panel-default">
     <div class="panel-heading">
-        <h3>Updates</h3>
+        <h4><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Updates<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</h4>
     </div>
     <div class="panel-body">
         <?php

@@ -1,8 +1,8 @@
-
+{locale path="nextgen/locale" domain="partdb"}
     <div class="jumbotron">
         <h1>Part-DB</h1>
         {if isset($system_version_full)}
-        <h3>Version: {$system_version_full}{if isset($git_branch)}, Git: {$git_branch}{if isset($git_commit)}/{$git_commit}{/if}{/if}</h3>
+        <h3>{t}Version:{/t} {$system_version_full}{if isset($git_branch)}, Git: {$git_branch}{if isset($git_commit)}/{$git_commit}{/if}{/if}</h3>
         {/if}
         <h4><i>"NextGen"</i></h4>
     </div>
@@ -11,7 +11,7 @@
         {if $database_update}
         <div class="panel panel-danger">
             <div class="panel-heading">
-                <h2>Datenbankupdate</h2>
+                <h2{t}>Datenbankupdate{/t}</h2>
             </div>
             <div class="panel-body">
             <b>Datenbank-Version {$db_version_current} benötigt ein Update auf Version {$db_version_latest}.</b><br><br>
@@ -67,7 +67,7 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h3>Lizenz</h3>
+        <h3>{t}Lizenz{/t}</h3>
     </div>
     <div class="panel-body">
        <!-- Doesnt work! Paypal has changed API?
@@ -81,14 +81,14 @@
 
         Part-DB, Copyright &copy; 2005 of <strong>Christoph Lechner</strong>. Part-DB is published under the <strong>GPL</strong>, so it comes with <strong>ABSOLUTELY NO WARRANTY</strong>, click <a href="{$relative_path}readme/gpl.txt">here</a> for details. This is free software, and you are welcome to redistribute it under certain conditions. Click <a href="{$relative_path}readme/gpl.txt">here</a> for details.<br>
         <br>
-        <strong>Projektseite:</strong> Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a target="_blank" href="https://github.com/sandboxgangster/Part-DB">GitHub Projektseite</a><br>
+        <strong>{t}Projektseite:{/t}</strong> Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a target="_blank" href="https://github.com/sandboxgangster/Part-DB">GitHub Projektseite</a><br>
         <strong>Forum:</strong> Für Fragen rund um die Part-DB gibt es einen Thread auf <a target="_blank" href="https://www.mikrocontroller.net/topic/305023">mikrocontroller.net</a><br>
         <strong>Wiki:</strong> Weitere Informationen gibt es im <a target="_blank" href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Artikel</a><br>
         <br>
-        Initiator: <strong>Christoph Lechner</strong> - <a target="_blank" href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
-        Autor seit 2009: <strong>K. Jacobs</strong> - <a target="_blank" href="http://www.grautier.com/">http://grautier.com</a><br>
+        {t}Initiator:{/t} <strong>Christoph Lechner</strong> - <a target="_blank" href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
+        {t}Autor seit 2009:{/t} <strong>K. Jacobs</strong> - <a target="_blank" href="http://www.grautier.com/">http://grautier.com</a><br>
         <br>
-        Weitere Autoren:
+        {t}Weitere Autoren:{/t}
         <table class="table">
         {foreach $authors as $author}
             <tr><td><strong>{$author.name}</strong></td><td>{$author.role}</td></tr>
@@ -98,9 +98,9 @@
 </div>
 
 {if isset($rss_feed_loop)}
-<div class="panel panel-info">
+<div class="panel panel-default">
     <div class="panel-heading">
-        <h3>Updates</h3>
+        <h4>{t}Updates{/t}</h4>
     </div>
     <div class="panel-body">
         {foreach $rss_feed_loop as $rss}

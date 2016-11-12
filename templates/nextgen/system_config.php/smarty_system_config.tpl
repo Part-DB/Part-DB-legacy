@@ -1,3 +1,4 @@
+{locale path="nextgen/locale" domain="partdb"}
 {if isset($refresh_navigation_frame)}
 <script type="text/javascript">
     parent.frames.navigation_frame.location.reload();
@@ -6,20 +7,20 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4>Systemeinstellungen</h4>
+        <h4>{t}Systemeinstellungen{/t}</h4>
     </div>
     <div class="panel-body">
         
         <form class="form-horizontal" action="" method="post">
                 
-                <p><i>Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere
+                <p><i>{t}Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere
                 Einstellungen kann man direkt in der "config.php" vornehmen. Mögliche Parameter
-                entnehmen Sie bitte der "config_defaults.php" oder der Dokumentation.</i></p>
+                entnehmen Sie bitte der "config_defaults.php" oder der Dokumentation.{/t}</i></p>
         
                 <hr>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="theme">Theme:</label>
+                    <label class="control-label col-sm-2" for="theme">{t}Theme:{/t}</label>
                     <div class="col-sm-10">
                         <select class="form-control" name="theme">
                             {foreach $theme_loop as $theme}
@@ -30,10 +31,10 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="custom_css">CSS-Datei:</label>
+                    <label class="control-label col-sm-2" for="custom_css">{t}CSS-Datei:{/t}</label>
                     <div class="col-sm-10">
                         <select class="form-control" name="custom_css">
-                            <option value="">Standard des verwendeten Themes verwenden</option>
+                            <option value="">{t}Standard des verwendeten Themes verwenden{/t}</option>
                             {foreach $custom_css_loop as $css}
                                 <option value="{$css.value}" {if $css.selected}selected{/if}>{$css.text}</option>
                             {/foreach}
@@ -44,7 +45,7 @@
                 <hr>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="timezon">Zeitzone:</label>
+                    <label class="control-label col-sm-2" for="timezon">{t}Zeitzone:{/t}</label>
                     <div class="col-sm-10">
                         <select class="form-control" name="timezone">
                             {foreach $timezone_loop as $timezone}
@@ -55,7 +56,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2" for="language">Sprache:</label>
+                    <label class="control-label col-sm-2" for="language">{t}Sprache:{/t}</label>
                     <div class="col-sm-10">
                         <select class="form-control" name="language">
                             {foreach $language_loop as $lang}
@@ -68,90 +69,90 @@
                 <hr>
 
                 <div class="form-group">
-                    <label for="checkbox-container" class="control-label col-sm-2">Allgemeine Einstellungen:</label>
+                    <label for="checkbox-container" class="control-label col-sm-2">{t}Allgemeine Einstellungen:{/t}</label>
                     
                     <div name="checkbox-container" class="col-sm-10">
                         <div class="checkbox">
                             <input type="checkbox" name="disable_updatelist" {if $disable_updatelist} checked{/if}>
-                            <label for="disable_updatelist">Updateliste (RSS-Feed) auf Startseite verstecken (verringert die Ladezeit)</label>
+                            <label for="disable_updatelist">{t}Updateliste (RSS-Feed) auf Startseite verstecken (verringert die Ladezeit){/t}</label>
                         </div>
                 
                         <div class="checkbox">
                             <input type="checkbox" name="disable_footprints" {if $disable_footprints} checked{/if}>
-                            <label for="disable_footprints">Footprints global deaktivieren *</label>
+                            <label for="disable_footprints">{t}Footprints global deaktivieren{/t} *</label>
                         </div>
 
                         <div class="checkbox">
                             <input type="checkbox" name="disable_manufacturers" {if $disable_manufacturers} checked{/if}>
-                            <label for="disable_manufacturers">Hersteller global deaktivieren</label> 
+                            <label for="disable_manufacturers">{t}Hersteller global deaktivieren{/t}</label> 
                         </div>
 
                         <div class="checkbox">
                             <input type="checkbox" name="disable_devices" {if $disable_devices} checked{/if}>
-                            <label for="disable_devices">Baugruppenfunktion global deaktivieren *</label>
+                            <label for="disable_devices">{t}Baugruppenfunktion global deaktivieren{/t} *</label>
                         </div>
                     
                         <div class="checkbox">
                             <input type="checkbox" name="disable_auto_datasheets" {if $disable_auto_datasheets} checked{/if}>
-                            <label for="disable_auto_datasheets">Automatische Links zu Datenblättern global deaktivieren *</label>
+                            <label for="disable_auto_datasheets">{t}Automatische Links zu Datenblättern global deaktivieren{/t} *</label>
                         </div>
                         
                         <div class="checkbox">
                             <input type="checkbox" name="disable_help" {if $disable_help} checked{/if}>
-                            <label for="disable_help">Menüpunkt "Hilfe" deaktivieren</label>
+                            <label for="disable_help">{t}Menüpunkt "Hilfe" deaktivieren{/t}</label>
                         </div>
                         
                         <div class="checkbox">
                             <input type="checkbox" name="disable_config" {if $disable_config} checked{/if} {if $is_online_demo}disabled{/if}>
-                            <label>Menüpunkt "System" deaktivieren</label>
+                            <label>{t}Menüpunkt "System" deaktivieren{/t}</label>
                         </div>
                         
                         <div class="checkbox">
                             <input type="checkbox" name="enable_debug_link" {if $enable_debug_link} checked{/if}>
-                            <label>Menüpunkt "System -> Debugging" aktivieren</label>
+                            <label>{t}Menüpunkt "System -> Debugging" aktivieren{/t}</label>
                         </div>
                         
                         <div class="checkbox">
                             <input type="checkbox" name="disable_labels" {if $disable_labels} checked{/if}>
-                            <label>Menüpunkt "Tools -> Labels" deaktivieren *</label>
+                            <label>{t}Menüpunkt "Tools -> Labels" deaktivieren{/t} *</label>
                         </div>
                         
                         <div class="checkbox">
                             <input type="checkbox" name="disable_calculator" {if $disable_calculator} checked{/if}>
-                            <label>Menüpunkt "Tools -> Widerstandsrechner" deaktivieren *</label>
+                            <label>{t}Menüpunkt "Tools -> Widerstandsrechner" deaktivieren{/t} *</label>
                         </div>
                     
                         <div class="checkbox">
                             <input type="checkbox" name="disable_iclogos" {if $disable_iclogos} checked{/if}>
-                            <label>Menüpunkt "Tools -> IC-Logos" deaktivieren *</label>
+                            <label>{t}Menüpunkt "Tools -> IC-Logos" deaktivieren{/t} *</label>
                         </div>
 
                         <div class="checkbox">
                             <input type="checkbox" name="disable_tools_footprints" {if $disable_tools_footprints} checked{/if}>
-                            <label>Menüpunkt "Tools -> Footprints" deaktivieren *</label>
+                            <label>{t}Menüpunkt "Tools -> Footprints" deaktivieren{/t} *</label>
                         </div>
                     
                         <div class="checkbox">
                             <input type="checkbox" name="tools_footprints_autoload" {if $tools_footprints_autoload} checked{/if}>
-                            <label>Unter "Tools -> Footprints" beim Aufruf automatisch alle Bilder laden (lange Ladezeit!)</label>
+                            <label>{t}Unter "Tools -> Footprints" beim Aufruf automatisch alle Bilder laden (lange Ladezeit!){/t}</label>
                         </div>
 
                         {if $developer_mode_available}
                         <div class="checkbox">
                             <input type="checkbox" name="enable_developer_mode" {if $enable_developer_mode} checked{/if}>
-                            <label>Entwickler-Werkzeuge aktivieren (für Entwickler und Tester)</label>
+                            <label>{t}Entwickler-Werkzeuge aktivieren (für Entwickler und Tester){/t}</label>
                         </div>
 
                         <div class="checkbox">
                             <input type="checkbox" name="enable_dokuwiki_write_perms" {if $enable_dokuwiki_write_perms} checked{/if} {if $is_online_demo}disabled{/if}>
-                            <label>Schreibrechte im DokuWiki aktivieren</label>
+                            <label>{t}Schreibrechte im DokuWiki aktivieren{/t}</label>
                         </div>
                         {/if}
                         
                         
                         <p></p>
                         <div>
-                            * <i>Durch das Aktivieren dieser Checkboxen ist Part-DB auch für Nicht-Elektronische Bauteile hervorragend geeignet.</i>
+                            * <i>{t}Durch das Aktivieren dieser Checkboxen ist Part-DB auch für Nicht-Elektronische Bauteile hervorragend geeignet.{/t}</i>
                         </div>
                     
                     </div>
@@ -192,14 +193,14 @@
                 <hr>
 
                 <div class="form-group">
-                    <label for="page_title" class="control-label col-sm-2">Titel der Seite:</label>
+                    <label for="page_title" class="control-label col-sm-2">{t}Titel der Seite:{/t}</label>
                     <div class="col-sm-10">
-                        <input type="text" name="page_title" class="form-control" placeholder="Part-DB Elektronische Bauteile-Datenbank" value="{$page_title}" {if $is_online_demo}disabled{/if}>
+                        <input type="text" name="page_title" class="form-control" placeholder="{t}Part-DB Elektronische Bauteile-Datenbank{/t}" value="{$page_title}" {if $is_online_demo}disabled{/if}>
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label for="startup_banner" class="control-label col-sm-2">Eigener Banner für die Startseite (HTML):</label>
+                    <label for="startup_banner" class="control-label col-sm-2">{t}Eigener Banner für die Startseite (HTML):{/t}</label>
                     <div class="col-sm-10">
                         <textarea name="startup_banner" rows="5" class="form-control"  {if $is_online_demo}disabled{/if}>{$startup_banner}</textarea>
                     </div>
@@ -208,8 +209,8 @@
                 <hr>
 
                 <div class="col-sm-offset-2">
-                    <button class="btn btn-success" type="submit" name="apply">Einstellungen übernehmen</button>
-                    <button class="btn btn-danger" type="submit">Änderungen verwerfen</button>
+                    <button class="btn btn-success" type="submit" name="apply">{t}Einstellungen übernehmen{/t}</button>
+                    <button class="btn btn-danger" type="submit">{t}Änderungen verwerfen{/t}</button>
                 </div>
             </table>
         </form>
@@ -218,26 +219,26 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4>Administratorpasswort ändern</h4>
+        <h4>{t}Administratorpasswort ändern{/t}</h4>
     </div>
     <div class="panel-body">
         <form class="form-horizontal" method="post">
             <div class="form-group">
-                <label class="control-label col-sm-2" for="current_admin_password">Aktuelles Passwort:</label>
+                <label class="control-label col-sm-2" for="current_admin_password">{t}Aktuelles Passwort:{/t}</label>
                 <div class="col-sm-10">
                     <input class="form-control" type="password" name="current_admin_password" {if $is_online_demo}disabled{/if}>
                 </div>
             </div>
 
             <div class="form-group">
-                <label for="new_admin_password_1" class="col-sm-2 control-label">Neues Passwort:</label>
+                <label for="new_admin_password_1" class="col-sm-2 control-label">{t}Neues Passwort:{/t}</label>
                     <div class="col-sm-10">
                         <input type="password"  class="form-control" name="new_admin_password_1" {if $is_online_demo}disabled{/if}>
                     </div>
             </div>
 
             <div class="form-group">
-                <label class="control-label col-sm-2" for="new_admin_password_2">Neues Passwort (Wiederholung):</label>
+                <label class="control-label col-sm-2" for="new_admin_password_2">{t}Neues Passwort (Wiederholung):{/t}</label>
                 <div class="col-sm-10">
                     <input type="password" class="form-control" name="new_admin_password_2" {if $is_online_demo}disabled{/if}>
                 </div>
@@ -256,16 +257,16 @@
 {if !$is_online_demo}
     <div class="panel panel-default">
        <div class="panel-heading">
-            <h4>Server</h4>
+            <h4>{t}Server{/t}</h4>
         </div>
         <div class="panel-body">
             <table width="100%">
                 <tr>
-                    <td><b>PHP-Version:</b></td>
+                    <td><b>{t}PHP-Version:{/t}</b></td>
                     <td>{$php_version}</td>
                 </tr>
                 <tr>
-                    <td><b>.htaccess funktioniert:</b></td>
+                    <td><b>{t}.htaccess funktioniert:{/t}</b></td>
                     <td>{if $htaccess_works}<font color="green">ja</font>{else}<font color="red">nein</font>{/if}</td>
                 </tr>
             </table>

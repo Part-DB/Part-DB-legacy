@@ -1,3 +1,3 @@
 #!/bin/sh
 
-./tsmarty2c.php -o ../templates/nextgen/locales/template.pot ../templates/nextgen/
+./tsmarty2c.php -o ../templates/nextgen/locale/partdb.pot ../templates/nextgen

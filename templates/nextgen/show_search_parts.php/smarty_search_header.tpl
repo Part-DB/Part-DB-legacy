@@ -1,3 +1,4 @@
+{locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-success">
     <div class="panel-heading">
         <h4>Suchergebnis</h4>
@@ -25,7 +26,7 @@
                     {/foreach}
                 </select>
 
-                <input class="btn btn-primary" type="submit" name="export" value="Export">
+                <button class="btn btn-primary" type="submit" name="export">{t}Export{/t}</button>
                </div>
                
             </form>

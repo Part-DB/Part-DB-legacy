@@ -1,4 +1,4 @@
-{locale path="locale" domain="template"}
+{locale path="nextgen/locale" domain="partdb"}
 
 <div class="panel panel-primary">
     <div class="panel-heading">

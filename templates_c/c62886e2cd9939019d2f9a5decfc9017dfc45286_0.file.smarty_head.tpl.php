@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-10 19:41:59
+/* Smarty version 3.1.30, created on 2016-11-12 14:38:39
   from "C:\xampp\htdocs\part-db\templates\nextgen\smarty_head.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_5824bf7777dab7_45319700',
+  'unifunc' => 'content_58271b5fba1aa8_50223863',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c62886e2cd9939019d2f9a5decfc9017dfc45286' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\smarty_head.tpl',
-      1 => 1478803313,
+      1 => 1478956178,
       2 => 'file',
     ),
   ),
@@ -20,10 +20,10 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5824bf7777dab7_45319700 (Smarty_Internal_Template $_smarty_tpl) {
+function content_58271b5fba1aa8_50223863 (Smarty_Internal_Template $_smarty_tpl) {
 if (!is_callable('smarty_function_locale')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\function.locale.php';
 if (!is_callable('smarty_block_t')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\block.t.php';
-echo smarty_function_locale(array('path'=>"locale",'domain'=>"template"),$_smarty_tpl);?>
+echo smarty_function_locale(array('path'=>"nextgen/locale",'domain'=>"partdb"),$_smarty_tpl);?>
 
 
 <!DOCTYPE html>
@@ -172,7 +172,17 @@ templates/nextgen/js/part-db.js"><?php echo '</script'; ?>
          <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span class="sr-only">Toggle navigation</span>
+              <span class="sr-only"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Toggle Navigation<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
               <span class="icon-bar"></span>
@@ -242,17 +252,77 @@ echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
 array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
 </li>
                            <li class="checkbox"><input type="checkbox" name="search_storelocation" value="true" checked>
-                               <label for="search_storelocation">Lagerort</label></li>
+                               <label for="search_storelocation"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Lagerort<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</label></li>
                            <li class="checkbox"><input type="checkbox" name="search_comment" value="true" checked>
-                               <label for="search_comment">Kommentar</label></li>
+                               <label for="search_comment"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Kommentar<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</label></li>
                            <li class="checkbox"><input type="checkbox" name="search_supplierpartnr" value="true" checked>
-                               <label for="search_supplierpartnr">Bestellnr.</label></li>
+                               <label for="search_supplierpartnr"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Bestellnr.<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</label></li>
                            <li class="checkbox"><input type="checkbox" name="search_supplier" value="true">
-                               <label for="search_supplier">Lieferant</label></li>
+                               <label for="search_supplier"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Lieferant<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</label></li>
                            <li class="checkbox"><input type="checkbox" name="search_manufacturer" value="true">
-                               <label for="search_manufacturer">Hersteller</label></li>
+                               <label for="search_manufacturer"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Hersteller<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</label></li>
                            <li class="checkbox"><input type="checkbox" name="search_footprint" value="true">
-                               <label for="search_footprint">Footprint</label></li>
+                               <label for="search_footprint"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Footprint<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</label></li>
                         </ul>
                      </div>
                      
@@ -267,7 +337,17 @@ echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
 }
 array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
 " name="keyword">
-                    <button type="submit" class="btn btn-default">Los!</button>
+                    <button type="submit" class="btn btn-default"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Los!<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</button>
                  
                  
                   </div>
@@ -289,15 +369,45 @@ array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
                     <div class="col-sm-3 col-md-2 sidebar">
                         <ul class="nav nav-sidebar">
                             <div id="categories">
-                               <h4>Kategorien</h4>
+                               <h4><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Kategorien<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</h4>
                                 <div id="tree-categories"/>
                             </div>
                             <div id="devices">
-                                <h4>Baugruppen</h4>
+                                <h4><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Baugruppen<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</h4>
                                 <div id="tree-devices"/>
                             </div>
                             <div id="tools">
-                                <h4>Verwaltung</h4>
+                                <h4><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Verwaltung<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</h4>
                                 <div id="tree-tools"/>
                             </div>
                         </ul>
@@ -347,7 +457,17 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
                                         <br>
                                         <a href="<?php echo $_smarty_tpl->tpl_vars['reload_link']->value;?>
 ">
-                                            <button>Seite neu laden</button>
+                                            <button class="btn btn-default><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Seite neu laden<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</button>
                                         </a>
                                     <?php }?>
                                 </form>

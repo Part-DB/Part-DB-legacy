@@ -164,6 +164,7 @@
                 return $this->db_data['disable_autodatasheets'];
         }
 
+
         /**
          * @brief Get all parts from this element
          *

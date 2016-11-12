@@ -1,3 +1,4 @@
+{locale path="nextgen/locale" domain="partdb"}
 {*
     This file is used to create tables for Part or DevicePart objects, or for check the import data (tools_import.php).
     Maybe later we can use it also for other objects, if this is required.
@@ -19,56 +20,56 @@
             {if isset($t.print_header) && $t.print_header}   
                <tr class="trcat">
                     {foreach $t.columns as $col}
-                        {if $col.caption=="row"}<th>Nr.</th>{/if}
+                        {if $col.caption=="row"}<th>{t}Nr.{/t}</th>{/if}
                         {if $col.caption=="hover_picture"}<th class="no-sort"></th>{/if}
-                        {if $col.caption=="id"}<th class="idclass">ID</th>{/if}
-                        {if $col.caption=="row_index"}<th class="idclass">Nr.</th>{/if} {*  only for import parts  *}
-                        {if $col.caption=="name"}<th>Name</th>{/if}
-                        {if $col.caption=="name_edit"}<th>Name</th>{/if} {*  only for import parts  *}
-                        {if $col.caption=="description"}<th>Beschreibung</th>{/if}
-                        {if $col.caption=="description_edit"}<th>Beschreibung</th>{/if} {*  only for import parts  *}
-                        {if $col.caption=="comment"}<th>Kommentar</th>{/if}
-                        {if $col.caption=="comment_edit"}<th>Kommentar</th>{/if} {*  only for import parts  *}
-                        {if $col.caption=="name_description"}<th>Name / Beschreibung</th>{/if}
-                        {if $col.caption=="instock"}<th>Bestand</th>{/if}
-                        {if $col.caption=="instock_edit"}<th>Bestand</th>{/if} {*  only for import parts  *}
-                        {if $col.caption=="instock_edit_buttons"}<th>Bestand ändern</th>{/if}
+                        {if $col.caption=="id"}<th class="idclass">{t}ID{/t}</th>{/if}
+                        {if $col.caption=="row_index"}<th class="idclass">{t}Nr.{/t}</th>{/if} {*  only for import parts  *}
+                        {if $col.caption=="name"}<th>{t}Name{/t}</th>{/if}
+                        {if $col.caption=="name_edit"}<th>{t}Name{/t}</th>{/if} {*  only for import parts  *}
+                        {if $col.caption=="description"}<th>{t}Beschreibung{/t}</th>{/if}
+                        {if $col.caption=="description_edit"}<th>{t}Beschreibung{/t}</th>{/if} {*  only for import parts  *}
+                        {if $col.caption=="comment"}<th>{t}Kommentar{/t}</th>{/if}
+                        {if $col.caption=="comment_edit"}<th>{t}Kommentar{/t}</th>{/if} {*  only for import parts  *}
+                        {if $col.caption=="name_description"}<th>{t}Name / Beschreibung{/t}</th>{/if}
+                        {if $col.caption=="instock"}<th>{t}Bestand{/t}</th>{/if}
+                        {if $col.caption=="instock_edit"}<th>{t}Bestand{/t}</th>{/if} {*  only for import parts  *}
+                        {if $col.caption=="instock_edit_buttons"}<th>{t}Bestand ändern{/t}</th>{/if}
                         {if $col.caption=="order_quantity_edit"}<th>Bestell-<br>menge</th>{/if} {*  only for order parts  *}
-                        {if $col.caption=="mininstock"}<th>Mindest-<br>bestand</th>{/if}
-                        {if $col.caption=="mininstock_edit"}<th>Mindest-<br>bestand</th>{/if} {*  only for import parts  *}
-                        {if $col.caption=="instock_mininstock"}<th>Vorh./<br>Min.Best</th>{/if}
-                        {if $col.caption=="category"}<th>Kategorie</th>{/if}
-                        {if $col.caption=="category_edit"}<th>Kategorie</th>{/if} {*  only for import parts  *}
+                        {if $col.caption=="mininstock"}<th>{t escape=no}Mindest-<br>{/t}{t}bestand{/t}</th>{/if}
+                        {if $col.caption=="mininstock_edit"}<th>{t}Mindest-<br>bestand{/t}</th>{/if} {*  only for import parts  *}
+                        {if $col.caption=="instock_mininstock"}<th>{t escape=no}Vorh./<br>Min.Best{/t}</th>{/if}
+                        {if $col.caption=="category"}<th>{t}Kategorie{/t}</th>{/if}
+                        {if $col.caption=="category_edit"}<th>{t}Kategorie{/t}</th>{/if} {*  only for import parts  *}
                         {if !$disable_footprints}
-                            {if $col.caption=="footprint"}<th>Footprint</th>{/if}
-                            {if $col.caption=="footprint_edit"}<th>Footprint</th>{/if} {*  only for import parts  *}
+                            {if $col.caption=="footprint"}<th>{t}Footprint{/t}</th>{/if}
+                            {if $col.caption=="footprint_edit"}<th>{t}Footprint{/t}</th>{/if} {*  only for import parts  *}
                         {/if}
                         {if !$disable_manufacturers}
-                            {if $col.caption=="manufacturer"}<th>Hersteller</th>{/if}
-                            {if $col.caption=="manufacturer_edit"}<th>Hersteller</th>{/if} {*  only for import parts  *}
+                            {if $col.caption=="manufacturer"}<th>{t}Hersteller{/t}</th>{/if}
+                            {if $col.caption=="manufacturer_edit"}<th>{t}Hersteller{/t}</th>{/if} {*  only for import parts  *}
                         {/if}
-                        {if $col.caption=="storelocation"}<th>Lagerort</th>{/if}
-                        {if $col.caption=="storelocation_edit"}<th>Lagerort</th>{/if} {*  only for import parts  *}
-                        {if $col.caption=="suppliers"}<th>Lieferanten</th>{/if}
-                        {if $col.caption=="supplier_edit"}<th>Lieferant</th>{/if} {*  only for import parts  *}
-                        {if $col.caption=="suppliers_radiobuttons"}<th>Lieferanten</th>{/if} {*  only for order parts  *}
-                        {if $col.caption=="datasheets"}{if !$disable_auto_datasheets}<th>Datenblätter</th>{/if}{/if}
+                        {if $col.caption=="storelocation"}<th>{t}Lagerort{/t}</th>{/if}
+                        {if $col.caption=="storelocation_edit"}<th>{t}Lagerort{/t}</th>{/if} {*  only for import parts  *}
+                        {if $col.caption=="suppliers"}<th>{t}Lieferanten{/t}</th>{/if}
+                        {if $col.caption=="supplier_edit"}<th>{t}Lieferant{/t}</th>{/if} {*  only for import parts  *}
+                        {if $col.caption=="suppliers_radiobuttons"}<th>{t}Lieferanten{/t}</th>{/if} {*  only for order parts  *}
+                        {if $col.caption=="datasheets"}{if !$disable_auto_datasheets}<th>{t}Datenblätter{/t}</th>{/if}{/if}
                         {if $col.caption=="button_decrement"}<th class="text-center no-sort">-</th>{/if}
                         {if $col.caption=="button_increment"}<th class="text-center no-sort">+</th>{/if}
-                        {if $col.caption=="order_options"}<th>Optionen</th>{/if} {*  only for order parts  *}
-                        {if $col.caption=="quantity_edit"}<th>Anzahl</th>{/if} {*  only for device parts  *}
-                        {if $col.caption=="mountnames_edit"}<th>Bestückungs-<br>daten</th>{/if} {*  only for device parts  *}
-                        {if $col.caption=="price_edit"}<th>Preis</th>{/if} {*  only for import parts  *}
-                        {if $col.caption=="average_single_price"}<th>Einzel-<br>preis Ø</th>{/if}
-                        {if $col.caption=="single_prices"}<th>Einzel-<br>preise</th>{/if}
-                        {if $col.caption=="total_prices"}<th>Gesamt-<br>preise</th>{/if} {*  only for device parts  *}
-                        {if $col.caption=="supplier_partnrs"}<th>Bestell-<br>nummern</th>{/if}
-                        {if $col.caption=="supplier_partnr_edit"}<th>Bestell-<br>nummer</th>{/if} {*  only for import parts  *}
-                        {if $col.caption=="attachements"}<th>Dateianhänge</th>{/if}
-                        {if $col.caption=="systemupdate_from_version"}<th>Von Version</th>{/if}
-                        {if $col.caption=="systemupdate_to_version"}<th>Auf Version</th>{/if}
-                        {if $col.caption=="systemupdate_release_date"}<th>Veröffentlichung</th>{/if}
-                        {if $col.caption=="systemupdate_changelog"}<th>Changelog</th>{/if}
+                        {if $col.caption=="order_options"}<th>{t}Optionen{/t}</th>{/if} {*  only for order parts  *}
+                        {if $col.caption=="quantity_edit"}<th>{t}Anzahl{/t}</th>{/if} {*  only for device parts  *}
+                        {if $col.caption=="mountnames_edit"}<th>{t escape=no}Bestückungs-<br>daten{/t}</th>{/if} {*  only for device parts  *}
+                        {if $col.caption=="price_edit"}<th>{t}Preis{/t}</th>{/if} {*  only for import parts  *}
+                        {if $col.caption=="average_single_price"}<th>{t escape=no}Einzel-<br>preis Ø{/t}</th>{/if}
+                        {if $col.caption=="single_prices"}<th>{t escape=no}Einzel-<br>preise{/t}</th>{/if}
+                        {if $col.caption=="total_prices"}<th>{t escape=no}Gesamt-<br>preise{/t}</th>{/if} {*  only for device parts  *}
+                        {if $col.caption=="supplier_partnrs"}<th>{t escape=no}Bestell-<br>nummern{/t}</th>{/if}
+                        {if $col.caption=="supplier_partnr_edit"}<th>{t escape=no}Bestell-<br>nummer{/t}</th>{/if} {*  only for import parts  *}
+                        {if $col.caption=="attachements"}<th>{t}Dateianhänge{/t}</th>{/if}
+                        {if $col.caption=="systemupdate_from_version"}<th>{t}Von Version{/t}</th>{/if}
+                        {if $col.caption=="systemupdate_to_version"}<th>{t}Auf Version{/t}</th>{/if}
+                        {if $col.caption=="systemupdate_release_date"}<th>{t}Veröffentlichung{/t}</th>{/if}
+                        {if $col.caption=="systemupdate_changelog"}<th>{t}Changelog{/t}</th>{/if}
                     {/foreach}
                 </tr>
             {/if}
