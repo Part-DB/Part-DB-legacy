@@ -164,12 +164,20 @@ class API
         $edit_nodes[] = treeview_node(_("Lieferanten"),BASE_RELATIVE."/edit_suppliers.php");
         $edit_nodes[] = treeview_node(_("Dateitypen"),BASE_RELATIVE."/edit_attachement_types.php");
 
+        //Developer nodes
+        $dev_nodes = array();
+        $dev_nodes[] = treeview_node(_("Werkzeuge"),BASE_RELATIVE."/development/developer_tools.php");
+        $dev_nodes[] = treeview_node(_("Debugging"),BASE_RELATIVE."/system_debug.php");
+        $dev_nodes[] = treeview_node(_("Sandkasten"),BASE_RELATIVE."/development/sandbox.php");
+        $dev_nodes[] = treeview_node(_("Quellcode-Doku"),BASE_RELATIVE."/development/doxygen/html/index.html");
+
         //Add nodes to root
         $tree = array();
         $tree[] = treeview_node(_("Tools"),null,$tools_nodes);
         $tree[] = treeview_node(_("Bearbeiten"),null,$edit_nodes);
         $tree[] = treeview_node(_("Zeige"),null,$show_nodes);
         $tree[] = treeview_node(_("System"),null,$system_nodes);
+        if($developer_mode) $tree[] = treeview_node(_("Entwickler-Werkzeuge"),null,$dev_nodes);
         $tree[] = treeview_node(_("Hilfe"),BASE_RELATIVE."documentation/dokuwiki/index.php",null);
 
         return $tree;
@@ -191,7 +199,7 @@ class API
         $category           = $part->get_category();
         $all_orderdetails   = $part->get_orderdetails();
 
-        return $part;
+        return array($part->get_json_array());
 
     }
 

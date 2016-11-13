@@ -131,9 +131,90 @@
         </div>
     </div>
 
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>{t}Einkaufsinformationen{/t}</h4></div>
+    <div class="panel-body">
+            {if isset($orderdetails)}
+            <table class="table table-striped table-header">
+               <thead>
+                    <tr class="trcat">
+                        <th>{t}Lieferant{/t}</th>
+                        <th>{t}Bestellnummer{/t}</th>
+                        <th>{t}Ab Bestellmenge{/t}</th>
+                        <th>{t}Preis{/t}</th>
+                        <th>{t}Einzelpreis{/t}</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {foreach $orderdetails as $order}
+                        <!--the alternating background colors are created here-->
+                        <tr class="">
+                            <td class="tdrow1{if $order.obsolete} backred{/if}">
+                                {$order.supplier_full_path}
+                            </td>
+
+                            <td class="tdrow1{if $order.obsolete} backred{/if}">
+                                {if isset($order.supplier_product_url)}
+                                    <a title="{$order.supplier_product_url}" href="{$order.supplier_product_url}">{$order.supplierpartnr}</a>
+                                {else}
+                                    {$order.supplierpartnr}
+                                {/if}
+                            </td>
+
+                            <td class="tdrow2{if $order.obsolete} backred{/if}">
+                                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                    {foreach $order.pricedetails as $price}
+                                        <tr>
+                                            <td class="tdrow2">
+                                                {$price.min_discount_quantity}
+                                            </td>
+                                        </tr>
+                                    {/foreach}
+                                </table>
+                            </td>
+
+                            <td class="tdrow1{if $order.obsolete} backred{/if}">
+                                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                    {foreach $order.pricedetails as $price}
+                                        <tr>
+                                            <td class="tdrow2">
+                                                {$price.price} / {$price.price_related_quantity}Stk.
+                                            </td>
+                                        </tr>
+                                    {/foreach}
+                                </table>
+                            </td>
+
+                            <td class="tdrow2{if $order.obsolete} backred{/if}">
+                                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                    {foreach $order.pricedetails as $price}
+                                        <tr>
+                                            <td class="tdrow2">
+                                                {$price.single_price}
+                                            </td>
+                                        </tr>
+                                    {/foreach}
+                                </table>
+                            </td>
+                        </tr>
+                    {/foreach}
+                </tbody>
+            </table>
+            {if isset($average_price)}
+                <br>
+                <b>{t}Durchschnittspreis für 1 Stk.:{/t} {$average_price}</b>
+            {/if}
+        {else}
+            {t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}
+            <a href="edit_part_info.php?pid={$pid}">{t}Einkaufsinformationen hinzufügen{/t}</a>
+        {/if}
+    </div>
+</div>
+
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h4>Dateianhänge</h4>
+        <h4>{t}Dateianhänge{/t}</h4>
     </div>
     <div class="panel-body">
         {if isset($attachement_types_loop)}
@@ -150,8 +231,8 @@
                 {/foreach}
             {/foreach}
         {else}
-            <p>Dieses Bauteil besitzt keine Dateianhänge.</p>
-            <p><a class="btn btn-default" href="edit_part_info.php?pid={$pid}">Dateianhänge hinzufügen</a></p>
+            <p>{t}Dieses Bauteil besitzt keine Dateianhänge.{/t}</p>
+            <p><a class="btn btn-default" href="edit_part_info.php?pid={$pid}">{t}Dateianhänge hinzufügen{/t}</a></p>
         {/if}
     </div>
 </div>

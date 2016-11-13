@@ -113,10 +113,10 @@
     print '<input type="checkbox" name="with_error" '.(isset($_REQUEST['with_error']) ? 'checked' : '').'>Mit Fehler in der Hälfte<br>';
     if (isset($footprint_milliseconds)) {print 'Zeit: '.$footprint_milliseconds.'ms<br>';}
     if (isset($footprint_error)) {print '<b><font style="color:red">Fehlermeldung: '.$footprint_error.'</font></b><br>';}
-    print '</form></div></div>';
+    print '</form></div></div>'; */
     
     
-    //phpinfo();
+    phpinfo();
 
 
 

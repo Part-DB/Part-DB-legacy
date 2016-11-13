@@ -21,12 +21,10 @@
     <div class="panel-heading">
         <h5>Teile in der Kategorie <b>"{$category_name}" </b></h5>
     </div>
-    <div class="ipanel-body">
-        <form method="post" action="">
-            <input type="hidden" name="cid" value="{$cid}">
-            <input type="hidden" name="subcat" value="{if $with_subcategories}1{else}0{/if}">
-            <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
-               {include file='../smarty_table.tpl'}
-        </form>
-    </div>
+    <form method="post" action="">
+        <input type="hidden" name="cid" value="{$cid}">
+        <input type="hidden" name="subcat" value="{if $with_subcategories}1{else}0{/if}">
+        <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
+           {include file='../smarty_table.tpl'}
+    </form>
 </div>

@@ -196,6 +196,28 @@
             }
         }
 
+        /**
+         * Returns a array for JSON serialization which contains all important data about this part
+         */
+        public function get_json_array()
+        {
+            $ret = array('pid' => $this->get_id(),
+                            'description' => $this->get_description(),
+                            'name' => $this->get_name(),
+                            'instock' => $this->get_instock(),
+                            'mininstock' => $this->get_mininstock(),
+                            'comment' => $this->get_comment(),
+                            'obsolete' => $this->get_obsolete(),
+                            'visible' => $this->get_visible(),
+                            'order_quantity' => $this->get_order_quantity(),
+                            'average_price' => $this->get_average_price(),
+                            'manual_order' => $this->get_manual_order(),
+                            'category' => $this->get_category()->get_json_array()
+                            );
+
+            return $ret;
+        }
+
         /********************************************************************************
         *
         *   Getters

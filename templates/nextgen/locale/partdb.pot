@@ -136,7 +136,60 @@ msgid "Zum Bestellen vormerken:"
 msgstr ""
 
 #: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:120
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:137
 msgid "Übernehmen"
+msgstr ""
+
+#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:135
+msgid "Einkaufsinformationen"
+msgstr ""
+
+#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:141
+#: ../templates/nextgen/smarty_head.tpl:131
+#: ../templates/nextgen/smarty_table.tpl:54
+msgid "Lieferant"
+msgstr ""
+
+#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:142
+msgid "Bestellnummer"
+msgstr ""
+
+#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:143
+msgid "Ab Bestellmenge"
+msgstr ""
+
+#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:144
+#: ../templates/nextgen/smarty_table.tpl:62
+msgid "Preis"
+msgstr ""
+
+#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:145
+msgid "Einzelpreis"
+msgstr ""
+
+#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:206
+msgid "Durchschnittspreis für 1 Stk.:"
+msgstr ""
+
+#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:209
+msgid "Dieses Bauteil hat keine Einkaufsinformationen."
+msgstr ""
+
+#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:210
+msgid "Einkaufsinformationen hinzufügen"
+msgstr ""
+
+#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:217
+#: ../templates/nextgen/smarty_table.tpl:68
+msgid "Dateianhänge"
+msgstr ""
+
+#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:234
+msgid "Dieses Bauteil besitzt keine Dateianhänge."
+msgstr ""
+
+#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:235
+msgid "Dateianhänge hinzufügen"
 msgstr ""
 
 #: ../templates/nextgen/show_search_parts.php/smarty_search_header.tpl:29
@@ -144,85 +197,81 @@ msgid "Export"
 msgstr ""
 
 #: ../templates/nextgen/smarty_head.tpl:91
+#: ../templates/nextgen/smarty_head.tpl:97
 msgid "Toggle Navigation"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:108
+#: ../templates/nextgen/smarty_head.tpl:114
 msgid "Suchoptionen"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:113
+#: ../templates/nextgen/smarty_head.tpl:119
 #: ../templates/nextgen/smarty_table.tpl:27
 #: ../templates/nextgen/smarty_table.tpl:28
 msgid "Name"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:115
+#: ../templates/nextgen/smarty_head.tpl:121
 #: ../templates/nextgen/smarty_table.tpl:41
 #: ../templates/nextgen/smarty_table.tpl:42
 msgid "Kategorie"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:117
+#: ../templates/nextgen/smarty_head.tpl:123
 #: ../templates/nextgen/smarty_table.tpl:29
 #: ../templates/nextgen/smarty_table.tpl:30
 msgid "Beschreibung"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:119
+#: ../templates/nextgen/smarty_head.tpl:125
 #: ../templates/nextgen/smarty_table.tpl:51
 #: ../templates/nextgen/smarty_table.tpl:52
 msgid "Lagerort"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:121
+#: ../templates/nextgen/smarty_head.tpl:127
 #: ../templates/nextgen/smarty_table.tpl:31
 #: ../templates/nextgen/smarty_table.tpl:32
 msgid "Kommentar"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:123
+#: ../templates/nextgen/smarty_head.tpl:129
 msgid "Bestellnr."
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:125
-#: ../templates/nextgen/smarty_table.tpl:54
-msgid "Lieferant"
-msgstr ""
-
-#: ../templates/nextgen/smarty_head.tpl:127
+#: ../templates/nextgen/smarty_head.tpl:133
 #: ../templates/nextgen/smarty_table.tpl:48
 #: ../templates/nextgen/smarty_table.tpl:49
 msgid "Hersteller"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:129
+#: ../templates/nextgen/smarty_head.tpl:135
 #: ../templates/nextgen/smarty_table.tpl:44
 #: ../templates/nextgen/smarty_table.tpl:45
 msgid "Footprint"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:133
+#: ../templates/nextgen/smarty_head.tpl:139
 msgid "Suche"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:134
+#: ../templates/nextgen/smarty_head.tpl:140
 msgid "Los!"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:156
+#: ../templates/nextgen/smarty_head.tpl:162
 msgid "Kategorien"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:160
+#: ../templates/nextgen/smarty_head.tpl:166
 msgid "Baugruppen"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:164
+#: ../templates/nextgen/smarty_head.tpl:170
 msgid "Verwaltung"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:200
+#: ../templates/nextgen/smarty_head.tpl:203
 msgid "Seite neu laden"
 msgstr ""
 
@@ -285,10 +334,6 @@ msgstr ""
 msgid "Bestückungs-<br>daten"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:62
-msgid "Preis"
-msgstr ""
-
 #: ../templates/nextgen/smarty_table.tpl:63
 msgid "Einzel-<br>preis Ø"
 msgstr ""
@@ -307,10 +352,6 @@ msgstr ""
 
 #: ../templates/nextgen/smarty_table.tpl:67
 msgid "Bestell-<br>nummer"
-msgstr ""
-
-#: ../templates/nextgen/smarty_table.tpl:68
-msgid "Dateianhänge"
 msgstr ""
 
 #: ../templates/nextgen/smarty_table.tpl:69
@@ -533,6 +574,7 @@ msgid "Eigener Banner für die Startseite (HTML):"
 msgstr ""
 
 #: ../templates/nextgen/system_config.php/smarty_system_config.tpl:212
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:120
 msgid "Einstellungen übernehmen"
 msgstr ""
 
@@ -566,4 +608,85 @@ msgstr ""
 
 #: ../templates/nextgen/system_config.php/smarty_system_config.tpl:269
 msgid ".htaccess funktioniert:"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:11
+msgid "Datenbank Status / Update"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:17
+msgid "Aktuelle Version:"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:26
+msgid "Benötigte Version:"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:36
+msgid "Die Datenbank benötigt ein Update!"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:40
+msgid "ACHTUNG:"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:41
+msgid ""
+"Das letzte Update ist fehlgeschlagen. Sie können beliebig oft versuchen,\r\n"
+"                                        das Update an der Stelle des letzten "
+"Abbruchs fortzusetzen.\r\n"
+"                                        Falls Sie zwischenzeitlich aber eine "
+"neue Datenbank geladen haben\r\n"
+"                                        (z.B. ein Backup eingespielt), muss "
+"das Update jedoch wieder von Vorne gestartet werden.<br>\r\n"
+"                                        Sie haben deshalb die folgenden zwei "
+"Möglichkeiten:"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:48
+msgid "Letztes, fehlgeschlagenes Update fortsetzen"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:49
+msgid "Neuer Update-Versuch beginnen (von Vorne)"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:54
+msgid "Die Datenbank ist auf dem neusten Stand."
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:65
+msgid "Datenbank-Einstellungen"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:69
+msgid "Datenbanktyp:"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:81
+msgid "Host:"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:89
+msgid "Datenbankname:"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:96
+msgid "Benutzer:"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:104
+msgid "Datenbankpasswort:"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:112
+msgid "Administratorpasswort:"
+msgstr ""
+
+#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:130
+msgid "Automatische Updates aktivieren"
+msgstr ""
+
+#: ../templates/nextgen/tools_iclogos.php/smarty_iclogos.tpl:5
+msgid "Hersteller IC Logos"
 msgstr ""

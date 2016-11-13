@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-13 00:18:40
+/* Smarty version 3.1.30, created on 2016-11-13 01:52:58
   from "C:\xampp\htdocs\part-db\templates\nextgen\smarty_head.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_5827a3508cab63_23026094',
+  'unifunc' => 'content_5827b96ae27529_49625317',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c62886e2cd9939019d2f9a5decfc9017dfc45286' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\smarty_head.tpl',
-      1 => 1478992716,
+      1 => 1478998376,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_5827a3508cab63_23026094 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5827b96ae27529_49625317 (Smarty_Internal_Template $_smarty_tpl) {
 if (!is_callable('smarty_function_locale')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\function.locale.php';
 if (!is_callable('smarty_block_t')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\block.t.php';
 echo smarty_function_locale(array('path'=>"nextgen/locale",'domain'=>"partdb"),$_smarty_tpl);?>
@@ -171,6 +171,22 @@ templates/nextgen/js/part-db.js"><?php echo '</script'; ?>
          <div class="container-fluid">
          <!-- Brand and toggle get grouped for better mobile display -->
           <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar" aria-expanded="false">
+              <span class="sr-only"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Toggle Navigation<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+              <span class="icon-bar"></span>
+            </button>
             <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
               <span class="sr-only"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
 $_block_repeat1=true;
@@ -366,7 +382,7 @@ array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
    
            <div class="row">
                 <aside>
-                    <div class="col-sm-3 col-md-2 sidebar">
+                    <div class="col-sm-3 col-md-2 sidebar" id="sidebar">
                         <ul class="nav nav-sidebar">
                             <div id="categories">
                                 <h4><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
