@@ -22,8 +22,6 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id$
-
     [DATE]      [NICKNAME]      [CHANGES]
     2012-08-??  kami89          - created
     2012-09-27  kami89          - added doxygen comments

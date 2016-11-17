@@ -22,8 +22,6 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id$
-
     Changelog (sorted by date):
         [DATE]      [NICKNAME]          [CHANGES]
         2012-??-??  weinbauer73         - changed to templates

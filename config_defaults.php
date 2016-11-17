@@ -22,8 +22,6 @@
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 
-    $Id$
-
     Changelog (sorted by date):
         [DATE]      [NICKNAME]          [CHANGES]
         2012-09-02  kami89              - moved nearly all constants to database and some stuff to "start_session.php"
