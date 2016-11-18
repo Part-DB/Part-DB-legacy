@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-12 14:38:40
+/* Smarty version 3.1.30, created on 2016-11-15 20:17:17
   from "C:\xampp\htdocs\part-db\templates\nextgen\smarty_foot.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_58271b60005034_03478420',
+  'unifunc' => 'content_582b5f3d245a98_54001470',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_58271b60005034_03478420 (Smarty_Internal_Template $_smarty_tpl) {
+function content_582b5f3d245a98_54001470 (Smarty_Internal_Template $_smarty_tpl) {
 ?>
             <?php if (isset($_smarty_tpl->tpl_vars['messages']->value)) {?>
                 <div class="panel panel-default">

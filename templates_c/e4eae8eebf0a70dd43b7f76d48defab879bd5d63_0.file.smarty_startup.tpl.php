@@ -1,11 +1,11 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-12 14:38:39
+/* Smarty version 3.1.30, created on 2016-11-15 21:48:56
   from "C:\xampp\htdocs\part-db\templates\nextgen\startup.php\smarty_startup.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_58271b5fe3f180_91255604',
+  'unifunc' => 'content_582b74b8e78ba5_13267018',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_58271b5fe3f180_91255604 (Smarty_Internal_Template $_smarty_tpl) {
+function content_582b74b8e78ba5_13267018 (Smarty_Internal_Template $_smarty_tpl) {
 if (!is_callable('smarty_function_locale')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\function.locale.php';
 if (!is_callable('smarty_block_t')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\block.t.php';
 echo smarty_function_locale(array('path'=>"nextgen/locale",'domain'=>"partdb"),$_smarty_tpl);?>

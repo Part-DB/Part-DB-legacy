@@ -1,0 +1,45 @@
+{locale path="nextgen/locale" domain="partdb"}
+{if isset($refresh_navigation_frame) && $refresh_navigation_frame}
+    <script type="text/javascript">
+        parent.frames.navigation_frame.location.reload();
+    </script>
+{/if}
+
+
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>{t}Baugruppe inklusive Bauteile kopieren{/t}</h4></div>
+    <div class="panel-body">
+        <form method="post" class="form-horizontal" action="">
+            <input type="hidden" name="device_id" value="{$device_id}">
+                <div class="form-group">
+                    <label class="control-label col-md-3">{t}Name der Kopie:{/t}</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="copy_new_name" value="{t}Kopie_von_{/t}{$device_name}">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">{t}Übergeordnete Baugruppe:{/t}</label>
+                    <div class="col-md-9">
+                        <select class="form-control" name="copy_new_parent_id" size="1">
+                            {$parent_device_list}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="control-label col-md-3">{t}Rekursiv:{/t}</label>
+                    <div class="col-md-9">
+                        <div class="checkbox">
+                            <input type="checkbox" name="copy_recursive">
+                            <label>{t}Alle Unterbaugruppen mit all deren Teilen auch mitkopieren{/t}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        <button class="btn btn-success" type="submit" name="copy_device">{t}Kopie anlegen{/t}</button>
+                    </div>
+                </div>
+        </form>
+    </div>
+</div>
+

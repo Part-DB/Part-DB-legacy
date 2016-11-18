@@ -46,6 +46,7 @@ function registerForm() {
         success:  showFormResponse
     };
     
+    
     $('form').ajaxForm(data);
 }
 
@@ -79,9 +80,6 @@ $(document).ready(function () {
     registerForm();
     registerLinks();
     
-    
-    
-    
 });
 
 function makeSortTable() {
@@ -103,6 +101,11 @@ function makeSortTable() {
     }
 }
 
+function makeFileInput() {
+    'use strict';
+    $(".file").fileinput();
+}
+
 //Make back in the browser go back in history
 window.onpopstate = function (event) {
     'use strict';
@@ -119,6 +122,7 @@ $(document).ajaxComplete(function (event, xhr, settings) {
     //makeSortTable();
     registerLinks();
     registerForm();
+    makeFileInput();
     
     //Push only if it was a "GET" request and requested data was an HTML
     if (settings.type.toLowerCase() !== "post" && settings.dataType === "html") {

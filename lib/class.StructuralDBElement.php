@@ -467,7 +467,7 @@
 
 
         public function build_bootstrap_tree($page, $parameter, $recursive = false,
-                                        $show_root = false, $root_name = 'Oberste Ebene')
+                                        $show_root = false, $use_db_root_name = true ,$root_name = 'Oberste Ebene')
         {
             $subelements = $this->get_subelements(false);
             $nodes = array();
@@ -483,7 +483,7 @@
                 if($show_root)
                 {
                     $tree = array(
-                                array('text' => $this->get_name(),
+                                array('text' => ($use_db_root_name) ? $this->get_name() : $root_name ,
                                 'href' => $page ."?". $parameter ."=".$this->get_id(),
                                 'nodes' => $nodes)
                     );

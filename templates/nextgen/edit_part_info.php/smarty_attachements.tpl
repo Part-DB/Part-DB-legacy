@@ -1,25 +1,14 @@
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4>Dateianhänge</h4>
+        <h4>{t}Dateianhänge{/t}</h4>
     </div>
-    <div class="panel-body table-responsive">
-        <table class="table  table-condensed tabel-hover table-striped">
-           <thead>
-                <tr class="trcat">
-                    <th>Bild / Link</th>
-                    <th>Eigenschaften</th>
-                    <th></th>
-                </tr>
-            </thead>
-
+    <div class="panel-body">
             {foreach $attachements_loop as $attach}
-                <form action="edit_part_info.php" method="post" enctype="multipart/form-data">
-                    <tr>
-
-                        <!--Picture-->
-                        <td class="tdrow0">
+               <div class="row">
+                <form action="{$relative_path}edit_part_info.php" method="post" enctype="multipart/form-data">
+                        <div class="col-sm-2">
                             {if $attach.id == "new"}
-                                <b>Neue Datei hinzufügen:</b>
+                                <b>{t}Neue Datei hinzufügen:{/t}</b>
                             {else}
                                 {if isset($attach.picture_filename)}
                                     <a href="{$attach.picture_filename}">
@@ -33,67 +22,66 @@
                                     {/if}
                                 {/if}
                             {/if}
-                        </td>
+                        </div>
 
-                        <td>
-                            <table class="table table-striped  table-hover table-bordered">
-                                <tr>
-                                    <td>
-                                        <b>Name:</b><br>
+                       
+                        <div class="col-sm-7">
+                            <div class="row">
+                                    <div class="col-sm-4 form-group">
+                                        <label>{t}Name:{/t}</label>
                                         <input type="text" class="form-control" name="name" size="12" value="{$attach.name}">
-                                    </td>
-                                    <td>
-                                        <b>Dateityp:</b><br>
+                                    </div>
+                                    <div class="col-sm-4 form-group">
+                                        <label>{t}Dateityp:{/t}</label>
                                         <select class="form-control" name="attachement_type_id">
                                             {$attach.attachement_types_list}
                                         </select>
-                                    </td>
-                                    <td>
+                                    </div>
+                                    <div class="col-sm-4 form-group">
                                         <div class="checkbox">
                                             <input type="checkbox" class="styled" name="show_in_table" {if $attach.show_in_table} checked{/if}>
-                                            <label for="show_in_table">In Tabelle anzeigen</label>
+                                            <label for="show_in_table">{t}In Tabelle anzeigen{/t}</label>
                                         </div>
                             
                                         {if $attach.is_picture}
                                         <div class="checkbox">
-                                            <input type="checkbox" class="styled" name="is_master_picture" {if $attach.is_master_picture} checked{/if}><label for="is_master_picture">Als Hauptbild verwenden</label>
+                                            <input type="checkbox" class="styled" name="is_master_picture" {if $attach.is_master_picture} checked{/if}><label for="is_master_picture">{t}Als Hauptbild verwenden{/t}</label>
                                         </div>
                                         {/if}
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>Dateiname / URL:</b>
-                                    </td>
-                                    <td colspan="2">
-                                        <input type="text" class="form-control" name="attachement_filename" value="{$attach.filename_base_relative}" style="width:98%">
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td>
-                                        <b>Neue Datei hochladen:</b>
-                                    </td>
-                                    <td colspan="2">
-                                        <input data-show-caption="false" type="file" name="attachement_file">
-                                        <!--(max. {$max_upload_filesize}) -->
-                                    </td>
-                                </tr>
-                            </table>
-                        </td>
+                                    </div>
+                            </div>
+                            <div class="row form-group">
+                                    <label class="col-sm-3">
+                                        {t}Dateiname / URL:{/t}
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input type="text" class="form-control" name="attachement_filename" value="{$attach.filename_base_relative}">
+                                    </div>
+                            </div>
+                                <div class="row form-group">
+                                    <label class="col-sm-3">
+                                        <b>{t}Neue Datei hochladen:{/t}</b>
+                                    </label>
+                                    <div class="col-sm-9">
+                                        <input data-show-caption="false" data-show-upload="false" type="file" class="file" name="attachement_file">
+                                        <p>(max. {$max_upload_filesize})</p>
+                                    </div>  
+                                </div>
+                            </div>
 
-                        <td class="tdrow1">
+                        <div class="col-sm-3">
                             <input type="hidden" name="pid" value="{$pid}">
                             <input type="hidden" name="attachement_id" value="{$attach.id}">
                             {if $attach.id == "new"}
-                                <button class="btn btn-success" type="submit" name="attachement_add">Hinzufügen</button>
+                                <button class="btn btn-success"  type="submit" name="attachement_add">{t}Hinzufügen{/t}</button>
                             {else}
-                                <button class="btn btn-success" type="submit" name="attachement_apply">Übernehmen</button>
-                                <button class="btn btn-danger" type="submit" name="attachement_delete">Löschen</button>
+                                <button class="btn btn-success" type="submit" name="attachement_apply">{t}Übernehmen{/t}</button>
+                                <button class="btn btn-danger" type="submit" name="attachement_delete">{t}Löschen{/t}</button>
                             {/if}
-                        </td>
-                    </tr>
-                </form>
+                        </div>
+                    </form>
+                </div>
+                <hr> 
             {/foreach}
-        </table>
     </div>
 </div>

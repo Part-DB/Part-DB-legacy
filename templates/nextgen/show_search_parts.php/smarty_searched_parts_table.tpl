@@ -20,6 +20,6 @@
           
            </form>
            
-            {include file='../smarty_table.tpl'}
+           {include file='../smarty_table.tpl'}
 </div>
 

@@ -107,7 +107,7 @@ class API
             }
             else
             {
-                return $root_device->build_bootstrap_tree('show_device_parts.php','device_id');
+                return $root_device->build_bootstrap_tree('show_device_parts.php','device_id',false,true,false,_('&Uuml;bersicht'));
             }
         }
         catch (Exception $e)

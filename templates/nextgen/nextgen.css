@@ -40,6 +40,7 @@ p:hover .hoverpic {
     border: 1px solid #800000;
 }
 
+
 .treeview {
     font-size: 12px;
 }
@@ -55,4 +56,11 @@ p:hover .hoverpic {
 
 .list-group-item {
     padding: 5px 10px;
+}
+
+.fake-table-col {
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: top;
+    border-top: 1px solid #ddd;
 }

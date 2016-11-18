@@ -12,59 +12,64 @@
     <div class="panel-body">
        <div class="row">
                 <div class="col-md-9">
-                    <table class="table">
-                       <tr>
-                           <td><b>{t}Name:{/t}</b></td>
-                           <td>
+                    <!--<div class="form-horizontal">-->
+                       <div class="row">
+                           <label class="col-sm-2">{t}Name:{/t}</label>
+                           <span class="col-sm-10">
                                 {if isset($manufacturer_product_url)}
                                     <a title="{$manufacturer_product_url}" href="{$manufacturer_product_url}" target="_blank">{$name}</a>
                                 {else}
                                     {$name}
                                 {/if}
-                            </td>
-                       </tr>
-                       <tr>
-                           <td><b>{t}Beschreibung:{/t}</b></td>
-                           <td>{if isset($description)}{$description}{else}-{/if}</td>
-                       </tr>
-                       <tr>
-                           <td><b>{t}Vorhanden:{/t}</b></td>
-                           <td>{$instock}</td>
-                       </tr>
-                       <tr>
-                           <td><b>{t}Min. Bestand:{/t}</b></td>
-                           <td>{$mininstock}</td>
-                       </tr>
-                       <tr>
-                           <td><b>{t}Kategorie:{/t}</b></td>
-                           <td>{$category_full_path}</td>
-                       </tr>
-                       <tr>
-                           <td><b>{t}Lagerort:{/t}</b></td>
-                           <td>{$storelocation_full_path}{if $storelocation_is_full} [voll]{/if}</td>
-                       </tr>
+                            </span>
+                       </div>
+                       <div class="row">
+                           <label class="col-sm-2">{t}Beschreibung:{/t}</label>
+                           <span class="col-sm-10">{if isset($description)}{$description}{else}-{/if}</span>
+                       </div>
+                       <div class="row">
+                           <label class="col-sm-2">{t}Vorhanden:{/t}</label>
+                           <span class="col-sm-10">{$instock}</span>
+                       </div>
+                       <div class="row">
+                           <label class="col-sm-2">{t}Min. Bestand:{/t}</label>
+                           <span class="col-sm-10">{$mininstock}</span>
+                       </div>
+                       <div class="row">
+                           <label class="col-sm-2">{t}Kategorie:{/t}</label>
+                           <span class="col-sm-10">{$category_full_path}</span>
+                       </div>
+                       <div class="row">
+                           <label class="col-sm-2">{t}Lagerort:{/t}</label>
+                           <span class="col-sm-10">{$storelocation_full_path}{if $storelocation_is_full} [voll]{/if}</span>
+                       </div>
                        {if !$disable_manufacturers}
-                           <tr>
-                               <td><b>{t}Hersteller:{/t}</b></td>
-                               <td>{$manufacturer_full_path}</td>
-                           </tr>
+                        <div class="row">
+                            <label class="col-sm-2">{t}Hersteller:{/t}</label>
+                            <span class="col-sm-10">{$manufacturer_full_path}</span>
+                        </div>
                        {/if}
                        {if !$disable_footprints}
-                           <tr>
-                               <td><b>{t}Footprint:{/t}</b></td>
-                               <td>
-                                   {$footprint_full_path}<br>
-                                   {if isset($footprint_filename)}<img align="middle" src="{$footprint_filename}" alt="" height="70">{/if}
-                               </td>
-                           </tr>
+                        <div class="row">
+                            <label class="col-sm-2">{t}Footprint:{/t}</label>
+                            <div class="col-sm-10">
+                               {$footprint_full_path}<br>
+                                {if isset($footprint_filename)}<img align="middle" src="{$footprint_filename}" alt="" height="70">{/if}
+                            </div>
+                        </div>
                        {/if}
-                       <tr>
-                           <td valign="top"><b>{t}Kommentar:{/t}</b></td>
-                           <td>{if isset($comment)}{$comment}{else}-{/if}</td>
-                       </tr>
-                    </table>
+                       <div class="row">
+                           <label class="col-sm-2">{t}Kommentar:{/t}</label>
+                           <div class="col-sm-10">{if isset($comment)}{$comment}{else}-{/if}</div>
+                       </div>
                     
-                    <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}">Angaben verändern</a>
+                      <hr>
+                       
+                        <div class="row">
+                           <div class="col-sm-12">
+                            <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}">Angaben verändern</a>
+                            </div>
+                        </div>
                 </div>
 
                 <div class="col-md-3">
@@ -133,8 +138,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading"><h4>{t}Einkaufsinformationen{/t}</h4></div>
-    <div class="panel-body">
-            {if isset($orderdetails)}
+            {if isset($orderdetails) && $orderdetails}
             <table class="table table-striped table-header">
                <thead>
                     <tr class="trcat">
@@ -202,14 +206,14 @@
                 </tbody>
             </table>
             {if isset($average_price)}
-                <br>
                 <b>{t}Durchschnittspreis für 1 Stk.:{/t} {$average_price}</b>
             {/if}
         {else}
-            {t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}
-            <a href="edit_part_info.php?pid={$pid}">{t}Einkaufsinformationen hinzufügen{/t}</a>
+            <div class="panel-body">
+                {t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}
+                <a class="btn btn-default pull-right" href="edit_part_info.php?pid={$pid}">{t}Einkaufsinformationen hinzufügen{/t}</a>
+            </div>
         {/if}
-    </div>
 </div>
 
 <div class="panel panel-info">
@@ -231,8 +235,8 @@
                 {/foreach}
             {/foreach}
         {else}
-            <p>{t}Dieses Bauteil besitzt keine Dateianhänge.{/t}</p>
-            <p><a class="btn btn-default" href="edit_part_info.php?pid={$pid}">{t}Dateianhänge hinzufügen{/t}</a></p>
+            {t}Dieses Bauteil besitzt keine Dateianhänge.{/t}
+            <a class="btn btn-default pull-right" href="edit_part_info.php?pid={$pid}">{t}Dateianhänge hinzufügen{/t}</a>
         {/if}
     </div>
 </div>

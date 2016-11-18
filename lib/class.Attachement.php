@@ -184,7 +184,7 @@
             $extension = pathinfo($this->get_filename(), PATHINFO_EXTENSION);
 
             // list all file extensions which are supported to display them by HTML code
-            $picture_extensions = array('gif', 'png', 'jpg', 'jpeg', 'bmp');
+            $picture_extensions = array('gif', 'png', 'jpg', 'jpeg', 'bmp', 'svg', 'tif');
 
             return in_array(strtolower($extension), $picture_extensions);
         }
