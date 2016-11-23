@@ -29,7 +29,7 @@
                             <div class="row">
                                     <div class="col-sm-4 form-group">
                                         <label>{t}Name:{/t}</label>
-                                        <input type="text" class="form-control" name="name" size="12" value="{$attach.name}">
+                                        <input type="text" class="form-control" name="name" size="12" value="{$attach.name}" required>
                                     </div>
                                     <div class="col-sm-4 form-group">
                                         <label>{t}Dateityp:{/t}</label>

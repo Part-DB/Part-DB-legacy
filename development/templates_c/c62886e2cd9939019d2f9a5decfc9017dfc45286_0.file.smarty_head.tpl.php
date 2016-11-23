@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-13 13:33:51
+/* Smarty version 3.1.30, created on 2016-11-23 17:10:44
   from "C:\xampp\htdocs\part-db\templates\nextgen\smarty_head.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_58285daf1d9bb7_95141168',
+  'unifunc' => 'content_5835bf849cc9e1_87663589',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'c62886e2cd9939019d2f9a5decfc9017dfc45286' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\smarty_head.tpl',
-      1 => 1478998376,
+      1 => 1479917299,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_58285daf1d9bb7_95141168 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5835bf849cc9e1_87663589 (Smarty_Internal_Template $_smarty_tpl) {
 if (!is_callable('smarty_function_locale')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\function.locale.php';
 if (!is_callable('smarty_block_t')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\block.t.php';
 echo smarty_function_locale(array('path'=>"nextgen/locale",'domain'=>"partdb"),$_smarty_tpl);?>
@@ -114,6 +114,12 @@ DataTables-1.10.12/js/jquery.dataTables.min.js"><?php echo '</script'; ?>
 DataTables-1.10.12/js/dataTables.bootstrap.min.js"><?php echo '</script'; ?>
 >
         
+        <!-- 3d footprint viewer -->
+        <?php echo '<script'; ?>
+ src="http://www.x3dom.org/release/x3dom.js"><?php echo '</script'; ?>
+>
+        <link rel="stylesheet" href="http://www.x3dom.org/release/x3dom.css">
+        
         <?php if (isset($_smarty_tpl->tpl_vars['javascript_files']->value)) {?>
         <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['javascript_files']->value, 'file');
@@ -166,13 +172,29 @@ templates/nextgen/js/part-db.js"><?php echo '</script'; ?>
     
 
    
-     <header>
-      <nav class="navbar navbar-default">
-         <div class="container-fluid">
-         <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar" aria-expanded="false">
-              <span class="sr-only"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+    <header>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+             <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar" aria-expanded="false">
+                        <span class="sr-only"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+$_block_repeat1=true;
+echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
+while ($_block_repeat1) {
+ob_start();
+?>
+Toggle Sidebar<?php $_block_repeat1=false;
+echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
+}
+array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
+</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#searchbar" aria-expanded="false">
+                        <span class="sr-only"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
 $_block_repeat1=true;
 echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
 while ($_block_repeat1) {
@@ -183,41 +205,22 @@ echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
 }
 array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
 </span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span class="sr-only"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
-$_block_repeat1=true;
-echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
-while ($_block_repeat1) {
-ob_start();
-?>
-Toggle Navigation<?php $_block_repeat1=false;
-echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
-}
-array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
-</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="<?php echo $_smarty_tpl->tpl_vars['relative_path']->value;?>
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                    <a class="navbar-brand" href="<?php echo $_smarty_tpl->tpl_vars['relative_path']->value;?>
 startup.php">Part-DB</a>
-          </div>
+                </div>
 
-          <!-- Navbar -->
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <!-- Navbar -->
+            <div class="collapse navbar-collapse" id="searchbar">
 
             <!-- Searchbar -->
 
-               <form class="navbar-form navbar-right" action="<?php echo $_smarty_tpl->tpl_vars['relative_path']->value;?>
+            <form class="navbar-form navbar-right" action="<?php echo $_smarty_tpl->tpl_vars['relative_path']->value;?>
 show_search_parts.php" method="get">
-                  <div class=class="navbar-form navbar-right">
-                     <div class="btn-group">
+                    <div class="btn-group">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+                            <?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
 $_block_repeat1=true;
 echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
 while ($_block_repeat1) {
@@ -228,7 +231,7 @@ echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
 }
 array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
 
-                        <span class="caret"></span>
+                            <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="SearchOptions">
                            <li class="checkbox"><input type="checkbox" name="search_name" value="true" checked>
@@ -340,8 +343,8 @@ echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
 array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
 </label></li>
                         </ul>
-                     </div>
-                     
+                    </div>
+
                     <input type="search" class="form-control" placeholder="<?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
 $_block_repeat1=true;
 echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
@@ -364,15 +367,8 @@ echo smarty_block_t(array(), ob_get_clean(), $_smarty_tpl, $_block_repeat1);
 }
 array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
 </button>
-                 
-                 
-                  </div>
-               </form>
-      
-          
-    
+            </form>
          </div><!-- /.navbar-collapse -->
-     
       </div><!-- /.container-fluid -->
     </nav>
    </header>
@@ -432,11 +428,11 @@ array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
                 </aside>
                 <div class="col-xs-12 col-sm-9 col-md-10" id="main" main >
                    <div class="container-fluid" id="content">
+                       
                        <?php if (isset($_smarty_tpl->tpl_vars['messages']->value)) {?>
-                        <div class="panel panel-error">
-                            <?php if (isset($_smarty_tpl->tpl_vars['messages_div_title']->value)) {?><div class="panel-heading"><h2><?php echo $_smarty_tpl->tpl_vars['messages_div_title']->value;?>
-</h2></div><?php }?>
-                            <div class="panel-body">
+                        <div class="alert alert-danger">
+                            <?php if (isset($_smarty_tpl->tpl_vars['messages_div_title']->value)) {?><h4><?php echo $_smarty_tpl->tpl_vars['messages_div_title']->value;?>
+</h4><?php }?>
                                 <form action="" method="post">
                                     <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['messages']->value, 'msg');
@@ -444,13 +440,13 @@ if ($_from !== null) {
 foreach ($_from as $_smarty_tpl->tpl_vars['msg']->value) {
 ?>
                                         <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['text'])) {?>
-                                            <?php if ($_smarty_tpl->tpl_vars['msg']->value['strong']) {?><strong><?php }?>
+                                            <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['strong']) && $_smarty_tpl->tpl_vars['msg']->value['strong']) {?><strong><?php }?>
                                             <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['color'])) {?><font color="<?php echo $_smarty_tpl->tpl_vars['msg']->value['color'];?>
 "><?php }?>
                                             <?php echo $_smarty_tpl->tpl_vars['msg']->value['text'];?>
 
                                             <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['color'])) {?></font><?php }?>
-                                            <?php if ($_smarty_tpl->tpl_vars['msg']->value['strong']) {?></strong><?php }?>
+                                            <?php if (isset($_smarty_tpl->tpl_vars['msg']->value['strong']) && $_smarty_tpl->tpl_vars['msg']->value['strong']) {?></strong><?php }?>
                                         <?php }?>
 
                                         <?php if (isset($_smarty_tpl->tpl_vars['html']->value)) {?>
@@ -458,19 +454,19 @@ foreach ($_from as $_smarty_tpl->tpl_vars['msg']->value) {
 
                                         <?php }?>
 
-                                        <?php if (isset($_smarty_tpl->tpl_vars['no_linebreak']->value) && $_smarty_tpl->tpl_vars['no_linebreak']->value) {?><br><?php }?>
+                                        <?php if (!isset($_smarty_tpl->tpl_vars['no_linebreak']->value) || !$_smarty_tpl->tpl_vars['no_linebreak']->value) {?><br><?php }?>
                                     <?php
 }
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
 ?>
 
-
+                                   
                                     <?php if (isset($_smarty_tpl->tpl_vars['reload_link']->value)) {?>
-                                        <br>
                                         <a href="<?php echo $_smarty_tpl->tpl_vars['reload_link']->value;?>
 ">
-                                            <button class="btn btn-default><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
+                                            <br>
+                                            <button class="btn btn-default"><?php $_smarty_tpl->smarty->_cache['_tag_stack'][] = array('t', array());
 $_block_repeat1=true;
 echo smarty_block_t(array(), null, $_smarty_tpl, $_block_repeat1);
 while ($_block_repeat1) {
@@ -484,7 +480,6 @@ array_pop($_smarty_tpl->smarty->_cache['_tag_stack']);?>
                                         </a>
                                     <?php }?>
                                 </form>
-                            </div>
                         </div>
                     <?php }
 }

@@ -27,7 +27,7 @@
                                 {$detail.supplier_list}
                             </select>
                             <p></p>
-                            <input class="form-control" type="text" name="supplierpartnr" placeholder="Bestellnr." size="12" value="{$detail.supplierpartnr}">
+                            <input class="form-control" type="text" name="supplierpartnr" placeholder="{t}Bestellnr.{/t}" size="12" value="{$detail.supplierpartnr}" required>
                             <input type="hidden" name="pid" value="{$pid}">
                             <input type="hidden" name="orderdetails_id" value="{$detail.orderdetails_id}">
                         </td>

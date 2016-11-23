@@ -3,7 +3,7 @@
   <div class="panel panel-primary">
    <div class="panel-heading">
        <h4>{t}Detailinfo zu{/t} <b>"{$name}"</b>
-            <div style="float: right; display: inline;">
+            <div class="pull-right">
                 {t}ID:{/t} {$pid}
             </div>
         </h4>
@@ -12,65 +12,93 @@
     <div class="panel-body">
        <div class="row">
                 <div class="col-md-9">
-                    <!--<div class="form-horizontal">-->
-                       <div class="row">
-                           <label class="col-sm-2">{t}Name:{/t}</label>
-                           <span class="col-sm-10">
+                    <div class="form-horizontal">
+                       <div class="form-group">
+                           <label class="col-sm-3 control-label">{t}Name:{/t}</label>
+                           <div class="col-sm-9">
                                 {if isset($manufacturer_product_url)}
-                                    <a title="{$manufacturer_product_url}" href="{$manufacturer_product_url}" target="_blank">{$name}</a>
+                                    <a class="form-control-static" title="{$manufacturer_product_url}" href="{$manufacturer_product_url}">{$name}</a>
                                 {else}
-                                    {$name}
+                                    <p class="form-control-static">{$name}</p>
                                 {/if}
-                            </span>
+                            </div>
                        </div>
-                       <div class="row">
-                           <label class="col-sm-2">{t}Beschreibung:{/t}</label>
-                           <span class="col-sm-10">{if isset($description)}{$description}{else}-{/if}</span>
+                       
+                       <div class="form-group">
+                           <label class="col-sm-3 control-label">{t}Beschreibung:{/t}</label>
+                           <div class="col-sm-9">
+                               <p class="form-control-static">
+                               {if isset($description)}{$description}{else}-{/if}
+                               </p>
+                           </div>
                        </div>
-                       <div class="row">
-                           <label class="col-sm-2">{t}Vorhanden:{/t}</label>
-                           <span class="col-sm-10">{$instock}</span>
+                       
+                       <div class="form-group">
+                           <label class="col-sm-3 control-label">{t}Vorhanden:{/t}</label>
+                           <div class="col-sm-9">
+                               <p class="form-control-static">{$instock}</p>
+                           </div>
                        </div>
-                       <div class="row">
-                           <label class="col-sm-2">{t}Min. Bestand:{/t}</label>
-                           <span class="col-sm-10">{$mininstock}</span>
+                       
+                       <div class="form-group">
+                           <label class="col-sm-3 control-label">{t}Min. Bestand:{/t}</label>
+                           <div class="col-sm-9"><p class="form-control-static">{$mininstock}</p></div>
                        </div>
-                       <div class="row">
-                           <label class="col-sm-2">{t}Kategorie:{/t}</label>
-                           <span class="col-sm-10">{$category_full_path}</span>
+                       
+                       <div class="form-group">
+                           <label class="col-sm-3 control-label">{t}Kategorie:{/t}</label>
+                           <div class="col-sm-9"><p class="form-control-static">{$category_full_path}</p></div>
                        </div>
-                       <div class="row">
-                           <label class="col-sm-2">{t}Lagerort:{/t}</label>
-                           <span class="col-sm-10">{$storelocation_full_path}{if $storelocation_is_full} [voll]{/if}</span>
+                       
+                       <div class="form-group">
+                           <label class="col-sm-3 control-label">{t}Lagerort:{/t}</label>
+                           <div class="col-sm-9">
+                               <p class="form-control-static">{$storelocation_full_path}{if $storelocation_is_full} [voll]{/if}</p>
+                           </div>
                        </div>
+                       
                        {if !$disable_manufacturers}
-                        <div class="row">
-                            <label class="col-sm-2">{t}Hersteller:{/t}</label>
-                            <span class="col-sm-10">{$manufacturer_full_path}</span>
-                        </div>
-                       {/if}
-                       {if !$disable_footprints}
-                        <div class="row">
-                            <label class="col-sm-2">{t}Footprint:{/t}</label>
-                            <div class="col-sm-10">
-                               {$footprint_full_path}<br>
-                                {if isset($footprint_filename)}<img align="middle" src="{$footprint_filename}" alt="" height="70">{/if}
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">{t}Hersteller:{/t}</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">{$manufacturer_full_path}</p>
                             </div>
                         </div>
                        {/if}
-                       <div class="row">
-                           <label class="col-sm-2">{t}Kommentar:{/t}</label>
-                           <div class="col-sm-10">{if isset($comment)}{$comment}{else}-{/if}</div>
-                       </div>
-                    
-                      <hr>
                        
-                        <div class="row">
-                           <div class="col-sm-12">
+                       {if !$disable_footprints}
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">{t}Footprint:{/t}</label>
+                            <div class="col-sm-9">
+                                <p class="form-control-static">{$footprint_full_path}</p>
+                            </div>
+                        </div>
+                        
+                        {if !empty($footprint_filename)}
+                        <div class="form-group">
+                            <div class="col-sm-9 col-md-offset-3">
+                                <img align="middle" rel="popover" src="{$footprint_filename}" alt="" height="70">
+                            </div>
+                        </div>
+                        {/if}
+                        
+                       {/if}
+                       
+                       <div class="form-group">
+                           <label class="col-sm-3 control-label">{t}Kommentar:{/t}</label>
+                           <div class="col-sm-9">
+                               <p class="form-control-static">{if isset($comment)}{$comment}{else}-{/if}</p>
+                            </div>
+                       </div>
+                       
+                        <div class="form-group">
+                           <div class="col-sm-3">
                             <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}">Angaben verändern</a>
                             </div>
                         </div>
                 </div>
+                
+           </div>
 
                 <div class="col-md-3">
                         <form action="" method="post">
@@ -80,9 +108,9 @@
                                     <label for="n_less">{t}Teile entnehmen:{/t}</label>
                                     <div class="input-group">
                                         <input type="number" class="form-control" name="n_less" min="0" max="999" value="1" placeholder="Anzahl" onkeypress="validatePosIntNumber(event)">
-                                        <div class="input-group-btn">
+                                        <span class="input-group-btn">
                                             <button type="submit" class="btn btn-default" name="dec">{t}Entnehmen{/t}</button>
-                                        </div>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -97,9 +125,9 @@
                                     <label for="n_more">{t}Teile hinzufügen{/t}</label>
                                     <div class="input-group">
                                         <input type="number" class="form-control" name="n_more" min="0" max="999" value="1" onkeypress="validatePosIntNumber(event)">
-                                        <div class="input-group-btn">
+                                        <span class="input-group-btn">
                                             <button type="submit" class="btn btn-default" name="inc">{t}Hinzufügen{/t}</button>
-                                        </div>
+                                        </span>
                                     </div>
                                 </div>
                             </div>
@@ -121,17 +149,32 @@
                                             <label for="order_quantity">{t}Zum Bestellen vormerken:{/t}</label>
                                             <div class="input-group">
                                                 <input type="number" min="0" max="999" class="form-control" value="1" name="order_quantity" placeholder="Bestellmenge" onkeypress="validatePosIntNumber(event)"><br>
-                                                <div class="input-group-btn">
+                                                <span class="input-group-btn">
                                                     <button type="submit" class="btn btn-default" name="mark_to_order">{t}Übernehmen{/t}</button>
-                                                </div>
+                                                </span>
                                             </div>
                                         {/if}
                                     {/if}
                                 </div>
                             </div>
                         </form>
+                        
+                        <p></p>
+                        
+                        <div class="form-group">
+                            <label>{t}Hinzugefügt:{/t}</label>
+                            <p>{$datetime_added}</p>
+                        </div>
+                        
+                        <p></p>
+                        
+                        <div class="form-group">
+                            <label>{t}Letzte Änderung:{/t}</label>
+                            <p>{$last_modified}</p>
+                        </div>
+                        
+                        
                 </div>
-            </tr>
         </div>
         </div>
     </div>
@@ -139,6 +182,7 @@
 <div class="panel panel-default">
     <div class="panel-heading"><h4>{t}Einkaufsinformationen{/t}</h4></div>
             {if isset($orderdetails) && $orderdetails}
+            <div class="table-responsive">
             <table class="table table-striped table-header">
                <thead>
                     <tr class="trcat">
@@ -205,6 +249,7 @@
                     {/foreach}
                 </tbody>
             </table>
+            </div>
             {if isset($average_price)}
                 <b>{t}Durchschnittspreis für 1 Stk.:{/t} {$average_price}</b>
             {/if}

@@ -54,6 +54,10 @@
         <script type="text/javascript" src="{$relative_path}DataTables-1.10.12/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="{$relative_path}DataTables-1.10.12/js/dataTables.bootstrap.min.js"></script>
         
+        <!-- 3d footprint viewer -->
+        <script src="http://www.x3dom.org/release/x3dom.js"></script>
+        <link rel="stylesheet" href="http://www.x3dom.org/release/x3dom.css">
+        
         {if isset($javascript_files)}
         {foreach $javascript_files as $file}
             <script type="text/javascript" src="{$relative_path}javascript/{$file.filename}.js"></script>
@@ -82,37 +86,34 @@
     
 
    
-     <header>
-      <nav class="navbar navbar-default">
-         <div class="container-fluid">
-         <!-- Brand and toggle get grouped for better mobile display -->
-          <div class="navbar-header">
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar" aria-expanded="false">
-              <span class="sr-only">{t}Toggle Navigation{/t}</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-              <span class="sr-only">{t}Toggle Navigation{/t}</span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-              <span class="icon-bar"></span>
-            </button>
-            <a class="navbar-brand" href="{$relative_path}startup.php">Part-DB</a>
-          </div>
+    <header>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+             <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar" aria-expanded="false">
+                        <span class="sr-only">{t}Toggle Sidebar{/t}</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#searchbar" aria-expanded="false">
+                        <span class="sr-only">{t}Toggle Navigation{/t}</span>
+                        <span class="glyphicon glyphicon-search"></span>
+                    </button>
+                    <a class="navbar-brand" href="{$relative_path}startup.php">Part-DB</a>
+                </div>
 
-          <!-- Navbar -->
-          <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <!-- Navbar -->
+            <div class="collapse navbar-collapse" id="searchbar">
 
             <!-- Searchbar -->
 
-               <form class="navbar-form navbar-right" action="{$relative_path}show_search_parts.php" method="get">
-                  <div class=class="navbar-form navbar-right">
-                     <div class="btn-group">
+            <form class="navbar-form navbar-right" action="{$relative_path}show_search_parts.php" method="get">
+                    <div class="btn-group">
                         <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        {t}Suchoptionen{/t}
-                        <span class="caret"></span>
+                            {t}Suchoptionen{/t}
+                            <span class="caret"></span>
                         </button>
                         <ul class="dropdown-menu" aria-labelledby="SearchOptions">
                            <li class="checkbox"><input type="checkbox" name="search_name" value="true" checked>
@@ -134,19 +135,12 @@
                            <li class="checkbox"><input type="checkbox" name="search_footprint" value="true">
                                <label for="search_footprint">{t}Footprint{/t}</label></li>
                         </ul>
-                     </div>
-                     
+                    </div>
+
                     <input type="search" class="form-control" placeholder="{t}Suche{/t}" name="keyword">
                     <button type="submit" class="btn btn-default">{t}Los!{/t}</button>
-                 
-                 
-                  </div>
-               </form>
-      
-          
-    
+            </form>
          </div><!-- /.navbar-collapse -->
-     
       </div><!-- /.container-fluid -->
     </nav>
    </header>
@@ -176,34 +170,33 @@
                 </aside>
                 <div class="col-xs-12 col-sm-9 col-md-10" id="main" main >
                    <div class="container-fluid" id="content">
+                       
                        {if isset($messages)}
-                        <div class="panel panel-error">
-                            {if isset($messages_div_title)}<div class="panel-heading"><h2>{$messages_div_title}</h2></div>{/if}
-                            <div class="panel-body">
+                        <div class="alert alert-danger">
+                            {if isset($messages_div_title)}<h4>{$messages_div_title}</h4>{/if}
                                 <form action="" method="post">
                                     {foreach $messages as $msg}
                                         {if isset($msg.text)}
-                                            {if $msg.strong}<strong>{/if}
+                                            {if isset($msg.strong) && $msg.strong}<strong>{/if}
                                             {if isset($msg.color)}<font color="{$msg.color}">{/if}
                                             {$msg.text}
                                             {if isset($msg.color)}</font>{/if}
-                                            {if $msg.strong}</strong>{/if}
+                                            {if isset($msg.strong) && $msg.strong}</strong>{/if}
                                         {/if}
 
                                         {if isset($html)}
                                             {$html}
                                         {/if}
 
-                                        {if isset($no_linebreak) && $no_linebreak}<br>{/if}
+                                        {if !isset($no_linebreak) || !$no_linebreak}<br>{/if}
                                     {/foreach}
-
+                                   
                                     {if isset($reload_link)}
-                                        <br>
                                         <a href="{$reload_link}">
-                                            <button class="btn btn-default>{t}Seite neu laden{/t}</button>
+                                            <br>
+                                            <button class="btn btn-default">{t}Seite neu laden{/t}</button>
                                         </a>
                                     {/if}
                                 </form>
-                            </div>
                         </div>
                     {/if}

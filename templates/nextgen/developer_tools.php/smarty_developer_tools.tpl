@@ -73,3 +73,16 @@
     </div>
 </div>
 {/if}
+
+<!-- Remove later -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <x3d showStat="true"> 
+            <scene>
+               <navigationInfo id="head" headlight='true' type='"EXAMINE"'>  </navigationInfo>
+                <inline url="/models/test.x3d"> </inline>
+            </scene> 
+        </x3d> 
+    </div>
+    
+</div>

@@ -166,3 +166,5 @@ AutoTest.Net/
 
 # Smarty
 templates_c/
+/models/Housings_DIP.3dshapes
+/models

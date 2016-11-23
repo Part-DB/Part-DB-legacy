@@ -28,21 +28,12 @@ body {
     margin-right: auto;
 }
 
-p:hover .hoverpic {
-    max-width: 480px;
-    max-height: 180px;
-    display: block;
-    position: absolute;
-    bottom: 10px;
-    left: 3px;
-    z-index: 1;
-    background: #ffffff;
-    border: 1px solid #800000;
-}
-
-
 .treeview {
     font-size: 12px;
+}
+
+.form-group-sm {
+    margin-bottom: 5px;
 }
 
 .table-compact>tbody>tr>td,

@@ -215,6 +215,8 @@
                             'category' => $this->get_category()->get_json_array()
                             );
 
+
+
             return $ret;
         }
 
@@ -386,6 +388,25 @@
                 return $this->get_manufacturer()->get_auto_product_url($this->db_data['name']); // an automatic url is available
             else
                 return ''; // no url is available
+        }
+
+        /**
+         * Returns the last time when the part was modified.
+         * @param mixed $local_format 
+         * @return string The time of the last edit.
+         */
+        public function get_last_modified($local_format = true)
+        {
+            return $this->db_data['last_modified'];
+        }
+
+        /**
+         * Returns the date/time when the part was created
+         * @return string The creation time of the part.
+         */
+        public function get_datetime_added()
+        {
+            return $this->db_data['datetime_added'];
         }
 
         /**
@@ -1661,7 +1682,7 @@
                                             $manufacturer_name = false)
         {
             global $config;
-            
+
             $keyword = trim($keyword);
 
             if (strlen($keyword) == 0)
@@ -1741,7 +1762,7 @@
             {
                 $config['db']['limit']['search_parts'] = 200;
             }
-            
+
             switch($group_by)
             {
                 case '':

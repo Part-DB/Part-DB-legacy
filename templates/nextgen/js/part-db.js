@@ -8,6 +8,10 @@ function setEnv(path) {
     BASE = path;
 }
 
+function startLoading() {
+    'use strict';
+}
+
 function openLink(page) {
     'use strict';
     $("#main").load(page + " #content");
@@ -28,6 +32,7 @@ function registerLinks() {
         event.preventDefault();
         var a = $(this),
             href = a.attr("href");
+        startLoading();
         $("#main").load(href + " #content");
         return false;
     });
@@ -46,23 +51,45 @@ function registerForm() {
         success:  showFormResponse
     };
     
-    
     $('form').ajaxForm(data);
 }
 
+function submitForm(form) {
+    'use strict';
+    var data = {
+        success:  showFormResponse
+    };
+    
+    
+    form.ajaxSubmit(data);
+}
+
+function registerHoverImages(form) {
+    'use strict';
+    $('img[rel=popover]').popover({
+        html: true,
+        trigger: 'hover',
+        placement: 'auto',
+        content: function () {
+            return '<img class="img-responsive" src="' + this.src + '" />';
+        }
+    });
+}
+
+
 function tree_fill() {
     'use strict';
-    $.getJSON(BASE + 'api_json.php/api_json.php?mode="tree_category"', function (tree) {
+    $.getJSON(BASE + '/api_json.php/api_json.php?mode="tree_category"', function (tree) {
         $('#tree-categories').treeview({data: tree, enableLinks: true, showBorder: true});
         $('#tree-categories').treeview('collapseAll', { silent: true });
     });
     
-    $.getJSON(BASE + 'api_json.php/api_json.php?mode="tree_devices"', function (tree) {
+    $.getJSON(BASE + '/api_json.php/api_json.php?mode="tree_devices"', function (tree) {
         $('#tree-devices').treeview({data: tree, enableLinks: true, showBorder: true});
         $('#tree-devices').treeview('collapseAll', { silent: true });
     });
     
-    $.getJSON(BASE + 'api_json.php/api_json.php?mode="tree_tools"', function (tree) {
+    $.getJSON(BASE + '/api_json.php/api_json.php?mode="tree_tools"', function (tree) {
         $('#tree-tools').treeview({data: tree, enableLinks: true, showBorder: true});
         $('#tree-tools').treeview('collapseAll', { silent: true });
     });
@@ -123,6 +150,7 @@ $(document).ajaxComplete(function (event, xhr, settings) {
     registerLinks();
     registerForm();
     makeFileInput();
+    registerHoverImages();
     
     //Push only if it was a "GET" request and requested data was an HTML
     if (settings.type.toLowerCase() !== "post" && settings.dataType === "html") {
@@ -136,4 +164,3 @@ $(document).ajaxError(function (event, request, settings) {
     'use strict';
     
 });
-

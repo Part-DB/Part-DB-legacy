@@ -226,21 +226,21 @@
             <div class="form-group">
                 <label class="control-label col-sm-2" for="current_admin_password">{t}Aktuelles Passwort:{/t}</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="password" name="current_admin_password" {if $is_online_demo}disabled{/if}>
+                    <input class="form-control" type="password" name="current_admin_password" {if $is_online_demo}disabled{/if} required>
                 </div>
             </div>
 
             <div class="form-group">
                 <label for="new_admin_password_1" class="col-sm-2 control-label">{t}Neues Passwort:{/t}</label>
                     <div class="col-sm-10">
-                        <input type="password"  class="form-control" name="new_admin_password_1" {if $is_online_demo}disabled{/if}>
+                        <input type="password"  class="form-control" name="new_admin_password_1" {if $is_online_demo}disabled{/if} required>
                     </div>
             </div>
 
             <div class="form-group">
                 <label class="control-label col-sm-2" for="new_admin_password_2">{t}Neues Passwort (Wiederholung):{/t}</label>
                 <div class="col-sm-10">
-                    <input type="password" class="form-control" name="new_admin_password_2" {if $is_online_demo}disabled{/if}>
+                    <input type="password" class="form-control" name="new_admin_password_2" {if $is_online_demo}disabled{/if} required>
                 </div>
             </div>
 

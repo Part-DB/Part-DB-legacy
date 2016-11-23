@@ -1,7 +1,7 @@
 <script language="JavaScript">
     function toggle_all_checkboxes(source, prefix)
     {
-        for(var i=0, n={TMPL_VAR NAME="table_rowcount"};i<n;i++)
+        for(var i=0, n={$table_rowcount};i<n;i++)
         {
             var elements = document.getElementsByName(prefix + i);
             if (elements.length > 0)
@@ -10,58 +10,97 @@
     }
 </script>
 
-<div class="panel panel-default">
-    <h4>Lieferant wählen</h2>
+<div class="panel panel-primary">
+    <div class="panel-heading"><h4>Lieferant wählen</h4></div>
     <div class="panel-body">
-        <form method="get" action="" style="display:inline">
-            <select name="selected_supplier_id">
-                <option value="0" {TMPL_IF NAME="selected_supplier_id" VALUE="0"}selected{/TMPL_IF}>Alle</option>
-                {TMPL_IF NAME="suppliers"}
-                    {TMPL_LOOP NAME="suppliers"}
-                        <option value="{TMPL_VAR NAME="id"}" {TMPL_IF NAME="selected"}selected{/TMPL_IF}>{TMPL_VAR NAME="full_path"} ({TMPL_VAR NAME="count_of_parts"})</option>
-                    {/TMPL_LOOP}
-                {/TMPL_IF}
-            </select>
-
-            <input type="submit" name="choose_selected_supplier" value="Übernehmen">
+        <form method="get" action="" class="form-horizontal">
+            <div class="form-group col-md-12">
+                <div class="input-group">
+                <select class="form-control" name="selected_supplier_id">
+                    <option value="0" {if !isset($selected_supplier_id) || $selected_supplier_id == 0}selected{/if}>Alle</option>
+                    {if isset($suppliers)}
+                        {foreach $suppliers as $sup}
+                            <option value="{$sup.id}" {if $sup.selected}selected{/if}>{$sup.full_path} ({$sup.count_of_parts})</option>
+                        {/foreach}
+                    {/if}
+                </select>
+            
+                 <span class="input-group-btn">
+                    <button type="submit" class="btn btn-success" name="choose_selected_supplier">Übernehmen</button>
+                </span>
+                </div>
+            </div>
         </form>
-        <form method="get" action="" style="display:inline">
-            <input type="hidden" name="selected_supplier_id" value="0">
-            <input type="submit" name="choose_selected_supplier" value="Alle anzeigen">
+        
+        <form method="get" action="" class="form-horizontal">
+            <div class="form-group">
+                <input type="hidden" name="selected_supplier_id" value="0">
+                <div class="col-md-12">
+                    <button class="btn btn-primary" type="submit" name="choose_selected_supplier">Alle anzeigen</button>
+                </div>
+            </div>
         </form>
     </div>
 </div>
 
-<div class="outer">
-    <h2>Zu bestellende Teile</h2>
-    <div class="inner">
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>Zu bestellende Teile</h4></div>
+    <div class="panel-body">
         <form method="post" action="">
-            {TMPL_IF NAME="table_rowcount"}
-                <input type="hidden" name="table_rowcount" value="{TMPL_VAR NAME="table_rowcount"}">
-                <table>
-                    {TMPL_INCLUDE FILE="../vlib_table.tmpl"}
-                </table>
-                <br>
-                <b>Gesamtpreis: {TMPL_VAR NAME="sum_price"}</b><br>
-                <br>
-                <input type="hidden" name="selected_supplier_id" value="{TMPL_VAR NAME="selected_supplier_id"}">
-
-                Alle an/abwählen:&nbsp;&nbsp;
-                <input type="checkbox" onClick="toggle_all_checkboxes(this, 'tostock_')"/>Einbuchen &nbsp;&nbsp;&nbsp;
-                <input type="checkbox" onClick="toggle_all_checkboxes(this, 'remove_')"/>Aus Liste löschen (für manuell zum Bestellen markierte Artikel)
-                <br>
-                <input type="submit" name="apply_changes" value="Änderungen übernehmen">
-                <input type="submit" name="abort" value="Änderungen verwerfen">
-                <input type="submit" name="autoset_quantities" value="Bestellmengen automatisch setzen">
-            {TMPL_ELSE}
+            {if isset($table_rowcount) && $table_rowcount > 0}
+                <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
+                <div class="row">
+                    {include "../smarty_table.tpl"}
+                </div>
+                
+                <hr>
+                
+                <div class="form-horizontal">
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Gesamtpreis:</label>
+                        <div class="col-md-9">
+                            <p class="form-control-static">{$sum_price}</p>
+                        </div>
+                        <input type="hidden" name="selected_supplier_id" value="{$selected_supplier_id}">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="control-label col-md-3">Alle an/abwählen:</label>
+                        <div class="col-md-9">
+                            <div class="checkbox">
+                                <input type="checkbox" onClick="toggle_all_checkboxes(this, 'tostock_')"/>
+                                <label>Einbuchen</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" onClick="toggle_all_checkboxes(this, 'remove_')"/>
+                                <label>Aus Liste löschen (für manuell zum Bestellen markierte Artikel)</label>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button type="submit" class="btn btn-success" name="apply_changes">Änderungen übernehmen</button>
+                            <button type="submit" class="btn btn-danger" name="abort">Änderungen verwerfen</button>
+                        </div>
+                    </div>
+    
+                    <div class="form-group">
+                        <div class="col-md-9 col-md-offset-3">
+                            <button type="submit" class="btn btn-default" name="autoset_quantities">Bestellmengen automatisch setzen</button>
+                        </div>
+                    </div>              
+                </div>
+            {else}
                 Es gibt keine Teile, die bestellt werden müssen.
-            {/TMPL_IF}
+            {/if}
+            
         </form>
     </div>
 </div>
 
-{TMPL_IF NAME="order_devices_loop"}
-{TMPL_UNLESS NAME="selected_supplier_id"}
+{if $order_devices_loop}
+{if !$selected_supplier_id}
 <div class="outer">
     <h2>Zum Bestellen markierte Baugruppen</h2>
     <div class="inner">
@@ -75,38 +114,38 @@
                 <td>Optionen</td>
             </tr>
 
-            {TMPL_LOOP NAME="order_devices_loop"}
+            {foreach $order_devices_loop as $dev}
                 <!--the alternating background colors are created here-->
-                <tr class="{TMPL_IF NAME="row_odd"}trlist_odd{TMPL_ELSE}trlist_even{/TMPL_IF}">
+                <tr>
                     <td class="tdrow1">
-                        <a title="{TMPL_VAR NAME="full_path"}" href="show_device_parts.php?device_id={TMPL_VAR NAME="id"}">{TMPL_VAR NAME="name"}</a>
+                        <a title="{if isset($dev.full_path)}" href="show_device_parts.php?device_id={$dev.id}">{$dev.name}</a>
                     </td>
 
                     <td class="tdrow2">
-                        {TMPL_VAR NAME="order_quantity"}
+                        {$dev.order_quantity}
                     </td>
 
                     <td class="tdrow2">
-                        {TMPL_IF NAME="only_missing_parts"}nur fehlende{TMPL_ELSE}alle{/TMPL_IF}
+                        {$dev.only_missing_parts}nur fehlende{else}alle{/if}
                     </td>
 
                     <td class="tdrow2">
-                        {TMPL_VAR NAME="parts_count"}
+                        {$dev.parts_count}
                     </td>
 
                     <td class="tdrow3">
-                        {TMPL_VAR NAME="parts_count_to_order"}
+                        {$dev.parts_count_to_order}
                     </td>
 
                     <td class="tdrow3">
                         <form method="post" action="">
-                            <input type="hidden" name="selected_supplier_id" value="{TMPL_VAR NAME="selected_supplier_id"}">
-                            <input type="hidden" name="device_id" value="{TMPL_VAR NAME="id"}">
+                            <input type="hidden" name="selected_supplier_id" value="{$dev.selected_supplier_id}">
+                            <input type="hidden" name="device_id" value="{$dev.id}">
                             <input type="submit" name="remove_device" value="Entfernen">
                         </form>
                     </td>
                 </tr>
-            {/TMPL_LOOP}
+            {/foreach}
         </table>
         <i>Die zu bestellenden Teile werden in der Liste "Zu bestellende Teile" in der Spalte "Bestellmenge" zur Anzahl "(mind. ...)" hinzuaddiert.
         <u>Nachdem</u> Sie die Bestellungen getätigt haben, können Sie die Baugruppen wieder aus dieser Liste entfernen,
@@ -114,24 +153,35 @@
         verschwinden <u>nicht</u> automatisch aus der Liste "Zu bestellende Teile", auch wenn Sie den Lagerbestand erhöhen!).</i>
     </div>
 </div>
-{/TMPL_UNLESS}
-{/TMPL_IF}
+{/if}
+{/if}
 
-<div class="outer">
-    <h2>Bauteile Export</h2>
-    <div class="inner">
-        <form method="post" action="">
-            <b>Format:</b>
-            <select name="export_format">
-                {TMPL_LOOP NAME = "export_formats"}
-                    <option value="{TMPL_VAR NAME="value"}" {TMPL_IF NAME="selected"}selected{/TMPL_IF}>{TMPL_VAR NAME="text"}</option>
-                {/TMPL_LOOP}
-            </select>
-            <input type="submit" name="export_show" value="Anzeigen">
-            <input type="submit" name="export_download" value="Herunterladen">
+<div class="panel panel-default">
+    <div class="panel-heading"><h4>Bauteile Export</h4></div>
+    <div class="panel-body">
+        <form method="post" action="" class="form-horizontal">
+            <div class="form-group">
+                <label class="control-label col-md-3">Format:</label>
+                <div class="col-md-9"> 
+                    <select name="export_format" class="form-control">
+                        {foreach $export_formats as $format}
+                        <option value="{$format.value}" {if $format.selected}selected{/if}>{$format.text}</option>
+                        {/foreach}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-md-9 col-md-offset-3">
+                    <button class="btn btn-default" type="submit" name="export_show">Anzeige</button>
+                    <button class="btn btn-default" type="submit" name="export_download">Herunterladen</button>
+                </div>
+            </div>
         </form>
-        {TMPL_IF NAME="export_result"}
-            <hr>{TMPL_VAR NAME="export_result" ESCAPE="none"}
-        {/TMPL_IF}
+        {if isset($export_result) && !empty($export_result)}
+        <hr>
+        <code>
+            {$export_result}
+        </code>
+        {/if}
     </div>
 </div>

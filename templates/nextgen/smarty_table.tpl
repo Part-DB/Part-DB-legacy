@@ -92,11 +92,11 @@
                         <td class="tdrow0">
                             {if $row.caption =="hover_picture"}
                                 <p>
-                                    <img class="hoverpic img-responsive" src="{$row.small_picture}" alt="{$row.picture_name}">
+                                    <img class="img-responsive hoverpic" rel="popover" src="{$row.small_picture}" alt="{$row.picture_name}">
                                 </p>
                             {else}
                                 {if $row.small_picture}
-                                    <img class="hoverpic img-responsive" src="{$row.small_picture}" alt="">
+                                    <img class="img-responsive hoverpic" rel="popover" src="{$row.small_picture}" alt="">
                                 {/if}
                             {/if}
                         </td>
@@ -252,9 +252,17 @@
                     {/if} 
                     {if $row.caption == "order_options"}
                         {* build the order options (e.g. the "to stock" checkbox) (only for order parts) *}
-                        <td class="tdrow1" nowrap>
-                            <input type="checkbox" name="tostock_{$row_index}">Einbuchen<br>
-                            {if $row.enable_remove}<input type="checkbox" name="remove_{$row.row_index}">Aus Liste löschen{/if}
+                        <td class="tdrow1" nowrap class="form-control">
+                            <div class="checkbox">
+                                <input type="checkbox" name="tostock_{$row.row_index}">
+                                <label>Einbuchen</label>
+                            </div>
+                            {if $row.enable_remove}
+                            <div class="checkbox">
+                                <input type="checkbox" name="remove_{$row.row_index}">
+                                <label>Aus Liste löschen</label>
+                            </div>
+                            {/if}
                         </td>
                     {/if}
                     {if $row.caption == "quantity_edit"}
@@ -293,9 +301,10 @@
                         {* supplier-radiobuttons (only for order parts) *}
                         <td class="tdrow1" nowrap valign="top">
                             {foreach $row.suppliers_radiobuttons as $radio}
-                                <div style="display:inline-block; height:1.7em; line-height:1.7em;">
-                                    <input type="radio" name="orderdetails_{$row.row_index}" value="{$row.orderdetails_id}" {if $radio.selected}checked{/if}>{$radio.supplier_name}<br>
-                                </div><br>
+                                <div class="radio">
+                                    <input type="radio" name="orderdetails_{$radio.row_index}" value="{$radio.orderdetails_id}" {if $radio.selected}checked{/if}>
+                                    <label>{$radio.supplier_name}</label>
+                                </div>
                             {/foreach}
                         </td>
                     {/if}

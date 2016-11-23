@@ -158,10 +158,12 @@ class API
 
         //Edit nodes
         $edit_nodes = array();
+        if(!$disable_devices) $edit_nodes[] = treeview_node(_("Baugruppen"),BASE_RELATIVE."/edit_devices.php");
         $edit_nodes[] = treeview_node(_("Lagerorte"),BASE_RELATIVE."/edit_storelocations.php");
         $edit_nodes[] = treeview_node(_("Footprints"),BASE_RELATIVE."/edit_footprints.php");
         $edit_nodes[] = treeview_node(_("Kategorien"),BASE_RELATIVE."/edit_categories.php");
         $edit_nodes[] = treeview_node(_("Lieferanten"),BASE_RELATIVE."/edit_suppliers.php");
+        if(!$disable_manufactur) $edit_nodes[] = treeview_node(_("Hersteller"),BASE_RELATIVE."/edit_manufacturers.php");
         $edit_nodes[] = treeview_node(_("Dateitypen"),BASE_RELATIVE."/edit_attachement_types.php");
 
         //Developer nodes

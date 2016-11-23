@@ -176,6 +176,9 @@
             $html->set_variable('auto_order_exists',        ($part->get_instock() < $part->get_mininstock()), 'boolean');
             $html->set_variable('manual_order_exists',      ($part->get_manual_order() && ($part->get_instock() >= $part->get_mininstock())), 'boolean');
 
+            $html->set_variable('last_modified',            $part->get_last_modified(), 'string');
+            $html->set_variable('datetime_added',           $part->get_datetime_added(), 'string');       
+
             // build orderdetails loop
             $orderdetails_loop = array();
             $row_odd = true;

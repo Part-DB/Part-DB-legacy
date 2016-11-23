@@ -10,7 +10,7 @@
     <div class="panel panel-default">
         <div class="panel-heading"><h4>{t}Datenbank Status / Update{/t}</h4></div>
         <div class="panel-body">
-            <form action="" method="post">
+            <form action="" method="post" class="form-horizontal">
                 <table>
                     <tr>
                         <td>
@@ -66,8 +66,8 @@
     <div class="panel-body">
         <form action="" class="form-horizontal" method="post">
                 <div class="form-group">
-                    <label class="control-label col-sm-2">{t}Datenbanktyp:{/t}</label>
-                    <div class="col-sm-10">
+                    <label class="control-label col-sm-3">{t}Datenbanktyp:{/t}</label>
+                    <div class="col-sm-9">
                         <select name="db_type" class="form-control">
                             {foreach $db_type_loop as $db}
                                 <option value="{$db.value}" {if $db.selected}selected{/if}>{$db.text}</option>
@@ -78,53 +78,53 @@
 
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2">{t}Host:{/t}</label>
-                    <div class="col-sm-10">
+                    <label class="control-label col-sm-3">{t}Host:{/t}</label>
+                    <div class="col-sm-9">
                         <input type="text" class="form-control" name="db_host" value="{if !$is_online_demo}{$db_host}{/if}">
                         <!-- (nicht nötig für SQLite) -->
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2">{t}Datenbankname:{/t}</label>
-                    <div class="col-sm-10">
+                    <label class="control-label col-sm-3">{t}Datenbankname:{/t}</label>
+                    <div class="col-sm-9">
                         <input type="text" class="form-control" name="db_name" value="{if !$is_online_demo}{$db_name}{/if}">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2">{t}Benutzer:{/t}</label>
-                    <div class="col-sm-10">
+                    <label class="control-label col-sm-3">{t}Benutzer:{/t}</label>
+                    <div class="col-sm-9">
                         <input type="text" class="form-control" name="db_user" value="{if !$is_online_demo}{$db_user}{/if}">
                         <!-- (nicht nötig für SQLite) -->
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2">{t}Datenbankpasswort:{/t}</label>
-                    <div class="col-sm-10">
+                    <label class="control-label col-sm-3">{t}Datenbankpasswort:{/t}</label>
+                    <div class="col-sm-9">
                         <input type="password" class="form-control" name="db_password" value="">
                         <!-- (nicht nötig für SQLite) -->
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-2">{t}Administratorpasswort:{/t}</label>
-                    <div class="col-sm-10">
+                    <label class="control-label col-sm-3">{t}Administratorpasswort:{/t}</label>
+                    <div class="col-sm-9">
                         <input type="password" class="form-control" name="admin_password" value="">
                     </div>
                 </div>
 
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
+                    <div class="col-sm-offset-3 col-sm-9">
                         <button type="submit" class="btn btn-primary" name="apply_connection_settings" {if $is_online_demo}disabled{/if}>{t}Einstellungen übernehmen{/t}</button>
                     </div>
                 </div>
-                      
+                    
                 <hr>
 
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
+                    <div class="col-sm-offset-3 col-sm-9">
                         <div class="checkbox">
                             <input type="checkbox" name="automatic_updates_enabled" {if $automatic_updates_enabled} checked{/if}>
                             <label for="automatic_updated_enabled">{t}Automatische Updates aktivieren{/t}</label>
@@ -133,7 +133,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <div class="col-sm-offset-2 col-sm-10">
+                    <div class="col-sm-offset-3 col-sm-9">
                         <button class="btn btn-success" type="submit" name="apply_auto_updates">{t}Übernehmen{/t}</button>
                     </div>
                 </div>

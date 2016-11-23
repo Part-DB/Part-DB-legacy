@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 3.1.30, created on 2016-11-12 14:38:13
+/* Smarty version 3.1.30, created on 2016-11-23 17:50:57
   from "C:\xampp\htdocs\part-db\templates\nextgen\developer_tools.php\smarty_developer_tools.tpl" */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '3.1.30',
-  'unifunc' => 'content_58271b455515a7_10240983',
+  'unifunc' => 'content_5835c8f18aa5c5_16615918',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     'aff5ce7bd1e6d34e8bf301fdff99790cd054e8c2' => 
     array (
       0 => 'C:\\xampp\\htdocs\\part-db\\templates\\nextgen\\developer_tools.php\\smarty_developer_tools.tpl',
-      1 => 1478957891,
+      1 => 1479919855,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_58271b455515a7_10240983 (Smarty_Internal_Template $_smarty_tpl) {
+function content_5835c8f18aa5c5_16615918 (Smarty_Internal_Template $_smarty_tpl) {
 if (!is_callable('smarty_function_locale')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\function.locale.php';
 if (!is_callable('smarty_block_t')) require_once 'C:\\xampp\\htdocs\\part-db\\lib\\smarty\\plugins\\block.t.php';
 echo smarty_function_locale(array('path'=>"nextgen/locale",'domain'=>"partdb"),$_smarty_tpl);?>
@@ -272,6 +272,19 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl);
             </pre>
     </div>
 </div>
+<?php }?>
+
+<!-- Remove later -->
+<div class="panel panel-default">
+    <div class="panel-body">
+        <x3d showStat="true"> 
+            <scene>
+               <navigationInfo id="head" headlight='true' type='"EXAMINE"'>  </navigationInfo>
+                <inline url="/models/test.x3d"> </inline>
+            </scene> 
+        </x3d> 
+    </div>
+    
+</div>
 <?php }
-}
 }
