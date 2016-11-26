@@ -21,18 +21,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-
-    $Id$
-
-    Changelog (sorted by date):
-        [DATE]      [NICKNAME]      [CHANGES]
-        2012-08-??  kami89          - created
-        2012-09-27  kami89          - added doxygen comments
-        2012-09-30  kami89          - added "price_related_quantity" and "min_discount_quantity"
-        2012-09-30  kami89          - moved some methods to the new class "Pricedetails"
-        2013-01-29  kami89          - added support for transactions in "delete()"
-                                    - moved attrubute "obsolete" from Parts to Orderdetails
-        2014-05-12  kami89          - added function "get_supplier_product_url()"
 */
 
     /**

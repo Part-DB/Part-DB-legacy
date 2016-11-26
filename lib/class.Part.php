@@ -21,21 +21,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-
-    $Id$
-
-    Changelog (sorted by date):
-        [DATE]      [NICKNAME]      [CHANGES]
-        2012-08-??  kami89          - created
-        2012-09-27  kami89          - added doxygen comments
-        2012-12-22  kami89          - added "get_manual_order()" + "set_manual_order()"
-                                    - added "get_order_quantitiy()" + "set_order_quantity()"
-                                    - added "get_order_supplier()" + "set_order_supplier_id()"
-        2013-01-29  kami89          - added support for transactions in "delete()"
-                                    - moved attrubute "obsolete" from Parts to Orderdetails
-        2013-02-16  kami89          - changes "order_supplier" to "order_orderdetails"
-        2014-05-12  kami89          - added "get_manufacturer_product_url()"
-        2015-09-01  susnux          - fixed "get_sum_price_instock()" to use quantity discount
 */
 
     /**
