@@ -21,7 +21,7 @@
     <div class="panel-body">
         <form action="" method="post" name="edit" class="row">
             <div class="col-md-4">
-                <select name="selected_id" size="30" class="form-control" onChange="this.form.submit()">
+                <select name="selected_id" size="30" class="form-control" onChange="submitForm(this.form);">
                     <optgroup label="{t}Neu{/t}">
                         <option value="0" {if isset($id) && $id == 0}selected{/if}>{t}Neuer Lagerort{/t}</option>
                     </optgroup>

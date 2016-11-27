@@ -2,7 +2,7 @@
 
 {if $refresh_navigation_frame}
 <script type="text/javascript">
-    parent.frames.navigation_frame.location.reload();
+    location.reload();
 </script>
 {/if}
 

@@ -50,7 +50,6 @@ function registerForm() {
     var data = {
         success:  showFormResponse
     };
-    
     $('form').ajaxForm(data);
 }
 
@@ -59,9 +58,7 @@ function submitForm(form) {
     var data = {
         success:  showFormResponse
     };
-    
-    
-    form.ajaxSubmit(data);
+    $(form).ajaxSubmit(data);
 }
 
 function registerHoverImages(form) {

@@ -4,7 +4,7 @@
     <div class="panel-body">
         <form action="" method="post" class="row">
             <div class="col-md-4">
-                <select name="selected_id" size="30" class="form-control auto-size-select" onChange="this.form.submit()">
+                <select name="selected_id" size="30" class="form-control auto-size-select" onChange="submitForm(this.form);">
                     <optgroup label="Neu">
                         <option value="0" {if !isset($id) || $id == 0 }selected{/if}>{t}Neuer Dateityp{/t}</option>
                     </optgroup>
