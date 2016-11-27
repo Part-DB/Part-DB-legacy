@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>{t}Bauteile importieren{/t}</h4></div>
+    <div class="panel-heading">{t}Bauteile importieren{/t}</div>
     <div class="panel-body">
         <form method="post" action="" class="form-horizontal">
           <div class="form-group">

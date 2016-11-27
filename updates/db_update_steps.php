@@ -46,7 +46,7 @@
      *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
      */
 
-    define('LATEST_DB_VERSION', 17);  // <-- increment here
+    define('LATEST_DB_VERSION', 18);  // <-- increment here
 
     /*
      * Get update steps
@@ -2380,6 +2380,12 @@
             //Price is now stored with 5 decimal places.
             $updateSteps[] = "ALTER TABLE `pricedetails` MODIFY `price` DECIMAL(9,5)";
             break;
+
+          case 17:
+              $updateSteps[] = "ALTER TABLE `footprints` ADD `filename_3d` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL AFTER `filename`";
+              $updateSteps[]  = "UPDATE footprints SET filename_3d = '';";
+              break;
+
 
           /*case 17:
             // create table "users"

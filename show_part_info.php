@@ -169,6 +169,7 @@
             $html->set_variable('comment',                  nl2br($part->get_comment()), 'string');
             $html->set_variable('footprint_full_path',      (is_object($footprint) ? $footprint->get_full_path() : '-'), 'string');
             $html->set_variable('footprint_filename',       (is_object($footprint) ? str_replace(BASE, BASE_RELATIVE, $footprint->get_filename()) : ''), 'string');
+            $html->set_variable('footprint_valid',          (is_object($footprint) ? $footprint->is_filename_valid() : false), 'boolean');
             $html->set_variable('storelocation_full_path',  (is_object($storelocation) ? $storelocation->get_full_path() : '-'), 'string');
             $html->set_variable('storelocation_is_full',    (is_object($storelocation) ? $storelocation->get_is_full() : false), 'boolean');
             $html->set_variable('manufacturer_full_path',   (is_object($manufacturer) ? $manufacturer->get_full_path() : '-'), 'string');
@@ -177,7 +178,14 @@
             $html->set_variable('manual_order_exists',      ($part->get_manual_order() && ($part->get_instock() >= $part->get_mininstock())), 'boolean');
 
             $html->set_variable('last_modified',            $part->get_last_modified(), 'string');
-            $html->set_variable('datetime_added',           $part->get_datetime_added(), 'string');       
+            $html->set_variable('datetime_added',           $part->get_datetime_added(), 'string');
+
+            //Infos about 3d footprint view
+            $html->set_variable('foot3d_show_stats',        $config['foot3d']['show_info'], 'boolean');
+            $html->set_variable('foot3d_active',            $config['foot3d']['active'], 'boolean');
+            $html->set_variable('foot3d_filename',          (is_object($footprint) ? str_replace(BASE, BASE_RELATIVE, $footprint->get_3d_filename()) : ''), 'string');
+            $html->set_variable('foot3d_valid',             (is_object($footprint) ? $footprint->is_3d_filename_valid() : false), 'boolean');
+
 
             // build orderdetails loop
             $orderdetails_loop = array();

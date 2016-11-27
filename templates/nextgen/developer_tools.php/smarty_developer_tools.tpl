@@ -2,13 +2,13 @@
   
    <div class="panel panel-default">
     <div class="panel-heading">
-        <h4>{t}Tabs durch Leerzeichen ersetzen / Backup-Dateien löschen{/t}</h4>
+        {t}Tabs durch Leerzeichen ersetzen / Backup-Dateien löschen{/t}
     </div>
     <div class="panel-body">
         <form action="" method="post">
             <div class="checkbox">
                 <input type="checkbox" class="styled" name="trim_exec_output" checked>
-                <label for="trim_exec_output">Ausgabe stutzen (nur die ersten und letzten 20 Einträge anzeigen)</label> 
+                <label for="trim_exec_output">{t}Ausgabe stutzen (nur die ersten und letzten 20 Einträge anzeigen){/t}</label> 
             </div>
             <button class="btn btn-default" type="submit" name="tab2spaces">Ausführen</button>
             <label><i>{t}Der Vorgang kann mehrere Minuten in Anspruch nehmen!{/t}</i></label>
@@ -18,7 +18,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4>{t}Doxygen-Dokumentation erstellen bzw. updaten{/t}</h4>
+        {t}Doxygen-Dokumentation erstellen bzw. updaten{/t}
     </div>
     <div class="panel-body">
         <form action="" method="post">
@@ -35,7 +35,7 @@
 
 <div class="panel panel-default">
        <div class="panel-heading">
-        <h4>{t}Release-Paket erstellen{/t}</h4>
+        {t}Release-Paket erstellen{/t}
     </div>
     <div class="panel-body">
         <form action="" method="post">
@@ -60,7 +60,7 @@
 {if isset($exec_output)}
 <div class="panel {if isset($exec_successful)}panel-successful{else}panel-danger{/if}">
     <div class="panel-heading">
-        <h4>{t}Ausgabe{/t}</h4>
+        {t}Ausgabe{/t}
     </div>
     <div class="panel-body">
             <pre>
@@ -73,16 +73,3 @@
     </div>
 </div>
 {/if}
-
-<!-- Remove later -->
-<div class="panel panel-default">
-    <div class="panel-body">
-        <x3d showStat="true"> 
-            <scene>
-               <navigationInfo id="head" headlight='true' type='"EXAMINE"'>  </navigationInfo>
-                <inline url="/models/test.x3d"> </inline>
-            </scene> 
-        </x3d> 
-    </div>
-    
-</div>

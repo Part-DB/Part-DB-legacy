@@ -2,3 +2,5 @@
 * new design
 * added support for svg in preview
 * translation support
+* Added preview in Edit Footprints dialog
+* Added support for 3d footprints

@@ -89,6 +89,17 @@
         }
 
         /**
+        *  @brief Get the filename of the 3d model (absolute path from filesystem root)
+        *
+        * @retval string   @li the absolute path to the model (from filesystem root), as a UNIX path (with slashes)
+        *                  @li an empty string if there is no model
+         */
+        public function get_3d_filename()
+        {
+            return str_replace('%BASE%', BASE, $this->db_data['filename_3d']);
+        }
+
+        /**
          * @brief Get all parts which have this footprint
          *
          * @param boolean $recursive                if true, the parts of all sub-footprints will be listed too
@@ -124,6 +135,31 @@
             return file_exists($this->get_filename());
         }
 
+        /**
+         * @brief Check if the filename of this 3d footprint is valid (model exists and have )
+         *
+         * This method is used to get all footprints with broken 3d filename
+         * (Footprint::get_broken_3d_filename_footprints()).
+         *
+         * @note An empty filename is a valid filename.
+         *
+         * @retval boolean      @li true if file exists or filename is empty
+         *                      @li false if there is no file with this filename
+         */
+        public function is_3d_filename_valid()
+        {
+            if (strlen($this->get_3d_filename()) == 0)
+                return true;
+
+            //Check if file is X3D-Model
+            if(strpos($this->get_3d_filename(), '.x3d') == false)
+            {
+                return false;
+            }
+
+            return file_exists($this->get_3d_filename());
+        }
+
         /********************************************************************************
         *
         *   Setters
@@ -155,6 +191,15 @@
             $this->set_attributes(array('filename' => $new_filename));
         }
 
+        /**
+        * @brief Change the 3d model filename of this footprint
+        * @throws Exception if there was an error
+        */
+        public function set_3d_filename($new_filename)
+        {
+            $this->set_attributes(array('filename_3d' => $new_filename));
+        }
+
         /********************************************************************************
         *
         *   Static Methods
@@ -169,15 +214,30 @@
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
 
+            //For image footprints
+
             // trim $values['filename']
             $values['filename'] = trim($values['filename']);
 
             // check if "filename" is a valid (absolute and UNIX) filepath
-            if ((strlen($values['filename']) > 0) && ( ! is_path_absolute_and_unix($values['filename'])))
-                throw new Exception('Der Dateipfad "'.$values['filename'].'" ist kein gültiger absoluter UNIX Dateipfad!');
+            //if ((strlen($values['filename']) > 0) && ( ! is_path_absolute_and_unix($values['filename'])))
+                //throw new Exception('Der Dateipfad "'.$values['filename'].'" ist kein gültiger absoluter UNIX Dateipfad!');
 
             // we replace the path of the Part-DB installation directory (Constant "BASE") with a placeholder ("%BASE%")
             $values['filename'] = str_replace(BASE, '%BASE%', $values['filename']);
+
+
+            //For 3d models
+
+            // trim $values['filename']
+            $values['filename_3d'] = trim($values['filename_3d']);
+
+            // check if "filename" is a valid (absolute and UNIX) filepath
+            //if ((strlen($values['filename_3d']) > 0) && ( ! is_path_absolute_and_unix($values['filename_3d'])))
+                //throw new Exception('Der Dateipfad "'.$values['filename_3d'].'" ist kein gültiger absoluter UNIX Dateipfad!');
+
+            // we replace the path of the Part-DB installation directory (Constant "BASE") with a placeholder ("%BASE%")
+            $values['filename_3d'] = str_replace(BASE, '%BASE%', $values['filename_3d']);
         }
 
         /**
@@ -224,6 +284,34 @@
             return $broken_filename_footprints;
         }
 
+
+        /**
+         * @brief Get all footprints with invalid filenames (file does not exist or file is not a X3D model)
+         *
+         * @param Database  &$database      reference to the database onject
+         * @param User      &$current_user  reference to the current user which is logged in
+         * @param Log       &$log           reference to the Log-object
+         *
+         * @retval array    all footprints with broken filename as a one-dimensional
+         *                  array of Footprint objects, sorted by their names
+         *
+         * @throws Exception if there was an error
+         */
+        public static function get_broken_3d_filename_footprints(&$database, &$current_user, &$log)
+        {
+            $broken_filename_footprints = array();
+            $root_footprint = new Footprint($database, $current_user, $log, 0);
+            $all_footprints = $root_footprint->get_subelements(true);
+
+            foreach ($all_footprints as $footprint)
+            {
+                if ( ! $footprint->is_3d_filename_valid())
+                    $broken_filename_footprints[] = $footprint;
+            }
+
+            return $broken_filename_footprints;
+        }
+
         /**
          * @brief Create a new footprint
          *
@@ -244,7 +332,7 @@
          *
          * @see DBElement::add()
          */
-        public static function add(&$database, &$current_user, &$log, $name, $parent_id, $filename = '')
+        public static function add(&$database, &$current_user, &$log, $name, $parent_id, $filename = '', $filename_3d = '')
         {
             return parent::add($database, $current_user, $log, 'footprints',
                                 array(  'name'      => $name,

@@ -1,6 +1,7 @@
 body {
-    padding-bottom: 20px;
     overflow-x: hidden;
+    position: relative;
+    padding-top: 65px;
 }
 
 .dropdown-menu-radio {
@@ -39,7 +40,7 @@ body {
 .table-compact>tbody>tr>td,
 .table-compact>tbody>tr>th,
 .table-compact>tfoot>tr>td,
-.tablle-compact>tfoot>tr>th,
+.table-compact>tfoot>tr>th,
 .table-compact>thead>tr>td,
 .table-compact>thead>tr>th {
     padding: 3px;
@@ -54,4 +55,53 @@ body {
     line-height: 1.42857143;
     vertical-align: top;
     border-top: 1px solid #ddd;
+}
+
+.auto-size-select {
+    height: inherit;
+}
+
+/* Sidebar */
+/* Toggle Styles */
+
+#wrapper {
+    padding-left: 0;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled {
+    padding-left: 250px;
+}
+
+#sidebar-wrapper {
+    z-index: 1000;
+    position: fixed;
+    left: 250px;
+    width: 0;
+    height: 100%;
+    margin-left: -250px;
+    overflow-y: auto;
+    background: #000;
+    -webkit-transition: all 0.5s ease;
+    -moz-transition: all 0.5s ease;
+    -o-transition: all 0.5s ease;
+    transition: all 0.5s ease;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+}
+
+#page-content-wrapper {
+    width: 100%;
+    position: absolute;
+    padding: 15px;
+}
+
+#wrapper.toggled #page-content-wrapper {
+    position: absolute;
+    margin-right: -250px;
 }

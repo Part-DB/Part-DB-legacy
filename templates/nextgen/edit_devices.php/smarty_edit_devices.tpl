@@ -1,3 +1,4 @@
+{locale path="nextgen/locale" domain="partdb"}
 {if isset($refresh_navigation_frame) && $refresh_navigation_frame}
     <script type="text/javascript">
         parent.frames.navigation_frame.location.reload();
@@ -5,7 +6,7 @@
 {/if}
 
 <div class="panel panel-primary">
-    <div class="panel-heading"><h4>{t}Baugruppen{/t}</h4></div>
+    <div class="panel-heading">{t}Baugruppen{/t}</div>
     <div class="panel-body">
         <form action="" method="post" class="row">
             <div class="col-md-4">
@@ -20,7 +21,8 @@
             </div>
                
             <div class="col-md-8 form-horizontal">
-                <h4>
+                <fieldset>
+                <legend>
                         {if !isset($id) || $id == 0}
                             <strong>{t}Neue Baugruppe hinzufügen:{/t}</strong>
                         {else}
@@ -30,7 +32,7 @@
                                 <strong>{t}Es ist keine Baugruppe angewählt!{/t}</strong>
                             {/if}
                         {/if}
-                </h4>
+                </legend>
                 
                 <div class="form-group">
                     <label class="control-label col-md-3">{t}ID:{/t}</label>
@@ -75,8 +77,7 @@
                         {/if}
                     </div>
                 </div>
-
-
+            </fieldset>
             </div>
         </form>
     </div>

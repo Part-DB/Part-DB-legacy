@@ -4,7 +4,7 @@
     </div>
     
     <div class="panel-body">
-    <dl class="help">
+    <div class="help">
         <dt>Footprint Bilder</dt>
         <dd>In <em>../tools/footprints/</em> können Bilder für die Footprints abgelegt werden. Wenn man z.B. ein Footprint mit dem Namen DIP40W anlegt und ein Bild DIP40W.png (Gross-/Kleinschreibung beachten) in den Ordner speicher, wird dieses automatisch angezeigt, wenn kein anderes Bild gesetzt wurde. ICs und einige Standard-Bauteile sind schon vorhanden. Die Bezeichnung dafür findet man anhand der Bildnamen in "Tools->Footprints".</dd>
 

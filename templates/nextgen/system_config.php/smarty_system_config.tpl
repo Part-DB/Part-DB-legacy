@@ -7,7 +7,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4>{t}Systemeinstellungen{/t}</h4>
+        {t}Systemeinstellungen{/t}
     </div>
     <div class="panel-body">
         
@@ -189,6 +189,18 @@
                 </tr> -->
 
                *}
+                
+                <hr>
+                
+                <div class="form-group">
+                    <label for="modal-container" class="control-label col-sm-2">{t}3D-Footprints:{/t}</label>
+                    <div class="col-sm-10">
+                        <div class="checkbox">
+                            <input type="checkbox" name="foot3d_active" {if $foot3d_active} checked{/if}>
+                            <label for="foot3d_active">{t}3D-Footprints aktiviert{/t}</label>
+                        </div>
+                    </div>
+                </div>
 
                 <hr>
 
@@ -212,14 +224,13 @@
                     <button class="btn btn-success" type="submit" name="apply">{t}Einstellungen übernehmen{/t}</button>
                     <button class="btn btn-danger" type="submit">{t}Änderungen verwerfen{/t}</button>
                 </div>
-            </table>
         </form>
     </div>
 </div>
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4>{t}Administratorpasswort ändern{/t}</h4>
+        {t}Administratorpasswort ändern{/t}
     </div>
     <div class="panel-body">
         <form class="form-horizontal" method="post">
@@ -257,7 +268,7 @@
 {if !$is_online_demo}
     <div class="panel panel-default">
        <div class="panel-heading">
-            <h4>{t}Server{/t}</h4>
+            {t}Server{/t}
         </div>
         <div class="panel-body">
             <table width="100%">

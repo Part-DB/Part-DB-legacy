@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>{t}Teile abfassen/einbuchen/vormerken/exportieren{/t}</h4></div>
+    <div class="panel-heading">{t}Teile abfassen/einbuchen/vormerken/exportieren{/t}</div>
     <div class="panel-body">
         <form method="post" action="" id="export" class="form-horizontal">
             <input type="hidden" name="device_id" value="{$device_id}">

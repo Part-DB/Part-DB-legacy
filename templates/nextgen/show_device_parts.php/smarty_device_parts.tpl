@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>{t}Zugeordnete Teile zu{/t} "{$device_name}"</h4></div>
+    <div class="panel-heading">{t}Zugeordnete Teile zu{/t} "{$device_name}"</div>
     <div class="panel-body">
         {if isset($device_parts_rowcount)}
             <form method="post" class="form-horizontal" action="" id="table">

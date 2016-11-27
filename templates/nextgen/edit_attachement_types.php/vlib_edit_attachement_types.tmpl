@@ -7,7 +7,7 @@
                 <td rowspan="6">
                     <select name="selected_id" size="30" onChange="this.form.submit()">
                         <optgroup label="Neu">
-                            <option value="0" {TMPL_IF NAME="id" VALUE="0"}selected{/TMPL_IF}>Neuer Dateityp</option>
+                            <option value="0" {if if !isset($id) || $id == 0 }selected{/TMPL_IF}>Neuer Dateityp</option>
                         </option>
                         <optgroup label="Bearbeiten">
                             {TMPL_VAR NAME="attachement_types_list" ESCAPE="none"}
@@ -15,7 +15,7 @@
                     </select>
                 </td>
                 <td colspan="2">
-                    {TMPL_IF NAME="id" VALUE="0"}
+                    {if if !isset($id) || $id == 0 }
                         <strong>Neuen Dateityp hinzufügen:</strong>
                     {TMPL_ELSE}
                         {TMPL_IF NAME="name"}
@@ -58,7 +58,7 @@
                     <i>* = Pflichtfelder</i>
                 </td>
                 <td>
-                    {TMPL_IF NAME="id" VALUE="0"}
+                    {if if !isset($id) || $id == 0 }
                         <input type="submit" name="add" value="Neuen Dateityp anlegen"><br>
                         <input type="checkbox" name="add_more" {TMPL_IF NAME="add_more"}checked{/TMPL_IF}>Weitere Dateitypen anlegen
                     {TMPL_ELSE}

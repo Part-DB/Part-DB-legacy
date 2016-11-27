@@ -2,7 +2,7 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h4>{t  domain="template"}Statistik{/t}</h4>
+        {t}Statistik{/t}
     </div>
     <div class="panel-body table-responsive">
         <table>

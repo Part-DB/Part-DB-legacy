@@ -2,7 +2,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4>{t}Hersteller IC Logos{/t}</h4>
+        {t}Hersteller IC Logos{/t}
     </div>
     <div class="panel-body">
                     <ul class="pagination">
@@ -13,7 +13,7 @@
                         <li><a href="Y">Y</a></li> <li><a href="#Z">Z</a></li>
                       </ul>
     </div>
-        <table class="table table-striped table-hover" width="100%">
+        <table class="table table-striped table-hover">
             
             <thead><tr class="bg-info"><th colspan="2"><a id="A">A</a></thead>
             

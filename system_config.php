@@ -109,6 +109,10 @@
     $page_title                 = isset($_REQUEST['page_title'])        ? (string)$_REQUEST['page_title']       : $config['page_title'];
     $startup_banner             = isset($_REQUEST['startup_banner'])    ? (string)$_REQUEST['startup_banner']   : $config['startup']['custom_banner'];
 
+    // section "3d footprints"
+    $foot3d_active              = isset($_REQUEST['foot3d_active']);
+    $foot3d_show_info           = isset($_REQUEST['foot3d_show_info']);
+
     // section "change administrator password"
     $current_admin_password     = isset($_REQUEST['current_admin_password'])    ? (string)$_REQUEST['current_admin_password']   : '';
     $new_admin_password_1       = isset($_REQUEST['new_admin_password_1'])      ? (string)$_REQUEST['new_admin_password_1']     : '';
@@ -174,6 +178,9 @@
                 $config['popup']['width']                   = $popup_width;
                 $config['popup']['height']                  = $popup_height;
 
+                $config['foot3d']['active']                 = $foot3d_active;
+                $config['foot3d']['show_info']              = $foot3d_show_infos;
+
                 if ( ! $config['is_online_demo'])
                 {
                     // settings which should not be able to change in the online demo
@@ -194,7 +201,7 @@
                     $filehandle = fopen(DOKUWIKI_PERMS_FILENAME, 'w');
                     if ( ! $filehandle)
                         $messages[] = array('text' => 'Die Datei "'.DOKUWIKI_PERMS_FILENAME.'" kann nicht gelöscht werden! '.
-                                            'Überprüfen Sie, ob Sie die nötigen Schreibrechte besitzen.', 'strong' => true, 'color' => 'red');
+                                            _('Überprüfen Sie, ob Sie die nötigen Schreibrechte besitzen.'), 'strong' => true, 'color' => 'red');
                     else
                         fclose($filehandle);
                 }
@@ -203,7 +210,7 @@
                     // disable write permissions
                     if ( ! unlink(DOKUWIKI_PERMS_FILENAME))
                         $messages[] = array('text' => 'Die Datei "'.DOKUWIKI_PERMS_FILENAME.'" kann nicht gelöscht werden! '.
-                                            'Überprüfen Sie, ob Sie die nötigen Schreibrechte besitzen.', 'strong' => true, 'color' => 'red');
+                                            _('Überprüfen Sie, ob Sie die nötigen Schreibrechte besitzen.'), 'strong' => true, 'color' => 'red');
                 }
 
                 try
@@ -215,8 +222,8 @@
                 catch (Exception $e)
                 {
                     $config = $config_old; // reload the old config
-                    $messages[] = array('text' => 'Die neuen Werte konnten nicht gespeichert werden!', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                    $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Fehlermeldung: '.nl2br($e->getMessage())), 'color' => 'red');
                 }
                 break;
 
@@ -224,19 +231,19 @@
                 try
                 {
                     if ($config['is_online_demo'])
-                        throw new Exception('Diese Funktion steht in der Online-Demo nicht zur Verfügung!');
+                        throw new Exception(_('Diese Funktion steht in der Online-Demo nicht zur Verfügung!'));
 
                     // set_admin_password() throws an exception if the old or the new passwords are not valid
                     set_admin_password($current_admin_password, $new_admin_password_1, $new_admin_password_2, false);
 
                     save_config();
 
-                    $messages[] = array('text' => 'Das neue Administratorpasswort wurde erfolgreich gespeichert.', 'strong' => true, 'color' => 'darkgreen');
+                    $messages[] = array('text' => _('Das neue Administratorpasswort wurde erfolgreich gespeichert.'), 'strong' => true, 'color' => 'darkgreen');
                 }
                 catch (Exception $e)
                 {
-                    $messages[] = array('text' => 'Die neuen Werte konnten nicht gespeichert werden!', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                    $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
         }
@@ -291,12 +298,16 @@
     $html->set_variable('htaccess_works',               (getenv('htaccessWorking')=='true'),        'boolean');
     $html->set_variable('is_online_demo',               $config['is_online_demo'],                  'boolean');
 
+    // 3d Footprints
+    $html->set_variable('foot3d_active',                $config['foot3d']['active'],                'boolean');
+    $html->set_variable('foot3d_show_info',             $config['foot3d']['show_info'],             'boolean');
+
     // check if the server supports the selected language and print a warning if not
     if ( ! own_setlocale(LC_ALL, $config['language']))
     {
-        $messages[] = array('text' => 'Achtung:', 'strong' => true, 'color' => 'red');
+        $messages[] = array('text' => _('Achtung:'), 'strong' => true, 'color' => 'red');
         $messages[] = array('text' => 'Die gewählte Sprache "'.$config['language'].'" wird vom Server nicht unterstützt!', 'color' => 'red', );
-        $messages[] = array('text' => 'Bitte installieren Sie diese Sprache oder wählen Sie eine andere.', 'color' => 'red', );
+        $messages[] = array('text' => _('Bitte installieren Sie diese Sprache oder wählen Sie eine andere.'), 'color' => 'red', );
     }
 
     /********************************************************************************

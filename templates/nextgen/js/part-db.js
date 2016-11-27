@@ -1,5 +1,5 @@
 /*jslint browser: true*/
-/*global $, jQuery, alert*/
+/*global $, jQuery, alert, x3dom*/
 
 var BASE = "";
 
@@ -89,7 +89,7 @@ function tree_fill() {
         $('#tree-devices').treeview('collapseAll', { silent: true });
     });
     
-    $.getJSON(BASE + '/api_json.php/api_json.php?mode="tree_tools"', function (tree) {
+    $.getJSON(BASE + 'api_json.php/api_json.php?mode="tree_tools"', function (tree) {
         $('#tree-tools').treeview({data: tree, enableLinks: true, showBorder: true});
         $('#tree-tools').treeview('collapseAll', { silent: true });
     });
@@ -152,8 +152,10 @@ $(document).ajaxComplete(function (event, xhr, settings) {
     makeFileInput();
     registerHoverImages();
     
+    x3dom.reload();
+    
     //Push only if it was a "GET" request and requested data was an HTML
-    if (settings.type.toLowerCase() !== "post" && settings.dataType === "html") {
+    if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json") {
         window.history.pushState(null, "", settings.url);
     }
 });

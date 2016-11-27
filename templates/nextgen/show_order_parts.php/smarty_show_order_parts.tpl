@@ -1,3 +1,4 @@
+{locale path="nextgen/locale" domain="partdb"}
 <script language="JavaScript">
     function toggle_all_checkboxes(source, prefix)
     {
@@ -11,13 +12,13 @@
 </script>
 
 <div class="panel panel-primary">
-    <div class="panel-heading"><h4>Lieferant wählen</h4></div>
+    <div class="panel-heading">{t}Lieferant wählen{/t}</div>
     <div class="panel-body">
         <form method="get" action="" class="form-horizontal">
             <div class="form-group col-md-12">
                 <div class="input-group">
                 <select class="form-control" name="selected_supplier_id">
-                    <option value="0" {if !isset($selected_supplier_id) || $selected_supplier_id == 0}selected{/if}>Alle</option>
+                    <option value="0" {if !isset($selected_supplier_id) || $selected_supplier_id == 0}selected{/if}>{t}Alle{/t}</option>
                     {if isset($suppliers)}
                         {foreach $suppliers as $sup}
                             <option value="{$sup.id}" {if $sup.selected}selected{/if}>{$sup.full_path} ({$sup.count_of_parts})</option>
@@ -26,7 +27,7 @@
                 </select>
             
                  <span class="input-group-btn">
-                    <button type="submit" class="btn btn-success" name="choose_selected_supplier">Übernehmen</button>
+                    <button type="submit" class="btn btn-success" name="choose_selected_supplier">{t}Übernehmen{/t}</button>
                 </span>
                 </div>
             </div>
@@ -36,7 +37,7 @@
             <div class="form-group">
                 <input type="hidden" name="selected_supplier_id" value="0">
                 <div class="col-md-12">
-                    <button class="btn btn-primary" type="submit" name="choose_selected_supplier">Alle anzeigen</button>
+                    <button class="btn btn-primary" type="submit" name="choose_selected_supplier">{t}Alle anzeigen{/t}</button>
                 </div>
             </div>
         </form>
@@ -44,7 +45,7 @@
 </div>
 
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>Zu bestellende Teile</h4></div>
+    <div class="panel-heading">{t}Zu bestellende Teile{/t}</div>
     <div class="panel-body">
         <form method="post" action="">
             {if isset($table_rowcount) && $table_rowcount > 0}
@@ -57,7 +58,7 @@
                 
                 <div class="form-horizontal">
                     <div class="form-group">
-                        <label class="control-label col-md-3">Gesamtpreis:</label>
+                        <label class="control-label col-md-3">{t}Gesamtpreis:{/t}</label>
                         <div class="col-md-9">
                             <p class="form-control-static">{$sum_price}</p>
                         </div>
@@ -65,7 +66,7 @@
                     </div>
                     
                     <div class="form-group">
-                        <label class="control-label col-md-3">Alle an/abwählen:</label>
+                        <label class="control-label col-md-3">{t}Alle an/abwählen:{/t}</label>
                         <div class="col-md-9">
                             <div class="checkbox">
                                 <input type="checkbox" onClick="toggle_all_checkboxes(this, 'tostock_')"/>
@@ -73,26 +74,26 @@
                             </div>
                             <div class="checkbox">
                                 <input type="checkbox" onClick="toggle_all_checkboxes(this, 'remove_')"/>
-                                <label>Aus Liste löschen (für manuell zum Bestellen markierte Artikel)</label>
+                                <label>{t}Aus Liste löschen (für manuell zum Bestellen markierte Artikel){/t}</label>
                             </div>
                         </div>
                     </div>
                     
                     <div class="form-group">
                         <div class="col-md-9 col-md-offset-3">
-                            <button type="submit" class="btn btn-success" name="apply_changes">Änderungen übernehmen</button>
-                            <button type="submit" class="btn btn-danger" name="abort">Änderungen verwerfen</button>
+                            <button type="submit" class="btn btn-success" name="apply_changes">{t}Änderungen übernehmen{/t}</button>
+                            <button type="submit" class="btn btn-danger" name="abort">{t}Änderungen verwerfen{/t}</button>
                         </div>
                     </div>
     
                     <div class="form-group">
                         <div class="col-md-9 col-md-offset-3">
-                            <button type="submit" class="btn btn-default" name="autoset_quantities">Bestellmengen automatisch setzen</button>
+                            <button type="submit" class="btn btn-default" name="autoset_quantities">{t}Bestellmengen automatisch setzen{/t}</button>
                         </div>
                     </div>              
                 </div>
             {else}
-                Es gibt keine Teile, die bestellt werden müssen.
+                {t}Es gibt keine Teile, die bestellt werden müssen.{/t}
             {/if}
             
         </form>
@@ -101,17 +102,17 @@
 
 {if $order_devices_loop}
 {if !$selected_supplier_id}
-<div class="outer">
-    <h2>Zum Bestellen markierte Baugruppen</h2>
-    <div class="inner">
+<div class="panel panel-default">
+    <div class="panel-heading">{t}Zum Bestellen markierte Baugruppen{/t}</div>
+    <div class="panel-body">
         <table>
             <tr class="trcat">
-                <td>Name</td>
-                <td>Bestellmenge</td>
-                <td>Teile</td>
-                <td>Anzahl versch. Teile</td>
-                <td>Davon zu wenige an Lager</td>
-                <td>Optionen</td>
+                <td>{t}Name{/t}</td>
+                <td>{t}Bestellmenge{/t}</td>
+                <td>{t}Teile{/t}</td>
+                <td>{t}Anzahl versch. Teile{/t}</td>
+                <td>{t}Davon zu wenige an Lager{/t}</td>
+                <td>{t}Optionen{/t}</td>
             </tr>
 
             {foreach $order_devices_loop as $dev}
@@ -157,11 +158,11 @@
 {/if}
 
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>Bauteile Export</h4></div>
+    <div class="panel-heading">{t}Bauteile Export{/t}</div>
     <div class="panel-body">
         <form method="post" action="" class="form-horizontal">
             <div class="form-group">
-                <label class="control-label col-md-3">Format:</label>
+                <label class="control-label col-md-3">{t}Format:{/t}</label>
                 <div class="col-md-9"> 
                     <select name="export_format" class="form-control">
                         {foreach $export_formats as $format}
@@ -172,8 +173,8 @@
             </div>
             <div class="form-group">
                 <div class="col-md-9 col-md-offset-3">
-                    <button class="btn btn-default" type="submit" name="export_show">Anzeige</button>
-                    <button class="btn btn-default" type="submit" name="export_download">Herunterladen</button>
+                    <button class="btn btn-default" type="submit" name="export_show">{t}Anzeige{/t}</button>
+                    <button class="btn btn-default" type="submit" name="export_download">{t}Herunterladen{/t}</button>
                 </div>
             </div>
         </form>

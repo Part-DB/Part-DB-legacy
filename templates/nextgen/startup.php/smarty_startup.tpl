@@ -7,11 +7,11 @@
         <h4><i>"NextGen"</i></h4>
     </div>
     
-    {if isset($database_update)}
+    {if isset($database_update) && $database_update}
         {if $database_update}
         <div class="panel panel-danger">
             <div class="panel-heading">
-                <h2{t}>Datenbankupdate{/t}</h2>
+                <h4>{t}Datenbankupdate{/t}</h4>
             </div>
             <div class="panel-body">
             <b>Datenbank-Version {$db_version_current} benötigt ein Update auf Version {$db_version_latest}.</b><br><br>
@@ -31,10 +31,10 @@
         {/if}
     {/if}
 
-{if $display_warning}
+{if isset($display_warning) && $display_warning}
         <div class="panel panel-danger">
             <div class="panel-heading">
-                <h2 class="red">Achtung!</h2>
+                Achtung!
             </div>
         <div class="panel-body">
             Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>
@@ -48,7 +48,7 @@
     </div>
 {/if}
 
-{if $broken_filename_footprints}
+{if isset($broken_filename_footprints) && $broken_filename_footprints}
         <div class="panel panel-danger">
             <div class="panel-heading">
                 <h2 class="red">Achtung!</h2>

@@ -47,16 +47,16 @@
         <!-- jQuery Form lib -->
         <script src="{$relative_path}js/jquery.form.min.js"></script>   
         
-        
+        <!-- 3d footprint viewer -->
+        <script src="http://www.x3dom.org/release/x3dom.js"></script>
+        <link rel="stylesheet" href="http://www.x3dom.org/release/x3dom.css">
         
         <link rel="stylesheet" type="text/css" href="{$relative_path}DataTables-1.10.12/css/jquery.dataTables.min.css"/>
  
         <script type="text/javascript" src="{$relative_path}DataTables-1.10.12/js/jquery.dataTables.min.js"></script>
         <script type="text/javascript" src="{$relative_path}DataTables-1.10.12/js/dataTables.bootstrap.min.js"></script>
         
-        <!-- 3d footprint viewer -->
-        <script src="http://www.x3dom.org/release/x3dom.js"></script>
-        <link rel="stylesheet" href="http://www.x3dom.org/release/x3dom.css">
+
         
         {if isset($javascript_files)}
         {foreach $javascript_files as $file}
@@ -87,11 +87,11 @@
 
    
     <header>
-        <nav class="navbar navbar-default">
+        <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">
              <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#sidebar" aria-expanded="false">
+                    <button type="button" class="navbar-toggle" data-toggle="offcanvas">
                         <span class="sr-only">{t}Toggle Sidebar{/t}</span>
                         <span class="icon-bar"></span>
                         <span class="icon-bar"></span>
@@ -104,54 +104,53 @@
                     <a class="navbar-brand" href="{$relative_path}startup.php">Part-DB</a>
                 </div>
 
-            <!-- Navbar -->
-            <div class="collapse navbar-collapse" id="searchbar">
+                <!-- Navbar -->
+                <div class="collapse navbar-collapse" id="searchbar">
+                    <!-- Searchbar -->
+                    <form class="navbar-form navbar-right" action="{$relative_path}show_search_parts.php" method="get">
+                            <div class="btn-group">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    {t}Suchoptionen{/t}
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="SearchOptions">
+                                   <li class="checkbox"><input type="checkbox" name="search_name" value="true" checked>
+                                        <label for="search_name">{t}Name{/t}</label></li>
+                                   <li class="checkbox"><input type="checkbox" class="styled" name="search_category" value="true" checked>
+                                       <label for="search_category">{t}Kategorie{/t}</label></li>
+                                   <li class="checkbox"><input type="checkbox" name="search_description" value="true" checked>
+                                       <label for="search_description"></label>{t}Beschreibung{/t}</li>
+                                   <li class="checkbox"><input type="checkbox" name="search_storelocation" value="true" checked>
+                                       <label for="search_storelocation">{t}Lagerort{/t}</label></li>
+                                   <li class="checkbox"><input type="checkbox" name="search_comment" value="true" checked>
+                                       <label for="search_comment">{t}Kommentar{/t}</label></li>
+                                   <li class="checkbox"><input type="checkbox" name="search_supplierpartnr" value="true" checked>
+                                       <label for="search_supplierpartnr">{t}Bestellnr.{/t}</label></li>
+                                   <li class="checkbox"><input type="checkbox" name="search_supplier" value="true">
+                                       <label for="search_supplier">{t}Lieferant{/t}</label></li>
+                                   <li class="checkbox"><input type="checkbox" name="search_manufacturer" value="true">
+                                       <label for="search_manufacturer">{t}Hersteller{/t}</label></li>
+                                   <li class="checkbox"><input type="checkbox" name="search_footprint" value="true">
+                                       <label for="search_footprint">{t}Footprint{/t}</label></li>
+                                </ul>
+                            </div>
 
-            <!-- Searchbar -->
-
-            <form class="navbar-form navbar-right" action="{$relative_path}show_search_parts.php" method="get">
-                    <div class="btn-group">
-                        <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                            {t}Suchoptionen{/t}
-                            <span class="caret"></span>
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="SearchOptions">
-                           <li class="checkbox"><input type="checkbox" name="search_name" value="true" checked>
-                                <label for="search_name">{t}Name{/t}</label></li>
-                           <li class="checkbox"><input type="checkbox" class="styled" name="search_category" value="true" checked>
-                               <label for="search_category">{t}Kategorie{/t}</label></li>
-                           <li class="checkbox"><input type="checkbox" name="search_description" value="true" checked>
-                               <label for="search_description"></label>{t}Beschreibung{/t}</li>
-                           <li class="checkbox"><input type="checkbox" name="search_storelocation" value="true" checked>
-                               <label for="search_storelocation">{t}Lagerort{/t}</label></li>
-                           <li class="checkbox"><input type="checkbox" name="search_comment" value="true" checked>
-                               <label for="search_comment">{t}Kommentar{/t}</label></li>
-                           <li class="checkbox"><input type="checkbox" name="search_supplierpartnr" value="true" checked>
-                               <label for="search_supplierpartnr">{t}Bestellnr.{/t}</label></li>
-                           <li class="checkbox"><input type="checkbox" name="search_supplier" value="true">
-                               <label for="search_supplier">{t}Lieferant{/t}</label></li>
-                           <li class="checkbox"><input type="checkbox" name="search_manufacturer" value="true">
-                               <label for="search_manufacturer">{t}Hersteller{/t}</label></li>
-                           <li class="checkbox"><input type="checkbox" name="search_footprint" value="true">
-                               <label for="search_footprint">{t}Footprint{/t}</label></li>
-                        </ul>
-                    </div>
-
-                    <input type="search" class="form-control" placeholder="{t}Suche{/t}" name="keyword">
-                    <button type="submit" class="btn btn-default">{t}Los!{/t}</button>
-            </form>
-         </div><!-- /.navbar-collapse -->
-      </div><!-- /.container-fluid -->
-    </nav>
-   </header>
+                            <input type="search" class="form-control" placeholder="{t}Suche{/t}" name="keyword">
+                            <button type="submit" class="btn btn-default">{t}Los!{/t}</button>
+                    </form>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </header>
    
    <main>
       <div class="container-fluid">
    
-           <div class="row">
+           <div class="row row-offcanvas row-offcanvas-right active">
                 <aside>
-                    <div class="col-sm-3 col-md-2 sidebar" id="sidebar">
-                        <ul class="nav nav-sidebar">
+                   <nav>
+                    <div class="col-sm-3 col-md-2" id="sidebar">
+                        <ul class="nav navmenu-nav nav-sidebar">
                             <div id="categories">
                                 <h4>{t}Kategorien{/t}</h4>
                                 <div id="tree-categories"></div>
@@ -167,8 +166,10 @@
                         </ul>
 
                     </div>
+                    </nav>
                 </aside>
-                <div class="col-xs-12 col-sm-9 col-md-10" id="main" main >
+                
+                <div class="col-sm-9 col-md-10" id="main" main >
                    <div class="container-fluid" id="content">
                        
                        {if isset($messages)}
@@ -184,8 +185,8 @@
                                             {if isset($msg.strong) && $msg.strong}</strong>{/if}
                                         {/if}
 
-                                        {if isset($html)}
-                                            {$html}
+                                        {if isset($msg.html)}
+                                            {$msg.html}
                                         {/if}
 
                                         {if !isset($no_linebreak) || !$no_linebreak}<br>{/if}

@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
-<div class="panel panel-default">
-    <div class="panel-heading"><h4>{t}Teile per Name zuordnen{/t}</h4></div>
+<div class="panel panel-primary">
+    <div class="panel-heading">{t}Teile per Name zuordnen{/t}</div>
     <div class="panel-body">
         <form method="post" class="form-horizontal row" action="">
            <div class="form-group">

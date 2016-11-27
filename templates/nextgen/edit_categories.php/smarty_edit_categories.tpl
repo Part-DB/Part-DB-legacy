@@ -7,7 +7,7 @@
 {/if}
 
 <div class="panel panel-primary">
-    <div class="panel-heading"><h4>{t}Kategorien{/t}</h4></div>
+    <div class="panel-heading">{t}Kategorien{/t}</div>
     <div class="panel-body">
         <form action="" method="post" class="row">
             <div class="col-md-4">
@@ -22,7 +22,8 @@
             </div>
             
             <div class="col-md-8 form-horizontal">
-                <h4>
+            <fieldset>
+                <legend>
                     {if !isset($id) || $id == 0}
                         <strong>{t}Neue Kategorie hinzufügen:{/t}</strong>
                     {else}
@@ -32,7 +33,7 @@
                             <strong>{t}Es ist keine Kategorie angewählt!{/t}</strong>
                         {/if}
                     {/if}
-                </h4>
+                </legend>
                 
                 <div class="form-group">
                     <label class="control-label col-md-3">{t}ID:{/t}</label>
@@ -87,27 +88,27 @@
                     </div>
                 </div>
                 
-            <div class="form-group">
-                <label class="col-md-9 col-md-offset-3">
-                    <i>{t}* = Pflichtfelder{/t}</i>
-                </label>
-            </div>
-            
-            <div class="form-group">
-                <div class="col-md-9 col-md-offset-3">
-                    {if !isset($id) || $id == 0}
-                        <button class="btn btn-success" type="submit" name="add">{t}Neue Kategorie anlegen{/t}</button>
-                        <div class="checkbox">
-                            <input type="checkbox" name="add_more" {if $add_more}checked{/if}>
-                            <label>{t}Weitere Kategorien anlegen{/t}</label>
-                        </div>
-                    {else}
-                        <button class="btn btn-success" type="submit" name="apply">{t}Änderungen übernehmen{/t}</button>
-                        <button class="btn btn-danger" type="submit" name="delete">{t}Kategorie löschen{/t}</button>
-                    {/if}
+                <div class="form-group">
+                    <label class="col-md-9 col-md-offset-3">
+                        <i>{t}* = Pflichtfelder{/t}</i>
+                    </label>
                 </div>
-            </div>
-            
+
+                <div class="form-group">
+                    <div class="col-md-9 col-md-offset-3">
+                        {if !isset($id) || $id == 0}
+                            <button class="btn btn-success" type="submit" name="add">{t}Neue Kategorie anlegen{/t}</button>
+                            <div class="checkbox">
+                                <input type="checkbox" name="add_more" {if $add_more}checked{/if}>
+                                <label>{t}Weitere Kategorien anlegen{/t}</label>
+                            </div>
+                        {else}
+                            <button class="btn btn-success" type="submit" name="apply">{t}Änderungen übernehmen{/t}</button>
+                            <button class="btn btn-danger" type="submit" name="delete">{t}Kategorie löschen{/t}</button>
+                        {/if}
+                    </div>
+                </div>
+        </fieldset>
         </div>
     </form>
     </div>

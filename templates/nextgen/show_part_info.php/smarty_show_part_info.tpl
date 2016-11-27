@@ -1,12 +1,12 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-  <div class="panel panel-primary">
+<div class="panel panel-primary">
    <div class="panel-heading">
-       <h4>{t}Detailinfo zu{/t} <b>"{$name}"</b>
+       {t}Detailinfo zu{/t} <b>"{$name}"</b>
             <div class="pull-right">
                 {t}ID:{/t} {$pid}
             </div>
-        </h4>
+        
     </div>
 
     <div class="panel-body">
@@ -74,26 +74,41 @@
                             </div>
                         </div>
                         
-                        {if !empty($footprint_filename)}
-                        <div class="form-group">
-                            <div class="col-sm-9 col-md-offset-3">
-                                <img align="middle" rel="popover" src="{$footprint_filename}" alt="" height="70">
+                            {if !empty($footprint_filename) && $footprint_valid}
+                            <div class="form-group">
+                                <div class="col-sm-9 col-md-offset-3">
+                                    <img align="middle" rel="popover" src="{$footprint_filename}" alt="" height="70">
+                                </div>
                             </div>
-                        </div>
-                        {/if}
+                            {/if}
                         
-                       {/if}
+                            {if $foot3d_active && !empty($foot3d_filename) && $foot3d_valid}
+                            <div class="form-group">
+                                <div class="col-sm-9 col-md-offset-3">
+                                    <x3d id="foot3d" class="img-thumbnail" height="120" > 
+                                        <scene >
+                                            <!-- <Viewpoint id="front" position="0 0 10" orientation="-0.01451 0.99989 0.00319 3.15833" description="camera"></Viewpoint> -->
+                                            <transform>
+                                                <inline bboxcenter="-0.5,-0.5,-0.5" url="{$foot3d_filename}"> </inline>
+                                            </transform>
+                                        </scene> 
+                                    </x3d> 
+                                </div>
+                            </div>
+                            {/if}
+                        
+                        {/if}
                        
                        <div class="form-group">
                            <label class="col-sm-3 control-label">{t}Kommentar:{/t}</label>
                            <div class="col-sm-9">
-                               <p class="form-control-static">{if isset($comment)}{$comment}{else}-{/if}</p>
+                               <p class="form-control-static">{if !empty($comment)}{$comment}{else}-{/if}</p>
                             </div>
                        </div>
                        
                         <div class="form-group">
-                           <div class="col-sm-3">
-                            <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}">Angaben verändern</a>
+                           <div class="col-sm-9 col-sm-offset-3">
+                            <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}">{t}Angaben verändern{/t}</a>
                             </div>
                         </div>
                 </div>
@@ -180,7 +195,7 @@
     </div>
 
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>{t}Einkaufsinformationen{/t}</h4></div>
+    <div class="panel-heading">{t}Einkaufsinformationen{/t}</div>
             {if isset($orderdetails) && $orderdetails}
             <div class="table-responsive">
             <table class="table table-striped table-header">
@@ -235,7 +250,7 @@
                             </td>
 
                             <td class="tdrow2{if $order.obsolete} backred{/if}">
-                                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                <table>
                                     {foreach $order.pricedetails as $price}
                                         <tr>
                                             <td class="tdrow2">
@@ -250,9 +265,11 @@
                 </tbody>
             </table>
             </div>
+            <div class="panel-body">
             {if isset($average_price)}
                 <b>{t}Durchschnittspreis für 1 Stk.:{/t} {$average_price}</b>
             {/if}
+            </div>
         {else}
             <div class="panel-body">
                 {t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}
@@ -263,7 +280,7 @@
 
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h4>{t}Dateianhänge{/t}</h4>
+        {t}Dateianhänge{/t}
     </div>
     <div class="panel-body">
         {if isset($attachement_types_loop)}

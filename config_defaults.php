@@ -138,6 +138,13 @@
     $config['is_online_demo']                               = false; // disables some (safety-)critical features
     $config['developer_mode']                               = false; // enables the "Debug-Tools" menu
     $config['page_title']                                   = 'Part-DB Elektronische Bauteile-Datenbank';
+    
+    // Settings for design
+    $config['design']['use_smarty']                         = true;
+
+    // Settings for 3d footprints
+    $config['foot3d']['active']                       = false;
+    $config['foot3d']['show_info']                    = true;
 
 
     /********************************************************************************
@@ -207,7 +214,7 @@
     $config['languages']['en_GB']                           = '[en_GB] English (United Kingdom)';
     $config['languages']['en_US']                           = '[en_US] English (United States)';
 
-    $config['design']['use_smarty']                         = true;
+
 
 
     // table settings

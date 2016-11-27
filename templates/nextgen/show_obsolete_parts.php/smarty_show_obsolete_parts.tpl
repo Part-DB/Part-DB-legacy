@@ -1,5 +1,6 @@
+{locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-primary">
-    <div class="panel-heading"><h4>{t}Sonstiges{/t}</h4></div>
+    <div class="panel-heading">{t}Sonstiges{/t}</div>
     <div class="panel-body">
         <form action="" method="post">
             {t}Teile ohne Einkaufsinformationen:{/t}
@@ -10,6 +11,6 @@
 </div>
 
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>Nicht mehr erh&auml;ltliche Teile</h4></div>
+    <div class="panel-heading">Nicht mehr erh&auml;ltliche Teile</div>
         {include file="../smarty_table.tpl"}
 </div>

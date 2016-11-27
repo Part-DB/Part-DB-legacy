@@ -7,7 +7,7 @@
 
 
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>{t}Baugruppe inklusive Bauteile kopieren{/t}</h4></div>
+    <div class="panel-heading">{t}Baugruppe inklusive Bauteile kopieren{/t}</div>
     <div class="panel-body">
         <form method="post" class="form-horizontal" action="">
             <input type="hidden" name="device_id" value="{$device_id}">

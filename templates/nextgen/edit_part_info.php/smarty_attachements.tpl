@@ -1,6 +1,7 @@
+{locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4>{t}Dateianhänge{/t}</h4>
+        {t}Dateianhänge{/t}
     </div>
     <div class="panel-body">
             {foreach $attachements_loop as $attach}

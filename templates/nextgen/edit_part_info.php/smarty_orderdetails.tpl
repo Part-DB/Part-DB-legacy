@@ -1,6 +1,7 @@
+{locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4>{t}Einkaufsinformationen{/t}</h4>
+        {t}Einkaufsinformationen{/t}
     </div>
     <div class="panel-body table-responsive">
         <table class="table table-striped table-condensed table-hover">

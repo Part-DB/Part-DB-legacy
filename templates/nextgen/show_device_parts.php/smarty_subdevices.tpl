@@ -1,7 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
-    <div class="panel-heading"><h4>{t}Unterbaugruppen von{/t} "{$device_name}"</h4></div>
-    <div class="panel-body">
+    <div class="panel-heading">{t}Unterbaugruppen von{/t} "{$device_name}"</div>
         <table class="table table-striped table-hover">
             <thead>
                 <tr class="trcat">
@@ -34,6 +33,7 @@
             {/foreach}
             </tbody>
         </table>
+    <div class="panel-body">
         <i>{t}Alle Angaben betreffen nur die jeweilige Baugruppe, deren evtl. vorhandenen Unterbaugruppen werden nicht berücksichtigt!{/t}</i>
     </div>
 </div>

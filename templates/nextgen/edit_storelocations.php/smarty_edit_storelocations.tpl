@@ -17,10 +17,9 @@
 </script>
 
 <div class="panel panel-primary">
-    <div class="panel-heading"><h4>{t}Lagerorte{/t}</h4></div>
+    <div class="panel-heading">{t}Lagerorte{/t}</div>
     <div class="panel-body">
         <form action="" method="post" name="edit" class="row">
-            
             <div class="col-md-4">
                 <select name="selected_id" size="30" class="form-control" onChange="this.form.submit()">
                     <optgroup label="{t}Neu{/t}">
@@ -33,7 +32,8 @@
             </div>
          
             <div class="col-md-8 form-horizontal">   
-                <h4>
+            <fieldset>
+                <legend>
                     {if !isset($id) || $id == 0}
                         <strong>{t}Neuen Lagerort hinzufügen:{/t}</strong>
                     {else}
@@ -43,7 +43,7 @@
                             <strong>{t}Es ist kein Lagerort angewählt!{/t}</strong>
                         {/if}
                     {/if}
-                </h4>
+                </legend>
 
                 <div class="form-group">
                     <label class="control-label col-md-3">{t}ID:{/t}</label>
@@ -126,6 +126,7 @@
                         {/if}
                     </div>
                 </div>
+            </fieldset>
             </div>
         </form>
     </div>

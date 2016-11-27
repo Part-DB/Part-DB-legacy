@@ -1,6 +1,7 @@
+{locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4>{t}Aktionen{/t}</h4>
+        {t}Aktionen{/t}
     </div>
     <div class="panel-body">    
         <form class="form-horizontal" action="{$relative_path}edit_part_info.php" method="post">   
@@ -16,7 +17,7 @@
                 </div>
             </div>
         </form>
-                
+       
         <p></p>
                 
         

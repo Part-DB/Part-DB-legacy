@@ -8,7 +8,7 @@
 
 {if !$hide_status}
     <div class="panel panel-default">
-        <div class="panel-heading"><h4>{t}Datenbank Status / Update{/t}</h4></div>
+        <div class="panel-heading">{t}Datenbank Status / Update{/t}</div>
         <div class="panel-body">
             <form action="" method="post" class="form-horizontal">
                 <table>
@@ -48,7 +48,7 @@
                                     <button type="submit" class="btn btn-default" name="make_update">{t}Letztes, fehlgeschlagenes Update fortsetzen{/t}</button>
                                     <button type="submit" class="btn btn-default" name="make_new_update">{t}Neuer Update-Versuch beginnen (von Vorne){/t}</button>
                                 {else}
-                                    <input type="submit" name="make_update" value="Jetzt Datenbank updaten">
+                                    <button class="btn btn-default" type="submit" name="make_update">{t}Jetzt Datenbank updaten{/t}</button>
                                 {/if}
                             {else}
                                 <font color="darkgreen">{t}Die Datenbank ist auf dem neusten Stand.{/t}</font>
@@ -62,7 +62,7 @@
 {/if}
 
 <div class="panel panel-primary">
-    <div class="panel-heading"><h4>{t}Datenbank-Einstellungen{/t}</h4></div>
+    <div class="panel-heading">{t}Datenbank-Einstellungen{/t}</div>
     <div class="panel-body">
         <form action="" class="form-horizontal" method="post">
                 <div class="form-group">

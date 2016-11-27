@@ -1,7 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
-<div class="panel panel-success">
+<div class="panel panel-primary">
     <div class="panel-heading">
-        <h4>Suchergebnis</h4>
+        Suchergebnis
     </div>
     <div class="panel-body">
         Die Suche nach <b>"{$keyword}"</b> ergab <b>{$hits_count} Treffer</b>.
@@ -31,6 +31,6 @@
                
             </form>
         </div>
-        <div class="clear"></div>
+
     </div>
 </div>

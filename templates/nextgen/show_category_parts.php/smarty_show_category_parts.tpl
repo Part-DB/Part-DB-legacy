@@ -1,25 +1,26 @@
-<div class="panel panel-success">
+{locale path="nextgen/locale" domain="partdb"}
+<div class="panel panel-primary">
     <div class="panel-heading">
-        <h4>Sonstiges</h4>
+        {t}Sonstiges{/t}
     </div>
     <div class="panel-body">
         <form action="" method="post">
-            Unterkategorien:
+            {t}Unterkategorien:{/t}
             <input type="hidden" name="cid" value="{$cid}">
             <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">
-            <button type="submit" class="btn btn-default" name="subcat_button" >{if $with_subcategories}ausblenden{else}einblenden{/if}</button>
+            <button type="submit" class="btn btn-default" name="subcat_button" >{if $with_subcategories}{t}ausblenden{/t}{else}{t}einblenden{/t}{/if}</button>
         </form>
         <p></p>
         <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}"
             onclick="openPart('edit_part_info.php?category_id={$cid}';">
-            Neues Teil in dieser Kategorie
+            {t}Neues Teil in dieser Kategorie{/t}
         </a>
     </div>
 </div>
 
 <div class="panel panel-info">
     <div class="panel-heading">
-        <h5>Teile in der Kategorie <b>"{$category_name}" </b></h5>
+        {t}Teile in der Kategorie{/t} <b>"{$category_name}"</b>
     </div>
     <form method="post" action="">
         <input type="hidden" name="cid" value="{$cid}">

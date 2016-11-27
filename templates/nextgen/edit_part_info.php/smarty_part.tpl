@@ -1,10 +1,9 @@
 {locale path="nextgen/locale" domain="partdb"}
    
-<div class="panel {if $is_new_part}panel-success{else}panel-warning{/if}">
+<div class="panel {if $is_new_part}panel-success{else}panel-default{/if}">
     <div class="panel-heading">
-        <h4>
             {if !$is_new_part}
-                {t}Ändere Detailinfos von{/t} "<b><a href="{$relative_path}show_part_info.php?pid={$pid}">{$name}</b></a>"
+                {t}Ändere Detailinfos von{/t} <b><a href="{$relative_path}show_part_info.php?pid={$pid}">{$name}</b></a>
                 
                 <div style="float: right; display: inline;">
                     {t}ID:{/t} {$pid}
@@ -12,8 +11,6 @@
             {else}
                 {t}Neues Bauteil erstellen{/t}
             {/if}
-        </h4>
-    
     </div>    
         
     <div class="panel-body">
