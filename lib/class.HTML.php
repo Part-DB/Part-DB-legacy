@@ -401,9 +401,14 @@
                 }
 
                 //CHANGE ME
+                /*
                 $tmpl->caching=false;
                 $tmpl->setCaching(false);
                 $tmpl->clearAllCache();
+                */
+
+
+
 
                 // header stuff
                 $tmpl->assign('relative_path',              BASE_RELATIVE.'/'); // constant from start_session.php
@@ -551,6 +556,7 @@
                 {
                     $tmpl->assign($key, $loop);
                 }
+
 
                 $tmpl->display($smarty_template);
             }

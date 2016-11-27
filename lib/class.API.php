@@ -145,9 +145,11 @@ class API
         if(!$disable_iclogos) $tools_nodes[] = treeview_node(_("IC-Logos"),BASE_RELATIVE."/tools_iclogos.php");
 
         //System nodes
-        $system_nodes = array();
-        $system_nodes[] = treeview_node(_("Konfiguration"),BASE_RELATIVE."/system_config.php");
-        $system_nodes[] = treeview_node(_("Datenbank"),BASE_RELATIVE."/system_database.php");
+        if(!$disable_config){
+            $system_nodes = array();
+            $system_nodes[] = treeview_node(_("Konfiguration"),BASE_RELATIVE."/system_config.php");
+            $system_nodes[] = treeview_node(_("Datenbank"),BASE_RELATIVE."/system_database.php");
+        }
 
         //Show nodes
         $show_nodes = array();

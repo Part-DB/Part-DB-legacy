@@ -19,7 +19,7 @@
                                 {if isset($manufacturer_product_url)}
                                     <a class="form-control-static" title="{$manufacturer_product_url}" href="{$manufacturer_product_url}">{$name}</a>
                                 {else}
-                                    <p class="form-control-static">{$name}</p>
+                                    <p class="form-control-static">{$name|escape:"htmlall"}</p>
                                 {/if}
                             </div>
                        </div>
@@ -28,7 +28,7 @@
                            <label class="col-sm-3 control-label">{t}Beschreibung:{/t}</label>
                            <div class="col-sm-9">
                                <p class="form-control-static">
-                               {if isset($description)}{$description}{else}-{/if}
+                               {if isset($description)}{$description|escape:"htmlall"}{else}-{/if}
                                </p>
                            </div>
                        </div>
@@ -36,13 +36,13 @@
                        <div class="form-group">
                            <label class="col-sm-3 control-label">{t}Vorhanden:{/t}</label>
                            <div class="col-sm-9">
-                               <p class="form-control-static">{$instock}</p>
+                               <p class="form-control-static">{$instock|escape:"htmlall"}</p>
                            </div>
                        </div>
                        
                        <div class="form-group">
                            <label class="col-sm-3 control-label">{t}Min. Bestand:{/t}</label>
-                           <div class="col-sm-9"><p class="form-control-static">{$mininstock}</p></div>
+                           <div class="col-sm-9"><p class="form-control-static">{$mininstock|escape:"htmlall"}</p></div>
                        </div>
                        
                        <div class="form-group">
