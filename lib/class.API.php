@@ -144,12 +144,10 @@ class API
         if(!$disable_footprint) $tools_nodes[] = treeview_node(_("Footprints"),BASE_RELATIVE."/tools_footprints.php");
         if(!$disable_iclogos) $tools_nodes[] = treeview_node(_("IC-Logos"),BASE_RELATIVE."/tools_iclogos.php");
 
-        //System nodes
-        if(!$disable_config){
-            $system_nodes = array();
-            $system_nodes[] = treeview_node(_("Konfiguration"),BASE_RELATIVE."/system_config.php");
-            $system_nodes[] = treeview_node(_("Datenbank"),BASE_RELATIVE."/system_database.php");
-        }
+        $system_nodes = array();
+        $system_nodes[] = treeview_node(_("Konfiguration"),BASE_RELATIVE."/system_config.php");
+        $system_nodes[] = treeview_node(_("Datenbank"),BASE_RELATIVE."/system_database.php");
+       
 
         //Show nodes
         $show_nodes = array();
@@ -180,7 +178,7 @@ class API
         $tree[] = treeview_node(_("Tools"),null,$tools_nodes);
         $tree[] = treeview_node(_("Bearbeiten"),null,$edit_nodes);
         $tree[] = treeview_node(_("Zeige"),null,$show_nodes);
-        $tree[] = treeview_node(_("System"),null,$system_nodes);
+        if(!$disable_config) $tree[] = treeview_node(_("System"),null,$system_nodes);
         if($developer_mode) $tree[] = treeview_node(_("Entwickler-Werkzeuge"),null,$dev_nodes);
         $tree[] = treeview_node(_("Hilfe"),BASE_RELATIVE."documentation/dokuwiki/index.php",null);
 
