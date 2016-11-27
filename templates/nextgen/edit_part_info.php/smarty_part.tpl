@@ -54,7 +54,7 @@
                     </label>
                     <div class="col-md-7">
                         <select class="form-control" name="category_id" onChange="document.getElementById('search_category_name').value='__ID__='+this.value; document.getElementById('search_category').click();">
-                            {$category_list}
+                            {$category_list nofilter}
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -73,7 +73,7 @@
                     <div class="col-md-7">
                         <select class="form-control" name="storelocation_id">
                             <option value="0"></option>
-                            {$storelocation_list}
+                            {$storelocation_list nofilter}
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -93,7 +93,7 @@
                         <div class="col-md-7">
                             <select class="form-control" name="manufacturer_id">
                                 <option value="0"></option>
-                                {$manufacturer_list}
+                                {$manufacturer_list nofilter}
                             </select>
                         </div>
                         <div class="col-md-3">
@@ -115,7 +115,7 @@
                         <div class="col-md-7">
                             <select class="form-control" name="footprint_id">
                                 <option value="0"></option>
-                                {$footprint_list}
+                                {$footprint_list nofilter}
                             </select>
                         </div>
                         <div class="col-md-3">

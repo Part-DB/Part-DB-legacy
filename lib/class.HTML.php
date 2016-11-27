@@ -407,7 +407,7 @@
                 $tmpl->clearAllCache();
                 */
 
-
+                $tmpl->escape_html = true;
 
 
                 // header stuff
@@ -557,6 +557,8 @@
                     $tmpl->assign($key, $loop);
                 }
 
+                //Prevents XSS
+                $tmpl->escape_html = true;
 
                 $tmpl->display($smarty_template);
             }
@@ -634,6 +636,8 @@
                     $tmpl->assign('messages_div_title',     $messages_div_title);
                 }
 
+                //Prevents XSS
+                $tmpl->escape_html = true;
                 $tmpl->display($smarty_foot);
             }
         }

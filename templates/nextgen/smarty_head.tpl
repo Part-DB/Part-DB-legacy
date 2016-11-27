@@ -180,19 +180,19 @@
                                         {if isset($msg.text)}
                                             {if isset($msg.strong) && $msg.strong}<strong>{/if}
                                             {if isset($msg.color)}<font color="{$msg.color}">{/if}
-                                            {$msg.text}
+                                            {$msg.text nofilter}
                                             {if isset($msg.color)}</font>{/if}
                                             {if isset($msg.strong) && $msg.strong}</strong>{/if}
                                         {/if}
 
                                         {if isset($msg.html)}
-                                            {$msg.html}
+                                            {$msg.html nofilter}
                                         {/if}
 
                                         {if !isset($no_linebreak) || !$no_linebreak}<br>{/if}
                                     {/foreach}
                                    
-                                    {if isset($reload_link)}
+                                    {if !empty($reload_link)}
                                         <a href="{$reload_link}">
                                             <br>
                                             <button class="btn btn-default">{t}Seite neu laden{/t}</button>

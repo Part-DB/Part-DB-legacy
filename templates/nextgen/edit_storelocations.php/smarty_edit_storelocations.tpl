@@ -26,7 +26,7 @@
                         <option value="0" {if isset($id) && $id == 0}selected{/if}>{t}Neuer Lagerort{/t}</option>
                     </optgroup>
                     <optgroup label="{t}Bearbeiten{/t}">
-                        {$storelocation_list}
+                        {$storelocation_list nofilter}
                     </optgroup>
                 </select>
             </div>
@@ -91,7 +91,7 @@
                     <label class="control-label col-md-3">{t}Übergeordneter Lagerort*:{/t}</label>
                     <div class="col-md-9">
                         <select name="parent_id" class="form-control" size="1">
-                            {$parent_storelocation_list}
+                            {$parent_storelocation_list nofilter}
                         </select>
                     </div>
                 </div>

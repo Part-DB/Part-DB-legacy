@@ -15,7 +15,7 @@
                         <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neue Baugruppe{/t}</option>
                     </optgroup>
                     <optgroup label="Bearbeiten">
-                        {$device_list}
+                        {$device_list nofilter}
                     </optgroup>
                 </select>
             </div>
@@ -52,7 +52,7 @@
                     <label class="control-label col-md-3">{t}Übergeordnete Baugruppe*:{/t}</label>
                     <div class="col-md-9">
                         <select class="form-control" name="parent_id" size="1">
-                            {$parent_device_list}
+                            {$parent_device_list nofilter}
                         </select>
                     </div>
                 </div>

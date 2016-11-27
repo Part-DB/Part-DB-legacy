@@ -89,7 +89,7 @@
                                         <scene >
                                             <!-- <Viewpoint id="front" position="0 0 10" orientation="-0.01451 0.99989 0.00319 3.15833" description="camera"></Viewpoint> -->
                                             <transform>
-                                                <inline bboxcenter="-0.5,-0.5,-0.5" url="{$foot3d_filename}"> </inline>
+                                                <inline url="{$foot3d_filename}"> </inline>
                                             </transform>
                                         </scene> 
                                     </x3d> 

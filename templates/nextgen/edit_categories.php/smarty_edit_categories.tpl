@@ -16,7 +16,7 @@
                             <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neue Kategorie{/t}</option>
                         </optgroup>
                         <optgroup label="Bearbeiten">
-                            {$category_list}
+                            {$category_list nofilter}
                         </optgroup>
                     </select>
             </div>
@@ -53,7 +53,7 @@
                     <label class="control-label col-md-3">{t}Übergeordnete Kategorie*:{/t}</label>
                     <div class="col-md-9">
                         <select class="form-control" name="parent_id" size="1">
-                            {$parent_category_list}
+                            {$parent_category_list nofilter}
                         </select>
                     </div>
                 </div>

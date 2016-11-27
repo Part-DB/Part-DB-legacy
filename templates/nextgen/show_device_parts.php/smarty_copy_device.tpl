@@ -21,7 +21,7 @@
                     <label class="control-label col-md-3">{t}Übergeordnete Baugruppe:{/t}</label>
                     <div class="col-md-9">
                         <select class="form-control" name="copy_new_parent_id" size="1">
-                            {$parent_device_list}
+                            {$parent_device_list nofilter}
                         </select>
                     </div>
                 </div>

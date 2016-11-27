@@ -9,7 +9,7 @@
                         <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neuer Hersteller{/t}</option>
                     </optgroup>
                     <optgroup label="{t}Bearbeiten{/t}">
-                        {$manufacturer_list}
+                        {$manufacturer_list nofilter}
                     </optgroup>
                 </select>
             </div>
@@ -46,7 +46,7 @@
                     <label class="col-md-3 control-label">{t}Übergeordneter Lieferant*:{/t}</label>
                     <div class="col-md-9">
                         <select name="parent_id" size="1" class="form-control">
-                            {$parent_manufacturer_list}
+                            {$parent_manufacturer_list nofilter}
                         </select>
                     </div>
                 </div>

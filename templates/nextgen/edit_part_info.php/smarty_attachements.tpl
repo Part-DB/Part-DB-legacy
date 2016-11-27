@@ -35,7 +35,7 @@
                                     <div class="col-sm-4 form-group">
                                         <label>{t}Dateityp:{/t}</label>
                                         <select class="form-control" name="attachement_type_id">
-                                            {$attach.attachement_types_list}
+                                            {$attach.attachement_types_list nofilter}
                                         </select>
                                     </div>
                                     <div class="col-sm-4 form-group">

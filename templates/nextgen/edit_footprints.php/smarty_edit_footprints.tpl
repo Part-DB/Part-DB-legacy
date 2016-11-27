@@ -9,7 +9,7 @@
                             <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neuer Footprint{/t}</option>
                         </optgroup>
                         <optgroup label="Bearbeiten">
-                            {$footprint_list}
+                            {$footprint_list nofilter}
                         </optgroup>
                     </select>
             </div>
@@ -46,7 +46,7 @@
                     <label class="control-label col-md-3">{t}Übergeordneter Footprint*:{/t}</label>
                     <div class="col-md-9">
                         <select class="form-control" name="parent_id" size="1">
-                            {$parent_footprint_list}
+                            {$parent_footprint_list nofilter}
                         </select>
                     </div>
                 </div>

@@ -2,7 +2,7 @@
     <div class="jumbotron">
         <h1>Part-DB</h1>
         {if isset($system_version_full)}
-        <h3>{t}Version:{/t} {$system_version_full}{if isset($git_branch)}, Git: {$git_branch}{if isset($git_commit)}/{$git_commit}{/if}{/if}</h3>
+        <h3>{t}Version:{/t} {$system_version_full}{if !empty($git_branch)}, Git: {$git_branch}{if isset($git_commit)}/{$git_commit}{/if}{/if}</h3>
         {/if}
         <h4><i>"NextGen"</i></h4>
     </div>
@@ -97,7 +97,7 @@
     </div>
 </div>
 
-{if isset($rss_feed_loop)}
+{if !empty($rss_feed_loop)}
 <div class="panel panel-default">
     <div class="panel-heading">
         <h4>{t}Updates{/t}</h4>

@@ -19,13 +19,13 @@
             {foreach $orderdetails as $detail}
                 <tr class="{if $detail.row_odd}trlist_odd{else}trlist_even{/if}">
                     <td>
-                        {if $detail.orderdetails_id =="new"}<span class="label">{t}Neu:{/t}</span>{/if}
+                        {if $detail.orderdetails_id =="new"}<span class="label label-primary">{t}Neu:{/t}</span>{/if}
                     </td>
 
                     <form action="{$relative_path}edit_part_info.php" method="post">
                         <td>
                             <select class="form-control" name="supplier_id">
-                                {$detail.supplier_list}
+                                {$detail.supplier_list nofilter}
                             </select>
                             <p></p>
                             <input class="form-control" type="text" name="supplierpartnr" placeholder="{t}Bestellnr.{/t}" size="12" value="{$detail.supplierpartnr}" required>
