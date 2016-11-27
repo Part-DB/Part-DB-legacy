@@ -76,21 +76,25 @@ function registerHoverImages(form) {
     });
 }
 
+function onNodeSelected(event, data) {
+    'use strict';
+    $("#main").load(data.href + " #content");
+}
 
 function tree_fill() {
     'use strict';
     $.getJSON(BASE + '/api_json.php/api_json.php?mode="tree_category"', function (tree) {
-        $('#tree-categories').treeview({data: tree, enableLinks: true, showBorder: true});
+        $('#tree-categories').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected});
         $('#tree-categories').treeview('collapseAll', { silent: true });
     });
     
     $.getJSON(BASE + '/api_json.php/api_json.php?mode="tree_devices"', function (tree) {
-        $('#tree-devices').treeview({data: tree, enableLinks: true, showBorder: true});
+        $('#tree-devices').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected});
         $('#tree-devices').treeview('collapseAll', { silent: true });
     });
     
     $.getJSON(BASE + 'api_json.php/api_json.php?mode="tree_tools"', function (tree) {
-        $('#tree-tools').treeview({data: tree, enableLinks: true, showBorder: true});
+        $('#tree-tools').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected});
         $('#tree-tools').treeview('collapseAll', { silent: true });
     });
 }

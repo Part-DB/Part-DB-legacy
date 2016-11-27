@@ -113,24 +113,16 @@
 
 
     function treeview_node($name, $href=null, $nodes = null )
-    {/*
-        if(isset($nodes))
-        {
-            $ret = array('text' => $name,
-                  'href' => $href,
-                  'nodes' => $nodes);
-        }
-        else
-        {
-            $ret = array('text' => $name,
-                  'href' => $href);
-        } */
-
+    {
         $ret = array('text' => $name);
 
         if(isset($href))
         {
             $ret['href'] = $href;
+        }
+        else
+        {
+            $ret['selectable'] = false;
         }
 
         if(isset($nodes))
