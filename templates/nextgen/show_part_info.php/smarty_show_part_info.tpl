@@ -1,7 +1,8 @@
 {locale path="nextgen/locale" domain="partdb"}
 
 <div class="panel panel-primary">
-   <div class="panel-heading">
+    <div class="panel-heading">
+        <i class="fa fa-info-circle" aria-hidden="true"></i> 
        {t}Detailinfo zu{/t} <b>"{$name}"</b>
             <div class="pull-right">
                 {t}ID:{/t} {$pid}
@@ -108,7 +109,8 @@
                        
                         <div class="form-group">
                            <div class="col-sm-9 col-sm-offset-3">
-                            <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}">{t}Angaben verändern{/t}</a>
+                            <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}">
+                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {t}Angaben verändern{/t}</a>
                             </div>
                         </div>
                 </div>
@@ -195,7 +197,10 @@
     </div>
 
 <div class="panel panel-default">
-    <div class="panel-heading">{t}Einkaufsinformationen{/t}</div>
+    <div class="panel-heading">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i> 
+        {t}Einkaufsinformationen{/t}
+    </div>
             {if isset($orderdetails) && $orderdetails}
             <div class="table-responsive">
             <table class="table table-striped table-header">
@@ -280,6 +285,7 @@
 
 <div class="panel panel-info">
     <div class="panel-heading">
+        <i class="fa fa-file" aria-hidden="true"></i>
         {t}Dateianhänge{/t}
     </div>
     <div class="panel-body">

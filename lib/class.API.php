@@ -147,7 +147,7 @@ class API
         $system_nodes = array();
         $system_nodes[] = treeview_node(_("Konfiguration"),BASE_RELATIVE."/system_config.php");
         $system_nodes[] = treeview_node(_("Datenbank"),BASE_RELATIVE."/system_database.php");
-       
+
 
         //Show nodes
         $show_nodes = array();

@@ -6,7 +6,10 @@
 {/if}
 
 <div class="panel panel-primary">
-    <div class="panel-heading">{t}Baugruppen{/t}</div>
+    <div class="panel-heading">
+        <i class="fa fa-archive" aria-hidden="true"></i>
+        {t}Baugruppen{/t}
+    </div>
     <div class="panel-body">
         <form action="" method="post" class="row">
             <div class="col-md-4">

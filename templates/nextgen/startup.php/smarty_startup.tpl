@@ -100,7 +100,7 @@
 {if !empty($rss_feed_loop)}
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4>{t}Updates{/t}</h4>
+        <h4><i class="fa fa-rss" aria-hidden="true"></i>{t} Updates{/t}</h4>
     </div>
     <div class="panel-body">
         {foreach $rss_feed_loop as $rss}

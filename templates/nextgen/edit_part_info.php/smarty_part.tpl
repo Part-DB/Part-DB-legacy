@@ -2,6 +2,7 @@
    
 <div class="panel {if $is_new_part}panel-success{else}panel-default{/if}">
     <div class="panel-heading">
+            <i class="fa fa-info-circle" aria-hidden="true"></i> 
             {if !$is_new_part}
                 {t}Ändere Detailinfos von{/t} <b><a href="{$relative_path}show_part_info.php?pid={$pid}">{$name}</b></a>
                 

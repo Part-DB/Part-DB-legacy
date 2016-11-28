@@ -1,6 +1,9 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-primary">
-    <div class="panel-heading">{t}Lieferanten{/t}</div>
+    <div class="panel-heading">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        {t}Lieferanten{/t}
+    </div>
     <div class="panel-body">
         <form action="" method="post" class="row">
             <div class="col-md-4">

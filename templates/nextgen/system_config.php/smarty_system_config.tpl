@@ -7,7 +7,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        {t}Systemeinstellungen{/t}
+        <i class="fa fa-cog" aria-hidden="true"></i> {t}Systemeinstellungen{/t}
     </div>
     <div class="panel-body">
         
@@ -230,6 +230,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
+        <i class="fa fa-lock" aria-hidden="true"></i> 
         {t}Administratorpasswort ändern{/t}
     </div>
     <div class="panel-body">
@@ -268,6 +269,7 @@
 {if !$is_online_demo}
     <div class="panel panel-default">
        <div class="panel-heading">
+            <i class="fa fa-server" aria-hidden="true"></i>
             {t}Server{/t}
         </div>
         <div class="panel-body">

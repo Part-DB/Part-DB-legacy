@@ -1,6 +1,9 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-primary">
-    <div class="panel-heading">{t}Footprints{/t}</div>
+    <div class="panel-heading">
+        <i class="fa fa-microchip" aria-hidden="true"></i> 
+        {t}Footprints{/t}
+        </div>
     <div class="panel-body">
         <form action="" method="post" class="row">
             <div class="col-md-4 auto-size-select">
@@ -110,6 +113,7 @@
 {if isset($broken_filename_footprints) && $broken_filename_footprints}
     <div class="panel panel-danger">
         <div class="panel-heading">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
             {t}Footprints mit fehlerhaften Dateinamen{/t} ({$broken_footprints_count}/{$broken_footprints_count_total})
         </div>
         <div class="panel-body">
@@ -186,6 +190,7 @@
 {if $foot3d_active && !empty($broken_3d_filename_footprints)}
     <div class="panel panel-danger">
         <div class="panel-heading">
+            <i class="fa fa-exclamation-triangle" aria-hidden="true"></i> 
             {t}Footprints mit fehlerhaften Modelnamen{/t} ({$broken_3d_footprints_count}/{$broken_3d_footprints_count_total})
         </div>
         <div class="panel-body">

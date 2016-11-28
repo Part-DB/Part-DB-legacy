@@ -1,6 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
     <div class="panel-heading">
+        <i class="fa fa-file" aria-hidden="true"></i> 
         {t}Dateianhänge{/t}
     </div>
     <div class="panel-body">

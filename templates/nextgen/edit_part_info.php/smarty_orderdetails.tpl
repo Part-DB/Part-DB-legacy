@@ -1,6 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
     <div class="panel-heading">
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i> 
         {t}Einkaufsinformationen{/t}
     </div>
     <div class="panel-body table-responsive">

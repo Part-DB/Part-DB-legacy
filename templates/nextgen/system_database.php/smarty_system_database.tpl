@@ -8,7 +8,10 @@
 
 {if !$hide_status}
     <div class="panel panel-default">
-        <div class="panel-heading">{t}Datenbank Status / Update{/t}</div>
+        <div class="panel-heading">
+            <i class="fa fa-info-circle" aria-hidden="true"></i> 
+            {t}Datenbank Status / Update{/t}
+        </div>
         <div class="panel-body">
             <form action="" method="post" class="form-horizontal">
                 <table>
@@ -62,7 +65,10 @@
 {/if}
 
 <div class="panel panel-primary">
-    <div class="panel-heading">{t}Datenbank-Einstellungen{/t}</div>
+    <div class="panel-heading">
+        <i class="fa fa-database" aria-hidden="true"></i>
+        {t}Datenbank-Einstellungen{/t}
+    </div>
     <div class="panel-body">
         <form action="" class="form-horizontal" method="post">
                 <div class="form-group">
