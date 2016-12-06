@@ -285,7 +285,7 @@
     function upload_file($file_array, $destination_directory, $destination_filename = NULL)
     {
         if (( ! isset($file_array['name'])) || ( ! isset($file_array['tmp_name'])) || ( ! isset($file_array['error'])))
-            throw new Exception('Ungültiges Array übergeben!');
+            throw new Exception(_('Ungültiges Array übergeben!'));
 
         if ($destination_filename == NULL)
             $destination_filename = $file_array['name'];
@@ -296,7 +296,7 @@
             throw new Exception('"'.$destination_directory.'" ist kein gültiges Verzeichnis!');
 
         if ( ! is_writable($destination_directory))
-            throw new Exception('Sie haben keine Schreibrechte im Verzeichnis "'.$destination_directory.'"!');
+            throw new Exception(_('Sie haben keine Schreibrechte im Verzeichnis "').$destination_directory.'"!');
 
         if (file_exists($destination))
         {
@@ -307,7 +307,7 @@
             if (($new_file_md5 == $existing_file_md5) && ($new_file_md5 != false))
                 return $destination; // it's exactly the same file, we don't need to upload it again, re-use it!
 
-            throw new Exception('Es existiert bereits eine Datei mit dem Dateinamen "'.$destination.'"!');
+            throw new Exception(_('Es existiert bereits eine Datei mit dem Dateinamen "').$destination.'"!');
         }
 
         switch ($file_array['error'])
@@ -561,7 +561,7 @@
         curl_close($ch);
 
         if ($data === false)
-            throw new Exception('Der Download mit "curl" lieferte kein Ergebnis!');
+            throw new Exception(_('Der Download mit "curl" lieferte kein Ergebnis!'));
 
         return $data;
     }
@@ -697,6 +697,60 @@
             else
                 return false;
         }
+    }
+
+
+    /**
+     * Replaces Placeholder strings like %id% or %name% with their corresponding Part properties.
+     * Note: If the given Part does not have a property, it will be replaced with "".
+     *
+     * %id%         : Part id
+     * %name%       : Name of the part
+     * %desc%       : Description of the part
+     * %comment%    : Comment to the part
+     * %mininstock% : The minium in stock value
+     * %instock%    : The current in stock value
+     * %avgprice%   : The average price of this part
+     * %cat%        : The name of the category the parts belongs to
+     * %cat_full%   : The full path of the parts category
+     *
+     * @param string $string The string on which contains the placeholders
+     * @param Part $part
+     * @return string the
+     */
+    function replace_placeholder_with_infos($string, $part)
+    {
+        //General infos
+        $string = str_replace("%id%", $part->get_id(), $string);                        //part id
+        $string = str_replace("%name%", $part->get_name(), $string);                    //Name of the part
+        $string = str_replace("%desc%", $part->get_description(), $string);             //description of the part
+        $string = str_replace("%comment%", $part->get_comment(), $string);              //comment of the part
+        $string = str_replace("%mininstock%", $part->get_mininstock(), $string);        //minimum in stock
+        $string = str_replace("%instock%", $part->get_instock(), $string);              //current in stock
+        $string = str_replace("%avgprice%", $part->get_average_price(), $string);       //average price
+
+        //Category infos
+        $string = str_replace("%cat%", is_object($part->get_category()) ? $part->get_category()->get_name() : "", $string);
+        $string = str_replace("%cat_full%", is_object($part->get_category()) ? $part->get_category()->get_full_path() : "", $string);
+
+        //Footprint info
+        $string = str_replace("%foot%", is_object($part->get_footprint()) ? $part->get_footprint()->get_name() : "", $string);
+        $string = str_replace("%foot_full%", is_object($part->get_footprint()) ? $part->get_footprint()->get_full_path() : "", $string);
+
+        //Manufacturer info
+        $string = str_replace("%manufact%", is_object($part->get_manufacturer()) ? $part->get_manufacturer()->get_name() : "", $string);
+
+        //Order infos
+        $all_orderdetails   = $part->get_orderdetails();
+        $string = str_replace("%supplier%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->get_supplier()->get_name() : "", $string);
+        $string = str_replace("%order_nr%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->get_supplierpartnr() : "", $string);
+
+        //Store location
+        $storelocation      = $part->get_storelocation();
+        $string = str_replace("%storeloc%", is_object($storelocation) ? $storelocation->get_name() : '', $string);
+        $string = str_replace("%storeloc_full%", is_object($storelocation) ? $storelocation->get_full_path() : '', $string);
+
+        return $string;
     }
 
 ?>

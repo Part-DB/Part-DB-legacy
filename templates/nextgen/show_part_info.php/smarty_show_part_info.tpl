@@ -107,7 +107,7 @@
                             </div>
                        </div>
                        
-                        <div class="form-group">
+                        <div class="form-group hidden-print">
                            <div class="col-sm-9 col-sm-offset-3">
                             <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {t}Angaben verändern{/t}</a>
@@ -118,7 +118,7 @@
            </div>
 
                 <div class="col-md-3">
-                        <form action="" method="post">
+                        <form action="" method="post" class="hidden-print">
                             <input type="hidden" name="pid" value="{$pid}">
                             <div class="row">
                                 <div class="col-md-12">
@@ -135,7 +135,7 @@
         
                         <p></p>
                        
-                        <form action="" method="post">
+                        <form action="" method="post" class="hidden-print">
                             <input type="hidden" name="pid" value="{$pid}">
                             <div class="row">
                                 <div class="col-md-12">
@@ -152,7 +152,7 @@
                         
                         <p></p>
                        
-                        <form action="" method="post">
+                        <form action="" method="post" class="hidden-print">
                             <input type="hidden" name="pid" value="{$pid}">
                             <div class="row">
                                 <div class="col-md-12">
@@ -278,7 +278,7 @@
         {else}
             <div class="panel-body">
                 {t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}
-                <a class="btn btn-default pull-right" href="edit_part_info.php?pid={$pid}">{t}Einkaufsinformationen hinzufügen{/t}</a>
+                <a class="btn btn-default pull-right hidden-print" href="edit_part_info.php?pid={$pid}">{t}Einkaufsinformationen hinzufügen{/t}</a>
             </div>
         {/if}
 </div>
@@ -304,7 +304,7 @@
             {/foreach}
         {else}
             {t}Dieses Bauteil besitzt keine Dateianhänge.{/t}
-            <a class="btn btn-default pull-right" href="edit_part_info.php?pid={$pid}">{t}Dateianhänge hinzufügen{/t}</a>
+            <a class="btn btn-default pull-right hidden-print" href="edit_part_info.php?pid={$pid}">{t}Dateianhänge hinzufügen{/t}</a>
         {/if}
     </div>
 </div>

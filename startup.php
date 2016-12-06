@@ -42,7 +42,7 @@
     *
     *********************************************************************************/
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Startseite');
+    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Startseite'));
 
     try
     {
@@ -164,18 +164,18 @@
             }
 
             if (strlen($feed_content) == 0)
-                throw new Exception('Der Atom-Feed konnte nicht aus dem Internet heruntergeladen werden. '.
-                                    'Prüfen Sie bitte, ob Ihre PHP-Konfiguration das Herunterladen aus dem Internet zulässt.');
+                throw new Exception(_('Der Atom-Feed konnte nicht aus dem Internet heruntergeladen werden. '.
+                                    'Prüfen Sie bitte, ob Ihre PHP-Konfiguration das Herunterladen aus dem Internet zulässt.'));
 
             if ( ! class_exists('SimpleXMLElement'))
-                throw new Exception('Die Klasse "SimpleXMLElement" ist nicht vorhanden!');
+                throw new Exception(_('Die Klasse "SimpleXMLElement" ist nicht vorhanden!'));
 
             $xml = simplexml_load_string($feed_content);
 
             if ( ! is_object($xml))
-                throw new Exception('Das SimpleXMLElement konnte nicht erzeugt werden!');
+                throw new Exception(_('Das SimpleXMLElement konnte nicht erzeugt werden!'));
 
-            $rss_loop[] = array('title' => 'Part-DB Releases Atom-Feed', 'datetime' => $xml->updated, 'link' => $feed_link);
+            $rss_loop[] = array('title' => _('Part-DB Releases Atom-Feed'), 'datetime' => $xml->updated, 'link' => $feed_link);
 
             $item_index = 1;
             foreach ($xml->entry as $entry)
@@ -183,7 +183,7 @@
                 if ($item_index >= $item_count)
                     break;
 
-                $link = 'FEHLER - Kein Link im Atom-Feed gefunden!';
+                $link = _('FEHLER - Kein Link im Atom-Feed gefunden!');
                 foreach ($entry->link as $link_entry)
                 {
                     $attributes = $link_entry->attributes();

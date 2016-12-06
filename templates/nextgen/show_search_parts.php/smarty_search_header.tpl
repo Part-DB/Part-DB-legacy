@@ -1,11 +1,11 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-primary">
     <div class="panel-heading">
-        Suchergebnis
+        {t}Suchergebnis{/t}
     </div>
     <div class="panel-body">
-        Die Suche nach <b>"{$keyword}"</b> ergab <b>{$hits_count} Treffer</b>.
-
+        {t 1=$keyword 2=$hits_count escape=no}Die Suche nach <b>"%1"</b> ergab <b>%2 Treffer</b>.{/t}
+        
         <div style="float: right; display: inline;">
             <form action="" method="post" style="display: inline;">
                 <input type='hidden' name='keyword'     value='{$keyword}'>

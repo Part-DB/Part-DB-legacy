@@ -46,8 +46,17 @@ body {
     padding: 3px;
 }
 
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 3px;
+}
+
 .list-group-item {
     padding: 5px 10px;
+}
+
+
+.thumbnail-sm {
+    height: 100px;
 }
 
 .fake-table-col {
@@ -60,6 +69,17 @@ body {
 .auto-size-select {
     height: inherit;
 }
+
+/* Back to top button  */
+.back-to-top {
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display:none;
+}
+
+
 
 /* Sidebar */
 /* Toggle Styles */

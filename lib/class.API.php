@@ -189,7 +189,7 @@ class API
     {
         if(!isset($params['pid']))
         {
-            throw new Exception("You must specify a part id, with the 'pid' param!");
+            throw new Exception(_("You must specify a part id, with the 'pid' param!"));
         }
 
         $part_id = (integer) $params['pid'];

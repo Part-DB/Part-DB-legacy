@@ -124,8 +124,8 @@
                     // check if there are enought permissions to delete the file
                     if ( ! is_writable(dirname($filename)))
                     {
-                        throw new Exception('Die Datei "'.$filename.'" kann nicht gelöscht werden, '.
-                                            'da im übergeordneten Ordner keine Schreibrechte vorhanden sind!');
+                        throw new Exception(sprintf(_('Die Datei "%s" kann nicht gelöscht werden, '.
+                                            'da im übergeordneten Ordner keine Schreibrechte vorhanden sind!'), $filename));
                     }
 
                     // all OK, file must be deleted after deleting the database record successfully
@@ -156,8 +156,8 @@
                 if ($must_file_delete)
                 {
                     if ( ! unlink($filename))
-                        throw new Exception('Die Datei "'.$filename.'" kann nicht von der Festplatte gelöscht '.
-                                            "werden! \nÜberprüfen Sie, ob die nötigen Rechte vorhanden sind.");
+                        throw new Exception(sprintf(_('Die Datei "%s" kann nicht von der Festplatte gelöscht '.
+                                            "werden! \nÜberprüfen Sie, ob die nötigen Rechte vorhanden sind."),$filename));
                 }
 
                 $this->database->commit($transaction_id); // commit transaction
@@ -169,7 +169,7 @@
                 // restore the settings from BEFORE the transaction
                 $this->reset_attributes();
 
-                throw new Exception("Der Dateianhang \"".$this->get_name()."\" konnte nicht entfernt werden!\nGrund: ".$e->getMessage());
+                throw new Exception(sprintf(_("Der Dateianhang \"%s\" konnte nicht entfernt werden!\nGrund: "),$this->get_name()).$e->getMessage());
             }
         }
 
@@ -383,7 +383,7 @@
             {
                 // type_id == 0 or NULL means "no attachement type", and this is not allowed!
                 if ($values['type_id'] == 0)
-                    throw new Exception('"type_id" ist Null!');
+                    throw new Exception(_('"type_id" ist Null!'));
 
                 $attachement_type = new AttachementType($database, $current_user, $log, $values['type_id']);
             }
@@ -392,7 +392,7 @@
                 debug('warning', 'Ungültige "type_id": "'.$values['type_id'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
                         __FILE__, __LINE__, __METHOD__);
-                throw new Exception('Der gewählte Dateityp existiert nicht!');
+                throw new Exception(_('Der gewählte Dateityp existiert nicht!'));
             }
 
             // check "class_name"
@@ -401,7 +401,7 @@
             {
                 debug('error', 'Die Klasse "'.$values['class_name'].'" unterstützt (noch) keine Dateianhänge!',
                         __FILE__, __LINE__, __METHOD__);
-                throw new Exception('Ungültiger Klassenname: "'.$values['class_name'].'"');
+                throw new Exception(sprintf(_('Ungültiger Klassenname: "%s"'),$values['class_name']));
             }
 
             // check "element_id"
@@ -419,7 +419,7 @@
                 debug('warning', 'Ungültige "element_id"/"class_name": "'.$values['element_id'].'"/"'.
                         $values['class_name'].'"'."\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
                         __FILE__, __LINE__, __METHOD__);
-                throw new Exception('Das gewählte Element existiert nicht!');
+                throw new Exception(_('Das gewählte Element existiert nicht!'));
             }
 
             // trim $values['filename']
@@ -427,11 +427,11 @@
 
             // empty filenames are not allowed!
             if (strlen($values['filename']) == 0)
-                throw new Exception('Der Dateiname ist leer, das ist nicht erlaubt!');
+                throw new Exception(_('Der Dateiname ist leer, das ist nicht erlaubt!'));
 
             // check if "filename" is a valid (absolute and UNIX) filepath
             if ( ! is_path_absolute_and_unix($values['filename']))
-                throw new Exception('Der Dateipfad "'.$values['filename'].'" ist kein gültiger absoluter UNIX Dateipfad!');
+                throw new Exception(sprintf(_('Der Dateipfad "%s" ist kein gültiger absoluter UNIX Dateipfad!'),$values['filename']));
 
             // we replace the path of the Part-DB installation directory (Constant "BASE") with a placeholder ("%BASE%")
             $values['filename'] = str_replace(BASE, '%BASE%', $values['filename']);
@@ -449,7 +449,7 @@
         public static function get_count(&$database)
         {
             if (get_class($database) != 'Database')
-                throw new Exception('$database ist kein Database-Objekt!');
+                throw new Exception(_('$database ist kein Database-Objekt!'));
 
             return $database->get_count_of_records('attachements');
         }
@@ -481,7 +481,7 @@
                                     $filename, $name = '', $show_in_table = false)
         {
             if ( ! is_object($element))
-                throw new Exception('$element ist kein Objekt!');
+                throw new Exception(_('$element ist kein Objekt!'));
 
             return parent::add($database, $current_user, $log, 'attachements',
                                 array(  'name'              => $name,

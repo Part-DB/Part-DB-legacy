@@ -1,7 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{if isset($lang)}{$lang}{else}en{/if}">
     <head>
         {if isset($http_charset)}<meta charset={$http_charset}>
         {else}<meta charset="utf-8">{/if}
@@ -51,23 +51,26 @@
         <script src="http://www.x3dom.org/release/x3dom.js"></script>
         <link rel="stylesheet" href="http://www.x3dom.org/release/x3dom.css">
         
-        <link rel="stylesheet" type="text/css" href="{$relative_path}DataTables-1.10.12/css/jquery.dataTables.min.css"/>
- 
+        <!--
+        <link rel="stylesheet" type="text/css" href="{$relative_path}DataTables-1.10.12/css/dataTables.bootstrap.min.css"/>
         <script type="text/javascript" src="{$relative_path}DataTables-1.10.12/js/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" src="{$relative_path}DataTables-1.10.12/js/dataTables.bootstrap.min.js"></script>
+        <script type="text/javascript" src="{$relative_path}DataTables-1.10.12/js/dataTables.bootstrap.min.js"></script> -->
+        
+        
+        <link rel="stylesheet" type="text/css" href="{$relative_path}datatables/datatables.min.css"/>
+        <script type="text/javascript" src="{$relative_path}datatables/datatables.min.js"></script>
         
 
         
         {if isset($javascript_files)}
         {foreach $javascript_files as $file}
             <script type="text/javascript" src="{$relative_path}javascript/{$file.filename}.js"></script>
-
-            {if $file.filename=="calculator"}
-                <link rel="stylesheet" href="{$relative_path}templates/{$theme}/tools_calculator.php/calculator.css" type="text/css">
-            {/if}
         {/foreach}
         {/if}
-                
+               
+        <!-- Always include CSS for Calculator. Maybe minimize this later for better performance -->  
+        <link rel="stylesheet" href="{$relative_path}templates/{$theme}/tools_calculator.php/calculator.css" type="text/css">
+        
         <!-- Redirect -->
        {* {if $redirect } <meta http-equiv="refresh" content="0; url={$relative_path}startup.php" /> {/if} *}
         
@@ -101,7 +104,7 @@
                         <span class="sr-only">{t}Toggle Navigation{/t}</span>
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
-                    <a class="navbar-brand" href="{$relative_path}startup.php">Part-DB</a>
+                    <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> Part-DB</a>
                 </div>
 
                 <!-- Navbar -->
@@ -147,7 +150,7 @@
       <div class="container-fluid">
    
            <div class="row row-offcanvas row-offcanvas-right active">
-                <aside>
+                <aside class="hidden-print">
                    <nav>
                     <div class="col-sm-3 col-md-2" id="sidebar">
                         <ul class="nav navmenu-nav nav-sidebar">
@@ -189,7 +192,7 @@
                                             {$msg.html nofilter}
                                         {/if}
 
-                                        {if !isset($no_linebreak) || !$no_linebreak}<br>{/if}
+                                        {if !isset($msg.no_linebreak) || !$msg.no_linebreak}<br>{/if}
                                     {/foreach}
                                    
                                     {if !empty($reload_link)}

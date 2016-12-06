@@ -14,15 +14,15 @@
                 <h4>{t}Datenbankupdate{/t}</h4>
             </div>
             <div class="panel-body">
-            <b>Datenbank-Version {$db_version_current} benötigt ein Update auf Version {$db_version_latest}.</b><br><br>
+            <b>{t 1=$keyword 2=$hits_count escape=no}Datenbank-Version %1 benötigt ein Update auf Version %2.{/t}</b><br><br>
             {if isset($disabled_autoupdate)}
             {if isset($auto_disabled_autoupdate)}
-                <p>Automatische Datenbankupdates wurden vorübergehend automatisch deaktiviert,
-                da es sich um ein sehr umfangreiches Update handelt.</p>
+                <p>{t}Automatische Datenbankupdates wurden vorübergehend automatisch deaktiviert,
+                da es sich um ein sehr umfangreiches Update handelt.{/t}</p>
             {else}
-                <p>Automatische Datenbankupdates sind deaktiviert.</p>
+                <p>{t}Automatische Datenbankupdates sind deaktiviert.{/t}</p>
             {/if}
-            Updates bitte manuell durchführen: <a href="system_database.php">System -> Datenbank</a>
+            {t}Updates bitte manuell durchführen:{/t} <a href="system_database.php">{t}System -> Datenbank{/t}</a>
         {else}
             {$database_update_log}
         {/if}
@@ -34,15 +34,15 @@
 {if isset($display_warning) && $display_warning}
         <div class="panel panel-danger">
             <div class="panel-heading">
-                Achtung!
+                {t}Achtung!{/t}
             </div>
         <div class="panel-body">
             Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>
-            <blockquote>{$missing_category}eine <a href="edit_categories.php" target="content_frame">Kategorie</a> </blockquote>hinzufügt werden muss.<br><br>
+            <blockquote>{$missing_category}eine <a href="edit_categories.php" target="content_frame">{t}Kategorie{/t}</a> </blockquote>hinzufügt werden muss.<br><br>
             Um das Potential der Suchfunktion zu nutzen, wird empfohlen
-            <blockquote>{$missing_storeloc}einen <a href="edit_storelocations.php">Lagerort</a> </blockquote>
-            <blockquote>{$missing_footprint}einen <a href="edit_footprints.php">Footprint</a> </blockquote>
-            <blockquote>{$missing_supplier}und einen <a href="edit_suppliers.php">Lieferanten</a> </blockquote>
+            <blockquote>{$missing_storeloc}einen <a href="edit_storelocations.php">{t}Lagerort{/t}</a> </blockquote>
+            <blockquote>{$missing_footprint}einen <a href="edit_footprints.php">{t}Footprint{/t}</a> </blockquote>
+            <blockquote>{$missing_supplier}und einen <a href="edit_suppliers.php">{t}Lieferanten{/t}</a> </blockquote>
             anzugeben.
         </div>
     </div>
@@ -51,13 +51,13 @@
 {if isset($broken_filename_footprints) && $broken_filename_footprints}
         <div class="panel panel-danger">
             <div class="panel-heading">
-                <h2 class="red">Achtung!</h2>
+                <h2 class="red">{t}Achtung!{/t}</h2>
             </div>
         <div class="panel-body">
-        <font color="red">In Ihrer Datenbank gibt es Footprints, die einen fehlerhaften Dateinamen hinterlegt haben.
-        Dies kann durch ein Datenbankupdate, ein Update von Part-DB, oder durch nicht mehr existierende Dateien ausgelöst worden sein.
+        <font color="red">{t}In Ihrer Datenbank gibt es Footprints, die einen fehlerhaften Dateinamen hinterlegt haben.
+        Dies kann durch ein Datenbankupdate, ein Update von Part-DB, oder durch nicht mehr existierende Dateien ausgelöst worden sein.{/t}
         <br>
-        Sie können dies unter <a href="edit_footprints.php">Bearbeiten/Footprints</a> (ganz unten, "Fehlerhafte Dateinamen") korrigieren.
+        {t escape=none}Sie können dies unter <a href="edit_footprints.php">Bearbeiten/Footprints</a> (ganz unten, "Fehlerhafte Dateinamen") korrigieren.{/t}
         </font>
     </div>
     </div>
@@ -100,7 +100,7 @@
 {if !empty($rss_feed_loop)}
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4><i class="fa fa-rss" aria-hidden="true"></i>{t} Updates{/t}</h4>
+        <h4><i class="fa fa-rss" aria-hidden="true"></i> {t}Updates{/t}</h4>
     </div>
     <div class="panel-body">
         {foreach $rss_feed_loop as $rss}

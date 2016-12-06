@@ -138,7 +138,7 @@
                 // restore the settings from BEFORE the transaction
                 $this->reset_attributes();
 
-                throw new Exception("Das Element \"".$this->get_name()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
+                throw new Exception(sprintf(_("Das Element \"%s\" konnte nicht gelöscht werden!\nGrund: "),$this->get_name()).$e->getMessage());
             }
         }
 

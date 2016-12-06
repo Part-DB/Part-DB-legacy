@@ -400,13 +400,6 @@
                     $tmpl->debugging = true;
                 }
 
-                //CHANGE ME
-                /*
-                $tmpl->caching=false;
-                $tmpl->setCaching(false);
-                $tmpl->clearAllCache();
-                */
-
                 $tmpl->escape_html = true;
 
 
@@ -414,6 +407,7 @@
                 $tmpl->assign('relative_path',              BASE_RELATIVE.'/'); // constant from start_session.php
                 $tmpl->assign('page_title',                 $this->meta['title']);
                 $tmpl->assign('http_charset',               $config['html']['http_charset']);
+                $tmpl->assign('lang',                       $config['language']);
                 $tmpl->assign('body_onload',                $this->body_onload);
                 $tmpl->assign('theme',                      $this->meta['theme']);
                 $tmpl->assign('frameset',                   $this->meta['frameset']);

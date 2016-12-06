@@ -265,7 +265,7 @@
             try
             {
                 if ($values['id_device'] == 0)
-                    throw new Exception('Der obersten Ebene können keine Bauteile zugeordnet werden!');
+                    throw new Exception(_('Der obersten Ebene können keine Bauteile zugeordnet werden!'));
 
                 $device = new Device($database, $current_user, $log, $values['id_device']);
             }
@@ -274,7 +274,7 @@
                 debug('error', 'Ungültige "id_device": "'.$values['id_device'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
                         __FILE__, __LINE__, __METHOD__);
-                throw new Exception('Es existiert keine Baugruppe mit der ID "'.$values['id_device'].'"!');
+                throw new Exception(sprintf(_('Es existiert keine Baugruppe mit der ID "%d"!') ,$values['id_device']));
             }
 
             // check "id_part"
@@ -287,7 +287,7 @@
                 debug('error', 'Ungültige "id_part": "'.$values['id_part'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
                         __FILE__, __LINE__, __METHOD__);
-                throw new Exception('Es existiert kein Bauteil mit der ID "'.$values['id_part'].'"!');
+                throw new Exception(sprintf(_('Es existiert kein Bauteil mit der ID "%d"!'), $values['id_part']));
             }
 
             // check "quantity"
@@ -295,7 +295,7 @@
                 || ($values['quantity'] < 0))
             {
                 debug('error', 'quantity = "'.$values['quantity'].'"', __FILE__, __LINE__, __METHOD__);
-                throw new Exception('Die Bestückungs-Anzahl "'.$values['quantity'].'" ist ungültig!');
+                throw new Exception(sprintf(_('Die Bestückungs-Anzahl "%d" ist ungültig!'), $values['quantity']));
             }
         }
 
@@ -316,7 +316,7 @@
         public static function get_device_part(&$database, &$current_user, &$log, $device_id, $part_id)
         {
             if (get_class($database) != 'Database')
-                throw new Exception('$database ist kein Database-Objekt!');
+                throw new Exception(_('$database ist kein Database-Objekt!'));
 
             $query_data = $database->query('SELECT id FROM device_parts '.
                                             'WHERE id_device=? AND id_part=? LIMIT 1',
@@ -400,7 +400,7 @@
                     if ((( ! is_int($quantity)) && ( ! ctype_digit($quantity))) || ($quantity < 0))
                     {
                         debug('error', 'quantity = "'.$quantity.'"', __FILE__, __LINE__, __METHOD__);
-                        throw new Exception('Die Bestückungs-Anzahl ist ungültig!');
+                        throw new Exception(_('Die Bestückungs-Anzahl ist ungültig!'));
                     }
 
                     $quantity = $existing_devicepart->get_mount_quantity() + $quantity;
@@ -424,8 +424,8 @@
                     $device = new Device($database, $current_user, $log, $device_id);
                     $part = new Part($database, $current_user, $log, $part_id);
 
-                    throw new Exception('Die Baugruppe "'.$device->get_name().
-                                        '" enthält bereits das Bauteil "'.$part->get_name().'"!');
+                    throw new Exception(sprintf(_('Die Baugruppe "%1$s"'.
+                                        ' enthält bereits das Bauteil "%2$s"!'), $device->get_name(),$part->get_name()));
                 }
             }
 

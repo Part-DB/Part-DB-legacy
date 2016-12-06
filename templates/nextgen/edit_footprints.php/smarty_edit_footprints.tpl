@@ -58,9 +58,7 @@
                     <label class="control-label col-md-3">{t}Bild:{/t}</label>
                     <div class="col-md-9">
                         <input type="text" name="filename" value="{$filename}" class="form-control">
-                        <p><i>{t}Hinweis: Sie können hier z.B. "DIP28" eintippen und übernehmen.
-                        Der Footprint wird dann unter "Footprints mit fehlerhaften Dateinamen" aufgelistet,
-                            wo Sie Vorschläge für Dateinamen bekommen und dann einfach übernehmen können.{/t}</i></p>
+                        <p><i>{t}Hinweis: Sie können hier z.B. "DIP28" eintippen und übernehmen. Der Footprint wird dann unter "Footprints mit fehlerhaften Dateinamen" aufgelistet, wo Sie Vorschläge für Dateinamen bekommen und dann einfach übernehmen können.{/t}</i></p>
                         {if !empty($filename) && $filename_valid}
                             <img class="" rel="popover" height="70" src="{$filename}">
                         {/if}
@@ -117,9 +115,7 @@
             {t}Footprints mit fehlerhaften Dateinamen{/t} ({$broken_footprints_count}/{$broken_footprints_count_total})
         </div>
         <div class="panel-body">
-            {t}Die Dateinamen der folgenden Footprints konnten keiner Bilddatei zugeordnet werden.
-            Bitte überprüfen bzw. korrigieren Sie die vorgeschlagenen Dateien, um sie dann zu übernehmen.
-            Bereits gesetzte Haken bedeuten, dass für die jeweiligen Footprints exakt gleichnamige Dateien gefunden wurden.{/t}
+            {t}Die Dateinamen der folgenden Footprints konnten keiner Bilddatei zugeordnet werden. Bitte überprüfen bzw. korrigieren Sie die vorgeschlagenen Dateien, um sie dann zu übernehmen. Bereits gesetzte Haken bedeuten, dass für die jeweiligen Footprints exakt gleichnamige Dateien gefunden wurden.{/t}
             <form action="" method="post" > 
                <div class="row">
                 <table class="table table-hover table-striped">
@@ -194,9 +190,7 @@
             {t}Footprints mit fehlerhaften Modelnamen{/t} ({$broken_3d_footprints_count}/{$broken_3d_footprints_count_total})
         </div>
         <div class="panel-body">
-            {t}Die Dateinamen der folgenden Footprints konnten keinem Model zugeordnet werden.
-            Bitte überprüfen bzw. korrigieren Sie die vorgeschlagenen Dateien, um sie dann zu übernehmen.
-            Bereits gesetzte Haken bedeuten, dass für die jeweiligen Footprints exakt gleichnamige Dateien gefunden wurden.{/t}
+            {t}Die Dateinamen der folgenden Footprints konnten keinem Model zugeordnet werden. Bitte überprüfen bzw. korrigieren Sie die vorgeschlagenen Dateien, um sie dann zu übernehmen. Bereits gesetzte Haken bedeuten, dass für die jeweiligen Footprints exakt gleichnamige Dateien gefunden wurden.{/t}
             <form action="" method="post" > 
                <div class="row">
                 <table class="table table-hover table-striped">

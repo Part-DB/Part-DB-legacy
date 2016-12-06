@@ -65,11 +65,11 @@
                                     <form action="{$relative_path}edit_part_info.php" method="post">
                                         <!--the alternating background colors are created here-->
                                         <tr >
-                                            <td class="tdrow1">
+                                            <td>
                                                 {if $price.pricedetails_id == "new"}<b>{t}Neu:{/t}</b>{/if}
                                             </td>
 
-                                            <td class="tdrow1">
+                                            <td>
                                                 <input type="number" min="0" class="form-control" name="min_discount_quantity" size="5" onkeypress="validatePosIntNumber(event)" value="{$price.min_discount_quantity}" {if $price.min_discount_quantity == 1}disabled{/if}>
                                             </td>
 
@@ -105,7 +105,6 @@
                                     </form>
                                 {/foreach}
                             </table>
-                        <br>
                         {/if}
                     </td>
                 </tr>

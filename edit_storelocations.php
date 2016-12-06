@@ -75,7 +75,7 @@
     *
     *********************************************************************************/
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Lagerorte');
+    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Lagerorte'));
 
     try
     {
@@ -135,8 +135,8 @@
                 }
                 catch (Exception $e)
                 {
-                    $messages[] = array('text' => 'Der neue Lagerort konnte nicht angelegt werden!', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                    $messages[] = array('text' => _('Der neue Lagerort konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
@@ -150,30 +150,30 @@
 
                         if ($count > 0)
                         {
-                            $messages[] = array('text' => 'Es gibt noch '.$count.' Bauteile an diesem Lagerort, '.
-                                                'daher kann der Lagerort nicht gelöscht werden.', 'strong' => true, 'color' => 'red');
+                            $messages[] = array('text' => sprintf(_('Es gibt noch %d Bauteile an diesem Lagerort, '.
+                                                'daher kann der Lagerort nicht gelöscht werden.'),$count), 'strong' => true, 'color' => 'red');
                         }
                         else
                         {
-                            $messages[] = array('text' => 'Soll der Lagerort "'.$selected_storelocation->get_full_path().
-                                                            '" wirklich unwiederruflich gelöscht werden?', 'strong' => true, 'color' => 'red');
-                            $messages[] = array('text' => '<br>Hinweise:', 'strong' => true);
-                            $messages[] = array('text' => '&nbsp;&nbsp;&bull; Es gibt keine Bauteile an diesem Lagerort.');
-                            $messages[] = array('text' => '&nbsp;&nbsp;&bull; Beinhaltet dieser Lagerort noch Unterlagerorte, dann werden diese eine Ebene nach oben verschoben.');
+                            $messages[] = array('text' => sprintf(_('Soll der Lagerort "%s'.
+                                                            '" wirklich unwiederruflich gelöscht werden?'), $selected_storelocation->get_full_path()), 'strong' => true, 'color' => 'red');
+                            $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
+                            $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Bauteile an diesem Lagerort.'));
+                            $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet dieser Lagerort noch Unterlagerorte, dann werden diese eine Ebene nach oben verschoben.'));
                             $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_storelocation->get_id().'">');
-                            $messages[] = array('html' => '<input type="submit" name="" value="Nein, nicht löschen">', 'no_linebreak' => true);
-                            $messages[] = array('html' => '<input type="submit" name="delete_confirmed" value="Ja, Lagerort löschen">');
+                            $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
+                            $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Lagerort löschen').'">');
                         }
                     }
                     catch (Exception $e)
                     {
-                        $messages[] = array('text' => 'Es trat ein Fehler auf!', 'strong' => true, 'color' => 'red');
-                        $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                        $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
+                        $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                     }
                 }
                 else
                 {
-                    $messages[] = array('text' => 'Es ist kein Lagerort markiert oder es trat ein Fehler auf!',
+                    $messages[] = array('text' => _('Es ist kein Lagerort markiert oder es trat ein Fehler auf!'),
                                                 'strong' => true, 'color' => 'red');
                 }
                 break;
@@ -188,13 +188,13 @@
                     }
                     catch (Exception $e)
                     {
-                        $messages[] = array('text' => 'Der Lagerort konnte nicht gelöscht werden!', 'strong' => true, 'color' => 'red');
-                        $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                        $messages[] = array('text' => _('Der Lagerort konnte nicht gelöscht werden!'), 'strong' => true, 'color' => 'red');
+                        $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                     }
                 }
                 else
                 {
-                    $messages[] = array('text' => 'Es ist kein Lagerort markiert oder es trat ein Fehler auf!',
+                    $messages[] = array('text' => _('Es ist kein Lagerort markiert oder es trat ein Fehler auf!'),
                                                 'strong' => true, 'color' => 'red');
                 }
                 break;
@@ -210,13 +210,13 @@
                     }
                     catch (Exception $e)
                     {
-                        $messages[] = array('text' => 'Die neuen Werte konnten nicht gespeichert werden!', 'strong' => true, 'color' => 'red');
-                        $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                        $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
+                        $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                     }
                 }
                 else
                 {
-                    $messages[] = array('text' => 'Es ist kein Lagerort markiert oder es trat ein Fehler auf!',
+                    $messages[] = array('text' => _('Es ist kein Lagerort markiert oder es trat ein Fehler auf!'),
                                                 'strong' => true, 'color' => 'red');
                 }
                 break;

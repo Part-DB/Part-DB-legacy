@@ -47,12 +47,19 @@
     *********************************************************************************/
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Sandkasten');
-    $messages[] = array('text' =>   'Das ist eine Spielwiese für Entwickler, '.
+    /*$messages[] = array('text' =>   'Das ist eine Spielwiese für Entwickler, '.
                                     'hier kannst du dich austoben und Funktionen testen! :-)',
                                     'strong' => true, 'color' => 'green');
-    $messages[] = array('text' =>   '<br>ACHTUNG: Auf keinen Fall im produktiven Einsatz hier rumspielen, '.
+    //$messages[] = array('text' =>   '<br>ACHTUNG: Auf keinen Fall im produktiven Einsatz hier rumspielen, '.
                                     'die Datenbank könnte zerstört werden!!',
                                     'strong' => true, 'color' => 'red');
+                                    */
+
+    $t = textdomain(null);
+
+    $messages[] = array('text' =>   sprintf(_('Das ist %s!'), "english"),
+                                    'strong' => true, 'color' => 'red');
+
     $html->print_header($messages);
 
     /********************************************************************************
@@ -114,8 +121,8 @@
     if (isset($footprint_milliseconds)) {print 'Zeit: '.$footprint_milliseconds.'ms<br>';}
     if (isset($footprint_error)) {print '<b><font style="color:red">Fehlermeldung: '.$footprint_error.'</font></b><br>';}
     print '</form></div></div>'; */
-    
-    
+
+
     phpinfo();
 
 

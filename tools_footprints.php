@@ -54,7 +54,7 @@
     *
     *********************************************************************************/
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Footprint-Bilder');
+    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Footprint-Bilder'));
 
     try
     {

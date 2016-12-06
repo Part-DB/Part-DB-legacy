@@ -94,13 +94,13 @@
         public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false)
         {
             if (get_class($database) != 'Database')
-                throw new Exception('$database ist kein Database-Objekt!');
+                throw new Exception(_('$database ist kein Database-Objekt!'));
 
             if (get_class($current_user) != 'User')
-                throw new Exception('$current_user ist kein User-Objekt!');
+                throw new Exception(_('$current_user ist kein User-Objekt!'));
 
             if (get_class($log) != 'Log')
-                throw new Exception('$log ist kein DebugLog-Objekt!');
+                throw new Exception(_('$log ist kein DebugLog-Objekt!'));
 
             $this->database = $database;
             $this->current_user = $current_user;

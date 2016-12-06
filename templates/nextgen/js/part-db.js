@@ -1,5 +1,5 @@
 /*jslint browser: true*/
-/*global $, jQuery, alert, x3dom*/
+/*global $, jQuery, alert, x3dom, console*/
 
 var BASE = "";
 
@@ -18,17 +18,9 @@ function openLink(page) {
     //window.history.pushState(null, "", page);
 }
 
-function loadLink(object) {
-    'use strict';
-    //var link = object.getAttribute("href");
-    //$("#main").load(link + " #content");
-    //window.history.pushState(null, "", link);
-    
-}
-
 function registerLinks() {
     'use strict';
-    $("a").click(function (event) {
+    $("a").not(".link-anchor").click(function (event) {
         event.preventDefault();
         var a = $(this),
             href = a.attr("href");
@@ -80,17 +72,17 @@ function onNodeSelected(event, data) {
 
 function tree_fill() {
     'use strict';
-    $.getJSON(BASE + '/api_json.php/api_json.php?mode="tree_category"', function (tree) {
+    $.getJSON(BASE + 'api_json.php?mode="tree_category"', function (tree) {
         $('#tree-categories').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected});
         $('#tree-categories').treeview('collapseAll', { silent: true });
     });
     
-    $.getJSON(BASE + '/api_json.php/api_json.php?mode="tree_devices"', function (tree) {
+    $.getJSON(BASE + 'api_json.php?mode="tree_devices"', function (tree) {
         $('#tree-devices').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected});
         $('#tree-devices').treeview('collapseAll', { silent: true });
     });
     
-    $.getJSON(BASE + 'api_json.php/api_json.php?mode="tree_tools"', function (tree) {
+    $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree) {
         $('#tree-tools').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected});
         $('#tree-tools').treeview('collapseAll', { silent: true });
     });
@@ -108,13 +100,32 @@ $(document).ready(function () {
     registerForm();
     registerLinks();
     
+    
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 50) {
+            $('#back-to-top').fadeIn();
+        } else {
+            $('#back-to-top').fadeOut();
+        }
+    });
+    // scroll body to 0px on click
+    $('#back-to-top').click(function () {
+        $('#back-to-top').tooltip('hide');
+        $('body,html').animate({
+            scrollTop: 0
+        }, 800);
+        return false;
+    });
+        
+    $('#back-to-top').tooltip('show');
+    
 });
 
 function makeSortTable() {
     'use strict';
     
-    if (!$.fn.DataTable.isDataTable('#parts-table')) {
-        $('#parts-table').DataTable({
+    if (!$.fn.DataTable.isDataTable('.table-sortable')) {
+        $('.table-sortable').DataTable({
             "paging":   false,
             "ordering": true,
             "info":     false,
@@ -147,17 +158,29 @@ window.onpopstate = function (event) {
 
 $(document).ajaxComplete(function (event, xhr, settings) {
     'use strict';
-    //makeSortTable();
+    makeSortTable();
     registerLinks();
     registerForm();
     makeFileInput();
     registerHoverImages();
     
-    x3dom.reload();
-    
+    if ($("x3d").length) {
+        x3dom.reload();
+    }
+        
     //Push only if it was a "GET" request and requested data was an HTML
-    if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json") {
+    if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
         window.history.pushState(null, "", settings.url);
+        
+        //Set page title from response
+        var regex = /<title>(.*?)<\/title>/gi,
+            input = xhr.responseText;
+        if (regex.test(input)) {
+            var matches = input.match(regex);
+            for(var match in matches) {
+                document.title = $(matches[match]).text();
+            }
+        }
     }
 });
 
@@ -165,5 +188,40 @@ $(document).ajaxComplete(function (event, xhr, settings) {
 //Called when an error occurs on loading ajax
 $(document).ajaxError(function (event, request, settings) {
     'use strict';
+    console.log(event);
     
 });
+
+function octoPart_success(response) {
+    'use strict';
+    $('#description_select').modal('show');
+    $('#description').val(response.results[0].snippet);
+}
+
+function octoPart() {
+    'use strict';
+    
+    var url = 'http://octopart.com/api/v3/parts/search?',
+        part = $('#name').val();
+    
+    url += '&apikey=e418fbe2';
+    
+    $.ajax({
+        url: url,
+ 
+        // The name of the callback parameter
+        jsonp: "callback",
+ 
+        // Tell jQuery we're expecting JSONP
+        dataType: "jsonp",
+ 
+        //
+        data: {
+            q: part
+        },
+        
+        // Work with the response
+        success: octoPart_success
+    });
+}
+

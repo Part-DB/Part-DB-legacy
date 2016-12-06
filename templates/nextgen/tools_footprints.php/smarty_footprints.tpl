@@ -1,12 +1,13 @@
-<div class="panel panel-body">
-    <div class="panel-heading"><h4>{t}Kategorie wählen{/t}</h4></div>
+{locale path="nextgen/locale" domain="partdb"}
+<div class="panel panel-primary">
+    <div class="panel-heading">{t}Kategorie wählen{/t}</div>
     <div class="panel-body">
         <form action="" method="post">
-            <input type="submit" name="show_all" value="Alle">
-            <input type="submit" name="show_active" value="Aktive Bauelemente">
-            <input type="submit" name="show_passive" value="Passive Bauelemente">
-            <input type="submit" name="show_electromechanic" value="Elektromechanische Bauteile">
-            <input type="submit" name="show_others" value="Akustik, Optik, Sonstiges">
+            <input class="btn btn-default" type="submit" name="show_all" value="{t}Alle{/t}">
+            <input class="btn btn-default" type="submit" name="show_active" value="{t}Aktive Bauelemente{/t}">
+            <input class="btn btn-default" type="submit" name="show_passive" value="{t}Passive Bauelemente{/t}">
+            <input class="btn btn-default" type="submit" name="show_electromechanic" value="{t}Elektromechanische Bauteile{/t}">
+            <input class="btn btn-default" type="submit" name="show_others" value="{t}Akustik, Optik, Sonstiges{/t}">
         </form>
     </div>
 </div>
@@ -14,15 +15,28 @@
 {if isset($categories_loop)}
     {foreach $categories_loop as $cat}
         <div class="panel panel-default">
-            <div class="panel-heading"><h4>Kategorie: {$cat.category_name}</h4></div>
+            <div class="panel-heading"><h4>{t}Kategorie:{/t} {$cat.category_name}</h4></div>
             <div class="panel-body">
+                {counter start=0 assign="count"}
                 {foreach $cat.pictures_loop as $pic}
-                    <div class="">
-                        <img src="{$pic.filename}" title="{$pic.title}" alt="">
-                        <div class="caption"><p>{$pic.title}</p></div>
+                    {if $count%4==0}
+                    <div class="row">
+                    {/if}
+                        <div class="col-xs-3">
+                            <div class="thumbnail" >
+                                <img src="{$pic.filename}"  title="{$pic.title}" alt="">
+                                <div class="caption"><p>{$pic.title}</p></div>
+                            </div>
+                        </div>
+                    {counter}
+                    {if $count%4==0}
                     </div>
+                    {/if}
                 {/foreach}
-            
+                
+                {if $count%4>=0}
+                </div>
+                {/if}
             </div>
             
         </div>

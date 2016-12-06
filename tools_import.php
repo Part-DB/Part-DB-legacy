@@ -63,7 +63,7 @@
     *
     *********************************************************************************/
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Teile importieren');
+    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Teile importieren'));
 
     try
     {
@@ -91,7 +91,7 @@
                 try
                 {
                     if ( ! is_uploaded_file($_FILES['uploaded_file']['tmp_name']))
-                        throw new Exception('Datei konnte nicht hochgeladen werden!');
+                        throw new Exception(_('Datei konnte nicht hochgeladen werden!'));
 
                     $file_content = file_get_contents($_FILES['uploaded_file']['tmp_name']);
 
@@ -100,8 +100,8 @@
                 }
                 catch (Exception $e)
                 {
-                    $messages[] = array('text' => 'Es gab ein Fehler!', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                    $messages[] = array('text' => _('Es gab ein Fehler!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
@@ -113,12 +113,12 @@
                     import_parts($database, $current_user, $log, $import_data, true);
 
                     $html->set_variable('data_is_valid', true, 'boolean'); // now the "import" button will be visible
-                    $messages[] = array('text' => 'Die Daten sind gültig!', 'strong' => true, 'color' => 'darkgreen');
+                    $messages[] = array('text' => _('Die Daten sind gültig!'), 'strong' => true, 'color' => 'darkgreen');
                 }
                 catch (Exception $e)
                 {
-                    $messages[] = array('text' => 'Die Daten sind nicht gültig!', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                    $messages[] = array('text' => _('Die Daten sind nicht gültig!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
@@ -130,7 +130,7 @@
                     $new_parts = import_parts($database, $current_user, $log, $import_data, false);
 
                     $html->set_variable('refresh_navigation_frame', true, 'boolean');
-                    $messages[] = array('text' => 'Die Daten wurden erfolgreich importiert!', 'strong' => true, 'color' => 'darkgreen');
+                    $messages[] = array('text' => _('Die Daten wurden erfolgreich importiert!'), 'strong' => true, 'color' => 'darkgreen');
                     unset($import_data);
                     unset($table_loop);
                     $file_content = '';
@@ -144,8 +144,8 @@
                 }
                 catch (Exception $e)
                 {
-                    $messages[] = array('text' => 'Es gab ein Fehler beim Importieren!', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                    $messages[] = array('text' => _('Es gab ein Fehler beim Importieren!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 

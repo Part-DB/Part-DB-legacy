@@ -22,16 +22,25 @@
                         {t}Name:{/t}
                     </label>
                     <div class="col-md-10">
-                        <input type="text" name="name" class="form-control" palceholder="Name" size="35" value="{$name}">
+                        <input type="text" name="name" id="name" class="form-control" palceholder="Name" size="35" value="{$name}">
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="col-md-2 control-label">
                         {t}Beschreibung:{/t}
                     </label>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" name="description" size="35" value="{$description}">
+                    {if isset($auto_desc) && $auto_desc}
+                    <div class="col-md-8">
+                        <input type="text" id="description" class="form-control" name="description" size="35" value="{$description}">
                     </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-default" onClick="octoPart();">Auto</button>
+                    </div>
+                    {else}
+                    <div class="col-md-10">
+                        <input type="text" id="description" class="form-control" name="description" size="35" value="{$description}">
+                    </div>
+                    {/if}
                 </div>
                 <div class="form-group">
                     <label class="col-md-2 control-label">
@@ -152,4 +161,23 @@
             <!--</table>-->
         </form>
     </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="description_select" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        ...
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>
+    </div>
+  </div>
 </div>

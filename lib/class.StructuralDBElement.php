@@ -96,9 +96,9 @@
             {
                 // this is the root node
                 $this->db_data['id'] = NULL;
-                $this->db_data['name'] = 'Oberste Ebene';
+                $this->db_data['name'] = _('Oberste Ebene');
                 $this->db_data['parent_id'] = -1;
-                $this->full_path_strings = array('Oberste Ebene');
+                $this->full_path_strings = array(_('Oberste Ebene'));
                 $this->level = -1;
             }
         }
@@ -139,7 +139,7 @@
         public function delete($delete_recursive = false, $delete_files_from_hdd = false)
         {
             if ($this->get_id() == NULL)
-                throw new Exception('Die Oberste Ebene kann nicht gelöscht werden!');
+                throw new Exception(_('Die Oberste Ebene kann nicht gelöscht werden!'));
 
             try
             {
@@ -172,7 +172,7 @@
                 // restore the settings from BEFORE the transaction
                 $this->reset_attributes();
 
-                throw new Exception("Das Element \"".$this->get_name()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
+                throw new Exception(sprintf(_("Das Element \"%s\" konnte nicht gelöscht werden!\nGrund: "),$this->get_name).$e->getMessage());
             }
         }
 
@@ -360,9 +360,14 @@
          * @throws Exception    if there was an error
          */
         public function build_javascript_tree(  $tree_name, $page, $parameter, $target = '', $recursive = true,
-                                                $show_root = false, $root_name = 'Oberste Ebene',
+                                                $show_root = false, $root_name = '$$',
                                                 $root_expand = true, $root_is_link = true)
         {
+            if($root_name=='$$')
+            {
+                $root_name=_('Oberste Ebene');
+            }
+
             $javascript = array();
             $javascript[] = '<script type="text/javascript">';
             $javascript[] = "$tree_name = new dTree('$tree_name');";
@@ -433,8 +438,13 @@
          * @throws Exception    if there was an error
          */
         public function build_html_tree($selected_id = NULL, $recursive = true,
-                                        $show_root = true, $root_name = 'Oberste Ebene')
+                                        $show_root = true, $root_name = '$$')
         {
+            if($root_name=='$$')
+            {
+                $root_name=_('Oberste Ebene');
+            }
+
             $html = array();
 
             if ($show_root)
@@ -467,8 +477,13 @@
 
 
         public function build_bootstrap_tree($page, $parameter, $recursive = false,
-                                        $show_root = false, $use_db_root_name = true ,$root_name = 'Oberste Ebene')
+                                        $show_root = false, $use_db_root_name = true ,$root_name = '$$')
         {
+            if($root_name=='$$')
+            {
+                $root_name=_('Oberste Ebene');
+            }
+
             $subelements = $this->get_subelements(false);
             $nodes = array();
 
@@ -532,7 +547,7 @@
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
 
             if (( ! $is_new) && ($values['id'] == 0))
-                throw new Exception('Die Oberste Ebene kann nicht bearbeitet werden!');
+                throw new Exception(_('Die Oberste Ebene kann nicht bearbeitet werden!'));
 
             // with get_called_class() we can get the class of the element which will be edited/created.
             // example: if you write "$new_cat = Category::add(...);", get_called_class() returns "Category"
@@ -540,7 +555,7 @@
 
             // check "parent_id"
             if (( ! $is_new) && ($values['parent_id'] == $values['id']))
-                throw new Exception('Ein Element kann nicht als Unterelement von sich selber zugeordnet werden!');
+                throw new Exception(_('Ein Element kann nicht als Unterelement von sich selber zugeordnet werden!'));
 
             try
             {
@@ -548,15 +563,15 @@
             }
             catch (Exception $e)
             {
-                debug('warning', 'Ungültige "parent_id": "'.$values['parent_id'].'"'.
-                        "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
+                debug('warning', _('Ungültige "parent_id": "').$values['parent_id'].'"'.
+                        _("\n\nUrsprüngliche Fehlermeldung: ").$e->getMessage(),
                         __FILE__, __LINE__, __METHOD__);
-                throw new Exception('Das ausgewählte übergeordnete Element existiert nicht!');
+                throw new Exception(_('Das ausgewählte übergeordnete Element existiert nicht!'));
             }
 
             // to avoid infinite parent_id loops (this is not the same as the "check parent_id" above!)
             if (( ! $is_new) && ($parent_element->get_parent_id() == $values['id']))
-                throw new Exception('Ein Element kann nicht einem seiner direkten Unterelemente zugeordnet werden!');
+                throw new Exception(_('Ein Element kann nicht einem seiner direkten Unterelemente zugeordnet werden!'));
 
             // check "name" + "parent_id" (the first check of "name" was already done by
             // "parent::check_values_validity", here we check only the combination of "parent_id" and "name")
@@ -566,8 +581,8 @@
                                             ' WHERE name=? AND parent_id <=> ? AND id<>?',
                                             array($values['name'], $values['parent_id'], $id));
             if (count($query_data) > 0)
-                throw new Exception('Es existiert bereits ein Element auf gleicher Ebene ('.$classname.'::'.
-                                    $parent_element->get_full_path().') mit gleichem Namen ('.$values['name'].')!');
+                throw new Exception(sprintf(_('Es existiert bereits ein Element auf gleicher Ebene (%1$s::%2$s)'.
+                                    ' mit gleichem Namen (%3$s)!'),$classname,$parent_element->get_full_path(),$values['name']));
         }
 
     }

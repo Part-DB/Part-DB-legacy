@@ -128,7 +128,7 @@
     *
     *********************************************************************************/
 
-    $html = new HTML($config['html']['theme'], /*$config['html']['custom_css']*/ $custom_css, 'Konfiguration');
+    $html = new HTML($config['html']['theme'], /*$config['html']['custom_css']*/ $custom_css, _('Konfiguration'));
 
     try
     {
@@ -306,7 +306,7 @@
     if ( ! own_setlocale(LC_ALL, $config['language']))
     {
         $messages[] = array('text' => _('Achtung:'), 'strong' => true, 'color' => 'red');
-        $messages[] = array('text' => 'Die gewählte Sprache "'.$config['language'].'" wird vom Server nicht unterstützt!', 'color' => 'red', );
+        $messages[] = array('text' => sprintf(_('Die gewählte Sprache "%s" wird vom Server nicht unterstützt!'), $config['language']), 'color' => 'red', );
         $messages[] = array('text' => _('Bitte installieren Sie diese Sprache oder wählen Sie eine andere.'), 'color' => 'red', );
     }
 

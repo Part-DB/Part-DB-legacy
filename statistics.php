@@ -41,7 +41,7 @@
     *
     *********************************************************************************/
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Statistik');
+    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Statistik'));
 
     try
     {

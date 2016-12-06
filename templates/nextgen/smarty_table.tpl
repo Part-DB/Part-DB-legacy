@@ -14,7 +14,7 @@
     Please Note: There are no empty lines between the {TMPL_IF}{/if} groups, because they would produce extremely large HTML output files (because of the loops)!
 *}  
    <div class="table-responsive">
-    <table id="parts-table" class="table table-striped table-condensed table-compact table-hover tablesorter"> 
+    <table class="table table-striped table-condensed table-compact table-hover table-sortable" cellspacing="0" width="100%">
         <thead class="thead-default">
         {foreach $table as $t}
             {if isset($t.print_header) && $t.print_header}   
@@ -35,8 +35,8 @@
                         {if $col.caption=="instock_edit"}<th>{t}Bestand{/t}</th>{/if} {*  only for import parts  *}
                         {if $col.caption=="instock_edit_buttons"}<th>{t}Bestand ändern{/t}</th>{/if}
                         {if $col.caption=="order_quantity_edit"}<th>Bestell-<br>menge</th>{/if} {*  only for order parts  *}
-                        {if $col.caption=="mininstock"}<th>{t escape=no}Mindest-<br>{/t}{t}bestand{/t}</th>{/if}
-                        {if $col.caption=="mininstock_edit"}<th>{t}Mindest-<br>bestand{/t}</th>{/if} {*  only for import parts  *}
+                        {if $col.caption=="mininstock"}<th>{t escape=no}Mindest-{/t}<br>{t}bestand{/t}</th>{/if}
+                        {if $col.caption=="mininstock_edit"}<th>{t}Mindest-{/t}<br>{t}bestand{/t}</th>{/if} {*  only for import parts  *}
                         {if $col.caption=="instock_mininstock"}<th>{t escape=no}Vorh./<br>Min.Best{/t}</th>{/if}
                         {if $col.caption=="category"}<th>{t}Kategorie{/t}</th>{/if}
                         {if $col.caption=="category_edit"}<th>{t}Kategorie{/t}</th>{/if} {*  only for import parts  *}
@@ -79,7 +79,9 @@
         <tbody>
         {foreach $table as $t}
             {if !isset($t.print_header) || !$t.print_header}
-                <input type="hidden" name="id_{$t.row_index}" value="{$t.id}">
+                {if isset($row.id)}
+                    <input type="hidden" name="id_{$t.row_index}" value="{$t.id}">
+                {/if}
                 {* the alternating background colors are created here *}
                 <tr>
                 {foreach $t.row_fields as $row}
@@ -155,12 +157,12 @@
                     {/if}
                     {if $row.caption == "instock_edit"}
                         {* instock edit *}
-                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:45px" name="instock_{$row.row_index}" value="{$row.instock}" onkeypress="validatePosIntNumber(event)"></td>
+                        <td class="tdrow1"><input type="number" class="form-control input-sm"  name="instock_{$row.row_index}" value="{$row.instock}" onkeypress="validatePosIntNumber(event)"></td>
                     {/if}
                     {if $row.caption == "order_quantity_edit"}
                         {* order quantity edit (only for order parts)  *}
                         <td class="tdrow1" nowrap>
-                            <input type="text" style="width:45px" class="form-control input-sm" name="order_quantity_{$row.row_index}" value="{$row.order_quantity}" onkeypress="validatePosIntNumber(event)"><br>
+                            <input type="number" min="0" class="form-control input-sm" name="order_quantity_{$row.row_index}" value="{$row.order_quantity}" onkeypress="validatePosIntNumber(event)"><br>
                             (mind. {$row.min_order_quantity})
                         </td>
                     {/if}
@@ -172,7 +174,7 @@
                     {/if}
                     {if $row.caption == "mininstock_edit"}
                         {* instock edit *}
-                        <td class="tdrow1"><input type="text" style="width:45px" name="mininstock_{$row.row_index}" value="{$row.mininstock}" onkeypress="validatePosIntNumber(event)"></td>
+                        <td class="tdrow1"><input type="number" min="0" class="form-control input-sm" name="mininstock_{$row.row_index}" value="{$row.mininstock}" onkeypress="validatePosIntNumber(event)"></td>
                     {/if}
                     {if $row.caption == "instock_mininstock"}
                         {* instock/mininstock *}
@@ -204,7 +206,7 @@
                             <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:100px" name="footprint_{$row.row_index}" value="{$row.footprint_name}"></td>
                         {/if}
                     {/if}
-                    {if $row.caption == "disable_manufacturers"}
+                    {if !isset($disable_manufacturers) || !$disable_manufacturers }
                         {if $row.caption == "manufacturer"}
                             {* manufacturer *}
                             <td class="tdrow1">

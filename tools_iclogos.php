@@ -41,7 +41,7 @@
     *
     *********************************************************************************/ 
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Hersteller IC Logos');
+    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Hersteller IC Logos'));
 
     /********************************************************************************
     *

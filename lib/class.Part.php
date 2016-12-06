@@ -215,9 +215,32 @@
                             'category' => $this->get_category()->get_json_array()
                             );
 
-
-
             return $ret;
+        }
+
+        /**
+         * Gets the content for a 1D/2D barcode for this part
+         * @param string $barcode_type the type of the barcode ("EAN8" or "QR")
+         * @return string
+         */
+        public function get_barcode_content($barcode_type = "EAN8")
+        {
+            switch($barcode_type)
+            {
+                case "EAN8":
+                    $code = (string) $this->get_id();
+                    while(strlen($code) < 7){
+                        $code = '0' . $code;
+                    }
+                    return $code;
+
+                case "QR":
+                    return "Part-DB; Part: " . $this->get_id();
+
+                default:
+                    throw new Exception(_("Barcode type unknown: ").$barcode_type);
+            }
+
         }
 
         /********************************************************************************
@@ -392,7 +415,7 @@
 
         /**
          * Returns the last time when the part was modified.
-         * @param mixed $local_format 
+         * @param mixed $local_format
          * @return string The time of the last edit.
          */
         public function get_last_modified($local_format = true)
@@ -1649,15 +1672,15 @@
          *                                              two-dimensional array with the group names as top level.
          *                                          @li supported groups are: '' (none), 'categories',
          *                                              'footprints', 'storelocations', 'manufacturers'
-         * @param boolean   $part_name              if ture, the search will include this attribute
-         * @param boolean   $part_description       if ture, the search will include this attribute
-         * @param boolean   $part_comment           if ture, the search will include this attribute
-         * @param boolean   $footprint_name         if ture, the search will include this attribute
-         * @param boolean   $category_name          if ture, the search will include this attribute
-         * @param boolean   $storelocation_name     if ture, the search will include this attribute
-         * @param boolean   $supplier_name          if ture, the search will include this attribute
-         * @param boolean   $supplierpartnr         if ture, the search will include this attribute
-         * @param boolean   $manufacturer_name      if ture, the search will include this attribute
+         * @param boolean   $part_name              if true, the search will include this attribute
+         * @param boolean   $part_description       if true, the search will include this attribute
+         * @param boolean   $part_comment           if true, the search will include this attribute
+         * @param boolean   $footprint_name         if true, the search will include this attribute
+         * @param boolean   $category_name          if true, the search will include this attribute
+         * @param boolean   $storelocation_name     if true, the search will include this attribute
+         * @param boolean   $supplier_name          if true, the search will include this attribute
+         * @param boolean   $supplierpartnr         if true, the search will include this attribute
+         * @param boolean   $manufacturer_name      if true, the search will include this attribute
          *
          * @retval array    all found parts as a one-dimensional array of Part objects,
          *                  sorted by their names (if "$group_by == ''")

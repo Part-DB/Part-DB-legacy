@@ -6,17 +6,16 @@
     </div>
     <div class="panel-body">
                     <ul class="pagination">
-                        <li><a href="#A">A</a></li> <li><a href="#B">B</a></li> <li><a href="#C">C</a></li> <li><a href="#D">D</a></li> <li><a href="#E">E</a></li> <li><a href="#F">F</a></li>
-                        <li><a href="#G">G</a></li> <li><a href="#H">H</a></li> <li><a href="#I">I</a></li> <li><a href="#J">J</a></li> <li><a href="#K">K</a></li> <li><a href="#L">L</a></li>
-                        <li><a href="#M">M</a></li> <li><a href="#N">N</a></li> <li><a href="#O">O</a></li> <li><a href="#P">P</a></li> <li><a href="#Q">Q</a></li> <li><a href="#R">R</a></li>
-                        <li><a href="#S">S</a></li> <li><a href="#T">T</a></li> <li><a href="#U">U</a></li> <li><a href="#V">V</a></li> <li><a href="#W">W</a></li> <li><a href="#X">X</a></li>
-                        <li><a href="Y">Y</a></li> <li><a href="#Z">Z</a></li>
+                        <li><a class="link-anchor" href="#A">A</a></li> <li><a class="link-anchor" href="#B">B</a></li> <li><a class="link-anchor" href="#C">C</a></li> <li><a class="link-anchor" href="#D">D</a></li> <li><a class="link-anchor" href="#E">E</a></li> <li><a class="link-anchor" href="#F">F</a></li>
+                        <li><a  class="link-anchor" href="#G">G</a></li> <li><a class="link-anchor" href="#H">H</a></li> <li><a class="link-anchor" href="#I">I</a></li> <li><a class="link-anchor" href="#J">J</a></li> <li><a class="link-anchor" href="#K">K</a></li> <li><a  class="link-anchor" href="#L">L</a></li>
+                        <li><a class="link-anchor" href="#M">M</a></li> <li><a class="link-anchor" href="#N">N</a></li> <li><a class="link-anchor" href="#O">O</a></li> <li><a class="link-anchor" href="#P">P</a></li> <li><a class="link-anchor" href="#Q">Q</a></li> <li><a class="link-anchor" href="#R">R</a></li>
+                        <li><a class="link-anchor" href="#S">S</a></li> <li><a class="link-anchor" href="#T">T</a></li> <li><a class="link-anchor" href="#U">U</a></li> <li><a class="link-anchor" href="#V">V</a></li> <li><a  class="link-anchor" href="#W">W</a></li> <li><a class="link-anchor" href="#X">X</a></li>
+                        <li><a class="link-anchor" href="Y">Y</a></li> <li><a class="link-anchor" href="#Z">Z</a></li>
                       </ul>
     </div>
         <table class="table table-striped table-hover">
             
-            <thead><tr class="bg-info"><th colspan="2"><a id="A">A</a></thead>
-            
+            <thead><tr class="bg-info"><th colspan="2"><a id="A">A</a></th></tr></thead>
             <tr><td><img src="{$relative_path}img/iclogos/acer.png" alt=""></td><td>Acer Integrated Circuit Designs</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/actel.png" alt=""></td><td>ACTEL</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/advldev.png" alt=""></td><td>ALTINC</td></tr>
@@ -62,7 +61,7 @@
             <tr><td><img src="{$relative_path}img/iclogos/averlog.png" alt=""></td><td>Avance Logic</td></tr>
 
 
-            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="B">B</a></th></thead>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="B">B</a></th></tr></thead>
             <tr><td><img src="{$relative_path}img/iclogos/belfuse.png" alt=""></td><td>Bel Fuse</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/benchmrq.png" alt=""></td><td>Benchmarq Microelectronics</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/bi.png" alt=""></td><td>BI Technologies</td></tr>
@@ -72,7 +71,7 @@
             <tr><td><img src="{$relative_path}img/iclogos/brooktre.png" alt=""></td><td>Brooktree(now Rockwell)</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/burrbrwn.png" alt=""></td><td>Burr Brown</td></tr>
             
-            <thead><tr><th colspan="2" class="bg-info"><a class="headline" id="C">C</a></tr></thead>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="C">C</a></th></tr></thead>
             <tr><td><img src="{$relative_path}img/iclogos/calmicro.png" alt=""></td><td>California Micro Devices</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/calogic.png" alt=""></td><td>Calogic</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/catalys1.png" alt=""></td><td>Catalyst Semiconductor</td></tr>
@@ -95,7 +94,7 @@
             <tr><td><img src="{$relative_path}img/iclogos/cypress.png" alt=""></td><td>Cypress Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/cyrix.png" alt=""></td><td>Cyrix Corporation</td></tr>
 
-            <tr class="bg-info"><th colspan="2"><a class="headline" id="D">D</a></th></tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="D">D</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/daewoo.png" alt=""></td><td>Daewoo Electronics Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/dallas1.png" alt=""></td><td>Dallas Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/dallas2.png" alt=""></td><td>Dallas Semiconductor</td></tr>
@@ -107,10 +106,8 @@
             <tr><td><img src="{$relative_path}img/iclogos/dtc1.png" alt=""></td><td>DTC Data Technology</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/dtc2.png" alt=""></td><td>DTC Data Technology</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/dvdo.png" alt=""></td><td>DVDO</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
 
-            <tr><th colspan="2"><a class="headline" id="E">E</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="E">E</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/edi.png" alt=""></td><td>EG&amp;G</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/egg.png" alt=""></td><td>Elan Microelectronics</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/elan.png" alt=""></td><td>ELANTEC</td></tr>
@@ -131,18 +128,16 @@
             <tr><td><img src="{$relative_path}img/iclogos/excelsemi1.png" alt=""></td><td>Excel Semiconductor Inc.</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/excelsemi2.png" alt=""></td><td>Excel Semiconductor Inc.</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/exel.png" alt=""></td><td>Excel Semiconductor Inc.</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="F">F</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="F">F</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/fairchil.png" alt=""></td><td>Fairchild</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/freescale.png" alt=""></td><td>Freescale Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/fujielec.png" alt=""></td><td>Fujitsu</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/fujitsu2.png" alt=""></td><td>Fujitsu</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="G">G</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="G">G</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/galileo.png" alt=""></td><td>Galileo Technology</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/galvant.png" alt=""></td><td>Galvantech</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/gecples.png" alt=""></td><td>GEC Plessey</td></tr>
@@ -158,10 +153,8 @@
             <tr><td><img src="{$relative_path}img/iclogos/gould.png" alt=""></td><td>Gould</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/greenwich.png" alt=""></td><td>Greenwich Instruments</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/gsemi.png" alt=""></td><td>General Semiconductor</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
-
-            <tr><th colspan="2"><a class="headline" id="H">H</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="H">H</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/harris1.png" alt=""></td><td>Harris Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/harris2.png" alt=""></td><td>Harris Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/hfo.png" alt=""></td><td>VEB Halbleiterwerk Frankfurt (Oder)</td></tr>
@@ -171,10 +164,9 @@
             <tr><td><img src="{$relative_path}img/iclogos/hualon.png" alt=""></td><td>Hualon</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/hynix.png" alt=""></td><td>Hynix Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/hyundai2.png" alt=""></td><td>Hyundai</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="I">I</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="I">I</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/icdesign.png" alt=""></td><td>IC Design</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/icd.png" alt=""></td><td>Integrated Circuit Systems (ICS)</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/ichaus1.png" alt=""></td><td>IC - Haus</td></tr>
@@ -202,19 +194,14 @@
             <tr><td><img src="{$relative_path}img/iclogos/itex.png" alt=""></td><td>INTEL</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/itt.png" alt=""></td><td>ITT Semiconductor (Micronas Intermetall)</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/ixys.png" alt=""></td><td>IXYS</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="J">J</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"><hr></td></tr>
-
-            <tr><th colspan="2"><a class="headline" id="J">K</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="K">K</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/kec.png" alt=""></td><td>Korea Electronics (KEC)</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/kota.png" alt=""></td><td>Kota Microcircuits</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="L">L</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="L">L</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/lattice1.png" alt=""></td><td>Lattice Semiconductor Corp.</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/lattice2.png" alt=""></td><td>Lattice Semiconductor Corp.</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/lattice3.png" alt=""></td><td>Lattice Semiconductor Corp.</td></tr>
@@ -226,11 +213,10 @@
             <tr><td><img src="{$relative_path}img/iclogos/linear.png" alt=""></td><td>Linear Technology</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/linfin.png" alt=""></td><td>Linfinity Microelectronics</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/liteon.png" alt=""></td><td>Lite-On</td></tr>
-            <tr><td><img src="{$relative_path}img/iclogos/lucent.png" alt=""></td><td>Lucent Technologies (AT&amp;T Microelectronics)</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            <tr><td><img src="{$relative_path}img/iclogos/lucent.png" alt=""></td><td>Lucent Technologies (AT&amp;T Microelectronics)</td>
+            
 
-            <tr><th colspan="2"><a class="headline" id="M">M</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="M">M</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/macronix.png" alt=""></td><td>Macronix International</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/marvell.png" alt=""></td><td>Marvell Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/matsush1.png" alt=""></td><td>Matsushita Panasonic</td></tr>
@@ -269,10 +255,9 @@
             <tr><td><img src="{$relative_path}img/iclogos/murata.png" alt=""></td><td>Murata Manufacturing</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/mwave.png" alt=""></td><td>MWave (IBM)</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/myson.png" alt=""></td><td>Myson Technology</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="N">N</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="N">N</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/nec1.png" alt=""></td><td>NEC Electronics</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/nec2.png" alt=""></td><td>NEC Electronics</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/nexflash.png" alt=""></td><td>NexFlash Technologies</td></tr>
@@ -280,20 +265,18 @@
             <tr><td><img src="{$relative_path}img/iclogos/ns1.png" alt=""></td><td>National Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/ns2.png" alt=""></td><td>National Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/nvidia.png" alt=""></td><td>NVidia Corporation</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="O">O</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="O">O</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/oak.png" alt=""></td><td>Oak Technology</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/oki1.png" alt=""></td><td>Oki Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/oki.png" alt=""></td><td>Oki Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/opti.png" alt=""></td><td>Opti</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/orbit.png" alt=""></td><td>Orbit Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/oren.png" alt=""></td><td>Oren Semiconductor</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="P">P</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="P">P</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/perform.png" alt=""></td><td>Performance Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/pericom.png" alt=""></td><td>Pericom Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/phaslink.png" alt=""></td><td>PhaseLink Laboratories</td></tr>
@@ -303,17 +286,15 @@
             <tr><td><img src="{$relative_path}img/iclogos/pmi.png" alt=""></td><td>Precision Monolithics</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/ptc.png" alt=""></td><td>Princeton Technology</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/pwrsmart.png" alt=""></td><td>PowerSmart</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="Q">Q</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="Q">Q</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/qlogic.png" alt=""></td><td>QuickLogic</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/qualcomm.png" alt=""></td><td>Qlogic</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/quality.png" alt=""></td><td>Quality Semiconductor</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="R">R</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="R">R</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/rabbit.png" alt=""></td><td>Rabbit Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/ramtron.png" alt=""></td><td>Ramtron International Co.</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/raytheon.png" alt=""></td><td>Raytheon Semiconductor</td></tr>
@@ -324,10 +305,9 @@
             <tr><td><img src="{$relative_path}img/iclogos/renesas.png" alt=""></td><td>Renesas Technology</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/rockwell.png" alt=""></td><td>Rockwell</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/rohm.png" alt=""></td><td>Rohm Corp.</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
-
-            <tr><th colspan="2"><a class="headline" id="S">S</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            
+            
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="S">S</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/s3.png" alt=""></td><td>S3</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/sage.png" alt=""></td><td>Sage</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/saifun.png" alt=""></td><td>Saifun Semiconductors Ltd.</td></tr>
@@ -374,10 +354,9 @@
             <tr><td><img src="{$relative_path}img/iclogos/summit.png" alt=""></td><td>SUMMIT Microelectronics</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/synergy.png" alt=""></td><td>Synergy Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/synertek.png" alt=""></td><td>Synertek</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="T">T</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="T">T</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/taiwsemi.png" alt=""></td><td>Taiwan Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/tdk.png" alt=""></td><td>TDK Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/teccor.png" alt=""></td><td>Teccor Electronics</td></tr>
@@ -398,10 +377,9 @@
             <tr><td><img src="{$relative_path}img/iclogos/tseng.png" alt=""></td><td>Tseng Labs</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/tundra.png" alt=""></td><td>Tundra</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/turbo_ic.png" alt=""></td><td>Turbo IC</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="U">U</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="U">U</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/ubicom.png" alt=""></td><td>Ubicom</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/umc.png" alt=""></td><td>United Microelectronics Corp (UMC)</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/unitrode.png" alt=""></td><td>Unitrode</td></tr>
@@ -409,10 +387,9 @@
             <tr><td><img src="{$relative_path}img/iclogos/usar.png" alt=""></td><td>USAR Systems</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/utmc.png" alt=""></td><td>United Technologies Microelectronics Center (UTMC)</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/utron.png" alt=""></td><td>Utron</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
-
-            <tr><th colspan="2"><a class="headline" id="V">V</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            
+            
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="V">V</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/v3.png" alt=""></td><td>V3 Semiconductor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/vadem.png" alt=""></td><td>Vadem</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/vanguard.png" alt=""></td><td>Vanguard International Semiconductor</td></tr>
@@ -425,31 +402,28 @@
             <tr><td><img src="{$relative_path}img/iclogos/vlsi.png" alt=""></td><td>VLSI Technology</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/volterra.png" alt=""></td><td>Volterra</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/vtc.png" alt=""></td><td>VTC</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="W">W</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="W">W</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/wafscale.png" alt=""></td><td>Waferscale Integration (WSI)</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/wdc1.png" alt=""></td><td>Western Digital</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/wdc2.png" alt=""></td><td>Western Digital</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/weitek.png" alt=""></td><td>Weitek</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/winbond.png" alt=""></td><td>Winbond</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/wolf.png" alt=""></td><td>Wofson Microelectronics</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="X">X</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="X">X</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/xemics.png" alt=""></td><td>Xwmics</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/xicor1.png" alt=""></td><td>Xicor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/xicor.png" alt=""></td><td>Xicor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/xilinx.png" alt=""></td><td>Xilinx</td></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            
 
-            <tr><th colspan="2"><a class="headline" id="Y">Y</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"><hr></td></tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="B">Y</a></th></thead>
+            
 
-            <tr><th colspan="2"><a class="headline" id="Z">Z</a></th><th align="right" style="font-size:0.8em;"><a href="#">^</a></th></tr>
-            <tr><td colspan="3"></td></tr><tr>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="B">Z</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/zetex.png" alt=""></td><td>Zetex Semiconductors</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/zilog1.png" alt=""></td><td>Zilog</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/zilog2.png" alt=""></td><td>Zilog</td></tr>
@@ -457,6 +431,7 @@
             <tr><td><img src="{$relative_path}img/iclogos/zilog4.png" alt=""></td><td>Zilog</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/zmda.png" alt=""></td><td>ZMD (Zentrum Mikroelektronik Dresden)</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/zoran.png" alt=""></td><td>Zoran</td></tr>
+            
         </table>
     
 </div>

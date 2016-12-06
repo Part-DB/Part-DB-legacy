@@ -17,7 +17,10 @@
 </script>
 
 <div class="panel panel-primary">
-    <div class="panel-heading">{t}Lagerorte{/t}</div>
+    <div class="panel-heading">
+        <i class="fa fa-cube" aria-hidden="true"></i>&nbsp;
+        {t}Lagerorte{/t}
+    </div>
     <div class="panel-body">
         <form action="" method="post" name="edit" class="row">
             <div class="col-md-4">

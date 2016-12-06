@@ -71,7 +71,7 @@
     *
     *********************************************************************************/
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Baugruppen');
+    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Baugruppen'));
 
     try
     {
@@ -116,8 +116,8 @@
                 }
                 catch (Exception $e)
                 {
-                    $messages[] = array('text' => 'Die neue Baugruppe konnte nicht angelegt werden!', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                    $messages[] = array('text' => _('Die neue Baugruppe konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
@@ -125,27 +125,27 @@
                 try
                 {
                     if ( ! is_object($selected_device))
-                        throw new Exception('Es ist keine Baugruppe markiert oder es trat ein Fehler auf!');
+                        throw new Exception(_('Es ist keine Baugruppe markiert oder es trat ein Fehler auf!'));
 
                     $parts = $selected_device->get_parts();
                     $count = count($parts);
 
-                    $messages[] = array('text' => 'Soll die Baugruppe "'.$selected_device->get_full_path().
-                                                        '" wirklich unwiederruflich gelöscht werden?', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => '<br>Hinweise:', 'strong' => true);
+                    $messages[] = array('text' => sprintf(_('Soll die Baugruppe "%s'.
+                                                        '" wirklich unwiederruflich gelöscht werden?'), $selected_device->get_full_path()), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
                     if ($count > 0)
-                        $messages[] = array('text' => '&nbsp;&nbsp;&bull; Es gibt noch '.$count.' Bauteile in dieser Baugruppe!', 'strong' => true, 'color' => 'red');
+                        $messages[] = array('text' => sprintf(_('&nbsp;&nbsp;&bull; Es gibt noch %d Bauteile in dieser Baugruppe!'), $count) , 'strong' => true, 'color' => 'red');
                     else
-                        $messages[] = array('text' => '&nbsp;&nbsp;&bull; Es gibt keine Bauteile in dieser Baugruppe.');
-                    $messages[] = array('text' => '&nbsp;&nbsp;&bull; Beinhaltet diese Baugruppe noch Unterbaugruppen, dann werden diese eine Ebene nach oben verschoben.');
+                        $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Bauteile in dieser Baugruppe.'));
+                    $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet diese Baugruppe noch Unterbaugruppen, dann werden diese eine Ebene nach oben verschoben.'));
                     $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_device->get_id().'">');
-                    $messages[] = array('html' => '<input type="submit" name="" value="Nein, nicht löschen">', 'no_linebreak' => true);
-                    $messages[] = array('html' => '<input type="submit" name="delete_confirmed" value="Ja, Baugruppe löschen">');
+                    $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._("Nein, nicht löschen").'">', 'no_linebreak' => true);
+                    $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Baugruppe löschen').'">');
                 }
                 catch (Exception $e)
                 {
-                    $messages[] = array('text' => 'Es trat ein Fehler auf!', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                    $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
@@ -153,7 +153,7 @@
                 try
                 {
                     if ( ! is_object($selected_device))
-                        throw new Exception('Es ist keine Baugruppe markiert oder es trat ein Fehler auf!');
+                        throw new Exception(_('Es ist keine Baugruppe markiert oder es trat ein Fehler auf!'));
 
                     $selected_device->delete();
                     $selected_device = NULL;
@@ -162,8 +162,8 @@
                 }
                 catch (Exception $e)
                 {
-                    $messages[] = array('text' => 'Die Baugruppe konnte nicht gelöscht werden!', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                    $messages[] = array('text' => _('Die Baugruppe konnte nicht gelöscht werden!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
@@ -171,7 +171,7 @@
                 try
                 {
                     if ( ! is_object($selected_device))
-                        throw new Exception('Es ist keine Baugruppe markiert oder es trat ein Fehler auf!');
+                        throw new Exception(_('Es ist keine Baugruppe markiert oder es trat ein Fehler auf!'));
 
                     $selected_device->set_attributes(array( 'name'                  => $new_name,
                                                             'parent_id'             => $new_parent_id));
@@ -180,8 +180,8 @@
                 }
                 catch (Exception $e)
                 {
-                    $messages[] = array('text' => 'Die neuen Werte konnten nicht gespeichert werden!', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                    $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
         }

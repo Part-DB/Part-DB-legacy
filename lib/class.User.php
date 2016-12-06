@@ -164,10 +164,10 @@
             }
             catch (Exception $e)
             {
-                debug('warning', 'Ungültige "group_id": "'.$values['group_id'].'"'.
-                        "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
+                debug('warning', _('Ungültige "group_id": "').$values['group_id'].'"'.
+                        __("\n\nUrsprüngliche Fehlermeldung: ").$e->getMessage(),
                         __FILE__, __LINE__, __METHOD__);
-                throw new Exception('Die gewählte Gruppe existiert nicht!');
+                throw new Exception(_('Die gewählte Gruppe existiert nicht!'));
             }
         }
 
@@ -183,7 +183,7 @@
         public static function get_count(&$database)
         {
             if (get_class($database) != 'Database')
-                throw new Exception('$database ist kein Database-Objekt!');
+                throw new Exception(_('$database ist kein Database-Objekt!'));
 
             return $database->get_count_of_records('users');
         }

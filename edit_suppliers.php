@@ -80,7 +80,7 @@
     *
     *********************************************************************************/
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Lieferanten');
+    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Lieferanten'));
 
     try
     {
@@ -126,8 +126,8 @@
                 }
                 catch (Exception $e)
                 {
-                    $messages[] = array('text' => 'Der neue Lieferant konnte nicht angelegt werden!', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                    $messages[] = array('text' => _('Der neue Lieferant konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
@@ -135,32 +135,32 @@
                 try
                 {
                     if ( ! is_object($selected_supplier))
-                        throw new Exception('Es ist kein Lieferant markiert oder es trat ein Fehler auf!');
+                        throw new Exception(_('Es ist kein Lieferant markiert oder es trat ein Fehler auf!'));
 
                     $parts = $selected_supplier->get_parts();
                     $count = count($parts);
 
                     if ($count > 0)
                     {
-                        $messages[] = array('text' => 'Es gibt noch '.$count.' Bauteile mit diesem Lieferanten, '.
-                                                'daher kann der Lieferant nicht gelöscht werden.', 'strong' => true, 'color' => 'red');
+                        $messages[] = array('text' => sprintf(_('Es gibt noch %d Bauteile mit diesem Lieferanten, '.
+                                                'daher kann der Lieferant nicht gelöscht werden.'),$count), 'strong' => true, 'color' => 'red');
                     }
                     else
                     {
-                        $messages[] = array('text' => 'Soll der Lieferant "'.$selected_supplier->get_full_path().
-                                                        '" wirklich unwiederruflich gelöscht werden?', 'strong' => true, 'color' => 'red');
-                        $messages[] = array('text' => '<br>Hinweise:', 'strong' => true);
-                        $messages[] = array('text' => '&nbsp;&nbsp;&bull; Es gibt keine Bauteile, die diesen Lieferanten zugeordnet haben.');
-                        $messages[] = array('text' => '&nbsp;&nbsp;&bull; Beinhaltet dieser Lieferant noch Unterlieferanten, dann werden diese eine Ebene nach oben verschoben.');
+                        $messages[] = array('text' => sprintf(_('Soll der Lieferant "%s'.
+                                                        '" wirklich unwiederruflich gelöscht werden?'), $selected_supplier->get_full_path()), 'strong' => true, 'color' => 'red');
+                        $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
+                        $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Bauteile, die diesen Lieferanten zugeordnet haben.'));
+                        $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet dieser Lieferant noch Unterlieferanten, dann werden diese eine Ebene nach oben verschoben.'));
                         $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_supplier->get_id().'">');
-                        $messages[] = array('html' => '<input type="submit" name="" value="Nein, nicht löschen">', 'no_linebreak' => true);
-                        $messages[] = array('html' => '<input type="submit" name="delete_confirmed" value="Ja, Lieferant löschen">');
+                        $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
+                        $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Lieferant löschen').'">');
                     }
                 }
                 catch (Exception $e)
                 {
-                    $messages[] = array('text' => 'Es trat ein Fehler auf!', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                    $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
@@ -168,15 +168,15 @@
                 try
                 {
                     if ( ! is_object($selected_supplier))
-                        throw new Exception('Es ist kein Lieferant markiert oder es trat ein Fehler auf!');
+                        throw new Exception(_('Es ist kein Lieferant markiert oder es trat ein Fehler auf!'));
 
                     $selected_supplier->delete();
                     $selected_supplier = NULL;
                 }
                 catch (Exception $e)
                 {
-                    $messages[] = array('text' => 'Der Lieferant konnte nicht gelöscht werden!', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                    $messages[] = array('text' => _('Der Lieferant konnte nicht gelöscht werden!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
@@ -184,7 +184,7 @@
                 try
                 {
                     if ( ! is_object($selected_supplier))
-                        throw new Exception('Es ist kein Lieferant markiert oder es trat ein Fehler auf!');
+                        throw new Exception(_('Es ist kein Lieferant markiert oder es trat ein Fehler auf!'));
 
                     $selected_supplier->set_attributes(array(   'name'             => $new_name,
                                                                 'parent_id'        => $new_parent_id,
@@ -197,8 +197,8 @@
                 }
                 catch (Exception $e)
                 {
-                    $messages[] = array('text' => 'Die neuen Werte konnten nicht gespeichert werden!', 'strong' => true, 'color' => 'red');
-                    $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
+                    $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Fehlermeldung: '.nl2br($e->getMessage())), 'color' => 'red');
                 }
                 break;
         }

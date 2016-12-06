@@ -1,7 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-info">
    <div class="panel-heading">
-      Treffer in der Kategorie <b>"{$category_full_path}"</b>
+      {t}Treffer in der Kategorie{/t} <b>"{$category_full_path}"</b>
    </div>
         <form method="post" action="">
             <input type="hidden" name="table_rowcount" value="{$table_rowcount}">

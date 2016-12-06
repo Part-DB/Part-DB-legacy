@@ -13,9 +13,7 @@
         
         <form class="form-horizontal" action="" method="post">
                 
-                <p><i>{t}Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere
-                Einstellungen kann man direkt in der "config.php" vornehmen. Mögliche Parameter
-                entnehmen Sie bitte der "config_defaults.php" oder der Dokumentation.{/t}</i></p>
+                <p><i>{t}Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere Einstellungen kann man direkt in der "config.php" vornehmen. Mögliche Parameter entnehmen Sie bitte der "config_defaults.php" oder der Dokumentation.{/t}</i></p>
         
                 <hr>
 
@@ -259,7 +257,7 @@
            <hr>
                     
             <div class="col-sm-offset-2">
-                <input type="submit" class="btn btn-success" name="change_admin_password" value="Passwort ändern" {if $is_online_demo}disabled{/if}>
+                <button type="submit" class="btn btn-success" name="change_admin_password" {if $is_online_demo}disabled{/if}>{t}Passwort ändern{/t}</button>
             </div>
             
         </form>
@@ -280,7 +278,7 @@
                 </tr>
                 <tr>
                     <td><b>{t}.htaccess funktioniert:{/t}</b></td>
-                    <td>{if $htaccess_works}<font color="green">ja</font>{else}<font color="red">nein</font>{/if}</td>
+                    <td>{if $htaccess_works}<font color="green">{t}ja{/t}</font>{else}<font color="red">{t}nein{/t}</font>{/if}</td>
                 </tr>
             </table>
         </div>
