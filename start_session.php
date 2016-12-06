@@ -263,7 +263,7 @@
 
     if (($config['debug']['enable']) && ( ! $config['debug']['template_debugging_enable'])) // template debugging produces a lot of warnings!
     {
-        error_reporting(E_ALL & ~E_STRICT);
+        error_reporting(E_ALL & ~E_STRICT)
         @ini_set("display_errors", 1);
 
         //Dont show errors because of function override in php7
