@@ -15,13 +15,19 @@ require_once(DOKU_INC.'inc/init.php');
 //close session
 session_write_close();
 
+//feed disabled?
+if(!actionOK('rss')) {
+    http_status(404);
+    echo '<error>RSS feed is disabled.</error>';
+    exit;
+}
+
 // get params
 $opt = rss_parseOptions();
 
 // the feed is dynamic - we need a cache for each combo
 // (but most people just use the default feed so it's still effective)
-$cache = getCacheName(join('', array_values($opt)).$_SERVER['REMOTE_USER'], '.feed');
-$key   = join('', array_values($opt)).$_SERVER['REMOTE_USER'];
+$key   = join('', array_values($opt)).'$'.$_SERVER['REMOTE_USER'].'$'.$_SERVER['HTTP_HOST'].$_SERVER['SERVER_PORT'];
 $cache = new cache($key, '.feed');
 
 // prepare cache depends
@@ -121,26 +127,27 @@ function rss_parseOptions() {
                 'items'        => array('int', 'num', $conf['recent']),
                 // Boolean, only used in rc mode
                 'show_minor'   => array('bool', 'minor', false),
+                // String, only used in list mode
+                'sort'         => array('str', 'sort', 'natural'),
                 // String, only used in search mode
                 'search_query' => array('str', 'q', null),
                 // One of: pages, media, both
                 'content_type' => array('str', 'view', $conf['rss_media'])
 
             ) as $name => $val) {
-        $opt[$name] = $INPUT->$val[0]($val[1], $val[2], true);
+        $opt[$name] = $INPUT->{$val[0]}($val[1], $val[2], true);
     }
 
     $opt['items']      = max(0, (int) $opt['items']);
     $opt['show_minor'] = (bool) $opt['show_minor'];
+    $opt['sort'] = valid_input_set('sort', array('default' => 'natural', 'date'), $opt);
 
     $opt['guardmail'] = ($conf['mailguard'] != '' && $conf['mailguard'] != 'none');
 
-    $type = valid_input_set(
-        'type', array(
-                     'rss', 'rss2', 'atom', 'atom1', 'rss1',
-                     'default' => $conf['rss_type']
-                ),
-        $_REQUEST
+    $type = $INPUT->valid(
+        'type',
+        array( 'rss', 'rss2', 'atom', 'atom1', 'rss1'),
+        $conf['rss_type']
     );
     switch($type) {
         case 'rss':
@@ -182,7 +189,7 @@ function rss_parseOptions() {
 function rss_buildItems(&$rss, &$data, $opt) {
     global $conf;
     global $lang;
-    /* @var auth_basic $auth */
+    /* @var DokuWiki_Auth_Plugin $auth */
     global $auth;
 
     $eventData = array(
@@ -209,12 +216,14 @@ function rss_buildItems(&$rss, &$data, $opt) {
             // add date
             if($ditem['date']) {
                 $date = $ditem['date'];
+            } elseif ($ditem['media']) {
+                $date = @filemtime(mediaFN($id));
+            } elseif (file_exists(wikiFN($id))) {
+                $date = @filemtime(wikiFN($id));
             } elseif($meta['date']['modified']) {
                 $date = $meta['date']['modified'];
-            } else if ($ditem['media']) {
-                $date = @filemtime(mediaFN($id));
             } else {
-                $date = @filemtime(wikiFN($id));
+                $date = 0;
             }
             if($date) $item->date = date('r', $date);
 
@@ -240,7 +249,7 @@ function rss_buildItems(&$rss, &$data, $opt) {
                             ), '&', true
                         );
                     } else {
-                        $item->link = wl($id, 'rev='.$date, true, '&', true);
+                        $item->link = wl($id, 'rev='.$date, true, '&');
                     }
                     break;
                 case 'rev':
@@ -291,18 +300,19 @@ function rss_buildItems(&$rss, &$data, $opt) {
                 case 'diff':
                 case 'htmldiff':
                     if($ditem['media']) {
-                        $revs  = getRevisions($id, 0, 1, 8192, true);
+                        $medialog = new MediaChangeLog($id);
+                        $revs  = $medialog->getRevisions(0, 1);
                         $rev   = $revs[0];
                         $src_r = '';
                         $src_l = '';
 
-                        if($size = media_image_preview_size($id, false, new JpegMeta(mediaFN($id)), 300)) {
-                            $more  = 'w='.$size[0].'&h='.$size[1].'t='.@filemtime(mediaFN($id));
-                            $src_r = ml($id, $more);
+                        if($size = media_image_preview_size($id, '', new JpegMeta(mediaFN($id)), 300)) {
+                            $more  = 'w='.$size[0].'&h='.$size[1].'&t='.@filemtime(mediaFN($id));
+                            $src_r = ml($id, $more, true, '&amp;', true);
                         }
                         if($rev && $size = media_image_preview_size($id, $rev, new JpegMeta(mediaFN($id, $rev)), 300)) {
                             $more  = 'rev='.$rev.'&w='.$size[0].'&h='.$size[1];
-                            $src_l = ml($id, $more);
+                            $src_l = ml($id, $more, true, '&amp;', true);
                         }
                         $content = '';
                         if($src_r) {
@@ -316,18 +326,20 @@ function rss_buildItems(&$rss, &$data, $opt) {
 
                     } else {
                         require_once(DOKU_INC.'inc/DifferenceEngine.php');
-                        $revs = getRevisions($id, 0, 1);
+                        $pagelog = new PageChangeLog($id);
+                        $revs = $pagelog->getRevisions(0, 1);
                         $rev  = $revs[0];
 
                         if($rev) {
-                            $df = new Diff(explode("\n", htmlspecialchars(rawWiki($id, $rev))),
-                                           explode("\n", htmlspecialchars(rawWiki($id, ''))));
+                            $df = new Diff(explode("\n", rawWiki($id, $rev)),
+                                           explode("\n", rawWiki($id, '')));
                         } else {
                             $df = new Diff(array(''),
-                                           explode("\n", htmlspecialchars(rawWiki($id, ''))));
+                                           explode("\n", rawWiki($id, '')));
                         }
 
                         if($opt['item_content'] == 'htmldiff') {
+                            // note: no need to escape diff output, TableDiffFormatter provides 'safe' html
                             $tdf     = new TableDiffFormatter();
                             $content = '<table>';
                             $content .= '<tr><th colspan="2" width="50%">'.$rev.'</th>';
@@ -335,22 +347,27 @@ function rss_buildItems(&$rss, &$data, $opt) {
                             $content .= $tdf->format($df);
                             $content .= '</table>';
                         } else {
+                            // note: diff output must be escaped, UnifiedDiffFormatter provides plain text
                             $udf     = new UnifiedDiffFormatter();
-                            $content = "<pre>\n".$udf->format($df)."\n</pre>";
+                            $content = "<pre>\n".hsc($udf->format($df))."\n</pre>";
                         }
                     }
                     break;
                 case 'html':
                     if($ditem['media']) {
-                        if($size = media_image_preview_size($id, false, new JpegMeta(mediaFN($id)))) {
-                            $more    = 'w='.$size[0].'&h='.$size[1].'t='.@filemtime(mediaFN($id));
-                            $src     = ml($id, $more);
+                        if($size = media_image_preview_size($id, '', new JpegMeta(mediaFN($id)))) {
+                            $more    = 'w='.$size[0].'&h='.$size[1].'&t='.@filemtime(mediaFN($id));
+                            $src     = ml($id, $more, true, '&amp;', true);
                             $content = '<img src="'.$src.'" alt="'.$id.'" />';
                         } else {
                             $content = '';
                         }
                     } else {
-                        $content = p_wiki_xhtml($id, $date, false);
+                        if (@filemtime(wikiFN($id)) === $date) {
+                            $content = p_wiki_xhtml($id, '', false);
+                        } else {
+                            $content = p_wiki_xhtml($id, $date, false);
+                        }
                         // no TOC in feeds
                         $content = preg_replace('/(<!-- TOC START -->).*(<!-- TOC END -->)/s', '', $content);
 
@@ -369,9 +386,9 @@ function rss_buildItems(&$rss, &$data, $opt) {
                 case 'abstract':
                 default:
                     if($ditem['media']) {
-                        if($size = media_image_preview_size($id, false, new JpegMeta(mediaFN($id)))) {
-                            $more    = 'w='.$size[0].'&h='.$size[1].'t='.@filemtime(mediaFN($id));
-                            $src     = ml($id, $more);
+                        if($size = media_image_preview_size($id, '', new JpegMeta(mediaFN($id)))) {
+                            $more    = 'w='.$size[0].'&h='.$size[1].'&t='.@filemtime(mediaFN($id));
+                            $src     = ml($id, $more, true, '&amp;', true);
                             $content = '<img src="'.$src.'" alt="'.$id.'" />';
                         } else {
                             $content = '';
@@ -391,6 +408,7 @@ function rss_buildItems(&$rss, &$data, $opt) {
                 if($userInfo) {
                     switch($conf['showuseras']) {
                         case 'username':
+                        case 'username_link':
                             $item->author = $userInfo['name'];
                             break;
                         default:
@@ -465,11 +483,15 @@ function rssListNamespace($opt) {
     global $conf;
 
     $ns = ':'.cleanID($opt['namespace']);
-    $ns = str_replace(':', '/', $ns);
+    $ns = utf8_encodeFN(str_replace(':', '/', $ns));
 
     $data = array();
-    sort($data);
-    search($data, $conf['datadir'], 'search_list', '', $ns);
+    $search_opts = array(
+        'depth' => 1,
+        'pagesonly' => true,
+        'listfiles' => true
+    );
+    search($data, $conf['datadir'], 'search_universal', $search_opts, $ns, $lvl = 1, $opt['sort']);
 
     return $data;
 }

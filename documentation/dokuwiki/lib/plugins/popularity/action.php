@@ -9,20 +9,24 @@ require_once(DOKU_PLUGIN.'action.php');
 require_once(DOKU_PLUGIN.'popularity/admin.php');
 
 class action_plugin_popularity extends Dokuwiki_Action_Plugin {
+
+    /**
+     * @var helper_plugin_popularity
+     */
     var $helper;
 
-    function action_plugin_popularity(){
+    function __construct(){
         $this->helper = $this->loadHelper('popularity', false);
     }
 
     /**
      * Register its handlers with the dokuwiki's event controller
      */
-    function register(&$controller) {
+    function register(Doku_Event_Handler $controller) {
         $controller->register_hook('INDEXER_TASKS_RUN', 'AFTER',  $this, '_autosubmit', array());
     }
 
-    function _autosubmit(&$event, $param){
+    function _autosubmit(Doku_Event &$event, $param){
         //Do we have to send the data now
         if ( !$this->helper->isAutosubmitEnabled() || $this->_isTooEarlyToSubmit() ){
             return;
@@ -30,7 +34,6 @@ class action_plugin_popularity extends Dokuwiki_Action_Plugin {
 
         //Actually send it
         $status = $this->helper->sendData( $this->helper->gatherAsString() );
-
 
         if ( $status !== '' ){
             //If an error occured, log it

@@ -14,6 +14,9 @@ class _DiffOp {
     var $orig;
     var $closing;
 
+    /**
+     * @return _DiffOp
+     */
     function reverse() {
         trigger_error("pure virtual", E_USER_ERROR);
     }
@@ -104,6 +107,21 @@ class _DiffOp_Change extends _DiffOp {
  */
 class _DiffEngine {
 
+    var $xchanged = array();
+    var $ychanged = array();
+    var $xv = array();
+    var $yv = array();
+    var $xind = array();
+    var $yind = array();
+    var $seq;
+    var $in_seq;
+    var $lcs;
+
+    /**
+     * @param array $from_lines
+     * @param array $to_lines
+     * @return _DiffOp[]
+     */
     function diff($from_lines, $to_lines) {
         $n_from = count($from_lines);
         $n_to = count($to_lines);
@@ -495,9 +513,9 @@ class Diff {
      * Constructor.
      * Computes diff between sequences of strings.
      *
-     * @param $from_lines array An array of strings.
-     *      (Typically these are lines from a file.)
-     * @param $to_lines array An array of strings.
+     * @param array $from_lines An array of strings.
+     *                          (Typically these are lines from a file.)
+     * @param array $to_lines   An array of strings.
      */
     function __construct($from_lines, $to_lines) {
         $eng = new _DiffEngine;
@@ -512,8 +530,9 @@ class Diff {
      *
      *  $diff = new Diff($lines1, $lines2);
      *  $rev = $diff->reverse();
-     * @return object A Diff object representing the inverse of the
-     *          original diff.
+     *
+     * @return Diff  A Diff object representing the inverse of the
+     *               original diff.
      */
     function reverse() {
         $rev = $this;
@@ -631,19 +650,19 @@ class MappedDiff extends Diff {
      * case-insensitve diffs, or diffs which ignore
      * changes in white-space.
      *
-     * @param $from_lines array An array of strings.
-     *  (Typically these are lines from a file.)
+     * @param string[] $from_lines         An array of strings.
+     *                                     (Typically these are lines from a file.)
      *
-     * @param $to_lines array An array of strings.
+     * @param string[] $to_lines           An array of strings.
      *
-     * @param $mapped_from_lines array This array should
-     *  have the same size number of elements as $from_lines.
-     *  The elements in $mapped_from_lines and
-     *  $mapped_to_lines are what is actually compared
-     *  when computing the diff.
+     * @param string[] $mapped_from_lines  This array should
+     *                                     have the same size number of elements as $from_lines.
+     *                                     The elements in $mapped_from_lines and
+     *                                     $mapped_to_lines are what is actually compared
+     *                                     when computing the diff.
      *
-     * @param $mapped_to_lines array This array should
-     *  have the same number of elements as $to_lines.
+     * @param string[] $mapped_to_lines    This array should
+     *                                     have the same number of elements as $to_lines.
      */
     function __construct($from_lines, $to_lines, $mapped_from_lines, $mapped_to_lines) {
 
@@ -697,12 +716,13 @@ class DiffFormatter {
     /**
      * Format a diff.
      *
-     * @param $diff object A Diff object.
+     * @param Diff $diff A Diff object.
      * @return string The formatted output.
      */
     function format($diff) {
 
         $xi = $yi = 1;
+        $x0 = $y0 = 0;
         $block = false;
         $context = array();
 
@@ -752,6 +772,13 @@ class DiffFormatter {
         return $this->_end_diff();
     }
 
+    /**
+     * @param int $xbeg
+     * @param int $xlen
+     * @param int $ybeg
+     * @param int $ylen
+     * @param array $edits
+     */
     function _block($xbeg, $xlen, $ybeg, $ylen, &$edits) {
         $this->_start_block($this->_block_header($xbeg, $xlen, $ybeg, $ylen));
         foreach ($edits as $edit) {
@@ -779,6 +806,13 @@ class DiffFormatter {
         return $val;
     }
 
+    /**
+     * @param int $xbeg
+     * @param int $xlen
+     * @param int $ybeg
+     * @param int $ylen
+     * @return string
+     */
     function _block_header($xbeg, $xlen, $ybeg, $ylen) {
         if ($xlen > 1)
             $xbeg .= "," . ($xbeg + $xlen - 1);
@@ -788,6 +822,9 @@ class DiffFormatter {
         return $xbeg . ($xlen ? ($ylen ? 'c' : 'd') : 'a') . $ybeg;
     }
 
+    /**
+     * @param string $header
+     */
     function _start_block($header) {
         echo $header;
     }
@@ -797,7 +834,7 @@ class DiffFormatter {
 
     function _lines($lines, $prefix = ' ') {
         foreach ($lines as $line)
-            echo "$prefix $line\n";
+            echo "$prefix ".$this->_escape($line)."\n";
     }
 
     function _context($lines) {
@@ -815,6 +852,19 @@ class DiffFormatter {
         $this->_deleted($orig);
         echo "---\n";
         $this->_added($closing);
+    }
+
+    /**
+     * Escape string
+     * 
+     * Override this method within other formatters if escaping required.
+     * Base class requires $str to be returned WITHOUT escaping.
+     * 
+     * @param $str string Text string to escape
+     * @return string The escaped string.
+     */
+    function _escape($str){
+        return $str;
     }
 }
 
@@ -871,18 +921,21 @@ class _HWLDF_WordAccumulator {
     function _flushGroup($new_tag) {
         if ($this->_group !== '') {
             if ($this->_tag == 'mark')
-                $this->_line .= '<strong '.HTMLDiff::css('diff-mark').'>'.$this->_group.'</strong>';
+                $this->_line .= '<strong '.HTMLDiff::css('diff-mark').'>'.$this->_escape($this->_group).'</strong>';
             elseif ($this->_tag == 'add')
-                $this->_line .= '<span '.HTMLDiff::css('diff-addedline').'>'.$this->_group.'</span>';
+                $this->_line .= '<span '.HTMLDiff::css('diff-addedline').'>'.$this->_escape($this->_group).'</span>';
             elseif ($this->_tag == 'del')
-                $this->_line .= '<span '.HTMLDiff::css('diff-deletedline').'><del>'.$this->_group.'</del></span>';
+                $this->_line .= '<span '.HTMLDiff::css('diff-deletedline').'><del>'.$this->_escape($this->_group).'</del></span>';
             else
-                $this->_line .= $this->_group;
+                $this->_line .= $this->_escape($this->_group);
         }
         $this->_group = '';
         $this->_tag = $new_tag;
     }
 
+    /**
+     * @param string $new_tag
+     */
     function _flushLine($new_tag) {
         $this->_flushGroup($new_tag);
         if ($this->_line != '')
@@ -911,6 +964,10 @@ class _HWLDF_WordAccumulator {
     function getLines() {
         $this->_flushLine('~done');
         return $this->_lines;
+    }
+
+    function _escape($str){
+        return hsc($str);
     }
 }
 
@@ -996,6 +1053,8 @@ class InlineWordLevelDiff extends MappedDiff {
  * "Unified" diff formatter.
  *
  * This class formats the diff in classic "unified diff" format.
+ *
+ * NOTE: output is plain text and unsafe for use in HTML without escaping.
  */
 class UnifiedDiffFormatter extends DiffFormatter {
 
@@ -1029,12 +1088,17 @@ class UnifiedDiffFormatter extends DiffFormatter {
  *
  */
 class TableDiffFormatter extends DiffFormatter {
+    var $colspan = 2;
 
     function __construct() {
         $this->leading_context_lines = 2;
         $this->trailing_context_lines = 2;
     }
 
+    /**
+     * @param Diff $diff
+     * @return string
+     */
     function format($diff) {
         // Preserve whitespaces by converting some to non-breaking spaces.
         // Do not convert all of them to allow word-wrap.
@@ -1053,8 +1117,8 @@ class TableDiffFormatter extends DiffFormatter {
         global $lang;
         $l1 = $lang['line'].' '.$xbeg;
         $l2 = $lang['line'].' '.$ybeg;
-        $r = '<tr><td '.HTMLDiff::css('diff-blockheader').' colspan="2">'.$l1.":</td>\n".
-             '<td '.HTMLDiff::css('diff-blockheader').' colspan="2">'.$l2.":</td>\n".
+        $r = '<tr><td '.HTMLDiff::css('diff-blockheader').' colspan="'.$this->colspan.'">'.$l1.":</td>\n".
+             '<td '.HTMLDiff::css('diff-blockheader').' colspan="'.$this->colspan.'">'.$l2.":</td>\n".
              "</tr>\n";
         return $r;
     }
@@ -1069,25 +1133,38 @@ class TableDiffFormatter extends DiffFormatter {
     function _lines($lines, $prefix=' ', $color="white") {
     }
 
-    function addedLine($line) {
-        return '<td>+</td><td '.HTMLDiff::css('diff-addedline').'>' .  $line.'</td>';
+    function addedLine($line,$escaped=false) {
+        if (!$escaped){
+            $line = $this->_escape($line);
+        }
+        return '<td '.HTMLDiff::css('diff-lineheader').'>+</td>'.
+               '<td '.HTMLDiff::css('diff-addedline').'>' .  $line.'</td>';
     }
 
-    function deletedLine($line) {
-        return '<td>-</td><td '.HTMLDiff::css('diff-deletedline').'>' .  $line.'</td>';
+    function deletedLine($line,$escaped=false) {
+        if (!$escaped){
+            $line = $this->_escape($line);
+        }
+        return '<td '.HTMLDiff::css('diff-lineheader').'>-</td>'.
+               '<td '.HTMLDiff::css('diff-deletedline').'>' .  $line.'</td>';
     }
 
     function emptyLine() {
-        return '<td colspan="2">&#160;</td>';
+        return '<td colspan="'.$this->colspan.'">&#160;</td>';
     }
 
     function contextLine($line) {
-        return '<td> </td><td '.HTMLDiff::css('diff-context').'>'.$line.'</td>';
+        return '<td '.HTMLDiff::css('diff-lineheader').'>&#160;</td>'.
+               '<td '.HTMLDiff::css('diff-context').'>'.$this->_escape($line).'</td>';
     }
 
     function _added($lines) {
+        $this->_addedLines($lines,false);
+    }
+
+    function _addedLines($lines,$escaped=false){
         foreach ($lines as $line) {
-            print('<tr>' . $this->emptyLine() . $this->addedLine($line) . "</tr>\n");
+            print('<tr>' . $this->emptyLine() . $this->addedLine($line,$escaped) . "</tr>\n");
         }
     }
 
@@ -1104,15 +1181,19 @@ class TableDiffFormatter extends DiffFormatter {
     }
 
     function _changed($orig, $closing) {
-        $diff = new WordLevelDiff($orig, $closing);
+        $diff = new WordLevelDiff($orig, $closing);  // this escapes the diff data
         $del = $diff->orig();
         $add = $diff->closing();
 
         while ($line = array_shift($del)) {
             $aline = array_shift($add);
-            print('<tr>' . $this->deletedLine($line) . $this->addedLine($aline) . "</tr>\n");
+            print('<tr>' . $this->deletedLine($line,true) . $this->addedLine($aline,true) . "</tr>\n");
         }
-        $this->_added($add); # If any leftovers
+        $this->_addedLines($add,true); # If any leftovers
+    }
+
+    function _escape($str) {
+        return hsc($str);
     }
 }
 
@@ -1121,13 +1202,17 @@ class TableDiffFormatter extends DiffFormatter {
  *
  */
 class InlineDiffFormatter extends DiffFormatter {
-    var $colspan = 4;
+    var $colspan = 2;
 
     function __construct() {
         $this->leading_context_lines = 2;
         $this->trailing_context_lines = 2;
     }
 
+    /**
+     * @param Diff $diff
+     * @return string
+     */
     function format($diff) {
         // Preserve whitespaces by converting some to non-breaking spaces.
         // Do not convert all of them to allow word-wrap.
@@ -1167,30 +1252,270 @@ class InlineDiffFormatter extends DiffFormatter {
 
     function _added($lines) {
         foreach ($lines as $line) {
-            print('<tr><td colspan="'.$this->colspan.'" '.HTMLDiff::css('diff-addedline').'>'. $line . "</td></tr>\n");
+            print('<tr><td '.HTMLDiff::css('diff-lineheader').'>&#160;</td><td '.HTMLDiff::css('diff-addedline').'>'. $this->_escape($line) . "</td></tr>\n");
         }
     }
 
     function _deleted($lines) {
         foreach ($lines as $line) {
-            print('<tr><td colspan="'.$this->colspan.'" '.HTMLDiff::css('diff-deletedline').'><del>' . $line . "</del></td></tr>\n");
+            print('<tr><td '.HTMLDiff::css('diff-lineheader').'>&#160;</td><td '.HTMLDiff::css('diff-deletedline').'><del>' . $this->_escape($line) . "</del></td></tr>\n");
         }
     }
 
     function _context($lines) {
         foreach ($lines as $line) {
-            print('<tr><td colspan="'.$this->colspan.'" '.HTMLDiff::css('diff-context').'>'.$line."</td></tr>\n");
+            print('<tr><td '.HTMLDiff::css('diff-lineheader').'>&#160;</td><td '.HTMLDiff::css('diff-context').'>'. $this->_escape($line) ."</td></tr>\n");
         }
     }
 
     function _changed($orig, $closing) {
-        $diff = new InlineWordLevelDiff($orig, $closing);
+        $diff = new InlineWordLevelDiff($orig, $closing);  // this escapes the diff data
         $add = $diff->inline();
 
         foreach ($add as $line)
-            print('<tr><td colspan="'.$this->colspan.'">'.$line."</td></tr>\n");
+            print('<tr><td '.HTMLDiff::css('diff-lineheader').'>&#160;</td><td>'.$line."</td></tr>\n");
+    }
+
+    function _escape($str) {
+        return hsc($str);
     }
 }
 
+/**
+ * A class for computing three way diffs.
+ *
+ * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
+ */
+class Diff3 extends Diff {
+
+    /**
+     * Conflict counter.
+     *
+     * @var integer
+     */
+    var $_conflictingBlocks = 0;
+
+    /**
+     * Computes diff between 3 sequences of strings.
+     *
+     * @param array $orig    The original lines to use.
+     * @param array $final1  The first version to compare to.
+     * @param array $final2  The second version to compare to.
+     */
+    function __construct($orig, $final1, $final2) {
+        $engine = new _DiffEngine();
+
+        $this->_edits = $this->_diff3($engine->diff($orig, $final1),
+                                      $engine->diff($orig, $final2));
+    }
+
+    /**
+     * Returns the merged lines
+     *
+     * @param string $label1  label for first version
+     * @param string $label2  label for second version
+     * @param string $label3  separator between versions
+     * @return array          lines of the merged text
+     */
+    function mergedOutput($label1='<<<<<<<',$label2='>>>>>>>',$label3='=======') {
+        $lines = array();
+        foreach ($this->_edits as $edit) {
+            if ($edit->isConflict()) {
+                /* FIXME: this should probably be moved somewhere else. */
+                $lines = array_merge($lines,
+                                     array($label1),
+                                     $edit->final1,
+                                     array($label3),
+                                     $edit->final2,
+                                     array($label2));
+                $this->_conflictingBlocks++;
+            } else {
+                $lines = array_merge($lines, $edit->merged());
+            }
+        }
+
+        return $lines;
+    }
+
+    /**
+     * @access private
+     */
+    function _diff3($edits1, $edits2) {
+        $edits = array();
+        $bb = new _Diff3_BlockBuilder();
+
+        $e1 = current($edits1);
+        $e2 = current($edits2);
+        while ($e1 || $e2) {
+            if ($e1 && $e2 && is_a($e1, '_DiffOp_copy') && is_a($e2, '_DiffOp_copy')) {
+                /* We have copy blocks from both diffs. This is the (only)
+                 * time we want to emit a diff3 copy block.  Flush current
+                 * diff3 diff block, if any. */
+                if ($edit = $bb->finish()) {
+                    $edits[] = $edit;
+                }
+
+                $ncopy = min($e1->norig(), $e2->norig());
+                assert($ncopy > 0);
+                $edits[] = new _Diff3_Op_copy(array_slice($e1->orig, 0, $ncopy));
+
+                if ($e1->norig() > $ncopy) {
+                    array_splice($e1->orig, 0, $ncopy);
+                    array_splice($e1->closing, 0, $ncopy);
+                } else {
+                    $e1 = next($edits1);
+                }
+
+                if ($e2->norig() > $ncopy) {
+                    array_splice($e2->orig, 0, $ncopy);
+                    array_splice($e2->closing, 0, $ncopy);
+                } else {
+                    $e2 = next($edits2);
+                }
+            } else {
+                if ($e1 && $e2) {
+                    if ($e1->orig && $e2->orig) {
+                        $norig = min($e1->norig(), $e2->norig());
+                        $orig = array_splice($e1->orig, 0, $norig);
+                        array_splice($e2->orig, 0, $norig);
+                        $bb->input($orig);
+                    }
+
+                    if (is_a($e1, '_DiffOp_copy')) {
+                        $bb->out1(array_splice($e1->closing, 0, $norig));
+                    }
+
+                    if (is_a($e2, '_DiffOp_copy')) {
+                        $bb->out2(array_splice($e2->closing, 0, $norig));
+                    }
+                }
+
+                if ($e1 && ! $e1->orig) {
+                    $bb->out1($e1->closing);
+                    $e1 = next($edits1);
+                }
+                if ($e2 && ! $e2->orig) {
+                    $bb->out2($e2->closing);
+                    $e2 = next($edits2);
+                }
+            }
+        }
+
+        if ($edit = $bb->finish()) {
+            $edits[] = $edit;
+        }
+
+        return $edits;
+    }
+}
+
+/**
+ * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
+ *
+ * @access private
+ */
+class _Diff3_Op {
+
+    function __construct($orig = false, $final1 = false, $final2 = false) {
+        $this->orig = $orig ? $orig : array();
+        $this->final1 = $final1 ? $final1 : array();
+        $this->final2 = $final2 ? $final2 : array();
+    }
+
+    function merged() {
+        if (!isset($this->_merged)) {
+            if ($this->final1 === $this->final2) {
+                $this->_merged = &$this->final1;
+            } elseif ($this->final1 === $this->orig) {
+                $this->_merged = &$this->final2;
+            } elseif ($this->final2 === $this->orig) {
+                $this->_merged = &$this->final1;
+            } else {
+                $this->_merged = false;
+            }
+        }
+
+        return $this->_merged;
+    }
+
+    function isConflict() {
+        return $this->merged() === false;
+    }
+
+}
+
+/**
+ * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
+ *
+ * @access private
+ */
+class _Diff3_Op_copy extends _Diff3_Op {
+
+    function __construct($lines = false) {
+        $this->orig = $lines ? $lines : array();
+        $this->final1 = &$this->orig;
+        $this->final2 = &$this->orig;
+    }
+
+    function merged() {
+        return $this->orig;
+    }
+
+    function isConflict() {
+        return false;
+    }
+}
+
+/**
+ * @author  Geoffrey T. Dairiki <dairiki@dairiki.org>
+ *
+ * @access private
+ */
+class _Diff3_BlockBuilder {
+
+    function __construct() {
+        $this->_init();
+    }
+
+    function input($lines) {
+        if ($lines) {
+            $this->_append($this->orig, $lines);
+        }
+    }
+
+    function out1($lines) {
+        if ($lines) {
+            $this->_append($this->final1, $lines);
+        }
+    }
+
+    function out2($lines) {
+        if ($lines) {
+            $this->_append($this->final2, $lines);
+        }
+    }
+
+    function isEmpty() {
+        return !$this->orig && !$this->final1 && !$this->final2;
+    }
+
+    function finish() {
+        if ($this->isEmpty()) {
+            return false;
+        } else {
+            $edit = new _Diff3_Op($this->orig, $this->final1, $this->final2);
+            $this->_init();
+            return $edit;
+        }
+    }
+
+    function _init() {
+        $this->orig = $this->final1 = $this->final2 = array();
+    }
+
+    function _append(&$array, $lines) {
+        array_splice($array, sizeof($array), 0, $lines);
+    }
+}
 
 //Setup VIM: ex: et ts=4 :

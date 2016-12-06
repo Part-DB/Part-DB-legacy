@@ -20,7 +20,7 @@ if (!defined('DOKU_INC')) die();
         <h1><?php
             // get logo either out of the template images folder or data/media folder
             $logoSize = array();
-            $logo = tpl_getMediaFile(array(':wiki:logo.png', 'images/logo.png'), false, $logoSize);
+            $logo = tpl_getMediaFile(array(':wiki:logo.png', ':logo.png', 'images/logo.png'), false, $logoSize);
 
             // display logo and wiki title in a link to the home page
             tpl_link(
@@ -41,15 +41,17 @@ if (!defined('DOKU_INC')) die();
                 <h3 class="a11y"><?php echo $lang['user_tools']; ?></h3>
                 <ul>
                     <?php
-                        if ($_SERVER['REMOTE_USER']) {
+                        if (!empty($_SERVER['REMOTE_USER'])) {
                             echo '<li class="user">';
                             tpl_userinfo(); /* 'Logged in as ...' */
                             echo '</li>';
                         }
-                        tpl_action('admin', 1, 'li');
-                        tpl_action('profile', 1, 'li');
-                        tpl_action('register', 1, 'li');
-                        tpl_action('login', 1, 'li');
+                        tpl_toolsevent('usertools', array(
+                            tpl_action('admin', true, 'li', true),
+                            tpl_action('profile', true, 'li', true),
+                            tpl_action('register', true, 'li', true),
+                            tpl_action('login', true, 'li', true)
+                        ));
                     ?>
                 </ul>
             </div>
@@ -64,9 +66,11 @@ if (!defined('DOKU_INC')) die();
             </div>
             <ul>
                 <?php
-                    tpl_action('recent', 1, 'li');
-                    tpl_action('media', 1, 'li');
-                    tpl_action('index', 1, 'li');
+                    tpl_toolsevent('sitetools', array(
+                        tpl_action('recent', true, 'li', true),
+                        tpl_action('media', true, 'li', true),
+                        tpl_action('index', true, 'li', true)
+                    ));
                 ?>
             </ul>
         </div>
@@ -85,7 +89,7 @@ if (!defined('DOKU_INC')) die();
         </div>
     <?php endif ?>
 
-    <?php html_msgarea() ?>
+
 
     <hr class="a11y" />
 </div></div><!-- /header -->

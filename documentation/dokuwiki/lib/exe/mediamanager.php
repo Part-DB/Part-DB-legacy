@@ -7,15 +7,14 @@
 
     require_once(DOKU_INC.'inc/init.php');
 
-    trigger_event('MEDIAMANAGER_STARTED',$tmp=array());
-    session_write_close();  //close session
-
     global $INPUT;
+    global $lang;
+    global $conf;
     // handle passed message
     if($INPUT->str('msg1')) msg(hsc($INPUT->str('msg1')),1);
     if($INPUT->str('err')) msg(hsc($INPUT->str('err')),-1);
 
-
+    global $DEL;
     // get namespace to display (either direct or from deletion order)
     if($INPUT->str('delete')){
         $DEL = cleanID($INPUT->str('delete'));
@@ -29,34 +28,39 @@
         $NS  = getNS($IMG);
     }else{
         $NS = cleanID($INPUT->str('ns'));
+        $IMG = null;
     }
 
-    // check auth
-    $AUTH = auth_quickaclcheck("$NS:*");
+    global $INFO, $JSINFO;
+    $INFO = !empty($INFO) ? array_merge($INFO, mediainfo()) : mediainfo();
+    $JSINFO['id']        = '';
+    $JSINFO['namespace'] = '';
+    $AUTH = $INFO['perm'];    // shortcut for historical reasons
+
+    $tmp = array();
+    trigger_event('MEDIAMANAGER_STARTED', $tmp);
+    session_write_close();  //close session
 
     // do not display the manager if user does not have read access
     if($AUTH < AUTH_READ && !$fullscreen) {
-        header('HTTP/1.0 403 Forbidden');
+        http_status(403);
         die($lang['accessdenied']);
     }
-
-    // create the given namespace (just for beautification)
-    if($AUTH >= AUTH_UPLOAD) { io_createNamespace("$NS:xxx", 'media'); }
 
     // handle flash upload
     if(isset($_FILES['Filedata'])){
         $_FILES['upload'] =& $_FILES['Filedata'];
         $JUMPTO = media_upload($NS,$AUTH);
         if($JUMPTO == false){
-            header("HTTP/1.0 400 Bad Request");
+            http_status(400);
             echo 'Upload failed';
         }
         echo 'ok';
         exit;
     }
 
-    // give info on PHP catched upload errors
-    if($_FILES['upload']['error']){
+    // give info on PHP caught upload errors
+    if(!empty($_FILES['upload']['error'])){
         switch($_FILES['upload']['error']){
             case 1:
             case 2:
@@ -70,7 +74,7 @@
     }
 
     // handle upload
-    if($_FILES['upload']['tmp_name']){
+    if(!empty($_FILES['upload']['tmp_name'])){
         $JUMPTO = media_upload($NS,$AUTH);
         if($JUMPTO) $NS = getNS($JUMPTO);
     }

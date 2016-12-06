@@ -11,28 +11,33 @@ if(!$conf['remote']) die('XML-RPC server not enabled.');
  * XMLRPC functions.
  */
 class dokuwiki_xmlrpc_server extends IXR_Server {
-    var $remote;
+    protected $remote;
 
     /**
      * Constructor. Register methods and run Server
      */
-    function dokuwiki_xmlrpc_server(){
+    public function __construct(){
         $this->remote = new RemoteAPI();
         $this->remote->setDateTransformation(array($this, 'toDate'));
         $this->remote->setFileTransformation(array($this, 'toFile'));
-        $this->IXR_Server();
+        parent::__construct();
     }
 
-    function call($methodname, $args){
+    /**
+     * @param string $methodname
+     * @param array $args
+     * @return IXR_Error|mixed
+     */
+    public function call($methodname, $args){
         try {
             $result = $this->remote->call($methodname, $args);
             return $result;
         } catch (RemoteAccessDeniedException $e) {
             if (!isset($_SERVER['REMOTE_USER'])) {
-                header('HTTP/1.1 401 Unauthorized');
+                http_status(401);
                 return new IXR_Error(-32603, "server error. not authorized to call method $methodname");
             } else {
-                header('HTTP/1.1 403 Forbidden');
+                http_status(403);
                 return new IXR_Error(-32604, "server error. forbidden to call the method $methodname");
             }
         } catch (RemoteException $e) {
@@ -40,11 +45,19 @@ class dokuwiki_xmlrpc_server extends IXR_Server {
         }
     }
 
-    function toDate($data) {
+    /**
+     * @param string|int $data iso date(yyyy[-]mm[-]dd[ hh:mm[:ss]]) or timestamp
+     * @return IXR_Date
+     */
+    public function toDate($data) {
         return new IXR_Date($data);
     }
 
-    function toFile($data) {
+    /**
+     * @param string $data
+     * @return IXR_Base64
+     */
+    public function toFile($data) {
         return new IXR_Base64($data);
     }
 }

@@ -1,4 +1,45 @@
 /**
+ * Hides elements with a slide animation
+ *
+ * @param {function} fn optional callback to run after hiding
+ * @param {bool} noaria supress aria-expanded state setting
+ * @author Adrian Lang <mail@adrianlang.de>
+ */
+jQuery.fn.dw_hide = function(fn, noaria) {
+    if(!noaria) this.attr('aria-expanded', 'false');
+    return this.slideUp('fast', fn);
+};
+
+/**
+ * Unhides elements with a slide animation
+ *
+ * @param {function} fn optional callback to run after hiding
+ * @param {bool} noaria supress aria-expanded state setting
+ * @author Adrian Lang <mail@adrianlang.de>
+ */
+jQuery.fn.dw_show = function(fn, noaria) {
+    if(!noaria) this.attr('aria-expanded', 'true');
+    return this.slideDown('fast', fn);
+};
+
+/**
+ * Toggles visibility of an element using a slide element
+ *
+ * @param {bool} state the current state of the element (optional)
+ * @param {function} fn callback after the state has been toggled
+ * @param {bool} noaria supress aria-expanded state setting
+ */
+jQuery.fn.dw_toggle = function(state, fn, noaria) {
+    return this.each(function() {
+        var $this = jQuery(this);
+        if (typeof state === 'undefined') {
+            state = $this.is(':hidden');
+        }
+        $this[state ? "dw_show" : "dw_hide" ](fn, noaria);
+    });
+};
+
+/**
  * Automatic behaviours
  *
  * This class wraps various JavaScript functionalities that are triggered
@@ -16,9 +57,11 @@ var dw_behaviour = {
         dw_behaviour.subscription();
 
         dw_behaviour.revisionBoxHandler();
-        jQuery('#page__revisions input[type=checkbox]').live('click',
+        jQuery(document).on('click','#page__revisions input[type=checkbox]',
             dw_behaviour.revisionBoxHandler
         );
+
+        jQuery('.bounce').effect('bounce', {times:10}, 2000 );
     },
 
     /**
@@ -27,7 +70,14 @@ var dw_behaviour = {
     scrollToMarker: function(){
         var $obj = jQuery('#scroll__here');
         if($obj.length) {
-            $obj[0].scrollIntoView();
+            if($obj.offset().top != 0) {
+                jQuery('html, body').animate({
+                    scrollTop: $obj.offset().top - 100
+                }, 500);
+            } else {
+                // hidden object have no offset but can still be scrolled into view
+                $obj[0].scrollIntoView();
+            }
         }
     },
 
@@ -40,13 +90,11 @@ var dw_behaviour = {
 
     /**
      * Remove all search highlighting when clicking on a highlighted term
-     *
-     * @FIXME would be nice to have it fade out
      */
     removeHighlightOnClick: function(){
         jQuery('span.search_hit').click(
             function(e){
-                jQuery(e.target).removeClass('search_hit');
+                jQuery(e.target).removeClass('search_hit', 1000);
             }
         );
     },
@@ -63,7 +111,7 @@ var dw_behaviour = {
     quickSelect: function(){
         jQuery('select.quickselect')
             .change(function(e){ e.target.form.submit(); })
-            .closest('form').find('input[type=submit]').not('.show').hide();
+            .closest('form').find(':button').not('.show').hide();
     },
 
     /**
@@ -72,12 +120,12 @@ var dw_behaviour = {
      * @author Michael Klier <chi@chimeric.de>
      */
     checkWindowsShares: function() {
-        if(!LANG.nosmblinks || typeof(document.all) !== 'undefined') {
+        if(!LANG.nosmblinks || navigator.userAgent.match(/(Trident|MSIE)/)) {
             // No warning requested or none necessary
             return;
         }
 
-        jQuery('a.windows').live('click', function(){
+        jQuery('a.windows').on('click', function(){
             alert(LANG.nosmblinks.replace(/\\n/,"\n"));
         });
     },
@@ -127,10 +175,10 @@ var dw_behaviour = {
 
         if($checked.length < 2){
             $all.attr('disabled',false);
-            jQuery('#page__revisions input[type=submit]').attr('disabled',true);
+            jQuery('#page__revisions button').attr('disabled',true);
         }else{
             $all.attr('disabled',true);
-            jQuery('#page__revisions input[type=submit]').attr('disabled',false);
+            jQuery('#page__revisions button').attr('disabled',false);
             for(var i=0; i<$checked.length; i++){
                 $checked[i].disabled = false;
                 if(i>1){
@@ -140,41 +188,6 @@ var dw_behaviour = {
         }
     }
 
-};
-
-/**
- * Hides elements with a slide animation
- *
- * @param fn optional callback to run after hiding
- * @author Adrian Lang <mail@adrianlang.de>
- */
-jQuery.fn.dw_hide = function(fn) {
-    return this.slideUp('fast', fn);
-};
-
-/**
- * Unhides elements with a slide animation
- *
- * @param fn optional callback to run after hiding
- * @author Adrian Lang <mail@adrianlang.de>
- */
-jQuery.fn.dw_show = function(fn) {
-    return this.slideDown('fast', fn);
-};
-
-/**
- * Toggles visibility of an element using a slide element
- *
- * @param bool the current state of the element (optional)
- */
-jQuery.fn.dw_toggle = function(bool, fn) {
-    return this.each(function() {
-        var $this = jQuery(this);
-        if (typeof bool === 'undefined') {
-            bool = $this.is(':hidden');
-        }
-        $this[bool ? "dw_show" : "dw_hide" ](fn);
-    });
 };
 
 jQuery(dw_behaviour.init);

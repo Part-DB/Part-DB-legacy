@@ -15,10 +15,5 @@ Neue Revision: @NEWPAGE@
 
 Um das Abonnement für diese Seite aufzulösen, melde dich im Wiki an
 @DOKUWIKIURL@, besuche dann
-@NEWPAGE@
+@SUBSCRIBE@
 und klicke auf den Link 'Aboverwaltung'.
-
---
-Diese Mail kommt vom DokuWiki auf
-@DOKUWIKIURL@
-

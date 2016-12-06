@@ -1,0 +1,93 @@
+=DokuWiki Note plugin
+
+A plugin for DokuWiki which allows users to easily insert four kinds of notes into the wiki pages.
+
+==Authors
+
+The plugin has been written from scratch by Olivier Cortéz. After the initial release it has been maintained by Olivier while he integrated several patches provided by the DokuWiki-community. Somewhere around the end of 2008 / start of 2009 Olivier started to became too busy with other (real-life) activities and occupations that active development and support halted. On 2009/06/15 Aurélien Bompard decided, after contacting Olivier Cortéz about it, to (temporarily) take-over maintenance and support for the plugin. On the same date Mischa The Evil opened a GitHub-repository for the plugin to make it a "real" community plugin. On the 16th a re-packaged release is available which "completed" the plugin (doc, license etc.)..
+
+==Requirements
+
+The plugin works with DokuWiki 2006-03-09 upto DokuWiki 2009-02-14.
+
+==Limitations
+
+Currently this plugin has some limitations:
+
+* Plugin won't work inside numbered lists
+* Plugin won't work inside tables
+
+==Download / Installation
+
+1. Download the latest version of the plugin from http://github.com/MischaTheEvil/dokuwiki_note. A mirror containing the packages can be found at http://www.mediafire.com/evildev.
+2. Installing the plugin:
+   * You can either extract the archive into the <tt>lib/plugins</tt> directory or
+   * -Load the admin page and go to Manage Plugins and enter the URL of the plugin under Download and install the new plugin.-
+3. Update the Configuration Settings under the admin page.
+
+==Usage
+
+When you have it installed, use the following syntax:
+
+* <tt><note>This is my note! Remember it!!</note></tt>
+* <tt><note important>Warning! You're about to lose your mind!</note></tt>
+* <tt><note tip>The clues are in the images.</note></tt>
+* <tt><note warning>Beware of the dog when you open the door !!</note></tt>
+
+You can use the note keywords <tt>important</tt>, <tt>warning</tt> and <tt>tip</tt>.
+It is quite easy to add new types of notes if you know a bit of PHP and CSS.
+
+==Notes
+
+It is regularly reported that the cache needs to be cleaned after installing the plugin before the notes do showup. At least a full page-reload (CTRL-F5) is required.
+
+==Credits
+
+Many thanks to the following DokuWiki developers (in random order):
+
+* Stephane Chamberland
+* Carl-Christian Salvesen
+* Eric Hameleers
+* Christopher Smith
+* Chris Lale
+* Pixote
+* Yves Bergeron
+* Taylor Jones
+* Luke
+* Frédéric
+* Kmosak
+* foosel
+* zerohalo
+
+==Changelog
+
+* 2009-06-16 (re-packaged by Mischa The Evil)
+  * Removed obsolete files from the package
+  * Added README with CHANGELOG
+  * Added GNU GPL v2 license
+  * Fixed file-permissions
+
+* 2009-06-15 (fixes by Aurélien Bompard)
+  * Fix in the ODT renderer
+  * Add toolbar buttons for the notes.
+
+* 2008-02-17 (patches by Aurélien Bompard)
+  * added support for ODT-export
+
+* 2006-03-29 (patches by Eric Hameleers and Christopher Smith)
+  * allow note nesting
+  * fix the trimmed space problem
+  * fix the issue with protected modes (e.g. <tt><code></tt> & <tt><file></tt>) not being allowed within notes
+  * plug the security vulnerability which could allow malicious HTML or JavaScript to infiltrate your wiki
+  * make note types case independent (e.g. <tt>important</tt>, <tt>IMPORTANT</tt> & <tt>Important</tt> will all given an "important" note)
+  * and better:
+    * code efficiency
+    * code reading
+    * conformance to DokuWiki's changes in plugin classes
+
+* 2005-10-13
+  * Initial release by Olivier Cortéz (?)
+
+==License
+
+This plugin is open-source and licensed under the GNU GPL v.2.

@@ -54,7 +54,12 @@ $dokuwiki_hash = array(
     '2011-05-25'   => '4241865472edb6fa14a1227721008072',
     '2011-11-10'   => 'b46ff19a7587966ac4df61cbab1b8b31',
     '2012-01-25'   => '72c083c73608fc43c586901fd5dabb74',
-    '2012-09-10'   => 'eb0b3fc90056fbc12bac6f49f7764df3'
+    '2012-09-10'   => 'eb0b3fc90056fbc12bac6f49f7764df3',
+    '2013-05-10'   => '7b62b75245f57f122d3e0f8ed7989623',
+    '2013-12-08'   => '263c76af309fbf083867c18a34ff5214',
+    '2014-05-05'   => '263c76af309fbf083867c18a34ff5214',
+    '2015-08-10'   => '263c76af309fbf083867c18a34ff5214',
+    '2016-06-26'   => 'fd3abb6d89853dacb032907e619fbd73'
 );
 
 
@@ -96,8 +101,8 @@ header('Content-Type: text/html; charset=utf-8');
 </head>
 <body style="">
     <h1 style="float:left">
-        <img src="lib/exe/fetch.php?media=wiki:dokuwiki-128.png&amp;w=64"
-             style="vertical-align: middle;" alt="" />
+        <img src="lib/exe/fetch.php?media=wiki:dokuwiki-128.png"
+             style="vertical-align: middle;" alt="" height="64" width="64" />
         <?php echo $lang['i_installer']?>
     </h1>
     <div style="float:right; margin: 1em;">
@@ -107,7 +112,7 @@ header('Content-Type: text/html; charset=utf-8');
 
     <div style="float: right; width: 34%;">
         <?php
-            if(@file_exists(DOKU_INC.'inc/lang/'.$LC.'/install.html')){
+            if(file_exists(DOKU_INC.'inc/lang/'.$LC.'/install.html')){
                 include(DOKU_INC.'inc/lang/'.$LC.'/install.html');
             }else{
                 print "<div lang=\"en\" dir=\"ltr\">\n";
@@ -147,8 +152,8 @@ header('Content-Type: text/html; charset=utf-8');
 
 
 <div style="clear: both">
-  <a href="http://dokuwiki.org/"><img src="lib/tpl/default/images/button-dw.png" alt="driven by DokuWiki" /></a>
-  <a href="http://www.php.net"><img src="lib/tpl/default/images/button-php.gif" alt="powered by PHP" /></a>
+  <a href="http://dokuwiki.org/"><img src="lib/tpl/dokuwiki/images/button-dw.png" alt="driven by DokuWiki" /></a>
+  <a href="http://php.net"><img src="lib/tpl/dokuwiki/images/button-php.gif" alt="powered by PHP" /></a>
 </div>
 </body>
 </html>
@@ -156,6 +161,8 @@ header('Content-Type: text/html; charset=utf-8');
 
 /**
  * Print the input form
+ *
+ * @param array $d submitted entry 'd' of request data
  */
 function print_form($d){
     global $lang;
@@ -167,6 +174,7 @@ function print_form($d){
     $d = array_map('htmlspecialchars',$d);
 
     if(!isset($d['acl'])) $d['acl']=1;
+    if(!isset($d['pop'])) $d['pop']=1;
 
     ?>
     <form action="" method="post">
@@ -204,18 +212,22 @@ function print_form($d){
                     <option value="2" <?php echo ($d['policy'] == 2)?'selected="selected"':'' ?>><?php echo $lang['i_pol2']?></option>
                 </select>
 
+                <label for="allowreg">
+                    <input type="checkbox" name="d[allowreg]" id="allowreg" <?php echo(($d['allowreg'] ? ' checked="checked"' : ''));?> />
+                    <?php echo $lang['i_allowreg']?>
+                </label>
             </fieldset>
         </fieldset>
 
         <fieldset>
             <p><?php echo $lang['i_license']?></p>
             <?php
-            array_unshift($license,array('name' => 'None', 'url'=>''));
+            array_push($license,array('name' => $lang['i_license_none'], 'url'=>''));
             if(empty($d['license'])) $d['license'] = 'cc-by-sa';
             foreach($license as $key => $lic){
                 echo '<label for="lic_'.$key.'">';
                 echo '<input type="radio" name="d[license]" value="'.htmlspecialchars($key).'" id="lic_'.$key.'"'.
-                     (($d['license'] == $key)?' checked="checked"':'').'>';
+                     (($d['license'] === $key)?' checked="checked"':'').'>';
                 echo htmlspecialchars($lic['name']);
                 if($lic['url']) echo ' <a href="'.$lic['url'].'" target="_blank"><sup>[?]</sup></a>';
                 echo '</label>';
@@ -223,9 +235,17 @@ function print_form($d){
             ?>
         </fieldset>
 
+        <fieldset>
+            <p><?php echo $lang['i_pop_field']?></p>
+            <label for="pop">
+                <input type="checkbox" name="d[pop]" id="pop" <?php echo(($d['pop'] ? ' checked="checked"' : ''));?> />
+                <?php echo $lang['i_pop_label']?> <a href="http://www.dokuwiki.org/popularity" target="_blank"><sup>[?]</sup></a>
+            </label>
+        </fieldset>
+
     </fieldset>
     <fieldset id="process">
-        <input class="button" type="submit" name="submit" value="<?php echo $lang['btn_save']?>" />
+        <button type="submit" name="submit"><?php echo $lang['btn_save']?></button>
     </fieldset>
     </form>
     <?php
@@ -238,7 +258,7 @@ function print_retry() {
     <form action="" method="get">
       <fieldset>
         <input type="hidden" name="l" value="<?php echo $LC ?>" />
-        <input class="button" type="submit" value="<?php echo $lang['i_retry'];?>" />
+        <button type="submit"><?php echo $lang['i_retry'];?></button>
       </fieldset>
     </form>
     <?php
@@ -248,6 +268,9 @@ function print_retry() {
  * Check validity of data
  *
  * @author Andreas Gohr
+ *
+ * @param array $d
+ * @return bool ok?
  */
 function check_data(&$d){
     static $form_default = array(
@@ -259,6 +282,7 @@ function check_data(&$d){
         'password'  => '',
         'confirm'   => '',
         'policy'    => '0',
+        'allowreg'  => '0',
         'license'   => 'cc-by-sa'
     );
     global $lang;
@@ -316,6 +340,9 @@ function check_data(&$d){
  * Writes the data to the config files
  *
  * @author  Chris Smith <chris@jalakai.co.uk>
+ *
+ * @param array $d
+ * @return bool
  */
 function store_data($d){
     global $LC;
@@ -333,12 +360,25 @@ function store_data($d){
  */
 
 EOT;
+    // add any config options set by a previous installer
+    $preset = __DIR__.'/install.conf';
+    if(file_exists($preset)){
+        $output .= "# preset config options\n";
+        $output .= file_get_contents($preset);
+        $output .= "\n\n";
+        $output .= "# options selected in installer\n";
+        @unlink($preset);
+    }
+
     $output .= '$conf[\'title\'] = \''.addslashes($d['title'])."';\n";
     $output .= '$conf[\'lang\'] = \''.addslashes($LC)."';\n";
     $output .= '$conf[\'license\'] = \''.addslashes($d['license'])."';\n";
     if($d['acl']){
         $output .= '$conf[\'useacl\'] = 1'.";\n";
         $output .= "\$conf['superuser'] = '@admin';\n";
+    }
+    if(!$d['allowreg']){
+        $output .= '$conf[\'disableactions\'] = \'register\''.";\n";
     }
     $ok = $ok && fileWrite(DOKU_LOCAL.'local.php',$output);
 
@@ -376,6 +416,30 @@ EOT;
         }
         $ok = $ok && fileWrite(DOKU_LOCAL.'acl.auth.php', $output);
     }
+
+    // enable popularity submission
+    if($d['pop']){
+        @touch(DOKU_INC.'data/cache/autosubmit.txt');
+    }
+
+    // disable auth plugins til needed
+    $output = <<<EOT
+<?php
+/*
+ * Local plugin enable/disable settings
+ *
+ * Auto-generated by install script
+ * Date: $now
+ */
+
+\$plugins['authad']    = 0;
+\$plugins['authldap']  = 0;
+\$plugins['authmysql'] = 0;
+\$plugins['authpgsql'] = 0;
+
+EOT;
+    $ok = $ok && fileWrite(DOKU_LOCAL.'plugins.local.php', $output);
+
     return $ok;
 }
 
@@ -383,6 +447,10 @@ EOT;
  * Write the given content to a file
  *
  * @author  Chris Smith <chris@jalakai.co.uk>
+ *
+ * @param string $filename
+ * @param string $data
+ * @return bool
  */
 function fileWrite($filename, $data) {
     global $error;
@@ -405,6 +473,8 @@ function fileWrite($filename, $data) {
  * unmodified main config file
  *
  * @author      Chris Smith <chris@jalakai.co.uk>
+ *
+ * @return bool
  */
 function check_configs(){
     global $error;
@@ -429,7 +499,7 @@ function check_configs(){
 
     // configs shouldn't exist
     foreach ($config_files as $file) {
-        if (@file_exists($file) && filesize($file)) {
+        if (file_exists($file) && filesize($file)) {
             $file    = str_replace($_SERVER['DOCUMENT_ROOT'],'{DOCUMENT_ROOT}/', $file);
             $error[] = sprintf($lang['i_confexists'],$file);
             $ok      = false;
@@ -443,6 +513,8 @@ function check_configs(){
  * Check other installation dir/file permission requirements
  *
  * @author      Chris Smith <chris@jalakai.co.uk>
+ *
+ * @return bool
  */
 function check_permissions(){
     global $error;
@@ -465,7 +537,7 @@ function check_permissions(){
 
     $ok = true;
     foreach($dirs as $dir){
-        if(!@file_exists("$dir/.") || !@is_writable($dir)){
+        if(!file_exists("$dir/.") || !is_writable($dir)){
             $dir     = str_replace($_SERVER['DOCUMENT_ROOT'],'{DOCUMENT_ROOT}', $dir);
             $error[] = sprintf($lang['i_permfail'],$dir);
             $ok      = false;
@@ -478,14 +550,21 @@ function check_permissions(){
  * Check the availability of functions used in DokuWiki and the PHP version
  *
  * @author Andreas Gohr <andi@splitbrain.org>
+ *
+ * @return bool
  */
 function check_functions(){
     global $error;
     global $lang;
     $ok = true;
 
-    if(version_compare(phpversion(),'5.1.2','<')){
-        $error[] = sprintf($lang['i_phpver'],phpversion(),'5.1.2');
+    if(version_compare(phpversion(),'5.3.3','<')){
+        $error[] = sprintf($lang['i_phpver'],phpversion(),'5.3.3');
+        $ok = false;
+    }
+
+    if(ini_get('mbstring.func_overload') != 0){
+        $error[] = $lang['i_mbfuncoverload'];
         $ok = false;
     }
 
@@ -495,7 +574,7 @@ function check_functions(){
                          'ob_start opendir parse_ini_file readfile realpath '.
                          'rename rmdir serialize session_start unlink usleep '.
                          'preg_replace file_get_contents htmlspecialchars_decode '.
-                         'spl_autoload_register stream_select fsockopen');
+                         'spl_autoload_register stream_select fsockopen pack');
 
     if (!function_exists('mb_substr')) {
         $funcs[] = 'utf8_encode';
@@ -527,7 +606,7 @@ function langsel(){
     $langs = array();
     while (($file = readdir($dh)) !== false) {
         if(preg_match('/^[\._]/',$file)) continue;
-        if(is_dir($dir.'/'.$file) && @file_exists($dir.'/'.$file.'/lang.php')){
+        if(is_dir($dir.'/'.$file) && file_exists($dir.'/'.$file.'/lang.php')){
             $langs[] = $file;
         }
     }
@@ -542,7 +621,7 @@ function langsel(){
         echo '<option value="'.$l.'" '.$sel.'>'.$l.'</option>';
     }
     echo '</select> ';
-    echo '<input type="submit" value="'.$lang['btn_update'].'" />';
+    echo '<button type="submit">'.$lang['btn_update'].'</button>';
     echo '</form>';
 }
 
@@ -566,6 +645,8 @@ function print_errors(){
  * remove magic quotes recursivly
  *
  * @author Andreas Gohr <andi@splitbrain.org>
+ *
+ * @param array $array
  */
 function remove_magic_quotes(&$array) {
     foreach (array_keys($array) as $key) {

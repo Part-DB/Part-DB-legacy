@@ -41,9 +41,10 @@ if(function_exists($callfn)){
  * @author Andreas Gohr <andi@splitbrain.org>
  */
 function ajax_qsearch(){
-    global $conf;
     global $lang;
     global $INPUT;
+
+    $maxnumbersuggestions = 50;
 
     $query = $INPUT->post->str('q');
     if(empty($query)) $query = $INPUT->get->str('q');
@@ -57,6 +58,7 @@ function ajax_qsearch(){
 
     print '<strong>'.$lang['quickhits'].'</strong>';
     print '<ul>';
+    $counter = 0;
     foreach($data as $id => $title){
         if (useHeading('navigation')) {
             $name = $title;
@@ -69,6 +71,12 @@ function ajax_qsearch(){
             }
         }
         echo '<li>' . html_wikilink(':'.$id,$name) . '</li>';
+
+        $counter ++;
+        if($counter > $maxnumbersuggestions) {
+            echo '<li>...</li>';
+            break;
+        }
     }
     print '</ul>';
 }
@@ -80,15 +88,12 @@ function ajax_qsearch(){
  * @author Mike Frysinger <vapier@gentoo.org>
  */
 function ajax_suggestions() {
-    global $conf;
-    global $lang;
     global $INPUT;
 
     $query = cleanID($INPUT->post->str('q'));
     if(empty($query)) $query = cleanID($INPUT->get->str('q'));
     if(empty($query)) return;
 
-    $data = array();
     $data = ft_pageLookup($query);
     if(!count($data)) return;
     $data = array_keys($data);
@@ -205,15 +210,15 @@ function ajax_medians(){
  * @author Andreas Gohr <andi@splitbrain.org>
  */
 function ajax_medialist(){
-    global $conf;
     global $NS;
     global $INPUT;
 
     $NS = cleanID($INPUT->post->str('ns'));
+    $sort = $INPUT->post->bool('recent') ? 'date' : 'natural';
     if ($INPUT->post->str('do') == 'media') {
         tpl_mediaFileList();
     } else {
-        tpl_mediaContent(true);
+        tpl_mediaContent(true, $sort);
     }
 }
 
@@ -224,13 +229,15 @@ function ajax_medialist(){
  * @author Kate Arzamastseva <pshns@ukr.net>
  */
 function ajax_mediadetails(){
-    global $DEL, $NS, $IMG, $AUTH, $JUMPTO, $REV, $lang, $fullscreen, $conf, $INPUT;
+    global $IMG, $JUMPTO, $REV, $fullscreen, $INPUT;
     $fullscreen = true;
     require_once(DOKU_INC.'lib/exe/mediamanager.php');
 
+    $image = '';
     if ($INPUT->has('image')) $image = cleanID($INPUT->str('image'));
     if (isset($IMG)) $image = $IMG;
     if (isset($JUMPTO)) $image = $JUMPTO;
+    $rev = false;
     if (isset($REV) && !$JUMPTO) $rev = $REV;
 
     html_msgarea();
@@ -245,8 +252,9 @@ function ajax_mediadiff(){
     global $NS;
     global $INPUT;
 
+    $image = '';
     if ($INPUT->has('image')) $image = cleanID($INPUT->str('image'));
-    $NS = $INPUT->post->str('ns');
+    $NS = getNS($image);
     $auth = auth_quickaclcheck("$NS:*");
     media_diff($image, $NS, $auth, true);
 }
@@ -254,6 +262,7 @@ function ajax_mediadiff(){
 function ajax_mediaupload(){
     global $NS, $MSG, $INPUT;
 
+    $id = '';
     if ($_FILES['qqfile']['tmp_name']) {
         $id = $INPUT->post->str('mediaid', $_FILES['qqfile']['name']);
     } elseif ($INPUT->get->has('qqfile')) {
@@ -270,42 +279,32 @@ function ajax_mediaupload(){
 
     if ($_FILES['qqfile']['error']) unset($_FILES['qqfile']);
 
+    $res = false;
     if ($_FILES['qqfile']['tmp_name']) $res = media_upload($NS, $AUTH, $_FILES['qqfile']);
     if ($INPUT->get->has('qqfile')) $res = media_upload_xhr($NS, $AUTH);
 
-    if ($res) $result = array('success' => true,
-        'link' => media_managerURL(array('ns' => $ns, 'image' => $NS.':'.$id), '&'),
-        'id' => $NS.':'.$id, 'ns' => $NS);
-
-    if (!$result) {
+    if($res) {
+        $result = array(
+            'success' => true,
+            'link' => media_managerURL(array('ns' => $ns, 'image' => $NS . ':' . $id), '&'),
+            'id' => $NS . ':' . $id,
+            'ns' => $NS
+        );
+    } else {
         $error = '';
-        if (isset($MSG)) {
-            foreach($MSG as $msg) $error .= $msg['msg'];
+        if(isset($MSG)) {
+            foreach($MSG as $msg) {
+                $error .= $msg['msg'];
+            }
         }
-        $result = array('error' => $msg['msg'], 'ns' => $NS);
+        $result = array(
+            'error' => $error,
+            'ns' => $NS
+        );
     }
     $json = new JSON;
-    echo htmlspecialchars($json->encode($result), ENT_NOQUOTES);
-}
-
-function dir_delete($path) {
-    if (!is_string($path) || $path == "") return false;
-
-    if (is_dir($path) && !is_link($path)) {
-        if (!$dh = @opendir($path)) return false;
-
-        while ($f = readdir($dh)) {
-            if ($f == '..' || $f == '.') continue;
-            dir_delete("$path/$f");
-        }
-
-        closedir($dh);
-        return @rmdir($path);
-    } else {
-        return @unlink($path);
-    }
-
-    return false;
+    header('Content-Type: application/json');
+    echo $json->encode($result);
 }
 
 /**
@@ -349,13 +348,11 @@ function ajax_linkwiz(){
     $id = cleanID($id);
 
     $nsd  = utf8_encodeFN(str_replace(':','/',$ns));
-    $idd  = utf8_encodeFN(str_replace(':','/',$id));
 
     $data = array();
     if($q && !$ns){
 
         // use index to lookup matching pages
-        $pages = array();
         $pages = ft_pageLookup($id,true);
 
         // result contains matches in pages and namespaces
@@ -432,7 +429,7 @@ function ajax_linkwiz(){
 
         echo '<a href="'.$link.'" title="'.htmlspecialchars($item['id']).'" class="wikilink1">'.$name.'</a>';
 
-        if($item['title']){
+        if(!blank($item['title'])){
             echo '<span>'.htmlspecialchars($item['title']).'</span>';
         }
         echo '</div>';

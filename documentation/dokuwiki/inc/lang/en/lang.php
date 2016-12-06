@@ -27,19 +27,18 @@ $lang['btn_top']               = 'Back to top';
 $lang['btn_newer']             = '<< more recent';
 $lang['btn_older']             = 'less recent >>';
 $lang['btn_revs']              = 'Old revisions';
-$lang['btn_recent']            = 'Recent changes';
+$lang['btn_recent']            = 'Recent Changes';
 $lang['btn_upload']            = 'Upload';
 $lang['btn_cancel']            = 'Cancel';
 $lang['btn_index']             = 'Sitemap';
 $lang['btn_secedit']           = 'Edit';
-$lang['btn_login']             = 'Login';
-$lang['btn_logout']            = 'Logout';
+$lang['btn_login']             = 'Log In';
+$lang['btn_logout']            = 'Log Out';
 $lang['btn_admin']             = 'Admin';
 $lang['btn_update']            = 'Update';
 $lang['btn_delete']            = 'Delete';
 $lang['btn_back']              = 'Back';
-$lang['btn_backlink']          = "Backlinks";
-$lang['btn_backtomedia']       = 'Back to Mediafile Selection';
+$lang['btn_backlink']          = 'Backlinks';
 $lang['btn_subscribe']         = 'Manage Subscriptions';
 $lang['btn_profile']           = 'Update Profile';
 $lang['btn_reset']             = 'Reset';
@@ -51,8 +50,11 @@ $lang['btn_revert']            = 'Restore';
 $lang['btn_register']          = 'Register';
 $lang['btn_apply']             = 'Apply';
 $lang['btn_media']             = 'Media Manager';
+$lang['btn_deleteuser']        = 'Remove My Account';
+$lang['btn_img_backto']        = 'Back to %s';
+$lang['btn_mediaManager']      = 'View in media manager';
 
-$lang['loggedinas']            = 'Logged in as';
+$lang['loggedinas']            = 'Logged in as:';
 $lang['user']                  = 'Username';
 $lang['pass']                  = 'Password';
 $lang['newpass']               = 'New password';
@@ -63,14 +65,17 @@ $lang['fullname']              = 'Real name';
 $lang['email']                 = 'E-Mail';
 $lang['profile']               = 'User Profile';
 $lang['badlogin']              = 'Sorry, username or password was wrong.';
+$lang['badpassconfirm']        = 'Sorry, the password was wrong';
 $lang['minoredit']             = 'Minor Changes';
 $lang['draftdate']             = 'Draft autosaved on'; // full dformat date will be added
 $lang['nosecedit']             = 'The page was changed in the meantime, section info was out of date loaded full page instead.';
+$lang['searchcreatepage']      = 'If you didn\'t find what you were looking for, you can create or edit the page named after your query with the appropriate tool.';
 
 $lang['regmissing']            = 'Sorry, you must fill in all fields.';
 $lang['reguexists']            = 'Sorry, a user with this login already exists.';
 $lang['regsuccess']            = 'The user has been created and the password was sent by email.';
 $lang['regsuccess2']           = 'The user has been created.';
+$lang['regfail']               = 'The user could not be created.';
 $lang['regmailfail']           = 'Looks like there was an error on sending the password mail. Please contact the admin!';
 $lang['regbadmail']            = 'The given email address looks invalid - if you think this is an error, contact the admin';
 $lang['regbadpass']            = 'The two given passwords are not identical, please try again.';
@@ -81,6 +86,12 @@ $lang['profna']                = 'This wiki does not support profile modificatio
 $lang['profnochange']          = 'No changes, nothing to do.';
 $lang['profnoempty']           = 'An empty name or email address is not allowed.';
 $lang['profchanged']           = 'User profile successfully updated.';
+$lang['profnodelete']          = 'This wiki does not support deleting users';
+$lang['profdeleteuser']        = 'Delete Account';
+$lang['profdeleted']           = 'Your user account has been deleted from this wiki';
+$lang['profconfdelete']        = 'I wish to remove my account from this wiki. <br/> This action can not be undone.';
+$lang['profconfdeletemissing'] = 'Confirmation check box not ticked';
+$lang['proffail']              = 'User profile was not updated.';
 
 $lang['pwdforget']             = 'Forgotten your password? Get a new one';
 $lang['resendna']              = 'This wiki does not support password resending.';
@@ -96,12 +107,12 @@ $lang['licenseok']             = 'Note: By editing this page you agree to licens
 
 $lang['searchmedia']           = 'Search file name:';
 $lang['searchmedia_in']        = 'Search in %s';
-$lang['txt_upload']            = 'Select file to upload';
-$lang['txt_filename']          = 'Upload as (optional)';
+$lang['txt_upload']            = 'Select file to upload:';
+$lang['txt_filename']          = 'Upload as (optional):';
 $lang['txt_overwrt']           = 'Overwrite existing file';
 $lang['maxuploadsize']         = 'Upload max. %s per file.';
-$lang['lockedby']              = 'Currently locked by';
-$lang['lockexpire']            = 'Lock expires at';
+$lang['lockedby']              = 'Currently locked by:';
+$lang['lockexpire']            = 'Lock expires at:';
 
 $lang['js']['willexpire']      = 'Your lock for editing this page is about to expire in a minute.\nTo avoid conflicts use the preview button to reset the locktimer.';
 $lang['js']['notsavedyet']     = 'Unsaved changes will be lost.';
@@ -149,7 +160,6 @@ $lang['rssfailed']             = 'An error occurred while fetching this feed: ';
 $lang['nothingfound']          = 'Nothing was found.';
 
 $lang['mediaselect']           = 'Media Files';
-$lang['fileupload']            = 'Media File Upload';
 $lang['uploadsucc']            = 'Upload successful';
 $lang['uploadfail']            = 'Upload failed. Maybe wrong permissions?';
 $lang['uploadwrong']           = 'Upload denied. This file extension is forbidden!';
@@ -184,10 +194,15 @@ $lang['difflink']              = 'Link to this comparison view';
 $lang['diff_type']             = 'View differences:';
 $lang['diff_inline']           = 'Inline';
 $lang['diff_side']             = 'Side by Side';
+$lang['diffprevrev']           = 'Previous revision';
+$lang['diffnextrev']           = 'Next revision';
+$lang['difflastrev']           = 'Last revision';
+$lang['diffbothprevrev']       = 'Both sides previous revision';
+$lang['diffbothnextrev']       = 'Both sides next revision';
 $lang['line']                  = 'Line';
-$lang['breadcrumb']            = 'Trace';
-$lang['youarehere']            = 'You are here';
-$lang['lastmod']               = 'Last modified';
+$lang['breadcrumb']            = 'Trace:';
+$lang['youarehere']            = 'You are here:';
+$lang['lastmod']               = 'Last modified:';
 $lang['by']                    = 'by';
 $lang['deleted']               = 'removed';
 $lang['created']               = 'created';
@@ -217,7 +232,7 @@ $lang['both_changes']          = 'Both pages and media files';
 $lang['qb_bold']               = 'Bold Text';
 $lang['qb_italic']             = 'Italic Text';
 $lang['qb_underl']             = 'Underlined Text';
-$lang['qb_code']               = 'Code Text';
+$lang['qb_code']               = 'Monospaced Text';
 $lang['qb_strike']             = 'Strike-through Text';
 $lang['qb_h1']                 = 'Level 1 Headline';
 $lang['qb_h2']                 = 'Level 2 Headline';
@@ -234,32 +249,28 @@ $lang['qb_extlink']            = 'External Link';
 $lang['qb_hr']                 = 'Horizontal Rule';
 $lang['qb_ol']                 = 'Ordered List Item';
 $lang['qb_ul']                 = 'Unordered List Item';
-$lang['qb_media']              = 'Add Images and other files';
+$lang['qb_media']              = 'Add Images and other files (opens in a new window)';
 $lang['qb_sig']                = 'Insert Signature';
 $lang['qb_smileys']            = 'Smileys';
 $lang['qb_chars']              = 'Special Chars';
 
 $lang['upperns']               = 'jump to parent namespace';
 
-$lang['admin_register']        = 'Add new user';
-
 $lang['metaedit']              = 'Edit Metadata';
 $lang['metasaveerr']           = 'Writing metadata failed';
 $lang['metasaveok']            = 'Metadata saved';
-$lang['img_backto']            = 'Back to';
-$lang['img_title']             = 'Title';
-$lang['img_caption']           = 'Caption';
-$lang['img_date']              = 'Date';
-$lang['img_fname']             = 'Filename';
-$lang['img_fsize']             = 'Size';
-$lang['img_artist']            = 'Photographer';
-$lang['img_copyr']             = 'Copyright';
-$lang['img_format']            = 'Format';
-$lang['img_camera']            = 'Camera';
-$lang['img_keywords']          = 'Keywords';
-$lang['img_width']             = 'Width';
-$lang['img_height']            = 'Height';
-$lang['img_manager']           = 'View in media manager';
+$lang['img_title']             = 'Title:';
+$lang['img_caption']           = 'Caption:';
+$lang['img_date']              = 'Date:';
+$lang['img_fname']             = 'Filename:';
+$lang['img_fsize']             = 'Size:';
+$lang['img_artist']            = 'Photographer:';
+$lang['img_copyr']             = 'Copyright:';
+$lang['img_format']            = 'Format:';
+$lang['img_camera']            = 'Camera:';
+$lang['img_keywords']          = 'Keywords:';
+$lang['img_width']             = 'Width:';
+$lang['img_height']            = 'Height:';
 
 $lang['subscr_subscribe_success']   = 'Added %s to subscription list for %s';
 $lang['subscr_subscribe_error']     = 'Error adding %s to subscription list for %s';
@@ -280,9 +291,7 @@ $lang['subscr_style_digest']        = 'digest email of changes for each page (ev
 $lang['subscr_style_list']          = 'list of changed pages since last email (every %.2f days)';
 
 /* auth.class language support */
-$lang['authmodfailed']         = 'Bad user authentication configuration. Please inform your Wiki Admin.';
 $lang['authtempfail']          = 'User authentication is temporarily unavailable. If this situation persists, please inform your Wiki Admin.';
-$lang['authpwdexpire']         = 'Your password will expire in %d days, you should change it soon.';
 
 /* installer strings */
 $lang['i_chooselang']          = 'Choose your language';
@@ -296,21 +305,26 @@ $lang['i_modified']            = 'For security reasons this script will only wor
                                   <a href="http://dokuwiki.org/install">Dokuwiki installation instructions</a>';
 $lang['i_funcna']              = 'PHP function <code>%s</code> is not available. Maybe your hosting provider disabled it for some reason?';
 $lang['i_phpver']              = 'Your PHP version <code>%s</code> is lower than the needed <code>%s</code>. You need to upgrade your PHP install.';
+$lang['i_mbfuncoverload']      = 'mbstring.func_overload must be disabled in php.ini to run DokuWiki.';
 $lang['i_permfail']            = '<code>%s</code> is not writable by DokuWiki. You need to fix the permission settings of this directory!';
 $lang['i_confexists']          = '<code>%s</code> already exists';
 $lang['i_writeerr']            = 'Unable to create <code>%s</code>. You will need to check directory/file permissions and create the file manually.';
 $lang['i_badhash']             = 'unrecognised or modified dokuwiki.php (hash=<code>%s</code>)';
 $lang['i_badval']              = '<code>%s</code> - illegal or empty value';
 $lang['i_success']             = 'The configuration was finished successfully. You may delete the install.php file now. Continue to
-                                 <a href="doku.php">your new DokuWiki</a>.';
+                                 <a href="doku.php?id=wiki:welcome">your new DokuWiki</a>.';
 $lang['i_failure']             = 'Some errors occurred while writing the configuration files. You may need to fix them manually before
-                                  you can use <a href="doku.php">your new DokuWiki</a>.';
+                                  you can use <a href="doku.php?id=wiki:welcome">your new DokuWiki</a>.';
 $lang['i_policy']              = 'Initial ACL policy';
 $lang['i_pol0']                = 'Open Wiki (read, write, upload for everyone)';
 $lang['i_pol1']                = 'Public Wiki (read for everyone, write and upload for registered users)';
 $lang['i_pol2']                = 'Closed Wiki (read, write, upload for registered users only)';
+$lang['i_allowreg']            = 'Allow users to register themselves';
 $lang['i_retry']               = 'Retry';
 $lang['i_license']             = 'Please choose the license you want to put your content under:';
+$lang['i_license_none']        = 'Do not show any license information';
+$lang['i_pop_field']           = 'Please, help us to improve the DokuWiki experience:';
+$lang['i_pop_label']           = 'Once a month, send anonymous usage data to the DokuWiki developers';
 
 $lang['recent_global']         = 'You\'re currently watching the changes inside the <b>%s</b> namespace. You can also <a href="%s">view the recent changes of the whole wiki</a>.';
 $lang['years']                 = '%d years ago';
@@ -346,5 +360,15 @@ $lang['media_perm_read']       = 'Sorry, you don\'t have enough rights to read f
 $lang['media_perm_upload']     = 'Sorry, you don\'t have enough rights to upload files.';
 $lang['media_update']          = 'Upload new version';
 $lang['media_restore']         = 'Restore this version';
+$lang['media_acl_warning']     = 'This list might not be complete due to ACL restrictions and hidden pages.';
 
+$lang['currentns']             = 'Current namespace';
+$lang['searchresult']          = 'Search Result';
+$lang['plainhtml']             = 'Plain HTML';
+$lang['wikimarkup']            = 'Wiki Markup';
+$lang['page_nonexist_rev']     = 'Page did not exist at %s. It was subsequently created at <a href="%s">%s</a>.';
+$lang['unable_to_parse_date']  = 'Unable to parse at parameter "%s".';
+$lang['email_signature_text'] = 'This mail was generated by DokuWiki at
+@DOKUWIKIURL@';
+$lang['email_signature_html'] = '';
 //Setup VIM: ex: et ts=2 :

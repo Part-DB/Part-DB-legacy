@@ -16,7 +16,7 @@ var dw_acl = {
         }
 
         jQuery('#acl__user select').change(dw_acl.userselhandler);
-        jQuery('#acl__user input[type=submit]').click(dw_acl.loadinfo);
+        jQuery('#acl__user button').click(dw_acl.loadinfo);
 
         $tree = jQuery('#acl__tree');
         $tree.dw_tree({toggle_selector: 'img',
@@ -25,9 +25,10 @@ var dw_acl = {
                            var $frm = jQuery('#acl__detail form');
 
                            jQuery.post(
-                               DOKU_BASE + 'lib/plugins/acl/ajax.php',
+                               DOKU_BASE + 'lib/exe/ajax.php',
                                jQuery.extend(dw_acl.parseatt($clicky.parent().find('a')[0].search),
-                                             {ajax: 'tree',
+                                             {call: 'plugin_acl',
+                                              ajax: 'tree',
                                               current_ns: $frm.find('input[name=ns]').val(),
                                               current_id: $frm.find('input[name=id]').val()}),
                                show_sublist,
@@ -61,10 +62,11 @@ var dw_acl = {
      */
     loadinfo: function () {
         jQuery('#acl__info')
+            .attr('role', 'alert')
             .html('<img src="'+DOKU_BASE+'lib/images/throbber.gif" alt="..." />')
             .load(
-                DOKU_BASE + 'lib/plugins/acl/ajax.php',
-                jQuery('#acl__detail form').serialize() + '&ajax=info'
+                DOKU_BASE + 'lib/exe/ajax.php',
+                jQuery('#acl__detail form').serialize() + '&call=plugin_acl&ajax=info'
             );
         return false;
     },
@@ -117,11 +119,3 @@ var dw_acl = {
 };
 
 jQuery(dw_acl.init);
-
-var acl = {
-    init: DEPRECATED_WRAP(dw_acl.init, dw_acl),
-    userselhandler: DEPRECATED_WRAP(dw_acl.userselhandler, dw_acl),
-    loadinfo: DEPRECATED_WRAP(dw_acl.loadinfo, dw_acl),
-    parseatt: DEPRECATED_WRAP(dw_acl.parseatt, dw_acl),
-    treehandler: DEPRECATED_WRAP(dw_acl.treehandler, dw_acl)
-};

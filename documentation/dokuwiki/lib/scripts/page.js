@@ -62,7 +62,9 @@ dw_page = {
             $fndiv = jQuery(document.createElement('div'))
                 .attr('id', popup_id)
                 .addClass('insitu-footnote JSpopup')
-                .mouseleave(function () {jQuery(this).hide();});
+                .attr('aria-hidden', 'true')
+                .mouseleave(function () {jQuery(this).hide().attr('aria-hidden', 'true');})
+                .attr('role', 'tooltip');
             jQuery('.dokuwiki:first').append($fndiv);
         }
 
@@ -97,7 +99,7 @@ dw_page = {
         content = content.replace(/\bid=(['"])([^"']+)\1/gi,'id="insitu__$2');
 
         // now put the content into the wrapper
-        dw_page.insituPopup(this, 'insitu__fn').html(content).show();
+        dw_page.insituPopup(this, 'insitu__fn').html(content).show().attr('aria-hidden', 'false');
     },
 
     /**
@@ -107,8 +109,14 @@ dw_page = {
      * as well. A state indicator is inserted into the handle and can be styled
      * by CSS.
      *
-     * @param selector handle What should be clicked to toggle
-     * @param selector content This element will be toggled
+     * To properly reserve space for the expanded element, the sliding animation is
+     * done on the children of the content. To make that look good and to make sure aria
+     * attributes are assigned correctly, it's recommended to make sure that the content
+     * element contains a single child element only.
+     *
+     * @param {selector} handle What should be clicked to toggle
+     * @param {selector} content This element will be toggled
+     * @param {int} state initial state (-1 = open, 1 = closed)
      */
     makeToggle: function(handle, content, state){
         var $handle, $content, $clicky, $child, setClicky;
@@ -158,8 +166,9 @@ dw_page = {
             // Start animation and assure that $toc is hidden/visible
             $child.dw_toggle(hidden, function () {
                 $content.toggle(hidden);
+                $content.attr('aria-expanded', hidden);
                 $content.css('min-height',''); // remove min-height again
-            });
+            }, true);
         };
 
         // the state indicator

@@ -4,6 +4,7 @@
  *
  * @license    GPL 2 (http://www.gnu.org/licenses/gpl.html)
  * @author     Christopher Smith <chris@jalakai.co.uk>
+ * @author     Matthias Schulte <dokuwiki@lupo49.de>
  */
 
 // for admin plugins, the menu prompt to be displayed in the admin menu
@@ -23,29 +24,23 @@ $lang['security']   = 'Security Warning: Changing this option could present a se
 
 /* --- Config Setting Headers --- */
 $lang['_configuration_manager'] = 'Configuration Manager'; //same as heading in intro.txt
-$lang['_header_dokuwiki'] = 'DokuWiki Settings';
-$lang['_header_plugin'] = 'Plugin Settings';
-$lang['_header_template'] = 'Template Settings';
+$lang['_header_dokuwiki'] = 'DokuWiki';
+$lang['_header_plugin'] = 'Plugin';
+$lang['_header_template'] = 'Template';
 $lang['_header_undefined'] = 'Undefined Settings';
 
 /* --- Config Setting Groups --- */
-$lang['_basic'] = 'Basic Settings';
-$lang['_display'] = 'Display Settings';
-$lang['_authentication'] = 'Authentication Settings';
-$lang['_anti_spam'] = 'Anti-Spam Settings';
-$lang['_editing'] = 'Editing Settings';
-$lang['_links'] = 'Link Settings';
-$lang['_media'] = 'Media Settings';
-$lang['_notifications'] = 'Notification Settings';
-$lang['_syndication']   = 'Syndication Settings';
-$lang['_advanced'] = 'Advanced Settings';
-$lang['_network'] = 'Network Settings';
-// The settings group name for plugins and templates can be set with
-// plugin_settings_name and template_settings_name respectively. If one
-// of these lang properties is not set, the group name will be generated
-// from the plugin or template name and the localized suffix.
-$lang['_plugin_sufix'] = 'Plugin Settings';
-$lang['_template_sufix'] = 'Template Settings';
+$lang['_basic'] = 'Basic';
+$lang['_display'] = 'Display';
+$lang['_authentication'] = 'Authentication';
+$lang['_anti_spam'] = 'Anti-Spam';
+$lang['_editing'] = 'Editing';
+$lang['_links'] = 'Links';
+$lang['_media'] = 'Media';
+$lang['_notifications'] = 'Notification';
+$lang['_syndication']   = 'Syndication (RSS)';
+$lang['_advanced'] = 'Advanced';
+$lang['_network'] = 'Network';
 
 /* --- Undefined Setting Messages --- */
 $lang['_msg_setting_undefined'] = 'No setting metadata.';
@@ -68,7 +63,7 @@ $lang['baseurl']     = 'Server URL (eg. <code>http://www.yourserver.com</code>).
 $lang['cookiedir']   = 'Cookie path. Leave blank for using baseurl.';
 $lang['dmode']       = 'Directory creation mode';
 $lang['fmode']       = 'File creation mode';
-$lang['allowdebug']  = 'Allow debug <b>disable if not needed!</b>';
+$lang['allowdebug']  = 'Allow debug. <b>Disable if not needed!</b>';
 
 /* Display Settings */
 $lang['recent']      = 'Number of entries per page in the recent changes';
@@ -77,7 +72,7 @@ $lang['breadcrumbs'] = 'Number of "trace" breadcrumbs. Set to 0 to disable.';
 $lang['youarehere']  = 'Use hierarchical breadcrumbs (you probably want to disable the above option then)';
 $lang['fullpath']    = 'Reveal full path of pages in the footer';
 $lang['typography']  = 'Do typographical replacements';
-$lang['dformat']     = 'Date format (see PHP\'s <a href="http://www.php.net/strftime">strftime</a> function)';
+$lang['dformat']     = 'Date format (see PHP\'s <a href="http://php.net/strftime">strftime</a> function)';
 $lang['signature']   = 'What to insert with the signature button in the editor';
 $lang['showuseras']  = 'What to display when showing the user that last edited a page';
 $lang['toptoclevel'] = 'Top level for table of contents';
@@ -88,7 +83,7 @@ $lang['camelcase']   = 'Use CamelCase for links';
 $lang['deaccent']    = 'How to clean pagenames';
 $lang['useheading']  = 'Use first heading for pagenames';
 $lang['sneaky_index'] = 'By default, DokuWiki will show all namespaces in the sitemap. Enabling this option will hide those where the user doesn\'t have read permissions. This might result in hiding of accessable subnamespaces which may make the index unusable with certain ACL setups.';
-$lang['hidepages']   = 'Hide pages matching this regular expressions from search, the sitemap and other automatic indexes';
+$lang['hidepages']   = 'Hide pages matching this regular expression from search, the sitemap and other automatic indexes';
 
 /* Authentication Settings */
 $lang['useacl']      = 'Use access control lists';
@@ -104,7 +99,9 @@ $lang['disableactions'] = 'Disable DokuWiki actions';
 $lang['disableactions_check'] = 'Check';
 $lang['disableactions_subscription'] = 'Subscribe/Unsubscribe';
 $lang['disableactions_wikicode'] = 'View source/Export Raw';
+$lang['disableactions_profile_delete'] = 'Delete Own Account';
 $lang['disableactions_other'] = 'Other actions (comma separated)';
+$lang['disableactions_rss'] = 'XML Syndication (RSS)';
 $lang['auth_security_timeout'] = 'Authentication Security Timeout (seconds)';
 $lang['securecookie'] = 'Should cookies set via HTTPS only be sent via HTTPS by the browser? Disable this option when only the login of your wiki is secured with SSL but browsing the wiki is done unsecured.';
 $lang['remote']      = 'Enable the remote API system. This allows other applications to access the wiki via XML-RPC or other mechanisms.';
@@ -134,7 +131,6 @@ $lang['target____windows']   = 'Target window for windows links';
 /* Media Settings */
 $lang['mediarevisions'] = 'Enable Mediarevisions?';
 $lang['refcheck']    = 'Check if a media file is still in use before deleting it';
-$lang['refshow']     = 'Number of media references to show when the above setting is enabled';
 $lang['gdlib']       = 'GD Lib version';
 $lang['im_convert']  = 'Path to ImageMagick\'s convert tool';
 $lang['jpg_quality'] = 'JPG compression quality (0-100)';
@@ -169,7 +165,7 @@ $lang['autoplural']  = 'Check for plural forms in links';
 $lang['compression'] = 'Compression method for attic files';
 $lang['gzip_output'] = 'Use gzip Content-Encoding for xhtml';
 $lang['compress']    = 'Compact CSS and javascript output';
-$lang['cssdatauri']  = 'Size in bytes up to which images referenced in CSS files should be embedded right into the stylesheet to reduce HTTP request header overhead. This technique won\'t work in IE 7 and below! <code>400</code> to <code>600</code> bytes is a good value. Set <code>0</code> to disable.';
+$lang['cssdatauri']  = 'Size in bytes up to which images referenced in CSS files should be embedded right into the stylesheet to reduce HTTP request header overhead. <code>400</code> to <code>600</code> bytes is a good value. Set <code>0</code> to disable.';
 $lang['send404']     = 'Send "HTTP 404/Page Not Found" for non existing pages';
 $lang['broken_iua']  = 'Is the ignore_user_abort function broken on your system? This could cause a non working search index. IIS+PHP/CGI is known to be broken. See <a href="http://bugs.dokuwiki.org/?do=details&amp;task_id=852">Bug 852</a> for more info.';
 $lang['xsendfile']   = 'Use the X-Sendfile header to let the webserver deliver static files? Your webserver needs to support this.';
@@ -186,7 +182,7 @@ $lang['proxy____port']    = 'Proxy port';
 $lang['proxy____user']    = 'Proxy user name';
 $lang['proxy____pass']    = 'Proxy password';
 $lang['proxy____ssl']     = 'Use SSL to connect to proxy';
-$lang['proxy____except']  = 'Regular expression to match URLs for which the proxy should be skipped for.';
+$lang['proxy____except']  = 'Regular expression to match URLs for which the proxy should be skipped.';
 
 /* Safemode Hack */
 $lang['safemodehack'] = 'Enable safemode hack';
@@ -250,10 +246,11 @@ $lang['xsendfile_o_2'] = 'Standard X-Sendfile header';
 $lang['xsendfile_o_3'] = 'Proprietary Nginx X-Accel-Redirect header';
 
 /* Display user info */
-$lang['showuseras_o_loginname']  = 'Login name';
-$lang['showuseras_o_username']   = "User's full name";
-$lang['showuseras_o_email']      = "User's e-mail addresss (obfuscated according to mailguard setting)";
-$lang['showuseras_o_email_link'] = "User's e-mail addresss as a mailto: link";
+$lang['showuseras_o_loginname']     = 'Login name';
+$lang['showuseras_o_username']      = "User's full name";
+$lang['showuseras_o_username_link'] = "User's full name as interwiki user link";
+$lang['showuseras_o_email']         = "User's e-mail addresss (obfuscated according to mailguard setting)";
+$lang['showuseras_o_email_link']    = "User's e-mail addresss as a mailto: link";
 
 /* useheading options */
 $lang['useheading_o_0'] = 'Never';

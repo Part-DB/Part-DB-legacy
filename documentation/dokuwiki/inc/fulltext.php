@@ -20,9 +20,13 @@ if(!defined('FT_SNIPPET_NUMBER')) define('FT_SNIPPET_NUMBER',15);
  *
  * refactored into ft_pageSearch(), _ft_pageSearch() and trigger_event()
  *
+ * @param string $query
+ * @param array $highlight
+ * @return array
  */
 function ft_pageSearch($query,&$highlight){
 
+    $data = array();
     $data['query'] = $query;
     $data['highlight'] =& $highlight;
 
@@ -34,6 +38,9 @@ function ft_pageSearch($query,&$highlight){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Kazutaka Miyasaka <kazmiya@gmail.com>
+ *
+ * @param array $data event data
+ * @return array matching documents
  */
 function _ft_pageSearch(&$data) {
     $Indexer = idx_get_indexer();
@@ -72,8 +79,20 @@ function _ft_pageSearch(&$data) {
                 $pages  = end($stack);
                 $pages_matched = array();
                 foreach(array_keys($pages) as $id){
-                    $text = utf8_strtolower(rawWiki($id));
-                    if (strpos($text, $phrase) !== false) {
+                    $evdata = array(
+                        'id' => $id,
+                        'phrase' => $phrase,
+                        'text' => rawWiki($id)
+                    );
+                    $evt = new Doku_Event('FULLTEXT_PHRASE_MATCH',$evdata);
+                    if ($evt->advise_before() && $evt->result !== true) {
+                        $text = utf8_strtolower($evdata['text']);
+                        if (strpos($text, $phrase) !== false) {
+                            $evt->result = true;
+                        }
+                    }
+                    $evt->advise_after();
+                    if ($evt->result === true) {
                         $pages_matched[$id] = 0; // phrase: always 0 hit
                     }
                 }
@@ -125,17 +144,21 @@ function _ft_pageSearch(&$data) {
  * Returns the backlinks for a given page
  *
  * Uses the metadata index.
+ *
+ * @param string $id           The id for which links shall be returned
+ * @param bool   $ignore_perms Ignore the fact that pages are hidden or read-protected
+ * @return array The pages that contain links to the given page
  */
-function ft_backlinks($id){
-    $result = array();
-
+function ft_backlinks($id, $ignore_perms = false){
     $result = idx_get_indexer()->lookupKey('relation_references', $id);
 
     if(!count($result)) return $result;
 
     // check ACL permissions
     foreach(array_keys($result) as $idx){
-        if(isHiddenPage($result[$idx]) || auth_quickaclcheck($result[$idx]) < AUTH_READ || !page_exists($result[$idx], '', false)){
+        if(($ignore_perms !== true && (
+                isHiddenPage($result[$idx]) || auth_quickaclcheck($result[$idx]) < AUTH_READ
+            )) || !page_exists($result[$idx], '', false)){
             unset($result[$idx]);
         }
     }
@@ -147,42 +170,28 @@ function ft_backlinks($id){
 /**
  * Returns the pages that use a given media file
  *
- * Does a quick lookup with the fulltext index, then
- * evaluates the instructions of the found pages
+ * Uses the relation media metadata property and the metadata index.
  *
- * Aborts after $max found results
+ * Note that before 2013-07-31 the second parameter was the maximum number of results and
+ * permissions were ignored. That's why the parameter is now checked to be explicitely set
+ * to true (with type bool) in order to be compatible with older uses of the function.
+ *
+ * @param string $id           The media id to look for
+ * @param bool   $ignore_perms Ignore hidden pages and acls (optional, default: false)
+ * @return array A list of pages that use the given media file
  */
-function ft_mediause($id,$max){
-    if(!$max) $max = 1; // need to find at least one
+function ft_mediause($id, $ignore_perms = false){
+    $result = idx_get_indexer()->lookupKey('relation_media', $id);
 
-    $result = array();
+    if(!count($result)) return $result;
 
-    // quick lookup of the mediafile
-    // FIXME use metadata key lookup
-    $media   = noNS($id);
-    $matches = idx_lookup(idx_tokenizer($media));
-    $docs    = array_keys(ft_resultCombine(array_values($matches)));
-    if(!count($docs)) return $result;
-
-    // go through all found pages
-    $found = 0;
-    $pcre  = preg_quote($media,'/');
-    foreach($docs as $doc){
-        $ns = getNS($doc);
-        preg_match_all('/\{\{([^|}]*'.$pcre.'[^|}]*)(|[^}]+)?\}\}/i',rawWiki($doc),$matches);
-        foreach($matches[1] as $img){
-            $img = trim($img);
-            if(preg_match('/^https?:\/\//i',$img)) continue; // skip external images
-                list($img) = explode('?',$img);                  // remove any parameters
-            resolve_mediaid($ns,$img,$exists);               // resolve the possibly relative img
-
-            if($img == $id){                                 // we have a match
-                $result[] = $doc;
-                $found++;
-                break;
-            }
+    // check ACL permissions
+    foreach(array_keys($result) as $idx){
+        if(($ignore_perms !== true && (
+                    isHiddenPage($result[$idx]) || auth_quickaclcheck($result[$idx]) < AUTH_READ
+                )) || !page_exists($result[$idx], '', false)){
+            unset($result[$idx]);
         }
-        if($found >= $max) break;
     }
 
     sort($result);
@@ -203,6 +212,11 @@ function ft_mediause($id,$max){
  * @triggers SEARCH_QUERY_PAGELOOKUP
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Adrian Lang <lang@cosmocode.de>
+ *
+ * @param string $id        page id
+ * @param bool   $in_ns     match against namespace as well?
+ * @param bool   $in_title  search in title?
+ * @return string[]
  */
 function ft_pageLookup($id, $in_ns=false, $in_title=false){
     $data = compact('id', 'in_ns', 'in_title');
@@ -210,10 +224,16 @@ function ft_pageLookup($id, $in_ns=false, $in_title=false){
     return trigger_event('SEARCH_QUERY_PAGELOOKUP', $data, '_ft_pageLookup');
 }
 
+/**
+ * Returns list of pages as array(pageid => First Heading)
+ *
+ * @param array &$data event data
+ * @return string[]
+ */
 function _ft_pageLookup(&$data){
     // split out original parameters
     $id = $data['id'];
-    if (preg_match('/(?:^| )@(\w+)/', $id, $matches)) {
+    if (preg_match('/(?:^| )(?:@|ns:)([\w:]+)/', $id, $matches)) {
         $ns = cleanID($matches[1]) . ':';
         $id = str_replace($matches[0], '', $id);
     }
@@ -267,6 +287,10 @@ function _ft_pageLookup(&$data){
  * Tiny helper function for comparing the searched title with the title
  * from the search index. This function is a wrapper around stripos with
  * adapted argument order and return value.
+ *
+ * @param string $search searched title
+ * @param string $title  title from index
+ * @return bool
  */
 function _ft_pageLookupTitleCompare($search, $title) {
     return stripos($title, $search) !== false;
@@ -276,6 +300,10 @@ function _ft_pageLookupTitleCompare($search, $title) {
  * Sort pages based on their namespace level first, then on their string
  * values. This makes higher hierarchy pages rank higher than lower hierarchy
  * pages.
+ *
+ * @param string $a
+ * @param string $b
+ * @return int Returns < 0 if $a is less than $b; > 0 if $a is greater than $b, and 0 if they are equal.
  */
 function ft_pagesorter($a, $b){
     $ac = count(explode(':',$a));
@@ -293,6 +321,10 @@ function ft_pagesorter($a, $b){
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  * @triggers FULLTEXT_SNIPPET_CREATE
+ *
+ * @param string $id page id
+ * @param array $highlight
+ * @return mixed
  */
 function ft_snippet($id,$highlight){
     $text = rawWiki($id);
@@ -343,7 +375,7 @@ function ft_snippet($id,$highlight){
                 $pre = min($pre,100-$post);
             } else if ($post>50) {
                 $post = min($post, 100-$pre);
-            } else {
+            } else if ($offset == 0) {
                 // both are less than 50, means the context is the whole string
                 // make it so and break out of this loop - there is no need for the
                 // complex snippet calculations
@@ -364,12 +396,12 @@ function ft_snippet($id,$highlight){
             }
 
             // set $offset for next match attempt
-            //   substract strlen to avoid splitting a potential search success,
-            //   this is an approximation as the search pattern may match strings
-            //   of varying length and it will fail if the context snippet
-            //   boundary breaks a matching string longer than the current match
-            $utf8_offset = $utf8_idx + $post;
-            $offset = $idx + strlen(utf8_substr($text,$utf8_idx,$post));
+            // continue matching after the current match
+            // if the current match is not the longest possible match starting at the current offset
+            // this prevents further matching of this snippet but for possible matches of length
+            // smaller than match length + context (at least 50 characters) this match is part of the context
+            $utf8_offset = $utf8_idx + $utf8_len;
+            $offset = $idx + strlen(utf8_substr($text,$utf8_idx,$utf8_len));
             $offset = utf8_correctIdx($text,$offset);
         }
 
@@ -387,6 +419,9 @@ function ft_snippet($id,$highlight){
 
 /**
  * Wraps a search term in regex boundary checks.
+ *
+ * @param string $term
+ * @return string
  */
 function ft_snippet_re_preprocess($term) {
     // do not process asian terms where word boundaries are not explicit
@@ -394,10 +429,16 @@ function ft_snippet_re_preprocess($term) {
         return $term;
     }
 
-    // unicode word boundaries
-    // see http://stackoverflow.com/a/2449017/172068
-    $BL = '(?<!\pL)';
-    $BR = '(?!\pL)';
+    if (UTF8_PROPERTYSUPPORT) {
+        // unicode word boundaries
+        // see http://stackoverflow.com/a/2449017/172068
+        $BL = '(?<!\pL)';
+        $BR = '(?!\pL)';
+    } else {
+        // not as correct as above, but at least won't break
+        $BL = '\b';
+        $BR = '\b';
+    }
 
     if(substr($term,0,2) == '\\*'){
         $term = substr($term,2);
@@ -424,6 +465,7 @@ function ft_snippet_re_preprocess($term) {
  * based upon PEAR's PHP_Compat function for array_intersect_key()
  *
  * @param array $args An array of page arrays
+ * @return array
  */
 function ft_resultCombine($args){
     $array_count = count($args);
@@ -453,6 +495,8 @@ function ft_resultCombine($args){
  * based upon ft_resultCombine() function
  *
  * @param array $args An array of page arrays
+ * @return array
+ *
  * @author Kazutaka Miyasaka <kazmiya@gmail.com>
  */
 function ft_resultUnite($args) {
@@ -476,6 +520,8 @@ function ft_resultUnite($args) {
  * nearly identical to PHP5's array_diff_key()
  *
  * @param array $args An array of page arrays
+ * @return array
+ *
  * @author Kazutaka Miyasaka <kazmiya@gmail.com>
  */
 function ft_resultComplement($args) {
@@ -498,6 +544,10 @@ function ft_resultComplement($args) {
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  * @author Kazutaka Miyasaka <kazmiya@gmail.com>
+ *
+ * @param Doku_Indexer $Indexer
+ * @param string $query search query
+ * @return array of search formulas
  */
 function ft_queryParser($Indexer, $query){
     /**
@@ -651,7 +701,7 @@ function ft_queryParser($Indexer, $query){
         if (preg_match($ope_regex, $token)) {
             // operator
             $last_ope = end($ope_stack);
-            while ($ope_precedence[$token] <= $ope_precedence[$last_ope] && $last_ope != '(') {
+            while ($last_ope !== false && $ope_precedence[$token] <= $ope_precedence[$last_ope] && $last_ope != '(') {
                 $parsed_ary[] = array_pop($ope_stack);
                 $last_ope = end($ope_stack);
             }
@@ -728,6 +778,12 @@ function ft_queryParser($Indexer, $query){
  * This function is used in ft_queryParser() and not for general purpose use.
  *
  * @author Kazutaka Miyasaka <kazmiya@gmail.com>
+ *
+ * @param Doku_Indexer $Indexer
+ * @param string       $term
+ * @param bool         $consider_asian
+ * @param bool         $phrase_mode
+ * @return string
  */
 function ft_termParser($Indexer, $term, $consider_asian = true, $phrase_mode = false) {
     $parsed = '';

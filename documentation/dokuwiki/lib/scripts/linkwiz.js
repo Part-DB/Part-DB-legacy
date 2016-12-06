@@ -22,6 +22,8 @@ var dw_linkwiz = {
         var pos = $editor.position();
 
         // create HTML Structure
+        if(dw_linkwiz.$wiz)
+            return;
         dw_linkwiz.$wiz = jQuery(document.createElement('div'))
                .dialog({
                    autoOpen: false,
@@ -50,9 +52,12 @@ var dw_linkwiz = {
         jQuery(dw_linkwiz.result).css('position', 'relative');
 
         dw_linkwiz.$entry = jQuery('#link__wiz_entry');
+        if(JSINFO.namespace){
+            dw_linkwiz.$entry.val(JSINFO.namespace+':');
+        }
 
         // attach event handlers
-        jQuery('#link__wiz_close').click(dw_linkwiz.hide);
+        jQuery('#link__wiz .ui-dialog-titlebar-close').click(dw_linkwiz.hide);
         dw_linkwiz.$entry.keyup(dw_linkwiz.onEntry);
         jQuery(dw_linkwiz.result).delegate('a', 'click', dw_linkwiz.onResultClick);
     },
@@ -64,7 +69,7 @@ var dw_linkwiz = {
         if(e.keyCode == 37 || e.keyCode == 39){ //left/right
             return true; //ignore
         }
-        if(e.keyCode == 27){
+        if(e.keyCode == 27){ //Escape
             dw_linkwiz.hide();
             e.preventDefault();
             e.stopPropagation();
@@ -102,7 +107,7 @@ var dw_linkwiz = {
     /**
      * Get one of the results by index
      *
-     * @param int result div to return
+     * @param   num int result div to return
      * @returns DOMObject or null
      */
     getResult: function(num){
@@ -113,7 +118,7 @@ var dw_linkwiz = {
     /**
      * Get one of the results by index
      *
-     * @param int result div to return
+     * @param   num int result div to return
      * @returns jQuery object
      */
     $getResult: function(num) {
@@ -209,7 +214,7 @@ var dw_linkwiz = {
             return;
         }
 
-        sel = getSelection(dw_linkwiz.textArea);
+        sel = DWgetSelection(dw_linkwiz.textArea);
         if(sel.start == 0 && sel.end == 0) {
             sel = dw_linkwiz.selection;
         }
@@ -232,19 +237,40 @@ var dw_linkwiz = {
            link = ':' + link;
         }
 
-        var so = link.length+3;
-
-        link = '[['+link+'|';
-        if(stxt) {
-            link += stxt;
+        var so = link.length;
+        var eo = 0;
+        if(dw_linkwiz.val){
+            if(dw_linkwiz.val.open) {
+                so += dw_linkwiz.val.open.length;
+                link = dw_linkwiz.val.open+link;
+            }
+            link += '|';
+            so += 1;
+            if(stxt) {
+                link += stxt;
+            }
+            if(dw_linkwiz.val.close) {
+                link += dw_linkwiz.val.close;
+                eo = dw_linkwiz.val.close.length;
+            }
         }
-        link += ']]';
 
-        pasteText(sel,link,{startofs: so, endofs: 2});
+        pasteText(sel,link,{startofs: so, endofs: eo});
         dw_linkwiz.hide();
 
         // reset the entry to the parent namespace
-        dw_linkwiz.$entry.val(dw_linkwiz.$entry.val().replace(/[^:]*$/, ''));
+        var externallinkpattern = new RegExp('^((f|ht)tps?:)?//', 'i'),
+            entry_value;
+        if (externallinkpattern.test(dw_linkwiz.$entry.val())) {
+            if (JSINFO.namespace) {
+                entry_value = JSINFO.namespace + ':';
+            } else {
+                entry_value = ''; //reset whole external links
+            }
+        } else {
+            entry_value = dw_linkwiz.$entry.val().replace(/[^:]*$/, '')
+        }
+        dw_linkwiz.$entry.val(entry_value);
     },
 
     /**
@@ -281,10 +307,15 @@ var dw_linkwiz = {
      * Show the link wizard
      */
     show: function(){
-        dw_linkwiz.selection  = getSelection(dw_linkwiz.textArea);
+        dw_linkwiz.selection  = DWgetSelection(dw_linkwiz.textArea);
         dw_linkwiz.$wiz.show();
         dw_linkwiz.$entry.focus();
         dw_linkwiz.autocomplete();
+
+        // Move the cursor to the end of the input
+        var temp = dw_linkwiz.$entry.val();
+        dw_linkwiz.$entry.val('');
+        dw_linkwiz.$entry.val(temp);
     },
 
     /**

@@ -18,9 +18,9 @@
  * @author Michael Klier <chi@chimeric.de>
  * @author Christopher Smith <chris@jalakai.co.uk>
  * @author virtual host part of farm_confpath() based on conf_path() from Drupal.org's /includes/bootstrap.inc
- *   (see http://cvs.drupal.org/viewvc/drupal/drupal/includes/bootstrap.inc?view=markup)
+ *   (see https://github.com/drupal/drupal/blob/7.x/includes/bootstrap.inc#L537)
  * @license GPL 2 (http://www.gnu.org/licenses/gpl.html)
-*/
+ */
 
 // DOKU_FARMDIR needs to be set in preload.php, here the fallback is the same as DOKU_INC would be (if it was set already)
 if(!defined('DOKU_FARMDIR')) define('DOKU_FARMDIR', fullpath(dirname(__FILE__).'/../').'/');
@@ -135,14 +135,12 @@ $config_cascade = array(
         ),
     ),
     'userstyle' => array(
-        'default' => DOKU_CONF.'userstyle.css', // 'default' was renamed to 'screen' on 2011-02-26, so will be deprecated in the next version
-        'screen'  => DOKU_CONF.'userstyle.css',
-        'rtl'     => DOKU_CONF.'userrtl.css', // deprecated since version after 2012-04-09
-        'print'   => DOKU_CONF.'userprint.css',
-        'feed'    => DOKU_CONF.'userfeed.css',
-        'all'     => DOKU_CONF.'userall.css',
+        'screen'    => array(DOKU_CONF . 'userstyle.css', DOKU_CONF . 'userstyle.less'),
+        'print'     => array(DOKU_CONF . 'userprint.css', DOKU_CONF . 'userprint.less'),
+        'feed'      => array(DOKU_CONF . 'userfeed.css', DOKU_CONF . 'userfeed.less'),
+        'all'       => array(DOKU_CONF . 'userall.css', DOKU_CONF . 'userall.less')
     ),
     'userscript' => array(
-        'default' => DOKU_CONF.'userscript.js'
+        'default'   => array(DOKU_CONF . 'userscript.js')
     ),
 );

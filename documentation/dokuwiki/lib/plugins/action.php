@@ -14,10 +14,12 @@ if(!defined('DOKU_INC')) die();
  */
 class DokuWiki_Action_Plugin extends DokuWiki_Plugin {
 
-     /**
-      * Registers a callback function for a given event
-      */
-      function register($controller) {
+    /**
+     * Registers a callback function for a given event
+     *
+     * @param Doku_Event_Handler $controller
+     */
+    public function register(Doku_Event_Handler $controller) {
         trigger_error('register() not implemented in '.get_class($this), E_USER_WARNING);
-      }
+    }
 }

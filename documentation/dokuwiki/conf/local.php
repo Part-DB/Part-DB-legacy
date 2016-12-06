@@ -7,7 +7,7 @@
 $conf['title'] = 'Part-DB Dokumentation';
 $conf['lang'] = 'de';
 $conf['license'] = '';
-$conf['useacl'] = 0;
+$conf['useacl'] = 1;
 $conf['superuser'] = '@admin';
 $conf['cachetime'] = -1;
 $conf['updatecheck'] = 0;

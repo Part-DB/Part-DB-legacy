@@ -54,7 +54,7 @@ $conf['hidepages']   = '';                //Regexp for pages to be skipped from 
 /* Authentication Settings */
 $conf['useacl']      = 0;                //Use Access Control Lists to restrict access?
 $conf['autopasswd']  = 1;                //autogenerate passwords and email them to user
-$conf['authtype']    = 'plain';          //which authentication backend should be used
+$conf['authtype']    = 'authplain';      //which authentication backend should be used
 $conf['passcrypt']   = 'smd5';           //Used crypt method (smd5,md5,sha1,ssha,crypt,mysql,my411)
 $conf['defaultgroup']= 'user';           //Default groups new Users are added to
 $conf['superuser']   = '!!not set!!';    //The admin can be user or @group or comma separated list user1,@group1,user2
@@ -65,7 +65,7 @@ $conf['disableactions'] = '';            //comma separated list of actions to di
 $conf['auth_security_timeout'] = 900;    //time (seconds) auth data is considered valid, set to 0 to recheck on every page view
 $conf['securecookie'] = 1;               //never send HTTPS cookies via HTTP
 $conf['remote']      = 0;                //Enable/disable remote interfaces
-$conf['remoteuser']  = '!!not set !!';   //user/groups that have access to remote interface (comma separated)
+$conf['remoteuser']  = '!!not set!!';    //user/groups that have access to remote interface (comma separated)
 
 /* Antispam Features */
 $conf['usewordblock']= 1;                //block spam based on words? 0|1
@@ -96,7 +96,6 @@ $conf['target']['windows']   = '';
 /* Media Settings */
 $conf['mediarevisions'] = 1;             //enable/disable media revisions
 $conf['refcheck']    = 1;                //check for references before deleting media files
-$conf['refshow']     = 0;                //how many references should be shown, 5 is a good value
 $conf['gdlib']       = 2;                //the GDlib version (0, 1 or 2) 2 tries to autodetect
 $conf['im_convert']  = '';               //path to ImageMagicks convert (will be used instead of GD)
 $conf['jpg_quality'] = '70';             //quality of compression when scaling jpg images (0-100)
@@ -150,7 +149,7 @@ $conf['compression'] = 'gz';             //compress old revisions: (0: off) ('gz
                                          //  bz2 generates smaller files, but needs more cpu-power
 $conf['gzip_output'] = 0;                //use gzip content encodeing for the output xhtml (if allowed by browser)
 $conf['compress']    = 1;                //Strip whitespaces and comments from Styles and JavaScript? 1|0
-$conf['cssdatauri']  = 0;                //Maximum byte size of small images to embed into CSS, won't work on IE<8
+$conf['cssdatauri']  = 512;              //Maximum byte size of small images to embed into CSS, won't work on IE<8
 $conf['send404']     = 0;                //Send a HTTP 404 status for non existing pages?
 $conf['broken_iua']  = 0;                //Platform with broken ignore_user_abort (IIS+CGI) 0|1
 $conf['xsendfile']   = 0;                //Use X-Sendfile (1 = lighttpd, 2 = standard)

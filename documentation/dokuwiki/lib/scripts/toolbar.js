@@ -52,8 +52,13 @@ function initToolbar(tbid,edid,tb, allowblock){
         // type is a init function -> execute it
         actionFunc = 'addBtnAction'+val.type.charAt(0).toUpperCase()+val.type.substring(1);
         if( jQuery.isFunction(window[actionFunc]) ){
-            if(window[actionFunc]($btn, val, edid)){
+            var pickerid = window[actionFunc]($btn, val, edid);
+            if(pickerid !== ''){
                 $toolbar.append($btn);
+                $btn.attr('aria-controls', pickerid);
+                if (actionFunc === 'addBtnActionPicker') {
+                    $btn.attr('aria-haspopup', 'true');
+                }
             }
             return;
         }
@@ -72,7 +77,7 @@ function initToolbar(tbid,edid,tb, allowblock){
  * @author Andreas Gohr <andi@splitbrain.org>
  */
 function tb_format(btn, props, edid) {
-    var sample = props.title || props.sample;
+    var sample = props.sample || props.title;
     insertTags(edid,
                fixtxt(props.open),
                fixtxt(props.close),
@@ -94,9 +99,9 @@ function tb_format(btn, props, edid) {
  * @author Andreas Gohr <andi@splitbrain.org>
  */
 function tb_formatln(btn, props, edid) {
-    var sample = props.title || props.sample,
+    var sample = props.sample || props.title,
         opts,
-        selection = getSelection(jQuery('#'+edid)[0]);
+        selection = DWgetSelection(jQuery('#'+edid)[0]);
 
     sample = fixtxt(sample);
     props.open  = fixtxt(props.open);
@@ -190,16 +195,18 @@ function tb_autohead(btn, props, edid){
  */
 function addBtnActionPicker($btn, props, edid) {
     var pickerid = 'picker'+(pickercounter++);
-    createPicker(pickerid, props, edid);
+    var picker = createPicker(pickerid, props, edid);
+    jQuery(picker).attr('aria-hidden', 'true');
 
     $btn.click(
-        function() {
+        function(e) {
             pickerToggle(pickerid,$btn);
-            return false;
+            e.preventDefault();
+            return '';
         }
     );
 
-    return true;
+    return pickerid;
 }
 
 /**
@@ -211,26 +218,45 @@ function addBtnActionPicker($btn, props, edid) {
  * @return boolean    If button should be appended
  * @author Andreas Gohr <gohr@cosmocode.de>
  */
-function addBtnActionLinkwiz(btn, props, edid) {
+function addBtnActionLinkwiz($btn, props, edid) {
     dw_linkwiz.init(jQuery('#'+edid));
-    jQuery(btn).click(function(){
+    jQuery($btn).click(function(e){
+        dw_linkwiz.val = props;
         dw_linkwiz.toggle();
-        return false;
+        e.preventDefault();
+        return '';
     });
-    return true;
+    return 'link__wiz';
 }
 
 
 /**
- * Show/Hide a previosly created picker window
+ * Show/Hide a previously created picker window
  *
  * @author Andreas Gohr <andi@splitbrain.org>
  */
 function pickerToggle(pickerid,$btn){
     var $picker = jQuery('#' + pickerid),
         pos = $btn.offset();
-    $picker.toggleClass('a11y')
-           .offset({left: pos.left+3, top: pos.top+$btn[0].offsetHeight+3});
+    if ($picker.hasClass('a11y')) {
+        $picker.removeClass('a11y').attr('aria-hidden', 'false');
+    } else {
+        $picker.addClass('a11y').attr('aria-hidden', 'true');
+    }
+    var picker_left = pos.left + 3,
+        picker_width = $picker.width(),
+        window_width = jQuery(window).width();
+    if (picker_width > 300) {
+        $picker.css("max-width", "300");
+        picker_width = 300;
+    }
+    if ((picker_left + picker_width + 40) > window_width) {
+        picker_left = window_width - picker_width - 40;
+    }
+    if (picker_left < 0) {
+        picker_left = 0;
+    }
+    $picker.offset({left: picker_left, top: pos.top+$btn[0].offsetHeight+3});
 }
 
 /**
@@ -252,4 +278,5 @@ function fixtxt(str){
 
 jQuery(function () {
     initToolbar('tool__bar','wiki__text',toolbar);
+    jQuery('#tool__bar').attr('role', 'toolbar');
 });

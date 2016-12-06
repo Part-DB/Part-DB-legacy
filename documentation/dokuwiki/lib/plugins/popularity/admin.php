@@ -13,15 +13,15 @@ if(!defined('DOKU_INC')) die();
  * need to inherit from this class
  */
 class admin_plugin_popularity extends DokuWiki_Admin_Plugin {
-    var $version;
+
+    /**
+     * @var helper_plugin_popularity
+     */
     var $helper;
     var $sentStatus = null;
 
-    function admin_plugin_popularity(){
+    function __construct(){
         $this->helper = $this->loadHelper('popularity', false);
-
-        $pluginInfo = $this->getInfo();
-        $this->version = $pluginInfo['date'];
     }
 
     /**
@@ -87,7 +87,7 @@ class admin_plugin_popularity extends DokuWiki_Admin_Plugin {
 
             //If there was an error the last time we tried to autosubmit, warn the user
             if ( $this->helper->isAutoSubmitEnabled() ){
-                if ( @file_exists($this->helper->autosubmitErrorFile) ){
+                if ( file_exists($this->helper->autosubmitErrorFile) ){
                     echo $this->getLang('autosubmitError');
                     echo io_readFile( $this->helper->autosubmitErrorFile );
                 }
@@ -118,9 +118,9 @@ class admin_plugin_popularity extends DokuWiki_Admin_Plugin {
 
     /**
      * Build the form which presents the data to be sent
-     * @param string $submit How is the data supposed to be sent? (may be: 'browser' or 'server')
+     * @param string $submissionMode How is the data supposed to be sent? (may be: 'browser' or 'server')
      * @param string $data   The popularity data, if it has already been computed. NULL otherwise.
-     * @return The form, as an html string
+     * @return string The form, as an html string
      */
     function buildForm($submissionMode, $data = null){
         $url = ($submissionMode === 'browser' ? $this->helper->submitUrl : script());
@@ -144,7 +144,7 @@ class admin_plugin_popularity extends DokuWiki_Admin_Plugin {
                 .'<input type="hidden" name="do" value="admin" />'
                 .'<input type="hidden" name="page" value="popularity" />';
         }
-        $form .= '<input type="submit" class="button" value="'.$this->getLang('submit').'"/>'
+        $form .= '<button type="submit">'.$this->getLang('submit').'</button>'
             .'</fieldset>'
             .'</form>';
         return $form;

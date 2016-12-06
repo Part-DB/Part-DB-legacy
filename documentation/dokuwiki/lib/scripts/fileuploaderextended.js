@@ -82,7 +82,7 @@ qq.FileUploaderExtended = function(o){
             '<div class="qq-upload-button">' + LANG.media_select + '</div>' +
             '<ul class="qq-upload-list"></ul>' +
             '<div class="qq-action-container">' +
-            '  <input class="qq-upload-action button" type="submit" value="' + LANG.media_upload_btn + '" id="mediamanager__upload_button">' +
+            '  <button class="qq-upload-action" type="submit" id="mediamanager__upload_button">' + LANG.media_upload_btn + '</button>' +
             '  <label class="qq-overwrite-check"><input type="checkbox" value="1" name="ow" class="dw__ow"> <span>' + LANG.media_overwrt + '</span></label>' +
             '</div>' +
             '</div>',
@@ -173,7 +173,7 @@ qq.extend(qq.FileUploaderExtended.prototype, {
 
         if (result.success){
             qq.addClass(item, this._classes.success);
-            $link = '<a href="' + result.link + '" name="h_:' + result.id + '" class="select">' + nameInput.value + '</a>';
+            $link = '<a href="' + result.link + '" id="h_:' + result.id + '" class="select">' + nameInput.value + '</a>';
             jQuery(fileElement).html($link);
 
         } else {
@@ -188,7 +188,8 @@ qq.extend(qq.FileUploaderExtended.prototype, {
             if (i) action = action.substr(0, i);
             var button = '<form method="post" action="' + action + '" id="mediamanager__done_form"><div>';
             button += '<input type="hidden" value="' + result.ns + '" name="ns">';
-            button += '<input class="button" type="submit" value="' + LANG.media_done_btn + '"></div></form>';
+            button += '<input type="hidden" value="1" name="recent">';
+            button += '<button type="submit">' + LANG.media_done_btn + '</button></div></form>';
             jQuery('#mediamanager__uploader').append(button);
         }
     }
