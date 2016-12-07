@@ -277,5 +277,3 @@
         $html->print_template('edit_categories');
 
     $html->print_footer();
-
-?>

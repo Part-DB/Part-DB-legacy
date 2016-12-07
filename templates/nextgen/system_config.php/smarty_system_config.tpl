@@ -69,7 +69,7 @@
                 <div class="form-group">
                     <label for="checkbox-container" class="control-label col-sm-2">{t}Allgemeine Einstellungen:{/t}</label>
                     
-                    <div name="checkbox-container" class="col-sm-10">
+                    <div id="checkbox-container" class="col-sm-10">
                         <div class="checkbox">
                             <input type="checkbox" name="disable_updatelist" {if $disable_updatelist} checked{/if}>
                             <label for="disable_updatelist">{t}Updateliste (RSS-Feed) auf Startseite verstecken (verringert die Ladezeit){/t}</label>
@@ -278,7 +278,8 @@
                 </tr>
                 <tr>
                     <td><b>{t}.htaccess funktioniert:{/t}</b></td>
-                    <td>{if $htaccess_works}<font color="green">{t}ja{/t}</font>{else}<font color="red">{t}nein{/t}</font>{/if}</td>
+                    <td>{if $htaccess_works}<span style="color: green; ">{t}ja{/t}</span>{else}<span
+                                style="color: red; ">{t}nein{/t}</span>{/if}</td>
                 </tr>
             </table>
         </div>

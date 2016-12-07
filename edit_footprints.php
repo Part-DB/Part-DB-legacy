@@ -484,5 +484,3 @@
         $html->print_template('edit_footprints');
 
     $html->print_footer();
-
-?>

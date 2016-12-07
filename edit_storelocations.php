@@ -284,5 +284,3 @@
         $html->print_template('edit_storelocations');
 
     $html->print_footer();
-
-?>

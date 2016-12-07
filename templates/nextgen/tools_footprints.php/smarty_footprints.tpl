@@ -35,7 +35,7 @@
                 {/foreach}
                 
                 {if $count%4>=0}
-                </div>
+                    </div>
                 {/if}
             </div>
             

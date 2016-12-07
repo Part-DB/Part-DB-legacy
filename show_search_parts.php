@@ -264,5 +264,3 @@
     }
 
     $html->print_footer();
-
-?>

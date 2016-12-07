@@ -13,7 +13,7 @@
                         <i class="fa fa-trash" aria-hidden="true"></i> Lösche Teil!
                     </button>
                     <div class="checkbox checkbox-danger">
-                        <input type="checkbox" class="styled" name="delete_files_from_hdd">
+                        <input type="checkbox" class="styled" id="delete_files_from_hdd" name="delete_files_from_hdd">
                         <label for="delete_files_from_hdd" class="text-danger">{t}Dateien dieses Bauteiles, die von keinem anderen Bauteil verwendet werden, auch von der Festplatte löschen{/t}</label>
                     </div>
                 </div>

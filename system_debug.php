@@ -124,7 +124,7 @@
                     font-size: 12px;}
 
         .outer h2 { background-color: #BABABA;
-                    margin-top:    0px;
+                    margin-top:    0;
                     margin-bottom: 1px;
                     border-bottom: 2px solid #F76B02;
                     border-left:   1px solid #F76B02;
@@ -144,7 +144,7 @@
 
     <!-- Reload the navigation frame because of the debugging buttons at the top of the navigation frame -->
     <script type="text/javascript">
-        parent.frames.navigation_frame.location.reload();
+        location.reload();
     </script>
 
     <div class="outer">
@@ -154,7 +154,7 @@
                 <?php
                     if ($config['debug']['enable'])
                     {
-                        print '<strong><font color="#008000">Debugging ist aktiviert</font></strong><br>';
+                        print '<strong><span style="color: #008000; ">Debugging ist aktiviert</span></strong><br>';
                         print '<input type="submit" name="disable" value="Deaktivieren">';
                         print '<input type="submit" name="disable_and_delete" value="Deaktivieren und Log-Datei löschen">';
                         print '<hr>Testeintrag erzeugen:';
@@ -176,7 +176,7 @@
                     }
                     else
                     {
-                        print '<strong><font color="#ff0000">Debugging ist deaktiviert</font></strong><br>';
+                        print '<strong><span style="color: #ff0000; ">Debugging ist deaktiviert</span></strong><br>';
                         print 'Administratorpasswort zum aktivieren: ';
                         print '<input type="password" name="admin_password" value="">';
                         print '<input type="submit" name="enable" value="Aktivieren"><br>';
@@ -184,7 +184,7 @@
 
                     if (count($errors) > 0)
                     {
-                        print '<br><br><strong><font color="#ff0000">';
+                        print '<br><br><strong><span style="color: #ff0000; ">';
                         foreach ($errors as $error)
                             print $error.'<br>';
                         print '</font></strong>';
@@ -199,13 +199,13 @@
         <h2>Debug-Log</h2>
         <div class="inner">
             Folgende Log-Typen werden hervorgehoben:
-            "<font color="darkgreen">success</font>",
-            "<font color="darkorange">warning</font>",
-            "<strong><font color="red">error</font></strong>"
-            "<strong><font color="blue">temp</font></strong>"<br>
+            "<span style="color: darkgreen; ">success</span>",
+            "<span style="color: darkorange; ">warning</span>",
+            "<strong><span style="color: red; ">error</span></strong>"
+            "<strong><span style="color: blue; ">temp</span></strong>"<br>
             Zus&auml;tzliche Informationen k&ouml;nnen angezeigt werden,
             indem man mit der Maus &uuml;ber den entsprechenden Eintrag f&auml;hrt.
-            <select name="debug_log" size="25" style="width:100%" autocomplete="off">
+            <select name="debug_log" size="25" style="width:100%">
                 <?php
                     $logs = get_debug_log_elements();
                     foreach ($logs as $log)

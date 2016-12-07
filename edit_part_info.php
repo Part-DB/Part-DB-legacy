@@ -677,5 +677,3 @@
     }
 
     $html->print_footer();
-
-?>

@@ -435,4 +435,3 @@
     }
 
     $html->print_footer();
-?>

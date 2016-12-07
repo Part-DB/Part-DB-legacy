@@ -13,7 +13,7 @@
             
             <div class="form-group">
                 <label class="control-label col-md-3">{t}Teile abfassen oder einbuchen:{/t}</label>
-                <div class="col-md-9" div class="btn-group" role="group">
+                <div class="col-md-9" class="btn-group" role="group">
                     <button class="btn btn-default" type="submit" name="book_parts">{t}Abfassen (-){/t}</button>
                     <button class="btn btn-default" type="submit" name="book_parts_in">{t}Einbuchen (+){/t}</button>
                 </div>

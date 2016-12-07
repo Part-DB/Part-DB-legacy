@@ -2545,5 +2545,3 @@
 
         return $updateSteps;
     }
-
-?>

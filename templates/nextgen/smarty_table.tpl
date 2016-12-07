@@ -115,8 +115,8 @@
                         {* name/comment with link *}
                         <td class="tdrow1{if $row.caption == "obsolete"} backred{/if}">
                             <a  data-toggle="tooltip" title="{if $row.caption == "obsolete"}(nicht mehr erhätlich) {/if}{if isset($row.comment)}Kommentar: {$row.comment}{/if}"
-                                href="show_part_info.php?pid={$row.id}"
-                                onclick="loadLink(this);">{$row.name}
+                                href="show_part_info.php?pid={$row.id}">
+                                {$row.name}
                             </a>
                         </td>
                     {/if}
@@ -144,7 +144,7 @@
                         {* name/comment/description *}
                         <td class="tdrow1{if $row.obsolete} backred{/if}">
                             <a data-toggle="tooltip" title="{if $row.obsolete}(nicht mehr erhätlich) {/if}{if $row.comment}Kommentar: {$row.comment}{/if}"
-                                href="show_part_info.php?pid={$row.id}" onclick="loadLink(this);">
+                                href="show_part_info.php?pid={$row.id}">
                                 {$row.name}{if isset($row.description)}&nbsp;{$row.description}{/if}
                             </a>
                         </td>

@@ -220,4 +220,3 @@
 
     $html->print_footer();
 
-?>

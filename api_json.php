@@ -40,5 +40,3 @@ $api = new API($database,$current_user,$log,API::OUTPUT_JSON);
 
 //Print out API result
 echo $api->output($mode,$_REQUEST);
-
-?>

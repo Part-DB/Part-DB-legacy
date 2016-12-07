@@ -255,5 +255,3 @@
         $html->print_template($tmpl_site_to_show);
 
     $html->print_footer();
-
-?>

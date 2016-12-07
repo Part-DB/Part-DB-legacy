@@ -166,5 +166,3 @@
 
     $html->print_footer();
 
-?>
-

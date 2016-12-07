@@ -222,6 +222,7 @@
          * Gets the content for a 1D/2D barcode for this part
          * @param string $barcode_type the type of the barcode ("EAN8" or "QR")
          * @return string
+         * @throws An Exception is thrown if you selected a unknown barcode type.
          */
         public function get_barcode_content($barcode_type = "EAN8")
         {
@@ -981,7 +982,7 @@
          *
          * @param string    $table_type             @li the type of the table which will be builded
          *                                          @li see Part::build_template_table_array()
-         * @param boolen    $row_index              The index of this table row
+         * @param int    $row_index                 The index of this table row
          * @param array     $additional_values      Here you can pass more values than only the part attributes.
          *                                          This is used in DevicePart::build_template_table_row_array().
          *
@@ -1885,4 +1886,3 @@
 
     }
 
-?>

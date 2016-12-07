@@ -10,7 +10,7 @@
                         <li><a  class="link-anchor" href="#G">G</a></li> <li><a class="link-anchor" href="#H">H</a></li> <li><a class="link-anchor" href="#I">I</a></li> <li><a class="link-anchor" href="#J">J</a></li> <li><a class="link-anchor" href="#K">K</a></li> <li><a  class="link-anchor" href="#L">L</a></li>
                         <li><a class="link-anchor" href="#M">M</a></li> <li><a class="link-anchor" href="#N">N</a></li> <li><a class="link-anchor" href="#O">O</a></li> <li><a class="link-anchor" href="#P">P</a></li> <li><a class="link-anchor" href="#Q">Q</a></li> <li><a class="link-anchor" href="#R">R</a></li>
                         <li><a class="link-anchor" href="#S">S</a></li> <li><a class="link-anchor" href="#T">T</a></li> <li><a class="link-anchor" href="#U">U</a></li> <li><a class="link-anchor" href="#V">V</a></li> <li><a  class="link-anchor" href="#W">W</a></li> <li><a class="link-anchor" href="#X">X</a></li>
-                        <li><a class="link-anchor" href="Y">Y</a></li> <li><a class="link-anchor" href="#Z">Z</a></li>
+                        <li><a class="link-anchor" href="#Y">Y</a></li> <li><a class="link-anchor" href="#Z">Z</a></li>
                       </ul>
     </div>
         <table class="table table-striped table-hover">
@@ -194,7 +194,8 @@
             <tr><td><img src="{$relative_path}img/iclogos/itex.png" alt=""></td><td>INTEL</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/itt.png" alt=""></td><td>ITT Semiconductor (Micronas Intermetall)</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/ixys.png" alt=""></td><td>IXYS</td></tr>
-            
+
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="J">J</a></th></thead>
 
             <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="K">K</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/kec.png" alt=""></td><td>Korea Electronics (KEC)</td></tr>
@@ -213,7 +214,7 @@
             <tr><td><img src="{$relative_path}img/iclogos/linear.png" alt=""></td><td>Linear Technology</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/linfin.png" alt=""></td><td>Linfinity Microelectronics</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/liteon.png" alt=""></td><td>Lite-On</td></tr>
-            <tr><td><img src="{$relative_path}img/iclogos/lucent.png" alt=""></td><td>Lucent Technologies (AT&amp;T Microelectronics)</td>
+            <tr><td><img src="{$relative_path}img/iclogos/lucent.png" alt=""></td><td>Lucent Technologies (AT&amp;T Microelectronics)</td></tr>
             
 
             <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="M">M</a></th></thead>
@@ -418,12 +419,10 @@
             <tr><td><img src="{$relative_path}img/iclogos/xicor1.png" alt=""></td><td>Xicor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/xicor.png" alt=""></td><td>Xicor</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/xilinx.png" alt=""></td><td>Xilinx</td></tr>
-            
 
-            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="B">Y</a></th></thead>
-            
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="Y">Y</a></th></thead>
 
-            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="B">Z</a></th></thead>
+            <thead><tr class="bg-info"><th colspan="2"><a class="headline" id="Z">Z</a></th></thead>
             <tr><td><img src="{$relative_path}img/iclogos/zetex.png" alt=""></td><td>Zetex Semiconductors</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/zilog1.png" alt=""></td><td>Zilog</td></tr>
             <tr><td><img src="{$relative_path}img/iclogos/zilog2.png" alt=""></td><td>Zilog</td></tr>

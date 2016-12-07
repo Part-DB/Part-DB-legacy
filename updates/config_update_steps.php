@@ -118,5 +118,3 @@
 
         return $messages;
     }
-
-?>

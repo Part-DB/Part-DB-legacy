@@ -24,8 +24,8 @@ input[type=text], input[type=password] {
 }
 
 .outer h1 {
-    margin:  0px;
-    padding: 0px;
+    margin:  0;
+    padding: 0;
     font-size: 70px;
     text-align: center;
     text-shadow: grey 2px 2px 4px;
@@ -33,7 +33,7 @@ input[type=text], input[type=password] {
 
 .outer h2 {
     background-color: #BABABA;
-    margin-top:    0px;
+    margin-top:    0;
     margin-bottom: 1px;
     border-bottom: 2px solid #F76B02;
     border-left:   1px solid #F76B02;
@@ -278,10 +278,7 @@ td.labelbild {
 {
     text-align: center;
     text-indent: 0;
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-top: 0px;
-    margin-bottom: 0px;
+    margin: 0 5px;
 }
 
 #homelink
@@ -301,7 +298,7 @@ td.labelbild {
 }
 .search_selection p
 {
-    margin: 0px;
+    margin: 0;
     width: 9em;
     float: left;
 }
@@ -316,43 +313,43 @@ td.labelbild {
 
 /* Nav Menue */
 .dtree {
-    padding:0px;
-    border: 0px;
+    padding:0;
+    border: 0;
     font-size: 12px;
     color: #666;
     white-space: nowrap;
 }
 .dtree img {
-    padding:0px;
-    border: 0px;
+    padding:0;
+    border: 0;
     vertical-align: middle;
 }
 .dtree a {
-    padding:0px;
-    border: 0px;
+    padding:0;
+    border: 0;
     color: #333;
     text-decoration: none;
 }
 .dtree a.node, .dtree a.nodeSel {
-    padding:0px;
-    border: 0px;
+    padding:0;
+    border: 0;
     white-space: nowrap;
     padding: 1px 2px 1px 2px;
 }
 .dtree a.node:hover, .dtree a.nodeSel:hover {
-    padding:0px;
-    border: 0px;
+    padding:0;
+    border: 0;
     color: #333;
     text-decoration: underline;
 }
 .dtree a.nodeSel {
-    padding:0px;
-    border: 0px;
+    padding:0;
+    border: 0;
     background-color: #c0d2ec;
 }
 .dtree .clip {
-    padding:0px;
-    border: 0px;
+    padding:0;
+    border: 0;
     overflow: hidden;
 }
 

@@ -93,13 +93,13 @@
                              'fax_number'  => $this->get_fax_number(),
                              'email_address' => $this->get_email_address(),
                              'website' => $this->get_website(),
-                             'auto_url' => $this->get_auto_product_url);
+                             'auto_url' => $this->get_auto_product_url());
             }
             else
             {
                 $ret = array('id' => $this->get_id(),
                              'name' => $this->get_name(),
-                             'auto_url' => $this->get_auto_product_url);
+                             'auto_url' => $this->get_auto_product_url());
             }
 
             return $ret;
@@ -281,5 +281,3 @@
         }
 
     }
-
-?>

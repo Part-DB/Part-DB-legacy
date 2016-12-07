@@ -1,6 +1,7 @@
 <?php
 
 //Include TCPDF library
+/** @noinspection PhpIncludeInspection */
 require_once(BASE.'/lib/tcpdf/tcpdf.php');
 
 /**
@@ -72,7 +73,7 @@ class PartLabel
      */
     public function get_lines()
     {
-        return $this->type;
+        return $this->lines;
     }
 
 
@@ -134,6 +135,7 @@ class PartLabel
 
             return $c;
          }
+        return "";
     }
 
     public function generate_barcode($download = false)
@@ -240,7 +242,7 @@ class PartLabel
         $lines = array();
         $lines[] = "BAUTEIL : %name% - %cat%";
         $lines[] = "LAGER   : %storeloc%";
-        $lines[] = "GEHÄUSE : %foot%";
+        $lines[] = "GEHï¿½USE : %foot%";
         $lines[] = "BEST-NR : %order_nr% - %supplier%";
         $presets[] = $lines;
 

@@ -38,7 +38,7 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/1002.png" class="labelbild" alt="">
-                    <div clas="caption"><h4>10 kOhm</h4></div>
+                    <div class="caption"><h4>10 kOhm</h4></div>
                 </div>
             </div>
             <div class="col-md-3">

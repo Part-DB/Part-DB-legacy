@@ -120,9 +120,11 @@
                <div class="row">
                 <table class="table table-hover table-striped">
                     <thead>
-                        <th>{t}Footprint{/t}</th>
-                        <th>{t}Fehlerhafter Dateiname{/t}</th>
-                        <th>{t}Vorgeschlagene Dateinamen{/t}</th>
+                        <tr>
+                            <th>{t}Footprint{/t}</th>
+                            <th>{t}Fehlerhafter Dateiname{/t}</th>
+                            <th>{t}Vorgeschlagene Dateinamen{/t}</th>
+                        </tr>
                     </thead>
                     
                     <tbody>
@@ -195,9 +197,11 @@
                <div class="row">
                 <table class="table table-hover table-striped">
                     <thead>
-                        <th>{t}Footprint{/t}</th>
-                        <th>{t}Fehlerhafter Dateiname{/t}</th>
-                        <th>{t}Vorgeschlagene Dateinamen{/t}</th>
+                        <tr>
+                            <th>{t}Footprint{/t}</th>
+                            <th>{t}Fehlerhafter Dateiname{/t}</th>
+                            <th>{t}Vorgeschlagene Dateinamen{/t}</th>
+                        </tr>
                     </thead>
                     
                     <tbody>

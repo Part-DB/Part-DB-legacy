@@ -301,5 +301,3 @@
     $config['auto_datasheets']['entries'][2]['url']         = 'http://search.datasheetcatalog.net/key/%%PARTNAME%%';
     $config['auto_datasheets']['entries'][2]['image']       = 'img/partdb/dc.png';
     // IMPORTANT: If you add your own export formats to your config.php, use letters instead of numbers as array indexes!! e.g. $config['auto_datasheets']['entries']['A']['name'] = 'foo';
-
-?>

@@ -340,6 +340,7 @@
 
                 if ($config['debug']['template_debugging_enable'])
                 {
+                    /** @noinspection PhpIncludeInspection */
                     include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
                     $tmpl = new vlibTemplateDebug($vlib_head);
                 }
@@ -491,6 +492,7 @@
 
                 if ($config['debug']['template_debugging_enable'])
                 {
+                    /** @noinspection PhpIncludeInspection */
                     include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
                     $tmpl = new vlibTemplateDebug($vlib_template);
                 }
@@ -585,6 +587,7 @@
 
                 if ($config['debug']['template_debugging_enable'])
                 {
+                    /** @noinspection PhpIncludeInspection */
                     include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
                     $tmpl = new vlibTemplateDebug($vlib_foot);
                 }
@@ -636,5 +639,3 @@
             }
         }
     }
-
-?>

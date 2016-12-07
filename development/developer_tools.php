@@ -222,5 +222,3 @@
         $html->print_template('developer_tools');
 
     $html->print_footer();
-
-?>

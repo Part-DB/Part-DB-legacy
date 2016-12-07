@@ -54,11 +54,11 @@
                 <h2 class="red">{t}Achtung!{/t}</h2>
             </div>
         <div class="panel-body">
-        <font color="red">{t}In Ihrer Datenbank gibt es Footprints, die einen fehlerhaften Dateinamen hinterlegt haben.
+        <span style="color: red; ">{t}In Ihrer Datenbank gibt es Footprints, die einen fehlerhaften Dateinamen hinterlegt haben.
         Dies kann durch ein Datenbankupdate, ein Update von Part-DB, oder durch nicht mehr existierende Dateien ausgelöst worden sein.{/t}
         <br>
         {t escape=none}Sie können dies unter <a href="edit_footprints.php">Bearbeiten/Footprints</a> (ganz unten, "Fehlerhafte Dateinamen") korrigieren.{/t}
-        </font>
+        </span>
     </div>
     </div>
 {/if}
@@ -112,6 +112,3 @@
     </div>
 </div>
 {/if}
-    
-    
-</div>

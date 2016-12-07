@@ -53,9 +53,9 @@
     function exception_handler($e)
     {
         print_messages_without_template(    'Part-DB: Schwerwiegender Fehler!', NULL,
-                                            '<font color="red"><strong>Es ist ein schwerwiegender Fehler aufgetreten:'.
+                                            '<span style="color: red; "><strong>Es ist ein schwerwiegender Fehler aufgetreten:' .
                                             '<br><br>'.nl2br($e->getMessage()).'</strong><br><br>'.
-                                            '(Exception wurde geworfen in '.$e->getFile().', Zeile '.$e->getLine().')</font>');
+                                            '(Exception wurde geworfen in '.$e->getFile().', Zeile '.$e->getLine(). ')</span>');
         exit;
     }
 
@@ -82,9 +82,9 @@
         if ($old_media_exists)  {$messages .= '"media/" --> "data/media/"<br>';}
         if ($old_log_exists)    {$messages .= '"log/" --> "data/log/"<br>';}
 
-        $messages .=    '<br><font color="red">WICHTIG:<br>Kopieren Sie jeweils nur den Inhalt der genannten Ordner, nicht den ganzen Ordner an sich!<br>'.
+        $messages .=    '<br><span style="color: red;">WICHTIG:<br>Kopieren Sie jeweils nur den Inhalt der genannten Ordner, nicht den ganzen Ordner an sich!<br>'.
                         'Die Zielordner enthalten bereits (teilweise versteckte) Dateien, die auf keinen Fall &uuml;berschrieben werden d&uuml;rfen!<br>'.
-                        'Kopieren Sie also nur den Inhalt dieser Ordner und l&ouml;schen Sie danach die alten, leeren Ordner im Hauptverzeichnis.</font></strong>';
+                        'Kopieren Sie also nur den Inhalt dieser Ordner und l&ouml;schen Sie danach die alten, leeren Ordner im Hauptverzeichnis.</span></strong>';
 
         print_messages_without_template('Part-DB', 'Update von Part-DB: Manuelle Eingriffe notwendig', $messages);
         exit;
@@ -170,7 +170,7 @@
     if (count($messages) > 0)
     {
         print_messages_without_template('Part-DB', 'Mindestanforderungen von Part-DB nicht erfüllt!',
-            '<font color="red"><strong>&bull;'.implode('<br>&bull;', $messages).'</strong></font><br><br>'.
+            '<span style="color: red; "><strong>&bull;' .implode('<br>&bull;', $messages). '</strong></span><br><br>' .
             'Nähere Informationen gibt es in der <a target="_blank" href="'.BASE_RELATIVE.
             '/documentation/dokuwiki/doku.php?id=anforderungen">Dokumentation</a>.');
         exit;
@@ -179,7 +179,7 @@
     $messages = check_file_permissions();
     if (count($messages) > 0)
     {
-        $message = '<strong><font color="red">';
+        $message = '<strong><span style="color: red; ">';
         foreach ($messages as $msg)
             $message .= '&bull;'.$msg.'<br>';
         $message .= '</font></strong><br><br>';
@@ -198,7 +198,7 @@
     if (is_string($message))
     {
         print_messages_without_template('Part-DB', 'Ihre config.php ist fehlerhaft!',
-            '<font color="red"><strong>'.$message.'</strong></font><br><br>'.
+            '<span style="color: red; "><strong>' .$message. '</strong></span><br><br>' .
             'Nähere Informationen gibt es in der <a target="_blank" href="'.BASE_RELATIVE.
             '/documentation/dokuwiki/doku.php?id=installation">Dokumentation</a>.<br><br>'.
             '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>');
@@ -220,13 +220,13 @@
         try
         {
             $update_messages = update_users_config_php();
-            $message =  '<strong><font color="darkgreen">Ihre config.php wurde erfolgreich aktualisiert!</font></strong><br><br>'.
+            $message =  '<strong><span style="color: darkgreen; ">Ihre config.php wurde erfolgreich aktualisiert!</span></strong><br><br>' .
                         'Es kann sein, dass jetzt der Installationsassistent startet, '.
                         'um noch einige neue Einstellungen zu tätigen.<br><br>';
 
             if (count($update_messages) > 0)
             {
-                $message .= '<strong><font color="red">';
+                $message .= '<strong><span style="color: red; ">';
                 foreach ($update_messages as $text)
                     $message .= '&bull;'.$text.'<br>';
                 $message .= '</font></strong><br>';
@@ -234,8 +234,8 @@
         }
         catch (Exception $e)
         {
-            $message =  '<strong><font color="red">Es gab ein Fehler bei der Aktualisierung ihrer config.php:<br><br>'.
-                        nl2br($e->getMessage()).'</font></strong><br><br>';
+            $message =  '<strong><span style="color: red; ">Es gab ein Fehler bei der Aktualisierung ihrer config.php:<br><br>' .
+                        nl2br($e->getMessage()). '</span></strong><br><br>';
         }
 
         $message .= '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>';
@@ -339,5 +339,3 @@
     Smarty_Autoloader::register();
 
     spl_autoload_register("load");
-
-?>

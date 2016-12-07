@@ -2,7 +2,7 @@
 
     /*
     part-db version 0.4
-    Copyright (C) 2016 Jan Böhmer
+    Copyright (C) 2016 Jan Bï¿½hmer
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -94,5 +94,3 @@
         $html->print_template('show_part_label');
 
     $html->print_footer();
-
-?>

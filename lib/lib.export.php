@@ -326,9 +326,8 @@
             $mimetype = $config['export'][$export_type][$format_id]['mimetype'];
             $filename .= '.'.substr($mimetype, strpos($mimetype, '/') + 1);
             send_string($output, $filename, $mimetype); // in this function is an "exit;" !
+            return ""; //Useless but its suppresses warnings.
         }
         else
             return $output;
     }
-
-?>

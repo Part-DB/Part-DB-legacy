@@ -37,7 +37,8 @@
         2015-05-11  susnux          - updated update() function to distinguish between error and normal message
 */
 
-    include_once(BASE.'/updates/db_update_steps.php');
+/** @noinspection PhpIncludeInspection */
+include_once(BASE.'/updates/db_update_steps.php');
 
     /**
      * @file class.Database.php
@@ -926,4 +927,3 @@
 
     }
 
-?>

@@ -144,4 +144,3 @@
         $html->print_template('show_obsolete_parts');
 
     $html->print_footer();
-?>

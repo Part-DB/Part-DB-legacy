@@ -4,9 +4,9 @@
                         {foreach $messages as $msg}
                             {if isset($msg.text)}
                                 {if isset($msg.strong)}<strong>{/if}
-                                {if isset($msg.color)}<font color="{$msg.color}">{/if}
+                                {if isset($msg.color)}<span style="color: {$msg.color}; ">{/if}
                                 {$msg.text nofilter}
-                                {if isset($msg.color)}</font>{/if}
+                                {if isset($msg.color)}</span>{/if}
                                 {if isset($msg.strong)}</strong>{/if}
                             {/if}
 

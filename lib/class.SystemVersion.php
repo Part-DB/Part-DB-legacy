@@ -181,7 +181,7 @@
          *
          * With this function we can compare two objects.
          *
-         * @param Version $version_2    the Version which we want to compare with this Version
+         * @param SystemVersion $version_2    the Version which we want to compare with this Version
          *
          * @retval boolean  @li true if this Version is newer than $version_2
          *                  @li otherwise false (equal or older)
@@ -290,5 +290,3 @@
             }
         }
     }
-
-?>

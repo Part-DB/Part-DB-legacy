@@ -4,7 +4,7 @@
     <div class="panel-heading">
             <i class="fa fa-info-circle" aria-hidden="true"></i> 
             {if !$is_new_part}
-                {t}Ändere Detailinfos von{/t} <b><a href="{$relative_path}show_part_info.php?pid={$pid}">{$name}</b></a>
+                {t}Ändere Detailinfos von{/t} <b><a href="{$relative_path}show_part_info.php?pid={$pid}">{$name}</a></b>
                 
                 <div style="float: right; display: inline;">
                     {t}ID:{/t} {$pid}
@@ -22,7 +22,7 @@
                         {t}Name:{/t}
                     </label>
                     <div class="col-md-10">
-                        <input type="text" name="name" id="name" class="form-control" palceholder="Name" size="35" value="{$name}">
+                        <input type="text" name="name" id="name" class="form-control" placeholder="Name" size="35" value="{$name}">
                     </div>
                 </div>
                 <div class="form-group">

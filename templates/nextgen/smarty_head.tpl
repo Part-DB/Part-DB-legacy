@@ -154,25 +154,25 @@
                    <nav>
                     <div class="col-sm-3 col-md-2" id="sidebar">
                         <ul class="nav navmenu-nav nav-sidebar">
-                            <div id="categories">
+                            <li id="categories">
                                 <h4>{t}Kategorien{/t}</h4>
                                 <div id="tree-categories"></div>
-                            </div>
-                            <div id="devices">
+                            </li>
+                            <li id="devices">
                                 <h4>{t}Baugruppen{/t}</h4>
                                 <div id="tree-devices"></div>
-                            </div>
-                            <div id="tools">
+                            </li>
+                            <li id="tools">
                                 <h4>{t}Verwaltung{/t}</h4>
                                 <div id="tree-tools"></div>
-                            </div>
+                            </li>
                         </ul>
 
                     </div>
                     </nav>
                 </aside>
                 
-                <div class="col-sm-9 col-md-10" id="main" main >
+                <div class="col-sm-9 col-md-10" id="main">
                    <div class="container-fluid" id="content">
                        
                        {if isset($messages)}
@@ -182,9 +182,9 @@
                                     {foreach $messages as $msg}
                                         {if isset($msg.text)}
                                             {if isset($msg.strong) && $msg.strong}<strong>{/if}
-                                            {if isset($msg.color)}<font color="{$msg.color}">{/if}
+                                            {if isset($msg.color)}<span style="color: {$msg.color}; ">{/if}
                                             {$msg.text nofilter}
-                                            {if isset($msg.color)}</font>{/if}
+                                            {if isset($msg.color)}</span>{/if}
                                             {if isset($msg.strong) && $msg.strong}</strong>{/if}
                                         {/if}
 

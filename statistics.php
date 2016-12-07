@@ -104,5 +104,3 @@
         $html->print_template('statistics');
 
     $html->print_footer();
-
-?>
