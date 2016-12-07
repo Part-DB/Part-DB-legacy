@@ -48,9 +48,11 @@
         <script src="{$relative_path}js/jquery.form.min.js"></script>   
         
         <!-- 3d footprint viewer -->
-        <script src="http://www.x3dom.org/release/x3dom.js"></script>
+        {if isset($foot3d_active) && $foot3d_active}
+        <script src="http://www.x3dom.org/release/x3dom.js" async></script>
         <link rel="stylesheet" href="http://www.x3dom.org/release/x3dom.css">
-        
+        {/if}
+
         <!--
         <link rel="stylesheet" type="text/css" href="{$relative_path}DataTables-1.10.12/css/dataTables.bootstrap.min.css"/>
         <script type="text/javascript" src="{$relative_path}DataTables-1.10.12/js/jquery.dataTables.min.js"></script>
@@ -58,7 +60,7 @@
         
         
         <link rel="stylesheet" type="text/css" href="{$relative_path}datatables/datatables.min.css"/>
-        <script type="text/javascript" src="{$relative_path}datatables/datatables.min.js"></script>
+        <script type="text/javascript" src="{$relative_path}datatables/datatables.min.js" async></script>
         
 
         

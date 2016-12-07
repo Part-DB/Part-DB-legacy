@@ -416,6 +416,9 @@
                 if (strlen($this->meta['custom_css']) > 0)
                     $tmpl->assign('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
 
+                //Only load X3D libraries if this is activated
+                $tmpl->assign('foot3d_active',         $config['foot3d']['active']);
+
                 // JavaScript files
                 $javascript_loop = array();
                 foreach ($this->javascript_files as $filename)
