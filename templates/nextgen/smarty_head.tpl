@@ -11,9 +11,13 @@
         
         <title>{$page_title}</title> 
         
-        <!-- Include Bootstrap -->
-        <link href="{$relative_path}css/bootstrap.min.css" rel="stylesheet">
-        
+        <!-- Include Bootstrap or an Bootswatch theme -->
+        {if !isset($custom_css)}
+            <link href="{$relative_path}css/bootstrap.min.css" rel="stylesheet">
+        {else}
+            <link rel="stylesheet" href="{$relative_path}{$custom_css}">
+        {/if}
+
         <!-- Include Awsome Font -->
         <link rel="stylesheet" href="{$relative_path}css/font-awesome.min.css">
         
@@ -36,7 +40,7 @@
         <!-- Include Part-DB Theme -->
         <link href="{$relative_path}templates/{$theme}/nextgen.css" rel="stylesheet">
         <!-- <link href="{$relative_path}templates/{$theme}/partdb.css" rel="stylesheet"> -->
-        {if isset($custom_css)}<link rel="stylesheet" href="{$relative_path}{$custom_css}"> {/if}
+
         
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="{$relative_path}js/jquery-3.1.1.min.js"></script>
@@ -72,25 +76,19 @@
                
         <!-- Always include CSS for Calculator. Maybe minimize this later for better performance -->  
         <link rel="stylesheet" href="{$relative_path}templates/{$theme}/tools_calculator.php/calculator.css" type="text/css">
-        
-        <!-- Redirect -->
-       {* {if $redirect } <meta http-equiv="refresh" content="0; url={$relative_path}startup.php" /> {/if} *}
-        
+
+        <!-- Treeview -->
+        <script src="{$relative_path}js/bootstrap-treeview.js"></script>
+
+        <!-- FileInput -->
+        <script src="{$relative_path}js/fileinput.min.js"></script>
+
+        <!-- Functions -->
+        <script src="{$relative_path}templates/nextgen/js/part-db.js"></script>
     </head>
     
 <body>
 
-    
-    <!-- Treeview -->
-    <script src="{$relative_path}js/bootstrap-treeview.js"></script>
-    
-    <!-- FileInput -->
-    <script src="{$relative_path}js/fileinput.min.js"></script>
-    
-    <script src="{$relative_path}templates/nextgen/js/part-db.js"></script>
-    
-
-   
     <header>
         <nav class="navbar navbar-default navbar-fixed-top">
             <div class="container-fluid">

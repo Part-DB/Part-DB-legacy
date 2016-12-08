@@ -2,8 +2,8 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <i class="fa fa-info-circle" aria-hidden="true"></i> 
-       {t}Detailinfo zu{/t} <b>"{$name}"</b>
+        <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;
+        {t}Detailinfo zu{/t} <b>"{$name}"</b>
             <div class="pull-right">
                 {t}ID:{/t} {$pid}
             </div>
@@ -198,7 +198,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <i class="fa fa-shopping-cart" aria-hidden="true"></i> 
+        <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;
         {t}Einkaufsinformationen{/t}
     </div>
             {if isset($orderdetails) && $orderdetails}
@@ -285,7 +285,7 @@
 
 <div class="panel panel-info">
     <div class="panel-heading">
-        <i class="fa fa-file" aria-hidden="true"></i>
+        <i class="fa fa-file" aria-hidden="true"></i>&nbsp;
         {t}Dateianhänge{/t}
     </div>
     <div class="panel-body">
