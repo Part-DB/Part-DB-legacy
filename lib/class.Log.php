@@ -71,7 +71,7 @@
         public function __construct(&$database)
         {
             if (get_class($database) != 'Database')
-                throw new Exception('$database ist kein Database-Objekt');
+                throw new Exception(_('$database ist kein Database-Objekt'));
 
             $this->database = $database;
         }

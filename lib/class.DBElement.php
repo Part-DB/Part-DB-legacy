@@ -340,22 +340,22 @@
         public static function add(&$database, &$current_user, &$log, $tablename, $new_values)
         {
             if (get_class($database) != 'Database')
-                throw new Exception('$database ist kein gültiges Database-Objekt!');
+                throw new Exception(_('$database ist kein gültiges Database-Objekt!'));
 
             if (get_class($current_user) != 'User')
-                throw new Exception('$current_user ist kein gültiges User-Objekt!');
+                throw new Exception(_('$current_user ist kein gültiges User-Objekt!'));
 
             if (get_class($log) != 'Log')
-                throw new Exception('$log ist kein gültiges Log-Objekt!');
+                throw new Exception(_('$log ist kein gültiges Log-Objekt!'));
 
             if ( ! is_string($tablename))
-                throw new Exception('$tablename ist kein String!');
+                throw new Exception(_('$tablename ist kein String!'));
 
             if ( ! is_array($new_values))
-                throw new Exception('$new_values ist kein Array!');
+                throw new Exception(_('$new_values ist kein Array!'));
 
             if (count($new_values) < 1)
-                throw new Exception('Das Array $new_values ist leer!');
+                throw new Exception(_('Das Array $new_values ist leer!'));
 
             if ( ! $database->does_table_exist($tablename))
                 throw new Exception('Die Tabelle "'.$tablename.'" existiert nicht!');

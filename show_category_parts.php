@@ -72,7 +72,7 @@
     *
     *********************************************************************************/
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Teileansicht');
+    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Teileansicht'));
 
     try
     {
@@ -81,7 +81,7 @@
         $current_user       = new User($database, $current_user, $log, 1); // admin
 
         if ($category_id < 1)
-            throw new Exception('Es wurde keine gültige Kategorien-ID übermittelt!');
+            throw new Exception(_('Es wurde keine gültige Kategorien-ID übermittelt!'));
 
         $category = new Category($database, $current_user, $log, $category_id);
 
@@ -130,7 +130,7 @@
                 try
                 {
                     if ( ! is_object($part))
-                        throw new Exception('Es wurde keine gültige Bauteil-ID übermittelt!');
+                        throw new Exception(_('Es wurde keine gültige Bauteil-ID übermittelt!'));
 
                     $part->set_instock($part->get_instock() + 1);
 

@@ -165,6 +165,7 @@
          */
         public function get_parts($parts_rowname, $recursive = false, $hide_obsolete_and_zero = false)
         {
+        /*
             if ( ! is_array($this->parts))
             {
                 $this->parts = array();
@@ -188,13 +189,56 @@
             {
                 $subelements = $this->get_subelements(false);
 
-                foreach ($subelements as $element)
-                    $parts = array_merge($parts, $element->get_parts(true, $hide_obsolete_and_zero));
+                foreach ($subelements as $element) {
+                    $i = $element->get_id();
 
+                    $parts = array_merge($parts, $element->get_parts(true, $hide_obsolete_and_zero));
+                }
                 usort($parts, 'PartsContainingDBElement::usort_compare'); // Sort all parts by their names and descriptions
             }
 
             return $parts;
+            */
+
+            $subelements = array();
+
+            if ($recursive)
+            {
+                $subelements = $this->get_subelements(true);
+            }
+
+            if ( is_null($this->parts) || ! is_array($this->parts))
+            {
+                $this->parts = array();
+
+                $query = 'SELECT id FROM parts WHERE '.$parts_rowname.'= '. $this->get_id();
+
+                foreach($subelements as $element)
+                {
+                    $query = $query . " OR ".$parts_rowname."= ".$element->get_id();
+                }
+                $query = $query.
+                    ' ORDER BY name, description';
+                //$query_data = $this->database->query($query);
+                $query_data = $this->database->query($query);
+
+                foreach ($query_data as $row)
+                    $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['id']);
+
+                usort($this->parts, 'PartsContainingDBElement::usort_compare');
+            }
+
+            $parts = $this->parts;
+
+            if ($hide_obsolete_and_zero)
+            {
+                // remove obsolete parts from array
+                $parts = array_values(array_filter($parts, function($part) {return (( ! $part->get_obsolete()) || ($part->get_instock() > 0));}));
+            }
+
+            return $parts;
+
+
         }
 
         /**

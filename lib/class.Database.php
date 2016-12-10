@@ -124,7 +124,7 @@ include_once(BASE.'/updates/db_update_steps.php');
                         break;
 
                     default:
-                        throw new Exception('Unbekannter Datenbanktyp: "'.$config['db']['type'].'"');
+                        throw new Exception(_('Unbekannter Datenbanktyp: "').$config['db']['type'].'"');
                         break;
                 }
 
@@ -180,7 +180,7 @@ include_once(BASE.'/updates/db_update_steps.php');
             $query_data = $this->query('SELECT keyValue FROM internal WHERE keyName LIKE ?', array('dbVersion'));
 
             if (count($query_data) !== 1)
-                throw new Exception('Eintrag "dbVersion" existiert nicht in der Tabelle "internal"!');
+                throw new Exception(_('Eintrag "dbVersion" existiert nicht in der Tabelle "internal"!'));
 
             return intval($query_data[0]['keyValue']);
         }
@@ -800,7 +800,7 @@ include_once(BASE.'/updates/db_update_steps.php');
                 $data = array(); // an empty array is better than NULL...
 
             if ( ! is_array($data))
-                throw new Exception('PDO Ergebnis ist kein Array!');
+                throw new Exception(_('PDO Ergebnis ist kein Array!'));
 
             return $data;
         }
