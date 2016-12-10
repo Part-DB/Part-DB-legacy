@@ -110,7 +110,7 @@
                            <div class="input-group">
                                 <input type="text" class="form-control" name="search_manufacturer_name" placeholder="Suchen / Hinzufügen" onkeydown="if (event.keyCode == 13) { document.getElementById('search_manufacturer').click();} ">
                                 <span class="input-group-btn">
-                                    <button type="submit" class="btn btn-default" name="search_manufacturer" id="search_manufacturer">{t}OK{/t}</button>
+                                    <button type="submit" class="btn btn-default" name="search_manufacturer" id="search_manufacturer">{t}OK!{/t}</button>
                                 </span>
                             
                             </div>

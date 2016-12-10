@@ -69,18 +69,6 @@
     $search_storelocation_name  = isset($_REQUEST['search_storelocation_name']) ? (string)$_REQUEST['search_storelocation_name'] : '';
     $search_manufacturer_name   = isset($_REQUEST['search_manufacturer_name'])  ? (string)$_REQUEST['search_manufacturer_name']  : '';
 
-    // section: orderdetails
-    $orderdetails_id            = isset($_REQUEST['orderdetails_id'])           ? (integer)$_REQUEST['orderdetails_id']          : 0;
-    $new_supplier_id            = isset($_REQUEST['supplier_id'])               ? (integer)$_REQUEST['supplier_id']              : 0;
-    $new_supplierpartnr         = isset($_REQUEST['supplierpartnr'])            ? (string)$_REQUEST['supplierpartnr']            : '';
-    $new_obsolete               = isset($_REQUEST['obsolete']);
-
-    // section: pricedetails
-    $pricedetails_id            = isset($_REQUEST['pricedetails_id'])           ? (integer)$_REQUEST['pricedetails_id']          : 0;
-    $new_price                  = isset($_REQUEST['price'])                     ? (float)str_replace(',', '.', $_REQUEST['price']) : 0; // TODO: use the PHP class "NumberFormatter"
-    $new_min_discount_quantity  = isset($_REQUEST['min_discount_quantity'])     ? (integer)$_REQUEST['min_discount_quantity']    : 1;
-    $new_price_related_quantity = isset($_REQUEST['price_related_quantity'])    ? (integer)$_REQUEST['price_related_quantity']   : 1;
-
     // section: attachements
     $new_show_in_table          = isset($_REQUEST['show_in_table']);
     $new_is_master_picture      = isset($_REQUEST['is_master_picture']);
@@ -100,13 +88,13 @@
 
     if (isset($_REQUEST["apply_attributes"]))           {$action = 'apply_attributes';}
 
-    if (isset($_REQUEST["orderdetails_add"]))           {$action = 'orderdetails_add';}
-    if (isset($_REQUEST["orderdetails_apply"]))         {$action = 'orderdetails_apply';}
-    if (isset($_REQUEST["orderdetails_delete"]))        {$action = 'orderdetails_delete';}
+    if (isset($_REQUEST["orderdetails_add"]))           {$action = 'orderdetails_add';      $orderdetails_id = $_REQUEST["orderdetails_add"];}
+    if (isset($_REQUEST["orderdetails_apply"]))         {$action = 'orderdetails_apply';    $orderdetails_id = $_REQUEST["orderdetails_apply"];}
+    if (isset($_REQUEST["orderdetails_delete"]))        {$action = 'orderdetails_delete';   $orderdetails_id = $_REQUEST["orderdetails_delete"];}
 
-    if (isset($_REQUEST["pricedetails_add"]))           {$action = 'pricedetails_add';}
-    if (isset($_REQUEST["pricedetails_apply"]))         {$action = 'pricedetails_apply';}
-    if (isset($_REQUEST["pricedetails_delete"]))        {$action = 'pricedetails_delete';}
+    if (isset($_REQUEST["pricedetails_add"]))           {$action = 'pricedetails_add';      $pricedetails_id = "new"; $orderdetails_id = $_REQUEST["pricedetails_add"];}
+    if (isset($_REQUEST["pricedetails_apply"]))         {$action = 'pricedetails_apply';    $pricedetails_id = $_REQUEST["pricedetails_apply"];}
+    if (isset($_REQUEST["pricedetails_delete"]))        {$action = 'pricedetails_delete';   $pricedetails_id = $_REQUEST["pricedetails_delete"];}
 
     if (isset($_REQUEST["attachement_add"]))            {$action = 'attachement_add';}
     if (isset($_REQUEST["attachement_apply"]))          {$action = 'attachement_apply';}
@@ -120,7 +108,21 @@
     if (isset($_REQUEST["search_storelocation"]))       {$action = 'search_storelocation';}
     if (isset($_REQUEST["search_manufacturer"]))        {$action = 'search_manufacturer';}
 
-    /********************************************************************************
+
+    // section: orderdetails
+    if(isset($orderdetails_id)) {
+        $new_supplier_id = isset($_REQUEST['supplier_id_'.$orderdetails_id]) ? (integer)$_REQUEST['supplier_id_'.$orderdetails_id] : 0;
+        $new_supplierpartnr = isset($_REQUEST['supplierpartnr_'.$orderdetails_id]) ? (string)$_REQUEST['supplierpartnr_'.$orderdetails_id] : '';
+        $new_obsolete = isset($_REQUEST['obsolete_'.$orderdetails_id]);
+    }
+    // section: pricedetails
+    if(isset($pricedetails_id)) {
+        $new_price = isset($_REQUEST['price_' . $pricedetails_id]) ? (float)str_replace(',', '.', $_REQUEST['price_' . $pricedetails_id]) : 0;
+        $new_min_discount_quantity = isset($_REQUEST['min_discount_quantity_' . $pricedetails_id]) ? (integer)$_REQUEST['min_discount_quantity_' . $pricedetails_id] : 1;
+        $new_price_related_quantity = isset($_REQUEST['price_related_quantity_' . $pricedetails_id]) ? (integer)$_REQUEST['price_related_quantity_'.$pricedetails_id] : 1;
+    }
+
+/********************************************************************************
     *
     *   Initialize Objects
     *
@@ -149,12 +151,12 @@
         $root_supplier          = new Supplier($database, $current_user, $log, 0);
         $root_attachement_type  = new AttachementType($database, $current_user, $log, 0);
 
-        if ($orderdetails_id > 0)
+        if (isset($orderdetails_id) && $orderdetails_id > 0)
             $orderdetails = new Orderdetails($database, $current_user, $log, $orderdetails_id);
         else
             $orderdetails = NULL;
 
-        if ($pricedetails_id > 0)
+        if (isset($pricedetails_id) && $pricedetails_id > 0)
             $pricedetails = new Pricedetails($database, $current_user, $log, $pricedetails_id);
         else
             $pricedetails = NULL;
@@ -252,10 +254,12 @@
             case 'orderdetails_delete':
                 try
                 {
+                    //$orderdetails = new Orderdetails($database, $current_user, $log, $_REQUEST['orderdetails_delete']);
                     if ( ! is_object($orderdetails))
                         throw new Exception(_('Es ist keine Einkaufsinformation ausgewählt!'));
 
                     $orderdetails->delete();
+
                 }
                 catch (Exception $e)
                 {
@@ -279,6 +283,8 @@
             case 'pricedetails_apply':
                 try
                 {
+                    //$pricedetails_id = $_REQUEST['pricedetails_apply'];
+                    //$pricedetails = new Pricedetails($database, $current_user, $log, $pricedetails_id);
                     if ( ! is_object($pricedetails))
                         throw new Exception(_('Es ist keine Preisinformation ausgewählt!'));
 
@@ -295,6 +301,7 @@
             case 'pricedetails_delete':
                 try
                 {
+                    $pricedetails = new Pricedetails($database, $current_user, $log, $_REQUEST['pricedetails_delete']);
                     if ( ! is_object($pricedetails))
                         throw new Exception(_('Es ist keine Preisinformation ausgewählt!'));
 

@@ -46,39 +46,18 @@
      */
     function print_messages_without_template($page_title, $div_title, $messages)
     {
-        print '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd"><html><head>';
+        print '<!DOCTYPE html><html lang="en"><head>';
         print '<title>'.htmlspecialchars($page_title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8').'</title>';
-        print '<meta http-equiv="content-type" content="text/html; charset=utf-8">
-                <style type="text/css">
-                .body {     background-color: #cdcdcd;
-                            font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;}
-                .outer {    background-color: #ffffff;
-                            margin-top: 10px;
-                            margin-bottom: 15px;
-                            border: none;
-                            border-bottom: 1px solid #000000;
-                            border-left: 1px solid #000000;
-                            padding: 11px;
-                            font-size: 12px;}
-                .outer h2 { background-color: #BABABA;
-                            margin-top: 0;
-                            margin-bottom: 1px;
-                            border-bottom: 2px solid #F76B02;
-                            border-left:   1px solid #F76B02;
-                            padding: 1px;
-                            font-size: 15px;
-                            font-weight: bold;}
-                .inner {    background-color: #F2F2F2;
-                            border-bottom: 3px solid #d0d0d0;
-                            border-left: 1px solid #d0d0d0;
-                            border-right:  1px solid #d0d0d0;
-                            padding: 1px;}
-                </style></head>';
-        print '<body class="body"><div class="outer">';
-        if ($div_title) {print '<div class="inner"><h2>'.$div_title.'</h2>';}
+        print '<meta charset="utf-8">
+                <meta http-equiv="X-UA-Compatible" content="IE=edge">
+                <meta name="viewport" content="width=device-width, initial-scale=1">
+                <link href="css/bootstrap.min.css" rel="stylesheet"></head>';
+        print '<body><main><div class="container-fluid" id="content"><div class="panel panel-danger">';
+        if ($div_title) {print '<div class="panel-heading">'.$div_title.'</div>';}
+        print '<div class="panel-body">';
         print $messages;
-        if ($div_title) {print '</div>';}
-        print '</div></body></html>';
+        {print '</div>';}
+        print '</div></main></body></html>';
     }
 
     /**
