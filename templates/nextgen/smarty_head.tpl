@@ -103,11 +103,9 @@
             <div class="container-fluid">
              <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <button type="button" class="navbar-toggle" data-toggle="offcanvas">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#sidebar">
                         <span class="sr-only">{t}Toggle Sidebar{/t}</span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
-                        <span class="icon-bar"></span>
+                        <span class="glyphicon glyphicon-menu-hamburger"></span>
                     </button>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#searchbar" aria-expanded="false">
                         <span class="sr-only">{t}Toggle Navigation{/t}</span>
@@ -158,26 +156,25 @@
    <main>
       <div class="container-fluid">
    
-           <div class="row row-offcanvas row-offcanvas-right active">
-                <aside class="hidden-print">
-                   <nav>
-                    <div class="col-sm-3 col-md-2" id="sidebar">
-                        <ul class="nav navmenu-nav nav-sidebar">
-                            <li id="categories">
-                                <h4>{t}Kategorien{/t}</h4>
-                                <div id="tree-categories"></div>
-                            </li>
-                            <li id="devices">
-                                <h4>{t}Baugruppen{/t}</h4>
-                                <div id="tree-devices"></div>
-                            </li>
-                            <li id="tools">
-                                <h4>{t}Verwaltung{/t}</h4>
-                                <div id="tree-tools"></div>
-                            </li>
-                        </ul>
-
-                    </div>
+           <div class="row">
+                <aside class="hidden-print col-sm-3 col-md-2 sidebar-collapse collapse" id="sidebar">
+                    <nav class="fixed-sidebar">
+                        <div class="">
+                            <ul class="nav navmenu-nav">
+                                <li id="categories">
+                                    <h4>{t}Kategorien{/t}</h4>
+                                    <div id="tree-categories"></div>
+                                </li>
+                                <li id="devices">
+                                    <h4>{t}Baugruppen{/t}</h4>
+                                    <div id="tree-devices"></div>
+                                </li>
+                                <li id="tools">
+                                    <h4>{t}Verwaltung{/t}</h4>
+                                    <div id="tree-tools"></div>
+                                </li>
+                            </ul>
+                        </div>
                     </nav>
                 </aside>
                 
