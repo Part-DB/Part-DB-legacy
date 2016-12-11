@@ -1,25 +1,76 @@
-<div class="outer">
-    <h1><img src="{TMPL_VAR NAME="relative_path"}img/partdb/partdb.png" alt="logo">Part-DB {TMPL_VAR NAME="system_version"}<img src="{TMPL_VAR NAME="relative_path"}img/partdb/partdb.png" alt="logo"></h1>
-    <h3>Version: {TMPL_VAR NAME="system_version_full"}</h3>
-</div>
+{locale path="nextgen/locale" domain="partdb"}
 
-<div class="outer">
-    <h2>Willkommen bei Part-DB!</h2>
-    <div class="inner">
-        Part-DB, Copyright &copy; 2005 of <strong>Christoph Lechner</strong>. Part-DB is published under the <strong>GPL</strong>, so it comes with <strong>ABSOLUTELY NO WARRANTY</strong>, click <a href="{TMPL_VAR NAME="relative_path"}readme/gpl.txt">here</a> for details. This is free software, and you are welcome to redistribute it under certain conditions. Click <a href="{TMPL_VAR NAME="relative_path"}readme/gpl.txt">here</a> for details.<br>
-        <br>
-        <strong>Projektseite:</strong> Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a target="_blank" href="https://github.com/sandboxgangster/Part-DB">GitHub Projektseite</a><br>
-        <strong>Forum:</strong> Für Fragen rund um die Part-DB gibt es einen Thread auf <a target="_blank" href="https://www.mikrocontroller.net/topic/305023">mikrocontroller.net</a><br>
-        <strong>Wiki:</strong> Weitere Informationen gibt es im <a target="_blank" href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Artikel</a>
-    </div>
-    <br>
-    <div class="inner" style="background-color:#FFFC86">
-        <table><tr>
-            <td><img src="{TMPL_VAR NAME="relative_path"}img/partdb/help.png"></td>
-            <td>
-                <strong>In der <a href="{TMPL_VAR NAME="relative_path"}documentation/dokuwiki/index.php" target="_blank">Dokumentation</a> gibt es eine Installationsanleitung, FAQ und weitere Informationen.</strong><br>
-                Davon gibt es auch eine (meistens aktuellere) <a href="http://www.partdb.grautier.com/svn/documentation/dokuwiki/index.php" target="_blank">Online-Version</a>.
-            </td>
-        </tr></table>
-    </div>
-</div>
+<!DOCTYPE html>
+<html lang="{if isset($lang)}{$lang}{else}en{/if}">
+<head>
+    {if isset($http_charset)}<meta charset={$http_charset}>
+    {else}<meta charset="utf-8">{/if}
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="apple-touch-icon" sizes="180x180" href="{$relative_path}/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="{$relative_path}/icons/favicon-32x32.png" sizes="32x32">
+    <link rel="icon" type="image/png" href="{$relative_path}/icons/favicon-16x16.png" sizes="16x16">
+    <link rel="manifest" href="{$relative_path}/icons/manifest.json">
+    <link rel="mask-icon" href="{$relative_path}/icons/safari-pinned-tab.svg" color="#5bbad5">
+    <link rel="shortcut icon" href="{$relative_path}/icons/favicon.ico">
+    <meta name="msapplication-config" content="{$relative_path}/icons/browserconfig.xml">
+    <meta name="theme-color" content="#ffffff">
+
+    <title>{t}Part-DB Installation/Update{/t}</title>
+
+    <link href="{$relative_path}css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Include Awsome Font -->
+    <link rel="stylesheet" href="{$relative_path}css/font-awesome.min.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- Checkboxes -->
+    <link href="{$relative_path}css/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+    <!-- Fileinput -->
+    <link href="{$relative_path}css/fileinput.min.css" media="all" rel="stylesheet"/>
+
+    <!-- Include Part-DB Theme -->
+    <link href="{$relative_path}templates/nextgen/nextgen.css" rel="stylesheet">
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="{$relative_path}js/jquery-3.1.1.min.js"></script>
+
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="{$relative_path}js/bootstrap.min.js"></script>
+
+    <!-- jQuery Form lib -->
+    <script src="{$relative_path}js/jquery.form.min.js"></script>
+
+    <!-- Functions -->
+    <!-- <script src="{$relative_path}templates/nextgen/js/part-db.js"></script> -->
+
+</head>
+<body>
+
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <span class="navbar-brand"><i class="fa fa-microchip" aria-hidden="true"></i> Part-DB {$system_version} </span>
+
+                </div>
+                <div class="navbar-right">
+                    <span class="navbar-brand">{t}Version:{/t} {$system_version_full}</span>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+<div class="container">
+
+

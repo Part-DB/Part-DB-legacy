@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-06 18:56+0100\n"
+"POT-Creation-Date: 2016-12-11 12:03+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,10 +44,10 @@ msgstr ""
 #: ../edit_storelocations.php:192 ../edit_storelocations.php:214
 #: ../edit_suppliers.php:130 ../edit_suppliers.php:163
 #: ../edit_suppliers.php:179 ../edit_suppliers.php:201
-#: ../lib/class.Database.php:339 ../lib/class.Database.php:396
-#: ../lib/class.Database.php:417 ../lib/class.Database.php:442
-#: ../lib/class.Database.php:456 ../lib/class.Database.php:481
-#: ../lib/class.Database.php:496 ../system_config.php:226
+#: ../lib/class.Database.php:340 ../lib/class.Database.php:397
+#: ../lib/class.Database.php:418 ../lib/class.Database.php:443
+#: ../lib/class.Database.php:457 ../lib/class.Database.php:482
+#: ../lib/class.Database.php:497 ../system_config.php:226
 #: ../system_config.php:246 ../system_database.php:109
 #: ../system_database.php:125 ../system_database.php:148
 #: ../tools_import.php:104 ../tools_import.php:121 ../tools_import.php:148
@@ -78,7 +78,7 @@ msgstr ""
 
 #: ../edit_attachement_types.php:143 ../edit_categories.php:151
 #: ../edit_devices.php:142 ../edit_footprints.php:165
-#: ../edit_manufacturers.php:153 ../edit_part_info.php:407
+#: ../edit_manufacturers.php:153 ../edit_part_info.php:414
 #: ../edit_storelocations.php:164 ../edit_suppliers.php:156
 msgid "Nein, nicht löschen"
 msgstr ""
@@ -171,7 +171,7 @@ msgid "Soll die Baugruppe \"%s\" wirklich unwiederruflich gelöscht werden?"
 msgstr ""
 
 #: ../edit_devices.php:135 ../edit_footprints.php:161
-#: ../edit_manufacturers.php:149 ../edit_part_info.php:397
+#: ../edit_manufacturers.php:149 ../edit_part_info.php:404
 #: ../edit_storelocations.php:160 ../edit_suppliers.php:152
 msgid "<br>Hinweise:"
 msgstr ""
@@ -287,64 +287,64 @@ msgstr ""
 msgid "Der Hersteller konnte nicht gelöscht werden!"
 msgstr ""
 
-#: ../edit_part_info.php:129
+#: ../edit_part_info.php:131
 msgid "Bauteil bearbeiten"
 msgstr ""
 
-#: ../edit_part_info.php:240 ../edit_part_info.php:256
+#: ../edit_part_info.php:242 ../edit_part_info.php:259
 msgid "Es ist keine Einkaufsinformation ausgewählt!"
 msgstr ""
 
-#: ../edit_part_info.php:283 ../edit_part_info.php:299
+#: ../edit_part_info.php:289 ../edit_part_info.php:306
 msgid "Es ist keine Preisinformation ausgewählt!"
 msgstr ""
 
-#: ../edit_part_info.php:313
+#: ../edit_part_info.php:320
 msgid ""
 "Sie müssen entweder ein Dateiname angeben, oder eine Datei zum Hochladen "
 "wählen!"
 msgstr ""
 
-#: ../edit_part_info.php:334 ../edit_part_info.php:366
+#: ../edit_part_info.php:341 ../edit_part_info.php:373
 msgid "Es ist kein Dateianhang ausgewählt!"
 msgstr ""
 
-#: ../edit_part_info.php:391
+#: ../edit_part_info.php:398
 msgid ""
 "Das Bauteil kann nicht gelöscht werden, da es noch in den folgenden "
 "Baugruppen verwendet wird:"
 msgstr ""
 
-#: ../edit_part_info.php:395
+#: ../edit_part_info.php:402
 #, php-format
 msgid "Soll das Bauteil \"%s\" wirklich unwiederruflich gelöscht werden?"
 msgstr ""
 
-#: ../edit_part_info.php:398
+#: ../edit_part_info.php:405
 msgid ""
 "&nbsp;&nbsp;&bull; Es gibt keine Baugruppen die dieses Bauteil verwenden."
 msgstr ""
 
-#: ../edit_part_info.php:400
+#: ../edit_part_info.php:407
 msgid ""
 "&nbsp;&nbsp;&bull; Alle Dateien dieses Bauteiles, die nicht von anderen "
 "Bauteilen verwendet werden, werden von der Festplatte gelöscht!"
 msgstr ""
 
-#: ../edit_part_info.php:402
+#: ../edit_part_info.php:409
 msgid ""
 "&nbsp;&nbsp;&bull; Alle Dateien dieses Bauteiles bleiben weiterhin erhalten."
 msgstr ""
 
-#: ../edit_part_info.php:408
+#: ../edit_part_info.php:415
 msgid "Ja, Bauteil löschen"
 msgstr ""
 
-#: ../edit_part_info.php:421
+#: ../edit_part_info.php:428
 msgid "Das Bauteil wurde erfolgreich gelöscht!"
 msgstr ""
 
-#: ../edit_part_info.php:422
+#: ../edit_part_info.php:429
 msgid "Fenster schliessen"
 msgstr ""
 
@@ -434,6 +434,17 @@ msgstr ""
 
 #: ../edit_suppliers.php:178
 msgid "Der Lieferant konnte nicht gelöscht werden!"
+msgstr ""
+
+#: ../install.php:87
+msgid "Part-DB Installation/Update"
+msgstr ""
+
+#: ../install.php:117
+#, php-format
+msgid ""
+"Die gewählte Sprache \"%s\" wird vom Server nicht unterstützt!\n"
+"Bitte installieren Sie diese Sprache oder wählen Sie eine andere."
 msgstr ""
 
 #: ../lib/class.API.php:110
@@ -589,134 +600,142 @@ msgid ""
 "Grund: "
 msgstr ""
 
-#: ../lib/class.Database.php:138
+#: ../lib/class.Database.php:127
+msgid "Unbekannter Datenbanktyp: \""
+msgstr ""
+
+#: ../lib/class.Database.php:139
 msgid ""
 "Es konnte nicht mit der Datenbank verbunden werden! \n"
 "Überprüfen Sie, ob die Zugangsdaten korrekt sind."
 msgstr ""
 
-#: ../lib/class.Database.php:156
+#: ../lib/class.Database.php:157
 msgid ""
 "Die folgenden MySQL Tabellen haben eine falsche Speicherengine (benötigt "
 "wird \"InnoDB\"): \n"
 msgstr ""
 
-#: ../lib/class.Database.php:198
+#: ../lib/class.Database.php:183
+msgid "Eintrag \"dbVersion\" existiert nicht in der Tabelle \"internal\"!"
+msgstr ""
+
+#: ../lib/class.Database.php:199
 msgid "Konstante \"LATEST_DB_VERSION\" ist nicht definiert!"
 msgstr ""
 
-#: ../lib/class.Database.php:317
+#: ../lib/class.Database.php:318
 msgid ""
 "Ein Datenbankupdate kann nicht mitten in einer offenen Transaktion "
 "durchgeführt werden!"
 msgstr ""
 
-#: ../lib/class.Database.php:338
+#: ../lib/class.Database.php:339
 msgid "FEHLER: Wird zur Zeit schon ein Update durchgeführt?"
 msgstr ""
 
-#: ../lib/class.Database.php:347 ../lib/class.Database.php:475
+#: ../lib/class.Database.php:348 ../lib/class.Database.php:476
 msgid "SQL_MODE wird gesetzt..."
 msgstr ""
 
-#: ../lib/class.Database.php:366
+#: ../lib/class.Database.php:367
 #, php-format
 msgid "FEHLER: Keine Updateschritte für Version %s gefunden!"
 msgstr ""
 
-#: ../lib/class.Database.php:388
+#: ../lib/class.Database.php:389
 #, php-format
 msgid "Schritt: %s ...OK"
 msgstr ""
 
-#: ../lib/class.Database.php:394
+#: ../lib/class.Database.php:395
 msgid "Fehlermeldung: \""
 msgstr ""
 
-#: ../lib/class.Database.php:395
+#: ../lib/class.Database.php:396
 #, php-format
 msgid "Schritt: %s ...FEHLER!"
 msgstr ""
 
-#: ../lib/class.Database.php:416 ../lib/class.Database.php:464
+#: ../lib/class.Database.php:417 ../lib/class.Database.php:465
 msgid "FEHLER: Die neue Version konnte nicht gesetzt werden!"
 msgstr ""
 
-#: ../lib/class.Database.php:441
+#: ../lib/class.Database.php:442
 msgid ""
 "FEHLER: Die aktuelle Update-Position konnte nicht in der config.php "
 "gespeichert werden!"
 msgstr ""
 
-#: ../lib/class.Database.php:455
+#: ../lib/class.Database.php:456
 msgid "FEHLER: Die aktuelle Version konnte nicht gelesen werden!"
 msgstr ""
 
-#: ../lib/class.Database.php:480
+#: ../lib/class.Database.php:481
 msgid "FEHLER!"
 msgstr ""
 
-#: ../lib/class.Database.php:490
+#: ../lib/class.Database.php:491
 msgid "Datenbank wird freigegeben..."
 msgstr ""
 
-#: ../lib/class.Database.php:495
+#: ../lib/class.Database.php:496
 msgid "FEHLER: Die Datenbank konnte nicht entsperrt werden!"
 msgstr ""
 
-#: ../lib/class.Database.php:503 ../lib/class.Database.php:506
+#: ../lib/class.Database.php:504 ../lib/class.Database.php:507
 msgid "ABBRUCH: Das Update konnte nicht durchgeführt werden!"
 msgstr ""
 
-#: ../lib/class.Database.php:504
+#: ../lib/class.Database.php:505
 msgid "Zweitletzte Zeile: "
 msgstr ""
 
-#: ../lib/class.Database.php:505
+#: ../lib/class.Database.php:506
 msgid "Letzte Zeile: "
 msgstr ""
 
-#: ../lib/class.Database.php:510 ../lib/class.Database.php:511
+#: ../lib/class.Database.php:511 ../lib/class.Database.php:512
 msgid "Das Update wurde erfolgreich durchgeführt."
 msgstr ""
 
-#: ../lib/class.Database.php:575
+#: ../lib/class.Database.php:576
 msgid "PDO::begin_transaction() lieferte einen Fehler: "
 msgstr ""
 
-#: ../lib/class.Database.php:595
+#: ../lib/class.Database.php:596
 msgid "Es wurde noch keine Transaktion gestartet!"
 msgstr ""
 
-#: ../lib/class.Database.php:601
+#: ../lib/class.Database.php:602
 msgid "Die übermittelte Transaktions-ID ist nicht korrekt!"
 msgstr ""
 
-#: ../lib/class.Database.php:620
+#: ../lib/class.Database.php:621
 msgid "PDO::commit() lieferte einen Fehler: "
 msgstr ""
 
-#: ../lib/class.Database.php:679 ../lib/class.Database.php:757
+#: ../lib/class.Database.php:680 ../lib/class.Database.php:758
 msgid "$values ist kein Array!"
 msgstr ""
 
-#: ../lib/class.Database.php:693 ../lib/class.Database.php:766
+#: ../lib/class.Database.php:694 ../lib/class.Database.php:767
 msgid "PDO prepare Fehler!"
 msgstr ""
 
-#: ../lib/class.Database.php:704 ../lib/class.Database.php:777
+#: ../lib/class.Database.php:705 ../lib/class.Database.php:778
 msgid "PDO: Wert konnte nicht gebunden werden!"
 msgstr ""
 
-#: ../lib/class.Database.php:712 ../lib/class.Database.php:785
+#: ../lib/class.Database.php:713 ../lib/class.Database.php:786
 msgid "PDO execute lieferte einen Fehler!"
 msgstr ""
 
-#: ../lib/class.Database.php:725
+#: ../lib/class.Database.php:726
 msgid "Datenbankfehler: \n"
 msgstr ""
 
-#: ../lib/class.Database.php:725
+#: ../lib/class.Database.php:726
 msgid ""
 "\n"
 "\n"
@@ -724,11 +743,15 @@ msgid ""
 " "
 msgstr ""
 
-#: ../lib/class.Database.php:765
+#: ../lib/class.Database.php:766
 msgid "PDO Prepare Fehler!"
 msgstr ""
 
-#: ../lib/class.Database.php:915
+#: ../lib/class.Database.php:803
+msgid "PDO Ergebnis ist kein Array!"
+msgstr ""
+
+#: ../lib/class.Database.php:916
 msgid "$values ist kein gültiges Array!"
 msgstr ""
 
@@ -738,6 +761,30 @@ msgstr ""
 
 #: ../lib/class.DBElement.php:103
 msgid "$log ist kein DebugLog-Objekt!"
+msgstr ""
+
+#: ../lib/class.DBElement.php:343
+msgid "$database ist kein gültiges Database-Objekt!"
+msgstr ""
+
+#: ../lib/class.DBElement.php:346
+msgid "$current_user ist kein gültiges User-Objekt!"
+msgstr ""
+
+#: ../lib/class.DBElement.php:349
+msgid "$log ist kein gültiges Log-Objekt!"
+msgstr ""
+
+#: ../lib/class.DBElement.php:352
+msgid "$tablename ist kein String!"
+msgstr ""
+
+#: ../lib/class.DBElement.php:355
+msgid "$new_values ist kein Array!"
+msgstr ""
+
+#: ../lib/class.DBElement.php:358
+msgid "Das Array $new_values ist leer!"
 msgstr ""
 
 #: ../lib/class.DevicePart.php:268
@@ -768,8 +815,16 @@ msgstr ""
 msgid "Die Baugruppe \"%1$s\" enthält bereits das Bauteil \"%2$s\"!"
 msgstr ""
 
-#: ../lib/class.Part.php:241
+#: ../lib/class.Log.php:74
+msgid "$database ist kein Database-Objekt"
+msgstr ""
+
+#: ../lib/class.Part.php:242
 msgid "Barcode type unknown: "
+msgstr ""
+
+#: ../lib/class.Part.php:1250
+msgid "\"$table_type\" ist ungültig!"
 msgstr ""
 
 #: ../lib/class.StructuralDBElement.php:99
@@ -842,6 +897,18 @@ msgstr ""
 
 #: ../lib/lib.php:564
 msgid "Der Download mit \"curl\" lieferte kein Ergebnis!"
+msgstr ""
+
+#: ../show_category_parts.php:75
+msgid "Teileansicht"
+msgstr ""
+
+#: ../show_category_parts.php:84
+msgid "Es wurde keine gültige Kategorien-ID übermittelt!"
+msgstr ""
+
+#: ../show_category_parts.php:133
+msgid "Es wurde keine gültige Bauteil-ID übermittelt!"
 msgstr ""
 
 #: ../startup.php:45
