@@ -54,7 +54,7 @@
         foreach ($directories as $directory)
         {
             $name = str_ireplace(BASE.'/templates/', '', $directory);
-            if ($name != 'custom_css')
+            if ($name != 'custom_css' && $name != 'fonts')
                 $loop[] = array('value' => $name, 'text' => $name, 'selected' => ($name == $config['html']['theme']));
         }
 
