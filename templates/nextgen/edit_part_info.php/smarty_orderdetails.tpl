@@ -72,7 +72,7 @@
 
                                             <td >
                                                 <div class="input-group">
-                                                    <input type="number" min="0" step="0.01" class="form-control" name="price_{$price.pricedetails_id}" onkeypress="validatePosFloatNumber(event)" value="{$price.price}">
+                                                    <input type="text" min="0" step="0.01" class="form-control" name="price_{$price.pricedetails_id}" onkeypress="validatePosFloatNumber(event)" value="{$price.price}">
                                                     <span class="input-group-addon">{t}pro{/t}</span>
                                                     <input type="number" min="0" class="form-control" name="price_related_quantity_{$price.pricedetails_id}" onkeypress="validatePosIntNumber(event)" value="{$price.price_related_quantity}">
                                                     <span class="input-group-addon">{t}Stk.{/t}</span>

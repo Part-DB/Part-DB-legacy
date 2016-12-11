@@ -186,7 +186,6 @@
             $html->set_variable('foot3d_filename',          (is_object($footprint) ? str_replace(BASE, BASE_RELATIVE, $footprint->get_3d_filename()) : ''), 'string');
             $html->set_variable('foot3d_valid',             (is_object($footprint) ? $footprint->is_3d_filename_valid() : false), 'boolean');
 
-
             // build orderdetails loop
             $orderdetails_loop = array();
             $row_odd = true;

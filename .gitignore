@@ -171,4 +171,4 @@ templates_c/
 .idea/
 
 #Models
-models/
+models/*
