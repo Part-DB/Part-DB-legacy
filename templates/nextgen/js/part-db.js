@@ -58,7 +58,7 @@ function registerHoverImages(form) {
     $('img[rel=popover]').popover({
         html: true,
         trigger: 'hover',
-        placement: 'auto',
+        placement: 'right',
         content: function () {
             return '<img class="img-responsive" src="' + this.src + '" />';
         }
