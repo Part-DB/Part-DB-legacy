@@ -270,11 +270,12 @@
                 </tbody>
             </table>
             </div>
-            <div class="panel-body">
-            {if isset($average_price)}
-                <b>{t}Durchschnittspreis für 1 Stk.:{/t} {$average_price}</b>
-            {/if}
-            </div>
+                {if isset($average_price)}
+                <div class="panel-body">
+                    <b>{t}Durchschnittspreis für 1 Stk.:{/t} {$average_price}</b>
+                </div>
+                {/if}
+
         {else}
             <div class="panel-body">
                 {t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}

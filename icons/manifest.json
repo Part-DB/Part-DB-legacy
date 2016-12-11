@@ -1,5 +1,6 @@
 {
-	"name": "",
+	"name": "Part-DB",
+	"description": "A managment tool for electronical parts.",
 	"icons": [
 		{
 			"src": "\/icons\/android-chrome-192x192.png",

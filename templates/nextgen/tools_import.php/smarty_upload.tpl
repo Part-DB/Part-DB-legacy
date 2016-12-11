@@ -6,7 +6,8 @@
 {/if}
 
 <div class="panel panel-primary">
-    <div class="panel-heading">{t}Datei auswählen{/t}</div>
+    <div class="panel-heading"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;
+        {t}Datei auswählen{/t}</div>
     <div class="panel-body">
         <form enctype="multipart/form-data" action="" method="post" class="form-horizontal">
             <div class="form-group">

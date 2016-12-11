@@ -67,7 +67,8 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h3>{t}Lizenz{/t}</h3>
+        <h3><i class="fa fa-book" aria-hidden="true"></i>&nbsp;
+            {t}Lizenz{/t}</h3>
     </div>
     <div class="panel-body">
        <!-- Doesnt work! Paypal has changed API?
@@ -100,7 +101,8 @@
 {if !empty($rss_feed_loop)}
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4><i class="fa fa-rss" aria-hidden="true"></i> {t}Updates{/t}</h4>
+        <h4><i class="fa fa-rss" aria-hidden="true"></i>&nbsp;
+            {t}Updates{/t}</h4>
     </div>
     <div class="panel-body">
         {foreach $rss_feed_loop as $rss}

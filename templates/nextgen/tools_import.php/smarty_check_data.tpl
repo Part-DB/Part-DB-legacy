@@ -1,5 +1,6 @@
 <div class="panel panel-default">
-    <div class="panel-heading">{t}Daten prüfen{/t}</div>
+    <div class="panel-heading"><i class="fa fa-magic" aria-hidden="true"></i>&nbsp;
+        {t}Daten prüfen{/t}</div>
     <form action="" method="post">
         <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
         <input type="hidden" name="file_content" value="{$file_content}">

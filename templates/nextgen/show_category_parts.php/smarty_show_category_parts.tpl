@@ -24,6 +24,7 @@
 
 <div class="panel panel-info">
     <div class="panel-heading">
+        <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;
         {t}Teile in der Kategorie{/t} <b>"{$category_name}"</b>
     </div>
     <form method="post" action="">
