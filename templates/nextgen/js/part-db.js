@@ -85,6 +85,19 @@ function tree_fill() {
     });
 }
 
+function bbcode_edit() {
+    // Create the editor
+    $("textarea").sceditor({
+        // Options go here
+
+        // Option 1
+        plugins: "bbcode",
+
+        emoticonsEnabled: false,
+        runWithoutWysiwygSupport: true
+    });
+}
+
 $(document).ready(function () {
     'use strict';
     var page = window.location.pathname;
@@ -96,7 +109,8 @@ $(document).ready(function () {
     tree_fill();
     registerForm();
     registerLinks();
-    
+
+    //bbcode_edit();
     
     $(window).scroll(function () {
         if ($(this).scrollTop() > 50) {

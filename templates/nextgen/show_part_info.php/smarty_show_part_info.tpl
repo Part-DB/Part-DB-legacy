@@ -29,7 +29,7 @@
                            <label class="col-sm-3 control-label">{t}Beschreibung:{/t}</label>
                            <div class="col-sm-9">
                                <p class="form-control-static">
-                               {if isset($description)}{$description}{else}-{/if}
+                               {if isset($description)}{$description nofilter}{else}-{/if}
                                </p>
                            </div>
                        </div>
@@ -103,7 +103,7 @@
                        <div class="form-group">
                            <label class="col-sm-3 control-label">{t}Kommentar:{/t}</label>
                            <div class="col-sm-9">
-                               <p class="form-control-static">{if !empty($comment)}{$comment}{else}-{/if}</p>
+                               <p class="form-control-static">{if !empty($comment)}{$comment nofilter}{else}-{/if}</p>
                             </div>
                        </div>
                        

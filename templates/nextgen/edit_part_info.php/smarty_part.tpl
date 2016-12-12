@@ -1,5 +1,10 @@
 {locale path="nextgen/locale" domain="partdb"}
-   
+
+<script>
+
+</script>
+
+
 <div class="panel {if $is_new_part}panel-success{else}panel-default{/if}">
     <div class="panel-heading">
             <i class="fa fa-info-circle" aria-hidden="true"></i> 
@@ -31,14 +36,14 @@
                     </label>
                     {if isset($auto_desc) && $auto_desc}
                     <div class="col-md-8">
-                        <input type="text" id="description" class="form-control" name="description" size="35" value="{$description}">
+                        <input type="text" id="description" class="form-control" name="description" size="35" value="{$description nofilter}">
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-default" onClick="octoPart();">Auto</button>
                     </div>
                     {else}
                     <div class="col-md-10">
-                        <input type="text" id="description" class="form-control" name="description" size="35" value="{$description}">
+                        <input type="text" id="description" class="form-control" name="description" size="35" value="{$description nofilter}">
                     </div>
                     {/if}
                 </div>
@@ -143,7 +148,7 @@
                         {t}Kommentar:{/t}
                     </label>
                     <div class="col-md-10">
-                        <textarea  class="form-control" name="comment" rows="4" cols="40">{$comment}</textarea>
+                        <textarea  class="form-control scedit" name="comment" id="edit_comment" rows="4" cols="40">{$comment nofilter}</textarea>
                     </div>
                 </div>
                 

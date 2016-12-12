@@ -114,7 +114,7 @@
                     {if $row.caption == "name"}
                         {* name/comment with link *}
                         <td class="tdrow1{if $row.caption == "obsolete"} backred{/if}">
-                            <a  data-toggle="tooltip" title="{if $row.caption == "obsolete"}(nicht mehr erhätlich) {/if}{if isset($row.comment)}Kommentar: {$row.comment}{/if}"
+                            <a  data-toggle="tooltip" title="{if $row.caption == "obsolete"}(nicht mehr erhätlich) {/if}{if isset($row.comment)}Kommentar: {$row.comment nofilter}{/if}"
                                 href="show_part_info.php?pid={$row.id}">
                                 {$row.name}
                             </a>
@@ -126,24 +126,24 @@
                     {/if}
                     {if $row.caption == "description"}
                         {* description *}
-                        <td class="tdrow1{if $row.obsolete} backred{/if}">{$row.description}</td>
+                        <td class="tdrow1{if $row.obsolete} backred{/if}">{$row.description nofilter}</td>
                     {/if}
                     {if $row.caption == "description_edit"}
                         {* description edit *}
-                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:150px" name="description_{$row.row_index}" value="{$row.description}"></td>
+                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:150px" name="description_{$row.row_index}" value="{$row.description nofilter}"></td>
                     {/if}
                     {if $row.caption == "comment"}
                         {* comment *}
-                        <td class="tdrow1">{$row.comment}</td>
+                        <td class="tdrow1">{$row.comment nofilter}</td>
                     {/if}
                     {if $row.caption == "comment_edit"}
                         {* comment edit *}
-                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:150px" name="comment_{$row.row_index}" value="{$row.comment}"></td>
+                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:150px" name="comment_{$row.row_index}" value="{$row.comment nofilter}"></td>
                     {/if}
                     {if $row.caption == "name_description"}
                         {* name/comment/description *}
                         <td class="tdrow1{if $row.obsolete} backred{/if}">
-                            <a data-toggle="tooltip" title="{if $row.obsolete}(nicht mehr erhätlich) {/if}{if $row.comment}Kommentar: {$row.comment}{/if}"
+                            <a data-toggle="tooltip" title="{if $row.obsolete}(nicht mehr erhätlich) {/if}{if $row.comment}Kommentar: {$row.comment nofilter}{/if}"
                                 href="show_part_info.php?pid={$row.id}">
                                 {$row.name}{if isset($row.description)}&nbsp;{$row.description}{/if}
                             </a>

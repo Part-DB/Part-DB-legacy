@@ -75,8 +75,6 @@
         <link rel="stylesheet" type="text/css" href="{$relative_path}datatables/datatables.min.css"/>
         <script type="text/javascript" src="{$relative_path}datatables/datatables.min.js" async></script>
         
-
-        
         {if isset($javascript_files)}
         {foreach $javascript_files as $file}
             <script type="text/javascript" src="{$relative_path}javascript/{$file.filename}.js"></script>
@@ -91,6 +89,11 @@
 
         <!-- FileInput -->
         <script src="{$relative_path}js/fileinput.min.js"></script>
+
+        <!-- SCEditor (WYSIWYG BBCode Editor) -->
+        <link rel="stylesheet" href="{$relative_path}js/sceditor/themes/default.min.css" />
+        <script src="{$relative_path}js/sceditor/jquery.sceditor.bbcode.min.js"></script>
+
 
         <!-- Functions -->
         <script src="{$relative_path}templates/nextgen/js/part-db.js"></script>

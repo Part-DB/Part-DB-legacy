@@ -81,6 +81,12 @@
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
+    //include(BASE."/lib/bbcode/BBCodeParser.php");
+
+    $bbcode = new Golonka\BBCode\BBCodeParser;
+
+    echo $bbcode->parse('[b]Bold Text![/b]');
+
     /*
     // Insert some Footprints
     print '<div class="outer"><h2>Footprints hinzufügen</h2><div class="inner">';

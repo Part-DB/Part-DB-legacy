@@ -253,11 +253,19 @@
         /**
          * @brief Get the description
          *
+         * @param boolean $parse_bbcode Should BBCode converted to HTML, before returning
          * @retval string       the description
          */
-        public function get_description()
+        public function get_description($parse_bbcode = true)
         {
-            return $this->db_data['description'];
+            $val = htmlspecialchars($this->db_data['description']);
+            if($parse_bbcode)
+            {
+                $bbcode = new Golonka\BBCode\BBCodeParser;
+                $val = $bbcode->only("bold", "italic", "underline", "linethrough")->parse($val);
+            }
+
+            return $val;
         }
 
         /**
@@ -283,11 +291,19 @@
         /**
          * @brief Get the comment
          *
+         * @param boolean $parse_bbcode Should BBCode converted to HTML, before returning
          * @retval string       the comment
          */
-        public function get_comment()
+        public function get_comment($parse_bbcode = true)
         {
-            return $this->db_data['comment'];
+            $val = htmlspecialchars($this->db_data['comment']);
+            if($parse_bbcode)
+            {
+                $bbcode = new Golonka\BBCode\BBCodeParser;
+                $val = $bbcode->parse($val);
+            }
+
+            return $val;
         }
 
         /**

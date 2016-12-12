@@ -509,11 +509,11 @@
             {
                 $html->set_variable('pid',          $part->get_id(),                'integer');
                 $html->set_variable('name',         $part->get_name(),              'string');
-                $html->set_variable('description',  $part->get_description(),       'string');
+                $html->set_variable('description',  $part->get_description(false),       'string');
                 $html->set_variable('instock',      $part->get_instock(),           'integer');
                 $html->set_variable('mininstock',   $part->get_mininstock(),        'integer');
                 $html->set_variable('visible',      $part->get_visible(),           'boolean');
-                $html->set_variable('comment',      $part->get_comment(),           'string');
+                $html->set_variable('comment',      $part->get_comment(false),           'string');
 
                 // dropdown lists -> get IDs
                 $category_id        = (is_object($part->get_category())         ?   $part->get_category()->get_id()      : 0);
@@ -675,7 +675,7 @@
     {
         $html->print_template('part');
 
-        if ( ! ($is_new_part || $add_one_more_part))
+        //if ( ! ($is_new_part || $add_one_more_part))
         {
             $html->print_template('orderdetails');
             $html->print_template('attachements');
