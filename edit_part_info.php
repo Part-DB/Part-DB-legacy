@@ -187,11 +187,21 @@
             case 'create_new_part':
                 try
                 {
-                    $part = Part::add(  $database, $current_user, $log, $new_name, $new_category_id,
-                                        $new_description, $new_instock, $new_mininstock, $new_storelocation_id,
-                                        $new_manufacturer_id, $new_footprint_id, $new_comment, $new_visible);
+                    $existing_parts = Part::check_for_existing_part($database,$current_user,$log,$new_name,
+                        $new_storelocation_id, $new_category_id);
 
-                    $is_new_part = false;
+                    //if(!$existing_parts === false)
+                    //{
+                    //    $messages[] = array('text' => $existing_parts[0]->get_id(), 'strong' => true, 'color' => 'red');
+                    //}
+                    //else
+                    {
+                        $part = Part::add($database, $current_user, $log, $new_name, $new_category_id,
+                            $new_description, $new_instock, $new_mininstock, $new_storelocation_id,
+                            $new_manufacturer_id, $new_footprint_id, $new_comment, $new_visible);
+
+                        $is_new_part = false;
+                    }
                 }
                 catch (Exception $e)
                 {
@@ -675,7 +685,7 @@
     {
         $html->print_template('part');
 
-        //if ( ! ($is_new_part || $add_one_more_part))
+        if ( ! ($is_new_part || $add_one_more_part))
         {
             $html->print_template('orderdetails');
             $html->print_template('attachements');

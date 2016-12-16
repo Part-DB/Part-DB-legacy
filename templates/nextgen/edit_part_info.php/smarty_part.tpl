@@ -27,7 +27,7 @@
                         {t}Name:{/t}
                     </label>
                     <div class="col-md-10">
-                        <input type="text" name="name" id="name" class="form-control" placeholder="Name" size="35" value="{$name}">
+                        <input type="text" name="name" id="name" class="form-control" placeholder="{t}z.B. BC547{/t}" value="{$name}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -36,14 +36,14 @@
                     </label>
                     {if isset($auto_desc) && $auto_desc}
                     <div class="col-md-8">
-                        <input type="text" id="description" class="form-control" name="description" size="35" value="{$description nofilter}">
+                        <input type="text" id="description" class="form-control" name="description" placeholder="{t}z.B. NPN 45V 0,1A 0,5W{/t}" value="{$description nofilter}">
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-default" onClick="octoPart();">Auto</button>
                     </div>
                     {else}
                     <div class="col-md-10">
-                        <input type="text" id="description" class="form-control" name="description" size="35" value="{$description nofilter}">
+                        <input type="text" id="description" class="form-control" name="description" placeholder="{t}z.B. NPN 45V 0,1A 0,5W{/t}" value="{$description nofilter}">
                     </div>
                     {/if}
                 </div>
@@ -52,7 +52,7 @@
                         {t}Vorhanden:{/t}
                     </label>
                     <div class="col-md-10">
-                        <input type="number" name="instock" class="form-control" min="0" onkeypress="validateNumber(event)" value="{$instock}">
+                        <input type="number" name="instock" class="form-control" min="0" onkeypress="validateNumber(event)" placeholder="{t}z.B. 100{/t}" value="{$instock}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -60,7 +60,7 @@
                         {t}Min. Bestand:{/t}
                     </label>
                     <div class="col-md-10">
-                        <input type="number" name="mininstock" class="form-control" min="0" onkeypress="validateNumber(event)" value="{$mininstock}">
+                        <input type="number" name="mininstock" class="form-control" min="0" onkeypress="validateNumber(event)" placeholder="{t}z.B. 20{/t}" value="{$mininstock}">
                     </div>
                 </div>
                 <div class="form-group">

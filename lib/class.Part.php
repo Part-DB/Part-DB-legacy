@@ -432,10 +432,9 @@
 
         /**
          * Returns the last time when the part was modified.
-         * @param mixed $local_format
          * @return string The time of the last edit.
          */
-        public function get_last_modified($local_format = true)
+        public function get_last_modified()
         {
             return $this->db_data['last_modified'];
         }
@@ -1289,6 +1288,52 @@
         *   Static Methods
         *
         *********************************************************************************/
+
+        /**
+         * @param $database
+         * @param $current_user
+         * @param $log
+         * @param $proposed_name
+         * @param $proposed_storelocation_id
+         * @param $proposed_category_id
+         * @return array|bool An array containing parts with similar name and storelocation and category
+         */
+        public static function check_for_existing_part(&$database, &$current_user, &$log, $proposed_name, $proposed_storelocation_id, $proposed_category_id)
+        {
+            $query = 'SELECT parts.id FROM parts'.
+                ' LEFT JOIN storelocations ON parts.id_storelocation=storelocations.id'.
+                ' LEFT JOIN categories ON parts.id_category=categories.id';
+
+            $values = array();
+
+            $query .= ' WHERE (parts.name LIKE ?)';
+            $values[] = $proposed_name;
+
+            $query .= ' AND (storelocations.id = ?)';
+            $values[] = $proposed_storelocation_id;
+
+            $query .= ' AND (categories.id = ?)';
+            $values[] = $proposed_category_id;
+
+            $query_data = $database->query($query, $values);
+
+            $parts = array();
+
+            foreach ($query_data as $row)
+            {
+                $part = new Part($database, $current_user, $log, $row['id']);
+                $parts[] = $part;
+            }
+
+            if(empty($parts))
+            {
+                return false;
+            }
+            else
+            {
+                return $parts;
+            }
+        }
 
         /**
          * @copydoc DBElement::check_values_validity()
