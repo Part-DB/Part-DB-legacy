@@ -40,4 +40,4 @@
     $authors[]=array('name'=>'Urban B.','role'=>'Committer/Klassen/Neue Funktionen/Neue Footprints');
     $authors[]=array('name'=>'André Althaus','role'=>'Neue Funktionen');
     $authors[]=array('name'=>'Udo Neist','role'=>'Committer/Templates/Neue Funktionen');
-    $authors[]=array('name'=>'Jan Böhmer', 'role'=>'Neues Design/Neue Funktionen');
+    //$authors[]=array('name'=>'Jan Böhmer', 'role'=>'Neues Design/Neue Funktionen');

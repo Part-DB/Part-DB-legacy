@@ -146,7 +146,7 @@
 
     if (( ! $fatal_error) && ( ! $config['startup']['disable_update_list']))
     {
-        $feed_link = 'https://github.com/sandboxgangster/Part-DB/releases.atom';
+        $feed_link = 'https://github.com/do9jhb/Part-DB/releases.atom';
         $item_count = 4;
 
         try
@@ -175,7 +175,7 @@
             if ( ! is_object($xml))
                 throw new Exception(_('Das SimpleXMLElement konnte nicht erzeugt werden!'));
 
-            $rss_loop[] = array('title' => _('Part-DB Releases Atom-Feed'), 'datetime' => $xml->updated, 'link' => $feed_link);
+            //$rss_loop[] = array('title' => _('Part-DB Releases Atom-Feed'), 'datetime' => $xml->updated, 'link' => $feed_link);
 
             $item_index = 1;
             foreach ($xml->entry as $entry)
