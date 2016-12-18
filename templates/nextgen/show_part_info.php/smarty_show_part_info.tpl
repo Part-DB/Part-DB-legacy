@@ -285,7 +285,7 @@
         {/if}
 </div>
 
-<div class="panel panel-info">
+<div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-file" aria-hidden="true"></i>&nbsp;
         {t}Dateianhänge{/t}

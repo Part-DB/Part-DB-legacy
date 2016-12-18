@@ -1,5 +1,5 @@
 {locale path="nextgen/locale" domain="partdb"}
-<div class="panel panel-info">
+<div class="panel panel-default">
    <div class="panel-heading"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;
       {t}Treffer in der Kategorie{/t} <b>"{$category_full_path}"</b>
    </div>
