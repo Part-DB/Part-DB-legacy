@@ -104,3 +104,8 @@ table.dataTable tbody th, table.dataTable tbody td {
         overflow: visible !important;
     }
 }
+
+.x3d-fullscreen {
+    /*height: auto;*/
+    width: 100%;
+}

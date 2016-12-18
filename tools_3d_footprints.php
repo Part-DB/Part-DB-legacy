@@ -40,6 +40,11 @@
 
 
 
+    $dir = find_all_files(BASE.'/models/', true);
+
+
+    $html->set_loop("directories", $dir);
+
     $html->print_header($messages);
 
     if (! $fatal_error)

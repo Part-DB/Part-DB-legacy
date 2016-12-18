@@ -58,7 +58,7 @@
                     <label class="control-label col-md-3">{t}Bild:{/t}</label>
                     <div class="col-md-9">
                         <input type="text" name="filename" value="{$filename}" class="form-control">
-                        <p><i>{t}Hinweis: Sie können hier z.B. "DIP28" eintippen und übernehmen. Der Footprint wird dann unter "Footprints mit fehlerhaften Dateinamen" aufgelistet, wo Sie Vorschläge für Dateinamen bekommen und dann einfach übernehmen können.{/t}</i></p>
+                        <p class="help-block">{t}Hinweis: Sie können hier z.B. "DIP28" eintippen und übernehmen. Der Footprint wird dann unter "Footprints mit fehlerhaften Dateinamen" aufgelistet, wo Sie Vorschläge für Dateinamen bekommen und dann einfach übernehmen können.{/t}</p>
                         {if !empty($filename) && $filename_valid}
                             <img class="" rel="popover" height="70" src="{$filename}">
                         {/if}
@@ -72,11 +72,15 @@
                         <input type="text" name="filename_3d" value="{$filename_3d}" class="form-control">
                         <p></p>
                         {if !empty($filename_3d) && $filename_3d_valid}
-                            <x3d class="img-thumbnail" height="120"> 
-                                <scene>
-                                    <inline url="{$filename_3d}"> </inline>
-                                </scene> 
-                            </x3d> 
+                            <x3d id="foot3d" class="img-thumbnail" height="150" width="500" >
+                                <scene >
+                                    <!-- <Viewpoint id="front" position="0 0 10" orientation="-0.01451 0.99989 0.00319 3.15833" description="camera"></Viewpoint> -->
+                                    <transform>
+                                        <inline url="{$filename_3d}"> </inline>
+                                    </transform>
+                                </scene>
+                                <!-- <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#fullscreen"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button> -->
+                            </x3d>
                         {/if}
                     </div>
                 </div>
@@ -260,3 +264,5 @@
         </div>
     </div>
 {/if}
+
+

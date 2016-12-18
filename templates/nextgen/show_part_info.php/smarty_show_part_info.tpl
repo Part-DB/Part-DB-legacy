@@ -86,14 +86,15 @@
                             {if $foot3d_active && !empty($foot3d_filename) && $foot3d_valid}
                             <div class="form-group">
                                 <div class="col-sm-9 col-md-offset-3">
-                                    <x3d id="foot3d" class="img-thumbnail" height="120" > 
+                                    <x3d id="foot3d" class="img-thumbnail" height="150" width="500" >
                                         <scene >
                                             <!-- <Viewpoint id="front" position="0 0 10" orientation="-0.01451 0.99989 0.00319 3.15833" description="camera"></Viewpoint> -->
                                             <transform>
                                                 <inline url="{$foot3d_filename}"> </inline>
                                             </transform>
-                                        </scene> 
-                                    </x3d> 
+                                        </scene>
+                                        <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#fullscreen"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
+                                    </x3d>
                                 </div>
                             </div>
                             {/if}
@@ -307,5 +308,32 @@
             {t}Dieses Bauteil besitzt keine Dateianhänge.{/t}
             <a class="btn btn-default pull-right hidden-print" href="edit_part_info.php?pid={$pid}">{t}Dateianhänge hinzufügen{/t}</a>
         {/if}
+    </div>
+</div>
+
+
+<!-- Modal -->
+<div class="modal fade" id="fullscreen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{t}3D-Footprint{/t}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <x3d id="foot3d" class="img-thumbnail x3d-fullscreen">
+                        <scene>
+                            <transform>
+                                <inline url="{$foot3d_filename}"> </inline>
+                            </transform>
+                        </scene>
+                    </x3d>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{t}Schließen{/t}</button>
+            </div>
+        </div>
     </div>
 </div>
