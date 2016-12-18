@@ -436,7 +436,7 @@
                     $part->delete($delete_files_from_hdd);
                     $part = NULL;
                     $messages[] = array('text' => _('Das Bauteil wurde erfolgreich gelöscht!'), 'strong' => true, 'color' => 'darkgreen');
-                    $messages[] = array('html' => '<br><input type="button" value="'._('Fenster schliessen').'" onClick="window.close()">');
+                    $messages[] = array('html' => '<br><a class="btn btn-primary" href="startup.php">'._('Fenster schliessen').'</a>');
                     $fatal_error = true; // there is no error, but we cannot display the part infos because the part exists no longer :-)
                 }
                 catch (Exception $e)
