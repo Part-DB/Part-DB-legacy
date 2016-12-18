@@ -53,7 +53,7 @@
                         {if $col.caption=="suppliers"}<th>{t}Lieferanten{/t}</th>{/if}
                         {if $col.caption=="supplier_edit"}<th>{t}Lieferant{/t}</th>{/if} {*  only for import parts  *}
                         {if $col.caption=="suppliers_radiobuttons"}<th>{t}Lieferanten{/t}</th>{/if} {*  only for order parts  *}
-                        {if $col.caption=="datasheets"}{if !$disable_auto_datasheets}<th>{t}Datenblätter{/t}</th>{/if}{/if}
+                        {if $col.caption=="datasheets"}{if !$disable_auto_datasheets}<th class="no-sort">{t}Datenblätter{/t}</th>{/if}{/if}
                         {if $col.caption=="button_decrement"}<th class="text-center no-sort">-</th>{/if}
                         {if $col.caption=="button_increment"}<th class="text-center no-sort">+</th>{/if}
                         {if $col.caption=="order_options"}<th class="no-sort">{t}Optionen{/t}</th>{/if} {*  only for order parts  *}
