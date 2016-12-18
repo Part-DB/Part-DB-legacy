@@ -102,13 +102,23 @@
     <div class="panel-heading">
         <h4><i class="fa fa-rss" aria-hidden="true"></i>&nbsp{t}Updates{/t}</h4>
     </div>
-    <div class="panel-body">
+    <table class="table table-striped table-hover">
+        <thead>
+            <tr>
+                <th>{t}Version{/t}</th>
+                <th>Veröffentlichungsdatum</th>
+                <th>RSS-Link</th>
+            </tr>
+        </thead>
+        <tbody>
         {foreach $rss_feed_loop as $rss}
-            <b>{$rss.title}</b><br>
-            {$rss.datetime}<br>
-            <a href="{$rss.link}" class="link-external" target="_blank">{$rss.link}</a>
+            <tr>
+                <td>{$rss.title}</td>
+                <td>{$rss.datetime}</td>
+                <td><a href="{$rss.link}" class="link-external" target="_blank">{$rss.link}</a></td>
+            </tr>
         {/foreach}
-    <br>
-    </div>
+        </tbody>
+    </table>
 </div>
 {/if}
