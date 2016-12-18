@@ -67,8 +67,7 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <h3><i class="fa fa-book" aria-hidden="true"></i>&nbsp;
-            {t}Lizenz{/t}</h3>
+        <h3><i class="fa fa-book" aria-hidden="true"></i>&nbsp{t}Lizenz{/t}</h3>
     </div>
     <div class="panel-body">
        <!-- Doesnt work! Paypal has changed API?
@@ -82,12 +81,12 @@
 
         Part-DB, Copyright &copy; 2005 of <strong>Christoph Lechner</strong>. Part-DB is published under the <strong>GPL</strong>, so it comes with <strong>ABSOLUTELY NO WARRANTY</strong>, click <a href="{$relative_path}readme/gpl.txt">here</a> for details. This is free software, and you are welcome to redistribute it under certain conditions. Click <a href="{$relative_path}readme/gpl.txt">here</a> for details.<br>
         <br>
-        <strong>{t}Projektseite:{/t}</strong> Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a target="_blank" href="https://github.com/sandboxgangster/Part-DB">GitHub Projektseite</a><br>
-        <strong>Forum:</strong> Für Fragen rund um die Part-DB gibt es einen Thread auf <a target="_blank" href="https://www.mikrocontroller.net/topic/305023">mikrocontroller.net</a><br>
-        <strong>Wiki:</strong> Weitere Informationen gibt es im <a target="_blank" href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Artikel</a><br>
+        <strong>{t}Projektseite:{/t}</strong> Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a class="link-external" target="_blank" href="https://github.com/sandboxgangster/Part-DB">GitHub Projektseite</a><br>
+        <strong>Forum:</strong> Für Fragen rund um die Part-DB gibt es einen Thread auf <a class="link-external" target="_blank" href="https://www.mikrocontroller.net/topic/305023">mikrocontroller.net</a><br>
+        <strong>Wiki:</strong> Weitere Informationen gibt es im <a class="link-external" target="_blank" href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Artikel</a><br>
         <br>
-        {t}Initiator:{/t} <strong>Christoph Lechner</strong> - <a target="_blank" href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
-        {t}Autor seit 2009:{/t} <strong>K. Jacobs</strong> - <a target="_blank" href="http://www.grautier.com/">http://grautier.com</a><br>
+        {t}Initiator:{/t} <strong>Christoph Lechner</strong> - <a class="link-external" target="_blank" href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
+        {t}Autor seit 2009:{/t} <strong>K. Jacobs</strong> - <a class="link-external" target="_blank" href="http://www.grautier.com/">http://grautier.com</a><br>
         <br>
         {t}Weitere Autoren:{/t}
         <table class="table">
@@ -101,14 +100,13 @@
 {if !empty($rss_feed_loop)}
 <div class="panel panel-default">
     <div class="panel-heading">
-        <h4><i class="fa fa-rss" aria-hidden="true"></i>&nbsp;
-            {t}Updates{/t}</h4>
+        <h4><i class="fa fa-rss" aria-hidden="true"></i>&nbsp{t}Updates{/t}</h4>
     </div>
     <div class="panel-body">
         {foreach $rss_feed_loop as $rss}
             <b>{$rss.title}</b><br>
             {$rss.datetime}<br>
-            <a href="{$rss.link}" target="_blank">{$rss.link}</a>
+            <a href="{$rss.link}" class="link-external" target="_blank">{$rss.link}</a>
         {/foreach}
     <br>
     </div>

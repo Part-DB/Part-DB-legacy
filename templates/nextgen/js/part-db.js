@@ -20,7 +20,7 @@ function openLink(page) {
 
 function registerLinks() {
     'use strict';
-    $("a").not(".link-anchor").click(function (event) {
+    $("a").not(".link-anchor").not(".link-external").click(function (event) {
         event.preventDefault();
         var a = $(this),
             href = a.attr("href");

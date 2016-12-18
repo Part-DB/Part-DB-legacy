@@ -70,7 +70,7 @@
                         <div class="col-md-9">
                             <div class="checkbox">
                                 <input type="checkbox" onClick="toggle_all_checkboxes(this, 'tostock_')"/>
-                                <label>Einbuchen</label>
+                                <label>{t}Einbuchen{/t}</label>
                             </div>
                             <div class="checkbox">
                                 <input type="checkbox" onClick="toggle_all_checkboxes(this, 'remove_')"/>

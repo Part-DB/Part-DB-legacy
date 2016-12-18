@@ -32,9 +32,9 @@
                         {if $col.caption=="comment_edit"}<th>{t}Kommentar{/t}</th>{/if} {*  only for import parts  *}
                         {if $col.caption=="name_description"}<th>{t}Name / Beschreibung{/t}</th>{/if}
                         {if $col.caption=="instock"}<th>{t}Bestand{/t}</th>{/if}
-                        {if $col.caption=="instock_edit"}<th>{t}Bestand{/t}</th>{/if} {*  only for import parts  *}
+                        {if $col.caption=="instock_edit"}<th class="no-sort">{t}Bestand{/t}</th>{/if} {*  only for import parts  *}
                         {if $col.caption=="instock_edit_buttons"}<th>{t}Bestand ändern{/t}</th>{/if}
-                        {if $col.caption=="order_quantity_edit"}<th>Bestell-<br>menge</th>{/if} {*  only for order parts  *}
+                        {if $col.caption=="order_quantity_edit"}<th class="no-sort">Bestell-<br>menge</th>{/if} {*  only for order parts  *}
                         {if $col.caption=="mininstock"}<th>{t escape=no}Mindest-{/t}<br>{t}bestand{/t}</th>{/if}
                         {if $col.caption=="mininstock_edit"}<th>{t}Mindest-{/t}<br>{t}bestand{/t}</th>{/if} {*  only for import parts  *}
                         {if $col.caption=="instock_mininstock"}<th>{t escape=no}Vorh./<br>Min.Best{/t}</th>{/if}
@@ -56,20 +56,20 @@
                         {if $col.caption=="datasheets"}{if !$disable_auto_datasheets}<th>{t}Datenblätter{/t}</th>{/if}{/if}
                         {if $col.caption=="button_decrement"}<th class="text-center no-sort">-</th>{/if}
                         {if $col.caption=="button_increment"}<th class="text-center no-sort">+</th>{/if}
-                        {if $col.caption=="order_options"}<th>{t}Optionen{/t}</th>{/if} {*  only for order parts  *}
-                        {if $col.caption=="quantity_edit"}<th>{t}Anzahl{/t}</th>{/if} {*  only for device parts  *}
-                        {if $col.caption=="mountnames_edit"}<th>{t escape=no}Bestückungs-<br>daten{/t}</th>{/if} {*  only for device parts  *}
+                        {if $col.caption=="order_options"}<th class="no-sort">{t}Optionen{/t}</th>{/if} {*  only for order parts  *}
+                        {if $col.caption=="quantity_edit"}<th class="no-sort">{t}Anzahl{/t}</th>{/if} {*  only for device parts  *}
+                        {if $col.caption=="mountnames_edit"}<th class="no-sort">{t escape=no}Bestückungs-<br>daten{/t}</th>{/if} {*  only for device parts  *}
                         {if $col.caption=="price_edit"}<th>{t}Preis{/t}</th>{/if} {*  only for import parts  *}
                         {if $col.caption=="average_single_price"}<th>{t escape=no}Einzel-<br>preis Ø{/t}</th>{/if}
                         {if $col.caption=="single_prices"}<th>{t escape=no}Einzel-<br>preise{/t}</th>{/if}
                         {if $col.caption=="total_prices"}<th>{t escape=no}Gesamt-<br>preise{/t}</th>{/if} {*  only for device parts  *}
                         {if $col.caption=="supplier_partnrs"}<th>{t escape=no}Bestell-<br>nummern{/t}</th>{/if}
-                        {if $col.caption=="supplier_partnr_edit"}<th>{t escape=no}Bestell-<br>nummer{/t}</th>{/if} {*  only for import parts  *}
+                        {if $col.caption=="supplier_partnr_edit"}<th class="no-sort">{t escape=no}Bestell-<br>nummer{/t}</th>{/if} {*  only for import parts  *}
                         {if $col.caption=="attachements"}<th>{t}Dateianhänge{/t}</th>{/if}
-                        {if $col.caption=="systemupdate_from_version"}<th>{t}Von Version{/t}</th>{/if}
-                        {if $col.caption=="systemupdate_to_version"}<th>{t}Auf Version{/t}</th>{/if}
-                        {if $col.caption=="systemupdate_release_date"}<th>{t}Veröffentlichung{/t}</th>{/if}
-                        {if $col.caption=="systemupdate_changelog"}<th>{t}Changelog{/t}</th>{/if}
+                        {if $col.caption=="systemupdate_from_version"}<th class="no-sort">{t}Von Version{/t}</th>{/if}
+                        {if $col.caption=="systemupdate_to_version" }<th class="no-sort">{t}Auf Version{/t}</th>{/if}
+                        {if $col.caption=="systemupdate_release_date"}<th class="no-sort">{t}Veröffentlichung{/t}</th>{/if}
+                        {if $col.caption=="systemupdate_changelog"}<th class="no-sort">{t}Changelog{/t}</th>{/if}
                     {/foreach}
                 </tr>
             {/if}
@@ -161,9 +161,9 @@
                     {/if}
                     {if $row.caption == "order_quantity_edit"}
                         {* order quantity edit (only for order parts)  *}
-                        <td class="tdrow1" nowrap>
-                            <input type="number" min="0" class="form-control input-sm" name="order_quantity_{$row.row_index}" value="{$row.order_quantity}" onkeypress="validatePosIntNumber(event)"><br>
-                            (mind. {$row.min_order_quantity})
+                        <td class="tdrow1">
+                            <input type="number" min="0" max="99999" class="form-control input-sm" name="order_quantity_{$row.row_index}" value="{$row.order_quantity}" onkeypress="validatePosIntNumber(event)">
+                            <p class="help-block">(mind. {$row.min_order_quantity})</p>
                         </td>
                     {/if}
                     {if $row.caption == "mininstock"}
@@ -233,9 +233,9 @@
                     {if $row.caption == "datasheets"}
                         {if !$disable_auto_datasheets}
                             {* datasheet links with icons *}
-                            <td class="tdrow5">
+                            <td class="tdrow5" nowrap>
                                 {foreach $row.datasheets as $sheet }
-                                    <a title="{$sheet.name}" href="{$sheet.url}" target="_blank"><img class="companypic" src="{$relative_path}{$sheet.image}" alt="{$sheet.name}"></a>
+                                    <a class="link-external" title="{$sheet.name}" href="{$sheet.url}" target="_blank"><img class="companypic" src="{$relative_path}{$sheet.image}" alt="{$sheet.name}"></a>
                                 {/foreach}
                             </td>
                         {/if}
@@ -254,15 +254,15 @@
                     {/if} 
                     {if $row.caption == "order_options"}
                         {* build the order options (e.g. the "to stock" checkbox) (only for order parts) *}
-                        <td class="tdrow1" nowrap class="form-control">
-                            <div class="checkbox">
+                        <td class="tdrow1" class="form-control" nowrap>
+                            <div class="checkbox checkbox-inline">
                                 <input type="checkbox" name="tostock_{$row.row_index}">
-                                <label>Einbuchen</label>
+                                <label>{t}Einbuchen{/t}</label>
                             </div>
                             {if $row.enable_remove}
-                            <div class="checkbox">
+                            <div class="checkbox checkbox-inline">
                                 <input type="checkbox" name="remove_{$row.row_index}">
-                                <label>Aus Liste löschen</label>
+                                <label>{t}Aus Liste löschen{/t}</label>
                             </div>
                             {/if}
                         </td>
@@ -273,8 +273,8 @@
                            <div class="input-group">
                                 <input type="text" class="form-control input-sm" style="width:45px" name="quantity_{$row.row_index}" onkeypress="validatePosIntNumber(event)" value="{if isset($row.quantity)}{$row.quantity}{else}0{/if}">
                                 <div class="input-group-btn">
-                                <button class="btn btn-default btn-sm" type="button" onClick="elements['quantity_{$row.row_index}'].value=0">
-                                <span class="glyphicon glyphicon-remove"></span></button>
+                                    <button class="btn btn-default btn-sm" type="button" onClick="elements['quantity_{$row.row_index}'].value=0">
+                                    <span class="glyphicon glyphicon-remove"></span></button>
                                 </div>
                             </div>
                         </td>
@@ -303,7 +303,7 @@
                         {* supplier-radiobuttons (only for order parts) *}
                         <td class="tdrow1" nowrap valign="top">
                             {foreach $row.suppliers_radiobuttons as $radio}
-                                <div class="radio">
+                                <div class="radio radio-inline">
                                     <input type="radio" name="orderdetails_{$radio.row_index}" value="{$radio.orderdetails_id}" {if $radio.selected}checked{/if}>
                                     <label>{$radio.supplier_name}</label>
                                 </div>
@@ -346,7 +346,7 @@
                             {foreach $row.supplier_partnrs as $sup}
                                 <div style="display:inline-block; height:1.7em; line-height:1.7em;">
                                     {if isset($sup.supplier_product_url)}
-                                        <a title="{$sup.supplier_product_url}" href="{$sup.supplier_product_url}" target="_blank">{$sup.supplier_partnr}</a>
+                                        <a class="link-external" target="_blank" title="{$sup.supplier_product_url}" href="{$sup.supplier_product_url}">{$sup.supplier_partnr}</a>
                                     {else}
                                         {$sup.supplier_partnr}
                                     {/if}
@@ -362,7 +362,7 @@
                         {* attachements (names with hyperlinks) *}
                         <td class="tdrow5" id="attach">
                             {foreach $row.attachements as $attach}
-                                <a title="{$attach.type}" href="{$attach.filename}" target="_blank">{$attach.name}</a><br>
+                                <a class="link-external" title="{$attach.type}" href="{$attach.filename}" target="_blank">{$attach.name}</a><br>
                             {/foreach}
                             <div></div>
                         </td>
