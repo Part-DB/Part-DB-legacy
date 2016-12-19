@@ -77,6 +77,7 @@ table.dataTable tbody th, table.dataTable tbody td {
     bottom: 20px;
     right: 20px;
     display:none;
+    z-index: 1030;
 }
 
 
