@@ -59,7 +59,10 @@
                         <button class="btn btn-primary" type="submit" name="save_db_settings">{t}Weiter{/t}</button>
                     </div>
                 </div>
-            </table>
         </form>
     </div>
 </div>
+
+</div> <!-- for header-->
+</body>
+</html>

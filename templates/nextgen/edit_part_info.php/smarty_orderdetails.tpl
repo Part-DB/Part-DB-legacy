@@ -4,8 +4,8 @@
         <i class="fa fa-shopping-cart" aria-hidden="true"></i> 
         {t}Einkaufsinformationen{/t}
     </div>
-    <form action="{$relative_path}edit_part_info.php" method="post">
-        <table class="table table-striped table-condensed table-hover table-responsive">
+    <form action="{$relative_path}edit_part_info.php" method="post" class="table-responsive">
+        <table class="table table-striped table-condensed table-hover">
                 <thead>
                     <tr>
                         <th></th>
