@@ -145,6 +145,8 @@
                                        <label for="search_manufacturer">{t}Hersteller{/t}</label></li>
                                    <li class="checkbox"><input type="checkbox" name="search_footprint" value="true">
                                        <label for="search_footprint">{t}Footprint{/t}</label></li>
+                                   <li class="checkbox"><input type="checkbox" name="disable_pid_input" value="false">
+                                        <label for="disable_pid_input">{t}Deakt. Barcode{/t}</label></li>
                                 </ul>
                             </div>
 

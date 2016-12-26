@@ -57,6 +57,8 @@
 
     $export_format_id       = isset($_REQUEST['export_format'])     ? (integer)$_REQUEST['export_format']   : 0;
 
+    $disable_pid_input      = isset($_REQUEST['disable_pid_input']);
+
     $action = 'default';
     if (isset($_REQUEST['export']))     {$action = 'export';}
     $selected_part_id = 0;
@@ -108,6 +110,23 @@
 
     if ( ! $fatal_error)
     {
+
+        if(!$disable_pid_input)
+        {
+            //Check if keyword is a pid from a barcode scanner or so
+            //This is the case if the input only contains digits and is 8 or 9 chars long
+            if(is_numeric($keyword) && (mb_strlen($keyword) == 7 || mb_strlen($keyword) == 8))
+            {
+                if(mb_strlen($keyword) == 8)
+                {
+                    //Remove parity
+                    $keyword = substr($keyword, 0, -1);
+                }
+                $pid = (integer) $keyword;
+                header("Location: show_part_info.php?pid=" . $pid);
+            }
+        }
+
         switch ($action)
         {
             case 'decrement': // remove one part
