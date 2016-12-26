@@ -750,5 +750,11 @@
         $string = str_replace("%storeloc%", is_object($storelocation) ? $storelocation->get_name() : '', $string);
         $string = str_replace("%storeloc_full%", is_object($storelocation) ? $storelocation->get_full_path() : '', $string);
 
+        //Remove single '-' without other infos
+        if(trim($string) == "-")
+        {
+            $string = "";
+        }
+
         return $string;
     }

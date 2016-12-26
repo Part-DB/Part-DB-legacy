@@ -119,6 +119,7 @@
            </div>
 
                 <div class="col-md-3">
+
                         <form action="" method="post" class="hidden-print">
                             <input type="hidden" name="pid" value="{$pid}">
                             <div class="row">
@@ -190,6 +191,15 @@
                             <label>{t}Letzte Änderung:{/t}</label>
                             <p>{$last_modified}</p>
                         </div>
+
+                        <p></p>
+
+                        <form action="show_part_label.php">
+                            <input type="hidden" name="pid" value="{$pid}">
+                            <input type="hidden" name="label_generate">
+                            <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-barcode" aria-hidden="true"></i>
+                                {t}Barcode erzeugen{/t}</button>
+                        </form>
                         
                         
                 </div>

@@ -48,8 +48,9 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-md-offset-3 col-md-3">
+                    <div class="col-md-offset-3 col-md-9">
                         <button type="submit" class="btn btn-primary" name="label_generate">Erzeuge Label</button>
+                        {if isset($download_link)}<a class="link-anchor" href="{$download_link}">{t}Download Label{/t}</a>{/if}
                     </div>
                 </div>
             </div>

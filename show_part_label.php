@@ -73,6 +73,7 @@
         try
         {
             $html->set_variable("pid", $part_id, "integer");
+            $html->set_variable("download_link", 'generate_part_label.php?pid='.$part_id.'&download', "string");
         }
         catch (Exception $e)
         {
@@ -89,6 +90,9 @@
 
     $reload_link = $fatal_error ? 'show_part_label.php?pid='.$part_id : '';  // an empty string means that the...
     $html->print_header($messages, $reload_link);                           // ...reload-button won't be visible
+
+
+
 
     if (! $fatal_error)
         $html->print_template('show_part_label');

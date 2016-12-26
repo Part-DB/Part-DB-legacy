@@ -190,9 +190,9 @@ class PartLabel
             'font' => 'helvetica',
             'fontsize' => 8 );
 
-        //$pdf->write1DBarcode($this->part->get_barcode_content(),"EAN8","","","","","",$style,'N');
+        $pdf->write1DBarcode($this->part->get_barcode_content(),"EAN8","","","","","",$style,'N');
 
-        $pdf->write2DBarcode($this->part->get_barcode_content("QR"),"QRCODE,Q");
+        //$pdf->write2DBarcode($this->part->get_barcode_content("QR"),"QRCODE,Q");
 
         if($download)
         {
