@@ -69,6 +69,7 @@ function registerHoverImages(form) {
 function onNodeSelected(event, data) {
     'use strict';
     $("#main").load(data.href + " #content");
+    $(this).treeview('toggleNodeExpanded',data.nodeId)
 }
 
 function tree_fill() {
