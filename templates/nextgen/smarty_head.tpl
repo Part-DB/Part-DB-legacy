@@ -165,15 +165,44 @@
                         <div class="">
                             <ul class="nav navmenu-nav">
                                 <li id="categories">
-                                    <h4>{t}Kategorien{/t}</h4>
+                                <!-- <h4>{t}Kategorien{/t}</h4>-->
+                                    <div class="dropdown">
+                                        <button class="btn-text dropdown-toggle" type="button" id="dropdownCat" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <h4 class="sidebar-title">{t}Kategorien{/t}
+                                                <span class="caret"></span></h4>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownCat">
+                                            <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-categories">{t}Alle ausklappen{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-categories">{t}Alle einklappen{/t}</a></li>
+                                        </ul>
+                                    </div>
                                     <div id="tree-categories"></div>
                                 </li>
                                 <li id="devices">
-                                    <h4>{t}Baugruppen{/t}</h4>
+                                    <div class="dropdown">
+                                        <button class="btn-text dropdown-toggle" type="button" id="dropdownDev" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <h4 class="sidebar-title">{t}Baugruppen{/t}
+                                                <span class="caret"></span></h4>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownDev">
+                                            <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-devices">{t}Alle ausklappen{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-devices">{t}Alle einklappen{/t}</a></li>
+                                        </ul>
+                                    </div>
                                     <div id="tree-devices"></div>
                                 </li>
+
                                 <li id="tools">
-                                    <h4>{t}Verwaltung{/t}</h4>
+                                    <div class="dropdown">
+                                        <button class="btn-text dropdown-toggle" type="button" id="dropdownDev" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <h4 class="sidebar-title">{t}Verwaltung{/t}
+                                                <span class="caret"></span></h4>
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownDev">
+                                            <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-tools">{t}Alle ausklappen{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-tools">{t}Alle einklappen{/t}</a></li>
+                                        </ul>
+                                    </div>
                                     <div id="tree-tools"></div>
                                 </li>
                             </ul>

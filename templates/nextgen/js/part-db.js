@@ -100,6 +100,21 @@ function bbcode_edit() {
     });
 }
 
+function treeview_btn_init() {
+    $(".tree-btns").click(function () {
+        $(this).parents("div.dropdown").removeClass('open');
+        var mode = $(this).data("mode");
+        var target = $(this).data("target");
+
+        if(mode==="collapse") {
+            $('#' + target).treeview('collapseAll', { silent: true });
+        }
+        else if(mode==="expand") {
+           $('#' + target).treeview('expandAll', { silent: true });
+        }
+    });
+}
+
 $(document).ready(function () {
     'use strict';
     var page = window.location.pathname;
@@ -109,6 +124,7 @@ $(document).ready(function () {
         openLink("startup.php");
     }
     tree_fill();
+    treeview_btn_init();
     registerForm();
     registerLinks();
 

@@ -110,3 +110,14 @@ table.dataTable tbody th, table.dataTable tbody td {
     /*height: auto;*/
     width: 100%;
 }
+
+.btn-text {
+    color: inherit;
+    padding: 0;
+    border: hidden;
+    background-color: transparent;
+}
+
+.sidebar-title {
+    margin-top: 0;
+}
