@@ -58,7 +58,7 @@
     *
     *********************************************************************************/
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Detailinfo');
+    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Detailinfo'));
 
     try
     {
@@ -157,6 +157,10 @@
     {
         try
         {
+            //Set title
+            $title = _('Detailinfo') . ': ' . $part->get_name() . '';
+            $html->set_title($title);
+
             // part attributes
             $html->set_variable('pid',                      $part->get_id(), 'integer');
             $html->set_variable('name',                     $part->get_name(), 'string');

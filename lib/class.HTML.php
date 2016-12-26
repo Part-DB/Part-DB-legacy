@@ -157,6 +157,25 @@
         }
 
         /**
+         * @brief Set the Page title
+         * @param string $new_title the new title of the page
+         * @throws Exception if the param is not a string or is null
+         */
+        public function set_title($new_title)
+        {
+            if(is_null($new_title))
+            {
+                throw new Exception("$new_title must not be null!");
+            }
+            if(!is_string($new_title))
+            {
+                throw new Exception("$new_title must be an string!");
+            }
+
+            $this->meta['title'] = $new_title;
+        }
+
+        /**
          * @brief Set all JavaScript filenames which must be included in the HTML header.
          *
          * @note    The JavaScript files must be located in "/javascript/".
