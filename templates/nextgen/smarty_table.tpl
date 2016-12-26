@@ -79,12 +79,14 @@
         <tbody>
         {foreach $table as $t}
             {if !isset($t.print_header) || !$t.print_header}
-                {if isset($row.id)}
-                    <input type="hidden" name="id_{$t.row_index}" value="{$t.id}">
-                {/if}
+
                 {* the alternating background colors are created here *}
                 <tr>
+                    {if isset($t.id)}
+                        <input type="hidden" name="id_{$t.row_index}" value="{$t.id}">
+                    {/if}
                 {foreach $t.row_fields as $row}
+
                     {if $row.caption =="row"}
                         {* row number *}
                         <td class="tdrow1">{$row.row}</td>
