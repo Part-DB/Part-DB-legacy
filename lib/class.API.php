@@ -46,6 +46,9 @@ class API
                 case APIMode::GET_PART_INFO:
                     $data = $this->getPartInfo($params);
                     break;
+                case APIMode::MODELS_LIST:
+                    $data = $this->listModels($params);
+                    break;
 
                 default:
                     $data = $this->makeError("Invalid action mode!");
@@ -202,6 +205,11 @@ class API
         $all_orderdetails   = $part->get_orderdetails();
 
         return array($part->get_json_array());
+
+    }
+
+    private function listModels()
+    {
 
     }
 

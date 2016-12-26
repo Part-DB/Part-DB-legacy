@@ -63,7 +63,7 @@
             // TODO: how can we re-activate the autorefresh now?!
         }
         else
-            $errors[] = 'Die Log-Datei kann nicht gelesen werden!';
+            $errors[] = _('Die Log-Datei kann nicht gelesen werden!');
     }
     elseif (isset($_REQUEST["enable"]))
     {
@@ -101,103 +101,95 @@
         $autorefresh = false;
 ?>
 
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-          "http://www.w3.org/TR/html4/loose.dtd">
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
     <title>Debugging</title>
     <meta http-equiv="content-type" content="text/html; charset=<?php print $config['html']['http_charset']; ?>">
     <?php if ($autorefresh) print '<meta http-equiv="refresh" content="5" >'; ?>
 
     <!-- For maximum stability of this page, we don't use templates! So we include the stylesheet directly here... -->
-    <style type="text/css">
-        .body {     background-color: #cdcdcd;
-                    font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;}
 
-        .outer {    background-color: #ffffff;
-                    margin-top:    10px;
-                    margin-bottom: 15px;
-                    border: none;
-                    border-bottom: 1px solid #000000;
-                    border-left:   1px solid #000000;
-                    padding:   11px;
-                    font-size: 12px;}
+    <!-- Bootstrap -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
 
-        .outer h2 { background-color: #BABABA;
-                    margin-top:    0;
-                    margin-bottom: 1px;
-                    border-bottom: 2px solid #F76B02;
-                    border-left:   1px solid #F76B02;
-                    padding: 1px;
-                    font-size:   15px;
-                    font-weight: bold;}
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
-        .inner {    background-color: #F2F2F2;
-                    border-bottom: 3px solid #d0d0d0;
-                    border-left:   1px solid #d0d0d0;
-                    border-right:  1px solid #d0d0d0;
-                    padding: 1px;}
-    </style>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="js/bootstrap.min.js"></script>
+
 </head>
 
-<body class="body">
-
+<body>
     <!-- Reload the navigation frame because of the debugging buttons at the top of the navigation frame -->
-    <script type="text/javascript">
+    <!-- <script type="text/javascript">
         location.reload();
-    </script>
+    </script> -->
 
-    <div class="outer">
-        <h2>Debug-Konsole</h2>
-        <div class="inner">
+    <div class="container">
+        <div class="panel panel-primary">
+        <div class="panel-heading">Debug-Konsole</div>
+        <div class="panel-body">
             <form action="" method="post">
                 <?php
                     if ($config['debug']['enable'])
                     {
-                        print '<strong><span style="color: #008000; ">Debugging ist aktiviert</span></strong><br>';
-                        print '<input type="submit" name="disable" value="Deaktivieren">';
-                        print '<input type="submit" name="disable_and_delete" value="Deaktivieren und Log-Datei löschen">';
-                        print '<hr>Testeintrag erzeugen:';
-                        print '<input type="text" name="new_type" value="warning">';
-                        print '<input type="text" name="new_text" value="Testeintrag">';
-                        print '<input type="submit" name="add" value="Hinzuf&uuml;gen">';
-                        print '<hr><input type="submit" name="clear" value="Log leeren">';
-                        print '<input type="submit" name="download" value="Log als XML-Datei herunterladen">';
+                        print '<div class="form-group"><label><span style="color: #008000; ">Debugging ist aktiviert</span></label>' . "\n";
+                        print '<div class="col-md-12"><button class="btn btn-primary" type="submit" name="disable">Deaktivieren</button>' . "\n";
+                        print '<button class="btn btn-default" type="submit" name="disable_and_delete">Deaktivieren und Log-Datei löschen</button>' . "\n";
+                        print '</div></div><br>';
+                        print '<div class="form-group"><label class="control-label">Testeintrag erzeugen:</label>' . "\n";
+                        print '<div class="col-md-5"><input type="text" class="form-control" name="new_type" value="warning"></div>' . "\n";
+                        print '<div class="col-md-5"><input type="text" class="form-control" name="new_text" class="form-control" value="Testeintrag"></div>' . "\n";
+                        print '<div class="col-md-2"><button class="btn btn-primary" type="submit" name="add">Hinzuf&uuml;gen</button></div></div>' . "\n";
+                        print '<hr><button type="submit" class="btn btn-default" name="clear">Log leeren</button>' . "\n";
+                        print '<button type="submit" name="download" class="btn btn-default">Log als XML-Datei herunterladen</button>' . "\n";
 
                         if ($autorefresh)
                         {
-                            print '<hr><input type="submit" name="stop_autorefresh" value="Autorefresh deaktivieren">';
+                            print '<hr><button type="submit" name="stop_autorefresh" class="btn btn-default" >Autorefresh deaktivieren</button>';
                         }
                         else
                         {
                             print '<input type="hidden" name="autorefresh_disabled">';
-                            print '<hr><input type="submit" name="start_autorefresh" value="Autorefresh aktivieren">';
+                            print '<hr><button type="submit" class="btn btn-default" name="start_autorefresh">Autorefresh aktivieren</button>';
                         }
                     }
                     else
                     {
                         print '<strong><span style="color: #ff0000; ">Debugging ist deaktiviert</span></strong><br>';
-                        print 'Administratorpasswort zum aktivieren: ';
-                        print '<input type="password" name="admin_password" value="">';
-                        print '<input type="submit" name="enable" value="Aktivieren"><br>';
+                        print '<div class="form-group"><label>Administratorpasswort zum aktivieren:</label> ';
+                        print '<div class="input-group"><input class="form-control" type="password" name="admin_password" value="">' . "\n";
+                        print '<div class="input-group-btn"><button class="btn btn-primary" type="submit" name="enable">Aktivieren</button></div></div></div>';
                     }
 
                     if (count($errors) > 0)
                     {
-                        print '<br><br><strong><span style="color: #ff0000; ">';
+                        print '<div class="alert alert-danger"><strong><span style="color: #ff0000; ">';
                         foreach ($errors as $error)
                             print $error.'<br>';
-                        print '</font></strong>';
+                        print '</font></strong></div>';
                     }
                 ?>
             </form>
         </div>
     </div>
 
-<?php if ($config['debug']['enable']) { ?>
-    <div class="outer">
-        <h2>Debug-Log</h2>
-        <div class="inner">
+        <?php if ($config['debug']['enable']) { ?>
+    <div class="panel panel-default">
+        <div class="panel-heading">Debug-Log</div>
+        <div class="panel-body">
             Folgende Log-Typen werden hervorgehoben:
             "<span style="color: darkgreen; ">success</span>",
             "<span style="color: darkorange; ">warning</span>",
@@ -205,7 +197,7 @@
             "<strong><span style="color: blue; ">temp</span></strong>"<br>
             Zus&auml;tzliche Informationen k&ouml;nnen angezeigt werden,
             indem man mit der Maus &uuml;ber den entsprechenden Eintrag f&auml;hrt.
-            <select name="debug_log" size="25" style="width:100%">
+            <select name="debug_log" size="25" class="form-control">
                 <?php
                     $logs = get_debug_log_elements();
                     foreach ($logs as $log)
@@ -245,6 +237,11 @@
         </div>
     </div>
 <?php } ?>
+    </div>
+
+
+
+
 </body>
 </html>
 

@@ -38,10 +38,7 @@
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('3D Footprints'));
 
-
-
-    $dir = find_all_files(BASE.'/models/', true);
-
+    $dirs = find_all_files(BASE.'/models/', true);
 
     $html->set_loop("directories", $dir);
 

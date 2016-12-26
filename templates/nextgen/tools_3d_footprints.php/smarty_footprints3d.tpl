@@ -3,7 +3,9 @@
     <div class="panel-body">
         <div class="col-md-4">
             <select class="form-control" size="30">
-
+                {foreach $directories as $dir}
+                    <option>{$dir}</option>
+                {/foreach}
             </select>
         </div>
 

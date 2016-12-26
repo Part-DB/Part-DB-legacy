@@ -185,7 +185,7 @@
                    <div class="container-fluid" id="content">
                        
                        {if isset($messages)}
-                        <div class="alert alert-danger">
+                        <div class="alert alert-danger" id="messages">
                             {if isset($messages_div_title)}<h4>{$messages_div_title}</h4>{/if}
                                 <form action="" method="post">
                                     {foreach $messages as $msg}

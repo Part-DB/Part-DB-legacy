@@ -171,12 +171,12 @@
                 case 'pdo':
                     if ( ! class_exists('PDO', false))
                     {
-                        $messages[] =   'PDO (PHP Data Objects) wird benötigt, ist aber nicht installiert!';
+                        $messages[] =   _('PDO (PHP Data Objects) wird benötigt, ist aber nicht installiert!');
                     }
                     break;
 
                 default:
-                    throw new Exception('Unbekannte Mindestanforderung: '.$key);
+                    throw new Exception(_('Unbekannte Mindestanforderung: ').$key);
             }
         }
 

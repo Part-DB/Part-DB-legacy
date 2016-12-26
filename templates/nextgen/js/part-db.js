@@ -132,6 +132,18 @@ $(document).ready(function () {
     
 });
 
+function scrollUpForMsg()
+{
+    if($("#messages").length)
+    {
+        $('#back-to-top').tooltip('hide');
+        $('body,html').animate({
+            scrollTop: 0
+        }, 400);
+        return false;
+    }
+}
+
 function makeSortTable() {
     'use strict';
     
@@ -174,6 +186,7 @@ $(document).ajaxComplete(function (event, xhr, settings) {
     registerForm();
     makeFileInput();
     registerHoverImages();
+    scrollUpForMsg();
     
     if ($("x3d").length) {
         x3dom.reload();
