@@ -27,7 +27,7 @@
                         {t}Name:{/t}
                     </label>
                     <div class="col-md-10">
-                        <input type="text" name="name" id="name" class="form-control" placeholder="{t}z.B. BC547{/t}" value="{$name}">
+                        <input type="text" name="name" id="name" class="form-control" placeholder="{t}z.B. BC547{/t}" value="{$name}" required>
                     </div>
                 </div>
                 <div class="form-group">
@@ -44,6 +44,7 @@
                     {else}
                     <div class="col-md-10">
                         <input type="text" id="description" class="form-control" name="description" placeholder="{t}z.B. NPN 45V 0,1A 0,5W{/t}" value="{$description nofilter}">
+                        <p class="help-block">{t}Hinweis: Hier kann BBCode verwendet werden um den Text besonders auszuzeichnen (z.B. [b]Fett[/b]).{/t}</p>
                     </div>
                     {/if}
                 </div>
@@ -149,6 +150,7 @@
                     </label>
                     <div class="col-md-10">
                         <textarea  class="form-control scedit" name="comment" id="edit_comment" rows="4" cols="40">{$comment nofilter}</textarea>
+                        <p class="help-block">{t}Hinweis: Hier kann BBCode verwendet werden um den Text besonders auszuzeichnen (z.B. [b]Fett[/b]).{/t}</p>
                     </div>
                 </div>
                 
