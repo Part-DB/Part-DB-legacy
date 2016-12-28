@@ -22,7 +22,7 @@
         {t}Lagerorte{/t}
     </div>
     <div class="panel-body">
-        <form action="" method="post" name="edit" class="row">
+        <form action="" method="post" name="edit" class="row no-progbar">
             <div class="col-md-4">
                 <select name="selected_id" size="30" class="form-control" onChange="submitForm(this.form);">
                     <optgroup label="{t}Neu{/t}">

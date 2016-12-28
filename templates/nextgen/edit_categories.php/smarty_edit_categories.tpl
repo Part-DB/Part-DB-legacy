@@ -12,7 +12,7 @@
         {t}Kategorien{/t}
     </div>
     <div class="panel-body">
-        <form action="" method="post" class="row">
+        <form action="" method="post" class="row no-progbar">
             <div class="col-md-4">
                     <select class="form-control" name="selected_id" size="30" onChange="submitForm(this.form);">
                         <optgroup label="Neu">

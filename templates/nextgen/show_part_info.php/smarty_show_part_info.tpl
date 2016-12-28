@@ -118,8 +118,9 @@
                 
            </div>
 
-                <div class="col-md-3">
-                        <form action="" method="post" class="hidden-print">
+                <div class="col-md-3">:
+                        <form action="" method="post" class="hidden-print no-progbar">
+>>>>>>> 8234da9... Deactivate the Progress bar loading for some Form submits.
                             <input type="hidden" name="pid" value="{$pid}">
                             <div class="row">
                                 <div class="col-md-12">
@@ -136,7 +137,7 @@
         
                         <p></p>
                        
-                        <form action="" method="post" class="hidden-print">
+                        <form action="" method="post" class="hidden-print no-progbar">
                             <input type="hidden" name="pid" value="{$pid}">
                             <div class="row">
                                 <div class="col-md-12">
@@ -153,7 +154,7 @@
                         
                         <p></p>
                        
-                        <form action="" method="post" class="hidden-print">
+                        <form action="" method="post" class="hidden-print no-progbar">
                             <input type="hidden" name="pid" value="{$pid}">
                             <div class="row">
                                 <div class="col-md-12">

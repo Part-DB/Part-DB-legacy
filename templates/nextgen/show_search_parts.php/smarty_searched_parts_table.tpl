@@ -3,7 +3,7 @@
    <div class="panel-heading"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;
       {t}Treffer in der Kategorie{/t} <b>"{$category_full_path}"</b>
    </div>
-        <form method="post" action="">
+        <form method="post" action="" class="no-progbar">
             <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
 
             <input type='hidden' name='keyword' value='{$keyword}'>

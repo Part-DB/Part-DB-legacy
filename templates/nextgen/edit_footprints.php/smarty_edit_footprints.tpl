@@ -5,7 +5,7 @@
         {t}Footprints{/t}
         </div>
     <div class="panel-body">
-        <form action="" method="post" class="row">
+        <form action="" method="post" class="row no-progbar">
             <div class="col-md-4 auto-size-select">
                     <select name="selected_id" size="30" class="form-control auto-size-select" onChange="submitForm(this.form);">
                         <optgroup label="Neu">

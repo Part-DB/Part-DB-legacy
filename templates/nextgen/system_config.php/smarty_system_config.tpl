@@ -11,7 +11,7 @@
     </div>
     <div class="panel-body">
         
-        <form class="form-horizontal" action="" method="post">
+        <form class="form-horizontal" action="" method="post" class="no-progbar">
                 
                 <p><i>{t}Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere Einstellungen kann man direkt in der "config.php" vornehmen. Mögliche Parameter entnehmen Sie bitte der "config_defaults.php" oder der Dokumentation.{/t}</i></p>
         
