@@ -20,6 +20,7 @@
                 </div>
             {/if}
 
+            </div> <!-- content-data -->
          </div> <!-- .container-float -->
       </div> <!-- page-content-wrapper -->
 

@@ -14,7 +14,7 @@ function startLoading() {
 
 function openLink(page) {
     'use strict';
-    $("#content").load(page + " #content");
+    $("#content").load(page + " #content-data");
     //window.history.pushState(null, "", page);
 }
 
@@ -28,7 +28,7 @@ function registerLinks() {
         $('#content').hide(0);
         $('#progressbar').show(0);
 
-        $("#content").load(href + " #content");
+        $("#content").load(href + " #content-data");
         return false;
     });
 }
@@ -36,7 +36,7 @@ function registerLinks() {
 //Called when Form submit was submited
 function showFormResponse(responseText, statusText, xhr, $form) {
     'use strict';
-    $("#content").html($(responseText).find("#content")).fadeIn('slow');
+    $("#content").html($(responseText).find("#content-data")).fadeIn('slow');
 }
 
 function showRequest(formData, jqForm, options) {
@@ -87,7 +87,7 @@ function onNodeSelected(event, data) {
     //$('#content').fadeOut("fast");
     //$('#progressbar').show();
 
-    $("#content").load(data.href + " #content");
+    $("#content").load(data.href + " #content-data");
     $(this).treeview('toggleNodeExpanded',data.nodeId)
 }
 
@@ -215,7 +215,7 @@ window.onpopstate = function (event) {
         $('#content').hide(0);
         $('#progressbar').show(0);
 
-        $("#content").load(location.href + " #content");
+        $("#content").load(location.href + " #content-data");
     }
 };
 
