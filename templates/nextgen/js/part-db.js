@@ -25,8 +25,8 @@ function registerLinks() {
         var a = $(this),
             href = a.attr("href");
 
-        $('#content').hide();
-        $('#progressbar').show();
+        $('#content').hide(0);
+        $('#progressbar').show(0);
 
         $("#content").load(href + " #content");
         return false;
@@ -41,8 +41,8 @@ function showFormResponse(responseText, statusText, xhr, $form) {
 
 function showRequest(formData, jqForm, options) {
     'use strict';
-    $('#content').hide();
-    $('#progressbar').show();
+    $('#content').hide(0);
+    $('#progressbar').show(0);
 }
 
 function registerForm() {
@@ -81,6 +81,9 @@ function onNodeSelected(event, data) {
     'use strict';
     $('#content').hide();
     $('#progressbar').show();
+
+    //$('#content').fadeOut("fast");
+    //$('#progressbar').show();
 
     $("#content").load(data.href + " #content");
     $(this).treeview('toggleNodeExpanded',data.nodeId)
@@ -190,8 +193,10 @@ function makeSortTable() {
                 "orderable": false
             }]
         });
-        
+        //$(".table-sortable").DataTable().fnDraw();
     }
+
+
 }
 
 function makeFileInput() {
@@ -205,8 +210,8 @@ window.onpopstate = function (event) {
     var page = location.href;
     //Go back only when the the target isnt the empty index.
     if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
-        $('#content').hide();
-        $('#progressbar').show();
+        $('#content').hide(0);
+        $('#progressbar').show(0);
 
         $("#content").load(location.href + " #content");
     }
@@ -217,8 +222,10 @@ $(document).ajaxComplete(function (event, xhr, settings) {
     'use strict';
 
     //Hide progressbar and show Result
-    $('#progressbar').hide();
-    $('#content').show();
+    $('#progressbar').hide(0);
+    //$('#content').show(0);
+    $('#content').fadeIn("fast");
+
 
     makeSortTable();
     registerLinks();
