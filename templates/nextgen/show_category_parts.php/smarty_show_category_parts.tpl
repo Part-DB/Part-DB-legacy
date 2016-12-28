@@ -4,7 +4,7 @@
         {t}Sonstiges{/t}
     </div>
     <div class="panel-body">
-        <form action="" method="post" class="form-horizontal">
+        <form action="" method="post" class="form-horizontal no-progbar">
             <input type="hidden" name="cid" value="{$cid}">
             <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">
             
@@ -27,7 +27,7 @@
         <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;
         {t}Teile in der Kategorie{/t} <b>"{$category_name}"</b>
     </div>
-    <form method="post" action="">
+    <form method="post" action="" class="no-progbar">
         <input type="hidden" name="cid" value="{$cid}">
         <input type="hidden" name="subcat" value="{if $with_subcategories}1{else}0{/if}">
         <input type="hidden" name="table_rowcount" value="{$table_rowcount}">

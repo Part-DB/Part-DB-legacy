@@ -41,8 +41,10 @@ function showFormResponse(responseText, statusText, xhr, $form) {
 
 function showRequest(formData, jqForm, options) {
     'use strict';
-    $('#content').hide(0);
-    $('#progressbar').show(0);
+    if(!$(jqForm).hasClass("no-progbar")) {
+        $('#content').hide(0);
+        $('#progressbar').show(0);
+    }
 }
 
 function registerForm() {

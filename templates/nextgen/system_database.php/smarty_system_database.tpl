@@ -13,7 +13,7 @@
             {t}Datenbank Status / Update{/t}
         </div>
         <div class="panel-body">
-            <form action="" method="post" class="form-horizontal">
+            <form action="" method="post" class="form-horizontal no-progbar">
                 <table>
                     <tr>
                         <td>
