@@ -114,6 +114,10 @@
                         <span class="sr-only">{t}Toggle Navigation{/t}</span>
                         <span class="glyphicon glyphicon-search"></span>
                     </button>
+                    <a class="navbar-toggle link-anchor" href="zxing://scan/?ret={if isset($smarty.server.HTTPS)}https{else}http{/if}%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$relative_path|escape:'url'}show_part_info.php%3Fbarcode%3D%7BCODE%7D&SCAN_FORMATS=EAN_8">
+                        <i class="fa fa-barcode" aria-hidden="true"></i>
+                        <span class="sr-only">{t}Scanne Barcode{/t}</span>
+                    </a>
                     <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> Part-DB</a>
                 </div>
 

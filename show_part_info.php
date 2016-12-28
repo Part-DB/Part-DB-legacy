@@ -46,6 +46,26 @@
     $n_more             = isset($_REQUEST['n_more'])            ? (integer)$_REQUEST['n_more']          : 0;
     $order_quantity     = isset($_REQUEST['order_quantity'])    ? (integer)$_REQUEST['order_quantity']  : 0;
 
+    //Parse Barcode scan
+    if(isset($_REQUEST['barcode']))
+    {
+        $barcode = $_REQUEST['barcode'];
+        if(is_numeric($barcode) && (mb_strlen($barcode) == 7 || mb_strlen($barcode) == 8))
+        {
+            if(mb_strlen($barcode) == 8)
+            {
+                //Remove parity
+                $barcode = substr($barcode, 0, -1);
+            }
+            $part_id = (integer) $barcode;
+        }
+        else
+        {
+            $messages[] = $messages[] = array('text' => nl2br(_("Barcode input is not valid!")), 'strong' => true, 'color' => 'red');
+            $fatal_error = true;
+        }
+    }
+
     $action = 'default';
     if (isset($_REQUEST["dec"]))                    {$action = 'dec';}
     if (isset($_REQUEST["inc"]))                    {$action = 'inc';}
@@ -59,6 +79,7 @@
     *********************************************************************************/
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Detailinfo'));
+
 
     try
     {

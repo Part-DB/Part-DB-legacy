@@ -5,6 +5,9 @@
         <h3>{t}Version:{/t} {$system_version_full}{if !empty($git_branch)}, Git: {$git_branch}{if isset($git_commit)}/{$git_commit}{/if}{/if}</h3>
         {/if}
         <h4><i>"NextGen"</i></h4>
+        <!--
+        <a href="zxing://scan/?ret={if isset($smarty.server.HTTPS)}https{else}http{/if}%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$relative_path|escape:'url'}show_part_info.php%3Fbarcode%3D%7BCODE%7D&SCAN_FORMATS=EAN_8" class="link-anchor">Barcode Scan</a>
+        -->
     </div>
     
     {if isset($database_update) && $database_update}
