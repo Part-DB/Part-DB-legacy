@@ -211,8 +211,19 @@
                 </aside>
                 
                 <div class="col-sm-9 col-md-10" id="main">
+
+                    <div class="container-fluid container-progress" id="progressbar" hidden>
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+                                aria-valuemax="100" style="width: 100%">
+                                <span>{t}Lade{/t}</span>
+                            </div>
+                        </div>
+                        <h4>Dies kann einen Moment dauern...</h4>
+                    </div>
+
                    <div class="container-fluid" id="content">
-                       
+
                        {if isset($messages)}
                         <div class="alert alert-danger" id="messages">
                             {if isset($messages_div_title)}<h4>{$messages_div_title}</h4>{/if}

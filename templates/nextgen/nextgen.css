@@ -121,3 +121,12 @@ table.dataTable tbody th, table.dataTable tbody td {
 .sidebar-title {
     margin-top: 0;
 }
+
+.container-progress {
+    padding-top: 25%;
+}
+
+.vertical-align {
+    display: flex;
+    align-items: center;
+}
