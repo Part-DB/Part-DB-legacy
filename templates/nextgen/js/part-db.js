@@ -14,7 +14,7 @@ function startLoading() {
 
 function openLink(page) {
     'use strict';
-    $("#main").load(page + " #content");
+    $("#content").load(page + " #content");
     //window.history.pushState(null, "", page);
 }
 
@@ -24,8 +24,11 @@ function registerLinks() {
         event.preventDefault();
         var a = $(this),
             href = a.attr("href");
-        startLoading();
-        $("#main").load(href + " #content");
+
+        $('#content').hide();
+        $('#progressbar').show();
+
+        $("#content").load(href + " #content");
         return false;
     });
 }
@@ -33,14 +36,21 @@ function registerLinks() {
 //Called when Form submit was submited
 function showFormResponse(responseText, statusText, xhr, $form) {
     'use strict';
-    $("#main").html($(responseText).find("#content")).fadeIn('slow');
+    $("#content").html($(responseText).find("#content")).fadeIn('slow');
+}
+
+function showRequest(formData, jqForm, options) {
+    'use strict';
+    $('#content').hide();
+    $('#progressbar').show();
 }
 
 function registerForm() {
     'use strict';
     
     var data = {
-        success:  showFormResponse
+        success:  showFormResponse,
+        beforeSubmit: showRequest
     };
     $('form').ajaxForm(data);
 }
@@ -48,7 +58,8 @@ function registerForm() {
 function submitForm(form) {
     'use strict';
     var data = {
-        success:  showFormResponse
+        success:  showFormResponse,
+        beforeSubmit: showRequest
     };
     $(form).ajaxSubmit(data);
 }
@@ -68,7 +79,10 @@ function registerHoverImages(form) {
 
 function onNodeSelected(event, data) {
     'use strict';
-    $("#main").load(data.href + " #content");
+    $('#content').hide();
+    $('#progressbar').show();
+
+    $("#content").load(data.href + " #content");
     $(this).treeview('toggleNodeExpanded',data.nodeId)
 }
 
@@ -191,13 +205,21 @@ window.onpopstate = function (event) {
     var page = location.href;
     //Go back only when the the target isnt the empty index.
     if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
-        $("#main").load(location.href + " #content");
+        $('#content').hide();
+        $('#progressbar').show();
+
+        $("#content").load(location.href + " #content");
     }
 };
 
 
 $(document).ajaxComplete(function (event, xhr, settings) {
     'use strict';
+
+    //Hide progressbar and show Result
+    $('#progressbar').hide();
+    $('#content').show();
+
     makeSortTable();
     registerLinks();
     registerForm();
@@ -230,7 +252,7 @@ $(document).ajaxComplete(function (event, xhr, settings) {
 $(document).ajaxError(function (event, request, settings) {
     'use strict';
     console.log(event);
-    
+
 });
 
 function octoPart_success(response) {
