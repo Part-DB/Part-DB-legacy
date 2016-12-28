@@ -196,11 +196,11 @@
 
                                 <li id="tools">
                                     <div class="dropdown">
-                                        <button class="btn-text dropdown-toggle" type="button" id="dropdownDev" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <button class="btn-text dropdown-toggle" type="button" id="dropdownTools" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                             <h4 class="sidebar-title">{t}Verwaltung{/t}
                                                 <span class="caret"></span></h4>
                                         </button>
-                                        <ul class="dropdown-menu" aria-labelledby="dropdownDev">
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownTools">
                                             <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-tools">{t}Alle ausklappen{/t}</a></li>
                                             <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-tools">{t}Alle einklappen{/t}</a></li>
                                         </ul>
@@ -225,6 +225,8 @@
                     </div>
 
                    <div class="container-fluid" id="content">
+
+                   <div id="content-data">
 
                        {if isset($messages)}
                         <div class="alert alert-danger" id="messages">
