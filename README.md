@@ -15,13 +15,17 @@ Part-DB ist eine webbasierte Datenbank zum Verwalten von Elektronischen Bauteile
  * Liste von Hersteller-Logos
  * Informationen zu SMD-Beschriftungen von Widerstände, Kondensatoren und Spulen
  * Widerstandsrechner
- * Templatefähig mittels CSS
+ * Barcodegenerator und Scanfunktion für Barcodes
+ * Verschiedene mitgelieferte Themes
+ * 3D Footprints
+ * Unterstützung von BBCode, in den Bauteilen
+ * nutzt HTML5, mobile Ansicht
 
 ### Anforderungen
 
  * Webserver mit ca. 10MB Platz (ohne Footprints)
  * PHP >= 5.3.0
- * MySQL Datenbank
+ * MySQL/MariaDB Datenbank
 
 ### Lizenz
 
@@ -30,9 +34,9 @@ Mit Ausnahme des JavaScript-Menü stehen alle Module unter der GPL. Das JavaScri
 ### Installationsanleitung & Dokumentation
 
 Die gesamte Dokumentation inkl. Installationsanleitung gibts hier:
-http://phpbookworm.singollo.de/project/part-db/documentation/dokuwiki/index.php
+<https://github.com/do9jhb/Part-DB/wiki>
 
 ### Online-Demo zum Ausprobieren
 
-Eine Test-Datenbank ist unter http://phpbookworm.singollo.de/project/part-db/ zu finden.
+Eine Test-Datenbank ist unter <http://part-db.bplaced.net/part-db/> zu finden.
 
