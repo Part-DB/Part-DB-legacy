@@ -53,3 +53,7 @@ This software uses the following external libraries:
     Licensed under MIT, see LICENSE.MIT for details.
     Website: http://www.sceditor.com/
     
+* **BBCode Parser**: Copyright (c) 2013-2015 Joseph Landberg
+    Licensed under MIT, see LICENSE.MIT for details.
+    Website: https://github.com/golonka/BBCodeParser
+    
