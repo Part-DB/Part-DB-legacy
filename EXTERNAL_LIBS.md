@@ -57,3 +57,7 @@ This software uses the following external libraries:
     Licensed under MIT, see LICENSE.MIT for details.
     Website: https://github.com/golonka/BBCodeParser
     
+* **vLib**:  Copyright (c) 2002-2008 Kelvin Jones, Claus van Beek, Stefan Deussen.
+    Licensed under LGPL, see LICENSE.txt in lib/vlib
+    
+    
