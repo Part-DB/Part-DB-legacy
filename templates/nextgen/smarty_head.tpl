@@ -65,12 +65,6 @@
         <script src="http://www.x3dom.org/release/x3dom.js" async></script>
         <link rel="stylesheet" href="http://www.x3dom.org/release/x3dom.css">
         {/if}
-
-        <!--
-        <link rel="stylesheet" type="text/css" href="{$relative_path}DataTables-1.10.12/css/dataTables.bootstrap.min.css"/>
-        <script type="text/javascript" src="{$relative_path}DataTables-1.10.12/js/jquery.dataTables.min.js"></script>
-        <script type="text/javascript" src="{$relative_path}DataTables-1.10.12/js/dataTables.bootstrap.min.js"></script> -->
-        
         
         <link rel="stylesheet" type="text/css" href="{$relative_path}datatables/datatables.min.css"/>
         <script type="text/javascript" src="{$relative_path}datatables/datatables.min.js" async></script>
