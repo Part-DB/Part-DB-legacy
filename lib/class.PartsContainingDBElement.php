@@ -211,16 +211,29 @@
             {
                 $this->parts = array();
 
+                /*
                 $query = 'SELECT id FROM parts WHERE '.$parts_rowname.'= '. $this->get_id();
 
                 foreach($subelements as $element)
                 {
                     $query = $query . " OR ".$parts_rowname."= ".$element->get_id();
                 }
+                */
+                $query = 'SELECT id FROM parts WHERE '.$parts_rowname.'=?';
+                $vals = array($this->get_id());
+
+                foreach($subelements as $element)
+                {
+                    $query = $query . " OR ".$parts_rowname."=?";
+                    $vals[] = $element->get_id();
+                }
+
+
+
                 $query = $query.
                     ' ORDER BY name, description';
                 //$query_data = $this->database->query($query);
-                $query_data = $this->database->query($query);
+                $query_data = $this->database->query($query, $vals);
 
                 foreach ($query_data as $row)
                     $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['id']);
