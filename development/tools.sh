@@ -19,6 +19,11 @@ generateLocales_php () # Generates the Locale files for PHP
 	echo "Complete!"
 }
 
+clean_templates () # Remove all templates_c dirs with content 
+{
+	find . -type d -name "templates_c" -exec rm -rf {} \;
+}
+
 tab2spaces () # replaces tabs with spaces (*.php and *.tmpl)
 {
     echo -e "- replacing tabs with spaces"
@@ -108,9 +113,13 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
     # copy all needed files to development/package_output/part-db/
     find . -not \(      -path "*/.svn*" \
                     -o  -path "*/.git*" \
+					-o  -path "*/.idea*" \
+					-o  -path "*/.vs*" \
                     -o  -name "README.md" \
                     -o  -name ".gitignore" \
-					-o 	-name "models/"	\
+					-o  -name ".gitattributes" \
+					-o 	-path "./models/*"	\
+					-o 	-path "./nbproject*"	\
                     -o  -path "./development*" \
                     -o  -path "./documentation/dokuwiki/data/cache/*" \
                     -o  -path "./documentation/dokuwiki/data/tmp/*" \
@@ -183,6 +192,9 @@ while [ "$1" != "" ]; do
 		--locales-php)
 			generateLocales_php
 			;;
+		-c|--clean)
+			clean_templates
+			;;
         #-a|--add)
         #    remove_backups
         #    echo -e "- adding files to repository..."
@@ -230,12 +242,16 @@ while [ "$1" != "" ]; do
             echo -e "\t-d|--doxygen\t\tUpdate the doxygen documentation."
             echo -e "\t-r|--remove\t\tRemove backup files."
 			echo -e "\t-p|--pack\t\tPack the files and create a installation archive."
+			
+			echo -e "\n\t--c|--clean\t\tRemove Smarty cache files"
+			
+			echo -e "\n\t-l|--locales\t\tGenerate all locales."
 			echo -e "\t--locales-tpl\t\tGenerate locales for the templates."
 			echo -e "\t--locales-php\t\tGenerate locales for the PHP files."
-			echo -e "\t-l|--locales\t\tGenerate all locales."
+		
             #echo -e "\t-a|--add\t\tRemove backup files and add new files to repository."
             #echo -e "\t-c|--commit text\tCommit with comment."
-            echo -e "\t--all\t\tAll steps above in one."
+            echo -e "\n\t--all\t\t\tAll steps above in one."
             #echo -e "\nMaking an UPS-script for scripted update (default hash: sha256)"
             #echo -e "\n\t-o\t\t\tRedirects output to the specified file. Attention! File will be overwritten!"
             #echo -e "\n\t--ups update\t\tShow svn status of each modified file/directory and create an ups-script (e.g. update.ups)"
