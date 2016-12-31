@@ -1,285 +1,285 @@
 msgid ""
 msgstr "Content-Type: text/plain; charset=UTF-8\n"
 
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:5
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:5
 msgid "Tabs durch Leerzeichen ersetzen / Backup-Dateien löschen"
 msgstr ""
 
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:11
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:28
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:49
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:11
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:28
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:49
 msgid "Ausgabe stutzen (nur die ersten und letzten 20 Einträge anzeigen)"
 msgstr ""
 
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:14
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:31
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:55
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:14
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:31
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:55
 msgid "Der Vorgang kann mehrere Minuten in Anspruch nehmen!"
 msgstr ""
 
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:21
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:21
 msgid "Doxygen-Dokumentation erstellen bzw. updaten"
 msgstr ""
 
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:25
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:25
 msgid "Doxygen muss auf dem Server installiert sein!"
 msgstr ""
 
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:30
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:30
 msgid "Dokumentation erstellen/updaten"
 msgstr ""
 
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:38
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:38
 msgid "Release-Paket erstellen"
 msgstr ""
 
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:42
-#: ../templates/nextgen/install.php/smarty_header.tpl:68
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:5
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:42
+#: templates/nextgen/install.php/smarty_header.tpl:68
+#: templates/nextgen/startup.php/smarty_startup.tpl:5
 msgid "Version:"
 msgstr ""
 
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:44
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:44
 msgid "Download"
 msgstr ""
 
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:46
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:46
 msgid "Checkliste"
 msgstr ""
 
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:52
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:52
 msgid "Paket löschen"
 msgstr ""
 
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:54
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:54
 msgid "Paket neu erstellen"
 msgstr ""
 
-#: ../templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:63
+#: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:63
 msgid "Ausgabe"
 msgstr ""
 
-#: ../templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:5
+#: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:5
 msgid "Dateitypen für Dateianhänge"
 msgstr ""
 
-#: ../templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:12
+#: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:12
 msgid "Neuer Dateityp"
 msgstr ""
 
-#: ../templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:24
+#: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:24
 msgid "Neuen Dateityp hinzufügen:"
 msgstr ""
 
-#: ../templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:27
+#: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:27
 msgid "Dateityp bearbeiten:"
 msgstr ""
 
-#: ../templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:29
+#: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:29
 msgid "Es ist keine Dateityp angewählt!"
 msgstr ""
 
-#: ../templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:35
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:42
-#: ../templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:41
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:35
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:35
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:10
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:52
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:36
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:8
+#: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:35
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:42
+#: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:41
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:35
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:35
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:15
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:52
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:36
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:8
 msgid "ID:"
 msgstr ""
 
-#: ../templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:42
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:49
-#: ../templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:48
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:42
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:42
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:59
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:43
+#: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:42
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:49
+#: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:48
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:42
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:42
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:59
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:43
 msgid "Name*:"
 msgstr ""
 
-#: ../templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:45
+#: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:45
 msgid "Hinweis: Es empfiehlt sich, die Plural-Form zu verwenden."
 msgstr ""
 
-#: ../templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:50
+#: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:50
 msgid "Übergeordneter Dateityp*:"
 msgstr ""
 
-#: ../templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:60
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:96
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:87
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:108
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:114
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:109
+#: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:60
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:96
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:91
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:108
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:114
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:109
 msgid "* = Pflichtfelder"
 msgstr ""
 
-#: ../templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:67
+#: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:67
 msgid "Neuen Dateityp anlegen"
 msgstr ""
 
-#: ../templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:70
+#: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:70
 msgid "Weitere Dateitypen anlegen"
 msgstr ""
 
-#: ../templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:73
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:109
-#: ../templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:78
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:100
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:121
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:156
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:127
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:122
-#: ../templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:23
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:84
+#: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:73
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:109
+#: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:78
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:104
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:121
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:163
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:127
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:122
+#: templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:23
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:84
 msgid "Änderungen übernehmen"
 msgstr ""
 
-#: ../templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:74
+#: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:74
 msgid "Dateityp löschen"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:12
-#: ../templates/nextgen/smarty_head.tpl:167
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:12
+#: templates/nextgen/smarty_head.tpl:168 templates/nextgen/smarty_head.tpl:171
 msgid "Kategorien"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:19
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:19
 msgid "Neue Kategorie"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:31
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:31
 msgid "Neue Kategorie hinzufügen:"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:34
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:34
 msgid "Kategorie bearbeiten:"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:36
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:36
 msgid "Es ist keine Kategorie angewählt!"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:56
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:56
 msgid "Übergeordnete Kategorie*:"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:65
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:65
 msgid "Footprints deaktivieren:"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:69
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:69
 msgid ""
 "Teile in dieser Kategorie (inkl. allen Unterkategorien) können keine "
 "Footprints haben"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:75
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:75
 msgid "Hersteller deaktivieren:"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:79
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:79
 msgid ""
 "Teile in dieser Kategorie (inkl. allen Unterkategorien) können keine "
 "Hersteller haben"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:85
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:85
 msgid "Automatische Links zu Datenblättern deaktivieren:"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:89
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:89
 msgid ""
 "Teile in dieser Kategorie (inkl. allen Unterkategorien) haben keine "
 "automatisch erzeugten Links zu Datenblättern"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:103
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:103
 msgid "Neue Kategorie anlegen"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:106
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:106
 msgid "Weitere Kategorien anlegen"
 msgstr ""
 
-#: ../templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:110
+#: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:110
 msgid "Kategorie löschen"
 msgstr ""
 
-#: ../templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:11
-#: ../templates/nextgen/smarty_head.tpl:171
+#: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:11
+#: templates/nextgen/smarty_head.tpl:184
 msgid "Baugruppen"
 msgstr ""
 
-#: ../templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:18
+#: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:18
 msgid "Neue Baugruppe"
 msgstr ""
 
-#: ../templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:30
+#: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:30
 msgid "Neue Baugruppe hinzufügen:"
 msgstr ""
 
-#: ../templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:33
+#: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:33
 msgid "Baugruppe bearbeiten:"
 msgstr ""
 
-#: ../templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:35
+#: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:35
 msgid "Es ist keine Baugruppe angewählt!"
 msgstr ""
 
-#: ../templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:55
+#: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:55
 msgid "Übergeordnete Baugruppe*:"
 msgstr ""
 
-#: ../templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:65
+#: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:65
 msgid "Pflichtfelder"
 msgstr ""
 
-#: ../templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:72
+#: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:72
 msgid "Neue Baugruppe anlegen"
 msgstr ""
 
-#: ../templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:75
+#: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:75
 msgid "Weitere Baugruppen anlegen"
 msgstr ""
 
-#: ../templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:79
+#: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:79
 msgid "Baugruppe löschen"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:5
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:5
 msgid "Footprints"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:12
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:12
 msgid "Neuer Footprint"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:24
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:24
 msgid "Neuer Footprint hinzufügen:"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:27
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:27
 msgid "Footprint bearbeiten:"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:29
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:29
 msgid "Es ist kein Footprint angewählt!"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:49
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:49
 msgid "Übergeordneter Footprint*:"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:58
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:58
 msgid "Bild:"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:61
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:61
 msgid ""
 "Hinweis: Sie können hier z.B. \"DIP28\" eintippen und übernehmen. Der "
 "Footprint wird dann unter \"Footprints mit fehlerhaften Dateinamen\" "
@@ -287,27 +287,27 @@ msgid ""
 "übernehmen können."
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:70
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:70
 msgid "3D-Footprint:"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:94
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:98
 msgid "Neuer Footprint anlegen"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:97
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:101
 msgid "Weitere Footprints anlegen"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:101
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:105
 msgid "Footprint löschen"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:115
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:119
 msgid "Footprints mit fehlerhaften Dateinamen"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:118
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:122
 msgid ""
 "Die Dateinamen der folgenden Footprints konnten keiner Bilddatei zugeordnet "
 "werden. Bitte überprüfen bzw. korrigieren Sie die vorgeschlagenen Dateien, "
@@ -315,42 +315,41 @@ msgid ""
 "jeweiligen Footprints exakt gleichnamige Dateien gefunden wurden."
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:124
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:201
-#: ../templates/nextgen/smarty_head.tpl:146
-#: ../templates/nextgen/smarty_table.tpl:44
-#: ../templates/nextgen/smarty_table.tpl:45
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:44
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:128
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:205
+#: templates/nextgen/smarty_head.tpl:145 templates/nextgen/smarty_table.tpl:44
+#: templates/nextgen/smarty_table.tpl:45
+#: templates/nextgen/startup.php/smarty_startup.tpl:47
 msgid "Footprint"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:125
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:202
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:129
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:206
 msgid "Fehlerhafter Dateiname"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:126
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:203
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:130
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:207
 msgid "Vorgeschlagene Dateinamen"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:158
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:166
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:235
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:243
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:162
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:170
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:239
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:247
 msgid "Dateiname löschen und später selber von Hand setzen."
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:175
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:252
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:179
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:256
 msgid "Vorgeschlagene Dateinamen übernehmen:"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:192
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:196
 msgid "Footprints mit fehlerhaften Modelnamen"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:195
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:199
 msgid ""
 "Die Dateinamen der folgenden Footprints konnten keinem Model zugeordnet "
 "werden. Bitte überprüfen bzw. korrigieren Sie die vorgeschlagenen Dateien, "
@@ -358,464 +357,496 @@ msgid ""
 "jeweiligen Footprints exakt gleichnamige Dateien gefunden wurden."
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:255
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:259
 msgid "Nur die markierten"
 msgstr ""
 
-#: ../templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:256
-#: ../templates/nextgen/show_device_parts.php/smarty_export.tpl:30
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:21
-#: ../templates/nextgen/tools_footprints.php/smarty_footprints.tpl:6
+#: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:260
+#: templates/nextgen/show_device_parts.php/smarty_export.tpl:30
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:21
+#: templates/nextgen/tools_footprints.php/smarty_footprints.tpl:6
 msgid "Alle"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:5
-#: ../templates/nextgen/smarty_head.tpl:144
-#: ../templates/nextgen/smarty_table.tpl:48
-#: ../templates/nextgen/smarty_table.tpl:49
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:5
+#: templates/nextgen/smarty_head.tpl:143 templates/nextgen/smarty_table.tpl:48
+#: templates/nextgen/smarty_table.tpl:49
 msgid "Hersteller"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:11
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:28
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:11
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:11
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:28
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:11
 msgid "Neu"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:12
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:12
 msgid "Neuer Hersteller"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:14
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:31
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:14
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:14
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:31
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:14
 msgid "Bearbeiten"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:24
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:24
 msgid "Neuen Hersteller hinzufügen:"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:27
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:27
 msgid "Hersteller bearbeiten:"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:29
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:29
 msgid "Es ist kein Hersteller angewählt!"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:44
-#: ../templates/nextgen/show_device_parts.php/smarty_subdevices.tpl:7
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:110
-#: ../templates/nextgen/smarty_head.tpl:130
-#: ../templates/nextgen/smarty_table.tpl:27
-#: ../templates/nextgen/smarty_table.tpl:28
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:44
+#: templates/nextgen/show_device_parts.php/smarty_subdevices.tpl:7
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:110
+#: templates/nextgen/smarty_head.tpl:129 templates/nextgen/smarty_table.tpl:27
+#: templates/nextgen/smarty_table.tpl:28
 msgid "Name"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:49
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:50
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:49
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:50
 msgid "Übergeordneter Lieferant*:"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:58
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:59
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:58
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:59
 msgid "Adresse:"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:65
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:66
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:65
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:66
 msgid "Telefonnummer:"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:72
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:73
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:72
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:73
 msgid "Faxnummer:"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:79
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:80
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:79
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:80
 msgid "E-Mail Adresse:"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:89
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:90
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:89
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:90
 msgid "Webseite:"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:99
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:100
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:99
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:100
 msgid "Artikel-Direktlink:"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:115
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:115
 msgid "Neuen Hersteller anlegen"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:118
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:118
 msgid "Weitere Hersteller anlegen"
 msgstr ""
 
-#: ../templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:122
+#: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:122
 msgid "Hersteller löschen"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_actions.tpl:4
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:58
+#: templates/nextgen/edit_part_info.php/smarty_actions.tpl:4
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:58
 msgid "Aktionen"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_actions.tpl:9
+#: templates/nextgen/edit_part_info.php/smarty_actions.tpl:9
 msgid "Bauteil löschen:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_actions.tpl:17
+#: templates/nextgen/edit_part_info.php/smarty_actions.tpl:17
 msgid ""
 "Dateien dieses Bauteiles, die von keinem anderen Bauteil verwendet werden, "
 "auch von der Festplatte löschen"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_actions.tpl:28
+#: templates/nextgen/edit_part_info.php/smarty_actions.tpl:28
 msgid "Weiteres Bauteil anlegen:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_actions.tpl:31
+#: templates/nextgen/edit_part_info.php/smarty_actions.tpl:31
 msgid "Neues Bauteil erfassen"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_attachements.tpl:5
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:289
-#: ../templates/nextgen/smarty_table.tpl:68
+#: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:5
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:301
+#: templates/nextgen/smarty_table.tpl:68
 msgid "Dateianhänge"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_attachements.tpl:13
+#: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:13
 msgid "Neue Datei hinzufügen:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_attachements.tpl:33
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:22
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:18
+#: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:33
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:27
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:18
 msgid "Name:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_attachements.tpl:37
-#: ../templates/nextgen/tools_import.php/smarty_upload.tpl:13
+#: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:37
+#: templates/nextgen/tools_import.php/smarty_upload.tpl:14
 msgid "Dateityp:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_attachements.tpl:45
+#: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:45
 msgid "In Tabelle anzeigen"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_attachements.tpl:50
+#: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:50
 msgid "Als Hauptbild verwenden"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_attachements.tpl:57
+#: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:57
 msgid "Dateiname / URL:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_attachements.tpl:65
+#: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:65
 msgid "Neue Datei hochladen:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_attachements.tpl:78
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:42
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:88
-#: ../templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:34
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:146
+#: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:78
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:42
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:88
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:34
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:148
 msgid "Hinzufügen"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_attachements.tpl:80
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:44
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:90
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:30
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:170
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:143
+#: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:80
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:44
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:90
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:30
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:172
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:143
 msgid "Übernehmen"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_attachements.tpl:81
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:46
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:91
+#: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:81
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:46
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:91
 msgid "Löschen"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:5
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:202
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:5
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:213
 msgid "Einkaufsinformationen"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:12
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:209
-#: ../templates/nextgen/smarty_head.tpl:142
-#: ../templates/nextgen/smarty_table.tpl:54
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:12
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:220
+#: templates/nextgen/smarty_head.tpl:141 templates/nextgen/smarty_table.tpl:54
 msgid "Lieferant"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:12
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:210
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:12
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:221
 msgid "Bestellnummer"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:13
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:13
 msgid "Eigenschaften"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:14
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:14
 msgid "Preise"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:23
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:66
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:23
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:66
 msgid "Neu:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:31
-#: ../templates/nextgen/smarty_head.tpl:140
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:31
+#: templates/nextgen/smarty_head.tpl:139
 msgid "Bestellnr."
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:39
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:39
 msgid "Obsolent"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:56
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:211
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:56
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:222
 msgid "Ab Bestellmenge"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:57
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:212
-#: ../templates/nextgen/smarty_table.tpl:62
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:57
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:223
+#: templates/nextgen/smarty_table.tpl:62
 msgid "Preis"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:76
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:76
 msgid "pro"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:78
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:78
 msgid "Stk."
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:7
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:12
 msgid "Ändere Detailinfos von"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:13
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:18
 msgid "Neues Bauteil erstellen"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:30
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:29
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:30
+msgid "z.B. BC547"
+msgstr ""
+
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:35
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:29
 msgid "Beschreibung:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:47
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:38
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:39
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:46
+msgid "z.B. NPN 45V 0,1A 0,5W"
+msgstr ""
+
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:47
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:153
+msgid ""
+"Hinweis: Hier kann BBCode verwendet werden um den Text besonders "
+"auszuzeichnen (z.B. [b]Fett[/b])."
+msgstr ""
+
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:53
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:38
 msgid "Vorhanden:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:55
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:45
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:56
+msgid "z.B. 100"
+msgstr ""
+
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:61
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:45
 msgid "Min. Bestand:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:63
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:50
-#: ../templates/nextgen/tools_footprints.php/smarty_footprints.tpl:18
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:64
+msgid "z.B. 20"
+msgstr ""
+
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:69
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:50
+#: templates/nextgen/tools_footprints.php/smarty_footprints.tpl:18
 msgid "Kategorie:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:74
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:93
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:113
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:135
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:80
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:99
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:119
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:141
 msgid "OK!"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:81
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:55
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:87
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:55
 msgid "Lagerort:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:101
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:63
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:107
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:63
 msgid "Hersteller:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:123
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:72
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:129
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:72
 msgid "Footprint:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:143
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:104
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:149
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:105
 msgid "Kommentar:"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:153
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:160
 msgid "Bauteil erstellen"
 msgstr ""
 
-#: ../templates/nextgen/edit_part_info.php/smarty_part.tpl:157
-#: ../templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:24
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:85
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:223
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:164
+#: templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:24
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:85
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:223
 msgid "Änderungen verwerfen"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:22
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:22
 msgid "Lagerorte"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:29
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:29
 msgid "Neuer Lagerort"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:41
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:41
 msgid "Neuen Lagerort hinzufügen:"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:44
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:44
 msgid "Lagerort bearbeiten:"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:46
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:46
 msgid "Es ist kein Lagerort angewählt!"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:61
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:61
 msgid "Name des Lagerorts"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:67
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:67
 msgid "Serie:"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:71
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:71
 msgid "Serie erzeugen"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:79
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:79
 msgid "von"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:83
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:83
 msgid "bis"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:94
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:94
 msgid "Übergeordneter Lagerort*:"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:103
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:103
 msgid "Voll:"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:107
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:107
 msgid "Diesen Lagerort als \"voll\" markieren"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:121
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:121
 msgid "Neuen Lagerort anlegen"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:124
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:124
 msgid "Weitere Lagerorte anlegen"
 msgstr ""
 
-#: ../templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:128
+#: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:128
 msgid "Lagerort löschen"
 msgstr ""
 
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:5
-#: ../templates/nextgen/smarty_table.tpl:53
-#: ../templates/nextgen/smarty_table.tpl:55
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:45
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:5
+#: templates/nextgen/smarty_table.tpl:53 templates/nextgen/smarty_table.tpl:55
+#: templates/nextgen/startup.php/smarty_startup.tpl:48
 msgid "Lieferanten"
 msgstr ""
 
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:12
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:12
 msgid "Neuer Lieferant"
 msgstr ""
 
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:24
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:24
 msgid "Neuen Lieferanten hinzufügen:"
 msgstr ""
 
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:27
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:27
 msgid "Lieferant bearbeiten:"
 msgstr ""
 
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:29
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:29
 msgid "Es ist kein Lieferant angewählt!"
 msgstr ""
 
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:103
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:103
 msgid "Platzhalter für die Bestellnummer:"
 msgstr ""
 
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:116
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:116
 msgid "Neuen Lieferanten anlegen"
 msgstr ""
 
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:119
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:119
 msgid "Weitere Lieferanten anlegen"
 msgstr ""
 
-#: ../templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:123
+#: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:123
 msgid "Lieferant löschen"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_finish.tpl:9
+#: templates/nextgen/install.php/smarty_finish.tpl:4
+msgid "Installation: Fertigstellung"
+msgstr ""
+
+#: templates/nextgen/install.php/smarty_finish.tpl:6
+msgid ""
+"Herzlichen Glückwunsch, die Installation bzw. das Update von Part-DB ist "
+"fast abgeschlossen!<br>\r\n"
+"                Weitere Einstellungen finden Sie unter dem Menüpunkt \"System"
+"\"."
+msgstr ""
+
+#: templates/nextgen/install.php/smarty_finish.tpl:10
 msgid "Fertigstellen"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_header.tpl:21
+#: templates/nextgen/install.php/smarty_header.tpl:21
 msgid "Part-DB Installation/Update"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_admin_password.tpl:5
+#: templates/nextgen/install.php/smarty_set_admin_password.tpl:5
 msgid "Installation/Update: Administratorpasswort festlegen"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_admin_password.tpl:8
+#: templates/nextgen/install.php/smarty_set_admin_password.tpl:8
 msgid ""
 "Für spätere Systemänderungen oder zum Debuggen muss ein "
 "Administratorpasswort gewählt werden."
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_admin_password.tpl:13
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:118
+#: templates/nextgen/install.php/smarty_set_admin_password.tpl:13
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:118
 msgid "Administratorpasswort:"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_admin_password.tpl:19
+#: templates/nextgen/install.php/smarty_set_admin_password.tpl:19
 msgid "Wiederholung:"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_admin_password.tpl:26
-#: ../templates/nextgen/install.php/smarty_set_db_backup_path.tpl:30
-#: ../templates/nextgen/install.php/smarty_set_db_settings.tpl:59
-#: ../templates/nextgen/install.php/smarty_set_locales.tpl:63
+#: templates/nextgen/install.php/smarty_set_admin_password.tpl:26
+#: templates/nextgen/install.php/smarty_set_db_backup_path.tpl:28
+#: templates/nextgen/install.php/smarty_set_db_settings.tpl:59
+#: templates/nextgen/install.php/smarty_set_locales.tpl:63
 msgid "Weiter"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_backup_path.tpl:5
+#: templates/nextgen/install.php/smarty_set_db_backup_path.tpl:5
 msgid "Installation/Update: Datenbank Backupsystem"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_backup_path.tpl:7
+#: templates/nextgen/install.php/smarty_set_db_backup_path.tpl:7
 msgid ""
 "Es wird dringend empfohlen, regelmässig Sicherungskopien der Datenbank zu "
 "erstellen!"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_backup_path.tpl:8
+#: templates/nextgen/install.php/smarty_set_db_backup_path.tpl:8
 msgid ""
 "Auch sollte vor jedem Datenbankupdate ein Backup durchgeführt werden. Die "
 "Entwickler von Part-DB übernehmen keinerlei Haftung für Schäden jeglicher "
@@ -823,7 +854,7 @@ msgid ""
 "werden."
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_backup_path.tpl:9
+#: templates/nextgen/install.php/smarty_set_db_backup_path.tpl:9
 msgid ""
 "Sie können dafür ein externes System benutzen, das sich mit einem Link ins "
 "Menü von Part-DB integrieren lässt.\r\n"
@@ -831,33 +862,33 @@ msgid ""
 "\"http://www.mysqldumper.net/\">MySQLDumper</a>."
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_backup_path.tpl:11
+#: templates/nextgen/install.php/smarty_set_db_backup_path.tpl:11
 msgid ""
 "Lassen Sie beide Felder leer, wenn Sie keine Verknüpfung zu einem Backup-"
 "System haben möchten."
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_backup_path.tpl:15
+#: templates/nextgen/install.php/smarty_set_db_backup_path.tpl:15
 msgid "Name des Backup-Systems:"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_backup_path.tpl:18
+#: templates/nextgen/install.php/smarty_set_db_backup_path.tpl:17
 msgid "z.B. \"MySQLDumper\""
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_backup_path.tpl:22
+#: templates/nextgen/install.php/smarty_set_db_backup_path.tpl:21
 msgid "Link zum Backup-System:"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_backup_path.tpl:25
+#: templates/nextgen/install.php/smarty_set_db_backup_path.tpl:23
 msgid "z.B. \"../mysqldumper/\""
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_settings.tpl:5
+#: templates/nextgen/install.php/smarty_set_db_settings.tpl:5
 msgid "Installation/Update: Datenbank konfigurieren"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_settings.tpl:7
+#: templates/nextgen/install.php/smarty_set_db_settings.tpl:7
 msgid ""
 "Die Datenbank für Part-DB muss bereits existieren, damit Sie Part-DB "
 "installieren können.\r\n"
@@ -866,146 +897,156 @@ msgid ""
 "            ansonsten sollte die Datenbank komplett leer sein."
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_settings.tpl:12
+#: templates/nextgen/install.php/smarty_set_db_settings.tpl:12
 msgid "Achtung:"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_settings.tpl:14
+#: templates/nextgen/install.php/smarty_set_db_settings.tpl:14
 msgid ""
 "Damit Part-DB korrekt funktioniert, müssen Sie dem Benutzer jegliche Rechte "
 "an der Datenbank gewähren!"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_settings.tpl:15
+#: templates/nextgen/install.php/smarty_set_db_settings.tpl:15
 msgid ""
 "Benutzen Sie eine bereits vorhandene Datenbank weiter, sollten Sie jetzt ein "
 "Backup davon anlegen!"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_settings.tpl:21
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:75
+#: templates/nextgen/install.php/smarty_set_db_settings.tpl:21
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:75
 msgid "Datenbanktyp:"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_settings.tpl:31
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:87
+#: templates/nextgen/install.php/smarty_set_db_settings.tpl:31
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:87
 msgid "Host:"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_settings.tpl:38
-msgid "Datenbankname"
+#: templates/nextgen/install.php/smarty_set_db_settings.tpl:33
+msgid "z.B. localhost"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_settings.tpl:44
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:102
+#: templates/nextgen/install.php/smarty_set_db_settings.tpl:38
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:95
+msgid "Datenbankname:"
+msgstr ""
+
+#: templates/nextgen/install.php/smarty_set_db_settings.tpl:40
+#: templates/nextgen/install.php/smarty_set_db_settings.tpl:46
+msgid "z.B. part-db"
+msgstr ""
+
+#: templates/nextgen/install.php/smarty_set_db_settings.tpl:44
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:102
 msgid "Benutzer:"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_db_settings.tpl:51
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:110
+#: templates/nextgen/install.php/smarty_set_db_settings.tpl:51
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:110
 msgid "Datenbankpasswort:"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_locales.tpl:6
+#: templates/nextgen/install.php/smarty_set_locales.tpl:6
 msgid "Willkommen bei Part-DB!"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_locales.tpl:10
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:84
+#: templates/nextgen/install.php/smarty_set_locales.tpl:10
+#: templates/nextgen/startup.php/smarty_startup.tpl:87
 msgid "Projektseite:"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_locales.tpl:10
+#: templates/nextgen/install.php/smarty_set_locales.tpl:10
 msgid ""
 "Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a target=\"_blank\" "
 "href=\"https://github.com/sandboxgangster/Part-DB\">GitHub Projektseite</a>"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_locales.tpl:11
+#: templates/nextgen/install.php/smarty_set_locales.tpl:11
 msgid "Forum:"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_locales.tpl:11
+#: templates/nextgen/install.php/smarty_set_locales.tpl:11
 msgid ""
 "Für Fragen rund um die Part-DB gibt es einen Thread auf <a target=\"_blank\" "
 "href=\"https://www.mikrocontroller.net/topic/305023\">mikrocontroller.net</a>"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_locales.tpl:12
+#: templates/nextgen/install.php/smarty_set_locales.tpl:12
 msgid "Wiki:"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_locales.tpl:12
+#: templates/nextgen/install.php/smarty_set_locales.tpl:12
 msgid ""
 "Weitere Informationen gibt es im <a target=\"_blank\" href=\"http://www."
 "mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung\">mikrocontroller."
 "net Artikel"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_locales.tpl:28
+#: templates/nextgen/install.php/smarty_set_locales.tpl:28
 msgid "Installation/Update: Zeitzone und Sprache"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_locales.tpl:31
+#: templates/nextgen/install.php/smarty_set_locales.tpl:31
 msgid ""
 "Stellen Sie hier bitte Ihre Zeitzone und Ihre Sprache ein.\r\n"
 "                Anhand der gewählten Sprache wird dann auch die Währung "
 "gesetzt."
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_locales.tpl:42
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:46
+#: templates/nextgen/install.php/smarty_set_locales.tpl:42
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:46
 msgid "Zeitzone:"
 msgstr ""
 
-#: ../templates/nextgen/install.php/smarty_set_locales.tpl:52
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:57
+#: templates/nextgen/install.php/smarty_set_locales.tpl:52
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:57
 msgid "Sprache:"
 msgstr ""
 
-#: ../templates/nextgen/show_category_parts.php/smarty_show_category_parts.tpl:4
-#: ../templates/nextgen/show_obsolete_parts.php/smarty_show_obsolete_parts.tpl:3
+#: templates/nextgen/show_category_parts.php/smarty_show_category_parts.tpl:4
+#: templates/nextgen/show_obsolete_parts.php/smarty_show_obsolete_parts.tpl:3
 msgid "Sonstiges"
 msgstr ""
 
-#: ../templates/nextgen/show_category_parts.php/smarty_show_category_parts.tpl:12
+#: templates/nextgen/show_category_parts.php/smarty_show_category_parts.tpl:12
 msgid "Unterkategorien:"
 msgstr ""
 
-#: ../templates/nextgen/show_category_parts.php/smarty_show_category_parts.tpl:14
+#: templates/nextgen/show_category_parts.php/smarty_show_category_parts.tpl:14
 msgid "ausblenden"
 msgstr ""
 
-#: ../templates/nextgen/show_category_parts.php/smarty_show_category_parts.tpl:14
+#: templates/nextgen/show_category_parts.php/smarty_show_category_parts.tpl:14
 msgid "einblenden"
 msgstr ""
 
-#: ../templates/nextgen/show_category_parts.php/smarty_show_category_parts.tpl:19
+#: templates/nextgen/show_category_parts.php/smarty_show_category_parts.tpl:19
 msgid "Neues Teil in dieser Kategorie"
 msgstr ""
 
-#: ../templates/nextgen/show_category_parts.php/smarty_show_category_parts.tpl:27
+#: templates/nextgen/show_category_parts.php/smarty_show_category_parts.tpl:28
 msgid "Teile in der Kategorie"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:3
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:3
 msgid "Teile per Name zuordnen"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:7
-#: ../templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:10
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:7
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:10
 msgid "Suchwort:"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:12
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:12
 msgid "Teile auflisten"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:21
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:21
 msgid "Die Suche ergab keine Treffer!"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:31
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:31
 msgid ""
 "Falls Sie Bauteile zur Baugruppe hinzufügen, die dort bereits vorhanden sind,"
 "\r\n"
@@ -1013,499 +1054,538 @@ msgid ""
 "Bestückungsdaten mit einem Komma aneinandergehängt."
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:10
+#: templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:10
 msgid "Baugruppe inklusive Bauteile kopieren"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:15
+#: templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:15
 msgid "Name der Kopie:"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:17
+#: templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:17
 msgid "Kopie_von_"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:21
+#: templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:21
 msgid "Übergeordnete Baugruppe:"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:29
+#: templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:29
 msgid "Rekursiv:"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:33
+#: templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:33
 msgid "Alle Unterbaugruppen mit all deren Teilen auch mitkopieren"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:39
+#: templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:39
 msgid "Kopie anlegen"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:3
+#: templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:3
 msgid "Zugeordnete Teile zu"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:13
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:61
+#: templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:13
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:61
 msgid "Gesamtpreis:"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:17
+#: templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:17
 msgid ""
 "Teile mit der Stückzahl \"0\" werden beim Übernehmen aus dieser Baugruppe "
 "entfernt."
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:29
+#: templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:29
 msgid "Keine Bauteile zugeordnet."
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_export.tpl:3
+#: templates/nextgen/show_device_parts.php/smarty_export.tpl:3
 msgid "Teile abfassen/einbuchen/vormerken/exportieren"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_export.tpl:8
+#: templates/nextgen/show_device_parts.php/smarty_export.tpl:8
 msgid "Multiplikator:"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_export.tpl:15
+#: templates/nextgen/show_device_parts.php/smarty_export.tpl:15
 msgid "Teile abfassen oder einbuchen:"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_export.tpl:17
+#: templates/nextgen/show_device_parts.php/smarty_export.tpl:17
 msgid "Abfassen (-)"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_export.tpl:18
+#: templates/nextgen/show_device_parts.php/smarty_export.tpl:18
 msgid "Einbuchen (+)"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_export.tpl:23
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:166
+#: templates/nextgen/show_device_parts.php/smarty_export.tpl:23
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:168
 msgid "Zum Bestellen vormerken:"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_export.tpl:28
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:161
+#: templates/nextgen/show_device_parts.php/smarty_export.tpl:28
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:163
 msgid "Aufheben"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_export.tpl:31
+#: templates/nextgen/show_device_parts.php/smarty_export.tpl:31
 msgid "Nur fehlende Teile"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_export.tpl:37
+#: templates/nextgen/show_device_parts.php/smarty_export.tpl:37
 msgid "Exportieren:"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_export.tpl:46
+#: templates/nextgen/show_device_parts.php/smarty_export.tpl:46
 msgid "Nur fehlendes Material"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_export.tpl:49
+#: templates/nextgen/show_device_parts.php/smarty_export.tpl:49
 msgid "Anzeigen"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_export.tpl:50
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:177
+#: templates/nextgen/show_device_parts.php/smarty_export.tpl:50
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:177
 msgid "Herunterladen"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_import.tpl:3
+#: templates/nextgen/show_device_parts.php/smarty_import.tpl:3
 msgid "Bauteile importieren"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_import.tpl:8
+#: templates/nextgen/show_device_parts.php/smarty_import.tpl:8
 msgid "CSV-Beispiel:"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_import.tpl:10
+#: templates/nextgen/show_device_parts.php/smarty_import.tpl:10
 msgid "Bauteile-ID;Anzahl;Bestückungsdaten"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_import.tpl:16
+#: templates/nextgen/show_device_parts.php/smarty_import.tpl:16
 msgid "Bauteil-Name;Anzahl;Bestückungsdaten"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_import.tpl:23
+#: templates/nextgen/show_device_parts.php/smarty_import.tpl:23
 msgid "XML-Beispiel:"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_import.tpl:43
+#: templates/nextgen/show_device_parts.php/smarty_import.tpl:43
 msgid "Import Text:"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_import.tpl:49
+#: templates/nextgen/show_device_parts.php/smarty_import.tpl:49
 msgid "Export-Format:"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_import.tpl:53
+#: templates/nextgen/show_device_parts.php/smarty_import.tpl:53
 msgid "CSV"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_import.tpl:54
+#: templates/nextgen/show_device_parts.php/smarty_import.tpl:54
 msgid "XML"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_import.tpl:60
-#: ../templates/nextgen/tools_import.php/smarty_upload.tpl:25
+#: templates/nextgen/show_device_parts.php/smarty_import.tpl:60
+#: templates/nextgen/tools_import.php/smarty_upload.tpl:26
 msgid "Trennzeichen für CSV:"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_import.tpl:68
+#: templates/nextgen/show_device_parts.php/smarty_import.tpl:68
 msgid "Daten zum Überprüfen hochladen"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_import.tpl:84
-#: ../templates/nextgen/tools_import.php/smarty_check_data.tpl:8
+#: templates/nextgen/show_device_parts.php/smarty_import.tpl:84
+#: templates/nextgen/tools_import.php/smarty_check_data.tpl:9
 msgid "Daten übernehmen und prüfen"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_import.tpl:85
+#: templates/nextgen/show_device_parts.php/smarty_import.tpl:85
 msgid "Daten übernehmen und importieren!"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_subdevices.tpl:3
+#: templates/nextgen/show_device_parts.php/smarty_subdevices.tpl:3
 msgid "Unterbaugruppen von"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_subdevices.tpl:8
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:113
+#: templates/nextgen/show_device_parts.php/smarty_subdevices.tpl:8
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:113
 msgid "Anzahl versch. Teile"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_subdevices.tpl:9
+#: templates/nextgen/show_device_parts.php/smarty_subdevices.tpl:9
 msgid "Anzahl Einzelteile"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_subdevices.tpl:10
+#: templates/nextgen/show_device_parts.php/smarty_subdevices.tpl:10
 msgid "Gesamtpreis"
 msgstr ""
 
-#: ../templates/nextgen/show_device_parts.php/smarty_subdevices.tpl:37
+#: templates/nextgen/show_device_parts.php/smarty_subdevices.tpl:37
 msgid ""
 "Alle Angaben betreffen nur die jeweilige Baugruppe, deren evtl. vorhandenen "
 "Unterbaugruppen werden nicht berücksichtigt!"
 msgstr ""
 
-#: ../templates/nextgen/show_noprice_parts.php/smarty_show_noprice_parts.tpl:3
+#: templates/nextgen/show_noprice_parts.php/smarty_show_noprice_parts.tpl:3
 msgid "Teile ohne Preis"
 msgstr ""
 
-#: ../templates/nextgen/show_obsolete_parts.php/smarty_show_obsolete_parts.tpl:6
+#: templates/nextgen/show_obsolete_parts.php/smarty_show_obsolete_parts.tpl:6
 msgid "Teile ohne Einkaufsinformationen:"
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:15
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:15
 msgid "Lieferant wählen"
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:40
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:40
 msgid "Alle anzeigen"
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:48
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:48
 msgid "Zu bestellende Teile"
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:69
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:69
 msgid "Alle an/abwählen:"
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:77
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:73
+#: templates/nextgen/smarty_table.tpl:262
+msgid "Einbuchen"
+msgstr ""
+
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:77
 msgid "Aus Liste löschen (für manuell zum Bestellen markierte Artikel)"
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:91
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:91
 msgid "Bestellmengen automatisch setzen"
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:96
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:96
 msgid "Es gibt keine Teile, die bestellt werden müssen."
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:106
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:106
 msgid "Zum Bestellen markierte Baugruppen"
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:111
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:111
 msgid "Bestellmenge"
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:112
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:112
 msgid "Teile"
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:114
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:114
 msgid "Davon zu wenige an Lager"
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:115
-#: ../templates/nextgen/smarty_table.tpl:59
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:115
+#: templates/nextgen/smarty_table.tpl:59
 msgid "Optionen"
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:161
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:161
 msgid "Bauteile Export"
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:165
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:165
 msgid "Format:"
 msgstr ""
 
-#: ../templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:176
+#: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:176
 msgid "Anzeige"
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:6
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:6
 msgid "Detailinfo zu"
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:113
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:114
 msgid "Angaben verändern"
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:125
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:127
 msgid "Teile entnehmen:"
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:129
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:131
 msgid "Entnehmen"
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:142
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:144
 msgid "Teile hinzufügen"
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:160
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:162
 msgid "Bauteil wurde manuell zum Bestellen vorgemerkt."
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:164
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:166
 msgid ""
 "Das Bauteil wird unter \"Zu bestellende Teile\"aufgelistet, da der Bestand "
 "kleiner als der Mindestbestand ist."
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:182
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:184
 msgid "Hinzugefügt:"
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:189
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:191
 msgid "Letzte Änderung:"
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:213
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:201
+msgid "Barcode erzeugen"
+msgstr ""
+
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:224
 msgid "Einzelpreis"
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:275
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:286
 msgid "Durchschnittspreis für 1 Stk.:"
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:280
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:292
 msgid "Dieses Bauteil hat keine Einkaufsinformationen."
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:281
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:293
 msgid "Einkaufsinformationen hinzufügen"
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:306
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:318
 msgid "Dieses Bauteil besitzt keine Dateianhänge."
 msgstr ""
 
-#: ../templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:307
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:319
 msgid "Dateianhänge hinzufügen"
 msgstr ""
 
-#: ../templates/nextgen/show_search_parts.php/smarty_searched_parts_table.tpl:4
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:331
+msgid "3D-Footprint"
+msgstr ""
+
+#: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:345
+msgid "Schließen"
+msgstr ""
+
+#: templates/nextgen/show_part_label.php/smarty_show_part_label.tpl:53
+msgid "Download Label"
+msgstr ""
+
+#: templates/nextgen/show_search_parts.php/smarty_searched_parts_table.tpl:4
 msgid "Treffer in der Kategorie"
 msgstr ""
 
-#: ../templates/nextgen/show_search_parts.php/smarty_search_header.tpl:4
+#: templates/nextgen/show_search_parts.php/smarty_search_header.tpl:4
 msgid "Suchergebnis"
 msgstr ""
 
-#: ../templates/nextgen/show_search_parts.php/smarty_search_header.tpl:7
+#: templates/nextgen/show_search_parts.php/smarty_search_header.tpl:7
 msgid "Die Suche nach <b>\"%1\"</b> ergab <b>%2 Treffer</b>."
 msgstr ""
 
-#: ../templates/nextgen/show_search_parts.php/smarty_search_header.tpl:29
+#: templates/nextgen/show_search_parts.php/smarty_search_header.tpl:29
 msgid "Export"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:107
+#: templates/nextgen/smarty_head.tpl:104
 msgid "Toggle Sidebar"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:113
+#: templates/nextgen/smarty_head.tpl:108
 msgid "Toggle Navigation"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:125
+#: templates/nextgen/smarty_head.tpl:113
+msgid "Scanne Barcode"
+msgstr ""
+
+#: templates/nextgen/smarty_head.tpl:124
 msgid "Suchoptionen"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:132
-#: ../templates/nextgen/smarty_table.tpl:41
-#: ../templates/nextgen/smarty_table.tpl:42
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:41
+#: templates/nextgen/smarty_head.tpl:131 templates/nextgen/smarty_table.tpl:41
+#: templates/nextgen/smarty_table.tpl:42
+#: templates/nextgen/startup.php/smarty_startup.tpl:44
 msgid "Kategorie"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:134
-#: ../templates/nextgen/smarty_table.tpl:29
-#: ../templates/nextgen/smarty_table.tpl:30
+#: templates/nextgen/smarty_head.tpl:133 templates/nextgen/smarty_table.tpl:29
+#: templates/nextgen/smarty_table.tpl:30
 msgid "Beschreibung"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:136
-#: ../templates/nextgen/smarty_table.tpl:51
-#: ../templates/nextgen/smarty_table.tpl:52
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:43
+#: templates/nextgen/smarty_head.tpl:135 templates/nextgen/smarty_table.tpl:51
+#: templates/nextgen/smarty_table.tpl:52
+#: templates/nextgen/startup.php/smarty_startup.tpl:46
 msgid "Lagerort"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:138
-#: ../templates/nextgen/smarty_table.tpl:31
-#: ../templates/nextgen/smarty_table.tpl:32
+#: templates/nextgen/smarty_head.tpl:137 templates/nextgen/smarty_table.tpl:31
+#: templates/nextgen/smarty_table.tpl:32
 msgid "Kommentar"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:150
+#: templates/nextgen/smarty_head.tpl:147
+msgid "Deakt. Barcode"
+msgstr ""
+
+#: templates/nextgen/smarty_head.tpl:151
 msgid "Suche"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:151
+#: templates/nextgen/smarty_head.tpl:152
 msgid "Los!"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:175
+#: templates/nextgen/smarty_head.tpl:175 templates/nextgen/smarty_head.tpl:188
+#: templates/nextgen/smarty_head.tpl:202
+msgid "Alle ausklappen"
+msgstr ""
+
+#: templates/nextgen/smarty_head.tpl:176 templates/nextgen/smarty_head.tpl:189
+#: templates/nextgen/smarty_head.tpl:203
+msgid "Alle einklappen"
+msgstr ""
+
+#: templates/nextgen/smarty_head.tpl:198
 msgid "Verwaltung"
 msgstr ""
 
-#: ../templates/nextgen/smarty_head.tpl:210
+#: templates/nextgen/smarty_head.tpl:219
+msgid "Lade"
+msgstr ""
+
+#: templates/nextgen/smarty_head.tpl:252
 msgid "Seite neu laden"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:23
-#: ../templates/nextgen/smarty_table.tpl:26
+#: templates/nextgen/smarty_table.tpl:23 templates/nextgen/smarty_table.tpl:26
 msgid "Nr."
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:25
+#: templates/nextgen/smarty_table.tpl:25
 msgid "ID"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:33
+#: templates/nextgen/smarty_table.tpl:33
 msgid "Name / Beschreibung"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:34
-#: ../templates/nextgen/smarty_table.tpl:35
+#: templates/nextgen/smarty_table.tpl:34 templates/nextgen/smarty_table.tpl:35
 msgid "Bestand"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:36
+#: templates/nextgen/smarty_table.tpl:36
 msgid "Bestand ändern"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:38
-#: ../templates/nextgen/smarty_table.tpl:39
+#: templates/nextgen/smarty_table.tpl:38 templates/nextgen/smarty_table.tpl:39
 msgid "Mindest-"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:38
-#: ../templates/nextgen/smarty_table.tpl:39
+#: templates/nextgen/smarty_table.tpl:38 templates/nextgen/smarty_table.tpl:39
 msgid "bestand"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:40
+#: templates/nextgen/smarty_table.tpl:40
 msgid "Vorh./<br>Min.Best"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:56
+#: templates/nextgen/smarty_table.tpl:56
 msgid "Datenblätter"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:60
+#: templates/nextgen/smarty_table.tpl:60
 msgid "Anzahl"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:61
+#: templates/nextgen/smarty_table.tpl:61
 msgid "Bestückungs-<br>daten"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:63
+#: templates/nextgen/smarty_table.tpl:63
 msgid "Einzel-<br>preis Ø"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:64
+#: templates/nextgen/smarty_table.tpl:64
 msgid "Einzel-<br>preise"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:65
+#: templates/nextgen/smarty_table.tpl:65
 msgid "Gesamt-<br>preise"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:66
+#: templates/nextgen/smarty_table.tpl:66
 msgid "Bestell-<br>nummern"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:67
+#: templates/nextgen/smarty_table.tpl:67
 msgid "Bestell-<br>nummer"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:69
+#: templates/nextgen/smarty_table.tpl:69
 msgid "Von Version"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:70
+#: templates/nextgen/smarty_table.tpl:70
 msgid "Auf Version"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:71
+#: templates/nextgen/smarty_table.tpl:71
 msgid "Veröffentlichung"
 msgstr ""
 
-#: ../templates/nextgen/smarty_table.tpl:72
+#: templates/nextgen/smarty_table.tpl:72
 msgid "Changelog"
 msgstr ""
 
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:14
+#: templates/nextgen/smarty_table.tpl:267
+msgid "Aus Liste löschen"
+msgstr ""
+
+#: templates/nextgen/startup.php/smarty_startup.tpl:17
 msgid "Datenbankupdate"
 msgstr ""
 
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:17
+#: templates/nextgen/startup.php/smarty_startup.tpl:20
 msgid "Datenbank-Version %1 benötigt ein Update auf Version %2."
 msgstr ""
 
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:20
+#: templates/nextgen/startup.php/smarty_startup.tpl:23
 msgid ""
 "Automatische Datenbankupdates wurden vorübergehend automatisch deaktiviert,"
 "\r\n"
 "                da es sich um ein sehr umfangreiches Update handelt."
 msgstr ""
 
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:23
+#: templates/nextgen/startup.php/smarty_startup.tpl:26
 msgid "Automatische Datenbankupdates sind deaktiviert."
 msgstr ""
 
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:25
+#: templates/nextgen/startup.php/smarty_startup.tpl:28
 msgid "Updates bitte manuell durchführen:"
 msgstr ""
 
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:25
+#: templates/nextgen/startup.php/smarty_startup.tpl:28
 msgid "System -> Datenbank"
 msgstr ""
 
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:37
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:54
+#: templates/nextgen/startup.php/smarty_startup.tpl:40
+#: templates/nextgen/startup.php/smarty_startup.tpl:57
 msgid "Achtung!"
 msgstr ""
 
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:57
+#: templates/nextgen/startup.php/smarty_startup.tpl:60
 msgid ""
 "In Ihrer Datenbank gibt es Footprints, die einen fehlerhaften Dateinamen "
 "hinterlegt haben.\r\n"
@@ -1513,93 +1593,101 @@ msgid ""
 "durch nicht mehr existierende Dateien ausgelöst worden sein."
 msgstr ""
 
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:60
+#: templates/nextgen/startup.php/smarty_startup.tpl:63
 msgid ""
 "Sie können dies unter <a href=\"edit_footprints.php\">Bearbeiten/Footprints</"
 "a> (ganz unten, \"Fehlerhafte Dateinamen\") korrigieren."
 msgstr ""
 
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:70
+#: templates/nextgen/startup.php/smarty_startup.tpl:73
 msgid "Lizenz"
 msgstr ""
 
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:88
+#: templates/nextgen/startup.php/smarty_startup.tpl:91
 msgid "Initiator:"
 msgstr ""
 
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:89
+#: templates/nextgen/startup.php/smarty_startup.tpl:92
 msgid "Autor seit 2009:"
 msgstr ""
 
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:91
+#: templates/nextgen/startup.php/smarty_startup.tpl:93
+msgid "Neues Design 2016 durch:"
+msgstr ""
+
+#: templates/nextgen/startup.php/smarty_startup.tpl:95
 msgid "Weitere Autoren:"
 msgstr ""
 
-#: ../templates/nextgen/startup.php/smarty_startup.tpl:103
+#: templates/nextgen/startup.php/smarty_startup.tpl:109
 msgid "Updates"
 msgstr ""
 
-#: ../templates/nextgen/statistics.php/smarty_statistics.tpl:5
+#: templates/nextgen/startup.php/smarty_startup.tpl:115
+msgid "Version"
+msgstr ""
+
+#: templates/nextgen/statistics.php/smarty_statistics.tpl:5
 msgid "Statistik"
 msgstr ""
 
-#: ../templates/nextgen/statistics.php/smarty_statistics.tpl:10
+#: templates/nextgen/statistics.php/smarty_statistics.tpl:10
 msgid "Mit Preis erfasste Bauteile:"
 msgstr ""
 
-#: ../templates/nextgen/statistics.php/smarty_statistics.tpl:14
+#: templates/nextgen/statistics.php/smarty_statistics.tpl:14
 msgid "Wert aller mit Preis erfassten Bauteile:"
 msgstr ""
 
-#: ../templates/nextgen/statistics.php/smarty_statistics.tpl:20
+#: templates/nextgen/statistics.php/smarty_statistics.tpl:20
 msgid "Anzahl der verschiedenen Bauteile:"
 msgstr ""
 
-#: ../templates/nextgen/statistics.php/smarty_statistics.tpl:21
+#: templates/nextgen/statistics.php/smarty_statistics.tpl:21
 msgid "Anzahl der vorhandenen Bauteile:"
 msgstr ""
 
-#: ../templates/nextgen/statistics.php/smarty_statistics.tpl:25
+#: templates/nextgen/statistics.php/smarty_statistics.tpl:25
 msgid "Anzahl der Kategorien:"
 msgstr ""
 
-#: ../templates/nextgen/statistics.php/smarty_statistics.tpl:26
+#: templates/nextgen/statistics.php/smarty_statistics.tpl:26
 msgid "Anzahl der Footprints:"
 msgstr ""
 
-#: ../templates/nextgen/statistics.php/smarty_statistics.tpl:27
+#: templates/nextgen/statistics.php/smarty_statistics.tpl:27
 msgid "Anzahl der Lagerorte:"
 msgstr ""
 
-#: ../templates/nextgen/statistics.php/smarty_statistics.tpl:28
+#: templates/nextgen/statistics.php/smarty_statistics.tpl:28
 msgid "Anzahl der Lieferanten:"
 msgstr ""
 
-#: ../templates/nextgen/statistics.php/smarty_statistics.tpl:29
+#: templates/nextgen/statistics.php/smarty_statistics.tpl:29
 msgid "Anzahl der Hersteller:"
 msgstr ""
 
-#: ../templates/nextgen/statistics.php/smarty_statistics.tpl:30
+#: templates/nextgen/statistics.php/smarty_statistics.tpl:30
 msgid "Anzahl der Baugruppen:"
 msgstr ""
 
-#: ../templates/nextgen/statistics.php/smarty_statistics.tpl:31
+#: templates/nextgen/statistics.php/smarty_statistics.tpl:31
 msgid "Anzahl der Dateianhänge:"
 msgstr ""
 
-#: ../templates/nextgen/statistics.php/smarty_statistics.tpl:35
+#: templates/nextgen/statistics.php/smarty_statistics.tpl:35
 msgid "Anzahl der Footprint Bilder:"
 msgstr ""
 
-#: ../templates/nextgen/statistics.php/smarty_statistics.tpl:36
+#: templates/nextgen/statistics.php/smarty_statistics.tpl:36
 msgid "Anzahl der Hersteller Logos:"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:10
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:10
 msgid "Systemeinstellungen"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:16
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:16
 msgid ""
 "Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere "
 "Einstellungen kann man direkt in der \"config.php\" vornehmen. Mögliche "
@@ -1607,177 +1695,177 @@ msgid ""
 "Dokumentation."
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:21
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:21
 msgid "Theme:"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:32
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:32
 msgid "CSS-Datei:"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:35
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:35
 msgid "Standard des verwendeten Themes verwenden"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:70
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:70
 msgid "Allgemeine Einstellungen:"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:75
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:75
 msgid ""
 "Updateliste (RSS-Feed) auf Startseite verstecken (verringert die Ladezeit)"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:80
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:80
 msgid "Footprints global deaktivieren"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:85
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:85
 msgid "Hersteller global deaktivieren"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:90
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:90
 msgid "Baugruppenfunktion global deaktivieren"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:95
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:95
 msgid "Automatische Links zu Datenblättern global deaktivieren"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:100
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:100
 msgid "Menüpunkt \"Hilfe\" deaktivieren"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:105
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:105
 msgid "Menüpunkt \"System\" deaktivieren"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:110
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:110
 msgid "Menüpunkt \"System -> Debugging\" aktivieren"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:115
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:115
 msgid "Menüpunkt \"Tools -> Labels\" deaktivieren"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:120
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:120
 msgid "Menüpunkt \"Tools -> Widerstandsrechner\" deaktivieren"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:125
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:125
 msgid "Menüpunkt \"Tools -> IC-Logos\" deaktivieren"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:130
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:130
 msgid "Menüpunkt \"Tools -> Footprints\" deaktivieren"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:135
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:135
 msgid ""
 "Unter \"Tools -> Footprints\" beim Aufruf automatisch alle Bilder laden "
 "(lange Ladezeit!)"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:141
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:141
 msgid "Entwickler-Werkzeuge aktivieren (für Entwickler und Tester)"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:146
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:146
 msgid "Schreibrechte im DokuWiki aktivieren"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:153
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:153
 msgid ""
 "Durch das Aktivieren dieser Checkboxen ist Part-DB auch für Nicht-"
 "Elektronische Bauteile hervorragend geeignet."
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:194
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:194
 msgid "3D-Footprints:"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:198
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:198
 msgid "3D-Footprints aktiviert"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:206
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:206
 msgid "Titel der Seite:"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:208
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:208
 msgid "Part-DB Elektronische Bauteile-Datenbank"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:213
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:213
 msgid "Eigener Banner für die Startseite (HTML):"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:222
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:126
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:222
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:126
 msgid "Einstellungen übernehmen"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:232
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:232
 msgid "Administratorpasswort ändern"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:237
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:237
 msgid "Aktuelles Passwort:"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:244
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:244
 msgid "Neues Passwort:"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:251
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:251
 msgid "Neues Passwort (Wiederholung):"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:260
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:260
 msgid "Passwort ändern"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:271
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:271
 msgid "Server"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:276
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:276
 msgid "PHP-Version:"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:280
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:280
 msgid ".htaccess funktioniert:"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:281
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:281
 msgid "ja"
 msgstr ""
 
-#: ../templates/nextgen/system_config.php/smarty_system_config.tpl:282
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:282
 msgid "nein"
 msgstr ""
 
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:13
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:13
 msgid "Datenbank Status / Update"
 msgstr ""
 
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:20
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:20
 msgid "Aktuelle Version:"
 msgstr ""
 
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:29
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:29
 msgid "Benötigte Version:"
 msgstr ""
 
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:39
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:39
 msgid "Die Datenbank benötigt ein Update!"
 msgstr ""
 
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:43
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:43
 msgid "ACHTUNG:"
 msgstr ""
 
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:44
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:44
 msgid ""
 "Das letzte Update ist fehlgeschlagen. Sie können beliebig oft versuchen,\r\n"
 "                                        das Update an der Stelle des letzten "
@@ -1790,368 +1878,368 @@ msgid ""
 "Möglichkeiten:"
 msgstr ""
 
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:51
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:51
 msgid "Letztes, fehlgeschlagenes Update fortsetzen"
 msgstr ""
 
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:52
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:52
 msgid "Neuer Update-Versuch beginnen (von Vorne)"
 msgstr ""
 
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:54
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:54
 msgid "Jetzt Datenbank updaten"
 msgstr ""
 
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:57
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:57
 msgid "Die Datenbank ist auf dem neusten Stand."
 msgstr ""
 
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:70
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:70
 msgid "Datenbank-Einstellungen"
 msgstr ""
 
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:95
-msgid "Datenbankname:"
-msgstr ""
-
-#: ../templates/nextgen/system_database.php/smarty_system_database.tpl:136
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:136
 msgid "Automatische Updates aktivieren"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:3
+#: templates/nextgen/tools_3d_footprints.php/smarty_footprints3d.tpl:2
+msgid "3D Footprints"
+msgstr ""
+
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:3
 msgid "Widerstandsrechner"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:10
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:119
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:10
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:119
 msgid "1. Ring"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:11
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:120
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:11
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:120
 msgid "2. Ring"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:12
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:121
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:12
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:121
 msgid "3. Ring"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:13
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:122
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:13
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:122
 msgid "4. Ring"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:21
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:134
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:21
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:134
 msgid "kein"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:26
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:27
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:140
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:26
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:27
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:140
 msgid "silber"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:32
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:33
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:144
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:148
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:32
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:33
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:144
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:148
 msgid "gold"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:37
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:38
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:154
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:155
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:156
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:158
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:37
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:38
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:154
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:155
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:156
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:158
 msgid "schwarz"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:42
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:43
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:44
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:45
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:161
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:162
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:163
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:164
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:165
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:166
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:42
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:43
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:44
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:45
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:161
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:162
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:163
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:164
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:165
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:166
 msgid "braun"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:48
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:49
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:50
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:51
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:169
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:170
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:171
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:172
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:173
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:174
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:48
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:49
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:50
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:51
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:169
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:170
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:171
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:172
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:173
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:174
 msgid "rot"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:54
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:55
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:56
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:177
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:178
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:179
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:180
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:182
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:54
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:55
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:56
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:177
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:178
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:179
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:180
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:182
 msgid "orange"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:60
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:61
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:62
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:185
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:186
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:187
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:188
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:190
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:60
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:61
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:62
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:185
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:186
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:187
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:188
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:190
 msgid "gelb"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:66
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:67
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:68
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:69
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:193
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:194
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:195
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:196
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:197
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:66
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:67
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:68
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:69
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:193
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:194
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:195
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:196
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:197
 msgid "grün"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:72
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:73
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:74
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:75
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:201
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:202
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:203
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:204
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:205
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:206
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:72
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:73
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:74
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:75
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:201
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:202
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:203
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:204
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:205
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:206
 msgid "blau"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:78
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:79
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:80
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:81
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:209
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:210
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:211
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:213
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:214
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:78
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:79
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:80
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:81
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:209
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:210
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:211
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:213
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:214
 msgid "violett"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:84
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:85
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:86
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:87
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:217
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:218
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:219
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:221
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:84
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:85
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:86
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:87
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:217
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:218
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:219
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:221
 msgid "grau"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:90
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:91
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:92
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:225
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:226
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:227
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:90
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:91
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:92
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:225
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:226
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:227
 msgid "weiß"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:99
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:237
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:99
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:237
 msgid "Widerstand:"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:100
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:238
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:301
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:100
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:238
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:301
 msgid "Ohm"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:103
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:103
 msgid "Toleranz"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:108
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:108
 msgid "Rücksetzen"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:123
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:123
 msgid "5. Ring"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:124
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:124
 msgid "6. Ring"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:241
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:241
 msgid "Toleranz:"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:245
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:245
 msgid "Temperaturkoeffizient:"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:250
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:250
 msgid "Rücksetzten"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:260
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:260
 msgid "Widerstand wählen"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:264
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:322
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:264
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:322
 msgid "Widerstandsreihe:"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:297
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:297
 msgid "Widerstandswert:"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:301
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:301
 msgid "Beste Wahl:"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:304
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:304
 msgid "Fehler:"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:307
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:385
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:307
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:385
 msgid "Berechne"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:314
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:314
 msgid "Widerstandsverhältnis"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:317
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:365
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:317
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:365
 msgid "Spannungsteiler"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:356
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:356
 msgid "Typ:"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:360
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:360
 msgid "Verhältnis"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:371
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:371
 msgid "Verhältnis:"
 msgstr ""
 
-#: ../templates/nextgen/tools_calculator.php/smarty_calculator.tpl:375
+#: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:375
 msgid "Kehrwert"
 msgstr ""
 
-#: ../templates/nextgen/tools_footprints.php/smarty_footprints.tpl:3
+#: templates/nextgen/tools_footprints.php/smarty_footprints.tpl:3
 msgid "Kategorie wählen"
 msgstr ""
 
-#: ../templates/nextgen/tools_footprints.php/smarty_footprints.tpl:7
+#: templates/nextgen/tools_footprints.php/smarty_footprints.tpl:7
 msgid "Aktive Bauelemente"
 msgstr ""
 
-#: ../templates/nextgen/tools_footprints.php/smarty_footprints.tpl:8
+#: templates/nextgen/tools_footprints.php/smarty_footprints.tpl:8
 msgid "Passive Bauelemente"
 msgstr ""
 
-#: ../templates/nextgen/tools_footprints.php/smarty_footprints.tpl:9
+#: templates/nextgen/tools_footprints.php/smarty_footprints.tpl:9
 msgid "Elektromechanische Bauteile"
 msgstr ""
 
-#: ../templates/nextgen/tools_footprints.php/smarty_footprints.tpl:10
+#: templates/nextgen/tools_footprints.php/smarty_footprints.tpl:10
 msgid "Akustik, Optik, Sonstiges"
 msgstr ""
 
-#: ../templates/nextgen/tools_iclogos.php/smarty_iclogos.tpl:5
+#: templates/nextgen/tools_iclogos.php/smarty_iclogos.tpl:5
 msgid "Hersteller IC Logos"
 msgstr ""
 
-#: ../templates/nextgen/tools_import.php/smarty_check_data.tpl:2
+#: templates/nextgen/tools_import.php/smarty_check_data.tpl:3
 msgid "Daten prüfen"
 msgstr ""
 
-#: ../templates/nextgen/tools_import.php/smarty_check_data.tpl:10
+#: templates/nextgen/tools_import.php/smarty_check_data.tpl:11
 msgid "Daten importieren!"
 msgstr ""
 
-#: ../templates/nextgen/tools_import.php/smarty_file_examples.tpl:3
+#: templates/nextgen/tools_import.php/smarty_file_examples.tpl:3
 msgid "Beispiele"
 msgstr ""
 
-#: ../templates/nextgen/tools_import.php/smarty_file_examples.tpl:7
+#: templates/nextgen/tools_import.php/smarty_file_examples.tpl:7
 msgid "Beispiel für den Dateiaufbau (CSV)"
 msgstr ""
 
-#: ../templates/nextgen/tools_import.php/smarty_file_examples.tpl:10
+#: templates/nextgen/tools_import.php/smarty_file_examples.tpl:10
 msgid "Beispiel f&uuml;r den Dateiaufbau (XML)"
 msgstr ""
 
-#: ../templates/nextgen/tools_import.php/smarty_upload.tpl:9
+#: templates/nextgen/tools_import.php/smarty_upload.tpl:10
 msgid "Datei auswählen"
 msgstr ""
 
-#: ../templates/nextgen/tools_import.php/smarty_upload.tpl:32
+#: templates/nextgen/tools_import.php/smarty_upload.tpl:33
 msgid "Datei hochladen"
 msgstr ""
 
-#: ../templates/nextgen/tools_labels.php/smarty_labels.tpl:6
+#: templates/nextgen/tools_labels.php/smarty_labels.tpl:6
 msgid "3-stellig"
 msgstr ""
 
-#: ../templates/nextgen/tools_labels.php/smarty_labels.tpl:6
+#: templates/nextgen/tools_labels.php/smarty_labels.tpl:6
 msgid ""
 "Die ersten beiden Stellen sind der Wert, die letzte Stelle ist der Exponent "
 "z.B."
 msgstr ""
 
-#: ../templates/nextgen/tools_labels.php/smarty_labels.tpl:30
+#: templates/nextgen/tools_labels.php/smarty_labels.tpl:30
 msgid "4-stellig"
 msgstr ""
 
-#: ../templates/nextgen/tools_labels.php/smarty_labels.tpl:30
+#: templates/nextgen/tools_labels.php/smarty_labels.tpl:30
 msgid ""
 "Die ersten drei Stellen sind der Wert, die letzte Stelle ist der Exponent z."
 "B."
 msgstr ""
 
-#: ../templates/nextgen/tools_labels.php/smarty_labels.tpl:54
+#: templates/nextgen/tools_labels.php/smarty_labels.tpl:54
 msgid "Mehrstellig mit R"
 msgstr ""
 
-#: ../templates/nextgen/tools_labels.php/smarty_labels.tpl:54
+#: templates/nextgen/tools_labels.php/smarty_labels.tpl:54
 msgid "Das R zählt als Dezimalpunkt z.B."
 msgstr ""
 
-#: ../templates/nextgen/tools_labels.php/smarty_labels.tpl:80
+#: templates/nextgen/tools_labels.php/smarty_labels.tpl:80
 msgid "SMD-Kondensatoren"
 msgstr ""
 
-#: ../templates/nextgen/tools_labels.php/smarty_labels.tpl:84
+#: templates/nextgen/tools_labels.php/smarty_labels.tpl:84
 msgid "Tantal"
 msgstr ""
 
-#: ../templates/nextgen/tools_labels.php/smarty_labels.tpl:123
+#: templates/nextgen/tools_labels.php/smarty_labels.tpl:123
 msgid "SMD-Spulen"
 msgstr ""
