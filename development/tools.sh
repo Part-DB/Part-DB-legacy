@@ -8,7 +8,7 @@ tab2spaces () # replaces tabs with spaces (*.php and *.tmpl)
 {
     echo -e "- replacing tabs with spaces"
 
-    FILES=`find . -type f -name "*php" -o -name "*tmpl" -o -path "./development" -prune -o -path "./documentation" -prune`
+    FILES=`find . -type f -name "*php" -o -name "*tmpl" -o -path "./development" -prune -o -path "./documentation" -prune -o -path "./lib/bbcode" -prune -o -path "./lib/smarty" -prune -o -path "./lib/tcpdf" -prune -o -path "./templates_c" -prune`
     for FILE in $FILES
     do
         echo "working on file $FILE..."

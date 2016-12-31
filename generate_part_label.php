@@ -12,9 +12,9 @@
     Version 0.2 (04.10.2014)
     http://fthiessen.de/
 
-	Edited by J. Boehmer
-	Version 0.3 (24.02.2016)
-	http://jbtronics.wordpress.com
+    Edited by J. Boehmer
+    Version 0.3 (24.02.2016)
+    http://jbtronics.wordpress.com
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -47,16 +47,16 @@
 
     $action = 'default';
     if (isset($_REQUEST["download"]))                    {$action = 'download';}
-    
+
 
     $size_str = "50x30";
-	if(isset($_REQUEST['size']))                    {$size_str	= $_REQUEST['size']; }
+    if(isset($_REQUEST['size']))                    {$size_str  = $_REQUEST['size']; }
 
-	$lang_str = "de";
-	//if(isset($_REQUEST['lang']))					{$lang_str     = $_LANG['lang'];    }
+    $lang_str = "de";
+    //if(isset($_REQUEST['lang']))                  {$lang_str     = $_LANG['lang'];    }
 
 
-	/********************************************************************************
+    /********************************************************************************
     *
     *   Initialize Objects
     *
