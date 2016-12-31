@@ -93,6 +93,8 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
     
     # get the Part-DB version, like "0.3.0.RC1"
     VERSION=$(grep -E "config\['system'\]\['version'\]\s*=\s*'" config_defaults.php | cut -d\' -f6)
+	
+	
     
     echo -e "- build install package for Part-DB $VERSION..."
     
@@ -116,9 +118,14 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
 					-o  -path "*/.idea*" \
 					-o  -path "*/.vs*" \
                     -o  -name "README.md" \
+					-o  -name "*.sln" \
+					-o  -name "*.phpproj*" \
                     -o  -name ".gitignore" \
 					-o  -name ".gitattributes" \
+					-o  -name ".travis.yml" \
 					-o 	-path "./models/*"	\
+					-o 	-path "./templates_c/*"	\
+					-o 	-path "./development/templates_c/*"	\
 					-o 	-path "./nbproject*"	\
                     -o  -path "./development*" \
                     -o  -path "./documentation/dokuwiki/data/cache/*" \
@@ -147,7 +154,14 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
     find part-db/documentation/dokuwiki/data -type f -print0 | xargs -0 chmod 644
     
     # create *.tar.gz
-    tar -czvf "Part-DB_$VERSION.tar.gz" "part-db/" --owner=www-data --group=www-data
+	if [ "$2" -eq "-dev"]
+		then
+			COMMIT=$(git log --pretty=format:"%h" -1)
+			tar -czvf "Part-DB_$VERSION_$COMMIT.tar.gz" "part-db/" --owner=www-data --group=www-data
+		else
+			tar -czvf "Part-DB_$VERSION.tar.gz" "part-db/" --owner=www-data --group=www-data
+	fi
+    
     
     cd "../../"
     
@@ -242,6 +256,7 @@ while [ "$1" != "" ]; do
             echo -e "\t-d|--doxygen\t\tUpdate the doxygen documentation."
             echo -e "\t-r|--remove\t\tRemove backup files."
 			echo -e "\t-p|--pack\t\tPack the files and create a installation archive."
+			echo -e "\t\t\t\tUse -dev to append the git commit to the file name."
 			
 			echo -e "\n\t--c|--clean\t\tRemove Smarty cache files"
 			

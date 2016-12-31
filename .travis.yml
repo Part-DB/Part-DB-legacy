@@ -1,0 +1,43 @@
+sudo: false
+
+# Blacklist the github pages branch
+branches:
+  except:
+    - gh-pages
+
+# Environment variables
+env:
+  global:
+    #- GH_REPO_NAME: <your_repo>
+    #- DOXYFILE: $TRAVIS_BUILD_DIR/<path_to_your_doxygen_configuration_file>
+    #- GH_REPO_REF: github.com/<your_name>/<your_repo>.git
+
+language: php
+php:
+    - '5.6'
+    - '7.0'
+	
+
+# Install dependencies
+addons:
+  apt:
+    packages:
+      - doxygen
+      - doxygen-doc
+      - doxygen-latex
+      - doxygen-gui
+      - graphviz
+
+# Build your code e.g. by calling make
+script:
+  - cd ./development
+  # Create an installation .tar.gz package
+  - cd ./tools.sh -p -dev
+  # Generate doxygen documentation
+  - cd ./tools.sh -d
+
+# Generate and deploy documentation
+after_success:
+  #- cd $TRAVIS_BUILD_DIR
+  #- chmod +x generateDocumentationAndDeploy.sh
+  #- ./generateDocumentationAndDeploy.sh
