@@ -152,58 +152,58 @@ while [ "$1" != "" ]; do
         -d|--doxygen)
             doxygen_build
             ;;
-        -a|--add)
-            remove_backups
-            echo -e "- adding files to repository..."
-            svn add * --force
-            ;;
+        #-a|--add)
+        #    remove_backups
+        #    echo -e "- adding files to repository..."
+        #    svn add * --force
+        #    ;;
         -r|--remove)
             remove_backups
             ;;
-        -c|--commit)
-            shift
-            echo -e "- committing..."
-            svn commit -m "$1"
-            svn up
-            ;;
+        #-c|--commit)
+        #    shift
+        #    echo -e "- committing..."
+        #    svn commit -m "$1"
+        #    svn up
+        #    ;;
         --all)
             remove_backups
             tab2spaces
             doxygen_build
             echo -e "- adding files to repository..."
-            svn add * --force
+            #svn add * --force
             echo -e "- committing..."
             shift
-            svn commit -m "$1"
-            svn up
+            #svn commit -m "$1"
+            #svn up
             ;;
-        --ups)
-            shift
-            case $1 in
-                all)
-                    svn_all
-                    ;;
-                update)
-                    svn_modified
-                    ;;
-            esac
-            ;;
+        #--ups)
+        #    shift
+        #    case $1 in
+        #        all)
+        #            svn_all
+        #            ;;
+        #        update)
+        #            svn_modified
+        #            ;;
+        #    esac
+        #    ;;
         *)
             echo "$0"
             echo -e "Licence: GPL, 2012 by Udo Neist\n"
             echo "Usage: $0"
-            echo -e "\nWrapper for svn"
-            echo -e "\nHint: Use code.google.com only with https to avoid problems with authentication!"
+            #echo -e "\nWrapper for svn"
+            #echo -e "\nHint: Use code.google.com only with https to avoid problems with authentication!"
             echo -e "\n\t-t|--tab\t\tReplace 1 tab with 4 spaces."
             echo -e "\t-d|--doxygen\t\tUpdate the doxygen documentation."
             echo -e "\t-r|--remove\t\tRemove backup files."
             echo -e "\t-a|--add\t\tRemove backup files and add new files to repository."
             echo -e "\t-c|--commit text\tCommit with comment."
             echo -e "\t--all text\t\tAll steps above in one."
-            echo -e "\nMaking an UPS-script for scripted update (default hash: sha256)"
-            echo -e "\n\t-o\t\t\tRedirects output to the specified file. Attention! File will be overwritten!"
-            echo -e "\n\t--ups update\t\tShow svn status of each modified file/directory and create an ups-script (e.g. update.ups)"
-            echo -e "\t--ups all\t\tShow status of all files/directories and create an ups-script (e.g. repair.ups)"
+            #echo -e "\nMaking an UPS-script for scripted update (default hash: sha256)"
+            #echo -e "\n\t-o\t\t\tRedirects output to the specified file. Attention! File will be overwritten!"
+            #echo -e "\n\t--ups update\t\tShow svn status of each modified file/directory and create an ups-script (e.g. update.ups)"
+            #echo -e "\t--ups all\t\tShow status of all files/directories and create an ups-script (e.g. repair.ups)"
             exit 1
             ;;
     esac

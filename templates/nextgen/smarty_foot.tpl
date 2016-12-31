@@ -30,7 +30,7 @@
   
   <!-- Back to top button -->
   <a id="back-to-top" href="#" class="btn btn-primary back-to-top link-anchor" role="button" title="Zum Seitenbeginn" data-toggle="tooltip" data-placement="left"><span class="glyphicon glyphicon-chevron-up"></span></a>
-	    
+        
    </body>
 
 </html>
