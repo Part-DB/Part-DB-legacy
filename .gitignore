@@ -166,6 +166,7 @@ AutoTest.Net/
 
 # Smarty
 templates_c/
+development/templates_c/
 
 #PHPStorm
 .idea/
