@@ -134,6 +134,11 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
     echo -e "Please note that there is a checklist in development/package_output/readme.txt\n"
 }
 
+if [ "$1" == "" ]
+	then
+		echo -e "Use --help for info about this tool."
+fi
+
 while [ "$1" != "" ]; do
     case $1 in
         -o)
@@ -191,13 +196,14 @@ while [ "$1" != "" ]; do
         *)
             echo "$0"
             echo -e "Licence: GPL, 2012 by Udo Neist\n"
+			echo -e "Edited: 2016 by Jan Böhmer\n"
             echo "Usage: $0"
             #echo -e "\nWrapper for svn"
             #echo -e "\nHint: Use code.google.com only with https to avoid problems with authentication!"
             echo -e "\n\t-t|--tab\t\tReplace 1 tab with 4 spaces."
             echo -e "\t-d|--doxygen\t\tUpdate the doxygen documentation."
             echo -e "\t-r|--remove\t\tRemove backup files."
-            echo -e "\t-a|--add\t\tRemove backup files and add new files to repository."
+            #echo -e "\t-a|--add\t\tRemove backup files and add new files to repository."
             echo -e "\t-c|--commit text\tCommit with comment."
             echo -e "\t--all text\t\tAll steps above in one."
             #echo -e "\nMaking an UPS-script for scripted update (default hash: sha256)"
