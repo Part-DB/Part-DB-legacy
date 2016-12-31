@@ -4,6 +4,21 @@ UPS='/dev/stdout'
 
 cd "../" # base directory of Part-DB
 
+
+generateLocales_tpl () # Generates the Locale files for the templates_c
+{
+	echo -e "Start extracting the Template locales..."
+	development/tsmarty2c.php -o templates/nextgen/locale/partdb.pot templates/nextgen
+	echo -e "Finished!"
+}
+
+generateLocales_php () # Generates the Locale files for PHP
+{
+	echo "Start generate locales from php"
+	find . -type f -iname "*.php" | xargs xgettext --from-code=UTF-8 -k_e -k_x -k__ -o locale/php.pot
+	echo "Complete!"
+}
+
 tab2spaces () # replaces tabs with spaces (*.php and *.tmpl)
 {
     echo -e "- replacing tabs with spaces"
@@ -95,6 +110,7 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
                     -o  -path "*/.git*" \
                     -o  -name "README.md" \
                     -o  -name ".gitignore" \
+					-o 	-name "models/"	\
                     -o  -path "./development*" \
                     -o  -path "./documentation/dokuwiki/data/cache/*" \
                     -o  -path "./documentation/dokuwiki/data/tmp/*" \
@@ -157,6 +173,16 @@ while [ "$1" != "" ]; do
         -d|--doxygen)
             doxygen_build
             ;;
+		-l|--locales)
+			generateLocales_tpl
+			generateLocales_php
+			;;
+		--locales-tpl)
+			generateLocales_tpl
+			;;
+		--locales-php)
+			generateLocales_php
+			;;
         #-a|--add)
         #    remove_backups
         #    echo -e "- adding files to repository..."
@@ -203,9 +229,13 @@ while [ "$1" != "" ]; do
             echo -e "\n\t-t|--tab\t\tReplace 1 tab with 4 spaces."
             echo -e "\t-d|--doxygen\t\tUpdate the doxygen documentation."
             echo -e "\t-r|--remove\t\tRemove backup files."
+			echo -e "\t-p|--pack\t\tPack the files and create a installation archive."
+			echo -e "\t--locales-tpl\t\tGenerate locales for the templates."
+			echo -e "\t--locales-php\t\tGenerate locales for the PHP files."
+			echo -e "\t-l|--locales\t\tGenerate all locales."
             #echo -e "\t-a|--add\t\tRemove backup files and add new files to repository."
-            echo -e "\t-c|--commit text\tCommit with comment."
-            echo -e "\t--all text\t\tAll steps above in one."
+            #echo -e "\t-c|--commit text\tCommit with comment."
+            echo -e "\t--all\t\tAll steps above in one."
             #echo -e "\nMaking an UPS-script for scripted update (default hash: sha256)"
             #echo -e "\n\t-o\t\t\tRedirects output to the specified file. Attention! File will be overwritten!"
             #echo -e "\n\t--ups update\t\tShow svn status of each modified file/directory and create an ups-script (e.g. update.ups)"
