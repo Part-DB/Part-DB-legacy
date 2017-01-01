@@ -35,6 +35,8 @@ addons:
 #      - doxygen-gui
 #      - graphviz
 
+before_script:
+  - composer require codeclimate/php-test-reporter --dev
 
 # Build your code e.g. by calling make
 script:
@@ -45,8 +47,5 @@ script:
   #- cd ./tools.sh -d
   - phpunit --configuration phpunit.xml
 
-# Generate and deploy documentation
 after_success:
-  #- cd $TRAVIS_BUILD_DIR
-  #- chmod +x generateDocumentationAndDeploy.sh
-  #- ./generateDocumentationAndDeploy.sh
+  - vendor/bin/test-reporter
