@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/do9jhb/Part-DB.svg?branch=nextgen)](https://travis-ci.org/do9jhb/Part-DB)
+
 # Part-DB
 
 ### Beschreibung

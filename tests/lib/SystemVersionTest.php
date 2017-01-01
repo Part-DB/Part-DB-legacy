@@ -30,4 +30,31 @@ class SystemVersionTest extends PHPUnit_Framework_TestCase
         $version = new SystemVersion("0.3.4.RC1");
         $this->assertEquals($version->get_version_type(),"unstable");
     }
+
+    /*
+     * Test if a invalid SystemVersion is detected and a Exception is thrown
+     */
+    public function test_invalidVersion()
+    {
+        $this->expectException(Exception::class);
+        $version = new SystemVersion("04.23.3R3.4");
+    }
+
+    /*
+     * Test the compare between two Versions
+     */
+    public function test_compare_newer()
+    {
+        $ver1 = new SystemVersion("0.2.1");
+        $ver2 = new SystemVersion("0.2.2");
+        $this->assertTrue($ver2->is_newer_than($ver1));
+    }
+
+    public function test_compare_older()
+    {
+        $ver1 = new SystemVersion("0.2.1");
+        $ver2 = new SystemVersion("0.2.2");
+        $this->assertFalse($ver1->is_newer_than($ver2));
+    }
+
 }
