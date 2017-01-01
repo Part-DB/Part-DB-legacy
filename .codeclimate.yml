@@ -1,4 +1,3 @@
----
 engines:
   csslint:
     enabled: true
@@ -6,9 +5,7 @@ engines:
     enabled: true
     config:
       languages:
-      - ruby
       - javascript
-      - python
       - php
   eslint:
     enabled: true
@@ -35,6 +32,6 @@ exclude_paths:
 - "css/"
 - "fonts/"
 - "icons/"
-- "datatables"
-- "
+- "datatables/"
+- "locale/"
 - "documentation/"
