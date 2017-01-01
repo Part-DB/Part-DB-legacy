@@ -64,10 +64,23 @@ class SystemVersionTest extends PHPUnit_Framework_TestCase
         $this->assertFalse($ver1->is_newer_than($ver2));
     }
 
+    /**
+     * Test the compare between two RC versions.
+     */
     public function test_compare_rc()
     {
         $ver1 = new SystemVersion("0.2.1.RC1");
         $ver2 = new SystemVersion("0.2.2.RC2");
+        $this->assertTrue($ver2->is_newer_than($ver1));
+    }
+
+    /**
+     * Test the compare between a RC version and a final one.
+     */
+    public function test_compare_rc_stable()
+    {
+        $ver1 = new SystemVersion("0.2.1.RC1");
+        $ver2 = new SystemVersion("0.2.1");
         $this->assertTrue($ver2->is_newer_than($ver1));
     }
 
