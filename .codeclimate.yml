@@ -39,3 +39,4 @@ exclude_paths:
 - "datatables/"
 - "locale/"
 - "documentation/"
+- "templates/custom_css/"
