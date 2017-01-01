@@ -1,4 +1,8 @@
 [![Build Status](https://travis-ci.org/do9jhb/Part-DB.svg?branch=nextgen)](https://travis-ci.org/do9jhb/Part-DB)
+[![Test Coverage](https://codeclimate.com/github/do9jhb/Part-DB/badges/coverage.svg)](https://codeclimate.com/github/do9jhb/Part-DB/coverage)
+[![Code Climate](https://codeclimate.com/github/do9jhb/Part-DB/badges/gpa.svg)](https://codeclimate.com/github/do9jhb/Part-DB)
+[![Issue Count](https://codeclimate.com/github/do9jhb/Part-DB/badges/issue_count.svg)](https://codeclimate.com/github/do9jhb/Part-DB)
+
 
 # Part-DB
 
