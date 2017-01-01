@@ -299,7 +299,7 @@
     *
     *********************************************************************************/
     // __autoload should not be used,  because only one handler can be used! Smarty doesnt work if this is overwritten
-    function load($classname)
+    /*function load($classname)
     {
         $filename = "";
         if (strpos($classname, 'vlib') === 0)
@@ -316,7 +316,8 @@
         {
             include_once($filename);
         }
-    }
+    }*/
+
 
     /********************************************************************************
     *
@@ -334,10 +335,12 @@
      *
      ********************************************************************************/
 
+    include_once (BASE.'/lib/autoloader.php');
+
     include_once(BASE.'/lib/smarty/Autoloader.php');
     Smarty_Autoloader::register();
 
     //Load BBCode Parser
     include_once(BASE.'/lib/bbcode/Autoloader.php');
 
-    spl_autoload_register("load");
+    //spl_autoload_register("load");
