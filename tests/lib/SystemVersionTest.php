@@ -31,12 +31,12 @@ class SystemVersionTest extends PHPUnit_Framework_TestCase
         $this->assertEquals($version->get_version_type(),"unstable");
     }
 
-    /*
-     * Test if a invalid SystemVersion is detected and a Exception is thrown
+    /**
+     * @expectedException Exception
      */
     public function test_invalidVersion()
     {
-        $this->expectException(Exception::class);
+        //$this->expectException(Exception::class);
         $version = new SystemVersion("04.23.3R3.4");
     }
 

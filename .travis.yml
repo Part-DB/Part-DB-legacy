@@ -31,6 +31,7 @@ php:
 #      - doxygen-gui
 #      - graphviz
 
+
 # Build your code e.g. by calling make
 script:
   #- cd ./development
@@ -38,7 +39,7 @@ script:
   #- cd ./tools.sh -p -dev
   # Generate doxygen documentation
   #- cd ./tools.sh -d
-  - php phpunit.phar --configuration phpunit.xml
+  - phpunit --configuration phpunit.xml
 
 # Generate and deploy documentation
 after_success:
