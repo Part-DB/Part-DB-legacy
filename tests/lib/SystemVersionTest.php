@@ -27,7 +27,7 @@ class SystemVersionTest extends PHPUnit_Framework_TestCase
      */
     public function test_unstable()
     {
-        $version = new SystemVersion("0.3.4RC1");
+        $version = new SystemVersion("0.3.4.RC1");
         $this->assertEquals($version->get_version_type(),"unstable");
     }
 }
