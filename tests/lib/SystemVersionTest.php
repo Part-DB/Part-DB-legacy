@@ -47,7 +47,7 @@ class SystemVersionTest extends PHPUnit_Framework_TestCase
     {
         $ver1 = new SystemVersion("0.2.1");
         $ver2 = new SystemVersion("0.2.2");
-        $this->assertTrue($ver2->is_newer_than($ver1));
+        $this->assertFalse($ver1->is_newer_than($ver2));
     }
 
     public function test_compare_older()
@@ -55,6 +55,20 @@ class SystemVersionTest extends PHPUnit_Framework_TestCase
         $ver1 = new SystemVersion("0.2.1");
         $ver2 = new SystemVersion("0.2.2");
         $this->assertFalse($ver1->is_newer_than($ver2));
+    }
+
+    public function test_compare_equals()
+    {
+        $ver1 = new SystemVersion("0.2.1");
+        $ver2 = new SystemVersion("0.2.1");
+        $this->assertFalse($ver1->is_newer_than($ver2));
+    }
+
+    public function test_compare_rc()
+    {
+        $ver1 = new SystemVersion("0.2.1.RC1");
+        $ver2 = new SystemVersion("0.2.2.RC2");
+        $this->assertTrue($ver2->is_newer_than($ver1));
     }
 
 }
