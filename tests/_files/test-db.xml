@@ -1,0 +1,688 @@
+<?xml version="1.0"?>
+<mysqldump xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<database name="part-test">
+	<table_data name="attachement_types">
+	<row>
+		<field name="id">1</field>
+		<field name="name">Bilder</field>
+		<field name="parent_id" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="name">Datenblätter</field>
+		<field name="parent_id" xsi:nil="true" />
+	</row>
+	</table_data>
+	<table_data name="attachements">
+	<row>
+		<field name="id">1</field>
+		<field name="name">Test</field>
+		<field name="class_name">Part</field>
+		<field name="element_id">1</field>
+		<field name="type_id">2</field>
+		<field name="filename">%BASE%/data/media/faq.txt</field>
+		<field name="show_in_table">0</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="name">Test</field>
+		<field name="class_name">Part</field>
+		<field name="element_id">8</field>
+		<field name="type_id">1</field>
+		<field name="filename">%BASE%/data/media/htaccess.txt</field>
+		<field name="show_in_table">1</field>
+	</row>
+	</table_data>
+	<table_data name="categories">
+	<row>
+		<field name="id">1</field>
+		<field name="name">Category 1</field>
+		<field name="parent_id" xsi:nil="true" />
+		<field name="disable_footprints">0</field>
+		<field name="disable_manufacturers">0</field>
+		<field name="disable_autodatasheets">0</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="name">Category 2</field>
+		<field name="parent_id" xsi:nil="true" />
+		<field name="disable_footprints">0</field>
+		<field name="disable_manufacturers">0</field>
+		<field name="disable_autodatasheets">0</field>
+	</row>
+	<row>
+		<field name="id">3</field>
+		<field name="name">Category 3</field>
+		<field name="parent_id" xsi:nil="true" />
+		<field name="disable_footprints">0</field>
+		<field name="disable_manufacturers">0</field>
+		<field name="disable_autodatasheets">0</field>
+	</row>
+	<row>
+		<field name="id">4</field>
+		<field name="name">Category 1.1</field>
+		<field name="parent_id">1</field>
+		<field name="disable_footprints">0</field>
+		<field name="disable_manufacturers">0</field>
+		<field name="disable_autodatasheets">0</field>
+	</row>
+	<row>
+		<field name="id">5</field>
+		<field name="name">Category 1.2</field>
+		<field name="parent_id">1</field>
+		<field name="disable_footprints">0</field>
+		<field name="disable_manufacturers">0</field>
+		<field name="disable_autodatasheets">0</field>
+	</row>
+	<row>
+		<field name="id">6</field>
+		<field name="name">Category 2.1</field>
+		<field name="parent_id">2</field>
+		<field name="disable_footprints">0</field>
+		<field name="disable_manufacturers">0</field>
+		<field name="disable_autodatasheets">0</field>
+	</row>
+	<row>
+		<field name="id">8</field>
+		<field name="name">Category 2.3</field>
+		<field name="parent_id">2</field>
+		<field name="disable_footprints">0</field>
+		<field name="disable_manufacturers">0</field>
+		<field name="disable_autodatasheets">0</field>
+	</row>
+	<row>
+		<field name="id">9</field>
+		<field name="name">Category 2.3.1</field>
+		<field name="parent_id">8</field>
+		<field name="disable_footprints">0</field>
+		<field name="disable_manufacturers">0</field>
+		<field name="disable_autodatasheets">0</field>
+	</row>
+	<row>
+		<field name="id">10</field>
+		<field name="name">Category 1.2.1</field>
+		<field name="parent_id">5</field>
+		<field name="disable_footprints">0</field>
+		<field name="disable_manufacturers">0</field>
+		<field name="disable_autodatasheets">0</field>
+	</row>
+	<row>
+		<field name="id">11</field>
+		<field name="name">Category 1.2.1.1</field>
+		<field name="parent_id">10</field>
+		<field name="disable_footprints">0</field>
+		<field name="disable_manufacturers">0</field>
+		<field name="disable_autodatasheets">0</field>
+	</row>
+	<row>
+		<field name="id">12</field>
+		<field name="name">Category 3.1</field>
+		<field name="parent_id">3</field>
+		<field name="disable_footprints">1</field>
+		<field name="disable_manufacturers">0</field>
+		<field name="disable_autodatasheets">0</field>
+	</row>
+	<row>
+		<field name="id">13</field>
+		<field name="name">Category 3.2</field>
+		<field name="parent_id">3</field>
+		<field name="disable_footprints">0</field>
+		<field name="disable_manufacturers">1</field>
+		<field name="disable_autodatasheets">0</field>
+	</row>
+	<row>
+		<field name="id">14</field>
+		<field name="name">Category 3.3</field>
+		<field name="parent_id">3</field>
+		<field name="disable_footprints">0</field>
+		<field name="disable_manufacturers">0</field>
+		<field name="disable_autodatasheets">0</field>
+	</row>
+	</table_data>
+	<table_data name="device_parts">
+	<row>
+		<field name="id">1</field>
+		<field name="id_part">6</field>
+		<field name="id_device">1</field>
+		<field name="quantity">10</field>
+		<field name="mountnames">Test</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="id_part">2</field>
+		<field name="id_device">1</field>
+		<field name="quantity">5</field>
+		<field name="mountnames">Test2</field>
+	</row>
+	<row>
+		<field name="id">3</field>
+		<field name="id_part">8</field>
+		<field name="id_device">1</field>
+		<field name="quantity">5</field>
+		<field name="mountnames"></field>
+	</row>
+	<row>
+		<field name="id">4</field>
+		<field name="id_part">4</field>
+		<field name="id_device">2</field>
+		<field name="quantity">10</field>
+		<field name="mountnames"></field>
+	</row>
+	</table_data>
+	<table_data name="devices">
+	<row>
+		<field name="id">1</field>
+		<field name="name">Device 1</field>
+		<field name="parent_id" xsi:nil="true" />
+		<field name="order_quantity">0</field>
+		<field name="order_only_missing_parts">0</field>
+		<field name="datetime_added">2017-01-02 13:43:05</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="name">Device 2</field>
+		<field name="parent_id" xsi:nil="true" />
+		<field name="order_quantity">0</field>
+		<field name="order_only_missing_parts">0</field>
+		<field name="datetime_added">2017-01-02 13:43:11</field>
+	</row>
+	</table_data>
+	<table_data name="footprints">
+	<row>
+		<field name="id">1</field>
+		<field name="name">Footprint 1</field>
+		<field name="filename">%BASE%/img/footprints/Aktiv/ICs/DIP/IC_DIP08.png</field>
+		<field name="filename_3d">%BASE%/models/Housings_DIP/DIP-8_W7.62mm.x3d</field>
+		<field name="parent_id" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="name">Footprint 2</field>
+		<field name="filename"></field>
+		<field name="filename_3d">%BASE%/models/Sockets_DIP/DIP-14__300.x3d</field>
+		<field name="parent_id" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">3</field>
+		<field name="name">Footprint 3</field>
+		<field name="filename"></field>
+		<field name="filename_3d">%BASE%/models/Housings_DIP/DIP-28_W15.24mm.x3d</field>
+		<field name="parent_id" xsi:nil="true" />
+	</row>
+	<row>
+		<field name="id">4</field>
+		<field name="name">Footprint 1.1</field>
+		<field name="filename">%BASE%/img/footprints/Aktiv/ICs/DIP/IC_DIP16.png</field>
+		<field name="filename_3d"></field>
+		<field name="parent_id">1</field>
+	</row>
+	<row>
+		<field name="id">5</field>
+		<field name="name">Footprint 1.2</field>
+		<field name="filename">%BASE%/img/footprints/Aktiv/ICs/DIP/IC_DIP14.png</field>
+		<field name="filename_3d"></field>
+		<field name="parent_id">1</field>
+	</row>
+	<row>
+		<field name="id">6</field>
+		<field name="name">Footprint 3.1</field>
+		<field name="filename"></field>
+		<field name="filename_3d"></field>
+		<field name="parent_id">3</field>
+	</row>
+	<row>
+		<field name="id">7</field>
+		<field name="name">Footprint 1.1.1</field>
+		<field name="filename"></field>
+		<field name="filename_3d"></field>
+		<field name="parent_id">4</field>
+	</row>
+	</table_data>
+	<table_data name="internal">
+	<row>
+		<field name="keyName">dbVersion</field>
+		<field name="keyValue">18</field>
+	</row>
+	</table_data>
+	<table_data name="manufacturers">
+	<row>
+		<field name="id">1</field>
+		<field name="name">Manufacturer 1</field>
+		<field name="parent_id" xsi:nil="true" />
+		<field name="address">Street 1
+12345 City</field>
+		<field name="phone_number">0123456789</field>
+		<field name="fax_number">0123456789</field>
+		<field name="email_address">contact@manu.de</field>
+		<field name="website">http://manu.de</field>
+		<field name="auto_product_url">http://manu.de/part?name=%PARTNUMBER%</field>
+		<field name="datetime_added">2017-01-02 13:42:37</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="name">Manufacturer 2</field>
+		<field name="parent_id" xsi:nil="true" />
+		<field name="address"></field>
+		<field name="phone_number"></field>
+		<field name="fax_number"></field>
+		<field name="email_address"></field>
+		<field name="website"></field>
+		<field name="auto_product_url"></field>
+		<field name="datetime_added">2017-01-02 13:42:53</field>
+	</row>
+	</table_data>
+	<table_data name="orderdetails">
+	<row>
+		<field name="id">1</field>
+		<field name="part_id">1</field>
+		<field name="id_supplier">1</field>
+		<field name="supplierpartnr">BC 457</field>
+		<field name="obsolete">0</field>
+		<field name="supplier_product_url"></field>
+		<field name="datetime_added">2017-01-02 13:48:54</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="part_id">1</field>
+		<field name="id_supplier">1</field>
+		<field name="supplierpartnr">Test</field>
+		<field name="obsolete">0</field>
+		<field name="supplier_product_url"></field>
+		<field name="datetime_added">2017-01-02 13:49:26</field>
+	</row>
+	<row>
+		<field name="id">3</field>
+		<field name="part_id">2</field>
+		<field name="id_supplier">1</field>
+		<field name="supplierpartnr">Test</field>
+		<field name="obsolete">1</field>
+		<field name="supplier_product_url"></field>
+		<field name="datetime_added">2017-01-02 14:09:34</field>
+	</row>
+	<row>
+		<field name="id">4</field>
+		<field name="part_id">8</field>
+		<field name="id_supplier">2</field>
+		<field name="supplierpartnr">Test2</field>
+		<field name="obsolete">1</field>
+		<field name="supplier_product_url"></field>
+		<field name="datetime_added">2017-01-02 14:10:01</field>
+	</row>
+	</table_data>
+	<table_data name="parts">
+	<row>
+		<field name="id">1</field>
+		<field name="id_category">4</field>
+		<field name="name">Part 1</field>
+		<field name="description">[b]Part 1[/b] description</field>
+		<field name="instock">10</field>
+		<field name="mininstock">3</field>
+		<field name="comment">[b]bold[/b] normal</field>
+		<field name="visible">0</field>
+		<field name="id_footprint">1</field>
+		<field name="id_storelocation">4</field>
+		<field name="order_orderdetails_id" xsi:nil="true" />
+		<field name="order_quantity">1</field>
+		<field name="manual_order">0</field>
+		<field name="id_manufacturer">1</field>
+		<field name="id_master_picture_attachement" xsi:nil="true" />
+		<field name="manufacturer_product_url"></field>
+		<field name="datetime_added">2017-01-02 13:44:00</field>
+		<field name="last_modified">2017-01-02 14:08:06</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="id_category">4</field>
+		<field name="name">Part 2</field>
+		<field name="description">Part 2 descripton</field>
+		<field name="instock">3</field>
+		<field name="mininstock">10</field>
+		<field name="comment"></field>
+		<field name="visible">0</field>
+		<field name="id_footprint" xsi:nil="true" />
+		<field name="id_storelocation" xsi:nil="true" />
+		<field name="order_orderdetails_id" xsi:nil="true" />
+		<field name="order_quantity">7</field>
+		<field name="manual_order">0</field>
+		<field name="id_manufacturer" xsi:nil="true" />
+		<field name="id_master_picture_attachement" xsi:nil="true" />
+		<field name="manufacturer_product_url"></field>
+		<field name="datetime_added">2017-01-02 13:44:24</field>
+		<field name="last_modified">2017-01-02 14:09:41</field>
+	</row>
+	<row>
+		<field name="id">3</field>
+		<field name="id_category">11</field>
+		<field name="name">Part 3</field>
+		<field name="description">Part 3 description</field>
+		<field name="instock">0</field>
+		<field name="mininstock">0</field>
+		<field name="comment"></field>
+		<field name="visible">0</field>
+		<field name="id_footprint" xsi:nil="true" />
+		<field name="id_storelocation">6</field>
+		<field name="order_orderdetails_id" xsi:nil="true" />
+		<field name="order_quantity">1</field>
+		<field name="manual_order">0</field>
+		<field name="id_manufacturer">2</field>
+		<field name="id_master_picture_attachement" xsi:nil="true" />
+		<field name="manufacturer_product_url"></field>
+		<field name="datetime_added">2017-01-02 13:45:18</field>
+		<field name="last_modified">2017-01-02 13:45:18</field>
+	</row>
+	<row>
+		<field name="id">4</field>
+		<field name="id_category">10</field>
+		<field name="name">Part 4</field>
+		<field name="description">Part 4 description</field>
+		<field name="instock">0</field>
+		<field name="mininstock">0</field>
+		<field name="comment"></field>
+		<field name="visible">0</field>
+		<field name="id_footprint" xsi:nil="true" />
+		<field name="id_storelocation" xsi:nil="true" />
+		<field name="order_orderdetails_id" xsi:nil="true" />
+		<field name="order_quantity">1</field>
+		<field name="manual_order">0</field>
+		<field name="id_manufacturer" xsi:nil="true" />
+		<field name="id_master_picture_attachement" xsi:nil="true" />
+		<field name="manufacturer_product_url"></field>
+		<field name="datetime_added">2017-01-02 13:45:34</field>
+		<field name="last_modified">2017-01-02 13:45:34</field>
+	</row>
+	<row>
+		<field name="id">5</field>
+		<field name="id_category">1</field>
+		<field name="name">Resistor 1</field>
+		<field name="description">470 Ohm</field>
+		<field name="instock">0</field>
+		<field name="mininstock">0</field>
+		<field name="comment"></field>
+		<field name="visible">0</field>
+		<field name="id_footprint">1</field>
+		<field name="id_storelocation" xsi:nil="true" />
+		<field name="order_orderdetails_id" xsi:nil="true" />
+		<field name="order_quantity">1</field>
+		<field name="manual_order">0</field>
+		<field name="id_manufacturer" xsi:nil="true" />
+		<field name="id_master_picture_attachement" xsi:nil="true" />
+		<field name="manufacturer_product_url"></field>
+		<field name="datetime_added">2017-01-02 13:46:02</field>
+		<field name="last_modified">2017-01-02 13:46:02</field>
+	</row>
+	<row>
+		<field name="id">6</field>
+		<field name="id_category">12</field>
+		<field name="name">Resistor 2</field>
+		<field name="description">450 Ohm</field>
+		<field name="instock">3</field>
+		<field name="mininstock">0</field>
+		<field name="comment"></field>
+		<field name="visible">0</field>
+		<field name="id_footprint" xsi:nil="true" />
+		<field name="id_storelocation" xsi:nil="true" />
+		<field name="order_orderdetails_id" xsi:nil="true" />
+		<field name="order_quantity">1</field>
+		<field name="manual_order">0</field>
+		<field name="id_manufacturer">2</field>
+		<field name="id_master_picture_attachement" xsi:nil="true" />
+		<field name="manufacturer_product_url"></field>
+		<field name="datetime_added">2017-01-02 13:46:18</field>
+		<field name="last_modified">2017-01-02 13:46:18</field>
+	</row>
+	<row>
+		<field name="id">7</field>
+		<field name="id_category">14</field>
+		<field name="name">Resistor 4</field>
+		<field name="description"></field>
+		<field name="instock">3</field>
+		<field name="mininstock">1</field>
+		<field name="comment"></field>
+		<field name="visible">0</field>
+		<field name="id_footprint" xsi:nil="true" />
+		<field name="id_storelocation" xsi:nil="true" />
+		<field name="order_orderdetails_id" xsi:nil="true" />
+		<field name="order_quantity">10</field>
+		<field name="manual_order">1</field>
+		<field name="id_manufacturer" xsi:nil="true" />
+		<field name="id_master_picture_attachement" xsi:nil="true" />
+		<field name="manufacturer_product_url"></field>
+		<field name="datetime_added">2017-01-02 13:46:30</field>
+		<field name="last_modified">2017-01-02 13:46:36</field>
+	</row>
+	<row>
+		<field name="id">8</field>
+		<field name="id_category">2</field>
+		<field name="name">Capacitor</field>
+		<field name="description">470 Farad</field>
+		<field name="instock">10</field>
+		<field name="mininstock">0</field>
+		<field name="comment"></field>
+		<field name="visible">0</field>
+		<field name="id_footprint" xsi:nil="true" />
+		<field name="id_storelocation">9</field>
+		<field name="order_orderdetails_id" xsi:nil="true" />
+		<field name="order_quantity">1</field>
+		<field name="manual_order">0</field>
+		<field name="id_manufacturer">2</field>
+		<field name="id_master_picture_attachement" xsi:nil="true" />
+		<field name="manufacturer_product_url"></field>
+		<field name="datetime_added">2017-01-02 13:47:01</field>
+		<field name="last_modified">2017-01-02 14:10:21</field>
+	</row>
+	<row>
+		<field name="id">9</field>
+		<field name="id_category">5</field>
+		<field name="name">Capacitor 10</field>
+		<field name="description">470</field>
+		<field name="instock">2</field>
+		<field name="mininstock">0</field>
+		<field name="comment"></field>
+		<field name="visible">0</field>
+		<field name="id_footprint" xsi:nil="true" />
+		<field name="id_storelocation">16</field>
+		<field name="order_orderdetails_id" xsi:nil="true" />
+		<field name="order_quantity">1</field>
+		<field name="manual_order">0</field>
+		<field name="id_manufacturer">1</field>
+		<field name="id_master_picture_attachement" xsi:nil="true" />
+		<field name="manufacturer_product_url"></field>
+		<field name="datetime_added">2017-01-02 13:47:35</field>
+		<field name="last_modified">2017-01-02 13:47:35</field>
+	</row>
+	</table_data>
+	<table_data name="pricedetails">
+	<row>
+		<field name="id">1</field>
+		<field name="orderdetails_id">1</field>
+		<field name="price">0.45000</field>
+		<field name="price_related_quantity">1</field>
+		<field name="min_discount_quantity">1</field>
+		<field name="manual_input">1</field>
+		<field name="last_modified">2017-01-02 13:49:06</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="orderdetails_id">1</field>
+		<field name="price">0.13000</field>
+		<field name="price_related_quantity">10</field>
+		<field name="min_discount_quantity">10</field>
+		<field name="manual_input">1</field>
+		<field name="last_modified">2017-01-02 13:49:14</field>
+	</row>
+	<row>
+		<field name="id">4</field>
+		<field name="orderdetails_id">2</field>
+		<field name="price">0.15000</field>
+		<field name="price_related_quantity">1</field>
+		<field name="min_discount_quantity">1</field>
+		<field name="manual_input">1</field>
+		<field name="last_modified">2017-01-02 14:05:11</field>
+	</row>
+	<row>
+		<field name="id">9</field>
+		<field name="orderdetails_id">3</field>
+		<field name="price">0.10000</field>
+		<field name="price_related_quantity">1</field>
+		<field name="min_discount_quantity">1</field>
+		<field name="manual_input">1</field>
+		<field name="last_modified">2017-01-02 14:09:41</field>
+	</row>
+	</table_data>
+	<table_data name="storelocations">
+	<row>
+		<field name="id">1</field>
+		<field name="name">Store Loc 1</field>
+		<field name="parent_id" xsi:nil="true" />
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:27:35</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="name">Store Loc 2</field>
+		<field name="parent_id" xsi:nil="true" />
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:27:54</field>
+	</row>
+	<row>
+		<field name="id">3</field>
+		<field name="name">Store Loc 3</field>
+		<field name="parent_id" xsi:nil="true" />
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:28:04</field>
+	</row>
+	<row>
+		<field name="id">4</field>
+		<field name="name">Store Loc 1-A01</field>
+		<field name="parent_id">1</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:28:39</field>
+	</row>
+	<row>
+		<field name="id">5</field>
+		<field name="name">Store Loc 1-A02</field>
+		<field name="parent_id">1</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:28:39</field>
+	</row>
+	<row>
+		<field name="id">6</field>
+		<field name="name">Store Loc 1-A03</field>
+		<field name="parent_id">1</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:28:39</field>
+	</row>
+	<row>
+		<field name="id">7</field>
+		<field name="name">Store Loc 1-A04</field>
+		<field name="parent_id">1</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:28:39</field>
+	</row>
+	<row>
+		<field name="id">8</field>
+		<field name="name">Store Loc 1-A05</field>
+		<field name="parent_id">1</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:28:39</field>
+	</row>
+	<row>
+		<field name="id">9</field>
+		<field name="name">Store Loc 1-A06</field>
+		<field name="parent_id">1</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:28:39</field>
+	</row>
+	<row>
+		<field name="id">10</field>
+		<field name="name">Store Loc 1-A07</field>
+		<field name="parent_id">1</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:28:39</field>
+	</row>
+	<row>
+		<field name="id">11</field>
+		<field name="name">Store Loc 1-A08</field>
+		<field name="parent_id">1</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:28:39</field>
+	</row>
+	<row>
+		<field name="id">12</field>
+		<field name="name">Store Loc 1-A09</field>
+		<field name="parent_id">1</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:28:39</field>
+	</row>
+	<row>
+		<field name="id">13</field>
+		<field name="name">Store Loc 1-A10</field>
+		<field name="parent_id">1</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:28:39</field>
+	</row>
+	<row>
+		<field name="id">14</field>
+		<field name="name">Store Loc 2-A0</field>
+		<field name="parent_id">2</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:29:11</field>
+	</row>
+	<row>
+		<field name="id">15</field>
+		<field name="name">Store Loc 2-A1</field>
+		<field name="parent_id">2</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:29:11</field>
+	</row>
+	<row>
+		<field name="id">16</field>
+		<field name="name">Store Loc 2-A2</field>
+		<field name="parent_id">2</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:29:11</field>
+	</row>
+	<row>
+		<field name="id">17</field>
+		<field name="name">Store Loc 2-A3</field>
+		<field name="parent_id">2</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:29:11</field>
+	</row>
+	<row>
+		<field name="id">18</field>
+		<field name="name">Store Loc 1-A01-1</field>
+		<field name="parent_id">4</field>
+		<field name="is_full">0</field>
+		<field name="datetime_added">2017-01-02 13:29:29</field>
+	</row>
+	</table_data>
+	<table_data name="suppliers">
+	<row>
+		<field name="id">1</field>
+		<field name="name">Supplier 1</field>
+		<field name="parent_id" xsi:nil="true" />
+		<field name="address">Street 1
+12345 City</field>
+		<field name="phone_number">0123456789</field>
+		<field name="fax_number">0123456789</field>
+		<field name="email_address">mail@supplier.de</field>
+		<field name="website">http://supplier.de</field>
+		<field name="auto_product_url">http://supplier.de/part?name=%PARTNUMBER%</field>
+		<field name="datetime_added">2017-01-02 13:41:16</field>
+	</row>
+	<row>
+		<field name="id">2</field>
+		<field name="name">Supplier 2</field>
+		<field name="parent_id" xsi:nil="true" />
+		<field name="address"></field>
+		<field name="phone_number"></field>
+		<field name="fax_number"></field>
+		<field name="email_address"></field>
+		<field name="website"></field>
+		<field name="auto_product_url"></field>
+		<field name="datetime_added">2017-01-02 13:41:32</field>
+	</row>
+	</table_data>
+</database>
+</mysqldump>

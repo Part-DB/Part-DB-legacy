@@ -1,7 +1,18 @@
-<phpunit bootstrap="tests/bootstrap.php">
+<phpunit bootstrap="tests/bootstrap.php"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="false"
+         convertWarningsToExceptions="false">
     <testsuites>
         <testsuite name="Part-DB">
             <directory>tests</directory>
         </testsuite>
     </testsuites>
+
+    <php>
+        <var name="DB_DSN" value="mysql:dbname=test-db;host=localhost" />
+        <var name="DB_USER" value="travis" />
+        <var name="DB_PASSWD" value="" />
+        <var name="DB_DBNAME" value="test-db" />
+    </php>
+
 </phpunit>

@@ -88,6 +88,8 @@ include_once(BASE.'/updates/db_update_steps.php');
         /** @brief (string) The SQL Mode */
         private $sql_mode = '';//'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE'; TODO!
 
+        private $pdo_type = '';
+
         /********************************************************************************
         *
         *   Constructor / Destructor
@@ -100,36 +102,49 @@ include_once(BASE.'/updates/db_update_steps.php');
          * @note    You don't have to supply database connection data because
          *          the data from the config.php will be used.
          *
+         * @param PDO $pdo When a PDO object is given then this will be used instead of a created one.
+         *
          * @throws Exception if the database couldn't connect successfully
          */
-        public function __construct()
+        public function __construct($pdo = null)
         {
             global $config;
 
             // connect with database
             try
             {
-                switch($config['db']['type'])
+                if($pdo===null)
                 {
-                    case 'mysql': // MySQL
-                        $this->pdo = new PDO('mysql:host='.$config['db']['host'].';dbname='.$config['db']['name'].';charset=utf8',
+                    switch($config['db']['type'])
+                    {
+                        case 'mysql': // MySQL
+                            $this->pdo = new PDO('mysql:host='.$config['db']['host'].';dbname='.$config['db']['name'].';charset=utf8',
                                             $config['db']['user'], $config['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
                                                                                                     PDO::ATTR_PERSISTENT            => true));
-                        break;
+                            break;
 
-                    //case 'sqlite': // SQLite 3
-                    //case 'sqlite2': //SQLite 2
-                        //$filename = realpath($config['db']['name']) ? realpath($config['db']['name']) : $config['db']['name'];
-                        //$this->pdo = new PDO($config['db']['type'].':'.$filename, NULL, NULL);
-                        break;
+                            //case 'sqlite': // SQLite 3
+                            //case 'sqlite2': //SQLite 2
+                            //$filename = realpath($config['db']['name']) ? realpath($config['db']['name']) : $config['db']['name'];
+                            //$this->pdo = new PDO($config['db']['type'].':'.$filename, NULL, NULL);
+                            break;
 
-                    default:
-                        throw new Exception(_('Unbekannter Datenbanktyp: "').$config['db']['type'].'"');
-                        break;
+                        default:
+                            throw new Exception(_('Unbekannter Datenbanktyp: "').$config['db']['type'].'"');
+                            break;
+                    }
+                    $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    $this->pdo->exec("SET SQL_MODE='".$this->sql_mode."'");
+                }
+                else
+                {
+                    $this->pdo = $pdo;
+                    $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+                    //$this->pdo->exec("SET SQL_MODE='".$this->sql_mode."'");
                 }
 
-                $this->pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-                $this->pdo->exec("SET SQL_MODE='".$this->sql_mode."'");
+                $this->pdo_type = $this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+
             }
             catch (PDOException $e)
             {
@@ -141,7 +156,7 @@ include_once(BASE.'/updates/db_update_steps.php');
             }
 
             // make some checks
-            if ($this->get_current_version() > 12)
+            if ($this->get_current_version() > 12 && $this->pdo_type != "sqlite")
             {
                 // Check if all tables uses the engine "InnoDB" (this is very important for all database versions greater than 12!)
                 // Without InnoDB, transactions are not supported!
@@ -823,8 +838,16 @@ include_once(BASE.'/updates/db_update_steps.php');
          */
         public function does_table_exist($tablename)
         {
-            //does not work with SQLite!
-            $query_data = $this->query("SHOW TABLES LIKE ?", array($tablename));
+            if($this->pdo->getAttribute(PDO::ATTR_DRIVER_NAME)=="sqlite")
+            {
+                $query_data = $this->query("SELECT name FROM sqlite_master WHERE type='table' AND name='".$tablename."'");
+            }
+            else
+            {
+                //does not work with SQLite!
+                $query_data = $this->query("SHOW TABLES LIKE ?", array($tablename));
+            }
+
 
             if (count($query_data) >= 1)
                 return true;

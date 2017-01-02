@@ -12,6 +12,9 @@ env:
     #- DOXYFILE: $TRAVIS_BUILD_DIR/<path_to_your_doxygen_configuration_file>
     #- GH_REPO_REF: github.com/<your_name>/<your_repo>.git
 
+services:
+  #- mysql
+
 language: php
 php:
   - '5.5'
@@ -24,6 +27,9 @@ php:
 addons:
     code_climate:
         repo_token: 1afb25d82e46d481471a191d4dfb50104b300a2d2c77259e10445bf111a07175
+
+before_install:
+   #- mysql -e 'CREATE DATABASE IF NOT EXISTS test-db;'
 
 # Install dependencies
 #addons:
