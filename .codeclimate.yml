@@ -25,6 +25,10 @@ engines:
               enabled: false
             PhanNonClassMethodCall:
               enabled: false
+            PhanUndeclaredExtendedClass:
+              enabled: false
+            PhanUndeclaredClass:
+              enabled: false
 
 ratings:
   paths:
