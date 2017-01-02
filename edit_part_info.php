@@ -92,7 +92,7 @@
     if (isset($_REQUEST["orderdetails_apply"]))         {$action = 'orderdetails_apply';    $orderdetails_id = $_REQUEST["orderdetails_apply"];}
     if (isset($_REQUEST["orderdetails_delete"]))        {$action = 'orderdetails_delete';   $orderdetails_id = $_REQUEST["orderdetails_delete"];}
 
-    if (isset($_REQUEST["pricedetails_add"]))           {$action = 'pricedetails_add';      $pricedetails_id = "new"; $orderdetails_id = $_REQUEST["pricedetails_add"];}
+    if (isset($_REQUEST["pricedetails_add"]))           {$action = 'pricedetails_add';      $orderdetails_id = $_REQUEST["pricedetails_add"]; $pricedetails_id = "new_".$orderdetails_id;}
     if (isset($_REQUEST["pricedetails_apply"]))         {$action = 'pricedetails_apply';    $pricedetails_id = $_REQUEST["pricedetails_apply"];}
     if (isset($_REQUEST["pricedetails_delete"]))        {$action = 'pricedetails_delete';   $pricedetails_id = $_REQUEST["pricedetails_delete"];}
 
@@ -554,7 +554,7 @@
                         $next_min_discount_quantity = 1;
 
                     $pricedetails_loop[] = array(       'orderdetails_id'           => $orderdetails->get_id(),
-                                                        'pricedetails_id'           => 'new',
+                                                        'pricedetails_id'           => 'new_'.$orderdetails->get_id(),
                                                         'min_discount_quantity'     => $next_min_discount_quantity,
                                                         'price'                     => 0,
                                                         'price_related_quantity'    => 1);

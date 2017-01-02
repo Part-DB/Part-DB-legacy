@@ -60,10 +60,10 @@
                                     </thead>
 
                                     {foreach $detail.pricedetails as $price}
-                                        <!--the alternating background colors are created here-->
                                         <tr >
                                             <td>
-                                                {if $price.pricedetails_id == "new"}<span class="label label-default">{t}Neu:{/t}</span>{/if}
+                                                {* Check if id contains the word "new" *}
+                                                {if strpos($price.pricedetails_id , "new") !== false}<span class="label label-default">{t}Neu:{/t}</span>{/if}
                                             </td>
 
                                             <td>
@@ -82,9 +82,7 @@
 
                                             <td>
                                                 <input type="hidden" name="pid" value="{$pid}">
-                                                <!-- <input type="hidden" name="$price.pricedetails_id" value="{$price.pricedetails_id}"> -->
-                                                <!-- <input type="hidden" name="$detail.orderdetails_id" value="{$detail.orderdetails_id}"> -->
-                                                {if $price.pricedetails_id == "new"}
+                                                {if strpos($price.pricedetails_id , "new") !== false}
                                                     <button type="submit" class="btn btn-default" name="pricedetails_add" value="{$detail.orderdetails_id}">{t}Hinzufügen{/t}</button>
                                                 {else}
                                                     <button class="btn btn-default" type="submit" name="pricedetails_apply" value="{$price.pricedetails_id}">{t}Übernehmen{/t}</button>
