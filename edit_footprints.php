@@ -212,7 +212,7 @@
                 for ($i=0; $i < $broken_footprints_count; $i++)
                 {
                     $spf_footprint_id   = isset($_REQUEST['broken_footprint_id_'.$i])  ? $_REQUEST['broken_footprint_id_'.$i] : -1; // -1 will produce an error
-                    $spf_new_filename   = isset($_REQUEST['proposed_3d_filename_'.$i])    ? to_unix_path($_REQUEST['proposed_3d_filename_'.$i])   : NULL;
+                    $spf_new_filename   = isset($_REQUEST['proposed_filename_'.$i])    ? to_unix_path($_REQUEST['proposed_filename_'.$i])   : NULL;
                     $spf_checked        = isset($_REQUEST['filename_checkbox_'.$i])     || $save_all_proposed_filenames;
 
                     if ((strlen($spf_new_filename) > 0) && (! is_path_absolute_and_unix($spf_new_filename)))
