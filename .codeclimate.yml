@@ -23,6 +23,8 @@ engines:
       checks:
             PhanUndeclaredClassMethod:
               enabled: false
+            PhanNonClassMethodCall:
+              enabled: false
 
 ratings:
   paths:
