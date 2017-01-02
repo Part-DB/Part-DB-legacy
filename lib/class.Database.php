@@ -917,7 +917,15 @@ include_once(BASE.'/updates/db_update_steps.php');
          */
         public function delete_record($tablename, $id)
         {
-            $this->execute( 'DELETE FROM '.$tablename.' WHERE id=? LIMIT 1', array($id));
+            $query = 'DELETE FROM '.$tablename.' WHERE id=?';
+
+            //SQLite dont understand the LIMIT Clause on DELETE and UPDATE
+            if($this->pdo_type!="sqlite")
+            {
+                $query .= " LIMIT 1";
+            }
+
+            $this->execute($query , array($id));
         }
 
         /**
@@ -941,7 +949,12 @@ include_once(BASE.'/updates/db_update_steps.php');
 
             $query =    'UPDATE '.$tablename.' SET '.
                         implode('=?, ', array_keys($values)).'=? '.
-                        'WHERE id=? LIMIT 1';
+                        'WHERE id=?';
+
+            if($this->pdo_type!="sqlite")
+            {
+                $query .= " LIMIT 1";
+            }
 
             $values[] = $id; // for the last placeholder in "WHERE id=?"
 

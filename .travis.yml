@@ -13,7 +13,7 @@ env:
     #- GH_REPO_REF: github.com/<your_name>/<your_repo>.git
 
 services:
-  #- mysql
+  - mysql
 
 language: php
 php:
@@ -29,7 +29,7 @@ addons:
         repo_token: 1afb25d82e46d481471a191d4dfb50104b300a2d2c77259e10445bf111a07175
 
 before_install:
-   #- mysql -e 'CREATE DATABASE IF NOT EXISTS test-db;'
+   - mysql -e 'CREATE DATABASE IF NOT EXISTS test-db;'
 
 # Install dependencies
 #addons:
@@ -52,6 +52,8 @@ script:
   # Generate doxygen documentation
   #- cd ./tools.sh -d
   - phpunit --configuration phpunit.xml --coverage-clover build/logs/clover.xml
+  - phpunit --configuration phpunit_mysql.xml --coverage-clover build/logs/clover.xml
+
 
 after_success:
   - vendor/bin/test-reporter

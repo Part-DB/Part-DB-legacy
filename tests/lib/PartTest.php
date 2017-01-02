@@ -25,6 +25,11 @@ class PartTest extends DBTest
         $this->part               = new Part($this->database, $this->current_user, $this->log, 1);
     }
 
+    public function getPart($pid)
+    {
+        return new Part($this->database, $this->current_user, $this->log, $pid);
+    }
+
     public function test_Instock()
     {
         $this->assertEquals(10, $this->part->get_instock());
@@ -61,5 +66,95 @@ class PartTest extends DBTest
     public function test_Comment_raw()
     {
         $this->assertEquals("[b]bold[/b] normal", $this->part->get_comment(false));
+    }
+
+    /**
+     * Try to delete a part which is used in a device.
+     * @expectedException Exception
+     */
+    public function test_delete_on_device_part()
+    {
+        $part = $this->getPart(8);
+        $part->delete();
+    }
+
+    public function test_force_delete_on_device_part()
+    {
+        $part = $this->getPart(8);
+        $part->delete(false, true);
+        $part = null;
+        try {
+            $part = new Part($this->database, $this->current_user, $this->log, 8);
+        }
+        catch (Exception $e)
+        {
+
+        }
+        //When an exception occured above, then the part was deleted.
+        $this->assertNull($part);
+    }
+
+    /**
+     * Test the generation of a EAN8 Barcode Content
+     */
+    public function test_barcode_ean8()
+    {
+        $part = $this->getPart(1);
+        $this->assertSame("0000001",$part->get_barcode_content("EAN8"));
+    }
+
+    /**
+     *  Test generation of a QR-Code content
+     */
+    public function test_barcode_qr()
+    {
+        $part = $this->getPart(1);
+        $this->assertEquals("Part-DB; Part: 1", $part->get_barcode_content("QR"));
+    }
+
+    /**
+     * Test Barcode content generation with an invalid type
+     * @expectedException Exception
+     */
+    public function test_barcode_invalid()
+    {
+        $part = $this->getPart(1);
+        $part->get_barcode_content("rdep");
+    }
+
+    public function test_get_obsolete_false()
+    {
+        $part = $this->getPart(1);
+        $this->assertFalse($part->get_obsolete());
+    }
+
+
+    /**
+     * Try to delete a part and check if it is really deleted.
+     * @expectedException Exception
+     */
+    public function test_delete_part()
+    {
+        $part = $this->getPart(1);
+        $part->delete();
+        new Part($this->database, $this->current_user, $this->log, 1);
+    }
+
+    /**
+     * Test the behaviour on invalid pid such as -1
+     * @expectedException Exception
+     */
+    public function test_invalid_pid()
+    {
+        new Part($this->database, $this->current_user, $this->log, -1);
+    }
+
+    /**
+     * Test the behaviour on pid which dont have a part associated.
+     * @expectedException Exception
+     */
+    public function test_out_of_bound_pid()
+    {
+        new Part($this->database, $this->current_user, $this->log, 100);
     }
 }

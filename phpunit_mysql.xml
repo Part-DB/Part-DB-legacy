@@ -9,7 +9,7 @@
     </testsuites>
 
     <php>
-        <var name="DB_TYPE" value="sqlite" />
+        <var name="DB_TYPE" value="mysql" />
         <var name="DB_DSN" value="mysql:dbname=test-db;host=localhost" />
         <var name="DB_USER" value="travis" />
         <var name="DB_PASSWD" value="" />
