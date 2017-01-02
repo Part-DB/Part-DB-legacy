@@ -13,10 +13,17 @@ engines:
     enabled: true
   phpmd:
     enabled: true
+    checks:
+          Controversial/CamelCaseVariableName:
+            enabled: false
   phan:
       enabled: true
       config:
         file_extensions: "php"
+      checks:
+            PhanUndeclaredClassMethod:
+              enabled: false
+
 ratings:
   paths:
   - "**.css"
