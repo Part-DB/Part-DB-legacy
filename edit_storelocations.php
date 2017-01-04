@@ -40,213 +40,148 @@
 
     include_once('start_session.php');
 
-    $messages = array();
-    $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
+    class EditStorelocationsPage extends EditPage {
 
-    /********************************************************************************
-    *
-    *   Evaluate $_REQUEST
-    *
-    *   Notes:
-    *       - "$selected_id == 0" means that we will show the form for creating a new storelocation
-    *       - the $new_* variables contains the new values after editing an existing
-    *           or creating a new storelocation
-    *
-    *********************************************************************************/
+        protected $selected_id, $new_name, $new_parent_id, $new_is_full, $create_series, $series_from, $series_to, $add_more;
 
-    $selected_id        = isset($_REQUEST['selected_id'])   ? (integer)$_REQUEST['selected_id'] : 0;
-    $new_name           = isset($_REQUEST['name'])          ? (string)$_REQUEST['name']         : '';
-    $new_parent_id      = isset($_REQUEST['parent_id'])     ? (integer)$_REQUEST['parent_id']   : 0;
-    $new_is_full        = isset($_REQUEST['is_full']);
-    $create_series      = isset($_REQUEST['series']);
-    $series_from        = isset($_REQUEST['series_from'])   ? $_REQUEST['series_from'] : 1;
-    $series_to          = isset($_REQUEST['series_to'])     ? $_REQUEST['series_to']   : 1;
-    $add_more           = isset($_REQUEST['add_more']);
+        protected $root_storelocation;
+        protected $selected_storelocation;
 
-    $action = 'default';
-    if (isset($_REQUEST["add"]))                {$action = 'add';}
-    if (isset($_REQUEST["delete"]))             {$action = 'delete';}
-    if (isset($_REQUEST["delete_confirmed"]))   {$action = 'delete_confirmed';}
-    if (isset($_REQUEST["apply"]))              {$action = 'apply';}
-
-    /********************************************************************************
-    *
-    *   Initialize Objects
-    *
-    *********************************************************************************/
-
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Lagerorte'));
-
-    try
-    {
-        $database           = new Database();
-        $log                = new Log($database);
-        $current_user       = new User($database, $current_user, $log, 1); // admin
-        $root_storelocation = new Storelocation($database, $current_user, $log, 0);
-
-        if ($selected_id > 0)
-            $selected_storelocation = new Storelocation($database, $current_user, $log, $selected_id);
-        else
-            $selected_storelocation = NULL;
-    }
-    catch (Exception $e)
-    {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
-        $fatal_error = true;
-    }
-
-    /********************************************************************************
-    *
-    *   Execute actions
-    *
-    *********************************************************************************/
-
-    if ( ! $fatal_error)
-    {
-        switch ($action)
+        protected function evaluate_requests()
         {
-            case 'add':
+            $this->selected_id        = isset($_REQUEST['selected_id'])   ? (integer)$_REQUEST['selected_id'] : 0;
+            $this->new_name           = isset($_REQUEST['name'])          ? (string)$_REQUEST['name']         : '';
+            $this->new_parent_id      = isset($_REQUEST['parent_id'])     ? (integer)$_REQUEST['parent_id']   : 0;
+            $this->new_is_full        = isset($_REQUEST['is_full']);
+            $this->create_series      = isset($_REQUEST['series']);
+            $this->series_from        = isset($_REQUEST['series_from'])   ? $_REQUEST['series_from'] : 1;
+            $this->series_to          = isset($_REQUEST['series_to'])     ? $_REQUEST['series_to']   : 1;
+            $this->add_more           = isset($_REQUEST['add_more']);
+        }
+
+        protected function init_objects()
+        {
+            $this->root_storelocation = new Storelocation($this->database, $this->current_user, $this->log, 0);
+
+            if ($this->selected_id > 0)
+                $this->selected_storelocation = new Storelocation($this->database, $this->current_user, $this->log, $this->selected_id);
+            else
+                $this->selected_storelocation = NULL;
+        }
+
+
+
+        protected function action_add($html)
+        {
+            if ($this->create_series)
+            {
+                $width  = mb_strlen((string) $this->series_to); // determine the width of second argument
+                $format = "%0". (int)$width ."s";
+
+                foreach (range($this->series_from, $this->series_to) as $index)
+                {
+                    $new_storelocation_name = $this->new_name . sprintf($format, $index);
+                    $new_storelocation = Storelocation::add(    $this->database, $this->current_user, $this->log,
+                        $new_storelocation_name,
+                        $this->new_parent_id, $this->new_is_full);
+                }
+            }
+            else
+            {
+                $new_storelocation = Storelocation::add(  $this->database, $this->current_user, $this->log, $this->new_name,
+                    $this->new_parent_id, $this->new_is_full);
+            }
+
+            if ( ! $this->add_more)
+            {
+                $this->selected_storelocation = new_storelocation;
+                $this->selected_id = $this->selected_storelocation->get_id();
+            }
+        }
+
+        protected function action_delete($html)
+        {
+            $parts = $this->selected_storelocation->get_parts();
+            $count = count($parts);
+
+            if ($count > 0)
+            {
+                $messages[] = array('text' => sprintf(_('Es gibt noch %d Bauteile an diesem Lagerort, '.
+                    'daher kann der Lagerort nicht gelöscht werden.'),$count), 'strong' => true, 'color' => 'red');
+            }
+            else
+            {
+                $title = sprintf(_('Soll der Lagerort "%s" wirklich unwiederruflich gelöscht werden?'), $this->selected_storelocation->get_full_path());
+                $notes[] = _("Es gibt keine Bauteile an diesem Lagerort.");
+                $notes[] = _("Beinhaltet dieser Lagerort noch Unterlagerorte, dann werden diese eine Ebene nach oben verschoben.");
+                $dialog = generate_delete_dialog($this->selected_storelocation->get_id(), $title, $notes, _('Ja, Lagerort löschen'), _('Nein, nicht löschen'));
+                $this->add_message($dialog);
+            }
+        }
+
+        protected function action_delete_confirmed($html)
+        {
+            if (is_object($this->selected_storelocation))
+            {
                 try
                 {
-                    if ($create_series)
-                    {
-                        $width  = mb_strlen((string) $series_to); // determine the width of second argument
-                        $format = "%0". (int)$width ."s";
-
-                        foreach (range($series_from, $series_to) as $index)
-                        {
-                            $new_storelocation_name = $new_name . sprintf($format, $index);
-                            $new_storelocation = Storelocation::add(    $database, $current_user, $log,
-                                                                        $new_storelocation_name,
-                                                                        $new_parent_id, $new_is_full);
-                        }
-                    }
-                    else
-                    {
-                        $new_storelocation = Storelocation::add(  $database, $current_user, $log, $new_name,
-                                                                    $new_parent_id, $new_is_full);
-                    }
-
-                    if ( ! $add_more)
-                    {
-                        $selected_storelocation = $new_storelocation;
-                        $selected_id = $selected_storelocation->get_id();
-                    }
+                    $this->selected_storelocation->delete();
+                    $this->selected_storelocation = NULL;
                 }
                 catch (Exception $e)
                 {
-                    $messages[] = array('text' => _('Der neue Lagerort konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('Der Lagerort konnte nicht gelöscht werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
+                    $this->add_message($messages);
                 }
-                break;
+            }
+            else
+            {
+                $messages[] = array('text' => _('Es ist kein Lagerort markiert oder es trat ein Fehler auf!'),
+                    'strong' => true, 'color' => 'red');
+                $this->add_message($messages);
+            }
+        }
 
-            case 'delete':
-                if (is_object($selected_storelocation))
-                {
+        protected function action_apply($html)
+        {
+            if (is_object($this->selected_storelocation))
+            {
                     try
                     {
-                        $parts = $selected_storelocation->get_parts();
-                        $count = count($parts);
-
-                        if ($count > 0)
-                        {
-                            $messages[] = array('text' => sprintf(_('Es gibt noch %d Bauteile an diesem Lagerort, '.
-                                                'daher kann der Lagerort nicht gelöscht werden.'),$count), 'strong' => true, 'color' => 'red');
-                        }
-                        else
-                        {
-                            $messages[] = array('text' => sprintf(_('Soll der Lagerort "%s'.
-                                                            '" wirklich unwiederruflich gelöscht werden?'), $selected_storelocation->get_full_path()), 'strong' => true, 'color' => 'red');
-                            $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
-                            $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Bauteile an diesem Lagerort.'));
-                            $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet dieser Lagerort noch Unterlagerorte, dann werden diese eine Ebene nach oben verschoben.'));
-                            $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_storelocation->get_id().'">');
-                            $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
-                            $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Lagerort löschen').'">');
-                        }
-                    }
-                    catch (Exception $e)
-                    {
-                        $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
-                        $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
-                    }
-                }
-                else
-                {
-                    $messages[] = array('text' => _('Es ist kein Lagerort markiert oder es trat ein Fehler auf!'),
-                                                'strong' => true, 'color' => 'red');
-                }
-                break;
-
-            case 'delete_confirmed':
-                if (is_object($selected_storelocation))
-                {
-                    try
-                    {
-                        $selected_storelocation->delete();
-                        $selected_storelocation = NULL;
-                    }
-                    catch (Exception $e)
-                    {
-                        $messages[] = array('text' => _('Der Lagerort konnte nicht gelöscht werden!'), 'strong' => true, 'color' => 'red');
-                        $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
-                    }
-                }
-                else
-                {
-                    $messages[] = array('text' => _('Es ist kein Lagerort markiert oder es trat ein Fehler auf!'),
-                                                'strong' => true, 'color' => 'red');
-                }
-                break;
-
-            case 'apply':
-                if (is_object($selected_storelocation))
-                {
-                    try
-                    {
-                        $selected_storelocation->set_attributes(array(  'name'       => $new_name,
-                                                                        'parent_id'  => $new_parent_id,
-                                                                        'is_full'    => $new_is_full));
+                        $this->selected_storelocation->set_attributes(array(  'name'       => $this->new_name,
+                            'parent_id'  => $this->new_parent_id,
+                            'is_full'    => $this->new_is_full));
                     }
                     catch (Exception $e)
                     {
                         $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                         $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
+                        $this->add_message($messages);
                     }
-                }
-                else
-                {
-                    $messages[] = array('text' => _('Es ist kein Lagerort markiert oder es trat ein Fehler auf!'),
-                                                'strong' => true, 'color' => 'red');
-                }
-                break;
-        }
-    }
-
-    /********************************************************************************
-    *
-    *   Set the rest of the HTML variables
-    *
-    *********************************************************************************/
-
-    $html->set_variable('add_more', $add_more, 'boolean');
-
-    if (! $fatal_error)
-    {
-        try
-        {
-            if (is_object($selected_storelocation))
-            {
-                $parent_id = $selected_storelocation->get_parent_id();
-                $html->set_variable('id', $selected_storelocation->get_id(), 'integer');
-                $name = $selected_storelocation->get_name();
-                $is_full = $selected_storelocation->get_is_full();
             }
-            elseif ($action == 'add')
+            else
             {
-                $parent_id = $new_parent_id;
-                $name = $new_name;
-                $is_full = $new_is_full;
+                    $messages[] = array('text' => _('Es ist kein Lagerort markiert oder es trat ein Fehler auf!'),
+                        'strong' => true, 'color' => 'red');
+                    $this->add_message($messages);
+            }
+        }
+
+        protected function action_shared($html)
+        {
+            if (is_object($this->selected_storelocation))
+            {
+                $parent_id = $this->selected_storelocation->get_parent_id();
+                $html->set_variable('id', $this->selected_storelocation->get_id(), 'integer');
+                $name = $this->selected_storelocation->get_name();
+                $is_full = $this->selected_storelocation->get_is_full();
+            }
+            elseif ($this->action == 'add')
+            {
+                $parent_id = $this->new_parent_id;
+                $name = $this->new_name;
+                $is_full = $this->new_is_full;
             }
             else
             {
@@ -258,29 +193,23 @@
             $html->set_variable('name', $name, 'string');
             $html->set_variable('is_full', $is_full, 'boolean');
 
-            $storelocation_list = $root_storelocation->build_html_tree($selected_id, true, false);
+            $storelocation_list = $this->root_storelocation->build_html_tree($this->selected_id, true, false);
             $html->set_variable('storelocation_list', $storelocation_list, 'string');
 
-            $parent_storelocation_list = $root_storelocation->build_html_tree($parent_id, true, true);
+            $parent_storelocation_list = $this->root_storelocation->build_html_tree($parent_id, true, true);
             $html->set_variable('parent_storelocation_list', $parent_storelocation_list, 'string');
         }
-        catch (Exception $e)
+
+        protected function print_templates($html)
         {
-            $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
-            $fatal_error = true;
+            $html->print_template('edit_storelocations');
+        }
+
+        protected function generate_reload_link()
+        {
+            return "edit_storelocations.php";
         }
     }
 
-    /********************************************************************************
-    *
-    *   Generate HTML Output
-    *
-    *********************************************************************************/
-
-    $reload_link = $fatal_error ? 'edit_storelocations.php' : '';   // an empty string means that the...
-    $html->print_header($messages, $reload_link);                   // ...reload-button won't be visible
-
-    if (! $fatal_error)
-        $html->print_template('edit_storelocations');
-
-    $html->print_footer();
+    $page = new EditStorelocationsPage(_("Lagerorte"));
+    $page->run();

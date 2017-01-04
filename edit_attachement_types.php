@@ -44,7 +44,7 @@
 
         protected $root_attachement_type;
 
-        protected $selected_id, $new_name, $new_parent_id;
+        protected $selected_id, $new_name, $new_parent_id, $new_attachement_type;
         protected $selected_attachement_type;
 
         protected function init_objects()

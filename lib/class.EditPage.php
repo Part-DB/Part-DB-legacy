@@ -24,4 +24,38 @@ abstract class EditPage extends ActionPage
     abstract protected function action_delete($html);
     abstract protected function action_delete_confirmed($html);
     abstract protected function action_apply($html);
+
+    protected function do_work($html)
+    {
+        $call_name = "action_".$this->action;
+        try {
+            if(isset($this->action)) {
+                if(true )//is_callable($call_name))
+                {
+                    $this->$call_name($html);
+                }
+                else {
+                    throw new Exception(sprintf(_('Die gewünschte Action "%s" existiert nicht!'), $this->action));
+                }
+            }
+        }
+        catch (Exception $e)
+        {
+            //This errors are not fatal
+            $this->add_error($e->getMessage(), false);
+        }
+
+        if(!$this->fatal_error)
+        {
+            try {
+                $html->set_variable('add_more', $this->add_more, 'boolean');
+                $this->action_shared($this->html);
+            }
+            catch (Exception $e)
+            {
+                //This errors are not fatal
+                $this->add_error($e->getMessage());
+            }
+        }
+    }
 }

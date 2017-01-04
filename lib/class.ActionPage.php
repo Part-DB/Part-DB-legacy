@@ -92,8 +92,6 @@ abstract class ActionPage extends Page
             }
         }
 
-
-
         // Output the Page header with the messages
         $reload_link = $this->fatal_error ? $this->generate_reload_link() : '';
         $this->html->print_header($this->messages, $reload_link);
