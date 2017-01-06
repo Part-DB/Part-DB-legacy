@@ -237,7 +237,13 @@ $(document).ajaxComplete(function (event, xhr, settings) {
     scrollUpForMsg();
     
     if ($("x3d").length) {
-        x3dom.reload();
+        try {
+            x3dom.reload();
+        }
+        catch (ex)
+        {
+
+        }
     }
         
     //Push only if it was a "GET" request and requested data was an HTML

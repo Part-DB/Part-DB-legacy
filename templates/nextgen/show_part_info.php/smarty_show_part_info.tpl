@@ -115,10 +115,8 @@
                             </div>
                         </div>
                 </div>
-                
            </div>
-
-                <div class="col-md-3">:
+                <div class="col-md-3">
                         <form action="" method="post" class="hidden-print no-progbar">
                             <input type="hidden" name="pid" value="{$pid}">
                             <div class="row">
