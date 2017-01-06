@@ -120,7 +120,6 @@
 
                 <div class="col-md-3">:
                         <form action="" method="post" class="hidden-print no-progbar">
->>>>>>> 8234da9... Deactivate the Progress bar loading for some Form submits.
                             <input type="hidden" name="pid" value="{$pid}">
                             <div class="row">
                                 <div class="col-md-12">
