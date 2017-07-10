@@ -247,7 +247,7 @@
     *
     *********************************************************************************/
 
-    $html->use_javascript(array('validatenumber', 'popup'));
+    $html->use_javascript(array('popup'));
 
     // http charset / theme
     $html->set_loop('http_charset_loop',    array_to_template_loop($config['http_charsets'], $config['html']['http_charset']));

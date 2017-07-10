@@ -494,7 +494,7 @@
     *
     *********************************************************************************/
 
-    $html->use_javascript(array('validatenumber', 'popup', 'util-functions', 'clear-default-text'));
+    $html->use_javascript(array('popup', 'clear-default-text'));
 
     if (! $fatal_error)
     {

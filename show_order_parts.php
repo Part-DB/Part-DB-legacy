@@ -307,7 +307,7 @@
     *
     *********************************************************************************/
 
-    $html->use_javascript(array('popup', 'validatenumber'));
+    $html->use_javascript(array('popup'));
 
     if ( ! $fatal_error)
     {
