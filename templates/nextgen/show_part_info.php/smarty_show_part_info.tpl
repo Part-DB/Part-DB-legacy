@@ -126,7 +126,7 @@
                                 <div class="col-md-12">
                                     <label for="n_less">{t}Teile entnehmen:{/t}</label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control" name="n_less" min="0" max="999" value="1" placeholder="Anzahl" onkeypress="validatePosIntNumber(event)">
+                                        <input type="number" class="form-control" name="n_less" min="0" max="999" value="1" placeholder="Anzahl">
                                         <span class="input-group-btn">
                                             <button type="submit" class="btn btn-default" name="dec">{t}Entnehmen{/t}</button>
                                         </span>
@@ -143,7 +143,7 @@
                                 <div class="col-md-12">
                                     <label for="n_more">{t}Teile hinzufügen{/t}</label>
                                     <div class="input-group">
-                                        <input type="number" class="form-control" name="n_more" min="0" max="999" value="1" onkeypress="validatePosIntNumber(event)">
+                                        <input type="number" class="form-control" name="n_more" min="0" max="999" value="1">
                                         <span class="input-group-btn">
                                             <button type="submit" class="btn btn-default" name="inc">{t}Hinzufügen{/t}</button>
                                         </span>
@@ -167,7 +167,7 @@
                                         {else}
                                             <label for="order_quantity">{t}Zum Bestellen vormerken:{/t}</label>
                                             <div class="input-group">
-                                                <input type="number" min="0" max="999" class="form-control" value="1" name="order_quantity" placeholder="Bestellmenge" onkeypress="validatePosIntNumber(event)"><br>
+                                                <input type="number" min="0" max="999" class="form-control" value="1" name="order_quantity" placeholder="Bestellmenge"><br>
                                                 <span class="input-group-btn">
                                                     <button type="submit" class="btn btn-default" name="mark_to_order">{t}Übernehmen{/t}</button>
                                                 </span>

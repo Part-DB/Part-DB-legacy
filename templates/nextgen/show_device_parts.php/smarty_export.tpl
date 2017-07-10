@@ -7,7 +7,7 @@
             <div class="form-group">
                 <label class="control-label col-md-3">{t}Multiplikator:{/t}</label>
                 <div class="col-md-9">
-                    <input type="number" min="0"  class="form-control" name="export_multiplier" size="3" onkeypress="validatePosIntNumber(event)" value="{if isset($export_multiplier)}{$export_multiplier}{else}1{/if}">
+                    <input type="number" min="0"  class="form-control" name="export_multiplier" size="3" value="{if isset($export_multiplier)}{$export_multiplier}{else}1{/if}">
                 </div>
             </div>
             
