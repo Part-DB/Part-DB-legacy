@@ -20,7 +20,7 @@ function openLink(page) {
 
 function registerLinks() {
     'use strict';
-    $("a").not(".link-anchor").not(".link-external").click(function (event) {
+    $("a").unbind("click").not(".link-anchor").not(".link-external").click(function (event) {
         event.preventDefault();
         var a = $(this),
             href = a.attr("href");
@@ -29,7 +29,7 @@ function registerLinks() {
         $('#progressbar').show(0);
 
         $("#content").load(href + " #content-data");
-        return false;
+        return true;
     });
 }
 
@@ -120,7 +120,7 @@ function bbcode_edit() {
 }
 
 function treeview_btn_init() {
-    $(".tree-btns").click(function () {
+    $(".tree-btns", "#sidebar").click(function () {
         $(this).parents("div.dropdown").removeClass('open');
         var mode = $(this).data("mode");
         var target = $(this).data("target");
