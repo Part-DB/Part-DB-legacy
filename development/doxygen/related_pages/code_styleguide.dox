@@ -28,11 +28,6 @@
 
     @section files Aufbau PHP-Dateien
     @li Einleitung mit Lizenz
-    @li darunter Auflistung der Änderungen im folgenden Format:
-        - Datum
-        - Nickname oder E-Mail
-        - Leerzeichen und "-"
-        - Kurze Beschreibung der Änderung (pro Änderung eine Zeile verwenden)
     @li Ausgabe von HTML nicht im PHP Script vornehmen, dazu Templates (vlibTemplate) nutzen!
 
 

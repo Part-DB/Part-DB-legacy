@@ -20,13 +20,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-
-    $Id$
-
-    Changelog (sorted by date):
-        [DATE]      [NICKNAME]          [CHANGES]
-        2012-09-04  kami89              - created
-        2013-03-09  kami89              - added param "no_reload" to popUp()
 */
 
     function popUp(URL, modal, dialog_width, dialog_height, no_reload)

@@ -21,16 +21,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-
-    $Id$
-
-    Changelog (sorted by date):
-        [DATE]      [NICKNAME]          [CHANGES]
-        2012-09-02  kami89              - moved nearly all constants to database and some stuff to "start_session.php"
-        2012-09-16  kami89              - defines replaced with a config array
-                                        - moved constants from database back to this file :-)
-        2012-09-16  kami89              - renamed from "config.php_template" to "config_defaults.php" because now
-                                          it will be included in "start_session.php" for loading default values
 */
 
     /********************************************************************************

@@ -21,18 +21,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-
-    $Id$
-
-    Changelog (sorted by date):
-        [DATE]      [NICKNAME]          [CHANGES]
-        2012-??-??  kami89              - moved some functions to class "Database"
-        2012-??-??  kami89              - added "case 12" (a lot of updates for the new OOP design)
-        2013-01-26  kami89              - added "case 0" (database initialization)
-        2013-05-20  kami89              - added "case 13" (change attachements file path from "/media/" to "/data/media/")
-        2013-05-24  kami89              - added "case 14" (BUGFIX: set parts.id_master_picture_attachement where it is NULL)
-        2014-05-12  kami89              - added "case 15" (new feature: automatic links to products on the suppliers/manufacturers website)
-        2015-05-10  susnux              - added "case 16" (intern part price is stored with 4 decimal places)
 */
 
     /*

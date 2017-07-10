@@ -21,16 +21,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-
-    $Id$
-
-    Changelog (sorted by date):
-        [DATE]      [NICKNAME]      [CHANGES]
-        2012-08-??  kami89          - created
-        2012-09-27  kami89          - added doxygen comments
-        2013-01-29  kami89          - added support for transactions in "delete()"
-        2013-04-18  kami89          - changed class name from "FilesContainingDBElement" to "AttachementsContainingDBElement"
-                                      (sorry - when I created this class I didn't find a better name...)
 */
 
     /**

@@ -21,15 +21,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-
-    $Id$
-
-    Changelog (sorted by date):
-        [DATE]      [NICKNAME]      [CHANGES]
-        2012-09-07  kami89          - created
-        2012-10-15  kami89          - created function "create_debug_log_file()"
-                                    - fixed a small bug
-                                    - addes Doxygen comments
 */
 
     /**
