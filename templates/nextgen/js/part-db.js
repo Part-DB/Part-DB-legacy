@@ -89,6 +89,8 @@ function onNodeSelected(event, data) {
 
     $("#content").load(data.href + " #content-data");
     $(this).treeview('toggleNodeExpanded',data.nodeId)
+
+    $("#sidebar").removeClass("in");
 }
 
 function tree_fill() {
@@ -296,4 +298,9 @@ function octoPart() {
         success: octoPart_success
     });
 }
+
+$("#search-submit").click(function (event) {
+    $("#searchbar").removeClass("in");
+})
+
 

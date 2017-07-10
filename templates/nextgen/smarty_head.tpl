@@ -53,7 +53,6 @@
         
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="{$relative_path}js/jquery-3.2.1.min.js"></script>
-        
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="{$relative_path}js/bootstrap.min.js"></script>
         
@@ -102,11 +101,11 @@
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#sidebar">
                         <span class="sr-only">{t}Toggle Sidebar{/t}</span>
-                        <span class="glyphicon glyphicon-menu-hamburger"></span>
+                        <span class="fa fa-bars"></span>
                     </button>
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#searchbar" aria-expanded="false">
                         <span class="sr-only">{t}Toggle Navigation{/t}</span>
-                        <span class="glyphicon glyphicon-search"></span>
+                        <span class="fa fa-search"></span>
                     </button>
                     <a class="navbar-toggle link-anchor" href="zxing://scan/?ret={if isset($smarty.server.HTTPS)}https{else}http{/if}%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$relative_path|escape:'url'}show_part_info.php%3Fbarcode%3D%7BCODE%7D&SCAN_FORMATS=EAN_8">
                         <i class="fa fa-barcode" aria-hidden="true"></i>
@@ -149,7 +148,7 @@
                             </div>
 
                             <input type="search" class="form-control" placeholder="{t}Suche{/t}" name="keyword">
-                            <button type="submit" class="btn btn-default">{t}Los!{/t}</button>
+                            <button type="submit" id="search-submit" class="btn btn-default">{t}Los!{/t}</button>
                     </form>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
