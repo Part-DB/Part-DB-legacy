@@ -21,14 +21,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-
-    $Id$
-
-    Changelog (sorted by date):
-        [DATE]      [NICKNAME]          [CHANGES]
-        2012-??-??  weinbauer73         - changed to templates
-        2012-09-14  kami89              - changed to OOP
-        2015-05-11  susnux              - updated db update log
 */
 
     include_once('start_session.php');

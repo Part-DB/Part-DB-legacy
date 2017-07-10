@@ -21,20 +21,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-
-    $Id$
-
-    Changelog (sorted by date):
-        [DATE]      [NICKNAME]      [CHANGES]
-        2012-08-??  kami89          - created
-        2012-09-27  kami89          - added doxygen comments
-        2013-01-28  kami89          - added support for transactions:
-                                        - begin_transaction()
-                                        - commit()
-                                        - rollback()
-                                        - example how to use it
-        2013-02-03  kami89          - the update process will now memorize the position if an error occurs
-        2015-05-11  susnux          - updated update() function to distinguish between error and normal message
 */
 
     include_once(BASE.'/updates/db_update_steps.php');
