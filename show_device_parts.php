@@ -355,9 +355,6 @@
     *   Set the rest of the HTML variables
     *
     *********************************************************************************/
-
-    $html->use_javascript(array('popup'));
-
     if ( ! $fatal_error)
     {
         // global stuff

@@ -306,9 +306,7 @@
                 <b>{$attach_type.attachement_type}:</b><br>
                 {foreach $attach_type.attachements_loop as $attach}
                     {if $attach.is_picture}
-                        <a href="javascript:popUp('{$attach.filename}', {if $use_modal_popup}true{else}false{/if},
-                                                    {$popup_width}, {$popup_height});">
-                        <img src="{$attach.filename}" alt="Zum Vergrößern klicken!" style="max-height:180px; max-width:180px"></a>
+                        <img src="{$attach.filename}" style="max-height:180px; max-width:180px" class="hoverpic" rel="popover"></a>
                     {else}
                         <a target="_blank" href="{$attach.filename}">{$attach.attachement_name}</a><br>
                     {/if}

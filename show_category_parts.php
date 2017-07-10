@@ -173,7 +173,6 @@
     *
     *********************************************************************************/
 
-    $html->use_javascript(array('popup'));
 
     $html->set_variable('with_subcategories', $with_subcategories, 'boolean');
 

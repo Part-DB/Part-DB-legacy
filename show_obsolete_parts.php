@@ -108,8 +108,6 @@
     *
     *********************************************************************************/
 
-    $html->use_javascript(array('popup'));
-
     if ( ! $fatal_error)
     {
         // obsolete parts

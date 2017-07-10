@@ -225,7 +225,6 @@
     *
     *********************************************************************************/
 
-    $html->use_javascript(array('popup'));
 
     $html->set_variable('keyword',                  $keyword,                               'string');
     $html->set_variable('hits_count',               (isset($hits_count) ? $hits_count : 0), 'integer');
