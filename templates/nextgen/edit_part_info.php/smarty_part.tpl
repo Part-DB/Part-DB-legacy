@@ -53,7 +53,7 @@
                         {t}Vorhanden:{/t}
                     </label>
                     <div class="col-md-10">
-                        <input type="number" name="instock" class="form-control" min="0" onkeypress="validateNumber(event)" placeholder="{t}z.B. 100{/t}" value="{$instock}">
+                        <input type="number" name="instock" class="form-control" min="0"  placeholder="{t}z.B. 100{/t}" value="{$instock}">
                     </div>
                 </div>
                 <div class="form-group">
@@ -61,7 +61,7 @@
                         {t}Min. Bestand:{/t}
                     </label>
                     <div class="col-md-10">
-                        <input type="number" name="mininstock" class="form-control" min="0" onkeypress="validateNumber(event)" placeholder="{t}z.B. 20{/t}" value="{$mininstock}">
+                        <input type="number" name="mininstock" class="form-control" min="0" placeholder="{t}z.B. 20{/t}" value="{$mininstock}">
                     </div>
                 </div>
                 <div class="form-group">

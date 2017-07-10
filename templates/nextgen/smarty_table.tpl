@@ -159,12 +159,12 @@
                     {/if}
                     {if $row.caption == "instock_edit"}
                         {* instock edit *}
-                        <td class="tdrow1"><input type="number" class="form-control input-sm"  name="instock_{$row.row_index}" value="{$row.instock}" onkeypress="validatePosIntNumber(event)"></td>
+                        <td class="tdrow1"><input type="number" class="form-control input-sm"  name="instock_{$row.row_index}" value="{$row.instock}"></td>
                     {/if}
                     {if $row.caption == "order_quantity_edit"}
                         {* order quantity edit (only for order parts)  *}
                         <td class="tdrow1">
-                            <input type="number" min="0" max="99999" class="form-control input-sm" name="order_quantity_{$row.row_index}" value="{$row.order_quantity}" onkeypress="validatePosIntNumber(event)">
+                            <input type="number" min="0" max="99999" class="form-control input-sm" name="order_quantity_{$row.row_index}" value="{$row.order_quantity}" >
                             <p class="help-block">(mind. {$row.min_order_quantity})</p>
                         </td>
                     {/if}
@@ -176,7 +176,7 @@
                     {/if}
                     {if $row.caption == "mininstock_edit"}
                         {* instock edit *}
-                        <td class="tdrow1"><input type="number" min="0" class="form-control input-sm" name="mininstock_{$row.row_index}" value="{$row.mininstock}" onkeypress="validatePosIntNumber(event)"></td>
+                        <td class="tdrow1"><input type="number" min="0" class="form-control input-sm" name="mininstock_{$row.row_index}" value="{$row.mininstock}"></td>
                     {/if}
                     {if $row.caption == "instock_mininstock"}
                         {* instock/mininstock *}
@@ -273,7 +273,7 @@
                         {* quantity for DevicePart elements *}
                         <td class="tdrow1" nowrap>
                            <div class="input-group">
-                                <input type="text" class="form-control input-sm" style="width:45px" name="quantity_{$row.row_index}" onkeypress="validatePosIntNumber(event)" value="{if isset($row.quantity)}{$row.quantity}{else}0{/if}">
+                                <input type="text" class="form-control input-sm" style="width:45px" name="quantity_{$row.row_index}" value="{if isset($row.quantity)}{$row.quantity}{else}0{/if}">
                                 <div class="input-group-btn">
                                     <button class="btn btn-default btn-sm" type="button" onClick="elements['quantity_{$row.row_index}'].value=0">
                                     <span class="glyphicon glyphicon-remove"></span></button>
@@ -314,7 +314,7 @@
                     {/if}
                     {if $row.caption == "price_edit"}
                         {* price edit *}
-                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:45px" name="price_{$row.row_index}" value="{$row.price}" onkeypress="validatePosFloatNumber(event)"></td>
+                        <td class="tdrow1"><input type="number" class="form-control input-sm" style="width:45px" min="0" step="any" name="price_{$row.row_index}" value="{$row.price}"></td>
                     {/if}
                     {if $row.caption == "average_single_price"}
                         {* average single price for one piece *}

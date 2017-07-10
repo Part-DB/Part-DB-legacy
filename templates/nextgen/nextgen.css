@@ -23,7 +23,7 @@ body {
 
 .hoverpic {
     min-width: 10px;
-    max-width: 30px;
+    max-width: 200px;
     display: block;
     margin-left: auto;
     margin-right: auto;

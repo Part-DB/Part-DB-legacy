@@ -67,14 +67,14 @@
                                             </td>
 
                                             <td>
-                                                <input type="number" min="0" class="form-control" name="min_discount_quantity_{$price.pricedetails_id}" size="5" onkeypress="validatePosIntNumber(event)" value="{$price.min_discount_quantity}" {if $price.min_discount_quantity == 1}disabled{/if}>
+                                                <input type="number" min="0" class="form-control" name="min_discount_quantity_{$price.pricedetails_id}" size="5" value="{$price.min_discount_quantity}" {if $price.min_discount_quantity == 1}disabled{/if}>
                                             </td>
 
                                             <td >
                                                 <div class="input-group">
-                                                    <input type="text" min="0" step="0.01" class="form-control" name="price_{$price.pricedetails_id}" onkeypress="validatePosFloatNumber(event)" value="{$price.price}">
+                                                    <input type="number" min="0" step="any" class="form-control" name="price_{$price.pricedetails_id}" value="{$price.price}">
                                                     <span class="input-group-addon">{t}pro{/t}</span>
-                                                    <input type="number" min="0" class="form-control" name="price_related_quantity_{$price.pricedetails_id}" onkeypress="validatePosIntNumber(event)" value="{$price.price_related_quantity}">
+                                                    <input type="number" min="0" class="form-control" name="price_related_quantity_{$price.pricedetails_id}" value="{$price.price_related_quantity}">
                                                     <span class="input-group-addon">{t}Stk.{/t}</span>
                                                 </div>
 

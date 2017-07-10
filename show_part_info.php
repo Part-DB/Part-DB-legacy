@@ -160,7 +160,6 @@
     *
     *********************************************************************************/
 
-    $html->use_javascript(array('validatenumber', 'popup'));
 
     // global settings
     $html->set_variable('use_modal_popup',          $config['popup']['modal'], 'boolean');
