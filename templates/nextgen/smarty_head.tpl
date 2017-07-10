@@ -160,7 +160,7 @@
       <div class="container-fluid">
    
            <div class="row">
-                <aside class="hidden-print col-sm-3 col-md-2 sidebar-collapse collapse" id="sidebar">
+                <aside class="hidden-print col-sm-3 col-md-2 sidebar-collapse collapse sidebar-container" id="sidebar">
                     <nav class="fixed-sidebar">
                         <div class="">
                             <ul class="nav navmenu-nav">

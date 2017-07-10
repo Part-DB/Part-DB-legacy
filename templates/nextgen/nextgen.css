@@ -23,7 +23,7 @@ body {
 
 .hoverpic {
     min-width: 10px;
-    max-width: 200px;
+    max-width: 30px;
     display: block;
     margin-left: auto;
     margin-right: auto;
@@ -85,12 +85,43 @@ table.dataTable tbody th, table.dataTable tbody td {
     .fixed-sidebar {
         position: fixed;
         left: 15px;
-        z-index: 1030;
+        z-index: 1000;
         width: inherit;
         overflow-x: hidden;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         max-height: 91%;
+    }
+
+
+}
+
+@media  (max-width: 768px) {
+    .fixed-sidebar {
+        position: fixed;
+        top: 56px;
+        right: 0;
+        left: 0;
+        background-color: inherit;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 7px;
+        margin-top: 0px;
+        z-index: 1000;
+        width: inherit;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        max-height: 91%;
+        opacity: 0.97;
+    }
+
+    .sidebar-container {
+        margin-top: 0;
+        padding-top: 5px;
+
+
+        background-color: #F8F8F8;
     }
 }
 
