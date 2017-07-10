@@ -494,7 +494,7 @@
     *
     *********************************************************************************/
 
-    $html->use_javascript(array('popup', 'clear-default-text'));
+    $html->use_javascript(array('popup'));
 
     if (! $fatal_error)
     {
