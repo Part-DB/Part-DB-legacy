@@ -338,6 +338,7 @@
                 debug('warning', 'Meta not set!', __FILE__, __LINE__, __METHOD__);
             }
 
+           /*
             if(!$config['design']['use_smarty'])
             {
                 $vlib_head = BASE.'/templates/'.$this->meta['theme'].'/vlib_head.tmpl';
@@ -351,7 +352,7 @@
                 if ($config['debug']['template_debugging_enable'])
                 {
                     /** @noinspection PhpIncludeInspection */
-                    include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
+                  /*  include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
                     $tmpl = new vlibTemplateDebug($vlib_head);
                 }
                 else
@@ -396,7 +397,7 @@
             }
 
             else //Use Smarty
-            {
+            {*/
                 $smarty_head = BASE.'/templates/'.$this->meta['theme'].'/smarty_head.tpl';
                 if ( ! is_readable($smarty_head))
                 {
@@ -457,7 +458,7 @@
 
                 $tmpl->display($smarty_head);
 
-            }
+            //}
         }
 
          /**
@@ -483,6 +484,7 @@
             settype($template, 'string');
             settype($use_scriptname, 'boolean');
 
+            /*
             if(!$config['design']['use_smarty'])
             {
 
@@ -506,7 +508,7 @@
                 if ($config['debug']['template_debugging_enable'])
                 {
                     /** @noinspection PhpIncludeInspection */
-                    include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
+                   /* include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
                     $tmpl = new vlibTemplateDebug($vlib_template);
                 }
                 else
@@ -528,7 +530,7 @@
                 $tmpl->pparse();
             }
             else //use smarty
-            {
+            {*/
                 if ($use_scriptname)
                 {
                     $smarty_template =    BASE.'/templates/'.$this->meta['theme'].'/'.
@@ -570,7 +572,7 @@
                 $tmpl->escape_html = true;
 
                 $tmpl->display($smarty_template);
-            }
+            //}
 
         }
 

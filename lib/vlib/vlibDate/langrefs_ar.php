@@ -1,8 +1,0 @@
-<?php
-// this file contains the Arabic weekday names, month names and suffixes.
-
-$days   = array ('ÇáÃÍÏ', 'ÇáÅËäíä', 'ÇáËáÇËÇÁ', 'ÇáÃÑÈÚÇÁ', 'ÇáÎãíÓ', 'ÇáÌãÚÉ', 'ÇáÓÈÊ');
-$daysabbr = array();
-$months = array ('íäÇíÑ', 'ÝÈÑÇíÑ', 'ãÇÑÓ', 'ÃÈÑíá', 'ãÇíæ', 'íæäíæ', 'íæáíæ', 'ÃÛÓØÓ', 'ÓÈÊãÈÑ', 'ÃßÊæÈÑ', 'äæÝãÈÑ', 'ÏíÓãÈÑ');
-$suffixes = array ();
-?>
