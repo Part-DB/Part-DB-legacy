@@ -415,6 +415,9 @@
                     $tmpl->debugging = true;
                 }
 
+                //Remove white space from Output
+                $tmpl->loadFilter('output', 'trimwhitespace');
+
                 $tmpl->escape_html = true;
 
 
@@ -576,6 +579,9 @@
                     $tmpl->assign($key, $loop);
                 }
 
+                //Remove white space from Output
+                $tmpl->loadFilter('output', 'trimwhitespace');
+
                 //Prevents XSS
                 $tmpl->escape_html = true;
 
@@ -660,6 +666,9 @@
                     $tmpl->assign('messages',              $messages);
                     $tmpl->assign('messages_div_title',     $messages_div_title);
                 }
+
+                //Remove white space from Output
+                $tmpl->loadFilter('output', 'trimwhitespace');
 
                 //Prevents XSS
                 $tmpl->escape_html = true;
