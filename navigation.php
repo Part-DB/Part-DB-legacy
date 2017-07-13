@@ -144,6 +144,8 @@
     *
     *********************************************************************************/
 
+
+
     $reload_link = $fatal_error ? 'navigation.php' : '';    // an empty string means that the...
     $html->print_header($messages, $reload_link);           // ...reload-button won't be visible
 

@@ -203,6 +203,13 @@
     *
     *********************************************************************************/
 
+
+    //If a ajax version is requested, say this the template engine.
+    if(isset($_REQUEST["ajax"]))
+    {
+        $html->set_variable("ajax_request", true);
+    }
+
     // an empty $reload_link means that the reload-button won't be visible
     $reload_link = ($fatal_error || isset($database_update_executed)) ? 'system_database.php' : '';
     $html->print_header($messages, $reload_link);

@@ -1,5 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 
+
+{if !isset($ajax_request) || !ajax_request}
 <!DOCTYPE html>
 <html lang="{if isset($lang)}{$lang}{else}en{/if}">
     <head>
@@ -223,6 +225,8 @@
                     </div>
 
                    <div class="container-fluid" id="content">
+
+{/if}
 
                    <div id="content-data">
 

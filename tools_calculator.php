@@ -48,7 +48,14 @@
     *
     *   Generate HTML Output
     *
-    *********************************************************************************/ 
+    *********************************************************************************/
+
+
+    //If a ajax version is requested, say this the template engine.
+    if(isset($_REQUEST["ajax"]))
+    {
+        $html->set_variable("ajax_request", true);
+    }
 
     $html->print_header($messages);
 

@@ -23,7 +23,7 @@ function registerLinks() {
     $("a").unbind("click").not(".link-anchor").not(".link-external").click(function (event) {
         event.preventDefault();
         var a = $(this),
-            href = a.attr("href");
+            href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
 
         $('#content').hide(0).load(href + " #content-data");
         $('#progressbar').show(0);
@@ -55,6 +55,24 @@ function registerForm() {
     $('form').ajaxForm(data);
 }
 
+
+function addURLparam(url, param)
+{
+    'use strict'
+
+    //If url already contains a ? than use a & for param addition
+    if(url.indexOf('?') >= 0)
+    {
+        return url + "&" + param;
+    }
+    else  //Else use a ?
+    {
+        return url + "?" + param;
+    }
+
+}
+
+
 function submitForm(form) {
     'use strict';
     var data = {
@@ -79,7 +97,7 @@ function registerHoverImages(form) {
 
 function onNodeSelected(event, data) {
     'use strict';
-    $('#content').hide().load(data.href + " #content-data");
+    $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
     $('#progressbar').show();
 
     //$('#content').fadeOut("fast");
@@ -212,7 +230,7 @@ window.onpopstate = function (event) {
         $('#content').hide(0);
         $('#progressbar').show(0);
 
-        $("#content").load(location.href + " #content-data");
+        $("#content").load(addURLparam(location.href, ajax) + " #content-data");
     }
 };
 
@@ -239,7 +257,9 @@ $(document).ajaxComplete(function (event, xhr, settings) {
         
     //Push only if it was a "GET" request and requested data was an HTML
     if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
-        window.history.pushState(null, "", settings.url);
+
+        //Push the cleaned (no ajax request) to history
+        window.history.pushState(null, "", settings.url.replace("&ajax", "").replace("?ajax", "")  );
         
         //Set page title from response
         var regex = /<title>(.*?)<\/title>/gi,

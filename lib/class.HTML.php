@@ -364,6 +364,10 @@
                 $tmpl->setVar('body_onload',                $this->body_onload);
                 $tmpl->setVar('theme',                      $this->meta['theme']);
                 $tmpl->setVar('frameset',                   $this->meta['frameset']);
+
+
+
+
                 if (strlen($this->meta['custom_css']) > 0)
                     $tmpl->setVar('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
 
@@ -425,6 +429,12 @@
                 $tmpl->assign('redirect',                   $redirect);
                 if (strlen($this->meta['custom_css']) > 0)
                     $tmpl->assign('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
+
+                if(isset($this->variables['ajax_request']))
+                {
+                    $tmpl->assign("ajax_request", $this->variables['ajax_request']);
+                }
+
 
                 //Only load X3D libraries if this is activated
                 $tmpl->assign('foot3d_active',         $config['foot3d']['active']);
@@ -634,6 +644,11 @@
                 if ($config['debug']['template_debugging_enable'])
                 {
                     $tmpl->debugging = true;
+                }
+
+                if(isset($this->variables['ajax_request']))
+                {
+                    $tmpl->assign("ajax_request", $this->variables['ajax_request']);
                 }
 
                 $tmpl->assign('relative_path',  BASE_RELATIVE.'/'); // constant from start_session.php
