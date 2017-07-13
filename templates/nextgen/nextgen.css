@@ -59,13 +59,6 @@ table.dataTable tbody th, table.dataTable tbody td {
     height: 100px;
 }
 
-.fake-table-col {
-    padding: 8px;
-    line-height: 1.42857143;
-    vertical-align: top;
-    border-top: 1px solid #ddd;
-}
-
 .auto-size-select {
     height: inherit;
 }

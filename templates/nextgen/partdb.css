@@ -58,13 +58,6 @@ input[type=text], input[type=password] {
     color: #f00000;
 }
 
-.backred {
-    background-color: #D19F9F;
-}
-
-.backgreen {
-    background-color: #34D746;
-}
 
 .small {
     font-size: small;
@@ -80,37 +73,7 @@ input[type=text], input[type=password] {
     border-left: 1px solid #000000;
     background-color: #ffffff;
 }
-.tablenone {
-    border: none;
-    width: 100%;
-}
-.tdtop {
-    font-size: 15px;
-    font-weight: bold;
-    border: none;
-    width: 80%;
-    border-bottom: 2px solid #F76B02;
-    border-left:  1px solid #F76B02;
-    background-color: #BABABA;
-}
-.tdtext {
-    border: none;
-    width: 80%;
-    font-size: 12px;
-    background-color: #F2F2F2;
-    border-bottom: 3px solid #d0d0d0;
-    border-left: 1px solid #d0d0d0;
-    border-right: 1px solid #d0d0d0;
-}
-.tdtextsmall {
-    border: none;
-    width: 80%;
-    font-size: small;
-    background-color: #F2F2F2;
-    border-bottom: 3px solid #d0d0d0;
-    border-left: 1px solid #d0d0d0;
-    border-right: 1px solid #d0d0d0;
-}
+
 
 /* Tabellen/Listen */
 
@@ -122,18 +85,6 @@ a.headline:after {content:" -"}
 
 /** end: 20120712 Udo Neist **/
 
-.trlist_odd {
-    background-color: #d0d0d0;
-}
-.trlist_even {
-    background-color: #b0b0b0;
-}
-.trlist1 {
-    background-color: #b0b0b0;
-}
-.trlist2 {
-    background-color: #d0d0d0;
-}
 .trcat {
     font-size: 12px;
     font-weight: bold;
@@ -143,10 +94,6 @@ a.headline:after {content:" -"}
     position: relative;
     display: block;
     min-width: 20px; /* If there is no picture, the column should have a width of 20px anyway (that was a bug if there is only one row) */
-}
-.tdrowred {
-    font-size: 12px;
-    color: #ff0000;
 }
 .tdrow1 {
     font-size: 12px;
@@ -176,11 +123,6 @@ a.headline:after {content:" -"}
     text-align: center;
 }
 
-.catbild
-{
-    width: 20px;
-    height: 15px;
-}
 
 /* hover stuff */
 
@@ -245,28 +187,7 @@ td.labelbild {
     font-weight:bold;
 }
 
-/* footprint.php */
-.footprint_outer
-{
-    overflow: hidden;
-    clear: both;
-    background-color: #F2F2F2;
-    border-bottom: 3px solid #d0d0d0;
-    border-left:   1px solid #d0d0d0;
-    border-right:  1px solid #d0d0d0;
-    padding: 1px;
-}
 
-.footprint_inner
-{
-    word-wrap: break-word;
-    float: left;
-    margin-top: 5px;
-    margin-left: 5px;
-    width: 110px;
-    min-height: 130px;
-    font-size: 12px;
-}
 
 .footprint_inner img
 {
@@ -281,21 +202,11 @@ td.labelbild {
     margin: 0 5px;
 }
 
-#homelink
-{
-    padding: 1%;
-    float: right;
-}
 #homelink img
 {
     height: 15px;
 }
 
-.search_selection
-{
-    width: 18em;
-    padding: 2px;
-}
 .search_selection p
 {
     margin: 0;
@@ -310,47 +221,6 @@ td.labelbild {
     overflow: hidden;
 }
 
-
-/* Nav Menue */
-.dtree {
-    padding:0;
-    border: 0;
-    font-size: 12px;
-    color: #666;
-    white-space: nowrap;
-}
-.dtree img {
-    padding:0;
-    border: 0;
-    vertical-align: middle;
-}
-.dtree a {
-    padding:0;
-    border: 0;
-    color: #333;
-    text-decoration: none;
-}
-.dtree a.node, .dtree a.nodeSel {
-    border: 0;
-    white-space: nowrap;
-    padding: 1px 2px 1px 2px;
-}
-.dtree a.node:hover, .dtree a.nodeSel:hover {
-    padding:0;
-    border: 0;
-    color: #333;
-    text-decoration: underline;
-}
-.dtree a.nodeSel {
-    padding:0;
-    border: 0;
-    background-color: #c0d2ec;
-}
-.dtree .clip {
-    padding:0;
-    border: 0;
-    overflow: hidden;
-}
 
 /* Help */
 dl.help dt {
