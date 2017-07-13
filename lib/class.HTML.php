@@ -365,6 +365,10 @@
                 $tmpl->setVar('body_onload',                $this->body_onload);
                 $tmpl->setVar('theme',                      $this->meta['theme']);
                 $tmpl->setVar('frameset',                   $this->meta['frameset']);
+
+
+
+
                 if (strlen($this->meta['custom_css']) > 0)
                     $tmpl->setVar('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
 
@@ -412,6 +416,9 @@
                     $tmpl->debugging = true;
                 }
 
+                //Remove white space from Output
+                $tmpl->loadFilter('output', 'trimwhitespace');
+
                 $tmpl->escape_html = true;
 
 
@@ -426,6 +433,12 @@
                 $tmpl->assign('redirect',                   $redirect);
                 if (strlen($this->meta['custom_css']) > 0)
                     $tmpl->assign('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
+
+                if(isset($this->variables['ajax_request']))
+                {
+                    $tmpl->assign("ajax_request", $this->variables['ajax_request']);
+                }
+
 
                 //Only load X3D libraries if this is activated
                 $tmpl->assign('foot3d_active',         $config['foot3d']['active']);
@@ -568,6 +581,9 @@
                     $tmpl->assign($key, $loop);
                 }
 
+                //Remove white space from Output
+                $tmpl->loadFilter('output', 'trimwhitespace');
+
                 //Prevents XSS
                 $tmpl->escape_html = true;
 
@@ -638,6 +654,11 @@
                     $tmpl->debugging = true;
                 }
 
+                if(isset($this->variables['ajax_request']))
+                {
+                    $tmpl->assign("ajax_request", $this->variables['ajax_request']);
+                }
+
                 $tmpl->assign('relative_path',  BASE_RELATIVE.'/'); // constant from start_session.php
                 $tmpl->assign('frameset',       $this->meta['frameset']);
 
@@ -647,6 +668,9 @@
                     $tmpl->assign('messages',              $messages);
                     $tmpl->assign('messages_div_title',     $messages_div_title);
                 }
+
+                //Remove white space from Output
+                $tmpl->loadFilter('output', 'trimwhitespace');
 
                 //Prevents XSS
                 $tmpl->escape_html = true;

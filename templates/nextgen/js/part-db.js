@@ -23,12 +23,10 @@ function registerLinks() {
     $("a").unbind("click").not(".link-anchor").not(".link-external").click(function (event) {
         event.preventDefault();
         var a = $(this),
-            href = a.attr("href");
+            href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
 
-        $('#content').hide(0);
+        $('#content').hide(0).load(href + " #content-data");
         $('#progressbar').show(0);
-
-        $("#content").load(href + " #content-data");
         return true;
     });
 }
@@ -57,6 +55,24 @@ function registerForm() {
     $('form').ajaxForm(data);
 }
 
+
+function addURLparam(url, param)
+{
+    'use strict'
+
+    //If url already contains a ? than use a & for param addition
+    if(url.indexOf('?') >= 0)
+    {
+        return url + "&" + param;
+    }
+    else  //Else use a ?
+    {
+        return url + "?" + param;
+    }
+
+}
+
+
 function submitForm(form) {
     'use strict';
     var data = {
@@ -81,13 +97,12 @@ function registerHoverImages(form) {
 
 function onNodeSelected(event, data) {
     'use strict';
-    $('#content').hide();
+    $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
     $('#progressbar').show();
 
     //$('#content').fadeOut("fast");
     //$('#progressbar').show();
 
-    $("#content").load(data.href + " #content-data");
     $(this).treeview('toggleNodeExpanded',data.nodeId)
 
     $("#sidebar").removeClass("in");
@@ -96,15 +111,15 @@ function onNodeSelected(event, data) {
 function tree_fill() {
     'use strict';
     $.getJSON(BASE + 'api_json.php?mode="tree_category"', function (tree) {
-        $('#tree-categories').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
+        $('#tree-categories', "#sidebar").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
     });
     
     $.getJSON(BASE + 'api_json.php?mode="tree_devices"', function (tree) {
-        $('#tree-devices').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
+        $('#tree-devices', "#sidebar").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
     });
     
     $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree) {
-        $('#tree-tools').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
+        $('#tree-tools', "#sidebar").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
     });
 }
 
@@ -217,7 +232,7 @@ window.onpopstate = function (event) {
         $('#content').hide(0);
         $('#progressbar').show(0);
 
-        $("#content").load(location.href + " #content-data");
+        $("#content").load(addURLparam(location.href, ajax) + " #content-data");
     }
 };
 
@@ -244,7 +259,9 @@ $(document).ajaxComplete(function (event, xhr, settings) {
         
     //Push only if it was a "GET" request and requested data was an HTML
     if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
-        window.history.pushState(null, "", settings.url);
+
+        //Push the cleaned (no ajax request) to history
+        window.history.pushState(null, "", settings.url.replace("&ajax", "").replace("?ajax", "")  );
         
         //Set page title from response
         var regex = /<title>(.*?)<\/title>/gi,

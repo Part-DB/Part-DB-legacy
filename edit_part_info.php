@@ -670,6 +670,13 @@
     *
     *********************************************************************************/
 
+
+    //If a ajax version is requested, say this the template engine.
+    if(isset($_REQUEST["ajax"]))
+    {
+        $html->set_variable("ajax_request", true);
+    }
+
     // an empty string in "$reload_link" means that the reload-button won't be visible
     $reload_link = ($fatal_error && ($action != 'delete_part_confirmed')) ? 'edit_part_info.php?pid='.$part_id : '';
     $html->print_header($messages, $reload_link);
