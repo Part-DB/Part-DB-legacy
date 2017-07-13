@@ -25,10 +25,8 @@ function registerLinks() {
         var a = $(this),
             href = a.attr("href");
 
-        $('#content').hide(0);
+        $('#content').hide(0).load(href + " #content-data");
         $('#progressbar').show(0);
-
-        $("#content").load(href + " #content-data");
         return true;
     });
 }
@@ -81,28 +79,27 @@ function registerHoverImages(form) {
 
 function onNodeSelected(event, data) {
     'use strict';
-    $('#content').hide();
+    $('#content').hide().load(data.href + " #content-data");
     $('#progressbar').show();
 
     //$('#content').fadeOut("fast");
     //$('#progressbar').show();
 
-    $("#content").load(data.href + " #content-data");
     $(this).treeview('toggleNodeExpanded',data.nodeId)
 }
 
 function tree_fill() {
     'use strict';
     $.getJSON(BASE + 'api_json.php?mode="tree_category"', function (tree) {
-        $('#tree-categories').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
+        $('#tree-categories', "#sidebar").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
     });
     
     $.getJSON(BASE + 'api_json.php?mode="tree_devices"', function (tree) {
-        $('#tree-devices').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
+        $('#tree-devices', "#sidebar").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
     });
     
     $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree) {
-        $('#tree-tools').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
+        $('#tree-tools', "#sidebar").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
     });
 }
 
