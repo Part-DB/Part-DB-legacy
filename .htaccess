@@ -7,5 +7,9 @@ php_value memory_limit 512M
 </IfModule>
 </IfModule>
 
+<ifModule mod_headers.c>
+    Header set Connection keep-alive
+</ifModule>
+
 AddDefaultCharset utf-8
 Options -Indexes
