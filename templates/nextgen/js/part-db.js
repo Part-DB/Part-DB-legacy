@@ -229,10 +229,8 @@ window.onpopstate = function (event) {
     var page = location.href;
     //Go back only when the the target isnt the empty index.
     if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
-        $('#content').hide(0);
+        $('#content').hide(0).load(addURLparam(location.href, ajax) + " #content-data");;
         $('#progressbar').show(0);
-
-        $("#content").load(addURLparam(location.href, ajax) + " #content-data");
     }
 };
 

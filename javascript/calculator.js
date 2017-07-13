@@ -245,7 +245,7 @@ function ratio_calculate()
     var best_r2;
     var best_error = 1E9;
     var k = Math.floor(Math.log(ratio)/Math.LN10);
-    for (index in current_series) {
+    for (var index in current_series) {
         var r1 = current_series[index]*Math.pow(10, k+9);
 
         var r2;      

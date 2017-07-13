@@ -144,6 +144,9 @@ table.dataTable tbody th, table.dataTable tbody td {
 
 .sidebar-title {
     margin-top: 0;
+    font-size: 18px;
+    margin-bottom: 10px;
+    line-height: 1.1;
 }
 
 .container-progress {
@@ -154,3 +157,4 @@ table.dataTable tbody th, table.dataTable tbody td {
     display: flex;
     align-items: center;
 }
+
