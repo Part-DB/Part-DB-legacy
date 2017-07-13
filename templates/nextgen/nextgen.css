@@ -106,7 +106,7 @@ table.dataTable tbody th, table.dataTable tbody td {
         padding-left: 15px;
         padding-right: 15px;
         padding-top: 7px;
-        margin-top: 0px;
+        margin-top: 0;
         z-index: 1000;
         width: inherit;
         overflow-x: hidden;

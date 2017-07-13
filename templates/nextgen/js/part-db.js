@@ -58,7 +58,7 @@ function registerForm() {
 
 function addURLparam(url, param)
 {
-    'use strict'
+    'use strict';
 
     //If url already contains a ? than use a & for param addition
     if(url.indexOf('?') >= 0)
@@ -103,7 +103,7 @@ function onNodeSelected(event, data) {
     //$('#content').fadeOut("fast");
     //$('#progressbar').show();
 
-    $(this).treeview('toggleNodeExpanded',data.nodeId)
+    $(this).treeview('toggleNodeExpanded',data.nodeId);
 
     $("#sidebar").removeClass("in");
 }
@@ -318,6 +318,6 @@ function octoPart() {
 
 $("#search-submit").click(function (event) {
     $("#searchbar").removeClass("in");
-})
+});
 
 

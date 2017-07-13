@@ -155,7 +155,7 @@ function calculate6ring()
     if (unit < 0) unit = 0;
     var value = (ring1 + ring2/10 + ring3/100) * Math.pow(10, ring4 % 3);
     var tolerance = ring5;
-    var tempcoeff = ring6
+    var tempcoeff = ring6;
     
     document.getElementById("resistance6ring").firstChild.nodeValue = Math.round(value*1000)/1000;
     document.getElementById("resistance_unit6ring").firstChild.nodeValue = units[unit] + "Ohm";
