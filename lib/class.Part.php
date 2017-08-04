@@ -1768,16 +1768,25 @@
             if (strlen($keyword) == 0)
                 return array();
 
+            $keywords = search_string_to_array($keyword);
+
             //Select the correct LIKE operator, for Regex or normal search
             if($regex_search == false) {
                 $like = "LIKE";
+                /*
                 $keyword = str_replace('*', '%', $keyword);
-                $keyword = '%'.$keyword.'%';
+                $keyword = '%'.$keyword.'%'; */
+
+                foreach ($keywords as &$k)
+                {
+                    if($k !== "") {
+                        $k = str_replace('*', '%', $k);
+                        $k = '%' . $k . '%';
+                    }
+                }
             }
             else
                 $like = "RLIKE";
-
-
 
             $groups = array();
             $parts = array();
@@ -1794,58 +1803,58 @@
                     ' LEFT JOIN suppliers ON orderdetails.id_supplier=suppliers.id'.
                     ' WHERE FALSE';
 
-            if ($part_name)
+            if ($part_name && $keywords['name']!=="")
             {
                 $query .= " OR (parts.name $like ?)";
-                $values[] = $keyword;
+                $values[] = $keywords['name'];
             }
 
-            if ($part_description)
+            if ($part_description && $keywords['description']!=="")
             {
                 $query .= " OR (parts.description $like ?)";
-                $values[] = $keyword;
+                $values[] = $keywords['description'];
             }
 
-            if ($part_comment)
+            if ($part_comment && $keywords['comment']!=="")
             {
                 $query .= " OR (parts.comment $like ?)";
-                $values[] = $keyword;
+                $values[] = $keywords['comment'];
             }
 
-            if ($footprint_name)
+            if ($footprint_name && $keywords['footprint']!=="")
             {
                 $query .= " OR (footprints.name $like ?)";
-                $values[] = $keyword;
+                $values[] = $keywords['footprint'];
             }
 
-            if ($category_name)
+            if ($category_name && $keywords['category']!=="")
             {
                 $query .= " OR (categories.name $like ?)";
-                $values[] = $keyword;
+                $values[] = $keywords['category'];
             }
 
-            if ($storelocation_name)
+            if ($storelocation_name && $keywords['storelocation']!=="")
             {
                 $query .= " OR (storelocations.name $like ?)";
-                $values[] = $keyword;
+                $values[] = $keywords['storelocation'];
             }
 
-            if ($supplier_name)
+            if ($supplier_name && $keywords['suppliername']!=="")
             {
                 $query .= " OR (suppliers.name $like ?)";
-                $values[] = $keyword;
+                $values[] = $keywords['suppliername'];
             }
 
-            if ($supplierpartnr)
+            if ($supplierpartnr && $keywords['partnr']!=="")
             {
                 $query .= " OR (orderdetails.supplierpartnr $like ?)";
-                $values[] = $keyword;
+                $values[] = $keywords['partnr'];
             }
 
-            if ($manufacturer_name)
+            if ($manufacturer_name && $keywords['manufacturername']!=="")
             {
                 $query .= " OR (manufacturers.name $like ?)";
-                $values[] = $keyword;
+                $values[] = $keywords['manufacturername'];
             }
 
             if (!isset($config['db']['limit']['search_parts']))
