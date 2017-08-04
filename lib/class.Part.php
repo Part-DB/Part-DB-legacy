@@ -1728,6 +1728,8 @@
          * @param boolean   $supplier_name          if true, the search will include this attribute
          * @param boolean   $supplierpartnr         if true, the search will include this attribute
          * @param boolean   $manufacturer_name      if true, the search will include this attribute
+         * @param boolean   $regex_search           if true, the search will use Regular Expressions to match
+         *                                          the results.
          *
          * @retval array    all found parts as a one-dimensional array of Part objects,
          *                  sorted by their names (if "$group_by == ''")
@@ -1749,7 +1751,8 @@
                                             $storelocation_name = false,
                                             $supplier_name = false,
                                             $supplierpartnr = false,
-                                            $manufacturer_name = false)
+                                            $manufacturer_name = false,
+                                            $regex_search = false)
         {
             global $config;
 
@@ -1758,12 +1761,22 @@
             if (strlen($keyword) == 0)
                 return array();
 
-            $keyword = str_replace('*', '%', $keyword);
-            $keyword = '%'.$keyword.'%';
+            //Select the correct LIKE operator, for Regex or normal search
+            if($regex_search == false) {
+                $like = "LIKE";
+                $keyword = str_replace('*', '%', $keyword);
+                $keyword = '%'.$keyword.'%';
+            }
+            else
+                $like = "RLIKE";
+
+
 
             $groups = array();
             $parts = array();
             $values = array();
+
+
 
             $query = 'SELECT parts.id FROM parts'.
                     ' LEFT JOIN footprints ON parts.id_footprint=footprints.id'.
@@ -1776,55 +1789,55 @@
 
             if ($part_name)
             {
-                $query .= ' OR (parts.name LIKE ?)';
+                $query .= " OR (parts.name $like ?)";
                 $values[] = $keyword;
             }
 
             if ($part_description)
             {
-                $query .= ' OR (parts.description LIKE ?)';
+                $query .= " OR (parts.description $like ?)";
                 $values[] = $keyword;
             }
 
             if ($part_comment)
             {
-                $query .= ' OR (parts.comment LIKE ?)';
+                $query .= " OR (parts.comment $like ?)";
                 $values[] = $keyword;
             }
 
             if ($footprint_name)
             {
-                $query .= ' OR (footprints.name LIKE ?)';
+                $query .= " OR (footprints.name $like ?)";
                 $values[] = $keyword;
             }
 
             if ($category_name)
             {
-                $query .= ' OR (categories.name LIKE ?)';
+                $query .= " OR (categories.name $like ?)";
                 $values[] = $keyword;
             }
 
             if ($storelocation_name)
             {
-                $query .= ' OR (storelocations.name LIKE ?)';
+                $query .= " OR (storelocations.name $like ?)";
                 $values[] = $keyword;
             }
 
             if ($supplier_name)
             {
-                $query .= ' OR (suppliers.name LIKE ?)';
+                $query .= " OR (suppliers.name $like ?)";
                 $values[] = $keyword;
             }
 
             if ($supplierpartnr)
             {
-                $query .= ' OR (orderdetails.supplierpartnr LIKE ?)';
+                $query .= " OR (orderdetails.supplierpartnr $like ?)";
                 $values[] = $keyword;
             }
 
             if ($manufacturer_name)
             {
-                $query .= ' OR (manufacturers.name LIKE ?)';
+                $query .= " OR (manufacturers.name $like ?)";
                 $values[] = $keyword;
             }
 
