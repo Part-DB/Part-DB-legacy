@@ -1758,6 +1758,13 @@
 
             $keyword = trim($keyword);
 
+            //When searchstring begins and ends with a backslash, treat the input as regex query
+            if(substr($keyword, 0, 1) === '\\' &&  substr($keyword, -1) === '\\')
+            {
+                $regex_search = true;
+                $keyword = substr($keyword, 1, -1); //Remove the backslashes
+            }
+
             if (strlen($keyword) == 0)
                 return array();
 
