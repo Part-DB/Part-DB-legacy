@@ -47,7 +47,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">{t}Zu bestellende Teile{/t}</div>
     <div class="panel-body">
-        <form method="post" action="">
+        <form method="post" action="" class="no-progbar">
             {if isset($table_rowcount) && $table_rowcount > 0}
                 <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
                 <div class="row">
@@ -139,7 +139,7 @@
                     </td>
 
                     <td class="tdrow3">
-                        <form method="post" action="">
+                        <form method="post" action="" class="no-progbar">
                             <input type="hidden" name="selected_supplier_id" value="{$dev.selected_supplier_id}">
                             <input type="hidden" name="device_id" value="{$dev.id}">
                             <input type="submit" name="remove_device" value="Entfernen">
@@ -160,7 +160,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">{t}Bauteile Export{/t}</div>
     <div class="panel-body">
-        <form method="post" action="" class="form-horizontal">
+        <form method="post" action="" class="form-horizontal no-progbar">
             <div class="form-group">
                 <label class="control-label col-md-3">{t}Format:{/t}</label>
                 <div class="col-md-9"> 
