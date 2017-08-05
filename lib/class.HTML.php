@@ -422,11 +422,14 @@
                 $tmpl->escape_html = true;
 
 
+                //Unix locales (de_DE) are other than the HTML lang (de), so edit them
+                $lang = explode("_", $config['language'])[0];
+
                 // header stuff
                 $tmpl->assign('relative_path',              BASE_RELATIVE.'/'); // constant from start_session.php
                 $tmpl->assign('page_title',                 $this->meta['title']);
                 $tmpl->assign('http_charset',               $config['html']['http_charset']);
-                $tmpl->assign('lang',                       $config['language']);
+                $tmpl->assign('lang',                       $lang);
                 $tmpl->assign('body_onload',                $this->body_onload);
                 $tmpl->assign('theme',                      $this->meta['theme']);
                 $tmpl->assign('frameset',                   $this->meta['frameset']);
