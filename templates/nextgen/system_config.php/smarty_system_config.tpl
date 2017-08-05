@@ -146,7 +146,11 @@
                             <label>{t}Schreibrechte im DokuWiki aktivieren{/t}</label>
                         </div>
                         {/if}
-                        
+
+                        <div class="checkbox">
+                            <input type="checkbox" name="use_old_datasheet_icons" {if $use_old_datasheet_icons} checked{/if}>
+                            <label>{t}Alte (farbige) Icons für automatisch erzeugte Datenblattlinks benutzen{/t}</label>
+                        </div>
                         
                         <p></p>
                         <div>

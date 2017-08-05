@@ -100,6 +100,7 @@
     $popup_height               = isset($_REQUEST['popup_height'])      ? (integer)$_REQUEST['popup_height']    : $config['popup']['height'];
     $page_title                 = isset($_REQUEST['page_title'])        ? (string)$_REQUEST['page_title']       : $config['page_title'];
     $startup_banner             = isset($_REQUEST['startup_banner'])    ? (string)$_REQUEST['startup_banner']   : $config['startup']['custom_banner'];
+    $use_old_datasheet_icons    = isset($_REQUEST['use_old_datasheet_icons']);
 
     // section "3d footprints"
     $foot3d_active              = isset($_REQUEST['foot3d_active']);
@@ -169,6 +170,8 @@
                 $config['popup']['modal']                   = $use_modal_popup;
                 $config['popup']['width']                   = $popup_width;
                 $config['popup']['height']                  = $popup_height;
+
+                $config['appearance']['use_old_datasheet_icons'] = $use_old_datasheet_icons;
 
                 $config['foot3d']['active']                 = $foot3d_active;
                 $config['foot3d']['show_info']              = $foot3d_show_infos;
@@ -273,6 +276,7 @@
     $html->set_variable('developer_mode_available',     file_exists(BASE.'/development'),           'boolean');
     $html->set_variable('enable_developer_mode',        $config['developer_mode'],                  'boolean');
     $html->set_variable('enable_dokuwiki_write_perms',  file_exists(DOKUWIKI_PERMS_FILENAME),       'boolean');
+    $html->set_variable('use_old_datasheet_icons',      $config['appearance']['use_old_datasheet_icons'], 'boolean');
 
     // popup settings
     $html->set_variable('use_modal_popup',              $config['popup']['modal'],                  'boolean');
