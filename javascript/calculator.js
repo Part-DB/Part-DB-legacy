@@ -155,7 +155,7 @@ function calculate6ring()
     if (unit < 0) unit = 0;
     var value = (ring1 + ring2/10 + ring3/100) * Math.pow(10, ring4 % 3);
     var tolerance = ring5;
-    var tempcoeff = ring6
+    var tempcoeff = ring6;
     
     document.getElementById("resistance6ring").firstChild.nodeValue = Math.round(value*1000)/1000;
     document.getElementById("resistance_unit6ring").firstChild.nodeValue = units[unit] + "Ohm";
@@ -245,7 +245,7 @@ function ratio_calculate()
     var best_r2;
     var best_error = 1E9;
     var k = Math.floor(Math.log(ratio)/Math.LN10);
-    for (index in current_series) {
+    for (var index in current_series) {
         var r1 = current_series[index]*Math.pow(10, k+9);
 
         var r2;      

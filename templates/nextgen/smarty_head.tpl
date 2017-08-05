@@ -1,5 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 
+
+{if !isset($ajax_request) || !ajax_request}
 <!DOCTYPE html>
 <html lang="{if isset($lang)}{$lang}{else}en{/if}">
     <head>
@@ -36,9 +38,7 @@
             <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
             <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
-        
-        <!-- Includes Sidebar -->
-        <!-- <link href="{$relative_path}templates/{$theme}/css/simple-sidebar.css" rel="stylesheet"> -->
+
         
         <!-- Checkboxes -->
         <link href="{$relative_path}css/awesome-bootstrap-checkbox.css" rel="stylesheet">
@@ -48,16 +48,12 @@
        
         <!-- Include Part-DB Theme -->
         <link href="{$relative_path}templates/{$theme}/nextgen.css" rel="stylesheet">
-        <!-- <link href="{$relative_path}templates/{$theme}/partdb.css" rel="stylesheet"> -->
-
         
         <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
         <script src="{$relative_path}js/jquery-3.2.1.min.js"></script>
         <!-- Include all compiled plugins (below), or include individual files as needed -->
         <script src="{$relative_path}js/bootstrap.min.js"></script>
-        
-        <!-- jQuery Form lib -->
-        <script src="{$relative_path}js/jquery.form.min.js"></script>
+
         
         <!-- 3d footprint viewer -->
         {if isset($foot3d_active) && $foot3d_active}
@@ -65,31 +61,24 @@
         <link rel="stylesheet" href="http://www.x3dom.org/release/x3dom.css">
         {/if}
         
-        <link rel="stylesheet" type="text/css" href="{$relative_path}datatables/datatables.min.css"/>
-        <script type="text/javascript" src="{$relative_path}datatables/datatables.min.js" async></script>
-        
+
+        {*
         {if isset($javascript_files)}
         {foreach $javascript_files as $file}
             <script type="text/javascript" src="{$relative_path}javascript/{$file.filename}.js" async></script>
         {/foreach}
-        {/if}
+        {/if} *}
                
-        <!-- Always include CSS for Calculator. Maybe minimize this later for better performance -->  
-        <link rel="stylesheet" href="{$relative_path}templates/{$theme}/tools_calculator.php/calculator.css" type="text/css">
 
-        <!-- Treeview -->
-        <script src="{$relative_path}js/bootstrap-treeview.js" asy></script>
 
-        <!-- FileInput -->
-        <script src="{$relative_path}js/fileinput.min.js" async></script>
+
 
         <!-- SCEditor (WYSIWYG BBCode Editor) -->
-        <link rel="stylesheet" href="{$relative_path}js/sceditor/themes/default.min.css" />
-        <script src="{$relative_path}js/sceditor/jquery.sceditor.bbcode.min.js" async></script>
+        <!-- <link rel="stylesheet" href="{$relative_path}js/sceditor/themes/default.min.css" />
+        <script src="{$relative_path}js/sceditor/jquery.sceditor.bbcode.min.js" async></script> -->
 
 
-        <!-- Functions -->
-        <script src="{$relative_path}templates/nextgen/js/part-db.js" async></script>
+
     </head>
     
 <body>
@@ -144,6 +133,8 @@
                                        <label for="search_footprint">{t}Footprint{/t}</label></li>
                                    <li class="checkbox"><input type="checkbox" name="disable_pid_input" value="false">
                                         <label for="disable_pid_input">{t}Deakt. Barcode{/t}</label></li>
+                                   <li class="checkbox"><input type="checkbox" name="regex" value="true">
+                                        <label for="regex">{t}RegEx Matching{/t}</label></li>
                                 </ul>
                             </div>
 
@@ -167,8 +158,8 @@
                                 <!-- <h4>{t}Kategorien{/t}</h4>-->
                                     <div class="dropdown">
                                         <button class="btn-text dropdown-toggle" type="button" id="dropdownCat" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <h4 class="sidebar-title">{t}Kategorien{/t}
-                                                <span class="caret"></span></h4>
+                                            <div class="sidebar-title">{t}Kategorien{/t}
+                                                <span class="caret"></span></div>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownCat">
                                             <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-categories">{t}Alle ausklappen{/t}</a></li>
@@ -180,8 +171,8 @@
                                 <li id="devices">
                                     <div class="dropdown">
                                         <button class="btn-text dropdown-toggle" type="button" id="dropdownDev" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <h4 class="sidebar-title">{t}Baugruppen{/t}
-                                                <span class="caret"></span></h4>
+                                            <div class="sidebar-title">{t}Baugruppen{/t}
+                                                <span class="caret"></span></div>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownDev">
                                             <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-devices">{t}Alle ausklappen{/t}</a></li>
@@ -194,8 +185,8 @@
                                 <li id="tools">
                                     <div class="dropdown">
                                         <button class="btn-text dropdown-toggle" type="button" id="dropdownTools" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <h4 class="sidebar-title">{t}Verwaltung{/t}
-                                                <span class="caret"></span></h4>
+                                            <div class="sidebar-title">{t}Verwaltung{/t}
+                                                <span class="caret"></span></div>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownTools">
                                             <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-tools">{t}Alle ausklappen{/t}</a></li>
@@ -223,11 +214,13 @@
 
                    <div class="container-fluid" id="content">
 
+{/if}
+
                    <div id="content-data">
 
                        {if isset($messages)}
                         <div class="alert alert-danger" id="messages">
-                            {if isset($messages_div_title)}<h4>{$messages_div_title}</h4>{/if}
+                            {if !empty($messages_div_title)}<h4>{$messages_div_title}</h4>{/if}
                                 <form action="" method="post">
                                     {foreach $messages as $msg}
                                         {if isset($msg.text)}

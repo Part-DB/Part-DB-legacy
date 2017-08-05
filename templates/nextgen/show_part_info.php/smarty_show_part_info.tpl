@@ -320,6 +320,7 @@
 </div>
 
 
+{if $foot3d_active && !empty($foot3d_filename) && $foot3d_valid}
 <!-- Modal -->
 <div class="modal fade" id="fullscreen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
     <div class="modal-dialog modal-lg" role="document">
@@ -345,3 +346,4 @@
         </div>
     </div>
 </div>
+{/if}

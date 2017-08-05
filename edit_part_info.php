@@ -533,11 +533,14 @@
                     $pricedetails_loop = array();
                     foreach($orderdetails->get_pricedetails() as $pricedetails)
                     {
+                        //HTML5 wants a float number with a dot as a decimal point. The browser should change its display correspondingly to HTML locale.
+                        $price = str_replace(",",".", $pricedetails->get_price(false, $pricedetails->get_price_related_quantity()));
+
                         $pricedetails_loop[] = array(   'row_odd'                   => ! $row_odd,
                                                         'orderdetails_id'           => $orderdetails->get_id(),
                                                         'pricedetails_id'           => $pricedetails->get_id(),
                                                         'min_discount_quantity'     => $pricedetails->get_min_discount_quantity(),
-                                                        'price'                     => $pricedetails->get_price(false, $pricedetails->get_price_related_quantity()),
+                                                        'price'                     => $price,
                                                         'price_related_quantity'    => $pricedetails->get_price_related_quantity());
                     }
 
@@ -669,6 +672,13 @@
     *   Generate HTML Output
     *
     *********************************************************************************/
+
+
+    //If a ajax version is requested, say this the template engine.
+    if(isset($_REQUEST["ajax"]))
+    {
+        $html->set_variable("ajax_request", true);
+    }
 
     // an empty string in "$reload_link" means that the reload-button won't be visible
     $reload_link = ($fatal_error && ($action != 'delete_part_confirmed')) ? 'edit_part_info.php?pid='.$part_id : '';

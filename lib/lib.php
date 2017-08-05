@@ -737,3 +737,91 @@
 
         return $string;
     }
+
+    /**
+    * @brief Split a search string with search modifiers like "incategory:Category1" or "inname:Name2" into a array with
+     * the modifier keywords in named elemets.
+    *
+    * @param string search_str             the search containing the search modifiers.
+    *
+    * @retval array            @li an array with the elements name, description, comment, footprint, category,
+     *                          storelocation, suppliername, partnr and manufacturername. Element is "" when no modifier for
+     *                          this element was given.
+    *                          @li if $search_str does not contain any search modifier, then every element of the array
+     *                          will contain the original search string.
+    */
+    function search_string_to_array($search_str)
+    {
+        $arr = array();
+        $arr['name'] = get_keyword_after_modifier($search_str, "inname:");
+
+        $arr['description'] = get_keyword_after_modifier($search_str, "indescription:");
+        $arr['description'] = get_keyword_after_modifier($search_str, "indesc:");
+
+        $arr['comment'] = get_keyword_after_modifier($search_str, "incomment:");
+
+        $arr['footprint'] = get_keyword_after_modifier($search_str, "infootprint:");
+        $arr['footprint'] = get_keyword_after_modifier($search_str, "infoot:");
+
+        $arr['category'] = get_keyword_after_modifier($search_str, "incategory:");
+        $arr['category'] = get_keyword_after_modifier($search_str, "incat:");
+
+        $arr['storelocation'] = get_keyword_after_modifier($search_str, "inlocation:");
+        $arr['storelocation'] = get_keyword_after_modifier($search_str, "inloc:");
+
+        $arr['suppliername'] = get_keyword_after_modifier($search_str, "insupplier:");
+
+        $arr['partnr'] = get_keyword_after_modifier($search_str, "inpartnr:");
+
+        $arr['manufacturername'] = get_keyword_after_modifier($search_str, "inmanufacturer:");
+
+        //Check if all array entries are "", which means $search_str contains no modifier
+        $no_modifier = true;
+        foreach ($arr as $n)
+        {
+            if($n !== "")
+                $no_modifier = false;
+        }
+
+        if($no_modifier === true)    //When no modifier exists, fill every element with $search_str (emulate the old behaviour)
+        {
+            foreach ($arr as &$n)
+            {
+                $n = $search_str;
+            }
+        }
+
+        return $arr;
+    }
+
+    /***
+     * @brief Returns the keyword after a search modifier.(e.g. "inname:Test" with the modifier inname: would return "Test")
+    * @param $search_str The string which contains the modifiers and keywords.
+    * @param $modifier The modifier which should be searched for
+    * @retval string Return the keyword after the modifier, if it was found. Else returns "".
+    */
+    function get_keyword_after_modifier($search_str, $modifier)
+    {
+        $pos = strpos($search_str, $modifier);
+        if($pos === false)
+        {   //This modifier was not found in the search_str, so return "".
+            return "";
+        }
+        else
+        { //Modifier was found in the search string
+            $start = $pos + strlen($modifier);
+            if($search_str[$start] == "\"" || $search_str[$start] == "\'")
+            { //When a quote mark is detected, then treat the text up to the next quote as one literal
+                $end = strpos($search_str, $search_str[$start], $start + 1);
+                return substr($search_str, $start + 1, $end - $start - 1);
+            }
+            else
+            { //Go only to the next space
+                $end = strpos($search_str, " ", $start);
+                if($end === false) //The modifier was the last part of the query, so we dont need an end.
+                    return substr($search_str, $start);
+                else
+                    return substr($search_str, $start, $end - $start);
+            }
+        }
+    }

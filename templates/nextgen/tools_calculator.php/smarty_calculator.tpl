@@ -1,4 +1,10 @@
 {locale path="nextgen/locale" domain="partdb"}
+
+<!-- Always include CSS for Calculator. Maybe minimize this later for better performance -->
+<link rel="stylesheet" href="{$relative_path}css/calculator.css" type="text/css">
+
+
+
 <div class="panel panel-default">
     <div class="panel-heading">{t}Widerstandsrechner{/t}</div>
     <div class="panel-body">

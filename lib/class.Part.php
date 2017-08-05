@@ -1728,6 +1728,8 @@
          * @param boolean   $supplier_name          if true, the search will include this attribute
          * @param boolean   $supplierpartnr         if true, the search will include this attribute
          * @param boolean   $manufacturer_name      if true, the search will include this attribute
+         * @param boolean   $regex_search           if true, the search will use Regular Expressions to match
+         *                                          the results.
          *
          * @retval array    all found parts as a one-dimensional array of Part objects,
          *                  sorted by their names (if "$group_by == ''")
@@ -1749,21 +1751,48 @@
                                             $storelocation_name = false,
                                             $supplier_name = false,
                                             $supplierpartnr = false,
-                                            $manufacturer_name = false)
+                                            $manufacturer_name = false,
+                                            $regex_search = false)
         {
             global $config;
 
             $keyword = trim($keyword);
 
+            //When searchstring begins and ends with a backslash, treat the input as regex query
+            if(substr($keyword, 0, 1) === '\\' &&  substr($keyword, -1) === '\\')
+            {
+                $regex_search = true;
+                $keyword = substr($keyword, 1, -1); //Remove the backslashes
+            }
+
             if (strlen($keyword) == 0)
                 return array();
 
-            $keyword = str_replace('*', '%', $keyword);
-            $keyword = '%'.$keyword.'%';
+            $keywords = search_string_to_array($keyword);
+
+            //Select the correct LIKE operator, for Regex or normal search
+            if($regex_search == false) {
+                $like = "LIKE";
+                /*
+                $keyword = str_replace('*', '%', $keyword);
+                $keyword = '%'.$keyword.'%'; */
+
+                foreach ($keywords as &$k)
+                {
+                    if($k !== "") {
+                        $k = str_replace('*', '%', $k);
+                        $k = '%' . $k . '%';
+                    }
+                }
+            }
+            else
+                $like = "RLIKE";
 
             $groups = array();
             $parts = array();
             $values = array();
+
+
 
             $query = 'SELECT parts.id FROM parts'.
                     ' LEFT JOIN footprints ON parts.id_footprint=footprints.id'.
@@ -1774,58 +1803,58 @@
                     ' LEFT JOIN suppliers ON orderdetails.id_supplier=suppliers.id'.
                     ' WHERE FALSE';
 
-            if ($part_name)
+            if ($part_name && $keywords['name']!=="")
             {
-                $query .= ' OR (parts.name LIKE ?)';
-                $values[] = $keyword;
+                $query .= " OR (parts.name $like ?)";
+                $values[] = $keywords['name'];
             }
 
-            if ($part_description)
+            if ($part_description && $keywords['description']!=="")
             {
-                $query .= ' OR (parts.description LIKE ?)';
-                $values[] = $keyword;
+                $query .= " OR (parts.description $like ?)";
+                $values[] = $keywords['description'];
             }
 
-            if ($part_comment)
+            if ($part_comment && $keywords['comment']!=="")
             {
-                $query .= ' OR (parts.comment LIKE ?)';
-                $values[] = $keyword;
+                $query .= " OR (parts.comment $like ?)";
+                $values[] = $keywords['comment'];
             }
 
-            if ($footprint_name)
+            if ($footprint_name && $keywords['footprint']!=="")
             {
-                $query .= ' OR (footprints.name LIKE ?)';
-                $values[] = $keyword;
+                $query .= " OR (footprints.name $like ?)";
+                $values[] = $keywords['footprint'];
             }
 
-            if ($category_name)
+            if ($category_name && $keywords['category']!=="")
             {
-                $query .= ' OR (categories.name LIKE ?)';
-                $values[] = $keyword;
+                $query .= " OR (categories.name $like ?)";
+                $values[] = $keywords['category'];
             }
 
-            if ($storelocation_name)
+            if ($storelocation_name && $keywords['storelocation']!=="")
             {
-                $query .= ' OR (storelocations.name LIKE ?)';
-                $values[] = $keyword;
+                $query .= " OR (storelocations.name $like ?)";
+                $values[] = $keywords['storelocation'];
             }
 
-            if ($supplier_name)
+            if ($supplier_name && $keywords['suppliername']!=="")
             {
-                $query .= ' OR (suppliers.name LIKE ?)';
-                $values[] = $keyword;
+                $query .= " OR (suppliers.name $like ?)";
+                $values[] = $keywords['suppliername'];
             }
 
-            if ($supplierpartnr)
+            if ($supplierpartnr && $keywords['partnr']!=="")
             {
-                $query .= ' OR (orderdetails.supplierpartnr LIKE ?)';
-                $values[] = $keyword;
+                $query .= " OR (orderdetails.supplierpartnr $like ?)";
+                $values[] = $keywords['partnr'];
             }
 
-            if ($manufacturer_name)
+            if ($manufacturer_name && $keywords['manufacturername']!=="")
             {
-                $query .= ' OR (manufacturers.name LIKE ?)';
-                $values[] = $keyword;
+                $query .= " OR (manufacturers.name $like ?)";
+                $values[] = $keywords['manufacturername'];
             }
 
             if (!isset($config['db']['limit']['search_parts']))

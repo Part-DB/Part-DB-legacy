@@ -52,6 +52,8 @@
 
     $disable_pid_input      = isset($_REQUEST['disable_pid_input']);
 
+    $regex_search           = isset($_REQUEST['regex']);
+
     $action = 'default';
     if (isset($_REQUEST['export']))     {$action = 'export';}
     $selected_part_id = 0;
@@ -201,7 +203,7 @@
             $category_parts = Part::search_parts($database, $current_user, $log, $keyword, 'categories',
                                     $search_name, $search_description, $search_comment,
                                     $search_footprint, $search_category, $search_storelocation,
-                                    $search_supplier, $search_supplierpartnr, $search_manufacturer);
+                                    $search_supplier, $search_supplierpartnr, $search_manufacturer, $regex_search);
 
             $hits_count = count($category_parts, COUNT_RECURSIVE) - count($category_parts);
 
@@ -258,6 +260,13 @@
     *   Generate HTML Output
     *
     *********************************************************************************/
+
+
+    //If a ajax version is requested, say this the template engine.
+    if(isset($_REQUEST["ajax"]))
+    {
+        $html->set_variable("ajax_request", true);
+    }
 
     $html->print_header($messages);
 
