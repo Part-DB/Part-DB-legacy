@@ -1122,6 +1122,15 @@
                         foreach ($datasheet_loop as $key => $entry)
                             $datasheet_loop[$key]['url'] = str_replace('%%PARTNAME%%', urlencode($this->get_name()), $entry['url']);
 
+                        if($config['appearance']['use_old_datasheet_icons'] == true)
+                        {
+                            foreach($datasheet_loop as &$sheet)
+                            {
+                                if(isset($sheet['old_image']))
+                                    $sheet['image'] = $sheet['old_image'];
+                            }
+                        }
+
                         $row_field['datasheets'] = $datasheet_loop;
                         break;
 
