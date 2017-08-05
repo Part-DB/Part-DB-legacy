@@ -7,7 +7,7 @@
     <div class="panel-body">
             {foreach $attachements_loop as $attach}
                <div class="row">
-                <form action="{$relative_path}edit_part_info.php" method="post" enctype="multipart/form-data">
+                <form action="{$relative_path}edit_part_info.php" method="post" enctype="multipart/form-data" class="no-progbar">
                         <div class="col-sm-2">
                             {if $attach.id == "new"}
                                 <b>{t}Neue Datei hinzufügen:{/t}</b>

@@ -20,7 +20,7 @@
     </div>    
         
     <div class="panel-body">
-        <form action="{$relative_path}edit_part_info.php" class="form-horizontal" method="post no-progbar">
+        <form action="{$relative_path}edit_part_info.php" class="form-horizontal no-progbar" method="post">
             <!--<table class="table">-->
                 <div class="form-group">
                     <label class="col-md-2 control-label">
