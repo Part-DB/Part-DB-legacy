@@ -13,8 +13,12 @@ body {
 }
 
 .companypic {
-    width: 25px;
+    width: 23px;
     display: inline;
+}
+
+.companypic:hover {
+    filter: opacity(60%);
 }
 
 .td .table-small {

@@ -283,11 +283,11 @@
     // automatic datasheets settings
     $config['auto_datasheets']['entries'][0]['name']        = 'alldatasheet.com';
     $config['auto_datasheets']['entries'][0]['url']         = 'http://www.alldatasheet.com/view.jsp?Searchword=%%PARTNAME%%';
-    $config['auto_datasheets']['entries'][0]['image']       = 'img/partdb/alldatasheet.png';
+    $config['auto_datasheets']['entries'][0]['image']       = 'img/partdb/file_all.svg';
     $config['auto_datasheets']['entries'][1]['name']        = 'reichelt.de';
     $config['auto_datasheets']['entries'][1]['url']         = 'http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=%%PARTNAME%%';
-    $config['auto_datasheets']['entries'][1]['image']       = 'img/partdb/reichelt.png';
+    $config['auto_datasheets']['entries'][1]['image']       = 'img/partdb/file_reichelt.svg';
     $config['auto_datasheets']['entries'][2]['name']        = 'datasheetcatalog.net';
     $config['auto_datasheets']['entries'][2]['url']         = 'http://search.datasheetcatalog.net/key/%%PARTNAME%%';
-    $config['auto_datasheets']['entries'][2]['image']       = 'img/partdb/dc.png';
+    $config['auto_datasheets']['entries'][2]['image']       = 'img/partdb/file_dc.svg';
     // IMPORTANT: If you add your own export formats to your config.php, use letters instead of numbers as array indexes!! e.g. $config['auto_datasheets']['entries']['A']['name'] = 'foo';
