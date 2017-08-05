@@ -39,7 +39,7 @@ script:
   #- cd ./tools.sh -p -dev
   # Generate doxygen documentation
   #- cd ./tools.sh -d
-  - phpunit --configuration phpunit.xml
+  #- phpunit --configuration phpunit.xml
 
 # Generate and deploy documentation
 after_success:
