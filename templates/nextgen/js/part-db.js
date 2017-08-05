@@ -269,9 +269,9 @@ $(document).ajaxComplete(function (event, xhr, settings) {
     scrollUpForMsg();
     registerSubmitBtn();
     
-    //if ($("x3d").length) {
-    //    x3dom.reload();
-    //}
+    if ($("x3d").length) {
+        x3dom.reload();
+    }
         
     //Push only if it was a "GET" request and requested data was an HTML
     if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
