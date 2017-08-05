@@ -17,6 +17,10 @@ body {
     display: inline;
 }
 
+.companypic:hover {
+    filter: opacity(60%);
+}
+
 .td .table-small {
     font-size: 12px;
 }
