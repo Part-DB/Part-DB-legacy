@@ -82,6 +82,16 @@ function submitForm(form) {
     $(form).ajaxSubmit(data);
 }
 
+function submitFormSubmitBtn(form, btn) {
+    var name = $(btn).attr('name');
+    var value = $(btn).attr('value');
+    if(value === undefined)
+        value = "";
+
+    $(form).append('<input type="hidden" name="' + name + '" value="' + value + '">');
+    submitForm(form);
+}
+
 function registerHoverImages(form) {
     'use strict';
     $('img[rel=popover]').popover({
@@ -229,11 +239,18 @@ window.onpopstate = function (event) {
     var page = location.href;
     //Go back only when the the target isnt the empty index.
     if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
-        $('#content').hide(0).load(addURLparam(location.href, ajax) + " #content-data");;
+        $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");;
         $('#progressbar').show(0);
     }
 };
 
+
+function registerSubmitBtn()
+{
+    $("button.submit").unbind("click").click(function(){
+        submitFormSubmitBtn($(this).closest("form"), this);
+    });
+}
 
 $(document).ajaxComplete(function (event, xhr, settings) {
     'use strict';
@@ -250,10 +267,11 @@ $(document).ajaxComplete(function (event, xhr, settings) {
     makeFileInput();
     registerHoverImages();
     scrollUpForMsg();
+    registerSubmitBtn();
     
-    if ($("x3d").length) {
-        x3dom.reload();
-    }
+    //if ($("x3d").length) {
+    //    x3dom.reload();
+    //}
         
     //Push only if it was a "GET" request and requested data was an HTML
     if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
