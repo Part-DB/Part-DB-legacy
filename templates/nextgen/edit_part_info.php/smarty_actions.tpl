@@ -4,7 +4,7 @@
         {t}Aktionen{/t}
     </div>
     <div class="panel-body">    
-        <form class="form-horizontal" action="{$relative_path}edit_part_info.php" method="post">   
+        <form class="form-horizontal no-progbar" action="{$relative_path}edit_part_info.php" method="post">
             <div class="form-group">     
                 <label class="control-label col-sm-2">{t}Bauteil löschen:{/t}</label> 
                 <input type="hidden" name="pid" value="{$pid}">
@@ -23,7 +23,7 @@
         <p></p>
                 
         
-        <form action="{$relative_path}edit_part_info.php" class="form-horizontal" method="post">
+        <form action="{$relative_path}edit_part_info.php" class="form-horizontal no-progbar" method="post">
             <div class="form-group">
                 <label  class="control-label col-sm-2">{t}Weiteres Bauteil anlegen:{/t}</label>
                 <input type="hidden" name="pid" value="{$pid}">
