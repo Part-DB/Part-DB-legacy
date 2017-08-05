@@ -442,50 +442,48 @@
             case 'search_category':
                 $classname = 'Category';
                 $search_name = $search_category_name;
+                break;
             case 'search_footprint':
-                if ( ! isset($classname))
-                {
-                    $classname = 'Footprint';
-                    $search_name = $search_footprint_name;
-                }
+                $classname = 'Footprint';
+                $search_name = $search_footprint_name;
+                break;
             case 'search_storelocation':
-                if ( ! isset($classname))
-                {
-                    $classname = 'Storelocation';
-                    $search_name = $search_storelocation_name;
-                }
+                $classname = 'Storelocation';
+                $search_name = $search_storelocation_name;
+                break;
             case 'search_manufacturer':
-                if ( ! isset($classname))
-                {
-                    $classname = 'Manufacturer';
-                    $search_name = $search_manufacturer_name;
-                }
-
-                $print_unsaved_values = true;
-                $search_name = trim($search_name);
-
-                try
-                {
-                    if (strpos($search_name, '__ID__=') === 0)
-                    {
-                        $searched_element = new $classname($database, $current_user, $log, (int)str_replace('__ID__=', '', $search_name));
-                    }
-                    else
-                    {
-                        $elements = $classname::search($database, $current_user, $log, $search_name);
-
-                        if (count($elements) > 0)
-                            $searched_element = $elements[0];
-                        else
-                            $searched_element = $classname::add($database, $current_user, $log, $search_name, 0);
-                    }
-                }
-                catch (Exception $e)
-                {
-                    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
-                }
+                $classname = 'Manufacturer';
+                $search_name = $search_manufacturer_name;
                 break;
         }
+
+        if(isset($classname))
+        {
+            $print_unsaved_values = true;
+            $search_name = trim($search_name);
+
+            try
+            {
+                if (strpos($search_name, '__ID__=') === 0)
+                {
+                    $searched_element = new $classname($database, $current_user, $log, (int)str_replace('__ID__=', '', $search_name));
+                }
+                else
+                {
+                    $elements = $classname::search($database, $current_user, $log, $search_name);
+
+                    if (count($elements) > 0)
+                        $searched_element = $elements[0];
+                    else
+                        $searched_element = $classname::add($database, $current_user, $log, $search_name, 0);
+                }
+            }
+            catch (Exception $e)
+            {
+                $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+            }
+        }
+
     }
 
     /********************************************************************************
