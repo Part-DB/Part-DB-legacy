@@ -15,6 +15,10 @@ class PartProperty
 
     public function __construct($property_string, $property_name = "", $property_value = "")
     {
+        $property_string = trim($property_string);
+        $property_name = trim($property_name);
+        $property_value = trim($property_value);
+
         if($property_name !== "" && $property_value !== "")
         {
             $this->name = $property_name;
@@ -89,7 +93,7 @@ class PartProperty
 
     public static function parse_description($description)
     {
-        $pattern = '/(\w+)\s?[\=\:]\s?(\w+(?:[\.\,]\w+)?[^\,]*)/i';
+        $pattern = '/([^\,\;]+)\s?[\=\:]\s?(\w+(?:[\.\,]\w+)?[^\,\;]*)/i';
 
         $pattern = regex_allow_umlauts($pattern);
 
