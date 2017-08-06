@@ -223,7 +223,7 @@
         <tbody>
         {foreach $properties_loop as $property}
         <tr>
-            <td>{$property['name']}</td>
+            <td><strong>{$property['name']}</strong></td>
             <td>{$property['value']}</td>
         </tr>
         {/foreach}
