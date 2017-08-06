@@ -209,6 +209,35 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
+        <i class="fa fa-table" aria-hidden="true"></i>
+        {t}Bauteileeigenschaften{/t}
+    </div>
+    <table class="table table-striped table-hover">
+        <thead>
+        <tr>
+            <th>Eigenschaft</th>
+            <th>Wert</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>max. Widerstand</td>
+            <td>100 Ohm</td>
+        </tr>
+        <tr>
+            <td>Typ</td>
+            <td>N-FET</td>
+        </tr>
+        <tr>
+            <td>Größe</td>
+            <td>10x10x10 mm³</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">
         <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;
         {t}Einkaufsinformationen{/t}
     </div>
