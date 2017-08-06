@@ -796,6 +796,21 @@
             return NULL;
         }
 
+        public function get_properties()
+        {
+            return PartProperty::parse_description($this->get_description());
+        }
+
+        public function get_properties_loop()
+        {
+            $arr = array();
+            foreach ($this->get_properties() as $property)
+            {
+                $arr[] = $property->get_array();
+            }
+            return $arr;
+        }
+
         /********************************************************************************
         *
         *   Setters

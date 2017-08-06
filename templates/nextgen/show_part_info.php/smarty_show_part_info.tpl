@@ -207,6 +207,7 @@
         </div>
     </div>
 
+{if !empty($properties_loop)}
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-table" aria-hidden="true"></i>
@@ -220,21 +221,16 @@
         </tr>
         </thead>
         <tbody>
+        {foreach $properties_loop as $property}
         <tr>
-            <td>max. Widerstand</td>
-            <td>100 Ohm</td>
+            <td>{$property['name']}</td>
+            <td>{$property['value']}</td>
         </tr>
-        <tr>
-            <td>Typ</td>
-            <td>N-FET</td>
-        </tr>
-        <tr>
-            <td>Größe</td>
-            <td>10x10x10 mm³</td>
-        </tr>
+        {/foreach}
         </tbody>
     </table>
 </div>
+{/if}
 
 <div class="panel panel-default">
     <div class="panel-heading">
