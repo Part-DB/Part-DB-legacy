@@ -33,9 +33,12 @@ class PartProperty
         return $this->value;
     }
 
-    public function get_name()
+    public function get_name($with_colon = true)
     {
-        return $this->name;
+        if($with_colon === true)
+            return $this->name . ":";
+        else
+            return $this->name;
     }
 
     public function get_array($named = true)
