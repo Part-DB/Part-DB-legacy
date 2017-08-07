@@ -165,6 +165,18 @@
 
                 <hr>
 
+                <div class="form-group">
+                    <label for="modal-container" class="control-label col-sm-2">{t}Bauteileeigenschaften:{/t}</label>
+                    <div class="col-sm-10">
+                        <div class="checkbox">
+                            <input type="checkbox" name="properties_active" {if $properties_active} checked{/if}>
+                            <label for="properties_active">{t}Bauteileigenschaften global aktiv.{/t}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
                 {if $developer_mode_available}
                 <div class="form-group">
                     <label for="checkbox-container" class="control-label col-sm-2">{t}Entwickleroptionen:{/t}</label>

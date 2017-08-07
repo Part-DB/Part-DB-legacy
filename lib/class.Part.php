@@ -800,21 +800,31 @@
          * Parses the selected fields and extract Properties of the part.
          * @param bool $use_description Use the description field for parsing
          * @param bool $use_comment Use the comment field for parsing
-         * @return array A array of PartProperty objects
+         * @param bool $force_output Properties are parsed even if properties are disabled.
+         * @return array A array of PartProperty objects.
+         * @return array If Properties are disabled or nothing was detected, then an empty array is returned.
          */
-        public function get_properties($use_description = true, $use_comment = true)
+        public function get_properties($use_description = true, $use_comment = true, $force_output = false)
         {
-            $desc = array();
-            $comm = array();
+            global $config;
 
-            if($use_description === true)
-                $desc = PartProperty::parse_description($this->get_description());
-            if($use_comment === true)
-                $comm = PartProperty::parse_description($this->get_comment());
+            if($config['properties']['active'] || $force_output) {
+                $desc = array();
+                $comm = array();
 
-            $arr =  array_merge($desc, $comm);
+                if ($use_description === true)
+                    $desc = PartProperty::parse_description($this->get_description());
+                if ($use_comment === true)
+                    $comm = PartProperty::parse_description($this->get_comment());
 
-            return $arr;
+                $arr = array_merge($desc, $comm);
+
+                return $arr;
+            }
+            else
+            {
+                return array();
+            }
         }
 
         /**
