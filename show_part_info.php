@@ -161,6 +161,9 @@
     *********************************************************************************/
 
 
+    $properties = $part->get_properties_loop();
+    $html->set_loop("properties_loop", $properties);
+
     // global settings
     $html->set_variable('use_modal_popup',          $config['popup']['modal'], 'boolean');
     $html->set_variable('popup_width',              $config['popup']['width'], 'integer');

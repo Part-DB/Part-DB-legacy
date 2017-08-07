@@ -139,6 +139,9 @@
     //Appearance settings
     $config['appearance']['use_old_datasheet_icons'] = false;
 
+    //Properties settings
+    $config['properties']['active']                  = false;
+
 
     /********************************************************************************
     *
