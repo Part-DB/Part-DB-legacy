@@ -137,7 +137,9 @@
     $config['foot3d']['show_info']                    = true;
 
     //Appearance settings
-    $config['appearance']['use_old_datasheet_icons'] = false;
+    $config['appearance']['use_old_datasheet_icons']    = false;
+    $config['appearance']['short_description_length']   = 200;
+    $config['appearance']['short_description']          = true;
 
     //Properties settings
     $config['properties']['active']                  = false;

@@ -239,11 +239,20 @@
          * @brief Get the description
          *
          * @param boolean $parse_bbcode Should BBCode converted to HTML, before returning
+         * @param int $short_output If this is bigger than 0, than the description will be shortened to this length.
          * @retval string       the description
          */
-        public function get_description($parse_bbcode = true)
+        public function get_description($parse_bbcode = true, $short_output = 0)
         {
             $val = htmlspecialchars($this->db_data['description']);
+
+            if($short_output > 0 && strlen($val) > $short_output)
+            {
+                $val = substr($val, 0, $short_output);
+                $val = $val . "...";
+                $val = '<span class="text-muted">' . $val . '</span class="text-muted">';
+            }
+
             if($parse_bbcode)
             {
                 $bbcode = new Golonka\BBCode\BBCodeParser;
@@ -1041,6 +1050,11 @@
         {
             global $config;
 
+            if($config['appearance']['short_description'])
+                $max_length =  $config['appearance']['short_description_length'];
+            else
+                $max_length = 0;
+
             $table_row = array();
             $table_row['row_odd']       = is_odd($row_index);
             $table_row['row_index']     = $row_index;
@@ -1070,7 +1084,7 @@
                     case 'name_description':
                         $row_field['obsolete']          = $this->get_obsolete();
                         $row_field['comment']           = $this->get_comment();
-                        $row_field['description']       = $this->get_description();
+                        $row_field['description']       = $this->get_description(true, $max_length);
                         break;
 
                     case 'instock':

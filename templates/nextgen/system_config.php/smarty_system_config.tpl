@@ -41,11 +41,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="modal-container" class="control-label col-sm-2">{t}Aussehen:{/t}</label>
-                    <div class="col-sm-10">
+                    <label for="checkbox-container" class="control-label col-sm-2">{t}Aussehen:{/t}</label>
+                    <div class="checkbox-container col-sm-10">
                         <div class="checkbox">
                             <input type="checkbox" name="use_old_datasheet_icons" {if $use_old_datasheet_icons} checked{/if}>
                             <label>{t}Alte (farbige) Icons für automatisch erzeugte Datenblattlinks benutzen{/t}</label>
+                        </div>
+                        <div class="checkbox">
+                            <input type="checkbox" name="short_description" {if $short_description} checked{/if}>
+                            <label>{t}Länge der Bauteilebeschreibungen in den Übersichtstabellen begrenzen{/t}</label>
                         </div>
                     </div>
                 </div>
