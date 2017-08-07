@@ -13,6 +13,12 @@ class PartProperty
     private $value;
     private $raw_string;
 
+    /**
+     * Creates a new PartProperty object with the given parameters.
+     * @param $property_string The original (sub)string, where this property get extracted from. (eg. "Name: 1234")
+     * @param $property_name The extracted name of the Property, without delimiter (e.g. "Name")
+     * @param $property_value The extracted value of the Property (e.g. "1234")
+     */
     public function __construct($property_string, $property_name, $property_value)
     {
         $property_string = trim($property_string);
@@ -24,11 +30,21 @@ class PartProperty
         $this->raw_string = $property_string;
     }
 
+    /**
+     * Returns the value part of this Property
+     * @return string The value part of this property
+     */
     public function get_value()
     {
         return $this->value;
     }
 
+
+    /**
+     * Returns the name part of this Property. Either with a trailing colon or without.
+     * @param bool $with_colon If true, a colon get added at the end of the name.
+     * @return string The name part of this property.
+     */
     public function get_name($with_colon = true)
     {
         if($with_colon === true)
@@ -37,6 +53,11 @@ class PartProperty
             return $this->name;
     }
 
+    /**
+     * Returns a array with the contents of this Property. Either with named keys(default) or with 0 and 1.
+     * @param bool $named If true the array has named keys.
+     * @return array An array with the contents of this Property. 'name'/0 contains the name part. 'value'/1 the value part.
+     */
     public function get_array($named = true)
     {
         if($named == true)
@@ -57,6 +78,12 @@ class PartProperty
      ****************************************************************/
 
 
+    /**
+     * Parses the in $description given string, extracts different part properties and retuns an array
+     *          PartProperty objects.
+     * @param $description The description string which should be parsed
+     * @retval array An array containing PartProperty objects. Empty if no properties could be parsed.
+     */
     public static function parse_description($description)
     {
         $pattern = '/([^\,\;]+)\s?[\=\:]\s?(\w+(?:[\.\,]\w+)?(?:[^\,\;]|\,\w)*)/i';
