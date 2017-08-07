@@ -796,17 +796,39 @@
             return NULL;
         }
 
-        public function get_properties()
+        /**
+         * Parses the selected fields and extract Properties of the part.
+         * @param bool $use_description Use the description field for parsing
+         * @param bool $use_comment Use the comment field for parsing
+         * @return array A array of PartProperty objects
+         */
+        public function get_properties($use_description = true, $use_comment = true)
         {
-            return PartProperty::parse_description($this->get_description());
+            $desc = array();
+            $comm = array();
+
+            if($use_description === true)
+                $desc = PartProperty::parse_description($this->get_description());
+            if($use_comment === true)
+                $comm = PartProperty::parse_description($this->get_comment());
+
+            $arr =  array_merge($desc, $comm);
+
+            return $arr;
         }
 
-        public function get_properties_loop()
+        /**
+         * Returns a loop (array) of the array representations of the properties of this part.
+         * @param bool $use_description Use the description field for parsing
+         * @param bool $use_comment Use the comment field for parsing
+         * @return array A array of arrays with the name and value of the properties.
+         */
+        public function get_properties_loop($use_description = true, $use_comment = true)
         {
             $arr = array();
             foreach ($this->get_properties() as $property)
             {
-                $arr[] = $property->get_array();
+                $arr[] = $property->get_array($use_description, $use_comment);
             }
             return $arr;
         }
