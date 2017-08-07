@@ -13,23 +13,15 @@ class PartProperty
     private $value;
     private $raw_string;
 
-    public function __construct($property_string, $property_name = "", $property_value = "")
+    public function __construct($property_string, $property_name, $property_value)
     {
         $property_string = trim($property_string);
         $property_name = trim($property_name);
         $property_value = trim($property_value);
 
-        if($property_name !== "" && $property_value !== "")
-        {
-            $this->name = $property_name;
-            $this->value = $property_value;
-            $this->raw_string = $property_string;
-        }
-        else
-        {
-            $this->raw_string = $property_string;
-            $this->name = $this->parse_name($property_string);
-        }
+        $this->name = $property_name;
+        $this->value = $property_value;
+        $this->raw_string = $property_string;
     }
 
     public function get_value()
@@ -63,32 +55,6 @@ class PartProperty
     /****************************************************************
      * Parse functions
      ****************************************************************/
-
-    private function parse_name($str)
-    {
-        $results = array();
-        //$pattern = '/[a-zäöüß]+\s?[\=\:]/i';
-        $pattern = '/[[:alnum:]]+[[:space:]]?[\=\:]/i';
-        if(preg_match($str,$pattern, $results) == 1)
-        {
-            //if(count($results > 1))
-             //   throw new Exception("Can not parse the PropertyName of" . $str . " ! Multiple pattern match found!");
-
-
-
-        }
-        else
-        {
-            throw new Exception("Can not parse the PropertyName of" . $str . " ! No pattern match found!");
-        }
-    }
-
-    private function remove_delimiters($str)
-    {
-        $delimiter_list = array("=", ",");
-
-        str_replace($delimiter_list, "", $str);
-    }
 
 
     public static function parse_description($description)
