@@ -1,13 +1,18 @@
 {locale path="nextgen/locale" domain="partdb"}
     <div class="jumbotron">
-        <h1>Part-DB</h1>
+        <h1>{if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</h1>
         {if isset($system_version_full)}
         <h3>{t}Version:{/t} {$system_version_full}{if !empty($git_branch)}, Git: {$git_branch}{if isset($git_commit)}/{$git_commit}{/if}{/if}</h3>
         {/if}
         <h4><i>"NextGen"</i></h4>
-        <!--
-        <a href="zxing://scan/?ret={if isset($smarty.server.HTTPS)}https{else}http{/if}%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$relative_path|escape:'url'}show_part_info.php%3Fbarcode%3D%7BCODE%7D&SCAN_FORMATS=EAN_8" class="link-anchor">Barcode Scan</a>
-        -->
+
+        {if !empty($banner)}
+            <hr>
+        <div>
+            <h4>{$banner nofilter}</h4>
+        </div>
+        {/if}
+
     </div>
     
     {if isset($database_update) && $database_update}
@@ -66,7 +71,7 @@
     </div>
 {/if}
 
-{$banner}
+
 
 <div class="panel panel-primary">
     <div class="panel-heading">

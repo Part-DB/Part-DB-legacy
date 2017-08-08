@@ -40,6 +40,16 @@
                     </div>
                 </div>
 
+                <div class="form-group">
+                    <label for="modal-container" class="control-label col-sm-2">{t}Aussehen:{/t}</label>
+                    <div class="col-sm-10">
+                        <div class="checkbox">
+                            <input type="checkbox" name="use_old_datasheet_icons" {if $use_old_datasheet_icons} checked{/if}>
+                            <label>{t}Alte (farbige) Icons für automatisch erzeugte Datenblattlinks benutzen{/t}</label>
+                        </div>
+                    </div>
+                </div>
+
                 <hr>
 
                 <div class="form-group">
@@ -67,7 +77,7 @@
                 <hr>
 
                 <div class="form-group">
-                    <label for="checkbox-container" class="control-label col-sm-2">{t}Allgemeine Einstellungen:{/t}</label>
+                    <label for="checkbox-container" class="control-label col-sm-2">{t}Funktionen:{/t}</label>
                     
                     <div id="checkbox-container" class="col-sm-10">
                         <div class="checkbox">
@@ -106,11 +116,6 @@
                         </div>
                         
                         <div class="checkbox">
-                            <input type="checkbox" name="enable_debug_link" {if $enable_debug_link} checked{/if}>
-                            <label>{t}Menüpunkt "System -> Debugging" aktivieren{/t}</label>
-                        </div>
-                        
-                        <div class="checkbox">
                             <input type="checkbox" name="disable_labels" {if $disable_labels} checked{/if}>
                             <label>{t}Menüpunkt "Tools -> Labels" deaktivieren{/t} *</label>
                         </div>
@@ -135,22 +140,7 @@
                             <label>{t}Unter "Tools -> Footprints" beim Aufruf automatisch alle Bilder laden (lange Ladezeit!){/t}</label>
                         </div>
 
-                        {if $developer_mode_available}
-                        <div class="checkbox">
-                            <input type="checkbox" name="enable_developer_mode" {if $enable_developer_mode} checked{/if}>
-                            <label>{t}Entwickler-Werkzeuge aktivieren (für Entwickler und Tester){/t}</label>
-                        </div>
 
-                        <div class="checkbox">
-                            <input type="checkbox" name="enable_dokuwiki_write_perms" {if $enable_dokuwiki_write_perms} checked{/if} {if $is_online_demo}disabled{/if}>
-                            <label>{t}Schreibrechte im DokuWiki aktivieren{/t}</label>
-                        </div>
-                        {/if}
-
-                        <div class="checkbox">
-                            <input type="checkbox" name="use_old_datasheet_icons" {if $use_old_datasheet_icons} checked{/if}>
-                            <label>{t}Alte (farbige) Icons für automatisch erzeugte Datenblattlinks benutzen{/t}</label>
-                        </div>
                         
                         <p></p>
                         <div>
@@ -160,37 +150,6 @@
                     </div>
          
                 </div>
-                   
-                   
-                {*
-                <hr>
-               
-                <div class="form-group">
-                    <label for="modal-container" class="control-label col-sm-2">Modale Dialoge:</label>
-                        <div class="checkbox col-sm-10">
-                            <input type="checkbox" name="use_modal_popup" id="use_modal_popup" {if $use_modal_popup}checked{/if}>
-                            <label>Modale Dialoge verwenden</label>
-                        </div>
-                </div>
-                            
-                <!-- //Height and size not used because popups not recommended. Maybe implement real modal dialogs later            
-                
-                <div class="form-group">
-                        <label class="control-label col-sm-2">Dialogbreite:</label>
-                        <div class="col-sm-10">
-                            <input name="popup_width" id="popup_width" class="form-control" size="5" onkeypress="validateNumber(event)" value="{$popup_width}">
-                        </div>
-                </div>
-                    
-
-                <tr>
-                    <td>Dialoghöhe:</td>
-                    <td>
-                        <input name="popup_height" id="popup_height" size="5" onkeypress="validateNumber(event)" value="{$popup_height}">
-                    </td>
-                </tr> -->
-
-               *}
                 
                 <hr>
                 
@@ -207,6 +166,41 @@
                 <hr>
 
                 <div class="form-group">
+                    <label for="modal-container" class="control-label col-sm-2">{t}Bauteileeigenschaften:{/t}</label>
+                    <div class="col-sm-10">
+                        <div class="checkbox">
+                            <input type="checkbox" name="properties_active" {if $properties_active} checked{/if}>
+                            <label for="properties_active">{t}Bauteileigenschaften global aktiv.{/t}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
+                {if $developer_mode_available}
+                <div class="form-group">
+                    <label for="checkbox-container" class="control-label col-sm-2">{t}Entwickleroptionen:{/t}</label>
+                    <div id="checkbox-container" class="col-sm-10">
+                            <div class="checkbox">
+                                <input type="checkbox" name="enable_developer_mode" {if $enable_developer_mode} checked{/if}>
+                                <label>{t}Entwickler-Werkzeuge aktivieren (für Entwickler und Tester){/t}</label>
+                            </div>
+
+                            <div class="checkbox">
+                                <input type="checkbox" name="enable_dokuwiki_write_perms" {if $enable_dokuwiki_write_perms} checked{/if} {if $is_online_demo}disabled{/if}>
+                                <label>{t}Schreibrechte im DokuWiki aktivieren{/t}</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" name="enable_debug_link" {if $enable_debug_link} checked{/if}>
+                                <label>{t}Menüpunkt "System -> Debugging" aktivieren{/t}</label>
+                            </div>
+                    </div>
+                </div>
+                {/if}
+
+                <hr>
+
+                <div class="form-group">
                     <label for="page_title" class="control-label col-sm-2">{t}Titel der Seite:{/t}</label>
                     <div class="col-sm-10">
                         <input type="text" name="page_title" class="form-control" placeholder="{t}Part-DB Elektronische Bauteile-Datenbank{/t}" value="{$page_title}" {if $is_online_demo}disabled{/if}>
@@ -214,13 +208,15 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="startup_banner" class="control-label col-sm-2">{t}Eigener Banner für die Startseite (HTML):{/t}</label>
+                    <label for="startup_banner" class="control-label col-sm-2">{t}Eigener Banner für die Startseite (BB-Code):{/t}</label>
                     <div class="col-sm-10">
                         <textarea name="startup_banner" rows="5" class="form-control"  {if $is_online_demo}disabled{/if}>{$startup_banner}</textarea>
                     </div>
                 </div>
 
                 <hr>
+
+
 
                 <div class="col-sm-offset-2">
                     <button class="btn btn-success" type="submit" name="apply">{t}Einstellungen übernehmen{/t}</button>

@@ -106,6 +106,9 @@
     $foot3d_active              = isset($_REQUEST['foot3d_active']);
     $foot3d_show_info           = isset($_REQUEST['foot3d_show_info']);
 
+    //section "part properites"
+    $properties_active          = isset($_REQUEST['properties_active']);
+
     // section "change administrator password"
     $current_admin_password     = isset($_REQUEST['current_admin_password'])    ? (string)$_REQUEST['current_admin_password']   : '';
     $new_admin_password_1       = isset($_REQUEST['new_admin_password_1'])      ? (string)$_REQUEST['new_admin_password_1']     : '';
@@ -176,11 +179,13 @@
                 $config['foot3d']['active']                 = $foot3d_active;
                 $config['foot3d']['show_info']              = $foot3d_show_infos;
 
+                $config['properties']['active']             = $properties_active;
+
                 if ( ! $config['is_online_demo'])
                 {
                     // settings which should not be able to change in the online demo
                     $config['menu']['disable_config']       = $disable_config;
-                    $config['page_title']                   = $page_title;
+                    $config['partdb_title']                   = $page_title;
                     $config['startup']['custom_banner']     = $startup_banner;
                 }
                 else
@@ -284,13 +289,16 @@
     $html->set_variable('popup_height',                 $config['popup']['height'],                 'integer');
 
     // site properties
-    $html->set_variable('page_title',                   $config['page_title'],                      'string');
+    $html->set_variable('page_title',                   $config['partdb_title'],                      'string');
     $html->set_variable('startup_banner',               $config['startup']['custom_banner'],        'string');
 
     // server
     $html->set_variable('php_version',                  phpversion(),                               'string');
     $html->set_variable('htaccess_works',               (getenv('htaccessWorking')=='true'),        'boolean');
     $html->set_variable('is_online_demo',               $config['is_online_demo'],                  'boolean');
+
+    //Part properties
+    $html->set_variable('properties_active',                  $config['properties']['active'],               'boolean');
 
     // 3d Footprints
     $html->set_variable('foot3d_active',                $config['foot3d']['active'],                'boolean');

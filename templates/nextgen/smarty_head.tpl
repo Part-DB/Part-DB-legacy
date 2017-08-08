@@ -100,7 +100,7 @@
                         <i class="fa fa-barcode" aria-hidden="true"></i>
                         <span class="sr-only">{t}Scanne Barcode{/t}</span>
                     </a>
-                    <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> Part-DB</a>
+                    <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> {if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</a>
                 </div>
 
                 <!-- Navbar -->
@@ -214,7 +214,11 @@
 
                    <div class="container-fluid" id="content">
 
+{else} {* Print tile in ajax requests, or we cant set the tab title *}
+                <title>{$page_title}</title>
+
 {/if}
+
 
                    <div id="content-data">
 
