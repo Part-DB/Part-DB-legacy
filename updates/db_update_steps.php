@@ -34,7 +34,7 @@
      *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
      */
 
-    define('LATEST_DB_VERSION', 18);  // <-- increment here
+    define('LATEST_DB_VERSION', 19);  // <-- increment here
 
     /*
      * Get update steps
@@ -2374,6 +2374,23 @@
               $updateSteps[]  = "UPDATE footprints SET filename_3d = '';";
               break;
 
+            case 18:
+                //Disable properties option
+                $updateSteps[] = "ALTER TABLE `categories` ADD `disable_properties` TINYINT(1) NOT NULL DEFAULT '0' AFTER `disable_autodatasheets`;";
+                $updateSteps[] = "UPDATE categories SET disable_properties = 0";
+                //Name Regex
+                $updateSteps[] = "ALTER TABLE `categories` ADD `partname_regex` TEXT NOT NULL DEFAULT '' AFTER `disable_properties`";
+                $updateSteps[] = "UPDATE categories SET partname_regex = ''";
+                //Name Filter hint
+                $updateSteps[] = "ALTER TABLE `categories` ADD `partname_hint` TEXT NOT NULL DEFAULT '' AFTER `partname_regex`";
+                $updateSteps[] = "UPDATE categories SET partname_hint = ''";
+                //Default Description
+                $updateSteps[] = "ALTER TABLE `categories` ADD `default_description` TEXT NOT NULL DEFAULT '' AFTER `partname_hint`";
+                $updateSteps[] = "UPDATE categories SET default_description = ''";
+                //Default Comment
+                $updateSteps[] = "ALTER TABLE `categories` ADD `default_comment` TEXT NOT NULL DEFAULT '' AFTER `default_description`";
+                $updateSteps[] = "UPDATE categories SET default_comment = ''";
+                break;
 
           /*case 17:
             // create table "users"
