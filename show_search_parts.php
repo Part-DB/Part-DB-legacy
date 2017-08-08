@@ -90,6 +90,11 @@
             $part = new Part($database, $current_user, $log, $selected_part_id);
         else
             $part = NULL;
+
+        if(!empty($keyword))
+        {
+            $html->set_title(_('Suchresultate') . ": " . $keyword);
+        }
     }
     catch (Exception $e)
     {
