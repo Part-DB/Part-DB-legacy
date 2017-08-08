@@ -14,7 +14,7 @@
         </div>
         <div class="panel-body">
             <form action="" method="post" class="form-horizontal no-progbar">
-                <table>
+                <table class="table">
                     <tr>
                         <td>
                             {t}Aktuelle Version:{/t}
@@ -32,33 +32,31 @@
                             {$latest_version}
                         </td>
                     </tr>
-
-                    <tr>
-                        <td colspan="2">
-                            {if isset($update_required) && $update_required}
-                                <strong><span style="color: red; ">{t}Die Datenbank benötigt ein Update!{/t}</span></strong><br>
-                                {if $last_update_failed}
-                                    <br>
-                                    <strong><span style="color: red; ">
-                                        {t}ACHTUNG:{/t}<br>
-                                        {t}Das letzte Update ist fehlgeschlagen. Sie können beliebig oft versuchen,
-                                        das Update an der Stelle des letzten Abbruchs fortzusetzen.
-                                        Falls Sie zwischenzeitlich aber eine neue Datenbank geladen haben
-                                        (z.B. ein Backup eingespielt), muss das Update jedoch wieder von Vorne gestartet werden.<br>
-                                        Sie haben deshalb die folgenden zwei Möglichkeiten:{/t}
-                                    </span></strong>
-                                    <br>
-                                    <button type="submit" class="btn btn-default" name="make_update">{t}Letztes, fehlgeschlagenes Update fortsetzen{/t}</button>
-                                    <button type="submit" class="btn btn-default" name="make_new_update">{t}Neuer Update-Versuch beginnen (von Vorne){/t}</button>
-                                {else}
-                                    <button class="btn btn-default" type="submit" name="make_update">{t}Jetzt Datenbank updaten{/t}</button>
-                                {/if}
-                            {else}
-                                <span style="color: darkgreen; ">{t}Die Datenbank ist auf dem neusten Stand.{/t}</span>
-                            {/if}
-                        </td>
-                    </tr>
                 </table>
+
+                {if isset($update_required) && $update_required}
+                    <strong><span style="color: red; ">{t}Die Datenbank benötigt ein Update!{/t}</span></strong><br>
+                    {if $last_update_failed}
+                        <br>
+                        <strong><span style="color: red; ">
+                                        {t}ACHTUNG:{/t}<br>
+                                {t}Das letzte Update ist fehlgeschlagen. Sie können beliebig oft versuchen,
+                                    das Update an der Stelle des letzten Abbruchs fortzusetzen.
+                                    Falls Sie zwischenzeitlich aber eine neue Datenbank geladen haben
+                                    (z.B. ein Backup eingespielt), muss das Update jedoch wieder von Vorne gestartet werden.<br>
+                                    Sie haben deshalb die folgenden zwei Möglichkeiten:{/t}
+                                    </span></strong>
+                        <br>
+                        <button type="submit" class="btn btn-default" name="make_update">{t}Letztes, fehlgeschlagenes Update fortsetzen{/t}</button>
+                        <button type="submit" class="btn btn-default" name="make_new_update">{t}Neuer Update-Versuch beginnen (von Vorne){/t}</button>
+                    {else}
+                        <br>
+                        <button class="btn btn-success" type="submit" name="make_update">{t}Jetzt Datenbank updaten{/t}</button>
+                    {/if}
+                {else}
+                    <span style="color: darkgreen; ">{t}Die Datenbank ist auf dem neusten Stand.{/t}</span>
+                {/if}
+
             </form>
         </div>
     </div>
