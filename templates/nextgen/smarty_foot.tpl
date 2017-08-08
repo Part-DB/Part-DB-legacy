@@ -52,6 +52,8 @@
                 <!-- jQuery Form lib -->
                 <script src="{$relative_path}js/jquery.form.min.js"></script>
 
+                {if !empty($tracking_code)}{$tracking_code nofilter}{/if}
+
                 </body>
 
 </html>
