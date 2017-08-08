@@ -127,7 +127,8 @@
     $config['language']                                     = 'en_US';
     $config['is_online_demo']                               = false; // disables some (safety-)critical features
     $config['developer_mode']                               = false; // enables the "Debug-Tools" menu
-    $config['page_title']                                   = 'Part-DB Elektronische Bauteile-Datenbank';
+    $config['page_title']                                   = 'Part-DB Elektronische Bauteile-Datenbank'; //Dont use this anymore, use partdb_title instead
+    $config['partdb_title']                                 = 'Part-DB';
     
     // Settings for design
     $config['design']['use_smarty']                         = true;

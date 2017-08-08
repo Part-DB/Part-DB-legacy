@@ -185,7 +185,7 @@
                 {
                     // settings which should not be able to change in the online demo
                     $config['menu']['disable_config']       = $disable_config;
-                    $config['page_title']                   = $page_title;
+                    $config['partdb_title']                   = $page_title;
                     $config['startup']['custom_banner']     = $startup_banner;
                 }
                 else
@@ -289,7 +289,7 @@
     $html->set_variable('popup_height',                 $config['popup']['height'],                 'integer');
 
     // site properties
-    $html->set_variable('page_title',                   $config['page_title'],                      'string');
+    $html->set_variable('page_title',                   $config['partdb_title'],                      'string');
     $html->set_variable('startup_banner',               $config['startup']['custom_banner'],        'string');
 
     // server
