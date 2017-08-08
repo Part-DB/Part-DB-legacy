@@ -5,8 +5,20 @@
         {t}Dateitypen für Dateianhänge{/t}
     </div>
     <div class="panel-body">
-        <form action="" method="post" class="row">
+        <form action="" method="post" class="row no-progbar">
             <div class="col-md-4">
+
+                <select class="form-control selectpicker"  data-live-search="true" onChange='$("[name=selected_id]").val(this.value); submitForm(this.form);'>
+                    <optgroup label="Neu">
+                        <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neuer Dateityp{/t}</option>
+                    </optgroup>
+                    <optgroup label="Bearbeiten">
+                        {$attachement_types_list nofilter}
+                    </optgroup>
+                </select>
+
+                <hr>
+
                 <select name="selected_id" size="30" class="form-control auto-size-select" onChange="submitForm(this.form);">
                     <optgroup label="Neu">
                         <option value="0" {if !isset($id) || $id == 0 }selected{/if}>{t}Neuer Dateityp{/t}</option>
@@ -49,7 +61,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">{t}Übergeordneter Dateityp*:{/t}</label>
                         <div class="col-md-9">
-                            <select class="form-control" name="parent_id" size="1">
+                            <select class="form-control selectpicker" data-live-search="true" name="parent_id" size="1">
                                 {$parent_attachement_types_list nofilter}
                             </select>
                         </div>

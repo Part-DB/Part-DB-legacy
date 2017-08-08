@@ -24,6 +24,18 @@
     <div class="panel-body">
         <form action="" method="post" name="edit" class="row no-progbar">
             <div class="col-md-4">
+
+                <select class="form-control selectpicker"  data-live-search="true" onChange='$("[name=selected_id]").val(this.value); submitForm(this.form);'>
+                    <optgroup label="Neu">
+                        <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neuer Lagerort{/t}</option>
+                    </optgroup>
+                    <optgroup label="Bearbeiten">
+                        {$storelocation_list nofilter}
+                    </optgroup>
+                </select>
+
+                <hr>
+
                 <select name="selected_id" size="30" class="form-control" onChange="submitForm(this.form);">
                     <optgroup label="{t}Neu{/t}">
                         <option value="0" {if isset($id) && $id == 0}selected{/if}>{t}Neuer Lagerort{/t}</option>
@@ -93,7 +105,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">{t}Übergeordneter Lagerort*:{/t}</label>
                     <div class="col-md-9">
-                        <select name="parent_id" class="form-control" size="1">
+                        <select name="parent_id" class="form-control selectpicker" data-live-search="true" size="1">
                             {$parent_storelocation_list nofilter}
                         </select>
                     </div>
