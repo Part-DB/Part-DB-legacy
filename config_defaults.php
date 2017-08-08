@@ -129,6 +129,7 @@
     $config['developer_mode']                               = false; // enables the "Debug-Tools" menu
     $config['page_title']                                   = 'Part-DB Elektronische Bauteile-Datenbank'; //Dont use this anymore, use partdb_title instead
     $config['partdb_title']                                 = 'Part-DB';
+    $config['tracking_code']                                = "";   //Allows to inject some HTML on the footer (e.g. for usage of google analytics)
     
     // Settings for design
     $config['design']['use_smarty']                         = true;

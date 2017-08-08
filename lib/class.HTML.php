@@ -673,6 +673,8 @@
                     $tmpl->assign('messages_div_title',     $messages_div_title);
                 }
 
+                $tmpl->assign("tracking_code", $config['tracking_code']);
+
                 //Remove white space from Output
                 $tmpl->loadFilter('output', 'trimwhitespace');
 
