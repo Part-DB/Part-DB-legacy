@@ -214,7 +214,11 @@
 
                    <div class="container-fluid" id="content">
 
+{else} {* Print tile in ajax requests, or we cant set the tab title *}
+                <title>{$page_title}</title>
+
 {/if}
+
 
                    <div id="content-data">
 
