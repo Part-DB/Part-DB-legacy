@@ -20,7 +20,7 @@ function openLink(page) {
 
 function registerLinks() {
     'use strict';
-    $("a").not(".link-anchor").not(".link-external").not(".tree-btns").unbind("click").click(function (event) {
+    $("a").unbind("click").not(".link-anchor").not(".link-external").click(function (event) {
         event.preventDefault();
         var a = $(this),
             href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
