@@ -818,6 +818,9 @@
             global $config;
 
             if($config['properties']['active'] || $force_output) {
+                if($this->get_category()->get_disable_properties(true))
+                    return array();
+
                 $desc = array();
                 $comm = array();
 

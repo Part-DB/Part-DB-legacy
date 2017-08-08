@@ -178,6 +178,38 @@
                 return $this->db_data['disable_autodatasheets'];
         }
 
+        /**
+         * @brief Get the "disable automatic properties" attribute
+         *
+         * @param boolean $including_parents        @li If true, this method will return a "true" if at least
+         *                                              one parent category has set "disable_properties == true"
+         *                                          @li If false, this method will only return that value
+         *                                              which is stored in the database
+         *
+         * @retval boolean          the "disable automatic properties" attribute
+         */
+        public function get_disable_properties($including_parents = false)
+        {
+            if ($including_parents)
+            {
+                $parent_id = $this->get_id();
+
+                while ($parent_id > 0)
+                {
+                    $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                    $parent_id = $category->get_parent_id();
+
+                    if ($category->get_disable_properties())
+                        return true;
+                }
+
+                return false;
+            }
+            else
+                return $this->db_data['disable_properties'];
+        }
+
+
 
         /**
          * @brief Get all parts from this element
@@ -234,6 +266,18 @@
         public function set_disable_autodatasheets($new_disable_autodatasheets)
         {
             $this->set_attributes(array('disable_autodatasheets' => $new_disable_autodatasheets));
+        }
+
+        /**
+         * @brief Set the "disable automatic properties" attribute
+         *
+         * @param boolean $new_disable_properties        the new value
+         *
+         * @throws Exception if there was an error
+         */
+        public function set_disable_properties($new_disable_properties)
+        {
+            $this->set_attributes(array('disable_properties' => $new_disable_properties));
         }
 
         /********************************************************************************

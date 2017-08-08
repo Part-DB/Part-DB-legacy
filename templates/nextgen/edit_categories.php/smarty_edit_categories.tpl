@@ -90,6 +90,16 @@
                         </div>
                     </div>
                 </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">{t}Automatische erzeugte Bauteileeigenschaften deaktivieren:{/t}</label>
+                    <div class="col-md-9">
+                        <div class="checkbox">
+                            <input type="checkbox" name="disable_properties" {if $disable_properties}checked{/if} {if isset($parent_disable_properties) && $parent_disable_properties}disabled{/if}>
+                            <label>{t}Teile in dieser Kategorie (inkl. allen Unterkategorien) haben keine automatisch erzeugten Bauteileigenschaften{/t}</label>
+                        </div>
+                    </div>
+                </div>
                 
                 <div class="form-group">
                     <label class="col-md-9 col-md-offset-3">
