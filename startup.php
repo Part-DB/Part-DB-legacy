@@ -217,6 +217,7 @@
             $html->set_variable('system_version_full',  $system_version->as_string(false, false, false, true),  'string');
             $html->set_variable('git_branch',           get_git_branch_name(),                                  'string');
             $html->set_variable('git_commit',           get_git_commit_hash(10),                                'string');
+            $html->set_variable('partdb_title',         $config['partdb_title'],          'string');
         }
         catch (Exception $e)
         {
