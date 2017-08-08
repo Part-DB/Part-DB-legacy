@@ -210,7 +210,7 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="startup_banner" class="control-label col-sm-2">{t}Eigener Banner für die Startseite (HTML):{/t}</label>
+                    <label for="startup_banner" class="control-label col-sm-2">{t}Eigener Banner für die Startseite (BB-Code):{/t}</label>
                     <div class="col-sm-10">
                         <textarea name="startup_banner" rows="5" class="form-control"  {if $is_online_demo}disabled{/if}>{$startup_banner}</textarea>
                     </div>

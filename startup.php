@@ -206,7 +206,9 @@
 
     if (! $fatal_error)
     {
-        $html->set_variable('banner', $config['startup']['custom_banner'], 'string');
+        $bbcode = new \Golonka\BBCode\BBCodeParser();
+        $str = $bbcode->parse(htmlspecialchars($config['startup']['custom_banner']));
+        $html->set_variable('banner', $str , 'string');
 
         try
         {
