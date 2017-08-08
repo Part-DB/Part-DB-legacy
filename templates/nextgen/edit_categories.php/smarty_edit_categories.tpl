@@ -60,7 +60,25 @@
                         </select>
                     </div>
                 </div>
-            
+
+                <hr>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">{t}Standard Beschreibung:{/t}</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="default_description" value="{$default_description}">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-md-3">{t}Standard Kommentar:{/t}</label>
+                    <div class="col-md-9">
+                        <input type="text" class="form-control" name="default_comment" value="{$default_comment}">
+                    </div>
+                </div>
+
+                <hr>
+
                 <div class="form-group">
                     <label class="control-label col-md-3">{t}Footprints deaktivieren:{/t}</label>
                     <div class="col-md-9">

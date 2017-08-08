@@ -55,6 +55,8 @@
     $new_disable_autodatasheets = isset($_REQUEST['disable_autodatasheets']);
     $new_disable_properties     = isset($_REQUEST['disable_properties']);
     $add_more                   = isset($_REQUEST['add_more']);
+    $new_default_description    = isset($_REQUEST['default_description'])  ? (string)$_REQUEST['default_description']  : '';
+    $new_default_comment        = isset($_REQUEST['default_comment'])  ? (string)$_REQUEST['default_comment']  : '';
 
     $action = 'default';
     if (isset($_REQUEST["add"]))                {$action = 'add';}
@@ -182,7 +184,9 @@
                                                              'disable_footprints'       => $new_disable_footprints,
                                                              'disable_manufacturers'    => $new_disable_manufacturers,
                                                              'disable_autodatasheets'   => $new_disable_autodatasheets,
-                                                             'disable_properties'       => $new_disable_properties));
+                                                             'disable_properties'       => $new_disable_properties,
+                                                              'default_description'     => $new_default_description,
+                                                              'default_comment'       => $new_default_comment));
 
                     $html->set_variable('refresh_navigation_frame', true, 'boolean');
                 }
@@ -213,6 +217,9 @@
                 $html->set_variable('id', $selected_category->get_id(), 'integer');
                 $name = $selected_category->get_name();
 
+                $default_description = $selected_category->get_default_description();
+                $default_comment = $selected_category->get_default_comment();
+
                 $disable_footprints = $selected_category->get_disable_footprints(true);
                 $disable_manufacturers = $selected_category->get_disable_manufacturers(true);
                 $disable_autodatasheets = $selected_category->get_disable_autodatasheets(true);
@@ -236,6 +243,8 @@
                 $disable_manufacturers = $new_disable_manufacturers;
                 $disable_autodatasheets = $new_disable_autodatasheets;
                 $disable_properties = $new_disable_properties;
+                $default_description = $new_default_description;
+                $default_comment = $new_default_comment;
             }
             else
             {
@@ -245,6 +254,8 @@
                 $disable_manufacturers = false;
                 $disable_autodatasheets = false;
                 $disable_properties = false;
+                $default_description = "";
+                $default_comment = "";
             }
 
             $html->set_variable('name', $name, 'string');
@@ -252,6 +263,9 @@
             $html->set_variable('disable_manufacturers', $disable_manufacturers, 'boolean');
             $html->set_variable('disable_autodatasheets', $disable_autodatasheets, 'boolean');
             $html->set_variable('disable_properties', $disable_properties, 'boolean');
+
+            $html->set_variable('default_description', $default_description, 'string');
+            $html->set_variable('default_comment', $default_comment, 'string');
 
             $category_list = $root_category->build_html_tree($selected_id, true, false);
             $html->set_variable('category_list', $category_list, 'string');

@@ -209,6 +209,68 @@
                 return $this->db_data['disable_properties'];
         }
 
+        /**
+         * @brief Get the "default description" attribute
+         *
+         * @param boolean $including_parents        @li If true, this method will return the first non empty value from parents
+         *                                              if this category has no own value
+         *                                          @li If false, this method will only return that value
+         *                                              which is stored in the database
+         *
+         * @retval string          the "default description" attribute
+         */
+        public function get_default_description($including_parents = false)
+        {
+            if ($including_parents && empty($this->get_default_description()))
+            {
+                $parent_id = $this->get_id();
+
+                while ($parent_id > 0)
+                {
+                    $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                    $parent_id = $category->get_parent_id();
+
+                    if (!empty($category->get_default_description()))
+                        return $category->get_default_description();
+                }
+
+                return "";
+            }
+            else
+                return $this->db_data['default_description'];
+        }
+
+        /**
+         * @brief Get the "default comment" attribute
+         *
+         * @param boolean $including_parents        @li If true, this method will return the first non empty value from parents
+         *                                              if this category has no own value
+         *                                          @li If false, this method will only return that value
+         *                                              which is stored in the database
+         *
+         * @retval string          the "default comment" attribute
+         */
+        public function get_default_comment($including_parents = false)
+        {
+            if ($including_parents && empty($this->get_default_comment()))
+            {
+                $parent_id = $this->get_id();
+
+                while ($parent_id > 0)
+                {
+                    $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                    $parent_id = $category->get_parent_id();
+
+                    if (!empty($category->get_default_comment()))
+                    return $category->get_default_comment();
+                }
+
+                return "";
+            }
+            else
+                return $this->db_data['default_comment'];
+        }
+
 
 
         /**
@@ -278,6 +340,26 @@
         public function set_disable_properties($new_disable_properties)
         {
             $this->set_attributes(array('disable_properties' => $new_disable_properties));
+        }
+
+        /**
+         * @brief Set the "default description" attribute
+         * @param string $new_default_description the new value
+         * @throws Exception if there was an error
+         */
+        public function set_default_description($new_default_description)
+        {
+            $this->set_attributes(array('default_description' => $new_default_description));
+        }
+
+        /**
+         * @brief Set the "default comment" attribute
+         * @param string $new_default_comment the new value
+         * @throws Exception if there was an error
+         */
+        public function set_default_comment($new_default_comment)
+        {
+            $this->set_attributes(array('default_comment' => $new_default_comment));
         }
 
         /********************************************************************************
