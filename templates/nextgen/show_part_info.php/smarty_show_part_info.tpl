@@ -235,7 +235,7 @@
 
                             <td class="tdrow1{if $order.obsolete} backred{/if}">
                                 {if isset($order.supplier_product_url)}
-                                    <a title="{$order.supplier_product_url}" href="{$order.supplier_product_url}">{$order.supplierpartnr}</a>
+                                    <a title="{$order.supplier_product_url}" href="{$order.supplier_product_url}" target="_blank" class="link-external">{$order.supplierpartnr}</a>
                                 {else}
                                     {$order.supplierpartnr}
                                 {/if}
