@@ -207,7 +207,7 @@
 
                         <p></p>
 
-                        <form action="show_part_label.php">
+                        <form action="show_part_label.php" class="hidden-print">
                             <input type="hidden" name="pid" value="{$pid}">
                             <input type="hidden" name="label_generate">
                             <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-barcode" aria-hidden="true"></i>
