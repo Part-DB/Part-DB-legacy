@@ -1290,6 +1290,7 @@
          *  - "order_parts"
          *  - "noprice_parts"
          *  - "obsolete_parts"
+         *  - "location_parts"
          *
          *
          * @retval array    the template loop array for the table

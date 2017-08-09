@@ -162,3 +162,15 @@ table.dataTable tbody th, table.dataTable tbody td {
     align-items: center;
 }
 
+.form-control-link {
+    display: block;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+@media print {
+    a.hidden-print-href[href]:after {
+        content: none !important;
+    }
+}
+
