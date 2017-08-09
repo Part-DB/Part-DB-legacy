@@ -50,9 +50,9 @@
                     </legend>
 
                     <ul class="nav nav-tabs">
-                        <li class="active"><a class="link-anchor" data-toggle="tab" href="#home">Standard</a></li>
-                        <li><a data-toggle="tab" class="link-anchor" href="#menu1">Funktionen</a></li>
-                        <li><a data-toggle="tab" class="link-anchor" href="#menu2">Standardwerte</a></li>
+                        <li class="active"><a class="link-anchor" data-toggle="tab" href="#home">{t}Standard{/t}</a></li>
+                        <li><a data-toggle="tab" class="link-anchor" href="#menu1">{t}Optionen{/t}</a></li>
+                        <li><a data-toggle="tab" class="link-anchor" href="#menu2">{t}Erweitert{/t}</a></li>
                     </ul>
 
                     <div class="tab-content">
