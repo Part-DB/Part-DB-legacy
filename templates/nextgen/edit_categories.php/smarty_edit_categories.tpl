@@ -49,97 +49,110 @@
                         {/if}
                     </legend>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}ID:{/t}</label>
-                        <div class="col-md-9">
-                            <p class="form-control-static">{if isset($id)}{$id}{else}-{/if}</p>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a class="link-anchor" data-toggle="tab" href="#home">Standard</a></li>
+                        <li><a data-toggle="tab" class="link-anchor" href="#menu1">Funktionen</a></li>
+                        <li><a data-toggle="tab" class="link-anchor" href="#menu2">Standardwerte</a></li>
+                    </ul>
+
+                    <div class="tab-content">
+
+                        <br>
+
+                        <div id="home" class="tab-pane fade in active">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}ID:{/t}</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{if isset($id)}{$id}{else}-{/if}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Name*:{/t}</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="name" value="{$name}" required>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Übergeordnete Kategorie*:{/t}</label>
+                                <div class="col-md-9">
+                                    <select class="form-control selectpicker" data-live-search="true" name="parent_id" size="1">
+                                        {$parent_category_list nofilter}
+                                    </select>
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}Name*:{/t}</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="name" value="{$name}" required>
+                        <div id="menu2" class="tab-pane fade">
+
+                            <br>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Standard Beschreibung:{/t}</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="default_description" value="{$default_description}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Standard Kommentar:{/t}</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="default_comment" value="{$default_comment}">
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}Übergeordnete Kategorie*:{/t}</label>
-                        <div class="col-md-9">
-                            <select class="form-control selectpicker" data-live-search="true" name="parent_id" size="1">
-                                {$parent_category_list nofilter}
-                            </select>
-                        </div>
-                    </div>
 
-                    <hr>
+                        <div id="menu1" class="tab-pane fade">
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}Standard Beschreibung:{/t}</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="default_description" value="{$default_description}">
-                        </div>
-                    </div>
+                            <br>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}Standard Kommentar:{/t}</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="default_comment" value="{$default_comment}">
-                        </div>
-                    </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Footprints deaktivieren:{/t}</label>
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="disable_footprints" {if $disable_footprints}checked{/if} {if isset($parent_disable_footprints) && $parent_disable_footprints}disabled{/if}>
+                                        <label>{t}Teile in dieser Kategorie (inkl. allen Unterkategorien) können keine Footprints haben{/t}</label>
+                                    </div>
+                                </div>
+                            </div>
 
-                    <hr>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Hersteller deaktivieren:{/t}</label>
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="disable_manufacturers" {if $disable_manufacturers}checked{/if} {if isset($parent_disable_manufacturers) && $parent_disable_manufacturers}disabled{/if}>
+                                        <label>{t}Teile in dieser Kategorie (inkl. allen Unterkategorien) können keine Hersteller haben{/t}</label>
+                                    </div>
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}Footprints deaktivieren:{/t}</label>
-                        <div class="col-md-9">
-                            <div class="checkbox">
-                                <input type="checkbox" name="disable_footprints" {if $disable_footprints}checked{/if} {if isset($parent_disable_footprints) && $parent_disable_footprints}disabled{/if}>
-                                <label>{t}Teile in dieser Kategorie (inkl. allen Unterkategorien) können keine Footprints haben{/t}</label>
+
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Automatische Links zu Datenblättern deaktivieren:{/t}</label>
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="disable_autodatasheets" {if $disable_autodatasheets}checked{/if} {if isset($parent_disable_autodatasheets) && $parent_disable_autodatasheets}disabled{/if}>
+                                        <label>{t}Teile in dieser Kategorie (inkl. allen Unterkategorien) haben keine automatisch erzeugten Links zu Datenblättern{/t}</label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Automatische erzeugte Bauteileeigenschaften deaktivieren:{/t}</label>
+                                <div class="col-md-9">
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="disable_properties" {if $disable_properties}checked{/if} {if isset($parent_disable_properties) && $parent_disable_properties}disabled{/if}>
+                                        <label>{t}Teile in dieser Kategorie (inkl. allen Unterkategorien) haben keine automatisch erzeugten Bauteileigenschaften{/t}</label>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}Footprints deaktivieren:{/t}</label>
-                        <div class="col-md-9">
-                            <div class="checkbox">
-                                <input type="checkbox" name="disable_footprints" {if $disable_footprints}checked{/if} {if isset($parent_disable_footprints) && $parent_disable_footprints}disabled{/if}>
-                                <label>{t}Teile in dieser Kategorie (inkl. allen Unterkategorien) können keine Footprints haben{/t}</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}Hersteller deaktivieren:{/t}</label>
-                        <div class="col-md-9">
-                            <div class="checkbox">
-                                <input type="checkbox" name="disable_manufacturers" {if $disable_manufacturers}checked{/if} {if isset($parent_disable_manufacturers) && $parent_disable_manufacturers}disabled{/if}>
-                                <label>{t}Teile in dieser Kategorie (inkl. allen Unterkategorien) können keine Hersteller haben{/t}</label>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}Automatische Links zu Datenblättern deaktivieren:{/t}</label>
-                        <div class="col-md-9">
-                            <div class="checkbox">
-                                <input type="checkbox" name="disable_autodatasheets" {if $disable_autodatasheets}checked{/if} {if isset($parent_disable_autodatasheets) && $parent_disable_autodatasheets}disabled{/if}>
-                                <label>{t}Teile in dieser Kategorie (inkl. allen Unterkategorien) haben keine automatisch erzeugten Links zu Datenblättern{/t}</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}Automatische erzeugte Bauteileeigenschaften deaktivieren:{/t}</label>
-                        <div class="col-md-9">
-                            <div class="checkbox">
-                                <input type="checkbox" name="disable_properties" {if $disable_properties}checked{/if} {if isset($parent_disable_properties) && $parent_disable_properties}disabled{/if}>
-                                <label>{t}Teile in dieser Kategorie (inkl. allen Unterkategorien) haben keine automatisch erzeugten Bauteileigenschaften{/t}</label>
-                            </div>
-                        </div>
                     </div>
 
                     <div class="form-group">
