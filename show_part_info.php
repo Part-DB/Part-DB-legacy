@@ -183,6 +183,7 @@
             $html->set_variable('manufacturer_product_url', $part->get_manufacturer_product_url(), 'string');
             $html->set_variable('description',              $part->get_description(), 'string');
             $html->set_variable('category_full_path',       $part->get_category()->get_full_path(), 'string');
+            $html->set_variable('category_id',              $part->get_category()->get_id(), 'string');
             $html->set_variable('instock',                  $part->get_instock(), 'integer');
             $html->set_variable('mininstock',               $part->get_mininstock(), 'integer');
             $html->set_variable('visible',                  $part->get_visible(), 'boolean');

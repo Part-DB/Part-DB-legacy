@@ -18,7 +18,7 @@
                            <label class="col-sm-3 control-label">{t}Name:{/t}</label>
                            <div class="col-sm-9">
                                 {if isset($manufacturer_product_url)}
-                                    <a class="form-control-static" title="{$manufacturer_product_url}" href="{$manufacturer_product_url}">{$name}</a>
+                                    <a class="form-control-link" title="{$manufacturer_product_url}" href="{$manufacturer_product_url}">{$name}</a>
                                 {else}
                                     <p class="form-control-static">{$name}</p>
                                 {/if}
@@ -48,7 +48,7 @@
                        
                        <div class="form-group">
                            <label class="col-sm-3 control-label">{t}Kategorie:{/t}</label>
-                           <div class="col-sm-9"><p class="form-control-static">{$category_full_path}</p></div>
+                           <div class="col-sm-9"><a href="show_category_parts.php?cid={$category_id}" class="form-control-link">{$category_full_path}</a></div>
                        </div>
                        
                        <div class="form-group">
