@@ -69,8 +69,8 @@
                         {t}Kategorie:{/t}
                     </label>
                     <div class="col-md-7">
-                        <select class="form-control" name="category_id" onChange="document.getElementById('search_category_name').value='__ID__='+this.value; document.getElementById('search_category').click();">
-                            {$category_list nofilter}
+                        <select class="form-control selectpicker" data-live-search="true" name="category_id" onChange="document.getElementById('search_category_name').value='__ID__='+this.value; document.getElementById('search_category').click();">
+                             {$category_list nofilter}
                         </select>
                     </div>
                     <div class="col-md-3">
@@ -87,8 +87,8 @@
                         {t}Lagerort:{/t}
                     </label>
                     <div class="col-md-7">
-                        <select class="form-control" name="storelocation_id">
-                            <option value="0"></option>
+                        <select class="form-control selectpicker" data-live-search="true" name="storelocation_id">
+                            <option value="0">&nbsp;</option>
                             {$storelocation_list nofilter}
                         </select>
                     </div>
@@ -107,14 +107,14 @@
                             {t}Hersteller:{/t}
                         </label>
                         <div class="col-md-7">
-                            <select class="form-control" name="manufacturer_id">
-                                <option value="0"></option>
+                            <select class="form-control selectpicker" data-live-search="true" name="manufacturer_id">
+                                <option value="0">&nbsp;</option>
                                 {$manufacturer_list nofilter}
                             </select>
                         </div>
                         <div class="col-md-3">
                            <div class="input-group">
-                                <input type="text" class="form-control" name="search_manufacturer_name" placeholder="Suchen / Hinzufügen" onkeydown="if (event.keyCode == 13) { document.getElementById('search_manufacturer').click();} ">
+                                <input type="text" class="form-control selectpicker" data-live-search="true" name="search_manufacturer_name" placeholder="Suchen / Hinzufügen" onkeydown="if (event.keyCode == 13) { document.getElementById('search_manufacturer').click();} ">
                                 <span class="input-group-btn">
                                     <button type="button" class="btn btn-default submit" name="search_manufacturer" id="search_manufacturer">{t}OK!{/t}</button>
                                 </span>
@@ -129,8 +129,8 @@
                             {t}Footprint:{/t}
                         </label>
                         <div class="col-md-7">
-                            <select class="form-control" name="footprint_id">
-                                <option value="0"></option>
+                            <select class="form-control selectpicker" data-live-search="true" name="footprint_id">
+                                <option value="0">&nbsp;</option>
                                 {$footprint_list nofilter}
                             </select>
                         </div>

@@ -52,6 +52,10 @@
                 <!-- jQuery Form lib -->
                 <script src="{$relative_path}js/jquery.form.min.js"></script>
 
+                <!-- Bootstrap-select -->
+                <script src="{$relative_path}js/bootstrap-select.min.js"></script>
+                <script src="{$relative_path}js/i18n/defaults-de_DE.js"></script>
+
                 {if !empty($tracking_code)}{$tracking_code nofilter}{/if}
 
                 </body>

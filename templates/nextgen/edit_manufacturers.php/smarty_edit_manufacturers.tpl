@@ -7,6 +7,18 @@
     <div class="panel-body">
         <form action="" method="post" class="row no-progbar">
             <div class="col-md-4">
+
+                <select class="form-control selectpicker"  data-live-search="true" onChange='$("[name=selected_id]").val(this.value); submitForm(this.form);'>
+                    <optgroup label="Neu">
+                        <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neuer Hersteller:{/t}</option>
+                    </optgroup>
+                    <optgroup label="Bearbeiten">
+                        {$manufacturer_list nofilter}
+                    </optgroup>
+                </select>
+
+                <hr>
+
                 <select name="selected_id" size="40" class="form-control" onChange="submitForm(this.form);">
                     <optgroup label="{t}Neu{/t}">
                         <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neuer Hersteller{/t}</option>
@@ -46,9 +58,9 @@
                 </div>
             
                 <div class="form-group">
-                    <label class="col-md-3 control-label">{t}Übergeordneter Lieferant*:{/t}</label>
+                    <label class="col-md-3 control-label">{t}Übergeordneter Hersteller*:{/t}</label>
                     <div class="col-md-9">
-                        <select name="parent_id" size="1" class="form-control">
+                        <select name="parent_id" data-live-search="true" size="1" class="form-control selectpicker">
                             {$parent_manufacturer_list nofilter}
                         </select>
                     </div>
