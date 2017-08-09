@@ -192,6 +192,7 @@
             $html->set_variable('footprint_filename',       (is_object($footprint) ? str_replace(BASE, BASE_RELATIVE, $footprint->get_filename()) : ''), 'string');
             $html->set_variable('footprint_valid',          (is_object($footprint) ? $footprint->is_filename_valid() : false), 'boolean');
             $html->set_variable('storelocation_full_path',  (is_object($storelocation) ? $storelocation->get_full_path() : '-'), 'string');
+            $html->set_variable('storelocation_id',         (is_object($storelocation) ? $storelocation->get_id() : '0'), 'integer');
             $html->set_variable('storelocation_is_full',    (is_object($storelocation) ? $storelocation->get_is_full() : false), 'boolean');
             $html->set_variable('manufacturer_full_path',   (is_object($manufacturer) ? $manufacturer->get_full_path() : '-'), 'string');
             $html->set_variable('category_full_path',       (is_object($category) ? $category->get_full_path() : '-'), 'string');

@@ -50,13 +50,18 @@
                            <label class="col-sm-3 control-label">{t}Kategorie:{/t}</label>
                            <div class="col-sm-9"><a href="show_category_parts.php?cid={$category_id}" class="form-control-link">{$category_full_path}</a></div>
                        </div>
-                       
-                       <div class="form-group">
-                           <label class="col-sm-3 control-label">{t}Lagerort:{/t}</label>
-                           <div class="col-sm-9">
-                               <p class="form-control-static">{$storelocation_full_path}{if $storelocation_is_full} [voll]{/if}</p>
-                           </div>
-                       </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">{t}Lagerort:{/t}</label>
+                            <div class="col-sm-9">
+                                {if $storelocation_id == 0}
+                                    <p class="form-control-static">{$storelocation_full_path}{if $storelocation_is_full} [voll]{/if}</p>
+                                {else}
+                                    <a class="form-control-link" href="show_location_parts.php?lid={$storelocation_id}&subloc=0">{$storelocation_full_path}{if $storelocation_is_full} [voll]{/if}</a>
+                                {/if}
+
+                            </div>
+                        </div>
                        
                        {if !$disable_manufacturers}
                         <div class="form-group">
