@@ -67,7 +67,11 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">{t}Hersteller:{/t}</label>
                             <div class="col-sm-9">
-                                <p class="form-control-static">{$manufacturer_full_path}</p>
+                                {if $manufacturer_id == 0}
+                                    <p class="form-control-static">{$manufacturer_full_path}</p>
+                                    {else}
+                                    <a class="form-control-link" href="show_manufacturer_parts.php?mid={$manufacturer_id}&subman=0">{$manufacturer_full_path}</a>
+                                {/if}
                             </div>
                         </div>
                        {/if}

@@ -196,6 +196,7 @@
             $html->set_variable('storelocation_id',         (is_object($storelocation) ? $storelocation->get_id() : '0'), 'integer');
             $html->set_variable('storelocation_is_full',    (is_object($storelocation) ? $storelocation->get_is_full() : false), 'boolean');
             $html->set_variable('manufacturer_full_path',   (is_object($manufacturer) ? $manufacturer->get_full_path() : '-'), 'string');
+            $html->set_variable('manufacturer_id',          (is_object($manufacturer) ? $manufacturer->get_id() : 0), 'integer');
             $html->set_variable('category_full_path',       (is_object($category) ? $category->get_full_path() : '-'), 'string');
             $html->set_variable('auto_order_exists',        ($part->get_instock() < $part->get_mininstock()), 'boolean');
             $html->set_variable('manual_order_exists',      ($part->get_manual_order() && ($part->get_instock() >= $part->get_mininstock())), 'boolean');
