@@ -221,6 +221,11 @@ if (! $fatal_error)
             $default_description = $selected_category->get_default_description();
             $default_comment = $selected_category->get_default_comment();
 
+            $default_description_parent = $selected_category->get_default_description(true);
+            $default_comment_parent = $selected_category->get_default_comment(true);
+            $html->set_variable('default_description_parent', $default_description_parent, 'string');
+            $html->set_variable('default_comment_parent', $default_comment_parent, 'string');
+
             $disable_footprints = $selected_category->get_disable_footprints(true);
             $disable_manufacturers = $selected_category->get_disable_manufacturers(true);
             $disable_autodatasheets = $selected_category->get_disable_autodatasheets(true);

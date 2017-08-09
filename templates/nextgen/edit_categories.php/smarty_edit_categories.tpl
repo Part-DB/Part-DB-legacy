@@ -92,14 +92,16 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Standard Beschreibung:{/t}</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="default_description" value="{$default_description}">
+                                    <input type="text" class="form-control" name="default_description" value="{$default_description}"
+                                           placeholder="{if !empty($default_description_parent)}{$default_description_parent}{/if}">
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Standard Kommentar:{/t}</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="default_comment" value="{$default_comment}">
+                                    <input type="text" class="form-control" name="default_comment" value="{$default_comment}"
+                                           placeholder="{if !empty($default_comment_parent)}{$default_comment_parent}{/if}">
                                 </div>
                             </div>
 
