@@ -266,7 +266,7 @@
 
                             <td class="tdrow1{if $order.obsolete} backred{/if}">
                                 {if isset($order.supplier_product_url)}
-                                    <a title="{$order.supplier_product_url}" href="{$order.supplier_product_url}">{$order.supplierpartnr}</a>
+                                    <a title="{$order.supplier_product_url}" href="{$order.supplier_product_url}" target="_blank" class="link-external">{$order.supplierpartnr}</a>
                                 {else}
                                     {$order.supplierpartnr}
                                 {/if}
@@ -339,7 +339,7 @@
                     {if $attach.is_picture}
                         <img src="{$attach.filename}" style="max-height:180px; max-width:180px" class="hoverpic" rel="popover"></a>
                     {else}
-                        <a target="_blank" href="{$attach.filename}">{$attach.attachement_name}</a><br>
+                        <a target="_blank" href="{$attach.filename}" class="link-external">{$attach.attachement_name}</a><br>
                     {/if}
                 {/foreach}
             {/foreach}
