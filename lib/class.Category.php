@@ -284,7 +284,82 @@
                     return $this->db_data['default_comment'];
                 else
                     return "";
+        }
 
+        /**
+         * Get the Hint how to format the name of parts, which are part of this category.
+         * @param bool $including_parents @li If true, this method will return the first non empty value from parents
+         *                                              if this category has no own value
+         *                                 @li If false, this method will only return that value
+         *                                              which is stored in the database
+         * @param bool $show_escape If true, the escape code "@@" will be returned, otherwise it will be "" (empty string).
+         * @return string  The partname_hint attribute
+         */
+        public function get_partname_hint($including_parents = false, $show_escape = true)
+        {
+            if ($including_parents && empty($this->get_partname_hint()))
+            {
+                $parent_id = $this->get_id();
+
+                while ($parent_id > 0)
+                {
+                    $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                    $parent_id = $category->get_parent_id();
+
+                    if (!empty($category->get_partname_hint()))
+                    {
+                        if($category->get_partname_hint() == "@@")
+                            break;
+                        return $category->get_partname_hint();
+                    }
+                }
+
+                return "";
+            }
+            else {
+                if ($show_escape || $this->db_data['partname_hint'] !== "@@")
+                    return $this->db_data['partname_hint'];
+                else
+                    return "";
+            }
+        }
+
+        /**
+         * Get the Regular expression the name of parts, which are part of this category, must have.
+         * @param bool $including_parents @li If true, this method will return the first non empty value from parents
+         *                                              if this category has no own value
+         *                                 @li If false, this method will only return that value
+         *                                              which is stored in the database
+         * @param bool $show_escape If true, the escape code "@@" will be returned, otherwise it will be "" (empty string).
+         * @return string  The partname_hint attribute
+         */
+        public function get_partname_regex($including_parents = false, $show_escape = true)
+        {
+            if ($including_parents && empty($this->get_partname_regex()))
+            {
+                $parent_id = $this->get_id();
+
+                while ($parent_id > 0)
+                {
+                    $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                    $parent_id = $category->get_parent_id();
+
+                    if (!empty($category->get_partname_regex()))
+                    {
+                        if($category->get_partname_regex() == "@@")
+                            break;
+                        return $category->get_partname_regex();
+                    }
+                }
+
+                return "";
+            }
+            else {
+                if ($show_escape || $this->db_data['partname_regex'] !== "@@")
+                    return $this->db_data['partname_regex'];
+                else
+                    return "";
+            }
         }
 
 
@@ -376,6 +451,26 @@
         public function set_default_comment($new_default_comment)
         {
             $this->set_attributes(array('default_comment' => $new_default_comment));
+        }
+
+        /**
+         * Set the "partname_hint" attribute
+         * @param string $new_partname_hint the new value
+         * @throws Exception if there was an error
+         */
+        public function set_partname_hint($new_partname_hint)
+        {
+            $this->set_attributes(array('partname_hint' => $new_partname_hint));
+        }
+
+        /**
+         * @brief Set the "partname_regex" attribute
+         * @param string $new_default_comment the new value
+         * @throws Exception if there was an error
+         */
+        public function set_partname_regex($new_partname_regex)
+        {
+            $this->set_attributes(array('partname_regex' => $new_partname_regex));
         }
 
         /********************************************************************************
