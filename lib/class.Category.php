@@ -409,6 +409,9 @@
          * @param boolean   $disable_footprints         if true, all parts in the new category can't have a footprint (Category::set_disable_footprints())
          * @param boolean   $disable_manufacturers      if true, all parts in the new category can't have a manufacturer (Category::set_disable_manufacturers())
          * @param boolean   $disable_autodatasheets     if true, all parts in the new category won't have automatic datasheets (Category::set_disable_autodatasheets())
+         * @param boolean   $disable_properties         if true, all parts in the new category won't have a property table
+         * @param string    $default_description        The default description of parts in the new category.
+         * @param string    $default_comment            The default comment of parts in the new category.
          *
          * @retval Category     the new category
          *
@@ -419,14 +422,18 @@
          */
         public static function add(&$database, &$current_user, &$log, $name, $parent_id,
                                     $disable_footprints = false, $disable_manufacturers = false,
-                                    $disable_autodatasheets = false)
+                                    $disable_autodatasheets = false, $disable_properties = false,
+                                    $default_description = "", $default_comment = "")
         {
             return parent::add($database, $current_user, $log, 'categories',
                                 array(  'name'                      => $name,
                                         'parent_id'                 => $parent_id,
                                         'disable_footprints'        => $disable_footprints,
                                         'disable_manufacturers'     => $disable_manufacturers,
-                                        'disable_autodatasheets'    => $disable_autodatasheets));
+                                        'disable_autodatasheets'    => $disable_autodatasheets,
+                                        'disable_properties'        => $disable_properties,
+                                        'default_description'       => $default_description,
+                                        'default_comment'           => $default_comment));
         }
 
         /**
