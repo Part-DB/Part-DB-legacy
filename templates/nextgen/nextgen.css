@@ -168,3 +168,9 @@ table.dataTable tbody th, table.dataTable tbody td {
     padding-bottom: 7px;
 }
 
+@media print {
+    a.hidden-print-href[href]:after {
+        content: none !important;
+    }
+}
+
