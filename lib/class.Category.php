@@ -221,7 +221,7 @@
          */
         public function get_default_description($including_parents = false)
         {
-            if ($including_parents && empty($this->get_default_description()))
+            if ($including_parents && empty($this->get_default_description()) && $this->get_default_comment() != "@@")
             {
                 $parent_id = $this->get_id();
 
@@ -231,7 +231,11 @@
                     $parent_id = $category->get_parent_id();
 
                     if (!empty($category->get_default_description()))
+                    {
+                        if($category->get_default_description() == "@@")
+                            break;
                         return $category->get_default_description();
+                    }
                 }
 
                 return "";
@@ -252,7 +256,7 @@
          */
         public function get_default_comment($including_parents = false)
         {
-            if ($including_parents && empty($this->get_default_comment()))
+            if ($including_parents && empty($this->get_default_comment()) && $this->get_default_comment() != "@@")
             {
                 $parent_id = $this->get_id();
 
@@ -262,7 +266,11 @@
                     $parent_id = $category->get_parent_id();
 
                     if (!empty($category->get_default_comment()))
-                    return $category->get_default_comment();
+                    {
+                        if($category->get_default_comment() == "@@")
+                            break;
+                        return $category->get_default_comment();
+                    }
                 }
 
                 return "";
