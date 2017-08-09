@@ -219,7 +219,8 @@
     // available columns:       hover_picture,id,name,description,name_description,comment,instock,mininstock,instock_mininstock,category,footprint,manufacturer,
     //                          storelocation, suppliers,datasheets,button_increment,button_decrement,average_single_price,single_prices,supplier_partnrs,attachements
     $config['table']['category_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment';
-    $config['table']['search_parts']['columns']             = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices;datasheets;attachements;button_decrement;button_increment';
+    //$config['table']['search_parts']['columns']             = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices;datasheets;attachements;button_decrement;button_increment';
+    $config['table']['search_parts']['columns']             = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices;datasheets;button_decrement;button_increment';
     $config['table']['obsolete_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices';
     $config['table']['noprice_parts']['columns']            = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs';
     $config['table']['order_parts']['columns']              = 'hover_picture;name_description;instock_mininstock;footprint;storelocation;suppliers_radiobuttons;supplier_partnrs;single_prices;total_prices;order_quantity_edit;order_options';
