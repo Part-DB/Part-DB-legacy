@@ -611,6 +611,15 @@
 
             if (($print_unsaved_values) || ( ! isset($part)) || ( ! is_object($part)))
             {
+                if(isset($new_category_id))
+                {
+                    $cat = new Category($database, $current_user, $log, $new_category_id);
+                    if(empty($new_description))
+                        $new_description = $cat->get_default_description(true);
+                    if(empty($new_comment))
+                        $new_comment = $cat->get_default_comment(true);
+                }
+
                 $html->set_variable('name',         $new_name,          'string');
                 $html->set_variable('description',  $new_description,   'string');
                 $html->set_variable('instock',      $new_instock,       'integer');
