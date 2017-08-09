@@ -189,6 +189,7 @@
             $html->set_variable('visible',                  $part->get_visible(), 'boolean');
             $html->set_variable('comment',                  nl2br($part->get_comment()), 'string');
             $html->set_variable('footprint_full_path',      (is_object($footprint) ? $footprint->get_full_path() : '-'), 'string');
+            $html->set_variable('footprint_id',             (is_object($footprint) ? $footprint->get_id() : 0), 'integer');
             $html->set_variable('footprint_filename',       (is_object($footprint) ? str_replace(BASE, BASE_RELATIVE, $footprint->get_filename()) : ''), 'string');
             $html->set_variable('footprint_valid',          (is_object($footprint) ? $footprint->is_filename_valid() : false), 'boolean');
             $html->set_variable('storelocation_full_path',  (is_object($storelocation) ? $storelocation->get_full_path() : '-'), 'string');

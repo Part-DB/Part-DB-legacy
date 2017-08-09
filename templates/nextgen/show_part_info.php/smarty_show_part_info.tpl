@@ -76,7 +76,11 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">{t}Footprint:{/t}</label>
                             <div class="col-sm-9">
-                                <p class="form-control-static">{$footprint_full_path}</p>
+                                {if $footprint_id == 0}
+                                    <p class="form-control-static">{$footprint_full_path}</p>
+                                {else}
+                                    <a class="form-control-link" href="show_footprint_parts.php?fid={$footprint_id}&subfoot=0">{$footprint_full_path}</a>
+                                {/if}
                             </div>
                         </div>
                         

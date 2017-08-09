@@ -227,6 +227,7 @@
     $config['table']['device_parts']['columns']             = 'hover_picture;name_description;quantity_edit;mountnames_edit;footprint;instock;storelocation;suppliers;supplier_partnrs;single_prices;total_prices';
     $config['table']['imported_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices;datasheets;attachements';
     $config['table']['location_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment';
+    $config['table']['footprint_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment';
 
     // export configurations for order parts*
     $config['export']['orderparts'][0]['format']            = 'CSV';
