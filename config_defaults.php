@@ -286,7 +286,7 @@
     $config['auto_datasheets']['entries'][0]['url']         = 'http://www.alldatasheet.com/view.jsp?Searchword=%%PARTNAME%%';
     $config['auto_datasheets']['entries'][0]['image']       = 'img/partdb/alldatasheet.png';
     $config['auto_datasheets']['entries'][1]['name']        = 'reichelt.de';
-    $config['auto_datasheets']['entries'][1]['url']         = 'http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=%%PARTNAME%%';
+    $config['auto_datasheets']['entries'][1]['url']         = 'https://www.reichelt.de/index.html?ACTION=446&SEARCH=%%PARTNAME%%';
     $config['auto_datasheets']['entries'][1]['image']       = 'img/partdb/reichelt.png';
     $config['auto_datasheets']['entries'][2]['name']        = 'datasheetcatalog.net';
     $config['auto_datasheets']['entries'][2]['url']         = 'http://search.datasheetcatalog.net/key/%%PARTNAME%%';
