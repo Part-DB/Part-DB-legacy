@@ -219,9 +219,9 @@
          *
          * @retval string          the "default description" attribute
          */
-        public function get_default_description($including_parents = false)
+        public function get_default_description($including_parents = false, $show_escape = true)
         {
-            if ($including_parents && empty($this->get_default_description()) && $this->get_default_comment() != "@@")
+            if ($including_parents && empty($this->get_default_description()))
             {
                 $parent_id = $this->get_id();
 
@@ -240,8 +240,12 @@
 
                 return "";
             }
-            else
-                return $this->db_data['default_description'];
+            else {
+                if ($show_escape || $this->db_data['default_description'] !== "@@")
+                    return $this->db_data['default_description'];
+                else
+                    return "";
+            }
         }
 
         /**
@@ -254,7 +258,7 @@
          *
          * @retval string          the "default comment" attribute
          */
-        public function get_default_comment($including_parents = false)
+        public function get_default_comment($including_parents = false, $show_escape = true)
         {
             if ($including_parents && empty($this->get_default_comment()) && $this->get_default_comment() != "@@")
             {
@@ -276,7 +280,11 @@
                 return "";
             }
             else
-                return $this->db_data['default_comment'];
+                if ($show_escape || $this->db_data['default_comment'] !== "@@")
+                    return $this->db_data['default_comment'];
+                else
+                    return "";
+
         }
 
 

@@ -615,9 +615,10 @@
                 {
                     $cat = new Category($database, $current_user, $log, $new_category_id);
                     if(empty($new_description))
-                        $new_description = $cat->get_default_description(true);
+                        $new_description = $cat->get_default_description(true, false);
                     if(empty($new_comment))
-                        $new_comment = $cat->get_default_comment(true);
+                        $new_comment = $cat->get_default_comment(true, false);
+                        $new_comment = $cat->get_default_comment(true, false);
                 }
 
                 $html->set_variable('name',         $new_name,          'string');

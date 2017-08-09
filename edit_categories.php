@@ -218,7 +218,7 @@ if (! $fatal_error)
             $html->set_variable('id', $selected_category->get_id(), 'integer');
             $name = $selected_category->get_name();
 
-            $default_description = $selected_category->get_default_description();
+            $default_description = $selected_category->get_default_description(true);
             $default_comment = $selected_category->get_default_comment();
 
             $default_description_parent = $selected_category->get_default_description(true);
