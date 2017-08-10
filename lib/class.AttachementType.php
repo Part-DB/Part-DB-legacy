@@ -53,9 +53,9 @@
          * @throws Exception    if there is no such attachement type in the database
          * @throws Exception    if there was an error
          */
-        public function __construct(&$database, &$current_user, &$log, $id)
+        public function __construct(&$database, &$current_user, &$log, $id, $db_data = null)
         {
-            parent::__construct($database, $current_user, $log, 'attachement_types', $id);
+            parent::__construct($database, $current_user, $log, 'attachement_types', $id, $db_data);
         }
 
         /********************************************************************************
@@ -79,14 +79,14 @@
             {
                 $this->attachements = array();
 
-                $query = 'SELECT id FROM attachements '.
+                $query = 'SELECT * FROM attachements '.
                             'WHERE type_id=? '.
                             'ORDER BY name ASC';
                 $query_data = $this->database->query($query, array($this->get_id()));
 
                 //debug('temp', 'Anzahl gefundene Dateien: '.count($query_data));
                 foreach ($query_data as $row)
-                    $this->attachements[] = new Attachement($this->database, $this->current_user, $this->log, $row['id']);
+                    $this->attachements[] = new Attachement($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
 
             return $this->attachements;

@@ -340,7 +340,7 @@
 
             $device_parts = array();
 
-            $query =    'SELECT device_parts.id FROM device_parts '.
+            $query =    'SELECT device_parts.* FROM device_parts '.
                         'LEFT JOIN devices ON devices.id = device_parts.id_device '.
                         'WHERE devices.order_quantity > 0 ';
             if ($part_id)
@@ -350,7 +350,7 @@
             $query_data = $database->query($query, ($part_id ? array($part_id) : array()));
 
             foreach ($query_data as $row)
-                $device_parts[] = new DevicePart($database, $current_user, $log, $row['id']);
+                $device_parts[] = new DevicePart($database, $current_user, $log, $row['id'], $row);
 
             return $device_parts;
         }

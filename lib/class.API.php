@@ -158,6 +158,7 @@ class API
         $show_nodes[] = treeview_node(_("Teile ohne Preis"),BASE_RELATIVE."/show_noprice_parts.php");
         $show_nodes[] = treeview_node(_("Obsolente Bauteile"),BASE_RELATIVE."/show_obsolete_parts.php");
         $show_nodes[] = treeview_node(_("Statistik"),BASE_RELATIVE."/statistics.php");
+        $show_nodes[] = treeview_node(_("Alle Teile"),BASE_RELATIVE."/show_all_parts.php");
 
         //Edit nodes
         $edit_nodes = array();

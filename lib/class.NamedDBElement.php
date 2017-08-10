@@ -54,9 +54,9 @@
          * @throws Exception    if there is no such element in the database
          * @throws Exception    if there was an error
          */
-        public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false)
+        public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false, $db_data = null)
         {
-            parent::__construct($database, $current_user, $log, $tablename, $id, $allow_virtual_elements);
+            parent::__construct($database, $current_user, $log, $tablename, $id, $allow_virtual_elements, $db_data);
         }
 
         /********************************************************************************
@@ -145,7 +145,7 @@
                 $keyword = '%'.$keyword.'%';
             }
 
-            $query = 'SELECT id FROM '.$tablename.' WHERE name'.(($exact_match) ? '=' : ' LIKE ').'? ORDER BY name ASC';
+            $query = 'SELECT * FROM '.$tablename.' WHERE name'.(($exact_match) ? '=' : ' LIKE ').'? ORDER BY name ASC';
             $query_data = $database->query($query, array($keyword));
 
             $objects = array();
@@ -153,7 +153,7 @@
             $classname = get_called_class();
 
             foreach ($query_data as $row)
-                $objects[] = new $classname($database, $current_user, $log, $row['id']);
+                $objects[] = new $classname($database, $current_user, $log, $row['id'], $row);
 
             return $objects;
         }

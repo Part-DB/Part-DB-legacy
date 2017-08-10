@@ -66,13 +66,13 @@
          * @param boolean   $allow_virtual_elements     @li if true, it's allowed to set $id to zero
          *                                                  (the StructuralDBElement needs this for the root element)
          *                                              @li if false, $id == 0 is not allowed (throws an Exception)
-         *
+         * @param array     $db_data                    If you have already data from the database, then use give it with this param, the part, wont make a database request.
          * @throws Exception    if there is no such element in the database
          * @throws Exception    if there was an error
          */
-        public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false)
+        public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false, $db_data = null)
         {
-            parent::__construct($database, $current_user, $log, $tablename, $id, $allow_virtual_elements);
+            parent::__construct($database, $current_user, $log, $tablename, $id, $allow_virtual_elements, $db_data);
         }
 
         /**
@@ -152,7 +152,7 @@
             {
                 $this->attachement_types = array();
 
-                $query = 'SELECT attachements.type_id FROM attachements '.
+                $query = 'SELECT attachement_types.* FROM attachements '.
                             'LEFT JOIN attachement_types ON attachements.type_id=attachement_types.id '.
                             'WHERE class_name=? AND element_id=? '.
                             'GROUP BY type_id '.
@@ -161,7 +161,7 @@
 
                 //debug('temp', 'Anzahl gefundener Dateitypen: '.count($query_data));
                 foreach ($query_data as $row)
-                    $this->attachement_types[] = new AttachementType($this->database, $this->current_user, $this->log, $row['type_id']);
+                    $this->attachement_types[] = new AttachementType($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
 
             return $this->attachement_types;
@@ -185,7 +185,7 @@
             {
                 $this->attachements = array();
 
-                $query = 'SELECT attachements.id FROM attachements '.
+                $query = 'SELECT attachements.* FROM attachements '.
                             'LEFT JOIN attachement_types ON attachements.type_id=attachement_types.id '.
                             'WHERE class_name=? AND element_id=? ';
                 $query .= 'ORDER BY attachement_types.name ASC, attachements.name ASC';
@@ -193,7 +193,7 @@
 
                 //debug('temp', 'Anzahl gefundene Dateianhänge: '.count($query_data));
                 foreach ($query_data as $row)
-                    $this->attachements[] = new Attachement($this->database, $this->current_user, $this->log, $row['id']);
+                    $this->attachements[] = new Attachement($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
 
             if ($only_table_attachements || $type_id)
