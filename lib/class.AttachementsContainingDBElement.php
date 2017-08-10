@@ -152,7 +152,7 @@
             {
                 $this->attachement_types = array();
 
-                $query = 'SELECT attachements_types.* FROM attachements '.
+                $query = 'SELECT attachement_types.* FROM attachements '.
                             'LEFT JOIN attachement_types ON attachements.type_id=attachement_types.id '.
                             'WHERE class_name=? AND element_id=? '.
                             'GROUP BY type_id '.
