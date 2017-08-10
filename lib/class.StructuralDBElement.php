@@ -282,12 +282,12 @@
             {
                 $this->subelements = array();
 
-                $query_data = $this->database->query('SELECT id FROM '. $this->tablename .
+                $query_data = $this->database->query('SELECT * FROM ' . $this->tablename .
                                                      ' WHERE parent_id <=> ? ORDER BY name ASC', array($this->get_id()));
 
                 $class = get_class($this);
                 foreach ($query_data as $row)
-                    $this->subelements[] = new $class($this->database, $this->current_user, $this->log, $row['id']);
+                    $this->subelements[] = new $class($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
 
             if ( ! $recursive)
