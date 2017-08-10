@@ -1969,6 +1969,58 @@
         }
 
         /**
+         * @brief Get all existing parts
+         *
+         * @param Database  &$database              reference to the database object
+         * @param User      &$current_user          reference to the user which is logged in
+         * @param Log       &$log                   reference to the Log-object
+         * @param string    $group_by               @li if this is a non-empty string, the returned array is a
+         *                                              two-dimensional array with the group names as top level.
+         *                                          @li supported groups are: '' (none), 'categories'
+         *
+         * @retval array    all found parts as a one-dimensional array of Part objects,
+         *                  sorted by their names (if "$group_by == ''")
+         * @retval array    @li all parts as a two-dimensional array, grouped by $group_by,
+         *                      sorted by name (if "$group_by != ''")
+         *                  @li example: array('category1' => array(part1, part2, ...),
+         *                      'category2' => array(part123, part124, ...), ...)
+         *                  @li for the group names (in the example 'category1', 'category2', ...)
+         *                      are the full paths used
+         *
+         * @throws Exception if there was an error
+         */
+        public static function get_all_parts(&$database, &$current_user, &$log, $group_by='')
+        {
+            $query = 'SELECT parts.id FROM parts';
+
+            $query_data = $database->query($query);
+
+            foreach ($query_data as $row)
+            {
+                $part = new Part($database, $current_user, $log, $row['id']);
+
+                switch($group_by)
+                {
+                    case '':
+                        $parts[] = $part;
+                        break;
+
+                    case 'categories':
+                        $groups[$part->get_category()->get_full_path()][] = $part;
+                        break;
+                }
+            }
+
+            if ($group_by != '')
+            {
+                ksort($groups);
+                return $groups;
+            }
+            else
+                return $parts;
+        }
+
+        /**
          * @brief Create a new part
          *
          * @param Database  &$database          reference to the database object

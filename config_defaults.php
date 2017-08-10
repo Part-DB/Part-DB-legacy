@@ -230,6 +230,7 @@
     $config['table']['location_parts']['columns']           = 'hover_picture;name;description;category;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment';
     $config['table']['footprint_parts']['columns']          = 'hover_picture;name;description;category;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment';
     $config['table']['manufacturer_parts']['columns']       = 'hover_picture;name;description;category;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment';
+    $config['table']['all_parts']['columns']                = 'hover_picture;name;description;category;instock_mininstock;footprint;storelocation';
 
     // export configurations for order parts*
     $config['export']['orderparts'][0]['format']            = 'CSV';
