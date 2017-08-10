@@ -1087,6 +1087,7 @@
                         $category = $this->get_category();
                         $row_field['category_name'] = $category->get_name();
                         $row_field['category_path'] = $category->get_full_path();
+                        $row_field['category_id'] = $category->get_id();
                         break;
 
                     case 'footprint':
@@ -1095,6 +1096,7 @@
                         {
                             $row_field['footprint_name'] = $footprint->get_name();
                             $row_field['footprint_path'] = $footprint->get_full_path();
+                            $row_field['footprint_id'] = $footprint->get_id();
                         }
                         break;
 
@@ -1104,6 +1106,7 @@
                         {
                             $row_field['manufacturer_name'] = $manufacturer->get_name();
                             $row_field['manufacturer_path'] = $manufacturer->get_full_path();
+                            $row_field['manufacturer_id'] = $manufacturer->get_id();
                         }
                         break;
 
@@ -1113,6 +1116,7 @@
                         {
                             $row_field['storelocation_name'] = $storelocation->get_name();
                             $row_field['storelocation_path'] = $storelocation->get_full_path();
+                            $row_field['storelocation_id'] = $storelocation->get_id();
                         }
                         break;
 
