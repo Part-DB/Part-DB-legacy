@@ -809,6 +809,13 @@ include_once(BASE.'/updates/db_update_steps.php');
          */
         public function does_table_exist($tablename)
         {
+            //A whitelist of tables, we know that exists, so we dont need to check with a DB Request
+            $whitelist = array("parts", "categories", "footprints", "storelocations", "suppliers", "pricedetails",
+                "orderdetails", "manufacturers", "attachements", "attachement_types", "devices", "device_parts", "internal");
+
+            if(in_array($tablename, $whitelist))
+                return true;
+
             //does not work with SQLite!
             $query_data = $this->query("SHOW TABLES LIKE ?", array($tablename));
 

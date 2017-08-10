@@ -79,9 +79,9 @@
          * @throws Exception        if there is no such element in the database
          * @throws Exception        if there was an error
          */
-        public function __construct(&$database, &$current_user, &$log, $tablename, $id)
+        public function __construct(&$database, &$current_user, &$log, $tablename, $id, $db_data = null)
         {
-            parent::__construct($database, $current_user, $log, $tablename, $id, true);
+            parent::__construct($database, $current_user, $log, $tablename, $id, true, $db_data);
 
             if ($id == 0)
             {
@@ -282,12 +282,12 @@
             {
                 $this->subelements = array();
 
-                $query_data = $this->database->query('SELECT id FROM '. $this->tablename .
+                $query_data = $this->database->query('SELECT * FROM ' . $this->tablename .
                                                      ' WHERE parent_id <=> ? ORDER BY name ASC', array($this->get_id()));
 
                 $class = get_class($this);
                 foreach ($query_data as $row)
-                    $this->subelements[] = new $class($this->database, $this->current_user, $this->log, $row['id']);
+                    $this->subelements[] = new $class($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
 
             if ( ! $recursive)

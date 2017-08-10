@@ -128,12 +128,12 @@
                 $transaction_id = $this->database->begin_transaction(); // start transaction
 
                 // Set all "id_master_picture_attachement" in the table "parts" to NULL where the master picture is this attachement
-                $query = 'SELECT id from parts WHERE id_master_picture_attachement=?';
+                $query = 'SELECT * from parts WHERE id_master_picture_attachement=?';
                 $query_data = $this->database->query($query, array($this->get_id()));
 
                 foreach ($query_data as $row)
                 {
-                    $part = new Part($this->database, $this->current_user, $this->log, $row['id']);
+                    $part = new Part($this->database, $this->current_user, $this->log, $row['id'], $row);
                     $part->set_master_picture_attachement_id(NULL);
                 }
 
@@ -310,14 +310,14 @@
             // Then we replace the path of the Part-DB installation directory (Constant "BASE") with a placeholder ("%BASE%")
             $filename_2 = str_replace(BASE, '%BASE%', trim($filename));
 
-            $query =    'SELECT id FROM attachements '.
+            $query =    'SELECT * FROM attachements '.
                         'WHERE filename=? OR filename=? '.
                         'ORDER BY name ASC';
             // we will search for both, the original filename and the filename with replaced base-path
             $query_data = $database->query($query, array($filename, $filename_2));
 
             foreach ($query_data as $row)
-                $attachements[] = new Attachement($database, $current_user, $log, $row['id']);
+                $attachements[] = new Attachement($database, $current_user, $log, $row['id'], $row);
 
             return $attachements;
         }
@@ -339,14 +339,14 @@
         {
             $attachements = array();
 
-            $query =    'SELECT id, filename FROM attachements '.
+            $query =    'SELECT * FROM attachements '.
                         'ORDER BY name ASC';
             $query_data = $database->query($query);
 
             foreach ($query_data as $row)
             {
                 if ( ! file_exists(str_replace('%BASE%', BASE, $row['filename'])))
-                    $attachements[] = new Attachement($database, $current_user, $log, $row['id']);
+                    $attachements[] = new Attachement($database, $current_user, $log, $row['id'], $row);
             }
 
             return $attachements;
