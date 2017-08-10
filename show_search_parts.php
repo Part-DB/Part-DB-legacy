@@ -52,6 +52,8 @@
 
     $disable_pid_input      = isset($_REQUEST['disable_pid_input']);
 
+    $regex_search           = isset($_REQUEST['regex']);
+
     $action = 'default';
     if (isset($_REQUEST['export']))     {$action = 'export';}
     $selected_part_id = 0;
@@ -88,6 +90,11 @@
             $part = new Part($database, $current_user, $log, $selected_part_id);
         else
             $part = NULL;
+
+        if(!empty($keyword))
+        {
+            $html->set_title(_('Suchresultate') . ": " . $keyword);
+        }
     }
     catch (Exception $e)
     {
@@ -201,7 +208,7 @@
             $category_parts = Part::search_parts($database, $current_user, $log, $keyword, 'categories',
                                     $search_name, $search_description, $search_comment,
                                     $search_footprint, $search_category, $search_storelocation,
-                                    $search_supplier, $search_supplierpartnr, $search_manufacturer);
+                                    $search_supplier, $search_supplierpartnr, $search_manufacturer, $regex_search);
 
             $hits_count = count($category_parts, COUNT_RECURSIVE) - count($category_parts);
 
@@ -225,7 +232,6 @@
     *
     *********************************************************************************/
 
-    $html->use_javascript(array('popup'));
 
     $html->set_variable('keyword',                  $keyword,                               'string');
     $html->set_variable('hits_count',               (isset($hits_count) ? $hits_count : 0), 'integer');

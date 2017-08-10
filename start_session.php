@@ -175,9 +175,9 @@
         foreach ($messages as $msg)
             $message .= '&bull;'.$msg.'<br>';
         $message .= '</font></strong><br><br>';
-        $message .= 'Nähere Informationen zu den Dateirechten gibt es in der <a target="_blank" href="'.BASE_RELATIVE.
-                    '/documentation/dokuwiki/doku.php?id=installation">Dokumentation</a>.<br><br>';
-        $message .= '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>';
+        $message .= 'Nähere Informationen zu den Dateirechten gibt es in der <a target="_blank" href="' .
+                    'https://github.com/jbtronics/Part-DB/wiki/Installation">Dokumentation</a>.<br><br>';
+        $message .= '<form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>';
 
         print_messages_without_template('Part-DB', 'Anpassung der Rechte von Verzeichnissen und Dateien', $message);
         exit;

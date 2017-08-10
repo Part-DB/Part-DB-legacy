@@ -338,6 +338,7 @@
                 debug('warning', 'Meta not set!', __FILE__, __LINE__, __METHOD__);
             }
 
+           /*
             if(!$config['design']['use_smarty'])
             {
                 $vlib_head = BASE.'/templates/'.$this->meta['theme'].'/vlib_head.tmpl';
@@ -351,7 +352,7 @@
                 if ($config['debug']['template_debugging_enable'])
                 {
                     /** @noinspection PhpIncludeInspection */
-                    include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
+                  /*  include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
                     $tmpl = new vlibTemplateDebug($vlib_head);
                 }
                 else
@@ -400,7 +401,7 @@
             }
 
             else //Use Smarty
-            {
+            {*/
                 $smarty_head = BASE.'/templates/'.$this->meta['theme'].'/smarty_head.tpl';
                 if ( ! is_readable($smarty_head))
                 {
@@ -421,15 +422,19 @@
                 $tmpl->escape_html = true;
 
 
+                //Unix locales (de_DE) are other than the HTML lang (de), so edit them
+                $lang = explode("_", $config['language'])[0];
+
                 // header stuff
                 $tmpl->assign('relative_path',              BASE_RELATIVE.'/'); // constant from start_session.php
                 $tmpl->assign('page_title',                 $this->meta['title']);
                 $tmpl->assign('http_charset',               $config['html']['http_charset']);
-                $tmpl->assign('lang',                       $config['language']);
+                $tmpl->assign('lang',                       $lang);
                 $tmpl->assign('body_onload',                $this->body_onload);
                 $tmpl->assign('theme',                      $this->meta['theme']);
                 $tmpl->assign('frameset',                   $this->meta['frameset']);
                 $tmpl->assign('redirect',                   $redirect);
+                $tmpl->assign('partdb_title',               $config['partdb_title']);
                 if (strlen($this->meta['custom_css']) > 0)
                     $tmpl->assign('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
 
@@ -470,7 +475,7 @@
 
                 $tmpl->display($smarty_head);
 
-            }
+            //}
         }
 
          /**
@@ -496,6 +501,7 @@
             settype($template, 'string');
             settype($use_scriptname, 'boolean');
 
+            /*
             if(!$config['design']['use_smarty'])
             {
 
@@ -519,7 +525,7 @@
                 if ($config['debug']['template_debugging_enable'])
                 {
                     /** @noinspection PhpIncludeInspection */
-                    include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
+                   /* include_once(BASE.'/lib/vlib/vlibTemplate/debug.php');
                     $tmpl = new vlibTemplateDebug($vlib_template);
                 }
                 else
@@ -541,7 +547,7 @@
                 $tmpl->pparse();
             }
             else //use smarty
-            {
+            {*/
                 if ($use_scriptname)
                 {
                     $smarty_template =    BASE.'/templates/'.$this->meta['theme'].'/'.
@@ -586,7 +592,7 @@
                 $tmpl->escape_html = true;
 
                 $tmpl->display($smarty_template);
-            }
+            //}
 
         }
 
@@ -666,6 +672,8 @@
                     $tmpl->assign('messages',              $messages);
                     $tmpl->assign('messages_div_title',     $messages_div_title);
                 }
+
+                $tmpl->assign("tracking_code", $config['tracking_code']);
 
                 //Remove white space from Output
                 $tmpl->loadFilter('output', 'trimwhitespace');

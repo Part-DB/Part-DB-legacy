@@ -82,6 +82,8 @@
             $part = new Part($database, $current_user, $log, $selected_part_id);
         else
             $part = NULL;
+
+        $html->set_title(_('Teileansicht') . ': ' . $category->get_name());
     }
     catch (Exception $e)
     {
@@ -173,7 +175,6 @@
     *
     *********************************************************************************/
 
-    $html->use_javascript(array('popup'));
 
     $html->set_variable('with_subcategories', $with_subcategories, 'boolean');
 

@@ -58,7 +58,7 @@ function registerForm() {
 
 function addURLparam(url, param)
 {
-    'use strict'
+    'use strict';
 
     //If url already contains a ? than use a & for param addition
     if(url.indexOf('?') >= 0)
@@ -82,6 +82,16 @@ function submitForm(form) {
     $(form).ajaxSubmit(data);
 }
 
+function submitFormSubmitBtn(form, btn) {
+    var name = $(btn).attr('name');
+    var value = $(btn).attr('value');
+    if(value === undefined)
+        value = "";
+
+    $(form).append('<input type="hidden" name="' + name + '" value="' + value + '">');
+    submitForm(form);
+}
+
 function registerHoverImages(form) {
     'use strict';
     $('img[rel=popover]').popover({
@@ -95,15 +105,29 @@ function registerHoverImages(form) {
     });
 }
 
+function openInNewTab(url) {
+    $("<a>").attr("href", url).attr("target", "_blank")[0].click();
+}
+
 function onNodeSelected(event, data) {
     'use strict';
-    $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
-    $('#progressbar').show();
+    if(data.href.indexOf("github.com") !== -1)  //If the href points to github, then open it in new tab. TODO: Find better solution to detect external links.
+    {
+        openInNewTab(data.href);
+        $(this).treeview('toggleNodeSelected',data.nodeId);
+    }
+    else
+    {
+        $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
+        $('#progressbar').show();
+    }
 
     //$('#content').fadeOut("fast");
     //$('#progressbar').show();
 
-    $(this).treeview('toggleNodeExpanded',data.nodeId)
+    $(this).treeview('toggleNodeExpanded',data.nodeId);
+
+    $("#sidebar").removeClass("in");
 }
 
 function tree_fill() {
@@ -227,13 +251,18 @@ window.onpopstate = function (event) {
     var page = location.href;
     //Go back only when the the target isnt the empty index.
     if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
-        $('#content').hide(0);
+        $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");
         $('#progressbar').show(0);
-
-        $("#content").load(addURLparam(location.href, ajax) + " #content-data");
     }
 };
 
+
+function registerSubmitBtn()
+{
+    $("button.submit").unbind("click").click(function(){
+        submitFormSubmitBtn($(this).closest("form"), this);
+    });
+}
 
 $(document).ajaxComplete(function (event, xhr, settings) {
     'use strict';
@@ -250,10 +279,13 @@ $(document).ajaxComplete(function (event, xhr, settings) {
     makeFileInput();
     registerHoverImages();
     scrollUpForMsg();
+    registerSubmitBtn();
     
     if ($("x3d").length) {
         x3dom.reload();
     }
+
+    $(".selectpicker").selectpicker();
         
     //Push only if it was a "GET" request and requested data was an HTML
     if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
@@ -313,4 +345,9 @@ function octoPart() {
         success: octoPart_success
     });
 }
+
+$("#search-submit").click(function (event) {
+    $("#searchbar").removeClass("in");
+});
+
 

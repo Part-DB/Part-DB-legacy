@@ -13,8 +13,12 @@ body {
 }
 
 .companypic {
-    width: 25px;
+    width: 23px;
     display: inline;
+}
+
+.companypic:hover {
+    filter: opacity(60%);
 }
 
 .td .table-small {
@@ -59,13 +63,6 @@ table.dataTable tbody th, table.dataTable tbody td {
     height: 100px;
 }
 
-.fake-table-col {
-    padding: 8px;
-    line-height: 1.42857143;
-    vertical-align: top;
-    border-top: 1px solid #ddd;
-}
-
 .auto-size-select {
     height: inherit;
 }
@@ -85,12 +82,43 @@ table.dataTable tbody th, table.dataTable tbody td {
     .fixed-sidebar {
         position: fixed;
         left: 15px;
-        z-index: 1030;
+        z-index: 1000;
         width: inherit;
         overflow-x: hidden;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         max-height: 91%;
+    }
+
+
+}
+
+@media  (max-width: 768px) {
+    .fixed-sidebar {
+        position: fixed;
+        top: 56px;
+        right: 0;
+        left: 0;
+        background-color: inherit;
+        padding-left: 15px;
+        padding-right: 15px;
+        padding-top: 7px;
+        margin-top: 0;
+        z-index: 1000;
+        width: inherit;
+        overflow-x: hidden;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        max-height: 91%;
+        opacity: 0.97;
+    }
+
+    .sidebar-container {
+        margin-top: 0;
+        padding-top: 5px;
+
+
+        background-color: #F8F8F8;
     }
 }
 
@@ -120,6 +148,9 @@ table.dataTable tbody th, table.dataTable tbody td {
 
 .sidebar-title {
     margin-top: 0;
+    font-size: 18px;
+    margin-bottom: 10px;
+    line-height: 1.1;
 }
 
 .container-progress {
@@ -130,3 +161,16 @@ table.dataTable tbody th, table.dataTable tbody td {
     display: flex;
     align-items: center;
 }
+
+.form-control-link {
+    display: block;
+    padding-top: 7px;
+    padding-bottom: 7px;
+}
+
+@media print {
+    a.hidden-print-href[href]:after {
+        content: none !important;
+    }
+}
+

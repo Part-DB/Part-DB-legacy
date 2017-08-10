@@ -170,7 +170,6 @@
     *
     *********************************************************************************/
 
-    $html->use_javascript(array('validatenumber', 'popup'));
 
     if (! $fatal_error)
     {

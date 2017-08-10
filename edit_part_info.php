@@ -442,50 +442,48 @@
             case 'search_category':
                 $classname = 'Category';
                 $search_name = $search_category_name;
+                break;
             case 'search_footprint':
-                if ( ! isset($classname))
-                {
-                    $classname = 'Footprint';
-                    $search_name = $search_footprint_name;
-                }
+                $classname = 'Footprint';
+                $search_name = $search_footprint_name;
+                break;
             case 'search_storelocation':
-                if ( ! isset($classname))
-                {
-                    $classname = 'Storelocation';
-                    $search_name = $search_storelocation_name;
-                }
+                $classname = 'Storelocation';
+                $search_name = $search_storelocation_name;
+                break;
             case 'search_manufacturer':
-                if ( ! isset($classname))
-                {
-                    $classname = 'Manufacturer';
-                    $search_name = $search_manufacturer_name;
-                }
-
-                $print_unsaved_values = true;
-                $search_name = trim($search_name);
-
-                try
-                {
-                    if (strpos($search_name, '__ID__=') === 0)
-                    {
-                        $searched_element = new $classname($database, $current_user, $log, (int)str_replace('__ID__=', '', $search_name));
-                    }
-                    else
-                    {
-                        $elements = $classname::search($database, $current_user, $log, $search_name);
-
-                        if (count($elements) > 0)
-                            $searched_element = $elements[0];
-                        else
-                            $searched_element = $classname::add($database, $current_user, $log, $search_name, 0);
-                    }
-                }
-                catch (Exception $e)
-                {
-                    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
-                }
+                $classname = 'Manufacturer';
+                $search_name = $search_manufacturer_name;
                 break;
         }
+
+        if(isset($classname))
+        {
+            $print_unsaved_values = true;
+            $search_name = trim($search_name);
+
+            try
+            {
+                if (strpos($search_name, '__ID__=') === 0)
+                {
+                    $searched_element = new $classname($database, $current_user, $log, (int)str_replace('__ID__=', '', $search_name));
+                }
+                else
+                {
+                    $elements = $classname::search($database, $current_user, $log, $search_name);
+
+                    if (count($elements) > 0)
+                        $searched_element = $elements[0];
+                    else
+                        $searched_element = $classname::add($database, $current_user, $log, $search_name, 0);
+                }
+            }
+            catch (Exception $e)
+            {
+                $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+            }
+        }
+
     }
 
     /********************************************************************************
@@ -494,7 +492,6 @@
     *
     *********************************************************************************/
 
-    $html->use_javascript(array('validatenumber', 'popup', 'util-functions', 'clear-default-text'));
 
     if (! $fatal_error)
     {
@@ -534,11 +531,14 @@
                     $pricedetails_loop = array();
                     foreach($orderdetails->get_pricedetails() as $pricedetails)
                     {
+                        //HTML5 wants a float number with a dot as a decimal point. The browser should change its display correspondingly to HTML locale.
+                        $price = str_replace(",",".", $pricedetails->get_price(false, $pricedetails->get_price_related_quantity()));
+
                         $pricedetails_loop[] = array(   'row_odd'                   => ! $row_odd,
                                                         'orderdetails_id'           => $orderdetails->get_id(),
                                                         'pricedetails_id'           => $pricedetails->get_id(),
                                                         'min_discount_quantity'     => $pricedetails->get_min_discount_quantity(),
-                                                        'price'                     => $pricedetails->get_price(false, $pricedetails->get_price_related_quantity()),
+                                                        'price'                     => $price,
                                                         'price_related_quantity'    => $pricedetails->get_price_related_quantity());
                     }
 

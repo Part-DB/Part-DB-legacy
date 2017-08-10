@@ -100,10 +100,14 @@
     $popup_height               = isset($_REQUEST['popup_height'])      ? (integer)$_REQUEST['popup_height']    : $config['popup']['height'];
     $page_title                 = isset($_REQUEST['page_title'])        ? (string)$_REQUEST['page_title']       : $config['page_title'];
     $startup_banner             = isset($_REQUEST['startup_banner'])    ? (string)$_REQUEST['startup_banner']   : $config['startup']['custom_banner'];
+    $use_old_datasheet_icons    = isset($_REQUEST['use_old_datasheet_icons']);
 
     // section "3d footprints"
     $foot3d_active              = isset($_REQUEST['foot3d_active']);
     $foot3d_show_info           = isset($_REQUEST['foot3d_show_info']);
+
+    //section "part properites"
+    $properties_active          = isset($_REQUEST['properties_active']);
 
     // section "change administrator password"
     $current_admin_password     = isset($_REQUEST['current_admin_password'])    ? (string)$_REQUEST['current_admin_password']   : '';
@@ -170,14 +174,18 @@
                 $config['popup']['width']                   = $popup_width;
                 $config['popup']['height']                  = $popup_height;
 
+                $config['appearance']['use_old_datasheet_icons'] = $use_old_datasheet_icons;
+
                 $config['foot3d']['active']                 = $foot3d_active;
                 $config['foot3d']['show_info']              = $foot3d_show_infos;
+
+                $config['properties']['active']             = $properties_active;
 
                 if ( ! $config['is_online_demo'])
                 {
                     // settings which should not be able to change in the online demo
                     $config['menu']['disable_config']       = $disable_config;
-                    $config['page_title']                   = $page_title;
+                    $config['partdb_title']                   = $page_title;
                     $config['startup']['custom_banner']     = $startup_banner;
                 }
                 else
@@ -247,8 +255,6 @@
     *
     *********************************************************************************/
 
-    $html->use_javascript(array('validatenumber', 'popup'));
-
     // http charset / theme
     $html->set_loop('http_charset_loop',    array_to_template_loop($config['http_charsets'], $config['html']['http_charset']));
     $html->set_loop('theme_loop',           build_theme_loop());
@@ -275,6 +281,7 @@
     $html->set_variable('developer_mode_available',     file_exists(BASE.'/development'),           'boolean');
     $html->set_variable('enable_developer_mode',        $config['developer_mode'],                  'boolean');
     $html->set_variable('enable_dokuwiki_write_perms',  file_exists(DOKUWIKI_PERMS_FILENAME),       'boolean');
+    $html->set_variable('use_old_datasheet_icons',      $config['appearance']['use_old_datasheet_icons'], 'boolean');
 
     // popup settings
     $html->set_variable('use_modal_popup',              $config['popup']['modal'],                  'boolean');
@@ -282,13 +289,16 @@
     $html->set_variable('popup_height',                 $config['popup']['height'],                 'integer');
 
     // site properties
-    $html->set_variable('page_title',                   $config['page_title'],                      'string');
+    $html->set_variable('page_title',                   $config['partdb_title'],                      'string');
     $html->set_variable('startup_banner',               $config['startup']['custom_banner'],        'string');
 
     // server
     $html->set_variable('php_version',                  phpversion(),                               'string');
     $html->set_variable('htaccess_works',               (getenv('htaccessWorking')=='true'),        'boolean');
     $html->set_variable('is_online_demo',               $config['is_online_demo'],                  'boolean');
+
+    //Part properties
+    $html->set_variable('properties_active',                  $config['properties']['active'],               'boolean');
 
     // 3d Footprints
     $html->set_variable('foot3d_active',                $config['foot3d']['active'],                'boolean');

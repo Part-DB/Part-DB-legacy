@@ -158,6 +158,7 @@ class API
         $show_nodes[] = treeview_node(_("Teile ohne Preis"),BASE_RELATIVE."/show_noprice_parts.php");
         $show_nodes[] = treeview_node(_("Obsolente Bauteile"),BASE_RELATIVE."/show_obsolete_parts.php");
         $show_nodes[] = treeview_node(_("Statistik"),BASE_RELATIVE."/statistics.php");
+        $show_nodes[] = treeview_node(_("Alle Teile"),BASE_RELATIVE."/show_all_parts.php");
 
         //Edit nodes
         $edit_nodes = array();
@@ -183,7 +184,7 @@ class API
         $tree[] = treeview_node(_("Zeige"),null,$show_nodes);
         if(!$disable_config) $tree[] = treeview_node(_("System"),null,$system_nodes);
         if($developer_mode) $tree[] = treeview_node(_("Entwickler-Werkzeuge"),null,$dev_nodes);
-        $tree[] = treeview_node(_("Hilfe"),BASE_RELATIVE."documentation/dokuwiki/index.php",null);
+        $tree[] = treeview_node(_("Hilfe"),"https://github.com/jbtronics/Part-DB/wiki",null);
 
         return $tree;
     }
