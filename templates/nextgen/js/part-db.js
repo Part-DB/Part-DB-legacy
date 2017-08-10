@@ -112,7 +112,6 @@ function openInNewTab(url) {
 function onNodeSelected(event, data) {
     'use strict';
     if(data.href.indexOf("github.com") !== -1)  //If the href points to github, then open it in new tab. TODO: Find better solution to detect external links.
-    if(data.href.indexOf("github.com") !== -1)  //If the href points to github, then open it in new tab. TODO: Find better solution to detect external links.
     {
         openInNewTab(data.href);
         $(this).treeview('toggleNodeSelected',data.nodeId);
