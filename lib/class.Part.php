@@ -85,13 +85,14 @@
          * @param User      &$current_user  reference to the current user which is logged in
          * @param Log       &$log:          reference to the Log-object
          * @param integer   $id:            ID of the part we want to get
+         * @param array     $db_data        If you have already data from the database, then use give it with this param, the part, wont make a database request.
          *
          * @throws Exception    if there is no such part in the database
          * @throws Exception    if there was an error
          */
-        public function __construct(&$database, &$current_user, &$log, $id)
+        public function __construct(&$database, &$current_user, &$log, $id, $db_data = null)
         {
-            parent::__construct($database, $current_user, $log, 'parts', $id);
+            parent::__construct($database, $current_user, $log, 'parts', $id, false, $db_data);
         }
 
         /**
@@ -1991,13 +1992,13 @@
          */
         public static function get_all_parts(&$database, &$current_user, &$log, $group_by='')
         {
-            $query = 'SELECT parts.id FROM parts';
+            $query = 'SELECT * FROM parts';
 
             $query_data = $database->query($query);
 
             foreach ($query_data as $row)
             {
-                $part = new Part($database, $current_user, $log, $row['id']);
+                $part = new Part($database, $current_user, $log, $row['id'], $row);
 
                 switch($group_by)
                 {

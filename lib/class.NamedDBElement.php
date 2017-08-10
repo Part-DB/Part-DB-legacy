@@ -54,9 +54,9 @@
          * @throws Exception    if there is no such element in the database
          * @throws Exception    if there was an error
          */
-        public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false)
+        public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false, $db_data = null)
         {
-            parent::__construct($database, $current_user, $log, $tablename, $id, $allow_virtual_elements);
+            parent::__construct($database, $current_user, $log, $tablename, $id, $allow_virtual_elements, $db_data);
         }
 
         /********************************************************************************

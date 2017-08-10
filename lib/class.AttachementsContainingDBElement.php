@@ -66,13 +66,13 @@
          * @param boolean   $allow_virtual_elements     @li if true, it's allowed to set $id to zero
          *                                                  (the StructuralDBElement needs this for the root element)
          *                                              @li if false, $id == 0 is not allowed (throws an Exception)
-         *
+         * @param array     $db_data                    If you have already data from the database, then use give it with this param, the part, wont make a database request.
          * @throws Exception    if there is no such element in the database
          * @throws Exception    if there was an error
          */
-        public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false)
+        public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false, $db_data = null)
         {
-            parent::__construct($database, $current_user, $log, $tablename, $id, $allow_virtual_elements);
+            parent::__construct($database, $current_user, $log, $tablename, $id, $allow_virtual_elements, $db_data);
         }
 
         /**
