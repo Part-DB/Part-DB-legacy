@@ -40,5 +40,5 @@ Die gesamte Dokumentation inkl. Installationsanleitung gibts hier:
 
 ### Online-Demo zum Ausprobieren
 
-Eine Test-Datenbank ist unter <http://part-db.bplaced.net/part-db/> zu finden.
+Eine Test-Datenbank ist unter <http://part-db.bplaced.net/> zu finden.
 
