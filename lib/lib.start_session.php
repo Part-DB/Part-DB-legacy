@@ -46,7 +46,7 @@
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <link href="css/bootstrap.min.css" rel="stylesheet"></head>';
-        print '<body><main><div class="container-fluid" id="content"><div class="panel panel-danger">';
+        print '<body><main><div class="container-fluid" id="content"><br><div class="panel panel-danger">';
         if ($div_title) {print '<div class="panel-heading">'.$div_title.'</div>';}
         print '<div class="panel-body">';
         print $messages;
@@ -197,13 +197,13 @@
                                 '/data/config.php'                      => 'rw',    // don't need to exist (for first startup)
                                 '/data/backup/'                         => 'erwx',
                                 '/data/log/'                            => 'erwx',
-                                '/data/media/'                          => 'erwx',
+                                '/data/media/'                          => 'erwx');
                                 // DokuWiki/data
-                                '/documentation/dokuwiki/data/'         => 'erwx',
-                                '/documentation/dokuwiki/data/cache/'   => 'erwx',
-                                '/documentation/dokuwiki/data/meta/'    => 'erwx',
-                                '/documentation/dokuwiki/data/pages/'   => 'erwx',
-                                '/documentation/dokuwiki/data/tmp/'     => 'erwx');
+                                //'/documentation/dokuwiki/data/'         => 'erwx',
+                                //'/documentation/dokuwiki/data/cache/'   => 'erwx',
+                                //'/documentation/dokuwiki/data/meta/'    => 'erwx',
+                                //'/documentation/dokuwiki/data/pages/'   => 'erwx',
+                                //'/documentation/dokuwiki/data/tmp/'     => 'erwx');
 
         foreach ($permissions as $filename => $needed_perms)
         {
