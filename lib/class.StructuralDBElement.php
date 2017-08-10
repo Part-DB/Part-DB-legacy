@@ -79,9 +79,9 @@
          * @throws Exception        if there is no such element in the database
          * @throws Exception        if there was an error
          */
-        public function __construct(&$database, &$current_user, &$log, $tablename, $id)
+        public function __construct(&$database, &$current_user, &$log, $tablename, $id, $db_data = null)
         {
-            parent::__construct($database, $current_user, $log, $tablename, $id, true);
+            parent::__construct($database, $current_user, $log, $tablename, $id, true, $db_data);
 
             if ($id == 0)
             {

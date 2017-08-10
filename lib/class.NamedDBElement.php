@@ -145,7 +145,7 @@
                 $keyword = '%'.$keyword.'%';
             }
 
-            $query = 'SELECT id FROM '.$tablename.' WHERE name'.(($exact_match) ? '=' : ' LIKE ').'? ORDER BY name ASC';
+            $query = 'SELECT * FROM '.$tablename.' WHERE name'.(($exact_match) ? '=' : ' LIKE ').'? ORDER BY name ASC';
             $query_data = $database->query($query, array($keyword));
 
             $objects = array();
@@ -153,7 +153,7 @@
             $classname = get_called_class();
 
             foreach ($query_data as $row)
-                $objects[] = new $classname($database, $current_user, $log, $row['id']);
+                $objects[] = new $classname($database, $current_user, $log, $row['id'], $row);
 
             return $objects;
         }
