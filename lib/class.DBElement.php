@@ -99,8 +99,12 @@
             $this->current_user = $current_user;
             $this->log = $log;
 
-            if ( ! $this->database->does_table_exist($tablename))
-                throw new Exception('Die Tabelle "'.$tablename.'" existiert nicht in der Datenbank!');
+            if($db_data==null) //Dont check for table exist, if we already have db_data
+            {
+                if (! $this->database->does_table_exist($tablename))
+                    throw new Exception('Die Tabelle "'.$tablename.'" existiert nicht in der Datenbank!');
+            }
+
 
             $this->tablename = $tablename;
 

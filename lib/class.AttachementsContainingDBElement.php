@@ -152,7 +152,7 @@
             {
                 $this->attachement_types = array();
 
-                $query = 'SELECT attachements.type_id FROM attachements '.
+                $query = 'SELECT attachements_types.* FROM attachements '.
                             'LEFT JOIN attachement_types ON attachements.type_id=attachement_types.id '.
                             'WHERE class_name=? AND element_id=? '.
                             'GROUP BY type_id '.
@@ -161,7 +161,7 @@
 
                 //debug('temp', 'Anzahl gefundener Dateitypen: '.count($query_data));
                 foreach ($query_data as $row)
-                    $this->attachement_types[] = new AttachementType($this->database, $this->current_user, $this->log, $row['type_id']);
+                    $this->attachement_types[] = new AttachementType($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
 
             return $this->attachement_types;
@@ -185,7 +185,7 @@
             {
                 $this->attachements = array();
 
-                $query = 'SELECT attachements.id FROM attachements '.
+                $query = 'SELECT attachements.* FROM attachements '.
                             'LEFT JOIN attachement_types ON attachements.type_id=attachement_types.id '.
                             'WHERE class_name=? AND element_id=? ';
                 $query .= 'ORDER BY attachement_types.name ASC, attachements.name ASC';
@@ -193,7 +193,7 @@
 
                 //debug('temp', 'Anzahl gefundene Dateianhänge: '.count($query_data));
                 foreach ($query_data as $row)
-                    $this->attachements[] = new Attachement($this->database, $this->current_user, $this->log, $row['id']);
+                    $this->attachements[] = new Attachement($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
 
             if ($only_table_attachements || $type_id)
