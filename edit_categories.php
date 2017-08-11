@@ -58,6 +58,9 @@ $add_more                   = isset($_REQUEST['add_more']);
 $new_default_description    = isset($_REQUEST['default_description'])  ? (string)$_REQUEST['default_description']  : '';
 $new_default_comment        = isset($_REQUEST['default_comment'])  ? (string)$_REQUEST['default_comment']  : '';
 
+$new_partname_regex         = isset($_REQUEST['partname_regex'])   ? (string)$_REQUEST['partname_regex']    : '';
+$new_partname_hint          = isset($_REQUEST['partname_hint'])   ? (string)$_REQUEST['partname_hint']    : '';
+
 $action = 'default';
 if (isset($_REQUEST["add"]))                {$action = 'add';}
 if (isset($_REQUEST["delete"]))             {$action = 'delete';}
@@ -186,8 +189,10 @@ if ( ! $fatal_error)
                     'disable_manufacturers'    => $new_disable_manufacturers,
                     'disable_autodatasheets'   => $new_disable_autodatasheets,
                     'disable_properties'       => $new_disable_properties,
-                    'default_description'     => $new_default_description,
-                    'default_comment'       => $new_default_comment));
+                    'default_description'      => $new_default_description,
+                    'default_comment'          => $new_default_comment,
+                    'partname_regex'           => $new_partname_regex,
+                    'partname_hint'            => $new_partname_hint));
 
                 $html->set_variable('refresh_navigation_frame', true, 'boolean');
             }
@@ -218,14 +223,25 @@ if (! $fatal_error)
             $html->set_variable('id', $selected_category->get_id(), 'integer');
             $name = $selected_category->get_name();
 
-            $default_description = $selected_category->get_default_description(true);
-            $default_comment = $selected_category->get_default_comment();
+            //Default description/comment fields
+            $default_description = $selected_category->get_default_description(false);
+            $default_comment = $selected_category->get_default_comment(false);
 
             $default_description_parent = $selected_category->get_default_description(true);
             $default_comment_parent = $selected_category->get_default_comment(true);
             $html->set_variable('default_description_parent', $default_description_parent, 'string');
             $html->set_variable('default_comment_parent', $default_comment_parent, 'string');
 
+            //Partname fields
+            $partname_regex = $selected_category->get_partname_regex(false);
+            $partname_hint = $selected_category->get_partname_hint(false);
+
+            $partname_regex_parent = $selected_category->get_partname_regex(true);
+            $partname_hint_parent = $selected_category->get_partname_hint(true);
+            $html->set_variable('partname_regex_parent', $partname_regex_parent, 'string');
+            $html->set_variable('partname_hint_parent', $partname_hint_parent, 'string');
+
+            //Disable fields
             $disable_footprints = $selected_category->get_disable_footprints(true);
             $disable_manufacturers = $selected_category->get_disable_manufacturers(true);
             $disable_autodatasheets = $selected_category->get_disable_autodatasheets(true);
@@ -251,6 +267,8 @@ if (! $fatal_error)
             $disable_properties = $new_disable_properties;
             $default_description = $new_default_description;
             $default_comment = $new_default_comment;
+            $partname_regex = $new_partname_regex;
+            $partname_hint = $new_partname_hint;
         }
         else
         {
@@ -262,6 +280,8 @@ if (! $fatal_error)
             $disable_properties = false;
             $default_description = "";
             $default_comment = "";
+            $partname_hint = "";
+            $partname_regex = "";
         }
 
         $html->set_variable('name', $name, 'string');
@@ -272,6 +292,9 @@ if (! $fatal_error)
 
         $html->set_variable('default_description', $default_description, 'string');
         $html->set_variable('default_comment', $default_comment, 'string');
+
+        $html->set_variable('partname_regex', $partname_regex, 'string');
+        $html->set_variable('partname_hint', $partname_hint, 'string');
 
         $category_list = $root_category->build_html_tree($selected_id, true, false);
         $html->set_variable('category_list', $category_list, 'string');

@@ -90,6 +90,24 @@
                             <br>
 
                             <div class="form-group">
+                                <label class="control-label col-md-3">{t}Filter für Bauteilenamen (RegEx):{/t}</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="partname_regex" value="{$partname_regex}"
+                                           placeholder="{if !empty($partname_regex_parent)}{$partname_regex_parent}{/if}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Hinweis für Bauteilenamen:{/t}</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="partname_hint" value="{$partname_hint}"
+                                           placeholder="{if !empty($partname_hint_parent)}{$partname_hint_parent}{/if}">
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <div class="form-group">
                                 <label class="control-label col-md-3">{t}Standard Beschreibung:{/t}</label>
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" name="default_description" value="{$default_description}"
