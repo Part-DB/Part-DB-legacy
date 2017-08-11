@@ -830,3 +830,25 @@
     {
         return str_replace("\w", "[\wÄäÖöÜüß]", $pattern);
     }
+
+
+    /**
+     * Generates a <input type="hidden"> Html string, with the given values.
+    * @param $name  string The "name" attribute of the <input> element
+    * @param $value string The "value" attribute of the <input> element
+    * @return string The HTML string.
+    */
+    function generate_input_hidden($name, $value="")
+    {
+        return '<input type="hidden" name="' . $name . '" value="' . $value . '">';
+    }
+
+    function generate_button($name, $text, $theme="btn-default", $val="")
+    {
+        return "<button type='submit' class='btn $theme' name='$name' value='$val'>$text</button>";
+    }
+
+    function generate_button_red($name, $text, $theme="btn-danger", $val="")
+    {
+        return generate_button($name, $text, $theme, $val);
+    }

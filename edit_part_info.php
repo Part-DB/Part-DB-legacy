@@ -104,7 +104,8 @@
     if (isset($_REQUEST["search_storelocation"]))       {$action = 'search_storelocation';}
     if (isset($_REQUEST["search_manufacturer"]))        {$action = 'search_manufacturer';}
 
-    if (isset($_REQUEST["apply_name_save"]))       {$action = 'apply_name_confirmed';}
+    if (isset($_REQUEST["apply_name_save"]))            {$action = 'apply_name_confirmed';}
+    if (isset($_REQUEST["create_name_save"]))           {$action = 'create_new_part';}
 
 
     // section: orderdetails
@@ -188,11 +189,9 @@
                     $existing_parts = Part::check_for_existing_part($database,$current_user,$log,$new_name,
                         $new_storelocation_id, $new_category_id);
 
-                    //if(!$existing_parts === false)
-                    //{
-                    //    $messages[] = array('text' => $existing_parts[0]->get_id(), 'strong' => true, 'color' => 'red');
-                    //}
-                    //else
+                    $category = new Category($database, $current_user, $log, $new_category_id);
+
+                    if(Part::is_valid_name($new_name, $category) || isset($_REQUEST['create_name_save']))
                     {
                         $part = Part::add($database, $current_user, $log, $new_name, $new_category_id,
                             $new_description, $new_instock, $new_mininstock, $new_storelocation_id,
@@ -200,6 +199,42 @@
 
                         $is_new_part = false;
                     }
+                    else
+                    {
+                        if (empty($category->get_partname_hint(true, false)))
+                        {
+                            $messages[] = array('text' => sprintf(_('Der Name "%s" entspricht nicht den Vorgaben!'), $new_name),
+                                'strong' => true, 'color' => 'red');
+                        }
+                        else
+                        {
+                            $messages[] = array('html' => sprintf(_('Der Name "%s" entspricht nicht den Vorgaben <b>(%s)</b>!'),
+                                $new_name, $category->get_partname_hint(true, false)));
+                        }
+
+
+
+                        $messages[] = array('text' => _('<br>Hinweis:'), 'strong' => true);
+                        $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $category->get_partname_regex(true, false) . "</b>");
+                        $messages[] = array('text' => _('Möchten sie wirklich fortfahren?'));
+                        $messages[] = array('html' => generate_input_hidden("name", $new_name), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("category_id", $new_category_id), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("description", $new_description), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("instock", $new_instock), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("mininstock", $new_mininstock), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("storelocation_id", $new_storelocation_id), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("manufacturer_id", $new_manufacturer_id), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("footprint_id", $new_footprint_id), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("comment", $new_comment));
+                        $messages[] = array('html' => generate_input_hidden("visible", $new_visible));
+                        $messages[] = array('html' => generate_button("", _('Nein, Name überarbeiten')), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_button_red("create_name_save", _('Ja, Name speichern')));
+
+                        $partname_invalid = true;
+                    }
+
+
+
                 }
                 catch (Exception $e)
                 {
