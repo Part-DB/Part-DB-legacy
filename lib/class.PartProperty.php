@@ -86,9 +86,9 @@ class PartProperty
      */
     public static function parse_description($description)
     {
-        $pattern = '/([^\,\;\n]+)\s?[\=\:]\s?(\w+(?:[\.\,]\w+)?(?:[^\,\;\n]|\,\w)*)/i';
+        $pattern = '/([^\,\;\n]+)\s?[\=\:]\s?(\w+(?:[\.\,]\w+)?(?:[^\,\;\n]|\,\w)*)/iu';
 
-        $pattern = regex_allow_umlauts($pattern);
+        //$pattern = regex_allow_umlauts($pattern);
 
         preg_match_all($pattern, $description, $results);
 
