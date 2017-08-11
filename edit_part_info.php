@@ -561,6 +561,7 @@
                 $html->set_variable('mininstock',   $part->get_mininstock(),        'integer');
                 $html->set_variable('visible',      $part->get_visible(),           'boolean');
                 $html->set_variable('comment',      $part->get_comment(false),           'string');
+                $html->set_variable('format_hint',  $part->get_category()->get_partname_hint(true, false), 'string');
 
                 // dropdown lists -> get IDs
                 $category_id        = (is_object($part->get_category())         ?   $part->get_category()->get_id()      : 0);

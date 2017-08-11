@@ -27,7 +27,9 @@
                         {t}Name:{/t}
                     </label>
                     <div class="col-md-10">
-                        <input type="text" name="name" id="name" class="form-control" placeholder="{t}z.B. BC547{/t}" value="{$name}" onkeydown="if (event.keyCode == 13) { document.getElementById('btn_enter').click();}" required>
+                        <input type="text" name="name" id="name" class="form-control" placeholder="{if empty($format_hint)}{t}z.B. BC547{/t}{else}{$format_hint}{/if}"
+                               value="{$name}" onkeydown="if (event.keyCode == 13) { document.getElementById('btn_enter').click();}" required>
+                        {if !empty($format_hint)}<p class="help-block">{t}Hinweis zum Format:{/t} {$format_hint}</p>{/if}
                     </div>
                 </div>
                 <div class="form-group">
@@ -36,7 +38,8 @@
                     </label>
                     {if isset($auto_desc) && $auto_desc}
                     <div class="col-md-8">
-                        <input type="text" id="description" class="form-control" name="description" placeholder="{t}z.B. NPN 45V 0,1A 0,5W{/t}" value="{$description nofilter}">
+                        <input type="text" id="description" class="form-control" name="description"
+                               placeholder="{t}z.B. NPN 45V 0,1A 0,5W{/t}" value="{$description nofilter}">
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-default" onClick="octoPart();">Auto</button>
