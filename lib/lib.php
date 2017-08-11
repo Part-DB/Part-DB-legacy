@@ -826,9 +826,22 @@
         }
     }
 
+    /**
+    * Allow the usage of umlauts in the given pattern
+    * @param $pattern
+    * @return mixed
+    */
     function regex_allow_umlauts($pattern)
     {
         return str_replace("\w", '[\wÄäÖöÜüß]', $pattern);
+    }
+
+    function regex_strip_slashes($pattern)
+    {
+        if(substr($pattern, 0, 1) === "/" &&  substr($pattern, -1, 1) === "/")
+            return substr($pattern, 1, -1);
+        else
+            return $pattern;
     }
 
 

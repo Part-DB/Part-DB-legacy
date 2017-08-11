@@ -140,4 +140,17 @@ class PartNameRegEx
 
     }
 
+    public static function get_pattern($for_html_pattern = false)
+    {
+        if($for_html_pattern)
+        {
+            $pattern = regex_strip_slashes(regex_allow_umlauts(PartNameRegEx::$pattern));
+            return "($pattern)|(@@)";
+        }
+        else
+        {
+            return regex_allow_umlauts(PartNameRegEx::$pattern);
+        }
+    }
+
 }

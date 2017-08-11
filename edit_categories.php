@@ -298,6 +298,7 @@ if (! $fatal_error)
 
         $html->set_variable('partname_regex', $partname_regex, 'string');
         $html->set_variable('partname_hint', $partname_hint, 'string');
+        $html->set_variable('partname_input_pattern', PartNameRegEx::get_pattern(true), 'string');
 
         $category_list = $root_category->build_html_tree($selected_id, true, false);
         $html->set_variable('category_list', $category_list, 'string');
