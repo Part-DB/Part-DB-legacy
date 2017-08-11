@@ -8,7 +8,7 @@
 
 class PartNameRegEx
 {
-    private static $pattern = '/^(\/.+\/\w*)(?:@([f]+))?(?:\$(.+))*$/';
+    private static $pattern = '/^(\/.+\/\w*)(?:@([fn]+))?(?:\$(.+))*$/';
 
     private $regex = "";
     private $flags_str = "";
@@ -32,10 +32,10 @@ class PartNameRegEx
         $matches = array();
         preg_match(PartNameRegEx::$pattern, $str, $matches);
 
-        $this->regex = $matches[0];
-        $this->flags_str = $matches[1];
+        $this->regex = regex_allow_umlauts($matches[1]);
+        $this->flags_str = $matches[2];
 
-        $this->capture_names = explode("$", $matches[2]);
+        $this->capture_names = explode("$", $matches[3]);
     }
 
 
@@ -91,9 +91,11 @@ class PartNameRegEx
 
         $properties = array();
 
-        foreach ($tmp as $row => $key)
+        for ($n=0; $n<count($this->capture_names); $n++)
         {
-            $properties[] = new PartProperty("", $this->capture_names[$key], $row);
+            if(empty($tmp[$n + 1])) //Ignore empty values
+                continue;
+            $properties[] = new PartProperty("", $this->capture_names[$n], $tmp[$n + 1]);
         }
 
         return $properties;

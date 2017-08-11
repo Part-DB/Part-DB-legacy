@@ -828,7 +828,7 @@
 
     function regex_allow_umlauts($pattern)
     {
-        return str_replace("\w", "[\wÄäÖöÜüß]", $pattern);
+        return str_replace("\w", '[\wÄäÖöÜüß]', $pattern);
     }
 
 

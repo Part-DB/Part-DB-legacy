@@ -239,7 +239,7 @@ if (! $fatal_error)
             $partname_regex = $selected_category->get_partname_regex_raw(false, true);
             $partname_hint = $selected_category->get_partname_hint(false);
 
-            $partname_regex_parent = $selected_category->get_partname_regex(true);
+            $partname_regex_parent = $selected_category->get_partname_regex_raw(true);
             $partname_hint_parent = $selected_category->get_partname_hint(true);
             $html->set_variable('partname_regex_parent', $partname_regex_parent, 'string');
             $html->set_variable('partname_hint_parent', $partname_hint_parent, 'string');

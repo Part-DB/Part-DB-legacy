@@ -215,7 +215,7 @@
 
 
                         $messages[] = array('text' => _('<br>Hinweis:'), 'strong' => true);
-                        $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $category->get_partname_regex(true, false) . "</b>");
+                        $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $category->get_partname_regex(true) . "</b>");
                         $messages[] = array('text' => _('Möchten sie wirklich fortfahren?'));
                         $messages[] = array('html' => generate_input_hidden("name", $new_name), 'no_linebreak' => true);
                         $messages[] = array('html' => generate_input_hidden("category_id", $new_category_id), 'no_linebreak' => true);
@@ -288,7 +288,7 @@
                         }
 
                         $messages[] = array('text' => _('<br>Hinweis:'), 'strong' => true);
-                        $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $part->get_category()->get_partname_regex(true, false) . "</b>");
+                        $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $part->get_category()->get_partname_regex(true) . "</b>");
                         $messages[] = array('text' => _('Möchten sie wirklich fortfahren?'));
                         $messages[] = array('html' => '<input type="hidden" name="pid" value="'.$part_id.'">');
                         $messages[] = array('html' => '<input type="hidden" name="name" value="'.$new_name.'">');

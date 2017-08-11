@@ -814,7 +814,7 @@
          * @return array A array of PartProperty objects.
          * @return array If Properties are disabled or nothing was detected, then an empty array is returned.
          */
-        public function get_properties($use_description = true, $use_comment = true, $force_output = false)
+        public function get_properties($use_description = true, $use_comment = true, $use_name = true, $force_output = false)
         {
             global $config;
 
@@ -825,12 +825,14 @@
                 $desc = array();
                 $comm = array();
 
+                if($use_name === true)
+                    $name = $this->get_category()->get_partname_regex_obj()->get_properties($this->get_name());
                 if ($use_description === true)
                     $desc = PartProperty::parse_description($this->get_description());
                 if ($use_comment === true)
                     $comm = PartProperty::parse_description($this->get_comment());
 
-                $arr = array_merge($desc, $comm);
+                $arr = array_merge($name, $desc, $comm);
 
                 return $arr;
             }
