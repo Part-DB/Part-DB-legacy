@@ -187,7 +187,7 @@
                     {if $row.caption == "category"}
                         {* category *}
                         <td class="tdrow1">
-                            <div data-toggle="tooltip" title="{$row.category_path}">{$row.category_name}</div>
+                            <a href="show_category_parts.php?cid={$row.category_id}" title="{$row.category_path}">{$row.category_name}</a>
                         </td>
                     {/if}
                     {if $row.caption == "category_edit"}
@@ -199,7 +199,7 @@
                             {* footprint *}
                             <td class="tdrow1">
                             {if isset($row.footprint_path)}
-                                <div title="{$row.footprint_path}">{$row.footprint_name}</div>
+                                <a href="show_footprint_parts.php?fid={$row.footprint_id}&subfoot=0" title="{$row.footprint_path}">{$row.footprint_name}</a>
                             {/if}
                             </td>
                         {/if}
@@ -212,7 +212,7 @@
                         {if $row.caption == "manufacturer"}
                             {* manufacturer *}
                             <td class="tdrow1">
-                                <div title="{$row.manufacturer_path}">{$row.manufacturer_name}</div>
+                                <a href="show_manufacturer_parts.php?mid={$row.manufacturer_id}&subman=0" title="{$row.manufacturer_path}">{$row.manufacturer_name}</a>
                             </td>
                         {/if}
                         {if $row.caption == "manufacturer_edit"}
@@ -224,7 +224,7 @@
                         {* storelocation *}
                         <td class="tdrow1" id="location">
                             {if isset($row.storelocation_path)}
-                            <div title="{$row.storelocation_path}">{$row.storelocation_name}</div>
+                            <a href="show_location_parts.php?lid={$row.storelocation_id}&subloc=0" title="{$row.storelocation_path}">{$row.storelocation_name}</a>
                             {/if}
                         </td>
                     {/if}

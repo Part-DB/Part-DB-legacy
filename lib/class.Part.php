@@ -85,13 +85,14 @@
          * @param User      &$current_user  reference to the current user which is logged in
          * @param Log       &$log:          reference to the Log-object
          * @param integer   $id:            ID of the part we want to get
+         * @param array     $db_data        If you have already data from the database, then use give it with this param, the part, wont make a database request.
          *
          * @throws Exception    if there is no such part in the database
          * @throws Exception    if there was an error
          */
-        public function __construct(&$database, &$current_user, &$log, $id)
+        public function __construct(&$database, &$current_user, &$log, $id, $db_data = null)
         {
-            parent::__construct($database, $current_user, $log, 'parts', $id);
+            parent::__construct($database, $current_user, $log, 'parts', $id, false, $db_data);
         }
 
         /**
@@ -555,7 +556,7 @@
             {
                 $this->orderdetails = array();
 
-                $query = 'SELECT orderdetails.id FROM orderdetails '.
+                $query = 'SELECT orderdetails.* FROM orderdetails '.
                             'LEFT JOIN suppliers ON suppliers.id = orderdetails.id_supplier '.
                             'WHERE part_id=? '.
                             'ORDER BY suppliers.name ASC';
@@ -563,7 +564,7 @@
                 $query_data = $this->database->query($query, array($this->get_id()));
 
                 foreach ($query_data as $row)
-                    $this->orderdetails[] = new Orderdetails($this->database, $this->current_user, $this->log, $row['id']);
+                    $this->orderdetails[] = new Orderdetails($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
 
             if ($hide_obsolete)
@@ -595,7 +596,7 @@
             {
                 $this->devices = array();
 
-                $query = 'SELECT id_device FROM device_parts '.
+                $query = 'SELECT devices.* FROM device_parts '.
                             'LEFT JOIN devices ON device_parts.id_device=devices.id '.
                             'WHERE id_part=? '.
                             'GROUP BY id_device '.
@@ -604,7 +605,7 @@
                 $query_data = $this->database->query($query, array($this->get_id()));
 
                 foreach ($query_data as $row)
-                    $this->devices[] = new Device($this->database, $this->current_user, $this->log, $row['id_device']);
+                    $this->devices[] = new Device($this->database, $this->current_user, $this->log, $row['id_device'], $row);
             }
 
             return $this->devices;
@@ -1103,6 +1104,7 @@
                         $category = $this->get_category();
                         $row_field['category_name'] = $category->get_name();
                         $row_field['category_path'] = $category->get_full_path();
+                        $row_field['category_id'] = $category->get_id();
                         break;
 
                     case 'footprint':
@@ -1111,6 +1113,7 @@
                         {
                             $row_field['footprint_name'] = $footprint->get_name();
                             $row_field['footprint_path'] = $footprint->get_full_path();
+                            $row_field['footprint_id'] = $footprint->get_id();
                         }
                         break;
 
@@ -1120,6 +1123,7 @@
                         {
                             $row_field['manufacturer_name'] = $manufacturer->get_name();
                             $row_field['manufacturer_path'] = $manufacturer->get_full_path();
+                            $row_field['manufacturer_id'] = $manufacturer->get_id();
                         }
                         break;
 
@@ -1129,6 +1133,7 @@
                         {
                             $row_field['storelocation_name'] = $storelocation->get_name();
                             $row_field['storelocation_path'] = $storelocation->get_full_path();
+                            $row_field['storelocation_id'] = $storelocation->get_id();
                         }
                         break;
 
@@ -1307,6 +1312,7 @@
          *  - "order_parts"
          *  - "noprice_parts"
          *  - "obsolete_parts"
+         *  - "location_parts"
          *
          *
          * @retval array    the template loop array for the table
@@ -1668,7 +1674,7 @@
 
             $parts = array();
 
-            $query =    'SELECT parts.id FROM parts '.
+            $query =    'SELECT parts.* FROM parts '.
                         'LEFT JOIN orderdetails ON orderdetails.id = parts.order_orderdetails_id '.
                         'WHERE (parts.instock < parts.mininstock '.
                         'OR parts.manual_order = true '.
@@ -1689,7 +1695,7 @@
 
             foreach ($query_data as $row)
             {
-                $part = new Part($database, $current_user, $log, $row['id']);
+                $part = new Part($database, $current_user, $log, $row['id'], $row);
                 if (($part->get_manual_order()) || ($part->get_min_order_quantity() > 0))
                     $parts[] = $part;
             }
@@ -1715,7 +1721,7 @@
 
             $parts = array();
 
-            $query =    'SELECT id from parts '.
+            $query =    'SELECT * from parts '.
                         'WHERE id NOT IN (SELECT DISTINCT part_id FROM orderdetails '.
                         'LEFT JOIN pricedetails ON orderdetails.id=pricedetails.orderdetails_id '.
                         'WHERE pricedetails.id IS NOT NULL) '.
@@ -1724,7 +1730,7 @@
             $query_data = $database->query($query);
 
             foreach ($query_data as $row)
-                $parts[] = new Part($database, $current_user, $log, $row['id']);
+                $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
 
             return $parts;
         }
@@ -1751,7 +1757,7 @@
             if ($no_orderdetails_parts)
             {
                 // show also parts which have no orderdetails
-                $query =    'SELECT parts.id from parts '.
+                $query =    'SELECT parts.* from parts '.
                             'LEFT JOIN orderdetails ON orderdetails.part_id = parts.id '.
                             'WHERE parts.id IN (SELECT part_id FROM `orderdetails` '.
                             'WHERE part_id IN (SELECT part_id FROM `orderdetails` '.
@@ -1764,7 +1770,7 @@
             else
             {
                 // don't show parts which have no orderdetails
-                $query =    'SELECT parts.id from parts '.
+                $query =    'SELECT parts.* from parts '.
                             'WHERE parts.id IN (SELECT part_id FROM `orderdetails` '.
                             'WHERE part_id IN (SELECT part_id FROM `orderdetails` '.
                             'WHERE obsolete = true GROUP BY part_id) '.
@@ -1776,7 +1782,7 @@
             $query_data = $database->query($query);
 
             foreach ($query_data as $row)
-                $parts[] = new Part($database, $current_user, $log, $row['id']);
+                $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
 
             return $parts;
         }
@@ -1867,7 +1873,7 @@
 
 
 
-            $query = 'SELECT parts.id FROM parts'.
+            $query = 'SELECT parts.* FROM parts'.
                     ' LEFT JOIN footprints ON parts.id_footprint=footprints.id'.
                     ' LEFT JOIN storelocations ON parts.id_storelocation=storelocations.id'.
                     ' LEFT JOIN manufacturers  ON parts.id_manufacturer=manufacturers.id'.
@@ -1961,7 +1967,59 @@
 
             foreach ($query_data as $row)
             {
-                $part = new Part($database, $current_user, $log, $row['id']);
+                $part = new Part($database, $current_user, $log, $row['id'], $row);
+
+                switch($group_by)
+                {
+                    case '':
+                        $parts[] = $part;
+                        break;
+
+                    case 'categories':
+                        $groups[$part->get_category()->get_full_path()][] = $part;
+                        break;
+                }
+            }
+
+            if ($group_by != '')
+            {
+                ksort($groups);
+                return $groups;
+            }
+            else
+                return $parts;
+        }
+
+        /**
+         * @brief Get all existing parts
+         *
+         * @param Database  &$database              reference to the database object
+         * @param User      &$current_user          reference to the user which is logged in
+         * @param Log       &$log                   reference to the Log-object
+         * @param string    $group_by               @li if this is a non-empty string, the returned array is a
+         *                                              two-dimensional array with the group names as top level.
+         *                                          @li supported groups are: '' (none), 'categories'
+         *
+         * @retval array    all found parts as a one-dimensional array of Part objects,
+         *                  sorted by their names (if "$group_by == ''")
+         * @retval array    @li all parts as a two-dimensional array, grouped by $group_by,
+         *                      sorted by name (if "$group_by != ''")
+         *                  @li example: array('category1' => array(part1, part2, ...),
+         *                      'category2' => array(part123, part124, ...), ...)
+         *                  @li for the group names (in the example 'category1', 'category2', ...)
+         *                      are the full paths used
+         *
+         * @throws Exception if there was an error
+         */
+        public static function get_all_parts(&$database, &$current_user, &$log, $group_by='')
+        {
+            $query = 'SELECT * FROM parts';
+
+            $query_data = $database->query($query);
+
+            foreach ($query_data as $row)
+            {
+                $part = new Part($database, $current_user, $log, $row['id'], $row);
 
                 switch($group_by)
                 {

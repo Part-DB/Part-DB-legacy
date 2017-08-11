@@ -105,10 +105,22 @@ function registerHoverImages(form) {
     });
 }
 
+function openInNewTab(url) {
+    $("<a>").attr("href", url).attr("target", "_blank")[0].click();
+}
+
 function onNodeSelected(event, data) {
     'use strict';
-    $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
-    $('#progressbar').show();
+    if(data.href.indexOf("github.com") !== -1)  //If the href points to github, then open it in new tab. TODO: Find better solution to detect external links.
+    {
+        openInNewTab(data.href);
+        $(this).treeview('toggleNodeSelected',data.nodeId);
+    }
+    else
+    {
+        $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
+        $('#progressbar').show();
+    }
 
     //$('#content').fadeOut("fast");
     //$('#progressbar').show();

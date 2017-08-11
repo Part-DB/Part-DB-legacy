@@ -277,14 +277,14 @@
             {
                 $this->parts = array();
 
-                $query =    'SELECT device_parts.id FROM device_parts '.
+                $query =    'SELECT device_parts.* FROM device_parts '.
                             'LEFT JOIN parts ON device_parts.id_part=parts.id '.
                             'WHERE id_device=? ORDER BY parts.name ASC';
 
                 $query_data = $this->database->query($query, array($this->get_id()));
 
                 foreach ($query_data as $row)
-                    $this->parts[] = new DevicePart($this->database, $this->current_user, $this->log, $row['id']);
+                    $this->parts[] = new DevicePart($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
 
             if ( ! $recursive)
@@ -450,14 +450,14 @@
 
             $devices = array();
 
-            $query =    'SELECT id FROM devices '.
+            $query =    'SELECT * FROM devices '.
                         'WHERE order_quantity > 0 '.
                         'ORDER BY name ASC';
 
             $query_data = $database->query($query);
 
             foreach ($query_data as $row)
-                $devices[] = new Device($database, $current_user, $log, $row['id']);
+                $devices[] = new Device($database, $current_user, $log, $row['id'], $row);
 
             return $devices;
         }

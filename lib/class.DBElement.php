@@ -80,11 +80,11 @@
          * @param boolean   $allow_virtual_elements     @li if true, it's allowed to set $id to zero
          *                                                  (the StructuralDBElement needs this for the root element)
          *                                              @li if false, $id == 0 is not allowed (throws an Exception)
-         *
+         * @param array     $db_data                    If you have already data from the database, then use give it with this param, the part, wont make a database request.
          * @throws Exception    if there is no such element in the database
          *                      (except: the ID=0 is valid, even if there is no such element in the database)
          */
-        public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false)
+        public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false, $db_data = null)
         {
             if (get_class($database) != 'Database')
                 throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -99,8 +99,12 @@
             $this->current_user = $current_user;
             $this->log = $log;
 
-            if ( ! $this->database->does_table_exist($tablename))
-                throw new Exception('Die Tabelle "'.$tablename.'" existiert nicht in der Datenbank!');
+            if($db_data==null) //Dont check for table exist, if we already have db_data
+            {
+                if (! $this->database->does_table_exist($tablename))
+                    throw new Exception('Die Tabelle "'.$tablename.'" existiert nicht in der Datenbank!');
+            }
+
 
             $this->tablename = $tablename;
 
@@ -110,8 +114,13 @@
             // get all data of the database record with the ID "$id"
             // But if the ID is zero, it could be a root element of StructuralDBElement,
             // so there is no data to get from database.
-            if ($id != 0)
+            if ($id != 0 && $db_data == null)
                 $this->db_data = $this->database->get_record_data($this->tablename, $id);
+
+            if($db_data !== null)
+            {
+                $this->db_data = $db_data;
+            }
         }
 
         /**

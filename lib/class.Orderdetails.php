@@ -239,14 +239,14 @@
             {
                 $this->pricedetails = array();
 
-                $query = 'SELECT id FROM pricedetails '.
+                $query = 'SELECT * FROM pricedetails '.
                             'WHERE orderdetails_id=? '.
                             'ORDER BY min_discount_quantity ASC';
 
                 $query_data = $this->database->query($query, array($this->get_id()));
 
                 foreach ($query_data as $row)
-                    $this->pricedetails[] = new Pricedetails($this->database, $this->current_user, $this->log, $row['id']);
+                    $this->pricedetails[] = new Pricedetails($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
 
             return $this->pricedetails;

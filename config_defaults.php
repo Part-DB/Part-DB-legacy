@@ -221,13 +221,18 @@
     // available columns:       hover_picture,id,name,description,name_description,comment,instock,mininstock,instock_mininstock,category,footprint,manufacturer,
     //                          storelocation, suppliers,datasheets,button_increment,button_decrement,average_single_price,single_prices,supplier_partnrs,attachements
     $config['table']['category_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment';
-    $config['table']['search_parts']['columns']             = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices;datasheets;attachements;button_decrement;button_increment';
+    //$config['table']['search_parts']['columns']             = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices;datasheets;attachements;button_decrement;button_increment';
+    $config['table']['search_parts']['columns']             = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices;datasheets;button_decrement;button_increment';
     $config['table']['obsolete_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices';
     $config['table']['noprice_parts']['columns']            = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs';
     $config['table']['order_parts']['columns']              = 'hover_picture;name_description;instock_mininstock;footprint;storelocation;suppliers_radiobuttons;supplier_partnrs;single_prices;total_prices;order_quantity_edit;order_options';
     $config['table']['searched_device_parts']['columns']    = 'hover_picture;quantity_edit;mountnames_edit;name;description;footprint;storelocation';
     $config['table']['device_parts']['columns']             = 'hover_picture;name_description;quantity_edit;mountnames_edit;footprint;instock;storelocation;suppliers;supplier_partnrs;single_prices;total_prices';
     $config['table']['imported_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices;datasheets;attachements';
+    $config['table']['location_parts']['columns']           = 'hover_picture;name;description;category;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment';
+    $config['table']['footprint_parts']['columns']          = 'hover_picture;name;description;category;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment';
+    $config['table']['manufacturer_parts']['columns']       = 'hover_picture;name;description;category;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment';
+    $config['table']['all_parts']['columns']                = 'hover_picture;name;description;category;instock_mininstock;footprint;storelocation';
 
     // export configurations for order parts*
     $config['export']['orderparts'][0]['format']            = 'CSV';
@@ -296,9 +301,9 @@
     $config['auto_datasheets']['entries'][0]['image'] = 'img/partdb/file_all.svg';
     $config['auto_datasheets']['entries'][0]['old_image']   = 'img/partdb/alldatasheet.png';
     $config['auto_datasheets']['entries'][1]['name']        = 'reichelt.de';
-    $config['auto_datasheets']['entries'][1]['url']         = 'http://www.reichelt.de/?ACTION=4;START=0;SHOW=1;SEARCH=%%PARTNAME%%';
     $config['auto_datasheets']['entries'][1]['image']       = 'img/partdb/file_reichelt.svg';
     $config['auto_datasheets']['entries'][1]['old_image']   = 'img/partdb/reichelt.png';
+    $config['auto_datasheets']['entries'][1]['url']         = 'https://www.reichelt.de/index.html?ACTION=446&SEARCH=%%PARTNAME%%';
     $config['auto_datasheets']['entries'][2]['name']        = 'datasheetcatalog.net';
     $config['auto_datasheets']['entries'][2]['url']         = 'http://search.datasheetcatalog.net/key/%%PARTNAME%%';
     $config['auto_datasheets']['entries'][2]['image']       = 'img/partdb/file_dc.svg';
