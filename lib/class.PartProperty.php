@@ -15,9 +15,9 @@ class PartProperty
 
     /**
      * Creates a new PartProperty object with the given parameters.
-     * @param $property_string The original (sub)string, where this property get extracted from. (eg. "Name: 1234")
-     * @param $property_name The extracted name of the Property, without delimiter (e.g. "Name")
-     * @param $property_value The extracted value of the Property (e.g. "1234")
+     * @param $property_string string The original (sub)string, where this property get extracted from. (eg. "Name: 1234")
+     * @param $property_name string The extracted name of the Property, without delimiter (e.g. "Name")
+     * @param $property_value string The extracted value of the Property (e.g. "1234")
      */
     public function __construct($property_string, $property_name, $property_value)
     {

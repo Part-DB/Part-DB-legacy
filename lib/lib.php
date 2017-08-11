@@ -852,3 +852,20 @@
     {
         return generate_button($name, $text, $theme, $val);
     }
+
+    /**
+     * Checks if a string contains a specific substring
+    * @param $haystack string The string which should be examined.
+    * @param $needle string The string which should be searched.
+    * @return bool True if $haystack contains §needle, else false.
+    */
+    function strcontains($haystack, $needle)
+    {
+        if (strpos($haystack, $needle) !== false) {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
