@@ -111,6 +111,9 @@ if ( ! $fatal_error)
                     $new_disable_manufacturers, $new_disable_autodatasheets,
                     $new_disable_properties, $new_default_description, $new_default_comment);
 
+                $new_category->set_partname_regex($new_partname_regex);
+                $new_category->set_partname_hint($new_partname_hint);
+
                 $html->set_variable('refresh_navigation_frame', true, 'boolean');
 
                 if ( ! $add_more)

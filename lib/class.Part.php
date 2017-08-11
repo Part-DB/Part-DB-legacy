@@ -2060,6 +2060,7 @@
          * @param boolean   $visible            the visible attribute of the new part (see Part::set_visible())
          *
          * @retval Part     the new part
+         * @return Part     the new part
          *
          * @throws Exception    if (this combination of) values is not valid
          * @throws Exception    if there was an error
