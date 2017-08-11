@@ -35,7 +35,7 @@ class PartNameRegEx
         $matches = array();
         mb_ereg(self::get_pattern(false, true), $str, $matches);
 
-        $this->regex = regex_allow_umlauts($matches[1]);
+        $this->regex = $matches[1];
         $this->flags_str = $matches[2];
 
         $this->capture_names = explode("$", $matches[3]);

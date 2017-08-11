@@ -216,7 +216,18 @@
 
                         $messages[] = array('text' => _('<br>Hinweis:'), 'strong' => true);
                         $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $category->get_partname_regex(true) . "</b>");
-                        $messages[] = array('text' => _('Möchten sie wirklich fortfahren?'));
+                        if(!$category->get_partname_regex_obj()->is_enforced())
+                        {
+                            $messages[] = array('html' => _('Möchten sie wirklich fortfahren?<br>'));
+                            $messages[] = array('html' => generate_button("", _('Nein, Name überarbeiten')), 'no_linebreak' => true);
+                            $messages[] = array('html' => generate_button_red("create_name_save", _('Ja, Name speichern')));
+                        }
+                        else
+                        {
+                            $messages[] = array('html' => _('Dies kann nicht ignoriert werden, da das Enforcement-Flag für diese Kategorie gesetzt ist!<br>'));
+                            $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="" >'._('Ok, Name überarbeiten').'</button>', 'no_linebreak' => true);
+                        }
+
                         $messages[] = array('html' => generate_input_hidden("name", $new_name), 'no_linebreak' => true);
                         $messages[] = array('html' => generate_input_hidden("category_id", $new_category_id), 'no_linebreak' => true);
                         $messages[] = array('html' => generate_input_hidden("description", $new_description), 'no_linebreak' => true);
@@ -225,10 +236,9 @@
                         $messages[] = array('html' => generate_input_hidden("storelocation_id", $new_storelocation_id), 'no_linebreak' => true);
                         $messages[] = array('html' => generate_input_hidden("manufacturer_id", $new_manufacturer_id), 'no_linebreak' => true);
                         $messages[] = array('html' => generate_input_hidden("footprint_id", $new_footprint_id), 'no_linebreak' => true);
-                        $messages[] = array('html' => generate_input_hidden("comment", $new_comment));
-                        $messages[] = array('html' => generate_input_hidden("visible", $new_visible));
-                        $messages[] = array('html' => generate_button("", _('Nein, Name überarbeiten')), 'no_linebreak' => true);
-                        $messages[] = array('html' => generate_button_red("create_name_save", _('Ja, Name speichern')));
+                        $messages[] = array('html' => generate_input_hidden("comment", $new_comment), 'no_linebreak' => 'true');
+                        $messages[] = array('html' => generate_input_hidden("visible", $new_visible), 'no_linebreak' => 'true');
+
 
                         $partname_invalid = true;
                     }
@@ -288,12 +298,20 @@
                         }
 
                         $messages[] = array('text' => _('<br>Hinweis:'), 'strong' => true);
-                        $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $part->get_category()->get_partname_regex(true) . "</b>");
-                        $messages[] = array('text' => _('Möchten sie wirklich fortfahren?'));
-                        $messages[] = array('html' => '<input type="hidden" name="pid" value="'.$part_id.'">');
-                        $messages[] = array('html' => '<input type="hidden" name="name" value="'.$new_name.'">');
-                        $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="name_edit" >'._('Nein, Name überarbeiten').'</button>', 'no_linebreak' => true);
-                        $messages[] = array('html' => '<button class="btn btn-danger" type="submit" name="apply_name_save">'._('Ja, Name speichern').'</button>');
+                        $messages[] = array('html' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $part->get_category()->get_partname_regex(true) . "</b>");
+                        if($part->get_category()->get_partname_regex_obj()->is_enforced())
+                        {
+                            $messages[] = array('html' => _('Dies kann nicht ignoriert werden, da das Enforcement-Flag für diese Kategorie gesetzt ist!<br>'));
+                            $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="name_edit" >'._('Ok, Name überarbeiten').'</button>', 'no_linebreak' => true);
+                        }
+                        else
+                        {
+                            $messages[] = array('html' => _('Möchten sie wirklich fortfahren?<br>'));
+                            $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="name_edit" >'._('Nein, Name überarbeiten').'</button>', 'no_linebreak' => true);
+                            $messages[] = array('html' => '<button class="btn btn-danger" type="submit" name="apply_name_save">'._('Ja, Name speichern').'</button>', 'no_linebreak' => true);
+                        }
+                        $messages[] = array('html' => '<input type="hidden" name="pid" value="'.$part_id.'">', 'no_linebreak' => true);
+                        $messages[] = array('html' => '<input type="hidden" name="name" value="'.$new_name.'">', 'no_linebreak' => true);
 
                         $partname_invalid = true;
                     }

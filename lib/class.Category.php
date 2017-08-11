@@ -368,7 +368,7 @@
          */
         public function get_partname_regex($including_parents = true)
         {
-            $this->get_partname_regex_obj($including_parents)->get_regex();
+            return $this->get_partname_regex_obj($including_parents)->get_regex();
         }
 
         /**
