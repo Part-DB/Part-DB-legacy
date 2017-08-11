@@ -236,7 +236,7 @@ if (! $fatal_error)
             $html->set_variable('default_comment_parent', $default_comment_parent, 'string');
 
             //Partname fields
-            $partname_regex = $selected_category->get_partname_regex(false);
+            $partname_regex = $selected_category->get_partname_regex_raw(false, true);
             $partname_hint = $selected_category->get_partname_hint(false);
 
             $partname_regex_parent = $selected_category->get_partname_regex(true);

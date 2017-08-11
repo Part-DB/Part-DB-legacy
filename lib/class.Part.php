@@ -2100,20 +2100,12 @@
 
         /**
          * Check if the name of the part is valid regarding the partname_regex of the category.
+         * @param $partname string The name of the part.
+         * @param $category Category The category of the part.
          */
         public static function is_valid_name($partname, $category)
         {
-            $regex = $category->get_partname_regex(true, false);
-            $regex = trim($regex);
-
-            if(empty($regex)) //No regex set -> name is always valid
-                return true;
-
-            if(preg_match($regex, $partname) === 1)
-                return true;
-            else
-                return false;
-
+            return $category->check_partname($partname);
         }
 
     }

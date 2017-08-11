@@ -333,9 +333,9 @@
          * @param bool $show_escape If true, the escape code "@@" will be returned, otherwise it will be "" (empty string).
          * @return string  The partname_hint attribute
          */
-        public function get_partname_regex($including_parents = false, $show_escape = true)
+        public function get_partname_regex_raw($including_parents = false, $show_escape = true)
         {
-            if ($including_parents && empty($this->get_partname_regex()))
+            if ($including_parents && empty($this->get_partname_regex_raw()))
             {
                 $parent_id = $this->get_id();
 
@@ -344,11 +344,11 @@
                     $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
                     $parent_id = $category->get_parent_id();
 
-                    if (!empty($category->get_partname_regex()))
+                    if (!empty($category->get_partname_regex_raw()))
                     {
-                        if($category->get_partname_regex() == "@@")
+                        if($category->get_partname_regex_raw() == "@@")
                             break;
-                        return $category->get_partname_regex();
+                        return $category->get_partname_regex_raw();
                     }
                 }
 
@@ -360,6 +360,38 @@
                 else
                     return "";
             }
+        }
+
+        /**
+         * Gets the regex of this Category.
+         * @param bool $including_parents
+         */
+        public function get_partname_regex($including_parents = true)
+        {
+            $this->get_partname_regex_obj($including_parents)->get_regex();
+        }
+
+        /**
+         * Gets a PartNameRegEx element
+         * @param bool $including_parents
+         * @return PartNameRegEx
+         */
+        public function get_partname_regex_obj($including_parents = true)
+        {
+            $str = $this->get_partname_regex_raw($including_parents);
+            return new PartNameRegEx($str);
+        }
+
+        /**
+         * Check if the partname is valid.
+         * @param $name string The name which should be checked.
+         * @param bool $including_parents
+         * @return bool True if the partname is valid.
+         */
+        public function check_partname($name, $including_parents = true)
+        {
+            $obj = $this->get_partname_regex_obj($including_parents);
+            return $obj->check_name($name);
         }
 
 

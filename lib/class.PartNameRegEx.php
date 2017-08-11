@@ -8,7 +8,7 @@
 
 class PartNameRegEx
 {
-    private static $pattern = '^(\/.+\/\w*)(?:@([f]+))?(?:\$(.+))*$';
+    private static $pattern = '/^(\/.+\/\w*)(?:@([f]+))?(?:\$(.+))*$/';
 
     private $regex = "";
     private $flags_str = "";
