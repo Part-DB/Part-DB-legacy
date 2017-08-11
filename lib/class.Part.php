@@ -856,6 +856,13 @@
             return $arr;
         }
 
+        public function has_valid_name()
+        {
+            return Part::is_valid_name($this->get_name(), $this->get_category());
+        }
+
+
+
         /********************************************************************************
         *
         *   Setters
@@ -2088,6 +2095,24 @@
                                         'order_quantity'                => 1));
                                         // the column "datetime_added" will be automatically filled by MySQL
                                         // the column "last_modified" will be filled in the function check_values_validity()
+
+        }
+
+        /**
+         * Check if the name of the part is valid regarding the partname_regex of the category.
+         */
+        public static function is_valid_name($partname, $category)
+        {
+            $regex = $category->get_partname_regex(true, false);
+            $regex = trim($regex);
+
+            if(empty($regex)) //No regex set -> name is always valid
+                return true;
+
+            if(preg_match($regex, $partname) === 1)
+                return true;
+            else
+                return false;
 
         }
 

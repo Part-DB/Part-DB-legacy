@@ -71,6 +71,8 @@
     $new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
     $new_filename               = isset($_REQUEST['attachement_filename'])      ? to_unix_path(trim((string)$_REQUEST['attachement_filename'])) : '';
 
+    $partname_invalid           = isset($_REQUEST['name_edit'])                 ? true                                           : false;
+
     if ((strlen($new_filename) > 0) && ( ! is_path_absolute_and_unix($new_filename)))
         $new_filename = BASE.'/'.$new_filename; // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
@@ -101,6 +103,8 @@
     if (isset($_REQUEST["search_footprint"]))           {$action = 'search_footprint';}
     if (isset($_REQUEST["search_storelocation"]))       {$action = 'search_storelocation';}
     if (isset($_REQUEST["search_manufacturer"]))        {$action = 'search_manufacturer';}
+
+    if (isset($_REQUEST["apply_name_save"]))       {$action = 'apply_name_confirmed';}
 
 
     // section: orderdetails
@@ -203,23 +207,53 @@
                 }
                 break;
 
+            case 'apply_name_confirmed':
+                try
+                {
+                    $part->set_name($new_name);
+                }
+                catch (Exception $e)
+                {
+                    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+                }
+                break;
             case 'apply_attributes':
                 try
                 {
-                    $new_attributes = array(        'name'              => $new_name,
-                                                    'description'       => $new_description,
-                                                    'instock'           => $new_instock,
-                                                    'mininstock'        => $new_mininstock,
-                                                    'id_category'       => $new_category_id,
-                                                    'id_storelocation'  => $new_storelocation_id,
-                                                    'visible'           => $new_visible,
-                                                    'comment'           => $new_comment);
+                    $new_attributes = array(
+                        'description'       => $new_description,
+                        'instock'           => $new_instock,
+                        'mininstock'        => $new_mininstock,
+                        'id_category'       => $new_category_id,
+                        'id_storelocation'  => $new_storelocation_id,
+                        'visible'           => $new_visible,
+                        'comment'           => $new_comment);
 
                     // do not overwrite (remove!) the footprint or manufacturer if they are disabled (global or in the part's category)
                     if (isset($_REQUEST['footprint_id']))       {$new_attributes['id_footprint']    = $new_footprint_id;}
                     if (isset($_REQUEST['manufacturer_id']))    {$new_attributes['id_manufacturer'] = $new_manufacturer_id;}
 
                     $part->set_attributes($new_attributes);
+
+                    if(Part::is_valid_name($new_name, $part->get_category()))
+                    {
+                        $part->set_name($new_name);
+                    }
+                    else
+                    {
+                        $messages[] = array('text' => sprintf(_('Der Name "%s" entspricht nicht den Vorgaben!'), $new_name),
+                            'strong' => true, 'color' => 'red');
+                        $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
+                        $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $part->get_category()->get_partname_regex(true) . "</b>");
+                        $messages[] = array('text' => _('Möchten sie wirklich fortfahren?'));
+                        $messages[] = array('html' => '<input type="hidden" name="pid" value="'.$part_id.'">');
+                        $messages[] = array('html' => '<input type="hidden" name="name" value="'.$new_name.'">');
+                        $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="name_edit" >'._('Nein, Name überarbeiten').'</button>', 'no_linebreak' => true);
+                        $messages[] = array('html' => '<button class="btn btn-danger" type="submit" name="apply_name_save">'._('Ja, Name speichern').'</button>');
+
+                        $partname_invalid = true;
+                    }
+
                 }
                 catch (Exception $e)
                 {
@@ -509,7 +543,10 @@
             if (isset($part) && is_object($part))
             {
                 $html->set_variable('pid',          $part->get_id(),                'integer');
-                $html->set_variable('name',         $part->get_name(),              'string');
+                if($partname_invalid)
+                    $html->set_variable('name',         $new_name,              'string');
+                else
+                    $html->set_variable('name',         $part->get_name(),              'string');
                 $html->set_variable('description',  $part->get_description(false),       'string');
                 $html->set_variable('instock',      $part->get_instock(),           'integer');
                 $html->set_variable('mininstock',   $part->get_mininstock(),        'integer');

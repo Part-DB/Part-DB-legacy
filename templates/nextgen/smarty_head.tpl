@@ -227,7 +227,7 @@
                        {if isset($messages)}
                         <div class="alert alert-danger" id="messages">
                             {if !empty($messages_div_title)}<h4>{$messages_div_title}</h4>{/if}
-                                <form action="" method="post">
+                                <form action="" method="post" class="no-progbar">
                                     {foreach $messages as $msg}
                                         {if isset($msg.text)}
                                             {if isset($msg.strong) && $msg.strong}<strong>{/if}
