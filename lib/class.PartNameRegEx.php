@@ -21,16 +21,19 @@ class PartNameRegEx
      */
     public function __construct($partname_regex)
     {
-        if(!self::is_valid($partname_regex))
-            throw new Exception("The PartNameRegex string (" . $partname_regex . ") is not valid!");
+        if(!empty($partname_regex))
+        {
+            if(!self::is_valid($partname_regex))
+                throw new Exception("The PartNameRegex string (" . $partname_regex . ") is not valid!");
 
-        $this->parse($partname_regex);
+            $this->parse($partname_regex);
+        }
     }
 
     private function parse($str)
     {
         $matches = array();
-        preg_match(PartNameRegEx::$pattern, $str, $matches);
+        mb_ereg(self::get_pattern(false, true), $str, $matches);
 
         $this->regex = regex_allow_umlauts($matches[1]);
         $this->flags_str = $matches[2];
@@ -43,9 +46,12 @@ class PartNameRegEx
      * Returns the Regular Expression part.
      * @return string The Reguala Expression.
      */
-    public function get_regex()
+    public function get_regex($is_mb = false)
     {
-        return $this->regex;
+        if($is_mb)
+            return regex_strip_slashes($this->regex);
+        else
+            return $this->regex;
     }
 
     public function get_flags()
@@ -87,7 +93,12 @@ class PartNameRegEx
      */
     public function get_properties($name)
     {
-        preg_match($this->get_regex(), $name, $tmp);
+        $tmp = array();
+
+        if(empty($this->get_regex()))
+            return $tmp;
+
+        mb_ereg($this->get_regex(true), $name, $tmp);
 
         $properties = array();
 
@@ -108,17 +119,10 @@ class PartNameRegEx
      */
     public function check_name($name)
     {
-        if($this->is_nofilter()) //When we dont filter, every name is ok.
+        if($this->is_nofilter() || empty($this->get_regex())) //When we dont filter, every name is ok.
             return true;
 
-        if(preg_match($this->get_regex(), $name) == 1)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return mb_ereg_match($this->get_regex(true), $name);
 
     }
 
@@ -133,19 +137,19 @@ class PartNameRegEx
      */
     public static function is_valid($partname_regex)
     {
-        if(preg_match(PartNameRegEx::$pattern,$partname_regex) == 1)
-            return true;
-        else
-            return false;
-
+        return mb_ereg_match(PartNameRegEx::get_pattern(false, true),$partname_regex);
     }
 
-    public static function get_pattern($for_html_pattern = false)
+    public static function get_pattern($for_html_pattern = false, $for_mb = false)
     {
         if($for_html_pattern)
         {
             $pattern = regex_strip_slashes(regex_allow_umlauts(PartNameRegEx::$pattern));
             return "($pattern)|(@@)";
+        }
+        else if($for_mb)
+        {
+            return regex_strip_slashes(PartNameRegEx::$pattern);
         }
         else
         {

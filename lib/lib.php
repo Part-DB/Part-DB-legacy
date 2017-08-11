@@ -836,10 +836,10 @@
         return str_replace("\w", '[\wÄäÖöÜüß]', $pattern);
     }
 
-    function regex_strip_slashes($pattern)
+    function regex_strip_slashes($pattern, $mb = true)
     {
-        if(substr($pattern, 0, 1) === "/" &&  substr($pattern, -1, 1) === "/")
-            return substr($pattern, 1, -1);
+        if(mb_substr($pattern, 0, 1) === "/" &&  substr($pattern, -1, 1) === "/")
+            return mb_substr($pattern, 1, -1);
         else
             return $pattern;
     }
