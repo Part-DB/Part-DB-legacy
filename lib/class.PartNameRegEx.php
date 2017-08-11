@@ -8,7 +8,7 @@
 
 class PartNameRegEx
 {
-    private static $pattern = '/^(\/.+\/\w*)(?:@([fn]+))?(?:\$(.+))*$/';
+    private static $pattern = '/^(\/.+\/)(?:@([fn]+))?(?:\$(.+))*$/';
 
     private $regex = "";
     private $flags_str = "";
@@ -98,7 +98,7 @@ class PartNameRegEx
         if(empty($this->get_regex()))
             return $tmp;
 
-        mb_ereg($this->get_regex(true), $name, $tmp);
+        mb_eregi($this->get_regex(true), $name, $tmp);
 
         $properties = array();
 
@@ -122,7 +122,10 @@ class PartNameRegEx
         if($this->is_nofilter() || empty($this->get_regex())) //When we dont filter, every name is ok.
             return true;
 
-        return mb_ereg_match($this->get_regex(true), $name);
+        if(mb_eregi($this->get_regex(true), $name) !== FALSE)
+            return true;
+        else
+            return false;
 
     }
 
