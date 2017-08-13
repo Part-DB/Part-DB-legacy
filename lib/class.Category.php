@@ -178,6 +178,223 @@
                 return $this->db_data['disable_autodatasheets'];
         }
 
+        /**
+         * @brief Get the "disable automatic properties" attribute
+         *
+         * @param boolean $including_parents        @li If true, this method will return a "true" if at least
+         *                                              one parent category has set "disable_properties == true"
+         *                                          @li If false, this method will only return that value
+         *                                              which is stored in the database
+         *
+         * @retval boolean          the "disable automatic properties" attribute
+         */
+        public function get_disable_properties($including_parents = false)
+        {
+            if ($including_parents)
+            {
+                $parent_id = $this->get_id();
+
+                while ($parent_id > 0)
+                {
+                    $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                    $parent_id = $category->get_parent_id();
+
+                    if ($category->get_disable_properties())
+                        return true;
+                }
+
+                return false;
+            }
+            else
+                return $this->db_data['disable_properties'];
+        }
+
+        /**
+         * @brief Get the "default description" attribute
+         *
+         * @param boolean $including_parents        @li If true, this method will return the first non empty value from parents
+         *                                              if this category has no own value
+         *                                          @li If false, this method will only return that value
+         *                                              which is stored in the database
+         *
+         * @retval string          the "default description" attribute
+         */
+        public function get_default_description($including_parents = false, $show_escape = true)
+        {
+            if ($including_parents && empty($this->get_default_description()))
+            {
+                $parent_id = $this->get_id();
+
+                while ($parent_id > 0)
+                {
+                    $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                    $parent_id = $category->get_parent_id();
+
+                    if (!empty($category->get_default_description()))
+                    {
+                        if($category->get_default_description() == "@@")
+                            break;
+                        return $category->get_default_description();
+                    }
+                }
+
+                return "";
+            }
+            else {
+                if ($show_escape || $this->db_data['default_description'] !== "@@")
+                    return $this->db_data['default_description'];
+                else
+                    return "";
+            }
+        }
+
+        /**
+         * @brief Get the "default comment" attribute
+         *
+         * @param boolean $including_parents        @li If true, this method will return the first non empty value from parents
+         *                                              if this category has no own value
+         *                                          @li If false, this method will only return that value
+         *                                              which is stored in the database
+         *
+         * @retval string          the "default comment" attribute
+         */
+        public function get_default_comment($including_parents = false, $show_escape = true)
+        {
+            if ($including_parents && empty($this->get_default_comment()) && $this->get_default_comment() != "@@")
+            {
+                $parent_id = $this->get_id();
+
+                while ($parent_id > 0)
+                {
+                    $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                    $parent_id = $category->get_parent_id();
+
+                    if (!empty($category->get_default_comment()))
+                    {
+                        if($category->get_default_comment() == "@@")
+                            break;
+                        return $category->get_default_comment();
+                    }
+                }
+
+                return "";
+            }
+            else
+                if ($show_escape || $this->db_data['default_comment'] !== "@@")
+                    return $this->db_data['default_comment'];
+                else
+                    return "";
+        }
+
+        /**
+         * Get the Hint how to format the name of parts, which are part of this category.
+         * @param bool $including_parents @li If true, this method will return the first non empty value from parents
+         *                                              if this category has no own value
+         *                                 @li If false, this method will only return that value
+         *                                              which is stored in the database
+         * @param bool $show_escape If true, the escape code "@@" will be returned, otherwise it will be "" (empty string).
+         * @return string  The partname_hint attribute
+         */
+        public function get_partname_hint($including_parents = false, $show_escape = true)
+        {
+            if ($including_parents && empty($this->get_partname_hint()))
+            {
+                $parent_id = $this->get_id();
+
+                while ($parent_id > 0)
+                {
+                    $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                    $parent_id = $category->get_parent_id();
+
+                    if (!empty($category->get_partname_hint()))
+                    {
+                        if($category->get_partname_hint() == "@@")
+                            break;
+                        return $category->get_partname_hint();
+                    }
+                }
+
+                return "";
+            }
+            else {
+                if ($show_escape || $this->db_data['partname_hint'] !== "@@")
+                    return $this->db_data['partname_hint'];
+                else
+                    return "";
+            }
+        }
+
+        /**
+         * Get the Regular expression the name of parts, which are part of this category, must have.
+         * @param bool $including_parents @li If true, this method will return the first non empty value from parents
+         *                                              if this category has no own value
+         *                                 @li If false, this method will only return that value
+         *                                              which is stored in the database
+         * @param bool $show_escape If true, the escape code "@@" will be returned, otherwise it will be "" (empty string).
+         * @return string  The partname_hint attribute
+         */
+        public function get_partname_regex_raw($including_parents = false, $show_escape = true)
+        {
+            if ($including_parents && empty($this->get_partname_regex_raw()))
+            {
+                $parent_id = $this->get_id();
+
+                while ($parent_id > 0)
+                {
+                    $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
+                    $parent_id = $category->get_parent_id();
+
+                    if (!empty($category->get_partname_regex_raw()))
+                    {
+                        if($category->get_partname_regex_raw() == "@@")
+                            break;
+                        return $category->get_partname_regex_raw();
+                    }
+                }
+
+                return "";
+            }
+            else {
+                if ($show_escape || $this->db_data['partname_regex'] !== "@@")
+                    return $this->db_data['partname_regex'];
+                else
+                    return "";
+            }
+        }
+
+        /**
+         * Gets the regex of this Category.
+         * @param bool $including_parents
+         */
+        public function get_partname_regex($including_parents = true)
+        {
+            return $this->get_partname_regex_obj($including_parents)->get_regex();
+        }
+
+        /**
+         * Gets a PartNameRegEx element
+         * @param bool $including_parents
+         * @return PartNameRegEx
+         */
+        public function get_partname_regex_obj($including_parents = true)
+        {
+            $str = $this->get_partname_regex_raw($including_parents);
+            return new PartNameRegEx($str);
+        }
+
+        /**
+         * Check if the partname is valid.
+         * @param $name string The name which should be checked.
+         * @param bool $including_parents
+         * @return bool True if the partname is valid.
+         */
+        public function check_partname($name, $including_parents = true)
+        {
+            $obj = $this->get_partname_regex_obj($including_parents);
+            return $obj->check_name($name);
+        }
+
+
 
         /**
          * @brief Get all parts from this element
@@ -236,6 +453,58 @@
             $this->set_attributes(array('disable_autodatasheets' => $new_disable_autodatasheets));
         }
 
+        /**
+         * @brief Set the "disable automatic properties" attribute
+         *
+         * @param boolean $new_disable_properties        the new value
+         *
+         * @throws Exception if there was an error
+         */
+        public function set_disable_properties($new_disable_properties)
+        {
+            $this->set_attributes(array('disable_properties' => $new_disable_properties));
+        }
+
+        /**
+         * @brief Set the "default description" attribute
+         * @param string $new_default_description the new value
+         * @throws Exception if there was an error
+         */
+        public function set_default_description($new_default_description)
+        {
+            $this->set_attributes(array('default_description' => $new_default_description));
+        }
+
+        /**
+         * @brief Set the "default comment" attribute
+         * @param string $new_default_comment the new value
+         * @throws Exception if there was an error
+         */
+        public function set_default_comment($new_default_comment)
+        {
+            $this->set_attributes(array('default_comment' => $new_default_comment));
+        }
+
+        /**
+         * Set the "partname_hint" attribute
+         * @param string $new_partname_hint the new value
+         * @throws Exception if there was an error
+         */
+        public function set_partname_hint($new_partname_hint)
+        {
+            $this->set_attributes(array('partname_hint' => $new_partname_hint));
+        }
+
+        /**
+         * @brief Set the "partname_regex" attribute
+         * @param string $new_default_comment the new value
+         * @throws Exception if there was an error
+         */
+        public function set_partname_regex($new_partname_regex)
+        {
+            $this->set_attributes(array('partname_regex' => $new_partname_regex));
+        }
+
         /********************************************************************************
         *
         *   Static Methods
@@ -283,6 +552,9 @@
          * @param boolean   $disable_footprints         if true, all parts in the new category can't have a footprint (Category::set_disable_footprints())
          * @param boolean   $disable_manufacturers      if true, all parts in the new category can't have a manufacturer (Category::set_disable_manufacturers())
          * @param boolean   $disable_autodatasheets     if true, all parts in the new category won't have automatic datasheets (Category::set_disable_autodatasheets())
+         * @param boolean   $disable_properties         if true, all parts in the new category won't have a property table
+         * @param string    $default_description        The default description of parts in the new category.
+         * @param string    $default_comment            The default comment of parts in the new category.
          *
          * @retval Category     the new category
          *
@@ -293,14 +565,18 @@
          */
         public static function add(&$database, &$current_user, &$log, $name, $parent_id,
                                     $disable_footprints = false, $disable_manufacturers = false,
-                                    $disable_autodatasheets = false)
+                                    $disable_autodatasheets = false, $disable_properties = false,
+                                    $default_description = "", $default_comment = "")
         {
             return parent::add($database, $current_user, $log, 'categories',
                                 array(  'name'                      => $name,
                                         'parent_id'                 => $parent_id,
                                         'disable_footprints'        => $disable_footprints,
                                         'disable_manufacturers'     => $disable_manufacturers,
-                                        'disable_autodatasheets'    => $disable_autodatasheets));
+                                        'disable_autodatasheets'    => $disable_autodatasheets,
+                                        'disable_properties'        => $disable_properties,
+                                        'default_description'       => $default_description,
+                                        'default_comment'           => $default_comment));
         }
 
         /**

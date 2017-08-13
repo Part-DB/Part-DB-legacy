@@ -240,11 +240,20 @@
          * @brief Get the description
          *
          * @param boolean $parse_bbcode Should BBCode converted to HTML, before returning
+         * @param int $short_output If this is bigger than 0, than the description will be shortened to this length.
          * @retval string       the description
          */
-        public function get_description($parse_bbcode = true)
+        public function get_description($parse_bbcode = true, $short_output = 0)
         {
             $val = htmlspecialchars($this->db_data['description']);
+
+            if($short_output > 0 && strlen($val) > $short_output)
+            {
+                $val = substr($val, 0, $short_output);
+                $val = $val . "...";
+                $val = '<span class="text-muted">' . $val . '</span class="text-muted">';
+            }
+
             if($parse_bbcode)
             {
                 $bbcode = new Golonka\BBCode\BBCodeParser;
@@ -805,20 +814,25 @@
          * @return array A array of PartProperty objects.
          * @return array If Properties are disabled or nothing was detected, then an empty array is returned.
          */
-        public function get_properties($use_description = true, $use_comment = true, $force_output = false)
+        public function get_properties($use_description = true, $use_comment = true, $use_name = true, $force_output = false)
         {
             global $config;
 
             if($config['properties']['active'] || $force_output) {
+                if($this->get_category()->get_disable_properties(true))
+                    return array();
+
                 $desc = array();
                 $comm = array();
 
+                if($use_name === true)
+                    $name = $this->get_category()->get_partname_regex_obj()->get_properties($this->get_name());
                 if ($use_description === true)
                     $desc = PartProperty::parse_description($this->get_description());
                 if ($use_comment === true)
                     $comm = PartProperty::parse_description($this->get_comment());
 
-                $arr = array_merge($desc, $comm);
+                $arr = array_merge($name, $desc, $comm);
 
                 return $arr;
             }
@@ -843,6 +857,13 @@
             }
             return $arr;
         }
+
+        public function has_valid_name()
+        {
+            return Part::is_valid_name($this->get_name(), $this->get_category());
+        }
+
+
 
         /********************************************************************************
         *
@@ -1042,6 +1063,11 @@
         {
             global $config;
 
+            if($config['appearance']['short_description'])
+                $max_length =  $config['appearance']['short_description_length'];
+            else
+                $max_length = 0;
+
             $table_row = array();
             $table_row['row_odd']       = is_odd($row_index);
             $table_row['row_index']     = $row_index;
@@ -1071,7 +1097,7 @@
                     case 'name_description':
                         $row_field['obsolete']          = $this->get_obsolete();
                         $row_field['comment']           = $this->get_comment();
-                        $row_field['description']       = $this->get_description();
+                        $row_field['description']       = $this->get_description(true, $max_length);
                         break;
 
                     case 'instock':
@@ -2043,6 +2069,7 @@
          * @param boolean   $visible            the visible attribute of the new part (see Part::set_visible())
          *
          * @retval Part     the new part
+         * @return Part     the new part
          *
          * @throws Exception    if (this combination of) values is not valid
          * @throws Exception    if there was an error
@@ -2071,6 +2098,16 @@
                                         // the column "datetime_added" will be automatically filled by MySQL
                                         // the column "last_modified" will be filled in the function check_values_validity()
 
+        }
+
+        /**
+         * Check if the name of the part is valid regarding the partname_regex of the category.
+         * @param $partname string The name of the part.
+         * @param $category Category The category of the part.
+         */
+        public static function is_valid_name($partname, $category)
+        {
+            return $category->check_partname($partname);
         }
 
     }

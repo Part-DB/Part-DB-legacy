@@ -71,6 +71,8 @@
     $new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
     $new_filename               = isset($_REQUEST['attachement_filename'])      ? to_unix_path(trim((string)$_REQUEST['attachement_filename'])) : '';
 
+    $partname_invalid           = isset($_REQUEST['name_edit'])                 ? true                                           : false;
+
     if ((strlen($new_filename) > 0) && ( ! is_path_absolute_and_unix($new_filename)))
         $new_filename = BASE.'/'.$new_filename; // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
@@ -101,6 +103,9 @@
     if (isset($_REQUEST["search_footprint"]))           {$action = 'search_footprint';}
     if (isset($_REQUEST["search_storelocation"]))       {$action = 'search_storelocation';}
     if (isset($_REQUEST["search_manufacturer"]))        {$action = 'search_manufacturer';}
+
+    if (isset($_REQUEST["apply_name_save"]))            {$action = 'apply_name_confirmed';}
+    if (isset($_REQUEST["create_name_save"]))           {$action = 'create_new_part';}
 
 
     // section: orderdetails
@@ -184,11 +189,9 @@
                     $existing_parts = Part::check_for_existing_part($database,$current_user,$log,$new_name,
                         $new_storelocation_id, $new_category_id);
 
-                    //if(!$existing_parts === false)
-                    //{
-                    //    $messages[] = array('text' => $existing_parts[0]->get_id(), 'strong' => true, 'color' => 'red');
-                    //}
-                    //else
+                    $category = new Category($database, $current_user, $log, $new_category_id);
+
+                    if(Part::is_valid_name($new_name, $category) || isset($_REQUEST['create_name_save']))
                     {
                         $part = Part::add($database, $current_user, $log, $new_name, $new_category_id,
                             $new_description, $new_instock, $new_mininstock, $new_storelocation_id,
@@ -196,6 +199,52 @@
 
                         $is_new_part = false;
                     }
+                    else
+                    {
+                        if (empty($category->get_partname_hint(true, false)))
+                        {
+                            $messages[] = array('text' => sprintf(_('Der Name "%s" entspricht nicht den Vorgaben!'), $new_name),
+                                'strong' => true, 'color' => 'red');
+                        }
+                        else
+                        {
+                            $messages[] = array('html' => sprintf(_('Der Name "%s" entspricht nicht den Vorgaben <b>(%s)</b>!'),
+                                $new_name, $category->get_partname_hint(true, false)));
+                        }
+
+
+
+                        $messages[] = array('text' => _('<br>Hinweis:'), 'strong' => true);
+                        $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $category->get_partname_regex(true) . "</b>");
+                        if(!$category->get_partname_regex_obj()->is_enforced())
+                        {
+                            $messages[] = array('html' => _('Möchten sie wirklich fortfahren?<br>'));
+                            $messages[] = array('html' => generate_button("", _('Nein, Name überarbeiten')), 'no_linebreak' => true);
+                            $messages[] = array('html' => generate_button_red("create_name_save", _('Ja, Name speichern')));
+                        }
+                        else
+                        {
+                            $messages[] = array('html' => _('Dies kann nicht ignoriert werden, da das Enforcement-Flag für diese Kategorie gesetzt ist!<br>'));
+                            $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="" >'._('Ok, Name überarbeiten').'</button>', 'no_linebreak' => true);
+                        }
+
+                        $messages[] = array('html' => generate_input_hidden("name", $new_name), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("category_id", $new_category_id), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("description", $new_description), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("instock", $new_instock), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("mininstock", $new_mininstock), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("storelocation_id", $new_storelocation_id), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("manufacturer_id", $new_manufacturer_id), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("footprint_id", $new_footprint_id), 'no_linebreak' => true);
+                        $messages[] = array('html' => generate_input_hidden("comment", $new_comment), 'no_linebreak' => 'true');
+                        $messages[] = array('html' => generate_input_hidden("visible", $new_visible), 'no_linebreak' => 'true');
+
+
+                        $partname_invalid = true;
+                    }
+
+
+
                 }
                 catch (Exception $e)
                 {
@@ -203,23 +252,70 @@
                 }
                 break;
 
+            case 'apply_name_confirmed':
+                try
+                {
+                    $part->set_name($new_name);
+                }
+                catch (Exception $e)
+                {
+                    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+                }
+                break;
             case 'apply_attributes':
                 try
                 {
-                    $new_attributes = array(        'name'              => $new_name,
-                                                    'description'       => $new_description,
-                                                    'instock'           => $new_instock,
-                                                    'mininstock'        => $new_mininstock,
-                                                    'id_category'       => $new_category_id,
-                                                    'id_storelocation'  => $new_storelocation_id,
-                                                    'visible'           => $new_visible,
-                                                    'comment'           => $new_comment);
+                    $new_attributes = array(
+                        'description'       => $new_description,
+                        'instock'           => $new_instock,
+                        'mininstock'        => $new_mininstock,
+                        'id_category'       => $new_category_id,
+                        'id_storelocation'  => $new_storelocation_id,
+                        'visible'           => $new_visible,
+                        'comment'           => $new_comment);
 
                     // do not overwrite (remove!) the footprint or manufacturer if they are disabled (global or in the part's category)
                     if (isset($_REQUEST['footprint_id']))       {$new_attributes['id_footprint']    = $new_footprint_id;}
                     if (isset($_REQUEST['manufacturer_id']))    {$new_attributes['id_manufacturer'] = $new_manufacturer_id;}
 
                     $part->set_attributes($new_attributes);
+
+                    if(Part::is_valid_name($new_name, $part->get_category()))
+                    {
+                        $part->set_name($new_name);
+                    }
+                    else
+                    {
+                        if (empty($part->get_category()->get_partname_hint(true, false)))
+                        {
+                            $messages[] = array('text' => sprintf(_('Der Name "%s" entspricht nicht den Vorgaben!'), $new_name),
+                                'strong' => true, 'color' => 'red');
+                        }
+                        else
+                        {
+                            $messages[] = array('html' => sprintf(_('Der Name "%s" entspricht nicht den Vorgaben <b>(%s)</b>!'),
+                                $new_name, $part->get_category()->get_partname_hint(true, false)));
+                        }
+
+                        $messages[] = array('text' => _('<br>Hinweis:'), 'strong' => true);
+                        $messages[] = array('html' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $part->get_category()->get_partname_regex(true) . "</b>");
+                        if($part->get_category()->get_partname_regex_obj()->is_enforced())
+                        {
+                            $messages[] = array('html' => _('Dies kann nicht ignoriert werden, da das Enforcement-Flag für diese Kategorie gesetzt ist!<br>'));
+                            $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="name_edit" >'._('Ok, Name überarbeiten').'</button>', 'no_linebreak' => true);
+                        }
+                        else
+                        {
+                            $messages[] = array('html' => _('Möchten sie wirklich fortfahren?<br>'));
+                            $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="name_edit" >'._('Nein, Name überarbeiten').'</button>', 'no_linebreak' => true);
+                            $messages[] = array('html' => '<button class="btn btn-danger" type="submit" name="apply_name_save">'._('Ja, Name speichern').'</button>', 'no_linebreak' => true);
+                        }
+                        $messages[] = array('html' => '<input type="hidden" name="pid" value="'.$part_id.'">', 'no_linebreak' => true);
+                        $messages[] = array('html' => '<input type="hidden" name="name" value="'.$new_name.'">', 'no_linebreak' => true);
+
+                        $partname_invalid = true;
+                    }
+
                 }
                 catch (Exception $e)
                 {
@@ -509,12 +605,16 @@
             if (isset($part) && is_object($part))
             {
                 $html->set_variable('pid',          $part->get_id(),                'integer');
-                $html->set_variable('name',         $part->get_name(),              'string');
+                if($partname_invalid)
+                    $html->set_variable('name',         $new_name,              'string');
+                else
+                    $html->set_variable('name',         $part->get_name(),              'string');
                 $html->set_variable('description',  $part->get_description(false),       'string');
                 $html->set_variable('instock',      $part->get_instock(),           'integer');
                 $html->set_variable('mininstock',   $part->get_mininstock(),        'integer');
                 $html->set_variable('visible',      $part->get_visible(),           'boolean');
                 $html->set_variable('comment',      $part->get_comment(false),           'string');
+                $html->set_variable('format_hint',  $part->get_category()->get_partname_hint(true, false), 'string');
 
                 // dropdown lists -> get IDs
                 $category_id        = (is_object($part->get_category())         ?   $part->get_category()->get_id()      : 0);
@@ -611,6 +711,16 @@
 
             if (($print_unsaved_values) || ( ! isset($part)) || ( ! is_object($part)))
             {
+                if(isset($new_category_id))
+                {
+                    $cat = new Category($database, $current_user, $log, $new_category_id);
+                    if(empty($new_description))
+                        $new_description = $cat->get_default_description(true, false);
+                    if(empty($new_comment))
+                        $new_comment = $cat->get_default_comment(true, false);
+                        $new_comment = $cat->get_default_comment(true, false);
+                }
+
                 $html->set_variable('name',         $new_name,          'string');
                 $html->set_variable('description',  $new_description,   'string');
                 $html->set_variable('instock',      $new_instock,       'integer');
