@@ -181,7 +181,7 @@
             }
             elseif (($current > 0) && ($latest > $current)) // normal update...we will show a hint
             {
-                $messages[] = array('text' =>   _('Hinweis:<br><br>'.
+                $messages[] = array('text' =>   _('Hinweis:<br>'.
                                                 'Es wird dringend empfohlen, vor jedem Datenbankupdate eine Sicherung der Datenbank anzulegen.<br>'.
                                                 'Die Entwickler von Part-DB übernehmen keinerlei Haftung für Schäden, die durch fehlgeschlagene Updates, '.
                                                 'Fehler in der Software oder durch andere Ursachen hervorgerufen werden.'),

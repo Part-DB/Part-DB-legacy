@@ -826,7 +826,59 @@
         }
     }
 
+    /**
+    * Allow the usage of umlauts in the given pattern
+    * @param $pattern
+    * @return mixed
+    */
     function regex_allow_umlauts($pattern)
     {
-        return str_replace("\w", "[\wÄäÖöÜüß]", $pattern);
+        return str_replace("\w", '[\wÄäÖöÜüß]', $pattern);
+    }
+
+    function regex_strip_slashes($pattern, $mb = true)
+    {
+        if(mb_substr($pattern, 0, 1) === "/" &&  substr($pattern, -1, 1) === "/")
+            return mb_substr($pattern, 1, -1);
+        else
+            return $pattern;
+    }
+
+
+    /**
+     * Generates a <input type="hidden"> Html string, with the given values.
+    * @param $name  string The "name" attribute of the <input> element
+    * @param $value string The "value" attribute of the <input> element
+    * @return string The HTML string.
+    */
+    function generate_input_hidden($name, $value="")
+    {
+        return '<input type="hidden" name="' . $name . '" value="' . $value . '">';
+    }
+
+    function generate_button($name, $text, $theme="btn-default", $val="")
+    {
+        return "<button type='submit' class='btn $theme' name='$name' value='$val'>$text</button>";
+    }
+
+    function generate_button_red($name, $text, $theme="btn-danger", $val="")
+    {
+        return generate_button($name, $text, $theme, $val);
+    }
+
+    /**
+     * Checks if a string contains a specific substring
+    * @param $haystack string The string which should be examined.
+    * @param $needle string The string which should be searched.
+    * @return bool True if $haystack contains §needle, else false.
+    */
+    function strcontains($haystack, $needle)
+    {
+        if (strpos($haystack, $needle) !== false) {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }

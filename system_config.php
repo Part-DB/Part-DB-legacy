@@ -100,7 +100,10 @@
     $popup_height               = isset($_REQUEST['popup_height'])      ? (integer)$_REQUEST['popup_height']    : $config['popup']['height'];
     $page_title                 = isset($_REQUEST['page_title'])        ? (string)$_REQUEST['page_title']       : $config['page_title'];
     $startup_banner             = isset($_REQUEST['startup_banner'])    ? (string)$_REQUEST['startup_banner']   : $config['startup']['custom_banner'];
+
+    // section "appearance"
     $use_old_datasheet_icons    = isset($_REQUEST['use_old_datasheet_icons']);
+    $short_description          = isset($_REQUEST['short_description']);
 
     // section "3d footprints"
     $foot3d_active              = isset($_REQUEST['foot3d_active']);
@@ -175,6 +178,7 @@
                 $config['popup']['height']                  = $popup_height;
 
                 $config['appearance']['use_old_datasheet_icons'] = $use_old_datasheet_icons;
+                $config['appearance']['short_description'] = $short_description;
 
                 $config['foot3d']['active']                 = $foot3d_active;
                 $config['foot3d']['show_info']              = $foot3d_show_infos;
@@ -303,6 +307,9 @@
     // 3d Footprints
     $html->set_variable('foot3d_active',                $config['foot3d']['active'],                'boolean');
     $html->set_variable('foot3d_show_info',             $config['foot3d']['show_info'],             'boolean');
+
+    // Appearance
+    $html->set_variable( 'short_description', $config['appearance']['short_description'], 'boolean');
 
     // check if the server supports the selected language and print a warning if not
     if ( ! own_setlocale(LC_ALL, $config['language']))
