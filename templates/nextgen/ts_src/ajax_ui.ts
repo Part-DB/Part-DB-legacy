@@ -4,7 +4,7 @@ function registerLinks() {
     'use strict';
     $("a").unbind("click").not(".link-anchor").not(".link-external").click(function (event) {
         event.preventDefault();
-        var a = $(this),
+        let a = $(this),
             href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
 
         $('#content').hide(0).load(href + " #content-data");
@@ -30,7 +30,7 @@ function showRequest(formData, jqForm, options) {
 function registerForm() {
     'use strict';
 
-    var data = {
+    let data = {
         success:  showFormResponse,
         beforeSubmit: showRequest
     };
@@ -104,8 +104,8 @@ function bbcode_edit() {
 function treeview_btn_init() {
     $(".tree-btns", "#sidebar").click(function () {
         $(this).parents("div.dropdown").removeClass('open');
-        var mode = $(this).data("mode");
-        var target = $(this).data("target");
+        let mode = $(this).data("mode");
+        let target = $(this).data("target");
 
         if(mode==="collapse") {
             $('#' + target).treeview('collapseAll', { silent: true });
@@ -118,7 +118,7 @@ function treeview_btn_init() {
 
 $(document).ready(function () {
     'use strict';
-    var page = window.location.pathname;
+    let page : string = window.location.pathname;
 
     //Only load start page when on index.php (and no content is loaded already)!
     if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
@@ -176,7 +176,7 @@ function makeFileInput() {
 //Make back in the browser go back in history
 window.onpopstate = function (event) {
     'use strict';
-    var page = location.href;
+    let page : string = location.href;
     //Go back only when the the target isnt the empty index.
     if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
         $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");
@@ -221,11 +221,11 @@ $(document).ajaxComplete(function (event, xhr, settings) {
         window.history.pushState(null, "", settings.url.replace("&ajax", "").replace("?ajax", "")  );
 
         //Set page title from response
-        var regex = /<title>(.*?)<\/title>/gi,
-            input = xhr.responseText;
+        let regex = /<title>(.*?)<\/title>/gi,
+            input : string = xhr.responseText;
         if (regex.test(input)) {
-            var matches = input.match(regex);
-            for(var match in matches) {
+            let matches = input.match(regex);
+            for(let match in matches) {
                 document.title = $(matches[match]).text();
             }
         }

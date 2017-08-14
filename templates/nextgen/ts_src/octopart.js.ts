@@ -7,8 +7,8 @@ function octoPart_success(response) {
 function octoPart() {
     'use strict';
 
-    var url = 'http://octopart.com/api/v3/parts/search?',
-        part = $('#name').val();
+    let url : string = 'http://octopart.com/api/v3/parts/search?',
+        part : string = $('#name').val();
 
     url += '&apikey=e418fbe2';
 
