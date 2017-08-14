@@ -1,4 +1,4 @@
-BASE="";
+let BASE="";
 
 function registerLinks() {
     'use strict';
@@ -51,7 +51,7 @@ function registerHoverImages() {
     });
 }
 
-function onNodeSelected(event, data) {
+function onNodeSelected(event, data : BootstrapTreeViewNodeData) {
     'use strict';
     if(data.href.indexOf("github.com") !== -1)  //If the href points to github, then open it in new tab. TODO: Find better solution to detect external links.
     {
@@ -74,15 +74,15 @@ function onNodeSelected(event, data) {
 
 function tree_fill() {
     'use strict';
-    $.getJSON(BASE + 'api_json.php?mode="tree_category"', function (tree) {
-        $('#tree-categories', "#sidebar").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
+    $.getJSON(BASE + 'api_json.php?mode="tree_category"', function (tree : BootstrapTreeViewNodeData) {
+        $("#tree-categories", "#sidebar").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
     });
 
-    $.getJSON(BASE + 'api_json.php?mode="tree_devices"', function (tree) {
+    $.getJSON(BASE + 'api_json.php?mode="tree_devices"', function (tree :BootstrapTreeViewNodeData) {
         $('#tree-devices', "#sidebar").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
     });
 
-    $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree) {
+    $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree :BootstrapTreeViewNodeData) {
         $('#tree-tools', "#sidebar").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
     });
 }

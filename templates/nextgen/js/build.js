@@ -1,4 +1,4 @@
-BASE = "";
+var BASE = "";
 function registerLinks() {
     'use strict';
     $("a").unbind("click").not(".link-anchor").not(".link-external").click(function (event) {
@@ -60,7 +60,7 @@ function onNodeSelected(event, data) {
 function tree_fill() {
     'use strict';
     $.getJSON(BASE + 'api_json.php?mode="tree_category"', function (tree) {
-        $('#tree-categories', "#sidebar").treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected }).treeview('collapseAll', { silent: true });
+        $("#tree-categories", "#sidebar").treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected }).treeview('collapseAll', { silent: true });
     });
     $.getJSON(BASE + 'api_json.php?mode="tree_devices"', function (tree) {
         $('#tree-devices', "#sidebar").treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected }).treeview('collapseAll', { silent: true });
