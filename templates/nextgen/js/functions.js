@@ -10,7 +10,7 @@ function openLink(page) {
 /**
  * Add the given param to a existing URL.
  * @param {string} url The URL which should be modified.
- * @param {string} param The param (in Form "key=value") which should be appended to the URL
+ * @param {string} param The param (in Form "key=value", or simply key) which should be appended to the URL
  * @returns {string} The url with the appended parameter.
  */
 function addURLparam(url, param) {
@@ -24,16 +24,21 @@ function addURLparam(url, param) {
     }
 }
 /**
+ * Removes the given param from the url.
+ * @param {string} url The URL which should be modified.
+ * @param {string} param The param (in Form "key=value", or simply key) which should be removed from the URL
+ * @returns {string} The url without the specified parameter.
+ */
+function removeURLparam(url, param) {
+    'use strict';
+    return url.replace("&" + param, "").replace("?" + param, "");
+}
+/**
  * Submit the given Form and shows a loading bar, if the form doesn't have a ".no-progbar" class.
  * @param form The Form which should be submited.
  */
 function submitForm(form) {
     'use strict';
-    /*let data : JQueryFormOptions = {
-        success: showFormResponse,
-        beforeSubmit: showRequest
-    };
-    $(form).ajaxSubmit(data);*/
     ajaxui.submitForm(form);
 }
 /**
@@ -43,12 +48,23 @@ function submitForm(form) {
  * @param btn The button, which was pressed to submit the form.
  */
 function submitFormSubmitBtn(form, btn) {
-    var name = $(btn).attr('name');
-    var value = $(btn).attr('value');
-    if (value === undefined)
-        value = "";
-    $(form).append('<input type="hidden" name="' + name + '" value="' + value + '">');
-    submitForm(form);
+    ajaxui.submitFormSubmitBtn(form, btn);
+}
+/**
+ * Extract the title (The name between the <title> tags) of a HTML snippet.
+ * @param {string} html The HTML code which should be searched.
+ * @returns {string} The title extracted from the html.
+ */
+function extractTitle(html) {
+    var title = "";
+    var regex = /<title>(.*?)<\/title>/gi;
+    if (regex.test(html)) {
+        var matches = html.match(regex);
+        for (var match in matches) {
+            title = $(matches[match]).text();
+        }
+    }
+    return title;
 }
 /**
  * Opens the given URL in a new tab.

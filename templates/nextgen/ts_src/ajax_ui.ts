@@ -284,17 +284,17 @@ class AjaxUI {
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
 
             //Push the cleaned (no ajax request) to history
-            window.history.pushState(null, "", settings.url.replace("&ajax", "").replace("?ajax", "")  );
+            window.history.pushState(null, "", removeURLparam(settings.url, "ajax"));
 
             //Set page title from response
-            let regex = /<title>(.*?)<\/title>/gi,
-                input : string = xhr.responseText;
-            if (regex.test(input)) {
-                let matches = input.match(regex);
-                for(let match in matches) {
-                    document.title = $(matches[match]).text();
-                }
+            let input : string = xhr.responseText;
+            let title : string = extractTitle(input);
+
+            if(title !== "")
+            {
+                document.title = title;
             }
+
         }
     }
 }
