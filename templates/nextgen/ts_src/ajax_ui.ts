@@ -1,19 +1,32 @@
 //import {addURLparam, openInNewTab, openLink, scrollUpForMsg} from "./functions";
 
-let BASE="";
+"use_strict";
 
+let BASE="";
 
 class AjaxUI {
 
+    private static singleton : AjaxUI;
+
     private _this = this;
 
-    constructor()
+    private ajax_complete_listeners : Array<() => void> = [];
+    private start_listeners : Array<() => void> = [];
+
+    public static getInstance() : AjaxUI
+    {
+        if(AjaxUI.singleton == null || AjaxUI.singleton == undefined)
+        {
+            AjaxUI.singleton = new AjaxUI();
+        }
+        return AjaxUI.singleton;
+    }
+
+    private constructor()
     {
         //Make back in the browser go back in history
         window.onpopstate = this.onPopState;
-
         $(document).ajaxError(this.onAjaxError.bind(this));
-
         $(document).ajaxComplete(this.onAjaxComplete.bind(this));
     }
 
@@ -27,25 +40,26 @@ class AjaxUI {
         }
 
         this.tree_fill();
-        treeview_btn_init();
         this.registerForm();
         this.registerLinks();
-        
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > 50) {
-                $('#back-to-top').fadeIn();
-            } else {
-                $('#back-to-top').fadeOut();
-            }
-        });
-        // scroll body to 0px on click
-        $('#back-to-top').click(function () {
-            $('#back-to-top').tooltip('hide');
-            $('body,html').animate({
-                scrollTop: 0
-            }, 800);
-            return false;
-        }).tooltip('show');
+
+        //Calls registered actions
+        for (let entry of this.start_listeners)
+        {
+            entry();
+        }
+
+
+    }
+
+    public addAjaxCompleteAction(func : ()=>void)
+    {
+        this.ajax_complete_listeners.push(func);
+    }
+
+    public addStartAction(func: ()=>void)
+    {
+        this.start_listeners.push(func);
     }
 
     private registerForm() {
@@ -175,21 +189,24 @@ class AjaxUI {
     }
 
     private onAjaxComplete (event, xhr, settings) {
-        'use strict';
 
         //Hide progressbar and show Result
         $('#progressbar').hide(0);
         //$('#content').show(0);
         $('#content').fadeIn("fast");
 
-
-        makeSortTable();
         this.registerForm();
         this.registerLinks();
-        makeFileInput();
-        registerHoverImages();
-        scrollUpForMsg();
+        //makeFileInput();
+        //registerHoverImages();
+        //scrollUpForMsg();
         this.registerSubmitBtn();
+
+        //Execute the registered handlers.
+        for(let entry of this.ajax_complete_listeners)
+        {
+            entry();
+        }
 
         if ($("x3d").length) {
             x3dom.reload();
@@ -218,9 +235,17 @@ class AjaxUI {
 
 }
 
-let ajaxui : AjaxUI = new AjaxUI();
+let ajaxui : AjaxUI = AjaxUI.getInstance();
 
 $(document).ready(function(event){
+
+    ajaxui.addStartAction(treeviewBtnInit);
+    ajaxui.addStartAction(registerJumpToTop);
+
+    ajaxui.addAjaxCompleteAction(registerHoverImages);
+    ajaxui.addAjaxCompleteAction(makeSortTable);
+    ajaxui.addAjaxCompleteAction(makeFileInput);
+
     ajaxui.start();
 });
 
@@ -260,11 +285,25 @@ function makeFileInput() {
     $(".file").fileinput();
 }
 
-$("#search-submit").click(function (event) {
-    $("#searchbar").removeClass("in");
-});
+function registerJumpToTop() {
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 50) {
+            $('#back-to-top').fadeIn();
+        } else {
+            $('#back-to-top').fadeOut();
+        }
+    });
+    // scroll body to 0px on click
+    $('#back-to-top').click(function () {
+        $('#back-to-top').tooltip('hide');
+        $('body,html').animate({
+            scrollTop: 0
+        }, 800);
+        return false;
+    }).tooltip('show');
+};
 
-function treeview_btn_init() {
+function treeviewBtnInit() {
     $(".tree-btns").click(function (event) {
         event.preventDefault();
         $(this).parents("div.dropdown").removeClass('open');
@@ -280,3 +319,7 @@ function treeview_btn_init() {
         return false;
     });
 }
+
+$("#search-submit").click(function (event) {
+    $("#searchbar").removeClass("in");
+});

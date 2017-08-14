@@ -1,13 +1,22 @@
 //import {addURLparam, openInNewTab, openLink, scrollUpForMsg} from "./functions";
+"use_strict";
 var BASE = "";
 var AjaxUI = (function () {
     function AjaxUI() {
         this._this = this;
+        this.ajax_complete_listeners = [];
+        this.start_listeners = [];
         //Make back in the browser go back in history
         window.onpopstate = this.onPopState;
         $(document).ajaxError(this.onAjaxError.bind(this));
         $(document).ajaxComplete(this.onAjaxComplete.bind(this));
     }
+    AjaxUI.getInstance = function () {
+        if (AjaxUI.singleton == null || AjaxUI.singleton == undefined) {
+            AjaxUI.singleton = new AjaxUI();
+        }
+        return AjaxUI.singleton;
+    };
     AjaxUI.prototype.start = function () {
         var page = window.location.pathname;
         //Only load start page when on index.php (and no content is loaded already)!
@@ -15,25 +24,19 @@ var AjaxUI = (function () {
             openLink("startup.php");
         }
         this.tree_fill();
-        treeview_btn_init();
         this.registerForm();
         this.registerLinks();
-        $(window).scroll(function () {
-            if ($(this).scrollTop() > 50) {
-                $('#back-to-top').fadeIn();
-            }
-            else {
-                $('#back-to-top').fadeOut();
-            }
-        });
-        // scroll body to 0px on click
-        $('#back-to-top').click(function () {
-            $('#back-to-top').tooltip('hide');
-            $('body,html').animate({
-                scrollTop: 0
-            }, 800);
-            return false;
-        }).tooltip('show');
+        //Calls registered actions
+        for (var _i = 0, _a = this.start_listeners; _i < _a.length; _i++) {
+            var entry = _a[_i];
+            entry();
+        }
+    };
+    AjaxUI.prototype.addAjaxCompleteAction = function (func) {
+        this.ajax_complete_listeners.push(func);
+    };
+    AjaxUI.prototype.addStartAction = function (func) {
+        this.start_listeners.push(func);
     };
     AjaxUI.prototype.registerForm = function () {
         'use strict';
@@ -135,18 +138,21 @@ var AjaxUI = (function () {
         this.submitForm(form);
     };
     AjaxUI.prototype.onAjaxComplete = function (event, xhr, settings) {
-        'use strict';
         //Hide progressbar and show Result
         $('#progressbar').hide(0);
         //$('#content').show(0);
         $('#content').fadeIn("fast");
-        makeSortTable();
         this.registerForm();
         this.registerLinks();
-        makeFileInput();
-        registerHoverImages();
-        scrollUpForMsg();
+        //makeFileInput();
+        //registerHoverImages();
+        //scrollUpForMsg();
         this.registerSubmitBtn();
+        //Execute the registered handlers.
+        for (var _i = 0, _a = this.ajax_complete_listeners; _i < _a.length; _i++) {
+            var entry = _a[_i];
+            entry();
+        }
         if ($("x3d").length) {
             x3dom.reload();
         }
@@ -167,8 +173,13 @@ var AjaxUI = (function () {
     };
     return AjaxUI;
 }());
-var ajaxui = new AjaxUI();
+var ajaxui = AjaxUI.getInstance();
 $(document).ready(function (event) {
+    ajaxui.addStartAction(treeviewBtnInit);
+    ajaxui.addStartAction(registerJumpToTop);
+    ajaxui.addAjaxCompleteAction(registerHoverImages);
+    ajaxui.addAjaxCompleteAction(makeSortTable);
+    ajaxui.addAjaxCompleteAction(makeFileInput);
     ajaxui.start();
 });
 function registerHoverImages() {
@@ -204,10 +215,26 @@ function makeFileInput() {
     'use strict';
     $(".file").fileinput();
 }
-$("#search-submit").click(function (event) {
-    $("#searchbar").removeClass("in");
-});
-function treeview_btn_init() {
+function registerJumpToTop() {
+    $(window).scroll(function () {
+        if ($(this).scrollTop() > 50) {
+            $('#back-to-top').fadeIn();
+        }
+        else {
+            $('#back-to-top').fadeOut();
+        }
+    });
+    // scroll body to 0px on click
+    $('#back-to-top').click(function () {
+        $('#back-to-top').tooltip('hide');
+        $('body,html').animate({
+            scrollTop: 0
+        }, 800);
+        return false;
+    }).tooltip('show');
+}
+;
+function treeviewBtnInit() {
     $(".tree-btns").click(function (event) {
         event.preventDefault();
         $(this).parents("div.dropdown").removeClass('open');
@@ -222,3 +249,6 @@ function treeview_btn_init() {
         return false;
     });
 }
+$("#search-submit").click(function (event) {
+    $("#searchbar").removeClass("in");
+});
