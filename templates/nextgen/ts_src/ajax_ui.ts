@@ -30,9 +30,7 @@ class AjaxUI {
         treeview_btn_init();
         this.registerForm();
         this.registerLinks();
-
-        //bbcode_edit();
-
+        
         $(window).scroll(function () {
             if ($(this).scrollTop() > 50) {
                 $('#back-to-top').fadeIn();
