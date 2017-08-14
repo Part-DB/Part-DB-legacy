@@ -14,10 +14,10 @@ function registerLinks() {
 }
 
 //Called when Form submit was submited
-var showFormResponse : SuccessCallback = function (responseText, statusText, xhr, $form) {
+function showFormResponse(responseText, statusText, xhr, $form) {
     'use strict';
     $("#content").html($(responseText).find("#content-data").html()).fadeIn('slow');
-}
+};
 
 function showRequest(formData, jqForm, options) : boolean {
     'use strict';
@@ -75,20 +75,20 @@ function onNodeSelected(event, data : BootstrapTreeViewNodeData) {
 function tree_fill() {
     'use strict';
     $.getJSON(BASE + 'api_json.php?mode="tree_category"', function (tree : BootstrapTreeViewNodeData) {
-        $("#tree-categories", "#sidebar").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
+        $("#tree-categories").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
     });
 
     $.getJSON(BASE + 'api_json.php?mode="tree_devices"', function (tree :BootstrapTreeViewNodeData) {
-        $('#tree-devices', "#sidebar").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
+        $('#tree-devices').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
     });
 
     $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree :BootstrapTreeViewNodeData) {
-        $('#tree-tools', "#sidebar").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
+        $('#tree-tools').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
     });
 }
 
 function treeview_btn_init() {
-    $(".tree-btns", "#sidebar").click(function () {
+    $(".tree-btns").click(function () {
         $(this).parents("div.dropdown").removeClass('open');
         let mode = $(this).data("mode");
         let target = $(this).data("target");
@@ -135,6 +135,7 @@ $(document).ready(function () {
 
 
 });
+
 
 function makeSortTable() {
     'use strict';

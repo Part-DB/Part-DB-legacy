@@ -66,6 +66,6 @@ interface BootstrapTreeViewOptions{
 }
 
 interface JQuery {
-    treeview(options: BootstrapTreeViewOptions) : void
-    treeview(method: string, ...args: Array<any>) : void
+    treeview(options: BootstrapTreeViewOptions) : JQuery
+    treeview(method: string, ...args: Array<any>) : JQuery
 }

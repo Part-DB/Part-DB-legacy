@@ -10,10 +10,11 @@ function registerLinks() {
     });
 }
 //Called when Form submit was submited
-var showFormResponse = function (responseText, statusText, xhr, $form) {
+function showFormResponse(responseText, statusText, xhr, $form) {
     'use strict';
     $("#content").html($(responseText).find("#content-data").html()).fadeIn('slow');
-};
+}
+;
 function showRequest(formData, jqForm, options) {
     'use strict';
     if (!$(jqForm).hasClass("no-progbar")) {
@@ -60,17 +61,17 @@ function onNodeSelected(event, data) {
 function tree_fill() {
     'use strict';
     $.getJSON(BASE + 'api_json.php?mode="tree_category"', function (tree) {
-        $("#tree-categories", "#sidebar").treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected }).treeview('collapseAll', { silent: true });
+        $("#tree-categories").treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected }).treeview('collapseAll', { silent: true });
     });
     $.getJSON(BASE + 'api_json.php?mode="tree_devices"', function (tree) {
-        $('#tree-devices', "#sidebar").treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected }).treeview('collapseAll', { silent: true });
+        $('#tree-devices').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected }).treeview('collapseAll', { silent: true });
     });
     $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree) {
-        $('#tree-tools', "#sidebar").treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected }).treeview('collapseAll', { silent: true });
+        $('#tree-tools').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected }).treeview('collapseAll', { silent: true });
     });
 }
 function treeview_btn_init() {
-    $(".tree-btns", "#sidebar").click(function () {
+    $(".tree-btns").click(function () {
         $(this).parents("div.dropdown").removeClass('open');
         var mode = $(this).data("mode");
         var target = $(this).data("target");
