@@ -1,6 +1,11 @@
 //import {addURLparam, openInNewTab, openLink, scrollUpForMsg} from "./functions";
 "use_strict";
 var BASE = "";
+/****************************************************************************************
+ * **************************************************************************************
+ *                                      AjaxUI Class
+ * **************************************************************************************
+ ****************************************************************************************/
 var AjaxUI = (function () {
     /**
      * Creates a new AjaxUI object.
@@ -14,6 +19,9 @@ var AjaxUI = (function () {
         $(document).ajaxError(this.onAjaxError.bind(this));
         $(document).ajaxComplete(this.onAjaxComplete.bind(this));
     }
+    /****************************************************************************
+     * Public functions
+     ***************************************************************************/
     /**
      * Gets a instance of AjaxUI. If no instance exits, then a new one is created.
      * @returns {AjaxUI} A instance of AjaxUI.
@@ -59,6 +67,9 @@ var AjaxUI = (function () {
     AjaxUI.prototype.addStartAction = function (func) {
         this.start_listeners.push(func);
     };
+    /*****************************************************************************
+     * Form functions
+     *****************************************************************************/
     /**
      * Registers all forms to use with jQuery.Form
      */
@@ -69,20 +80,6 @@ var AjaxUI = (function () {
             beforeSubmit: this.showRequest
         };
         $('form').ajaxForm(data);
-    };
-    /**
-     * This function gets called every time, the "back" button in the browser is pressed.
-     * We use it to load the content from history stack via ajax and to rewrite url, so we only have
-     * to load #content-data
-     * @param event
-     */
-    AjaxUI.prototype.onPopState = function (event) {
-        var page = location.href;
-        //Go back only when the the target isnt the empty index.
-        if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
-            $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");
-            $('#progressbar').show(0);
-        }
     };
     /**
      * Called when Form submit was submited and we received a response.
@@ -105,63 +102,6 @@ var AjaxUI = (function () {
             $('#content').hide(0);
             $('#progressbar').show(0);
         }
-    };
-    /**
-     * Registers every link (except the ones with .link-external or .link-anchor classes) for usage of Ajax.
-     */
-    AjaxUI.prototype.registerLinks = function () {
-        'use strict';
-        $("a").not(".link-anchor").not(".link-external").not(".tree-btns").unbind("click").click(function (event) {
-            event.preventDefault();
-            var a = $(this);
-            var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
-            $('#content').hide(0).load(href + " #content-data");
-            $('#progressbar').show(0);
-            return true;
-        });
-    };
-    /**
-     * Called when an error occurs on loading ajax. Outputs the message to the console.
-     */
-    AjaxUI.prototype.onAjaxError = function (event, request, settings) {
-        'use strict';
-        console.log(event);
-    };
-    /**
-     * Called whenever a node from the TreeView is clicked.
-     * We use it to start a ajax request, to expand the node and to close the sidebar div on mobile view.
-     * When the link contains "github.com" the link is opened in a new tab: We use this for the help node.
-     * @param event
-     * @param {BootstrapTreeViewNodeData} data
-     */
-    AjaxUI.prototype.onNodeSelected = function (event, data) {
-        'use strict';
-        if (data.href.indexOf("github.com") !== -1) {
-            openInNewTab(data.href);
-            $(this).treeview('toggleNodeSelected', data.nodeId);
-        }
-        else {
-            $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
-            $('#progressbar').show();
-        }
-        $(this).treeview('toggleNodeExpanded', data.nodeId);
-        $("#sidebar").removeClass("in");
-    };
-    /**
-     * Request JSON files describing the TreeView nodes and fill them with that.
-     */
-    AjaxUI.prototype.tree_fill = function () {
-        'use strict';
-        var node_handler = this.onNodeSelected;
-        $.getJSON(BASE + 'api_json.php?mode="tree_category"', function (tree) {
-            $("#tree-categories").treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
-        });
-        $.getJSON(BASE + 'api_json.php?mode="tree_devices"', function (tree) {
-            $('#tree-devices').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
-        });
-        $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree) {
-            $('#tree-tools').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
-        });
     };
     /**
      * Unregister the form submit event on every button which has a "submit" class.
@@ -200,6 +140,86 @@ var AjaxUI = (function () {
         $(form).append('<input type="hidden" name="' + name + '" value="' + value + '">');
         this.submitForm(form);
     };
+    /********************************************************************************
+     * Link functions
+     ********************************************************************************/
+    /**
+     * Registers every link (except the ones with .link-external or .link-anchor classes) for usage of Ajax.
+     */
+    AjaxUI.prototype.registerLinks = function () {
+        'use strict';
+        $("a").not(".link-anchor").not(".link-external").not(".tree-btns").unbind("click").click(function (event) {
+            event.preventDefault();
+            var a = $(this);
+            var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
+            $('#content').hide(0).load(href + " #content-data");
+            $('#progressbar').show(0);
+            return true;
+        });
+    };
+    /***********************************************************************************
+     * TreeView functions
+     ***********************************************************************************/
+    /**
+     * Called whenever a node from the TreeView is clicked.
+     * We use it to start a ajax request, to expand the node and to close the sidebar div on mobile view.
+     * When the link contains "github.com" the link is opened in a new tab: We use this for the help node.
+     * @param event
+     * @param {BootstrapTreeViewNodeData} data
+     */
+    AjaxUI.prototype.onNodeSelected = function (event, data) {
+        'use strict';
+        if (data.href.indexOf("github.com") !== -1) {
+            openInNewTab(data.href);
+            $(this).treeview('toggleNodeSelected', data.nodeId);
+        }
+        else {
+            $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
+            $('#progressbar').show();
+        }
+        $(this).treeview('toggleNodeExpanded', data.nodeId);
+        $("#sidebar").removeClass("in");
+    };
+    /**
+     * Request JSON files describing the TreeView nodes and fill them with that.
+     */
+    AjaxUI.prototype.tree_fill = function () {
+        'use strict';
+        var node_handler = this.onNodeSelected;
+        $.getJSON(BASE + 'api_json.php?mode="tree_category"', function (tree) {
+            $("#tree-categories").treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
+        });
+        $.getJSON(BASE + 'api_json.php?mode="tree_devices"', function (tree) {
+            $('#tree-devices').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
+        });
+        $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree) {
+            $('#tree-tools').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
+        });
+    };
+    /********************************************************************************************
+     * Common ajax functions
+     ********************************************************************************************/
+    /**
+     * Called when an error occurs on loading ajax. Outputs the message to the console.
+     */
+    AjaxUI.prototype.onAjaxError = function (event, request, settings) {
+        'use strict';
+        console.log(event);
+    };
+    /**
+     * This function gets called every time, the "back" button in the browser is pressed.
+     * We use it to load the content from history stack via ajax and to rewrite url, so we only have
+     * to load #content-data
+     * @param event
+     */
+    AjaxUI.prototype.onPopState = function (event) {
+        var page = location.href;
+        //Go back only when the the target isnt the empty index.
+        if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
+            $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");
+            $('#progressbar').show(0);
+        }
+    };
     /**
      * Called whenever a Ajax Request was successful completed.
      * We use it to hide the progbar and show the requested content, register some elements on the page for ajax usage
@@ -211,23 +231,15 @@ var AjaxUI = (function () {
     AjaxUI.prototype.onAjaxComplete = function (event, xhr, settings) {
         //Hide progressbar and show Result
         $('#progressbar').hide(0);
-        //$('#content').show(0);
         $('#content').fadeIn("fast");
         this.registerForm();
         this.registerLinks();
-        //makeFileInput();
-        //registerHoverImages();
-        //scrollUpForMsg();
         this.registerSubmitBtn();
         //Execute the registered handlers.
         for (var _i = 0, _a = this.ajax_complete_listeners; _i < _a.length; _i++) {
             var entry = _a[_i];
             entry();
         }
-        if ($("x3d").length) {
-            x3dom.reload();
-        }
-        $(".selectpicker").selectpicker();
         //Push only if it was a "GET" request and requested data was an HTML
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
             //Push the cleaned (no ajax request) to history
@@ -242,6 +254,9 @@ var AjaxUI = (function () {
     };
     return AjaxUI;
 }());
+/*********************************************************************************
+ * AjaxUI additions
+ ********************************************************************************/
 var ajaxui = AjaxUI.getInstance();
 /**
  * Register the events which has to be run in AjaxUI and start the execution.
@@ -252,6 +267,8 @@ $(document).ready(function (event) {
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
+    ajaxui.addAjaxCompleteAction(registerX3DOM);
+    ajaxui.addAjaxCompleteAction(registerBootstrapSelect);
     ajaxui.start();
 });
 /**
@@ -335,6 +352,20 @@ function treeviewBtnInit() {
         }
         return false;
     });
+}
+/**
+ * Activates the X3Dom library on all x3d elements.
+ */
+function registerX3DOM() {
+    if ($("x3d").length) {
+        x3dom.reload();
+    }
+}
+/**
+ * Activates the Bootstrap-selectpicker.
+ */
+function registerBootstrapSelect() {
+    $(".selectpicker").selectpicker();
 }
 /**
  * Close the #searchbar div, when a search was submitted on mobile view.

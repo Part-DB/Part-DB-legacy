@@ -4,6 +4,14 @@
 
 let BASE="";
 
+
+/****************************************************************************************
+ * **************************************************************************************
+ *                                      AjaxUI Class
+ * **************************************************************************************
+ ****************************************************************************************/
+
+
 class AjaxUI {
 
     private static singleton : AjaxUI;
@@ -12,6 +20,21 @@ class AjaxUI {
 
     private ajax_complete_listeners : Array<() => void> = [];
     private start_listeners : Array<() => void> = [];
+
+    /**
+     * Creates a new AjaxUI object.
+     */
+    private constructor()
+    {
+        //Make back in the browser go back in history
+        window.onpopstate = this.onPopState;
+        $(document).ajaxError(this.onAjaxError.bind(this));
+        $(document).ajaxComplete(this.onAjaxComplete.bind(this));
+    }
+
+    /****************************************************************************
+     * Public functions
+     ***************************************************************************/
 
     /**
      * Gets a instance of AjaxUI. If no instance exits, then a new one is created.
@@ -24,17 +47,6 @@ class AjaxUI {
             AjaxUI.singleton = new AjaxUI();
         }
         return AjaxUI.singleton;
-    }
-
-    /**
-     * Creates a new AjaxUI object.
-     */
-    private constructor()
-    {
-        //Make back in the browser go back in history
-        window.onpopstate = this.onPopState;
-        $(document).ajaxError(this.onAjaxError.bind(this));
-        $(document).ajaxComplete(this.onAjaxComplete.bind(this));
     }
 
     /**
@@ -81,6 +93,10 @@ class AjaxUI {
         this.start_listeners.push(func);
     }
 
+    /*****************************************************************************
+     * Form functions
+     *****************************************************************************/
+
     /**
      * Registers all forms to use with jQuery.Form
      */
@@ -94,21 +110,7 @@ class AjaxUI {
         $('form').ajaxForm(data);
     }
 
-    /**
-     * This function gets called every time, the "back" button in the browser is pressed.
-     * We use it to load the content from history stack via ajax and to rewrite url, so we only have
-     * to load #content-data
-     * @param event
-     */
-    private onPopState(event)
-    {
-        let page : string = location.href;
-        //Go back only when the the target isnt the empty index.
-        if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
-            $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");
-            $('#progressbar').show(0);
-        }
-    }
+
 
     /**
      * Called when Form submit was submited and we received a response.
@@ -135,6 +137,52 @@ class AjaxUI {
     }
 
     /**
+     * Unregister the form submit event on every button which has a "submit" class.
+     * We need this, because when a form has multiple submit buttons, it is not specified, whose value is transmitted.
+     * In that case, you has to call submitFormSubmitBtn() in onclick handler.
+     */
+    private registerSubmitBtn()
+    {
+        let _this = this;
+        $("button.submit").unbind("click").click(function(){
+            _this.submitFormSubmitBtn($(this).closest("form"), this);
+        });
+    }
+
+    /**
+     * Submit the given Form and shows a loading bar, if the form doesn't have a ".no-progbar" class.
+     * @param form The Form which should be submited.
+     */
+    public submitForm(form) {
+        'use strict';
+        let data : JQueryFormOptions = {
+            success: this.showFormResponse,
+            beforeSubmit: this.showRequest
+        };
+        $(form).ajaxSubmit(data);
+    }
+
+    /**
+     * Submit a form, via the given Button (it's value gets appended to request).
+     * Needed when the submit buttons in the form has the "submit" class and we has to submit the form manually.
+     * @param form The form which should be submited.
+     * @param btn The button, which was pressed to submit the form.
+     */
+    public submitFormSubmitBtn(form, btn) {
+        let name : string = $(btn).attr('name');
+        let value : string = $(btn).attr('value');
+        if(value === undefined)
+            value = "";
+
+        $(form).append('<input type="hidden" name="' + name + '" value="' + value + '">');
+        this.submitForm(form);
+    }
+
+    /********************************************************************************
+     * Link functions
+     ********************************************************************************/
+
+    /**
      * Registers every link (except the ones with .link-external or .link-anchor classes) for usage of Ajax.
      */
     private registerLinks() : void {
@@ -150,13 +198,9 @@ class AjaxUI {
         });
     }
 
-    /**
-     * Called when an error occurs on loading ajax. Outputs the message to the console.
-     */
-    private onAjaxError (event, request, settings) {
-        'use strict';
-        console.log(event);
-    }
+    /***********************************************************************************
+     * TreeView functions
+     ***********************************************************************************/
 
     /**
      * Called whenever a node from the TreeView is clicked.
@@ -204,46 +248,32 @@ class AjaxUI {
         });
     }
 
-    /**
-     * Unregister the form submit event on every button which has a "submit" class.
-     * We need this, because when a form has multiple submit buttons, it is not specified, whose value is transmitted.
-     * In that case, you has to call submitFormSubmitBtn() in onclick handler.
-     */
-    private registerSubmitBtn()
-    {
-        let _this = this;
-        $("button.submit").unbind("click").click(function(){
-            _this.submitFormSubmitBtn($(this).closest("form"), this);
-        });
-    }
+    /********************************************************************************************
+     * Common ajax functions
+     ********************************************************************************************/
 
     /**
-     * Submit the given Form and shows a loading bar, if the form doesn't have a ".no-progbar" class.
-     * @param form The Form which should be submited.
+     * Called when an error occurs on loading ajax. Outputs the message to the console.
      */
-    public submitForm(form) {
+    private onAjaxError (event, request, settings) {
         'use strict';
-        let data : JQueryFormOptions = {
-            success: this.showFormResponse,
-            beforeSubmit: this.showRequest
-        };
-        $(form).ajaxSubmit(data);
+        console.log(event);
     }
 
     /**
-     * Submit a form, via the given Button (it's value gets appended to request).
-     * Needed when the submit buttons in the form has the "submit" class and we has to submit the form manually.
-     * @param form The form which should be submited.
-     * @param btn The button, which was pressed to submit the form.
+     * This function gets called every time, the "back" button in the browser is pressed.
+     * We use it to load the content from history stack via ajax and to rewrite url, so we only have
+     * to load #content-data
+     * @param event
      */
-    public submitFormSubmitBtn(form, btn) {
-        let name : string = $(btn).attr('name');
-        let value : string = $(btn).attr('value');
-        if(value === undefined)
-            value = "";
-
-        $(form).append('<input type="hidden" name="' + name + '" value="' + value + '">');
-        this.submitForm(form);
+    private onPopState(event)
+    {
+        let page : string = location.href;
+        //Go back only when the the target isnt the empty index.
+        if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
+            $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");
+            $('#progressbar').show(0);
+        }
     }
 
     /**
@@ -258,14 +288,10 @@ class AjaxUI {
 
         //Hide progressbar and show Result
         $('#progressbar').hide(0);
-        //$('#content').show(0);
         $('#content').fadeIn("fast");
 
         this.registerForm();
         this.registerLinks();
-        //makeFileInput();
-        //registerHoverImages();
-        //scrollUpForMsg();
         this.registerSubmitBtn();
 
         //Execute the registered handlers.
@@ -273,12 +299,6 @@ class AjaxUI {
         {
             entry();
         }
-
-        if ($("x3d").length) {
-            x3dom.reload();
-        }
-
-        $(".selectpicker").selectpicker();
 
         //Push only if it was a "GET" request and requested data was an HTML
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
@@ -299,8 +319,11 @@ class AjaxUI {
     }
 }
 
-let ajaxui : AjaxUI = AjaxUI.getInstance();
+/*********************************************************************************
+ * AjaxUI additions
+ ********************************************************************************/
 
+let ajaxui : AjaxUI = AjaxUI.getInstance();
 
 /**
  * Register the events which has to be run in AjaxUI and start the execution.
@@ -313,6 +336,8 @@ $(document).ready(function(event){
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
+    ajaxui.addAjaxCompleteAction(registerX3DOM);
+    ajaxui.addAjaxCompleteAction(registerBootstrapSelect);
 
     ajaxui.start();
 });
@@ -405,8 +430,25 @@ function treeviewBtnInit() {
 }
 
 /**
+ * Activates the X3Dom library on all x3d elements.
+ */
+function registerX3DOM() {
+    if ($("x3d").length) {
+        x3dom.reload();
+    }
+}
+
+/**
+ * Activates the Bootstrap-selectpicker.
+ */
+function registerBootstrapSelect() {
+    $(".selectpicker").selectpicker();
+}
+
+/**
  * Close the #searchbar div, when a search was submitted on mobile view.
  */
 $("#search-submit").click(function (event) {
     $("#searchbar").removeClass("in");
 });
+
