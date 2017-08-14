@@ -7,7 +7,13 @@ function openLink(page : string) {
     $('#content').load(page + " #content-data");
 }
 
-function addURLparam(url, param)
+/**
+ * Add the given param to a existing URL.
+ * @param {string} url The URL which should be modified.
+ * @param {string} param The param (in Form "key=value") which should be appended to the URL
+ * @returns {string} The url with the appended parameter.
+ */
+function addURLparam(url : string, param : string) : string
 {
     'use strict';
 
@@ -23,18 +29,27 @@ function addURLparam(url, param)
 
 }
 
+/**
+ * Submit the given Form and shows a loading bar, if the form doesn't have a ".no-progbar" class.
+ * @param form The Form which should be submited.
+ */
 function submitForm(form) {
     'use strict';
-    var data = {
+    let data = {
         success:  showFormResponse,
         beforeSubmit: showRequest
     };
     $(form).ajaxSubmit(data);
 }
 
+/**
+ * Submit a form, via the given Button (it's value gets appended to request)
+ * @param form The form which should be submited.
+ * @param btn The button, which was pressed to submit the form.
+ */
 function submitFormSubmitBtn(form, btn) {
-    var name = $(btn).attr('name');
-    var value = $(btn).attr('value');
+    let name : string = $(btn).attr('name');
+    let value : string = $(btn).attr('value');
     if(value === undefined)
         value = "";
 
@@ -42,10 +57,18 @@ function submitFormSubmitBtn(form, btn) {
     submitForm(form);
 }
 
-function openInNewTab(url) {
+/**
+ * Opens the given URL in a new tab.
+ * @param {string} url The URL which should be opened in a new Tab.
+ */
+function openInNewTab(url : string) {
     $("<a>").attr("href", url).attr("target", "_blank")[0].click();
 }
 
+/**
+ * Scrolls Up, if a message is shown.
+ * @returns {boolean}
+ */
 function scrollUpForMsg()
 {
     if($("#messages").length)

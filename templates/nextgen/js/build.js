@@ -203,6 +203,12 @@ function openLink(page) {
     'use strict';
     $('#content').load(page + " #content-data");
 }
+/**
+ * Add the given param to a existing URL.
+ * @param {string} url The URL which should be modified.
+ * @param {string} param The param (in Form "key=value") which should be appended to the URL
+ * @returns {string} The url with the appended parameter.
+ */
 function addURLparam(url, param) {
     'use strict';
     //If url already contains a ? than use a & for param addition
@@ -213,6 +219,10 @@ function addURLparam(url, param) {
         return url + "?" + param;
     }
 }
+/**
+ * Submit the given Form and shows a loading bar, if the form doesn't have a ".no-progbar" class.
+ * @param form The Form which should be submited.
+ */
 function submitForm(form) {
     'use strict';
     var data = {
@@ -221,6 +231,11 @@ function submitForm(form) {
     };
     $(form).ajaxSubmit(data);
 }
+/**
+ * Submit a form, via the given Button (it's value gets appended to request)
+ * @param form The form which should be submited.
+ * @param btn The button, which was pressed to submit the form.
+ */
 function submitFormSubmitBtn(form, btn) {
     var name = $(btn).attr('name');
     var value = $(btn).attr('value');
@@ -229,9 +244,17 @@ function submitFormSubmitBtn(form, btn) {
     $(form).append('<input type="hidden" name="' + name + '" value="' + value + '">');
     submitForm(form);
 }
+/**
+ * Opens the given URL in a new tab.
+ * @param {string} url The URL which should be opened in a new Tab.
+ */
 function openInNewTab(url) {
     $("<a>").attr("href", url).attr("target", "_blank")[0].click();
 }
+/**
+ * Scrolls Up, if a message is shown.
+ * @returns {boolean}
+ */
 function scrollUpForMsg() {
     if ($("#messages").length) {
         $('#back-to-top').tooltip('hide');
