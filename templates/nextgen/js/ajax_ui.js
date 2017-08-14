@@ -1,42 +1,29 @@
 //import {addURLparam, openInNewTab, openLink, scrollUpForMsg} from "./functions";
-
-let BASE="";
-
-
-class AjaxUI {
-
-    private _this = this;
-
-    constructor()
-    {
+var BASE = "";
+var AjaxUI = (function () {
+    function AjaxUI() {
+        this._this = this;
         //Make back in the browser go back in history
         window.onpopstate = this.onPopState;
-
         $(document).ajaxError(this.onAjaxError.bind(this));
-
         $(document).ajaxComplete(this.onAjaxComplete.bind(this));
     }
-
-    public start()
-    {
-        let page : string = window.location.pathname;
-
+    AjaxUI.prototype.start = function () {
+        var page = window.location.pathname;
         //Only load start page when on index.php (and no content is loaded already)!
         if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
             openLink("startup.php");
         }
-
         this.tree_fill();
         treeview_btn_init();
         this.registerForm();
         this.registerLinks();
-
         //bbcode_edit();
-
         $(window).scroll(function () {
             if ($(this).scrollTop() > 50) {
                 $('#back-to-top').fadeIn();
-            } else {
+            }
+            else {
                 $('#back-to-top').fadeOut();
             }
         });
@@ -48,143 +35,112 @@ class AjaxUI {
             }, 800);
             return false;
         }).tooltip('show');
-    }
-
-    private registerForm() {
+    };
+    AjaxUI.prototype.registerForm = function () {
         'use strict';
-
-        let data : JQueryFormOptions = {
-            success:  this.showFormResponse,
+        var data = {
+            success: this.showFormResponse,
             beforeSubmit: this.showRequest
         };
         $('form').ajaxForm(data);
-    }
-
-    private onPopState(event)
-    {
-        let page : string = location.href;
+    };
+    AjaxUI.prototype.onPopState = function (event) {
+        var page = location.href;
         //Go back only when the the target isnt the empty index.
         if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
             $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");
             $('#progressbar').show(0);
         }
-    }
-
+    };
     //Called when Form submit was submited
-    private showFormResponse(responseText, statusText, xhr, $form) {
+    AjaxUI.prototype.showFormResponse = function (responseText, statusText, xhr, $form) {
         'use strict';
         $("#content").html($(responseText).find("#content-data").html()).fadeIn('slow');
-    }
-
-    private showRequest(formData, jqForm, options) : void {
+    };
+    AjaxUI.prototype.showRequest = function (formData, jqForm, options) {
         'use strict';
-        if(!$(jqForm).hasClass("no-progbar")) {
+        if (!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
             $('#progressbar').show(0);
         }
-    }
-
-    private registerLinks() : void {
+    };
+    AjaxUI.prototype.registerLinks = function () {
         'use strict';
         $("a").not(".link-anchor").not(".link-external").not(".tree-btns").unbind("click").click(function (event) {
             event.preventDefault();
-            let a = $(this);
-            let href : string = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
-
+            var a = $(this);
+            var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
             $('#content').hide(0).load(href + " #content-data");
             $('#progressbar').show(0);
             return true;
         });
-    }
-
+    };
     //Called when an error occurs on loading ajax
-    private onAjaxError (event, request, settings) {
+    AjaxUI.prototype.onAjaxError = function (event, request, settings) {
         'use strict';
         console.log(event);
-    }
-
-    private onNodeSelected(event, data : BootstrapTreeViewNodeData) {
+    };
+    AjaxUI.prototype.onNodeSelected = function (event, data) {
         'use strict';
-        if(data.href.indexOf("github.com") !== -1)  //If the href points to github, then open it in new tab. TODO: Find better solution to detect external links.
-        {
+        if (data.href.indexOf("github.com") !== -1) {
             openInNewTab(data.href);
-            $(this).treeview('toggleNodeSelected',data.nodeId);
+            $(this).treeview('toggleNodeSelected', data.nodeId);
         }
-        else
-        {
+        else {
             $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
             $('#progressbar').show();
         }
-
         //$('#content').fadeOut("fast");
         //$('#progressbar').show();
-
-        $(this).treeview('toggleNodeExpanded',data.nodeId);
-
+        $(this).treeview('toggleNodeExpanded', data.nodeId);
         $("#sidebar").removeClass("in");
-    }
-
-    private tree_fill() {
+    };
+    AjaxUI.prototype.tree_fill = function () {
         'use strict';
-
-        let node_handler = this.onNodeSelected;
-
-        $.getJSON(BASE + 'api_json.php?mode="tree_category"', function (tree : BootstrapTreeViewNodeData) {
-            $("#tree-categories").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler}).treeview('collapseAll', { silent: true });
+        var node_handler = this.onNodeSelected;
+        $.getJSON(BASE + 'api_json.php?mode="tree_category"', function (tree) {
+            $("#tree-categories").treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
         });
-
-        $.getJSON(BASE + 'api_json.php?mode="tree_devices"', function (tree :BootstrapTreeViewNodeData) {
-            $('#tree-devices').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler}).treeview('collapseAll', { silent: true });
+        $.getJSON(BASE + 'api_json.php?mode="tree_devices"', function (tree) {
+            $('#tree-devices').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
         });
-
-        $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree :BootstrapTreeViewNodeData) {
-            $('#tree-tools').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler}).treeview('collapseAll', { silent: true });
+        $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree) {
+            $('#tree-tools').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
         });
-    }
-
-
-
-    private registerSubmitBtn()
-    {
-        let _this = this;
-        $("button.submit").unbind("click").click(function(){
+    };
+    AjaxUI.prototype.registerSubmitBtn = function () {
+        var _this = this;
+        $("button.submit").unbind("click").click(function () {
             _this.submitFormSubmitBtn($(this).closest("form"), this);
         });
-    }
-
-    public submitForm(form) {
+    };
+    AjaxUI.prototype.submitForm = function (form) {
         'use strict';
-        let data : JQueryFormOptions = {
+        var data = {
             success: this.showFormResponse,
             beforeSubmit: this.showRequest
         };
         $(form).ajaxSubmit(data);
-    }
-
+    };
     /**
      * Submit a form, via the given Button (it's value gets appended to request)
      * @param form The form which should be submited.
      * @param btn The button, which was pressed to submit the form.
      */
-    public submitFormSubmitBtn(form, btn) {
-        let name : string = $(btn).attr('name');
-        let value : string = $(btn).attr('value');
-        if(value === undefined)
+    AjaxUI.prototype.submitFormSubmitBtn = function (form, btn) {
+        var name = $(btn).attr('name');
+        var value = $(btn).attr('value');
+        if (value === undefined)
             value = "";
-
         $(form).append('<input type="hidden" name="' + name + '" value="' + value + '">');
         this.submitForm(form);
-    }
-
-    private onAjaxComplete (event, xhr, settings) {
+    };
+    AjaxUI.prototype.onAjaxComplete = function (event, xhr, settings) {
         'use strict';
-
         //Hide progressbar and show Result
         $('#progressbar').hide(0);
         //$('#content').show(0);
         $('#content').fadeIn("fast");
-
-
         makeSortTable();
         this.registerForm();
         this.registerLinks();
@@ -192,40 +148,30 @@ class AjaxUI {
         registerHoverImages();
         scrollUpForMsg();
         this.registerSubmitBtn();
-
         if ($("x3d").length) {
             x3dom.reload();
         }
-
         $(".selectpicker").selectpicker();
-
         //Push only if it was a "GET" request and requested data was an HTML
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
-
             //Push the cleaned (no ajax request) to history
-            window.history.pushState(null, "", settings.url.replace("&ajax", "").replace("?ajax", "")  );
-
+            window.history.pushState(null, "", settings.url.replace("&ajax", "").replace("?ajax", ""));
             //Set page title from response
-            let regex = /<title>(.*?)<\/title>/gi,
-                input : string = xhr.responseText;
+            var regex = /<title>(.*?)<\/title>/gi, input = xhr.responseText;
             if (regex.test(input)) {
-                let matches = input.match(regex);
-                for(let match in matches) {
+                var matches = input.match(regex);
+                for (var match in matches) {
                     document.title = $(matches[match]).text();
                 }
             }
         }
-    }
-
-
-}
-
-let ajaxui : AjaxUI = new AjaxUI();
-
-$(document).ready(function(event){
+    };
+    return AjaxUI;
+}());
+var ajaxui = new AjaxUI();
+$(document).ready(function (event) {
     ajaxui.start();
 });
-
 function registerHoverImages() {
     'use strict';
     $('img[rel=popover]').popover({
@@ -238,21 +184,19 @@ function registerHoverImages() {
         }
     });
 }
-
 function makeSortTable() {
     'use strict';
-
     if (!$.fn.DataTable.isDataTable('.table-sortable')) {
         $('.table-sortable').DataTable({
-            "paging":   false,
+            "paging": false,
             "ordering": true,
-            "info":     false,
-            "searching":   false,
+            "info": false,
+            "searching": false,
             "order": [],
-            "columnDefs": [ {
-                "targets"  : 'no-sort',
-                "orderable": false
-            }]
+            "columnDefs": [{
+                    "targets": 'no-sort',
+                    "orderable": false
+                }]
         });
         //$(".table-sortable").DataTable().fnDraw();
     }
@@ -261,22 +205,19 @@ function makeFileInput() {
     'use strict';
     $(".file").fileinput();
 }
-
 $("#search-submit").click(function (event) {
     $("#searchbar").removeClass("in");
 });
-
 function treeview_btn_init() {
     $(".tree-btns").click(function (event) {
         event.preventDefault();
         $(this).parents("div.dropdown").removeClass('open');
-        let mode = $(this).data("mode");
-        let target = $(this).data("target");
-
-        if(mode==="collapse") {
+        var mode = $(this).data("mode");
+        var target = $(this).data("target");
+        if (mode === "collapse") {
             $('#' + target).treeview('collapseAll', { silent: true });
         }
-        else if(mode==="expand") {
+        else if (mode === "expand") {
             $('#' + target).treeview('expandAll', { silent: true });
         }
         return false;

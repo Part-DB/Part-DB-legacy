@@ -3,7 +3,7 @@
     "module": "commonjs",
     "target": "es5",
     "sourceMap": false,
-    "outFile": "./js/build.js"
+    "outDir": "./js/"
   },
   "exclude": [
     "node_modules"
