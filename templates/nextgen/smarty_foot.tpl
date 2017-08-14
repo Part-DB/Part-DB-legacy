@@ -44,7 +44,7 @@
                 <script src="{$relative_path}js/fileinput.min.js" async></script>
 
                 <!-- Functions -->
-                <script src="{$relative_path}templates/nextgen/js/part-db.js" async></script>
+                <script src="{$relative_path}templates/nextgen/js/build.js" async></script>
 
                 <!-- Calculator scripts -->
                 <script type="text/javascript" src="{$relative_path}javascript/calculator.js"></script>
