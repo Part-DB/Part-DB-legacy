@@ -38,6 +38,7 @@ function submitForm(form) {
 }
 /**
  * Submit a form, via the given Button (it's value gets appended to request)
+ * Needed when the submit buttons in the form has the "submit" class and we has to submit the form manually.
  * @param form The form which should be submited.
  * @param btn The button, which was pressed to submit the form.
  */
