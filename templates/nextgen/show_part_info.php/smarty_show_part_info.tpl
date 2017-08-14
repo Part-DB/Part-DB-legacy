@@ -17,7 +17,7 @@
                     <div class="form-group">
                         <label class="col-sm-3 control-label">{t}Name:{/t}</label>
                         <div class="col-sm-9">
-                            {if isset($manufacturer_product_url)}
+                            {if !empty($manufacturer_product_url)}
                                 <a class="form-control-link  hidden-print-href" title="{$manufacturer_product_url}" href="{$manufacturer_product_url}">{$name}</a>
                             {else}
                                 <p class="form-control-static">{$name}</p>

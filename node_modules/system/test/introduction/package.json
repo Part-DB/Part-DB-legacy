@@ -1,0 +1,9 @@
+{
+    "name": "introduction-test",
+    "extensions": {
+        "ext": "extension"
+    },
+    "devDependencies": {
+        "extension": "*"
+    }
+}

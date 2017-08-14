@@ -170,6 +170,11 @@ development/templates_c/
 
 #PHPStorm
 .idea/
+.idea/*
 
 #Models
 models/*
+
+#Ignore Node Modules
+node_modules/
+node_modules/*

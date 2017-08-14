@@ -1,0 +1,9 @@
+{
+    "name": "analyzer-package-test",
+    "extensions": {
+        "map": "extension"
+    },
+    "dependencies": {
+        "extension": "*"
+    }
+}
