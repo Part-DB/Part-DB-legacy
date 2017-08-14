@@ -14,30 +14,31 @@ function registerLinks() {
 }
 
 //Called when Form submit was submited
-function showFormResponse(responseText, statusText, xhr, $form) {
+var showFormResponse : SuccessCallback = function (responseText, statusText, xhr, $form) {
     'use strict';
-    $("#content").html($(responseText).find("#content-data")).fadeIn('slow');
+    $("#content").html($(responseText).find("#content-data").html()).fadeIn('slow');
 }
 
-function showRequest(formData, jqForm, options) {
+function showRequest(formData, jqForm, options) : boolean {
     'use strict';
     if(!$(jqForm).hasClass("no-progbar")) {
         $('#content').hide(0);
         $('#progressbar').show(0);
     }
+    return true;
 }
 
 function registerForm() {
     'use strict';
 
-    let data = {
+    let data : JQueryFormOptions = {
         success:  showFormResponse,
         beforeSubmit: showRequest
     };
     $('form').ajaxForm(data);
 }
 
-function registerHoverImages(form) {
+function registerHoverImages() {
     'use strict';
     $('img[rel=popover]').popover({
         html: true,
@@ -49,8 +50,6 @@ function registerHoverImages(form) {
         }
     });
 }
-
-
 
 function onNodeSelected(event, data) {
     'use strict';
@@ -85,19 +84,6 @@ function tree_fill() {
 
     $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree) {
         $('#tree-tools', "#sidebar").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected}).treeview('collapseAll', { silent: true });
-    });
-}
-
-function bbcode_edit() {
-    // Create the editor
-    $("textarea").sceditor({
-        // Options go here
-
-        // Option 1
-        plugins: "bbcode",
-
-        emoticonsEnabled: false,
-        runWithoutWysiwygSupport: true
     });
 }
 

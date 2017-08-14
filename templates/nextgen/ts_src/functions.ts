@@ -35,8 +35,8 @@ function addURLparam(url : string, param : string) : string
  */
 function submitForm(form) {
     'use strict';
-    let data = {
-        success:  showFormResponse,
+    let data : JQueryFormOptions = {
+        success: showFormResponse,
         beforeSubmit: showRequest
     };
     $(form).ajaxSubmit(data);

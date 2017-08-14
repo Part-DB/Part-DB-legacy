@@ -10,16 +10,17 @@ function registerLinks() {
     });
 }
 //Called when Form submit was submited
-function showFormResponse(responseText, statusText, xhr, $form) {
+var showFormResponse = function (responseText, statusText, xhr, $form) {
     'use strict';
-    $("#content").html($(responseText).find("#content-data")).fadeIn('slow');
-}
+    $("#content").html($(responseText).find("#content-data").html()).fadeIn('slow');
+};
 function showRequest(formData, jqForm, options) {
     'use strict';
     if (!$(jqForm).hasClass("no-progbar")) {
         $('#content').hide(0);
         $('#progressbar').show(0);
     }
+    return true;
 }
 function registerForm() {
     'use strict';
@@ -29,7 +30,7 @@ function registerForm() {
     };
     $('form').ajaxForm(data);
 }
-function registerHoverImages(form) {
+function registerHoverImages() {
     'use strict';
     $('img[rel=popover]').popover({
         html: true,
@@ -66,16 +67,6 @@ function tree_fill() {
     });
     $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree) {
         $('#tree-tools', "#sidebar").treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: onNodeSelected }).treeview('collapseAll', { silent: true });
-    });
-}
-function bbcode_edit() {
-    // Create the editor
-    $("textarea").sceditor({
-        // Options go here
-        // Option 1
-        plugins: "bbcode",
-        emoticonsEnabled: false,
-        runWithoutWysiwygSupport: true
     });
 }
 function treeview_btn_init() {
@@ -287,4 +278,3 @@ function octoPart() {
         success: octoPart_success
     });
 }
-//# sourceMappingURL=build.js.map
