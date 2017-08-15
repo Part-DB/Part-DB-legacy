@@ -111,7 +111,7 @@
                     <label class="col-md-3 control-label">{t}Artikel-Direktlink:{/t}</label>
                     <div class="col-md-9">
                         <input type="url" class="form-control" name="auto_product_url" value="{if isset($auto_product_url)}{$auto_product_url}{/if}">
-                        <p class="form-control-static">{t}Platzhalter für die Bestellnummer:{/t} <i>%PARTNUMBER%</i></p>
+                        <p class="help-block">{t}Platzhalter für die Bestellnummer:{/t} <i>%PARTNUMBER%</i></p>
                     </div>
                 </div>
             

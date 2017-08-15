@@ -54,7 +54,7 @@
                         <label class="control-label col-md-3">{t}Name*:{/t}</label>
                         <div class="col-md-9">
                             <input class="form-control" type="text" name="name" value="{$name}">
-                            <p class="form-control-static"><i>{t}Hinweis: Es empfiehlt sich, die Plural-Form zu verwenden.{/t}</i></p>
+                            <p class="help-block">{t}Hinweis: Es empfiehlt sich, die Plural-Form zu verwenden.{/t}</p>
                         </div>
                     </div>
 
