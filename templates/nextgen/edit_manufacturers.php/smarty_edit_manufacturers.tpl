@@ -36,7 +36,7 @@
                         <strong>{t}Neuen Hersteller hinzufügen:{/t}</strong>
                     {else}
                         {if isset($name)}
-                            <strong>{t}Hersteller bearbeiten:{/t}</strong>
+                            <strong>{t}Hersteller bearbeiten:{/t} <a href="show_manufacturer_parts.php?mid={$id}&subman=0">{$name}</a></strong>
                         {else}
                             <strong>{t}Es ist kein Hersteller angewählt!{/t}</strong>
                         {/if}

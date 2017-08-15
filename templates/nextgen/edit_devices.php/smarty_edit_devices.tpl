@@ -42,7 +42,7 @@
                             <strong>{t}Neue Baugruppe hinzufügen:{/t}</strong>
                         {else}
                             {if isset($name)}
-                                <strong>{t}Baugruppe bearbeiten:{/t}</strong>
+                                <strong>{t}Baugruppe bearbeiten:{/t} <a href="show_device_parts.php?device_id={$id}">{$name}</a></strong>
                             {else}
                                 <strong>{t}Es ist keine Baugruppe angewählt!{/t}</strong>
                             {/if}

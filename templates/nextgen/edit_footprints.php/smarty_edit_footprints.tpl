@@ -37,7 +37,7 @@
                             <strong>{t}Neuer Footprint hinzufügen:{/t}</strong>
                         {else}
                             {if isset($name)}
-                                <strong>{t}Footprint bearbeiten:{/t}</strong>
+                                <strong>{t}Footprint bearbeiten:{/t} <a href="show_footprint_parts.php?fid={$id}&subfoot=0">{$name}</a></strong>
                             {else}
                                 <strong>{t}Es ist kein Footprint angewählt!{/t}</strong>
                             {/if}

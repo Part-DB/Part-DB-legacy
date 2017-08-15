@@ -35,7 +35,7 @@
                         <strong>{t}Neuen Lieferanten hinzufügen:{/t}</strong>
                     {else}
                         {if !empty($name)}
-                            <strong>{t}Lieferant bearbeiten:{/t}</strong>
+                            <strong>{t}Lieferant bearbeiten:{/t} {$name}</strong>
                         {else}
                             <strong>{t}Es ist kein Lieferant angewählt!{/t}</strong>
                         {/if}
