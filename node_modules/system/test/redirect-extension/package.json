@@ -1,0 +1,9 @@
+{
+    "name": "redirect-extension",
+    "redirects": {
+        "./main.json": "./actual"
+    },
+    "extensions": {
+        "json": "./json-extension"
+    }
+}
