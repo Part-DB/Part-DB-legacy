@@ -70,7 +70,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Name*:{/t}</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="name" value="{$name}" required>
+                                    <input type="text" class="form-control" name="name" value="{$name}" placeholder="{t}z.B. Kondensatoren{/t}" required>
                                 </div>
                             </div>
 
@@ -93,7 +93,7 @@
                                 <label class="control-label col-md-3">{t}Filter für Bauteilenamen (RegEx):{/t}</label>
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" name="partname_regex" value="{$partname_regex}"
-                                           placeholder="{if !empty($partname_regex_parent)}{$partname_regex_parent}{/if}"
+                                           placeholder="{if !empty($partname_regex_parent)}{$partname_regex_parent}{else}{t}z.B. /([^\/]+)/(^\/]+)/@f$Kapazität$Spannung{/t}{/if}"
                                             pattern="{$partname_input_pattern}">
                                 </div>
                             </div>
@@ -102,7 +102,7 @@
                                 <label class="control-label col-md-3">{t}Hinweis für Bauteilenamen:{/t}</label>
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" name="partname_hint" value="{$partname_hint}"
-                                           placeholder="{if !empty($partname_hint_parent)}{$partname_hint_parent}{/if}">
+                                           placeholder="{if !empty($partname_hint_parent)}{$partname_hint_parent}{else}{t}z.B. Kapazität/Spannung{/t}{/if}">
                                 </div>
                             </div>
 
@@ -112,7 +112,7 @@
                                 <label class="control-label col-md-3">{t}Standard Beschreibung:{/t}</label>
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" name="default_description" value="{$default_description}"
-                                           placeholder="{if !empty($default_description_parent)}{$default_description_parent}{/if}">
+                                           placeholder="{if !empty($default_description_parent)}{$default_description_parent}{else}{t}z.B. Durchmesser: ,Höhe:{/t}{/if}">
                                 </div>
                             </div>
 
@@ -120,7 +120,7 @@
                                 <label class="control-label col-md-3">{t}Standard Kommentar:{/t}</label>
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" name="default_comment" value="{$default_comment}"
-                                           placeholder="{if !empty($default_comment_parent)}{$default_comment_parent}{/if}">
+                                           placeholder="{if !empty($default_comment_parent)}{$default_comment_parent}{else}{t}z.B. RM:{/t}{/if}">
                                 </div>
                             </div>
 
