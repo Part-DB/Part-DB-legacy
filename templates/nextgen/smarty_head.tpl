@@ -231,7 +231,17 @@
                                     {foreach $messages as $msg}
                                         {if isset($msg.text)}
                                             {if isset($msg.strong) && $msg.strong}<strong>{/if}
-                                            {if isset($msg.color)}<span style="color: {$msg.color}; ">{/if}
+                                            {if isset($msg.color)}
+                                                {if $msg.color == "red"}
+                                                 <span class="text-danger">
+                                                {elseif $msg.color == "green" || $msg.color == "darkgreen"}
+                                                <span class="text-success">
+                                                {elseif $msg.color == "blue"}
+                                                <span class="text-primary">
+                                                {else}
+                                                <span style="color: {$msg.color}; ">
+                                                {/if}
+                                            {/if}
                                             {$msg.text nofilter}
                                             {if isset($msg.color)}</span>{/if}
                                             {if isset($msg.strong) && $msg.strong}</strong>{/if}
