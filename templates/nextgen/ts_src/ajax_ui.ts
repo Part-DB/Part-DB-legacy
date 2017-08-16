@@ -333,6 +333,7 @@ $(document).ready(function(event){
     ajaxui.addStartAction(addCollapsedClass);
     ajaxui.addStartAction(treeviewBtnInit);
     ajaxui.addStartAction(registerJumpToTop);
+    ajaxui.addStartAction(fixCurrencyEdits);
 
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
@@ -341,6 +342,7 @@ $(document).ready(function(event){
     ajaxui.addAjaxCompleteAction(makeFileInput);
     ajaxui.addAjaxCompleteAction(registerX3DOM);
     ajaxui.addAjaxCompleteAction(registerBootstrapSelect);
+    ajaxui.addAjaxCompleteAction(fixCurrencyEdits);
 
     ajaxui.start();
 });
@@ -454,6 +456,20 @@ function registerBootstrapSelect() {
 function addCollapsedClass() {
     $('div.collapse.panel-collapse').siblings("div.panel-heading")
         .children('a[data-toggle="collapse"]').addClass("collapsed");
+}
+
+/**
+ * Fix price edit fields. HTML wants prices with a decimal dot, Part-DB gives sometime commas.
+ */
+function fixCurrencyEdits() {
+    let inputs = $('input[type=number]').each(function(index, element){
+       let e = $(element);
+       if(e.val() == "" && e.prop("defaultValue").indexOf(",") !== -1)
+       {
+           let newval: string = e.prop("defaultValue").replace(",", ".");
+           e.val(newval);
+       }
+    });
 }
 
 /**

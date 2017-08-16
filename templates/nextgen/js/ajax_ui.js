@@ -265,12 +265,14 @@ $(document).ready(function (event) {
     ajaxui.addStartAction(addCollapsedClass);
     ajaxui.addStartAction(treeviewBtnInit);
     ajaxui.addStartAction(registerJumpToTop);
+    ajaxui.addStartAction(fixCurrencyEdits);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
     ajaxui.addAjaxCompleteAction(registerX3DOM);
     ajaxui.addAjaxCompleteAction(registerBootstrapSelect);
+    ajaxui.addAjaxCompleteAction(fixCurrencyEdits);
     ajaxui.start();
 });
 /**
@@ -375,6 +377,18 @@ function registerBootstrapSelect() {
 function addCollapsedClass() {
     $('div.collapse.panel-collapse').siblings("div.panel-heading")
         .children('a[data-toggle="collapse"]').addClass("collapsed");
+}
+/**
+ * Fix price edit fields. HTML wants prices with a decimal dot, Part-DB gives sometime commas.
+ */
+function fixCurrencyEdits() {
+    var inputs = $('input[type=number]').each(function (index, element) {
+        var e = $(element);
+        if (e.val() == "" && e.prop("defaultValue").indexOf(",") !== -1) {
+            var newval = e.prop("defaultValue").replace(",", ".");
+            e.val(newval);
+        }
+    });
 }
 /**
  * Close the #searchbar div, when a search was submitted on mobile view.
