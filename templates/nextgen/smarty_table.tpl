@@ -159,7 +159,7 @@
                     {/if}
                     {if $row.caption == "instock_edit"}
                         {* instock edit *}
-                        <td class="tdrow1"><input type="number" class="form-control input-sm"  name="instock_{$row.row_index}" value="{$row.instock}"></td>
+                        <td class="tdrow1"><input type="number" class="form-control input-sm" style="max-width: 75px" name="instock_{$row.row_index}" value="{$row.instock}"></td>
                     {/if}
                     {if $row.caption == "order_quantity_edit"}
                         {* order quantity edit (only for order parts)  *}
@@ -176,7 +176,7 @@
                     {/if}
                     {if $row.caption == "mininstock_edit"}
                         {* instock edit *}
-                        <td class="tdrow1"><input type="number" min="0" class="form-control input-sm" name="mininstock_{$row.row_index}" value="{$row.mininstock}"></td>
+                        <td class="tdrow1"><input type="number" min="0" class="form-control input-sm" style="max-width: 75px" name="mininstock_{$row.row_index}" value="{$row.mininstock}"></td>
                     {/if}
                     {if $row.caption == "instock_mininstock"}
                         {* instock/mininstock *}
@@ -314,7 +314,7 @@
                     {/if}
                     {if $row.caption == "price_edit"}
                         {* price edit *}
-                        <td class="tdrow1"><input type="number" class="form-control input-sm" style="width:45px" min="0" step="any" name="price_{$row.row_index}" value="{$row.price}"></td>
+                        <td class="tdrow1"><input type="number" class="form-control input-sm" style="width:60px;" min="0" step="any" name="price_{$row.row_index}" value="{$row.price}"></td>
                     {/if}
                     {if $row.caption == "average_single_price"}
                         {* average single price for one piece *}
