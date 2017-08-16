@@ -89,7 +89,7 @@
 
                     {if $row.caption =="row"}
                         {* row number *}
-                        <td class="tdrow1">{$row.row}</td>
+                        <td class="tdrow1 table-center">{$row.row}</td>
                     {/if}
                     {if $row.caption =="hover_picture"}
                         {* Pictures *}

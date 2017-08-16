@@ -204,3 +204,6 @@ table.dataTable tbody th, table.dataTable tbody td {
     content: "\f107";
 }
 
+.table-center{
+    text-align: center;
+}
