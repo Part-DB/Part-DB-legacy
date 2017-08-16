@@ -9,7 +9,7 @@
     <div class="panel-heading"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;
         {t}Datei auswählen{/t}</div>
     <div class="panel-body">
-        <form enctype="multipart/form-data" action="" method="post" class="form-horizontal">
+        <form enctype="multipart/form-data" action="" method="post" class="form-horizontal no-progbar">
             <div class="form-group">
                 <label class="col-md-2 control-label">{t}Dateityp:{/t}</label>
                 <div class="col-md-8">
