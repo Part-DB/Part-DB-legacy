@@ -262,8 +262,10 @@ var ajaxui = AjaxUI.getInstance();
  * Register the events which has to be run in AjaxUI and start the execution.
  */
 $(document).ready(function (event) {
+    ajaxui.addStartAction(addCollapsedClass);
     ajaxui.addStartAction(treeviewBtnInit);
     ajaxui.addStartAction(registerJumpToTop);
+    ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
@@ -366,6 +368,13 @@ function registerX3DOM() {
  */
 function registerBootstrapSelect() {
     $(".selectpicker").selectpicker();
+}
+/**
+ * Add collapsed class to a before a collapse panel body, so the icon is correct.
+ */
+function addCollapsedClass() {
+    $('div.collapse.panel-collapse').siblings("div.panel-heading")
+        .children('a[data-toggle="collapse"]').addClass("collapsed");
 }
 /**
  * Close the #searchbar div, when a search was submitted on mobile view.

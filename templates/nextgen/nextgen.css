@@ -174,3 +174,33 @@ table.dataTable tbody th, table.dataTable tbody td {
     }
 }
 
+/*
+    Fance Collapse
+ */
+
+.fancy-collapse-panel .panel-default > .panel-heading {
+    padding: 0;
+}
+
+.panel-heading a {
+    display: inline-block;
+    width: 100%;
+    position: relative;
+}
+.panel-heading a:after {
+    font-family: "FontAwesome";
+    content: "\f106";
+    position: absolute;
+    right: 20px;
+    font-size: 20px;
+    font-weight: 400;
+    top: 50%;
+    line-height: 1;
+    margin-top: -10px;
+}
+
+.panel-heading a.collapsed:after
+{
+    content: "\f107";
+}
+
