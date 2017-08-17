@@ -15,7 +15,7 @@
 {if isset($categories_loop)}
     {foreach $categories_loop as $cat}
         <div class="panel panel-default">
-            <div class="panel-heading"><h4>{t}Kategorie:{/t} {$cat.category_name}</h4></div>
+            <div class="panel-heading">{t}Kategorie:{/t} {$cat.category_name}</div>
             <div class="panel-body">
                 {counter start=0 assign="count"}
                 {foreach $cat.pictures_loop as $pic}
