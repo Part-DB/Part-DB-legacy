@@ -20,7 +20,8 @@
                 </div>
                 <div class="col-md-3">
                     <div class="pull-right">
-                        <input data-show-caption="false" data-show-upload="false" data-show-preview="false" type="file" class="file" name="uploaded_file" size="30">
+                        <input data-show-caption="false" data-show-upload="false" data-show-preview="false" type="file" class="file"
+                               name="uploaded_file" accept=".csv,.xml">
                     </div>
                 </div>
             </div>
