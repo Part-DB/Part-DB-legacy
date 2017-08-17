@@ -2,7 +2,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading">{t}Kategorie wählen{/t}</div>
     <div class="panel-body">
-        <form action="" method="post">
+        <form action="" method="post" class="no-progbar">
             <input class="btn btn-default {if $action=="show_all"}active{/if}" type="submit" name="show_all" value="{t}Alle{/t}">
             <input class="btn btn-default {if $action=="show_active"}active{/if}" type="submit" name="show_active" value="{t}Aktive Bauelemente{/t}">
             <input class="btn btn-default {if $action=="show_passive"}active{/if}" type="submit" name="show_passive" value="{t}Passive Bauelemente{/t}">
