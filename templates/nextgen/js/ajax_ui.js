@@ -176,7 +176,7 @@ var AjaxUI = (function () {
      */
     AjaxUI.prototype.onNodeSelected = function (event, data) {
         'use strict';
-        if (data.href.indexOf("github.com") !== -1) {
+        if (data.href.indexOf("github.com") !== -1 || data.href.indexOf("doxygen") !== -1) {
             openInNewTab(data.href);
             $(this).treeview('toggleNodeSelected', data.nodeId);
         }
