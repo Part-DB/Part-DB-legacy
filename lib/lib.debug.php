@@ -174,7 +174,8 @@
     function get_debug_log_elements($types = NULL)
     {
         if ( ! is_readable(DEBUG_LOG_FILENAME))
-            throw new Exception('Es existiert kein Debug-Log!');
+            //throw new Exception('Es existiert kein Debug-Log!');
+            create_debug_log_file();
 
         $dom = new DOMDocument('1.0', 'utf-8');
         $success = $dom->load(DEBUG_LOG_FILENAME/*, LIBXML_NOERROR | LIBXML_NOWARNING*/);
