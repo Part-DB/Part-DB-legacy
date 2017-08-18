@@ -102,3 +102,15 @@ function scrollUpForMsg()
         return false;
     }
 }
+
+/**
+ * Scroll to the given anchor.
+ * @param {string} anchor The anchor, to which should be scrolled (with the #)
+ */
+function scrollToAnchor(anchor : string) : void
+{
+    if(anchor.indexOf("#") == -1)
+        throw new Error("The anchor string must contain a #.")
+
+    $(document).scrollTop( $(anchor).offset().top - 100);
+}

@@ -148,13 +148,18 @@ var AjaxUI = (function () {
      */
     AjaxUI.prototype.registerLinks = function () {
         'use strict';
-        $("a").not(".link-anchor").not(".link-external").not(".tree-btns").unbind("click").click(function (event) {
+        $("a").not(".link-anchor").not(".link-external").not(".tree-btns")
+            .not(".back-to-top").unbind("click").click(function (event) {
             event.preventDefault();
             var a = $(this);
             var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
             $('#content').hide(0).load(href + " #content-data");
             $('#progressbar').show(0);
             return true;
+        });
+        $("a.link-anchor").unbind("click").click(function (event) {
+            event.preventDefault();
+            scrollToAnchor($(this).prop("hash"));
         });
     };
     /***********************************************************************************

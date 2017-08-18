@@ -187,7 +187,8 @@ class AjaxUI {
      */
     private registerLinks() : void {
         'use strict';
-        $("a").not(".link-anchor").not(".link-external").not(".tree-btns").unbind("click").click(function (event) {
+        $("a").not(".link-anchor").not(".link-external").not(".tree-btns")
+            .not(".back-to-top").unbind("click").click(function (event) {
             event.preventDefault();
             let a = $(this);
             let href : string = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
@@ -196,6 +197,11 @@ class AjaxUI {
             $('#progressbar').show(0);
             return true;
         });
+        
+        $("a.link-anchor").unbind("click").click(function (event) {
+            event.preventDefault();
+            scrollToAnchor($(this).prop("hash"));
+        })
     }
 
     /***********************************************************************************
