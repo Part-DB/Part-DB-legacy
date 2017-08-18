@@ -38,6 +38,8 @@ var AjaxUI = (function () {
      */
     AjaxUI.prototype.start = function () {
         var page = window.location.pathname;
+        //Set base path
+        BASE = getBasePath();
         //Only load start page when on index.php (and no content is loaded already)!
         if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
             openLink("startup.php");

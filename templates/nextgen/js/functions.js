@@ -95,3 +95,10 @@ function scrollToAnchor(anchor) {
         throw new Error("The anchor string must contain a #.");
     $(document).scrollTop($(anchor).offset().top - 100);
 }
+/**
+ * Returns the base path of Part-DB
+ * @returns {string} The base path.
+ */
+function getBasePath() {
+    return String($("#basepath").val());
+}

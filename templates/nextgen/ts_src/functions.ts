@@ -114,3 +114,12 @@ function scrollToAnchor(anchor : string) : void
 
     $(document).scrollTop( $(anchor).offset().top - 100);
 }
+
+/**
+ * Returns the base path of Part-DB
+ * @returns {string} The base path.
+ */
+function getBasePath() : string
+{
+    return String($("#basepath").val());
+}

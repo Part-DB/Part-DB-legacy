@@ -28,6 +28,8 @@
 
 </div>   <!-- Wrapper -->
 
+<input type="hidden" id="basepath" value="{$relative_path}">
+
 {if !isset($ajax_request) || !ajax_request}
 
     <!-- Back to top button -->
