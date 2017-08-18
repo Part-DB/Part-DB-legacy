@@ -2,7 +2,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading">{t}Teile per Name zuordnen{/t}</div>
     <div class="panel-body">
-        <form method="post" class="form-horizontal row" action="">
+        <form method="post" class="form-horizontal" action="">
            <div class="form-group">
                 <label class="control-label col-md-2">{t}Suchwort:{/t}</label>
                 <div class="col-md-10">
@@ -18,7 +18,7 @@
         </form>
     {if isset($no_searched_parts_found) && $no_searched_parts_found}
         <div class="row">
-            <span class="col-md-12" style="color:red">{t}Die Suche ergab keine Treffer!{/t}</span>
+            <span class="col-md-12 text-danger">{t}Die Suche ergab keine Treffer!{/t}</span>
         </div>
     {else}
         {if isset($searched_parts_rowcount)}

@@ -38,6 +38,8 @@ var AjaxUI = (function () {
      */
     AjaxUI.prototype.start = function () {
         var page = window.location.pathname;
+        //Set base path
+        BASE = getBasePath();
         //Only load start page when on index.php (and no content is loaded already)!
         if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
             openLink("startup.php");
@@ -148,13 +150,18 @@ var AjaxUI = (function () {
      */
     AjaxUI.prototype.registerLinks = function () {
         'use strict';
-        $("a").not(".link-anchor").not(".link-external").not(".tree-btns").unbind("click").click(function (event) {
+        $("a").not(".link-anchor").not(".link-external").not(".tree-btns")
+            .not(".back-to-top").unbind("click").click(function (event) {
             event.preventDefault();
             var a = $(this);
             var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
             $('#content').hide(0).load(href + " #content-data");
             $('#progressbar').show(0);
             return true;
+        });
+        $("a.link-anchor").unbind("click").click(function (event) {
+            event.preventDefault();
+            scrollToAnchor($(this).prop("hash"));
         });
     };
     /***********************************************************************************
@@ -169,7 +176,7 @@ var AjaxUI = (function () {
      */
     AjaxUI.prototype.onNodeSelected = function (event, data) {
         'use strict';
-        if (data.href.indexOf("github.com") !== -1) {
+        if (data.href.indexOf("github.com") !== -1 || data.href.indexOf("doxygen") !== -1) {
             openInNewTab(data.href);
             $(this).treeview('toggleNodeSelected', data.nodeId);
         }
@@ -262,13 +269,19 @@ var ajaxui = AjaxUI.getInstance();
  * Register the events which has to be run in AjaxUI and start the execution.
  */
 $(document).ready(function (event) {
+    ajaxui.addStartAction(addCollapsedClass);
     ajaxui.addStartAction(treeviewBtnInit);
     ajaxui.addStartAction(registerJumpToTop);
+    ajaxui.addStartAction(fixCurrencyEdits);
+    ajaxui.addStartAction(registerAutoRefresh);
+    ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
     ajaxui.addAjaxCompleteAction(registerX3DOM);
     ajaxui.addAjaxCompleteAction(registerBootstrapSelect);
+    ajaxui.addAjaxCompleteAction(fixCurrencyEdits);
+    ajaxui.addAjaxCompleteAction(registerAutoRefresh);
     ajaxui.start();
 });
 /**
@@ -366,6 +379,34 @@ function registerX3DOM() {
  */
 function registerBootstrapSelect() {
     $(".selectpicker").selectpicker();
+}
+/**
+ * Add collapsed class to a before a collapse panel body, so the icon is correct.
+ */
+function addCollapsedClass() {
+    $('div.collapse.panel-collapse').siblings("div.panel-heading")
+        .children('a[data-toggle="collapse"]').addClass("collapsed");
+}
+/**
+ * Fix price edit fields. HTML wants prices with a decimal dot, Part-DB gives sometime commas.
+ */
+function fixCurrencyEdits() {
+    var inputs = $('input[type=number]').each(function (index, element) {
+        var e = $(element);
+        if (e.val() == "" && e.prop("defaultValue").indexOf(",") !== -1) {
+            var newval = e.prop("defaultValue").replace(",", ".");
+            e.val(newval);
+        }
+    });
+}
+/**
+ * Register the autorefresh
+ */
+function registerAutoRefresh() {
+    var val = $("#autorefresh").val();
+    if (val > 0) {
+        window.setTimeout(reloadPage, val);
+    }
 }
 /**
  * Close the #searchbar div, when a search was submitted on mobile view.
