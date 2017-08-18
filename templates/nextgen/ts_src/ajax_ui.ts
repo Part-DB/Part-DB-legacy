@@ -343,6 +343,7 @@ $(document).ready(function(event){
     ajaxui.addStartAction(treeviewBtnInit);
     ajaxui.addStartAction(registerJumpToTop);
     ajaxui.addStartAction(fixCurrencyEdits);
+    ajaxui.addStartAction(registerAutoRefresh);
 
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
@@ -352,6 +353,7 @@ $(document).ready(function(event){
     ajaxui.addAjaxCompleteAction(registerX3DOM);
     ajaxui.addAjaxCompleteAction(registerBootstrapSelect);
     ajaxui.addAjaxCompleteAction(fixCurrencyEdits);
+    ajaxui.addAjaxCompleteAction(registerAutoRefresh);
 
     ajaxui.start();
 });
@@ -479,6 +481,17 @@ function fixCurrencyEdits() {
            e.val(newval);
        }
     });
+}
+
+/**
+ * Register the autorefresh
+ */
+function registerAutoRefresh() {
+    let val : number =  $("#autorefresh").val() as number;
+    if(val > 0)
+    {
+        window.setTimeout(reloadPage, val);
+    }
 }
 
 /**

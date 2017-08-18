@@ -123,3 +123,11 @@ function getBasePath() : string
 {
     return String($("#basepath").val());
 }
+
+/**
+ * Reloads the current Page.
+ */
+function reloadPage()
+{
+    openLink(document.location.href);
+}

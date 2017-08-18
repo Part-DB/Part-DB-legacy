@@ -20,6 +20,9 @@
     </div>
 {/if}
 
+<input type="hidden" id="basepath" value="{$relative_path}">
+<input type="hidden" id="autorefresh" value="{$autorefresh}">
+
 </div> <!-- content-data -->
 </div> <!-- .container-float -->
 </div> <!-- page-content-wrapper -->
@@ -28,7 +31,7 @@
 
 </div>   <!-- Wrapper -->
 
-<input type="hidden" id="basepath" value="{$relative_path}">
+
 
 {if !isset($ajax_request) || !ajax_request}
 

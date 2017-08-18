@@ -38,21 +38,20 @@
                 <hr>
                 <div class="form-group">
                     <div class="col-md-offset-2 col-md-2">
-                        {if $autorefresh}
-                            <button type="submit" name="stop_autorefresh" class="btn btn-default" >Autorefresh deaktivieren</button>
-                        {else}
-                            <input type="hidden" name="autorefresh_disabled">
-                            <button type="submit" class="btn btn-default" name="start_autorefresh">Autorefresh aktivieren</button>
-                        {/if}
+                            <button type="button" class="btn btn-default" onclick="reloadPage();">Aktualisieren</button>
                     </div>
                 </div>
             {else}
-                <strong><span class="text-error">Debugging ist deaktiviert</span></strong><br>
-                <div class="form-group"><label>Administratorpasswort zum aktivieren:</label>
-                    <div class="input-group"><input class="form-control" type="password" name="admin_password" value="">
+                <h4><span class="text-danger">Debugging ist deaktiviert</span></h4>
+                <br>
+                <div class="form-group"><label class="control-label col-md-2">Administratorpasswort zum aktivieren:</label>
+                    <div class="col-md-10">
+                    <div class="input-group">
+                        <input class="form-control" type="password" name="admin_password" value="">
                         <div class="input-group-btn">
                             <button class="btn btn-primary" type="submit" name="enable">Aktivieren</button>
                         </div>
+                    </div>
                     </div>
                 </div>
             {/if}

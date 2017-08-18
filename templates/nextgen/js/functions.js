@@ -102,3 +102,9 @@ function scrollToAnchor(anchor) {
 function getBasePath() {
     return String($("#basepath").val());
 }
+/**
+ * Reloads the current Page.
+ */
+function reloadPage() {
+    openLink(document.location.href);
+}

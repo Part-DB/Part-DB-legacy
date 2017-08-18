@@ -273,6 +273,7 @@ $(document).ready(function (event) {
     ajaxui.addStartAction(treeviewBtnInit);
     ajaxui.addStartAction(registerJumpToTop);
     ajaxui.addStartAction(fixCurrencyEdits);
+    ajaxui.addStartAction(registerAutoRefresh);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
@@ -280,6 +281,7 @@ $(document).ready(function (event) {
     ajaxui.addAjaxCompleteAction(registerX3DOM);
     ajaxui.addAjaxCompleteAction(registerBootstrapSelect);
     ajaxui.addAjaxCompleteAction(fixCurrencyEdits);
+    ajaxui.addAjaxCompleteAction(registerAutoRefresh);
     ajaxui.start();
 });
 /**
@@ -396,6 +398,15 @@ function fixCurrencyEdits() {
             e.val(newval);
         }
     });
+}
+/**
+ * Register the autorefresh
+ */
+function registerAutoRefresh() {
+    var val = $("#autorefresh").val();
+    if (val > 0) {
+        window.setTimeout(reloadPage, val);
+    }
 }
 /**
  * Close the #searchbar div, when a search was submitted on mobile view.
