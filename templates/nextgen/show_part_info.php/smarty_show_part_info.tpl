@@ -210,9 +210,17 @@
                 <form action="show_part_label.php" class="hidden-print">
                     <input type="hidden" name="pid" value="{$pid}">
                     <input type="hidden" name="label_generate">
-                    <button type="submit" class="btn btn-primary btn-block"><i class="fa fa-barcode" aria-hidden="true"></i>
+                    <button type="submit" class="btn btn-default btn-block"><i class="fa fa-barcode" aria-hidden="true"></i>
                         {t}Barcode erzeugen{/t}</button>
                 </form>
+
+                <p></p>
+
+                <div class="form-group hidden-print">
+                    <button type="button" class="btn btn-default btn-block" onclick="window.print();"><i class="fa fa-print" aria-hidden="true"></i>
+                        {t}Übersicht drucken{/t}
+                    </button>
+                </div>
 
 
             </div>
