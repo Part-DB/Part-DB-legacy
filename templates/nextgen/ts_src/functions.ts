@@ -102,3 +102,32 @@ function scrollUpForMsg()
         return false;
     }
 }
+
+/**
+ * Scroll to the given anchor.
+ * @param {string} anchor The anchor, to which should be scrolled (with the #)
+ */
+function scrollToAnchor(anchor : string) : void
+{
+    if(anchor.indexOf("#") == -1)
+        throw new Error("The anchor string must contain a #.")
+
+    $(document).scrollTop( $(anchor).offset().top - 100);
+}
+
+/**
+ * Returns the base path of Part-DB
+ * @returns {string} The base path.
+ */
+function getBasePath() : string
+{
+    return String($("#basepath").val());
+}
+
+/**
+ * Reloads the current Page.
+ */
+function reloadPage()
+{
+    openLink(document.location.href);
+}

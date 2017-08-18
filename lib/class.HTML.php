@@ -78,7 +78,7 @@
          *
          * @throws Exception if there was an error
          */
-        public function __construct($theme, $custom_css_file = '', $page_title = '')
+        public function __construct($theme, $custom_css_file = '', $page_title = '', $autorefresh = 0)
         {
             // specify the variable type
             settype($this->meta,                'array');
@@ -92,6 +92,7 @@
             settype($this->meta['title'],               'string');
             settype($this->meta['custom_css'],          'string');
             settype($this->meta['frameset'],            'boolean');
+            settype($this->meta['autorefresh'],                'integer');
 
             // check passed parameters
             if (($theme != 'standard') && ( ! is_readable(BASE.'/templates/'.$theme."/partdb.css" )))
@@ -117,6 +118,7 @@
             $this->meta['custom_css']   = $custom_css_file;
             $this->meta['title']        = $page_title;
             $this->meta['frameset']     = false;
+            $this->meta['autorefresh'] = $autorefresh;
         }
 
         /********************************************************************************
@@ -674,6 +676,7 @@
                 }
 
                 $tmpl->assign("tracking_code", $config['tracking_code']);
+                $tmpl->assign("autorefresh", $this->meta['autorefresh']);
 
                 //Remove white space from Output
                 $tmpl->loadFilter('output', 'trimwhitespace');

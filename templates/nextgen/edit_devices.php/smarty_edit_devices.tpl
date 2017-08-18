@@ -59,7 +59,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">{t}Name*:{/t}</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" name="name" value="{$name}" required>
+                        <input type="text" class="form-control" name="name" value="{$name}" placeholder="{t}z.B. Transistortester{/t}" required>
                     </div>
                 </div>
             

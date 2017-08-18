@@ -9,17 +9,20 @@
     <div class="panel-heading"><i class="fa fa-upload" aria-hidden="true"></i>&nbsp;
         {t}Datei auswählen{/t}</div>
     <div class="panel-body">
-        <form enctype="multipart/form-data" action="" method="post" class="form-horizontal">
+        <form enctype="multipart/form-data" action="" method="post" class="form-horizontal no-progbar">
             <div class="form-group">
                 <label class="col-md-2 control-label">{t}Dateityp:{/t}</label>
-                <div class="col-md-8">
+                <div class="col-md-7 ">
                     <select name="file_format" class="form-control">
                         <option value="CSV" {if $file_format == "CSV"}selected{/if}>CSV</option>
                         <option value="XML" {if $file_format == "XML"}selected{/if}>XML</option>
                     </select>
                 </div>
-                <div class="col-md-2">
-                    <input data-show-caption="false" data-show-upload="false" data-show-preview="false" type="file" class="file" name="uploaded_file" size="30">
+                <div class="col-md-3">
+                    <div class="pull-right">
+                        <input data-show-caption="false" data-show-upload="false" data-show-preview="false" type="file" class="file"
+                               name="uploaded_file" accept=".csv,.xml">
+                    </div>
                 </div>
             </div>
             <div class="form-group">

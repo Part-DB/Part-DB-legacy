@@ -70,7 +70,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">{t}Name*:{/t}</label>
                     <div class="col-md-9">
-                        <input class="form-control" placeholder="{t}Name des Lagerorts{/t}" type="text" name="name" value="{$name}">
+                        <input class="form-control" placeholder="{t}z.B. Aktive Bauteile I{/t}" type="text" name="name" value="{$name}" required>
                     </div>
                 </div>
                 

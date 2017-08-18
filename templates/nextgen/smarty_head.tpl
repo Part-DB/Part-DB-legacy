@@ -225,15 +225,23 @@
                    <div id="content-data">
 
                        {if isset($messages)}
-                        <div class="alert alert-danger" id="messages">
+                       {assign "alert_style" "alert-info"}
+                       {foreach $messages as $msg}
+                            {if $msg.color == "red"}
+                                {assign "alert_style" "alert-danger"}
+                            {elseif $msg.color == "green" || $msg.color == "darkgreen"}
+                                 {assign "alert_style" "alert-success"}
+                            {elseif $msg.color == "yellow" || $msg.color == "orange"}
+                                 {assign "alert_style" "alert-warning"}
+                            {/if}
+                       {/foreach}
+                        <div class="alert {$alert_style}" id="messages">
                             {if !empty($messages_div_title)}<h4>{$messages_div_title}</h4>{/if}
                                 <form action="" method="post" class="no-progbar">
                                     {foreach $messages as $msg}
                                         {if isset($msg.text)}
                                             {if isset($msg.strong) && $msg.strong}<strong>{/if}
-                                            {if isset($msg.color)}<span style="color: {$msg.color}; ">{/if}
                                             {$msg.text nofilter}
-                                            {if isset($msg.color)}</span>{/if}
                                             {if isset($msg.strong) && $msg.strong}</strong>{/if}
                                         {/if}
 
