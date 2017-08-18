@@ -4,6 +4,12 @@ body {
     padding-top: 65px;
 }
 
+@media print {
+    body {
+        padding-top: 0;
+    }
+}
+
 .dropdown-menu-radio {
     padding-left: 10px;
 }
