@@ -207,3 +207,8 @@ table.dataTable tbody th, table.dataTable tbody td {
 .table-center{
     text-align: center;
 }
+
+.font-weight-bold {
+    font-weight:bold;
+}
+
