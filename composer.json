@@ -2,6 +2,14 @@
   "require": {
     "golonka/bbcodeparser": "~v2.2.2",
     "smarty/smarty": "~3.1",
-    "smarty-gettext/smarty-gettext": "~1.5.1"
-  }
+    "smarty-gettext/smarty-gettext": "~1.5.1",
+    "tecnickcom/tcpdf": "dev-master"
+  },
+
+  "repositories": [
+    {
+      "type": "vcs",
+      "url":  "git@github.com:jbtronics/Part-DB_tcpdf.git"
+    }
+  ]
 }

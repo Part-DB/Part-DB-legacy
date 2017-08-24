@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1242b56080d62ac0bd980074c34cab38",
+    "content-hash": "d7f3bc8339cd47bcb257336be453bed2",
     "packages": [
         {
             "name": "golonka/bbcodeparser",
@@ -162,12 +162,80 @@
                 "templating"
             ],
             "time": "2016-12-14T21:57:25+00:00"
+        },
+        {
+            "name": "tecnickcom/tcpdf",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jbtronics/Part-DB_tcpdf.git",
+                "reference": "ca4f9b86c93d0ddb77c94fdbd5beab5601ae45be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jbtronics/Part-DB_tcpdf/zipball/ca4f9b86c93d0ddb77c94fdbd5beab5601ae45be",
+                "reference": "ca4f9b86c93d0ddb77c94fdbd5beab5601ae45be",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "fonts",
+                    "config",
+                    "include",
+                    "tcpdf.php",
+                    "tcpdf_parser.php",
+                    "tcpdf_import.php",
+                    "tcpdf_barcodes_1d.php",
+                    "tcpdf_barcodes_2d.php",
+                    "include/tcpdf_colors.php",
+                    "include/tcpdf_filters.php",
+                    "include/tcpdf_font_data.php",
+                    "include/tcpdf_fonts.php",
+                    "include/tcpdf_images.php",
+                    "include/tcpdf_static.php",
+                    "include/barcodes/datamatrix.php",
+                    "include/barcodes/pdf417.php",
+                    "include/barcodes/qrcode.php"
+                ]
+            },
+            "license": [
+                "LGPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "homepage": "http://nicolaasuni.tecnick.com"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "PDF",
+                "PDFD32000-2008",
+                "barcodes",
+                "datamatrix",
+                "pdf417",
+                "qrcode",
+                "tcpdf"
+            ],
+            "support": {
+                "source": "https://github.com/jbtronics/Part-DB_tcpdf/tree/master",
+                "issues": "https://github.com/jbtronics/Part-DB_tcpdf/issues"
+            },
+            "time": "2017-08-24T12:50:23+00:00"
         }
     ],
     "packages-dev": [],
     "aliases": [],
     "minimum-stability": "stable",
-    "stability-flags": [],
+    "stability-flags": {
+        "tecnickcom/tcpdf": 20
+    },
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
