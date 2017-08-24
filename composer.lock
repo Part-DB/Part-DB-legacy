@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "68ae8c227344a1fe92aa122e6733bb84",
+    "content-hash": "e6eface32ce9383eb51dd24351fd629b",
     "packages": [
         {
             "name": "golonka/bbcodeparser",
@@ -238,6 +238,12 @@
     },
     "prefer-stable": false,
     "prefer-lowest": false,
-    "platform": [],
+    "platform": {
+        "php": ">=5.4",
+        "ext-mbstring": "*",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "ext-gettext": "*"
+    },
     "platform-dev": []
 }
