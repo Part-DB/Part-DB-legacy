@@ -32,7 +32,7 @@ function generateError($response, $message = "", $code = 500, $exception = null)
     return $response->withJson(array("code" => $code, "errors" => array($error)), $code);
 }
 
-function generateTreeForClass($class, &$database, &$current_user, &$log, $params = "")
+function generateTreeForClass($class, &$database, &$current_user, &$log, $params = null, $page = "", $key = "")
 {
     $root_id = (isset($params['root_id']) && $params['root_id'] >= 0) ? $params['root_id'] : 0;
     $root  = new $class($database, $current_user, $log,   $root_id);
@@ -42,7 +42,7 @@ function generateTreeForClass($class, &$database, &$current_user, &$log, $params
     }
     else
     {
-        return $root->build_bootstrap_tree('show_category_parts.php','cid');
+        return $root->build_bootstrap_tree($page, $key);
     }
 }
 
@@ -191,7 +191,7 @@ $app->get("/1.0.0/system/info", function($request, $response, $args) {
  */
 $app->get("/1.0.0/tree/categories[/{root_id}]", function($request, $response, $args) use (&$database, &$log, &$current_user) {
     try {
-        $tree = generateTreeForClass(Category::class, $database, $current_user, $log,  $args);
+        $tree = generateTreeForClass(Category::class, $database, $current_user, $log,  $args, "show_category_parts.php", "cid");
         return $response->withJson($tree);
     }
     catch (Exception $ex)
@@ -205,7 +205,7 @@ $app->get("/1.0.0/tree/categories[/{root_id}]", function($request, $response, $a
  */
 $app->get("/1.0.0/tree/devices[/{root_id}]", function($request, $response, $args) use (&$database, &$log, &$current_user) {
     try {
-        $tree = generateTreeForClass(Device::class, $database, $current_user, $log,  $args);
+        $tree = generateTreeForClass(Device::class, $database, $current_user, $log,  $args, "show_device_parts.php", "cid");
         return $response->withJson($tree);
     }
     catch (Exception $ex)
