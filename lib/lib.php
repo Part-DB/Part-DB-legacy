@@ -915,3 +915,77 @@
         else
             return $object->get_API_array($verbose);
     }
+
+/**
+ * Builds a TreeView for the Tools menu
+ * @param $params
+ * @return array
+ */
+function buildToolsTree($params)
+{
+    global $config;
+
+    $disable_footprint = $config['footprints']['disable'];
+    $disable_manufactur = $config['manufacturers']['disable'];
+    $disable_devices = $config['devices']['disable'];
+    $disable_help = $config['menu']['disable_help'];
+    $disable_config = $config['menu']['disable_config'];
+    $enable_debug_link = $config['menu']['enable_debug'];
+    $disable_labels = $config['menu']['disable_labels'];
+    $disable_calculator = $config['menu']['disable_calculator'];
+    $disable_iclogos = $config['menu']['disable_iclogos'];
+    $disable_tools_footprints = $config['menu']['disable_footprints'];
+    $developer_mode = $config['developer_mode'];
+    $db_backup_name = $config['db']['backup']['name'];
+    $db_backup_url = $config['db']['backup']['url'];
+
+
+    //Tools nodes
+    $tools_nodes = array();
+    $tools_nodes[] = treeview_node(_("Import"), BASE_RELATIVE . "/tools_import.php");
+    if (!$disable_labels) $tools_nodes[] = treeview_node(_("Labels"), BASE_RELATIVE . "/tools_labels.php");
+    if (!$disable_calculator) $tools_nodes[] = treeview_node(_("Widerstandsrechner"), BASE_RELATIVE . "/tools_calculator.php");
+    if (!$disable_footprint) $tools_nodes[] = treeview_node(_("Footprints"), BASE_RELATIVE . "/tools_footprints.php");
+    if (!$disable_iclogos) $tools_nodes[] = treeview_node(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");
+
+    $system_nodes = array();
+    $system_nodes[] = treeview_node(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
+    $system_nodes[] = treeview_node(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
+
+
+    //Show nodes
+    $show_nodes = array();
+    $show_nodes[] = treeview_node(_("Zu bestellende Teile"), BASE_RELATIVE . "/show_order_parts.php");
+    $show_nodes[] = treeview_node(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
+    $show_nodes[] = treeview_node(_("Obsolente Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
+    $show_nodes[] = treeview_node(_("Statistik"), BASE_RELATIVE . "/statistics.php");
+    $show_nodes[] = treeview_node(_("Alle Teile"), BASE_RELATIVE . "/show_all_parts.php");
+
+    //Edit nodes
+    $edit_nodes = array();
+    if (!$disable_devices) $edit_nodes[] = treeview_node(_("Baugruppen"), BASE_RELATIVE . "/edit_devices.php");
+    $edit_nodes[] = treeview_node(_("Lagerorte"), BASE_RELATIVE . "/edit_storelocations.php");
+    $edit_nodes[] = treeview_node(_("Footprints"), BASE_RELATIVE . "/edit_footprints.php");
+    $edit_nodes[] = treeview_node(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
+    $edit_nodes[] = treeview_node(_("Lieferanten"), BASE_RELATIVE . "/edit_suppliers.php");
+    if (!$disable_manufactur) $edit_nodes[] = treeview_node(_("Hersteller"), BASE_RELATIVE . "/edit_manufacturers.php");
+    $edit_nodes[] = treeview_node(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
+
+    //Developer nodes
+    $dev_nodes = array();
+    $dev_nodes[] = treeview_node(_("Werkzeuge"), BASE_RELATIVE . "/development/developer_tools.php");
+    $dev_nodes[] = treeview_node(_("Debugging"), BASE_RELATIVE . "/system_debug.php");
+    $dev_nodes[] = treeview_node(_("Sandkasten"), BASE_RELATIVE . "/development/sandbox.php");
+    $dev_nodes[] = treeview_node(_("Quellcode-Doku"), BASE_RELATIVE . "/development/doxygen/html/index.html");
+
+    //Add nodes to root
+    $tree = array();
+    $tree[] = treeview_node(_("Tools"), null, $tools_nodes);
+    $tree[] = treeview_node(_("Bearbeiten"), null, $edit_nodes);
+    $tree[] = treeview_node(_("Zeige"), null, $show_nodes);
+    if (!$disable_config) $tree[] = treeview_node(_("System"), null, $system_nodes);
+    if ($developer_mode) $tree[] = treeview_node(_("Entwickler-Werkzeuge"), null, $dev_nodes);
+    $tree[] = treeview_node(_("Hilfe"), "https://github.com/jbtronics/Part-DB/wiki", null);
+
+    return $tree;
+}

@@ -32,6 +32,20 @@ function generateError($response, $message = "", $code = 500, $exception = null)
     return $response->withJson(array("code" => $code, "errors" => array($error)), $code);
 }
 
+function generateTreeForClass($class, &$database, &$current_user, &$log, $params = "")
+{
+    $root_id = (isset($params['root_id']) && $params['root_id'] >= 0) ? $params['root_id'] : 0;
+    $root  = new $class($database, $current_user, $log,   $root_id);
+    if(isset($params['page']) && isset($params['parameter']))
+    {
+        return $root->build_bootstrap_tree($params['page'],$params['parameter']);
+    }
+    else
+    {
+        return $root->build_bootstrap_tree('show_category_parts.php','cid');
+    }
+}
+
 
 /********************************************************************
  * Category
@@ -165,6 +179,53 @@ $app->get("/1.0.0/system/info", function($request, $response, $args) {
     $data = array("version" => $ver_str,
         "gitBranch" => get_git_branch_name(), "gitCommit" => get_git_commit_hash());
     return $response->withJson($data);
+});
+
+
+/********************************************************************
+ * Trees
+ ********************************************************************/
+
+/**
+ * Get the tree for categories
+ */
+$app->get("/1.0.0/tree/categories[/{root_id}]", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    try {
+        $tree = generateTreeForClass(Category::class, $database, $current_user, $log,  $args);
+        return $response->withJson($tree);
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+/**
+ * Get the tree for categories
+ */
+$app->get("/1.0.0/tree/devices[/{root_id}]", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    try {
+        $tree = generateTreeForClass(Device::class, $database, $current_user, $log,  $args);
+        return $response->withJson($tree);
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+/**
+ * Get the tree for tools
+ */
+$app->get("/1.0.0/tree/tools[/]", function($request, $response, $args){
+    try {
+        $tree = buildToolsTree($args);
+        return $response->withJson($tree);
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
 });
 
 
