@@ -31,7 +31,7 @@
      * @brief All elements of this class are stored in the database table "categories".
      * @author kami89
      */
-    class Category extends PartsContainingDBElement
+    class Category extends PartsContainingDBElement implements IAPIModel
     {
         /********************************************************************************
         *
@@ -587,5 +587,31 @@
             return parent::search($database, $current_user, $log, 'categories', $keyword, $exact_match);
         }
 
+        /**
+         * Returns a Array representing the current object.
+         * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
+         * @return array A array representing the current object.
+         */
+        public function get_API_array($verbose = false)
+        {
+            $values = array( "cid" => $this->get_id(),
+                "name" => $this->get_name(),
+                "fullpath" => $this->get_full_path("/"),
+                "parentid" => $this->get_parent_id()
+            );
+
+            if($verbose == true)
+            {
+                $ver = array("disable_footprints" => $this->get_disable_footprints(),
+                    "disable_manufacturers" => $this->get_disable_manufacturers(),
+                    "disable_autodatasheets" => $this->get_disable_autodatasheets(),
+                    "disable_properties" => $this->get_disable_properties(),
+                    "default_description" => $this->get_default_description(),
+                    "default_comment" => $this->get_default_comment());
+                $values = array_merge($values, $ver);
+            }
+
+            return $values;
+        }
     }
 
