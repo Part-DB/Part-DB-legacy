@@ -93,150 +93,21 @@
         $autorefresh = true;
     else
         $autorefresh = false;
+
+
+    //Fill template with values
+    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], "Debugging");
+
+    $html->set_variable("debug_enable", $config['debug']['enable'], "boolean");
+    $html->set_variable("autorefresh", $autorefresh, "boolean");
+    //$html->set_variable("errors_count", count($errors), "integer");
+    $html->set_loop("errors", $errors);
+    $html->set_loop("logs", get_debug_log_elements());
+
+    // Print template
+    $html->print_header();
+    $html->print_template("system_debug");
+    $html->print_footer();
 ?>
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-
-    <title>Debugging</title>
-    <meta http-equiv="content-type" content="text/html; charset=<?php print $config['html']['http_charset']; ?>">
-    <?php if ($autorefresh) print '<meta http-equiv="refresh" content="5" >'; ?>
-
-    <!-- For maximum stability of this page, we don't use templates! So we include the stylesheet directly here... -->
-
-    <!-- Bootstrap -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-
-    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="js/bootstrap.min.js"></script>
-
-</head>
-
-<body>
-    <!-- Reload the navigation frame because of the debugging buttons at the top of the navigation frame -->
-    <!-- <script type="text/javascript">
-        location.reload();
-    </script> -->
-
-    <div class="container">
-        <div class="panel panel-primary">
-        <div class="panel-heading">Debug-Konsole</div>
-        <div class="panel-body">
-            <form action="" method="post">
-                <?php
-                    if ($config['debug']['enable'])
-                    {
-                        print '<div class="form-group"><label><span style="color: #008000; ">Debugging ist aktiviert</span></label>' . "\n";
-                        print '<div class="col-md-12"><button class="btn btn-primary" type="submit" name="disable">Deaktivieren</button>' . "\n";
-                        print '<button class="btn btn-default" type="submit" name="disable_and_delete">Deaktivieren und Log-Datei löschen</button>' . "\n";
-                        print '</div></div><br>';
-                        print '<div class="form-group"><label class="control-label">Testeintrag erzeugen:</label>' . "\n";
-                        print '<div class="col-md-5"><input type="text" class="form-control" name="new_type" value="warning"></div>' . "\n";
-                        print '<div class="col-md-5"><input type="text" class="form-control" name="new_text" class="form-control" value="Testeintrag"></div>' . "\n";
-                        print '<div class="col-md-2"><button class="btn btn-primary" type="submit" name="add">Hinzuf&uuml;gen</button></div></div>' . "\n";
-                        print '<hr><button type="submit" class="btn btn-default" name="clear">Log leeren</button>' . "\n";
-                        print '<button type="submit" name="download" class="btn btn-default">Log als XML-Datei herunterladen</button>' . "\n";
-
-                        if ($autorefresh)
-                        {
-                            print '<hr><button type="submit" name="stop_autorefresh" class="btn btn-default" >Autorefresh deaktivieren</button>';
-                        }
-                        else
-                        {
-                            print '<input type="hidden" name="autorefresh_disabled">';
-                            print '<hr><button type="submit" class="btn btn-default" name="start_autorefresh">Autorefresh aktivieren</button>';
-                        }
-                    }
-                    else
-                    {
-                        print '<strong><span style="color: #ff0000; ">Debugging ist deaktiviert</span></strong><br>';
-                        print '<div class="form-group"><label>Administratorpasswort zum aktivieren:</label> ';
-                        print '<div class="input-group"><input class="form-control" type="password" name="admin_password" value="">' . "\n";
-                        print '<div class="input-group-btn"><button class="btn btn-primary" type="submit" name="enable">Aktivieren</button></div></div></div>';
-                    }
-
-                    if (count($errors) > 0)
-                    {
-                        print '<div class="alert alert-danger"><strong><span style="color: #ff0000; ">';
-                        foreach ($errors as $error)
-                            print $error.'<br>';
-                        print '</font></strong></div>';
-                    }
-                ?>
-            </form>
-        </div>
-    </div>
-
-        <?php if ($config['debug']['enable']) { ?>
-    <div class="panel panel-default">
-        <div class="panel-heading">Debug-Log</div>
-        <div class="panel-body">
-            Folgende Log-Typen werden hervorgehoben:
-            "<span style="color: darkgreen; ">success</span>",
-            "<span style="color: darkorange; ">warning</span>",
-            "<strong><span style="color: red; ">error</span></strong>"
-            "<strong><span style="color: blue; ">temp</span></strong>"<br>
-            Zus&auml;tzliche Informationen k&ouml;nnen angezeigt werden,
-            indem man mit der Maus &uuml;ber den entsprechenden Eintrag f&auml;hrt.
-            <select name="debug_log" size="25" class="form-control">
-                <?php
-                    $logs = get_debug_log_elements();
-                    foreach ($logs as $log)
-                    {
-                        switch (strtolower($log['type']))
-                        {
-                            case 'success':
-                                $style = ' style="color:darkgreen"';
-                                break;
-                            case 'warning':
-                                $style = ' style="color:darkorange"';
-                                break;
-                            case 'error':
-                                $style = ' style="color:red;font-weight:bold"';
-                                break;
-                            case 'temp':
-                                $style = ' style="color:blue;font-weight:bold"';
-                                break;
-                            default:
-                                $style = ' ';
-                                break;
-                        }
-
-                        $hint = 'in file '.$log['file'];
-                        $hint .= ' on line '.$log['line'];
-                        if ($log['function'] != '')
-                            $hint .= ' in function '.$log['function'];
-
-                        print '<option'.$style.' title="'.$hint.'">';
-                        print '['.$log['datetime'].'] '.$log['type'].': '.$log['message'];
-                        print "</option>\n";
-                        $index++;
-                    }
-                ?>
-                <option selected></option>
-            </select>
-        </div>
-    </div>
-<?php } ?>
-    </div>
-
-
-
-
-</body>
-</html>
 
 

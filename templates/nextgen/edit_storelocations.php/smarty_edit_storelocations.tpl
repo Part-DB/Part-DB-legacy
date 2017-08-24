@@ -53,7 +53,7 @@
                         <strong>{t}Neuen Lagerort hinzufügen:{/t}</strong>
                     {else}
                         {if isset($name)}
-                            <strong>{t}Lagerort bearbeiten:{/t}</strong>
+                            <strong>{t}Lagerort bearbeiten:{/t} <a href="show_location_parts.php?lid={$id}&subloc=0">{$name}</a></strong>
                         {else}
                             <strong>{t}Es ist kein Lagerort angewählt!{/t}</strong>
                         {/if}
@@ -70,7 +70,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">{t}Name*:{/t}</label>
                     <div class="col-md-9">
-                        <input class="form-control" placeholder="{t}Name des Lagerorts{/t}" type="text" name="name" value="{$name}">
+                        <input class="form-control" placeholder="{t}z.B. Aktive Bauteile I{/t}" type="text" name="name" value="{$name}" required>
                     </div>
                 </div>
                 

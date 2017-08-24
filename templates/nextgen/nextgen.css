@@ -4,6 +4,12 @@ body {
     padding-top: 65px;
 }
 
+@media print {
+    body {
+        padding-top: 0;
+    }
+}
+
 .dropdown-menu-radio {
     padding-left: 10px;
 }
@@ -13,7 +19,7 @@ body {
 }
 
 .companypic {
-    width: 23px;
+    width: 20px;
     display: inline;
 }
 
@@ -172,5 +178,43 @@ table.dataTable tbody th, table.dataTable tbody td {
     a.hidden-print-href[href]:after {
         content: none !important;
     }
+}
+
+/*
+    Fance Collapse
+ */
+
+.fancy-collapse-panel .panel-default > .panel-heading {
+    padding: 0;
+}
+
+.panel-heading a[data-toggle=collapse] {
+    display: inline-block;
+    width: 100%;
+    position: relative;
+}
+.panel-heading a[data-toggle=collapse]:after {
+    font-family: "FontAwesome";
+    content: "\f106";
+    position: absolute;
+    right: 20px;
+    font-size: 20px;
+    font-weight: 400;
+    top: 50%;
+    line-height: 1;
+    margin-top: -10px;
+}
+
+.panel-heading a[data-toggle=collapse].collapsed:after
+{
+    content: "\f107";
+}
+
+.table-center{
+    text-align: center;
+}
+
+.font-weight-bold {
+    font-weight:bold;
 }
 

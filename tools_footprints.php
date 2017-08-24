@@ -110,6 +110,9 @@
         }
     }
 
+    //Give action to Template, so we can mark the active button
+    $html->set_variable("action", $action, "string");
+
     /********************************************************************************
     *
     *   Get Footprints and set all HTML variables

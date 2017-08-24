@@ -37,7 +37,7 @@
                             <strong>{t}Neuer Footprint hinzufügen:{/t}</strong>
                         {else}
                             {if isset($name)}
-                                <strong>{t}Footprint bearbeiten:{/t}</strong>
+                                <strong>{t}Footprint bearbeiten:{/t} <a href="show_footprint_parts.php?fid={$id}&subfoot=0">{$name}</a></strong>
                             {else}
                                 <strong>{t}Es ist kein Footprint angewählt!{/t}</strong>
                             {/if}
@@ -54,7 +54,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">{t}Name*:{/t}</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="name" value="{$name}" required>
+                            <input type="text" class="form-control" name="name" value="{$name}" placeholder="{t}z.B. DIP8{/t}" required>
                         </div>
                     </div>
 
@@ -70,7 +70,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">{t}Bild:{/t}</label>
                         <div class="col-md-9">
-                            <input type="text" name="filename" value="{$filename}" class="form-control">
+                            <input type="text" name="filename" value="{$filename}" placeholder="{t}z.B. img/footprints/Aktiv/ICs/DIP/IC_DIP8.png{/t}" class="form-control">
                             <p class="help-block">{t}Hinweis: Sie können hier z.B. "DIP28" eintippen und übernehmen. Der Footprint wird dann unter "Footprints mit fehlerhaften Dateinamen" aufgelistet, wo Sie Vorschläge für Dateinamen bekommen und dann einfach übernehmen können.{/t}</p>
                             {if !empty($filename) && $filename_valid}
                                 <img class="" rel="popover" height="70" src="{$filename}">
@@ -82,7 +82,7 @@
                         <div class="form-group">
                             <label class="control-label col-md-3">{t}3D-Footprint:{/t}</label>
                             <div class="col-md-9">
-                                <input type="text" name="filename_3d" value="{$filename_3d}" class="form-control">
+                                <input type="text" name="filename_3d" value="{$filename_3d}" placeholder="{t}z.B. models/Housings_DIP/DIP-8_W7.62mm.x3d{/t}" class="form-control">
                                 <p></p>
                                 {if !empty($filename_3d) && $filename_3d_valid}
                                     <x3d id="foot3d" class="img-thumbnail" height="150" width="500" >

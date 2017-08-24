@@ -36,7 +36,7 @@
                         <strong>{t}Neuen Hersteller hinzufügen:{/t}</strong>
                     {else}
                         {if isset($name)}
-                            <strong>{t}Hersteller bearbeiten:{/t}</strong>
+                            <strong>{t}Hersteller bearbeiten:{/t} <a href="show_manufacturer_parts.php?mid={$id}&subman=0">{$name}</a></strong>
                         {else}
                             <strong>{t}Es ist kein Hersteller angewählt!{/t}</strong>
                         {/if}
@@ -53,7 +53,7 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Name*:{/t}</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" name="name" value="{if isset($name)}{$name}{/if}" placeholder="{t}Name{/t}" required>
+                        <input type="text" class="form-control" name="name" value="{if isset($name)}{$name}{/if}" placeholder="{t}z.B. ACME AG{/t}" required>
                     </div>
                 </div>
             
@@ -69,21 +69,21 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Adresse:{/t}</label>
                     <div class="col-md-9">
-                        <textarea name="address" class="form-control" rows="5" >{if isset($address)}{$address|escape}{/if}</textarea>
+                        <textarea name="address" class="form-control" rows="5" placeholder="{t}z.B. Musterstraße 1{/t}" >{if isset($address)}{$address|escape}{/if}</textarea>
                     </div>
                 </div>
             
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Telefonnummer:{/t}</label>
                     <div class="col-md-9">
-                        <input type="tel" name="phone_number" class="form-control" value="{if isset($phone_number)}{$phone_number|escape}{/if}">
+                        <input type="tel" name="phone_number" class="form-control" placeholder="{t}z.B. (030) 12345 67{/t}" value="{if isset($phone_number)}{$phone_number|escape}{/if}">
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Faxnummer:{/t}</label>
                     <div class="col-md-9">
-                        <input type="tel" class="form-control" name="fax_number" value="{if isset($fax_number)}{$fax_number}{/if}">
+                        <input type="tel" class="form-control" name="fax_number" placeholder="{t}z.B. (030) 12345 67{/t}" value="{if isset($fax_number)}{$fax_number}{/if}">
                     </div>
                 </div>
                 
@@ -93,7 +93,7 @@
                         {if isset($email_address)}
                         <a href="mailto:{$email_address}">{$email_address}</a><br>
                         {/if}
-                        <input type="email" name="email_address" class="form-control" value="{if isset($email_address)}{$email_address}{/if}">
+                        <input type="email" name="email_address" class="form-control" placeholder="{t}z.B. contact@foo.bar{/t}" value="{if isset($email_address)}{$email_address}{/if}">
                     </div>
                 </div>
                 
@@ -103,15 +103,15 @@
                         {if isset($website)}
                         <a href="{$website}" target="_blank">{$website}</a><br>
                         {/if}
-                        <input type="url" class="form-control" name="website" value="{if isset($website)}{$website}{/if}">
+                        <input type="url" class="form-control" name="website" placeholder="{t}z.B. www.foo.bar{/t}" value="{if isset($website)}{$website}{/if}">
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Artikel-Direktlink:{/t}</label>
                     <div class="col-md-9">
-                        <input type="url" class="form-control" name="auto_product_url" value="{if isset($auto_product_url)}{$auto_product_url}{/if}">
-                        <p class="form-control-static">Platzhalter für die Bestellnummer: <i>%PARTNUMBER%</i></p>
+                        <input type="url" class="form-control" name="auto_product_url" placeholder="{t}z.B. www.foo.bar/%PARTNUMBER%{/t}" value="{if isset($auto_product_url)}{$auto_product_url}{/if}">
+                        <p class="help-block">Platzhalter für die Bestellnummer: <i>%PARTNUMBER%</i></p>
                     </div>
                 </div>
             

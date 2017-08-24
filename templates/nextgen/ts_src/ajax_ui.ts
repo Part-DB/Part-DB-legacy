@@ -57,6 +57,9 @@ class AjaxUI {
     {
         let page : string = window.location.pathname;
 
+        //Set base path
+        BASE = getBasePath();
+
         //Only load start page when on index.php (and no content is loaded already)!
         if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
             openLink("startup.php");
@@ -187,7 +190,8 @@ class AjaxUI {
      */
     private registerLinks() : void {
         'use strict';
-        $("a").not(".link-anchor").not(".link-external").not(".tree-btns").unbind("click").click(function (event) {
+        $("a").not(".link-anchor").not(".link-external").not(".tree-btns")
+            .not(".back-to-top").unbind("click").click(function (event) {
             event.preventDefault();
             let a = $(this);
             let href : string = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
@@ -196,6 +200,11 @@ class AjaxUI {
             $('#progressbar').show(0);
             return true;
         });
+        
+        $("a.link-anchor").unbind("click").click(function (event) {
+            event.preventDefault();
+            scrollToAnchor($(this).prop("hash"));
+        })
     }
 
     /***********************************************************************************
@@ -211,7 +220,7 @@ class AjaxUI {
      */
     private onNodeSelected(event, data : BootstrapTreeViewNodeData) {
         'use strict';
-        if(data.href.indexOf("github.com") !== -1)  //If the href points to github, then open it in new tab. TODO: Find better solution to detect external links.
+        if(data.href.indexOf("github.com") !== -1 || data.href.indexOf("doxygen") !== -1)  //If the href points to github, then open it in new tab. TODO: Find better solution to detect external links.
         {
             openInNewTab(data.href);
             $(this).treeview('toggleNodeSelected',data.nodeId);
@@ -330,14 +339,21 @@ let ajaxui : AjaxUI = AjaxUI.getInstance();
  */
 $(document).ready(function(event){
 
+    ajaxui.addStartAction(addCollapsedClass);
     ajaxui.addStartAction(treeviewBtnInit);
     ajaxui.addStartAction(registerJumpToTop);
+    ajaxui.addStartAction(fixCurrencyEdits);
+    ajaxui.addStartAction(registerAutoRefresh);
 
+
+    ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
     ajaxui.addAjaxCompleteAction(registerX3DOM);
     ajaxui.addAjaxCompleteAction(registerBootstrapSelect);
+    ajaxui.addAjaxCompleteAction(fixCurrencyEdits);
+    ajaxui.addAjaxCompleteAction(registerAutoRefresh);
 
     ajaxui.start();
 });
@@ -443,6 +459,39 @@ function registerX3DOM() {
  */
 function registerBootstrapSelect() {
     $(".selectpicker").selectpicker();
+}
+
+/**
+ * Add collapsed class to a before a collapse panel body, so the icon is correct.
+ */
+function addCollapsedClass() {
+    $('div.collapse.panel-collapse').siblings("div.panel-heading")
+        .children('a[data-toggle="collapse"]').addClass("collapsed");
+}
+
+/**
+ * Fix price edit fields. HTML wants prices with a decimal dot, Part-DB gives sometime commas.
+ */
+function fixCurrencyEdits() {
+    let inputs = $('input[type=number]').each(function(index, element){
+       let e = $(element);
+       if(e.val() == "" && e.prop("defaultValue").indexOf(",") !== -1)
+       {
+           let newval: string = e.prop("defaultValue").replace(",", ".");
+           e.val(newval);
+       }
+    });
+}
+
+/**
+ * Register the autorefresh
+ */
+function registerAutoRefresh() {
+    let val : number =  $("#autorefresh").val() as number;
+    if(val > 0)
+    {
+        window.setTimeout(reloadPage, val);
+    }
 }
 
 /**

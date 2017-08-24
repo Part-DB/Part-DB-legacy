@@ -8,19 +8,19 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/100.png" class="labelbild" alt="">
-                    <div class="caption"><h4>10 Ohm</h4></div>
+                    <div class="caption"><h4 class="table-center">10 Ohm</h4></div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/101.png" class="labelbild" alt="">
-                    <div class="caption"><h4>100 Ohm</h4></div>
+                    <div class="caption"><h4 class="table-center">100 Ohm</h4></div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/102.png" class="labelbild" alt="">
-                    <div class="caption"><h4>1 kOhm</h4></div>
+                    <div class="caption"><h4 class="table-center">1 kOhm</h4></div>
                 </div>
             </div>
         </div>
@@ -32,19 +32,19 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/1001.png" class="labelbild" alt="">
-                    <div class="caption"><h4>1 kOhm</h4></div>
+                    <div class="caption"><h4 class="table-center">1 kOhm</h4></div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/1002.png" class="labelbild" alt="">
-                    <div class="caption"><h4>10 kOhm</h4></div>
+                    <div class="caption"><h4 class="table-center">10 kOhm</h4></div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/1003.png" class="labelbild" alt="">
-                    <div class="caption"><h4>100 kOhm</h4></div>
+                    <div class="caption"><h4 class="table-center">100 kOhm</h4></div>
                 </div>
             </div>
         </div>
@@ -56,19 +56,19 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/R10.png"  class="labelbild" alt="">
-                    <div class="caption"><h4>0,10 Ohm</h4></div>
+                    <div class="caption"><h4 class="table-center">0,10 Ohm</h4></div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/10R2.png" class="labelbild" alt="">
-                    <div class="caption"><h4>10,2 Ohm</h4></div>
+                    <div class="caption"><h4 class="table-center">10,2 Ohm</h4></div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/100R.png" class="labelbild" alt="">
-                    <div class="caption"><h4>100 Ohm</h4></div>
+                    <div class="caption"><h4 class="table-center">100 Ohm</h4></div>
                 </div>
             </div>
         </div>
@@ -86,7 +86,7 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/246-20.png" class="labelbild" alt="">
-                    <div class="caption"><h4>24µF/20V</h4></div>
+                    <div class="caption"><h4 class="table-center">24µF/20V</h4></div>
                 </div>
             </div>
         </div>
@@ -98,7 +98,7 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/3F3.png" class="labelbild" alt="">
-                    <div class="caption"><h4>3,3µF/25V</h4></div>
+                    <div class="caption"><h4 class="table-center">3,3µF/25V</h4></div>
                 </div>
             </div>
         </div>
@@ -110,7 +110,7 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/220.png" class="labelbild" alt="">
-                    <div class="caption"><h4>220µF/16V</h4></div>
+                    <div class="caption"><h4 class="table-center">220µF/16V</h4></div>
                 </div>
             </div>
         </div>
@@ -131,7 +131,7 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/221K.png" class="labelbild" alt="">
-                    <div class="caption"><h4>221µH/5%</h4></div>
+                    <div class="caption"><h4 class="table-center">221µH/5%</h4></div>
                 </div>
             </div> 
         </div>

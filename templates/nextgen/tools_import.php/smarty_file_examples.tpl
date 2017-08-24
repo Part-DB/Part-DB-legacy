@@ -7,7 +7,7 @@
         <h4>{t}Beispiel für den Dateiaufbau (CSV){/t}</h4>
         <pre>{$csv_file_example}</pre>
         
-        <h4>{t}Beispiel f&uuml;r den Dateiaufbau (XML){/t}</h4>
+        <h4>{t}Beispiel für den Dateiaufbau (XML){/t}</h4>
         <pre>{$xml_file_example}</pre>
         </div>
     </div>
