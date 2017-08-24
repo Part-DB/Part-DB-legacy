@@ -1,5 +1,10 @@
 {
+	"manifest_version": 2,
+	"version": "0.4.0",
 	"name": "Part-DB",
+    "default_locale": "de",
+    "author": "Jan Böhmer",
+    "homepage_url": "https://github.com/jbtronics/Part-DB",
 	"description": "A managment tool for electronical parts.",
 	"icons": [
 		{
