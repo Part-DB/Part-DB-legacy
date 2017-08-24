@@ -91,7 +91,7 @@ paths:
           required: true
           type: number
           format: uint64
-        - name : "new_vals"
+        - name: "new_vals"
           description: "The new data of the part. Only the values which should be changed"
           in: body
           schema:
