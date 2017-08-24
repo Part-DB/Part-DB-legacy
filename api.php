@@ -137,6 +137,23 @@ $app->get("/1.0.0/footprints/{id}", function($request, $response, $args) use (&$
 });
 
 /********************************************************************
+ * Parts
+ ********************************************************************/
+
+$app->get("/1.0.0/parts/{id}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    if($args['id'] < 1)
+        return generateError($response, "The id must be greater 0!", 400);
+    try {
+        $part = new Part($database, $current_user, $log, $args['id']);
+        return $response->withJson($part->get_API_array(true));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+/********************************************************************
  * System
  ********************************************************************/
 

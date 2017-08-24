@@ -882,3 +882,36 @@
             return false;
         }
     }
+
+    /**
+     * Converts an array of objects implementing the APIModel interface to an array of API objects
+    * @param $array array The array of the APIModel objects.
+     * @return array An array of API objects
+    */
+    function convert_APIModel_array($array, $verbose = false)
+    {
+        if(is_null($array))
+            return null;
+
+        $json = array();
+        foreach ($array as $element)
+        {
+            if(! $element instanceof IAPIModel)
+                throw new Exception("The given array, contains objects that dont implement IAPIModel!");
+            $json[] = $element->get_API_array($verbose);
+        }
+        return $json;
+    }
+
+    /**
+    * Try to call get_APIModel_array of $object. If $object is null, null is returned!
+    * @param $array array The array of the APIModel objects.
+    * @return array An array of API objects
+    */
+    function try_to_get_APIModel_array($object, $verbose = false)
+    {
+        if(is_null($object))
+            return null;
+        else
+            return $object->get_API_array($verbose);
+    }

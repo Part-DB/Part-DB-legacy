@@ -39,7 +39,7 @@
      *
      * @author kami89
      */
-    class Pricedetails extends DBElement
+    class Pricedetails extends DBElement implements IAPIModel
     {
         /********************************************************************************
         *
@@ -386,6 +386,21 @@
                                         'price'                     => $price,
                                         'price_related_quantity'    => $price_related_quantity,
                                         'min_discount_quantity'     => $min_discount_quantity));
+        }
+
+        /**
+         * Returns a Array representing the current object.
+         * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
+         * @return array A array representing the current object.
+         */
+        public function get_API_array($verbose = false)
+        {
+            $json =  array( "id" => $this->get_id(),
+                "quantity" => $this->get_price_related_quantity(),
+                "price" => $this->get_price(),
+                "minDiscountQuantity" => $this->get_min_discount_quantity()
+            );
+            return $json;
         }
 
     }
