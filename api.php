@@ -32,11 +32,12 @@ function generateError($response, $message = "", $code = 500, $exception = null)
     return $response->withJson(array("code" => $code, "errors" => array($error)), $code);
 }
 
+
 /********************************************************************
  * Category
  ********************************************************************/
 
-$app->get("/1.0.0/category/{cid}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+$app->get("/1.0.0/categories/{cid}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
     if($args['cid'] < 1)
         return generateError($response, "The id must be greater 0!", 400);
     try {
@@ -48,6 +49,91 @@ $app->get("/1.0.0/category/{cid}", function($request, $response, $args) use (&$d
         return generateError($response, "", 500, $ex);
     }
 
+});
+
+/********************************************************************
+ * Storelocation
+ ********************************************************************/
+
+$app->get("/1.0.0/locations/{lid}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    if($args['lid'] < 1)
+        return generateError($response, "The id must be greater 0!", 400);
+    try {
+        $loc = new Storelocation($database, $current_user, $log, $args['lid']);
+        return $response->withJson($loc->get_API_array(true));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+/********************************************************************
+ * Manufacturer
+ ********************************************************************/
+
+$app->get("/1.0.0/manufacturers/{id}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    if($args['id'] < 1)
+        return generateError($response, "The id must be greater 0!", 400);
+    try {
+        $man = new Manufacturer($database, $current_user, $log, $args['id']);
+        return $response->withJson($man->get_API_array(true));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+/********************************************************************
+ * Suppliers
+ ********************************************************************/
+
+$app->get("/1.0.0/suppliers/{id}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    if($args['id'] < 1)
+        return generateError($response, "The id must be greater 0!", 400);
+    try {
+        $sup = new Supplier($database, $current_user, $log, $args['id']);
+        return $response->withJson($sup->get_API_array(true));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+/********************************************************************
+ * Attachement Types
+ ********************************************************************/
+
+$app->get("/1.0.0/attachementtypes/{id}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    if($args['id'] < 1)
+        return generateError($response, "The id must be greater 0!", 400);
+    try {
+        $at = new AttachementType($database, $current_user, $log, $args['id']);
+        return $response->withJson($at->get_API_array(true));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+/********************************************************************
+ * Footprints
+ ********************************************************************/
+
+$app->get("/1.0.0/footprints/{id}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    if($args['id'] < 1)
+        return generateError($response, "The id must be greater 0!", 400);
+    try {
+        $foot = new Footprint($database, $current_user, $log, $args['id']);
+        return $response->withJson($foot->get_API_array(true));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
 });
 
 /********************************************************************

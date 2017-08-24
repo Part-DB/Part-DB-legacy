@@ -31,7 +31,7 @@
      * @brief All elements of this class are stored in the database table "storelocations".
      * @author kami89
      */
-    class Storelocation extends PartsContainingDBElement
+    class Storelocation extends PartsContainingDBElement implements IAPIModel
     {
         /********************************************************************************
         *
@@ -191,4 +191,25 @@
             return parent::search($database, $current_user, $log, 'storelocations', $keyword, $exact_match);
         }
 
+        /**
+         * Returns a Array representing the current object.
+         * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
+         * @return array A array representing the current object.
+         */
+        public function get_API_array($verbose = false)
+        {
+            $json =  array( "id" => $this->get_id(),
+                "name" => $this->get_name(),
+                "fullpath" => $this->get_full_path("/"),
+                "parentid" => $this->get_parent_id(),
+                "level" => $this->get_level()
+            );
+
+            if($verbose == true)
+            {
+                $ver = array("isFull" => $this->get_is_full() == true);
+                return array_merge($json,  $ver);
+            }
+            return $json;
+        }
     }

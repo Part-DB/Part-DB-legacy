@@ -594,18 +594,19 @@
          */
         public function get_API_array($verbose = false)
         {
-            $values = array( "cid" => $this->get_id(),
+            $values = array( "id" => $this->get_id(),
                 "name" => $this->get_name(),
                 "fullpath" => $this->get_full_path("/"),
-                "parentid" => $this->get_parent_id()
+                "parentid" => $this->get_parent_id(),
+                "level" => $this->get_level()
             );
 
             if($verbose == true)
             {
-                $ver = array("disable_footprints" => $this->get_disable_footprints(),
-                    "disable_manufacturers" => $this->get_disable_manufacturers(),
-                    "disable_autodatasheets" => $this->get_disable_autodatasheets(),
-                    "disable_properties" => $this->get_disable_properties(),
+                $ver = array("disable_footprints" => $this->get_disable_footprints() == true,
+                    "disable_manufacturers" => $this->get_disable_manufacturers() == true,
+                    "disable_autodatasheets" => $this->get_disable_autodatasheets() == true,
+                    "disable_properties" => $this->get_disable_properties() == true,
                     "default_description" => $this->get_default_description(),
                     "default_comment" => $this->get_default_comment());
                 $values = array_merge($values, $ver);
