@@ -57,28 +57,6 @@
             parent::__construct($database, $current_user, $log, 'categories', $id);
         }
 
-        public function get_json_array($verbose=false)
-        {
-            if($verbose)
-            {
-                $ret = array( 'id' => $this->get_id(),
-                          'name' => $this->get_name(),
-                          'path' => $this->get_full_path(),
-                          'parent_id' => $this->get_parent_id(),
-                          'level' => $this->get_level()
-                    );
-            }
-            else
-            {
-                $ret = array( 'id' => $this->get_id(),
-                        'name' => $this->get_name(),
-                        'path' => $this->get_full_path()
-                  );
-            }
-
-            return $ret;
-        }
-
         /********************************************************************************
         *
         *   Getters

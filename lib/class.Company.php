@@ -69,34 +69,6 @@
             }
         }
 
-        /**
-         * Builds a serializable array containing the infos about this Company
-         * @param mixed $verbose Show verbose informations like address or phone_number about the company
-         * @return array The array containing the Company informations
-         */
-        public function get_json_array($verbose = false)
-        {
-            if($verbose)
-            {
-                $ret = array('id' => $this->get_id(),
-                             'name' => $this->get_name(),
-                             'address' => $this->get_address(),
-                             'phone_number' => $this->get_phone_number(),
-                             'fax_number'  => $this->get_fax_number(),
-                             'email_address' => $this->get_email_address(),
-                             'website' => $this->get_website(),
-                             'auto_url' => $this->get_auto_product_url());
-            }
-            else
-            {
-                $ret = array('id' => $this->get_id(),
-                             'name' => $this->get_name(),
-                             'auto_url' => $this->get_auto_product_url());
-            }
-
-            return $ret;
-        }
-
         /********************************************************************************
         *
         *   Getters
