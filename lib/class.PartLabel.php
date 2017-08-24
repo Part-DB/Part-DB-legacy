@@ -2,7 +2,6 @@
 
 //Include TCPDF library
 /** @noinspection PhpIncludeInspection */
-require_once(BASE.'/lib/tcpdf/tcpdf.php');
 
 /**
  * A class describing a Part Label (for example a 1D Barcode or an QR-Code)

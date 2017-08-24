@@ -197,6 +197,28 @@
         exit;
     }
 
+    $messages = check_composer_folder();
+    if (count($messages) > 0)
+    {
+        $message = "<b>Part-DB benutzt den PHP Abhängikeitsmanager <a href='https://getcomposer.org/' target='_blank'>Composer</a>" .
+            " um benötigte Bibliotheken bereitzustellen.<br> Bevor sie Part-DB nutzen können müssen sie diese" .
+            " Bibliotheken mit <code>php composer.phar install</code> im Hauptverzeichnis von Part-DB" .
+            " installiert werden. <br> Sollten sie keine Möglichkeit haben, auf ihrem Server Konsolenbefehle" .
+            " auszuführen, dann benutzen kopieren sie den vendor/ Ordner, aus einem mit composer eingerichteten ".
+            " Part-DB oder ein speziellen Release benutzen, der die Abhängikeiten mitliefert.</b><br><br>";
+        foreach ($messages as $msg)
+            $message .= '&bull;'.$msg.'<br>';
+        //$message .= 'Nähere Informationen zu den Dateirechten gibt es in der <a target="_blank" href="' .
+        //    'https://github.com/jbtronics/Part-DB/wiki/Installation">Dokumentation</a>.<br><br>';
+        $message .= '<br><form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>';
+
+        print_messages_without_template('Part-DB', 'Benötigte Bibliotheken fehlen!', $message);
+        exit;
+
+        // please note: the messages and the "exit;" here are very important, we mustn't continue the script!
+        // the reasen is: if the config.php is not readable, the array $config is now not loaded successfully.
+    }
+
     /********************************************************************************
     *
     *   update the config.php if the system is newer than the user's config.php
@@ -284,33 +306,6 @@
     textdomain($domain);
 
 
-
-    /********************************************************************************
-    *
-    *   autoload function for classes
-    *
-    *********************************************************************************/
-    // __autoload should not be used,  because only one handler can be used! Smarty doesnt work if this is overwritten
-    /*function load($classname)
-    {
-        $filename = "";
-        if (strpos($classname, 'vlib') === 0)
-        {
-            $filename = BASE.'/lib/vlib/'.$classname.'.php';
-        }
-        //Smarty has its own loader, so ignore smarty classes or this will produce many warnings!
-        else if(strpos(strtolower($classname), 'smarty') == false ) {
-            $filename = BASE . '/lib/class.' . $classname . '.php';
-        }
-
-        //Only load file if it really exists
-        if(is_file($filename))
-        {
-            include_once($filename);
-        }
-    }*/
-
-
     /********************************************************************************
     *
     *   include libraries
@@ -328,11 +323,5 @@
      ********************************************************************************/
 
     include_once (BASE.'/lib/autoloader.php');
-
-    include_once(BASE.'/lib/smarty/Autoloader.php');
-    Smarty_Autoloader::register();
-
-    //Load BBCode Parser
-    include_once(BASE.'/lib/bbcode/Autoloader.php');
-
-    //spl_autoload_register("load");
+    //Include Composer autoloader
+    require 'vendor/autoload.php';
