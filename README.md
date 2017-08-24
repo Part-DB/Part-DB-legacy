@@ -1,6 +1,9 @@
-[![Build Status](https://travis-ci.org/do9jhb/Part-DB.svg?branch=nextgen)](https://travis-ci.org/do9jhb/Part-DB)
-
 # Part-DB
+
+**Achtung: Nach dem Update auf die aktuelle Version, muss im Part-DB Homeverzeichniss der Befehl
+`php composer.phar install` ausgeführt werden, damit Part-DB funktioniert!
+Sollte dies nicht möglich sein, dann muss der Ordner `vendor/` aus einem mit composer eingerichtetem
+Part-DB kopiert werden.**
 
 ### Beschreibung
 
