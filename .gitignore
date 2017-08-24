@@ -178,3 +178,6 @@ models/*
 #Ignore Node Modules
 node_modules/
 node_modules/*
+
+#Ignore composer vendor/ folder
+vendor/*

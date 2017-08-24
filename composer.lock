@@ -1,0 +1,249 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "content-hash": "e6eface32ce9383eb51dd24351fd629b",
+    "packages": [
+        {
+            "name": "golonka/bbcodeparser",
+            "version": "v2.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/golonka/BBCodeParser.git",
+                "reference": "769c4ebe6207ffa20298b84b90eafca87ce2fb95"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/golonka/BBCodeParser/zipball/769c4ebe6207ffa20298b84b90eafca87ce2fb95",
+                "reference": "769c4ebe6207ffa20298b84b90eafca87ce2fb95",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4",
+                "squizlabs/php_codesniffer": "~2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Golonka\\BBCode\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joseph Landberg",
+                    "email": "joseph.landberg@gmail.com",
+                    "homepage": "http://github.com/golonka/"
+                }
+            ],
+            "description": "Parse your BBCode easy with this library.",
+            "homepage": "http://github.com/golonka/bbcodeparser",
+            "keywords": [
+                "PSR-1",
+                "PSR-2",
+                "PSR-4",
+                "bbcode",
+                "laravel",
+                "parser"
+            ],
+            "time": "2016-03-03T09:56:19+00:00"
+        },
+        {
+            "name": "smarty-gettext/smarty-gettext",
+            "version": "1.5.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smarty-gettext/smarty-gettext.git",
+                "reference": "00fe2fcbc41e24e0245cd9d73f96bc7b0337972d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smarty-gettext/smarty-gettext/zipball/00fe2fcbc41e24e0245cd9d73f96bc7b0337972d",
+                "reference": "00fe2fcbc41e24e0245cd9d73f96bc7b0337972d",
+                "shasum": ""
+            },
+            "require": {
+                "ext-gettext": "*",
+                "ext-pcre": "*",
+                "php": "~5.3|~7.0"
+            },
+            "require-dev": {
+                "azatoth/php-pgettext": "~1.0",
+                "smarty/smarty": "3.1.*"
+            },
+            "suggest": {
+                "azatoth/php-pgettext": "Support msgctxt for {t} via context parameter"
+            },
+            "bin": [
+                "tsmarty2c.php"
+            ],
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "block.t.php",
+                    "function.locale.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-2.1+"
+            ],
+            "authors": [
+                {
+                    "name": "Sagi Bashari",
+                    "email": "sagi@boom.org.il"
+                },
+                {
+                    "name": "Elan Ruusamäe",
+                    "email": "glen@delfi.ee"
+                }
+            ],
+            "description": "Gettext plugin enabling internationalization in Smarty Package files",
+            "homepage": "https://github.com/smarty-gettext/smarty-gettext",
+            "time": "2017-05-12T12:14:46+00:00"
+        },
+        {
+            "name": "smarty/smarty",
+            "version": "v3.1.31",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/smarty-php/smarty.git",
+                "reference": "c7d42e4a327c402897dd587871434888fde1e7a9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/smarty-php/smarty/zipball/c7d42e4a327c402897dd587871434888fde1e7a9",
+                "reference": "c7d42e4a327c402897dd587871434888fde1e7a9",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.2"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.1.x-dev"
+                }
+            },
+            "autoload": {
+                "files": [
+                    "libs/bootstrap.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "LGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Monte Ohrt",
+                    "email": "monte@ohrt.com"
+                },
+                {
+                    "name": "Uwe Tews",
+                    "email": "uwe.tews@googlemail.com"
+                },
+                {
+                    "name": "Rodney Rehm",
+                    "email": "rodney.rehm@medialize.de"
+                }
+            ],
+            "description": "Smarty - the compiling PHP template engine",
+            "homepage": "http://www.smarty.net",
+            "keywords": [
+                "templating"
+            ],
+            "time": "2016-12-14T21:57:25+00:00"
+        },
+        {
+            "name": "tecnickcom/tcpdf",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jbtronics/Part-DB_tcpdf.git",
+                "reference": "ca4f9b86c93d0ddb77c94fdbd5beab5601ae45be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jbtronics/Part-DB_tcpdf/zipball/ca4f9b86c93d0ddb77c94fdbd5beab5601ae45be",
+                "reference": "ca4f9b86c93d0ddb77c94fdbd5beab5601ae45be",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "fonts",
+                    "config",
+                    "include",
+                    "tcpdf.php",
+                    "tcpdf_parser.php",
+                    "tcpdf_import.php",
+                    "tcpdf_barcodes_1d.php",
+                    "tcpdf_barcodes_2d.php",
+                    "include/tcpdf_colors.php",
+                    "include/tcpdf_filters.php",
+                    "include/tcpdf_font_data.php",
+                    "include/tcpdf_fonts.php",
+                    "include/tcpdf_images.php",
+                    "include/tcpdf_static.php",
+                    "include/barcodes/datamatrix.php",
+                    "include/barcodes/pdf417.php",
+                    "include/barcodes/qrcode.php"
+                ]
+            },
+            "license": [
+                "LGPLv3"
+            ],
+            "authors": [
+                {
+                    "name": "Nicola Asuni",
+                    "email": "info@tecnick.com",
+                    "homepage": "http://nicolaasuni.tecnick.com"
+                }
+            ],
+            "description": "TCPDF is a PHP class for generating PDF documents and barcodes.",
+            "homepage": "http://www.tcpdf.org/",
+            "keywords": [
+                "PDF",
+                "PDFD32000-2008",
+                "barcodes",
+                "datamatrix",
+                "pdf417",
+                "qrcode",
+                "tcpdf"
+            ],
+            "support": {
+                "source": "https://github.com/jbtronics/Part-DB_tcpdf/tree/master",
+                "issues": "https://github.com/jbtronics/Part-DB_tcpdf/issues"
+            },
+            "time": "2017-08-24T12:50:23+00:00"
+        }
+    ],
+    "packages-dev": [],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "tecnickcom/tcpdf": 20
+    },
+    "prefer-stable": false,
+    "prefer-lowest": false,
+    "platform": {
+        "php": ">=5.4",
+        "ext-mbstring": "*",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "ext-gettext": "*"
+    },
+    "platform-dev": []
+}

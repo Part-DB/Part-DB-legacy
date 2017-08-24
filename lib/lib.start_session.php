@@ -233,6 +233,30 @@
     }
 
     /**
+     * Check if the vendor/ folder exists, with the dependencies we need.
+     * If not, a message is returned, where it is explained how to fix the dependencies problem.
+     *  @return array @li an array with a string for each error message
+     *                @li an empty array means everything is fine
+     */
+    function check_composer_folder()
+    {
+        $messages = array();
+
+        $check_filenames = array("/vendor/autoload.php");
+
+        foreach ($check_filenames as $filename)
+        {
+            $whole_filename = BASE.$filename;
+            if(!file_exists($whole_filename))
+            {
+                $messages[] = "Die Datei " . $filename . " ist benötigt und wurde nicht gefunden!";
+            }
+        }
+
+        return $messages;
+    }
+
+    /**
      * @brief Check if the config.php is valid
      *
      * Maybe some people are trying to create their config.php with a copy of config_defaults.php.
@@ -256,3 +280,4 @@
 
         return true;
     }
+

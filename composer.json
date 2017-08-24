@@ -1,0 +1,24 @@
+{
+  "require": {
+    "php": ">=5.4",
+    "ext-mbstring": "*",
+    "ext-pdo": "*",
+    "ext-pdo_mysql": "*",
+    "ext-gettext": "*",
+    "golonka/bbcodeparser": "~v2.2.2",
+    "smarty/smarty": "~3.1",
+    "smarty-gettext/smarty-gettext": "~1.5.1",
+    "tecnickcom/tcpdf": "dev-master"
+  },
+
+  "suggests": {
+    "phpunit/phpunit": "Needed for unittests in development."
+  },
+
+  "repositories": [
+    {
+      "type": "vcs",
+      "url":  "git@github.com:jbtronics/Part-DB_tcpdf.git"
+    }
+  ]
+}
