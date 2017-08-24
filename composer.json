@@ -6,6 +6,10 @@
     "tecnickcom/tcpdf": "dev-master"
   },
 
+  "suggests": {
+    "phpunit/phpunit": "Needed for unittests in development."
+  },
+
   "repositories": [
     {
       "type": "vcs",
