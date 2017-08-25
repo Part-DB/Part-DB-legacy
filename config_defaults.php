@@ -109,6 +109,7 @@
 
     // debug settings
     $config['debug']['enable']                              = false;
+    $config['debug']['debugbar']                            = false;
     $config['debug']['template_debugging_enable']           = false;
     $config['debug']['request_debugging_enable']            = false;
 

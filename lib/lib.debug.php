@@ -68,29 +68,31 @@
             return;
 
 
-        $level = Psr\Log\LogLevel::WARNING;
-        $debugbar = PDBDebugBar::getInstance()->getDebugBar();
-        $type = strtolower($type);
-        switch ($type)
+        if($config['debug']['debugbar'])
         {
-            case "error":
-                $level = Psr\Log\LogLevel::ERROR;
-                break;
-            case "warning":
-                $level = Psr\Log\LogLevel::WARNING;
-                break;
-            case "hint":
-                $level = Psr\Log\LogLevel::NOTICE;
-                break;
-            case "temp":
-                $level = Psr\Log\LogLevel::DEBUG;
-                break;
-            case "success":
-                $level = Psr\Log\LogLevel::INFO;
+            $level = Psr\Log\LogLevel::WARNING;
+            $debugbar = PDBDebugBar::getInstance()->getDebugBar();
+            $type = strtolower($type);
+            switch ($type)
+            {
+                case "error":
+                    $level = Psr\Log\LogLevel::ERROR;
+                    break;
+                case "warning":
+                    $level = Psr\Log\LogLevel::WARNING;
+                    break;
+                case "hint":
+                    $level = Psr\Log\LogLevel::NOTICE;
+                    break;
+                case "temp":
+                    $level = Psr\Log\LogLevel::DEBUG;
+                    break;
+                case "success":
+                    $level = Psr\Log\LogLevel::INFO;
+            }
+
+            $debugbar['messages']->log($level, $text);
         }
-
-        $debugbar['messages']->log($level, $text);
-
 
         if ( ! file_exists(DEBUG_LOG_FILENAME))
             return;
