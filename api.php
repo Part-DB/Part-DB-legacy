@@ -50,20 +50,6 @@ function generateTreeForClass($class, &$database, &$current_user, &$log, $params
 /********************************************************************
  * Category
  ********************************************************************/
-
-$app->get("/1.0.0/categories", function($request, $response, $args) use (&$database, &$log, &$current_user) {
-    if($args['cid'] < 1)
-        return generateError($response, "The id must be greater 0!", 400);
-    try {
-        $category = new Category($database, $current_user, $log, $args['cid']);
-        return $response->withJson($category->get_API_array(true));
-    }
-    catch (Exception $ex)
-    {
-        return generateError($response, "", 500, $ex);
-    }
-});
-
 $app->get("/1.0.0/categories/{cid}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
     if($args['cid'] < 1)
         return generateError($response, "The id must be greater 0!", 400);
