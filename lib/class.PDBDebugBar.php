@@ -19,6 +19,7 @@ class PDBDebugBar
         $this->renderer = $this->debugbar->getJavascriptRenderer($baseURL);
         global $config;
         $this->debugbar->addCollector(new \DebugBar\DataCollector\ConfigCollector($config));
+        $this->debugbar->addCollector(new DebugBar\DataCollector\TimeDataCollector());
     }
 
     public function &getRenderer()
@@ -37,6 +38,16 @@ class PDBDebugBar
         {
             $this->debugbar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
         }
+    }
+
+    public function startMeasure($id, $description)
+    {
+        $this->debugbar['time']->startMeasure($id, $description);
+    }
+
+    public function stopMeasure($id)
+    {
+        $this->debugbar['time']->stopMeasure($id);
     }
 
     public static function is_activated()
