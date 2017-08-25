@@ -31,6 +31,14 @@ class PDBDebugBar
         return $this->debugbar;
     }
 
+    public function registerPDO(&$pdo)
+    {
+        if(!$this->debugbar->hasCollector("Database"))
+        {
+            $this->debugbar->addCollector(new \DebugBar\DataCollector\PDO\PDOCollector($pdo));
+        }
+    }
+
     public static function is_activated()
     {
         global $config;
