@@ -32,9 +32,9 @@
 
 </div>   <!-- Wrapper -->
 
-
 <!-- PHP Debugbar -->
 {if isset($debugbar_body)}{$debugbar_body nofilter}{/if}
+
 
 {if !isset($ajax_request) || !ajax_request}
     <!-- Back to top button -->

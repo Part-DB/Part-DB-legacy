@@ -15,15 +15,19 @@ class PDBDebugBar
     private function __construct()
     {
         $this->debugbar = new \DebugBar\StandardDebugBar();
-        $this->debugbar["messages"]->addMessage("Test");
-        $this->debugbar->sendDataInHeaders();
         $baseURL = BASE_RELATIVE . "/vendor/maximebf/debugbar/src/DebugBar/Resources";
         $this->renderer = $this->debugbar->getJavascriptRenderer($baseURL);
+        //$this->debugbar["messages"]->addMessage("Test");
     }
 
-    public function getRenderer()
+    public function &getRenderer()
     {
         return $this->renderer;
+    }
+
+    public function &getDebugBar()
+    {
+        return $this->debugbar;
     }
 
     public static function is_activated()
@@ -32,10 +36,15 @@ class PDBDebugBar
         return $config['debug']['enable'];
     }
 
+    public function sendData()
+    {
+        $this->debugbar->sendDataInHeaders();
+    }
+
     /**
      * @return PDBDebugBar
      */
-    public static function getInstance()
+    public static function &getInstance()
     {
         if(is_null(PDBDebugBar::$singleton))
         {

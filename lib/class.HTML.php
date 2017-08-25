@@ -333,6 +333,10 @@
          */
         public function print_header($messages = array(), $reload_link = '', $messages_div_title = '', $redirect = false)
         {
+
+            if(PDBDebugBar::is_activated())
+                PDBDebugBar::getInstance()->sendData();
+
             global $config;
 
             if (( ! is_array($this->meta)) || (count($this->meta) == 0) || (strlen($this->meta['theme']) == 0))
@@ -539,7 +543,7 @@
             if(PDBDebugBar::is_activated())
             {
                 $renderer = PDBDebugBar::getInstance()->getRenderer();
-                $tmpl->assign("debugbar_body", $renderer->render(!isset($this->variables['ajax_request'])));
+                $tmpl->assign("debugbar_body", $renderer->render(!isset($_REQUEST['ajax_request'])));
             }
 
             //Remove white space from Output
