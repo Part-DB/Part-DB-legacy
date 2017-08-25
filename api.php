@@ -167,6 +167,82 @@ $app->get("/1.0.0/parts/{id}", function($request, $response, $args) use (&$datab
     }
 });
 
+$app->get("/1.0.0/parts/by-category/{id}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    if($args['id'] < 1)
+        return generateError($response, "The id must be greater 0!", 400);
+    try {
+        $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
+        $category = new Category($database, $current_user, $log, $args['id']);
+        $parts = $category->get_parts($recursive);
+        return $response->withJson(convert_APIModel_array($parts));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+$app->get("/1.0.0/parts/by-location/{id}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    if($args['id'] < 1)
+        return generateError($response, "The id must be greater 0!", 400);
+    try {
+        $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
+        $location = new Storelocation($database, $current_user, $log, $args['id']);
+        $parts = $location->get_parts($recursive);
+        return $response->withJson(convert_APIModel_array($parts));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+$app->get("/1.0.0/parts/by-footprint/{id}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    if($args['id'] < 1)
+        return generateError($response, "The id must be greater 0!", 400);
+    try {
+        $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
+        $footprint = new Footprint($database, $current_user, $log, $args['id']);
+        $parts = $footprint->get_parts($recursive);
+        return $response->withJson(convert_APIModel_array($parts));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+$app->get("/1.0.0/parts/by-manufacturer/{id}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    if($args['id'] < 1)
+        return generateError($response, "The id must be greater 0!", 400);
+    try {
+        $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
+        $manufacturer = new Manufacturer($database, $current_user, $log, $args['id']);
+        $parts = $manufacturer->get_parts($recursive);
+        return $response->withJson(convert_APIModel_array($parts));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+$app->get("/1.0.0/parts/by-supplier/{id}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    if($args['id'] < 1)
+        return generateError($response, "The id must be greater 0!", 400);
+    try {
+        $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
+        $supplier = new Supplier($database, $current_user, $log, $args['id']);
+        $parts = $supplier->get_parts($recursive);
+        return $response->withJson(convert_APIModel_array($parts));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+
 /********************************************************************
  * System
  ********************************************************************/
