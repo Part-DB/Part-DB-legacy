@@ -10,7 +10,8 @@
     "smarty-gettext/smarty-gettext": "~1.5.1",
     "tecnickcom/tcpdf": "dev-master",
     "slim/slim": "3.*",
-    "monolog/monolog": "^1.0"
+    "monolog/monolog": "^1.0",
+    "maximebf/debugbar": "1.*"
   },
 
   "suggests": {
