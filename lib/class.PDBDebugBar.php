@@ -17,7 +17,8 @@ class PDBDebugBar
         $this->debugbar = new \DebugBar\StandardDebugBar();
         $baseURL = BASE_RELATIVE . "/vendor/maximebf/debugbar/src/DebugBar/Resources";
         $this->renderer = $this->debugbar->getJavascriptRenderer($baseURL);
-        //$this->debugbar["messages"]->addMessage("Test");
+        global $config;
+        $this->debugbar->addCollector(new \DebugBar\DataCollector\ConfigCollector($config));
     }
 
     public function &getRenderer()
