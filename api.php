@@ -51,6 +51,19 @@ function generateTreeForClass($class, &$database, &$current_user, &$log, $params
  * Category
  ********************************************************************/
 
+$app->get("/1.0.0/categories", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    if($args['cid'] < 1)
+        return generateError($response, "The id must be greater 0!", 400);
+    try {
+        $category = new Category($database, $current_user, $log, $args['cid']);
+        return $response->withJson($category->get_API_array(true));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
 $app->get("/1.0.0/categories/{cid}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
     if($args['cid'] < 1)
         return generateError($response, "The id must be greater 0!", 400);
@@ -62,8 +75,8 @@ $app->get("/1.0.0/categories/{cid}", function($request, $response, $args) use (&
     {
         return generateError($response, "", 500, $ex);
     }
-
 });
+
 
 /********************************************************************
  * Storelocation
@@ -153,6 +166,17 @@ $app->get("/1.0.0/footprints/{id}", function($request, $response, $args) use (&$
 /********************************************************************
  * Parts
  ********************************************************************/
+
+$app->get("/1.0.0/parts", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    try {
+        $parts = Part::get_all_parts($database, $current_user, $log);
+        return $response->withJson(convert_APIModel_array($parts));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
 
 $app->get("/1.0.0/parts/noprice", function($request, $response, $args) use (&$database, &$log, &$current_user) {
     try {
