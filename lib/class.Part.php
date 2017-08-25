@@ -41,7 +41,7 @@
      *
      * @todo    The attribute "visible" is no longer required if there is a user management.
      */
-    class Part extends AttachementsContainingDBElement
+    class Part extends AttachementsContainingDBElement implements IAPIModel
     {
         /********************************************************************************
         *
@@ -180,28 +180,6 @@
 
                 throw new Exception("Das Bauteil \"".$this->get_name()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
             }
-        }
-
-        /**
-         * Returns a array for JSON serialization which contains all important data about this part
-         */
-        public function get_json_array()
-        {
-            $ret = array('pid' => $this->get_id(),
-                            'description' => $this->get_description(),
-                            'name' => $this->get_name(),
-                            'instock' => $this->get_instock(),
-                            'mininstock' => $this->get_mininstock(),
-                            'comment' => $this->get_comment(),
-                            'obsolete' => $this->get_obsolete(),
-                            'visible' => $this->get_visible(),
-                            'order_quantity' => $this->get_order_quantity(),
-                            'average_price' => $this->get_average_price(),
-                            'manual_order' => $this->get_manual_order(),
-                            'category' => $this->get_category()->get_json_array()
-                            );
-
-            return $ret;
         }
 
         /**
@@ -2108,6 +2086,45 @@
         public static function is_valid_name($partname, $category)
         {
             return $category->check_partname($partname);
+        }
+
+        /**
+         * Returns a Array representing the current object.
+         * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
+         * @return array A array representing the current object.
+         */
+        public function get_API_array($verbose = false)
+        {
+            $json =  array( "id" => $this->get_id(),
+                "name" => $this->get_name(),
+                "description" => $this->get_description(true),
+                "description_raw" => $this->get_description(false),
+                "comment" => $this->get_comment(true),
+                "comment_raw" => $this->get_comment(false),
+                "instock" => $this->get_instock(),
+                "mininstock" => $this->get_mininstock(),
+                "category" => $this->get_category()->get_API_array(false),
+                "footprint" => try_to_get_APIModel_array($this->get_footprint(),false),
+                "storelocation" => try_to_get_APIModel_array($this->get_storelocation(), false),
+                "manufacturer" => try_to_get_APIModel_array($this->get_manufacturer(), false),
+                "orderdetails" => convert_APIModel_array($this->get_orderdetails(), false),
+            );
+
+            if($verbose == true)
+            {
+                $ver = array(
+                    "obsolete" => $this->get_obsolete() == true,
+                    "visible" => $this->get_visible() == true,
+                    "orderquantity" => $this->get_order_quantity(),
+                    "minorderquantity" => $this->get_min_order_quantity(),
+                    "manualorder" => $this->get_manual_order(),
+                    "lastmodified" => $this->get_last_modified(),
+                    "datetime_added" => $this->get_datetime_added(),
+                    "avgprice" => $this->get_average_price(),
+                    "properties" => convert_APIModel_array($this->get_properties(), false));
+                return array_merge($json,  $ver);
+            }
+            return $json;
         }
 
     }

@@ -39,7 +39,7 @@
      *
      * @author kami89
      */
-    class Orderdetails extends DBElement
+    class Orderdetails extends DBElement implements IAPIModel
     {
         /********************************************************************************
         *
@@ -105,8 +105,7 @@
          */
         public function delete()
         {
-            try
-            {
+            try {
                 $transaction_id = $this->database->begin_transaction(); // start transaction
 
                 // Delete all Pricedetails
@@ -126,24 +125,14 @@
                 parent::delete();
 
                 $this->database->commit($transaction_id); // commit transaction
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $this->database->rollback(); // rollback transaction
 
                 // restore the settings from BEFORE the transaction
                 $this->reset_attributes();
 
-                throw new Exception("Die Einkaufsinformationen konnten nicht gelöscht werden!\nGrund: ".$e->getMessage());
+                throw new Exception("Die Einkaufsinformationen konnten nicht gelöscht werden!\nGrund: " . $e->getMessage());
             }
-        }
-
-        public function get_json_array()
-        {
-            $ret = array('id' => $this->get_id()
-                );
-
-            return $ret;
         }
 
         /********************************************************************************
@@ -427,6 +416,28 @@
                                         'id_supplier'               => $supplier_id,
                                         'supplierpartnr'            => $supplierpartnr,
                                         'obsolete'                  => $obsolete));
+        }
+
+        /**
+         * Returns a Array representing the current object.
+         * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
+         * @return array A array representing the current object.
+         */
+        public function get_API_array($verbose = false)
+        {
+            $json =  array( "id" => $this->get_id(),
+                "supplierpartnr" => $this->get_supplierpartnr()
+            );
+
+            if($verbose == true)
+            {
+                $ver = array("supplier" => $this->get_supplier()->get_API_array(),
+                    "obsolete" => $this->get_obsolete() == true,
+                    "supplier_product_url" => $this->get_supplier_product_url(),
+                    "pricedetails" => convert_APIModel_array($this->get_pricedetails(), true));
+                return array_merge($json,  $ver);
+            }
+            return $json;
         }
 
     }

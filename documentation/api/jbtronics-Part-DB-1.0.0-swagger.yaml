@@ -18,8 +18,20 @@ tags:
   description: Part operations
 - name: Category
   description: Category operations
+- name: Storelocation
+  description: Storelocation operations
 - name: System
   description: System operations
+- name: Footprint
+  description: Footprint related operations
+- name: Manufacturer
+  description: Manufacturer related operations
+- name: Supplier
+  description: Supplier related operations
+- name: TreeView
+  description: Functions that generates a TreeView
+- name: Attachements
+  description: Attachement related operations
 
 paths:
   /system/info:
@@ -37,7 +49,387 @@ paths:
           schema:
             $ref: '#/definitions/SystemInfo'
               
-  /part/{pid}:
+  /parts:
+    get:
+      tags:
+        - Part
+      summary: Gets all available parts
+      produces:
+        - application/json
+      responses:
+        200:
+          description: "Request was successful"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Part'
+        500:
+          description: "An exception was thrown."
+          
+  /parts/noprice:
+    get:
+      tags:
+        - Part
+      summary: Gets all parts, without a price.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: "Request was successful"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Part'
+        500:
+          description: "An exception was thrown."
+          
+  /parts/ordered:
+    get:
+      tags:
+        - Part
+      summary: Gets all parts, that should be ordered.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: "Request was successful"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Part'
+        500:
+          description: "An exception was thrown."     
+          
+  /parts/obsolete:
+    get:
+      tags:
+        - Part
+      summary: Gets all parts, that are obsolete.
+      produces:
+        - application/json
+      responses:
+        200:
+          description: "Request was successful"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Part'
+        500:
+          description: "An exception was thrown."       
+              
+  /parts/by-location/{id}:
+    get:
+      tags:
+        - Part
+        - Storelocation
+      summary: Gets all parts in the Storelocation with the given id.
+      produces:
+        - application/json
+      parameters: 
+        - name: "id"
+          in: "path"
+          description: "The id of the location, from which all parts should be listed."
+          required: true
+          type: number
+          format: uint64
+        - name: "recursive"
+          in: "query"
+          description: "If true, all parts of all child locations are included, too."
+          type: boolean
+          default: false
+      responses:
+        200:
+          description: "Request was successful"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Part'
+        400:
+          description: "The id must be greater 0."
+        500:
+          description: "An exception was thrown."
+          
+  /parts/by-category/{id}:
+    get:
+      tags:
+        - Part
+        - Category
+      summary: Gets all parts in the Category with the given id.
+      produces:
+        - application/json
+      parameters: 
+        - name: "id"
+          in: "path"
+          description: "The id of the category, from which all parts should be listed."
+          required: true
+          type: number
+          format: uint64
+        - name: "recursive"
+          in: "query"
+          description: "If true, all parts of all child categores are included, too."
+          type: boolean
+          default: false
+      responses:
+        200:
+          description: "Request was successful"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Part'
+        400:
+          description: "The id must be greater 0."
+        500:
+          description: "An exception was thrown."
+          
+  /parts/by-footprint/{id}:
+    get:
+      tags:
+        - Part
+        - Footprint
+      summary: Gets all parts with the Footprint with the given id.
+      produces:
+        - application/json
+      parameters: 
+        - name: "id"
+          in: "path"
+          description: "The id of the footprint, from which all parts should be listed."
+          required: true
+          type: number
+          format: uint64
+        - name: "recursive"
+          in: "query"
+          description: "If true, all parts of all child footprint are included, too."
+          type: boolean
+          default: false
+      responses:
+        200:
+          description: "Request was successful"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Part'
+        400:
+          description: "The id must be greater 0."
+        500:
+          description: "An exception was thrown."
+          
+  /parts/by-manufacturer/{id}:
+    get:
+      tags:
+        - Part
+        - Manufacturer
+      summary: Gets all parts in the Manufacturer with the given id.
+      produces:
+        - application/json
+      parameters: 
+        - name: "id"
+          in: "path"
+          description: "The id of the manufacturer, from which all parts should be listed."
+          required: true
+          type: number
+          format: uint64
+        - name: "recursive"
+          in: "query"
+          description: "If true, all parts of all child manufacturer are included, too."
+          type: boolean
+          default: false
+      responses:
+        200:
+          description: "Request was successful"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Part'
+        400:
+          description: "The id must be greater 0."
+        500:
+          description: "An exception was thrown."
+  
+  /parts/by-supplier/{id}:
+    get:
+      tags:
+        - Part
+        - Supplier
+      summary: Gets all parts in the Supplier with the given id.
+      produces:
+        - application/json
+      parameters: 
+        - name: "id"
+          in: "path"
+          description: "The id of the supplier, from which all parts should be listed."
+          required: true
+          type: number
+          format: uint64
+        - name: "recursive"
+          in: "query"
+          description: "If true, all parts of all child suppliers are included, too."
+          type: boolean
+          default: false
+      responses:
+        200:
+          description: "Request was successful"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Part'
+        400:
+          description: "The id must be greater 0."
+        500:
+          description: "An exception was thrown."
+          
+  /parts/by-keyword/{keyword}:
+    get:
+      tags:
+        - Part
+      summary: Search parts which contains the keyword.
+      produces:
+        - application/json
+      parameters: 
+        - name: "keyword"
+          in: "path"
+          description: "The keyword for which should be filtered."
+          required: true
+          example: "BC"
+          type: string
+        - name: "groupby"
+          in: "query"
+          description: "Parts can be grouped by none 'categories', 'footprints', 'storelocations' and 'manufacturers'"
+          type: string
+          default: ""
+        - name: "name"
+          in: "query"
+          description: "If true, then the search includes the name field of a part."
+          type: boolean
+          default: true
+        - name: "description"
+          in: "query"
+          description: "If true, then the search includes the description field of a part."
+          type: boolean
+          default: true
+        - name: "comment"
+          in: "query"
+          description: "If true, then the search includes the comment field of a part."
+          type: boolean
+          default: false
+        - name: "footprint"
+          in: "query"
+          description: "If true, then the search includes the footprint name of a part."
+          type: boolean
+          default: false
+        - name: "category"
+          in: "query"
+          description: "If true, then the search includes the category name of a part."
+          type: boolean
+          default: false
+        - name: "location"
+          in: "query"
+          description: "If true, then the search includes the name field of a part."
+          type: boolean
+          default: false
+        - name: "supplier"
+          in: "query"
+          description: "If true, then the search includes the supplier name of a part."
+          type: boolean
+          default: false
+        - name: "partnr"
+          in: "query"
+          description: "If true, then the search includes the order part number of a part."
+          type: boolean
+          default: false
+        - name: "manufacturer"
+          in: "query"
+          description: "If true, then the search includes the manufacturer name of a part."
+          type: boolean
+          default: false
+      responses:
+        200:
+          description: "Request was successful"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Part'
+        400:
+          description: "The id must be greater 0."
+        500:
+          description: "An exception was thrown."
+          
+  /parts/by-regex/{regex}:
+    get:
+      tags:
+        - Part
+      summary: Search parts which matches the regular expression.
+      produces:
+        - application/json
+      parameters: 
+        - name: "regex"
+          in: "path"
+          description: "The keyword for which should be filtered."
+          required: true
+          example: "BC[1-3]+"
+          type: string
+        - name: "groupby"
+          in: "query"
+          description: "Parts can be grouped by none 'categories', 'footprints', 'storelocations' and 'manufacturers'"
+          type: string
+          default: ""
+        - name: "name"
+          in: "query"
+          description: "If true, then the search includes the name field of a part."
+          type: boolean
+          default: true
+        - name: "description"
+          in: "query"
+          description: "If true, then the search includes the description field of a part."
+          type: boolean
+          default: true
+        - name: "comment"
+          in: "query"
+          description: "If true, then the search includes the comment field of a part."
+          type: boolean
+          default: false
+        - name: "footprint"
+          in: "query"
+          description: "If true, then the search includes the footprint name of a part."
+          type: boolean
+          default: false
+        - name: "category"
+          in: "query"
+          description: "If true, then the search includes the category name of a part."
+          type: boolean
+          default: false
+        - name: "location"
+          in: "query"
+          description: "If true, then the search includes the name field of a part."
+          type: boolean
+          default: false
+        - name: "supplier"
+          in: "query"
+          description: "If true, then the search includes the supplier name of a part."
+          type: boolean
+          default: false
+        - name: "partnr"
+          in: "query"
+          description: "If true, then the search includes the order part number of a part."
+          type: boolean
+          default: false
+        - name: "manufacturer"
+          in: "query"
+          description: "If true, then the search includes the manufacturer name of a part."
+          type: boolean
+          default: false
+      responses:
+        200:
+          description: "Request was successful"
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/Part'
+        400:
+          description: "The id must be greater 0."
+        500:
+          description: "An exception was thrown."
+  
+  /parts/{pid}:
     get:
       tags:
         - Part
@@ -56,8 +448,10 @@ paths:
           description: "Request was successful"
           schema:
             $ref: '#/definitions/Part'
-        404:
-          description: "No part with the given id, were found"
+        400:
+          description: "The id must be greater 0."
+        500:
+          description: "An exception was thrown."
             
     delete:
       tags:
@@ -103,7 +497,7 @@ paths:
           description: "No part with the given id, were found."
             
       
-  /category/{cid}:
+  /categories/{id}:
     get:
       tags:
         - Category
@@ -111,7 +505,7 @@ paths:
       produces:
         - application/json
       parameters:
-        - name: "cid"
+        - name: "id"
           in: "path"
           description: "The id of the category requested."
           required: true
@@ -122,30 +516,153 @@ paths:
           description: Request was successful
           schema:
             $ref: '#/definitions/Category'
-        
+        400:
+          description: "ID must be greater 0!"
+        500:
+          description: "An exception were thrown!"
+            
+  /locations/{id}:
+    get:
+      tags:
+        - Storelocation
+      summary: "Gets all information about the location with the given id"
+      produces:
+        - application/json
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The id of the location requested."
+          required: true
+          type: number
+          format: uint64
+      responses:
+        200:
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/StoreLocation'
+        400:
+          description: "ID must be greater 0!"
+        500:
+          description: "An exception were thrown!"
+  
+  /manufacturers/{id}:
+    get:
+      tags:
+        - Manufacturer
+      summary: "Gets all information about the manufacturer with the given id"
+      produces:
+        - application/json
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The id of the location requested."
+          required: true
+          type: number
+          format: uint64
+      responses:
+        200:
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Company'
+        400:
+          description: "ID must be greater 0!"
+        500:
+          description: "An exception were thrown!"        
           
+  /suppliers/{id}:
+    get:
+      tags:
+        - Supplier
+      summary: "Gets all information about the supplier with the given id"
+      produces:
+        - application/json
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The id of the supplier requested."
+          required: true
+          type: number
+          format: uint64
+      responses:
+        200:
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Company'
+        400:
+          description: "ID must be greater 0!"
+        500:
+          description: "An exception were thrown!"        
+          
+  /attachementtypes/{id}:
+    get:
+      tags:
+        - Attachements
+      summary: "Gets all information about the attachement type with the given id"
+      produces:
+        - application/json
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The id of the attachementtype requested."
+          required: true
+          type: number
+          format: uint64
+      responses:
+        200:
+          description: Request was successful.
+          schema:
+            $ref: '#/definitions/AttachementType'
+        400:
+          description: "ID must be greater 0!"
+        500:
+          description: "An exception were thrown!"
+  
+  /footprints/{id}:
+    get:
+      tags:
+        - Footprint
+      summary: "Gets all information about the footprint with the given id"
+      produces:
+        - application/json
+      parameters:
+        - name: "id"
+          in: "path"
+          description: "The id of the footprint requested."
+          required: true
+          type: number
+          format: uint64
+      responses:
+        200:
+          description: Request was successful
+          schema:
+            $ref: '#/definitions/Footprint'
+        400:
+          description: "ID must be greater 0!"
+        500:
+          description: "An exception were thrown!"        
+  
 definitions:
   SystemInfo:
     type: object
     required: 
-    - Version
+    - version
     properties:
-      Version:
+      version:
         type: string
         example: "V4.0 RC1"
-      GitBranch:
+      gitBranch:
         type: string
         example: "nextgen"
-      GitCommit:
+      gitCommit:
         type: string
         example: "fe1d67d"
         
   Part:
     type: object
     required: 
-    - pid
+    - id
     properties:
-      pid:
+      id:
         description: The id which identifies the part.
         type: number
         example: 10
@@ -229,10 +746,10 @@ definitions:
   Category:
     type: object
     required:
-      - cid
+      - id
     properties:
-      cid:
-        description: "The id of thecategory."
+      id:
+        description: "The id of the category."
         type: number
         example: 23
       name:
@@ -247,6 +764,10 @@ definitions:
         description: The id of the parent category.
         type: number
         example: 3
+      level:
+        description: "A number describing the level in the hierachy"
+        type: number
+        example: 2
       disable_footprints:
         description: "True, if footprints should be disabled for this category."
         type: boolean
@@ -275,9 +796,9 @@ definitions:
   Attachement:
     type: object
     required:
-      - aid
+      - id
     properties:
-      aid:
+      id:
         description: "The id of the attachement."
         type: number
         example: 4
@@ -292,7 +813,7 @@ definitions:
       filename:
         description: "The filename of the attachement."
         type: string
-        example: true
+        example: 
       showInTable:
         description: "True, if the attachement should be shown in the part tables."
         type: string
@@ -303,9 +824,9 @@ definitions:
   AttachementType:
     type: object
     required:
-      - atid
+      - id
     properties:
-      atid:
+      id:
         description: "The id of the attachementtype."
         type: number
         example: 5
@@ -319,6 +840,10 @@ definitions:
         example: "Images / Pictures"
       parentid:
         description: "The id of the parent attachementtype"
+        type: number
+        example: 2
+      level:
+        description: "A number describing the level in the hierachy"
         type: number
         example: 2
   
@@ -341,6 +866,10 @@ definitions:
         example: "Mother Inc. / ACME Inc."
       parentid:
         description: "The id of the parent company"
+        type: number
+        example: 2
+      level:
+        description: "A number describing the level in the hierachy"
         type: number
         example: 2
       address:
@@ -367,9 +896,9 @@ definitions:
   OrderDetails:
     type: object
     required:
-      - oid
+      - id
     properties:
-      oid:
+      id:
         description: "The id of the OrderDetail"
         type: number
         example: 45
@@ -417,9 +946,9 @@ definitions:
   StoreLocation:
     type: object
     required: 
-      - lid
+      - id
     properties:
-      lid:
+      id:
         description: "The id of the storelocation."
         type: number
         example: 4
@@ -431,6 +960,14 @@ definitions:
         description: "The full path to the category."
         type: string
         example: "Location I / Location I-B4"
+      parentid:
+        description: "The id of the Parent storelocation"
+        type: number
+        example: 1
+      level:
+        description: "A number describing the level in the hierachy"
+        type: number
+        example: 2
         
   PartProperty:
     type: object
@@ -450,9 +987,9 @@ definitions:
   Footprint:
     type: object
     required:
-      - fid
+      - id
     properties:
-      fid:
+      id:
         description: "The id of the footprint"
         type: string
         example: "DIP8"
@@ -468,6 +1005,10 @@ definitions:
         description: "The id of the parent"
         type: number
         example: 10
+      level:
+        description: "A number describing the level in the hierachy"
+        type: number
+        example: 2
       filename:
         description: "Get the filename of the picture (absolute path from Part-DB root)"
         type: string
@@ -484,10 +1025,9 @@ definitions:
         description: "Check if the filename is valid (model exists)."
         type: boolean
         example: true
-
+        
 # Added by API Auto Mocking Plugin
-host: virtserver.swaggerhub.com
-basePath: /jbtronics/Part-DB/1.0.0
+host: localhost
+basePath: /Part-DB/api.php/1.0.0
 schemes:
- - https
- - http
+  - http

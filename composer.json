@@ -8,7 +8,9 @@
     "golonka/bbcodeparser": "~v2.2.2",
     "smarty/smarty": "~3.1",
     "smarty-gettext/smarty-gettext": "~1.5.1",
-    "tecnickcom/tcpdf": "dev-master"
+    "tecnickcom/tcpdf": "dev-master",
+    "slim/slim": "3.*",
+    "maximebf/debugbar": "1.*"
   },
 
   "suggests": {

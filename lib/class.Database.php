@@ -100,7 +100,7 @@ include_once(BASE.'/updates/db_update_steps.php');
                     case 'mysql': // MySQL
                         $this->pdo = new PDO('mysql:host='.$config['db']['host'].';dbname='.$config['db']['name'].';charset=utf8',
                                             $config['db']['user'], $config['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
-                                                                                                    PDO::ATTR_PERSISTENT            => true));
+                                                                                                    PDO::ATTR_PERSISTENT            => false));
                         break;
 
                     //case 'sqlite': // SQLite 3
@@ -142,6 +142,12 @@ include_once(BASE.'/updates/db_update_steps.php');
                 if (count($wrong_engine_tables) > 0)
                     throw new Exception(_("Die folgenden MySQL Tabellen haben eine falsche Speicherengine (benötigt wird \"InnoDB\"): \n").
                                         implode(', ', $wrong_engine_tables));
+            }
+
+            if(PDBDebugBar::is_activated())
+            {
+                $this->pdo = new \DebugBar\DataCollector\PDO\TraceablePDO($this->pdo);
+                PDBDebugBar::getInstance()->registerPDO($this->pdo);
             }
         }
 

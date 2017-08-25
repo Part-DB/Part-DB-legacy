@@ -31,7 +31,7 @@
      * @brief This abstract class is used for companies like suppliers or manufacturers.
      * @author kami89
      */
-    abstract class Company extends PartsContainingDBElement
+    abstract class Company extends PartsContainingDBElement implements IAPIModel
     {
         /********************************************************************************
         *
@@ -67,34 +67,6 @@
                 $this->db_data['website'] = '';
                 return;
             }
-        }
-
-        /**
-         * Builds a serializable array containing the infos about this Company
-         * @param mixed $verbose Show verbose informations like address or phone_number about the company
-         * @return array The array containing the Company informations
-         */
-        public function get_json_array($verbose = false)
-        {
-            if($verbose)
-            {
-                $ret = array('id' => $this->get_id(),
-                             'name' => $this->get_name(),
-                             'address' => $this->get_address(),
-                             'phone_number' => $this->get_phone_number(),
-                             'fax_number'  => $this->get_fax_number(),
-                             'email_address' => $this->get_email_address(),
-                             'website' => $this->get_website(),
-                             'auto_url' => $this->get_auto_product_url());
-            }
-            else
-            {
-                $ret = array('id' => $this->get_id(),
-                             'name' => $this->get_name(),
-                             'auto_url' => $this->get_auto_product_url());
-            }
-
-            return $ret;
         }
 
         /********************************************************************************
@@ -270,6 +242,32 @@
             $values['auto_product_url'] = trim($values['auto_product_url']);
             if ((strlen($values['auto_product_url']) > 0) && (mb_strpos($values['auto_product_url'], '://') === false))  // if there is no protocol defined,
                 $values['auto_product_url'] = 'http://'.$values['auto_product_url'];                                     // add "http://" to the begin
+        }
+
+        /**
+         * Returns a Array representing the current object.
+         * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
+         * @return array A array representing the current object.
+         */
+        public function get_API_array($verbose = false)
+        {
+            $json =  array( "id" => $this->get_id(),
+                "name" => $this->get_name(),
+                "fullpath" => $this->get_full_path("/"),
+                "parentid" => $this->get_parent_id(),
+                "level" => $this->get_level()
+            );
+
+            if($verbose == true)
+            {
+                $ver = array("address" => $this->get_address(),
+                    "phone_number" => $this->get_phone_number(),
+                    "fax_number" => $this->get_fax_number(),
+                    "website" => $this->get_website(),
+                    "auto_url" => $this->get_auto_product_url());
+                return array_merge($json,  $ver);
+            }
+            return $json;
         }
 
     }

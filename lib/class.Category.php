@@ -31,7 +31,7 @@
      * @brief All elements of this class are stored in the database table "categories".
      * @author kami89
      */
-    class Category extends PartsContainingDBElement
+    class Category extends PartsContainingDBElement implements IAPIModel
     {
         /********************************************************************************
         *
@@ -55,28 +55,6 @@
         public function __construct(&$database, &$current_user, &$log, $id)
         {
             parent::__construct($database, $current_user, $log, 'categories', $id);
-        }
-
-        public function get_json_array($verbose=false)
-        {
-            if($verbose)
-            {
-                $ret = array( 'id' => $this->get_id(),
-                          'name' => $this->get_name(),
-                          'path' => $this->get_full_path(),
-                          'parent_id' => $this->get_parent_id(),
-                          'level' => $this->get_level()
-                    );
-            }
-            else
-            {
-                $ret = array( 'id' => $this->get_id(),
-                        'name' => $this->get_name(),
-                        'path' => $this->get_full_path()
-                  );
-            }
-
-            return $ret;
         }
 
         /********************************************************************************
@@ -587,5 +565,32 @@
             return parent::search($database, $current_user, $log, 'categories', $keyword, $exact_match);
         }
 
+        /**
+         * Returns a Array representing the current object.
+         * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
+         * @return array A array representing the current object.
+         */
+        public function get_API_array($verbose = false)
+        {
+            $values = array( "id" => $this->get_id(),
+                "name" => $this->get_name(),
+                "fullpath" => $this->get_full_path("/"),
+                "parentid" => $this->get_parent_id(),
+                "level" => $this->get_level()
+            );
+
+            if($verbose == true)
+            {
+                $ver = array("disable_footprints" => $this->get_disable_footprints() == true,
+                    "disable_manufacturers" => $this->get_disable_manufacturers() == true,
+                    "disable_autodatasheets" => $this->get_disable_autodatasheets() == true,
+                    "disable_properties" => $this->get_disable_properties() == true,
+                    "default_description" => $this->get_default_description(),
+                    "default_comment" => $this->get_default_comment());
+                $values = array_merge($values, $ver);
+            }
+
+            return $values;
+        }
     }
 

@@ -193,13 +193,13 @@ var AjaxUI = (function () {
     AjaxUI.prototype.tree_fill = function () {
         'use strict';
         var node_handler = this.onNodeSelected;
-        $.getJSON(BASE + 'api_json.php?mode="tree_category"', function (tree) {
+        $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree) {
             $("#tree-categories").treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
         });
-        $.getJSON(BASE + 'api_json.php?mode="tree_devices"', function (tree) {
+        $.getJSON(BASE + 'api.php/1.0.0/tree/devices', function (tree) {
             $('#tree-devices').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
         });
-        $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree) {
+        $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree) {
             $('#tree-tools').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
         });
     };

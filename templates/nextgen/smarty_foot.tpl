@@ -23,6 +23,7 @@
 <input type="hidden" id="basepath" value="{$relative_path}">
 <input type="hidden" id="autorefresh" value="{$autorefresh}">
 
+
 </div> <!-- content-data -->
 </div> <!-- .container-float -->
 </div> <!-- page-content-wrapper -->
@@ -31,10 +32,11 @@
 
 </div>   <!-- Wrapper -->
 
+<!-- PHP Debugbar -->
+{if isset($debugbar_body)}{$debugbar_body nofilter}{/if}
 
 
 {if !isset($ajax_request) || !ajax_request}
-
     <!-- Back to top button -->
     <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button"
        title="Zum Seitenbeginn" data-toggle="tooltip" data-placement="left">

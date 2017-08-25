@@ -71,7 +71,8 @@
         {/foreach}
         {/if} *}
                
-
+        <!-- PHP Debugbar -->
+        {if isset($debugbar_head)}{$debugbar_head nofilter}{/if}
 
 
 

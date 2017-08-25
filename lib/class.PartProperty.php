@@ -6,7 +6,7 @@
  * Time: 17:30
  */
 
-class PartProperty
+class PartProperty implements IAPIModel
 {
 
     private $name;
@@ -107,5 +107,15 @@ class PartProperty
         }
 
         return $arr;
+    }
+
+    /**
+     * Returns a Array representing the current object.
+     * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
+     * @return array A array representing the current object.
+     */
+    public function get_API_array($verbose = false)
+    {
+        return $this->get_array(true);
     }
 }

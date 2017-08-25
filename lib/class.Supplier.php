@@ -250,5 +250,4 @@
         {
             return parent::search($database, $current_user, $log, 'suppliers', $keyword, $exact_match);
         }
-
     }

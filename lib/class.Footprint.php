@@ -31,7 +31,7 @@
      * @brief All elements of this class are stored in the database table "footprints".
      * @author kami89
      */
-    class Footprint extends PartsContainingDBElement
+    class Footprint extends PartsContainingDBElement implements IAPIModel
     {
         /********************************************************************************
         *
@@ -76,9 +76,12 @@
          * @retval string   @li the absolute path to the picture (from filesystem root), as a UNIX path (with slashes)
          *                  @li an empty string if there is no picture
          */
-        public function get_filename()
+        public function get_filename($absolute = true)
         {
-            return str_replace('%BASE%', BASE, $this->db_data['filename']);
+            if($absolute == true)
+                return str_replace('%BASE%', BASE, $this->db_data['filename']);
+            else
+                return str_replace('%BASE%', "", $this->db_data['filename']);
         }
 
         /**
@@ -87,9 +90,12 @@
         * @retval string   @li the absolute path to the model (from filesystem root), as a UNIX path (with slashes)
         *                  @li an empty string if there is no model
          */
-        public function get_3d_filename()
+        public function get_3d_filename($absolute = true)
         {
-            return str_replace('%BASE%', BASE, $this->db_data['filename_3d']);
+            if($absolute == true)
+                return str_replace('%BASE%', BASE, $this->db_data['filename_3d']);
+            else
+                return str_replace('%BASE%', "", $this->db_data['filename_3d']);
         }
 
         /**
@@ -339,6 +345,31 @@
         public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
         {
             return parent::search($database, $current_user, $log, 'footprints', $keyword, $exact_match);
+        }
+
+        /**
+         * Returns a Array representing the current object.
+         * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
+         * @return array A array representing the current object.
+         */
+        public function get_API_array($verbose = false)
+        {
+            $json =  array( "id" => $this->get_id(),
+                "name" => $this->get_name(),
+                "fullpath" => $this->get_full_path("/"),
+                "parentid" => $this->get_parent_id(),
+                "level" => $this->get_level()
+            );
+
+            if($verbose == true)
+            {
+                $ver = array("filename" => $this->get_filename(false),
+                    "filename_valid" => $this->is_filename_valid(false),
+                    "filename3d" => $this->get_3d_filename(),
+                    "filename3d_valid" => $this->is_3d_filename_valid());
+                return array_merge($json,  $ver);
+            }
+            return $json;
         }
 
     }
