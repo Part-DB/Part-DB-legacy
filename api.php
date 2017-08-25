@@ -154,6 +154,39 @@ $app->get("/1.0.0/footprints/{id}", function($request, $response, $args) use (&$
  * Parts
  ********************************************************************/
 
+$app->get("/1.0.0/parts/noprice", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    try {
+        $parts = Part::get_noprice_parts($database, $current_user, $log);
+        return $response->withJson(convert_APIModel_array($parts));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+$app->get("/1.0.0/parts/ordered", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    try {
+        $parts = Part::get_order_parts($database, $current_user, $log);
+        return $response->withJson(convert_APIModel_array($parts));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+$app->get("/1.0.0/parts/obsolete", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    try {
+        $parts = Part::get_obsolete_parts($database, $current_user, $log);
+        return $response->withJson(convert_APIModel_array($parts));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
 $app->get("/1.0.0/parts/{id}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
     if($args['id'] < 1)
         return generateError($response, "The id must be greater 0!", 400);
