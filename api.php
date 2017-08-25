@@ -299,6 +299,39 @@ $app->get("/1.0.0/parts/by-supplier/{id}", function($request, $response, $args) 
     }
 });
 
+$app->get("/1.0.0/parts/by-keyword/{keyword}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    try {
+        $keyword = trim($args['keyword']);
+        $keyword = trim($keyword, '"');
+        $parts = Part::search_parts($database, $current_user, $log, $keyword,
+            sie($args['groupby'], ""), sie($args['name'], true), sie($args['description'], true),
+            sie($args['comment'], false), sie($args['footprint'], false), sie($args['category'], false),
+            sie($args['location'], false), sie($args['supplier'], false), sie($args['partnr'], false), sie($args['manufacturer'], false),
+            false);
+        return $response->withJson(convert_APIModel_array($parts));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+$app->get("/1.0.0/parts/by-regex/{keyword}", function($request, $response, $args) use (&$database, &$log, &$current_user) {
+    try {
+        $keyword = trim($args['keyword']);
+        $keyword = trim($keyword, '"');
+        $parts = Part::search_parts($database, $current_user, $log, $keyword,
+            sie($args['groupby'], ""), sie($args['name'], true), sie($args['description'], true),
+            sie($args['comment'], false), sie($args['footprint'], false), sie($args['category'], false),
+            sie($args['location'], false), sie($args['supplier'], false), sie($args['partnr'], false), sie($args['manufacturer'], false),
+            true);
+        return $response->withJson(convert_APIModel_array($parts));
+    }
+    catch (Exception $ex)
+    {
+        return generateError($response, "", 500, $ex);
+    }
+});
 
 /********************************************************************
  * System

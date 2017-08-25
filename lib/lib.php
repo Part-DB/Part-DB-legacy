@@ -989,3 +989,17 @@ function buildToolsTree($params)
 
     return $tree;
 }
+
+    /**
+     * Short for "set if empty"
+     * Checks if $test is null, then set it to $default_val, else return the normal
+    * @param mixed $test The value which should be checked.
+    * @param mixed $default_val The value, to which the value should be set defaultly
+     * @return mixed The result
+    */
+    function sie($test, $default_val = "") {
+        if(isset($test))
+            return $test;
+        else
+            return $default_val;
+    }
