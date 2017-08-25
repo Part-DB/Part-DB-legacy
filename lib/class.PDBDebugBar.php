@@ -52,7 +52,7 @@ class PDBDebugBar
     public static function is_activated()
     {
         global $config;
-        return $config['debug']['enable'];
+        return $config['debug']['debugbar'];
     }
 
     public function sendData()
