@@ -549,7 +549,7 @@
      * @brief Get proposed filenames for an invalid filename
      *
      * If the user moves a file (e.g. in the media/ directory), the files will be found no longer.
-     * To re-assign "Attachement"-objects (see "class.Attachement.php") with the missing file,
+     * To re-assign "Attachement"-objects (see "Attachement.php") with the missing file,
      * this function is needed. You can pass the old filename, and you will get
      * proposed filenames. Maybe the original file can be found again this way.
      *

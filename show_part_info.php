@@ -39,7 +39,7 @@
     $n_more             = isset($_REQUEST['n_more'])            ? (integer)$_REQUEST['n_more']          : 0;
     $order_quantity     = isset($_REQUEST['order_quantity'])    ? (integer)$_REQUEST['order_quantity']  : 0;
 
-    //Parse Barcode scan
+    //Parse Label scan
     if(isset($_REQUEST['barcode']))
     {
         $barcode = $_REQUEST['barcode'];
@@ -54,7 +54,7 @@
         }
         else
         {
-            $messages[] = $messages[] = array('text' => nl2br(_("Barcode input is not valid!")), 'strong' => true, 'color' => 'red');
+            $messages[] = $messages[] = array('text' => nl2br(_("Label input is not valid!")), 'strong' => true, 'color' => 'red');
             $fatal_error = true;
         }
     }

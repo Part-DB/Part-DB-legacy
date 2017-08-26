@@ -41,7 +41,20 @@
      * @author kami89
      */
 
-    $import_data_columns = array(   // for import parts
+use PartDB\Category;
+use PartDB\Database;
+use PartDB\DevicePart;
+use PartDB\Footprint;
+use PartDB\Log;
+use PartDB\Manufacturer;
+use PartDB\Orderdetails;
+use PartDB\Part;
+use PartDB\Pricedetails;
+use PartDB\Storelocation;
+use PartDB\Supplier;
+use PartDB\User;
+
+$import_data_columns = array(   // for import parts
                                     'part_name', 'part_description', 'part_instock', 'part_mininstock', 'part_comment',
                                     'part_category_name', 'part_footprint_name', 'part_storelocation_name', 'part_manufacturer_name',
                                     'part_supplier_name', 'part_supplierpartnr', 'part_price',

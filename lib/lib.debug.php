@@ -29,7 +29,9 @@
      * @author kami89
      */
 
-    define('DEBUG_LOG_FILENAME', BASE.'/data/log/debug_log.xml');
+use PartDB\Tools\PDBDebugBar;
+
+define('DEBUG_LOG_FILENAME', BASE.'/data/log/debug_log.xml');
 
     /********************************************************************************
     *

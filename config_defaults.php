@@ -58,7 +58,7 @@
     $config['db']['name']                                   = '';
     $config['db']['user']                                   = '';
     $config['db']['password']                               = '';
-    $config['db']['charset']                                = 'utf8'; ///< @todo THIS IS NOT USED AT THE MOMENT (hardcoded to "uft8" in class.Database.php)!! Do we need this parameter?!?!
+    $config['db']['charset']                                = 'utf8'; ///< @todo THIS IS NOT USED AT THE MOMENT (hardcoded to "uft8" in Database.php)!! Do we need this parameter?!?!
     $config['db']['auto_update']                            = false;
     $config['db']['backup']['name']                         = ''; // If you use an external database backup system, set here "MySQLDumper" for example
     $config['db']['backup']['url']                          = ''; // the link to the database backup system, e.g. "../mysqldumper/"
@@ -175,7 +175,7 @@
 
     // system version: this must be increased for every release(-candidate)!
     // IMPORTANT: please note that (for example) "0.3.0" is a HIGHER (!) version than "0.3.0.RC5".
-    $config['system']['version']                            = '0.4.0.RC1';  // examples: '0.2.2' or '0.2.2.RC2' (see class.SystemVersion.php)
+    $config['system']['version']                            = '0.4.0.RC1';  // examples: '0.2.2' or '0.2.2.RC2' (see SystemVersion.php)
 
     // the version of the latest config style. Increase this for one if we need an update for the user's config.php (see also updates/config_update_steps.php)
     $config['system']['latest_config_version']              = 2; // only increase for one!
