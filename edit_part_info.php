@@ -116,9 +116,19 @@
     }
     // section: pricedetails
     if(isset($pricedetails_id)) {
-        $new_price = isset($_REQUEST['price_' . $pricedetails_id]) ? (float)str_replace(',', '.', $_REQUEST['price_' . $pricedetails_id]) : 0;
-        $new_min_discount_quantity = isset($_REQUEST['min_discount_quantity_' .  $pricedetails_id]) ? (integer)$_REQUEST['min_discount_quantity_' .  $pricedetails_id] : 1;
-        $new_price_related_quantity = isset($_REQUEST['price_related_quantity_' . $pricedetails_id]) ? (integer)$_REQUEST['price_related_quantity_'.$pricedetails_id] : 1;
+        if(isset($orderdetails_id))
+        {
+            $new_price = isset($_REQUEST['price_' . $orderdetails_id . "_" . $pricedetails_id]) ? (float)str_replace(',', '.', $_REQUEST['price_' . $orderdetails_id . "_" . $pricedetails_id]) : 0;
+            $new_min_discount_quantity = isset($_REQUEST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id]) ? (integer)$_REQUEST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id] : 1;
+            $new_price_related_quantity = isset($_REQUEST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id]) ? (integer)$_REQUEST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id] : 1;
+        }
+        else
+        {
+            $new_price = isset($_REQUEST['price_' . $pricedetails_id]) ? (float)str_replace(',', '.', $_REQUEST['price_'  . $pricedetails_id]) : 0;
+            $new_min_discount_quantity = isset($_REQUEST['min_discount_quantity_' .  $pricedetails_id]) ? (integer)$_REQUEST['min_discount_quantity_'  .  $pricedetails_id] : 1;
+            $new_price_related_quantity = isset($_REQUEST['price_related_quantity_'  . $pricedetails_id]) ? (integer)$_REQUEST['price_related_quantity_' . $pricedetails_id] : 1;
+        }
+
     }
 
 /********************************************************************************
