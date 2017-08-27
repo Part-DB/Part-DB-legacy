@@ -123,7 +123,8 @@ include_once(BASE.'/updates/db_update_steps.php');
                         __FILE__, __LINE__, __METHOD__);
 
                 throw new Exception(_("Es konnte nicht mit der Datenbank verbunden werden! \n".
-                                      'Überprüfen Sie, ob die Zugangsdaten korrekt sind.'));
+                                      'Überprüfen Sie, ob die Zugangsdaten korrekt sind.') . "\n\n".
+                                        _("Details: ") . $e->getMessage());
             }
 
             // make some checks
