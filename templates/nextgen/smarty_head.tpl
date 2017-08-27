@@ -228,11 +228,11 @@
                        {if isset($messages)}
                        {assign "alert_style" "alert-info"}
                        {foreach $messages as $msg}
-                            {if $msg.color == "red"}
+                            {if isset($msg.color) && $msg.color == "red"}
                                 {assign "alert_style" "alert-danger"}
-                            {elseif $msg.color == "green" || $msg.color == "darkgreen"}
+                            {elseif isset($msg.color) && ( $msg.color == "green" || $msg.color == "darkgreen")}
                                  {assign "alert_style" "alert-success"}
-                            {elseif $msg.color == "yellow" || $msg.color == "orange"}
+                            {elseif isset($msg.color) && ($msg.color == "yellow" || $msg.color == "orange")}
                                  {assign "alert_style" "alert-warning"}
                             {/if}
                        {/foreach}
