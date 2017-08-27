@@ -23,6 +23,17 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
+use PartDB\Category;
+use PartDB\Database;
+use PartDB\Footprint;
+use PartDB\HTML;
+use PartDB\Log;
+use PartDB\Storelocation;
+use PartDB\Supplier;
+use PartDB\System;
+use PartDB\User;
+use PartDB\Manufacturer;
+
     /*
      * This site is used for editing an existing part.
      * But it is also used for creating new parts,
@@ -734,16 +745,16 @@
                 $manufacturer_id    = $new_manufacturer_id;
             }
 
-            if (isset($searched_element) && get_class($searched_element) == 'Category')
+            if (isset($searched_element) && $searched_element instanceof Category)
                 $category_id = $searched_element->get_id();
 
-            if (isset($searched_element) && get_class($searched_element) == 'Footprint')
+            if (isset($searched_element) && $searched_element instanceof Footprint)
                 $footprint_id = $searched_element->get_id();
 
-            if (isset($searched_element) && get_class($searched_element) == 'Storelocation')
+            if (isset($searched_element) && $searched_element instanceof Storelocation)
                 $storelocation_id = $searched_element->get_id();
 
-            if (isset($searched_element) && get_class($searched_element) == 'Manufacturer')
+            if (isset($searched_element) && $searched_element instanceof Manufacturer)
                 $manufacturer_id = $searched_element->get_id();
 
 

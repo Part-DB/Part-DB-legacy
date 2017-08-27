@@ -92,13 +92,13 @@
          */
         public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false, $db_data = null)
         {
-            if (get_class($database) != 'Database')
+            if (!$database instanceof Database)
                 throw new Exception(_('$database ist kein Database-Objekt!'));
 
-            if (get_class($current_user) != 'User')
+            if (!$current_user instanceof User)
                 throw new Exception(_('$current_user ist kein User-Objekt!'));
 
-            if (get_class($log) != 'Log')
+            if (!$log instanceof Log)
                 throw new Exception(_('$log ist kein DebugLog-Objekt!'));
 
             $this->database = $database;
@@ -347,13 +347,13 @@
          */
         public static function add(&$database, &$current_user, &$log, $tablename, $new_values)
         {
-            if (get_class($database) != 'Database')
+            if (!$database instanceof Database)
                 throw new Exception(_('$database ist kein gültiges Database-Objekt!'));
 
-            if (get_class($current_user) != 'User')
+            if (!$current_user instanceof User)
                 throw new Exception(_('$current_user ist kein gültiges User-Objekt!'));
 
-            if (get_class($log) != 'Log')
+            if (!$log instanceof Log)
                 throw new Exception(_('$log ist kein gültiges Log-Objekt!'));
 
             if ( ! is_string($tablename))

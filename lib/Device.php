@@ -476,7 +476,7 @@
          */
         public static function get_count(&$database)
         {
-            if (get_class($database) != 'Database')
+            if (!$database instanceof Database)
                 throw new Exception('$database ist kein Database-Objekt!');
 
             return $database->get_count_of_records('devices');

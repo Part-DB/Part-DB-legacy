@@ -311,7 +311,7 @@
          */
         public static function get_device_part(&$database, &$current_user, &$log, $device_id, $part_id)
         {
-            if (get_class($database) != 'Database')
+            if (!$database instanceof Database)
                 throw new Exception(_('$database ist kein Database-Objekt!'));
 
             $query_data = $database->query('SELECT id FROM device_parts '.
@@ -338,7 +338,7 @@
          */
         public static function get_order_device_parts(&$database, &$current_user, &$log, $part_id = NULL)
         {
-            if (get_class($database) != 'Database')
+            if (!$database instanceof Database)
                 throw new Exception('$database ist kein Database-Objekt!');
 
             $device_parts = array();

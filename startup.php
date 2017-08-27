@@ -33,7 +33,7 @@ use PartDB\Supplier;
 use PartDB\System;
 use PartDB\User;
 
-include_once('start_session.php');
+    include_once('start_session.php');
     include_once('authors.php');
 
     $messages = array();

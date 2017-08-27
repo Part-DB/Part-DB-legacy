@@ -1558,7 +1558,7 @@
          */
         public static function get_count(&$database)
         {
-            if (get_class($database) != 'Database')
+            if (!$database instanceof Database)
                 throw new Exception('$database ist kein Database-Objekt!');
 
             return $database->get_count_of_records('parts');
@@ -1579,7 +1579,7 @@
          */
         public static function get_sum_count_instock(&$database)
         {
-            if (get_class($database) != 'Database')
+            if (!$database instanceof Database)
                 throw new Exception('$database ist kein Database-Objekt!');
 
             $query_data = $database->query('SELECT sum(instock) as sum FROM parts');
@@ -1606,7 +1606,7 @@
          */
         public static function get_sum_price_instock(&$database, &$current_user, &$log, $as_money_string = true)
         {
-            if (get_class($database) != 'Database')
+            if (!$database instanceof Database)
                 throw new Exception('$database ist kein Database-Objekt!');
 
             $query =    'SELECT part_id, min_discount_quantity, price_related_quantity, price, instock FROM pricedetails ' .
@@ -1659,7 +1659,7 @@
          */
         public static function get_order_parts(&$database, &$current_user, &$log, $supplier_ids = array(), $with_devices = true)
         {
-            if (get_class($database) != 'Database')
+            if (!$database instanceof Database)
                 throw new Exception('$database ist kein Database-Objekt!');
 
             $parts = array();
@@ -1706,7 +1706,7 @@
          */
         public static function get_noprice_parts(&$database, &$current_user, &$log)
         {
-            if (get_class($database) != 'Database')
+            if (!$database instanceof Database)
                 throw new Exception('$database ist kein Database-Objekt!');
 
             $parts = array();
@@ -1739,7 +1739,7 @@
          */
         public static function get_obsolete_parts(&$database, &$current_user, &$log, $no_orderdetails_parts = false)
         {
-            if (get_class($database) != 'Database')
+            if (!$database instanceof Database)
                 throw new Exception('$database ist kein Database-Objekt!');
 
             $parts = array();

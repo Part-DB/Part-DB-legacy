@@ -72,10 +72,10 @@ use PartDB\Tools\SystemVersion;
          */
         public function __construct(&$database, &$log)
         {
-            if (get_class($database) != 'Database')
+            if (!$database instanceof Database)
                 throw new Exception('$database ist kein Database-Objekt!');
 
-            if (get_class($log) != 'Log')
+            if (!$log instanceof Log)
                 throw new Exception('$log ist kein Log-Objekt!');
 
             $this->database = $database;

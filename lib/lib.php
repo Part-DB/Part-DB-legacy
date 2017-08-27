@@ -29,8 +29,10 @@
      * @author kami89
      */
 
+use PartDB\Part;
 
-    /**
+
+/**
      * @brief check if a given number is odd
      *
      * @param integer $number       A number
@@ -742,7 +744,7 @@
     * @brief Split a search string with search modifiers like "incategory:Category1" or "inname:Name2" into a array with
      * the modifier keywords in named elemets.
     *
-    * @param string search_str             the search containing the search modifiers.
+    * @param $search_str string             the search containing the search modifiers.
     *
     * @retval array            @li an array with the elements name, description, comment, footprint, category,
      *                          storelocation, suppliername, partnr and manufacturername. Element is "" when no modifier for
