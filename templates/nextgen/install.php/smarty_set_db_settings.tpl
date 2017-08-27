@@ -50,10 +50,27 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Datenbankpasswort:{/t}</label>
                     <div class="col-md-9">
-                        <input type="password" class="form-control" name="db_password" value="" required>
+                        <input type="password" class="form-control" name="db_password" value="">
                         <!-- (nicht nötig für SQLite) -->
                     </div>
                 </div>
+
+                <hr>
+
+                <label>{t}Sollte es nicht möglich sein mit der Datenbank zu verbinden, versuchen sie eine der untenstehenden Optionen anzuwählen:{/t}</label>
+
+                <div class="form-group">
+                    {* <label class="col-md-3 control-label">{t}Leerzeichen in PDO-String einfügen:{/t}</label> *}
+                    <div class="col-md-9 col-md-offset-3">
+                        <div class="checkbox">
+                            <input type="checkbox" class="form-control" name="space_fix" value="" {if $space_fix}checked{/if}>
+                            <label>{t}Leerzeichen in PDO-String einfügen{/t}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <hr>
+
                 <div class="form-group">
                     <div class="col-md-9 col-md-offset-3">
                         <button class="btn btn-primary" type="submit" name="save_db_settings">{t}Weiter{/t}</button>

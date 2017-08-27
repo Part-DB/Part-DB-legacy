@@ -60,6 +60,7 @@
     $db_name        = isset($_REQUEST['db_name'])           ? (string)$_REQUEST['db_name']              : 'part-db';
     $db_user        = isset($_REQUEST['db_user'])           ? (string)$_REQUEST['db_user']              : '';
     $db_password    = isset($_REQUEST['db_password'])       ? trim((string)$_REQUEST['db_password'])    : '';
+    $space_fix      = isset($_REQUEST['space_fix'])         ? true                                      : false;
 
     // step "set_db_backup_path"
     $db_backup_name = isset($_REQUEST['db_backup_name'])    ? (string)$_REQUEST['db_backup_name']       : '';
@@ -142,6 +143,7 @@
                     $config['db']['name'] = $db_name;
                     $config['db']['user'] = $db_user;
                     $config['db']['password'] = $db_password;
+                    $config['db']['space_fix'] = $space_fix;
 
                     if (strlen($config['db']['name']) == 0)
                         throw new Exception('Der Datenbankname darf nicht leer sein!');
@@ -219,6 +221,7 @@
             $html->set_variable('db_host',          $config['db']['host'],                          'string');
             $html->set_variable('db_name',          $config['db']['name'],                          'string');
             $html->set_variable('db_user',          $config['db']['user'],                          'string');
+            $html->set_variable("space_fix",        $config['db']['space_fix'],         'boolean');
         }
         elseif ( ! $config['installation_complete']['db_backup_path'])
         {
@@ -242,6 +245,9 @@
 
     $reload_link = $fatal_error ? 'install.php' : '';   // an empty string means that the...
     //$html->print_header($messages, $reload_link);       // ...reload-button won't be visible
+
+    if(!empty($messages))
+        $html->set_loop("messages", $messages);
 
     $html->print_template('header');
 
