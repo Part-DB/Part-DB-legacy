@@ -73,4 +73,42 @@
 
 <div class="container">
 
+    {if isset($messages)}
+        {assign "alert_style" "alert-info"}
+        {foreach $messages as $msg}
+            {if isset($msg.color) && $msg.color == "red"}
+                {assign "alert_style" "alert-danger"}
+            {elseif isset($msg.color) && ( $msg.color == "green" || $msg.color == "darkgreen")}
+                {assign "alert_style" "alert-success"}
+            {elseif isset($msg.color) && ($msg.color == "yellow" || $msg.color == "orange")}
+                {assign "alert_style" "alert-warning"}
+            {/if}
+        {/foreach}
+        <div class="alert {$alert_style}" id="messages">
+            {if !empty($messages_div_title)}<h4>{$messages_div_title}</h4>{/if}
+            <form action="" method="post" class="no-progbar">
+                {foreach $messages as $msg}
+                    {if isset($msg.text)}
+                        {if isset($msg.strong) && $msg.strong}<strong>{/if}
+                        {$msg.text nofilter}
+                        {if isset($msg.strong) && $msg.strong}</strong>{/if}
+                    {/if}
+
+                    {if isset($msg.html)}
+                        {$msg.html nofilter}
+                    {/if}
+
+                    {if !isset($msg.no_linebreak) || !$msg.no_linebreak}<br>{/if}
+                {/foreach}
+
+                {if !empty($reload_link)}
+                    <a href="{$reload_link}">
+                        <br>
+                        <button class="btn btn-default">{t}Seite neu laden{/t}</button>
+                    </a>
+                {/if}
+            </form>
+        </div>
+    {/if}
+
 
