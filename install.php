@@ -243,6 +243,9 @@
     $reload_link = $fatal_error ? 'install.php' : '';   // an empty string means that the...
     //$html->print_header($messages, $reload_link);       // ...reload-button won't be visible
 
+    if(!empty($messages))
+        $html->set_loop("messages", $messages);
+
     $html->print_template('header');
 
     if (! $fatal_error)
