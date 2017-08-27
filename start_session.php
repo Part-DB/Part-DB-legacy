@@ -321,7 +321,6 @@
      *  Register Autoloaders
      *
      ********************************************************************************/
-
-    include_once (BASE.'/lib/autoloader.php');
+    
     //Include Composer autoloader
     require 'vendor/autoload.php';
