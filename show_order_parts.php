@@ -26,7 +26,15 @@
     include_once('start_session.php');
     include_once(BASE.'/lib/lib.export.php');
 
-    $messages = array();
+use PartDB\Database;
+use PartDB\Device;
+use PartDB\HTML;
+use PartDB\Log;
+use PartDB\Part;
+use PartDB\Supplier;
+use PartDB\User;
+
+$messages = array();
     $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
     /********************************************************************************

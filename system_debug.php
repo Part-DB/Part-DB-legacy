@@ -25,7 +25,9 @@
 
     include_once('start_session.php');
 
-    $errors = array();
+use PartDB\HTML;
+
+$errors = array();
 
     if (isset($_REQUEST["add"]))
     {

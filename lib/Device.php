@@ -448,7 +448,7 @@
          */
         public static function get_order_devices(&$database, &$current_user, &$log)
         {
-            if (get_class($database) != 'Database')
+            if (!$database instanceof Database)
                 throw new Exception('$database ist kein Database-Objekt!');
 
             $devices = array();

@@ -25,7 +25,9 @@
 
     include_once('start_session.php');
 
-    // this file enables write permissions in the DokuWiki
+use PartDB\HTML;
+
+// this file enables write permissions in the DokuWiki
     define('DOKUWIKI_PERMS_FILENAME', BASE.'/data/ENABLE-DOKUWIKI-WRITE-PERMS.txt');
 
     $messages = array();

@@ -8,6 +8,16 @@
 
 include_once('start_session.php');
 
+use PartDB\Category;
+use PartDB\Database;
+use PartDB\Device;
+use PartDB\Footprint;
+use PartDB\Log;
+use PartDB\Manufacturer;
+use PartDB\Storelocation;
+use PartDB\Supplier;
+use PartDB\User;
+
 $app = new Slim\App();
 $database           = new Database();
 $log                = new Log($database);

@@ -25,7 +25,20 @@
 
     include_once('start_session.php');
 
-    $messages = array();
+use PartDB\Attachement;
+use PartDB\Category;
+use PartDB\Database;
+use PartDB\Device;
+use PartDB\Footprint;
+use PartDB\HTML;
+use PartDB\Log;
+use PartDB\Manufacturer;
+use PartDB\Part;
+use PartDB\Storelocation;
+use PartDB\Supplier;
+use PartDB\User;
+
+$messages = array();
     $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
     /********************************************************************************

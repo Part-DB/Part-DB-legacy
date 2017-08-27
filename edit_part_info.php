@@ -23,22 +23,26 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
+use PartDB\Attachement;
+use PartDB\AttachementType;
 use PartDB\Category;
 use PartDB\Database;
 use PartDB\Footprint;
 use PartDB\HTML;
 use PartDB\Log;
+use PartDB\Manufacturer;
+use PartDB\Orderdetails;
+use PartDB\Part;
+use PartDB\Pricedetails;
 use PartDB\Storelocation;
 use PartDB\Supplier;
-use PartDB\System;
 use PartDB\User;
-use PartDB\Manufacturer;
 
-    /*
-     * This site is used for editing an existing part.
-     * But it is also used for creating new parts,
-     * because this way we don't have to create another, quite similar site.
-     */
+/*
+ * This site is used for editing an existing part.
+ * But it is also used for creating new parts,
+ * because this way we don't have to create another, quite similar site.
+ */
 
     include_once('start_session.php');
 

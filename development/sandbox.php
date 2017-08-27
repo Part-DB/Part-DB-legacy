@@ -32,7 +32,14 @@
 
     include_once('../start_session.php');
 
-    /********************************************************************************
+
+use PartDB\Database;
+use PartDB\HTML;
+use PartDB\Log;
+use PartDB\System;
+use PartDB\User;
+
+/********************************************************************************
     *
     *   Template Stuff
     *

@@ -33,7 +33,12 @@
 
     include_once('start_session.php');
 
-    $messages = array();
+use PartDB\Database;
+use PartDB\Label\PartLabel;
+use PartDB\Log;
+use PartDB\User;
+
+$messages = array();
     $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
     /********************************************************************************

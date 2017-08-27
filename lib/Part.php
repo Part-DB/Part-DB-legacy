@@ -25,6 +25,7 @@
 
     namespace PartDB;
     use Exception;
+    use PartDB\PartProperty\PartProperty;
 
     /**
      * @file Part.php
@@ -237,7 +238,7 @@
 
             if($parse_bbcode)
             {
-                $bbcode = new Golonka\BBCode\BBCodeParser;
+                $bbcode = new \Golonka\BBCode\BBCodeParser;
                 $val = $bbcode->only("bold", "italic", "underline", "linethrough")->parse($val);
             }
 
@@ -275,7 +276,7 @@
             $val = htmlspecialchars($this->db_data['comment']);
             if($parse_bbcode)
             {
-                $bbcode = new Golonka\BBCode\BBCodeParser;
+                $bbcode = new \Golonka\BBCode\BBCodeParser;
                 $val = $bbcode->parse($val);
             }
 

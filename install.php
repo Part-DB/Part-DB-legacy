@@ -36,7 +36,11 @@
 
     include_once('start_session.php');
 
-    $messages = array();
+use PartDB\Database;
+use PartDB\HTML;
+use PartDB\Tools\SystemVersion;
+
+$messages = array();
     $fatal_error = false;
 
     /********************************************************************************

@@ -27,7 +27,15 @@
     include_once(BASE.'/lib/lib.export.php');
     include_once(BASE.'/lib/lib.import.php');
 
-    $messages = array();
+use PartDB\Database;
+use PartDB\Device;
+use PartDB\DevicePart;
+use PartDB\HTML;
+use PartDB\Log;
+use PartDB\Part;
+use PartDB\User;
+
+$messages = array();
     $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
     /********************************************************************************
