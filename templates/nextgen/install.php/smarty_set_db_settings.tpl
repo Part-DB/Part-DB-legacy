@@ -50,7 +50,7 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Datenbankpasswort:{/t}</label>
                     <div class="col-md-9">
-                        <input type="password" class="form-control" name="db_password" value="" required>
+                        <input type="password" class="form-control" name="db_password" value="">
                         <!-- (nicht nötig für SQLite) -->
                     </div>
                 </div>
