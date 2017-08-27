@@ -65,6 +65,7 @@
     $config['db']['update_error']['version']                = -1; // Momerize the database version in case of an error (see Database::update())
     $config['db']['update_error']['next_step']              = 0; // Momerize the position of the update step in case of an error (see Database::update())
     $config['db']['limit']['search_parts']                  = 200; // Limits the number of search results
+    $config['db']['space_fix']                              = false; //Add a space between mysql: and host= in the PDO dsn string. This maybe helps connecting to an external DB. See: http://stackoverflow.com/a/25432156
 
     // html/template settings
     $config['html']['http_charset']                         = 'utf-8'; ///< @todo remove this parameter completely, I think we don't need it! temporary hardcoded in start_session.php

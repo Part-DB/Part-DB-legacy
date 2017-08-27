@@ -98,9 +98,15 @@ include_once(BASE.'/updates/db_update_steps.php');
                 switch($config['db']['type'])
                 {
                     case 'mysql': // MySQL
-                        $this->pdo = new PDO('mysql:host='.$config['db']['host'].';dbname='.$config['db']['name'].';charset=utf8',
+                        if( $config['db']['space_fix'] == false)
+                            $this->pdo = new PDO('mysql:host='.$config['db']['host'].';dbname='.$config['db']['name'].';charset=utf8',
                                             $config['db']['user'], $config['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
                                                                                                     PDO::ATTR_PERSISTENT            => false));
+                        else //Include space between mysql and host in dsn string.
+                            $this->pdo = new PDO('mysql: host='.$config['db']['host'].';dbname='.$config['db']['name'].';charset=utf8',
+                                $config['db']['user'], $config['db']['password'], array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
+                                    PDO::ATTR_PERSISTENT            => false));
+
                         break;
 
                     //case 'sqlite': // SQLite 3
