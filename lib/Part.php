@@ -186,7 +186,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * Gets the content for a 1D/2D barcode for this part
      * @param string $barcode_type the type of the barcode ("EAN8" or "QR")
      * @return string
-     * @throws An Exception is thrown if you selected a unknown barcode type.
+     * @throws Exception An Exception is thrown if you selected a unknown barcode type.
      */
     public function get_barcode_content($barcode_type = "EAN8")
     {

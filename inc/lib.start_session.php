@@ -65,7 +65,7 @@ function print_messages_without_template($page_title, $div_title, $messages)
  * @param integer $category     locale category, see PHP documentation of setlocale()
  * @param string  $locale       locale string, see PHP documentation of setlocale()
  *
- * @retval boolean  true if success, false if fail
+ * @return boolean  true if success, false if fail
  *
  * @todo    the Workaround for Windows is not really pretty -> make it better!
  */

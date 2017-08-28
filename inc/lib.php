@@ -29,6 +29,7 @@
  * @author kami89
  */
 
+use PartDB\Interfaces\IAPIModel;
 use PartDB\Part;
 
 /**
@@ -71,7 +72,7 @@ function get_git_branch_name()
  *
  * @param integer $length       if this is smaller than 40, only the first $length characters will be returned
  *
- * @retval string|null       The hash of the last commit, null If this is no Git installation
+ * @return string|null       The hash of the last commit, null If this is no Git installation
  *
  * @throws Exception if there was an error
  */
@@ -370,7 +371,7 @@ function set_admin_password($old_password, $new_password_1, $new_password_2, $sa
 /**
  * Check if a string is the correct admin password
  *
- * @param string $passwort      The password (plain, not crypted) we want to check
+ * @param $passwort string      The password (plain, not crypted) we want to check
  *                              (compare with the administrators password)
  *
  * @return boolean      * true if the password is correct
@@ -748,7 +749,7 @@ function replace_placeholder_with_infos($string, $part)
  *
  * @param $search_str string             the search containing the search modifiers.
  *
- * @retval array            * an array with the elements name, description, comment, footprint, category,
+ * @return array            * an array with the elements name, description, comment, footprint, category,
  *                          storelocation, suppliername, partnr and manufacturername. Element is "" when no modifier for
  *                          this element was given.
  * * if $search_str does not contain any search modifier, then every element of the array
@@ -882,7 +883,8 @@ function strcontains($haystack, $needle)
 /**
  * Converts an array of objects implementing the APIModel interface to an array of API objects
  * @param $array array The array of the APIModel objects.
- * @return array An array of API objects
+ * @return IAPIModel[] An array of API objects
+ * @throws Exception
  */
 function convert_APIModel_array($array, $verbose = false)
 {
