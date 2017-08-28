@@ -88,7 +88,7 @@
     *
     *********************************************************************************/
 
-    include_once($BASE_tmp.'/config_defaults.php'); // first, we load all default values of the $config array...
+    include_once($BASE_tmp.'/inc/config_defaults.php'); // first, we load all default values of the $config array...
 
     if (file_exists($BASE_tmp.'/data/config.php') && is_readable($BASE_tmp.'/data/config.php'))
         include_once($BASE_tmp.'/data/config.php'); // ...and then we overwrite them with the user settings, if they exist
