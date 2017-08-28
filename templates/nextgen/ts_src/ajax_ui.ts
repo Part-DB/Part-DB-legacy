@@ -337,7 +337,7 @@ let ajaxui : AjaxUI = AjaxUI.getInstance();
 /**
  * Register the events which has to be run in AjaxUI and start the execution.
  */
-$(document).ready(function(event){
+$(function(event){
 
     ajaxui.addStartAction(addCollapsedClass);
     ajaxui.addStartAction(treeviewBtnInit);
