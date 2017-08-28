@@ -8,14 +8,17 @@
 
 include_once('start_session.php');
 
+use PartDB\AttachementType;
 use PartDB\Category;
 use PartDB\Database;
 use PartDB\Device;
 use PartDB\Footprint;
 use PartDB\Log;
 use PartDB\Manufacturer;
+use PartDB\Part;
 use PartDB\Storelocation;
 use PartDB\Supplier;
+use PartDB\Tools\SystemVersion;
 use PartDB\User;
 
 $app = new Slim\App();
@@ -46,12 +49,17 @@ function generateError($response, $message = "", $code = 500, $exception = null)
 
 function generateTreeForClass($class, &$database, &$current_user, &$log, $params = null, $page = "", $key = "")
 {
-    $root_id = (isset($params['root_id']) && $params['root_id'] >= 0) ? $params['root_id'] : 0;
-    $root  = new $class($database, $current_user, $log, $root_id);
-    if (isset($params['page']) && isset($params['parameter'])) {
-        return $root->build_bootstrap_tree($params['page'], $params['parameter']);
-    } else {
-        return $root->build_bootstrap_tree($page, $key);
+    try {
+        $root_id = (isset($params['root_id']) && $params['root_id'] >= 0) ? $params['root_id'] : 0;
+        $root = new $class($database, $current_user, $log, $root_id);
+        if (isset($params['page']) && isset($params['parameter'])) {
+            return $root->build_bootstrap_tree($params['page'], $params['parameter']);
+        } else {
+            return $root->build_bootstrap_tree($page, $key);
+        }
+    } catch (Exception $ex)
+    {
+        debug("error", $ex);
     }
 }
 
@@ -418,6 +426,5 @@ $app->get("/1.0.0/tree/tools[/]", function ($request, $response, $args) {
         return generateError($response, "", 500, $ex);
     }
 });
-
 
 $app->run();

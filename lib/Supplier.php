@@ -56,9 +56,9 @@ class Supplier extends Base\Company
      * @throws Exception    if there is no such supplier in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id)
+    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'suppliers', $id);
+        parent::__construct($database, $current_user, $log, 'suppliers', $id, false, $data);
     }
 
     /********************************************************************************

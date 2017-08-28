@@ -56,9 +56,9 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @throws Exception if there is no such storelocation in the database
      * @throws Exception if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id)
+    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'storelocations', $id);
+        parent::__construct($database, $current_user, $log, 'storelocations', $id, false, $data);
 
         if ($id == 0) {
             // this is the root node

@@ -57,9 +57,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @throws Exception        if there is no such category in the database
      * @throws Exception        if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id)
+    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'categories', $id);
+        parent::__construct($database, $current_user, $log, 'categories', $id, false, $data);
     }
 
     /********************************************************************************

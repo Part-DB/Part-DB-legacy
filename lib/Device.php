@@ -63,7 +63,7 @@ class Device extends Base\PartsContainingDBElement
      * @throws Exception        if there is no such device in the database
      * @throws Exception        if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data)
+    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, 'devices', $id, false, $data);
 

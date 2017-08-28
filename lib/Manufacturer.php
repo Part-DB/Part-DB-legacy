@@ -56,9 +56,9 @@ class Manufacturer extends Base\Company
      * @throws Exception    if there is no such manufacturer in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id)
+    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'manufacturers', $id);
+        parent::__construct($database, $current_user, $log, 'manufacturers', $id, $dat);
     }
 
     /********************************************************************************

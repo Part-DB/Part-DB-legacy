@@ -75,7 +75,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @throws Exception    if there is no such pricedetails record in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data)
+    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, 'pricedetails', $id, false, $data);
     }
