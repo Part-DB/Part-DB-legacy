@@ -1005,3 +1005,13 @@ function buildToolsTree($params)
         else
             return $default_val;
     }
+
+    /**
+     * Gets the name of the class of the given Object without the namespace.
+    * @param $object mixed  The object, whose clasname should be get.
+     * @return string The class name of $object.
+    */
+    function get_class_short($object) {
+        $reflect = new \ReflectionClass($object);
+        return $reflect->getShortName();
+    }

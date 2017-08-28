@@ -478,7 +478,7 @@
 
             return parent::add($database, $current_user, $log, 'attachements',
                                 array(  'name'              => $name,
-                                        'class_name'        => get_class($element),
+                                        'class_name'        => get_class_short($element),
                                         'element_id'        => $element->get_id(),
                                         'type_id'           => $type_id,
                                         'filename'          => $filename,

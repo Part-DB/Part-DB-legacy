@@ -114,11 +114,11 @@
                     break;
 
                 case 'XML':
-                    $object_node = $dom->createElement(strtolower(get_class($object)));
+                    $object_node = $dom->createElement(strtolower(get_class_short($object)));
                     break;
             }
 
-            switch (get_class($object))
+            switch (get_class_short($object))
             {
                 case 'Part':
                     $part = $object;
@@ -128,7 +128,7 @@
                     $devicepart = $object;
                     break;
                 default:
-                    throw new Exception('Klasse "'.get_class($object).'" kann nicht exportiert werden (wird nicht unterstützt)!');
+                    throw new Exception('Klasse "'.get_class_short($object).'" kann nicht exportiert werden (wird nicht unterstützt)!');
                     break;
             }
 
