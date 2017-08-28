@@ -249,15 +249,6 @@ use PartDB\User;
         switch ($action) {
             case 'create_new_part':
                 try {
-                    $existing_parts = Part::check_for_existing_part(
-                        $database,
-                        ,
-                        ,
-                        ,
-                        $new_storelocation_id,
-                        $new_category_id
-                    );
-
                     $category = new Category($database, $current_user, $log, $new_category_id);
 
                     if (Part::is_valid_name($new_name, $category) || isset($_REQUEST['create_name_save'])) {

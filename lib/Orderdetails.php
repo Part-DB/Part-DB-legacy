@@ -79,9 +79,9 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @throws Exception    if there is no such orderdetails record in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id)
+    public function __construct(&$database, &$current_user, &$log, $id, $data)
     {
-        parent::__construct($database, $current_user, $log, 'orderdetails', $id);
+        parent::__construct($database, $current_user, $log, 'orderdetails', $id, false, $data);
     }
 
     /**

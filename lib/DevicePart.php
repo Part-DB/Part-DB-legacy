@@ -73,9 +73,9 @@ class DevicePart extends Base\DBElement
      * @throws Exception        if there is no such device-part in the database
      * @throws Exception        if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id)
+    public function __construct(&$database, &$current_user, &$log, $id, $data)
     {
-        parent::__construct($database, $current_user, $log, 'device_parts', $id);
+        parent::__construct($database, $current_user, $log, 'device_parts', $id, false, $data);
     }
 
     /**

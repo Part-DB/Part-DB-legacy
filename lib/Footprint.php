@@ -375,7 +375,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
 
         if ($verbose == true) {
             $ver = array("filename" => $this->get_filename(false),
-                "filename_valid" => $this->is_filename_valid(false),
+                "filename_valid" => $this->is_filename_valid(),
                 "filename3d" => $this->get_3d_filename(),
                 "filename3d_valid" => $this->is_3d_filename_valid());
             return array_merge($json, $ver);

@@ -69,9 +69,9 @@ class Attachement extends Base\NamedDBElement
      * @throws Exception        if there is no such attachement in the database
      * @throws Exception        if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id)
+    public function __construct(&$database, &$current_user, &$log, $id, $data)
     {
-        parent::__construct($database, $current_user, $log, 'attachements', $id);
+        parent::__construct($database, $current_user, $log, 'attachements', $id, false, $data);
     }
 
     /**
