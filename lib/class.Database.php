@@ -823,10 +823,14 @@ include_once(BASE.'/updates/db_update_steps.php');
         public function does_table_exist($tablename)
         {
             //A whitelist of tables, we know that exists, so we dont need to check with a DB Request
+            //Dont include "internal" here, because otherwise it leads to problems, when starting with a fresh database.
             $whitelist = array("parts", "categories", "footprints", "storelocations", "suppliers", "pricedetails",
-                "orderdetails", "manufacturers", "attachements", "attachement_types", "devices", "device_parts", "internal");
+                "orderdetails", "manufacturers", "attachements", "attachement_types", "devices", "device_parts");
 
-            if(in_array($tablename, $whitelist))
+            global $config;
+
+            //Only allow check if database, installation is complete... Else this lead to problems, when starting with a fresh database.
+            if($config['installation_complete']['database'] && in_array($tablename, $whitelist))
                 return true;
 
             //does not work with SQLite!
