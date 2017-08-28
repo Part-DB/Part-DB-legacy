@@ -24,7 +24,8 @@
 */
 
     namespace PartDB;
-    use Exception;
+
+use Exception;
 
     /**
      * @file Manufacturer.php
@@ -101,8 +102,9 @@
          */
         public static function get_count(&$database)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
             return $database->get_count_of_records('manufacturers');
         }
@@ -129,11 +131,24 @@
          *
          * @see DBElement::add()
          */
-        public static function add(&$database, &$current_user, &$log, $name, $parent_id, $address = '',
-                                    $phone_number = '', $fax_number = '', $email_address = '', $website = '',
-                                    $auto_product_url = '')
-        {
-            return parent::add($database, $current_user, $log, 'manufacturers',
+        public static function add(
+            &$database,
+            &$current_user,
+            &$log,
+            $name,
+            $parent_id,
+            $address = '',
+                                    $phone_number = '',
+            $fax_number = '',
+            $email_address = '',
+            $website = '',
+                                    $auto_product_url = ''
+        ) {
+            return parent::add(
+                $database,
+                $current_user,
+                $log,
+                'manufacturers',
                                 array(  'name'              => $name,
                                         'parent_id'         => $parent_id,
                                         'address'           => $address,
@@ -141,7 +156,8 @@
                                         'fax_number'        => $fax_number,
                                         'email_address'     => $email_address,
                                         'website'           => $website,
-                                        'auto_product_url'  => $auto_product_url));
+                                        'auto_product_url'  => $auto_product_url)
+            );
         }
 
         /**
@@ -151,5 +167,4 @@
         {
             return parent::search($database, $current_user, $log, 'manufacturers', $keyword, $exact_match);
         }
-
     }

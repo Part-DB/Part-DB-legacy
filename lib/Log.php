@@ -24,20 +24,21 @@
 */
 
     namespace PartDB;
-    use Exception;
+
+use Exception;
 
     /**
      * @file Log.php
      * @brief class Log
-     * 
+     *
      * @class Log
      * @brief Class Log
      *
-     * This class manages all log types. 
+     * This class manages all log types.
      * With one instance of this class, you have access to all supported log types.
-     * 
+     *
      * @author kami89
-     * 
+     *
      * @todo There are no log types implemented yet.
      */
     class Log
@@ -46,30 +47,30 @@
         *
         *   Attributes
         *
-        *********************************************************************************/  
+        *********************************************************************************/
 
         /** (Database) the Database object for the database access of the logs */
-        private $database = NULL;
+        private $database = null;
 
         /********************************************************************************
         *
         *   Constructor / Destructor
         *
-        *********************************************************************************/        
+        *********************************************************************************/
         
         /**
          * @brief Constructor
          *
          * @param Database  &$database      reference to the database
-         * 
+         *
          * @throws Exception if there was an error
          */
         public function __construct(&$database)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception(_('$database ist kein Database-Objekt'));
+            }
 
             $this->database = $database;
         }
-
     }

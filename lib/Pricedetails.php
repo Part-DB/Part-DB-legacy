@@ -24,7 +24,8 @@
 */
 
     namespace PartDB;
-    use Exception;
+
+use Exception;
 
     /**
      * @file Pricedetails.php
@@ -55,7 +56,7 @@
         *********************************************************************************/
 
         /** @brief (object) the orderdetails which includes this pricedetails */
-        private $orderdetails   = NULL;
+        private $orderdetails   = null;
 
         /********************************************************************************
         *
@@ -84,7 +85,7 @@
          */
         public function reset_attributes($all = false)
         {
-            $this->orderdetails = NULL;
+            $this->orderdetails = null;
 
             parent::reset_attributes($all);
         }
@@ -108,14 +109,14 @@
         public function delete()
         {
             // Check if it is allowed to delete this pricedetails
-            if ($this->get_min_discount_quantity() == 1)
-            {
+            if ($this->get_min_discount_quantity() == 1) {
                 $orderdetails = $this->get_orderdetails();
                 $all_pricedetails = $orderdetails->get_pricedetails();
 
-                if (count($all_pricedetails) > 1)
+                if (count($all_pricedetails) > 1) {
                     throw new Exception('Die ausgewählte Preisinformation kann erst gelöscht werden '.
                                         'wenn es sonst keine weiteren Preisinformationen gibt!');
+                }
             }
 
             // save orderdetails attributes to update its "last_modified" and "last_modified" of the part
@@ -140,10 +141,13 @@
          */
         public function get_orderdetails()
         {
-            if ( ! is_object($this->orderdetails))
-            {
-                $this->orderdetails = new Orderdetails($this->database, $this->current_user,
-                                                $this->log, $this->db_data['orderdetails_id']);
+            if (! is_object($this->orderdetails)) {
+                $this->orderdetails = new Orderdetails(
+                    $this->database,
+                    $this->current_user,
+                                                $this->log,
+                    $this->db_data['orderdetails_id']
+                );
             }
 
             return $this->orderdetails;
@@ -169,10 +173,11 @@
         {
             $price = ($this->db_data['price'] * $multiplier) / $this->db_data['price_related_quantity'];
 
-            if ($as_money_string)
+            if ($as_money_string) {
                 return float_to_money_string($price);
-            else
+            } else {
                 return $price;
+            }
         }
 
         /**
@@ -274,7 +279,7 @@
         /**
          * @copydoc DBElement::check_values_validity()
          */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = NULL)
+        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
         {
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
@@ -283,76 +288,91 @@
             settype($values['manual_input'], 'boolean');
 
             // check "orderdetails_id"
-            try
-            {
+            try {
                 $orderdetails = new Orderdetails($database, $current_user, $log, $values['orderdetails_id']);
 
                 // save orderdetails attributes to update its "last_modified" and "last_modified" of the part
                 $orderdetails->set_attributes(array());
-            }
-            catch (Exception $e)
-            {
-                debug('error', 'Ungültige "orderdetails_id": "'.$values['orderdetails_id'].'"'.
+            } catch (Exception $e) {
+                debug(
+                    'error',
+                    'Ungültige "orderdetails_id": "'.$values['orderdetails_id'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                         __FILE__, __LINE__, __METHOD__);
+                         __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception('Die gewählten Einkaufsinformationen existieren nicht!');
             }
 
             // check "price"
-            if (( ! is_numeric($values['price'])) || ($values['price'] < 0))
-            {
-                debug('error', 'Ungültiger Preis: "'.$values['price'].'"',
-                        __FILE__, __LINE__, __METHOD__);
+            if ((! is_numeric($values['price'])) || ($values['price'] < 0)) {
+                debug(
+                    'error',
+                    'Ungültiger Preis: "'.$values['price'].'"',
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
 
                 throw new Exception('Der neue Preis ist ungültig!');
             }
 
             // check "price_related_quantity"
-            if ((( ! is_int($values['price_related_quantity'])) && ( ! ctype_digit($values['price_related_quantity'])))
-                || ($values['price_related_quantity'] < 1))
-            {
-                debug('error', '"price_related_quantity" = "'.$values['price_related_quantity'].'"',
-                        __FILE__, __LINE__, __METHOD__);
+            if (((! is_int($values['price_related_quantity'])) && (! ctype_digit($values['price_related_quantity'])))
+                || ($values['price_related_quantity'] < 1)) {
+                debug(
+                    'error',
+                    '"price_related_quantity" = "'.$values['price_related_quantity'].'"',
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception('Die Preisbezogene Menge ist ungültig!');
             }
 
             // check "min_discount_quantity"
-            if ((( ! is_int($values['min_discount_quantity'])) && ( ! ctype_digit($values['min_discount_quantity'])))
-                || ($values['min_discount_quantity'] < 1))
-            {
-                debug('error', '"min_discount_quantity" = "'.$values['min_discount_quantity'].'"',
-                        __FILE__, __LINE__, __METHOD__);
+            if (((! is_int($values['min_discount_quantity'])) && (! ctype_digit($values['min_discount_quantity'])))
+                || ($values['min_discount_quantity'] < 1)) {
+                debug(
+                    'error',
+                    '"min_discount_quantity" = "'.$values['min_discount_quantity'].'"',
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception('Die Mengenrabatt-Menge ist ungültig!');
             }
 
             // search for pricedetails with the same "min_discount_quantity"
             $same_min_discount_quantity_count = 0;
             $all_pricedetails = $orderdetails->get_pricedetails();
-            foreach ($all_pricedetails as $pricedetails)
-            {
-                if ($pricedetails->get_min_discount_quantity() == $values['min_discount_quantity'])
+            foreach ($all_pricedetails as $pricedetails) {
+                if ($pricedetails->get_min_discount_quantity() == $values['min_discount_quantity']) {
                     $same_min_discount_quantity_count++;
+                }
             }
 
-            if ($is_new)
-            {
+            if ($is_new) {
                 // first pricedetails, but "min_discount_quantity" != 1 ?
-                if ((count($all_pricedetails) == 0) && ($values['min_discount_quantity'] != 1))
+                if ((count($all_pricedetails) == 0) && ($values['min_discount_quantity'] != 1)) {
                     throw new Exception('Die Mengenrabatt-Menge muss bei der ersten Preisangabe "1" sein!');
+                }
 
                 // is there already a pricedetails with the same "min_discount_quantity" ?
-                if ($same_min_discount_quantity_count > 0)
+                if ($same_min_discount_quantity_count > 0) {
                     throw new Exception('Es existiert bereits eine Preisangabe für die selbe Mengenrabatt-Menge!');
-            }
-            elseif ($values['min_discount_quantity'] != $element->get_min_discount_quantity())
-            {
+                }
+            } elseif ($values['min_discount_quantity'] != $element->get_min_discount_quantity()) {
                 // does the user try to change the "min_discount_quantity", but it is "1" ?
-                if ($element->get_min_discount_quantity() == 1)
+                if ($element->get_min_discount_quantity() == 1) {
                     throw new Exception('Die Mengenrabatt-Menge beim Preis für ein Bauteil kann nicht verändert werden!');
+                }
 
                 // change the "min_discount_quantity" to a already existing value?
-                if ($same_min_discount_quantity_count > 0)
+                if ($same_min_discount_quantity_count > 0) {
                     throw new Exception('Es existiert bereits eine Preisangabe mit der selben Mengenrabatt-Menge!');
+                }
             }
         }
 
@@ -380,15 +400,26 @@
          *
          * @see DBElement::add()
          */
-        public static function add(&$database, &$current_user, &$log, $orderdetails_id, $price,
-                                    $price_related_quantity = 1, $min_discount_quantity = 1)
-        {
-            return parent::add($database, $current_user, $log, 'pricedetails',
+        public static function add(
+            &$database,
+            &$current_user,
+            &$log,
+            $orderdetails_id,
+            $price,
+                                    $price_related_quantity = 1,
+            $min_discount_quantity = 1
+        ) {
+            return parent::add(
+                $database,
+                $current_user,
+                $log,
+                'pricedetails',
                                 array(  'orderdetails_id'           => $orderdetails_id,
                                         'manual_input'              => true,
                                         'price'                     => $price,
                                         'price_related_quantity'    => $price_related_quantity,
-                                        'min_discount_quantity'     => $min_discount_quantity));
+                                        'min_discount_quantity'     => $min_discount_quantity)
+            );
         }
 
         /**
@@ -405,5 +436,4 @@
             );
             return $json;
         }
-
     }

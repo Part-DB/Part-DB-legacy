@@ -24,7 +24,8 @@
 */
 
     namespace PartDB;
-    use Exception;
+
+use Exception;
 
     /**
      * @file DevicePart.php
@@ -51,9 +52,9 @@
         *********************************************************************************/
 
         /** @brief (Device) the device of this device-part */
-        private $device     = NULL;
+        private $device     = null;
         /** @brief (Part) the part of this device-part */
-        private $part       = NULL;
+        private $part       = null;
 
         /********************************************************************************
         *
@@ -82,8 +83,8 @@
          */
         public function reset_attributes($all = false)
         {
-            $this->device = NULL;
-            $this->part = NULL;
+            $this->device = null;
+            $this->part = null;
 
             parent::reset_attributes($all);
         }
@@ -103,10 +104,13 @@
          */
         public function get_device()
         {
-            if ( ! is_object($this->device))
-            {
-                $this->device = new Device($this->database, $this->current_user,
-                                            $this->log, $this->db_data['id_device']);
+            if (! is_object($this->device)) {
+                $this->device = new Device(
+                    $this->database,
+                    $this->current_user,
+                                            $this->log,
+                    $this->db_data['id_device']
+                );
             }
 
             return $this->device;
@@ -121,10 +125,13 @@
          */
         public function get_part()
         {
-            if ( ! is_object($this->part))
-            {
-                $this->part = new Part($this->database, $this->current_user,
-                                        $this->log, $this->db_data['id_part']);
+            if (! is_object($this->part)) {
+                $this->part = new Part(
+                    $this->database,
+                    $this->current_user,
+                                        $this->log,
+                    $this->db_data['id_part']
+                );
             }
 
             return $this->part;
@@ -200,15 +207,13 @@
             //$total_prices = $this->get_part()->get_prices(false, '<br>', $this->get_mount_quantity());
 
             $single_prices_loop = array();
-            foreach ($this->get_part()->get_prices(false, NULL, $this->get_mount_quantity(), 1, true) as $price) // prices from obsolete orderdetails will not be shown
-            {
+            foreach ($this->get_part()->get_prices(false, null, $this->get_mount_quantity(), 1, true) as $price) { // prices from obsolete orderdetails will not be shown
                 $single_prices_loop[] = array(  'row_index'     => $row_index,
                                                 'single_price'  => $price);
             }
 
             $total_prices_loop = array();
-            foreach ($this->get_part()->get_prices(false, NULL, $this->get_mount_quantity(), NULL, true) as $price) // prices from obsolete orderdetails will not be shown
-            {
+            foreach ($this->get_part()->get_prices(false, null, $this->get_mount_quantity(), null, true) as $price) { // prices from obsolete orderdetails will not be shown
                 $total_prices_loop[] = array(   'row_index'     => $row_index,
                                                 'total_price'   => $price);
             }
@@ -252,44 +257,48 @@
         /**
          * @copydoc DBElement::check_values_validity()
          */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = NULL)
+        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
         {
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
 
             // check "id_device"
-            try
-            {
-                if ($values['id_device'] == 0)
+            try {
+                if ($values['id_device'] == 0) {
                     throw new Exception(_('Der obersten Ebene können keine Bauteile zugeordnet werden!'));
+                }
 
                 $device = new Device($database, $current_user, $log, $values['id_device']);
-            }
-            catch (Exception $e)
-            {
-                debug('error', 'Ungültige "id_device": "'.$values['id_device'].'"'.
+            } catch (Exception $e) {
+                debug(
+                    'error',
+                    'Ungültige "id_device": "'.$values['id_device'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                        __FILE__, __LINE__, __METHOD__);
-                throw new Exception(sprintf(_('Es existiert keine Baugruppe mit der ID "%d"!') ,$values['id_device']));
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
+                throw new Exception(sprintf(_('Es existiert keine Baugruppe mit der ID "%d"!'), $values['id_device']));
             }
 
             // check "id_part"
-            try
-            {
+            try {
                 $part = new Part($database, $current_user, $log, $values['id_part']);
-            }
-            catch (Exception $e)
-            {
-                debug('error', 'Ungültige "id_part": "'.$values['id_part'].'"'.
+            } catch (Exception $e) {
+                debug(
+                    'error',
+                    'Ungültige "id_part": "'.$values['id_part'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                        __FILE__, __LINE__, __METHOD__);
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception(sprintf(_('Es existiert kein Bauteil mit der ID "%d"!'), $values['id_part']));
             }
 
             // check "quantity"
-            if ((( ! is_int($values['quantity'])) && ( ! ctype_digit($values['quantity'])))
-                || ($values['quantity'] < 0))
-            {
+            if (((! is_int($values['quantity'])) && (! ctype_digit($values['quantity'])))
+                || ($values['quantity'] < 0)) {
                 debug('error', 'quantity = "'.$values['quantity'].'"', __FILE__, __LINE__, __METHOD__);
                 throw new Exception(sprintf(_('Die Bestückungs-Anzahl "%d" ist ungültig!'), $values['quantity']));
             }
@@ -311,17 +320,21 @@
          */
         public static function get_device_part(&$database, &$current_user, &$log, $device_id, $part_id)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception(_('$database ist kein Database-Objekt!'));
+            }
 
-            $query_data = $database->query('SELECT id FROM device_parts '.
+            $query_data = $database->query(
+                'SELECT id FROM device_parts '.
                                             'WHERE id_device=? AND id_part=? LIMIT 1',
-                                            array($device_id, $part_id));
+                                            array($device_id, $part_id)
+            );
 
-            if (count($query_data) > 0)
+            if (count($query_data) > 0) {
                 return new DevicePart($database, $current_user, $log, $query_data[0]['id']);
-            else
-                return NULL;
+            } else {
+                return null;
+            }
         }
 
         /**
@@ -336,24 +349,27 @@
          *
          * @throws Exception if there was an error
          */
-        public static function get_order_device_parts(&$database, &$current_user, &$log, $part_id = NULL)
+        public static function get_order_device_parts(&$database, &$current_user, &$log, $part_id = null)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
             $device_parts = array();
 
             $query =    'SELECT device_parts.* FROM device_parts '.
                         'LEFT JOIN devices ON devices.id = device_parts.id_device '.
                         'WHERE devices.order_quantity > 0 ';
-            if ($part_id)
+            if ($part_id) {
                 $query .= 'AND device_parts.id_part = ? ';
+            }
             $query .=   'GROUP BY device_parts.id';
 
             $query_data = $database->query($query, ($part_id ? array($part_id) : array()));
 
-            foreach ($query_data as $row)
+            foreach ($query_data as $row) {
                 $device_parts[] = new DevicePart($database, $current_user, $log, $row['id'], $row);
+            }
 
             return $device_parts;
         }
@@ -385,16 +401,20 @@
          *
          * @see DBElement::add()
          */
-        public static function add(&$database, &$current_user, &$log, $device_id, $part_id,
-                                    $quantity, $mountnames = '', $increase_if_exist = false)
-        {
+        public static function add(
+            &$database,
+            &$current_user,
+            &$log,
+            $device_id,
+            $part_id,
+                                    $quantity,
+            $mountnames = '',
+            $increase_if_exist = false
+        ) {
             $existing_devicepart = DevicePart::get_device_part($database, $current_user, $log, $device_id, $part_id);
-            if (is_object($existing_devicepart))
-            {
-                if ($increase_if_exist)
-                {
-                    if ((( ! is_int($quantity)) && ( ! ctype_digit($quantity))) || ($quantity < 0))
-                    {
+            if (is_object($existing_devicepart)) {
+                if ($increase_if_exist) {
+                    if (((! is_int($quantity)) && (! ctype_digit($quantity))) || ($quantity < 0)) {
                         debug('error', 'quantity = "'.$quantity.'"', __FILE__, __LINE__, __METHOD__);
                         throw new Exception(_('Die Bestückungs-Anzahl ist ungültig!'));
                     }
@@ -402,36 +422,37 @@
                     $quantity = $existing_devicepart->get_mount_quantity() + $quantity;
 
                     $old_mountnames = $existing_devicepart->get_mount_names();
-                    if (strlen($mountnames) > 0)
-                    {
-                        if (strlen($old_mountnames) > 0)
+                    if (strlen($mountnames) > 0) {
+                        if (strlen($old_mountnames) > 0) {
                             $mountnames = $old_mountnames . ', ' . $mountnames;
-                    }
-                    else
+                        }
+                    } else {
                         $mountnames = $old_mountnames;
+                    }
 
                     $existing_devicepart->set_attributes(array( 'quantity'      => $quantity,
                                                                 'mountnames'    => $mountnames));
 
                     return $existing_devicepart;
-                }
-                else
-                {
+                } else {
                     $device = new Device($database, $current_user, $log, $device_id);
                     $part = new Part($database, $current_user, $log, $part_id);
 
                     throw new Exception(sprintf(_('Die Baugruppe "%1$s"'.
-                                        ' enthält bereits das Bauteil "%2$s"!'), $device->get_name(),$part->get_name()));
+                                        ' enthält bereits das Bauteil "%2$s"!'), $device->get_name(), $part->get_name()));
                 }
             }
 
             // there is no such DevicePart, so we will create it
-            return parent::add($database, $current_user, $log, 'device_parts',
+            return parent::add(
+                $database,
+                $current_user,
+                $log,
+                'device_parts',
                                 array(  'id_device'     => $device_id,
                                         'id_part'       => $part_id,
                                         'quantity'      => $quantity,
-                                        'mountnames'    => $mountnames));
+                                        'mountnames'    => $mountnames)
+            );
         }
-
-
     }

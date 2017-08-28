@@ -24,7 +24,8 @@
 */
 
     namespace PartDB;
-    use Exception;
+
+use Exception;
 
     /**
      * @file Orderdetails.php
@@ -55,11 +56,11 @@
         *********************************************************************************/
 
         /** @brief (Part) the part of this orderdetails */
-        private $part           = NULL;
+        private $part           = null;
         /** @brief (Supplier) the supplier of this orderdetails */
-        private $supplier       = NULL;
+        private $supplier       = null;
         /** @brief (array) all pricedetails of this orderdetails, as a one-dimensional array of Pricedetails objects */
-        private $pricedetails   = NULL;
+        private $pricedetails   = null;
 
         /********************************************************************************
         *
@@ -88,9 +89,9 @@
          */
         public function reset_attributes($all = false)
         {
-            $this->part             = NULL;
-            $this->supplier         = NULL;
-            $this->pricedetails     = NULL;
+            $this->part             = null;
+            $this->supplier         = null;
+            $this->pricedetails     = null;
 
             parent::reset_attributes($all);
         }
@@ -114,15 +115,17 @@
                 // Delete all Pricedetails
                 $all_pricedetails = array_reverse($this->get_pricedetails()); // the last one must be deleted first!
                 $this->reset_attributes(); // set $this->pricedetails to NULL
-                foreach ($all_pricedetails as $pricedetails)
+                foreach ($all_pricedetails as $pricedetails) {
                     $pricedetails->delete();
+                }
 
                 // Check if this Orderdetails is the Part's selected Orderdetails for ordering and delete this reference if neccessary
                 $order_orderdetails = $this->get_part()->get_order_orderdetails();
-                if (is_object($order_orderdetails) && ($order_orderdetails->get_id() == $this->get_id()))
-                    $this->get_part()->set_order_orderdetails_id(NULL);
-                else
-                    $this->get_part()->set_attributes(array()); // save part attributes to update its "last_modified"
+                if (is_object($order_orderdetails) && ($order_orderdetails->get_id() == $this->get_id())) {
+                    $this->get_part()->set_order_orderdetails_id(null);
+                } else {
+                    $this->get_part()->set_attributes(array());
+                } // save part attributes to update its "last_modified"
 
                 // now we can delete this orderdetails
                 parent::delete();
@@ -153,10 +156,13 @@
          */
         public function get_part()
         {
-            if ( ! is_object($this->part))
-            {
-                $this->part = new Part($this->database, $this->current_user,
-                                                $this->log, $this->db_data['part_id']);
+            if (! is_object($this->part)) {
+                $this->part = new Part(
+                    $this->database,
+                    $this->current_user,
+                                                $this->log,
+                    $this->db_data['part_id']
+                );
             }
 
             return $this->part;
@@ -171,10 +177,13 @@
          */
         public function get_supplier()
         {
-            if ( ! is_object($this->supplier))
-            {
-                $this->supplier = new Supplier($this->database, $this->current_user,
-                                                $this->log, $this->db_data['id_supplier']);
+            if (! is_object($this->supplier)) {
+                $this->supplier = new Supplier(
+                    $this->database,
+                    $this->current_user,
+                                                $this->log,
+                    $this->db_data['id_supplier']
+                );
             }
 
             return $this->supplier;
@@ -211,10 +220,12 @@
          */
         public function get_supplier_product_url()
         {
-            if (strlen($this->db_data['supplier_product_url']) > 0)
-                return $this->db_data['supplier_product_url'];  // a manual url is available
-            else
-                return $this->get_supplier()->get_auto_product_url($this->db_data['supplierpartnr']); // maybe an automatic url is available...
+            if (strlen($this->db_data['supplier_product_url']) > 0) {
+                return $this->db_data['supplier_product_url'];
+            }  // a manual url is available
+            else {
+                return $this->get_supplier()->get_auto_product_url($this->db_data['supplierpartnr']);
+            } // maybe an automatic url is available...
         }
 
         /**
@@ -227,8 +238,7 @@
          */
         public function get_pricedetails()
         {
-            if ( ! is_array($this->pricedetails))
-            {
+            if (! is_array($this->pricedetails)) {
                 $this->pricedetails = array();
 
                 $query = 'SELECT * FROM pricedetails '.
@@ -237,67 +247,70 @@
 
                 $query_data = $this->database->query($query, array($this->get_id()));
 
-                foreach ($query_data as $row)
+                foreach ($query_data as $row) {
                     $this->pricedetails[] = new Pricedetails($this->database, $this->current_user, $this->log, $row['id'], $row);
+                }
             }
 
             return $this->pricedetails;
         }
 
-       /**
-         * @brief Get the price for a specific quantity
-         *
-         * @param boolean $as_money_string      @li if true, this method returns a money string incl. currency
-         *                                      @li if false, this method returns the price as float
-         * @param integer       $quantity       this is the quantity to choose the correct pricedetails
-         * @param integer|NULL  $multiplier     @li This is the multiplier which will be applied to every single price
-         *                                      @li If you pass NULL, the number from $quantity will be used
-         *
-         * @retval float    the price as a float number (if "$as_money_string == false")
-         * @retval NULL     if there are no prices and "$as_money_string == false"
-         * @retval string   the price as a string incl. currency (if "$as_money_string == true")
-         *
-         * @throws Exception if there are no pricedetails for the choosed quantity
-         *          (for example, there are only one pricedetails with the minimum discount quantity '10',
-         *          but the choosed quantity is '5' --> the price for 5 parts is not defined!)
-         * @throws Exception if there was an error
-         *
-         * @see float_to_money_string()
-         */
-        public function get_price($as_money_string = false, $quantity = 1, $multiplier = NULL)
+        /**
+          * @brief Get the price for a specific quantity
+          *
+          * @param boolean $as_money_string      @li if true, this method returns a money string incl. currency
+          *                                      @li if false, this method returns the price as float
+          * @param integer       $quantity       this is the quantity to choose the correct pricedetails
+          * @param integer|NULL  $multiplier     @li This is the multiplier which will be applied to every single price
+          *                                      @li If you pass NULL, the number from $quantity will be used
+          *
+          * @retval float    the price as a float number (if "$as_money_string == false")
+          * @retval NULL     if there are no prices and "$as_money_string == false"
+          * @retval string   the price as a string incl. currency (if "$as_money_string == true")
+          *
+          * @throws Exception if there are no pricedetails for the choosed quantity
+          *          (for example, there are only one pricedetails with the minimum discount quantity '10',
+          *          but the choosed quantity is '5' --> the price for 5 parts is not defined!)
+          * @throws Exception if there was an error
+          *
+          * @see float_to_money_string()
+          */
+        public function get_price($as_money_string = false, $quantity = 1, $multiplier = null)
         {
-            if (($quantity == 0) && ($multiplier === NULL))
-            {
-                if ($as_money_string)
+            if (($quantity == 0) && ($multiplier === null)) {
+                if ($as_money_string) {
                     return float_to_money_string(0);
-                else
+                } else {
                     return 0;
+                }
             }
 
             $all_pricedetails = $this->get_pricedetails();
 
-            if (count($all_pricedetails) == 0)
-            {
-                if ($as_money_string)
-                    return float_to_money_string(NULL);
-                else
-                    return NULL;
+            if (count($all_pricedetails) == 0) {
+                if ($as_money_string) {
+                    return float_to_money_string(null);
+                } else {
+                    return null;
+                }
             }
 
-            foreach ($all_pricedetails as $pricedetails)
-            {
+            foreach ($all_pricedetails as $pricedetails) {
                 // choose the correct pricedetails for the choosed quantity ($quantity)
-                if ($quantity < $pricedetails->get_min_discount_quantity())
+                if ($quantity < $pricedetails->get_min_discount_quantity()) {
                     break;
+                }
 
                 $correct_pricedetails = $pricedetails;
             }
 
-            if (( ! isset($correct_pricedetails)) || ( ! is_object($correct_pricedetails)))
+            if ((! isset($correct_pricedetails)) || (! is_object($correct_pricedetails))) {
                 throw new Exception('Es sind keine Preisinformationen für die angegebene Bestellmenge vorhanden!');
+            }
 
-            if ($multiplier === NULL)
+            if ($multiplier === null) {
                 $multiplier = $quantity;
+            }
 
             return $correct_pricedetails->get_price($as_money_string, $multiplier);
         }
@@ -354,7 +367,7 @@
         /**
          * @copydoc DBElement::check_values_validity()
          */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = NULL)
+        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
         {
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
@@ -363,32 +376,37 @@
             settype($values['obsolete'], 'boolean');
 
             // check "part_id"
-            try
-            {
+            try {
                 $part = new Part($database, $current_user, $log, $values['part_id']);
                 $part->set_attributes(array()); // save part attributes to update its "last_modified"
-            }
-            catch (Exception $e)
-            {
-                debug('error', 'Ungültige "part_id": "'.$values['part_id'].'"'.
+            } catch (Exception $e) {
+                debug(
+                    'error',
+                    'Ungültige "part_id": "'.$values['part_id'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                         __FILE__, __LINE__, __METHOD__);
+                         __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception('Das gewählte Bauteil existiert nicht!');
             }
 
             // check "id_supplier"
-            try
-            {
-                if ($values['id_supplier'] < 1)
+            try {
+                if ($values['id_supplier'] < 1) {
                     throw new Exception('id_supplier < 1');
+                }
 
                 $supplier = new Supplier($database, $current_user, $log, $values['id_supplier']);
-            }
-            catch (Exception $e)
-            {
-                debug('error', 'Ungültige "id_supplier": "'.$values['id_supplier'].'"'.
+            } catch (Exception $e) {
+                debug(
+                    'error',
+                    'Ungültige "id_supplier": "'.$values['id_supplier'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                         __FILE__, __LINE__, __METHOD__);
+                         __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception('Der gewählte Lieferant existiert nicht!');
             }
         }
@@ -411,14 +429,25 @@
          *
          * @see DBElement::add()
          */
-        public static function add(&$database, &$current_user, &$log, $part_id, $supplier_id,
-                                    $supplierpartnr = '', $obsolete = false)
-        {
-            return parent::add($database, $current_user, $log, 'orderdetails',
+        public static function add(
+            &$database,
+            &$current_user,
+            &$log,
+            $part_id,
+            $supplier_id,
+                                    $supplierpartnr = '',
+            $obsolete = false
+        ) {
+            return parent::add(
+                $database,
+                $current_user,
+                $log,
+                'orderdetails',
                                 array(  'part_id'                   => $part_id,
                                         'id_supplier'               => $supplier_id,
                                         'supplierpartnr'            => $supplierpartnr,
-                                        'obsolete'                  => $obsolete));
+                                        'obsolete'                  => $obsolete)
+            );
         }
 
         /**
@@ -432,16 +461,13 @@
                 "supplierpartnr" => $this->get_supplierpartnr()
             );
 
-            if($verbose == true)
-            {
+            if ($verbose == true) {
                 $ver = array("supplier" => $this->get_supplier()->get_API_array(),
                     "obsolete" => $this->get_obsolete() == true,
                     "supplier_product_url" => $this->get_supplier_product_url(),
                     "pricedetails" => convert_APIModel_array($this->get_pricedetails(), true));
-                return array_merge($json,  $ver);
+                return array_merge($json, $ver);
             }
             return $json;
         }
-
     }
-

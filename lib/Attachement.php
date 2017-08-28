@@ -24,7 +24,8 @@
 */
 
     namespace PartDB;
-    use Exception;
+
+use Exception;
 
     /**
      * @file Attachement.php
@@ -47,9 +48,9 @@
         *********************************************************************************/
 
         /** @brief (object) the element of this attachement (for example a "Part" object) */
-        private $element          = NULL;
+        private $element          = null;
         /** (AttachementType) the type of this attachement */
-        private $attachement_type = NULL;
+        private $attachement_type = null;
 
         /********************************************************************************
         *
@@ -78,8 +79,8 @@
          */
         public function reset_attributes($all = false)
         {
-            $this->element          = NULL;
-            $this->attachement_type = NULL;
+            $this->element          = null;
+            $this->attachement_type = null;
 
             parent::reset_attributes($all);
         }
@@ -107,16 +108,13 @@
             $filename = $this->get_filename();
             $must_file_delete = false;
 
-            if (($delete_from_hdd) && (strlen($filename) > 0))
-            {
+            if (($delete_from_hdd) && (strlen($filename) > 0)) {
                 // we will delete the file only from HDD if there are no other "Attachement" objects with the same filename!
                 $attachements = Attachement::get_attachements_by_filename($this->database, $this->current_user, $this->log, $filename);
 
-                if ((count($attachements) <= 1) && (file_exists($filename)))
-                {
+                if ((count($attachements) <= 1) && (file_exists($filename))) {
                     // check if there are enought permissions to delete the file
-                    if ( ! is_writable(dirname($filename)))
-                    {
+                    if (! is_writable(dirname($filename))) {
                         throw new Exception(sprintf(_('Die Datei "%s" kann nicht gelöscht werden, '.
                                             'da im übergeordneten Ordner keine Schreibrechte vorhanden sind!'), $filename));
                     }
@@ -126,18 +124,16 @@
                 }
             }
 
-            try
-            {
+            try {
                 $transaction_id = $this->database->begin_transaction(); // start transaction
 
                 // Set all "id_master_picture_attachement" in the table "parts" to NULL where the master picture is this attachement
                 $query = 'SELECT * from parts WHERE id_master_picture_attachement=?';
                 $query_data = $this->database->query($query, array($this->get_id()));
 
-                foreach ($query_data as $row)
-                {
+                foreach ($query_data as $row) {
                     $part = new Part($this->database, $this->current_user, $this->log, $row['id'], $row);
-                    $part->set_master_picture_attachement_id(NULL);
+                    $part->set_master_picture_attachement_id(null);
                 }
 
                 $this->get_element()->set_attributes(array()); // save element attributes to update its "last_modified"
@@ -146,23 +142,21 @@
                 parent::delete();
 
                 // now delete the file (if desired)
-                if ($must_file_delete)
-                {
-                    if ( ! unlink($filename))
+                if ($must_file_delete) {
+                    if (! unlink($filename)) {
                         throw new Exception(sprintf(_('Die Datei "%s" kann nicht von der Festplatte gelöscht '.
-                                            "werden! \nÜberprüfen Sie, ob die nötigen Rechte vorhanden sind."),$filename));
+                                            "werden! \nÜberprüfen Sie, ob die nötigen Rechte vorhanden sind."), $filename));
+                    }
                 }
 
                 $this->database->commit($transaction_id); // commit transaction
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $this->database->rollback(); // rollback transaction
 
                 // restore the settings from BEFORE the transaction
                 $this->reset_attributes();
 
-                throw new Exception(sprintf(_("Der Dateianhang \"%s\" konnte nicht entfernt werden!\nGrund: "),$this->get_name()).$e->getMessage());
+                throw new Exception(sprintf(_("Der Dateianhang \"%s\" konnte nicht entfernt werden!\nGrund: "), $this->get_name()).$e->getMessage());
             }
         }
 
@@ -197,10 +191,13 @@
          */
         public function get_element()
         {
-            if ( ! is_object($this->element))
-            {
-                $this->element = new $this->db_data['class_name'] ($this->database, $this->current_user,
-                                                $this->log, $this->db_data['element_id']);
+            if (! is_object($this->element)) {
+                $this->element = new $this->db_data['class_name'](
+                    $this->database,
+                    $this->current_user,
+                                                $this->log,
+                    $this->db_data['element_id']
+                );
             }
 
             return $this->element;
@@ -236,10 +233,13 @@
          */
         public function get_type()
         {
-            if ( ! is_object($this->attachement_type))
-            {
-                $this->attachement_type = new AttachementType(  $this->database, $this->current_user,
-                                                                $this->log, $this->db_data['type_id']);
+            if (! is_object($this->attachement_type)) {
+                $this->attachement_type = new AttachementType(
+                    $this->database,
+                    $this->current_user,
+                                                                $this->log,
+                    $this->db_data['type_id']
+                );
             }
 
             return $this->attachement_type;
@@ -319,8 +319,9 @@
             // we will search for both, the original filename and the filename with replaced base-path
             $query_data = $database->query($query, array($filename, $filename_2));
 
-            foreach ($query_data as $row)
+            foreach ($query_data as $row) {
                 $attachements[] = new Attachement($database, $current_user, $log, $row['id'], $row);
+            }
 
             return $attachements;
         }
@@ -346,10 +347,10 @@
                         'ORDER BY name ASC';
             $query_data = $database->query($query);
 
-            foreach ($query_data as $row)
-            {
-                if ( ! file_exists(str_replace('%BASE%', BASE, $row['filename'])))
+            foreach ($query_data as $row) {
+                if (! file_exists(str_replace('%BASE%', BASE, $row['filename']))) {
                     $attachements[] = new Attachement($database, $current_user, $log, $row['id'], $row);
+                }
             }
 
             return $attachements;
@@ -358,12 +359,13 @@
         /**
          * @copydoc DBElement::check_values_validity()
          */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = NULL)
+        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
         {
             // first, we set the basename as the name if the name is empty
             $values['name'] = trim($values['name']);
-            if (strlen($values['name']) == 0)
+            if (strlen($values['name']) == 0) {
                 $values['name'] = basename($values['filename']);
+            }
 
             // then we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
@@ -372,46 +374,56 @@
             settype($values['show_in_table'], 'boolean');
 
             // check "type_id"
-            try
-            {
+            try {
                 // type_id == 0 or NULL means "no attachement type", and this is not allowed!
-                if ($values['type_id'] == 0)
+                if ($values['type_id'] == 0) {
                     throw new Exception(_('"type_id" ist Null!'));
+                }
 
                 $attachement_type = new AttachementType($database, $current_user, $log, $values['type_id']);
-            }
-            catch (Exception $e)
-            {
-                debug('warning', 'Ungültige "type_id": "'.$values['type_id'].'"'.
+            } catch (Exception $e) {
+                debug(
+                    'warning',
+                    'Ungültige "type_id": "'.$values['type_id'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                        __FILE__, __LINE__, __METHOD__);
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception(_('Der gewählte Dateityp existiert nicht!'));
             }
 
             // check "class_name"
             $supported_classes = array(Part::class); // to be continued (step by step)...
-            if ( ! in_array($values['class_name'], $supported_classes))
-            {
-                debug('error', 'Die Klasse "'.$values['class_name'].'" unterstützt (noch) keine Dateianhänge!',
-                        __FILE__, __LINE__, __METHOD__);
-                throw new Exception(sprintf(_('Ungültiger Klassenname: "%s"'),$values['class_name']));
+            if (! in_array($values['class_name'], $supported_classes)) {
+                debug(
+                    'error',
+                    'Die Klasse "'.$values['class_name'].'" unterstützt (noch) keine Dateianhänge!',
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
+                throw new Exception(sprintf(_('Ungültiger Klassenname: "%s"'), $values['class_name']));
             }
 
             // check "element_id"
-            try
-            {
+            try {
                 // element_id == 0 is not allowed!
-                if ($values['element_id'] == 0)
+                if ($values['element_id'] == 0) {
                     throw new Exception('"element_id" ist Null!');
+                }
 
-                $element = new $values['class_name'] ($database, $current_user, $log, $values['element_id']);
+                $element = new $values['class_name']($database, $current_user, $log, $values['element_id']);
                 $element->set_attributes(array()); // save element attributes to update its "last_modified"
-            }
-            catch (Exception $e)
-            {
-                debug('warning', 'Ungültige "element_id"/"class_name": "'.$values['element_id'].'"/"'.
+            } catch (Exception $e) {
+                debug(
+                    'warning',
+                    'Ungültige "element_id"/"class_name": "'.$values['element_id'].'"/"'.
                         $values['class_name'].'"'."\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                        __FILE__, __LINE__, __METHOD__);
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception(_('Das gewählte Element existiert nicht!'));
             }
 
@@ -419,12 +431,14 @@
             $values['filename'] = trim($values['filename']);
 
             // empty filenames are not allowed!
-            if (strlen($values['filename']) == 0)
+            if (strlen($values['filename']) == 0) {
                 throw new Exception(_('Der Dateiname ist leer, das ist nicht erlaubt!'));
+            }
 
             // check if "filename" is a valid (absolute and UNIX) filepath
-            if ( ! is_path_absolute_and_unix($values['filename']))
-                throw new Exception(sprintf(_('Der Dateipfad "%s" ist kein gültiger absoluter UNIX Dateipfad!'),$values['filename']));
+            if (! is_path_absolute_and_unix($values['filename'])) {
+                throw new Exception(sprintf(_('Der Dateipfad "%s" ist kein gültiger absoluter UNIX Dateipfad!'), $values['filename']));
+            }
 
             // we replace the path of the Part-DB installation directory (Constant "BASE") with a placeholder ("%BASE%")
             $values['filename'] = str_replace(BASE, '%BASE%', $values['filename']);
@@ -441,8 +455,9 @@
          */
         public static function get_count(&$database)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception(_('$database ist kein Database-Objekt!'));
+            }
 
             return $database->get_count_of_records('attachements');
         }
@@ -470,19 +485,31 @@
          *
          * @see DBElement::add()
          */
-        public static function add(&$database, &$current_user, &$log, &$element, $type_id,
-                                    $filename, $name = '', $show_in_table = false)
-        {
-            if ( ! is_object($element))
+        public static function add(
+            &$database,
+            &$current_user,
+            &$log,
+            &$element,
+            $type_id,
+                                    $filename,
+            $name = '',
+            $show_in_table = false
+        ) {
+            if (! is_object($element)) {
                 throw new Exception(_('$element ist kein Objekt!'));
+            }
 
-            return parent::add($database, $current_user, $log, 'attachements',
+            return parent::add(
+                $database,
+                $current_user,
+                $log,
+                'attachements',
                                 array(  'name'              => $name,
                                         'class_name'        => get_class($element),
                                         'element_id'        => $element->get_id(),
                                         'type_id'           => $type_id,
                                         'filename'          => $filename,
-                                        'show_in_table'     => $show_in_table));
+                                        'show_in_table'     => $show_in_table)
+            );
         }
-
     }

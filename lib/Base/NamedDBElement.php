@@ -24,7 +24,8 @@
 */
 
     namespace PartDB\Base;
-    use Exception;
+
+use Exception;
     use PartDB\Database;
     use PartDB\Log;
     use PartDB\User;
@@ -45,21 +46,21 @@
         *
         *********************************************************************************/
 
-         /**
-         * @brief Constructor
-         *
-         * @param Database  &$database                  reference to the Database-object
-         * @param User      &$current_user              reference to the current user which is logged in
-         * @param Log       &$log                       reference to the Log-object
-         * @param string    $tablename                  the name of the database table where the element is located
-         * @param integer   $id                         ID of the element we want to get
-         * @param boolean   $allow_virtual_elements     @li if true, it's allowed to set $id to zero
-         *                                                  (the StructuralDBElement needs this for the root element)
-         *                                              @li if false, $id == 0 is not allowed (throws an Exception)
-         *
-         * @throws Exception    if there is no such element in the database
-         * @throws Exception    if there was an error
-         */
+        /**
+        * @brief Constructor
+        *
+        * @param Database  &$database                  reference to the Database-object
+        * @param User      &$current_user              reference to the current user which is logged in
+        * @param Log       &$log                       reference to the Log-object
+        * @param string    $tablename                  the name of the database table where the element is located
+        * @param integer   $id                         ID of the element we want to get
+        * @param boolean   $allow_virtual_elements     @li if true, it's allowed to set $id to zero
+        *                                                  (the StructuralDBElement needs this for the root element)
+        *                                              @li if false, $id == 0 is not allowed (throws an Exception)
+        *
+        * @throws Exception    if there is no such element in the database
+        * @throws Exception    if there was an error
+        */
         public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false, $db_data = null)
         {
             parent::__construct($database, $current_user, $log, $tablename, $id, $allow_virtual_elements, $db_data);
@@ -113,7 +114,7 @@
         /**
          * @copydoc DBElement::check_values_validity()
          */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = NULL)
+        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
         {
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
@@ -121,8 +122,9 @@
             // we trim the name (spaces at the begin or at the end of a name are ugly, so we remove them)
             $values['name'] = trim($values['name']);
 
-            if (empty($values['name'])) // empty names are not allowed!
+            if (empty($values['name'])) { // empty names are not allowed!
                 throw new Exception('Der neue Name ist leer, das ist nicht erlaubt!');
+            }
         }
 
         /**
@@ -142,11 +144,11 @@
          */
         public static function search(&$database, &$current_user, &$log, $tablename, $keyword, $exact_match)
         {
-            if (strlen($keyword) == 0)
+            if (strlen($keyword) == 0) {
                 return array();
+            }
 
-            if ( ! $exact_match)
-            {
+            if (! $exact_match) {
                 $keyword = str_replace('*', '%', $keyword);
                 $keyword = '%'.$keyword.'%';
             }
@@ -158,11 +160,10 @@
 
             $classname = get_called_class();
 
-            foreach ($query_data as $row)
+            foreach ($query_data as $row) {
                 $objects[] = new $classname($database, $current_user, $log, $row['id'], $row);
+            }
 
             return $objects;
         }
-
     }
-

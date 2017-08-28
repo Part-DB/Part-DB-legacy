@@ -24,7 +24,8 @@
 */
 
     namespace PartDB;
-    use Exception;
+
+use Exception;
 
     /**
      * @file Footprint.php
@@ -59,8 +60,7 @@
         {
             parent::__construct($database, $current_user, $log, 'footprints', $id);
 
-            if ($id == 0)
-            {
+            if ($id == 0) {
                 // this is the root node
                 $this->db_data['filename'] = '';
                 return;
@@ -81,10 +81,11 @@
          */
         public function get_filename($absolute = true)
         {
-            if($absolute == true)
+            if ($absolute == true) {
                 return str_replace('%BASE%', BASE, $this->db_data['filename']);
-            else
+            } else {
                 return str_replace('%BASE%', "", $this->db_data['filename']);
+            }
         }
 
         /**
@@ -95,10 +96,11 @@
          */
         public function get_3d_filename($absolute = true)
         {
-            if($absolute == true)
+            if ($absolute == true) {
                 return str_replace('%BASE%', BASE, $this->db_data['filename_3d']);
-            else
+            } else {
                 return str_replace('%BASE%', "", $this->db_data['filename_3d']);
+            }
         }
 
         /**
@@ -131,8 +133,9 @@
          */
         public function is_filename_valid()
         {
-            if (strlen($this->get_filename()) == 0)
+            if (strlen($this->get_filename()) == 0) {
                 return true;
+            }
 
             return file_exists($this->get_filename());
         }
@@ -150,12 +153,12 @@
          */
         public function is_3d_filename_valid()
         {
-            if (strlen($this->get_3d_filename()) == 0)
+            if (strlen($this->get_3d_filename()) == 0) {
                 return true;
+            }
 
             //Check if file is X3D-Model
-            if(strpos($this->get_3d_filename(), '.x3d') == false)
-            {
+            if (strpos($this->get_3d_filename(), '.x3d') == false) {
                 return false;
             }
 
@@ -211,7 +214,7 @@
         /**
          * @copydoc DBElement::check_values_validity()
          */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = NULL)
+        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
         {
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
@@ -223,7 +226,7 @@
 
             // check if "filename" is a valid (absolute and UNIX) filepath
             //if ((strlen($values['filename']) > 0) && ( ! is_path_absolute_and_unix($values['filename'])))
-                //throw new Exception('Der Dateipfad "'.$values['filename'].'" ist kein gültiger absoluter UNIX Dateipfad!');
+            //throw new Exception('Der Dateipfad "'.$values['filename'].'" ist kein gültiger absoluter UNIX Dateipfad!');
 
             // we replace the path of the Part-DB installation directory (Constant "BASE") with a placeholder ("%BASE%")
             $values['filename'] = str_replace(BASE, '%BASE%', $values['filename']);
@@ -236,7 +239,7 @@
 
             // check if "filename" is a valid (absolute and UNIX) filepath
             //if ((strlen($values['filename_3d']) > 0) && ( ! is_path_absolute_and_unix($values['filename_3d'])))
-                //throw new Exception('Der Dateipfad "'.$values['filename_3d'].'" ist kein gültiger absoluter UNIX Dateipfad!');
+            //throw new Exception('Der Dateipfad "'.$values['filename_3d'].'" ist kein gültiger absoluter UNIX Dateipfad!');
 
             // we replace the path of the Part-DB installation directory (Constant "BASE") with a placeholder ("%BASE%")
             $values['filename_3d'] = str_replace(BASE, '%BASE%', $values['filename_3d']);
@@ -253,8 +256,9 @@
          */
         public static function get_count(&$database)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
             return $database->get_count_of_records('footprints');
         }
@@ -277,10 +281,10 @@
             $root_footprint = new Footprint($database, $current_user, $log, 0);
             $all_footprints = $root_footprint->get_subelements(true);
 
-            foreach ($all_footprints as $footprint)
-            {
-                if ( ! $footprint->is_filename_valid())
+            foreach ($all_footprints as $footprint) {
+                if (! $footprint->is_filename_valid()) {
                     $broken_filename_footprints[] = $footprint;
+                }
             }
 
             return $broken_filename_footprints;
@@ -305,10 +309,10 @@
             $root_footprint = new Footprint($database, $current_user, $log, 0);
             $all_footprints = $root_footprint->get_subelements(true);
 
-            foreach ($all_footprints as $footprint)
-            {
-                if ( ! $footprint->is_3d_filename_valid())
+            foreach ($all_footprints as $footprint) {
+                if (! $footprint->is_3d_filename_valid()) {
                     $broken_filename_footprints[] = $footprint;
+                }
             }
 
             return $broken_filename_footprints;
@@ -336,10 +340,15 @@
          */
         public static function add(&$database, &$current_user, &$log, $name, $parent_id, $filename = '', $filename_3d = '')
         {
-            return parent::add($database, $current_user, $log, 'footprints',
+            return parent::add(
+                $database,
+                $current_user,
+                $log,
+                'footprints',
                                 array(  'name'      => $name,
                                         'parent_id' => $parent_id,
-                                        'filename'  => $filename));
+                                        'filename'  => $filename)
+            );
         }
 
         /**
@@ -364,16 +373,13 @@
                 "level" => $this->get_level()
             );
 
-            if($verbose == true)
-            {
+            if ($verbose == true) {
                 $ver = array("filename" => $this->get_filename(false),
                     "filename_valid" => $this->is_filename_valid(false),
                     "filename3d" => $this->get_3d_filename(),
                     "filename3d_valid" => $this->is_3d_filename_valid());
-                return array_merge($json,  $ver);
+                return array_merge($json, $ver);
             }
             return $json;
         }
-
     }
-

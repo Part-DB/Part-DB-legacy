@@ -50,8 +50,7 @@ class PartLabel
         $this->current_user = $current_user;
         $this->log = $log;
         $this->lines = array();
-        if(isset($pid))
-        {
+        if (isset($pid)) {
             $this->set_pid($pid);
         }
     }
@@ -109,15 +108,13 @@ class PartLabel
 
     public function set_size()
     {
-
     }
 
     public function set_lines($new_lines)
     {
         $tmp = array();
-        foreach($new_lines as $line)
-        {
-            $tmp[] = replace_placeholder_with_infos($line,$this->part);
+        foreach ($new_lines as $line) {
+            $tmp[] = replace_placeholder_with_infos($line, $this->part);
         }
         $this->lines = $tmp;
     }
@@ -130,22 +127,21 @@ class PartLabel
 
     private function build_barcode_config()
     {
-        if(true)
-        { //case S
+        if (true) { //case S
             $c = array("size" => array(50,30),
              "margins" => array(1,2,1),
              "fontsize" => 8
              );
 
             return $c;
-         }
+        }
         return "";
     }
 
     public function generate_barcode($download = false)
     {
         // create new PDF document
-        $pdf = new TCPDF('L', 'mm', array(50,30) , true, 'UTF-8', false);
+        $pdf = new TCPDF('L', 'mm', array(50,30), true, 'UTF-8', false);
 
         // set document information
         $pdf->SetCreator(PDF_CREATOR);
@@ -164,7 +160,7 @@ class PartLabel
         $pdf->SetMargins(2, 1, 2);
 
         // set auto page breaks
-        $pdf->SetAutoPageBreak(FALSE, PDF_MARGIN_BOTTOM);
+        $pdf->SetAutoPageBreak(false, PDF_MARGIN_BOTTOM);
 
         // set image scale factor
         $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
@@ -173,8 +169,7 @@ class PartLabel
         $pdf->AddPage();
         $pdf->SetFont('dejavusansmono', '', 8);
 
-        foreach($this->lines as $line)
-        {
+        foreach ($this->lines as $line) {
             $pdf->Cell(0, 0, $line);
             $pdf->Ln();
         }
@@ -194,16 +189,13 @@ class PartLabel
             'font' => 'helvetica',
             'fontsize' => 8 );
 
-        $pdf->write1DBarcode($this->part->get_barcode_content(),"EAN8","","","","","",$style,'N');
+        $pdf->write1DBarcode($this->part->get_barcode_content(), "EAN8", "", "", "", "", "", $style, 'N');
 
         //$pdf->write2DBarcode($this->part->get_barcode_content("QR"),"QRCODE,Q");
 
-        if($download)
-        {
+        if ($download) {
             $pdf->Output('label_'.$this->part->get_id().'.pdf', 'D');
-        }
-        else
-        {
+        } else {
             //Close and output PDF document
             $pdf->Output('label_'.$this->part->get_id().'.pdf', 'I');
         }
@@ -265,8 +257,4 @@ class PartLabel
     {
         $this->generate_barcode(true);
     }
-
-
-
-
 }

@@ -24,7 +24,8 @@
 */
 
     namespace PartDB\Base;
-    use Exception;
+
+use Exception;
     use PartDB\Database;
     use PartDB\Log;
     use PartDB\Part;
@@ -52,7 +53,7 @@
 
         /** @brief (array) all part objects which are included in this element
          *          (see PartsContainingDBElement::get_parts()) */
-        protected $parts = NULL;
+        protected $parts = null;
 
         /********************************************************************************
         *
@@ -84,7 +85,7 @@
          */
         public function reset_attributes($all = false)
         {
-            $this->parts = NULL;
+            $this->parts = null;
 
             parent::reset_attributes($all);
         }
@@ -112,21 +113,19 @@
          */
         public function delete($delete_recursive = false, $delete_files_from_hdd = false)
         {
-            try
-            {
+            try {
                 $transaction_id = $this->database->begin_transaction(); // start transaction
 
                 $parts = $this->get_parts('id_category');
 
-                if (count($parts) > 0)
+                if (count($parts) > 0) {
                     throw new Exception('Das Element enthält noch '.count($parts).' Bauteile!');
+                }
 
                 parent::delete($delete_recursive, $delete_files_from_hdd);
 
                 $this->database->commit($transaction_id); // commit transaction
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $this->database->rollback(); // rollback transaction
 
                 // restore the settings from BEFORE the transaction
@@ -164,50 +163,48 @@
          */
         public function get_parts($parts_rowname, $recursive = false, $hide_obsolete_and_zero = false)
         {
-        /*
-            if ( ! is_array($this->parts))
-            {
-                $this->parts = array();
+            /*
+                if ( ! is_array($this->parts))
+                {
+                    $this->parts = array();
 
-                $query = 'SELECT id FROM parts WHERE '.$parts_rowname.'=? ORDER BY name, description';
-                $query_data = $this->database->query($query, array($this->get_id()));
+                    $query = 'SELECT id FROM parts WHERE '.$parts_rowname.'=? ORDER BY name, description';
+                    $query_data = $this->database->query($query, array($this->get_id()));
 
-                foreach ($query_data as $row)
-                    $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['id']);
-            }
-
-            $parts = $this->parts;
-
-            if ($hide_obsolete_and_zero)
-            {
-                // remove obsolete parts from array
-                $parts = array_values(array_filter($parts, function($part) {return (( ! $part->get_obsolete()) || ($part->get_instock() > 0));}));
-            }
-
-            if ($recursive)
-            {
-                $subelements = $this->get_subelements(false);
-
-                foreach ($subelements as $element) {
-                    $i = $element->get_id();
-
-                    $parts = array_merge($parts, $element->get_parts(true, $hide_obsolete_and_zero));
+                    foreach ($query_data as $row)
+                        $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['id']);
                 }
-                usort($parts, 'PartsContainingDBElement::usort_compare'); // Sort all parts by their names and descriptions
-            }
 
-            return $parts;
-            */
+                $parts = $this->parts;
+
+                if ($hide_obsolete_and_zero)
+                {
+                    // remove obsolete parts from array
+                    $parts = array_values(array_filter($parts, function($part) {return (( ! $part->get_obsolete()) || ($part->get_instock() > 0));}));
+                }
+
+                if ($recursive)
+                {
+                    $subelements = $this->get_subelements(false);
+
+                    foreach ($subelements as $element) {
+                        $i = $element->get_id();
+
+                        $parts = array_merge($parts, $element->get_parts(true, $hide_obsolete_and_zero));
+                    }
+                    usort($parts, 'PartsContainingDBElement::usort_compare'); // Sort all parts by their names and descriptions
+                }
+
+                return $parts;
+                */
 
             $subelements = array();
 
-            if ($recursive)
-            {
+            if ($recursive) {
                 $subelements = $this->get_subelements(true);
             }
 
-            if ( is_null($this->parts) || ! is_array($this->parts))
-            {
+            if (is_null($this->parts) || ! is_array($this->parts)) {
                 $this->parts = array();
 
                 /*
@@ -221,8 +218,7 @@
                 $query = 'SELECT parts.* FROM parts WHERE '.$parts_rowname.'=?';
                 $vals = array($this->get_id());
 
-                foreach($subelements as $element)
-                {
+                foreach ($subelements as $element) {
                     $query = $query . " OR ".$parts_rowname."=?";
                     $vals[] = $element->get_id();
                 }
@@ -234,23 +230,23 @@
                 //$query_data = $this->database->query($query);
                 $query_data = $this->database->query($query, $vals);
 
-                foreach ($query_data as $row)
+                foreach ($query_data as $row) {
                     $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['id'], $row);
+                }
 
                 usort($this->parts, '\PartDB\Base\PartsContainingDBElement::usort_compare');
             }
 
             $parts = $this->parts;
 
-            if ($hide_obsolete_and_zero)
-            {
+            if ($hide_obsolete_and_zero) {
                 // remove obsolete parts from array
-                $parts = array_values(array_filter($parts, function($part) {return (( ! $part->get_obsolete()) || ($part->get_instock() > 0));}));
+                $parts = array_values(array_filter($parts, function ($part) {
+                    return ((! $part->get_obsolete()) || ($part->get_instock() > 0));
+                }));
             }
 
             return $parts;
-
-
         }
 
         /**
@@ -265,13 +261,12 @@
          *
          * @retval integer
          */
-        static function usort_compare($part_1, $part_2)
+        public static function usort_compare($part_1, $part_2)
         {
-            if ($part_1->get_name() != $part_2->get_name())
+            if ($part_1->get_name() != $part_2->get_name()) {
                 return strcasecmp($part_1->get_name(), $part_2->get_name());
-            else // names are identical, so we compare the description of the parts
+            } else { // names are identical, so we compare the description of the parts
                 return strcasecmp($part_1->get_description(), $part_2->get_description());
+            }
         }
-
     }
-

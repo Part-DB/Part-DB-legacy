@@ -12,7 +12,6 @@ use PartDB\Interfaces\IAPIModel;
 
 class PartProperty implements IAPIModel
 {
-
     private $name;
     private $value;
     private $raw_string;
@@ -51,10 +50,11 @@ class PartProperty implements IAPIModel
      */
     public function get_name($with_colon = true)
     {
-        if($with_colon === true)
+        if ($with_colon === true) {
             return $this->name . ":";
-        else
+        } else {
             return $this->name;
+        }
     }
 
     /**
@@ -64,15 +64,12 @@ class PartProperty implements IAPIModel
      */
     public function get_array($named = true)
     {
-        if($named == true)
-        {
+        if ($named == true) {
             return array(
                 'name' => $this->get_name(),
                 'value' => $this->get_value()
             );
-        }
-        else
-        {
+        } else {
             return array($this->get_name(), $this->get_value());
         }
     }
@@ -101,13 +98,10 @@ class PartProperty implements IAPIModel
         $values = $results[2];
 
         $arr = array();
-        for ($n = 0; $n<count($names); $n++)
-        {
-            if(!empty(trim($names[$n])) && !empty(trim($values[$n])))
-            {
+        for ($n = 0; $n<count($names); $n++) {
+            if (!empty(trim($names[$n])) && !empty(trim($values[$n]))) {
                 $arr[] = new PartProperty($raw_strings[$n], $names[$n], $values[$n]);
             }
-
         }
 
         return $arr;

@@ -24,7 +24,8 @@
 */
 
     namespace PartDB;
-    use Exception;
+
+use Exception;
 
     /**
      * @file Storelocation.php
@@ -59,8 +60,7 @@
         {
             parent::__construct($database, $current_user, $log, 'storelocations', $id);
 
-            if ($id == 0)
-            {
+            if ($id == 0) {
                 // this is the root node
                 $this->db_data['is_full'] = false;
                 return;
@@ -135,7 +135,7 @@
         /**
          * @copydoc DBElement::check_values_validity()
          */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = NULL)
+        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
         {
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
@@ -155,8 +155,9 @@
          */
         public static function get_count(&$database)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
             return $database->get_count_of_records('storelocations');
         }
@@ -180,10 +181,15 @@
          */
         public static function add(&$database, &$current_user, &$log, $name, $parent_id, $is_full = false)
         {
-            return parent::add($database, $current_user, $log, 'storelocations',
+            return parent::add(
+                $database,
+                $current_user,
+                $log,
+                'storelocations',
                                 array(  'name'          => $name,
                                         'parent_id'     => $parent_id,
-                                        'is_full'       => $is_full));
+                                        'is_full'       => $is_full)
+            );
         }
 
         /**
@@ -208,10 +214,9 @@
                 "level" => $this->get_level()
             );
 
-            if($verbose == true)
-            {
+            if ($verbose == true) {
                 $ver = array("isFull" => $this->get_is_full() == true);
-                return array_merge($json,  $ver);
+                return array_merge($json, $ver);
             }
             return $json;
         }

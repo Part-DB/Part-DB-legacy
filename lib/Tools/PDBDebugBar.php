@@ -14,7 +14,7 @@ use DebugBar\StandardDebugBar;
 
 class PDBDebugBar
 {
-    static private $singleton;
+    private static $singleton;
     private $debugbar;
     private $renderer;
 
@@ -39,8 +39,7 @@ class PDBDebugBar
 
     public function registerPDO(&$pdo)
     {
-        if(!$this->debugbar->hasCollector("Database"))
-        {
+        if (!$this->debugbar->hasCollector("Database")) {
             $this->debugbar->addCollector(new PDOCollector($pdo));
         }
     }
@@ -71,8 +70,7 @@ class PDBDebugBar
      */
     public static function &getInstance()
     {
-        if(is_null(PDBDebugBar::$singleton))
-        {
+        if (is_null(PDBDebugBar::$singleton)) {
             PDBDebugBar::$singleton = new PDBDebugBar();
         }
         return PDBDebugBar::$singleton;

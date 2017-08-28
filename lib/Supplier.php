@@ -24,7 +24,8 @@
 */
 
     namespace PartDB;
-    use Exception;
+
+use Exception;
 
     /**
      * @file Supplier.php
@@ -78,8 +79,7 @@
          */
         public function get_parts($recursive = false, $hide_obsolete_and_zero = false)
         {
-            if ( ! is_array($this->parts))
-            {
+            if (! is_array($this->parts)) {
                 $this->parts = array();
 
                 $query =    'SELECT part_id FROM orderdetails '.
@@ -89,24 +89,26 @@
 
                 $query_data = $this->database->query($query, array($this->get_id()));
 
-                foreach ($query_data as $row)
+                foreach ($query_data as $row) {
                     $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['part_id']);
+                }
             }
 
             $parts = $this->parts;
 
-            if ($hide_obsolete_and_zero)
-            {
+            if ($hide_obsolete_and_zero) {
                 // remove obsolete parts from array
-                $parts = array_values(array_filter($parts, function($part) {return (( ! $part->get_obsolete()) || ($part->get_instock() > 0));}));
+                $parts = array_values(array_filter($parts, function ($part) {
+                    return ((! $part->get_obsolete()) || ($part->get_instock() > 0));
+                }));
             }
 
-            if ($recursive)
-            {
+            if ($recursive) {
                 $sub_suppliers = $this->get_subelements(true);
 
-                foreach ($sub_suppliers as $sub_supplier)
+                foreach ($sub_suppliers as $sub_supplier) {
                     $parts = array_merge($parts, $sub_supplier->get_parts(false, $hide_obsolete_and_zero));
+                }
             }
 
             return $parts;
@@ -156,8 +158,9 @@
          */
         public static function get_count(&$database)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
             return $database->get_count_of_records('suppliers');
         }
@@ -182,8 +185,9 @@
          */
         public static function get_order_suppliers(&$database, &$current_user, &$log)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
             $suppliers = array();
 
@@ -201,8 +205,7 @@
 
             $query_data = $database->query($query);
 
-            foreach ($query_data as $row)
-            {
+            foreach ($query_data as $row) {
                 $suppliers[] = new Supplier($database, $current_user, $log, $row['id_supplier']);
             }
 
@@ -231,11 +234,24 @@
          *
          * @see DBElement::add()
          */
-        public static function add(&$database, &$current_user, &$log, $name, $parent_id, $address = '',
-                                    $phone_number = '', $fax_number = '', $email_address = '', $website = '',
-                                    $auto_product_url = '')
-        {
-            return parent::add($database, $current_user, $log, 'suppliers',
+        public static function add(
+            &$database,
+            &$current_user,
+            &$log,
+            $name,
+            $parent_id,
+            $address = '',
+                                    $phone_number = '',
+            $fax_number = '',
+            $email_address = '',
+            $website = '',
+                                    $auto_product_url = ''
+        ) {
+            return parent::add(
+                $database,
+                $current_user,
+                $log,
+                'suppliers',
                                 array(  'name'              => $name,
                                         'parent_id'         => $parent_id,
                                         'address'           => $address,
@@ -243,7 +259,8 @@
                                         'fax_number'        => $fax_number,
                                         'email_address'     => $email_address,
                                         'website'           => $website,
-                                        'auto_product_url'  => $auto_product_url));
+                                        'auto_product_url'  => $auto_product_url)
+            );
         }
 
         /**

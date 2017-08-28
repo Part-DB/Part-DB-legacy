@@ -24,6 +24,7 @@
 */
 
 namespace PartDB;
+
 use Exception;
 use PartDB\Tools\PDBDebugBar;
 use Smarty;
@@ -86,35 +87,32 @@ use Smarty;
         public function __construct($theme, $custom_css_file = '', $page_title = '', $autorefresh = 0)
         {
             // specify the variable type
-            settype($this->meta,                'array');
-            settype($this->javascript_files,    'array');
-            settype($this->body_onload,         'string');
-            settype($this->variables,           'array');
-            settype($this->loops,               'array');
+            settype($this->meta, 'array');
+            settype($this->javascript_files, 'array');
+            settype($this->body_onload, 'string');
+            settype($this->variables, 'array');
+            settype($this->loops, 'array');
 
             // specify the variable type of array $this->meta
-            settype($this->meta['theme'],               'string');
-            settype($this->meta['title'],               'string');
-            settype($this->meta['custom_css'],          'string');
-            settype($this->meta['frameset'],            'boolean');
-            settype($this->meta['autorefresh'],                'integer');
+            settype($this->meta['theme'], 'string');
+            settype($this->meta['title'], 'string');
+            settype($this->meta['custom_css'], 'string');
+            settype($this->meta['frameset'], 'boolean');
+            settype($this->meta['autorefresh'], 'integer');
 
             // check passed parameters
-            if (($theme != 'standard') && ( ! is_readable(BASE.'/templates/'.$theme."/partdb.css" )))
-            {
+            if (($theme != 'standard') && (! is_readable(BASE.'/templates/'.$theme."/partdb.css"))) {
                 debug('warning', 'Template "'.$theme.'" coult not be found! '.
                                         'Use "standard" template instead...', __FILE__, __LINE__, __METHOD__);
                 $theme = 'standard';
             }
-            if (( ! is_string($custom_css_file))
-                || (($custom_css_file != '') && ( ! is_readable(BASE.'/templates/custom_css/'.$custom_css_file))))
-            {
+            if ((! is_string($custom_css_file))
+                || (($custom_css_file != '') && (! is_readable(BASE.'/templates/custom_css/'.$custom_css_file)))) {
                 debug('warning', 'Custom CSS file "'.$custom_css_file.'" coult not be found! '.
                                         'Use standard instead...', __FILE__, __LINE__, __METHOD__);
                 $custom_css_file = '';
             }
-            if ( ! is_string($page_title))
-            {
+            if (! is_string($page_title)) {
                 debug('warning', 'Page title "'.$page_title.'" is no string!', __FILE__, __LINE__, __METHOD__);
                 $page_title = '';
             }
@@ -142,14 +140,12 @@ use Smarty;
          */
         public function set_meta($meta = array())
         {
-            if ( ! is_array($meta))
-            {
+            if (! is_array($meta)) {
                 debug('error', '$meta='.print_r($meta, true), __FILE__, __LINE__, __METHOD__);
                 throw new Exception('$meta ist kein Array!');
             }
 
-            foreach ($meta as $key => $value)
-            {
+            foreach ($meta as $key => $value) {
                 $this->meta[$key] = $value;
             }
         }
@@ -161,12 +157,10 @@ use Smarty;
          */
         public function set_title($new_title)
         {
-            if(is_null($new_title))
-            {
+            if (is_null($new_title)) {
                 throw new Exception("$new_title must not be null!");
             }
-            if(!is_string($new_title))
-            {
+            if (!is_string($new_title)) {
                 throw new Exception("$new_title must be an string!");
             }
 
@@ -190,19 +184,17 @@ use Smarty;
          */
         public function use_javascript($filenames = array(), $body_onload = '')
         {
-            if ( ! is_array($filenames))
-            {
+            if (! is_array($filenames)) {
                 debug('error', '$filenames='.print_r($filenames, true), __FILE__, __LINE__, __METHOD__);
                 throw new Exception('$filenames ist kein Array!');
             }
 
-            foreach ($filenames as $filename)
-            {
-                if ( ! in_array($filename, $this->javascript_files))
-                {
+            foreach ($filenames as $filename) {
+                if (! in_array($filename, $this->javascript_files)) {
                     $full_filename = BASE.'/javascript/'.$filename.'.js';
-                    if ( ! is_readable($full_filename))
+                    if (! is_readable($full_filename)) {
                         throw new Exception('Die JavaScript-Datei "'.$full_filename.'" existiert nicht!');
+                    }
 
                     $this->javascript_files[] = $filename;
                 }
@@ -227,16 +219,13 @@ use Smarty;
             settype($key, 'string');
             settype($type, 'string');
 
-            if (strlen($key) == 0)
-            {
+            if (strlen($key) == 0) {
                 debug('error', '$key is not set!', __FILE__, __LINE__, __METHOD__);
                 throw new Exception('$key ist leer!');
             }
 
-            if (strlen($type) > 0)
-            {
-                if ( ! in_array($type, array('boolean', 'bool', 'integer', 'int', 'float', 'string')))
-                {
+            if (strlen($type) > 0) {
+                if (! in_array($type, array('boolean', 'bool', 'integer', 'int', 'float', 'string'))) {
                     debug('error', '$type='.print_r($type, true), __FILE__, __LINE__, __METHOD__);
                     throw new Exception('$type hat einen ungültigen Inhalt!');
                 }
@@ -260,8 +249,7 @@ use Smarty;
             settype($key, 'string');
             settype($loop, 'array');
 
-            if (strlen($key) == 0)
-            {
+            if (strlen($key) == 0) {
                 debug('error', '$key is not set!', __FILE__, __LINE__, __METHOD__);
                 throw new Exception('$key ist leer!');
             }
@@ -286,8 +274,7 @@ use Smarty;
         {
             settype($key, 'string');
 
-            if (strlen($key) == 0)
-            {
+            if (strlen($key) == 0) {
                 debug('error', '$key is not set!', __FILE__, __LINE__, __METHOD__);
                 throw new Exception('$key ist leer!');
             }
@@ -306,8 +293,7 @@ use Smarty;
         {
             settype($key, 'string');
 
-            if (strlen($key) == 0)
-            {
+            if (strlen($key) == 0) {
                 debug('error', '$key is not set!', __FILE__, __LINE__, __METHOD__);
                 throw new Exception('$key ist leer!');
             }
@@ -338,27 +324,24 @@ use Smarty;
          */
         public function print_header($messages = array(), $reload_link = '', $messages_div_title = '', $redirect = false)
         {
-
-            if(PDBDebugBar::is_activated())
+            if (PDBDebugBar::is_activated()) {
                 PDBDebugBar::getInstance()->sendData();
+            }
 
             global $config;
 
-            if (( ! is_array($this->meta)) || (count($this->meta) == 0) || (strlen($this->meta['theme']) == 0))
-            {
+            if ((! is_array($this->meta)) || (count($this->meta) == 0) || (strlen($this->meta['theme']) == 0)) {
                 debug('warning', 'Meta not set!', __FILE__, __LINE__, __METHOD__);
             }
             $smarty_head = BASE.'/templates/'.$this->meta['theme'].'/smarty_head.tpl';
-            if ( ! is_readable($smarty_head))
-            {
+            if (! is_readable($smarty_head)) {
                 debug('error', 'File "'.$smarty_head.'" not found!', __FILE__, __LINE__, __METHOD__);
                 throw new Exception('Template Header-Datei "'.$smarty_head.'" wurde nicht gefunden!');
             }
 
             $tmpl = new Smarty;
 
-            if ($config['debug']['template_debugging_enable'])
-            {
+            if ($config['debug']['template_debugging_enable']) {
                 $tmpl->debugging = true;
             }
 
@@ -372,77 +355,75 @@ use Smarty;
             $lang = explode("_", $config['language'])[0];
 
             // header stuff
-            $tmpl->assign('relative_path',              BASE_RELATIVE.'/'); // constant from start_session.php
-            $tmpl->assign('page_title',                 $this->meta['title']);
-            $tmpl->assign('http_charset',               $config['html']['http_charset']);
-            $tmpl->assign('lang',                       $lang);
-            $tmpl->assign('body_onload',                $this->body_onload);
-            $tmpl->assign('theme',                      $this->meta['theme']);
-            $tmpl->assign('frameset',                   $this->meta['frameset']);
-            $tmpl->assign('redirect',                   $redirect);
-            $tmpl->assign('partdb_title',               $config['partdb_title']);
-            if (strlen($this->meta['custom_css']) > 0)
+            $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
+            $tmpl->assign('page_title', $this->meta['title']);
+            $tmpl->assign('http_charset', $config['html']['http_charset']);
+            $tmpl->assign('lang', $lang);
+            $tmpl->assign('body_onload', $this->body_onload);
+            $tmpl->assign('theme', $this->meta['theme']);
+            $tmpl->assign('frameset', $this->meta['frameset']);
+            $tmpl->assign('redirect', $redirect);
+            $tmpl->assign('partdb_title', $config['partdb_title']);
+            if (strlen($this->meta['custom_css']) > 0) {
                 $tmpl->assign('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
+            }
 
-            if(isset($this->variables['ajax_request']))
-            {
+            if (isset($this->variables['ajax_request'])) {
                 $tmpl->assign("ajax_request", $this->variables['ajax_request']);
             }
 
 
             //Only load X3D libraries if this is activated
-            $tmpl->assign('foot3d_active',         $config['foot3d']['active']);
+            $tmpl->assign('foot3d_active', $config['foot3d']['active']);
 
             // JavaScript files
             $javascript_loop = array();
-            foreach ($this->javascript_files as $filename)
-            {
+            foreach ($this->javascript_files as $filename) {
                 $javascript_loop[] = array('filename' => $filename);
             }
-            if (count($javascript_loop) > 0)
+            if (count($javascript_loop) > 0) {
                 $tmpl->assign('javascript_files', $javascript_loop);
+            }
 
-            if(PDBDebugBar::is_activated())
-            {
+            if (PDBDebugBar::is_activated()) {
                 $renderer = PDBDebugBar::getInstance()->getRenderer();
                 $tmpl->assign("debugbar_head", $renderer->renderHead());
             }
 
             // messages
-            if ((is_array($messages) && (count($messages) > 0)) || ($config['debug']['request_debugging_enable']))
-            {
-                if ($config['debug']['request_debugging_enable'])
-                {
-                    if ((is_array($messages) && (count($messages) > 0)))
+            if ((is_array($messages) && (count($messages) > 0)) || ($config['debug']['request_debugging_enable'])) {
+                if ($config['debug']['request_debugging_enable']) {
+                    if ((is_array($messages) && (count($messages) > 0))) {
                         $messages[] = array('text' => '');
+                    }
                     $messages[] = array('text' => '$_REQUEST:', 'strong' => true, 'color' => 'darkblue');
                     $messages[] = array('text' => print_r($_REQUEST, true), 'color' => 'darkblue');
                 }
 
-                $tmpl->assign('messages',              $messages);
-                $tmpl->assign('messages_div_title',     $messages_div_title);
-                $tmpl->assign('reload_link',            $reload_link);
+                $tmpl->assign('messages', $messages);
+                $tmpl->assign('messages_div_title', $messages_div_title);
+                $tmpl->assign('reload_link', $reload_link);
             }
 
             $tmpl->display($smarty_head);
         }
 
-         /**
-         * @brief Print the HTML template (page content)
-         *
-         * @param string    $template           @li the template name (not the theme name!)
-         *                                      @li Example: for the template "vlib_startup.tmpl"
-         *                                          you have to pass "startup"
-         * @param boolean   $use_scriptname     @li if true, the template file
-         *                                          "/templates/<theme>/<scriptname>/vlib_<template>.tmpl"
-         *                                          will be used, where <scriptname> is the filename (*.php)
-         *                                          of the file which was calling this method.
-         *                                      @li if false, the template file
-         *                                          "/templates/<theme>/vlib_<template>.tmpl"
-         *                                          will be used.
-         *
-         * @throws Exception if there was an error
-         */
+        /**
+        * @brief Print the HTML template (page content)
+        *
+        * @param string    $template           @li the template name (not the theme name!)
+        *                                      @li Example: for the template "vlib_startup.tmpl"
+        *                                          you have to pass "startup"
+        * @param boolean   $use_scriptname     @li if true, the template file
+        *                                          "/templates/<theme>/<scriptname>/vlib_<template>.tmpl"
+        *                                          will be used, where <scriptname> is the filename (*.php)
+        *                                          of the file which was calling this method.
+        *                                      @li if false, the template file
+        *                                          "/templates/<theme>/vlib_<template>.tmpl"
+        *                                          will be used.
+        *
+        * @throws Exception if there was an error
+        */
         public function print_template($template, $use_scriptname = true)
         {
             global $config;
@@ -450,40 +431,38 @@ use Smarty;
             settype($template, 'string');
             settype($use_scriptname, 'boolean');
 
-            if ($use_scriptname)
-            {
+            if ($use_scriptname) {
                 $smarty_template =    BASE.'/templates/'.$this->meta['theme'].'/'.
                     basename($_SERVER['SCRIPT_NAME']).'/smarty_'.$template.'.tpl';
-            }
-            else
-            {
+            } else {
                 $smarty_template = BASE.'/templates/'.$this->meta['theme'].'/smarty_'.$template.'.tpl';
             }
 
-            if ( ! is_readable($smarty_template))
-            {
-                debug('error', 'Template-Datei "'.$smarty_template.'" konnte nicht gefunden werden!',
-                    __FILE__, __LINE__, __METHOD__);
+            if (! is_readable($smarty_template)) {
+                debug(
+                    'error',
+                    'Template-Datei "'.$smarty_template.'" konnte nicht gefunden werden!',
+                    __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception('Template-Datei "'.$smarty_template.'" konnte nicht gefunden werden!');
             }
 
             $tmpl = new Smarty();
 
-            if ($config['debug']['template_debugging_enable'])
-            {
+            if ($config['debug']['template_debugging_enable']) {
                 $tmpl->debugging = true;
             }
 
             $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
 
-            foreach ($this->variables as $key => $value)
-            {
+            foreach ($this->variables as $key => $value) {
                 //debug('temp', $key.' => '.$value);
                 $tmpl->assign($key, $value);
             }
 
-            foreach ($this->loops as $key => $loop)
-            {
+            foreach ($this->loops as $key => $loop) {
                 $tmpl->assign($key, $loop);
             }
 
@@ -495,7 +474,6 @@ use Smarty;
 
             $tmpl->display($smarty_template);
             //}
-
         }
 
         /**
@@ -514,39 +492,34 @@ use Smarty;
 
             $smarty_foot = BASE.'/templates/'.$this->meta['theme'].'/smarty_foot.tpl';
 
-            if ( ! is_readable($smarty_foot))
-            {
+            if (! is_readable($smarty_foot)) {
                 debug('error', 'File "'.$smarty_foot.'" not found!', __FILE__, __LINE__, __METHOD__);
                 throw new Exception('Template Footer-Datei "'.$smarty_foot.'" wurde nicht gefunden!');
             }
 
             $tmpl = new Smarty();
 
-            if ($config['debug']['template_debugging_enable'])
-            {
+            if ($config['debug']['template_debugging_enable']) {
                 $tmpl->debugging = true;
             }
 
-            if(isset($this->variables['ajax_request']))
-            {
+            if (isset($this->variables['ajax_request'])) {
                 $tmpl->assign("ajax_request", $this->variables['ajax_request']);
             }
 
-            $tmpl->assign('relative_path',  BASE_RELATIVE.'/'); // constant from start_session.php
-            $tmpl->assign('frameset',       $this->meta['frameset']);
+            $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
+            $tmpl->assign('frameset', $this->meta['frameset']);
 
             // messages
-            if ((is_array($messages) && (count($messages) > 0)))
-            {
-                $tmpl->assign('messages',              $messages);
-                $tmpl->assign('messages_div_title',     $messages_div_title);
+            if ((is_array($messages) && (count($messages) > 0))) {
+                $tmpl->assign('messages', $messages);
+                $tmpl->assign('messages_div_title', $messages_div_title);
             }
 
             $tmpl->assign("tracking_code", $config['tracking_code']);
             $tmpl->assign("autorefresh", $this->meta['autorefresh']);
 
-            if(PDBDebugBar::is_activated())
-            {
+            if (PDBDebugBar::is_activated()) {
                 $renderer = PDBDebugBar::getInstance()->getRenderer();
                 $tmpl->assign("debugbar_body", $renderer->render(!isset($_REQUEST['ajax_request'])));
             }
@@ -557,6 +530,5 @@ use Smarty;
             //Prevents XSS
             $tmpl->escape_html = true;
             $tmpl->display($smarty_foot);
-
         }
     }

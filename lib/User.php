@@ -25,7 +25,7 @@
 
 namespace PartDB;
 
-   /**
+/**
     * @todo
     *   Soll der SysAdmin einen Datenbankeintrag haben? Mit Admin-Gruppe?
     *   Oder sollen die Rechte des Admins hardgecoded sein (ID = 0) (wie bei "StructuralDBElement")?
@@ -60,7 +60,7 @@ use Exception;
         *********************************************************************************/
 
         /** @brief (object) the group of this user */
-        private $group = NULL;
+        private $group = null;
 
         /********************************************************************************
         *
@@ -82,8 +82,9 @@ use Exception;
          */
         public function __construct(&$database, &$current_user, &$log, $id)
         {
-            if ( ! is_object($current_user))     // this is that you can create an User-instance for first time
-                $current_user = $this;           // --> which one was first: the egg or the chicken? :-)
+            if (! is_object($current_user)) {     // this is that you can create an User-instance for first time
+                $current_user = $this;
+            }           // --> which one was first: the egg or the chicken? :-)
 
             //parent::__construct($database, $current_user, $log, 'users', $id);
         }
@@ -93,7 +94,7 @@ use Exception;
          */
         public function reset_attributes($all = false)
         {
-            $this->group = NULL;
+            $this->group = null;
 
             parent::reset_attributes($all);
         }
@@ -113,10 +114,13 @@ use Exception;
          */
         public function get_group()
         {
-            if ( ! is_object($this->group))
-            {
-                $this->group = new Group($this->database, $this->current_user,
-                                            $this->log, $this->db_data['group_id']);
+            if (! is_object($this->group)) {
+                $this->group = new Group(
+                    $this->database,
+                    $this->current_user,
+                                            $this->log,
+                    $this->db_data['group_id']
+                );
             }
 
             return $this->group;
@@ -150,21 +154,23 @@ use Exception;
         /**
          * @copydoc DBElement::check_values_validity()
          */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = NULL)
+        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
         {
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
 
             // check "group_id"
-            try
-            {
+            try {
                 $group = new Group($database, $current_user, $log, $values['group_id']);
-            }
-            catch (Exception $e)
-            {
-                debug('warning', _('Ungültige "group_id": "').$values['group_id'].'"'.
+            } catch (Exception $e) {
+                debug(
+                    'warning',
+                    _('Ungültige "group_id": "').$values['group_id'].'"'.
                         _("\n\nUrsprüngliche Fehlermeldung: ").$e->getMessage(),
-                        __FILE__, __LINE__, __METHOD__);
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception(_('Die gewählte Gruppe existiert nicht!'));
             }
         }
@@ -180,10 +186,10 @@ use Exception;
          */
         public static function get_count(&$database)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception(_('$database ist kein Database-Objekt!'));
+            }
 
             return $database->get_count_of_records('users');
         }
-
     }

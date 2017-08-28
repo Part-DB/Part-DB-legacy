@@ -24,6 +24,7 @@
 */
 
 namespace PartDB\Tools;
+
 use Exception;
 
 /**
@@ -62,15 +63,15 @@ use Exception;
         *********************************************************************************/
 
         /** (integer) */
-        private $major_version      = NULL;
+        private $major_version      = null;
         /** (integer) */
-        private $minor_version      = NULL;
+        private $minor_version      = null;
         /** (integer) */
-        private $update_version     = NULL;
+        private $update_version     = null;
         /** (integer) Release Candidate number, zero means "stable version" */
-        private $release_candidate  = NULL;
+        private $release_candidate  = null;
         /** (string) the version type ('stable' or 'unstable') */
-        private $type               = NULL;
+        private $type               = null;
 
         /********************************************************************************
         *
@@ -79,9 +80,9 @@ use Exception;
         *********************************************************************************/
 
         /** (SystemVersion) the latest stable version which is available */
-        private static $latest_stable_version      = NULL;
+        private static $latest_stable_version      = null;
         /** (SystemVersion) the latest unstable version which is available */
-        private static $latest_unstable_version    = NULL;
+        private static $latest_unstable_version    = null;
 
         /********************************************************************************
         *
@@ -103,18 +104,18 @@ use Exception;
             $version = str_replace(' ', '.', trim(strtolower($version_string)));
 
             // if $version has no "RC", we will add it
-            if (strpos($version, 'rc') === false)
+            if (strpos($version, 'rc') === false) {
                 $version .= '.rc0';
+            }
 
             $version = str_replace('rc', '', $version);
             $array = explode('.', $version);
 
-            if (    (count($array) != 4)
-                || (( ! is_int($array[0])) && ( ! ctype_digit($array[0])))
-                || (( ! is_int($array[1])) && ( ! ctype_digit($array[1])))
-                || (( ! is_int($array[2])) && ( ! ctype_digit($array[2])))
-                || (( ! is_int($array[3])) && ( ! ctype_digit($array[3]))))
-            {
+            if ((count($array) != 4)
+                || ((! is_int($array[0])) && (! ctype_digit($array[0])))
+                || ((! is_int($array[1])) && (! ctype_digit($array[1])))
+                || ((! is_int($array[2])) && (! ctype_digit($array[2])))
+                || ((! is_int($array[3])) && (! ctype_digit($array[3])))) {
                 debug('error', 'Fehlerhafte Version: "'.$version.'"', __FILE__, __LINE__, __METHOD__);
                 throw new Exception('Es gab ein Fehler bei der Auswertung des Version-Strings!');
             }
@@ -124,10 +125,11 @@ use Exception;
             $this->update_version = $array[2];
             $this->release_candidate = $array[3];
 
-            if ($this->release_candidate == 0)
+            if ($this->release_candidate == 0) {
                 $this->type = 'stable';
-            else
+            } else {
                 $this->type = 'unstable';
+            }
         }
 
         /********************************************************************************
@@ -153,20 +155,20 @@ use Exception;
         {
             $string = $this->major_version.'.'.$this->minor_version.'.'.$this->update_version;
 
-            if ($internal_format)
-            {
-                if ($this->release_candidate > 0)
+            if ($internal_format) {
+                if ($this->release_candidate > 0) {
                     $string .= '.RC'.$this->release_candidate;
+                }
 
                 return $string;
-            }
-            else
-            {
-                if (($this->release_candidate > 0) && ( ! $hide_rc))
+            } else {
+                if (($this->release_candidate > 0) && (! $hide_rc)) {
                     $string .= ' RC'.$this->release_candidate;
+                }
 
-                if ($show_type)
+                if ($show_type) {
                     $string .= ' ('.$this->type.')';
+                }
 
                 return $string;
             }
@@ -184,28 +186,35 @@ use Exception;
          */
         public function is_newer_than($version_2)
         {
-            if ($this->major_version != $version_2->major_version)
+            if ($this->major_version != $version_2->major_version) {
                 return ($this->major_version > $version_2->major_version);
+            }
 
-            if ($this->minor_version != $version_2->minor_version)
+            if ($this->minor_version != $version_2->minor_version) {
                 return ($this->minor_version > $version_2->minor_version);
+            }
 
-            if ($this->update_version != $version_2->update_version)
+            if ($this->update_version != $version_2->update_version) {
                 return ($this->update_version > $version_2->update_version);
+            }
 
             // both versions have the same major, minor and update version!
 
-            if (($this->release_candidate == 0) && ($version_2->release_candidate > 0))
-                return true; // this is stable, $version_2 is only a release candidate
+            if (($this->release_candidate == 0) && ($version_2->release_candidate > 0)) {
+                return true;
+            } // this is stable, $version_2 is only a release candidate
 
-            if (($this->release_candidate > 0) && ($version_2->release_candidate == 0))
-                return false; // $version_2 is stable, this version is only a release candidate
+            if (($this->release_candidate > 0) && ($version_2->release_candidate == 0)) {
+                return false;
+            } // $version_2 is stable, this version is only a release candidate
 
-            if ($this->release_candidate > $version_2->release_candidate)
-                return true; // this version is the newer release candidate than $version_2
+            if ($this->release_candidate > $version_2->release_candidate) {
+                return true;
+            } // this version is the newer release candidate than $version_2
 
-            if ($this->release_candidate < $version_2->release_candidate)
-                return false; // this version is the older release candidate than $version_2
+            if ($this->release_candidate < $version_2->release_candidate) {
+                return false;
+            } // this version is the older release candidate than $version_2
 
             // both versions have the same major, minor, update and release candidate number!
 
@@ -264,9 +273,8 @@ use Exception;
          */
         public static function get_latest_version($type)
         {
-            if ((($type == 'stable') && ( ! is_object(SystemVersion::$latest_stable_version)))
-                || (($type == 'unstable') && ( ! is_object(SystemVersion::$latest_unstable_version))))
-            {
+            if ((($type == 'stable') && (! is_object(SystemVersion::$latest_stable_version)))
+                || (($type == 'unstable') && (! is_object(SystemVersion::$latest_unstable_version)))) {
                 $ini = curl_get_data('http://kami89.myparts.info/updates/latest.ini');
                 $ini_array = parse_ini_string($ini, true);
 
@@ -274,8 +282,7 @@ use Exception;
                 SystemVersion::$latest_unstable_version  = new SystemVersion($ini_array['unstable']['version']);
             }
 
-            switch ($type)
-            {
+            switch ($type) {
                 case 'stable':
                     return SystemVersion::$latest_stable_version;
                 case 'unstable':

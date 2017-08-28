@@ -24,7 +24,8 @@
 */
 
     namespace PartDB;
-    use Exception;
+
+use Exception;
     use PartDB\PartProperty\PartProperty;
 
     /**
@@ -60,21 +61,21 @@
         /** @brief (Category) the category of this part */
         private $category;
         /** @brief (Footprint|NULL) the footprint of this part (if there is one) */
-        private $footprint = NULL;
+        private $footprint = null;
         /** @brief (Storelocation|NULL) the storelocation where this part is located (if there is one) */
-        private $storelocation = NULL;
+        private $storelocation = null;
         /** @brief (Manufacturer|NULL) the manufacturer of this part (if there is one) */
-        private $manufacturer = NULL;
+        private $manufacturer = null;
         /** @brief (Attachement|NULL) the master picture Attachement of this part (if there is one) */
-        private $master_picture_attachement = NULL;
+        private $master_picture_attachement = null;
         /** @brief (array) all orderdetails-objects as a one-dimensional array of Orderdetails-objects
             (empty array if there are no orderdetails) */
-        private $orderdetails = NULL;
+        private $orderdetails = null;
         /** @brief (Orderdetails|NULL) the order orderdetails of this part (for "parts to order") */
         private $order_orderdetails;
 
         /** @brief (array) all devices in which this part is used (as a one-dimensional array of Device objects) */
-        private $devices = NULL;
+        private $devices = null;
 
         /********************************************************************************
         *
@@ -104,14 +105,14 @@
          */
         public function reset_attributes($all = false)
         {
-            $this->category                     = NULL;
-            $this->footprint                    = NULL;
-            $this->storelocation                = NULL;
-            $this->manufacturer                 = NULL;
-            $this->orderdetails                 = NULL;
-            $this->devices                      = NULL;
-            $this->master_picture_attachement   = NULL;
-            $this->order_orderdetails           = NULL;
+            $this->category                     = null;
+            $this->footprint                    = null;
+            $this->storelocation                = null;
+            $this->manufacturer                 = null;
+            $this->orderdetails                 = null;
+            $this->devices                      = null;
+            $this->master_picture_attachement   = null;
+            $this->order_orderdetails           = null;
 
             parent::reset_attributes($all);
         }
@@ -139,8 +140,7 @@
          */
         public function delete($delete_files_from_hdd = false, $delete_device_parts = false)
         {
-            try
-            {
+            try {
                 $transaction_id = $this->database->begin_transaction(); // start transaction
 
                 $devices = $this->get_devices();
@@ -148,35 +148,31 @@
                 $this->reset_attributes(); // set $this->devices ans $this->orderdetails to NULL
 
                 // Check if there are no Devices with this Part (and delete them if neccessary)
-                if (count($devices) > 0)
-                {
-                    if ($delete_device_parts)
-                    {
-                        foreach ($devices as $device)
-                        {
-                            foreach ($device->get_parts() as $device_part)
-                            {
-                                if ($device_part->get_part()->get_id() == $this->get_id())
+                if (count($devices) > 0) {
+                    if ($delete_device_parts) {
+                        foreach ($devices as $device) {
+                            foreach ($device->get_parts() as $device_part) {
+                                if ($device_part->get_part()->get_id() == $this->get_id()) {
                                     $device_part->delete();
+                                }
                             }
                         }
-                    }
-                    else
+                    } else {
                         throw new Exception('Das Bauteil "'.$this->get_name().'" wird noch in '.count($devices).
                                             ' Baugruppen verwendet und kann daher nicht gelöscht werden!');
+                    }
                 }
 
                 // Delete all Orderdetails
-                foreach ($orderdetails as $details)
+                foreach ($orderdetails as $details) {
                     $details->delete();
+                }
 
                 // now we can delete this element + all attachements of it
                 parent::delete($delete_files_from_hdd);
 
                 $this->database->commit($transaction_id); // commit transaction
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $this->database->rollback(); // rollback transaction
 
                 // restore the settings from BEFORE the transaction
@@ -194,11 +190,10 @@
          */
         public function get_barcode_content($barcode_type = "EAN8")
         {
-            switch($barcode_type)
-            {
+            switch ($barcode_type) {
                 case "EAN8":
                     $code = (string) $this->get_id();
-                    while(strlen($code) < 7){
+                    while (strlen($code) < 7) {
                         $code = '0' . $code;
                     }
                     return $code;
@@ -209,7 +204,6 @@
                 default:
                     throw new Exception(_("Label type unknown: ").$barcode_type);
             }
-
         }
 
         /********************************************************************************
@@ -229,15 +223,13 @@
         {
             $val = htmlspecialchars($this->db_data['description']);
 
-            if($short_output > 0 && strlen($val) > $short_output)
-            {
+            if ($short_output > 0 && strlen($val) > $short_output) {
                 $val = substr($val, 0, $short_output);
                 $val = $val . "...";
                 $val = '<span class="text-muted">' . $val . '</span class="text-muted">';
             }
 
-            if($parse_bbcode)
-            {
+            if ($parse_bbcode) {
                 $bbcode = new \Golonka\BBCode\BBCodeParser;
                 $val = $bbcode->only("bold", "italic", "underline", "linethrough")->parse($val);
             }
@@ -274,8 +266,7 @@
         public function get_comment($parse_bbcode = true)
         {
             $val = htmlspecialchars($this->db_data['comment']);
-            if($parse_bbcode)
-            {
+            if ($parse_bbcode) {
                 $bbcode = new \Golonka\BBCode\BBCodeParser;
                 $val = $bbcode->parse($val);
             }
@@ -296,13 +287,14 @@
         {
             $all_orderdetails = $this->get_orderdetails();
 
-            if (count($all_orderdetails) == 0)
+            if (count($all_orderdetails) == 0) {
                 return false;
+            }
 
-            foreach ($all_orderdetails as $orderdetails)
-            {
-                if ( ! $orderdetails->get_obsolete())
+            foreach ($all_orderdetails as $orderdetails) {
+                if (! $orderdetails->get_obsolete()) {
                     return false;
+                }
             }
 
             return true;
@@ -327,15 +319,17 @@
          */
         public function get_order_orderdetails()
         {
-            if (( ! is_object($this->order_orderdetails)) && ($this->db_data['order_orderdetails_id'] != NULL))
-            {
-                $this->order_orderdetails = new Orderdetails($this->database, $this->current_user,
-                                                             $this->log, $this->db_data['order_orderdetails_id']);
+            if ((! is_object($this->order_orderdetails)) && ($this->db_data['order_orderdetails_id'] != null)) {
+                $this->order_orderdetails = new Orderdetails(
+                    $this->database,
+                    $this->current_user,
+                                                             $this->log,
+                    $this->db_data['order_orderdetails_id']
+                );
 
-                if ($this->order_orderdetails->get_obsolete())
-                {
-                    $this->set_order_orderdetails_id(NULL);
-                    $this->order_orderdetails = NULL;
+                if ($this->order_orderdetails->get_obsolete()) {
+                    $this->set_order_orderdetails_id(null);
+                    $this->order_orderdetails = null;
                 }
             }
 
@@ -362,24 +356,23 @@
          */
         public function get_min_order_quantity($with_devices = true)
         {
-            if ($with_devices)
-            {
+            if ($with_devices) {
                 $count_must_order = 0;      // for devices with "order_only_missing_parts == false"
                 $count_should_order = 0;    // for devices with "order_only_missing_parts == true"
                 $deviceparts = DevicePart::get_order_device_parts($this->database, $this->current_user, $this->log, $this->get_id());
-                foreach ($deviceparts as $devicepart)
-                {
+                foreach ($deviceparts as $devicepart) {
                     $device = $devicepart->get_device();
-                    if ($device->get_order_only_missing_parts())
+                    if ($device->get_order_only_missing_parts()) {
                         $count_should_order += $device->get_order_quantity() * $devicepart->get_mount_quantity();
-                    else
+                    } else {
                         $count_must_order += $device->get_order_quantity() * $devicepart->get_mount_quantity();
+                    }
                 }
 
                 return $count_must_order + max(0, $this->get_mininstock() - $this->get_instock() + $count_should_order);
-            }
-            else
+            } else {
                 return max(0, $this->get_mininstock() - $this->get_instock());
+            }
         }
 
         /**
@@ -399,12 +392,15 @@
          */
         public function get_manufacturer_product_url()
         {
-            if (strlen($this->db_data['manufacturer_product_url']) > 0)
-                return $this->db_data['manufacturer_product_url'];  // a manual url is available
-            elseif (is_object($this->get_manufacturer()))
-                return $this->get_manufacturer()->get_auto_product_url($this->db_data['name']); // an automatic url is available
-            else
-                return ''; // no url is available
+            if (strlen($this->db_data['manufacturer_product_url']) > 0) {
+                return $this->db_data['manufacturer_product_url'];
+            }  // a manual url is available
+            elseif (is_object($this->get_manufacturer())) {
+                return $this->get_manufacturer()->get_auto_product_url($this->db_data['name']);
+            } // an automatic url is available
+            else {
+                return '';
+            } // no url is available
         }
 
         /**
@@ -436,10 +432,13 @@
          */
         public function get_category()
         {
-            if ( ! is_object($this->category))
-            {
-                $this->category = new Category($this->database, $this->current_user,
-                                                    $this->log, $this->db_data['id_category']);
+            if (! is_object($this->category)) {
+                $this->category = new Category(
+                    $this->database,
+                    $this->current_user,
+                                                    $this->log,
+                    $this->db_data['id_category']
+                );
             }
 
             return $this->category;
@@ -455,10 +454,13 @@
          */
         public function get_footprint()
         {
-            if (( ! is_object($this->footprint)) && ($this->db_data['id_footprint'] != NULL))
-            {
-                $this->footprint = new Footprint($this->database, $this->current_user,
-                                                    $this->log, $this->db_data['id_footprint']);
+            if ((! is_object($this->footprint)) && ($this->db_data['id_footprint'] != null)) {
+                $this->footprint = new Footprint(
+                    $this->database,
+                    $this->current_user,
+                                                    $this->log,
+                    $this->db_data['id_footprint']
+                );
             }
 
             return $this->footprint;
@@ -474,10 +476,13 @@
          */
         public function get_storelocation()
         {
-            if (( ! is_object($this->storelocation)) && ($this->db_data['id_storelocation'] != NULL))
-            {
-                $this->storelocation = new Storelocation($this->database, $this->current_user,
-                                                            $this->log, $this->db_data['id_storelocation']);
+            if ((! is_object($this->storelocation)) && ($this->db_data['id_storelocation'] != null)) {
+                $this->storelocation = new Storelocation(
+                    $this->database,
+                    $this->current_user,
+                                                            $this->log,
+                    $this->db_data['id_storelocation']
+                );
             }
 
             return $this->storelocation;
@@ -493,10 +498,13 @@
          */
         public function get_manufacturer()
         {
-            if (( ! is_object($this->manufacturer)) && ($this->db_data['id_manufacturer'] != NULL))
-            {
-                $this->manufacturer = new Manufacturer($this->database, $this->current_user,
-                                                        $this->log, $this->db_data['id_manufacturer']);
+            if ((! is_object($this->manufacturer)) && ($this->db_data['id_manufacturer'] != null)) {
+                $this->manufacturer = new Manufacturer(
+                    $this->database,
+                    $this->current_user,
+                                                        $this->log,
+                    $this->db_data['id_manufacturer']
+                );
             }
 
             return $this->manufacturer;
@@ -512,10 +520,13 @@
          */
         public function get_master_picture_attachement()
         {
-            if (( ! is_object($this->master_picture_attachement)) && ($this->db_data['id_master_picture_attachement'] != NULL))
-            {
-                $this->master_picture_attachement = new Attachement($this->database, $this->current_user,
-                                                        $this->log, $this->db_data['id_master_picture_attachement']);
+            if ((! is_object($this->master_picture_attachement)) && ($this->db_data['id_master_picture_attachement'] != null)) {
+                $this->master_picture_attachement = new Attachement(
+                    $this->database,
+                    $this->current_user,
+                                                        $this->log,
+                    $this->db_data['id_master_picture_attachement']
+                );
             }
 
             return $this->master_picture_attachement;
@@ -534,8 +545,7 @@
          */
         public function get_orderdetails($hide_obsolete = false)
         {
-            if ( ! is_array($this->orderdetails))
-            {
+            if (! is_array($this->orderdetails)) {
                 $this->orderdetails = array();
 
                 $query = 'SELECT orderdetails.* FROM orderdetails '.
@@ -545,22 +555,22 @@
 
                 $query_data = $this->database->query($query, array($this->get_id()));
 
-                foreach ($query_data as $row)
+                foreach ($query_data as $row) {
                     $this->orderdetails[] = new Orderdetails($this->database, $this->current_user, $this->log, $row['id'], $row);
+                }
             }
 
-            if ($hide_obsolete)
-            {
+            if ($hide_obsolete) {
                 $orderdetails = $this->orderdetails;
-                foreach ($orderdetails as $key => $details)
-                {
-                    if ($details->get_obsolete())
+                foreach ($orderdetails as $key => $details) {
+                    if ($details->get_obsolete()) {
                         unset($orderdetails[$key]);
+                    }
                 }
                 return $orderdetails;
-            }
-            else
+            } else {
                 return $this->orderdetails;
+            }
         }
 
         /**
@@ -574,8 +584,7 @@
          */
         public function get_devices()
         {
-            if ( ! is_array($this->devices))
-            {
+            if (! is_array($this->devices)) {
                 $this->devices = array();
 
                 $query = 'SELECT devices.* FROM device_parts '.
@@ -586,8 +595,9 @@
 
                 $query_data = $this->database->query($query, array($this->get_id()));
 
-                foreach ($query_data as $row)
+                foreach ($query_data as $row) {
                     $this->devices[] = new Device($this->database, $this->current_user, $this->log, $row['id_device'], $row);
+                }
             }
 
             return $this->devices;
@@ -619,33 +629,32 @@
          *
          * @throws Exception    if there was an error
          */
-        public function get_suppliers($object_array = true, $delimeter = NULL, $full_paths = false, $hide_obsolete = false)
+        public function get_suppliers($object_array = true, $delimeter = null, $full_paths = false, $hide_obsolete = false)
         {
             $suppliers = array();
             $orderdetails = $this->get_orderdetails($hide_obsolete);
 
-            foreach ($orderdetails as $details)
+            foreach ($orderdetails as $details) {
                 $suppliers[] = $details->get_supplier();
-
-            if ($object_array)
-            {
-                return $suppliers;
             }
-            else
-            {
+
+            if ($object_array) {
+                return $suppliers;
+            } else {
                 $supplier_names = array();
-                foreach ($suppliers as $supplier)
-                {
-                    if ($full_paths)
+                foreach ($suppliers as $supplier) {
+                    if ($full_paths) {
                         $supplier_names[] = $supplier->get_full_path();
-                    else
+                    } else {
                         $supplier_names[] = $supplier->get_name();
+                    }
                 }
 
-                if (is_string($delimeter))
+                if (is_string($delimeter)) {
                     return implode($delimeter, $supplier_names);
-                else
+                } else {
                     return $supplier_names;
+                }
             }
         }
 
@@ -664,17 +673,19 @@
          *
          * @throws Exception    if there was an error
          */
-        public function get_supplierpartnrs($delimeter = NULL, $hide_obsolete = false)
+        public function get_supplierpartnrs($delimeter = null, $hide_obsolete = false)
         {
             $supplierpartnrs = array();
 
-            foreach ($this->get_orderdetails($hide_obsolete) as $details)
+            foreach ($this->get_orderdetails($hide_obsolete) as $details) {
                 $supplierpartnrs[] = $details->get_supplierpartnr();
+            }
 
-            if (is_string($delimeter))
+            if (is_string($delimeter)) {
                 return implode($delimeter, $supplierpartnrs);
-            else
+            } else {
                 return $supplierpartnrs;
+            }
         }
 
         /**
@@ -702,17 +713,19 @@
          *
          * @throws Exception    if there was an error
          */
-        public function get_prices($float_array = false, $delimeter = NULL, $quantity = 1, $multiplier = NULL, $hide_obsolete = false)
+        public function get_prices($float_array = false, $delimeter = null, $quantity = 1, $multiplier = null, $hide_obsolete = false)
         {
             $prices = array();
 
-            foreach ($this->get_orderdetails($hide_obsolete) as $details)
-                $prices[] = $details->get_price(( ! $float_array), $quantity, $multiplier);
+            foreach ($this->get_orderdetails($hide_obsolete) as $details) {
+                $prices[] = $details->get_price((! $float_array), $quantity, $multiplier);
+            }
 
-            if (is_string($delimeter))
+            if (is_string($delimeter)) {
                 return implode($delimeter, $prices);
-            else
+            } else {
                 return $prices;
+            }
         }
 
         /**
@@ -734,28 +747,28 @@
          *
          * @throws Exception    if there was an error
          */
-        public function get_average_price($as_money_string = false, $quantity = 1, $multiplier = NULL)
+        public function get_average_price($as_money_string = false, $quantity = 1, $multiplier = null)
         {
-            $prices = $this->get_prices(true, NULL, $quantity, $multiplier, true);
-            $average_price = NULL;
+            $prices = $this->get_prices(true, null, $quantity, $multiplier, true);
+            $average_price = null;
 
             $count = 0;
-            foreach ($prices as $price)
-            {
-                if ($price !== NULL)
-                {
+            foreach ($prices as $price) {
+                if ($price !== null) {
                     $average_price += $price;
                     $count++;
                 }
             }
 
-            if ($count > 0)
+            if ($count > 0) {
                 $average_price /= $count;
+            }
 
-            if ($as_money_string)
+            if ($as_money_string) {
                 return float_to_money_string($average_price);
-            else
+            } else {
                 return $average_price;
+            }
         }
 
         /**
@@ -775,17 +788,18 @@
         {
             $master_picture = $this->get_master_picture_attachement(); // returns an Attachement-object
 
-            if (is_object($master_picture))
+            if (is_object($master_picture)) {
                 return $master_picture->get_filename();
-
-            if ($use_footprint_filename)
-            {
-                $footprint = $this->get_footprint();
-                if (is_object($footprint))
-                    return $footprint->get_filename();
             }
 
-            return NULL;
+            if ($use_footprint_filename) {
+                $footprint = $this->get_footprint();
+                if (is_object($footprint)) {
+                    return $footprint->get_filename();
+                }
+            }
+
+            return null;
         }
 
         /**
@@ -800,26 +814,28 @@
         {
             global $config;
 
-            if($config['properties']['active'] || $force_output) {
-                if($this->get_category()->get_disable_properties(true))
+            if ($config['properties']['active'] || $force_output) {
+                if ($this->get_category()->get_disable_properties(true)) {
                     return array();
+                }
 
                 $desc = array();
                 $comm = array();
 
-                if($use_name === true)
+                if ($use_name === true) {
                     $name = $this->get_category()->get_partname_regex_obj()->get_properties($this->get_name());
-                if ($use_description === true)
+                }
+                if ($use_description === true) {
                     $desc = PartProperty::parse_description($this->get_description());
-                if ($use_comment === true)
+                }
+                if ($use_comment === true) {
                     $comm = PartProperty::parse_description($this->get_comment());
+                }
 
                 $arr = array_merge($name, $desc, $comm);
 
                 return $arr;
-            }
-            else
-            {
+            } else {
                 return array();
             }
         }
@@ -833,8 +849,7 @@
         public function get_properties_loop($use_description = true, $use_comment = true)
         {
             $arr = array();
-            foreach ($this->get_properties() as $property)
-            {
+            foreach ($this->get_properties() as $property) {
                 $arr[] = $property->get_array($use_description, $use_comment);
             }
             return $arr;
@@ -917,7 +932,7 @@
          *
          * @throws Exception if there was an error
          */
-        public function set_manual_order($new_manual_order, $new_order_quantity = 1, $new_order_orderdetails_id = NULL)
+        public function set_manual_order($new_manual_order, $new_order_quantity = 1, $new_order_orderdetails_id = null)
         {
             $this->set_attributes(array('manual_order'          => $new_manual_order,
                                         'order_orderdetails_id' => $new_order_orderdetails_id,
@@ -1045,10 +1060,11 @@
         {
             global $config;
 
-            if($config['appearance']['short_description'])
+            if ($config['appearance']['short_description']) {
                 $max_length =  $config['appearance']['short_description_length'];
-            else
+            } else {
                 $max_length = 0;
+            }
 
             $table_row = array();
             $table_row['row_odd']       = is_odd($row_index);
@@ -1056,16 +1072,14 @@
             $table_row['id']            = $this->get_id();
             $table_row['row_fields']    = array();
 
-            foreach(explode(';', $config['table'][$table_type]['columns']) as $caption)
-            {
+            foreach (explode(';', $config['table'][$table_type]['columns']) as $caption) {
                 $row_field = array();
                 $row_field['row_index']     = $row_index;
                 $row_field['caption']       = $caption;
                 $row_field['id']            = $this->get_id();
                 $row_field['name']          = $this->get_name();
 
-                switch($caption)
-                {
+                switch ($caption) {
                     case 'hover_picture':
                         $picture_filename = str_replace(BASE, BASE_RELATIVE, $this->get_master_picture_filename(true));
                         $row_field['picture_name']  = strlen($picture_filename) ? basename($picture_filename) : '';
@@ -1100,8 +1114,7 @@
 
                     case 'footprint':
                         $footprint = $this->get_footprint();
-                        if (is_object($footprint))
-                        {
+                        if (is_object($footprint)) {
                             $row_field['footprint_name'] = $footprint->get_name();
                             $row_field['footprint_path'] = $footprint->get_full_path();
                             $row_field['footprint_id'] = $footprint->get_id();
@@ -1110,8 +1123,7 @@
 
                     case 'manufacturer':
                         $manufacturer = $this->get_manufacturer();
-                        if (is_object($manufacturer))
-                        {
+                        if (is_object($manufacturer)) {
                             $row_field['manufacturer_name'] = $manufacturer->get_name();
                             $row_field['manufacturer_path'] = $manufacturer->get_full_path();
                             $row_field['manufacturer_id'] = $manufacturer->get_id();
@@ -1120,8 +1132,7 @@
 
                     case 'storelocation':
                         $storelocation = $this->get_storelocation();
-                        if (is_object($storelocation))
-                        {
+                        if (is_object($storelocation)) {
                             $row_field['storelocation_name'] = $storelocation->get_name();
                             $row_field['storelocation_path'] = $storelocation->get_full_path();
                             $row_field['storelocation_id'] = $storelocation->get_id();
@@ -1130,8 +1141,7 @@
 
                     case 'suppliers':
                         $suppliers_loop = array();
-                        foreach ($this->get_suppliers(false, NULL, false, true) as $supplier_name) // suppliers from obsolete orderdetails will not be shown
-                        {
+                        foreach ($this->get_suppliers(false, null, false, true) as $supplier_name) { // suppliers from obsolete orderdetails will not be shown
                             $suppliers_loop[] = array(  'row_index'         => $row_index,
                                                         'supplier_name'     => $supplier_name);
                         }
@@ -1140,16 +1150,15 @@
                         break;
 
                     case 'suppliers_radiobuttons':
-                        if ($table_type == 'order_parts')
-                        {
-                            if (is_object($this->get_order_orderdetails()))
+                        if ($table_type == 'order_parts') {
+                            if (is_object($this->get_order_orderdetails())) {
                                 $order_orderdetails_id = $this->get_order_orderdetails()->get_id();
-                            else
+                            } else {
                                 $order_orderdetails_id = 0;
+                            }
 
                             $suppliers_loop = array();
-                            foreach ($this->get_orderdetails(true) as $orderdetails) // obsolete orderdetails will not be shown
-                            {
+                            foreach ($this->get_orderdetails(true) as $orderdetails) { // obsolete orderdetails will not be shown
                                 $suppliers_loop[] = array(  'row_index'         => $row_index,
                                                             'orderdetails_id'   => $orderdetails->get_id(),
                                                             'supplier_name'     => $orderdetails->get_supplier()->get_full_path(),
@@ -1166,8 +1175,7 @@
 
                     case 'supplier_partnrs':
                         $partnrs_loop = array();
-                        foreach ($this->get_orderdetails(true) as $details) // partnrs from obsolete orderdetails will not be shown
-                        {
+                        foreach ($this->get_orderdetails(true) as $details) { // partnrs from obsolete orderdetails will not be shown
                             $partnrs_loop[] = array(    'row_index'            => $row_index,
                                                         'supplier_partnr'      => $details->get_supplierpartnr(),
                                                         'supplier_product_url' => $details->get_supplier_product_url());
@@ -1179,15 +1187,15 @@
                     case 'datasheets':
                         $datasheet_loop = $config['auto_datasheets']['entries'];
 
-                        foreach ($datasheet_loop as $key => $entry)
+                        foreach ($datasheet_loop as $key => $entry) {
                             $datasheet_loop[$key]['url'] = str_replace('%%PARTNAME%%', urlencode($this->get_name()), $entry['url']);
+                        }
 
-                        if($config['appearance']['use_old_datasheet_icons'] == true)
-                        {
-                            foreach($datasheet_loop as &$sheet)
-                            {
-                                if(isset($sheet['old_image']))
+                        if ($config['appearance']['use_old_datasheet_icons'] == true) {
+                            foreach ($datasheet_loop as &$sheet) {
+                                if (isset($sheet['old_image'])) {
                                     $sheet['image'] = $sheet['old_image'];
+                                }
                             }
                         }
 
@@ -1199,14 +1207,14 @@
                         break;
 
                     case 'single_prices':
-                        if ($table_type == 'order_parts')
+                        if ($table_type == 'order_parts') {
                             $min_discount_quantity = $this->get_order_quantity();
-                        else
+                        } else {
                             $min_discount_quantity = 1;
+                        }
 
                         $prices_loop = array();
-                        foreach ($this->get_prices(false, NULL, $min_discount_quantity, 1, true) as $price) // prices from obsolete orderdetails will not be shown
-                        {
+                        foreach ($this->get_prices(false, null, $min_discount_quantity, 1, true) as $price) { // prices from obsolete orderdetails will not be shown
                             $prices_loop[] = array(     'row_index'         => $row_index,
                                                         'single_price'      => $price);
                         }
@@ -1215,8 +1223,7 @@
                         break;
 
                     case 'total_prices':
-                        switch ($table_type)
-                        {
+                        switch ($table_type) {
                             case 'order_parts':
                                 $min_discount_quantity = $this->get_order_quantity();
                                 break;
@@ -1226,8 +1233,7 @@
                         }
 
                         $prices_loop = array();
-                        foreach ($this->get_prices(false, NULL, $min_discount_quantity, NULL, true) as $price) // prices from obsolete orderdetails will not be shown
-                        {
+                        foreach ($this->get_prices(false, null, $min_discount_quantity, null, true) as $price) { // prices from obsolete orderdetails will not be shown
                             $prices_loop[] = array( 'row_index'     => $row_index,
                                                     'total_price'   => $price);
                         }
@@ -1236,16 +1242,14 @@
                         break;
 
                     case 'order_quantity_edit':
-                        if ($table_type == 'order_parts')
-                        {
+                        if ($table_type == 'order_parts') {
                             $row_field['order_quantity'] = $this->get_order_quantity();
                             $row_field['min_order_quantity'] = $this->get_min_order_quantity();
                         }
                         break;
 
                     case 'order_options':
-                        if ($table_type == 'order_parts')
-                        {
+                        if ($table_type == 'order_parts') {
                             $suppliers_loop = array();
                             $row_field['enable_remove'] = (($this->get_instock() >= $this->get_mininstock()) && ($this->get_manual_order()));
                         }
@@ -1257,8 +1261,7 @@
 
                     case 'attachements':
                         $attachements = array();
-                        foreach ($this->get_attachements(NULL, true) as $attachement)
-                        {
+                        foreach ($this->get_attachements(null, true) as $attachement) {
                             $attachements[] = array(    'name'      => $attachement->get_name(),
                                                         'filename'  => str_replace(BASE, BASE_RELATIVE, $attachement->get_filename()),
                                                         'type'      => $attachement->get_type()->get_full_path());
@@ -1279,10 +1282,10 @@
                 }
 
                 // maybe there are any additional values to add...
-                if (array_key_exists($caption, $additional_values))
-                {
-                    foreach($additional_values[$caption] as $key => $value)
+                if (array_key_exists($caption, $additional_values)) {
+                    foreach ($additional_values[$caption] as $key => $value) {
                         $row_field[$key] = $additional_values[$caption][$key];
+                    }
                 }
 
                 $table_row['row_fields'][] = $row_field;
@@ -1314,23 +1317,22 @@
         {
             global $config;
 
-            if ( ! isset($config['table'][$table_type]))
-            {
+            if (! isset($config['table'][$table_type])) {
                 debug('error', '$table_type = "'.$table_type.'"', __FILE__, __LINE__, __METHOD__);
                 throw new Exception(_('"$table_type" ist ungültig!'));
             }
 
             // table columns
             $columns = array();
-            foreach(explode(';', $config['table'][$table_type]['columns']) as $caption)
+            foreach (explode(';', $config['table'][$table_type]['columns']) as $caption) {
                 $columns[] = array('caption' => $caption);
+            }
 
             $table_loop = array();
             $table_loop[] = array('print_header' => true, 'columns' => $columns); // print the table header
 
             $row_index = 0;
-            foreach ($parts as $part)
-            {
+            foreach ($parts as $part) {
                 $table_loop[] = $part->build_template_table_row_array($table_type, $row_index);
                 $row_index++;
             }
@@ -1374,18 +1376,14 @@
 
             $parts = array();
 
-            foreach ($query_data as $row)
-            {
+            foreach ($query_data as $row) {
                 $part = new Part($database, $current_user, $log, $row['id']);
                 $parts[] = $part;
             }
 
-            if(empty($parts))
-            {
+            if (empty($parts)) {
                 return false;
-            }
-            else
-            {
+            } else {
                 return $parts;
             }
         }
@@ -1393,7 +1391,7 @@
         /**
          * @copydoc DBElement::check_values_validity()
          */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = NULL)
+        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
         {
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
@@ -1406,144 +1404,164 @@
             settype($values['manual_order'], 'boolean');
 
             // check "instock"
-            if (( ! is_int($values['instock'])) && ( ! ctype_digit($values['instock'])))
-            {
-                debug('warning','"instock" ist keine gültige Zahl: "'.$values['instock'].'"!',
-                        __FILE__, __LINE__, __METHOD__);
+            if ((! is_int($values['instock'])) && (! ctype_digit($values['instock']))) {
+                debug(
+                    'warning',
+                    $values['instock'].'"!',
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception('Der neue Lagerbestand ist ungültig!');
-            }
-            elseif ($values['instock'] < 0)
+            } elseif ($values['instock'] < 0) {
                 throw new Exception('Der neue Lagerbestand von "'.$values['name'].'" wäre negativ und kann deshalb nicht gespeichert werden!');
+            }
 
             // check "order_orderdetails_id"
-            try
-            {
-                if ($values['order_orderdetails_id'] == 0)
-                    $values['order_orderdetails_id'] = NULL;
+            try {
+                if ($values['order_orderdetails_id'] == 0) {
+                    $values['order_orderdetails_id'] = null;
+                }
 
-                if (( ! $is_new) && ($values['order_orderdetails_id'] == NULL)
+                if ((! $is_new) && ($values['order_orderdetails_id'] == null)
                     && (($values['instock'] < $values['mininstock']) || ($values['manual_order']))
-                    && (($element->get_instock() >= $element->get_mininstock()) && ( ! $element->get_manual_order())))
-                {
+                    && (($element->get_instock() >= $element->get_mininstock()) && (! $element->get_manual_order()))) {
                     // if this part will be added now to the list of parts to order (instock is now less than mininstock, or manual_order is now true),
                     // and this part has only one orderdetails, we will set that orderdetails as orderdetails to order from (attribute "order_orderdetails_id").
                     // Note: If that part was already in the list of parts to order, wo mustn't change the orderdetails to order!!
                     $orderdetails = $element->get_orderdetails();
-                    $order_orderdetails_id = ((count($orderdetails) == 1) ? $orderdetails[0]->get_id() : NULL);
+                    $order_orderdetails_id = ((count($orderdetails) == 1) ? $orderdetails[0]->get_id() : null);
                     $values['order_orderdetails_id'] = $order_orderdetails_id;
                 }
 
-                if ($values['order_orderdetails_id'] != NULL)
+                if ($values['order_orderdetails_id'] != null) {
                     $order_orderdetails = new Orderdetails($database, $current_user, $log, $values['order_orderdetails_id']);
-            }
-            catch (Exception $e)
-            {
+                }
+            } catch (Exception $e) {
                 debug('error', 'Ungültige "order_orderdetails_id": "'.$values['order_orderdetails_id'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(), __FILE__, __LINE__, __METHOD__);
                 throw new Exception('Die gewählte Einkaufsinformation existiert nicht!');
             }
 
             // check "order_quantity"
-            if ((( ! is_int($values['order_quantity'])) && ( ! ctype_digit($values['order_quantity'])))
-                || ($values['order_quantity'] < 1))
-            {
+            if (((! is_int($values['order_quantity'])) && (! ctype_digit($values['order_quantity'])))
+                || ($values['order_quantity'] < 1)) {
                 debug('error', 'order_quantity = "'.$values['order_quantity'].'"', __FILE__, __LINE__, __METHOD__);
                 throw new Exception('Die Bestellmenge ist ungültig!');
             }
 
             // check if we have to reset the order attributes ("instock" is now less than "mininstock")
-            if (($values['instock'] < $values['mininstock']) && (($is_new) || ($element->get_instock() >= $element->get_mininstock())))
-            {
-                if ( ! $values['manual_order'])
+            if (($values['instock'] < $values['mininstock']) && (($is_new) || ($element->get_instock() >= $element->get_mininstock()))) {
+                if (! $values['manual_order']) {
                     $values['order_quantity'] = $values['mininstock'] - $values['instock'];
+                }
 
                 $values['manual_order'] = false;
             }
 
             // check "mininstock"
-            if ((( ! is_int($values['mininstock'])) && ( ! ctype_digit($values['mininstock'])))
-                || ($values['mininstock'] < 0))
-            {
-                debug('warning', '"mininstock" ist keine gültige Zahl: "'.$values['mininstock'].'"!',
-                        __FILE__, __LINE__, __METHOD__);
+            if (((! is_int($values['mininstock'])) && (! ctype_digit($values['mininstock'])))
+                || ($values['mininstock'] < 0)) {
+                debug(
+                    'warning',
+                    '"mininstock" ist keine gültige Zahl: "'.$values['mininstock'].'"!',
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception('Der neue Mindestlagerbestand ist ungültig!');
             }
 
             // check "id_category"
-            try
-            {
+            try {
                 // id_category == NULL means "no category", and this is not allowed!
-                if ($values['id_category'] == NULL)
+                if ($values['id_category'] == null) {
                     throw new Exception('"id_category" ist Null!');
+                }
 
                 $category = new Category($database, $current_user, $log, $values['id_category']);
-            }
-            catch (Exception $e)
-            {
-                debug('warning', 'Ungültige "id_category": "'.$values['id_category'].'"'.
+            } catch (Exception $e) {
+                debug(
+                    'warning',
+                    'Ungültige "id_category": "'.$values['id_category'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                        __FILE__, __LINE__, __METHOD__);
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception('Die gewählte Kategorie existiert nicht!');
             }
 
             // check "id_footprint"
-            try
-            {
-                if (($values['id_footprint'] == 0) && ($values['id_footprint'] !== NULL))
-                    $values['id_footprint'] = NULL;
+            try {
+                if (($values['id_footprint'] == 0) && ($values['id_footprint'] !== null)) {
+                    $values['id_footprint'] = null;
+                }
                 $footprint = new Footprint($database, $current_user, $log, $values['id_footprint']);
-            }
-            catch (Exception $e)
-            {
-                debug('warning', 'Ungültige "id_footprint": "'.$values['id_footprint'].'"'.
+            } catch (Exception $e) {
+                debug(
+                    'warning',
+                    'Ungültige "id_footprint": "'.$values['id_footprint'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                        __FILE__, __LINE__, __METHOD__);
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception('Der gewählte Footprint existiert nicht!');
             }
 
             // check "id_storelocation"
-            try
-            {
-                if (($values['id_storelocation'] == 0) && ($values['id_storelocation'] !== NULL))
-                    $values['id_storelocation'] = NULL;
+            try {
+                if (($values['id_storelocation'] == 0) && ($values['id_storelocation'] !== null)) {
+                    $values['id_storelocation'] = null;
+                }
                 $storelocation = new Storelocation($database, $current_user, $log, $values['id_storelocation']);
-            }
-            catch (Exception $e)
-            {
-                debug('warning', 'Ungültige "id_storelocation": "'.$values['id_storelocation'].'"'.
+            } catch (Exception $e) {
+                debug(
+                    'warning',
+                    'Ungültige "id_storelocation": "'.$values['id_storelocation'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                        __FILE__, __LINE__, __METHOD__);
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception('Der gewählte Lagerort existiert nicht!');
             }
 
             // check "id_manufacturer"
-            try
-            {
-                if (($values['id_manufacturer'] == 0) && ($values['id_manufacturer'] !== NULL))
-                    $values['id_manufacturer'] = NULL;
+            try {
+                if (($values['id_manufacturer'] == 0) && ($values['id_manufacturer'] !== null)) {
+                    $values['id_manufacturer'] = null;
+                }
                 $manufacturer = new Manufacturer($database, $current_user, $log, $values['id_manufacturer']);
-            }
-            catch (Exception $e)
-            {
-                debug('warning', 'Ungültige "id_manufacturer": "'.$values['id_manufacturer'].'"'.
+            } catch (Exception $e) {
+                debug(
+                    'warning',
+                    'Ungültige "id_manufacturer": "'.$values['id_manufacturer'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                        __FILE__, __LINE__, __METHOD__);
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception('Der gewählte Hersteller existiert nicht!');
             }
 
             // check "id_master_picture_attachement"
-            try
-            {
-                if ($values['id_master_picture_attachement'])
+            try {
+                if ($values['id_master_picture_attachement']) {
                     $master_picture_attachement = new Attachement($database, $current_user, $log, $values['id_master_picture_attachement']);
-                else
-                    $values['id_master_picture_attachement'] = NULL; // this will replace the integer "0" with NULL
-            }
-            catch (Exception $e)
-            {
-                debug('warning', 'Ungültige "id_master_picture_attachement": "'.$values['id_master_picture_attachement'].'"'.
+                } else {
+                    $values['id_master_picture_attachement'] = null;
+                } // this will replace the integer "0" with NULL
+            } catch (Exception $e) {
+                debug(
+                    'warning',
+                    'Ungültige "id_master_picture_attachement": "'.$values['id_master_picture_attachement'].'"'.
                         "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(),
-                        __FILE__, __LINE__, __METHOD__);
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception('Die gewählte Datei existiert nicht!');
             }
         }
@@ -1559,8 +1577,9 @@
          */
         public static function get_count(&$database)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
             return $database->get_count_of_records('parts');
         }
@@ -1580,8 +1599,9 @@
          */
         public static function get_sum_count_instock(&$database)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
             $query_data = $database->query('SELECT sum(instock) as sum FROM parts');
 
@@ -1607,8 +1627,9 @@
          */
         public static function get_sum_price_instock(&$database, &$current_user, &$log, $as_money_string = true)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
             $query =    'SELECT part_id, min_discount_quantity, price_related_quantity, price, instock FROM pricedetails ' .
                         'LEFT JOIN orderdetails ON pricedetails.orderdetails_id=orderdetails.id ' .
@@ -1625,8 +1646,9 @@
                     $id = $row['part_id'];
                     $instock = $row['instock'];
                 }
-                if ($instock == 0)
+                if ($instock == 0) {
                     continue;
+                }
                 $price_per_piece = $row['price'] / $row['price_related_quantity'];
                 $taken_parts = $row['min_discount_quantity'] * (integer)($instock / $row['min_discount_quantity']);
                 $price_sum += $price_per_piece * $taken_parts;
@@ -1634,10 +1656,11 @@
             }
             $price_sum = round($price_sum, 2);
 
-            if ($as_money_string)
+            if ($as_money_string) {
                 return float_to_money_string($price_sum);
-            else
+            } else {
                 return $price_sum;
+            }
         }
 
         /**
@@ -1660,8 +1683,9 @@
          */
         public static function get_order_parts(&$database, &$current_user, &$log, $supplier_ids = array(), $with_devices = true)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
             $parts = array();
 
@@ -1673,22 +1697,22 @@
                             '(SELECT device_parts.id_part FROM device_parts '.
                             'LEFT JOIN devices ON devices.id = device_parts.id_device '.
                             'WHERE devices.order_quantity > 0)) ';
-            if (count($supplier_ids) > 0)
-            {
+            if (count($supplier_ids) > 0) {
                 $query .= 'AND ((false) OR ';
-                foreach ($supplier_ids as $id)
+                foreach ($supplier_ids as $id) {
                     $query .= '(orderdetails.id_supplier <=> ?) ';
+                }
                 $query .= ') ';
             }
             $query .= 'ORDER BY parts.name ASC';
 
             $query_data = $database->query($query, $supplier_ids);
 
-            foreach ($query_data as $row)
-            {
+            foreach ($query_data as $row) {
                 $part = new Part($database, $current_user, $log, $row['id'], $row);
-                if (($part->get_manual_order()) || ($part->get_min_order_quantity() > 0))
+                if (($part->get_manual_order()) || ($part->get_min_order_quantity() > 0)) {
                     $parts[] = $part;
+                }
             }
 
             return $parts;
@@ -1707,8 +1731,9 @@
          */
         public static function get_noprice_parts(&$database, &$current_user, &$log)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
             $parts = array();
 
@@ -1720,8 +1745,9 @@
 
             $query_data = $database->query($query);
 
-            foreach ($query_data as $row)
+            foreach ($query_data as $row) {
                 $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
+            }
 
             return $parts;
         }
@@ -1740,13 +1766,13 @@
          */
         public static function get_obsolete_parts(&$database, &$current_user, &$log, $no_orderdetails_parts = false)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
             $parts = array();
 
-            if ($no_orderdetails_parts)
-            {
+            if ($no_orderdetails_parts) {
                 // show also parts which have no orderdetails
                 $query =    'SELECT parts.* from parts '.
                             'LEFT JOIN orderdetails ON orderdetails.part_id = parts.id '.
@@ -1757,9 +1783,7 @@
                             'WHERE obsolete = false GROUP BY part_id)) '.
                             'OR orderdetails.id IS NULL '.
                             'ORDER BY parts.name ASC';
-            }
-            else
-            {
+            } else {
                 // don't show parts which have no orderdetails
                 $query =    'SELECT parts.* from parts '.
                             'WHERE parts.id IN (SELECT part_id FROM `orderdetails` '.
@@ -1772,8 +1796,9 @@
 
             $query_data = $database->query($query);
 
-            foreach ($query_data as $row)
+            foreach ($query_data as $row) {
                 $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
+            }
 
             return $parts;
         }
@@ -1812,7 +1837,12 @@
          *
          * @throws Exception if there was an error
          */
-        public static function search_parts(&$database, &$current_user, &$log, $keyword, $group_by = '',
+        public static function search_parts(
+            &$database,
+            &$current_user,
+            &$log,
+            $keyword,
+            $group_by = '',
                                             $part_name = true,
                                             $part_description = true,
                                             $part_comment = false,
@@ -1822,41 +1852,40 @@
                                             $supplier_name = false,
                                             $supplierpartnr = false,
                                             $manufacturer_name = false,
-                                            $regex_search = false)
-        {
+                                            $regex_search = false
+        ) {
             global $config;
 
             $keyword = trim($keyword);
 
             //When searchstring begins and ends with a backslash, treat the input as regex query
-            if(substr($keyword, 0, 1) === '\\' &&  substr($keyword, -1) === '\\')
-            {
+            if (substr($keyword, 0, 1) === '\\' &&  substr($keyword, -1) === '\\') {
                 $regex_search = true;
                 $keyword = substr($keyword, 1, -1); //Remove the backslashes
             }
 
-            if (strlen($keyword) == 0)
+            if (strlen($keyword) == 0) {
                 return array();
+            }
 
             $keywords = search_string_to_array($keyword);
 
             //Select the correct LIKE operator, for Regex or normal search
-            if($regex_search == false) {
+            if ($regex_search == false) {
                 $like = "LIKE";
                 /*
                 $keyword = str_replace('*', '%', $keyword);
                 $keyword = '%'.$keyword.'%'; */
 
-                foreach ($keywords as &$k)
-                {
-                    if($k !== "") {
+                foreach ($keywords as &$k) {
+                    if ($k !== "") {
                         $k = str_replace('*', '%', $k);
                         $k = '%' . $k . '%';
                     }
                 }
-            }
-            else
+            } else {
                 $like = "RLIKE";
+            }
 
             $groups = array();
             $parts = array();
@@ -1873,79 +1902,66 @@
                     ' LEFT JOIN suppliers ON orderdetails.id_supplier=suppliers.id'.
                     ' WHERE FALSE';
 
-            if ($part_name && $keywords['name']!=="")
-            {
+            if ($part_name && $keywords['name']!=="") {
                 $query .= " OR (parts.name $like ?)";
                 $values[] = $keywords['name'];
             }
 
-            if ($part_description && $keywords['description']!=="")
-            {
+            if ($part_description && $keywords['description']!=="") {
                 $query .= " OR (parts.description $like ?)";
                 $values[] = $keywords['description'];
             }
 
-            if ($part_comment && $keywords['comment']!=="")
-            {
+            if ($part_comment && $keywords['comment']!=="") {
                 $query .= " OR (parts.comment $like ?)";
                 $values[] = $keywords['comment'];
             }
 
-            if ($footprint_name && $keywords['footprint']!=="")
-            {
+            if ($footprint_name && $keywords['footprint']!=="") {
                 $query .= " OR (footprints.name $like ?)";
                 $values[] = $keywords['footprint'];
             }
 
-            if ($category_name && $keywords['category']!=="")
-            {
+            if ($category_name && $keywords['category']!=="") {
                 $query .= " OR (categories.name $like ?)";
                 $values[] = $keywords['category'];
             }
 
-            if ($storelocation_name && $keywords['storelocation']!=="")
-            {
+            if ($storelocation_name && $keywords['storelocation']!=="") {
                 $query .= " OR (storelocations.name $like ?)";
                 $values[] = $keywords['storelocation'];
             }
 
-            if ($supplier_name && $keywords['suppliername']!=="")
-            {
+            if ($supplier_name && $keywords['suppliername']!=="") {
                 $query .= " OR (suppliers.name $like ?)";
                 $values[] = $keywords['suppliername'];
             }
 
-            if ($supplierpartnr && $keywords['partnr']!=="")
-            {
+            if ($supplierpartnr && $keywords['partnr']!=="") {
                 $query .= " OR (orderdetails.supplierpartnr $like ?)";
                 $values[] = $keywords['partnr'];
             }
 
-            if ($manufacturer_name && $keywords['manufacturername']!=="")
-            {
+            if ($manufacturer_name && $keywords['manufacturername']!=="") {
                 $query .= " OR (manufacturers.name $like ?)";
                 $values[] = $keywords['manufacturername'];
             }
 
-            if (!isset($config['db']['limit']['search_parts']))
-            {
+            if (!isset($config['db']['limit']['search_parts'])) {
                 $config['db']['limit']['search_parts'] = 200;
             }
 
-            switch($group_by)
-            {
+            switch ($group_by) {
                 case '':
                     $query .= ' GROUP BY parts.id ORDER BY parts.name ASC';
-                    if (isset($config['db']['limit']['search_parts']) && $config['db']['limit']['search_parts']>0)
-                    {
+                    if (isset($config['db']['limit']['search_parts']) && $config['db']['limit']['search_parts']>0) {
                         $query .= ' LIMIT '.$config['db']['limit']['search_parts'];
                     }
                     break;
 
                 case 'categories':
                     $query .= ' GROUP BY parts.id ORDER BY categories.id, parts.name ASC';
-                    if (isset($config['db']['limit']['search_parts']) && $config['db']['limit']['search_parts']>0)
-                    {
+                    if (isset($config['db']['limit']['search_parts']) && $config['db']['limit']['search_parts']>0) {
                         $query .= ' LIMIT '.$config['db']['limit']['search_parts'];
                     }
                     break;
@@ -1956,12 +1972,10 @@
 
             $query_data = $database->query($query, $values);
 
-            foreach ($query_data as $row)
-            {
+            foreach ($query_data as $row) {
                 $part = new Part($database, $current_user, $log, $row['id'], $row);
 
-                switch($group_by)
-                {
+                switch ($group_by) {
                     case '':
                         $parts[] = $part;
                         break;
@@ -1972,13 +1986,12 @@
                 }
             }
 
-            if ($group_by != '')
-            {
+            if ($group_by != '') {
                 ksort($groups);
                 return $groups;
-            }
-            else
+            } else {
                 return $parts;
+            }
         }
 
         /**
@@ -2008,12 +2021,10 @@
 
             $query_data = $database->query($query);
 
-            foreach ($query_data as $row)
-            {
+            foreach ($query_data as $row) {
                 $part = new Part($database, $current_user, $log, $row['id'], $row);
 
-                switch($group_by)
-                {
+                switch ($group_by) {
                     case '':
                         $parts[] = $part;
                         break;
@@ -2024,13 +2035,12 @@
                 }
             }
 
-            if ($group_by != '')
-            {
+            if ($group_by != '') {
                 ksort($groups);
                 return $groups;
-            }
-            else
+            } else {
                 return $parts;
+            }
         }
 
         /**
@@ -2058,11 +2068,26 @@
          *
          * @see DBElement::add()
          */
-        public static function add(&$database, &$current_user, &$log, $name, $category_id, $description = '',
-                                    $instock = 0, $mininstock = 0, $storelocation_id = NULL, $manufacturer_id = NULL,
-                                    $footprint_id = NULL, $comment = '', $visible = false)
-        {
-            return parent::add($database, $current_user, $log, 'parts',
+        public static function add(
+            &$database,
+            &$current_user,
+            &$log,
+            $name,
+            $category_id,
+            $description = '',
+                                    $instock = 0,
+            $mininstock = 0,
+            $storelocation_id = null,
+            $manufacturer_id = null,
+                                    $footprint_id = null,
+            $comment = '',
+            $visible = false
+        ) {
+            return parent::add(
+                $database,
+                $current_user,
+                $log,
+                'parts',
                                 array(  'name'                          => $name,
                                         'id_category'                   => $category_id,
                                         'description'                   => $description,
@@ -2073,13 +2098,13 @@
                                         'id_footprint'                  => $footprint_id,
                                         'visible'                       => $visible,
                                         'comment'                       => $comment,
-                                        'id_master_picture_attachement' => NULL,
+                                        'id_master_picture_attachement' => null,
                                         'manual_order'                  => false,
-                                        'order_orderdetails_id'         => NULL,
-                                        'order_quantity'                => 1));
-                                        // the column "datetime_added" will be automatically filled by MySQL
+                                        'order_orderdetails_id'         => null,
+                                        'order_quantity'                => 1)
+            );
+            // the column "datetime_added" will be automatically filled by MySQL
                                         // the column "last_modified" will be filled in the function check_values_validity()
-
         }
 
         /**
@@ -2108,14 +2133,13 @@
                 "instock" => $this->get_instock(),
                 "mininstock" => $this->get_mininstock(),
                 "category" => $this->get_category()->get_API_array(false),
-                "footprint" => try_to_get_APIModel_array($this->get_footprint(),false),
+                "footprint" => try_to_get_APIModel_array($this->get_footprint(), false),
                 "storelocation" => try_to_get_APIModel_array($this->get_storelocation(), false),
                 "manufacturer" => try_to_get_APIModel_array($this->get_manufacturer(), false),
                 "orderdetails" => convert_APIModel_array($this->get_orderdetails(), false),
             );
 
-            if($verbose == true)
-            {
+            if ($verbose == true) {
                 $ver = array(
                     "obsolete" => $this->get_obsolete() == true,
                     "visible" => $this->get_visible() == true,
@@ -2126,10 +2150,8 @@
                     "datetime_added" => $this->get_datetime_added(),
                     "avgprice" => $this->get_average_price(),
                     "properties" => convert_APIModel_array($this->get_properties(), false));
-                return array_merge($json,  $ver);
+                return array_merge($json, $ver);
             }
             return $json;
         }
-
     }
-

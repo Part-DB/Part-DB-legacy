@@ -24,7 +24,8 @@
 */
 
     namespace PartDB\Base;
-    use Exception;
+
+use Exception;
     use PartDB\Attachement;
     use PartDB\AttachementType;
     use PartDB\Database;
@@ -53,10 +54,10 @@
 
         /** @brief (array) All attachement types of the attachements of this element as an array of AttachementType objects.
          *  @see AttachementsContainingDBElement::get_attachement_types() */
-        protected $attachement_types     = NULL;
+        protected $attachement_types     = null;
         /** @brief (array) All attachements of this element as a one-dimensional array of Attachement objects.
          *  @see AttachementsContainingDBElement::get_attachements() */
-        protected $attachements          = NULL;
+        protected $attachements          = null;
 
         /********************************************************************************
         *
@@ -88,8 +89,8 @@
          */
         public function reset_attributes($all = false)
         {
-            $this->attachement_types = NULL;
-            $this->attachements = NULL;
+            $this->attachement_types = null;
+            $this->attachements = null;
 
             parent::reset_attributes($all);
         }
@@ -115,28 +116,26 @@
          */
         public function delete($delete_files_from_hdd = false)
         {
-            try
-            {
+            try {
                 $transaction_id = $this->database->begin_transaction(); // start transaction
 
                 // first, we will delete all files of this element
                 $attachements = $this->get_attachements();
                 $this->reset_attributes(); // set $this->attachements to NULL
-                foreach($attachements as $attachement)
+                foreach ($attachements as $attachement) {
                     $attachement->delete($delete_files_from_hdd);
+                }
 
                 parent::delete(); // now delete this element
 
                 $this->database->commit($transaction_id); // commit transaction
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $this->database->rollback(); // rollback transaction
 
                 // restore the settings from BEFORE the transaction
                 $this->reset_attributes();
 
-                throw new Exception(sprintf(_("Das Element \"%s\" konnte nicht gelöscht werden!\nGrund: "),$this->get_name()).$e->getMessage());
+                throw new Exception(sprintf(_("Das Element \"%s\" konnte nicht gelöscht werden!\nGrund: "), $this->get_name()).$e->getMessage());
             }
         }
 
@@ -156,8 +155,7 @@
          */
         public function get_attachement_types()
         {
-            if ( ! is_array($this->attachement_types))
-            {
+            if (! is_array($this->attachement_types)) {
                 $this->attachement_types = array();
 
                 $query = 'SELECT attachement_types.* FROM attachements '.
@@ -168,8 +166,9 @@
                 $query_data = $this->database->query($query, array(get_class($this),get_class_short($this), $this->get_id()));
 
                 //debug('temp', 'Anzahl gefundener Dateitypen: '.count($query_data));
-                foreach ($query_data as $row)
+                foreach ($query_data as $row) {
                     $this->attachement_types[] = new AttachementType($this->database, $this->current_user, $this->log, $row['id'], $row);
+                }
             }
 
             return $this->attachement_types;
@@ -187,10 +186,9 @@
          *
          * @throws Exception if there was an error
          */
-        public function get_attachements($type_id = NULL, $only_table_attachements = false)
+        public function get_attachements($type_id = null, $only_table_attachements = false)
         {
-            if ( ! is_array($this->attachements))
-            {
+            if (! is_array($this->attachements)) {
                 $this->attachements = array();
 
                 $query = 'SELECT attachements.* FROM attachements '.
@@ -200,28 +198,24 @@
                 $query_data = $this->database->query($query, array(get_class($this), get_class_short($this), $this->get_id()));
 
                 //debug('temp', 'Anzahl gefundene Dateianhänge: '.count($query_data));
-                foreach ($query_data as $row)
+                foreach ($query_data as $row) {
                     $this->attachements[] = new Attachement($this->database, $this->current_user, $this->log, $row['id'], $row);
+                }
             }
 
-            if ($only_table_attachements || $type_id)
-            {
+            if ($only_table_attachements || $type_id) {
                 $attachements = $this->attachements;
 
-                foreach ($attachements as $key => $attachement)
-                {
-                    if (($only_table_attachements && ( ! $attachement->get_show_in_table()))
-                        || ($type_id && ($attachement->get_type()->get_id() != $type_id)))
-                    {
+                foreach ($attachements as $key => $attachement) {
+                    if (($only_table_attachements && (! $attachement->get_show_in_table()))
+                        || ($type_id && ($attachement->get_type()->get_id() != $type_id))) {
                         unset($attachements[$key]);
                     }
                 }
 
                 return $attachements;
-            }
-            else
+            } else {
                 return $this->attachements;
+            }
         }
     }
-
-

@@ -25,10 +25,10 @@ class PartNameRegEx
      */
     public function __construct($partname_regex)
     {
-        if(!empty($partname_regex))
-        {
-            if(!self::is_valid($partname_regex))
+        if (!empty($partname_regex)) {
+            if (!self::is_valid($partname_regex)) {
                 throw new Exception("The PartNameRegex string (" . $partname_regex . ") is not valid!");
+            }
 
             $this->parse($partname_regex);
         }
@@ -52,10 +52,11 @@ class PartNameRegEx
      */
     public function get_regex($is_mb = false)
     {
-        if($is_mb)
+        if ($is_mb) {
             return regex_strip_slashes($this->regex);
-        else
+        } else {
             return $this->regex;
+        }
     }
 
     public function get_flags()
@@ -99,17 +100,18 @@ class PartNameRegEx
     {
         $tmp = array();
 
-        if(empty($this->get_regex()))
+        if (empty($this->get_regex())) {
             return $tmp;
+        }
 
         mb_eregi($this->get_regex(true), $name, $tmp);
 
         $properties = array();
 
-        for ($n=0; $n<count($this->capture_names); $n++)
-        {
-            if(empty($tmp[$n + 1])) //Ignore empty values
+        for ($n=0; $n<count($this->capture_names); $n++) {
+            if (empty($tmp[$n + 1])) { //Ignore empty values
                 continue;
+            }
             $properties[] = new PartProperty("", $this->capture_names[$n], $tmp[$n + 1]);
         }
 
@@ -123,14 +125,15 @@ class PartNameRegEx
      */
     public function check_name($name)
     {
-        if($this->is_nofilter() || empty($this->get_regex())) //When we dont filter, every name is ok.
+        if ($this->is_nofilter() || empty($this->get_regex())) { //When we dont filter, every name is ok.
             return true;
+        }
 
-        if(mb_eregi($this->get_regex(true), $name) !== FALSE)
+        if (mb_eregi($this->get_regex(true), $name) !== false) {
             return true;
-        else
+        } else {
             return false;
-
+        }
     }
 
     /**
@@ -144,24 +147,18 @@ class PartNameRegEx
      */
     public static function is_valid($partname_regex)
     {
-        return mb_ereg_match(PartNameRegEx::get_pattern(false, true),$partname_regex);
+        return mb_ereg_match(PartNameRegEx::get_pattern(false, true), $partname_regex);
     }
 
     public static function get_pattern($for_html_pattern = false, $for_mb = false)
     {
-        if($for_html_pattern)
-        {
+        if ($for_html_pattern) {
             $pattern = regex_strip_slashes(regex_allow_umlauts(PartNameRegEx::$pattern));
             return "($pattern)|(@@)";
-        }
-        else if($for_mb)
-        {
+        } elseif ($for_mb) {
             return regex_strip_slashes(PartNameRegEx::$pattern);
-        }
-        else
-        {
+        } else {
             return regex_allow_umlauts(PartNameRegEx::$pattern);
         }
     }
-
 }

@@ -24,7 +24,8 @@
 */
 
     namespace PartDB;
-    use Exception;
+
+use Exception;
     use PartDB\PartProperty\PartNameRegEx;
 
     /**
@@ -79,23 +80,22 @@
          */
         public function get_disable_footprints($including_parents = false)
         {
-            if ($including_parents)
-            {
+            if ($including_parents) {
                 $parent_id = $this->get_id();
 
-                while ($parent_id > 0)
-                {
+                while ($parent_id > 0) {
                     $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
                     $parent_id = $category->get_parent_id();
 
-                    if ($category->get_disable_footprints())
+                    if ($category->get_disable_footprints()) {
                         return true;
+                    }
                 }
 
                 return false;
-            }
-            else
+            } else {
                 return $this->db_data['disable_footprints'];
+            }
         }
 
         /**
@@ -110,23 +110,22 @@
          */
         public function get_disable_manufacturers($including_parents = false)
         {
-            if ($including_parents)
-            {
+            if ($including_parents) {
                 $parent_id = $this->get_id();
 
-                while ($parent_id > 0)
-                {
+                while ($parent_id > 0) {
                     $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
                     $parent_id = $category->get_parent_id();
 
-                    if ($category->get_disable_manufacturers())
+                    if ($category->get_disable_manufacturers()) {
                         return true;
+                    }
                 }
 
                 return false;
-            }
-            else
+            } else {
                 return $this->db_data['disable_manufacturers'];
+            }
         }
 
         /**
@@ -141,23 +140,22 @@
          */
         public function get_disable_autodatasheets($including_parents = false)
         {
-            if ($including_parents)
-            {
+            if ($including_parents) {
                 $parent_id = $this->get_id();
 
-                while ($parent_id > 0)
-                {
+                while ($parent_id > 0) {
                     $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
                     $parent_id = $category->get_parent_id();
 
-                    if ($category->get_disable_autodatasheets())
+                    if ($category->get_disable_autodatasheets()) {
                         return true;
+                    }
                 }
 
                 return false;
-            }
-            else
+            } else {
                 return $this->db_data['disable_autodatasheets'];
+            }
         }
 
         /**
@@ -172,23 +170,22 @@
          */
         public function get_disable_properties($including_parents = false)
         {
-            if ($including_parents)
-            {
+            if ($including_parents) {
                 $parent_id = $this->get_id();
 
-                while ($parent_id > 0)
-                {
+                while ($parent_id > 0) {
                     $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
                     $parent_id = $category->get_parent_id();
 
-                    if ($category->get_disable_properties())
+                    if ($category->get_disable_properties()) {
                         return true;
+                    }
                 }
 
                 return false;
-            }
-            else
+            } else {
                 return $this->db_data['disable_properties'];
+            }
         }
 
         /**
@@ -203,30 +200,28 @@
          */
         public function get_default_description($including_parents = false, $show_escape = true)
         {
-            if ($including_parents && empty($this->get_default_description()))
-            {
+            if ($including_parents && empty($this->get_default_description())) {
                 $parent_id = $this->get_id();
 
-                while ($parent_id > 0)
-                {
+                while ($parent_id > 0) {
                     $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
                     $parent_id = $category->get_parent_id();
 
-                    if (!empty($category->get_default_description()))
-                    {
-                        if($category->get_default_description() == "@@")
+                    if (!empty($category->get_default_description())) {
+                        if ($category->get_default_description() == "@@") {
                             break;
+                        }
                         return $category->get_default_description();
                     }
                 }
 
                 return "";
-            }
-            else {
-                if ($show_escape || $this->db_data['default_description'] !== "@@")
+            } else {
+                if ($show_escape || $this->db_data['default_description'] !== "@@") {
                     return $this->db_data['default_description'];
-                else
+                } else {
                     return "";
+                }
             }
         }
 
@@ -242,30 +237,27 @@
          */
         public function get_default_comment($including_parents = false, $show_escape = true)
         {
-            if ($including_parents && empty($this->get_default_comment()) && $this->get_default_comment() != "@@")
-            {
+            if ($including_parents && empty($this->get_default_comment()) && $this->get_default_comment() != "@@") {
                 $parent_id = $this->get_id();
 
-                while ($parent_id > 0)
-                {
+                while ($parent_id > 0) {
                     $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
                     $parent_id = $category->get_parent_id();
 
-                    if (!empty($category->get_default_comment()))
-                    {
-                        if($category->get_default_comment() == "@@")
+                    if (!empty($category->get_default_comment())) {
+                        if ($category->get_default_comment() == "@@") {
                             break;
+                        }
                         return $category->get_default_comment();
                     }
                 }
 
                 return "";
+            } elseif ($show_escape || $this->db_data['default_comment'] !== "@@") {
+                return $this->db_data['default_comment'];
+            } else {
+                return "";
             }
-            else
-                if ($show_escape || $this->db_data['default_comment'] !== "@@")
-                    return $this->db_data['default_comment'];
-                else
-                    return "";
         }
 
         /**
@@ -279,30 +271,28 @@
          */
         public function get_partname_hint($including_parents = false, $show_escape = true)
         {
-            if ($including_parents && empty($this->get_partname_hint()))
-            {
+            if ($including_parents && empty($this->get_partname_hint())) {
                 $parent_id = $this->get_id();
 
-                while ($parent_id > 0)
-                {
+                while ($parent_id > 0) {
                     $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
                     $parent_id = $category->get_parent_id();
 
-                    if (!empty($category->get_partname_hint()))
-                    {
-                        if($category->get_partname_hint() == "@@")
+                    if (!empty($category->get_partname_hint())) {
+                        if ($category->get_partname_hint() == "@@") {
                             break;
+                        }
                         return $category->get_partname_hint();
                     }
                 }
 
                 return "";
-            }
-            else {
-                if ($show_escape || $this->db_data['partname_hint'] !== "@@")
+            } else {
+                if ($show_escape || $this->db_data['partname_hint'] !== "@@") {
                     return $this->db_data['partname_hint'];
-                else
+                } else {
                     return "";
+                }
             }
         }
 
@@ -317,30 +307,28 @@
          */
         public function get_partname_regex_raw($including_parents = false, $show_escape = true)
         {
-            if ($including_parents && empty($this->get_partname_regex_raw()))
-            {
+            if ($including_parents && empty($this->get_partname_regex_raw())) {
                 $parent_id = $this->get_id();
 
-                while ($parent_id > 0)
-                {
+                while ($parent_id > 0) {
                     $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
                     $parent_id = $category->get_parent_id();
 
-                    if (!empty($category->get_partname_regex_raw()))
-                    {
-                        if($category->get_partname_regex_raw() == "@@")
+                    if (!empty($category->get_partname_regex_raw())) {
+                        if ($category->get_partname_regex_raw() == "@@") {
                             break;
+                        }
                         return $category->get_partname_regex_raw();
                     }
                 }
 
                 return "";
-            }
-            else {
-                if ($show_escape || $this->db_data['partname_regex'] !== "@@")
+            } else {
+                if ($show_escape || $this->db_data['partname_regex'] !== "@@") {
                     return $this->db_data['partname_regex'];
-                else
+                } else {
                     return "";
+                }
             }
         }
 
@@ -496,14 +484,14 @@
         /**
          * @copydoc DBElement::check_values_validity()
          */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = NULL)
+        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
         {
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
 
-            settype($values['disable_footprints'],      'boolean');
-            settype($values['disable_manufacturers'],   'boolean');
-            settype($values['disable_autodatasheets'],  'boolean');
+            settype($values['disable_footprints'], 'boolean');
+            settype($values['disable_manufacturers'], 'boolean');
+            settype($values['disable_autodatasheets'], 'boolean');
         }
 
         /**
@@ -517,8 +505,9 @@
          */
         public static function get_count(&$database)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception(_('$database ist kein Database-Objekt!'));
+            }
 
             return $database->get_count_of_records('categories');
         }
@@ -545,12 +534,24 @@
          *
          * @see DBElement::add()
          */
-        public static function add(&$database, &$current_user, &$log, $name, $parent_id,
-                                    $disable_footprints = false, $disable_manufacturers = false,
-                                    $disable_autodatasheets = false, $disable_properties = false,
-                                    $default_description = "", $default_comment = "")
-        {
-            return parent::add($database, $current_user, $log, 'categories',
+        public static function add(
+            &$database,
+            &$current_user,
+            &$log,
+            $name,
+            $parent_id,
+                                    $disable_footprints = false,
+            $disable_manufacturers = false,
+                                    $disable_autodatasheets = false,
+            $disable_properties = false,
+                                    $default_description = "",
+            $default_comment = ""
+        ) {
+            return parent::add(
+                $database,
+                $current_user,
+                $log,
+                'categories',
                                 array(  'name'                      => $name,
                                         'parent_id'                 => $parent_id,
                                         'disable_footprints'        => $disable_footprints,
@@ -558,7 +559,8 @@
                                         'disable_autodatasheets'    => $disable_autodatasheets,
                                         'disable_properties'        => $disable_properties,
                                         'default_description'       => $default_description,
-                                        'default_comment'           => $default_comment));
+                                        'default_comment'           => $default_comment)
+            );
         }
 
         /**
@@ -583,8 +585,7 @@
                 "level" => $this->get_level()
             );
 
-            if($verbose == true)
-            {
+            if ($verbose == true) {
                 $ver = array("disable_footprints" => $this->get_disable_footprints() == true,
                     "disable_manufacturers" => $this->get_disable_manufacturers() == true,
                     "disable_autodatasheets" => $this->get_disable_autodatasheets() == true,
@@ -597,4 +598,3 @@
             return $values;
         }
     }
-

@@ -24,7 +24,8 @@
 */
 
     namespace PartDB\Base;
-    use Exception;
+
+use Exception;
     use PartDB\Database;
     use PartDB\Log;
     use PartDB\User;
@@ -57,13 +58,13 @@
 
         /** @brief (array) all names of all parent elements as a array of strings,
          *  the last array element is the name of the element itself */
-        private $full_path_strings =  NULL;
+        private $full_path_strings =  null;
 
         /** @brief (integer) the level of the most top elements is zero */
-        private $level =              NULL;
+        private $level =              null;
 
         /** @brief (array) all subelements (not recursive) of this element as a array of objects */
-        private $subelements =        NULL;
+        private $subelements =        null;
 
         /********************************************************************************
         *
@@ -89,10 +90,9 @@
         {
             parent::__construct($database, $current_user, $log, $tablename, $id, true, $db_data);
 
-            if ($id == 0)
-            {
+            if ($id == 0) {
                 // this is the root node
-                $this->db_data['id'] = NULL;
+                $this->db_data['id'] = null;
                 $this->db_data['name'] = _('Oberste Ebene');
                 $this->db_data['parent_id'] = -1;
                 $this->full_path_strings = array(_('Oberste Ebene'));
@@ -105,9 +105,9 @@
          */
         public function reset_attributes($all = false)
         {
-            $this->full_path_strings    = NULL;
-            $this->level                = NULL;
-            $this->subelements          = NULL;
+            $this->full_path_strings    = null;
+            $this->level                = null;
+            $this->subelements          = null;
 
             parent::reset_attributes($all);
         }
@@ -135,11 +135,11 @@
          */
         public function delete($delete_recursive = false, $delete_files_from_hdd = false)
         {
-            if ($this->get_id() == NULL)
+            if ($this->get_id() == null) {
                 throw new Exception(_('Die Oberste Ebene kann nicht gelöscht werden!'));
+            }
 
-            try
-            {
+            try {
                 $transaction_id = $this->database->begin_transaction(); // start transaction
 
                 // first, we take all subelements of this element...
@@ -149,27 +149,26 @@
                 $this->reset_attributes();
 
                 // ant then we change the parent IDs of the subelments to the parent ID of this element
-                foreach ($subelements as $element)
-                {
-                    if ($delete_recursive)
-                        $element->delete(true, $delete_files_from_hdd); // delete it with all child nodes (!!)
-                    else
-                        $element->set_parent_id($this->get_parent_id()); // just change its parent
+                foreach ($subelements as $element) {
+                    if ($delete_recursive) {
+                        $element->delete(true, $delete_files_from_hdd);
+                    } // delete it with all child nodes (!!)
+                    else {
+                        $element->set_parent_id($this->get_parent_id());
+                    } // just change its parent
                 }
 
                 // now we can delete this element + all attachements of it
                 parent::delete($delete_files_from_hdd);
 
                 $this->database->commit($transaction_id); // commit transaction
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $this->database->rollback(); // rollback transaction
 
                 // restore the settings from BEFORE the transaction
                 $this->reset_attributes();
 
-                throw new Exception(sprintf(_("Das Element \"%s\" konnte nicht gelöscht werden!\nGrund: "),$this->get_name()).$e->getMessage());
+                throw new Exception(sprintf(_("Das Element \"%s\" konnte nicht gelöscht werden!\nGrund: "), $this->get_name()).$e->getMessage());
             }
         }
 
@@ -185,12 +184,9 @@
          */
         public function is_child_of($another_element)
         {
-            if ($this->get_id() == NULL) // this is the root node
-            {
+            if ($this->get_id() == null) { // this is the root node
                 return false;
-            }
-            else
-            {
+            } else {
                 $class_name = get_class($this);
                 $parent_element = new $class_name($this->database, $this->current_user, $this->log, $this->get_parent_id());
 
@@ -228,13 +224,11 @@
          */
         public function get_level()
         {
-            if ($this->level === NULL)
-            {
+            if ($this->level === null) {
                 $this->level = 0;
                 $parent_id = $this->get_parent_id();
                 $class = get_class($this);
-                while ($parent_id > 0)
-                {
+                while ($parent_id > 0) {
                     $element = new $class($this->database, $this->current_user, $this->log, $parent_id);
                     $parent_id = $element->get_parent_id();
                     $this->level++;
@@ -255,14 +249,12 @@
          */
         public function get_full_path($delimeter = ' → ')
         {
-            if ( ! is_array($this->full_path_strings))
-            {
+            if (! is_array($this->full_path_strings)) {
                 $this->full_path_strings = array();
                 $this->full_path_strings[] = $this->get_name();
                 $parent_id = $this->get_parent_id();
                 $class = get_class($this);
-                while ($parent_id > 0)
-                {
+                while ($parent_id > 0) {
                     $element = new $class($this->database, $this->current_user, $this->log, $parent_id);
                     $parent_id = $element->get_parent_id();
                     $this->full_path_strings[] = $element->get_name();
@@ -284,27 +276,23 @@
          */
         public function get_subelements($recursive)
         {
-            if ( ! is_array($this->subelements))
-            {
+            if (! is_array($this->subelements)) {
                 $this->subelements = array();
 
                 $query_data = $this->database->query('SELECT * FROM ' . $this->tablename .
                                                      ' WHERE parent_id <=> ? ORDER BY name ASC', array($this->get_id()));
 
                 $class = get_class($this);
-                foreach ($query_data as $row)
+                foreach ($query_data as $row) {
                     $this->subelements[] = new $class($this->database, $this->current_user, $this->log, $row['id'], $row);
+                }
             }
 
-            if ( ! $recursive)
-            {
+            if (! $recursive) {
                 return $this->subelements;
-            }
-            else
-            {
+            } else {
                 $all_elements = array();
-                foreach ($this->subelements as $subelement)
-                {
+                foreach ($this->subelements as $subelement) {
                     $all_elements[] = $subelement;
                     $all_elements = array_merge($all_elements, $subelement->get_subelements(true));
                 }
@@ -356,12 +344,18 @@
          *
          * @throws Exception    if there was an error
          */
-        public function build_javascript_tree(  $tree_name, $page, $parameter, $target = '', $recursive = true,
-                                                $show_root = false, $root_name = '$$',
-                                                $root_expand = true, $root_is_link = true)
-        {
-            if($root_name=='$$')
-            {
+        public function build_javascript_tree(
+            $tree_name,
+            $page,
+            $parameter,
+            $target = '',
+            $recursive = true,
+                                                $show_root = false,
+            $root_name = '$$',
+                                                $root_expand = true,
+            $root_is_link = true
+        ) {
+            if ($root_name=='$$') {
                 $root_name=_('Oberste Ebene');
             }
 
@@ -369,32 +363,28 @@
             $javascript[] = '<script type="text/javascript">';
             $javascript[] = "$tree_name = new dTree('$tree_name');";
 
-            if ($show_root)
-            {
+            if ($show_root) {
                 // the root node is visible
-                if ($this->get_id() > 0)
+                if ($this->get_id() > 0) {
                     $root_name = $this->get_name();
+                }
 
-                if ($root_is_link)
+                if ($root_is_link) {
                     $root_link = $page ."?". $parameter ."=".$this->get_id();
-                else
+                } else {
                     $root_link = '';
+                }
 
-                if ($root_expand)
-                {
+                if ($root_expand) {
                     // we need a second (invisible) root node
                     $javascript[] = "$tree_name.add(". strval($this->get_parent_id()+1).",-1, '');";
                     $javascript[] = "$tree_name.add(". strval($this->get_id()+1) .",". strval($this->get_parent_id()+1) .
                                     ",'". $root_name ."', '".$root_link."', '', '".$target."');";
-                }
-                else
-                {
+                } else {
                     $javascript[] = "$tree_name.add(". strval($this->get_id()+1) .",-1,'". $root_name ."', '".
                                     $root_link."', '', '".$target."');";
                 }
-            }
-            else
-            {
+            } else {
                 // the root node is invisible
                 $javascript[] = "$tree_name.add(". strval($this->get_id()+1).",-1, '');";
             }
@@ -402,8 +392,7 @@
             // get all subelements
             $subelements = $this->get_subelements($recursive);
 
-            foreach ($subelements as $element)
-            {
+            foreach ($subelements as $element) {
                 $javascript[] = $tree_name.'.add('.strval($element->get_id()+1).','.strval($element->get_parent_id()+1).
                                 ",'".addslashes(htmlentities($element->get_name(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'))."','".
                                 $page.'?'.$parameter.'='.$element->get_id()."','','".$target."');";
@@ -434,38 +423,40 @@
          *
          * @throws Exception    if there was an error
          */
-        public function build_html_tree($selected_id = NULL, $recursive = true,
-                                        $show_root = true, $root_name = '$$')
-        {
-            if($root_name=='$$')
-            {
+        public function build_html_tree(
+            $selected_id = null,
+            $recursive = true,
+                                        $show_root = true,
+            $root_name = '$$'
+        ) {
+            if ($root_name=='$$') {
                 $root_name=_('Oberste Ebene');
             }
 
             $html = array();
 
-            if ($show_root)
-            {
+            if ($show_root) {
                 $root_level = $this->get_level();
-                if ($this->get_id() > 0)
+                if ($this->get_id() > 0) {
                     $root_name = $this->get_name();
+                }
 
                 $html[] = '<option value="'. $this->get_id() . '">'. $root_name .'</option>';
-            }
-            else
+            } else {
                 $root_level =  $this->get_level() + 1;
+            }
 
             // get all subelements
             $subelements = $this->get_subelements($recursive);
 
-            foreach ($subelements as $element)
-            {
+            foreach ($subelements as $element) {
                 $level = $element->get_level() - $root_level;
                 $selected = ($element->get_id() == $selected_id) ? 'selected' : '';
 
                 $html[] = '<option '. $selected .' value="'. $element->get_id() . '">';
-                for ($i = 0; $i < $level; $i++)
+                for ($i = 0; $i < $level; $i++) {
                     $html[] = "&nbsp;&nbsp;&nbsp;";
+                }
                 $html[] = $element->get_name() .'</option>';
             }
 
@@ -473,49 +464,43 @@
         }
 
 
-        public function build_bootstrap_tree($page, $parameter, $recursive = false,
-                                        $show_root = false, $use_db_root_name = true ,$root_name = '$$')
-        {
-            if($root_name=='$$')
-            {
+        public function build_bootstrap_tree(
+            $page,
+            $parameter,
+            $recursive = false,
+                                        $show_root = false,
+            $use_db_root_name = true,
+            $root_name = '$$'
+        ) {
+            if ($root_name=='$$') {
                 $root_name=_('Oberste Ebene');
             }
 
             $subelements = $this->get_subelements(false);
             $nodes = array();
 
-            foreach ($subelements as $element)
-            {
-                $nodes[] = $element->build_bootstrap_tree($page,$parameter);
+            foreach ($subelements as $element) {
+                $nodes[] = $element->build_bootstrap_tree($page, $parameter);
             }
 
             // if we are on root level?
-            if($this->get_parent_id()==-1)
-            {
-                if($show_root)
-                {
+            if ($this->get_parent_id()==-1) {
+                if ($show_root) {
                     $tree = array(
                                 array('text' => ($use_db_root_name) ? $this->get_name() : $root_name ,
                                 'href' => $page ."?". $parameter ."=".$this->get_id(),
                                 'nodes' => $nodes)
                     );
-                }
-                else //Dont show root node
-                {
+                } else { //Dont show root node
                     $tree = $nodes;
                 }
-            }
-            else
-            {
-                if(!empty($nodes))
-                {
+            } else {
+                if (!empty($nodes)) {
                     $tree = array('text' => $this->get_name(),
                               'href' => $page ."?". $parameter ."=".$this->get_id(),
                               'nodes' => $nodes
                     );
-                }
-                else
-                {
+                } else {
                     $tree = array('text' => $this->get_name(),
                                 'href' => $page ."?". $parameter ."=".$this->get_id()
                     );
@@ -535,52 +520,59 @@
         /**
          * @copydoc DBElement::check_values_validity()
          */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = NULL)
+        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
         {
-            if ($values['parent_id'] == 0)
-                $values['parent_id'] = NULL; // NULL is the root node
+            if ($values['parent_id'] == 0) {
+                $values['parent_id'] = null;
+            } // NULL is the root node
 
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
 
-            if (( ! $is_new) && ($values['id'] == 0))
+            if ((! $is_new) && ($values['id'] == 0)) {
                 throw new Exception(_('Die Oberste Ebene kann nicht bearbeitet werden!'));
+            }
 
             // with get_called_class() we can get the class of the element which will be edited/created.
             // example: if you write "$new_cat = Category::add(...);", get_called_class() returns "Category"
             $classname = get_called_class();
 
             // check "parent_id"
-            if (( ! $is_new) && ($values['parent_id'] == $values['id']))
+            if ((! $is_new) && ($values['parent_id'] == $values['id'])) {
                 throw new Exception(_('Ein Element kann nicht als Unterelement von sich selber zugeordnet werden!'));
-
-            try
-            {
-                $parent_element = new $classname($database, $current_user, $log, $values['parent_id'], true);
             }
-            catch (Exception $e)
-            {
-                debug('warning', _('Ungültige "parent_id": "').$values['parent_id'].'"'.
+
+            try {
+                $parent_element = new $classname($database, $current_user, $log, $values['parent_id'], true);
+            } catch (Exception $e) {
+                debug(
+                    'warning',
+                    _('Ungültige "parent_id": "').$values['parent_id'].'"'.
                         _("\n\nUrsprüngliche Fehlermeldung: ").$e->getMessage(),
-                        __FILE__, __LINE__, __METHOD__);
+                        __FILE__,
+                    __LINE__,
+                    __METHOD__
+                );
                 throw new Exception(_('Das ausgewählte übergeordnete Element existiert nicht!'));
             }
 
             // to avoid infinite parent_id loops (this is not the same as the "check parent_id" above!)
-            if (( ! $is_new) && ($parent_element->get_parent_id() == $values['id']))
+            if ((! $is_new) && ($parent_element->get_parent_id() == $values['id'])) {
                 throw new Exception(_('Ein Element kann nicht einem seiner direkten Unterelemente zugeordnet werden!'));
+            }
 
             // check "name" + "parent_id" (the first check of "name" was already done by
             // "parent::check_values_validity", here we check only the combination of "parent_id" and "name")
             // we search for an element with the same name and parent ID, there shouldn't be one!
             $id = ($is_new) ? -1 : $values['id'];
-            $query_data = $database->query( 'SELECT * FROM '. $parent_element->get_tablename() .
+            $query_data = $database->query(
+                'SELECT * FROM '. $parent_element->get_tablename() .
                                             ' WHERE name=? AND parent_id <=> ? AND id<>?',
-                                            array($values['name'], $values['parent_id'], $id));
-            if (count($query_data) > 0)
+                                            array($values['name'], $values['parent_id'], $id)
+            );
+            if (count($query_data) > 0) {
                 throw new Exception(sprintf(_('Es existiert bereits ein Element auf gleicher Ebene (%1$s::%2$s)'.
-                                    ' mit gleichem Namen (%3$s)!'),$classname,$parent_element->get_full_path(),$values['name']));
+                                    ' mit gleichem Namen (%3$s)!'), $classname, $parent_element->get_full_path(), $values['name']));
+            }
         }
-
     }
-

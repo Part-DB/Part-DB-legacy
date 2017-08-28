@@ -24,7 +24,8 @@
 */
 
     namespace PartDB;
-    use Exception;
+
+use Exception;
 
     /**
      * @file AttachementType.php
@@ -78,8 +79,7 @@
         public function get_attachements()
         {
             // the attribute $this->attachements is used from class "AttachementsContainingDBELement"
-            if ( ! is_array($this->attachements))
-            {
+            if (! is_array($this->attachements)) {
                 $this->attachements = array();
 
                 $query = 'SELECT * FROM attachements '.
@@ -88,8 +88,9 @@
                 $query_data = $this->database->query($query, array($this->get_id()));
 
                 //debug('temp', 'Anzahl gefundene Dateien: '.count($query_data));
-                foreach ($query_data as $row)
+                foreach ($query_data as $row) {
                     $this->attachements[] = new Attachement($this->database, $this->current_user, $this->log, $row['id'], $row);
+                }
             }
 
             return $this->attachements;
@@ -112,8 +113,9 @@
          */
         public static function get_count(&$database)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception(_('$database ist kein Database-Objekt!'));
+            }
 
             return $database->get_count_of_records('attachement_types');
         }
@@ -136,9 +138,14 @@
          */
         public static function add(&$database, &$current_user, &$log, $name, $parent_id)
         {
-            return parent::add($database, $current_user, $log, 'attachement_types',
+            return parent::add(
+                $database,
+                $current_user,
+                $log,
+                'attachement_types',
                                 array(  'name'              => $name,
-                                        'parent_id'         => $parent_id));
+                                        'parent_id'         => $parent_id)
+            );
         }
 
         /**
@@ -155,4 +162,3 @@
                 "level" => $this->get_level());
         }
     }
-

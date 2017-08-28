@@ -24,7 +24,8 @@
 */
 
     namespace PartDB;
-    use Exception;
+
+use Exception;
 
     /**
      * @file Device.php
@@ -66,8 +67,7 @@
         {
             parent::__construct($database, $current_user, $log, 'devices', $id);
 
-            if ($id == 0)
-            {
+            if ($id == 0) {
                 // this is the root node
                 $this->db_data['order_quantity'] = 0;
                 $this->db_data['order_only_missing_parts'] = false;
@@ -100,33 +100,32 @@
          */
         public function delete($delete_recursive = false, $delete_files_from_hdd = false)
         {
-            try
-            {
+            try {
                 $transaction_id = $this->database->begin_transaction(); // start transaction
 
                 // work on subdevices (delete or move up)
                 $subdevices = $this->get_subelements(false);
-                foreach ($subdevices as $device)
-                {
-                    if ($delete_recursive)
-                        $device->delete($delete_recursive, $delete_files_from_hdd); // delete all subdevices
-                    else
-                        $device->set_parent_id($this->get_parent_id()); // set new parent ID
+                foreach ($subdevices as $device) {
+                    if ($delete_recursive) {
+                        $device->delete($delete_recursive, $delete_files_from_hdd);
+                    } // delete all subdevices
+                    else {
+                        $device->set_parent_id($this->get_parent_id());
+                    } // set new parent ID
                 }
 
                 // delete all device-parts in this device
                 $device_parts = $this->get_parts(false); // DevicePart object, not Part objects!
                 $this->reset_attributes(); // to set $this->parts to NULL
-                foreach ($device_parts as $device_part)
+                foreach ($device_parts as $device_part) {
                     $device_part->delete();
+                }
 
                 // now we can delete this element + all attachements of it
                 parent::delete($delete_files_from_hdd);
 
                 $this->database->commit($transaction_id); // commit transaction
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $this->database->rollback(); // rollback transaction
 
                 // restore the settings from BEFORE the transaction
@@ -147,15 +146,14 @@
          */
         public function copy($name, $parent_id, $with_subdevices = false)
         {
-            try
-            {
-                if (($with_subdevices) && ($parent_id > 0)) // the root node (ID 0 or -1) is always allowed as the parent object
-                {
+            try {
+                if (($with_subdevices) && ($parent_id > 0)) { // the root node (ID 0 or -1) is always allowed as the parent object
                     // check if $parent_id is NOT a child of this device
                     $parent_device = new Device($this->database, $this->current_user, $this->log, $parent_id);
 
-                    if (($parent_device->get_id() == $this->get_id()) || ($parent_device->is_child_of($this)))
+                    if (($parent_device->get_id() == $this->get_id()) || ($parent_device->is_child_of($this))) {
                         throw new Exception('Eine Baugruppe kann nicht in sich selber kopiert werden!');
+                    }
                 }
 
                 $transaction_id = $this->database->begin_transaction(); // start transaction
@@ -163,26 +161,27 @@
                 $new_device = Device::add($this->database, $this->current_user, $this->log, $name, $parent_id);
 
                 $device_parts = $this->get_parts();
-                foreach ($device_parts as $part)
-                {
-                    $new_part = DevicePart::add($this->database, $this->current_user, $this->log,
-                                                $new_device->get_id(), $part->get_part()->get_id(),
-                                                $part->get_mount_quantity(), $part->get_mount_names());
+                foreach ($device_parts as $part) {
+                    $new_part = DevicePart::add(
+                        $this->database,
+                        $this->current_user,
+                        $this->log,
+                                                $new_device->get_id(),
+                        $part->get_part()->get_id(),
+                                                $part->get_mount_quantity(),
+                        $part->get_mount_names()
+                    );
                 }
 
-                if ($with_subdevices)
-                {
+                if ($with_subdevices) {
                     $subdevices = $this->get_subelements(false);
-                    foreach ($subdevices as $device)
-                    {
+                    foreach ($subdevices as $device) {
                         $device->copy($device->get_name(), $new_device->get_id(), true);
                     }
                 }
 
                 $this->database->commit($transaction_id); // commit transaction
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $this->database->rollback(); // rollback transaction
 
                 throw new Exception("Die Baugruppe \"".$this->get_name()."\"konnte nicht kopiert werden!\nGrund: ".$e->getMessage());
@@ -205,26 +204,24 @@
          */
         public function book_parts($book_multiplier)
         {
-            try
-            {
+            try {
                 $transaction_id = $this->database->begin_transaction(); // start transaction
                 $device_parts = $this->get_parts(); // DevicePart objects
 
                 // check if there are enought parts in stock
-                foreach ($device_parts as $part)
-                {
-                    if (($part->get_mount_quantity() * $book_multiplier) > $part->get_part()->get_instock())
+                foreach ($device_parts as $part) {
+                    if (($part->get_mount_quantity() * $book_multiplier) > $part->get_part()->get_instock()) {
                         throw new Exception('Es sind nicht von allen Bauteilen genügend an Lager');
+                    }
                 }
 
                 // OK there are enough parts in stock, we will book them
-                foreach ($device_parts as $part)
+                foreach ($device_parts as $part) {
                     $part->get_part()->set_instock($part->get_part()->get_instock() - ($part->get_mount_quantity() * $book_multiplier));
+                }
 
                 $this->database->commit($transaction_id); // commit transaction
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $this->database->rollback(); // rollback transaction
 
                 // restore the settings from BEFORE the transaction
@@ -276,8 +273,7 @@
          */
         public function get_parts($recursive = false)
         {
-            if ( ! is_array($this->parts))
-            {
+            if (! is_array($this->parts)) {
                 $this->parts = array();
 
                 $query =    'SELECT device_parts.* FROM device_parts '.
@@ -286,21 +282,20 @@
 
                 $query_data = $this->database->query($query, array($this->get_id()));
 
-                foreach ($query_data as $row)
+                foreach ($query_data as $row) {
                     $this->parts[] = new DevicePart($this->database, $this->current_user, $this->log, $row['id'], $row);
+                }
             }
 
-            if ( ! $recursive)
-            {
+            if (! $recursive) {
                 return $this->parts;
-            }
-            else
-            {
+            } else {
                 $parts = $this->parts;
                 $subdevices = $this->get_subelements(true);
 
-                foreach ($subdevices as $device)
+                foreach ($subdevices as $device) {
                     $parts = array_merge($parts, $device->get_parts(false));
+                }
 
                 return $parts;
             }
@@ -338,8 +333,9 @@
             $count = 0;
             $device_parts = $this->get_parts($recursive);
 
-            foreach ($device_parts as $device_part)
+            foreach ($device_parts as $device_part) {
                 $count += $device_part->get_mount_quantity();
+            }
 
             return $count;
         }
@@ -369,13 +365,15 @@
             $price = 0;
             $device_parts = $this->get_parts($recursive);
 
-            foreach ($device_parts as $device_part)
+            foreach ($device_parts as $device_part) {
                 $price += $device_part->get_part()->get_average_price(false, $device_part->get_mount_quantity());
+            }
 
-            if ($as_money_string)
+            if ($as_money_string) {
                 return float_to_money_string($price);
-            else
+            } else {
                 return $price;
+            }
         }
 
         /********************************************************************************
@@ -418,7 +416,7 @@
         /**
          * @copydoc DBElement::check_values_validity()
          */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = NULL)
+        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
         {
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
@@ -427,9 +425,8 @@
             settype($values['order_only_missing_parts'], 'boolean');
 
             // check "order_quantity"
-            if ((( ! is_int($values['order_quantity'])) && ( ! ctype_digit($values['order_quantity'])))
-                || ($values['order_quantity'] < 0))
-            {
+            if (((! is_int($values['order_quantity'])) && (! ctype_digit($values['order_quantity'])))
+                || ($values['order_quantity'] < 0)) {
                 debug('error', 'order_quantity = "'.$values['order_quantity'].'"', __FILE__, __LINE__, __METHOD__);
                 throw new Exception('Die Bestellmenge ist ungültig!');
             }
@@ -448,8 +445,9 @@
          */
         public static function get_order_devices(&$database, &$current_user, &$log)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
             $devices = array();
 
@@ -459,8 +457,9 @@
 
             $query_data = $database->query($query);
 
-            foreach ($query_data as $row)
+            foreach ($query_data as $row) {
                 $devices[] = new Device($database, $current_user, $log, $row['id'], $row);
+            }
 
             return $devices;
         }
@@ -476,8 +475,9 @@
          */
         public static function get_count(&$database)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
             return $database->get_count_of_records('devices');
         }
@@ -500,12 +500,15 @@
          */
         public static function add(&$database, &$current_user, &$log, $name, $parent_id)
         {
-            return parent::add($database, $current_user, $log, 'devices',
+            return parent::add(
+                $database,
+                $current_user,
+                $log,
+                'devices',
                                 array(  'name'                      => $name,
                                         'parent_id'                 => $parent_id,
                                         'order_quantity'            => 0,
-                                        'order_only_missing_parts'  => false));
+                                        'order_only_missing_parts'  => false)
+            );
         }
-
     }
-

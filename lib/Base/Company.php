@@ -24,7 +24,8 @@
 */
 
     namespace PartDB\Base;
-    use Exception;
+
+use Exception;
     use PartDB\Database;
     use PartDB\Interfaces\IAPIModel;
     use PartDB\Log;
@@ -64,8 +65,7 @@
         {
             parent::__construct($database, $current_user, $log, $tablename, $id);
 
-            if ($id == 0)
-            {
+            if ($id == 0) {
                 // this is the root node
                 $this->db_data['address'] = '';
                 $this->db_data['phone_number'] = '';
@@ -140,12 +140,13 @@
          *
          * @retval string           the link to the article
          */
-        public function get_auto_product_url($partnr = NULL)
+        public function get_auto_product_url($partnr = null)
         {
-            if (is_string($partnr))
+            if (is_string($partnr)) {
                 return str_replace('%PARTNUMBER%', $partnr, $this->db_data['auto_product_url']);
-            else
+            } else {
                 return $this->db_data['auto_product_url'];
+            }
         }
 
         /********************************************************************************
@@ -235,20 +236,22 @@
         /**
          * @copydoc DBElement::check_values_validity()
          */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = NULL)
+        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
         {
             // first, we let all parent classes to check the values
             parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
 
             // optimize attribute "website"
             $values['website'] = trim($values['website']);
-            if ((strlen($values['website']) > 0) && (mb_strpos($values['website'], '://') === false))  // if there is no protocol defined,
-                $values['website'] = 'http://'.$values['website'];                                     // add "http://" to the begin
+            if ((strlen($values['website']) > 0) && (mb_strpos($values['website'], '://') === false)) {  // if there is no protocol defined,
+                $values['website'] = 'http://'.$values['website'];
+            }                                     // add "http://" to the begin
 
             // optimize attribute "auto_product_url"
             $values['auto_product_url'] = trim($values['auto_product_url']);
-            if ((strlen($values['auto_product_url']) > 0) && (mb_strpos($values['auto_product_url'], '://') === false))  // if there is no protocol defined,
-                $values['auto_product_url'] = 'http://'.$values['auto_product_url'];                                     // add "http://" to the begin
+            if ((strlen($values['auto_product_url']) > 0) && (mb_strpos($values['auto_product_url'], '://') === false)) {  // if there is no protocol defined,
+                $values['auto_product_url'] = 'http://'.$values['auto_product_url'];
+            }                                     // add "http://" to the begin
         }
 
         /**
@@ -265,16 +268,14 @@
                 "level" => $this->get_level()
             );
 
-            if($verbose == true)
-            {
+            if ($verbose == true) {
                 $ver = array("address" => $this->get_address(),
                     "phone_number" => $this->get_phone_number(),
                     "fax_number" => $this->get_fax_number(),
                     "website" => $this->get_website(),
                     "auto_url" => $this->get_auto_product_url());
-                return array_merge($json,  $ver);
+                return array_merge($json, $ver);
             }
             return $json;
         }
-
     }

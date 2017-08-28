@@ -24,7 +24,8 @@
 */
 
     namespace PartDB\Base;
-    use Exception;
+
+use Exception;
     use PartDB\Database;
     use PartDB\Log;
     use PartDB\User;
@@ -52,14 +53,14 @@
         *********************************************************************************/
 
         /** @brief (User) object of the user which is logged in */
-        protected $current_user =   NULL;
+        protected $current_user =   null;
         /** @brief (Log) a log object for logging events / bookings */
-        protected $log =            NULL;
+        protected $log =            null;
 
         /** @brief (Database) the database object for all database transactions */
-        protected $database =       NULL;
+        protected $database =       null;
         /** @brief (string) the tablename of the element, e.g. "categories" for the class "Category" and so on... */
-        protected $tablename =      NULL;
+        protected $tablename =      null;
 
         /**
          * @brief  (array [1..*]) the record data from the database
@@ -67,7 +68,7 @@
          * @par Example:
          * @code array(['row1'] => 'value1', ['row2'] => 'value2', ...) @endcode
          */
-        protected $db_data =        NULL;
+        protected $db_data =        null;
 
         /********************************************************************************
         *
@@ -92,39 +93,43 @@
          */
         public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false, $db_data = null)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception(_('$database ist kein Database-Objekt!'));
+            }
 
-            if (!$current_user instanceof User)
+            if (!$current_user instanceof User) {
                 throw new Exception(_('$current_user ist kein User-Objekt!'));
+            }
 
-            if (!$log instanceof Log)
+            if (!$log instanceof Log) {
                 throw new Exception(_('$log ist kein DebugLog-Objekt!'));
+            }
 
             $this->database = $database;
             $this->current_user = $current_user;
             $this->log = $log;
 
-            if($db_data==null) //Dont check for table exist, if we already have db_data
-            {
-                if (! $this->database->does_table_exist($tablename))
+            if ($db_data==null) { //Dont check for table exist, if we already have db_data
+                if (! $this->database->does_table_exist($tablename)) {
                     throw new Exception('Die Tabelle "'.$tablename.'" existiert nicht in der Datenbank!');
+                }
             }
 
 
             $this->tablename = $tablename;
 
-            if ((( ! is_int($id)) && ( ! ctype_digit($id)) && ( ! is_null($id))) || (($id == 0) && ( ! $allow_virtual_elements)))
+            if (((! is_int($id)) && (! ctype_digit($id)) && (! is_null($id))) || (($id == 0) && (! $allow_virtual_elements))) {
                 throw new Exception('$id ist keine gültige ID! $id="'.$id.'"');
+            }
 
             // get all data of the database record with the ID "$id"
             // But if the ID is zero, it could be a root element of StructuralDBElement,
             // so there is no data to get from database.
-            if ($id != 0 && $db_data == null)
+            if ($id != 0 && $db_data == null) {
                 $this->db_data = $this->database->get_record_data($this->tablename, $id);
+            }
 
-            if($db_data !== null)
-            {
+            if ($db_data !== null) {
                 $this->db_data = $db_data;
             }
         }
@@ -147,24 +152,22 @@
          */
         public function reset_attributes($all = false)
         {
-            if ($all)
-            {
+            if ($all) {
                 //$this->database =       NULL; // we still need them...
                 //$this->current_user =   NULL; // ...for commit/rollback...
                 //$this->log =            NULL; // ...after deleting an element!
                 //$this->tablename =      NULL;
 
                 $id_tmp = $this->db_data['id']; // backup ID
-                $this->db_data =        NULL;
+                $this->db_data =        null;
                 $this->db_data['id'] = $id_tmp; // restore ID
-            }
-            else
-            {
+            } else {
                 // get all data of the database record with the ID "$id"
                 // But if the ID is zero, it could be a root element of StructuralDBElement,
                 // so there is no data to get from database.
-                if ($this->get_id() != 0)
+                if ($this->get_id() != 0) {
                     $this->db_data = $this->database->get_record_data($this->tablename, $this->get_id());
+                }
             }
         }
 
@@ -181,8 +184,9 @@
          */
         public function delete()
         {
-            if ($this->get_id() < 1) // is this object a valid element from the database?
+            if ($this->get_id() < 1) { // is this object a valid element from the database?
                 throw new Exception('Die ID ist kleiner als 1, das darf nicht vorkommen!');
+            }
 
             $this->database->delete_record($this->tablename, $this->get_id());
 
@@ -240,11 +244,11 @@
          */
         public function set_attributes($new_values)
         {
-            if ($this->get_id() < 1)
+            if ($this->get_id() < 1) {
                 throw new Exception('Das ausgewählte Element existiert nicht in der Datenbank!');
+            }
 
-            if ( ! is_array($new_values))
-            {
+            if (! is_array($new_values)) {
                 debug('error', 'Ungültiger Inhalt von $new_values: "'.$new_values.'"', __FILE__, __LINE__, __METHOD__);
                 throw new Exception('$new_values ist kein Array!');
             }
@@ -269,8 +273,8 @@
             // get all data from the database again (this is the savest way to be up-to-date)
             $this->db_data = $this->database->get_record_data($this->tablename, $this->get_id());
 
-             // set all calculated attributes to NULL (maybe they are no longer valid)
-             // (all same-named methods of every subclass of DBElement will be executed!)
+            // set all calculated attributes to NULL (maybe they are no longer valid)
+            // (all same-named methods of every subclass of DBElement will be executed!)
             $this->reset_attributes();
         }
 
@@ -312,18 +316,16 @@
          * @throws Exception if the values are not valid / the combination of values is not valid
          * @throws Exception if there was an error
          */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = NULL)
+        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
         {
             // YOU HAVE TO IMPLEMENT THIS METHOD IN YOUR SUBCLASSES IF YOU WANT TO CHECK NEW VALUES !!
 
-            if ( ! is_array($values))
-            {
+            if (! is_array($values)) {
                 debug('error', '$values ist kein Array: "'.$values.'"', __FILE__, __LINE__, __METHOD__);
                 throw new Exception('$values ist kein Array!');
             }
 
-            if (( ! $is_new) && ( ! is_object($element)))
-            {
+            if ((! $is_new) && (! is_object($element))) {
                 debug('error', '$element="'.$element.'"', __FILE__, __LINE__, __METHOD__);
                 throw new Exception('$element ist kein Objekt!');
             }
@@ -347,26 +349,33 @@
          */
         public static function add(&$database, &$current_user, &$log, $tablename, $new_values)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception(_('$database ist kein gültiges Database-Objekt!'));
+            }
 
-            if (!$current_user instanceof User)
+            if (!$current_user instanceof User) {
                 throw new Exception(_('$current_user ist kein gültiges User-Objekt!'));
+            }
 
-            if (!$log instanceof Log)
+            if (!$log instanceof Log) {
                 throw new Exception(_('$log ist kein gültiges Log-Objekt!'));
+            }
 
-            if ( ! is_string($tablename))
+            if (! is_string($tablename)) {
                 throw new Exception(_('$tablename ist kein String!'));
+            }
 
-            if ( ! is_array($new_values))
+            if (! is_array($new_values)) {
                 throw new Exception(_('$new_values ist kein Array!'));
+            }
 
-            if (count($new_values) < 1)
+            if (count($new_values) < 1) {
                 throw new Exception(_('Das Array $new_values ist leer!'));
+            }
 
-            if ( ! $database->does_table_exist($tablename))
+            if (! $database->does_table_exist($tablename)) {
                 throw new Exception('Die Tabelle "'.$tablename.'" existiert nicht!');
+            }
 
             // we check if the new data is valid
             // (with "static::" we let check every subclass of DBElement to check the data!)
@@ -381,13 +390,12 @@
             // now we can insert the new data into the database
             $id = $database->execute($query, $new_values);
 
-            if ($id == NULL)
+            if ($id == null) {
                 throw new Exception('Der Datenbankeintrag konnte nicht angelegt werden.');
+            }
 
             $class = get_called_class();
 
             return new $class($database, $current_user, $log, $id);
         }
-
     }
-

@@ -24,6 +24,7 @@
 */
 
 namespace PartDB;
+
 use Exception;
 use PartDB\Tools\SystemVersion;
 
@@ -49,12 +50,12 @@ use PartDB\Tools\SystemVersion;
         *********************************************************************************/
 
         /** (Database) the Database object for the database access of the logs */
-        private $database                   = NULL;
+        private $database                   = null;
         /** (Log) the Log object for logging */
-        private $log                        = NULL;
+        private $log                        = null;
 
         /** (SystemVersion) the installed version */
-        private $installed_version          = NULL;
+        private $installed_version          = null;
 
         /********************************************************************************
         *
@@ -72,11 +73,13 @@ use PartDB\Tools\SystemVersion;
          */
         public function __construct(&$database, &$log)
         {
-            if (!$database instanceof Database)
+            if (!$database instanceof Database) {
                 throw new Exception('$database ist kein Database-Objekt!');
+            }
 
-            if (!$log instanceof Log)
+            if (!$log instanceof Log) {
                 throw new Exception('$log ist kein Log-Objekt!');
+            }
 
             $this->database = $database;
             $this->log = $log;
@@ -84,8 +87,13 @@ use PartDB\Tools\SystemVersion;
             // get the installed version
             $this->installed_version = SystemVersion::get_installed_version();
 
-            debug('hint', 'System initialisiert: Version '.$this->get_installed_version()->as_string(false, false, false, true),
-                            __FILE__, __LINE__, __METHOD__);
+            debug(
+                'hint',
+                'System initialisiert: Version '.$this->get_installed_version()->as_string(false, false, false, true),
+                            __FILE__,
+                __LINE__,
+                __METHOD__
+            );
         }
 
         /********************************************************************************
@@ -387,6 +395,4 @@ use PartDB\Tools\SystemVersion;
                 //    unlink($old_filename.'.backup');
             }*/
         }
-
     }
-
