@@ -38,11 +38,21 @@ $messages = array();
     *********************************************************************************/
 
     $action = 'default';
-    if (isset($_REQUEST['show_all']))                   {$action = 'show_all';}
-    if (isset($_REQUEST['show_active']))                {$action = 'show_active';}
-    if (isset($_REQUEST['show_passive']))               {$action = 'show_passive';}
-    if (isset($_REQUEST['show_electromechanic']))       {$action = 'show_electromechanic';}
-    if (isset($_REQUEST['show_others']))                {$action = 'show_others';}
+    if (isset($_REQUEST['show_all'])) {
+        $action = 'show_all';
+    }
+    if (isset($_REQUEST['show_active'])) {
+        $action = 'show_active';
+    }
+    if (isset($_REQUEST['show_passive'])) {
+        $action = 'show_passive';
+    }
+    if (isset($_REQUEST['show_electromechanic'])) {
+        $action = 'show_electromechanic';
+    }
+    if (isset($_REQUEST['show_others'])) {
+        $action = 'show_others';
+    }
 
     /********************************************************************************
     *
@@ -52,12 +62,9 @@ $messages = array();
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Footprint-Bilder'));
 
-    try
-    {
+    try {
         $database = new Database();
-    }
-    catch (Exception $e)
-    {
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -68,10 +75,8 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-        switch ($action)
-        {
+    if (! $fatal_error) {
+        switch ($action) {
             case 'show_all':
                 $directories = array();
                 $directories[] = BASE.'/img/footprints/';
@@ -94,21 +99,26 @@ $messages = array();
 
             case 'show_others':
                 $directories = find_all_directories(BASE.'/img/footprints/');
-                if (array_search(BASE.'/img/footprints/Aktiv', $directories) !== false)
+                if (array_search(BASE.'/img/footprints/Aktiv', $directories) !== false) {
                     unset($directories[array_search(BASE.'/img/footprints/Aktiv', $directories)]);
-                if (array_search(BASE.'/img/footprints/Passiv', $directories) !== false)
+                }
+                if (array_search(BASE.'/img/footprints/Passiv', $directories) !== false) {
                     unset($directories[array_search(BASE.'/img/footprints/Passiv', $directories)]);
-                if (array_search(BASE.'/img/footprints/Elektromechanik', $directories) !== false)
+                }
+                if (array_search(BASE.'/img/footprints/Elektromechanik', $directories) !== false) {
                     unset($directories[array_search(BASE.'/img/footprints/Elektromechanik', $directories)]);
-                foreach ($directories as $key => $value)
+                }
+                foreach ($directories as $key => $value) {
                     $directories[$key] = $value.'/';
+                }
                 break;
 
             default:
-                if ($config['tools']['footprints']['autoload'])
+                if ($config['tools']['footprints']['autoload']) {
                     $directories = array(BASE.'/img/footprints/');
-                else
+                } else {
                     $directories = array();
+                }
                 break;
         }
     }
@@ -122,28 +132,23 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if (count($directories) > 0)
-    {
+    if (count($directories) > 0) {
         $categories_loop = array();
         $categories = array();
-        foreach ($directories as $directory)
-        {
+        foreach ($directories as $directory) {
             $categories[] = rtrim($directory, "\\/");
             $categories = array_merge($categories, find_all_directories($directory, true));
         }
         sort($categories);
-        foreach ($categories as $category)
-        {
+        foreach ($categories as $category) {
             $pictures_loop = array();
             $pictures = find_all_files($category.'/', false, '.png');
-            foreach ($pictures as $filename)
-            {
+            foreach ($pictures as $filename) {
                 $pictures_loop[] = array(   'title' => str_replace('.png', '', basename($filename)),
                                             'filename' => str_replace(BASE, BASE_RELATIVE, $filename));
             }
 
-            if (count($pictures_loop) > 0)
-            {
+            if (count($pictures_loop) > 0) {
                 $categories_loop[] = array( 'category_name' => str_replace(BASE, '', $category),
                                             'pictures_loop' => $pictures_loop);
             }
@@ -160,15 +165,14 @@ $messages = array();
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
     $html->print_header($messages);
 
-    if (! $fatal_error)
+    if (! $fatal_error) {
         $html->print_template('footprints');
+    }
 
     $html->print_footer();
-

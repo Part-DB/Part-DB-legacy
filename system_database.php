@@ -47,10 +47,18 @@ $messages = array();
     $automatic_updates_enabled  = isset($_REQUEST['automatic_updates_enabled']);
 
     $action = 'default';
-    if (isset($_REQUEST["apply_connection_settings"]))  {$action = 'apply_connection_settings';}
-    if (isset($_REQUEST["apply_auto_updates"]))         {$action = 'apply_auto_updates';}
-    if (isset($_REQUEST["make_update"]))                {$action = 'make_update';}
-    if (isset($_REQUEST["make_new_update"]))            {$action = 'make_new_update';}
+    if (isset($_REQUEST["apply_connection_settings"])) {
+        $action = 'apply_connection_settings';
+    }
+    if (isset($_REQUEST["apply_auto_updates"])) {
+        $action = 'apply_auto_updates';
+    }
+    if (isset($_REQUEST["make_update"])) {
+        $action = 'make_update';
+    }
+    if (isset($_REQUEST["make_new_update"])) {
+        $action = 'make_new_update';
+    }
 
     /********************************************************************************
     *
@@ -60,12 +68,9 @@ $messages = array();
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Datenbank');
 
-    try
-    {
+    try {
         $database = new Database();
-    }
-    catch (Exception $e)
-    {
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -76,17 +81,17 @@ $messages = array();
     *
     *********************************************************************************/
 
-    switch ($action)
-    {
+    switch ($action) {
         case 'apply_connection_settings':
             $config_old = $config;
-            try
-            {
-                if ($config['is_online_demo'])
+            try {
+                if ($config['is_online_demo']) {
                     break;
+                }
 
-                if ( ! is_admin_password($admin_password))
+                if (! is_admin_password($admin_password)) {
                     throw new Exception(_('Das Administratorpasswort ist falsch!'));
+                }
 
                 $config['db']['type'] = $db_type;
                 //$config['db']['charset'] = $db_charset; // temporarly deactivated
@@ -96,9 +101,7 @@ $messages = array();
                 $config['db']['password'] = $db_password;
                 save_config();
                 header('Location: system_database.php'); // Reload the page that we can see if the new settings are stored successfully
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $config = $config_old; // reload the old config
                 $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -107,14 +110,11 @@ $messages = array();
 
         case 'apply_auto_updates':
             $config_old = $config;
-            try
-            {
+            try {
                 $config['db']['auto_update'] = $automatic_updates_enabled;
                 save_config();
                 //header('Location: system_database.php'); // Reload the page that we can see if the new settings are stored successfully --> does not work correctly?!
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $config = $config_old; // reload the old config
                 $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -125,20 +125,19 @@ $messages = array();
             // start the next update attempt from the beginning, not from the step of the last error
             $config['db']['update_error']['version']    = -1;
             $config['db']['update_error']['next_step']  = 0;
+            // no break
         case 'make_update':
-            try
-            {
-                if ( ! is_object($database))
+            try {
+                if (! is_object($database)) {
                     throw new Exception(_('Es konnte keine Verbindung mit der Datenbank hergestellt werden!'));
+                }
 
                 $database_update_executed = true;
                 $update_log = $database->update();
                 foreach ($update_log as $message) {
                     $messages[] = array('text' => nl2br($message['text']), 'color' => ($message['error'] == true ? 'red' : 'black'));
                 }
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
             }
@@ -161,19 +160,16 @@ $messages = array();
     $html->set_variable('automatic_updates_enabled', $config['db']['auto_update'], 'boolean');
     $html->set_variable('refresh_navigation_frame', (isset($database_update_executed) && $database_update_executed), 'boolean');
 
-    if (! $fatal_error)
-    {
-        try
-        {
+    if (! $fatal_error) {
+        try {
             $current = $database->get_current_version();
             $latest = $database->get_latest_version();
-            $html->set_variable('current_version',      $current,               'integer');
-            $html->set_variable('latest_version',       $latest,                'integer');
-            $html->set_variable('update_required',      ($latest > $current),   'boolean');
-            $html->set_variable('last_update_failed',   ($config['db']['update_error']['version'] == $current), 'boolean');
+            $html->set_variable('current_version', $current, 'integer');
+            $html->set_variable('latest_version', $latest, 'integer');
+            $html->set_variable('update_required', ($latest > $current), 'boolean');
+            $html->set_variable('last_update_failed', ($config['db']['update_error']['version'] == $current), 'boolean');
 
-            if (($current > 0) && ($current < 13) && ($latest >= 13)) // v12 to v13 was a huge update! show warning!
-            {
+            if (($current > 0) && ($current < 13) && ($latest >= 13)) { // v12 to v13 was a huge update! show warning!
                 $messages[] = array('text' =>   _('Achtung!<br><br>'.
                                                 'Das Datenbankupdate auf Version 13 ist sehr umfangreich, es finden sehr viele Veränderungen statt.<br>'.
                                                 'Es wird dringend empfohlen, vor dem Update eine Sicherung der Datenbank anzulegen, '.
@@ -181,18 +177,14 @@ $messages = array();
                                                 'Die Entwickler von Part-DB übernehmen keinerlei Haftung für Schäden, die durch fehlgeschlagene Updates, '.
                                                 'Fehler in der Software oder durch andere Ursachen hervorgerufen werden.'),
                                                 'strong' => true, 'color' => 'red', );
-            }
-            elseif (($current > 0) && ($latest > $current)) // normal update...we will show a hint
-            {
+            } elseif (($current > 0) && ($latest > $current)) { // normal update...we will show a hint
                 $messages[] = array('text' =>   _('Hinweis:<br>'.
                                                 'Es wird dringend empfohlen, vor jedem Datenbankupdate eine Sicherung der Datenbank anzulegen.<br>'.
                                                 'Die Entwickler von Part-DB übernehmen keinerlei Haftung für Schäden, die durch fehlgeschlagene Updates, '.
                                                 'Fehler in der Software oder durch andere Ursachen hervorgerufen werden.'),
                                                 'strong' => true, 'color' => 'red', );
             }
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
             $fatal_error = true;
         }
@@ -208,8 +200,7 @@ $messages = array();
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
@@ -221,4 +212,3 @@ $messages = array();
         $html->print_template('system_database');
 
     $html->print_footer();
-

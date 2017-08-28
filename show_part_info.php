@@ -46,30 +46,33 @@ $messages = array();
     $order_quantity     = isset($_REQUEST['order_quantity'])    ? (integer)$_REQUEST['order_quantity']  : 0;
 
     //Parse Label scan
-    if(isset($_REQUEST['barcode']))
-    {
+    if (isset($_REQUEST['barcode'])) {
         $barcode = $_REQUEST['barcode'];
-        if(is_numeric($barcode) && (mb_strlen($barcode) == 7 || mb_strlen($barcode) == 8))
-        {
-            if(mb_strlen($barcode) == 8)
-            {
+        if (is_numeric($barcode) && (mb_strlen($barcode) == 7 || mb_strlen($barcode) == 8)) {
+            if (mb_strlen($barcode) == 8) {
                 //Remove parity
                 $barcode = substr($barcode, 0, -1);
             }
             $part_id = (integer) $barcode;
-        }
-        else
-        {
+        } else {
             $messages[] = $messages[] = array('text' => nl2br(_("Label input is not valid!")), 'strong' => true, 'color' => 'red');
             $fatal_error = true;
         }
     }
 
     $action = 'default';
-    if (isset($_REQUEST["dec"]))                    {$action = 'dec';}
-    if (isset($_REQUEST["inc"]))                    {$action = 'inc';}
-    if (isset($_REQUEST["mark_to_order"]))          {$action = 'mark_to_order';}
-    if (isset($_REQUEST["remove_mark_to_order"]))   {$action = 'remove_mark_to_order';}
+    if (isset($_REQUEST["dec"])) {
+        $action = 'dec';
+    }
+    if (isset($_REQUEST["inc"])) {
+        $action = 'inc';
+    }
+    if (isset($_REQUEST["mark_to_order"])) {
+        $action = 'mark_to_order';
+    }
+    if (isset($_REQUEST["remove_mark_to_order"])) {
+        $action = 'remove_mark_to_order';
+    }
 
     /********************************************************************************
     *
@@ -80,8 +83,7 @@ $messages = array();
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Detailinfo'));
 
 
-    try
-    {
+    try {
         $database           = new Database();
         $log                = new Log($database);
         $current_user       = new User($database, $current_user, $log, 1); // admin
@@ -91,9 +93,7 @@ $messages = array();
         $manufacturer       = $part->get_manufacturer();
         $category           = $part->get_category();
         $all_orderdetails   = $part->get_orderdetails();
-    }
-    catch (Exception $e)
-    {
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -104,56 +104,42 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-        switch ($action)
-        {
+    if (! $fatal_error) {
+        switch ($action) {
             case 'dec': // remove some parts
-                try
-                {
+                try {
                     $part->set_instock($part->get_instock() - abs($n_less));
 
                     // reload the site without $_REQUEST['action'] to avoid multiple actions by manual refreshing
                     header('Location: show_part_info.php?pid='.$part_id);
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
                 }
                 break;
 
             case 'inc': // add some parts
-                try
-                {
+                try {
                     $part->set_instock($part->get_instock() + abs($n_more));
 
                     // reload the site without $_REQUEST['action'] to avoid multiple actions by manual refreshing
                     header('Location: show_part_info.php?pid='.$part_id);
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
                 }
                 break;
 
             case 'mark_to_order':
-                try
-                {
+                try {
                     $part->set_manual_order(true, $order_quantity);
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
                 }
                 break;
 
             case 'remove_mark_to_order':
-                try
-                {
+                try {
                     $part->set_manual_order(false);
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
                 }
                 break;
@@ -171,59 +157,55 @@ $messages = array();
     $html->set_loop("properties_loop", $properties);
 
     // global settings
-    $html->set_variable('use_modal_popup',          $config['popup']['modal'], 'boolean');
-    $html->set_variable('popup_width',              $config['popup']['width'], 'integer');
-    $html->set_variable('popup_height',             $config['popup']['height'], 'integer');
+    $html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
+    $html->set_variable('popup_width', $config['popup']['width'], 'integer');
+    $html->set_variable('popup_height', $config['popup']['height'], 'integer');
 
-    if (! $fatal_error)
-    {
-        try
-        {
+    if (! $fatal_error) {
+        try {
             //Set title
             $title = _('Detailinfo') . ': ' . $part->get_name() . '';
             $html->set_title($title);
 
             // part attributes
-            $html->set_variable('pid',                      $part->get_id(), 'integer');
-            $html->set_variable('name',                     $part->get_name(), 'string');
+            $html->set_variable('pid', $part->get_id(), 'integer');
+            $html->set_variable('name', $part->get_name(), 'string');
             $html->set_variable('manufacturer_product_url', $part->get_manufacturer_product_url(), 'string');
-            $html->set_variable('description',              $part->get_description(), 'string');
-            $html->set_variable('category_full_path',       $part->get_category()->get_full_path(), 'string');
-            $html->set_variable('category_id',              $part->get_category()->get_id(), 'string');
-            $html->set_variable('instock',                  $part->get_instock(), 'integer');
-            $html->set_variable('mininstock',               $part->get_mininstock(), 'integer');
-            $html->set_variable('visible',                  $part->get_visible(), 'boolean');
-            $html->set_variable('comment',                  nl2br($part->get_comment()), 'string');
-            $html->set_variable('footprint_full_path',      (is_object($footprint) ? $footprint->get_full_path() : '-'), 'string');
-            $html->set_variable('footprint_id',             (is_object($footprint) ? $footprint->get_id() : 0), 'integer');
-            $html->set_variable('footprint_filename',       (is_object($footprint) ? str_replace(BASE, BASE_RELATIVE, $footprint->get_filename()) : ''), 'string');
-            $html->set_variable('footprint_valid',          (is_object($footprint) ? $footprint->is_filename_valid() : false), 'boolean');
-            $html->set_variable('storelocation_full_path',  (is_object($storelocation) ? $storelocation->get_full_path() : '-'), 'string');
-            $html->set_variable('storelocation_id',         (is_object($storelocation) ? $storelocation->get_id() : '0'), 'integer');
-            $html->set_variable('storelocation_is_full',    (is_object($storelocation) ? $storelocation->get_is_full() : false), 'boolean');
-            $html->set_variable('manufacturer_full_path',   (is_object($manufacturer) ? $manufacturer->get_full_path() : '-'), 'string');
-            $html->set_variable('manufacturer_id',          (is_object($manufacturer) ? $manufacturer->get_id() : 0), 'integer');
-            $html->set_variable('category_full_path',       (is_object($category) ? $category->get_full_path() : '-'), 'string');
-            $html->set_variable('auto_order_exists',        ($part->get_instock() < $part->get_mininstock()), 'boolean');
-            $html->set_variable('manual_order_exists',      ($part->get_manual_order() && ($part->get_instock() >= $part->get_mininstock())), 'boolean');
+            $html->set_variable('description', $part->get_description(), 'string');
+            $html->set_variable('category_full_path', $part->get_category()->get_full_path(), 'string');
+            $html->set_variable('category_id', $part->get_category()->get_id(), 'string');
+            $html->set_variable('instock', $part->get_instock(), 'integer');
+            $html->set_variable('mininstock', $part->get_mininstock(), 'integer');
+            $html->set_variable('visible', $part->get_visible(), 'boolean');
+            $html->set_variable('comment', nl2br($part->get_comment()), 'string');
+            $html->set_variable('footprint_full_path', (is_object($footprint) ? $footprint->get_full_path() : '-'), 'string');
+            $html->set_variable('footprint_id', (is_object($footprint) ? $footprint->get_id() : 0), 'integer');
+            $html->set_variable('footprint_filename', (is_object($footprint) ? str_replace(BASE, BASE_RELATIVE, $footprint->get_filename()) : ''), 'string');
+            $html->set_variable('footprint_valid', (is_object($footprint) ? $footprint->is_filename_valid() : false), 'boolean');
+            $html->set_variable('storelocation_full_path', (is_object($storelocation) ? $storelocation->get_full_path() : '-'), 'string');
+            $html->set_variable('storelocation_id', (is_object($storelocation) ? $storelocation->get_id() : '0'), 'integer');
+            $html->set_variable('storelocation_is_full', (is_object($storelocation) ? $storelocation->get_is_full() : false), 'boolean');
+            $html->set_variable('manufacturer_full_path', (is_object($manufacturer) ? $manufacturer->get_full_path() : '-'), 'string');
+            $html->set_variable('manufacturer_id', (is_object($manufacturer) ? $manufacturer->get_id() : 0), 'integer');
+            $html->set_variable('category_full_path', (is_object($category) ? $category->get_full_path() : '-'), 'string');
+            $html->set_variable('auto_order_exists', ($part->get_instock() < $part->get_mininstock()), 'boolean');
+            $html->set_variable('manual_order_exists', ($part->get_manual_order() && ($part->get_instock() >= $part->get_mininstock())), 'boolean');
 
-            $html->set_variable('last_modified',            $part->get_last_modified(), 'string');
-            $html->set_variable('datetime_added',           $part->get_datetime_added(), 'string');
+            $html->set_variable('last_modified', $part->get_last_modified(), 'string');
+            $html->set_variable('datetime_added', $part->get_datetime_added(), 'string');
 
             //Infos about 3d footprint view
-            $html->set_variable('foot3d_show_stats',        $config['foot3d']['show_info'], 'boolean');
-            $html->set_variable('foot3d_active',            $config['foot3d']['active'], 'boolean');
-            $html->set_variable('foot3d_filename',          (is_object($footprint) ? str_replace(BASE, BASE_RELATIVE, $footprint->get_3d_filename()) : ''), 'string');
-            $html->set_variable('foot3d_valid',             (is_object($footprint) ? $footprint->is_3d_filename_valid() : false), 'boolean');
+            $html->set_variable('foot3d_show_stats', $config['foot3d']['show_info'], 'boolean');
+            $html->set_variable('foot3d_active', $config['foot3d']['active'], 'boolean');
+            $html->set_variable('foot3d_filename', (is_object($footprint) ? str_replace(BASE, BASE_RELATIVE, $footprint->get_3d_filename()) : ''), 'string');
+            $html->set_variable('foot3d_valid', (is_object($footprint) ? $footprint->is_3d_filename_valid() : false), 'boolean');
 
             // build orderdetails loop
             $orderdetails_loop = array();
             $row_odd = true;
-            foreach ($all_orderdetails as $orderdetails)
-            {
+            foreach ($all_orderdetails as $orderdetails) {
                 $pricedetails_loop = array();
-                foreach($orderdetails->get_pricedetails() as $pricedetails)
-                {
+                foreach ($orderdetails->get_pricedetails() as $pricedetails) {
                     $pricedetails_loop[] = array(   'min_discount_quantity'     => $pricedetails->get_min_discount_quantity(),
                                                     'price'                     => $pricedetails->get_price(true, $pricedetails->get_price_related_quantity()),
                                                     'price_related_quantity'    => $pricedetails->get_price_related_quantity(),
@@ -235,43 +217,42 @@ $messages = array();
                                                 'supplierpartnr'            => $orderdetails->get_supplierpartnr(),
                                                 'supplier_product_url'      => $orderdetails->get_supplier_product_url(),
                                                 'obsolete'                  => $orderdetails->get_obsolete(),
-                                                'pricedetails'              => (count($pricedetails_loop) > 0) ? $pricedetails_loop : NULL);
+                                                'pricedetails'              => (count($pricedetails_loop) > 0) ? $pricedetails_loop : null);
                 $row_odd = ! $row_odd;
             }
 
             $html->set_loop('orderdetails', $orderdetails_loop);
 
-            if ($part->get_average_price(false, 1) > 0)
+            if ($part->get_average_price(false, 1) > 0) {
                 $html->set_variable('average_price', $part->get_average_price(true, 1), 'string');
+            }
 
             // attachements
             $attachement_types = $part->get_attachement_types();
             $attachement_types_loop = array();
-            foreach ($attachement_types as $attachement_type)
-            {
+            foreach ($attachement_types as $attachement_type) {
                 $attachements = $part->get_attachements($attachement_type->get_id());
                 $attachements_loop = array();
-                foreach ($attachements as $attachement)
-                {
+                foreach ($attachements as $attachement) {
                     $attachements_loop[] = array(   'attachement_name'  => $attachement->get_name(),
                                                     'filename'          => str_replace(BASE, BASE_RELATIVE, $attachement->get_filename()),
                                                     'is_picture'        => $attachement->is_picture());
                 }
 
-                if (count($attachements) > 0)
+                if (count($attachements) > 0) {
                     $attachement_types_loop[] = array(  'attachement_type'  => $attachement_type->get_full_path(),
                                                         'attachements_loop' => $attachements_loop);
+                }
             }
 
-            if (count($attachement_types_loop) > 0)
+            if (count($attachement_types_loop) > 0) {
                 $html->set_loop('attachement_types_loop', $attachement_types_loop);
+            }
 
             // global/category stuff
-            $html->set_variable('disable_footprints',       ($config['footprints']['disable'] || $category->get_disable_footprints(true)), 'boolean');
-            $html->set_variable('disable_manufacturers',    ($config['manufacturers']['disable'] || $category->get_disable_manufacturers(true)), 'boolean');
-        }
-        catch (Exception $e)
-        {
+            $html->set_variable('disable_footprints', ($config['footprints']['disable'] || $category->get_disable_footprints(true)), 'boolean');
+            $html->set_variable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->get_disable_manufacturers(true)), 'boolean');
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             $fatal_error = true;
         }
@@ -285,16 +266,15 @@ $messages = array();
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
     $reload_link = $fatal_error ? 'show_part_info.php?pid='.$part_id : '';  // an empty string means that the...
     $html->print_header($messages, $reload_link);                           // ...reload-button won't be visible
 
-    if (! $fatal_error)
+    if (! $fatal_error) {
         $html->print_template('show_part_info');
+    }
 
     $html->print_footer();
-

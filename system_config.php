@@ -45,11 +45,11 @@ use PartDB\HTML;
         $loop = array();
         $directories = find_all_directories(BASE.'/templates/');
 
-        foreach ($directories as $directory)
-        {
+        foreach ($directories as $directory) {
             $name = str_ireplace(BASE.'/templates/', '', $directory);
-            if ($name != 'custom_css' && $name != 'fonts')
+            if ($name != 'custom_css' && $name != 'fonts') {
                 $loop[] = array('value' => $name, 'text' => $name, 'selected' => ($name == $config['html']['theme']));
+            }
         }
 
         return $loop;
@@ -61,8 +61,7 @@ use PartDB\HTML;
         $loop = array();
         $files = find_all_files(BASE.'/templates/custom_css/', true, '.css');
 
-        foreach ($files as $file)
-        {
+        foreach ($files as $file) {
             $name = str_ireplace(BASE.'/templates/custom_css/', '', $file);
             $loop[] = array('value' => $name, 'text' => $name, 'selected' => ($name == $config['html']['custom_css']));
         }
@@ -120,8 +119,12 @@ use PartDB\HTML;
     $new_admin_password_2       = isset($_REQUEST['new_admin_password_2'])      ? (string)$_REQUEST['new_admin_password_2']     : '';
 
     $action = 'default';
-    if (isset($_REQUEST["apply"]))                      {$action = 'apply';}
-    if (isset($_REQUEST["change_admin_password"]))      {$action = 'change_admin_password';}
+    if (isset($_REQUEST["apply"])) {
+        $action = 'apply';
+    }
+    if (isset($_REQUEST["change_admin_password"])) {
+        $action = 'change_admin_password';
+    }
 
     /********************************************************************************
     *
@@ -131,15 +134,12 @@ use PartDB\HTML;
 
     $html = new HTML($config['html']['theme'], /*$config['html']['custom_css']*/ $custom_css, _('Konfiguration'));
 
-    try
-    {
+    try {
         //$database           = new Database();
         //$log                = new Log($database);
         //$system             = new System($database, $log);
         //$current_user       = new User($database, $current_user, $log, 1); // admin
-    }
-    catch (Exception $e)
-    {
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -150,10 +150,8 @@ use PartDB\HTML;
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-        switch ($action)
-        {
+    if (! $fatal_error) {
+        switch ($action) {
             case 'apply':
                 $config_old = $config;
 
@@ -187,46 +185,39 @@ use PartDB\HTML;
 
                 $config['properties']['active']             = $properties_active;
 
-                if ( ! $config['is_online_demo'])
-                {
+                if (! $config['is_online_demo']) {
                     // settings which should not be able to change in the online demo
                     $config['menu']['disable_config']       = $disable_config;
                     $config['partdb_title']                   = $page_title;
                     $config['startup']['custom_banner']     = $startup_banner;
-                }
-                else
-                {
+                } else {
                     // this is an online demo!
                     $enable_dokuwiki_write_perms = false; // the DokuWiki must be in read-only mode in the online demo!!
                 }
 
                 // change DokuWiki write permissions
-                if (($enable_dokuwiki_write_perms) && ( ! file_exists(DOKUWIKI_PERMS_FILENAME)))
-                {
+                if (($enable_dokuwiki_write_perms) && (! file_exists(DOKUWIKI_PERMS_FILENAME))) {
                     // enable write permissions
                     $filehandle = fopen(DOKUWIKI_PERMS_FILENAME, 'w');
-                    if ( ! $filehandle)
+                    if (! $filehandle) {
                         $messages[] = array('text' => 'Die Datei "'.DOKUWIKI_PERMS_FILENAME.'" kann nicht gelöscht werden! '.
                                             _('Überprüfen Sie, ob Sie die nötigen Schreibrechte besitzen.'), 'strong' => true, 'color' => 'red');
-                    else
+                    } else {
                         fclose($filehandle);
-                }
-                elseif (( ! $enable_dokuwiki_write_perms) && (file_exists(DOKUWIKI_PERMS_FILENAME)))
-                {
+                    }
+                } elseif ((! $enable_dokuwiki_write_perms) && (file_exists(DOKUWIKI_PERMS_FILENAME))) {
                     // disable write permissions
-                    if ( ! unlink(DOKUWIKI_PERMS_FILENAME))
+                    if (! unlink(DOKUWIKI_PERMS_FILENAME)) {
                         $messages[] = array('text' => 'Die Datei "'.DOKUWIKI_PERMS_FILENAME.'" kann nicht gelöscht werden! '.
                                             _('Überprüfen Sie, ob Sie die nötigen Schreibrechte besitzen.'), 'strong' => true, 'color' => 'red');
+                    }
                 }
 
-                try
-                {
+                try {
                     save_config();
                     $html->set_variable('refresh_navigation_frame', true, 'boolean');
                     //header('Location: system_config.php'); // Reload the page that we can see if the new settings are stored successfully --> does not work correctly?!
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $config = $config_old; // reload the old config
                     $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: '.nl2br($e->getMessage())), 'color' => 'red');
@@ -234,10 +225,10 @@ use PartDB\HTML;
                 break;
 
             case 'change_admin_password':
-                try
-                {
-                    if ($config['is_online_demo'])
+                try {
+                    if ($config['is_online_demo']) {
                         throw new Exception(_('Diese Funktion steht in der Online-Demo nicht zur Verfügung!'));
+                    }
 
                     // set_admin_password() throws an exception if the old or the new passwords are not valid
                     set_admin_password($current_admin_password, $new_admin_password_1, $new_admin_password_2, false);
@@ -245,9 +236,7 @@ use PartDB\HTML;
                     save_config();
 
                     $messages[] = array('text' => _('Das neue Administratorpasswort wurde erfolgreich gespeichert.'), 'strong' => true, 'color' => 'darkgreen');
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
@@ -262,60 +251,59 @@ use PartDB\HTML;
     *********************************************************************************/
 
     // http charset / theme
-    $html->set_loop('http_charset_loop',    array_to_template_loop($config['http_charsets'], $config['html']['http_charset']));
-    $html->set_loop('theme_loop',           build_theme_loop());
-    $html->set_loop('custom_css_loop',      build_custom_css_loop());
+    $html->set_loop('http_charset_loop', array_to_template_loop($config['http_charsets'], $config['html']['http_charset']));
+    $html->set_loop('theme_loop', build_theme_loop());
+    $html->set_loop('custom_css_loop', build_custom_css_loop());
 
     // locale settings
-    $html->set_loop('timezone_loop',        array_to_template_loop($config['timezones'], $config['timezone']));
-    $html->set_loop('language_loop',        array_to_template_loop($config['languages'], $config['language']));
+    $html->set_loop('timezone_loop', array_to_template_loop($config['timezones'], $config['timezone']));
+    $html->set_loop('language_loop', array_to_template_loop($config['languages'], $config['language']));
 
     // checkboxes
-    $html->set_variable('disable_updatelist',           $config['startup']['disable_update_list'],  'boolean');
-    $html->set_variable('disable_help',                 $config['menu']['disable_help'],            'boolean');
-    $html->set_variable('disable_config',               $config['menu']['disable_config'],          'boolean');
-    $html->set_variable('enable_debug_link',            $config['menu']['enable_debug'],            'boolean');
-    $html->set_variable('disable_devices',              $config['devices']['disable'],              'boolean');
-    $html->set_variable('disable_footprints',           $config['footprints']['disable'],           'boolean');
-    $html->set_variable('disable_manufacturers',        $config['manufacturers']['disable'],        'boolean');
-    $html->set_variable('disable_labels',               $config['menu']['disable_labels'],          'boolean');
-    $html->set_variable('disable_calculator',           $config['menu']['disable_calculator'],      'boolean');
-    $html->set_variable('disable_iclogos',              $config['menu']['disable_iclogos'],         'boolean');
-    $html->set_variable('disable_auto_datasheets',      $config['auto_datasheets']['disable'],      'boolean');
-    $html->set_variable('disable_tools_footprints',     $config['menu']['disable_footprints'],      'boolean');
-    $html->set_variable('tools_footprints_autoload',    $config['tools']['footprints']['autoload'], 'boolean');
-    $html->set_variable('developer_mode_available',     file_exists(BASE.'/development'),           'boolean');
-    $html->set_variable('enable_developer_mode',        $config['developer_mode'],                  'boolean');
-    $html->set_variable('enable_dokuwiki_write_perms',  file_exists(DOKUWIKI_PERMS_FILENAME),       'boolean');
-    $html->set_variable('use_old_datasheet_icons',      $config['appearance']['use_old_datasheet_icons'], 'boolean');
+    $html->set_variable('disable_updatelist', $config['startup']['disable_update_list'], 'boolean');
+    $html->set_variable('disable_help', $config['menu']['disable_help'], 'boolean');
+    $html->set_variable('disable_config', $config['menu']['disable_config'], 'boolean');
+    $html->set_variable('enable_debug_link', $config['menu']['enable_debug'], 'boolean');
+    $html->set_variable('disable_devices', $config['devices']['disable'], 'boolean');
+    $html->set_variable('disable_footprints', $config['footprints']['disable'], 'boolean');
+    $html->set_variable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+    $html->set_variable('disable_labels', $config['menu']['disable_labels'], 'boolean');
+    $html->set_variable('disable_calculator', $config['menu']['disable_calculator'], 'boolean');
+    $html->set_variable('disable_iclogos', $config['menu']['disable_iclogos'], 'boolean');
+    $html->set_variable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
+    $html->set_variable('disable_tools_footprints', $config['menu']['disable_footprints'], 'boolean');
+    $html->set_variable('tools_footprints_autoload', $config['tools']['footprints']['autoload'], 'boolean');
+    $html->set_variable('developer_mode_available', file_exists(BASE.'/development'), 'boolean');
+    $html->set_variable('enable_developer_mode', $config['developer_mode'], 'boolean');
+    $html->set_variable('enable_dokuwiki_write_perms', file_exists(DOKUWIKI_PERMS_FILENAME), 'boolean');
+    $html->set_variable('use_old_datasheet_icons', $config['appearance']['use_old_datasheet_icons'], 'boolean');
 
     // popup settings
-    $html->set_variable('use_modal_popup',              $config['popup']['modal'],                  'boolean');
-    $html->set_variable('popup_width',                  $config['popup']['width'],                  'integer');
-    $html->set_variable('popup_height',                 $config['popup']['height'],                 'integer');
+    $html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
+    $html->set_variable('popup_width', $config['popup']['width'], 'integer');
+    $html->set_variable('popup_height', $config['popup']['height'], 'integer');
 
     // site properties
-    $html->set_variable('page_title',                   $config['partdb_title'],                      'string');
-    $html->set_variable('startup_banner',               $config['startup']['custom_banner'],        'string');
+    $html->set_variable('page_title', $config['partdb_title'], 'string');
+    $html->set_variable('startup_banner', $config['startup']['custom_banner'], 'string');
 
     // server
-    $html->set_variable('php_version',                  phpversion(),                               'string');
-    $html->set_variable('htaccess_works',               (getenv('htaccessWorking')=='true'),        'boolean');
-    $html->set_variable('is_online_demo',               $config['is_online_demo'],                  'boolean');
+    $html->set_variable('php_version', phpversion(), 'string');
+    $html->set_variable('htaccess_works', (getenv('htaccessWorking')=='true'), 'boolean');
+    $html->set_variable('is_online_demo', $config['is_online_demo'], 'boolean');
 
     //Part properties
-    $html->set_variable('properties_active',                  $config['properties']['active'],               'boolean');
+    $html->set_variable('properties_active', $config['properties']['active'], 'boolean');
 
     // 3d Footprints
-    $html->set_variable('foot3d_active',                $config['foot3d']['active'],                'boolean');
-    $html->set_variable('foot3d_show_info',             $config['foot3d']['show_info'],             'boolean');
+    $html->set_variable('foot3d_active', $config['foot3d']['active'], 'boolean');
+    $html->set_variable('foot3d_show_info', $config['foot3d']['show_info'], 'boolean');
 
     // Appearance
-    $html->set_variable( 'short_description', $config['appearance']['short_description'], 'boolean');
+    $html->set_variable('short_description', $config['appearance']['short_description'], 'boolean');
 
     // check if the server supports the selected language and print a warning if not
-    if ( ! own_setlocale(LC_ALL, $config['language']))
-    {
+    if (! own_setlocale(LC_ALL, $config['language'])) {
         $messages[] = array('text' => _('Achtung:'), 'strong' => true, 'color' => 'red');
         $messages[] = array('text' => sprintf(_('Die gewählte Sprache "%s" wird vom Server nicht unterstützt!'), $config['language']), 'color' => 'red', );
         $messages[] = array('text' => _('Bitte installieren Sie diese Sprache oder wählen Sie eine andere.'), 'color' => 'red', );
@@ -329,14 +317,14 @@ use PartDB\HTML;
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
     $html->print_header($messages);
 
-    if ( ! $fatal_error)
+    if (! $fatal_error) {
         $html->print_template('system_config');
+    }
 
     $html->print_footer();

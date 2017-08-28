@@ -59,10 +59,18 @@ $messages = array();
     $add_more                   = isset($_REQUEST['add_more']);
 
     $action = 'default';
-    if (isset($_REQUEST["add"]))                {$action = 'add';}
-    if (isset($_REQUEST["delete"]))             {$action = 'delete';}
-    if (isset($_REQUEST["delete_confirmed"]))   {$action = 'delete_confirmed';}
-    if (isset($_REQUEST["apply"]))              {$action = 'apply';}
+    if (isset($_REQUEST["add"])) {
+        $action = 'add';
+    }
+    if (isset($_REQUEST["delete"])) {
+        $action = 'delete';
+    }
+    if (isset($_REQUEST["delete_confirmed"])) {
+        $action = 'delete_confirmed';
+    }
+    if (isset($_REQUEST["apply"])) {
+        $action = 'apply';
+    }
 
     /********************************************************************************
     *
@@ -72,20 +80,18 @@ $messages = array();
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Dateitypen'));
 
-    try
-    {
+    try {
         $database               = new Database();
         $log                    = new Log($database);
         $current_user           = new User($database, $current_user, $log, 1); // admin
         $root_attachement_type  = new AttachementType($database, $current_user, $log, 0);
 
-        if ($selected_id > 0)
+        if ($selected_id > 0) {
             $selected_attachement_type = new AttachementType($database, $current_user, $log, $selected_id);
-        else
-            $selected_attachement_type = NULL;
-    }
-    catch (Exception $e)
-    {
+        } else {
+            $selected_attachement_type = null;
+        }
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -96,44 +102,35 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-        switch ($action)
-        {
+    if (! $fatal_error) {
+        switch ($action) {
             case 'add':
-                try
-                {
+                try {
                     $new_attachement_type = AttachementType::add($database, $current_user, $log, $new_name, $new_parent_id);
 
-                    if ( ! $add_more)
-                    {
+                    if (! $add_more) {
                         $selected_attachement_type = $new_attachement_type;
                         $selected_id = $selected_attachement_type->get_id();
                     }
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Der neue Dateityp konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
             case 'delete':
-                try
-                {
-                    if ( ! is_object($selected_attachement_type))
+                try {
+                    if (! is_object($selected_attachement_type)) {
                         throw new Exception(_('Es ist kein Dateityp markiert oder es trat ein Fehler auf!'));
+                    }
 
                     $attachements = $selected_attachement_type->get_attachements();
                     $count = count($attachements);
 
-                    if ($count > 0)
-                    {
+                    if ($count > 0) {
                         $messages[] = array('text' => sprintf(_('Es gibt noch %d Dateianhänge mit diesem Dateityp, '.
                                             'daher kann der Dateityp nicht gelöscht werden.'), $count), 'strong' => true, 'color' => 'red');
-                    }
-                    else
-                    {
+                    } else {
                         $messages[] = array('text' => 'Soll der Dateityp "'.$selected_attachement_type->get_full_path().
                                                         '" wirklich unwiederruflich gelöscht werden?', 'strong' => true, 'color' => 'red');
                         $messages[] = array('text' => '<br>Hinweise:', 'strong' => true);
@@ -143,41 +140,35 @@ $messages = array();
                         $messages[] = array('html' => '<input class="btn btn-default" type="submit" value="'._("Nein, nicht löschen").'">', 'no_linebreak' => true);
                         $messages[] = array('html' => '<input class="btn btn-danger" type="submit" name="delete_confirmed" value="'._("Ja, Dateityp löschen"). '">');
                     }
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
             case 'delete_confirmed':
-                try
-                {
-                    if ( ! is_object($selected_attachement_type))
+                try {
+                    if (! is_object($selected_attachement_type)) {
                         throw new Exception(_('Es ist kein Dateityp markiert oder es trat ein Fehler auf!'));
+                    }
 
                     $selected_attachement_type->delete();
-                    $selected_attachement_type = NULL;
-                }
-                catch (Exception $e)
-                {
+                    $selected_attachement_type = null;
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Der Dateityp konnte nicht gelöscht werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
             case 'apply':
-                try
-                {
-                    if ( ! is_object($selected_attachement_type))
+                try {
+                    if (! is_object($selected_attachement_type)) {
                         throw new Exception(_('Es ist kein Dateityp markiert oder es trat ein Fehler auf!'));
+                    }
 
                     $selected_attachement_type->set_attributes(array(   'name'      => $new_name,
                                                                         'parent_id' => $new_parent_id));
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
@@ -193,23 +184,16 @@ $messages = array();
 
     $html->set_variable('add_more', $add_more, 'boolean');
 
-    if (! $fatal_error)
-    {
-        try
-        {
-            if (is_object($selected_attachement_type))
-            {
+    if (! $fatal_error) {
+        try {
+            if (is_object($selected_attachement_type)) {
                 $parent_id = $selected_attachement_type->get_parent_id();
                 $html->set_variable('id', $selected_attachement_type->get_id(), 'integer');
                 $name = $selected_attachement_type->get_name();
-            }
-            elseif ($action == 'add')
-            {
+            } elseif ($action == 'add') {
                 $parent_id = $new_parent_id;
                 $name = $new_name;
-            }
-            else
-            {
+            } else {
                 $parent_id = 0;
                 $name = '';
             }
@@ -221,9 +205,7 @@ $messages = array();
 
             $parent_attachement_types_list = $root_attachement_type->build_html_tree($parent_id, true, true);
             $html->set_variable('parent_attachement_types_list', $parent_attachement_types_list, 'string');
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
             $fatal_error = true;
         }
@@ -236,15 +218,15 @@ $messages = array();
     *********************************************************************************/
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
     $reload_link = $fatal_error ? 'edit_attachement_types.php' : '';    // an empty string means that the...
     $html->print_header($messages, $reload_link);                       // ...reload-button won't be visible
 
-    if (! $fatal_error)
+    if (! $fatal_error) {
         $html->print_template('edit_attachement_types');
+    }
 
     $html->print_footer();

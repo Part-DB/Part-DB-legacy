@@ -51,11 +51,15 @@ $messages = array();
     $preset             = isset($_REQUEST['preset'])            ? (integer)$_REQUEST['preset']          : 0;
 
     $action = 'default';
-    if (isset($_REQUEST["download"]))                    {$action = 'download';}
+    if (isset($_REQUEST["download"])) {
+        $action = 'download';
+    }
 
 
     $size_str = "50x30";
-    if(isset($_REQUEST['size']))                    {$size_str  = $_REQUEST['size']; }
+    if (isset($_REQUEST['size'])) {
+        $size_str  = $_REQUEST['size'];
+    }
 
     $lang_str = "de";
     //if(isset($_REQUEST['lang']))                  {$lang_str     = $_LANG['lang'];    }
@@ -69,8 +73,7 @@ $messages = array();
 
 
 
-    try
-    {
+    try {
         $database           = new Database();
         $log                = new Log($database);
         $current_user       = new User($database, $current_user, $log, 1); // admin
@@ -86,17 +89,12 @@ $messages = array();
         $label->set_lines($label->get_line_presets()[$preset]);
 
 
-        if($action=="download")
-        {
+        if ($action=="download") {
             $label->download();
-        }
-        else
-        {
+        } else {
             $label->generate();
         }
-    }
-    catch (Exception $e)
-    {
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }

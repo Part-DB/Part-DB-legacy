@@ -44,10 +44,13 @@
 
     function exception_handler($e)
     {
-        print_messages_without_template(    'Part-DB: Schwerwiegender Fehler!', NULL,
+        print_messages_without_template(
+            'Part-DB: Schwerwiegender Fehler!',
+            null,
                                             '<span style="color: red; "><strong>Es ist ein schwerwiegender Fehler aufgetreten:' .
                                             '<br><br>'.nl2br($e->getMessage()).'</strong><br><br>'.
-                                            '(Exception wurde geworfen in '.$e->getFile().', Zeile '.$e->getLine(). ')</span>');
+                                            '(Exception wurde geworfen in '.$e->getFile().', Zeile '.$e->getLine(). ')</span>'
+        );
         exit;
     }
 
@@ -65,14 +68,21 @@
     $old_media_exists = file_exists($BASE_tmp.'/media');
     $old_log_exists = file_exists($BASE_tmp.'/log');
 
-    if (($old_config_exists) || ($old_backup_exists) || ($old_media_exists) || ($old_log_exists))
-    {
+    if (($old_config_exists) || ($old_backup_exists) || ($old_media_exists) || ($old_log_exists)) {
         $messages = '<strong>Bitte verschieben Sie die folgenden Dateien und Ordner ins Verzeichnis "data": <br><br>';
 
-        if ($old_config_exists) {$messages .= '"config.php" --> "data/config.php"<br>';}
-        if ($old_backup_exists) {$messages .= '"backup/" --> "data/backup/"<br>';}
-        if ($old_media_exists)  {$messages .= '"media/" --> "data/media/"<br>';}
-        if ($old_log_exists)    {$messages .= '"log/" --> "data/log/"<br>';}
+        if ($old_config_exists) {
+            $messages .= '"config.php" --> "data/config.php"<br>';
+        }
+        if ($old_backup_exists) {
+            $messages .= '"backup/" --> "data/backup/"<br>';
+        }
+        if ($old_media_exists) {
+            $messages .= '"media/" --> "data/media/"<br>';
+        }
+        if ($old_log_exists) {
+            $messages .= '"log/" --> "data/log/"<br>';
+        }
 
         $messages .=    '<br><span style="color: red;">WICHTIG:<br>Kopieren Sie jeweils nur den Inhalt der genannten Ordner, nicht den ganzen Ordner an sich!<br>'.
                         'Die Zielordner enthalten bereits (teilweise versteckte) Dateien, die auf keinen Fall &uuml;berschrieben werden d&uuml;rfen!<br>'.
@@ -90,11 +100,13 @@
 
     include_once($BASE_tmp.'/inc/config_defaults.php'); // first, we load all default values of the $config array...
 
-    if (file_exists($BASE_tmp.'/data/config.php') && is_readable($BASE_tmp.'/data/config.php'))
-        include_once($BASE_tmp.'/data/config.php'); // ...and then we overwrite them with the user settings, if they exist
+    if (file_exists($BASE_tmp.'/data/config.php') && is_readable($BASE_tmp.'/data/config.php')) {
+        include_once($BASE_tmp.'/data/config.php');
+    } // ...and then we overwrite them with the user settings, if they exist
 
-    if (count($manual_config) > 0) // $manual_config is defined in "config_defaults.php" and can be filled in "config.php"
-        $config = array_merge($config, $manual_config); // if there are manual configs, add them to $config
+    if (count($manual_config) > 0) { // $manual_config is defined in "config_defaults.php" and can be filled in "config.php"
+        $config = array_merge($config, $manual_config);
+    } // if there are manual configs, add them to $config
 
     /********************************************************************************
     *
@@ -111,24 +123,24 @@
     // directory to the part-db installation, without slash at the end
     // Example (UNIX/Linux):    "/var/www/part-db"
     // Example (Windows):       "C:/wamp/www/part-db"
-    if (isset($config['BASE']))
+    if (isset($config['BASE'])) {
         define('BASE', $config['BASE']);
-    else
+    } else {
         define('BASE', $BASE_tmp);
+    }
 
     // server-directory without slash at the end
     // Example (UNIX/Linux):    "/var/www"
     // Example (Windows):       "C:/wamp/www"
-    if (isset($config['DOCUMENT_ROOT']))
+    if (isset($config['DOCUMENT_ROOT'])) {
         define('DOCUMENT_ROOT', $config['DOCUMENT_ROOT']);
-    elseif (isset($_SERVER['DOCUMENT_ROOT']))
+    } elseif (isset($_SERVER['DOCUMENT_ROOT'])) {
         define('DOCUMENT_ROOT', rtrim(str_replace('\\', '/', $_SERVER['DOCUMENT_ROOT']), '/'));
-    elseif (isset($_SERVER['SCRIPT_FILENAME']) && isset($_SERVER['PHP_SELF']))
+    } elseif (isset($_SERVER['SCRIPT_FILENAME']) && isset($_SERVER['PHP_SELF'])) {
         define('DOCUMENT_ROOT', rtrim(str_replace('\\', '/', substr($_SERVER['SCRIPT_FILENAME'], 0, 0-strlen($_SERVER['PHP_SELF'])))));
-    elseif (isset($_SERVER['PATH_TRANSLATED']) && isset($_SERVER['PHP_SELF']))
+    } elseif (isset($_SERVER['PATH_TRANSLATED']) && isset($_SERVER['PHP_SELF'])) {
         define('DOCUMENT_ROOT', rtrim(str_replace('\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0-strlen($_SERVER['PHP_SELF'])))));
-    else
-    {
+    } else {
         $messages = 'Die Konstante "DOCUMENT_ROOT" konnte auf Ihrem Server nicht ermittelt werden.<br>'.
                     'Bitte definieren Sie diese Konstante manuell in Ihrer Konfigurationsdatei "data/config.php".';
         print_messages_without_template('Part-DB', 'DOCUMENT_ROOT kann nicht ermittelt werden', $messages);
@@ -138,12 +150,14 @@
     // the part-db installation directory without document root, without slash at the end
     // Example (UNIX/Linux):    "/part-db"
     // Example (Windows):       "/part-db"
-    if (isset($config['BASE_RELATIVE']))
+    if (isset($config['BASE_RELATIVE'])) {
         define('BASE_RELATIVE', $config['BASE_RELATIVE']);
-    elseif (mb_strpos(BASE, DOCUMENT_ROOT) === false)   // workaround for STRATO servers, see german post on uC.net:
-        define('BASE_RELATIVE', '.');                   // http://www.mikrocontroller.net/topic/269289#3152928
-    else
+    } elseif (mb_strpos(BASE, DOCUMENT_ROOT) === false) {   // workaround for STRATO servers, see german post on uC.net:
+        define('BASE_RELATIVE', '.');
+    }                   // http://www.mikrocontroller.net/topic/269289#3152928
+    else {
         define('BASE_RELATIVE', str_replace(DOCUMENT_ROOT, '', BASE));
+    }
 
     // for debugging uncomment these lines:
     //print 'BASE = "'.BASE.'"<br>';
@@ -159,21 +173,23 @@
     *********************************************************************************/
 
     $messages = check_requirements();
-    if (count($messages) > 0)
-    {
-        print_messages_without_template('Part-DB', 'Mindestanforderungen von Part-DB nicht erfüllt!',
+    if (count($messages) > 0) {
+        print_messages_without_template(
+            'Part-DB',
+            'Mindestanforderungen von Part-DB nicht erfüllt!',
             '<span style="color: red; "><strong>&bull;' .implode('<br>&bull;', $messages). '</strong></span><br><br>' .
             'Nähere Informationen gibt es in der <a target="_blank" href="'.BASE_RELATIVE.
-            '/documentation/dokuwiki/doku.php?id=anforderungen">Dokumentation</a>.');
+            '/documentation/dokuwiki/doku.php?id=anforderungen">Dokumentation</a>.'
+        );
         exit;
     }
 
     $messages = check_file_permissions();
-    if (count($messages) > 0)
-    {
+    if (count($messages) > 0) {
         $message = '<strong><span style="color: red; ">';
-        foreach ($messages as $msg)
+        foreach ($messages as $msg) {
             $message .= '&bull;'.$msg.'<br>';
+        }
         $message .= '</font></strong><br><br>';
         $message .= 'Nähere Informationen zu den Dateirechten gibt es in der <a target="_blank" href="' .
                     'https://github.com/jbtronics/Part-DB/wiki/Installation">Dokumentation</a>.<br><br>';
@@ -187,27 +203,29 @@
     }
 
     $message = check_if_config_is_valid();
-    if (is_string($message))
-    {
-        print_messages_without_template('Part-DB', 'Ihre config.php ist fehlerhaft!',
+    if (is_string($message)) {
+        print_messages_without_template(
+            'Part-DB',
+            'Ihre config.php ist fehlerhaft!',
             '<span style="color: red; "><strong>' .$message. '</strong></span><br><br>' .
             'Nähere Informationen gibt es in der <a target="_blank" href="'.BASE_RELATIVE.
             '/documentation/dokuwiki/doku.php?id=installation">Dokumentation</a>.<br><br>'.
-            '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>');
+            '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>'
+        );
         exit;
     }
 
     $messages = check_composer_folder();
-    if (count($messages) > 0)
-    {
+    if (count($messages) > 0) {
         $message = "<b>Part-DB benutzt den PHP Abhängikeitsmanager <a href='https://getcomposer.org/' target='_blank'>Composer</a>" .
             " um benötigte Bibliotheken bereitzustellen.<br> Bevor sie Part-DB nutzen können müssen sie diese" .
             " Bibliotheken mit <code>php composer.phar install</code> im Hauptverzeichnis von Part-DB" .
             " installiert werden. <br> Sollten sie keine Möglichkeit haben, auf ihrem Server Konsolenbefehle" .
             " auszuführen, dann benutzen kopieren sie den vendor/ Ordner, aus einem mit composer eingerichteten ".
             " Part-DB oder ein speziellen Release benutzen, der die Abhängikeiten mitliefert.</b><br><br>";
-        foreach ($messages as $msg)
+        foreach ($messages as $msg) {
             $message .= '&bull;'.$msg.'<br>';
+        }
         //$message .= 'Nähere Informationen zu den Dateirechten gibt es in der <a target="_blank" href="' .
         //    'https://github.com/jbtronics/Part-DB/wiki/Installation">Dokumentation</a>.<br><br>';
         $message .= '<br><form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>';
@@ -227,27 +245,23 @@
 
     if (($config['system']['current_config_version'] < $config['system']['latest_config_version'])
         && (file_exists(BASE.'/data/config.php')) && (is_readable(BASE.'/data/config.php'))
-        && (filesize(BASE.'/data/config.php') > 0))
-    {
+        && (filesize(BASE.'/data/config.php') > 0)) {
         include_once(BASE.'/updates/config_update_steps.php');
 
-        try
-        {
+        try {
             $update_messages = update_users_config_php();
             $message =  '<strong><span style="color: darkgreen; ">Ihre config.php wurde erfolgreich aktualisiert!</span></strong><br><br>' .
                         'Es kann sein, dass jetzt der Installationsassistent startet, '.
                         'um noch einige neue Einstellungen zu tätigen.<br><br>';
 
-            if (count($update_messages) > 0)
-            {
+            if (count($update_messages) > 0) {
                 $message .= '<strong><span style="color: red; ">';
-                foreach ($update_messages as $text)
+                foreach ($update_messages as $text) {
                     $message .= '&bull;'.$text.'<br>';
+                }
                 $message .= '</font></strong><br>';
             }
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $message =  '<strong><span style="color: red; ">Es gab ein Fehler bei der Aktualisierung ihrer config.php:<br><br>' .
                         nl2br($e->getMessage()). '</span></strong><br><br>';
         }
@@ -275,8 +289,7 @@
     *
     *********************************************************************************/
 
-    if (($config['debug']['enable']) && ( ! $config['debug']['template_debugging_enable'])) // template debugging produces a lot of warnings!
-    {
+    if (($config['debug']['enable']) && (! $config['debug']['template_debugging_enable'])) { // template debugging produces a lot of warnings!
         error_reporting(E_ALL & ~E_STRICT);
         @ini_set("display_errors", 1);
 
@@ -286,9 +299,9 @@
                 return strpos($errstr, 'Declaration of') === 0;
             }, E_WARNING);
         }
-    }
-    else
+    } else {
         @ini_set("display_errors", 0);
+    }
 
 
 

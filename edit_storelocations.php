@@ -63,10 +63,18 @@ $messages = array();
     $add_more           = isset($_REQUEST['add_more']);
 
     $action = 'default';
-    if (isset($_REQUEST["add"]))                {$action = 'add';}
-    if (isset($_REQUEST["delete"]))             {$action = 'delete';}
-    if (isset($_REQUEST["delete_confirmed"]))   {$action = 'delete_confirmed';}
-    if (isset($_REQUEST["apply"]))              {$action = 'apply';}
+    if (isset($_REQUEST["add"])) {
+        $action = 'add';
+    }
+    if (isset($_REQUEST["delete"])) {
+        $action = 'delete';
+    }
+    if (isset($_REQUEST["delete_confirmed"])) {
+        $action = 'delete_confirmed';
+    }
+    if (isset($_REQUEST["apply"])) {
+        $action = 'apply';
+    }
 
     /********************************************************************************
     *
@@ -76,20 +84,18 @@ $messages = array();
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Lagerorte'));
 
-    try
-    {
+    try {
         $database           = new Database();
         $log                = new Log($database);
         $current_user       = new User($database, $current_user, $log, 1); // admin
         $root_storelocation = new Storelocation($database, $current_user, $log, 0);
 
-        if ($selected_id > 0)
+        if ($selected_id > 0) {
             $selected_storelocation = new Storelocation($database, $current_user, $log, $selected_id);
-        else
-            $selected_storelocation = NULL;
-    }
-    catch (Exception $e)
-    {
+        } else {
+            $selected_storelocation = null;
+        }
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -100,60 +106,56 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-        switch ($action)
-        {
+    if (! $fatal_error) {
+        switch ($action) {
             case 'add':
-                try
-                {
-                    if ($create_series)
-                    {
+                try {
+                    if ($create_series) {
                         $width  = mb_strlen((string) $series_to); // determine the width of second argument
                         $format = "%0". (int)$width ."s";
 
-                        foreach (range($series_from, $series_to) as $index)
-                        {
+                        foreach (range($series_from, $series_to) as $index) {
                             $new_storelocation_name = $new_name . sprintf($format, $index);
-                            $new_storelocation = Storelocation::add(    $database, $current_user, $log,
+                            $new_storelocation = Storelocation::add(
+                                $database,
+                                $current_user,
+                                $log,
                                                                         $new_storelocation_name,
-                                                                        $new_parent_id, $new_is_full);
+                                                                        $new_parent_id,
+                                $new_is_full
+                            );
                         }
-                    }
-                    else
-                    {
-                        $new_storelocation = Storelocation::add(  $database, $current_user, $log, $new_name,
-                                                                    $new_parent_id, $new_is_full);
+                    } else {
+                        $new_storelocation = Storelocation::add(
+                            $database,
+                            $current_user,
+                            $log,
+                            $new_name,
+                                                                    $new_parent_id,
+                            $new_is_full
+                        );
                     }
 
-                    if ( ! $add_more)
-                    {
+                    if (! $add_more) {
                         $selected_storelocation = $new_storelocation;
                         $selected_id = $selected_storelocation->get_id();
                     }
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Der neue Lagerort konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
             case 'delete':
-                if (is_object($selected_storelocation))
-                {
-                    try
-                    {
+                if (is_object($selected_storelocation)) {
+                    try {
                         $parts = $selected_storelocation->get_parts();
                         $count = count($parts);
 
-                        if ($count > 0)
-                        {
+                        if ($count > 0) {
                             $messages[] = array('text' => sprintf(_('Es gibt noch %d Bauteile an diesem Lagerort, '.
-                                                'daher kann der Lagerort nicht gelöscht werden.'),$count), 'strong' => true, 'color' => 'red');
-                        }
-                        else
-                        {
+                                                'daher kann der Lagerort nicht gelöscht werden.'), $count), 'strong' => true, 'color' => 'red');
+                        } else {
                             $messages[] = array('text' => sprintf(_('Soll der Lagerort "%s'.
                                                             '" wirklich unwiederruflich gelöscht werden?'), $selected_storelocation->get_full_path()), 'strong' => true, 'color' => 'red');
                             $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
@@ -163,58 +165,42 @@ $messages = array();
                             $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
                             $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Lagerort löschen').'">');
                         }
-                    }
-                    catch (Exception $e)
-                    {
+                    } catch (Exception $e) {
                         $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
                         $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                     }
-                }
-                else
-                {
+                } else {
                     $messages[] = array('text' => _('Es ist kein Lagerort markiert oder es trat ein Fehler auf!'),
                                                 'strong' => true, 'color' => 'red');
                 }
                 break;
 
             case 'delete_confirmed':
-                if (is_object($selected_storelocation))
-                {
-                    try
-                    {
+                if (is_object($selected_storelocation)) {
+                    try {
                         $selected_storelocation->delete();
-                        $selected_storelocation = NULL;
-                    }
-                    catch (Exception $e)
-                    {
+                        $selected_storelocation = null;
+                    } catch (Exception $e) {
                         $messages[] = array('text' => _('Der Lagerort konnte nicht gelöscht werden!'), 'strong' => true, 'color' => 'red');
                         $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                     }
-                }
-                else
-                {
+                } else {
                     $messages[] = array('text' => _('Es ist kein Lagerort markiert oder es trat ein Fehler auf!'),
                                                 'strong' => true, 'color' => 'red');
                 }
                 break;
 
             case 'apply':
-                if (is_object($selected_storelocation))
-                {
-                    try
-                    {
+                if (is_object($selected_storelocation)) {
+                    try {
                         $selected_storelocation->set_attributes(array(  'name'       => $new_name,
                                                                         'parent_id'  => $new_parent_id,
                                                                         'is_full'    => $new_is_full));
-                    }
-                    catch (Exception $e)
-                    {
+                    } catch (Exception $e) {
                         $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                         $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                     }
-                }
-                else
-                {
+                } else {
                     $messages[] = array('text' => _('Es ist kein Lagerort markiert oder es trat ein Fehler auf!'),
                                                 'strong' => true, 'color' => 'red');
                 }
@@ -230,25 +216,18 @@ $messages = array();
 
     $html->set_variable('add_more', $add_more, 'boolean');
 
-    if (! $fatal_error)
-    {
-        try
-        {
-            if (is_object($selected_storelocation))
-            {
+    if (! $fatal_error) {
+        try {
+            if (is_object($selected_storelocation)) {
                 $parent_id = $selected_storelocation->get_parent_id();
                 $html->set_variable('id', $selected_storelocation->get_id(), 'integer');
                 $name = $selected_storelocation->get_name();
                 $is_full = $selected_storelocation->get_is_full();
-            }
-            elseif ($action == 'add')
-            {
+            } elseif ($action == 'add') {
                 $parent_id = $new_parent_id;
                 $name = $new_name;
                 $is_full = $new_is_full;
-            }
-            else
-            {
+            } else {
                 $parent_id = 0;
                 $name = '';
                 $is_full = false;
@@ -262,9 +241,7 @@ $messages = array();
 
             $parent_storelocation_list = $root_storelocation->build_html_tree($parent_id, true, true);
             $html->set_variable('parent_storelocation_list', $parent_storelocation_list, 'string');
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
             $fatal_error = true;
         }
@@ -278,15 +255,15 @@ $messages = array();
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
     $reload_link = $fatal_error ? 'edit_storelocations.php' : '';   // an empty string means that the...
     $html->print_header($messages, $reload_link);                   // ...reload-button won't be visible
 
-    if (! $fatal_error)
+    if (! $fatal_error) {
         $html->print_template('edit_storelocations');
+    }
 
     $html->print_footer();

@@ -65,10 +65,18 @@ $messages = array();
     $add_more             = isset($_REQUEST['add_more']);
 
     $action = 'default';
-    if (isset($_REQUEST["add"]))                {$action = 'add';}
-    if (isset($_REQUEST["delete"]))             {$action = 'delete';}
-    if (isset($_REQUEST["delete_confirmed"]))   {$action = 'delete_confirmed';}
-    if (isset($_REQUEST["apply"]))              {$action = 'apply';}
+    if (isset($_REQUEST["add"])) {
+        $action = 'add';
+    }
+    if (isset($_REQUEST["delete"])) {
+        $action = 'delete';
+    }
+    if (isset($_REQUEST["delete_confirmed"])) {
+        $action = 'delete_confirmed';
+    }
+    if (isset($_REQUEST["apply"])) {
+        $action = 'apply';
+    }
 
     /********************************************************************************
     *
@@ -78,20 +86,18 @@ $messages = array();
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Hersteller'));
 
-    try
-    {
+    try {
         $database           = new Database();
         $log                = new Log($database);
         $current_user       = new User($database, $current_user, $log, 1); // admin
         $root_manufacturer  = new Manufacturer($database, $current_user, $log, 0);
 
-        if ($selected_id > 0)
+        if ($selected_id > 0) {
             $selected_manufacturer = new Manufacturer($database, $current_user, $log, $selected_id);
-        else
-            $selected_manufacturer = NULL;
-    }
-    catch (Exception $e)
-    {
+        } else {
+            $selected_manufacturer = null;
+        }
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -102,49 +108,49 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-        switch ($action)
-        {
+    if (! $fatal_error) {
+        switch ($action) {
             case 'add':
-                try
-                {
-                    $new_manufacturer = Manufacturer::add(  $database, $current_user, $log, $new_name,
-                                                            $new_parent_id, $new_address, $new_phone_number,
-                                                            $new_fax_number, $new_email_address, $new_website,
-                                                            $new_auto_product_url);
+                try {
+                    $new_manufacturer = Manufacturer::add(
+                        $database,
+                        $current_user,
+                        $log,
+                        $new_name,
+                                                            $new_parent_id,
+                        $new_address,
+                        $new_phone_number,
+                                                            $new_fax_number,
+                        $new_email_address,
+                        $new_website,
+                                                            $new_auto_product_url
+                    );
 
-                    if ( ! $add_more)
-                    {
+                    if (! $add_more) {
                         $selected_manufacturer = $new_manufacturer;
                         $selected_id = $selected_manufacturer->get_id();
                     }
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Der neue Hersteller konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
             case 'delete':
-                try
-                {
-                    if ( ! is_object($selected_manufacturer))
+                try {
+                    if (! is_object($selected_manufacturer)) {
                         throw new Exception(_('Es ist kein Hersteller markiert oder es trat ein Fehler auf!'));
+                    }
 
                     $parts = $selected_manufacturer->get_parts();
                     $count = count($parts);
 
-                    if ($count > 0)
-                    {
+                    if ($count > 0) {
                         $messages[] = array('text' => sprintf(_('Es gibt noch %d Bauteile mit diesem Hersteller, '.
                                             'daher kann der Hersteller nicht gelöscht werden.'), $count), 'strong' => true, 'color' => 'red');
-                    }
-                    else
-                    {
+                    } else {
                         $messages[] = array('text' =>  sprintf(_('Soll der Hersteller "%s'.
-                                                        '" wirklich unwiederruflich gelöscht werden?'),$selected_manufacturer->get_full_path()), 'strong' => true, 'color' => 'red');
+                                                        '" wirklich unwiederruflich gelöscht werden?'), $selected_manufacturer->get_full_path()), 'strong' => true, 'color' => 'red');
                         $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
                         $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Bauteile, die diesen Hersteller zugeordnet haben.'));
                         $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet dieser Hersteller noch Unterhersteller, dann werden diese eine Ebene nach oben verschoben.'));
@@ -152,35 +158,31 @@ $messages = array();
                         $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
                         $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Hersteller löschen').'">');
                     }
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
             case 'delete_confirmed':
-                try
-                {
-                    if ( ! is_object($selected_manufacturer))
+                try {
+                    if (! is_object($selected_manufacturer)) {
                         throw new Exception(_('Es ist kein Hersteller markiert oder es trat ein Fehler auf!'));
+                    }
 
                     $selected_manufacturer->delete();
-                    $selected_manufacturer = NULL;
-                }
-                catch (Exception $e)
-                {
+                    $selected_manufacturer = null;
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Der Hersteller konnte nicht gelöscht werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
             case 'apply':
-                try
-                {
-                    if ( ! is_object($selected_manufacturer))
+                try {
+                    if (! is_object($selected_manufacturer)) {
                         throw new Exception(_('Es ist kein Hersteller markiert oder es trat ein Fehler auf!'));
+                    }
 
                     $selected_manufacturer->set_attributes(array(   'name'             => $new_name,
                                                                     'parent_id'        => $new_parent_id,
@@ -190,9 +192,7 @@ $messages = array();
                                                                     'email_address'    => $new_email_address,
                                                                     'website'          => $new_website,
                                                                     'auto_product_url' => $new_auto_product_url));
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
@@ -208,12 +208,9 @@ $messages = array();
 
     $html->set_variable('add_more', $add_more, 'boolean');
 
-    if (! $fatal_error)
-    {
-        try
-        {
-            if (is_object($selected_manufacturer))
-            {
+    if (! $fatal_error) {
+        try {
+            if (is_object($selected_manufacturer)) {
                 $parent_id = $selected_manufacturer->get_parent_id();
                 $html->set_variable('id', $selected_manufacturer->get_id(), 'integer');
                 $html->set_variable('name', $selected_manufacturer->get_name(), 'string');
@@ -222,14 +219,10 @@ $messages = array();
                 $html->set_variable('fax_number', $selected_manufacturer->get_fax_number(), 'string');
                 $html->set_variable('email_address', $selected_manufacturer->get_email_address(), 'string');
                 $html->set_variable('website', $selected_manufacturer->get_website(), 'string');
-                $html->set_variable('auto_product_url', $selected_manufacturer->get_auto_product_url(NULL), 'string');
-            }
-            elseif ($action == 'add')
-            {
+                $html->set_variable('auto_product_url', $selected_manufacturer->get_auto_product_url(null), 'string');
+            } elseif ($action == 'add') {
                 $parent_id = $new_parent_id;
-            }
-            else
-            {
+            } else {
                 $parent_id = 0;
             }
 
@@ -238,9 +231,7 @@ $messages = array();
 
             $parent_manufacturer_list = $root_manufacturer->build_html_tree($parent_id, true, true);
             $html->set_variable('parent_manufacturer_list', $parent_manufacturer_list, 'string');
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
             $fatal_error = true;
         }
@@ -254,15 +245,15 @@ $messages = array();
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
     $reload_link = $fatal_error ? 'edit_manufacturers.php' : '';    // an empty string means that the...
     $html->print_header($messages, $reload_link);                   // ...reload-button won't be visible
 
-    if (! $fatal_error)
+    if (! $fatal_error) {
         $html->print_template('edit_manufacturers');
+    }
 
     $html->print_footer();

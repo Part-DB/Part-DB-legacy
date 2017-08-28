@@ -69,10 +69,18 @@ $new_partname_regex         = isset($_REQUEST['partname_regex'])   ? (string)$_R
 $new_partname_hint          = isset($_REQUEST['partname_hint'])   ? (string)$_REQUEST['partname_hint']    : '';
 
 $action = 'default';
-if (isset($_REQUEST["add"]))                {$action = 'add';}
-if (isset($_REQUEST["delete"]))             {$action = 'delete';}
-if (isset($_REQUEST["delete_confirmed"]))   {$action = 'delete_confirmed';}
-if (isset($_REQUEST["apply"]))              {$action = 'apply';}
+if (isset($_REQUEST["add"])) {
+    $action = 'add';
+}
+if (isset($_REQUEST["delete"])) {
+    $action = 'delete';
+}
+if (isset($_REQUEST["delete_confirmed"])) {
+    $action = 'delete_confirmed';
+}
+if (isset($_REQUEST["apply"])) {
+    $action = 'apply';
+}
 
 /********************************************************************************
  *
@@ -82,20 +90,18 @@ if (isset($_REQUEST["apply"]))              {$action = 'apply';}
 
 $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Kategorien'));
 
-try
-{
+try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = new User($database, $current_user, $log, 1); // admin
     $root_category      = new Category($database, $current_user, $log, 0);
 
-    if ($selected_id > 0)
+    if ($selected_id > 0) {
         $selected_category = new Category($database, $current_user, $log, $selected_id);
-    else
-        $selected_category = NULL;
-}
-catch (Exception $e)
-{
+    } else {
+        $selected_category = null;
+    }
+} catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
@@ -106,52 +112,52 @@ catch (Exception $e)
  *
  *********************************************************************************/
 
-if ( ! $fatal_error)
-{
-    switch ($action)
-    {
+if (! $fatal_error) {
+    switch ($action) {
         case 'add':
-            try
-            {
-                $new_category = Category::add(  $database, $current_user, $log, $new_name,
-                    $new_parent_id, $new_disable_footprints,
-                    $new_disable_manufacturers, $new_disable_autodatasheets,
-                    $new_disable_properties, $new_default_description, $new_default_comment);
+            try {
+                $new_category = Category::add(
+                    $database,
+                    $current_user,
+                    $log,
+                    $new_name,
+                    $new_parent_id,
+                    $new_disable_footprints,
+                    $new_disable_manufacturers,
+                    $new_disable_autodatasheets,
+                    $new_disable_properties,
+                    $new_default_description,
+                    $new_default_comment
+                );
 
                 $new_category->set_partname_regex($new_partname_regex);
                 $new_category->set_partname_hint($new_partname_hint);
 
                 $html->set_variable('refresh_navigation_frame', true, 'boolean');
 
-                if ( ! $add_more)
-                {
+                if (! $add_more) {
                     $selected_category = $new_category;
                     $selected_id = $selected_category->get_id();
                 }
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neue Kategorie konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
             }
             break;
 
         case 'delete':
-            try
-            {
-                if ( ! is_object($selected_category))
+            try {
+                if (! is_object($selected_category)) {
                     throw new Exception(_('Es ist keine Kategorie markiert oder es trat ein Fehler auf!'));
+                }
 
                 $parts = $selected_category->get_parts();
                 $count = count($parts);
 
-                if ($count > 0)
-                {
+                if ($count > 0) {
                     $messages[] = array('text' => sprintf(_('Es gibt noch %d Bauteile in dieser Kategorie, '.
                         'daher kann die Kategorie nicht gelöscht werden.'), $count), 'strong' => true, 'color' => 'red');
-                }
-                else
-                {
+                } else {
                     $messages[] = array('text' => sprintf(_('Soll die Kategorie "%s'.
                         '" wirklich unwiederruflich gelöscht werden?'), $selected_category->get_full_path()), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => '<br>'._('Hinweise:'), 'strong' => true);
@@ -161,37 +167,33 @@ if ( ! $fatal_error)
                     $messages[] = array('html' => '<input class="btn btn-default" type="submit" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
                     $messages[] = array('html' => '<input class="btn btn-danger" type="submit" name="delete_confirmed" value="'._('Ja, Kategorie löschen').'">');
                 }
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
             }
             break;
 
         case 'delete_confirmed':
-            try
-            {
-                if ( ! is_object($selected_category))
+            try {
+                if (! is_object($selected_category)) {
                     throw new Exception(_('Es ist keine Kategorie markiert oder es trat ein Fehler auf!'));
+                }
 
                 $selected_category->delete();
-                $selected_category = NULL;
+                $selected_category = null;
 
                 $html->set_variable('refresh_navigation_frame', true, 'boolean');
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $messages[] = array('text' => _('Die Kategorie konnte nicht gelöscht werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
             }
             break;
 
         case 'apply':
-            try
-            {
-                if ( ! is_object($selected_category))
+            try {
+                if (! is_object($selected_category)) {
                     throw new Exception(_('Es ist keine Kategorie markiert oder es trat ein Fehler auf!'));
+                }
 
                 $selected_category->set_attributes(array('name'                     => $new_name,
                     'parent_id'                => $new_parent_id,
@@ -205,9 +207,7 @@ if ( ! $fatal_error)
                     'partname_hint'            => $new_partname_hint));
 
                 $html->set_variable('refresh_navigation_frame', true, 'boolean');
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
             }
@@ -223,12 +223,9 @@ if ( ! $fatal_error)
 
 $html->set_variable('add_more', $add_more, 'boolean');
 
-if (! $fatal_error)
-{
-    try
-    {
-        if (is_object($selected_category))
-        {
+if (! $fatal_error) {
+    try {
+        if (is_object($selected_category)) {
             $parent_id = $selected_category->get_parent_id();
             $html->set_variable('id', $selected_category->get_id(), 'integer');
             $name = $selected_category->get_name();
@@ -258,17 +255,15 @@ if (! $fatal_error)
             $disable_properties = $selected_category->get_disable_properties(true);
 
             $html->set_variable('parent_disable_footprints', ($selected_category->get_disable_footprints(true)
-                && ( ! $selected_category->get_disable_footprints(false))), 'boolean');
+                && (! $selected_category->get_disable_footprints(false))), 'boolean');
             $html->set_variable('parent_disable_manufacturers', ($selected_category->get_disable_manufacturers(true)
-                && ( ! $selected_category->get_disable_manufacturers(false))), 'boolean');
+                && (! $selected_category->get_disable_manufacturers(false))), 'boolean');
             $html->set_variable('parent_disable_autodatasheets', ($selected_category->get_disable_autodatasheets(true)
-                && ( ! $selected_category->get_disable_autodatasheets(false))), 'boolean');
+                && (! $selected_category->get_disable_autodatasheets(false))), 'boolean');
 
             $html->set_variable('parent_disable_properties', ($selected_category->get_disable_properties(true)
-                && ( ! $selected_category->get_disable_properties(false))), 'boolean');
-        }
-        elseif ($action == 'add')
-        {
+                && (! $selected_category->get_disable_properties(false))), 'boolean');
+        } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
             $disable_footprints = $new_disable_footprints;
@@ -279,9 +274,7 @@ if (! $fatal_error)
             $default_comment = $new_default_comment;
             $partname_regex = $new_partname_regex;
             $partname_hint = $new_partname_hint;
-        }
-        else
-        {
+        } else {
             $parent_id = 0;
             $name = '';
             $disable_footprints = false;
@@ -312,9 +305,7 @@ if (! $fatal_error)
 
         $parent_category_list = $root_category->build_html_tree($parent_id, true, true);
         $html->set_variable('parent_category_list', $parent_category_list, 'string');
-    }
-    catch (Exception $e)
-    {
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
     }
@@ -328,15 +319,15 @@ if (! $fatal_error)
 
 
 //If a ajax version is requested, say this the template engine.
-if(isset($_REQUEST["ajax"]))
-{
+if (isset($_REQUEST["ajax"])) {
     $html->set_variable("ajax_request", true);
 }
 
 $reload_link = $fatal_error ? 'edit_categories.php' : '';    // an empty string means that the...
 $html->print_header($messages, $reload_link);                // ...reload-button won't be visible
 
-if (! $fatal_error)
+if (! $fatal_error) {
     $html->print_template('edit_categories');
+}
 
 $html->print_footer();

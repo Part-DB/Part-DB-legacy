@@ -36,9 +36,8 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if (( ! is_array($config['installation_complete']))
-        || in_array(false, $config['installation_complete'], true)) // is at least one array item 'false'?...
-    {
+    if ((! is_array($config['installation_complete']))
+        || in_array(false, $config['installation_complete'], true)) { // is at least one array item 'false'?...
         header('Location: install.php'); // ...then go to the installation page
         exit;
     }
@@ -88,13 +87,14 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if (count($messages) == 0)
+    if (count($messages) == 0) {
         $html->set_meta(array('frameset' => true));
+    }
 
-    $html->print_header($messages, 'index.php','', true);
+    $html->print_header($messages, 'index.php', '', true);
 
-    if (( ! $fatal_error) && (count($messages) == 0))
+    if ((! $fatal_error) && (count($messages) == 0)) {
         $html->print_template('frameset');
+    }
 
     $html->print_footer();
-

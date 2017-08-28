@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -49,14 +49,11 @@ $messages = array();
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Statistik'));
 
-    try
-    {
+    try {
         $database           = new Database();
         $log                = new Log($database);
         $current_user       = new User($database, $current_user, $log, 1); // admin
-    }
-    catch (Exception $e)
-    {
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -67,32 +64,28 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if (! $fatal_error)
-    {
-        try
-        {
+    if (! $fatal_error) {
+        try {
             $noprice_parts              = Part::get_noprice_parts($database, $current_user, $log);
             $count_of_parts_with_price  = Part::get_count($database) - count($noprice_parts); // :-)
 
-            $html->set_variable('parts_count_with_prices',  $count_of_parts_with_price,             'integer');
-            $html->set_variable('parts_count_sum_value',    Part::get_sum_price_instock($database, $current_user, $log, true), 'string');
+            $html->set_variable('parts_count_with_prices', $count_of_parts_with_price, 'integer');
+            $html->set_variable('parts_count_sum_value', Part::get_sum_price_instock($database, $current_user, $log, true), 'string');
 
-            $html->set_variable('parts_count',              Part::get_count($database),             'integer');
-            $html->set_variable('parts_count_sum_instock',  Part::get_sum_count_instock($database), 'integer');
+            $html->set_variable('parts_count', Part::get_count($database), 'integer');
+            $html->set_variable('parts_count_sum_instock', Part::get_sum_count_instock($database), 'integer');
 
-            $html->set_variable('categories_count',         Category::get_count($database),         'integer');
-            $html->set_variable('footprint_count',          Footprint::get_count($database),        'integer');
-            $html->set_variable('location_count',           Storelocation::get_count($database),    'integer');
-            $html->set_variable('suppliers_count',          Supplier::get_count($database),         'integer');
-            $html->set_variable('manufacturers_count',      Manufacturer::get_count($database),     'integer');
-            $html->set_variable('devices_count',            Device::get_count($database),           'integer');
-            $html->set_variable('attachements_count',       Attachement::get_count($database),      'integer');
+            $html->set_variable('categories_count', Category::get_count($database), 'integer');
+            $html->set_variable('footprint_count', Footprint::get_count($database), 'integer');
+            $html->set_variable('location_count', Storelocation::get_count($database), 'integer');
+            $html->set_variable('suppliers_count', Supplier::get_count($database), 'integer');
+            $html->set_variable('manufacturers_count', Manufacturer::get_count($database), 'integer');
+            $html->set_variable('devices_count', Device::get_count($database), 'integer');
+            $html->set_variable('attachements_count', Attachement::get_count($database), 'integer');
 
-            $html->set_variable('footprint_picture_count',  count(find_all_files(BASE.'/img/footprints/',   true)), 'integer');
-            $html->set_variable('iclogos_picture_count',    count(find_all_files(BASE.'/img/iclogos/',      true)), 'integer');
-        }
-        catch (Exception $e)
-        {
+            $html->set_variable('footprint_picture_count', count(find_all_files(BASE.'/img/footprints/', true)), 'integer');
+            $html->set_variable('iclogos_picture_count', count(find_all_files(BASE.'/img/iclogos/', true)), 'integer');
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
             $fatal_error = true;
         }
@@ -106,14 +99,14 @@ $messages = array();
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
     $html->print_header($messages);
 
-    if (! $fatal_error)
+    if (! $fatal_error) {
         $html->print_template('statistics');
+    }
 
     $html->print_footer();

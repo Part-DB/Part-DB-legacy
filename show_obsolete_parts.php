@@ -43,7 +43,9 @@ $messages = array();
     $show_no_orderdetails_parts = (isset($_REQUEST['show_no_orderdetails_parts'])) ? $_REQUEST['show_no_orderdetails_parts'] : false;
 
     $action = 'default';
-    if (isset($_REQUEST['change_show_no_orderdetails']))    {$action = 'change_show_no_orderdetails';}
+    if (isset($_REQUEST['change_show_no_orderdetails'])) {
+        $action = 'change_show_no_orderdetails';
+    }
 
     /********************************************************************************
     *
@@ -53,14 +55,11 @@ $messages = array();
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Nicht mehr erhältliche Teile');
 
-    try
-    {
+    try {
         $database           = new Database();
         $log                = new Log($database);
         $current_user       = new User($database, $current_user, $log, 1); // admin
-    }
-    catch (Exception $e)
-    {
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -71,18 +70,15 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-        switch ($action)
-        {
+    if (! $fatal_error) {
+        switch ($action) {
             case 'change_show_no_orderdetails':
                 $reload_site = true;
                 break;
         }
     }
 
-    if (isset($reload_site) && $reload_site && ( ! $config['debug']['request_debugging_enable']))
-    {
+    if (isset($reload_site) && $reload_site && (! $config['debug']['request_debugging_enable'])) {
         // reload the site to avoid multiple actions by manual refreshing
         header('Location: show_obsolete_parts.php?show_no_orderdetails_parts='.($show_no_orderdetails_parts ? '1' : '0'));
     }
@@ -93,16 +89,12 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-        try
-        {
+    if (! $fatal_error) {
+        try {
             $parts = Part::get_obsolete_parts($database, $current_user, $log, $show_no_orderdetails_parts);
             $table_loop = Part::build_template_table_array($parts, 'obsolete_parts');
             $html->set_loop('table', $table_loop);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             $fatal_error = true;
         }
@@ -114,19 +106,18 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
+    if (! $fatal_error) {
         // obsolete parts
-        $html->set_variable('show_no_orderdetails_parts',   $show_no_orderdetails_parts,            'boolean');
+        $html->set_variable('show_no_orderdetails_parts', $show_no_orderdetails_parts, 'boolean');
 
         // global stuff
-        $html->set_variable('disable_footprints',           $config['footprints']['disable'],       'boolean');
-        $html->set_variable('disable_manufacturers',        $config['manufacturers']['disable'],    'boolean');
-        $html->set_variable('disable_auto_datasheets',      $config['auto_datasheets']['disable'],  'boolean');
+        $html->set_variable('disable_footprints', $config['footprints']['disable'], 'boolean');
+        $html->set_variable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+        $html->set_variable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-        $html->set_variable('use_modal_popup',              $config['popup']['modal'],              'boolean');
-        $html->set_variable('popup_width',                  $config['popup']['width'],              'integer');
-        $html->set_variable('popup_height',                 $config['popup']['height'],             'integer');
+        $html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
+        $html->set_variable('popup_width', $config['popup']['width'], 'integer');
+        $html->set_variable('popup_height', $config['popup']['height'], 'integer');
     }
 
     /********************************************************************************
@@ -137,14 +128,14 @@ $messages = array();
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
     $html->print_header($messages);
 
-    if (! $fatal_error)
+    if (! $fatal_error) {
         $html->print_template('show_obsolete_parts');
+    }
 
     $html->print_footer();

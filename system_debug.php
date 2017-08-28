@@ -29,72 +29,52 @@ use PartDB\HTML;
 
 $errors = array();
 
-    if (isset($_REQUEST["add"]))
-    {
-        try
-        {
+    if (isset($_REQUEST["add"])) {
+        try {
             debug($_REQUEST['new_type'], $_REQUEST['new_text'], __FILE__, __LINE__, __METHOD__, false);
-        }
-        catch (Exception $exception)
-        {
+        } catch (Exception $exception) {
             $errors[] = $exception->getMessage();
         }
-    }
-    elseif (isset($_REQUEST["clear"]))
-    {
-        try
-        {
-             create_debug_log_file(); // override the existing debug log with a new, empty debug log
-        }
-        catch (Exception $exception)
-        {
+    } elseif (isset($_REQUEST["clear"])) {
+        try {
+            create_debug_log_file(); // override the existing debug log with a new, empty debug log
+        } catch (Exception $exception) {
             $errors[] = $exception->getMessage();
         }
-    }
-    elseif (isset($_REQUEST["download"]))
-    {
-        if (is_readable(DEBUG_LOG_FILENAME))
-        {
+    } elseif (isset($_REQUEST["download"])) {
+        if (is_readable(DEBUG_LOG_FILENAME)) {
             send_file(DEBUG_LOG_FILENAME);
             // TODO: how can we re-activate the autorefresh now?!
-        }
-        else
+        } else {
             $errors[] = _('Die Log-Datei kann nicht gelesen werden!');
-    }
-    elseif (isset($_REQUEST["enable"]))
-    {
-        try
-        {
+        }
+    } elseif (isset($_REQUEST["enable"])) {
+        try {
             set_debug_enable(true, $_REQUEST['admin_password']);
             header('Location: system_debug.php');
-        }
-        catch (Exception $exception)
-        {
+        } catch (Exception $exception) {
             $errors[] = $exception->getMessage();
         }
-    }
-    elseif (isset($_REQUEST["disable"]) || isset($_REQUEST["disable_and_delete"]))
-    {
-        try
-        {
+    } elseif (isset($_REQUEST["disable"]) || isset($_REQUEST["disable_and_delete"])) {
+        try {
             set_debug_enable(false);
 
-            if (isset($_REQUEST["disable_and_delete"]))
+            if (isset($_REQUEST["disable_and_delete"])) {
                 delete_debug_log_file();
+            }
 
             header('Location: system_debug.php');
-        }
-        catch (Exception $exception)
-        {
+        } catch (Exception $exception) {
             $errors[] = $exception->getMessage();
         }
     }
 
-    if ($config['debug']['enable'] && (count($errors) == 0) && ( ! isset($_REQUEST['stop_autorefresh']))
-            && (( ! isset($_REQUEST['autorefresh_disabled'])) || (isset($_REQUEST['start_autorefresh']))))
+    if ($config['debug']['enable'] && (count($errors) == 0) && (! isset($_REQUEST['stop_autorefresh']))
+            && ((! isset($_REQUEST['autorefresh_disabled'])) || (isset($_REQUEST['start_autorefresh'])))) {
         $autorefresh = true;
-    else
+    } else {
         $autorefresh = false;
+    }
 
 
     //Fill template with values

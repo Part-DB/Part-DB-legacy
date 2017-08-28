@@ -34,7 +34,7 @@ $messages = array();
     *
     *   Initialize Objects
     *
-    *********************************************************************************/ 
+    *********************************************************************************/
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Widerstandsrechner'));
 
@@ -54,14 +54,14 @@ $messages = array();
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
     $html->print_header($messages);
 
-    if (! $fatal_error) 
+    if (! $fatal_error) {
         $html->print_template('calculator');
+    }
 
     $html->print_footer();

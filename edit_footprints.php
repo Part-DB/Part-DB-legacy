@@ -59,11 +59,13 @@ $messages = array();
     $new_filename                   = isset($_REQUEST['filename'])                      ? to_unix_path(trim((string)$_REQUEST['filename']))     : '';
     $new_3d_filename                = isset($_REQUEST['filename_3d'])                   ? to_unix_path(trim((string)$_REQUEST['filename_3d']))  : '';
 
-    if ((strlen($new_filename) > 0) && ( ! is_path_absolute_and_unix($new_filename)))
-        $new_filename = BASE.'/'.$new_filename; // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
+    if ((strlen($new_filename) > 0) && (! is_path_absolute_and_unix($new_filename))) {
+        $new_filename = BASE.'/'.$new_filename;
+    } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
-    if ((strlen($new_3d_filename) > 0) && ( ! is_path_absolute_and_unix($new_3d_filename)))
-        $new_3d_filename = BASE.'/'.$new_3d_filename; // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
+    if ((strlen($new_3d_filename) > 0) && (! is_path_absolute_and_unix($new_3d_filename))) {
+        $new_3d_filename = BASE.'/'.$new_3d_filename;
+    } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
     $add_more                       = isset($_REQUEST['add_more']);
 
@@ -74,14 +76,30 @@ $messages = array();
     $save_all_proposed_3d_filenames = isset($_REQUEST["save_all_proposed_3d_filenames"]);
 
     $action = 'default';
-    if (isset($_REQUEST["add"]))                            {$action = 'add';}
-    if (isset($_REQUEST["delete"]))                         {$action = 'delete';}
-    if (isset($_REQUEST["delete_confirmed"]))               {$action = 'delete_confirmed';}
-    if (isset($_REQUEST["apply"]))                          {$action = 'apply';}
-    if (isset($_REQUEST["save_proposed_filenames"]))        {$action = 'save_proposed_filenames';}
-    if (isset($_REQUEST["save_all_proposed_filenames"]))    {$action = 'save_proposed_filenames';}
-    if (isset($_REQUEST["save_proposed_3d_filenames"]))     {$action = 'save_proposed_3d_filenames';}
-    if (isset($_REQUEST["save_all_proposed_3d_filenames"])) {$action = 'save_proposed_3d_filenames';}
+    if (isset($_REQUEST["add"])) {
+        $action = 'add';
+    }
+    if (isset($_REQUEST["delete"])) {
+        $action = 'delete';
+    }
+    if (isset($_REQUEST["delete_confirmed"])) {
+        $action = 'delete_confirmed';
+    }
+    if (isset($_REQUEST["apply"])) {
+        $action = 'apply';
+    }
+    if (isset($_REQUEST["save_proposed_filenames"])) {
+        $action = 'save_proposed_filenames';
+    }
+    if (isset($_REQUEST["save_all_proposed_filenames"])) {
+        $action = 'save_proposed_filenames';
+    }
+    if (isset($_REQUEST["save_proposed_3d_filenames"])) {
+        $action = 'save_proposed_3d_filenames';
+    }
+    if (isset($_REQUEST["save_all_proposed_3d_filenames"])) {
+        $action = 'save_proposed_3d_filenames';
+    }
 
 
     /********************************************************************************
@@ -92,20 +110,18 @@ $messages = array();
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Footprints'));
 
-    try
-    {
+    try {
         $database           = new Database();
         $log                = new Log($database);
         $current_user       = new User($database, $current_user, $log, 1); // admin
         $root_footprint     = new Footprint($database, $current_user, $log, 0);
 
-        if ($selected_id > 0)
+        if ($selected_id > 0) {
             $selected_footprint = new Footprint($database, $current_user, $log, $selected_id);
-        else
-            $selected_footprint = NULL;
-    }
-    catch (Exception $e)
-    {
+        } else {
+            $selected_footprint = null;
+        }
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -116,45 +132,43 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-        switch ($action)
-        {
+    if (! $fatal_error) {
+        switch ($action) {
             case 'add':
-                try
-                {
-                    $new_footprint = Footprint::add($database, $current_user, $log, $new_name,
-                                                    $new_parent_id, $new_filename, $new_3d_filename);
+                try {
+                    $new_footprint = Footprint::add(
+                        $database,
+                        $current_user,
+                        $log,
+                        $new_name,
+                                                    $new_parent_id,
+                        $new_filename,
+                        $new_3d_filename
+                    );
 
-                    if ( ! $add_more)
-                    {
+                    if (! $add_more) {
                         $selected_footprint = $new_footprint;
                         $selected_id = $selected_footprint->get_id();
                     }
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Der neue Footprint konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
             case 'delete':
-                try
-                {
-                    if ( ! is_object($selected_footprint))
+                try {
+                    if (! is_object($selected_footprint)) {
                         throw new Exception(_('Es ist kein Footprint markiert oder es trat ein Fehler auf!'));
+                    }
 
                     $parts = $selected_footprint->get_parts();
                     $count = count($parts);
 
-                    if ($count > 0)
-                    {
+                    if ($count > 0) {
                         $messages[] = array('text' => sprintf(_('Es gibt noch %d Bauteile mit diesem Footprint, '.
                                             'daher kann der Footprint nicht gelöscht werden.'), $count), 'strong' => true, 'color' => 'red');
-                    }
-                    else
-                    {
+                    } else {
                         $messages[] = array('text' => sprintf(_('Soll der Footprint "%s'.
                                                         '" wirklich unwiederruflich gelöscht werden?'), $selected_footprint->get_full_path()), 'strong' => true, 'color' => 'red');
                         $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
@@ -164,43 +178,37 @@ $messages = array();
                         $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
                         $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Footprint löschen').'">');
                     }
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
             case 'delete_confirmed':
-                try
-                {
-                    if ( ! is_object($selected_footprint))
+                try {
+                    if (! is_object($selected_footprint)) {
                         throw new Exception(_('Es ist kein Footprint markiert oder es trat ein Fehler auf!'));
+                    }
 
                     $selected_footprint->delete();
-                    $selected_footprint = NULL;
-                }
-                catch (Exception $e)
-                {
+                    $selected_footprint = null;
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Der Footprint konnte nicht gelöscht werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
             case 'apply':
-                try
-                {
-                    if ( ! is_object($selected_footprint))
+                try {
+                    if (! is_object($selected_footprint)) {
                         throw new Exception(_('Es ist kein Footprint markiert oder es trat ein Fehler auf!'));
+                    }
 
                     $selected_footprint->set_attributes(array(  'name'          => $new_name,
                                                                 'parent_id'     => $new_parent_id,
                                                                 'filename'      => $new_filename,
                                                                 'filename_3d'   => $new_3d_filename));
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
@@ -208,61 +216,55 @@ $messages = array();
 
             case 'save_proposed_filenames':
                 $errors = array();
-                for ($i=0; $i < $broken_footprints_count; $i++)
-                {
+                for ($i=0; $i < $broken_footprints_count; $i++) {
                     $spf_footprint_id   = isset($_REQUEST['broken_footprint_id_'.$i])  ? $_REQUEST['broken_footprint_id_'.$i] : -1; // -1 will produce an error
-                    $spf_new_filename   = isset($_REQUEST['proposed_filename_'.$i])    ? to_unix_path($_REQUEST['proposed_filename_'.$i])   : NULL;
+                    $spf_new_filename   = isset($_REQUEST['proposed_filename_'.$i])    ? to_unix_path($_REQUEST['proposed_filename_'.$i])   : null;
                     $spf_checked        = isset($_REQUEST['filename_checkbox_'.$i])     || $save_all_proposed_filenames;
 
-                    if ((strlen($spf_new_filename) > 0) && (! is_path_absolute_and_unix($spf_new_filename)))
-                        $spf_new_filename = BASE.'/'.$spf_new_filename; // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
+                    if ((strlen($spf_new_filename) > 0) && (! is_path_absolute_and_unix($spf_new_filename))) {
+                        $spf_new_filename = BASE.'/'.$spf_new_filename;
+                    } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
-                    try
-                    {
-                        if ($spf_checked)
-                        {
+                    try {
+                        if ($spf_checked) {
                             $spf_broken_footprint = new Footprint($database, $current_user, $log, $spf_footprint_id);
                             $spf_broken_footprint->set_filename($spf_new_filename);
                         }
-                    }
-                    catch (Exception $e)
-                    {
+                    } catch (Exception $e) {
                         $errors[] = $e->getMessage();
                     }
                 }
 
-                foreach ($errors as $error)
+                foreach ($errors as $error) {
                     $messages[] = array('text' => _('Fehlermeldung: ').$error, 'color' => 'red');
+                }
 
                 break;
 
             case 'save_proposed_3d_filenames':
                 $errors = array();
-                for ($i=0; $i < $broken_3d_footprints_count; $i++)
-                {
+                for ($i=0; $i < $broken_3d_footprints_count; $i++) {
                     $spf_footprint_id   = isset($_REQUEST['broken_3d_footprint_id_'.$i])  ? $_REQUEST['broken_3d_footprint_id_'.$i] : -1; // -1 will produce an error
-                    $spf_new_filename   = isset($_REQUEST['proposed_3d_filename_'.$i])    ? to_unix_path($_REQUEST['proposed_3d_filename_'.$i])   : NULL;
+                    $spf_new_filename   = isset($_REQUEST['proposed_3d_filename_'.$i])    ? to_unix_path($_REQUEST['proposed_3d_filename_'.$i])   : null;
                     $spf_checked        = isset($_REQUEST['filename_3d_checkbox_'.$i])     || $save_all_proposed_3d_filenames;
 
-                    if ((strlen($spf_new_filename) > 0) && (! is_path_absolute_and_unix($spf_new_filename)))
-                        $spf_new_filename = BASE.'/'.$spf_new_filename; // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
+                    if ((strlen($spf_new_filename) > 0) && (! is_path_absolute_and_unix($spf_new_filename))) {
+                        $spf_new_filename = BASE.'/'.$spf_new_filename;
+                    } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
-                    try
-                    {
-                        if ($spf_checked)
-                        {
+                    try {
+                        if ($spf_checked) {
                             $spf_broken_footprint = new Footprint($database, $current_user, $log, $spf_footprint_id);
                             $spf_broken_footprint->set_3d_filename($spf_new_filename);
                         }
-                    }
-                    catch (Exception $e)
-                    {
+                    } catch (Exception $e) {
                         $errors[] = $e->getMessage();
                     }
                 }
 
-                foreach ($errors as $error)
+                foreach ($errors as $error) {
                     $messages[] = array('text' => 'Fehlermeldung: '.$error, 'color' => 'red');
+                }
 
                 break;
         }
@@ -274,42 +276,40 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if (! $fatal_error)
-    {
-        try
-        {
+    if (! $fatal_error) {
+        try {
             $broken_filename_footprints = Footprint::get_broken_filename_footprints($database, $current_user, $log);
             $broken_filename_loop = array();
 
-            if (count($broken_filename_footprints) > 0)
-            {
+            if (count($broken_filename_footprints) > 0) {
                 // get all available files for the proposed footprint images
                 $available_proposed_files = array_merge(find_all_files(BASE.'/img/', true), find_all_files(BASE.'/data/media/', true));
 
                 // read the PHP constant "max_input_vars"
                 $max_input_vars = ((ini_get('max_input_vars') !== false) ? (int)ini_get('max_input_vars') : 999999);
 
-                for ($i=0; $i < count($broken_filename_footprints); $i++)
-                {
+                for ($i=0; $i < count($broken_filename_footprints); $i++) {
                     // avoid too many post variables
-                    if ($i*10 >= $max_input_vars)
+                    if ($i*10 >= $max_input_vars) {
                         break;
+                    }
 
                     // avoid too long execution time and a huge HTML table
-                    if ($i >= 100)
+                    if ($i >= 100) {
                         break;
+                    }
 
                     $footprint = $broken_filename_footprints[$i];
                     $proposed_filenames_loop = array();
                     $proposed_filenames = get_proposed_filenames($footprint->get_filename(), $available_proposed_files);
 
-                    if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->get_filename(), PATHINFO_FILENAME)))
+                    if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->get_filename(), PATHINFO_FILENAME))) {
                         $exact_match = true;
-                    else
+                    } else {
                         $exact_match = false;
+                    }
 
-                    foreach ($proposed_filenames as $index => $filename)
-                    {
+                    foreach ($proposed_filenames as $index => $filename) {
                         $filename = str_replace(BASE.'/', '', $filename);
                         $proposed_filenames_loop[] = array( 'selected' => (($index == 0) && $exact_match),
                                                             'proposed_filename' => $filename);
@@ -329,9 +329,7 @@ $messages = array();
 
             $html->set_variable('broken_footprints_count', count($broken_filename_loop), 'integer');
             $html->set_variable('broken_footprints_count_total', count($broken_filename_footprints), 'integer');
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $messages[] = array('text' => 'Es konnten nicht alle Footprints mit defektem Dateinamen aufgelistet werden!',
                                 'strong' => true, 'color' => 'red');
             $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
@@ -344,42 +342,40 @@ $messages = array();
      *
      *********************************************************************************/
 
-    if (! $fatal_error)
-    {
-        try
-        {
+    if (! $fatal_error) {
+        try {
             $broken_filename_footprints = Footprint::get_broken_3d_filename_footprints($database, $current_user, $log);
             $broken_filename_loop = array();
 
-            if (count($broken_filename_footprints) > 0)
-            {
+            if (count($broken_filename_footprints) > 0) {
                 // get all available files for the proposed footprint images
                 $available_proposed_files = array_merge(find_all_files(BASE.'/models/', true));
 
                 // read the PHP constant "max_input_vars"
                 $max_input_vars = ((ini_get('max_input_vars') !== false) ? (int)ini_get('max_input_vars') : 999999);
 
-                for ($i=0; $i < count($broken_filename_footprints); $i++)
-                {
+                for ($i=0; $i < count($broken_filename_footprints); $i++) {
                     // avoid too many post variables
-                    if ($i*10 >= $max_input_vars)
+                    if ($i*10 >= $max_input_vars) {
                         break;
+                    }
 
                     // avoid too long execution time and a huge HTML table
-                    if ($i >= 100)
+                    if ($i >= 100) {
                         break;
+                    }
 
                     $footprint = $broken_filename_footprints[$i];
                     $proposed_filenames_loop = array();
                     $proposed_filenames = get_proposed_filenames($footprint->get_3d_filename(), $available_proposed_files);
 
-                    if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->get_3d_filename(), PATHINFO_FILENAME)))
+                    if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->get_3d_filename(), PATHINFO_FILENAME))) {
                         $exact_match = true;
-                    else
+                    } else {
                         $exact_match = false;
+                    }
 
-                    foreach ($proposed_filenames as $index => $filename)
-                    {
+                    foreach ($proposed_filenames as $index => $filename) {
                         $filename = str_replace(BASE.'/', '', $filename);
                         $proposed_filenames_loop[] = array( 'selected' => (($index == 0) && $exact_match),
                                                             'proposed_filename' => $filename);
@@ -399,9 +395,7 @@ $messages = array();
 
             $html->set_variable('broken_3d_footprints_count', count($broken_filename_loop), 'integer');
             $html->set_variable('broken_3d_footprints_count_total', count($broken_filename_footprints), 'integer');
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $messages[] = array('text' => 'Es konnten nicht alle Footprints mit defektem Dateinamen aufgelistet werden!',
                                 'strong' => true, 'color' => 'red');
             $messages[] = array('text' => 'Fehlermeldung: '.nl2br($e->getMessage()), 'color' => 'red');
@@ -417,27 +411,20 @@ $messages = array();
 
     $html->set_variable('add_more', $add_more, 'boolean');
 
-    if (! $fatal_error)
-    {
-        try
-        {
-            if (is_object($selected_footprint))
-            {
+    if (! $fatal_error) {
+        try {
+            if (is_object($selected_footprint)) {
                 $parent_id = $selected_footprint->get_parent_id();
                 $html->set_variable('id', $selected_footprint->get_id(), 'integer');
                 $name = $selected_footprint->get_name();
                 $filename = $selected_footprint->get_filename();
                 $filename_3d = $selected_footprint->get_3d_filename();
-            }
-            elseif ($action == 'add')
-            {
+            } elseif ($action == 'add') {
                 $parent_id = $new_parent_id;
                 $name = $new_name;
                 $filename = $new_filename;
                 $filename_3d = $new_3d_filename;
-            }
-            else
-            {
+            } else {
                 $parent_id = 0;
                 $name = '';
                 $filename = '';
@@ -448,11 +435,10 @@ $messages = array();
             $html->set_variable('filename', str_replace(BASE.'/', '', $filename), 'string');
 
             $html->set_variable('filename_3d', str_replace(BASE.'/', '', $filename_3d), 'string');
-            $html->set_variable('foot3d_active', $config['foot3d']['active'],'boolean');
+            $html->set_variable('foot3d_active', $config['foot3d']['active'], 'boolean');
 
             //Say if file is valid (needed for preview in footprints)
-            if (is_object($selected_footprint))
-            {
+            if (is_object($selected_footprint)) {
                 $html->set_variable('filename_3d_valid', $selected_footprint->is_3d_filename_valid(), 'boolean');
                 $html->set_variable('filename_valid', $selected_footprint->is_filename_valid(), 'boolean');
             }
@@ -462,9 +448,7 @@ $messages = array();
 
             $parent_footprint_list = $root_footprint->build_html_tree($parent_id, true, true);
             $html->set_variable('parent_footprint_list', $parent_footprint_list, 'string');
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
             $fatal_error = true;
         }
@@ -478,15 +462,15 @@ $messages = array();
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
     $reload_link = $fatal_error ? 'edit_footprints.php' : '';    // an empty string means that the...
     $html->print_header($messages, $reload_link);                // ...reload-button won't be visible
 
-    if (! $fatal_error)
+    if (! $fatal_error) {
         $html->print_template('edit_footprints');
+    }
 
     $html->print_footer();

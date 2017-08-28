@@ -1,4 +1,4 @@
-<?PHP
+<?php
 /*
     part-db version 0.1
     Copyright (C) 2005 Christoph Lechner
@@ -61,18 +61,17 @@ $messages = array();
     $regex_search           = isset($_REQUEST['regex']);
 
     $action = 'default';
-    if (isset($_REQUEST['export']))     {$action = 'export';}
+    if (isset($_REQUEST['export'])) {
+        $action = 'export';
+    }
     $selected_part_id = 0;
-    for($i=0; $i<$table_rowcount; $i++)
-    {
-        if (isset($_REQUEST['decrement_'.$i]))
-        {
+    for ($i=0; $i<$table_rowcount; $i++) {
+        if (isset($_REQUEST['decrement_'.$i])) {
             $action = 'decrement';
             $selected_part_id = isset($_REQUEST['id_'.$i]) ? (integer)$_REQUEST['id_'.$i] : 0;
         }
 
-        if (isset($_REQUEST['increment_'.$i]))
-        {
+        if (isset($_REQUEST['increment_'.$i])) {
             $action = 'increment';
             $selected_part_id = isset($_REQUEST['id_'.$i]) ? (integer)$_REQUEST['id_'.$i] : 0;
         }
@@ -86,24 +85,21 @@ $messages = array();
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Suchresultate');
 
-    try
-    {
+    try {
         $database           = new Database();
         $log                = new Log($database);
         $current_user       = new User($database, $current_user, $log, 1); // admin
 
-        if ($selected_part_id > 0)
+        if ($selected_part_id > 0) {
             $part = new Part($database, $current_user, $log, $selected_part_id);
-        else
-            $part = NULL;
+        } else {
+            $part = null;
+        }
 
-        if(!empty($keyword))
-        {
+        if (!empty($keyword)) {
             $html->set_title(_('Suchresultate') . ": " . $keyword);
         }
-    }
-    catch (Exception $e)
-    {
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -114,17 +110,12 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-
-        if(!$disable_pid_input)
-        {
+    if (! $fatal_error) {
+        if (!$disable_pid_input) {
             //Check if keyword is a pid from a barcode scanner or so
             //This is the case if the input only contains digits and is 8 or 9 chars long
-            if(is_numeric($keyword) && (mb_strlen($keyword) == 7 || mb_strlen($keyword) == 8))
-            {
-                if(mb_strlen($keyword) == 8)
-                {
+            if (is_numeric($keyword) && (mb_strlen($keyword) == 7 || mb_strlen($keyword) == 8)) {
+                if (mb_strlen($keyword) == 8) {
                     //Remove parity
                     $keyword = substr($keyword, 0, -1);
                 }
@@ -133,71 +124,92 @@ $messages = array();
             }
         }
 
-        switch ($action)
-        {
+        switch ($action) {
             case 'decrement': // remove one part
-                try
-                {
-                    if ( ! is_object($part))
+                try {
+                    if (! is_object($part)) {
                         throw new Exception('Es wurde keine gültige Bauteil-ID übermittelt!');
+                    }
 
                     $part->set_instock($part->get_instock() - 1);
 
                     $reload_site = true;
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
                 }
                 break;
 
             case 'increment': // add one part
-                try
-                {
-                    if ( ! is_object($part))
+                try {
+                    if (! is_object($part)) {
                         throw new Exception('Es wurde keine gültige Bauteil-ID übermittelt!');
+                    }
 
                     $part->set_instock($part->get_instock() + 1);
 
                     $reload_site = true;
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
                 }
                 break;
 
             case 'export':
-                try
-                {
-                    $parts = Part::search_parts($database, $current_user, $log, $keyword, '',
-                                    $search_name, $search_description, $search_comment,
-                                    $search_footprint, $search_category, $search_storelocation,
-                                    $search_supplier, $search_supplierpartnr, $search_manufacturer);
+                try {
+                    $parts = Part::search_parts(
+                        $database,
+                        $current_user,
+                        $log,
+                        $keyword,
+                        '',
+                                    $search_name,
+                        $search_description,
+                        $search_comment,
+                                    $search_footprint,
+                        $search_category,
+                        $search_storelocation,
+                                    $search_supplier,
+                        $search_supplierpartnr,
+                        $search_manufacturer
+                    );
 
                     $export_string = export_parts($parts, 'searchparts', $export_format_id, true, 'search_parts');
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
                 }
                 break;
         }
     }
 
-    if (isset($reload_site) && $reload_site)
-    {
+    if (isset($reload_site) && $reload_site) {
         // reload the site to avoid multiple actions by manual refreshing
         $header = 'Location: show_search_parts.php?keyword='.$keyword;
-        if ($search_name)           {$header.= '&search_name=1';}
-        if ($search_category)       {$header.= '&search_category=1';}
-        if ($search_description)    {$header.= '&search_description=1';}
-        if ($search_comment)        {$header.= '&search_comment=1';}
-        if ($search_supplier)       {$header.= '&search_supplier=1';}
-        if ($search_supplierpartnr) {$header.= '&search_supplierpartnr=1';}
-        if ($search_storelocation)  {$header.= '&search_storelocation=1';}
-        if ($search_footprint)      {$header.= '&search_footprint=1';}
-        if ($search_manufacturer)   {$header.= '&search_manufacturer=1';}
+        if ($search_name) {
+            $header.= '&search_name=1';
+        }
+        if ($search_category) {
+            $header.= '&search_category=1';
+        }
+        if ($search_description) {
+            $header.= '&search_description=1';
+        }
+        if ($search_comment) {
+            $header.= '&search_comment=1';
+        }
+        if ($search_supplier) {
+            $header.= '&search_supplier=1';
+        }
+        if ($search_supplierpartnr) {
+            $header.= '&search_supplierpartnr=1';
+        }
+        if ($search_storelocation) {
+            $header.= '&search_storelocation=1';
+        }
+        if ($search_footprint) {
+            $header.= '&search_footprint=1';
+        }
+        if ($search_manufacturer) {
+            $header.= '&search_manufacturer=1';
+        }
         header($header);
     }
 
@@ -207,26 +219,34 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-        try
-        {
-            $category_parts = Part::search_parts($database, $current_user, $log, $keyword, 'categories',
-                                    $search_name, $search_description, $search_comment,
-                                    $search_footprint, $search_category, $search_storelocation,
-                                    $search_supplier, $search_supplierpartnr, $search_manufacturer, $regex_search);
+    if (! $fatal_error) {
+        try {
+            $category_parts = Part::search_parts(
+                $database,
+                $current_user,
+                $log,
+                $keyword,
+                'categories',
+                                    $search_name,
+                $search_description,
+                $search_comment,
+                                    $search_footprint,
+                $search_category,
+                $search_storelocation,
+                                    $search_supplier,
+                $search_supplierpartnr,
+                $search_manufacturer,
+                $regex_search
+            );
 
             $hits_count = count($category_parts, COUNT_RECURSIVE) - count($category_parts);
 
             $parts_table_loops = array();
 
-            foreach($category_parts as $category_full_path => $parts)
-            {
+            foreach ($category_parts as $category_full_path => $parts) {
                 $parts_table_loops[$category_full_path] = Part::build_template_table_array($parts, 'search_parts');
             }
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             $fatal_error = true;
         }
@@ -239,31 +259,30 @@ $messages = array();
     *********************************************************************************/
 
 
-    $html->set_variable('keyword',                  $keyword,                               'string');
-    $html->set_variable('hits_count',               (isset($hits_count) ? $hits_count : 0), 'integer');
-    $html->set_variable('search_name',              $search_name,                           'boolean');
-    $html->set_variable('search_category',          $search_category,                       'boolean');
-    $html->set_variable('search_description',       $search_description,                    'boolean');
-    $html->set_variable('search_comment',           $search_comment,                        'boolean');
-    $html->set_variable('search_supplier',          $search_supplier,                       'boolean');
-    $html->set_variable('search_supplierpartnr',    $search_supplierpartnr,                 'boolean');
-    $html->set_variable('search_storelocation',     $search_storelocation,                  'boolean');
-    $html->set_variable('search_footprint',         $search_footprint,                      'boolean');
-    $html->set_variable('search_manufacturer',      $search_manufacturer,                   'boolean');
+    $html->set_variable('keyword', $keyword, 'string');
+    $html->set_variable('hits_count', (isset($hits_count) ? $hits_count : 0), 'integer');
+    $html->set_variable('search_name', $search_name, 'boolean');
+    $html->set_variable('search_category', $search_category, 'boolean');
+    $html->set_variable('search_description', $search_description, 'boolean');
+    $html->set_variable('search_comment', $search_comment, 'boolean');
+    $html->set_variable('search_supplier', $search_supplier, 'boolean');
+    $html->set_variable('search_supplierpartnr', $search_supplierpartnr, 'boolean');
+    $html->set_variable('search_storelocation', $search_storelocation, 'boolean');
+    $html->set_variable('search_footprint', $search_footprint, 'boolean');
+    $html->set_variable('search_manufacturer', $search_manufacturer, 'boolean');
 
-    if ( ! $fatal_error)
-    {
+    if (! $fatal_error) {
         // export formats
         $html->set_loop('export_formats', build_export_formats_loop('searchparts'));
 
         // global stuff
-        $html->set_variable('disable_footprints',       $config['footprints']['disable'],       'boolean');
-        $html->set_variable('disable_manufacturers',    $config['manufacturers']['disable'],    'boolean');
-        $html->set_variable('disable_auto_datasheets',  $config['auto_datasheets']['disable'],  'boolean');
+        $html->set_variable('disable_footprints', $config['footprints']['disable'], 'boolean');
+        $html->set_variable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+        $html->set_variable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-        $html->set_variable('use_modal_popup',          $config['popup']['modal'],              'boolean');
-        $html->set_variable('popup_width',              $config['popup']['width'],              'integer');
-        $html->set_variable('popup_height',             $config['popup']['height'],             'integer');
+        $html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
+        $html->set_variable('popup_width', $config['popup']['width'], 'integer');
+        $html->set_variable('popup_height', $config['popup']['height'], 'integer');
     }
 
     /********************************************************************************
@@ -274,19 +293,16 @@ $messages = array();
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
     $html->print_header($messages);
 
-    if ( ! $fatal_error)
-    {
+    if (! $fatal_error) {
         $html->print_template('search_header');
 
-        foreach($parts_table_loops as $category_full_path => $loop)
-        {
+        foreach ($parts_table_loops as $category_full_path => $loop) {
             $html->set_variable('category_full_path', $category_full_path, 'string');
             $html->set_variable('table_rowcount', count($loop), 'integer');
             $html->set_loop('table', $loop);

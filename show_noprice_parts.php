@@ -42,14 +42,11 @@ $messages = array();
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Teile ohne Preis');
 
-    try
-    {
+    try {
         $database           = new Database();
         $log                = new Log($database);
         $current_user       = new User($database, $current_user, $log, 1); // admin
-    }
-    catch (Exception $e)
-    {
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -60,16 +57,12 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-        try
-        {
+    if (! $fatal_error) {
+        try {
             $parts = Part::get_noprice_parts($database, $current_user, $log);
             $table_loop = Part::build_template_table_array($parts, 'noprice_parts');
             $html->set_loop('table', $table_loop);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             $fatal_error = true;
         }
@@ -82,16 +75,15 @@ $messages = array();
     *********************************************************************************/
 
 
-    if ( ! $fatal_error)
-    {
+    if (! $fatal_error) {
         // global stuff
-        $html->set_variable('disable_footprints',       $config['footprints']['disable'],       'boolean');
-        $html->set_variable('disable_manufacturers',    $config['manufacturers']['disable'],    'boolean');
-        $html->set_variable('disable_auto_datasheets',  $config['auto_datasheets']['disable'],  'boolean');
+        $html->set_variable('disable_footprints', $config['footprints']['disable'], 'boolean');
+        $html->set_variable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+        $html->set_variable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-        $html->set_variable('use_modal_popup',          $config['popup']['modal'],              'boolean');
-        $html->set_variable('popup_width',              $config['popup']['width'],              'integer');
-        $html->set_variable('popup_height',             $config['popup']['height'],             'integer');
+        $html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
+        $html->set_variable('popup_width', $config['popup']['width'], 'integer');
+        $html->set_variable('popup_height', $config['popup']['height'], 'integer');
     }
 
     /********************************************************************************
@@ -102,14 +94,14 @@ $messages = array();
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
     $html->print_header($messages);
 
-    if (! $fatal_error)
+    if (! $fatal_error) {
         $html->print_template('show_noprice_parts');
+    }
 
     $html->print_footer();

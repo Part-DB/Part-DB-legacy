@@ -181,3 +181,5 @@ node_modules/*
 
 #Ignore composer vendor/ folder
 vendor/*
+
+*.cache

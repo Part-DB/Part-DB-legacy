@@ -33,7 +33,7 @@ use PartDB\Supplier;
 use PartDB\System;
 use PartDB\User;
 
-    include_once('start_session.php');
+include_once('start_session.php');
     include_once('inc/authors.php');
 
     $messages = array();
@@ -47,15 +47,12 @@ use PartDB\User;
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Startseite'));
 
-    try
-    {
+    try {
         $database           = new Database();
         $log                = new Log($database);
         $system             = new System($database, $log);
         $current_user       = new User($database, $current_user, $log, 1); // admin
-    }
-    catch (Exception $e)
-    {
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -66,21 +63,18 @@ use PartDB\User;
     *
     *********************************************************************************/
 
-    if ((! $fatal_error) && ($database->is_update_required()))
-    {
-        if (($database->get_current_version() < 13) && ($database->get_latest_version() >= 13)) // v12 to v13 was a huge update! disable auto-update temporary!
-        {
+    if ((! $fatal_error) && ($database->is_update_required())) {
+        if (($database->get_current_version() < 13) && ($database->get_latest_version() >= 13)) { // v12 to v13 was a huge update! disable auto-update temporary!
             $config['db']['auto_update'] = false;
             $html->set_variable('auto_disabled_autoupdate', true, 'boolean');
         }
 
-        $html->set_variable('database_update',      true,                               'boolean');
-        $html->set_variable('disabled_autoupdate',  ! $config['db']['auto_update'],     'boolean');
-        $html->set_variable('db_version_current',   $database->get_current_version(),   'integer');
-        $html->set_variable('db_version_latest',    $database->get_latest_version(),    'integer');
+        $html->set_variable('database_update', true, 'boolean');
+        $html->set_variable('disabled_autoupdate', ! $config['db']['auto_update'], 'boolean');
+        $html->set_variable('db_version_current', $database->get_current_version(), 'integer');
+        $html->set_variable('db_version_latest', $database->get_latest_version(), 'integer');
 
-        if ($config['db']['auto_update'] == true)
-        {
+        if ($config['db']['auto_update'] == true) {
             $update_log = $database->update();
             $html->set_variable('database_update_log', nl2br($update_log));
         }
@@ -93,13 +87,11 @@ use PartDB\User;
     *
     *********************************************************************************/
 
-    if (( ! $fatal_error) && ( ! $database->is_update_required()))
-    {
+    if ((! $fatal_error) && (! $database->is_update_required())) {
         $good = "&#x2714; ";
         $bad  = "&#x2718; ";
 
-        try
-        {
+        try {
             $missing_category       = ((Category::      get_count($database) == 0) ? $bad : $good);
             $missing_storelocation  = ((Storelocation:: get_count($database) == 0) ? $bad : $good);
             $missing_footprint      = ((Footprint::     get_count($database) == 0) ? $bad : $good);
@@ -108,14 +100,12 @@ use PartDB\User;
             $display_warning        = (($missing_category == $bad) || ($missing_storelocation == $bad)
                                         || ($missing_footprint == $bad) || ($missing_supplier == $bad));
 
-            $html->set_variable('missing_category',    $missing_category);
-            $html->set_variable('missing_storeloc',    $missing_storelocation);
-            $html->set_variable('missing_footprint',   $missing_footprint);
-            $html->set_variable('missing_supplier',    $missing_supplier);
-            $html->set_variable('display_warning',     $display_warning, 'boolean');
-        }
-        catch (Exception $e)
-        {
+            $html->set_variable('missing_category', $missing_category);
+            $html->set_variable('missing_storeloc', $missing_storelocation);
+            $html->set_variable('missing_footprint', $missing_footprint);
+            $html->set_variable('missing_supplier', $missing_supplier);
+            $html->set_variable('display_warning', $display_warning, 'boolean');
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         }
     }
@@ -126,17 +116,14 @@ use PartDB\User;
     *
     *********************************************************************************/
 
-    if (( ! $fatal_error) && ( ! $database->is_update_required()))
-    {
-        try
-        {
-            if (count(Footprint::get_broken_filename_footprints($database, $current_user, $log)) > 0)
+    if ((! $fatal_error) && (! $database->is_update_required())) {
+        try {
+            if (count(Footprint::get_broken_filename_footprints($database, $current_user, $log)) > 0) {
                 $html->set_variable('broken_filename_footprints', true);
-            else
+            } else {
                 $html->set_variable('broken_filename_footprints', false);
-        }
-        catch (Exception $e)
-        {
+            }
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         }
     }
@@ -147,59 +134,55 @@ use PartDB\User;
     *
     *********************************************************************************/
 
-    if (( ! $fatal_error) && ( ! $config['startup']['disable_update_list']))
-    {
+    if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
         $feed_link = 'https://github.com/do9jhb/Part-DB/releases.atom';
         $item_count = 4;
 
-        try
-        {
+        try {
             $rss_loop = array();
             $feed_content = '';
 
-            try
-            {
+            try {
                 $feed_content = curl_get_data($feed_link);
-            }
-            catch (Exception $e)
-            {
+            } catch (Exception $e) {
                 $feed_content = file_get_contents($feed_link);
             }
 
-            if (strlen($feed_content) == 0)
+            if (strlen($feed_content) == 0) {
                 throw new Exception(_('Der Atom-Feed konnte nicht aus dem Internet heruntergeladen werden. '.
                                     'Prüfen Sie bitte, ob Ihre PHP-Konfiguration das Herunterladen aus dem Internet zulässt.'));
+            }
 
-            if ( ! class_exists('SimpleXMLElement'))
+            if (! class_exists('SimpleXMLElement')) {
                 throw new Exception(_('Die Klasse "SimpleXMLElement" ist nicht vorhanden!'));
+            }
 
             $xml = simplexml_load_string($feed_content);
 
-            if ( ! is_object($xml))
+            if (! is_object($xml)) {
                 throw new Exception(_('Das SimpleXMLElement konnte nicht erzeugt werden!'));
+            }
 
             //$rss_loop[] = array('title' => _('Part-DB Releases Atom-Feed'), 'datetime' => $xml->updated, 'link' => $feed_link);
 
             $item_index = 1;
-            foreach ($xml->entry as $entry)
-            {
-                if ($item_index >= $item_count)
+            foreach ($xml->entry as $entry) {
+                if ($item_index >= $item_count) {
                     break;
+                }
 
                 $link = _('FEHLER - Kein Link im Atom-Feed gefunden!');
-                foreach ($entry->link as $link_entry)
-                {
+                foreach ($entry->link as $link_entry) {
                     $attributes = $link_entry->attributes();
-                    if (isset($attributes['rel']) && ($attributes['rel'] == 'alternate') && isset($attributes['href']))
+                    if (isset($attributes['rel']) && ($attributes['rel'] == 'alternate') && isset($attributes['href'])) {
                         $link = 'https://github.com'.$attributes['href'];
+                    }
                 }
 
                 $rss_loop[] = array('title' => $entry->title, 'datetime' => $entry->updated, 'link' => $link);
                 $item_index++;
             }
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $rss_loop = array(array('title' => $e->getMessage()));
         }
 
@@ -214,23 +197,19 @@ use PartDB\User;
 
     $html->set_loop('authors', $authors);
 
-    if (! $fatal_error)
-    {
+    if (! $fatal_error) {
         $bbcode = new \Golonka\BBCode\BBCodeParser();
         $str = $bbcode->parse(htmlspecialchars($config['startup']['custom_banner']));
-        $html->set_variable('banner', $str , 'string');
+        $html->set_variable('banner', $str, 'string');
 
-        try
-        {
+        try {
             $system_version = $system->get_installed_version();
-            $html->set_variable('system_version',       $system_version->as_string(false, true, true, false),   'string');
-            $html->set_variable('system_version_full',  $system_version->as_string(false, false, false, true),  'string');
-            $html->set_variable('git_branch',           get_git_branch_name(),                                  'string');
-            $html->set_variable('git_commit',           get_git_commit_hash(10),                                'string');
-            $html->set_variable('partdb_title',         $config['partdb_title'],          'string');
-        }
-        catch (Exception $e)
-        {
+            $html->set_variable('system_version', $system_version->as_string(false, true, true, false), 'string');
+            $html->set_variable('system_version_full', $system_version->as_string(false, false, false, true), 'string');
+            $html->set_variable('git_branch', get_git_branch_name(), 'string');
+            $html->set_variable('git_commit', get_git_commit_hash(10), 'string');
+            $html->set_variable('partdb_title', $config['partdb_title'], 'string');
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         }
     }
@@ -243,15 +222,15 @@ use PartDB\User;
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
     $reload_link = $fatal_error ? 'startup.php' : '';   // an empty string means that the...
     $html->print_header($messages, $reload_link);       // ...reload-button won't be visible
 
-    if (! $fatal_error)
+    if (! $fatal_error) {
         $html->print_template('startup');
+    }
 
     $html->print_footer();

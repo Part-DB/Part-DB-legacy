@@ -59,10 +59,18 @@ $messages = array();
     $add_more                   = isset($_REQUEST['add_more']);
 
     $action = 'default';
-    if (isset($_REQUEST["add"]))                {$action = 'add';}
-    if (isset($_REQUEST["delete"]))             {$action = 'delete';}
-    if (isset($_REQUEST["delete_confirmed"]))   {$action = 'delete_confirmed';}
-    if (isset($_REQUEST["apply"]))              {$action = 'apply';}
+    if (isset($_REQUEST["add"])) {
+        $action = 'add';
+    }
+    if (isset($_REQUEST["delete"])) {
+        $action = 'delete';
+    }
+    if (isset($_REQUEST["delete_confirmed"])) {
+        $action = 'delete_confirmed';
+    }
+    if (isset($_REQUEST["apply"])) {
+        $action = 'apply';
+    }
 
     /********************************************************************************
     *
@@ -72,20 +80,18 @@ $messages = array();
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Baugruppen'));
 
-    try
-    {
+    try {
         $database           = new Database();
         $log                = new Log($database);
         $current_user       = new User($database, $current_user, $log, 1); // admin
         $root_device        = new Device($database, $current_user, $log, 0);
 
-        if ($selected_id > 0)
+        if ($selected_id > 0) {
             $selected_device = new Device($database, $current_user, $log, $selected_id);
-        else
-            $selected_device = NULL;
-    }
-    catch (Exception $e)
-    {
+        } else {
+            $selected_device = null;
+        }
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -96,35 +102,29 @@ $messages = array();
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-        switch ($action)
-        {
+    if (! $fatal_error) {
+        switch ($action) {
             case 'add':
-                try
-                {
-                    $new_device = Device::add(  $database, $current_user, $log, $new_name, $new_parent_id);
+                try {
+                    $new_device = Device::add($database, $current_user, $log, $new_name, $new_parent_id);
 
                     $html->set_variable('refresh_navigation_frame', true, 'boolean');
 
-                    if ( ! $add_more)
-                    {
+                    if (! $add_more) {
                         $selected_device = $new_device;
                         $selected_id = $selected_device->get_id();
                     }
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Die neue Baugruppe konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
             case 'delete':
-                try
-                {
-                    if ( ! is_object($selected_device))
+                try {
+                    if (! is_object($selected_device)) {
                         throw new Exception(_('Es ist keine Baugruppe markiert oder es trat ein Fehler auf!'));
+                    }
 
                     $parts = $selected_device->get_parts();
                     $count = count($parts);
@@ -132,53 +132,48 @@ $messages = array();
                     $messages[] = array('text' => sprintf(_('Soll die Baugruppe "%s'.
                                                         '" wirklich unwiederruflich gelöscht werden?'), $selected_device->get_full_path()), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
-                    if ($count > 0)
+                    if ($count > 0) {
                         $messages[] = array('text' => sprintf(_('&nbsp;&nbsp;&bull; Es gibt noch %d Bauteile in dieser Baugruppe!'), $count) , 'strong' => true, 'color' => 'red');
-                    else
+                    } else {
                         $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Bauteile in dieser Baugruppe.'));
+                    }
                     $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet diese Baugruppe noch Unterbaugruppen, dann werden diese eine Ebene nach oben verschoben.'));
                     $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_device->get_id().'">');
                     $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._("Nein, nicht löschen").'">', 'no_linebreak' => true);
                     $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Baugruppe löschen').'">');
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
             case 'delete_confirmed':
-                try
-                {
-                    if ( ! is_object($selected_device))
+                try {
+                    if (! is_object($selected_device)) {
                         throw new Exception(_('Es ist keine Baugruppe markiert oder es trat ein Fehler auf!'));
+                    }
 
                     $selected_device->delete();
-                    $selected_device = NULL;
+                    $selected_device = null;
 
                     $html->set_variable('refresh_navigation_frame', true, 'boolean');
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Die Baugruppe konnte nicht gelöscht werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
                 break;
 
             case 'apply':
-                try
-                {
-                    if ( ! is_object($selected_device))
+                try {
+                    if (! is_object($selected_device)) {
                         throw new Exception(_('Es ist keine Baugruppe markiert oder es trat ein Fehler auf!'));
+                    }
 
                     $selected_device->set_attributes(array( 'name'                  => $new_name,
                                                             'parent_id'             => $new_parent_id));
 
                     $html->set_variable('refresh_navigation_frame', true, 'boolean');
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
                 }
@@ -194,23 +189,16 @@ $messages = array();
 
     $html->set_variable('add_more', $add_more, 'boolean');
 
-    if (! $fatal_error)
-    {
-        try
-        {
-            if (is_object($selected_device))
-            {
+    if (! $fatal_error) {
+        try {
+            if (is_object($selected_device)) {
                 $parent_id = $selected_device->get_parent_id();
                 $html->set_variable('id', $selected_device->get_id(), 'integer');
                 $name = $selected_device->get_name();
-            }
-            elseif ($action == 'add')
-            {
+            } elseif ($action == 'add') {
                 $parent_id = $new_parent_id;
                 $name = $new_name;
-            }
-            else
-            {
+            } else {
                 $parent_id = 0;
                 $name = '';
             }
@@ -222,9 +210,7 @@ $messages = array();
 
             $parent_device_list = $root_device->build_html_tree($parent_id, true, true);
             $html->set_variable('parent_device_list', $parent_device_list, 'string');
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
             $fatal_error = true;
         }
@@ -238,15 +224,15 @@ $messages = array();
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
     $reload_link = $fatal_error ? 'edit_devices.php' : '';    // an empty string means that the...
     $html->print_header($messages, $reload_link);             // ...reload-button won't be visible
 
-    if (! $fatal_error)
+    if (! $fatal_error) {
         $html->print_template('edit_devices');
+    }
 
     $html->print_footer();

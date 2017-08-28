@@ -46,7 +46,8 @@ $messages = array();
 
     $html->print_header($messages);
 
-    if (! $fatal_error)
+    if (! $fatal_error) {
         $html->print_template('footprints3d');
+    }
 
     $html->print_footer();
