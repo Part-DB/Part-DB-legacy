@@ -8,6 +8,7 @@
 
 # ignore Doxygen builds
 development/doxygen/html/
+development/phpdoc/html/
 
 # ignore IDE project files
 *.geany
