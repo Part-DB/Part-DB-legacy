@@ -34,7 +34,7 @@
 
     $BASE_tmp = str_replace('\\', '/', dirname(__FILE__)); // temporary base path of Part-DB, without slash at the end
 
-    include_once($BASE_tmp.'/lib/lib.start_session.php');
+    include_once($BASE_tmp.'/inc/lib.start_session.php');
 
     /********************************************************************************
     *
@@ -312,9 +312,9 @@
     *
     *********************************************************************************/
 
-    include_once(BASE.'/lib/lib.functions.php');
-    include_once(BASE.'/lib/lib.debug.php');
-    include_once(BASE.'/lib/lib.php');
+    include_once(BASE.'/inc/lib.functions.php');
+    include_once(BASE.'/inc/lib.debug.php');
+    include_once(BASE.'/inc/lib.php');
 
     /********************************************************************************
      *

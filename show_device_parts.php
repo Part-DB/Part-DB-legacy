@@ -24,8 +24,8 @@
 */
 
     include_once('start_session.php');
-    include_once(BASE.'/lib/lib.export.php');
-    include_once(BASE.'/lib/lib.import.php');
+    include_once(BASE.'/inc/lib.export.php');
+    include_once(BASE.'/inc/lib.import.php');
 
 use PartDB\Database;
 use PartDB\Device;

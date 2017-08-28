@@ -24,7 +24,7 @@
 */
 
     include_once('start_session.php');
-    include_once(BASE.'/lib/lib.export.php');
+    include_once(BASE.'/inc/lib.export.php');
 
 use PartDB\Database;
 use PartDB\HTML;
