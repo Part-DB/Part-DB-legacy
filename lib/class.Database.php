@@ -173,7 +173,7 @@ include_once(BASE.'/updates/db_update_steps.php');
          */
         public function get_current_version()
         {
-            if ( ! $this->does_table_exist('internal'))
+            if ( ! $this->does_table_exist('internal', true))
                 return 0; // Empty table --> return version 0 to create tables with the update mechanism
 
             $query_data = $this->query('SELECT keyValue FROM internal WHERE keyName LIKE ?', array('dbVersion'));
@@ -814,19 +814,24 @@ include_once(BASE.'/updates/db_update_steps.php');
          * @brief Check if a database table exists
          *
          * @param string $tablename         the name of the table
+         * @param boolean $forcecheck       Force a real check against the database, without using the whitelist.
          *
          * @retval boolean      @li true if there is at least one table with this name
          *                      @li false if there is no table with this name
          *
          * @throws Exception if there was an error
          */
-        public function does_table_exist($tablename)
+        public function does_table_exist($tablename, $forcecheck = false)
         {
             //A whitelist of tables, we know that exists, so we dont need to check with a DB Request
+            //Dont include "internal" here, because otherwise it leads to problems, when starting with a fresh database.
             $whitelist = array("parts", "categories", "footprints", "storelocations", "suppliers", "pricedetails",
-                "orderdetails", "manufacturers", "attachements", "attachement_types", "devices", "device_parts", "internal");
+                "orderdetails", "manufacturers", "attachements", "attachement_types", "devices", "device_parts");
 
-            if(in_array($tablename, $whitelist))
+            global $config;
+
+            //Only allow check if database, installation is complete... Else this lead to problems, when starting with a fresh database.
+            if(!$forcecheck && $config['installation_complete']['database'] && in_array($tablename, $whitelist))
                 return true;
 
             //does not work with SQLite!
