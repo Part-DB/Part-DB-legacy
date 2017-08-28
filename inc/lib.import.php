@@ -137,13 +137,10 @@ $import_data_columns = array(   // for import parts
         global $import_data_column_datatypes;
         $data = array();
 
-        for ($i=0; $i<$table_rowcount; $i++)
-        {
+        for ($i=0; $i<$table_rowcount; $i++) {
             $data_row = array();
-            foreach ($import_data_columns as $column)
-            {
-                switch ($column)
-                {
+            foreach ($import_data_columns as $column) {
+                switch ($column) {
                     // import parts
                     case 'part_name':
                         $value = isset($_REQUEST['name_'.$i]) ? $_REQUEST['name_'.$i] : $import_data_default_values[$column];
@@ -203,8 +200,9 @@ $import_data_columns = array(   // for import parts
                 }
 
                 settype($value, $import_data_column_datatypes[$column]);
-                if (is_string($value))
+                if (is_string($value)) {
                     $value = trim($value);
+                }
 
                 $data_row[$column] = $value;
             }
@@ -247,47 +245,48 @@ $import_data_columns = array(   // for import parts
         $text_converted = mb_convert_encoding($text, $config['html']['http_charset'], mb_detect_encoding($text, $accepted_codings, true));
         $data = array();
 
-        switch ($format)
-        {
+        switch ($format) {
             case 'CSV':
                 $file_array = array_filter(array_map('trim', explode("\n", $text_converted)));
 
-                if (count($file_array) < 2)
+                if (count($file_array) < 2) {
                     throw new Exception('Die Datei muss mindestens eine Header-Zeile und eine Daten-Zeile haben!');
+                }
 
-                if (mb_substr_count($file_array[0], '#') == 0)
+                if (mb_substr_count($file_array[0], '#') == 0) {
                     throw new Exception("Es wurde kein Header gefunden (das erste Zeichen der ersten Zeile muss '#' sein)!");
-                else
+                } else {
                     $file_array[0] = trim(str_replace('#', '', $file_array[0]));
+                }
 
                 $csv_columns = array_map('trim', explode($separator, $file_array[0]));
 
-                foreach ($csv_columns as $key => $value)
-                {
-                    if (isset($import_data_translations[$value]))
+                foreach ($csv_columns as $key => $value) {
+                    if (isset($import_data_translations[$value])) {
                         $csv_columns[$key] = $import_data_translations[$value];
-                    elseif (in_array($value, $import_data_translations))
+                    } elseif (in_array($value, $import_data_translations)) {
                         $csv_columns[$key] = $value;
-                    else
+                    } else {
                         throw new Exception('Ungültige Spalte: "'.$value.'"');
+                    }
                 }
 
                 unset($file_array[0]); // remove header line
                 $row_number = 2;
-                foreach ($file_array as $line)
-                {
+                foreach ($file_array as $line) {
                     $data_row = array();
                     $values = array_map('trim', str_getcsv($line, $separator));
 
-                    if (count($csv_columns) != count($values))
+                    if (count($csv_columns) != count($values)) {
                         throw new Exception('Es haben nicht alle Zeilen die selbe Anzahl an Attributen (Zeile '.$row_number.')!');
+                    }
 
-                    foreach ($import_data_columns as $column)
-                    {
-                        if (in_array($column, $csv_columns))
+                    foreach ($import_data_columns as $column) {
+                        if (in_array($column, $csv_columns)) {
                             $data_row[$column] = $values[array_search($column, $csv_columns)];
-                        else
+                        } else {
                             $data_row[$column] = $import_data_default_values[$column];
+                        }
 
                         settype($data_row[$column], $import_data_column_datatypes[$column]);
                     }
@@ -302,33 +301,34 @@ $import_data_columns = array(   // for import parts
                 $dom = new DOMDocument('1.0', 'utf-8');
                 $success = $dom->loadXml($text_converted, LIBXML_NOERROR | LIBXML_NOWARNING | LIBXML_NOBLANKS);
 
-                if ( ! $success)
+                if (! $success) {
                     throw new Exception('Das DOMDocument-Objekt konnte nicht erstellt werden!');
+                }
 
                 $elements = $dom->getElementsByTagName('part');
                 $column_prefix = 'part_';
-                if ($elements->length == 0)
-                {
+                if ($elements->length == 0) {
                     $elements = $dom->getElementsByTagName('devicepart');
                     $column_prefix = 'devicepart_';
                 }
-                if ($elements->length == 0)
+                if ($elements->length == 0) {
                     throw new Exception('Es wurden keine Einträge gefunden!');
+                }
 
-                foreach ($elements as $element)
-                {
+                foreach ($elements as $element) {
                     $data_row = array();
                     $columns = array();
 
-                    foreach ($element->childNodes as $node)
+                    foreach ($element->childNodes as $node) {
                         $columns[$column_prefix.$node->nodeName] = $node->nodeValue;
+                    }
 
-                    foreach ($import_data_columns as $column)
-                    {
-                        if (isset($columns[$column]))
+                    foreach ($import_data_columns as $column) {
+                        if (isset($columns[$column])) {
                             $data_row[$column] = $columns[$column];
-                        else
+                        } else {
                             $data_row[$column] = $import_data_default_values[$column];
+                        }
 
                         settype($data_row[$column], $import_data_column_datatypes[$column]);
                     }
@@ -365,23 +365,22 @@ $import_data_columns = array(   // for import parts
      */
     function match_devicepart_names_to_ids(&$database, &$current_user, &$log, &$data)
     {
-        foreach ($data as $key => $row)
-        {
-            if (($row['devicepart_part_id'] <= 0) && (strlen($row['devicepart_part_name']) > 0))
-            {
+        foreach ($data as $key => $row) {
+            if (($row['devicepart_part_id'] <= 0) && (strlen($row['devicepart_part_name']) > 0)) {
                 // we have only the name of the part, not the ID
                 // --> try to find the ID by the name
 
                 $parts = Part::search_parts($database, $current_user, $log, $row['devicepart_part_name'], '', true, false);
 
-                foreach($parts as $partkey => $part)
-                {
-                    if ($part->get_name() != $row['devicepart_part_name'])
+                foreach ($parts as $partkey => $part) {
+                    if ($part->get_name() != $row['devicepart_part_name']) {
                         unset($parts[$partkey]);
+                    }
                 }
 
-                if (count($parts) == 1)
+                if (count($parts) == 1) {
                     $data[$key]['devicepart_part_id'] = $parts[0]->get_id();
+                }
             }
         }
     }
@@ -408,26 +407,24 @@ $import_data_columns = array(   // for import parts
                             'supplier_partnr_edit', 'price_edit');
 
         $column_loop = array();
-        foreach ($columns as $column)
+        foreach ($columns as $column) {
             $column_loop[] = array('caption' => $column);
+        }
         $loop[] = array('print_header' => true, 'columns' => $column_loop); // print the table header
 
         $row_index = 0;
-        foreach ($data as $row)
-        {
+        foreach ($data as $row) {
             $table_row = array();
             $table_row['row_odd']       = is_odd($row_index);
             $table_row['row_index']     = $row_index;
             $table_row['row_fields']    = array();
 
-            foreach ($columns as $column)
-            {
+            foreach ($columns as $column) {
                 $row_field = array();
                 $row_field['row_index']         = $row_index;
                 $row_field['caption']           = $column;
 
-                switch ($column)
-                {
+                switch ($column) {
                     case 'row':
                         $row_field['row'] = $row_index + 1;
                         break;
@@ -499,20 +496,17 @@ $import_data_columns = array(   // for import parts
         $columns = array('hover_picture', 'row', 'id', 'name', 'description', 'footprint_name', 'quantity_edit', 'mountnames_edit');
 
         $column_loop = array();
-        foreach ($columns as $column)
+        foreach ($columns as $column) {
             $column_loop[] = array('caption' => $column);
+        }
         $loop[] = array('print_header' => true, 'columns' => $column_loop); // print the table header
 
         $row_index = 0;
-        foreach ($data as $row)
-        {
-            try
-            {
+        foreach ($data as $row) {
+            try {
                 $part = new Part($database, $current_user, $log, $row['devicepart_part_id']);
-            }
-            catch (Exception $e)
-            {
-                $part = NULL; // To avoid warnings like "undefined variable $part"
+            } catch (Exception $e) {
+                $part = null; // To avoid warnings like "undefined variable $part"
             }
 
             $table_row = array();
@@ -520,18 +514,16 @@ $import_data_columns = array(   // for import parts
             $table_row['row_index']         = $row_index;
             $table_row['id']                = $row['devicepart_part_id'];
             $table_row['row_fields']        = array();
-            $table_row['part_not_found']    = ($part == NULL);
+            $table_row['part_not_found']    = ($part == null);
 
-            foreach ($columns as $column)
-            {
+            foreach ($columns as $column) {
                 $row_field = array();
                 $row_field['row_index']         = $row_index;
                 $row_field['caption']           = $column;
                 $row_field['id']                = $row['devicepart_part_id'];
-                $row_field['part_not_found']    = ($part == NULL);
+                $row_field['part_not_found']    = ($part == null);
 
-                switch ($column)
-                {
+                switch ($column) {
                     case 'id':
                         $row_field['id'] = $row['devicepart_part_id'];
                         break;
@@ -591,69 +583,53 @@ $import_data_columns = array(   // for import parts
     {
         $parts = array();
 
-        try
-        {
+        try {
             $transaction_id = $database->begin_transaction(); // start transaction
 
             // Get the category, footprint, storelocation, ... which are named "Import", or create them.
             // We need this elements as parent for new elements, which will be created while import parts.
             $import_categories = Category::search($database, $current_user, $log, 'Import', true);
-            if (count($import_categories) > 0)
-            {
+            if (count($import_categories) > 0) {
                 $import_category = $import_categories[0];
                 $import_category_created = false;
-            }
-            else
-            {
-                $import_category = Category::add($database, $current_user, $log, 'Import', NULL);
+            } else {
+                $import_category = Category::add($database, $current_user, $log, 'Import', null);
                 $import_category_created = true; // we can delete it later if we didn't need it
             }
 
             $import_storelocations = Storelocation::search($database, $current_user, $log, 'Import', true);
-            if (count($import_storelocations) > 0)
-            {
+            if (count($import_storelocations) > 0) {
                 $import_storelocation = $import_storelocations[0];
                 $import_storelocation_created = false;
-            }
-            else
-            {
-                $import_storelocation = Storelocation::add($database, $current_user, $log, 'Import', NULL);
+            } else {
+                $import_storelocation = Storelocation::add($database, $current_user, $log, 'Import', null);
                 $import_storelocation_created = true; // we can delete it later if we didn't need it
             }
 
             $import_footprints = Footprint::search($database, $current_user, $log, 'Import', true);
-            if (count($import_footprints) > 0)
-            {
+            if (count($import_footprints) > 0) {
                 $import_footprint = $import_footprints[0];
                 $import_footprint_created = false;
-            }
-            else
-            {
-                $import_footprint = Footprint::add($database, $current_user, $log, 'Import', NULL);
+            } else {
+                $import_footprint = Footprint::add($database, $current_user, $log, 'Import', null);
                 $import_footprint_created = true; // we can delete it later if we didn't need it
             }
 
             $import_suppliers = Supplier::search($database, $current_user, $log, 'Import', true);
-            if (count($import_suppliers) > 0)
-            {
+            if (count($import_suppliers) > 0) {
                 $import_supplier = $import_suppliers[0];
                 $import_supplier_created = false;
-            }
-            else
-            {
-                $import_supplier = Supplier::add($database, $current_user, $log, 'Import', NULL);
+            } else {
+                $import_supplier = Supplier::add($database, $current_user, $log, 'Import', null);
                 $import_supplier_created = true; // we can delete it later if we didn't need it
             }
 
             $import_manufacturers = Manufacturer::search($database, $current_user, $log, 'Import', true);
-            if (count($import_manufacturers) > 0)
-            {
+            if (count($import_manufacturers) > 0) {
                 $import_manufacturer = $import_manufacturers[0];
                 $import_manufacturer_created = false;
-            }
-            else
-            {
-                $import_manufacturer = Manufacturer::add($database, $current_user, $log, 'Import', NULL);
+            } else {
+                $import_manufacturer = Manufacturer::add($database, $current_user, $log, 'Import', null);
                 $import_manufacturer_created = true; // we can delete it later if we didn't need it
             }
             $import_category_used = false;
@@ -664,8 +640,7 @@ $import_data_columns = array(   // for import parts
 
             // start import
             $row_index = 0;
-            foreach ($data as $row)
-            {
+            foreach ($data as $row) {
                 $name               = $row['part_name'];
                 $description        = $row['part_description'];
                 $instock            = $row['part_instock'];
@@ -681,115 +656,121 @@ $import_data_columns = array(   // for import parts
 
                 // search elements / create them if they don't exist already
 
-                if (strlen($category_name) > 0)
-                {
+                if (strlen($category_name) > 0) {
                     $categories = Category::search($database, $current_user, $log, $category_name, true);
 
-                    if (count($categories) > 0)
+                    if (count($categories) > 0) {
                         $category = $categories[0];
-                    else
-                    {
+                    } else {
                         $category = Category::add($database, $current_user, $log, $category_name, $import_category->get_id());
                         $import_category_used = true;
                     }
-                }
-                else
+                } else {
                     throw new Exception('Jedes Bauteil muss eine Kategorie haben!');
+                }
 
-                if (strlen($storelocation_name) > 0)
-                {
+                if (strlen($storelocation_name) > 0) {
                     $storelocations = Storelocation::search($database, $current_user, $log, $storelocation_name, true);
 
-                    if (count($storelocations) > 0)
+                    if (count($storelocations) > 0) {
                         $storelocation = $storelocations[0];
-                    else
-                    {
+                    } else {
                         $storelocation = Storelocation::add($database, $current_user, $log, $storelocation_name, $import_storelocation->get_id());
                         $import_storelocation_used = true;
                     }
                 }
 
-                if (strlen($manufacturer_name) > 0)
-                {
+                if (strlen($manufacturer_name) > 0) {
                     $manufacturers = Manufacturer::search($database, $current_user, $log, $manufacturer_name, true);
 
-                    if (count($manufacturers) > 0)
+                    if (count($manufacturers) > 0) {
                         $manufacturer = $manufacturers[0];
-                    else
-                    {
+                    } else {
                         $manufacturer = Manufacturer::add($database, $current_user, $log, $manufacturer_name, $import_manufacturer->get_id());
                         $import_manufacturer_used = true;
                     }
                 }
 
-                if (strlen($footprint_name) > 0)
-                {
+                if (strlen($footprint_name) > 0) {
                     $footprints = Footprint::search($database, $current_user, $log, $footprint_name, true);
 
-                    if (count($footprints) > 0)
+                    if (count($footprints) > 0) {
                         $footprint = $footprints[0];
-                    else
-                    {
+                    } else {
                         $footprint = Footprint::add($database, $current_user, $log, $footprint_name, $import_footprint->get_id());
                         $import_footprint_used = true;
                     }
                 }
 
-                if (strlen($supplier_name) > 0)
-                {
+                if (strlen($supplier_name) > 0) {
                     $suppliers = Supplier::search($database, $current_user, $log, $supplier_name, true);
 
-                    if (count($suppliers) > 0)
+                    if (count($suppliers) > 0) {
                         $supplier = $suppliers[0];
-                    else
-                    {
+                    } else {
                         $supplier = Supplier::add($database, $current_user, $log, $supplier_name, $import_supplier->get_id());
                         $import_supplier_used = true;
                     }
-                }
-                else
-                {
-                    if ((strlen($supplierpartnr) > 0) || ($price > 0))
+                } else {
+                    if ((strlen($supplierpartnr) > 0) || ($price > 0)) {
                         throw new Exception('Ist eine Bestellnummer oder ein Preis angegeben, so muss auch ein Lieferant angegeben werden!');
+                    }
                 }
 
-                $new_part = Part::add(  $database, $current_user, $log, $name, $category->get_id(), $description, $instock, $mininstock,
-                                        (isset($storelocation) ? $storelocation->get_id() : NULL), (isset($manufacturer) ? $manufacturer->get_id() : NULL),
-                                        (isset($footprint) ? $footprint->get_id() : NULL), $comment);
+                $new_part = Part::add(
+                    $database,
+                    $current_user,
+                    $log,
+                    $name,
+                    $category->get_id(),
+                    $description,
+                    $instock,
+                    $mininstock,
+                                        (isset($storelocation) ? $storelocation->get_id() : null),
+                    (isset($manufacturer) ? $manufacturer->get_id() : null),
+                                        (isset($footprint) ? $footprint->get_id() : null),
+                    $comment
+                );
 
-                if (isset($supplier))
-                {
+                if (isset($supplier)) {
                     $new_orderdetails = Orderdetails::add($database, $current_user, $log, $new_part->get_id(), $supplier->get_id(), $supplierpartnr);
 
-                    if ($price > 0)
+                    if ($price > 0) {
                         $new_pricedetails = Pricedetails::add($database, $current_user, $log, $new_orderdetails->get_id(), $price);
+                    }
                 }
 
-                if ( ! $only_check_data)
+                if (! $only_check_data) {
                     $parts[] = $new_part;
+                }
 
                 $row_index++;
             }
 
             // delete all elements which were created in this function, but were not used
-            if (($import_category_created) && ( ! $import_category_used))
+            if (($import_category_created) && (! $import_category_used)) {
                 $import_category->delete();
-            if (($import_storelocation_created) && ( ! $import_storelocation_used))
+            }
+            if (($import_storelocation_created) && (! $import_storelocation_used)) {
                 $import_storelocation->delete();
-            if (($import_footprint_created) && ( ! $import_footprint_used))
+            }
+            if (($import_footprint_created) && (! $import_footprint_used)) {
                 $import_footprint->delete();
-            if (($import_supplier_created) && ( ! $import_supplier_used))
+            }
+            if (($import_supplier_created) && (! $import_supplier_used)) {
                 $import_supplier->delete();
-            if (($import_manufacturer_created) && ( ! $import_manufacturer_used))
+            }
+            if (($import_manufacturer_created) && (! $import_manufacturer_used)) {
                 $import_manufacturer->delete();
+            }
 
-            if ($only_check_data)
-                $database->rollback(); // rollback transaction
-            else
-                $database->commit($transaction_id); // commit transaction
-        }
-        catch (Exception $e)
-        {
+            if ($only_check_data) {
+                $database->rollback();
+            } // rollback transaction
+            else {
+                $database->commit($transaction_id);
+            } // commit transaction
+        } catch (Exception $e) {
             $database->rollback(); // rollback transaction
             throw new Exception((isset($row_index) ? 'Nr. '.($row_index + 1).': ' : '').$e->getMessage());
         }
@@ -817,27 +798,26 @@ $import_data_columns = array(   // for import parts
      */
     function import_device_parts(&$database, &$current_user, &$log, $device_id, $data, $only_check_data = false)
     {
-        try
-        {
+        try {
             $transaction_id = $database->begin_transaction(); // start transaction
 
-            foreach ($data as $row)
-            {
+            foreach ($data as $row) {
                 $part_id = $row['devicepart_part_id'];
                 $quantity = $row['devicepart_mount_quantity'];
                 $mountnames = $row['devicepart_mount_names'];
 
-                if ($quantity > 0)
+                if ($quantity > 0) {
                     $new_devicepart = DevicePart::add($database, $current_user, $log, $device_id, $part_id, $quantity, $mountnames, true);
+                }
             }
 
-            if ($only_check_data)
-                $database->rollback(); // rollback transaction
-            else
-                $database->commit($transaction_id); // commit transaction
-        }
-        catch (Exception $e)
-        {
+            if ($only_check_data) {
+                $database->rollback();
+            } // rollback transaction
+            else {
+                $database->commit($transaction_id);
+            } // commit transaction
+        } catch (Exception $e) {
             $database->rollback(); // rollback transaction
             throw new Exception($e->getMessage());
         }

@@ -31,7 +31,6 @@
 
 use PartDB\Part;
 
-
 /**
      * @brief check if a given number is odd
      *
@@ -55,15 +54,14 @@ use PartDB\Part;
      */
     function get_git_branch_name()
     {
-        if (file_exists(BASE.'/.git/HEAD'))
-        {
+        if (file_exists(BASE.'/.git/HEAD')) {
             $git = File(BASE.'/.git/HEAD');
             $head = explode("/", $git[0], 3);
             $branch = trim($head[2]);
             return $branch;
         }
 
-        return NULL; // this is not a Git installation
+        return null; // this is not a Git installation
     }
 
     /**
@@ -82,37 +80,31 @@ use PartDB\Part;
     {
         $filename = BASE.'/.git/refs/remotes/origin/'.get_git_branch_name();
 
-        if (file_exists($filename))
-        {
+        if (file_exists($filename)) {
             $head = File($filename);
             $hash = $head[0];
             return substr($hash, 0, $length);
         }
 
-        return NULL; // this is not a Git installation
+        return null; // this is not a Git installation
     }
 
 
-    function treeview_node($name, $href=null, $nodes = null, $icon = null )
+    function treeview_node($name, $href=null, $nodes = null, $icon = null)
     {
         $ret = array('text' => $name);
 
-        if(isset($href))
-        {
+        if (isset($href)) {
             $ret['href'] = $href;
-        }
-        else
-        {
+        } else {
             $ret['selectable'] = false;
         }
 
-        if(isset($nodes))
-        {
+        if (isset($nodes)) {
             $ret['nodes'] = $nodes;
         }
 
-        if(isset($icon))
-        {
+        if (isset($icon)) {
             $ret['icon'] = $icon;
         }
 
@@ -137,21 +129,18 @@ use PartDB\Part;
     {
         $files = array();
 
-        if (( ! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || ( ! is_path_absolute_and_unix($directory, false)))
+        if ((! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || (! is_path_absolute_and_unix($directory, false))) {
             throw new Exception('"'.$directory.'" ist kein gültiges Verzeichnis!');
+        }
 
         $dirfiles = scandir($directory);
-        foreach ($dirfiles as $file)
-        {
-            if (($file != ".") && ($file != "..") && ($file != ".svn") && ($file != ".git") && ($file != ".gitignore") && ($file != ".htaccess"))
-            {
-                if (is_dir($directory.$file))
-                {
-                    if ($recursive)
+        foreach ($dirfiles as $file) {
+            if (($file != ".") && ($file != "..") && ($file != ".svn") && ($file != ".git") && ($file != ".gitignore") && ($file != ".htaccess")) {
+                if (is_dir($directory.$file)) {
+                    if ($recursive) {
                         $files = array_merge($files, find_all_files($directory.$file.'/', true, $search_string));
-                }
-                elseif (($search_string == '') || (mb_substr_count(mb_strtolower($file), mb_strtolower($search_string)) > 0))
-                {
+                    }
+                } elseif (($search_string == '') || (mb_substr_count(mb_strtolower($file), mb_strtolower($search_string)) > 0)) {
                     $files[] = $directory.$file;
                 }
             }
@@ -174,17 +163,17 @@ use PartDB\Part;
     {
         $directories = array();
 
-        if (( ! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || ( ! is_path_absolute_and_unix($directory, false)))
+        if ((! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || (! is_path_absolute_and_unix($directory, false))) {
             throw new Exception('"'.$directory.'" ist kein gültiges Verzeichnis!');
+        }
 
         $dirfiles = scandir($directory);
-        foreach ($dirfiles as $file)
-        {
-            if (($file != ".") && ($file != "..") && ($file != ".svn") && ($file != ".git") && (is_dir($directory.$file)))
-            {
+        foreach ($dirfiles as $file) {
+            if (($file != ".") && ($file != "..") && ($file != ".svn") && ($file != ".git") && (is_dir($directory.$file))) {
                 $directories[] = $directory.$file;
-                if ($recursive)
+                if ($recursive) {
                     $directories = array_merge($directories, find_all_directories($directory.$file.'/', true));
+                }
             }
         }
 
@@ -200,25 +189,28 @@ use PartDB\Part;
      * @param string $mimetype      @li The mime type of the file
      *                              @li if NULL, we will try to read the mimetype from the file
      */
-    function send_file($filename, $mimetype = NULL)
+    function send_file($filename, $mimetype = null)
     {
         $mtime = ($mtime = filemtime($filename)) ? $mtime : time();
 
-        if (strstr($_SERVER["HTTP_USER_AGENT"], "MSIE") != false)
+        if (strstr($_SERVER["HTTP_USER_AGENT"], "MSIE") != false) {
             header("Content-Disposition: attachment; filename=".urlencode(basename($filename))."; modification-date=".date('r', $mtime).";");
-        else
+        } else {
             header("Content-Disposition: attachment; filename=\"".basename($filename)."\"; modification-date=\"".date('r', $mtime)."\";");
+        }
 
-        if ($mimetype == NULL)
-            $mimetype = get_mimetype($filename); // lib.functions.php
+        if ($mimetype == null) {
+            $mimetype = get_mimetype($filename);
+        } // lib.functions.php
 
         header("Content-Type: ".$mimetype);
         header("Content-Length:". filesize($filename));
 
-        if (in_array('mod_xsendfile', apache_get_modules()))
+        if (in_array('mod_xsendfile', apache_get_modules())) {
             header('X-Sendfile: '.$filename);
-        else
+        } else {
             readfile($filename);
+        }
 
         exit;
     }
@@ -236,10 +228,11 @@ use PartDB\Part;
     {
         $mtime = gmmktime();
 
-        if (strstr($_SERVER["HTTP_USER_AGENT"], "MSIE") != false)
+        if (strstr($_SERVER["HTTP_USER_AGENT"], "MSIE") != false) {
             header("Content-Disposition: attachment; filename=".urlencode($filename)."; modification-date=".date('r', $mtime).";");
-        else
+        } else {
             header("Content-Disposition: attachment; filename=\"".$filename."\"; modification-date=\"".date('r', $mtime)."\";");
+        }
 
         header("Content-Type: ".$mimetype);
         header("Content-Length:". strlen($content));
@@ -263,36 +256,39 @@ use PartDB\Part;
      * @throws Exception if the destination file exists already
      * @throws Exception if there was an error
      */
-    function upload_file($file_array, $destination_directory, $destination_filename = NULL)
+    function upload_file($file_array, $destination_directory, $destination_filename = null)
     {
-        if (( ! isset($file_array['name'])) || ( ! isset($file_array['tmp_name'])) || ( ! isset($file_array['error'])))
+        if ((! isset($file_array['name'])) || (! isset($file_array['tmp_name'])) || (! isset($file_array['error']))) {
             throw new Exception(_('Ungültiges Array übergeben!'));
+        }
 
-        if ($destination_filename == NULL)
+        if ($destination_filename == null) {
             $destination_filename = $file_array['name'];
+        }
 
         $destination = $destination_directory.$destination_filename;
 
-        if (( ! is_dir($destination_directory)) || (mb_substr($destination_directory, -1, 1) != '/') || ( ! is_path_absolute_and_unix($destination_directory, false)))
+        if ((! is_dir($destination_directory)) || (mb_substr($destination_directory, -1, 1) != '/') || (! is_path_absolute_and_unix($destination_directory, false))) {
             throw new Exception('"'.$destination_directory.'" ist kein gültiges Verzeichnis!');
+        }
 
-        if ( ! is_writable($destination_directory))
+        if (! is_writable($destination_directory)) {
             throw new Exception(_('Sie haben keine Schreibrechte im Verzeichnis "').$destination_directory.'"!');
+        }
 
-        if (file_exists($destination))
-        {
+        if (file_exists($destination)) {
             // there is already a file with the same filename, check if it is exactly the same file
             $new_file_md5 = md5_file($file_array['tmp_name']);
             $existing_file_md5 = md5_file($destination);
 
-            if (($new_file_md5 == $existing_file_md5) && ($new_file_md5 != false))
-                return $destination; // it's exactly the same file, we don't need to upload it again, re-use it!
+            if (($new_file_md5 == $existing_file_md5) && ($new_file_md5 != false)) {
+                return $destination;
+            } // it's exactly the same file, we don't need to upload it again, re-use it!
 
             throw new Exception(_('Es existiert bereits eine Datei mit dem Dateinamen "').$destination.'"!');
         }
 
-        switch ($file_array['error'])
-        {
+        switch ($file_array['error']) {
             case UPLOAD_ERR_OK:
                 // all OK, upload was successfully
                 break;
@@ -315,8 +311,9 @@ use PartDB\Part;
                 throw new Exception('Beim Hochladen der Datei trat ein unbekannter Fehler auf!');
         }
 
-        if ( ! move_uploaded_file($file_array['tmp_name'], $destination))
+        if (! move_uploaded_file($file_array['tmp_name'], $destination)) {
             throw new Exception('Beim Hochladen der Datei trat ein unbekannter Fehler auf!');
+        }
 
         return $destination;
     }
@@ -351,20 +348,24 @@ use PartDB\Part;
         $new_password_1 = trim($new_password_1);
         $new_password_2 = trim($new_password_2);
 
-        if ( ! is_admin_password($old_password))
+        if (! is_admin_password($old_password)) {
             throw new Exception('Das eingegebene Administratorpasswort ist nicht korrekt!');
+        }
 
-        if (mb_strlen($new_password_1) < 4)
+        if (mb_strlen($new_password_1) < 4) {
             throw new Exception('Das neue Passwort muss mindestens 4 Zeichen lang sein!');
+        }
 
-        if ($new_password_1 !== $new_password_2)
+        if ($new_password_1 !== $new_password_2) {
             throw new Exception('Die neuen Passwörter stimmen nicht überein!');
+        }
 
         // all ok, save the new password
         $config['admin']['password'] = hash('sha256', $salt.$new_password_1);
 
-        if ($save_config)
+        if ($save_config) {
             save_config();
+        }
     }
 
     /**
@@ -387,8 +388,9 @@ use PartDB\Part;
         // If the admin password is not set yet, we will always return true.
         // This is needed for the first use of Part-DB.
         // In this case, the installer will be shown to set an admin password.
-        if (( ! $config['installation_complete']['admin_password']) && ( ! $config['admin']['password']))
+        if ((! $config['installation_complete']['admin_password']) && (! $config['admin']['password'])) {
             return true;
+        }
 
         return (hash('sha256', $salt.$password) === $config['admin']['password']);
     }
@@ -400,8 +402,9 @@ use PartDB\Part;
      */
     function save_config()
     {
-        if ((file_exists(BASE.'/data/config.php')) && (! is_writeable(BASE.'/data/config.php')))
+        if ((file_exists(BASE.'/data/config.php')) && (! is_writeable(BASE.'/data/config.php'))) {
             throw new Exception('Es sind nicht genügend Rechte vorhanden um die Datei "config.php" zu beschreiben!');
+        }
 
         global $config;
         global $config_defaults;
@@ -418,14 +421,17 @@ use PartDB\Part;
         $content .= array_to_php_lines($manual_config, $manual_config, '    $manual_config', false);
         $content .= "\n?>";
 
-        if ( ! ($fp = fopen(BASE.'/data/config.php', 'wb')))
+        if (! ($fp = fopen(BASE.'/data/config.php', 'wb'))) {
             throw new Exception('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.');
+        }
 
-        if ( ! fwrite($fp, $content))
+        if (! fwrite($fp, $content)) {
             throw new Exception('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.');
+        }
 
-        if ( ! fclose($fp))
+        if (! fclose($fp)) {
             throw new Exception('Es gab ein Fehler beim Abschliessen der Schreibvorgangs bei der Datei "config.php".');
+        }
     }
 
     /**
@@ -434,19 +440,13 @@ use PartDB\Part;
     function array_to_php_lines(&$array_defaults, &$array, $path, $ignore_defaults)
     {
         $lines = '';
-        foreach ($array_defaults as $key => $value)
-        {
-            if (isset($array[$key]))
-            {
+        foreach ($array_defaults as $key => $value) {
+            if (isset($array[$key])) {
                 $full_path = $path.'['.var_export($key, true).']';
-                if (is_array($value))
-                {
+                if (is_array($value)) {
                     $lines .= array_to_php_lines($array_defaults[$key], $array[$key], $full_path, $ignore_defaults);
-                }
-                else
-                {
-                    if (($array[$key] !== $array_defaults[$key]) || ( ! $ignore_defaults))
-                    {
+                } else {
+                    if (($array[$key] !== $array_defaults[$key]) || (! $ignore_defaults)) {
                         $space_count = max(60-mb_strlen($full_path), 0);
                         $spaces = str_repeat(' ', $space_count);
                         $lines .= $full_path.$spaces.' = '.var_export($array[$key], true).";\n";
@@ -470,25 +470,27 @@ use PartDB\Part;
      */
     function float_to_money_string($number, $language = '')
     {
-        if ($number === NULL)
+        if ($number === null) {
             return '-';
+        }
 
-       // settype($number, 'float');
+        // settype($number, 'float');
 
         global $config;
 
-        if (strlen($language) == 0)
+        if (strlen($language) == 0) {
             $language = $config['language'];
+        }
 
-        if ($language != $config['language'])
-        {
+        if ($language != $config['language']) {
             // change locale, because the $language is not the default language!
-            if ( ! own_setlocale(LC_MONETARY, $language))
+            if (! own_setlocale(LC_MONETARY, $language)) {
                 debug('error', 'Sprache "'.$language.'" kann nicht gesetzt werden!', __FILE__, __LINE__, __METHOD__);
+            }
         }
 
         // get the money format from config(_defaults).php
-        if (isset($config['money_format'][$language]) ) {
+        if (isset($config['money_format'][$language])) {
             $format = $config['money_format'][$language];
         } else {
             // not set in config, so generate it
@@ -496,7 +498,7 @@ use PartDB\Part;
             // number of digits used in current language
             $local_digits = $locale['int_frac_digits'];
             // digits of the number
-            $number_digits = ( (int) $number != $number ) ? (strlen($number) - strpos($number,  $locale['decimal_point'])) - 1 : 0;
+            $number_digits = ((int) $number != $number) ? (strlen($number) - strpos($number, $locale['decimal_point'])) - 1 : 0;
 
             // international or local format?
             $format_type = ($language == $config['language']) ? 'n' : 'i';
@@ -511,8 +513,9 @@ use PartDB\Part;
 
         $result = trim(money_format($format, $number));
 
-        if ($language != $config['language'])
-            own_setlocale(LC_MONETARY,  $config['language']); // change locale back to default
+        if ($language != $config['language']) {
+            own_setlocale(LC_MONETARY, $config['language']);
+        } // change locale back to default
 
         return $result;
     }
@@ -528,21 +531,23 @@ use PartDB\Part;
      */
     function curl_get_data($url)
     {
-        if ( ! extension_loaded('curl'))
+        if (! extension_loaded('curl')) {
             throw new Exception('"curl" scheint auf ihrem System nicht installiert zu sein! '.
                                 "\nBitte installieren Sie das entsprechende Modul, ".
                                 'oder es werden gewisse Funktionen nicht zur Verfügung stehen.');
+        }
 
         $ch = curl_init();
         $timeout = 5;
-        curl_setopt($ch,CURLOPT_URL,$url);
-        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-        curl_setopt($ch,CURLOPT_CONNECTTIMEOUT,$timeout);
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, $timeout);
         $data = curl_exec($ch);
         curl_close($ch);
 
-        if ($data === false)
+        if ($data === false) {
             throw new Exception(_('Der Download mit "curl" lieferte kein Ergebnis!'));
+        }
 
         return $data;
     }
@@ -568,10 +573,10 @@ use PartDB\Part;
         $filenames = array();
         $filenames_tmp = array();
 
-        foreach($available_files as $filename)
-        {
-            if (mb_substr_count(mb_strtolower($filename), mb_strtolower(basename($missing_filename))) > 0)
+        foreach ($available_files as $filename) {
+            if (mb_substr_count(mb_strtolower($filename), mb_strtolower(basename($missing_filename))) > 0) {
                 $filenames_tmp[] = $filename;
+            }
         }
 
         // remove duplicates, sort $filenames
@@ -579,24 +584,19 @@ use PartDB\Part;
         sort($filenames_tmp);
 
         // move best matches to top
-        foreach ($filenames_tmp as $key => $filename)
-        {
-            if (basename($filename) == basename($missing_filename))
-            {
+        foreach ($filenames_tmp as $key => $filename) {
+            if (basename($filename) == basename($missing_filename)) {
                 $filenames[] = $filename;
                 unset($filenames_tmp[$key]);
             }
         }
-        foreach ($filenames_tmp as $key => $filename)
-        {
-            if (pathinfo($filename, PATHINFO_FILENAME) == pathinfo($missing_filename, PATHINFO_FILENAME))
-            {
+        foreach ($filenames_tmp as $key => $filename) {
+            if (pathinfo($filename, PATHINFO_FILENAME) == pathinfo($missing_filename, PATHINFO_FILENAME)) {
                 $filenames[] = $filename;
                 unset($filenames_tmp[$key]);
             }
         }
-        foreach ($filenames_tmp as $key => $filename)
-        {
+        foreach ($filenames_tmp as $key => $filename) {
             $filenames[] = $filename;
         }
 
@@ -613,11 +613,12 @@ use PartDB\Part;
      *
      * @retval array        The template loop array
      */
-    function array_to_template_loop($array, $selected_value = NULL)
+    function array_to_template_loop($array, $selected_value = null)
     {
         $loop = array();
-        foreach ($array as $key => $value)
+        foreach ($array as $key => $value) {
             $loop[] = array('value' => $key, 'text' => $value, 'selected' => ($key == $selected_value));
+        }
         return $loop;
     }
 
@@ -647,36 +648,39 @@ use PartDB\Part;
      */
     function is_path_absolute_and_unix($path, $accept_protocols = true)
     {
-        if (mb_strpos($path, '\\') !== false) // $path contains backslashes -> it's not a UNIX path
+        if (mb_strpos($path, '\\') !== false) { // $path contains backslashes -> it's not a UNIX path
             return false;
+        }
 
         //Dont check if DOCUMENT_ROOT or BASE_RELATIVE are empty, so we dont get a warning about missing delimiter
-        if (!empty(DOCUMENT_ROOT) && mb_strpos($path, DOCUMENT_ROOT) === 0) // $path begins with DOCUMENT_ROOT
+        if (!empty(DOCUMENT_ROOT) && mb_strpos($path, DOCUMENT_ROOT) === 0) { // $path begins with DOCUMENT_ROOT
             return true;
+        }
 
-        if (!empty(BASE_RELATIVE) && mb_strpos($path, BASE_RELATIVE) === 0) // $path begins with BASE_RELATIVE
+        if (!empty(BASE_RELATIVE) && mb_strpos($path, BASE_RELATIVE) === 0) { // $path begins with BASE_RELATIVE
             return false;
+        }
 
-        if ((mb_strpos($path, '://') !== false) && ($accept_protocols)) // there is a protocol in $path, like http://, ftp://, ...
+        if ((mb_strpos($path, '://') !== false) && ($accept_protocols)) { // there is a protocol in $path, like http://, ftp://, ...
             return true;
+        }
 
-        if (DIRECTORY_SEPARATOR == '/')
-        {
+        if (DIRECTORY_SEPARATOR == '/') {
             // for UNIX/Linux
 
-            if (mb_strpos($path, '/') !== 0) // $path does not begin with a slash
+            if (mb_strpos($path, '/') !== 0) { // $path does not begin with a slash
                 return false;
-            else
-                return true; // we are not sure; maybe $path is absolute, maybe not...
-        }
-        else
-        {
+            } else {
+                return true;
+            } // we are not sure; maybe $path is absolute, maybe not...
+        } else {
             // for Windows
 
-            if (mb_strpos($path, ':/') === 1) // there is something like C:/ at the begin of $path
+            if (mb_strpos($path, ':/') === 1) { // there is something like C:/ at the begin of $path
                 return true;
-            else
+            } else {
                 return false;
+            }
         }
     }
 
@@ -732,8 +736,7 @@ use PartDB\Part;
         $string = str_replace("%storeloc_full%", is_object($storelocation) ? $storelocation->get_full_path() : '', $string);
 
         //Remove single '-' without other infos
-        if(trim($string) == "-")
-        {
+        if (trim($string) == "-") {
             $string = "";
         }
 
@@ -779,16 +782,14 @@ use PartDB\Part;
 
         //Check if all array entries are "", which means $search_str contains no modifier
         $no_modifier = true;
-        foreach ($arr as $n)
-        {
-            if($n !== "")
+        foreach ($arr as $n) {
+            if ($n !== "") {
                 $no_modifier = false;
+            }
         }
 
-        if($no_modifier === true)    //When no modifier exists, fill every element with $search_str (emulate the old behaviour)
-        {
-            foreach ($arr as &$n)
-            {
+        if ($no_modifier === true) {    //When no modifier exists, fill every element with $search_str (emulate the old behaviour)
+            foreach ($arr as &$n) {
                 $n = $search_str;
             }
         }
@@ -805,25 +806,20 @@ use PartDB\Part;
     function get_keyword_after_modifier($search_str, $modifier)
     {
         $pos = strpos($search_str, $modifier);
-        if($pos === false)
-        {   //This modifier was not found in the search_str, so return "".
+        if ($pos === false) {   //This modifier was not found in the search_str, so return "".
             return "";
-        }
-        else
-        { //Modifier was found in the search string
+        } else { //Modifier was found in the search string
             $start = $pos + strlen($modifier);
-            if($search_str[$start] == "\"" || $search_str[$start] == "\'")
-            { //When a quote mark is detected, then treat the text up to the next quote as one literal
+            if ($search_str[$start] == "\"" || $search_str[$start] == "\'") { //When a quote mark is detected, then treat the text up to the next quote as one literal
                 $end = strpos($search_str, $search_str[$start], $start + 1);
                 return substr($search_str, $start + 1, $end - $start - 1);
-            }
-            else
-            { //Go only to the next space
+            } else { //Go only to the next space
                 $end = strpos($search_str, " ", $start);
-                if($end === false) //The modifier was the last part of the query, so we dont need an end.
+                if ($end === false) { //The modifier was the last part of the query, so we dont need an end.
                     return substr($search_str, $start);
-                else
+                } else {
                     return substr($search_str, $start, $end - $start);
+                }
             }
         }
     }
@@ -840,10 +836,11 @@ use PartDB\Part;
 
     function regex_strip_slashes($pattern, $mb = true)
     {
-        if(mb_substr($pattern, 0, 1) === "/" &&  substr($pattern, -1, 1) === "/")
+        if (mb_substr($pattern, 0, 1) === "/" &&  substr($pattern, -1, 1) === "/") {
             return mb_substr($pattern, 1, -1);
-        else
+        } else {
             return $pattern;
+        }
     }
 
 
@@ -878,9 +875,7 @@ use PartDB\Part;
     {
         if (strpos($haystack, $needle) !== false) {
             return true;
-        }
-        else
-        {
+        } else {
             return false;
         }
     }
@@ -892,14 +887,15 @@ use PartDB\Part;
     */
     function convert_APIModel_array($array, $verbose = false)
     {
-        if(is_null($array))
+        if (is_null($array)) {
             return null;
+        }
 
         $json = array();
-        foreach ($array as $element)
-        {
-            if(! $element instanceof IAPIModel)
+        foreach ($array as $element) {
+            if (! $element instanceof IAPIModel) {
                 throw new Exception("The given array, contains objects that dont implement IAPIModel!");
+            }
             $json[] = $element->get_API_array($verbose);
         }
         return $json;
@@ -912,10 +908,11 @@ use PartDB\Part;
     */
     function try_to_get_APIModel_array($object, $verbose = false)
     {
-        if(is_null($object))
+        if (is_null($object)) {
             return null;
-        else
+        } else {
             return $object->get_API_array($verbose);
+        }
     }
 
 /**
@@ -945,10 +942,18 @@ function buildToolsTree($params)
     //Tools nodes
     $tools_nodes = array();
     $tools_nodes[] = treeview_node(_("Import"), BASE_RELATIVE . "/tools_import.php");
-    if (!$disable_labels) $tools_nodes[] = treeview_node(_("Labels"), BASE_RELATIVE . "/tools_labels.php");
-    if (!$disable_calculator) $tools_nodes[] = treeview_node(_("Widerstandsrechner"), BASE_RELATIVE . "/tools_calculator.php");
-    if (!$disable_footprint) $tools_nodes[] = treeview_node(_("Footprints"), BASE_RELATIVE . "/tools_footprints.php");
-    if (!$disable_iclogos) $tools_nodes[] = treeview_node(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");
+    if (!$disable_labels) {
+        $tools_nodes[] = treeview_node(_("Labels"), BASE_RELATIVE . "/tools_labels.php");
+    }
+    if (!$disable_calculator) {
+        $tools_nodes[] = treeview_node(_("Widerstandsrechner"), BASE_RELATIVE . "/tools_calculator.php");
+    }
+    if (!$disable_footprint) {
+        $tools_nodes[] = treeview_node(_("Footprints"), BASE_RELATIVE . "/tools_footprints.php");
+    }
+    if (!$disable_iclogos) {
+        $tools_nodes[] = treeview_node(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");
+    }
 
     $system_nodes = array();
     $system_nodes[] = treeview_node(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
@@ -965,12 +970,16 @@ function buildToolsTree($params)
 
     //Edit nodes
     $edit_nodes = array();
-    if (!$disable_devices) $edit_nodes[] = treeview_node(_("Baugruppen"), BASE_RELATIVE . "/edit_devices.php");
+    if (!$disable_devices) {
+        $edit_nodes[] = treeview_node(_("Baugruppen"), BASE_RELATIVE . "/edit_devices.php");
+    }
     $edit_nodes[] = treeview_node(_("Lagerorte"), BASE_RELATIVE . "/edit_storelocations.php");
     $edit_nodes[] = treeview_node(_("Footprints"), BASE_RELATIVE . "/edit_footprints.php");
     $edit_nodes[] = treeview_node(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
     $edit_nodes[] = treeview_node(_("Lieferanten"), BASE_RELATIVE . "/edit_suppliers.php");
-    if (!$disable_manufactur) $edit_nodes[] = treeview_node(_("Hersteller"), BASE_RELATIVE . "/edit_manufacturers.php");
+    if (!$disable_manufactur) {
+        $edit_nodes[] = treeview_node(_("Hersteller"), BASE_RELATIVE . "/edit_manufacturers.php");
+    }
     $edit_nodes[] = treeview_node(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
 
     //Developer nodes
@@ -985,8 +994,12 @@ function buildToolsTree($params)
     $tree[] = treeview_node(_("Tools"), null, $tools_nodes);
     $tree[] = treeview_node(_("Bearbeiten"), null, $edit_nodes);
     $tree[] = treeview_node(_("Zeige"), null, $show_nodes);
-    if (!$disable_config) $tree[] = treeview_node(_("System"), null, $system_nodes);
-    if ($developer_mode) $tree[] = treeview_node(_("Entwickler-Werkzeuge"), null, $dev_nodes);
+    if (!$disable_config) {
+        $tree[] = treeview_node(_("System"), null, $system_nodes);
+    }
+    if ($developer_mode) {
+        $tree[] = treeview_node(_("Entwickler-Werkzeuge"), null, $dev_nodes);
+    }
     $tree[] = treeview_node(_("Hilfe"), "https://github.com/jbtronics/Part-DB/wiki", null);
 
     return $tree;
@@ -999,11 +1012,13 @@ function buildToolsTree($params)
     * @param mixed $default_val The value, to which the value should be set defaultly
      * @return mixed The result
     */
-    function sie($test, $default_val = "") {
-        if(isset($test))
+    function sie($test, $default_val = "")
+    {
+        if (isset($test)) {
             return $test;
-        else
+        } else {
             return $default_val;
+        }
     }
 
     /**
@@ -1011,7 +1026,8 @@ function buildToolsTree($params)
     * @param $object mixed  The object, whose clasname should be get.
      * @return string The class name of $object.
     */
-    function get_class_short($object) {
+    function get_class_short($object)
+    {
         $reflect = new \ReflectionClass($object);
         return $reflect->getShortName();
     }

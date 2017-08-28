@@ -32,8 +32,7 @@
      * ENT_SUBSTITUTE is not available in PHP 5.3.0, it was introduced in PHP 5.4.0
      * Note: ENT_SUBSTITUTE is used in htmlspecialchars() and htmlentities()
      */
-    if ( ! defined('ENT_SUBSTITUTE'))
-    {
+    if (! defined('ENT_SUBSTITUTE')) {
         define('ENT_SUBSTITUTE', 0);
     }
 
@@ -42,8 +41,7 @@
      *
      * money_format() is not available on Windows!
      */
-    if ( ! function_exists('money_format') )
-    {
+    if (! function_exists('money_format')) {
         // http://www.php.net/manual/de/function.money-format.php#89060
         function money_format($format, $number)
         {
@@ -51,19 +49,17 @@
             //if (setlocale(LC_MONETARY, 0) == 'C') { setlocale(LC_MONETARY, ''); }
             $locale = localeconv();
 
-            if (strpos(strtoupper(setlocale(LC_MONETARY, 0)), 'UTF') === false) // charset is NOT UTF-8
-            {
+            if (strpos(strtoupper(setlocale(LC_MONETARY, 0)), 'UTF') === false) { // charset is NOT UTF-8
                 // convert $locale to UTF-8
-                foreach ($locale as $key => $value)
-                {
-                    if ( ! is_array($value))
+                foreach ($locale as $key => $value) {
+                    if (! is_array($value)) {
                         $locale[$key] = iconv('Windows-1252', 'UTF-8', $value);
+                    }
                 }
             }
 
             preg_match_all($regex, $format, $matches, PREG_SET_ORDER);
-            foreach ($matches as $fmatch)
-            {
+            foreach ($matches as $fmatch) {
                 $value = floatval($number);
                 $flags = array(
                     'fillchar'  => preg_match('/\=(.)/', $fmatch[1], $match) ? $match[1] : ' ',
@@ -78,8 +74,7 @@
                 $conversion = $fmatch[5];
 
                 $positive = true;
-                if ($value < 0)
-                {
+                if ($value < 0) {
                     $positive = false;
                     $value  *= -1;
                 }
@@ -88,8 +83,7 @@
                 $prefix = $suffix = $cprefix = $csuffix = $signal = '';
 
                 $signal = $positive ? $locale['positive_sign'] : $locale['negative_sign'];
-                switch (true)
-                {
+                switch (true) {
                     case $locale["{$letter}_sign_posn"] == 1 && $flags['usesignal'] == '+':
                         $prefix = $signal;
                     break;
@@ -110,26 +104,21 @@
                 }
                 $currency =  ((!$flags['nosimbol'])? $cprefix . ($conversion == 'i' ? $locale['int_curr_symbol'] : $locale['currency_symbol']) . $csuffix: '');
                 $space  = $locale["{$letter}_sep_by_space"] ? ' ' : '';
-                $value = number_format($value, $right, $locale['mon_decimal_point'],$flags['nogroup'] ? '' : $locale['mon_thousands_sep']);
+                $value = number_format($value, $right, $locale['mon_decimal_point'], $flags['nogroup'] ? '' : $locale['mon_thousands_sep']);
                 $value = @explode($locale['mon_decimal_point'], $value);
 
                 $n = mb_strlen($prefix) + mb_strlen($currency) + mb_strlen($value[0]);
-                if ($left > 0 && $left > $n)
-                {
+                if ($left > 0 && $left > $n) {
                     $value[0] = str_repeat($flags['fillchar'], $left - $n) . $value[0];
                 }
                 //$value = implode($locale['mon_decimal_point'], $value);
                 $value = (is_array($value) ? implode($locale['mon_decimal_point'], $value) : '');
-                if ($locale["{$letter}_cs_precedes"])
-                {
+                if ($locale["{$letter}_cs_precedes"]) {
                     $value = $prefix . $currency . $space . $value . $suffix;
-                }
-                else
-                {
+                } else {
                     $value = $prefix . $value . $space . $currency . $suffix;
                 }
-                if ($width > 0)
-                {
+                if ($width > 0) {
                     $value = str_pad($value, $width, $flags['fillchar'], $flags['isleft'] ? STR_PAD_RIGHT : STR_PAD_LEFT);
                 }
                 $format = str_replace($fmatch[0], $value, $format);
@@ -141,22 +130,17 @@
     /*
      * str_getcsv()
      */
-    if ( ! function_exists( 'str_getcsv'))
-    {
-        function str_getcsv( $str, $delim=',', $enclose='"', $preserve=false)
+    if (! function_exists('str_getcsv')) {
+        function str_getcsv($str, $delim=',', $enclose='"', $preserve=false)
         {
             $resArr = array();
             $n = 0;
             $expEncArr = explode($enclose, $str);
-            foreach ($expEncArr as $EncItem)
-            {
-                if($n++ % 2)
-                {
+            foreach ($expEncArr as $EncItem) {
+                if ($n++ % 2) {
                     array_push($resArr, array_pop($resArr) . ($preserve ? $enclose : '') .
                                 $EncItem. ($preserve ? $enclose : ''));
-                }
-                else
-                {
+                } else {
                     $expDelArr = explode($delim, $EncItem);
                     array_push($resArr, array_pop($resArr) . array_shift($expDelArr));
                     $resArr = array_merge($resArr, $expDelArr);
@@ -234,24 +218,17 @@
 
         $ext = strtolower(array_pop(explode('.', $filename)));
 
-        if (function_exists('mime_content_type'))
-        {
+        if (function_exists('mime_content_type')) {
             $mimetype = mime_content_type($filename);
             return $mimetype;
-        }
-        elseif (function_exists('finfo_open'))
-        {
+        } elseif (function_exists('finfo_open')) {
             $finfo = finfo_open(FILEINFO_MIME);
             $mimetype = finfo_file($finfo, $filename);
             finfo_close($finfo);
             return $mimetype;
-        }
-        elseif (array_key_exists($ext, $mime_types))
-        {
+        } elseif (array_key_exists($ext, $mime_types)) {
             return $mime_types[$ext];
-        }
-        else
-        {
+        } else {
             return 'application/octet-stream';
         }
     }
@@ -263,17 +240,15 @@
      */
     function rmdir_recursive($dir)
     {
-        if (is_dir($dir))
-        {
+        if (is_dir($dir)) {
             $objects = scandir($dir);
-            foreach ($objects as $object)
-            {
-                if ($object != "." && $object != "..")
-                {
-                    if (filetype($dir."/".$object) == "dir")
+            foreach ($objects as $object) {
+                if ($object != "." && $object != "..") {
+                    if (filetype($dir."/".$object) == "dir") {
                         rmdir_recursive($dir."/".$object);
-                    else
+                    } else {
                         unlink($dir."/".$object);
+                    }
                 }
             }
             reset($objects);

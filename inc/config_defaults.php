@@ -115,7 +115,7 @@
     $config['debug']['request_debugging_enable']            = false;
 
     // admin settings
-    $config['admin']['password']                            = NULL; // NULL means "not yet initialized" (important for "install.php")
+    $config['admin']['password']                            = null; // NULL means "not yet initialized" (important for "install.php")
 
     // installation complete steps (can also be used for updates, for example if a user input is needed for an update)
     // if at least one of them is 'false', the installer will be shown automatically
@@ -311,4 +311,3 @@
     $config['auto_datasheets']['entries'][2]['image']       = 'img/partdb/file_dc.svg';
     $config['auto_datasheets']['entries'][2]['old_image']   = 'img/partdb/dc.png';
     // IMPORTANT: If you add your own export formats to your config.php, use letters instead of numbers as array indexes!! e.g. $config['auto_datasheets']['entries']['A']['name'] = 'foo';
-

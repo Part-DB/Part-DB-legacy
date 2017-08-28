@@ -41,12 +41,14 @@
     {
         global $config;
 
-        if ( ! ctype_alpha($selected_index))
+        if (! ctype_alpha($selected_index)) {
             settype($selected_index, 'integer');
+        }
 
         $loop = array();
-        foreach ($config['export'][$export_type] as $key => $value)
+        foreach ($config['export'][$export_type] as $key => $value) {
             $loop[] = array('value' => $key, 'text' => '['.$value['format'].'] '.$value['name'], 'selected' => ($key === $selected_index));
+        }
 
         return $loop;
     }
@@ -73,23 +75,25 @@
     {
         global $config;
 
-        if (( ! isset($config['export'][$export_type])) || ( ! isset($config['export'][$export_type][$format_id])))
+        if ((! isset($config['export'][$export_type])) || (! isset($config['export'][$export_type][$format_id]))) {
             throw new Exception('Es gibt kein Exportformat in dieser Variable: $config[\'export\'][\''.$export_type.'\'][\''.$format_id.'\']');
+        }
 
         $format     = strtoupper($config['export'][$export_type][$format_id]['format']);
         $columns    = explode(';', $config['export'][$export_type][$format_id]['columns']);
 
         // prepare stuff
-        switch ($format)
-        {
+        switch ($format) {
             case 'CSV':
                 $separator = $config['export'][$export_type][$format_id]['separator']; // the separator is needed for CSV export!
                 $items_separator = (($separator == ';') ? ',' : ';');
                 $show_header = $config['export'][$export_type][$format_id]['header']; // the header is needed for CSV export!
-                if ($show_header)
-                    $output = '#'.implode($separator, $columns)."\n"; // header
-                else
+                if ($show_header) {
+                    $output = '#'.implode($separator, $columns)."\n";
+                } // header
+                else {
                     $output = '';
+                }
                 break;
 
             case 'XML':
@@ -104,11 +108,9 @@
                 throw new Exception('Nicht unterstütztes Exportformat: "'.$format.'"');
         }
 
-        foreach ($objects as $object)
-        {
+        foreach ($objects as $object) {
             // prepare stuff for the next object
-            switch ($format)
-            {
+            switch ($format) {
                 case 'CSV':
                     $column_output = '';
                     break;
@@ -118,8 +120,7 @@
                     break;
             }
 
-            switch (get_class_short($object))
-            {
+            switch (get_class_short($object)) {
                 case 'Part':
                     $part = $object;
                     break;
@@ -133,12 +134,10 @@
             }
 
 
-            for ($i=0; $i<count($columns); $i++)
-            {
+            for ($i=0; $i<count($columns); $i++) {
                 $column = $columns[$i];
 
-                switch ($column)
-                {
+                switch ($column) {
                     // sometimes empty columns are needed...
                     case '':
                         $value = '';
@@ -161,40 +160,46 @@
                         $value = $part->get_mininstock();
                         break;
                     case 'footprint':
-                        if (is_object($part->get_footprint()))
+                        if (is_object($part->get_footprint())) {
                             $value = $part->get_footprint()->get_name();
-                        else
+                        } else {
                             $value = '';
+                        }
                         break;
                     case 'footprint_fullpath':
-                        if (is_object($part->get_footprint()))
+                        if (is_object($part->get_footprint())) {
                             $value = $part->get_footprint()->get_full_path();
-                        else
+                        } else {
                             $value = '';
+                        }
                         break;
                     case 'manufacturer':
-                        if (is_object($part->get_manufacturer()))
+                        if (is_object($part->get_manufacturer())) {
                             $value = $part->get_manufacturer()->get_name();
-                        else
+                        } else {
                             $value = '';
+                        }
                         break;
                     case 'manufacturer_fullpath':
-                        if (is_object($part->get_manufacturer()))
+                        if (is_object($part->get_manufacturer())) {
                             $value = $part->get_manufacturer()->get_full_path();
-                        else
+                        } else {
                             $value = '';
+                        }
                         break;
                     case 'storelocation':
-                        if (is_object($part->get_storelocation()))
+                        if (is_object($part->get_storelocation())) {
                             $value = $part->get_storelocation()->get_name();
-                        else
+                        } else {
                             $value = '';
+                        }
                         break;
                     case 'storelocation_fullpath':
-                        if (is_object($part->get_storelocation()))
+                        if (is_object($part->get_storelocation())) {
                             $value = $part->get_storelocation()->get_full_path();
-                        else
+                        } else {
                             $value = '';
+                        }
                         break;
                     case 'suppliers':
                         $value = $part->get_suppliers(false, $items_separator, false, true);
@@ -209,39 +214,43 @@
                         $value = $part->get_average_price(true);
                         break;
                     case 'single_prices':
-                        $value = $part->get_prices(false, $items_separator, 1, NULL, true);
+                        $value = $part->get_prices(false, $items_separator, 1, null, true);
                         break;
 
                     // order parts stuff
                     case 'order_supplier':
-                        if (is_object($part->get_order_orderdetails()))
+                        if (is_object($part->get_order_orderdetails())) {
                             $value = $part->get_order_orderdetails()->get_supplier()->get_name();
-                        else
+                        } else {
                             $value = '';
+                        }
                         break;
                     case 'order_supplierpartnr':
-                        if (is_object($part->get_order_orderdetails()))
+                        if (is_object($part->get_order_orderdetails())) {
                             $value = $part->get_order_orderdetails()->get_supplierpartnr();
-                        else
+                        } else {
                             $value = '';
+                        }
                         break;
                     case 'order_quantity':
                         $value = $part->get_order_quantity();
                         break;
                     case 'order_single_price': // the single price of the selected orderdetails
-                        if (is_object($part->get_order_orderdetails()))
+                        if (is_object($part->get_order_orderdetails())) {
                             $value = $part->get_order_orderdetails()->get_price(true);
-                        else
+                        } else {
                             $value = '';
+                        }
                         break;
                     case 'order_total_price': // the total price of the selected orderdetails
-                        if (is_object($part->get_order_orderdetails()))
+                        if (is_object($part->get_order_orderdetails())) {
                             $value = $part->get_order_orderdetails()->get_price(true, $object->get_order_quantity());
-                        else
+                        } else {
                             $value = '';
+                        }
                         break;
                     case 'order_total_prices':
-                        $value = $part->get_prices(false, $items_separator, $part->get_order_quantity(), NULL, true);
+                        $value = $part->get_prices(false, $items_separator, $part->get_order_quantity(), null, true);
                         break;
 
                     // device parts stuff
@@ -249,17 +258,19 @@
                         $value = $devicepart->get_mount_quantity();
                         break;
                     case 'total_mount_quantity':
-                        if ( ! isset($additional_params['export_quantity']))
+                        if (! isset($additional_params['export_quantity'])) {
                             throw new Exception('$additional_params[\'export_quantity\'] ist nicht gesetzt!');
+                        }
                         $value = $devicepart->get_mount_quantity() * (integer)$additional_params['export_quantity'];
                         break;
                     case 'mount_names':
                         $value = $devicepart->get_mount_names();
                         break;
                     case 'total_prices':
-                        if ( ! isset($additional_params['export_quantity']))
+                        if (! isset($additional_params['export_quantity'])) {
                             throw new Exception('$additional_params[\'export_quantity\'] ist nicht gesetzt!');
-                        $value = $part->get_prices(false, $items_separator, $devicepart->get_mount_quantity() * (integer)$additional_params['export_quantity'], NULL, true);
+                        }
+                        $value = $part->get_prices(false, $items_separator, $devicepart->get_mount_quantity() * (integer)$additional_params['export_quantity'], null, true);
                         break;
 
                     // unknown column
@@ -269,12 +280,12 @@
                 }
 
                 // finish stuff for that column
-                switch ($format)
-                {
+                switch ($format) {
                     case 'CSV':
                         $column_output .= str_replace($separator, ' ', $value);
-                        if ($i < (count($columns) - 1))
-                            $column_output .= $separator; // Add the separator if this is not the last column
+                        if ($i < (count($columns) - 1)) {
+                            $column_output .= $separator;
+                        } // Add the separator if this is not the last column
                         break;
 
                     case 'XML':
@@ -285,12 +296,10 @@
             }
 
             // finish stuff for that object (only if that object has to be exported!)
-            if ((( ! in_array('order_supplier', $columns)) && ( ! in_array('order_supplierpartnr', $columns))
-                && ( ! in_array('order_single_price', $columns)) && ( ! in_array('order_total_price', $columns)))
-                || (isset($part) && is_object($part->get_order_orderdetails())))
-            {
-                switch ($format)
-                {
+            if (((! in_array('order_supplier', $columns)) && (! in_array('order_supplierpartnr', $columns))
+                && (! in_array('order_single_price', $columns)) && (! in_array('order_total_price', $columns)))
+                || (isset($part) && is_object($part->get_order_orderdetails()))) {
+                switch ($format) {
                     case 'CSV':
                         $output .= $column_output."\n"; // Add a line break
                         break;
@@ -303,8 +312,7 @@
         }
 
         // finish stuff
-        switch ($format)
-        {
+        switch ($format) {
             case 'CSV':
                 // nothing to do, the CSV is already in $output
                 break;
@@ -315,13 +323,12 @@
         }
 
         // send file or return string
-        if ($send_file)
-        {
+        if ($send_file) {
             $mimetype = $config['export'][$export_type][$format_id]['mimetype'];
             $filename .= '.'.substr($mimetype, strpos($mimetype, '/') + 1);
             send_string($output, $filename, $mimetype); // in this function is an "exit;" !
             return ""; //Useless but its suppresses warnings.
-        }
-        else
+        } else {
             return $output;
+        }
     }

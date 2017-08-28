@@ -47,7 +47,9 @@
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <link href="css/bootstrap.min.css" rel="stylesheet"></head>';
         print '<body><main><div class="container-fluid" id="content"><br><div class="panel panel-danger">';
-        if ($div_title) {print '<div class="panel-heading">'.$div_title.'</div>';}
+        if ($div_title) {
+            print '<div class="panel-heading">'.$div_title.'</div>';
+        }
         print '<div class="panel-body">';
         print $messages;
         {print '</div>';}
@@ -73,8 +75,7 @@
         $base_locales = array($locale);
 
         // workaround for Windows/XAMPP:
-        switch ($locale)
-        {
+        switch ($locale) {
             case 'de_AT':
                 $base_locales[] = 'german-austrian';
                 $base_locales[] = 'dea';
@@ -116,10 +117,10 @@
         }
 
         $locales = array();
-        foreach ($base_locales as $base_locale)
-        {
-            foreach ($charsets as $charset)
+        foreach ($base_locales as $base_locale) {
+            foreach ($charsets as $charset) {
                 $locales[] = $base_locale.'.'.$charset;
+            }
 
             $locales[] = $base_locale;
         }
@@ -130,7 +131,7 @@
         putenv('LC_ALL='.$locale);
 
         $retval = setlocale($category, $locales);
-        $debug =  setlocale($category,"0");
+        $debug =  setlocale($category, "0");
 
         return (($retval !== false) || ($locale == 'POSIX'));
     }
@@ -150,21 +151,17 @@
         global $config;
         $messages = array();
 
-        foreach ($config['requirements'] as $key => $value)
-        {
-            switch ($key)
-            {
+        foreach ($config['requirements'] as $key => $value) {
+            switch ($key) {
                 case 'php_version':
-                    if (version_compare(PHP_VERSION, $value) < 0)
-                    {
+                    if (version_compare(PHP_VERSION, $value) < 0) {
                         $messages[] =   'Für Part-DB wird mindestens PHP '.$value.' vorausgesetzt! '.
                                         'Die derzeit installierte Version ist PHP '.PHP_VERSION.'.';
                     }
                     break;
 
                 case 'pdo':
-                    if ( ! class_exists('PDO', false))
-                    {
+                    if (! class_exists('PDO', false)) {
                         $messages[] =   _('PDO (PHP Data Objects) wird benötigt, ist aber nicht installiert!');
                     }
                     break;
@@ -198,21 +195,20 @@
                                 '/data/backup/'                         => 'erwx',
                                 '/data/log/'                            => 'erwx',
                                 '/data/media/'                          => 'erwx');
-                                // DokuWiki/data
-                                //'/documentation/dokuwiki/data/'         => 'erwx',
-                                //'/documentation/dokuwiki/data/cache/'   => 'erwx',
-                                //'/documentation/dokuwiki/data/meta/'    => 'erwx',
-                                //'/documentation/dokuwiki/data/pages/'   => 'erwx',
-                                //'/documentation/dokuwiki/data/tmp/'     => 'erwx');
+        // DokuWiki/data
+        //'/documentation/dokuwiki/data/'         => 'erwx',
+        //'/documentation/dokuwiki/data/cache/'   => 'erwx',
+        //'/documentation/dokuwiki/data/meta/'    => 'erwx',
+        //'/documentation/dokuwiki/data/pages/'   => 'erwx',
+        //'/documentation/dokuwiki/data/tmp/'     => 'erwx');
 
-        foreach ($permissions as $filename => $needed_perms)
-        {
+        foreach ($permissions as $filename => $needed_perms) {
             $whole_filename = BASE.$filename;
 
-            if ( ! file_exists($whole_filename))
-            {
-                if (strpos($needed_perms, 'e') !== false)
+            if (! file_exists($whole_filename)) {
+                if (strpos($needed_perms, 'e') !== false) {
                     $messages[] =   'Das Verzeichnis bzw. die Datei "'.$filename.'" existiert nicht oder kann nicht gelesen werden!';
+                }
 
                 continue; // file does not exist - go to next file
             }
@@ -220,10 +216,9 @@
             // is_executable() may does not work correctly, see comment at "http://www.php.net/manual/de/function.is-executable.php#44454"
             $is_executable = (is_executable($whole_filename) || @file_exists($whole_filename.'.'));
 
-            if (    ((strpos($needed_perms, 'r') !== false) && ( ! is_readable($whole_filename)))
-                 || ((strpos($needed_perms, 'w') !== false) && ( ! is_writable($whole_filename)))
-                 || ((strpos($needed_perms, 'x') !== false) && (DIRECTORY_SEPARATOR == '/') && ( ! $is_executable))) // check for execution bit only for UNIX/Linux
-            {
+            if (((strpos($needed_perms, 'r') !== false) && (! is_readable($whole_filename)))
+                 || ((strpos($needed_perms, 'w') !== false) && (! is_writable($whole_filename)))
+                 || ((strpos($needed_perms, 'x') !== false) && (DIRECTORY_SEPARATOR == '/') && (! $is_executable))) { // check for execution bit only for UNIX/Linux
                 $messages[] =   'Das Verzeichnis bzw. die Datei "'.$filename.'" hat nicht die richtigen Dateirechte! '.
                                 'Benötigt werden "'.str_replace('e', '', $needed_perms).'". Bitte manuell korrigieren.';
             }
@@ -244,11 +239,9 @@
 
         $check_filenames = array("/vendor/autoload.php");
 
-        foreach ($check_filenames as $filename)
-        {
+        foreach ($check_filenames as $filename) {
             $whole_filename = BASE.$filename;
-            if(!file_exists($whole_filename))
-            {
+            if (!file_exists($whole_filename)) {
                 $messages[] = "Die Datei " . $filename . " ist benötigt und wurde nicht gefunden!";
             }
         }
@@ -269,8 +262,7 @@
     {
         global $config_defaults;
 
-        if (isset($config_defaults['system']) && isset($config_defaults['system']['version']))
-        {
+        if (isset($config_defaults['system']) && isset($config_defaults['system']['version'])) {
             // it seems that the user has copied the config_defaults.php to the config.php, this is not good!
             return  'Es scheint, als hätten Sie die Datei "config_defaults.php" als Vorlage für Ihre "config.php" verwendet.<br>'.
                     'Das ist aber nicht so vorgesehen und darf nicht so gemacht werden, da dies Probleme verursachen wird!<br><br>'.
@@ -280,4 +272,3 @@
 
         return true;
     }
-
