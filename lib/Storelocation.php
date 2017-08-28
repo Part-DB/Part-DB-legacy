@@ -32,7 +32,7 @@ use Exception;
  * @brief class Storelocation
  *
  * @class Storelocation
- * @brief All elements of this class are stored in the database table "storelocations".
+ * All elements of this class are stored in the database table "storelocations".
  * @author kami89
  */
 class Storelocation extends Base\PartsContainingDBElement implements Interfaces\IAPIModel
@@ -44,7 +44,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @note  It's allowed to create an object with the ID 0 (for the root element).
      *
@@ -74,12 +74,12 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      *********************************************************************************/
 
     /**
-     * @brief Get the "is full" attribute
+     * Get the "is full" attribute
      *
      * @note    "is_full == true" means that there is no more space in this storelocation.
      * @note    This attribute is only for information, it has no effect.
      *
-     * @retval boolean      @li true if the storelocation is full
+     * @return boolean      @li true if the storelocation is full
      *                      @li false if the storelocation isn't full
      */
     public function get_is_full()
@@ -88,12 +88,12 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
     }
 
     /**
-     * @brief Get all parts which are located in this storelocation
+     * Get all parts which are located in this storelocation
      *
      * @param boolean $recursive                if true, the parts of all sub-storelocations will be listed too
      * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
      *
-     * @retval array        all parts as a one-dimensional array of Part objects
+     * @return array        all parts as a one-dimensional array of Part objects
      *
      * @throws Exception    if there was an error
      *
@@ -111,7 +111,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      *********************************************************************************/
 
     /**
-     * @brief Change the "is full" attribute of this storelocation
+     * Change the "is full" attribute of this storelocation
      *
      * @note    "is_full" = true means that there is no more space in this storelocation.
      * @note    This attribute is only for information, it has no effect.
@@ -145,11 +145,11 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
     }
 
     /**
-     * @brief Get count of storelocations
+     *  Get count of storelocations
      *
      * @param Database &$database   reference to the Database-object
      *
-     * @retval integer              count of storelocations
+     * @return integer              count of storelocations
      *
      * @throws Exception            if there was an error
      */
@@ -163,7 +163,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
     }
 
     /**
-     * @brief Create a new storelocation
+     *  Create a new storelocation
      *
      * @param Database  &$database      reference to the database onject
      * @param User      &$current_user  reference to the current user which is logged in
@@ -172,7 +172,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @param integer   $parent_id      the parent ID of the new storelocation (see Storelocation::set_parent_id())
      * @param boolean   $is_full        the "is_full" attribute of the new storelocation (see Storelocation::set_is_full())
      *
-     * @retval Storelocation            the new storelocation
+     * @return Storelocation            the new storelocation
      *
      * @throws Exception if (this combination of) values is not valid
      * @throws Exception if there was an error

@@ -12,10 +12,14 @@ use Exception;
 
 class PartNameRegEx
 {
+    /** @var string  */
     private static $pattern = '/^(\/.+\/)(?:@([fn]+))?(?:\$(.+))*$/';
 
+    /** @var string  */
     private $regex = "";
+    /** @var string  */
     private $flags_str = "";
+    /** @var string[] */
     private $capture_names = array();
 
     /**

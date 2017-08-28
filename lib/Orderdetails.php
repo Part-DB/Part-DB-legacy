@@ -32,7 +32,7 @@ use Exception;
  * @brief class Orderdetails
 
  * @class Orderdetails
- * @brief All elements of this class are stored in the database table "orderdetails".
+ * All elements of this class are stored in the database table "orderdetails".
  *
  * One Orderdetails-object includes these things:
  *  - 1 supplier (this is always required, you cannot have orderdetails without a supplier!)
@@ -55,11 +55,11 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      *********************************************************************************/
 
-    /** @brief (Part) the part of this orderdetails */
+    /** @var Part the part of this orderdetails */
     private $part           = null;
-    /** @brief (Supplier) the supplier of this orderdetails */
+    /** @var Supplier the supplier of this orderdetails */
     private $supplier       = null;
-    /** @brief (array) all pricedetails of this orderdetails, as a one-dimensional array of Pricedetails objects */
+    /** @var array all pricedetails of this orderdetails, as a one-dimensional array of Pricedetails objects */
     private $pricedetails   = null;
 
     /********************************************************************************
@@ -103,7 +103,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *********************************************************************************/
 
     /**
-     * @brief Delete this orderdetails incl. all their pricedetails
+     * Delete this orderdetails incl. all their pricedetails
      *
      * @throws Exception if there was an error
      */
@@ -148,9 +148,9 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *********************************************************************************/
 
     /**
-     * @brief Get the part
+     * Get the part
      *
-     * @retval Part     the part of this orderdetails
+     * @return Part     the part of this orderdetails
      *
      * @throws Exception if there was an error
      */
@@ -169,9 +169,9 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Get the supplier
+     * Get the supplier
      *
-     * @retval Supplier     the supplier of this orderdetails
+     * @return Supplier     the supplier of this orderdetails
      *
      * @throws Exception if there was an error
      */
@@ -190,9 +190,9 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Get the supplier part-nr.
+     * Get the supplier part-nr.
      *
-     * @retval string       the part-nr.
+     * @return string       the part-nr.
      */
     public function get_supplierpartnr()
     {
@@ -200,12 +200,12 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Get if this orderdetails is obsolete
+     * Get if this orderdetails is obsolete
      *
      * "Orderdetails is obsolete" means that the part with that supplier-part-nr
      * is no longer available from the supplier of that orderdetails.
      *
-     * @retval boolean      @li true if this part is obsolete at that supplier
+     * @return boolean      @li true if this part is obsolete at that supplier
      *                      @li false if this part isn't obsolete at that supplier
      */
     public function get_obsolete()
@@ -214,9 +214,9 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Get the link to the website of the article on the suppliers website
+     * Get the link to the website of the article on the suppliers website
      *
-     * @retval string           the link to the article
+     * @return string           the link to the article
      */
     public function get_supplier_product_url()
     {
@@ -229,9 +229,9 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Get all pricedetails
+     * Get all pricedetails
      *
-     * @retval array    all pricedetails as a one-dimensional array of Pricedetails objects,
+     * @return Pricedetails[]    all pricedetails as a one-dimensional array of Pricedetails objects,
      *                  sorted by minimum discount quantity
      *
      * @throws Exception if there was an error
@@ -256,7 +256,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Get the price for a specific quantity
+     * Get the price for a specific quantity
      *
      * @param boolean $as_money_string      @li if true, this method returns a money string incl. currency
      *                                      @li if false, this method returns the price as float
@@ -264,9 +264,9 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @param integer|NULL  $multiplier     @li This is the multiplier which will be applied to every single price
      *                                      @li If you pass NULL, the number from $quantity will be used
      *
-     * @retval float    the price as a float number (if "$as_money_string == false")
-     * @retval NULL     if there are no prices and "$as_money_string == false"
-     * @retval string   the price as a string incl. currency (if "$as_money_string == true")
+     * @return float|null|string    float: the price as a float number (if "$as_money_string == false")
+     * * null: if there are no prices and "$as_money_string == false"
+     * * string:   the price as a string incl. currency (if "$as_money_string == true")
      *
      * @throws Exception if there are no pricedetails for the choosed quantity
      *          (for example, there are only one pricedetails with the minimum discount quantity '10',
@@ -322,7 +322,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *********************************************************************************/
 
     /**
-     * @brief Set the supplier ID
+     * Set the supplier ID
      *
      * @param integer $new_supplier_id       the ID of the new supplier
      *
@@ -335,7 +335,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Set the supplier part-nr.
+     * Set the supplier part-nr.
      *
      * @param string $new_supplierpartnr       the new supplier-part-nr
      *
@@ -347,7 +347,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Set if the part is obsolete at the supplier of that orderdetails
+     * Set if the part is obsolete at the supplier of that orderdetails
      *
      * @param boolean $new_obsolete       true means that this part is obsolete
      *
@@ -412,7 +412,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Create a new orderdetails record
+     * @Create a new orderdetails record
      *
      * @param Database  &$database          reference to the database onject
      * @param User      &$current_user      reference to the current user which is logged in
@@ -422,7 +422,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @param string    $supplierpartnr     the supplier-part-nr (see Orderdetails::set_supplierpartnr())
      * @param boolean   $obsolete           the obsolete attribute of the new orderdetails (see Orderdetails::set_obsolete())
      *
-     * @retval Orderdetails     the new orderdetails object
+     * @return Orderdetails     the new orderdetails object
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

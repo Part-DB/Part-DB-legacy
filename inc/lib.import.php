@@ -122,11 +122,11 @@ $import_data_columns = array(   // for import parts
                                         'Bestückungsdaten'      => 'devicepart_mount_names');
 
      /**
-     * @brief Get the import data array from the variable $_REQUEST
+     * Get the import data array from the variable $_REQUEST
      *
      * If the user clicks "check data" under an import table, you can use this function to build the import data array.
      *
-     * @retval array     An associative array with the column-names as keys and the field contents as values (exactly the same like "import_text_to_array()")
+     * @return array     An associative array with the column-names as keys and the field contents as values (exactly the same like "import_text_to_array()")
      *
      * @throws Exception if there was an error
      */
@@ -213,13 +213,13 @@ $import_data_columns = array(   // for import parts
     }
 
     /**
-     * @brief Convert an import text string (like XML or CSV) to an associative array
+     * Convert an import text string (like XML or CSV) to an associative array
      *
      * What this function does:
-     *  @li Write all values from the import string (CSV, XML) to an assocuative array
-     *  @li If the column names in CSV or XML are in german, they will be replaced with internal column names (like "Name" --> "part_name")
-     *  @li Set the datatypes of each array element correct (numbers to integer, texts to string)
-     *  @li Fill in default values for all attributes which are not defined in the import string
+     *  * Write all values from the import string (CSV, XML) to an assocuative array
+     *  * If the column names in CSV or XML are in german, they will be replaced with internal column names (like "Name" --> "part_name")
+     *  * Set the datatypes of each array element correct (numbers to integer, texts to string)
+     *  * Fill in default values for all attributes which are not defined in the import string
      *
      * @note After calling this function for device parts, you have to call the function "match_devicepart_names_to_ids()"!
      *
@@ -228,7 +228,7 @@ $import_data_columns = array(   // for import parts
      *                              @li Supported formats: "CSV", "XML"
      * @param string $separator     For CSV we need to know the separator string
      *
-     * @retval array                An associative array with the column-names as keys and the field contents as values
+     * @return array                An associative array with the column-names as keys and the field contents as values
      *
      * @throws Exception if there was an error (maybe the file structure is not correct)
      */
@@ -345,7 +345,7 @@ $import_data_columns = array(   // for import parts
     }
 
     /**
-     * @brief Fill in DevicePart IDs of an associative array (from "import_text_to_array()") where only the part names are used (instead of the IDs)
+     * Fill in DevicePart IDs of an associative array (from "import_text_to_array()") where only the part names are used (instead of the IDs)
      *
      * If the user has used part names ("devicepart_part_name") instead of part IDs ("devicepart_part_id"),
      * this funtion will search for these parts and fill in the IDs in "devicepart_part_id".
@@ -386,14 +386,14 @@ $import_data_columns = array(   // for import parts
     }
 
     /**
-     * @brief Convert an associative array (from "import_text_to_array()") to an template loop for creating a table
+     * Convert an associative array (from "import_text_to_array()") to an template loop for creating a table
      *
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      * @param array     $data               The data array from the function "import_text_to_array()"
      *
-     * @retval array                A template loop for printing a table with "vlib_table.tmpl"
+     * @return array                A template loop for printing a table with "vlib_table.tmpl"
      *
      * @throws Exception if there was an error
      */
@@ -477,14 +477,14 @@ $import_data_columns = array(   // for import parts
     }
 
     /**
-     * @brief Convert an associative array (from "import_text_to_array()") to an template loop for creating a table
+     * Convert an associative array (from "import_text_to_array()") to an template loop for creating a table
      *
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      * @param array     $data               The data array from the function "import_text_to_array()"
      *
-     * @retval array                A template loop for printing a table with "vlib_table.tmpl"
+     * @return array                A template loop for printing a table with "vlib_table.tmpl"
      *
      * @throws Exception if there was an error
      */
@@ -564,7 +564,7 @@ $import_data_columns = array(   // for import parts
     }
 
     /**
-     * @brief Import Parts (create Parts, and if neccessary, Categories, Footprints and so on)
+     * Import Parts (create Parts, and if neccessary, Categories, Footprints and so on)
      *
      * @note    This function uses database transactions. If an error occurs, all changes will be rolled back.
      *
@@ -575,7 +575,7 @@ $import_data_columns = array(   // for import parts
      * @param boolean   $only_check_data    If true, this function will only check if all values in "$data" are valid.
      *                                      In this case, no parts will be imported!
      *
-     * @retval array    All new Part objects (only if "$only_check_data == false")
+     * @return array    All new Part objects (only if "$only_check_data == false")
      *
      * @throws Exception    if there was an error (maybe the passed data is not valid)
      */
@@ -779,7 +779,7 @@ $import_data_columns = array(   // for import parts
     }
 
     /**
-     * @brief Import DeviceParts in a Device
+     * Import DeviceParts in a Device
      *
      * @note    This function uses database transactions. If an error occurs, all changes will be rolled back.
      *

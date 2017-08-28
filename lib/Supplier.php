@@ -32,7 +32,7 @@ use Exception;
  * @brief class Supplier
  *
  * @class Supplier
- * @brief All elements of this class are stored in the database table "suppliers".
+ * All elements of this class are stored in the database table "suppliers".
  * @author kami89
  */
 class Supplier extends Base\Company
@@ -44,7 +44,7 @@ class Supplier extends Base\Company
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     *  Constructor
      *
      * @note  It's allowed to create an object with the ID 0 (for the root element).
      *
@@ -68,12 +68,12 @@ class Supplier extends Base\Company
      *********************************************************************************/
 
     /**
-     * @brief Get all parts from this element
+     *  Get all parts from this element
      *
      * @param boolean $recursive                if true, the parts of all sub-suppliers will be listed too
      * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
      *
-     * @retval array        all parts in a one-dimensional array of Part objects
+     * @return array        all parts in a one-dimensional array of Part objects
      *
      * @throws Exception    if there was an error
      */
@@ -115,11 +115,11 @@ class Supplier extends Base\Company
     }
 
     /**
-     * @brief Get all parts from this element
+     *  Get all parts from this element
      *
      * @param boolean $recursive        if true, the parts of all sub-suppliers will be listed too
      *
-     * @retval array        all parts in a one-dimensional array of Part objects
+     * @return array        all parts in a one-dimensional array of Part objects
      *
      * @throws Exception    if there was an error
      */
@@ -148,11 +148,11 @@ class Supplier extends Base\Company
      *********************************************************************************/
 
     /**
-     * @brief Get count of suppliers
+     *  Get count of suppliers
      *
      * @param Database &$database   reference to the Database-object
      *
-     * @retval integer              count of suppliers
+     * @return integer              count of suppliers
      *
      * @throws Exception            if there was an error
      */
@@ -166,7 +166,7 @@ class Supplier extends Base\Company
     }
 
     /**
-     * @brief Get all suppliers which have parts to order
+     *  Get all suppliers which have parts to order
      *
      * @note    This method will only return suppliers, which have parts to order and
      *          which have an supplier selected for the order. Parts, which should be
@@ -176,7 +176,7 @@ class Supplier extends Base\Company
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
-     * @retval array    all suppliers as a one-dimensional array of Supplier objects,
+     * @return array    all suppliers as a one-dimensional array of Supplier objects,
      *                  sorted by their count of parts to order (desc.)
      *
      * @throws Exception if there was an error
@@ -213,7 +213,7 @@ class Supplier extends Base\Company
     }
 
     /**
-     * @brief Create a new supplier
+     *  Create a new supplier
      *
      * @param Database  &$database          reference to the database onject
      * @param User      &$current_user      reference to the current user which is logged in
@@ -227,7 +227,7 @@ class Supplier extends Base\Company
      * @param string    $website            the website of the new supplier (see Supplier::set_website())
      * @param string    $auto_product_url   the automatic link to the product website (see Company::set_auto_product_url())
      *
-     * @retval Supplier     the new supplier
+     * @return Supplier     the new supplier
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

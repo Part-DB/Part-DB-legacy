@@ -32,7 +32,7 @@ use Exception;
  * @brief class Manufacturer
  *
  * @class Manufacturer
- * @brief All elements of this class are stored in the database table "manufacturers".
+ *  All elements of this class are stored in the database table "manufacturers".
  * @author kami89
  */
 class Manufacturer extends Base\Company
@@ -44,7 +44,7 @@ class Manufacturer extends Base\Company
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     *  Constructor
      *
      * @note  It's allowed to create an object with the ID 0 (for the root element).
      *
@@ -73,7 +73,7 @@ class Manufacturer extends Base\Company
      * @param boolean $recursive                if true, the parts of all sub-manufacturers will be listed too
      * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
      *
-     * @retval array        all parts as a one-dimensional array of Manufacturer objects,
+     * @return Part[]        all parts as a one-dimensional array of Manufacturer objects,
      *                      sorted by their names
      *
      * @throws Exception if there was an error
@@ -92,11 +92,11 @@ class Manufacturer extends Base\Company
      *********************************************************************************/
 
     /**
-     * @brief Get count of manufacturers
+     * Get count of manufacturers
      *
      * @param Database &$database   reference to the Database-object
      *
-     * @retval integer              count of manufacturers
+     * @return integer              count of manufacturers
      *
      * @throws Exception            if there was an error
      */
@@ -124,7 +124,7 @@ class Manufacturer extends Base\Company
      * @param string    $website            the website of the new manufacturer (see Manufacturer::set_website())
      * @param string    $auto_product_url   the automatic link to the product website (see Company::set_auto_product_url())
      *
-     * @retval Manufacturer     the new manufacturer
+     * @return Manufacturer     the new manufacturer
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

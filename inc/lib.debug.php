@@ -40,7 +40,7 @@ define('DEBUG_LOG_FILENAME', BASE.'/data/log/debug_log.xml');
  *********************************************************************************/
 
 /**
- * @brief Add an Element to the Debug-Log
+ * Add an Element to the Debug-Log
  *
  * @par Example:
  * @code debug('error', 'This is your Message...', __FILE__, __LINE__, __METHOD__); @endcode
@@ -156,7 +156,7 @@ function debug($type, $text, $file = '', $line = '', $method = '', $silent = tru
 }
 
 /**
- * @brief Create a new (empty) Debug Log File
+ * Create a new (empty) Debug Log File
  *
  * @throws Exception if there was an error (maybe no permissions)
  */
@@ -173,7 +173,7 @@ function create_debug_log_file()
 }
 
 /**
- * @brief Delete the Debug Log File
+ * Delete the Debug Log File
  *
  * @throws Exception if there was an error (maybe no permissions)
  */
@@ -195,9 +195,9 @@ function delete_debug_log_file()
  *********************************************************************************/
 
 /**
- * @brief Get log elements
+ * Get log elements
  *
- * @param array|NULL $types     @li here you can supply an array of all log types (strings) you want to get
+ * @param array|null $types     @li here you can supply an array of all log types (strings) you want to get
  *                              @li NULL if you want to get ALL log elements
  *
  * @retval array     log elements (array-like)
@@ -246,9 +246,9 @@ function get_debug_log_elements($types = null)
 }
 
 /**
- * @brief Get all different log types which exists in the log
+ * Get all different log types which exists in the log
  *
- * @retval array    log types (array of strings)
+ * @return string[]    log types (array of strings)
  *
  * @throws Exception if there was an error (maybe no file or no read permissions)
  */
@@ -275,8 +275,8 @@ function get_all_debug_types()
  *********************************************************************************/
 
 /**
- * @brief Set the enable attribute
- * ¨
+ * Set the enable attribute
+ *
  * @param boolean       $new_enable         The new enable state
  * @param string|NULL   $admin_password     @li The admin password for enabling/disabling the debug log (from "config.php").
  *                                          @li see $config['debug']['password'] in config_defaults.php

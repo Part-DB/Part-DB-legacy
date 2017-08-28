@@ -49,12 +49,12 @@ class System
      *
      *********************************************************************************/
 
-    /** (Database) the Database object for the database access of the logs */
+    /** @var Database the Database object for the database access of the logs */
     private $database                   = null;
-    /** (Log) the Log object for logging */
+    /** @var Log the Log object for logging */
     private $log                        = null;
 
-    /** (SystemVersion) the installed version */
+    /** @var SystemVersion the installed version */
     private $installed_version          = null;
 
     /********************************************************************************
@@ -64,7 +64,7 @@ class System
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @param Database  &$database      reference to the Database object
      * @param Log       &$log           reference to the Log object
@@ -103,9 +103,9 @@ class System
      *********************************************************************************/
 
     /**
-     * @brief Get the installed version of the system
+     *  Get the installed version of the system
      *
-     * @retval SystemVersion      the installed version
+     * @return SystemVersion      the installed version
      *
      * @see SystemVersion::get_installed_version()
      */
@@ -115,11 +115,11 @@ class System
     }
 
     /**
-     * @brief Get the latest version which is available
+     *  Get the latest version which is available
      *
      * @param string $type          the version type ('stable' or 'unstable')
      *
-     * @retval SystemVersion        the latest available version
+     * @return SystemVersion        the latest available version
      *
      * @throws Exception if there was an error
      *
@@ -149,7 +149,7 @@ class System
     }*/
 
     /*
-     * @brief Download and extract all available update archives to the folder "updates/"
+     *  Download and extract all available update archives to the folder "updates/"
      *
      * @throws Exception if there was an error
      *
@@ -224,7 +224,7 @@ class System
     }
 
     /*
-     * @brief Update the system to the newest (or another) version
+     *  Update the system to the newest (or another) version
      *
      * @param string $to_version    @li The version string of the version we want to update
      *                              @li Or pass an empty string to update to the latest version
@@ -258,7 +258,7 @@ class System
     }
 
     /*
-     * @brief Update the system to the next highter version
+     *  Update the system to the next highter version
      *
      * @throws Exception if there was an error
      *

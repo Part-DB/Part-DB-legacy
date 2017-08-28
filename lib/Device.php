@@ -32,9 +32,9 @@ use Exception;
  * @brief class Device
  *
  * @class Device
- * @brief All elements of this class are stored in the database table "devices".
+ * All elements of this class are stored in the database table "devices".
  *
- * @note    There cannot be more than one DeviceParts with the same Part in a Device!
+ *    There cannot be more than one DeviceParts with the same Part in a Device!
  *          The Reason is, that it would be quite complicated to "calculate" if there are enough parts in stock.
  *          Example: If there is the same Part in a Device two times and only one Part in stock.
  *          Which one should be marked as "enought in stock", which one as "not enought in stock"?
@@ -51,7 +51,7 @@ class Device extends Base\PartsContainingDBElement
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @note  It's allowed to create an object with the ID 0 (for the root element).
      *
@@ -81,7 +81,7 @@ class Device extends Base\PartsContainingDBElement
      *********************************************************************************/
 
     /**
-     * @brief Delete this device (with all DeviceParts in it)
+     *  Delete this device (with all DeviceParts in it)
      *
      * @note    This function overrides the same-named function from the parent class.
      * @note    The DeviceParts in this device will be deleted too (not the parts itself,
@@ -136,7 +136,7 @@ class Device extends Base\PartsContainingDBElement
     }
 
     /**
-     * @brief Create a new Device as a copy from this one. All DeviceParts will be copied too.
+     *  Create a new Device as a copy from this one. All DeviceParts will be copied too.
      *
      * @param string $name                  The name of the new device
      * @param integer $parent_id            The ID of the new device's parent device
@@ -189,7 +189,7 @@ class Device extends Base\PartsContainingDBElement
     }
 
     /**
-     * @brief Book all parts (decrease or increase instock)
+     *  Book all parts (decrease or increase instock)
      *
      * @note    This method will book all parts depending on their "mount_quantity".
      *          @li Example with $book_multiplier = 2:
@@ -238,9 +238,9 @@ class Device extends Base\PartsContainingDBElement
      *********************************************************************************/
 
     /**
-     * @brief Get the order quantity of this device
+     *  Get the order quantity of this device
      *
-     * @retval integer      the order quantity
+     * @return integer      the order quantity
      */
     public function get_order_quantity()
     {
@@ -248,9 +248,9 @@ class Device extends Base\PartsContainingDBElement
     }
 
     /**
-     * @brief Get the "order_only_missing_parts" attribute
+     *  Get the "order_only_missing_parts" attribute
      *
-     * @retval boolean      the "order_only_missing_parts" attribute
+     * @return boolean      the "order_only_missing_parts" attribute
      */
     public function get_order_only_missing_parts()
     {
@@ -258,7 +258,7 @@ class Device extends Base\PartsContainingDBElement
     }
 
     /**
-     * @brief Get all device-parts of this device
+     *  Get all device-parts of this device
      *
      * @note    This method overrides the same-named method of the parent class.
      * @note    The attribute "$this->parts" will be used to store the parts.
@@ -266,7 +266,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @param boolean $recursive        if true, the parts of all subelements will be listed too
      *
-     * @retval array        all parts as a one-dimensional array of "DevicePart"-objects,
+     * @return array        all parts as a one-dimensional array of "DevicePart"-objects,
      *                      sorted by their names (only if "$recursive == false")
      *
      * @throws Exception if there was an error
@@ -302,13 +302,13 @@ class Device extends Base\PartsContainingDBElement
     }
 
     /**
-     * @brief Get the count of different parts in this device
+     *  Get the count of different parts in this device
      *
      * This method simply returns the count of the returned array of Device::get_parts().
      *
      * @param boolean $recursive        if true, the parts of all subelements will be counted too
      *
-     * @retval integer      count of different parts in this device
+     * @return integer      count of different parts in this device
      *
      * @throws Exception if there was an error
      */
@@ -320,11 +320,11 @@ class Device extends Base\PartsContainingDBElement
     }
 
     /**
-     * @brief Get the count of all parts in this device (every part multiplied by its quantity)
+     *  Get the count of all parts in this device (every part multiplied by its quantity)
      *
      * @param boolean $recursive        if true, the parts of all subelements will be counted too
      *
-     * @retval integer      count of all parts in this device
+     * @return integer      count of all parts in this device
      *
      * @throws Exception if there was an error
      */
@@ -341,7 +341,7 @@ class Device extends Base\PartsContainingDBElement
     }
 
     /**
-     * @brief Get the total price of all parts in this device (counted with their mount quantity)
+     *  Get the total price of all parts in this device (counted with their mount quantity)
      *
      * @note        To calculate the price, the average prices of the parts will be used.
      *              More details: Part::get_average_price()
@@ -353,8 +353,8 @@ class Device extends Base\PartsContainingDBElement
      *                                      @li if false, this method will return the price as a float
      * @param boolean $recursive            if true, the parts of all subdevicess will be counted too
      *
-     * @retval string       the price as a formatted string with currency (if "$as_money_string == true")
-     * @retval float        the price as a float (if "$as_money_string == false")
+     * @return string       the price as a formatted string with currency (if "$as_money_string == true")
+     * @return float        the price as a float (if "$as_money_string == false")
      *
      * @see float_to_money_string()
      *
@@ -383,7 +383,7 @@ class Device extends Base\PartsContainingDBElement
      *********************************************************************************/
 
     /**
-     * @brief Set the order quantity
+     *  Set the order quantity
      *
      * @param integer $new_order_quantity       the new order quantity
      *
@@ -396,7 +396,7 @@ class Device extends Base\PartsContainingDBElement
     }
 
     /**
-     * @brief Set the "order_only_missing_parts" attribute
+     *  Set the "order_only_missing_parts" attribute
      *
      * @param boolean $new_order_only_missing_parts       the new "order_only_missing_parts" attribute
      *
@@ -433,13 +433,13 @@ class Device extends Base\PartsContainingDBElement
     }
 
     /**
-     * @brief Get all devices which should be ordered (marked manually as "to order")
+     *  Get all devices which should be ordered (marked manually as "to order")
      *
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
-     * @retval array    all devices as a one-dimensional array of Device objects, sorted by their names
+     * @return array    all devices as a one-dimensional array of Device objects, sorted by their names
      *
      * @throws Exception if there was an error
      */
@@ -465,11 +465,11 @@ class Device extends Base\PartsContainingDBElement
     }
 
     /**
-     * @brief Get count of devices
+     *  Get count of devices
      *
      * @param Database &$database   reference to the Database-object
      *
-     * @retval integer              count of devices
+     * @return integer              count of devices
      *
      * @throws Exception            if there was an error
      */
@@ -483,7 +483,7 @@ class Device extends Base\PartsContainingDBElement
     }
 
     /**
-     * @brief Create a new device
+     *  Create a new device
      *
      * @param Database  &$database                  reference to the database object
      * @param User      &$current_user              reference to the current user which is logged in
@@ -491,7 +491,7 @@ class Device extends Base\PartsContainingDBElement
      * @param string    $name                       the name of the new device (see Device::set_name())
      * @param integer   $parent_id                  the parent ID of the new device (see Device::set_parent_id())
      *
-     * @retval Device       the new device
+     * @return Device       the new device
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

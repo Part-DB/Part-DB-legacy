@@ -32,7 +32,7 @@ use Exception;
  * @brief class DevicePart
  *
  * @class DevicePart
- * @brief All elements of this class are stored in the database table "device_parts".
+ * All elements of this class are stored in the database table "device_parts".
  *
  * A DevicePart contains a Part-object and a Device-object. This class "connects" this two objects.
  * In addition to these two objects, there are the attributes "mount quantity" and "mount name".
@@ -51,9 +51,9 @@ class DevicePart extends Base\DBElement
      *
      *********************************************************************************/
 
-    /** @brief (Device) the device of this device-part */
+    /** @var Device the device of this device-part */
     private $device     = null;
-    /** @brief (Part) the part of this device-part */
+    /** @var Part the part of this device-part */
     private $part       = null;
 
     /********************************************************************************
@@ -63,7 +63,7 @@ class DevicePart extends Base\DBElement
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @param Database  &$database          reference to the Database-object
      * @param User      &$current_user      reference to the current user which is logged in
@@ -96,9 +96,9 @@ class DevicePart extends Base\DBElement
      *********************************************************************************/
 
     /**
-     * @brief Get the device of this device-part
+     * Get the device of this device-part
      *
-     * @retval Device       the device of this device-part
+     * @return Device       the device of this device-part
      *
      * @throws Exception if there was an error
      */
@@ -117,9 +117,9 @@ class DevicePart extends Base\DBElement
     }
 
     /**
-     * @brief Get the part of this device-part
+     *  Get the part of this device-part
      *
-     * @retval Part      the part of this device-part
+     * @return Part      the part of this device-part
      *
      * @throws Exception if there was an error
      */
@@ -138,9 +138,9 @@ class DevicePart extends Base\DBElement
     }
 
     /**
-     * @brief Get the mount quantity of this device-part
+     *  Get the mount quantity of this device-part
      *
-     * @retval integer      the mount quantity
+     * @return integer      the mount quantity
      */
     public function get_mount_quantity()
     {
@@ -148,11 +148,11 @@ class DevicePart extends Base\DBElement
     }
 
     /**
-     * @brief Get the mount name(s)
+     *  Get the mount name(s)
      *
      * @note    The mountname(s) attribute is simply a string. You can use it for what you want...
      *
-     * @retval string       the mountname(s)
+     * @return string       the mountname(s)
      */
     public function get_mount_names()
     {
@@ -166,7 +166,7 @@ class DevicePart extends Base\DBElement
      *********************************************************************************/
 
     /**
-     * @brief Set the mount quantity
+     *  Set the mount quantity
      *
      * @param integer $new_mount_quantity       the new mount quantity
      *
@@ -179,7 +179,7 @@ class DevicePart extends Base\DBElement
     }
 
     /**
-     * @brief Set the mount name(s)
+     *  Set the mount name(s)
      *
      * @note    The mountname(s) attribute is simply a string. You can use it for what you want...
      *
@@ -305,7 +305,7 @@ class DevicePart extends Base\DBElement
     }
 
     /**
-     * @brief Get the DevicePart by part_id + device_id (if exists)
+     *  Get the DevicePart by part_id + device_id (if exists)
      *
      * @param Database  &$database          reference to the Database-object
      * @param User      &$current_user      reference to the current user which is logged in
@@ -313,8 +313,8 @@ class DevicePart extends Base\DBElement
      * @param integer   $device_id          the ID of the device
      * @param integer   $part_id            the ID of the part
      *
-     * @retval  DevicePart      the found DevicePart
-     * @retval  NULL            if there is no such DevicePart
+     * @return  DevicePart      the found DevicePart
+     * @return  NULL            if there is no such DevicePart
      *
      * @throws Exception if there was an error
      */
@@ -338,14 +338,14 @@ class DevicePart extends Base\DBElement
     }
 
     /**
-     * @brief Get all device parts which should be ordered (device marked manually as "to order")
+     *  Get all device parts which should be ordered (device marked manually as "to order")
      *
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      * @param integer   $part_id            If this is not NULL, only DevicePart objects with that part_id will be returned
      *
-     * @retval array    all device parts as a one-dimensional array of DevicePart objects
+     * @return array    all device parts as a one-dimensional array of DevicePart objects
      *
      * @throws Exception if there was an error
      */
@@ -375,7 +375,7 @@ class DevicePart extends Base\DBElement
     }
 
     /**
-     * @brief Create a new device-part
+     *  Create a new device-part
      *
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the current user which is logged in
@@ -392,8 +392,8 @@ class DevicePart extends Base\DBElement
      *                                      @li if false, and there is already a DevicePart with the same
      *                                          part ID + device ID, this method will throw an exception.
      *
-     * @retval DevicePart   the new device-part
-     * @retval DevicePart   the existing device-part, if there is already a DevicePart with
+     * @return DevicePart   the new device-part
+     * @return DevicePart   the existing device-part, if there is already a DevicePart with
      *                      the same part ID + device ID and "$increment_if_exist == true"
      *
      * @throws Exception    if (this combination of) values is not valid

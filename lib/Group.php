@@ -32,7 +32,7 @@ use Exception;
  * @brief class Group
  *
  * @class Group
- * @brief All elements of this class are stored in the database table "groups".
+ * All elements of this class are stored in the database table "groups".
  * @author kami89
  *
  * @todo    This class is not really complete ;-)
@@ -49,7 +49,7 @@ class Group extends Base\StructuralDBElement
      *
      *********************************************************************************/
 
-    /** (array) All users of this group as a one-dimensional array of User objects */
+    /** @var User[] All users of this group as a one-dimensional array of User objects */
     private $users = null;
 
     /********************************************************************************
@@ -59,7 +59,7 @@ class Group extends Base\StructuralDBElement
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @note  It's allowed to create an object with the ID 0 (for the root element).
      *
@@ -93,11 +93,11 @@ class Group extends Base\StructuralDBElement
      *********************************************************************************/
 
     /**
-     * @brief Get all users of this group
+     * Get all users of this group
      *
      * @param boolean $recursive        if true, the users of all subgroups will be listed too
      *
-     * @retval array        all users as a one-dimensional array of User objects,
+     * @return User[]        all users as a one-dimensional array of User objects,
      *                      sorted by their names
      *
      * @throws Exception if there was an error
@@ -149,11 +149,11 @@ class Group extends Base\StructuralDBElement
     }
 
     /**
-     * @brief Get count of groups
+     * Get count of groups
      *
      * @param Database &$database   reference to the Database-object
      *
-     * @retval integer              count of groups
+     * @return integer              count of groups
      *
      * @throws Exception            if there was an error
      */

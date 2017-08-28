@@ -33,7 +33,7 @@ use PartDB\PartProperty\PartProperty;
  * @brief class Part
  *
  * @class Part
- * @brief All elements of this class are stored in the database table "parts".
+ * All elements of this class are stored in the database table "parts".
  *
  * A Part can contain:
  *  - 1     Category
@@ -58,23 +58,23 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      *********************************************************************************/
 
-    /** @brief (Category) the category of this part */
+    /** @var Category the category of this part */
     private $category;
-    /** @brief (Footprint|NULL) the footprint of this part (if there is one) */
+    /** @var Footprint|null the footprint of this part (if there is one) */
     private $footprint = null;
-    /** @brief (Storelocation|NULL) the storelocation where this part is located (if there is one) */
+    /** @var Storelocation|null the storelocation where this part is located (if there is one) */
     private $storelocation = null;
-    /** @brief (Manufacturer|NULL) the manufacturer of this part (if there is one) */
+    /** @var Manufacturer|null the manufacturer of this part (if there is one) */
     private $manufacturer = null;
-    /** @brief (Attachement|NULL) the master picture Attachement of this part (if there is one) */
+    /** @var Attachement|null the master picture Attachement of this part (if there is one) */
     private $master_picture_attachement = null;
-    /** @brief (array) all orderdetails-objects as a one-dimensional array of Orderdetails-objects
+    /** @var Orderdetails[] all orderdetails-objects as a one-dimensional array of Orderdetails-objects
     (empty array if there are no orderdetails) */
     private $orderdetails = null;
-    /** @brief (Orderdetails|NULL) the order orderdetails of this part (for "parts to order") */
+    /** @var Orderdetails|null the order orderdetails of this part (for "parts to order") */
     private $order_orderdetails;
 
-    /** @brief (array) all devices in which this part is used (as a one-dimensional array of Device objects) */
+    /** @var Device[] all devices in which this part is used (as a one-dimensional array of Device objects) */
     private $devices = null;
 
     /********************************************************************************
@@ -84,7 +84,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @param Database  &$database:     reference to the Database-object
      * @param User      &$current_user  reference to the current user which is logged in
@@ -124,7 +124,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *********************************************************************************/
 
     /**
-     * @brief Delete this element
+     * Delete this element
      *
      * @note    This function overrides the same-named function from the parent class.
      * @note    The associated orderdetails and attachements will be deleted too.
@@ -213,11 +213,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *********************************************************************************/
 
     /**
-     * @brief Get the description
+     * Get the description
      *
      * @param boolean $parse_bbcode Should BBCode converted to HTML, before returning
      * @param int $short_output If this is bigger than 0, than the description will be shortened to this length.
-     * @retval string       the description
+     * @return string       the description
      */
     public function get_description($parse_bbcode = true, $short_output = 0)
     {
@@ -238,9 +238,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the count of parts which are in stock
+     *  Get the count of parts which are in stock
      *
-     * @retval integer       count of parts which are in stock
+     * @return integer       count of parts which are in stock
      */
     public function get_instock()
     {
@@ -248,9 +248,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the count of parts which must be in stock at least
+     *  Get the count of parts which must be in stock at least
      *
-     * @retval integer       count of parts which must be in stock at least
+     * @return integer       count of parts which must be in stock at least
      */
     public function get_mininstock()
     {
@@ -258,10 +258,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the comment
+     *  Get the comment
      *
      * @param boolean $parse_bbcode Should BBCode converted to HTML, before returning
-     * @retval string       the comment
+     * @return string       the comment
      */
     public function get_comment($parse_bbcode = true)
     {
@@ -275,12 +275,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get if this part is obsolete
+     *  Get if this part is obsolete
      *
      * @note    A Part is marked as "obsolete" if all their orderdetails are marked as "obsolete".
      *          If a part has no orderdetails, the part isn't marked as obsolete.
      *
-     * @retval boolean      @li true if this part is obsolete
+     * @return boolean      @li true if this part is obsolete
      *                      @li false if this part isn't obsolete
      */
     public function get_obsolete()
@@ -301,9 +301,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get if this part is visible
+     *  Get if this part is visible
      *
-     * @retval boolean      @li true if this part is visible
+     * @return boolean      @li true if this part is visible
      *                      @li false if this part isn't visible
      */
     public function get_visible()
@@ -312,10 +312,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the selected order orderdetails of this part
+     *  Get the selected order orderdetails of this part
      *
-     * @retval Orderdetails         the selected order orderdetails
-     * @retval NULL                 if there is no order supplier selected
+     * @return Orderdetails         the selected order orderdetails
+     * @return NULL                 if there is no order supplier selected
      */
     public function get_order_orderdetails()
     {
@@ -337,9 +337,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the order quantity of this part
+     *  Get the order quantity of this part
      *
-     * @retval integer      the order quantity
+     * @return integer      the order quantity
      */
     public function get_order_quantity()
     {
@@ -347,12 +347,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the minimum quantity which should be ordered
+     *  Get the minimum quantity which should be ordered
      *
      * @param boolean $with_devices     @li if true, all parts from devices which are marked as "to order" will be included in the calculation
      *                                  @li if false, only max(mininstock - instock, 0) will be returned
      *
-     * @retval integer      the minimum order quantity
+     * @return integer      the minimum order quantity
      */
     public function get_min_order_quantity($with_devices = true)
     {
@@ -376,9 +376,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the "manual_order" attribute
+     *  Get the "manual_order" attribute
      *
-     * @retval boolean      the "manual_order" attribute
+     * @return boolean      the "manual_order" attribute
      */
     public function get_manual_order()
     {
@@ -386,9 +386,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the link to the website of the article on the manufacturers website
+     *  Get the link to the website of the article on the manufacturers website
      *
-     * @retval string           the link to the article
+     * @return string           the link to the article
      */
     public function get_manufacturer_product_url()
     {
@@ -422,11 +422,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the category of this part
+     *  Get the category of this part
      *
      * There is always a category, for each part!
      *
-     * @retval Category     the category of this part
+     * @return Category     the category of this part
      *
      * @throws Exception if there was an error
      */
@@ -445,10 +445,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the footprint of this part (if there is one)
+     *  Get the footprint of this part (if there is one)
      *
-     * @retval Footprint    the footprint of this part (if there is one)
-     * @retval NULL         if this part has no footprint
+     * @return Footprint    the footprint of this part (if there is one)
+     * @return NULL         if this part has no footprint
      *
      * @throws Exception if there was an error
      */
@@ -467,10 +467,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the storelocation of this part (if there is one)
+     *  Get the storelocation of this part (if there is one)
      *
-     * @retval Storelocation    the storelocation of this part (if there is one)
-     * @retval NULL             if this part has no storelocation
+     * @return Storelocation    the storelocation of this part (if there is one)
+     * @return NULL             if this part has no storelocation
      *
      * @throws Exception if there was an error
      */
@@ -489,10 +489,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the manufacturer of this part (if there is one)
+     *  Get the manufacturer of this part (if there is one)
      *
-     * @retval Manufacturer     the manufacturer of this part (if there is one)
-     * @retval NULL             if this part has no manufacturer
+     * @return Manufacturer     the manufacturer of this part (if there is one)
+     * @return NULL             if this part has no manufacturer
      *
      * @throws Exception if there was an error
      */
@@ -511,10 +511,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the master picture "Attachement"-object of this part (if there is one)
+     *  Get the master picture "Attachement"-object of this part (if there is one)
      *
-     * @retval Attachement      the master picture Attachement of this part (if there is one)
-     * @retval NULL             if this part has no master picture
+     * @return Attachement      the master picture Attachement of this part (if there is one)
+     * @return NULL             if this part has no master picture
      *
      * @throws Exception if there was an error
      */
@@ -533,11 +533,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get all orderdetails of this part
+     *  Get all orderdetails of this part
      *
      * @param boolean $hide_obsolete    If true, obsolete orderdetails will NOT be returned
      *
-     * @retval array    @li all orderdetails as a one-dimensional array of Orderdetails objects
+     * @return array    @li all orderdetails as a one-dimensional array of Orderdetails objects
      *                      (empty array if there are no ones)
      *                  @li the array is sorted by the suppliers names / minimum order quantity
      *
@@ -574,9 +574,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get all devices which uses this part
+     *  Get all devices which uses this part
      *
-     * @retval array    @li all devices which uses this part as a one-dimensional array of Device objects
+     * @return array    @li all devices which uses this part as a one-dimensional array of Device objects
      *                      (empty array if there are no ones)
      *                  @li the array is sorted by the devices names
      *
@@ -604,7 +604,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get all suppliers of this part
+     *  Get all suppliers of this part
      *
      * This method simply gets the suppliers of the orderdetails and prepare them.\n
      * You can get the suppliers as an array or as a string with individual delimeter.
@@ -620,11 +620,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *                                          suppliernames are only the names (without path)
      * @param boolean       $hide_obsolete  If true, suppliers from obsolete orderdetails will NOT be returned
      *
-     * @retval array        all suppliers as a one-dimensional array of Supplier objects
+     * @return array        all suppliers as a one-dimensional array of Supplier objects
      *                      (if "$object_array == true")
-     * @retval array        all supplier-names as a one-dimensional array of strings
+     * @return array        all supplier-names as a one-dimensional array of strings
      *                      ("if $object_array == false" and "$delimeter == NULL")
-     * @retval string       a sting of all supplier names, delimeted by $delimeter
+     * @return string       a sting of all supplier names, delimeted by $delimeter
      *                      ("if $object_array == false" and $delimeter is a string)
      *
      * @throws Exception    if there was an error
@@ -659,7 +659,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get all supplier-part-Nrs
+     *  Get all supplier-part-Nrs
      *
      * This method simply gets the suppliers-part-Nrs of the orderdetails and prepare them.\n
      * You can get the numbers as an array or as a string with individual delimeter.
@@ -668,8 +668,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *                                      @li otherwise, this method returns an array of strings
      * @param boolean       $hide_obsolete  If true, supplierpartnrs from obsolete orderdetails will NOT be returned
      *
-     * @retval array        all supplierpartnrs as an array of strings (if "$delimeter == NULL")
-     * @retval string       all supplierpartnrs as a string, delimeted ba $delimeter (if $delimeter is a string)
+     * @return array        all supplierpartnrs as an array of strings (if "$delimeter == NULL")
+     * @return string       all supplierpartnrs as a string, delimeted ba $delimeter (if $delimeter is a string)
      *
      * @throws Exception    if there was an error
      */
@@ -689,7 +689,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get all prices of this part
+     *  Get all prices of this part
      *
      * This method simply gets the prices of the orderdetails and prepare them.\n
      * In the returned array/string there is a price for every supplier.
@@ -703,9 +703,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *                                      @li If you pass NULL, the number from $quantity will be used
      * @param boolean       $hide_obsolete  If true, prices from obsolete orderdetails will NOT be returned
      *
-     * @retval array        all prices as an array of floats (if "$delimeter == NULL" & "$float_array == true")
-     * @retval array        all prices as an array of strings (if "$delimeter == NULL" & "$float_array == false")
-     * @retval string       all prices as a string, delimeted by $delimeter (if $delimeter is a string)
+     * @return array        all prices as an array of floats (if "$delimeter == NULL" & "$float_array == true")
+     * @return array        all prices as an array of strings (if "$delimeter == NULL" & "$float_array == false")
+     * @return string       all prices as a string, delimeted by $delimeter (if $delimeter is a string)
      *
      * @warning             If there are orderdetails without prices, for these orderdetails there
      *                      will be a "NULL" in the returned float array (or a "-" in the string array)!!
@@ -729,7 +729,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the average price of all orderdetails
+     *  Get the average price of all orderdetails
      *
      * With the $multiplier you're able to multiply the price before it will be returned.
      * This is useful if you want to have the price as a string with currency, but multiplied with a factor.
@@ -741,9 +741,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param integer|NULL  $multiplier     @li This is the multiplier which will be applied to every single price
      *                                      @li If you pass NULL, the number from $quantity will be used
      *
-     * @retval float        price (if "$as_money_string == false")
-     * @retval NULL         if there are no prices for this part and "$as_money_string == false"
-     * @retval string       price with currency (if "$as_money_string == true")
+     * @return float        price (if "$as_money_string == false")
+     * @return NULL         if there are no prices for this part and "$as_money_string == false"
+     * @return string       price with currency (if "$as_money_string == true")
      *
      * @throws Exception    if there was an error
      */
@@ -772,15 +772,15 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the filename of the master picture (absolute path from filesystem root)
+     *  Get the filename of the master picture (absolute path from filesystem root)
      *
      * @param boolean $use_footprint_filename   @li if true, and this part has no picture, this method
      *                                              will return the filename of its footprint (if available)
      *                                          @li if false, and this part has no picture,
      *                                              this method will return NULL
      *
-     * @retval string   the whole path + filename from filesystem root as a UNIX path (with slashes)
-     * @retval NULL     if there is no picture
+     * @return string   the whole path + filename from filesystem root as a UNIX path (with slashes)
+     * @return NULL     if there is no picture
      *
      * @throws Exception if there was an error
      */
@@ -869,7 +869,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *********************************************************************************/
 
     /**
-     * @brief Set the description
+     *  Set the description
      *
      * @param string $new_description       the new description
      *
@@ -881,7 +881,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Set the count of parts which are in stock
+     *  Set the count of parts which are in stock
      *
      * @param integer $new_instock       the new count of parts which are in stock
      *
@@ -894,7 +894,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Set the count of parts which should be in stock at least
+     *  Set the count of parts which should be in stock at least
      *
      * @param integer $new_instock       the new count of parts which should be in stock at least
      *
@@ -907,7 +907,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Set the comment
+     *  Set the comment
      *
      * @param string $new_comment       the new comment
      *
@@ -919,7 +919,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Set the "manual_order" attribute
+     *  Set the "manual_order" attribute
      *
      * @param boolean $new_manual_order                 the new "manual_order" attribute
      * @param integer $new_order_quantity               the new order quantity
@@ -940,7 +940,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Set the ID of the order orderdetails
+     *  Set the ID of the order orderdetails
      *
      * @param integer|NULL $new_order_orderdetails_id       @li the new order orderdetails ID
      *                                                      @li Or, to remove the orderdetails, pass a NULL
@@ -953,7 +953,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Set the order quantity
+     *  Set the order quantity
      *
      * @param integer $new_order_quantity       the new order quantity
      *
@@ -966,7 +966,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Set the ID of the category
+     *  Set the ID of the category
      *
      * @note    Every part must have a valid category (in contrast to the
      *          attributes "footprint", "storelocation", ...)!
@@ -982,7 +982,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Set the footprint ID
+     *  Set the footprint ID
      *
      * @param integer|NULL $new_footprint_id    @li the ID of the footprint
      *                                          @li NULL means "no footprint"
@@ -996,7 +996,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Set the storelocation ID
+     *  Set the storelocation ID
      *
      * @param integer|NULL $new_storelocation_id    @li the ID of the storelocation
      *                                              @li NULL means "no storelocation"
@@ -1010,7 +1010,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Set the manufacturer ID
+     *  Set the manufacturer ID
      *
      * @param integer|NULL $new_manufacturer_id     @li the ID of the manufacturer
      *                                              @li NULL means "no manufacturer"
@@ -1024,7 +1024,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Set the ID of the master picture Attachement
+     *  Set the ID of the master picture Attachement
      *
      * @param integer|NULL $new_master_picture_attachement_id       @li the ID of the Attachement object of the master picture
      *                                                              @li NULL means "no master picture"
@@ -1044,7 +1044,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *********************************************************************************/
 
     /**
-     * @brief Build the array for the template table row of this part
+     *  Build the array for the template table row of this part
      *
      * @param string    $table_type             @li the type of the table which will be builded
      *                                          @li see Part::build_template_table_array()
@@ -1052,7 +1052,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param array     $additional_values      Here you can pass more values than only the part attributes.
      *                                          This is used in DevicePart::build_template_table_row_array().
      *
-     * @retval array    The array for the template output (element of the loop "table")
+     * @return array    The array for the template output (element of the loop "table")
      *
      * @throws Exception if there was an error
      */
@@ -1295,7 +1295,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Build the template table array of an array of parts
+     *  Build the template table array of an array of parts
      *
      * @param array     $parts              array of all parts (Part or DevicePart objects) which will be printed
      * @param string    $table_type         the type of the table which will be builded
@@ -1309,7 +1309,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *  - "location_parts"
      *
      *
-     * @retval array    the template loop array for the table
+     * @return array    the template loop array for the table
      *
      * @throws Exception if there was an error
      */
@@ -1567,11 +1567,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get count of parts
+     *  Get count of parts
      *
      * @param Database &$database   reference to the Database-object
      *
-     * @retval integer              count of parts
+     * @return integer              count of parts
      *
      * @throws Exception            if there was an error
      */
@@ -1585,7 +1585,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the sum of all "instock" attributes of all parts
+     *  Get the sum of all "instock" attributes of all parts
      *
      * All values in the table row "instock" will be summed up.
      *
@@ -1593,7 +1593,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @param Database &$database       reference to the database object
      *
-     * @retval integer      the sum of all "instock" attributes of all parts
+     * @return integer      the sum of all "instock" attributes of all parts
      *
      * @throws Exception if there was an error
      */
@@ -1609,7 +1609,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get the sum price of all parts in stock
+     *  Get the sum price of all parts in stock
      *
      * This method is used in statistics.php.
      *
@@ -1620,8 +1620,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *                                          (with currency)
      *                                      @li if false, the price will be returned as a float
      *
-     * @retval string       sum price as a money string with currency (if "$as_money_string == true")
-     * @retval float        sum price as a float (if "$as_money_string == false")
+     * @return string       sum price as a money string with currency (if "$as_money_string == true")
+     * @return float        sum price as a float (if "$as_money_string == false")
      *
      * @throws Exception if there was an error
      */
@@ -1664,7 +1664,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get all parts which should be ordered
+     *  Get all parts which should be ordered
      *
      * "parts which should be ordered" means:
      * ((("instock" is less than "mininstock") AND (Part isn't already ordered))
@@ -1677,7 +1677,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *                                      @li an empty array means, the parts from ALL suppliers will be listed
      * @param boolean   $with_devices       if true, parts which are in devices, marked as "to order", will be listed too
      *
-     * @retval array    all parts as a one-dimensional array of Part objects, sorted by their names
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
      */
@@ -1719,13 +1719,13 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get all parts which have no price
+     *  Get all parts which have no price
      *
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
-     * @retval array    all parts as a one-dimensional array of Part objects, sorted by their names
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
      */
@@ -1753,14 +1753,14 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get all obsolete parts
+     *  Get all obsolete parts
      *
      * @param Database  &$database              reference to the database object
      * @param User      &$current_user          reference to the user which is logged in
      * @param Log       &$log                   reference to the Log-object
      * @param boolean   $no_orderdetails_parts  if true, parts without any orderdetails will be returned too
      *
-     * @retval array    all parts as a one-dimensional array of Part objects, sorted by their names
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
      */
@@ -1804,7 +1804,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Search parts
+     *  Search parts
      *
      * @param Database  &$database              reference to the database object
      * @param User      &$current_user          reference to the user which is logged in
@@ -1826,9 +1826,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param boolean   $regex_search           if true, the search will use Regular Expressions to match
      *                                          the results.
      *
-     * @retval array    all found parts as a one-dimensional array of Part objects,
+     * @return array    all found parts as a one-dimensional array of Part objects,
      *                  sorted by their names (if "$group_by == ''")
-     * @retval array    @li all parts as a two-dimensional array, grouped by $group_by,
+     * @return array    @li all parts as a two-dimensional array, grouped by $group_by,
      *                      sorted by name (if "$group_by != ''")
      *                  @li example: array('category1' => array(part1, part2, ...),
      *                      'category2' => array(part123, part124, ...), ...)
@@ -1995,7 +1995,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Get all existing parts
+     *  Get all existing parts
      *
      * @param Database  &$database              reference to the database object
      * @param User      &$current_user          reference to the user which is logged in
@@ -2004,9 +2004,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *                                              two-dimensional array with the group names as top level.
      *                                          @li supported groups are: '' (none), 'categories'
      *
-     * @retval array    all found parts as a one-dimensional array of Part objects,
+     * @return array    all found parts as a one-dimensional array of Part objects,
      *                  sorted by their names (if "$group_by == ''")
-     * @retval array    @li all parts as a two-dimensional array, grouped by $group_by,
+     * @return array    @li all parts as a two-dimensional array, grouped by $group_by,
      *                      sorted by name (if "$group_by != ''")
      *                  @li example: array('category1' => array(part1, part2, ...),
      *                      'category2' => array(part123, part124, ...), ...)
@@ -2044,7 +2044,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @brief Create a new part
+     *  Create a new part
      *
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the user which is logged in
@@ -2060,7 +2060,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param string    $comment            the comment of the new part (see Part::set_comment())
      * @param boolean   $visible            the visible attribute of the new part (see Part::set_visible())
      *
-     * @retval Part     the new part
+     * @return Part     the new part
      * @return Part     the new part
      *
      * @throws Exception    if (this combination of) values is not valid

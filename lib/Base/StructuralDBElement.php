@@ -34,6 +34,8 @@ use PartDB\User;
  * @file class.StructuralDBElement.php
  * @brief class StructuralDBElement
  *
+ * All elements with the fields "id", "name" and "parent_id" (at least)
+ *
  * This class is for managing all database objects with a structural design.
  * All these sub-objects must have the table columns 'id', 'name' and 'parent_id' (at least)!
  * The root node has always the ID '0'.
@@ -41,7 +43,6 @@ use PartDB\User;
  * an attribute of a root element, you will get an exception!
  *
  * @class StructuralDBElement
- * @brief All elements with the fields "id", "name" and "parent_id" (at least)
  * @author kami89
  */
 abstract class StructuralDBElement extends AttachementsContainingDBElement
@@ -56,14 +57,14 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      *********************************************************************************/
 
-    /** @brief (array) all names of all parent elements as a array of strings,
+    /** @var string[] all names of all parent elements as a array of strings,
      *  the last array element is the name of the element itself */
     private $full_path_strings =  null;
 
-    /** @brief (integer) the level of the most top elements is zero */
+    /** @var integer the level of the most top elements is zero */
     private $level =              null;
 
-    /** @brief (array) all subelements (not recursive) of this element as a array of objects */
+    /** @var static[] all subelements (not recursive) of this element as a array of objects */
     private $subelements =        null;
 
     /********************************************************************************
@@ -73,7 +74,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * It's allowed to create an object with the ID 0 (for the root element).
      *
@@ -119,7 +120,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *********************************************************************************/
 
     /**
-     * @brief Delete this element
+     * Delete this element
      *
      * @note    This function overrides the same-named method from the parent class.
      *          (Because of the argument $delete_recursive, we need to redefine this method.)
@@ -173,12 +174,12 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     }
 
     /**
-     * @brief Check if this element is a child of another element (recursive)
+     * Check if this element is a child of another element (recursive)
      *
      * @param object $another_element       the object to compare
      *                                      IMPORTANT: both objects to compare must be from the same class (for example two "Device" objects)!
      *
-     * @retval true|false
+     * @return bool
      *
      * @throws Exception if there was an error
      */
@@ -203,7 +204,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     /**
      * @brief Get the parent-ID
      *
-     * @retval integer|NULL     @li the ID of the parent element
+     * @retval integer|null     @li the ID of the parent element
      *                          @li NULL means, the parent is the root node
      *                          @li the parent ID of the root node is -1
      */
@@ -213,11 +214,11 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     }
 
     /**
-     * @brief Get the level
+     * Get the level
      *
      * @note    The level of the root node is -1.
      *
-     * @retval integer      the level of this element (zero means a most top element
+     * @return integer      the level of this element (zero means a most top element
      *                      [a subelement of the root node])
      *
      * @throws Exception if there was an error
@@ -239,11 +240,11 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     }
 
     /**
-     * @brief Get the full path
+     * Get the full path
      *
      * @param string $delimeter     the delimeter of the returned string
      *
-     * @retval string       the full path (incl. the name of this element), delimeted by $delimeter
+     * @return string       the full path (incl. the name of this element), delimeted by $delimeter
      *
      * @throws Exception    if there was an error
      */
@@ -266,11 +267,11 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     }
 
     /**
-     * @brief Get all subelements of this element
+     * Get all subelements of this element
      *
      * @param boolean $recursive        if true, the search is recursive
      *
-     * @retval array        all subelements as an array of objects (sorted by their full path)
+     * @return static[]    all subelements as an array of objects (sorted by their full path)
      *
      * @throws Exception    if there was an error
      */
@@ -308,9 +309,9 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *********************************************************************************/
 
     /**
-     * @brief Change the parent ID of this element
+     * Change the parent ID of this element
      *
-     * @param integer|NULL $new_parent_id           @li the ID of the new parent element
+     * @param integer|null $new_parent_id           @li the ID of the new parent element
      *                                              @li NULL if the parent should be the root node
      *
      * @throws Exception if the new parent ID is not valid
@@ -328,7 +329,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *********************************************************************************/
 
     /**
-     * @brief Build a JavaScript tree with all subcategories of this element
+     * Build a JavaScript tree with all subcategories of this element
      *
      * @param string    $tree_name     name of the tree (like 'cat_navtree', this is not visible for the user)
      * @param string    $page          filename of the target page of the nodes (e.g. 'showparts.php')
@@ -340,7 +341,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      * @param boolean   $root_expand   if true, the root node will be expandable
      * @param boolean   $root_is_link  if true, the root node will be a link
      *
-     * @retval string       HTML/Javascript string
+     * @return string       HTML/Javascript string
      *
      * @throws Exception    if there was an error
      */
@@ -408,7 +409,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     }
 
     /**
-     * @brief Build a HTML tree with all subcategories of this element
+     * Build a HTML tree with all subcategories of this element
      *
      * This method prints a <option>-Line for every item.
      * <b>The <select>-tags are not printed here, you have to print them yourself!</b>
@@ -419,7 +420,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      * @param boolean   $show_root      if true, the root node will be displayed
      * @param string    $root_name      if the root node is the very root element, you can set its name here
      *
-     * @retval string       HTML string if success
+     * @return string       HTML string if success
      *
      * @throws Exception    if there was an error
      */

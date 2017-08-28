@@ -32,7 +32,7 @@ use Exception;
  * @brief class Footprint
  *
  * @class Footprint
- * @brief All elements of this class are stored in the database table "footprints".
+ * All elements of this class are stored in the database table "footprints".
  * @author kami89
  */
 class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPIModel
@@ -44,7 +44,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     *  Constructor
      *
      * @note  It's allowed to create an object with the ID 0 (for the root element).
      *
@@ -74,9 +74,9 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *********************************************************************************/
 
     /**
-     * @brief Get the filename of the picture (absolute path from filesystem root)
+     * Get the filename of the picture (absolute path from filesystem root)
      *
-     * @retval string   @li the absolute path to the picture (from filesystem root), as a UNIX path (with slashes)
+     * @return string   @li the absolute path to the picture (from filesystem root), as a UNIX path (with slashes)
      *                  @li an empty string if there is no picture
      */
     public function get_filename($absolute = true)
@@ -89,9 +89,9 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     }
 
     /**
-     *  @brief Get the filename of the 3d model (absolute path from filesystem root)
+     *   Get the filename of the 3d model (absolute path from filesystem root)
      *
-     * @retval string   @li the absolute path to the model (from filesystem root), as a UNIX path (with slashes)
+     * @return string   @li the absolute path to the model (from filesystem root), as a UNIX path (with slashes)
      *                  @li an empty string if there is no model
      */
     public function get_3d_filename($absolute = true)
@@ -104,12 +104,12 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     }
 
     /**
-     * @brief Get all parts which have this footprint
+     *  Get all parts which have this footprint
      *
      * @param boolean $recursive                if true, the parts of all sub-footprints will be listed too
      * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
      *
-     * @retval array        all parts as a one-dimensional array of Part objects
+     * @return array        all parts as a one-dimensional array of Part objects
      *
      * @throws Exception    if there was an error
      *
@@ -121,14 +121,14 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     }
 
     /**
-     * @brief Check if the filename of this footprint is valid (picture exists)
+     *  Check if the filename of this footprint is valid (picture exists)
      *
      * This method is used to get all footprints with broken filename
      * (Footprint::get_broken_filename_footprints()).
      *
      * @note An empty filename is a valid filename.
      *
-     * @retval boolean      @li true if file exists or filename is empty
+     * @return boolean      @li true if file exists or filename is empty
      *                      @li false if there is no file with this filename
      */
     public function is_filename_valid()
@@ -141,14 +141,14 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     }
 
     /**
-     * @brief Check if the filename of this 3d footprint is valid (model exists and have )
+     *  Check if the filename of this 3d footprint is valid (model exists and have )
      *
      * This method is used to get all footprints with broken 3d filename
      * (Footprint::get_broken_3d_filename_footprints()).
      *
      * @note An empty filename is a valid filename.
      *
-     * @retval boolean      @li true if file exists or filename is empty
+     * @return boolean      @li true if file exists or filename is empty
      *                      @li false if there is no file with this filename
      */
     public function is_3d_filename_valid()
@@ -172,7 +172,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *********************************************************************************/
 
     /**
-     * @brief Change the filename of this footprint
+     *  Change the filename of this footprint
      *
      * @note    The filename won't be checked if it is valid.
      *          It's not really a Problem if there is no such file...
@@ -197,7 +197,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     }
 
     /**
-     * @brief Change the 3d model filename of this footprint
+     *  Change the 3d model filename of this footprint
      * @throws Exception if there was an error
      */
     public function set_3d_filename($new_filename)
@@ -246,11 +246,11 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     }
 
     /**
-     * @brief Get count of footprints
+     *  Get count of footprints
      *
      * @param Database &$database   reference to the Database-object
      *
-     * @retval integer              count of footprints
+     * @return integer              count of footprints
      *
      * @throws Exception            if there was an error
      */
@@ -264,13 +264,13 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     }
 
     /**
-     * @brief Get all footprints with invalid filenames (file does not exist)
+     *  Get all footprints with invalid filenames (file does not exist)
      *
      * @param Database  &$database      reference to the database onject
      * @param User      &$current_user  reference to the current user which is logged in
      * @param Log       &$log           reference to the Log-object
      *
-     * @retval array    all footprints with broken filename as a one-dimensional
+     * @return array    all footprints with broken filename as a one-dimensional
      *                  array of Footprint objects, sorted by their names
      *
      * @throws Exception if there was an error
@@ -292,13 +292,13 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
 
 
     /**
-     * @brief Get all footprints with invalid filenames (file does not exist or file is not a X3D model)
+     *  Get all footprints with invalid filenames (file does not exist or file is not a X3D model)
      *
      * @param Database  &$database      reference to the database onject
      * @param User      &$current_user  reference to the current user which is logged in
      * @param Log       &$log           reference to the Log-object
      *
-     * @retval array    all footprints with broken filename as a one-dimensional
+     * @return array    all footprints with broken filename as a one-dimensional
      *                  array of Footprint objects, sorted by their names
      *
      * @throws Exception if there was an error
@@ -319,7 +319,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     }
 
     /**
-     * @brief Create a new footprint
+     *  Create a new footprint
      *
      * @param Database  &$database      reference to the database onject
      * @param User      &$current_user  reference to the current user which is logged in
@@ -331,7 +331,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @warning         You have to use the absolute path from filesystem root for $filename, as a UNIX path (only slashes)!!
      *                  More details: Footprint::set_filename()
      *
-     * @retval Footprint    the new footprint
+     * @return Footprint    the new footprint
      *
      * @throws Exception if (this combination of) values is not valid
      * @throws Exception if there was an error

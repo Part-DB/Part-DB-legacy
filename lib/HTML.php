@@ -36,7 +36,7 @@ use Smarty;
  * @class HTML
  * @brief Class HTML
  *
- * This class is used for generating HTML output with the template system "vlib".
+ * This class is used for generating HTML output with the template system "smarty".
  *
  * @author weinbauer73
  *
@@ -52,17 +52,17 @@ class HTML
      *
      *********************************************************************************/
 
-    /** (array) Meta variables for the HTML header */
+    /** @var array Meta variables for the HTML header */
     private $meta               = array();
-    /** (array) The filenames (without extension) of all JavaScript files which will be included
+    /** @var string[] The filenames (without extension) of all JavaScript files which will be included
      *  in the header. The files must be stored in "/javascript/". */
     private $javascript_files   = array();
-    /** (string) OnLoad string for the HTML body */
+    /** @var string OnLoad string for the HTML body */
     private $body_onload        = '';
 
-    /** (array) variables for the HTML template */
+    /** @var array variables for the HTML template */
     private $variables          = array();
-    /** (array) loops for the HTML template */
+    /** @var array loops for the HTML template */
     private $loops              = array();
 
     /********************************************************************************
@@ -72,7 +72,7 @@ class HTML
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @param string    $theme              the name of the theme (the directory name in "/templates/")
      * @param string    $custom_css_file    @li the filename of a custom CSS file, like "greenway.css"
@@ -131,7 +131,7 @@ class HTML
      *********************************************************************************/
 
     /**
-     * @brief Set some meta variables for the HTML header
+     *  Set some meta variables for the HTML header
      *
      * @param array $meta       @li all variables which you want to set
      *                          @li Example: array('title' => 'foo')
@@ -151,7 +151,7 @@ class HTML
     }
 
     /**
-     * @brief Set the Page title
+     * Set the Page title
      * @param string $new_title the new title of the page
      * @throws Exception if the param is not a string or is null
      */
@@ -168,7 +168,7 @@ class HTML
     }
 
     /**
-     * @brief Set all JavaScript filenames which must be included in the HTML header.
+     * Set all JavaScript filenames which must be included in the HTML header.
      *
      * @note    The JavaScript files must be located in "/javascript/".
      * @note    You only have to supply the filename, without path and without extension.
@@ -205,7 +205,7 @@ class HTML
     }
 
     /**
-     * @brief Set a variable for the HTML template (site content)
+     * Set a variable for the HTML template (site content)
      *
      * @param string    $key        the name of the variable
      * @param mixed     $value      the value of the variable
@@ -237,7 +237,7 @@ class HTML
     }
 
     /**
-     * @brief Set a loop for the HTML template (site content)
+     * Set a loop for the HTML template (site content)
      *
      * @param string    $key        the name of the loop
      * @param array     $loop       the loop array
@@ -264,7 +264,7 @@ class HTML
      *********************************************************************************/
 
     /**
-     * @brief Unset a variable
+     * Unset a variable
      *
      * @param string    $key        the name of the variable
      *
@@ -283,7 +283,7 @@ class HTML
     }
 
     /**
-     * @brief Unset a loop
+     * Unset a loop
      *
      * @param string    $key        the name of the loop
      *
@@ -308,7 +308,7 @@ class HTML
      *********************************************************************************/
 
     /**
-     * @brief Print the HTML header
+     * Print the HTML header
      *
      * @param array     $messages               @li the messages which should be displayed at the top of the site
      *                                          @li Example: array('text' => 'this is a message', 'strong' => true, 'color' => 'red')
@@ -409,7 +409,7 @@ class HTML
     }
 
     /**
-     * @brief Print the HTML template (page content)
+     * Print the HTML template (page content)
      *
      * @param string    $template           @li the template name (not the theme name!)
      *                                      @li Example: for the template "vlib_startup.tmpl"
@@ -477,7 +477,7 @@ class HTML
     }
 
     /**
-     * @brief Print the HTML footer
+     * Print the HTML footer
      *
      * @param array     $messages               @li the messages which should be displayed at the bottom of the site
      *                                          @li Example: array('text' => 'this is a message', 'strong' => true, 'color' => 'red')

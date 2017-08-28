@@ -32,14 +32,13 @@ use PartDB\User;
 
 /**
  * @file class.DBElement.php
- * @brief class DBElement
  *
  * @class DBElement
- * @brief This class is for managing all database objects.
+ * This class is for managing all database objects.
  *
- * @note    You should use this class for ALL classes which manages database records!
+ * You should use this class for ALL classes which manages database records!
  *          (except special tables like "internal"...)
- * @note    Every database table which are managed with this class (or a subclass of it)
+ * Every database table which are managed with this class (or a subclass of it)
  *          must have the table row "id"!! The ID is the unique key to identify the elements.
  *
  * @author kami89
@@ -52,18 +51,18 @@ abstract class DBElement
      *
      *********************************************************************************/
 
-    /** @brief (User) object of the user which is logged in */
+    /** @var User object of the user which is logged in */
     protected $current_user =   null;
-    /** @brief (Log) a log object for logging events / bookings */
+    /** @var Log a log object for logging events / bookings */
     protected $log =            null;
 
-    /** @brief (Database) the database object for all database transactions */
+    /** @var Database the database object for all database transactions */
     protected $database =       null;
-    /** @brief (string) the tablename of the element, e.g. "categories" for the class "Category" and so on... */
+    /** @var string the tablename of the element, e.g. "categories" for the class "Category" and so on... */
     protected $tablename =      null;
 
     /**
-     * @brief  (array [1..*]) the record data from the database
+     * @var array (array [1..*]) the record data from the database
      *         (for every table column there is an element in this array)
      * @par Example:
      * @code array(['row1'] => 'value1', ['row2'] => 'value2', ...) @endcode
@@ -77,7 +76,7 @@ abstract class DBElement
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @param Database  $database                   reference to the Database-object
      * @param User      $current_user               reference to the current user which is logged in
@@ -135,19 +134,19 @@ abstract class DBElement
     }
 
     /**
-     * @brief Reset all attributes of this object (set them to NULL).
+     * Reset all attributes of this object (set them to NULL).
      *
-     * @note Reasons why we need this method:
-     *      - If we change an attribute of the element, some calculated attributes are no longer valid.
+     * Reasons why we need this method:
+     *      * If we change an attribute of the element, some calculated attributes are no longer valid.
      *          So this method is called with $all=false to set all calculated attributes to NULL ("clear the cache")
-     *      - If this element is deleted by delete(), we need to clear ALL data from this element,
+     *      * If this element is deleted by delete(), we need to clear ALL data from this element,
      *          including non-calculated attributes. So this method will be called with $all=true.
      *
      * @warning     You should implement this function in your subclass (including a call to this function here!),
      *              if your subclass has its own attributes (calculated or non-calculated)!
      *
-     * @param boolean $all      @li if true, ALL attributes will be deleted (use it only for "destroying" the object).
-     *                          @li if false, only the calculated data will be deleted.
+     * @param boolean $all      * if true, ALL attributes will be deleted (use it only for "destroying" the object).
+     * * if false, only the calculated data will be deleted.
      *                              This is needed if you change an attribute of the object.
      */
     public function reset_attributes($all = false)
@@ -178,7 +177,7 @@ abstract class DBElement
      *********************************************************************************/
 
     /**
-     * @brief Delete this element from the database
+     * Delete this element from the database
      *
      * @throws Exception if there was an error
      */
@@ -201,7 +200,7 @@ abstract class DBElement
      *********************************************************************************/
 
     /**
-     * @brief Get the ID
+     * Get the ID
      *
      * @retval integer the ID of this element
      */
@@ -211,7 +210,7 @@ abstract class DBElement
     }
 
     /**
-     * @brief Get the tablename
+     * Get the tablename
      *
      * @retval string the tablename of the database table where this element is stored
      */
@@ -227,9 +226,9 @@ abstract class DBElement
      *********************************************************************************/
 
     /**
-     * @brief Set one or more database attributes of this element
+     * Set one or more database attributes of this element
      *
-     * @note    This method let the method check_values_validity() to check all new values if they are valid!
+     * This method let the method check_values_validity() to check all new values if they are valid!
      *          You don't have to check the data before you call this method!
      *          And the values will also be corrected automatically (e.g. trim names of elements or so).
      *
@@ -285,7 +284,7 @@ abstract class DBElement
      *********************************************************************************/
 
     /**
-     * @brief Check if all values are valid for creating a new element / editing an existing element
+     * Check if all values are valid for creating a new element / editing an existing element
      *
      * This function is called by creating a new DBElement (DBElement::add()),
      * respectively a subclass of DBElement. Then the attribute $is_new is true!
@@ -332,7 +331,7 @@ abstract class DBElement
     }
 
     /**
-     * @brief Create a new DBElement (store it in the database)
+     * Create a new DBElement (store it in the database)
      *
      * @param Database      $database           reference to the database onject
      * @param User          $current_user       reference to the current user which is logged in

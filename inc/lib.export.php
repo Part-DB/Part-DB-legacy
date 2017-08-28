@@ -30,12 +30,12 @@
  */
 
 /**
- * @brief Build a template loop for a <select> list of export formats
+ * Build a template loop for a <select> list of export formats
  *
  * @param string            $export_type        An export type which is defined in config_defaults.php ($config['export'][_HERE_IS_THE_EXPORT_TYPE_][0])
  * @param integer|string    $selected_index     The ID of the selected export type (from config_defaults.php): $config['export']['searchparts'][_HERE_IS_THE_FORMAT_ID_]
  *
- * @retval array    The template loop
+ * @return array    The template loop
  */
 function build_export_formats_loop($export_type, $selected_index = 0)
 {
@@ -54,7 +54,7 @@ function build_export_formats_loop($export_type, $selected_index = 0)
 }
 
 /**
- * @brief Export Part or DevicePart Objects
+ * Export Part or DevicePart Objects
  *
  * @param array             &$objects               Array of Objects (Supported: Part, DevicePart)
  * @param string            $export_type            An export type which is defined in config_defaults.php: $config['export'][_HERE_IS_THE_EXPORT_TYPE_][0]
@@ -65,7 +65,7 @@ function build_export_formats_loop($export_type, $selected_index = 0)
  *                                                  @li This is only needed if "$send_file == true"
  * @param array             $additional_params      For some things we need more parameters, like the export quantity of DevicePart objects for calculating the total price
  *
- * @retval string           The export string (if $send_file is "false")
+ * @return string           The export string (if $send_file is "false")
  *
  * @note    If $send_file is "true", the script will be stopped by "exit;" !
  *

@@ -52,10 +52,10 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      *
      *********************************************************************************/
 
-    /** @brief (array) All attachement types of the attachements of this element as an array of AttachementType objects.
+    /** @var AttachementType[] All attachement types of the attachements of this element as an array of AttachementType objects.
      *  @see AttachementsContainingDBElement::get_attachement_types() */
     protected $attachement_types     = null;
-    /** @brief (array) All attachements of this element as a one-dimensional array of Attachement objects.
+    /** @var Attachement[] All attachements of this element as a one-dimensional array of Attachement objects.
      *  @see AttachementsContainingDBElement::get_attachements() */
     protected $attachements          = null;
 
@@ -66,7 +66,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @param Database  &$database                  reference to the Database-object
      * @param User      &$current_user              reference to the current user which is logged in
@@ -102,10 +102,10 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      *********************************************************************************/
 
     /**
-     * @brief Delete this element
+     * Delete this element
      *
-     * @note    This function overrides the same-named function from the parent class.
-     *          This is required to delete the attachements of an element too.
+     * This function overrides the same-named function from the parent class.
+     * This is required to delete the attachements of an element too.
      *
      * @param boolean $delete_files_from_hdd    @li if true, the attached files will be deleted from harddisc drive (!!)
      *                                              If some files are used for other elements, they won't be deleted.
@@ -146,9 +146,9 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      *********************************************************************************/
 
     /**
-     * @brief Get all different attachement types of the attachements of this element
+     * Get all different attachement types of the attachements of this element
      *
-     * @retval array        the attachement types as a one-dimensional array of AttachementType objects,
+     * @return AttachementType[] the attachement types as a one-dimensional array of AttachementType objects,
      *                      sorted by their names
      *
      * @throws Exception if there was an error
@@ -176,13 +176,13 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
 
 
     /**
-     * @brief Get all attachements of this element / Get the element's attachements with a specific type
+     * Get all attachements of this element / Get the element's attachements with a specific type
      *
      * @param integer   $type_id                    @li if NULL, all attachements of this element will be returned
      *                                              @li if this is a number > 0, only attachements with this type ID will be returned
      * @param boolean   $only_table_attachements    if true, only attachements with "show_in_table == true"
      *
-     * @retval array    the attachements as a one-dimensional array of Attachement objects
+     * @return Attachement[] the attachements as a one-dimensional array of Attachement objects
      *
      * @throws Exception if there was an error
      */

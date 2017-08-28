@@ -35,7 +35,7 @@ use PartDB\User;
  * @brief class NamedDBElement
  *
  * @class NamedDBElement
- * @brief All subclasses of this class have an attribute "name".
+ * All subclasses of this class have an attribute "name".
  * @author kami89
  */
 abstract class NamedDBElement extends DBElement
@@ -47,7 +47,7 @@ abstract class NamedDBElement extends DBElement
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @param Database  &$database                  reference to the Database-object
      * @param User      &$current_user              reference to the current user which is logged in
@@ -73,9 +73,9 @@ abstract class NamedDBElement extends DBElement
      *********************************************************************************/
 
     /**
-     * @brief Get the name
+     * Get the name
      *
-     * @retval string   the name of this element
+     * @return string   the name of this element
      */
     public function get_name()
     {
@@ -89,7 +89,7 @@ abstract class NamedDBElement extends DBElement
      *********************************************************************************/
 
     /**
-     * @brief Change the name of this element
+     * Change the name of this element
      *
      * @note    Spaces at the begin and at the end of the string will be removed
      *          automatically in NamedDBElement::check_values_validity().
@@ -128,7 +128,7 @@ abstract class NamedDBElement extends DBElement
     }
 
     /**
-     * @brief Search elements by name
+     * Search elements by name
      *
      * @param Database  &$database              reference to the database object
      * @param User      &$current_user          reference to the user which is logged in
@@ -137,7 +137,7 @@ abstract class NamedDBElement extends DBElement
      * @param boolean   $exact_match            @li If true, only records which matches exactly will be returned
      *                                          @li If false, all similar records will be returned
      *
-     * @retval array    all found elements as a one-dimensional array of objects,
+     * @return array    all found elements as a one-dimensional array of objects,
      *                  sorted by their names
      *
      * @throws Exception if there was an error

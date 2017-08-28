@@ -29,10 +29,10 @@ use Exception;
 
 /**
  * @file Attachement.php
- * @brief class Attachement
+ *  class Attachement
  *
  * @class Attachement
- * @brief All elements of this class are stored in the database table "attachements".
+ *  All elements of this class are stored in the database table "attachements".
  * @author kami89
  */
 class Attachement extends Base\NamedDBElement
@@ -47,9 +47,9 @@ class Attachement extends Base\NamedDBElement
      *
      *********************************************************************************/
 
-    /** @brief (object) the element of this attachement (for example a "Part" object) */
+    /** @var object the element of this attachement (for example a "Part" object) */
     private $element          = null;
-    /** (AttachementType) the type of this attachement */
+    /** @var AttachementType the type of this attachement */
     private $attachement_type = null;
 
     /********************************************************************************
@@ -59,7 +59,7 @@ class Attachement extends Base\NamedDBElement
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @param Database  &$database          reference to the Database-object
      * @param User      &$current_user      reference to the current user which is logged in
@@ -92,7 +92,7 @@ class Attachement extends Base\NamedDBElement
      *********************************************************************************/
 
     /**
-     * @brief Delete this attachement from database (and the associated file from harddisc if desired)
+     * Delete this attachement from database (and the associated file from harddisc if desired)
      *
      * @note This method overrides the same-named method from the parent class.
      *
@@ -161,9 +161,9 @@ class Attachement extends Base\NamedDBElement
     }
 
     /**
-     * @brief Check if this attachement is a picture (analyse the file's extension)
+     * Check if this attachement is a picture (analyse the file's extension)
      *
-     * @retval boolean      @li true if the file extension is a picture extension
+     * @return boolean      @li true if the file extension is a picture extension
      *                      @li otherwise false
      */
     public function is_picture()
@@ -183,9 +183,9 @@ class Attachement extends Base\NamedDBElement
      *********************************************************************************/
 
     /**
-     * @brief Get the element (for example a "Part" object)
+     * Get the element (for example a "Part" object)
      *
-     * @retval object     the element of this attachement
+     * @return object     the element of this attachement
      *
      * @throws Exception if there was an error
      */
@@ -204,9 +204,9 @@ class Attachement extends Base\NamedDBElement
     }
 
     /**
-     * @brief Get the filename (absolute path from filesystem root, as a UNIX path [only slashes])
+     * Get the filename (absolute path from filesystem root, as a UNIX path [only slashes])
      *
-     * @retval string   the filename as an absolute UNIX filepath from filesystem root
+     * @return string   the filename as an absolute UNIX filepath from filesystem root
      */
     public function get_filename()
     {
@@ -214,9 +214,9 @@ class Attachement extends Base\NamedDBElement
     }
 
     /**
-     * @brief Get the show_in_table attribute
+     * Get the show_in_table attribute
      *
-     * @retval boolean      @li true means, this attachement will be listed in the "Attachements" column of the HTML tables
+     * @return boolean      @li true means, this attachement will be listed in the "Attachements" column of the HTML tables
      *                      @li false means, this attachement won't be listed in the "Attachements" column of the HTML tables
      */
     public function get_show_in_table()
@@ -225,9 +225,9 @@ class Attachement extends Base\NamedDBElement
     }
 
     /**
-     * @brief Get the type of this attachement
+     *  Get the type of this attachement
      *
-     * @retval AttachementType     the type of this attachement
+     * @return AttachementType     the type of this attachement
      *
      * @throws Exception if there was an error
      */
@@ -252,7 +252,7 @@ class Attachement extends Base\NamedDBElement
      *********************************************************************************/
 
     /**
-     * @brief Set the filename
+     *  Set the filename
      *
      * @note    The filename will not be checked, it's not really important that the filename is valid...
      *          For this reason we have the method Attachement::get_invalid_filename_attachements() :-)
@@ -274,7 +274,7 @@ class Attachement extends Base\NamedDBElement
     }
 
     /**
-     * @brief Set the attachement type ID
+     *  Set the attachement type ID
      *
      * @param integer $new_type_id      the ID of the new attachement type
      *
@@ -293,7 +293,7 @@ class Attachement extends Base\NamedDBElement
      *********************************************************************************/
 
     /**
-     * @brief Get all Attachement-objects with a specific filename
+     *  Get all Attachement-objects with a specific filename
      *
      * @param Database  &$database          reference to the Database-object
      * @param User      &$current_user      reference to the current user which is logged in
@@ -301,7 +301,7 @@ class Attachement extends Base\NamedDBElement
      * @param string    $filename           the exact filename with the whole path from filesystem root as a UNIX path!
      *                                      (see Attachement::set_filename())
      *
-     * @retval array    all attachements as a one-dimensional array of "Attachement"-objects, sorted by their names
+     * @return array    all attachements as a one-dimensional array of "Attachement"-objects, sorted by their names
      *
      * @throws Exception if there was an error
      */
@@ -327,7 +327,7 @@ class Attachement extends Base\NamedDBElement
     }
 
     /**
-     * @brief Get all attachements with invalid filename (file does not exist)
+     *  Get all attachements with invalid filename (file does not exist)
      *
      * @note Empty filenames are NOT valid (a file without filename makes no sense)!
      *
@@ -335,7 +335,7 @@ class Attachement extends Base\NamedDBElement
      * @param User      &$current_user      reference to the current user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
-     * @retval array    all attachements as a one-dimensional array of "Attachement"-objects, sorted by their names
+     * @return array    all attachements as a one-dimensional array of "Attachement"-objects, sorted by their names
      *
      * @throws Exception if there was an error
      */
@@ -445,11 +445,11 @@ class Attachement extends Base\NamedDBElement
     }
 
     /**
-     * @brief Get count of attachements
+     *  Get count of attachements
      *
      * @param Database &$database   reference to the Database-object
      *
-     * @retval integer              count of attachements
+     * @return integer              count of attachements
      *
      * @throws Exception            if there was an error
      */
@@ -463,7 +463,7 @@ class Attachement extends Base\NamedDBElement
     }
 
     /**
-     * @brief Create a new attachement
+     * Create a new attachement
      *
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the user which is logged in
@@ -478,7 +478,7 @@ class Attachement extends Base\NamedDBElement
      * @warning         You have to supply the full path from filesystem root in $filename!!
      *                  For more details see Attachement::set_filename().
      *
-     * @retval Attachement  the new attachement
+     * @return Attachement  the new attachement
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

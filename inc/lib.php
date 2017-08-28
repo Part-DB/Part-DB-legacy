@@ -32,12 +32,13 @@
 use PartDB\Part;
 
 /**
- * @brief check if a given number is odd
+ * check if a given number is odd
  *
  * @param integer $number       A number
  *
- * @retval boolean      @li true if the number is odd
- *                      @li false if the number is even
+ * @return boolean
+ * * true if the number is odd
+ * * false if the number is even
  */
 function is_odd($number)
 {
@@ -45,10 +46,9 @@ function is_odd($number)
 }
 
 /**
- * @brief Get the Git branch name of the installed system
+ * Get the Git branch name of the installed system
  *
- * @retval string       The current git branch name
- * @retval NULL         If this is no Git installation
+ * @return  string|null       The current git branch name. Null, if this is no Git installation
  *
  * @throws Exception if there was an error
  */
@@ -65,14 +65,13 @@ function get_git_branch_name()
 }
 
 /**
- * @brief Get hash of the last git commit (on remote "origin"!)
+ * Get hash of the last git commit (on remote "origin"!)
  *
  * @note    If this method does not work, try to make a "git pull" first!
  *
  * @param integer $length       if this is smaller than 40, only the first $length characters will be returned
  *
- * @retval string       The hash of the last commit
- * @retval NULL         If this is no Git installation
+ * @retval string|null       The hash of the last commit, null If this is no Git installation
  *
  * @throws Exception if there was an error
  */
@@ -112,7 +111,7 @@ function treeview_node($name, $href=null, $nodes = null, $icon = null)
 }
 
 /**
- * @brief List all files (or all files with a specific string in the filename) in a directory
+ * List all files (or all files with a specific string in the filename) in a directory
  *
  * @note This function is not case sensitive.
  *
@@ -121,7 +120,7 @@ function treeview_node($name, $href=null, $nodes = null, $icon = null)
  * @param string    $search_string      If this is a non-empty string, only files with
  *                                      that substring in the filename will be returned.
  *
- * @retval array    all found filenames (incl. absolute UNIX paths, sorted alphabetically)
+ * @return string[]    all found filenames (incl. absolute UNIX paths, sorted alphabetically)
  *
  * @throws Exception if there was an error
  */
@@ -150,12 +149,12 @@ function find_all_files($directory, $recursive = false, $search_string = '')
 }
 
 /**
- * @brief Find all subdirectories of a directory (not recursive)
+ * Find all subdirectories of a directory (not recursive)
  *
  * @param string    $directory          Path to the directory (IMPORTANT: absolute UNIX path, with slash at the end! see to_unix_path())
  * @param boolean   $recursive          if true, all subdirectories will be listed too
  *
- * @retval array    all found directories (without slashes at the end, incl. absolute UNIX paths, sorted alphabetically)
+ * @return string[] all found directories (without slashes at the end, incl. absolute UNIX paths, sorted alphabetically)
  *
  * @throws Exception if there was an error
  */
@@ -181,13 +180,13 @@ function find_all_directories($directory, $recursive = false)
 }
 
 /**
- * @brief Send a file to the client (download file)
+ * Send a file to the client (download file)
  *
  * @warning     This function must be called before there was any HTML output!
  *
  * @param string $filename      The full path to the filename
- * @param string $mimetype      @li The mime type of the file
- *                              @li if NULL, we will try to read the mimetype from the file
+ * @param string $mimetype      * The mime type of the file
+ * * if NULL, we will try to read the mimetype from the file
  */
 function send_file($filename, $mimetype = null)
 {
@@ -216,7 +215,7 @@ function send_file($filename, $mimetype = null)
 }
 
 /**
- * @brief The same as "send_file()", but with a string instead of a file on the disk (e.g. for XML and CSV)
+ * The same as "send_file()", but with a string instead of a file on the disk (e.g. for XML and CSV)
  *
  * @warning     This function must be called before there was any HTML output!
  *
@@ -242,7 +241,7 @@ function send_string($content, $filename, $mimetype)
 }
 
 /**
- * @brief Upload a file (from "<input type="file">) to a directory on the server
+ * Upload a file (from "<input type="file">) to a directory on the server
  *
  * @param array         $file_array                 The file array, for example $_FILES['my_file']
  * @param string        $destination_directory      The directory where the file should be saved.
@@ -251,7 +250,7 @@ function send_string($content, $filename, $mimetype)
  * @param string|NULL   $destination_filename       The destination filename (without path).
  *                                                  NULL means same filename like the uploaded file.
  *
- * @retval string   the (absolute) filename of the uploaded file (the destination, not the source)
+ * @return string   the (absolute) filename of the uploaded file (the destination, not the source)
  *
  * @throws Exception if the destination file exists already
  * @throws Exception if there was an error
@@ -319,7 +318,7 @@ function upload_file($file_array, $destination_directory, $destination_filename 
 }
 
 /**
- * @brief Set a new administrator password
+ * Set a new administrator password
  *
  * @note    The password will be trimmed, salted, crypted with sha256 and stored in $config.
  *          Optionally, $config can be written in config.php.
@@ -369,13 +368,13 @@ function set_admin_password($old_password, $new_password_1, $new_password_2, $sa
 }
 
 /**
- * @brief Check if a string is the correct admin password
+ * Check if a string is the correct admin password
  *
  * @param string $passwort      The password (plain, not crypted) we want to check
  *                              (compare with the administrators password)
  *
- * @retval boolean      true if the password is correct
- *                      false if the password is not correct
+ * @return boolean      * true if the password is correct
+ * * false if the password is not correct
  */
 function is_admin_password($password)
 {
@@ -396,7 +395,7 @@ function is_admin_password($password)
 }
 
 /**
- * @brief Save the global array "$config" to the file "config.php"
+ * Save the global array "$config" to the file "config.php"
  *
  * @throws Exception if there was an error (maybe not enought permissions)
  */
@@ -458,7 +457,7 @@ function array_to_php_lines(&$array_defaults, &$array, $path, $ignore_defaults)
 }
 
 /**
- * @brief Convert a float number to a formatted money string (with currency)
+ * Convert a float number to a formatted money string (with currency)
  *
  * @param float|NULL    $number     @li The price as a float number
  *                                  @li NULL if you mean "there is no price",
@@ -466,7 +465,7 @@ function array_to_php_lines(&$array_defaults, &$array, $path, $ignore_defaults)
  * @param string        $language   @li language (locale) string, like "de_DE" or "de_DE.utf-8".
  *                                  @li an empty string means that we use the default language from $config
  *
- * @retval string       The formatted money string
+ * @return string       The formatted money string
  */
 function float_to_money_string($number, $language = '')
 {
@@ -521,11 +520,11 @@ function float_to_money_string($number, $language = '')
 }
 
 /**
- * @brief Download a file from the internet (with "curl")
+ * Download a file from the internet (with "curl")
  *
  * @param string $url   The internet URL to the file
  *
- * @retval string       The downloaded file
+ * @return string       The downloaded file
  *
  * @throws Exception if there was an error (maybe "curl" is not installed on the server)
  */
@@ -553,7 +552,7 @@ function curl_get_data($url)
 }
 
 /**
- * @brief Get proposed filenames for an invalid filename
+ * Get proposed filenames for an invalid filename
  *
  * If the user moves a file (e.g. in the media/ directory), the files will be found no longer.
  * To re-assign "Attachement"-objects (see "Attachement.php") with the missing file,
@@ -564,8 +563,8 @@ function curl_get_data($url)
  * @param array  $available_files       An array of absolute UNIX filenames with all available files.
  *                                      This function will search for proposed filenames in this array.
  *
- * @retval array        @li All proposed filenames as an array of strings (absolute UNIX filenames)
- *                      @li Best matches are at the beginning of the array,
+ * @return string[]      * All proposed filenames as an array of strings (absolute UNIX filenames)
+ * * Best matches are at the beginning of the array,
  *                          worst matches are at the end of the array
  */
 function get_proposed_filenames($missing_filename, $available_files)
@@ -604,14 +603,14 @@ function get_proposed_filenames($missing_filename, $available_files)
 }
 
 /**
- * @brief Build a simple template loop array with an array of values and a selected value
+ * Build a simple template loop array with an array of values and a selected value
  *
  * @note    Have a look at system_config.php, there you can see how this function works.
  *
  * @param array $array              A simple array with keys and values
  * @param mixed $selected_value     The value of the selected item
  *
- * @retval array        The template loop array
+ * @return array        The template loop array
  */
 function array_to_template_loop($array, $selected_value = null)
 {
@@ -623,13 +622,13 @@ function array_to_template_loop($array, $selected_value = null)
 }
 
 /**
- * @brief Convert a Windows file path (with backslashes) to an UNIX path (with slashes)
+ * Convert a Windows file path (with backslashes) to an UNIX path (with slashes)
  *
  * @note    If you pass a UNIX path, this function will return that path without any changes.
  *
  * @param string $path      a Windows or UNIX path
  *
- * @retval string           the UNIX path
+ * @return string           the UNIX path
  */
 function to_unix_path($path)
 {
@@ -637,14 +636,14 @@ function to_unix_path($path)
 }
 
 /**
- * @brief Check if a path is absolute UNIX path (begins with filesystem root and has no backslashes)
+ * Check if a path is absolute UNIX path (begins with filesystem root and has no backslashes)
  *
  * @param string $path                  a UNIX path
  * @param boolean $accept_protocols     if true, protocols like http:// or ftp:// are interpreted as valid, absolute UNIX paths
  *
- * @retval boolean          @li true if the path is (maybe) absolute (we cannot say it with 100% probability) and UNIX style
- *                          @li false if the path is definitive not absolute or definitive not an UNIX path
- *                          @li if $path is an empty string, this function will return "false"
+ * @return boolean          * true if the path is (maybe) absolute (we cannot say it with 100% probability) and UNIX style
+ * * false if the path is definitive not absolute or definitive not an UNIX path
+ * * if $path is an empty string, this function will return "false"
  */
 function is_path_absolute_and_unix($path, $accept_protocols = true)
 {
@@ -744,15 +743,15 @@ function replace_placeholder_with_infos($string, $part)
 }
 
 /**
- * @brief Split a search string with search modifiers like "incategory:Category1" or "inname:Name2" into a array with
+ * Split a search string with search modifiers like "incategory:Category1" or "inname:Name2" into a array with
  * the modifier keywords in named elemets.
  *
  * @param $search_str string             the search containing the search modifiers.
  *
- * @retval array            @li an array with the elements name, description, comment, footprint, category,
+ * @retval array            * an array with the elements name, description, comment, footprint, category,
  *                          storelocation, suppliername, partnr and manufacturername. Element is "" when no modifier for
  *                          this element was given.
- *                          @li if $search_str does not contain any search modifier, then every element of the array
+ * * if $search_str does not contain any search modifier, then every element of the array
  *                          will contain the original search string.
  */
 function search_string_to_array($search_str)
@@ -798,10 +797,10 @@ function search_string_to_array($search_str)
 }
 
 /***
- * @brief Returns the keyword after a search modifier.(e.g. "inname:Test" with the modifier inname: would return "Test")
+ * Returns the keyword after a search modifier.(e.g. "inname:Test" with the modifier inname: would return "Test")
  * @param $search_str The string which contains the modifiers and keywords.
  * @param $modifier The modifier which should be searched for
- * @retval string Return the keyword after the modifier, if it was found. Else returns "".
+ * @return string Return the keyword after the modifier, if it was found. Else returns "".
  */
 function get_keyword_after_modifier($search_str, $modifier)
 {
@@ -826,8 +825,8 @@ function get_keyword_after_modifier($search_str, $modifier)
 
 /**
  * Allow the usage of umlauts in the given pattern
- * @param $pattern
- * @return mixed
+ * @param $pattern string
+ * @return string
  */
 function regex_allow_umlauts($pattern)
 {
@@ -869,7 +868,7 @@ function generate_button_red($name, $text, $theme="btn-danger", $val="")
  * Checks if a string contains a specific substring
  * @param $haystack string The string which should be examined.
  * @param $needle string The string which should be searched.
- * @return bool True if $haystack contains §needle, else false.
+ * @return bool True if $haystack contains $needle, else false.
  */
 function strcontains($haystack, $needle)
 {

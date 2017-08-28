@@ -30,7 +30,7 @@
  */
 
 /**
- * @brief Print out nice formatted messages in Part-DB design without using templates
+ * Print out nice formatted messages in Part-DB design without using templates
  *
  * This is needed for uncaught exceptions or other error messages in start_session.php
  *
@@ -57,7 +57,7 @@ function print_messages_without_template($page_title, $div_title, $messages)
 }
 
 /**
- * @brief This is an improved version of the setlocale() from PHP
+ * This is an improved version of the setlocale() from PHP
  *
  * This function will first try to set an UTF-8 locale.
  * This function is used in start_session.php, install.php, lib.functions.php and system_config.php
@@ -137,11 +137,11 @@ function own_setlocale($category, $locale)
 }
 
 /**
- * @brief Check if the server complies all minimum requirements of Part-DB
+ * Check if the server complies all minimum requirements of Part-DB
  *
  * @warning    All requirements must be defined in the array "$config['requirements']" in "config_defaults.php"!
  *
- * @retval array    For every requirement which is not complied there's a message
+ * @return string[]    For every requirement which is not complied there's a message
  *                  (This array is empty if the server complies all requirements)
  *
  * @throws Exception if there was an error
@@ -177,8 +177,8 @@ function check_requirements()
 /**
  * @brief Check file permissions
  *
- * @retval array    @li an array with a string for each error message
- *                  @li an empty array means everything is fine
+ * @return string[]  * an array with a string for each error message
+ * * an empty array means everything is fine
  */
 function check_file_permissions()
 {
@@ -230,8 +230,8 @@ function check_file_permissions()
 /**
  * Check if the vendor/ folder exists, with the dependencies we need.
  * If not, a message is returned, where it is explained how to fix the dependencies problem.
- *  @return array @li an array with a string for each error message
- *                @li an empty array means everything is fine
+ *  @return array * an array with a string for each error message
+ *  * an empty array means everything is fine
  */
 function check_composer_folder()
 {
@@ -250,13 +250,13 @@ function check_composer_folder()
 }
 
 /**
- * @brief Check if the config.php is valid
+ * Check if the config.php is valid
  *
  * Maybe some people are trying to create their config.php with a copy of config_defaults.php.
  * This is not good! In this case we will print out an error message!
  *
- * @retval string|true      @li true if the config.php is valid
- *                          @li an error message if the config.php is not valid
+ * @return string|bool      * true if the config.php is valid
+ * * an error message if the config.php is not valid
  */
 function check_if_config_is_valid()
 {

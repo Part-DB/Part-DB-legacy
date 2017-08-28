@@ -36,7 +36,7 @@ use PartDB\User;
  * @brief class Company
  *
  * @class Company
- * @brief This abstract class is used for companies like suppliers or manufacturers.
+ * This abstract class is used for companies like suppliers or manufacturers.
  * @author kami89
  */
 abstract class Company extends PartsContainingDBElement implements IAPIModel
@@ -48,9 +48,9 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
-     * @note  It's allowed to create an object with the ID 0 (for the root element).
+     * It's allowed to create an object with the ID 0 (for the root element).
      *
      * @param Database  &$database      reference to the Database-object
      * @param User      &$current_user  reference to the current user which is logged in
@@ -83,9 +83,9 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *********************************************************************************/
 
     /**
-     * @brief Get the address
+     * Get the address
      *
-     * @retval string       the address of the company (with "\n" as line break)
+     * @return string       the address of the company (with "\n" as line break)
      */
     public function get_address()
     {
@@ -93,9 +93,9 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
     }
 
     /**
-     * @brief Get the phone number
+     * Get the phone number
      *
-     * @retval string       the phone number of the company
+     * @return string       the phone number of the company
      */
     public function get_phone_number()
     {
@@ -103,9 +103,9 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
     }
 
     /**
-     * @brief Get the fax number
+     * Get the fax number
      *
-     * @retval string       the fax number of the company
+     * @return string       the fax number of the company
      */
     public function get_fax_number()
     {
@@ -113,9 +113,9 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
     }
 
     /**
-     * @brief Get the e-mail address
+     * Get the e-mail address
      *
-     * @retval string       the e-mail address of the company
+     * @return string       the e-mail address of the company
      */
     public function get_email_address()
     {
@@ -123,9 +123,9 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
     }
 
     /**
-     * @brief Get the website
+     * Get the website
      *
-     * @retval string       the website of the company
+     * @return string       the website of the company
      */
     public function get_website()
     {
@@ -133,12 +133,12 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
     }
 
     /**
-     * @brief Get the link to the website of an article
+     * Get the link to the website of an article
      *
      * @param string $partnr    @li NULL for returning the URL with a placeholder for the part number
      *                          @li or the part number for returning the direct URL to the article
      *
-     * @retval string           the link to the article
+     * @return string           the link to the article
      */
     public function get_auto_product_url($partnr = null)
     {
@@ -156,7 +156,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *********************************************************************************/
 
     /**
-     * @brief Set the address
+     * Set the address
      *
      * @param string $new_address       the new address (with "\n" as line break)
      *
@@ -168,7 +168,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
     }
 
     /**
-     * @brief Set the phone number
+     * Set the phone number
      *
      * @param string $new_phone_number       the new phone number
      *
@@ -180,7 +180,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
     }
 
     /**
-     * @brief Set the fax number
+     * Set the fax number
      *
      * @param string $new_fax_number       the new fax number
      *
@@ -192,7 +192,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
     }
 
     /**
-     * @brief Set the e-mail address
+     * Set the e-mail address
      *
      * @param string $new_email_address       the new e-mail address
      *
@@ -204,7 +204,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
     }
 
     /**
-     * @brief Set the website
+     * Set the website
      *
      * @param string $new_website       the new website
      *
@@ -216,7 +216,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
     }
 
     /**
-     * @brief Set the link to the website of an article
+     * Set the link to the website of an article
      *
      * @param string $new_url       the new URL with the placeholder %PARTNUMBER% for the part number
      *

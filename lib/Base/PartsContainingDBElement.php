@@ -62,9 +62,9 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
-     * @note  It's allowed to create an object with the ID 0 (for the root element).
+     * It's allowed to create an object with the ID 0 (for the root element).
      *
      * @param Database  &$database      reference to the Database-object
      * @param User      &$current_user  reference to the current user which is logged in
@@ -97,7 +97,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      *********************************************************************************/
 
     /**
-     * @brief Delete this element
+     * Delete this element
      *
      * @note    This function overrides the same-named function from the parent class
      *          because we have to check if this element has no parts included.
@@ -142,13 +142,13 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      *********************************************************************************/
 
     /**
-     * @brief Get all parts of this element
+     * Get all parts of this element
      *
      * @par Examples:
      *  - $category->get_parts():       you will get all Part-objects in this category
      *  - $supplier->get_parts():       you will get all Part-objects, which have (at least) this supplier
      *
-     * @note    To get the DevicePart-objects of a Device, there is the method Device::get_parts().
+     *     To get the DevicePart-objects of a Device, there is the method Device::get_parts().
      *          (This method here allows only to get Part objects, but a Device has DevicePart objects!)
      *
      * @param string    $parts_rowname              @li this is the name of the table row of the parts table,
@@ -157,7 +157,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      * @param boolean   $recursive                  if true, the parts of all subelements will be listed too
      * @param boolean   $hide_obsolete_and_zero     if true, obsolete parts with "instock == 0" will not be returned
      *
-     * @retval array    all parts as a one-dimensional array of Part objects
+     * @return  Part[]   all parts as a one-dimensional array of Part objects
      *
      * @throws Exception if there was an error
      */
@@ -250,7 +250,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
     }
 
     /**
-     * @brief Compare function for "usort()"
+     * Compare function for "usort()"
      *
      * From php.net:    The comparison function must return an integer less than,
      *                  equal to, or greater than zero if the first argument is considered
@@ -259,7 +259,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      * @param Part $part_1      The Part Object #1
      * @param Part $part_2      The Part Object #2
      *
-     * @retval integer
+     * @return integer
      */
     public static function usort_compare($part_1, $part_2)
     {

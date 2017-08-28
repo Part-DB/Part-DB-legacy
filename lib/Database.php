@@ -38,7 +38,7 @@ include_once(BASE.'/updates/db_update_steps.php');
  * @brief class Database
  *
  * @class Database
- * @brief Class Database
+ *  Class Database
  *
  * This class is:
  *      - for managing all database access
@@ -71,14 +71,15 @@ class Database
      *
      *********************************************************************************/
 
-    /** @brief (PDO) PHP Data Object */
+    /** @var PDO PHP Data Object */
     private $pdo = null;
 
-    /** @brief (integer)    See Database::begin_transaction(), Database::commit() and Database::rollback() */
+    /** @var bool  */
     private $transaction_active = false;
+    /** @var integer    See Database::begin_transaction(), Database::commit() and Database::rollback() */
     private $active_transaction_id = 0;
 
-    /** @brief (string) The SQL Mode */
+    /** @var string The SQL Mode */
     private $sql_mode = '';//'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE'; TODO!
 
     /********************************************************************************
@@ -88,7 +89,7 @@ class Database
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
 
      * @note    You don't have to supply database connection data because
      *          the data from the config.php will be used.
@@ -181,9 +182,9 @@ class Database
      *********************************************************************************/
 
     /**
-     * @brief Get current database version (from database table "internal")
+     *  Get current database version (from database table "internal")
      *
-     * @retval integer      current database version
+     * @return integer      current database version
      *
      * @throws Exception if there was an error
      */
@@ -204,9 +205,9 @@ class Database
 
 
     /**
-     * @brief Get latest database version (from updates/db_update_steps.php)
+     *  Get latest database version (from updates/db_update_steps.php)
      *
-     * @retval integer      latest database version
+     * @return integer      latest database version
      *
      * @throws Exception if there was an error
      */
@@ -226,7 +227,7 @@ class Database
      *********************************************************************************/
 
     /**
-     * @brief Set current database version
+     *  Set current database version
      *
      * @param integer $new_current_version          the new current version
      *
@@ -245,9 +246,9 @@ class Database
      *********************************************************************************/
 
     /**
-     * @brief Check if a database update is required
+     *  Check if a database update is required
      *
-     * @retval boolean      @li true if update is required
+     * @return boolean      @li true if update is required
      *                      @li false if we have the latest version
      *
      * @throws Exception if there was an error
@@ -261,7 +262,7 @@ class Database
     }
 
     /**
-     * @brief Converts an MySQL query into a query of the used database type
+     *  Converts an MySQL query into a query of the used database type
      *
      * This function will convert a MySQL query in a query for the used database type.
      *
@@ -269,7 +270,7 @@ class Database
      *
      * @param string $query     The MySQL query
      *
-     * @retval string           The query for the used database type
+     * @return string           The query for the used database type
      *
      * @throws Exception if there was an error
      */
@@ -299,7 +300,7 @@ class Database
     }
 
     /**
-     * @brief Update the database to the latest version
+     *  Update the database to the latest version
      *
      * @warning     Database Transactions won't work for the update process,
      *              because transactions don't work with "DROP TABLE" and "CREATE TABLE"!!
@@ -311,7 +312,7 @@ class Database
      *                                                  even if there was an error. this is used if the user has loaded a
      *                                                  new database (backup last imported) after an update error.
      *
-     * @retval array       the update log as an array: 'text' as string and 'error' as boolean (if this message is associated with an error).
+     * @return array       the update log as an array: 'text' as string and 'error' as boolean (if this message is associated with an error).
      *
      * @throws Exception if there was an error
      *
@@ -538,9 +539,9 @@ class Database
     }*/
 
     /**
-     * @brief Begin a new Transaction
+     *  Begin a new Transaction
      *
-     * @retval  integer     The ID of the new transaction (like a "Ticket Number" for Database::commit())
+     * @return  integer     The ID of the new transaction (like a "Ticket Number" for Database::commit())
      *
      * @throws Exception if there was an error
      */
@@ -562,7 +563,7 @@ class Database
     }
 
     /**
-     * @brief Commit an active transaction
+     *  Commit an active transaction
      *
      * @note    The commit will not really be executed immediately if there are other active transactions.
      *          Only after the commit of the last active transaction, the commit will really be executed.
@@ -601,12 +602,12 @@ class Database
     }
 
     /**
-     * @brief Rollback ALL (!) active transactions
+     *  Rollback ALL (!) active transactions
      *
      * @note    This method should not throw an exception because this sucks :-D
      *          SO we will return only true or false...
      *
-     * @retval  boolean     true if success, false if there was an error
+     * @return  boolean     true if success, false if there was an error
      */
     public function rollback()
     {
@@ -631,7 +632,7 @@ class Database
      *********************************************************************************/
 
     /**
-     * @brief Execute an SQL statement
+     *  Execute an SQL statement
      *
      * @note        There is no returned data (but count), so don't use it if you expect returned data!
      *              Use this method only for UPDATE, REPLACE, DELETE and INSERT statements!
@@ -644,7 +645,7 @@ class Database
      *                                  @li for each placeholder in $query, there must be an array element!
      *                                  @li The order must be the same as the placeholders in $query!
      *
-     * @retval  integer     @li count of elements which were modified
+     * @return  integer     @li count of elements which were modified
      *                      @li or if the query was an INSERT command,
      *                          the ID of the new record will be returned
      *
@@ -707,7 +708,7 @@ class Database
     }
 
     /**
-     * @brief Make a query and fetch all data
+     *  Make a query and fetch all data
      *
      * @note    Use this method only if you expect returned data!
      *          If you don't expect returned data (but count of changes), use Databas::exec() instead.
@@ -723,7 +724,7 @@ class Database
      *                                      @li see @link http://php.net/manual/de/pdostatement.fetch.php
      *                                          http://php.net/manual/de/pdostatement.fetch.php @endlink
      *
-     * @retval array            @li 2D data array [0..*]
+     * @return array            @li 2D data array [0..*]
      *                          @li Example:
      *                              array([0] => array(['id'] => 1, ['name'] => 'foo'), [1] => array(...))
      *
@@ -790,12 +791,12 @@ class Database
      *********************************************************************************/
 
     /**
-     * @brief Check if a database table exists
+     *  Check if a database table exists
      *
      * @param string $tablename         the name of the table
      * @param boolean $forcecheck       Force a real check against the database, without using the whitelist.
      *
-     * @retval boolean      @li true if there is at least one table with this name
+     * @return boolean      @li true if there is at least one table with this name
      *                      @li false if there is no table with this name
      *
      * @throws Exception if there was an error
@@ -836,11 +837,11 @@ class Database
     }
 
     /**
-     * @brief Get the count of records in a table
+     *  Get the count of records in a table
      *
      * @param string $tablename         the name of the table
      *
-     * @retval integer      count of records
+     * @return integer      count of records
      *
      * @throws Exception if there was an error
      */
@@ -852,14 +853,14 @@ class Database
     }
 
     /**
-     * @brief Get all data of a record (by tablename + ID)
+     *  Get all data of a record (by tablename + ID)
      *
      * @param string    $tablename      the name of the table
      * @param integer   $id             ID of the element
      * @param integer   $fetch_style    @li The style of the returned array.
      *                                  @li see Database::query()
      *
-     * @retval array    @li data array (with all table columns) [0..*]
+     * @return array    @li data array (with all table columns) [0..*]
      *                  @li Example: @code array(['id'] => 4, ['name'] => 'foo', ...) @endcode
      *
      * @throws Exception if there is no element with that ID
@@ -878,7 +879,7 @@ class Database
     }
 
     /**
-     * @brief Delete a database record
+     *  Delete a database record
      *
      * @param string    $tablename      the name of the table
      * @param integer   $id             ID of the element which will be deleted
@@ -891,7 +892,7 @@ class Database
     }
 
     /**
-     * @brief Set (change) values of a database record
+     *  Set (change) values of a database record
      *
      * @param string    $tablename      the name of the table where the element is located
      * @param integer   $id             id of the element which should be edited

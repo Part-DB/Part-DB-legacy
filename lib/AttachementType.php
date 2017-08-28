@@ -32,7 +32,7 @@ use Exception;
  * @brief class AttachementType
  *
  * @class AttachementType
- * @brief All elements of this class are stored in the database table "attachement_types".
+ * All elements of this class are stored in the database table "attachement_types".
  * @author kami89
  */
 class AttachementType extends Base\StructuralDBElement implements Interfaces\IAPIModel
@@ -45,7 +45,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @note  It's allowed to create an object with the ID 0 (for the root element).
      *
@@ -69,9 +69,9 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      *********************************************************************************/
 
     /**
-     * @brief Get all attachements ("Attachement" objects) with this type
+     * Get all attachements ("Attachement" objects) with this type
      *
-     * @retval array        all attachements with this type, as a one-dimensional array of Attachement-objects
+     * @return Attachement[]        all attachements with this type, as a one-dimensional array of Attachement-objects
      *                      (sorted by their names)
      *
      * @throws Exception if there was an error
@@ -103,11 +103,11 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      *********************************************************************************/
 
     /**
-     * @brief Get count of attachement types
+     * Get count of attachement types
      *
      * @param Database &$database   reference to the Database-object
      *
-     * @retval integer              count of attachement types
+     * @return  integer              count of attachement types
      *
      * @throws Exception            if there was an error
      */
@@ -121,7 +121,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
     }
 
     /**
-     * @brief Create a new attachement type
+     * Create a new attachement type
      *
      * @param Database  &$database          reference to the database onject
      * @param User      &$current_user      reference to the current user which is logged in
@@ -129,7 +129,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      * @param string    $name               the name of the new attachement type (see AttachementType::set_name())
      * @param integer   $parent_id          the parent ID of the new attachement type (see AttachementType::set_parent_id())
      *
-     * @retval AttachementType      the new attachement type
+     * @return AttachementType      the new attachement type
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

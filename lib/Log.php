@@ -49,7 +49,7 @@ class Log
      *
      *********************************************************************************/
 
-    /** (Database) the Database object for the database access of the logs */
+    /** @var Database the Database object for the database access of the logs */
     private $database = null;
 
     /********************************************************************************
@@ -59,7 +59,7 @@ class Log
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @param Database  &$database      reference to the database
      *

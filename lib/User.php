@@ -44,7 +44,7 @@ use Exception;
  * @brief class User
  *
  * @class User
- * @brief All elements of this class are stored in the database table "users".
+ * All elements of this class are stored in the database table "users".
  * @author kami89
  */
 class User extends Base\AttachementsContainingDBElement
@@ -59,7 +59,7 @@ class User extends Base\AttachementsContainingDBElement
      *
      *********************************************************************************/
 
-    /** @brief (object) the group of this user */
+    /** @var Group the group of this user */
     private $group = null;
 
     /********************************************************************************
@@ -69,7 +69,7 @@ class User extends Base\AttachementsContainingDBElement
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @param Database      &$database      reference to the Database-object
      * @param User|NULL     &$current_user  @li reference to the current user which is logged in
@@ -106,9 +106,9 @@ class User extends Base\AttachementsContainingDBElement
      *********************************************************************************/
 
     /**
-     * @brief Get the group of this user
+     * Get the group of this user
      *
-     * @retval Group        the group of this user
+     * @return Group        the group of this user
      *
      * @throws Exception    if there was an error
      */
@@ -133,7 +133,7 @@ class User extends Base\AttachementsContainingDBElement
      *********************************************************************************/
 
     /**
-     * @brief Change the group ID of this user
+     * Change the group ID of this user
      *
      * @param integer $new_group_id     the ID of the new group
      *
@@ -176,11 +176,11 @@ class User extends Base\AttachementsContainingDBElement
     }
 
     /**
-     * @brief Get count of users
+     * Get count of users
      *
      * @param Database &$database   reference to the Database-object
      *
-     * @retval integer              count of users
+     * @return integer              count of users
      *
      * @throws Exception            if there was an error
      */

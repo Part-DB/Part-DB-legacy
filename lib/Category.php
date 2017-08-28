@@ -33,7 +33,7 @@ use PartDB\PartProperty\PartNameRegEx;
  * @brief class Category
  *
  * @class Category
- * @brief All elements of this class are stored in the database table "categories".
+ * All elements of this class are stored in the database table "categories".
  * @author kami89
  */
 class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIModel
@@ -45,7 +45,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @note  It's allowed to create an object with the ID 0 (for the root element).
      *
@@ -69,14 +69,14 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *********************************************************************************/
 
     /**
-     * @brief Get the "disable footprints" attribute
+     * Get the "disable footprints" attribute
      *
      * @param boolean $including_parents        @li If true, this method will return a "true" if at least
      *                                              one parent category has set "disable_footprints == true"
      *                                          @li If false, this method will only return that value
      *                                              which is stored in the database
      *
-     * @retval boolean          "disable footprints" attribute
+     * @return boolean          "disable footprints" attribute
      */
     public function get_disable_footprints($including_parents = false)
     {
@@ -99,14 +99,14 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     * @brief Get the "disable manufacturers" attribute
+     * Get the "disable manufacturers" attribute
      *
      * @param boolean $including_parents        @li If true, this method will return a "true" if at least
      *                                              one parent category has set "disable_manufacturers == true"
      *                                          @li If false, this method will only return that value
      *                                              which is stored in the database
      *
-     * @retval boolean          the "disable manufacturers" attribute
+     * @return boolean          the "disable manufacturers" attribute
      */
     public function get_disable_manufacturers($including_parents = false)
     {
@@ -129,14 +129,14 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     * @brief Get the "disable automatic datasheets" attribute
+     *  Get the "disable automatic datasheets" attribute
      *
      * @param boolean $including_parents        @li If true, this method will return a "true" if at least
      *                                              one parent category has set "disable_autodatasheets == true"
      *                                          @li If false, this method will only return that value
      *                                              which is stored in the database
      *
-     * @retval boolean          the "disable automatic datasheets" attribute
+     * @return boolean          the "disable automatic datasheets" attribute
      */
     public function get_disable_autodatasheets($including_parents = false)
     {
@@ -159,14 +159,14 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     * @brief Get the "disable automatic properties" attribute
+     *  Get the "disable automatic properties" attribute
      *
      * @param boolean $including_parents        @li If true, this method will return a "true" if at least
      *                                              one parent category has set "disable_properties == true"
      *                                          @li If false, this method will only return that value
      *                                              which is stored in the database
      *
-     * @retval boolean          the "disable automatic properties" attribute
+     * @return boolean          the "disable automatic properties" attribute
      */
     public function get_disable_properties($including_parents = false)
     {
@@ -189,14 +189,14 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     * @brief Get the "default description" attribute
+     *  Get the "default description" attribute
      *
      * @param boolean $including_parents        @li If true, this method will return the first non empty value from parents
      *                                              if this category has no own value
      *                                          @li If false, this method will only return that value
      *                                              which is stored in the database
      *
-     * @retval string          the "default description" attribute
+     * @return string          the "default description" attribute
      */
     public function get_default_description($including_parents = false, $show_escape = true)
     {
@@ -226,14 +226,14 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     * @brief Get the "default comment" attribute
+     *  Get the "default comment" attribute
      *
      * @param boolean $including_parents        @li If true, this method will return the first non empty value from parents
      *                                              if this category has no own value
      *                                          @li If false, this method will only return that value
      *                                              which is stored in the database
      *
-     * @retval string          the "default comment" attribute
+     * @return string          the "default comment" attribute
      */
     public function get_default_comment($including_parents = false, $show_escape = true)
     {
@@ -367,12 +367,12 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
 
 
     /**
-     * @brief Get all parts from this element
+     *  Get all parts from this element
      *
      * @param boolean $recursive                if true, the parts of all subcategories will be listed too
      * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
      *
-     * @retval array        all parts as a one-dimensional array of Part-objects, sorted by their names
+     * @return array        all parts as a one-dimensional array of Part-objects, sorted by their names
      *
      * @throws Exception if there was an error
      */
@@ -388,7 +388,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *********************************************************************************/
 
     /**
-     * @brief Set the "disable footprints" attribute
+     *  Set the "disable footprints" attribute
      *
      * @param boolean $new_disable_footprints           the new value
      *
@@ -400,7 +400,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     * @brief Set the "disable manufacturers" attribute
+     *  Set the "disable manufacturers" attribute
      *
      * @param boolean $new_disable_manufacturers        the new value
      *
@@ -412,7 +412,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     * @brief Set the "disable automatic datasheets" attribute
+     *  Set the "disable automatic datasheets" attribute
      *
      * @param boolean $new_disable_autodatasheets        the new value
      *
@@ -424,7 +424,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     * @brief Set the "disable automatic properties" attribute
+     *  Set the "disable automatic properties" attribute
      *
      * @param boolean $new_disable_properties        the new value
      *
@@ -436,7 +436,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     * @brief Set the "default description" attribute
+     *  Set the "default description" attribute
      * @param string $new_default_description the new value
      * @throws Exception if there was an error
      */
@@ -446,7 +446,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     * @brief Set the "default comment" attribute
+     *  Set the "default comment" attribute
      * @param string $new_default_comment the new value
      * @throws Exception if there was an error
      */
@@ -466,7 +466,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     * @brief Set the "partname_regex" attribute
+     *  Set the "partname_regex" attribute
      * @param string $new_default_comment the new value
      * @throws Exception if there was an error
      */
@@ -495,11 +495,11 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     * @brief Get the count of categories
+     *  Get the count of categories
      *
      * @param Database &$database   reference to the Database-object
      *
-     * @retval integer              count of categories
+     * @return integer              count of categories
      *
      * @throws Exception            if there was an error
      */
@@ -513,7 +513,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     }
 
     /**
-     * @brief Create a new category
+     *  Create a new category
      *
      * @param Database  &$database                  reference to the database object
      * @param User      &$current_user              reference to the current user which is logged in
@@ -527,7 +527,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @param string    $default_description        The default description of parts in the new category.
      * @param string    $default_comment            The default comment of parts in the new category.
      *
-     * @retval Category     the new category
+     * @return Category     the new category
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

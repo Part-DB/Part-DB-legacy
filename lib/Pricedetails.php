@@ -32,7 +32,7 @@ use Exception;
  * @brief class Pricedetails
 
  * @class Pricedetails
- * @brief All elements of this class are stored in the database table "pricedetails".
+ * All elements of this class are stored in the database table "pricedetails".
  *
  * One Pricedetails-object includes these things:
  *  - Price
@@ -55,7 +55,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      *********************************************************************************/
 
-    /** @brief (object) the orderdetails which includes this pricedetails */
+    /** @var Orderdetails the orderdetails which includes this pricedetails */
     private $orderdetails   = null;
 
     /********************************************************************************
@@ -65,7 +65,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @param Database  &$database      reference to the Database-object
      * @param User      &$current_user  reference to the current user which is logged in
@@ -97,7 +97,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *********************************************************************************/
 
     /**
-     * @brief Delete this pricedetails record
+     * Delete this pricedetails record
      *
      * @warning     The pricedetails with "min_discount_quantity == 1" cannot be deleted
      *              if there are already other pricedetails! If you want to delete all
@@ -133,9 +133,9 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *********************************************************************************/
 
     /**
-     * @brief Get the orderdetails of this pricedetails
+     * Get the orderdetails of this pricedetails
      *
-     * @retval Orderdetails     the orderdetails object
+     * @return Orderdetails     the orderdetails object
      *
      * @throws Exception if there was an error
      */
@@ -154,7 +154,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Get the price
+     * Get the price
      *
      * @param boolean $as_money_string      @li if true, this method returns a money string incl. currency
      *                                      @li if false, this method returns the price as float
@@ -164,8 +164,8 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @note    You will get the price for $multiplier parts. If you want the price which is stored
      *          in the database, you have to pass the "price_related_quantity" count as $multiplier.
      *
-     * @retval float    the price as a float number (if "$as_money_string == false")
-     * @retval string   the price as a string incl. currency (if "$as_money_string == true")
+     * @return float    the price as a float number (if "$as_money_string == false")
+     * @return string   the price as a string incl. currency (if "$as_money_string == true")
      *
      * @see float_to_money_string()
      */
@@ -181,11 +181,11 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Get the price related quantity
+     *  Get the price related quantity
      *
      * This is the quantity, for which the price is valid.
      *
-     * @retval integer       the price related quantity
+     * @return integer       the price related quantity
      *
      * @see Pricedetails::set_price_related_quantity()
      */
@@ -195,12 +195,12 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Get the minimum discount quantity
+     *  Get the minimum discount quantity
      *
      * "Minimum discount quantity" means the minimum order quantity for which the price
      * of this orderdetails is valid.
      *
-     * @retval integer       the minimum discount quantity
+     * @return integer       the minimum discount quantity
      *
      * @see Pricedetails::set_min_discount_quantity()
      */
@@ -216,7 +216,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *********************************************************************************/
 
     /**
-     * @brief Set the price
+     *  Set the price
      *
      * @param float $new_price       the new price as a float number
      *
@@ -233,7 +233,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Set the price related quantity
+     *  Set the price related quantity
      *
      * This is the quantity, for which the price is valid.
      *
@@ -249,7 +249,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Set the minimum discount quantity
+     *  Set the minimum discount quantity
      *
      * "Minimum discount quantity" means the minimum order quantity for which the price
      * of this orderdetails is valid. This way, you're able to use different prices
@@ -377,7 +377,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * @brief Create a new orderdetails record
+     *  Create a new orderdetails record
      *
      * @param Database  &$database                  reference to the database onject
      * @param User      &$current_user              reference to the current user which is logged in
@@ -393,7 +393,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @warning     The attribute "min_discount_quantity" must be "1" if there are no other
      *              pricedetails in the selected orderdetails yet!
      *
-     * @retval Pricedetails     the new Pricedetails object
+     * @return Pricedetails     the new Pricedetails object
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

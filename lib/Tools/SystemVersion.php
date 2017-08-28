@@ -62,15 +62,15 @@ class SystemVersion
      *
      *********************************************************************************/
 
-    /** (integer) */
+    /** @var  integer */
     private $major_version      = null;
-    /** (integer) */
+    /** @var integer */
     private $minor_version      = null;
-    /** (integer) */
+    /** @var integer */
     private $update_version     = null;
-    /** (integer) Release Candidate number, zero means "stable version" */
+    /** @var integer Release Candidate number, zero means "stable version" */
     private $release_candidate  = null;
-    /** (string) the version type ('stable' or 'unstable') */
+    /** @var string the version type ('stable' or 'unstable') */
     private $type               = null;
 
     /********************************************************************************
@@ -79,9 +79,9 @@ class SystemVersion
      *
      *********************************************************************************/
 
-    /** (SystemVersion) the latest stable version which is available */
+    /** @var SystemVersion the latest stable version which is available */
     private static $latest_stable_version      = null;
-    /** (SystemVersion) the latest unstable version which is available */
+    /** @var SystemVersion the latest unstable version which is available */
     private static $latest_unstable_version    = null;
 
     /********************************************************************************
@@ -91,7 +91,7 @@ class SystemVersion
      *********************************************************************************/
 
     /**
-     * @brief Constructor
+     * Constructor
      *
      * @param string $version_string        @li here we have to supply the version string
      *                                      @li Format: "#.#.#[.RC#]" (brackets means "optional", # stands for numbers)
@@ -139,7 +139,7 @@ class SystemVersion
      *********************************************************************************/
 
     /**
-     * @brief Generate a string of the version
+     * Generate a string of the version
      *
      * @param boolean $internal_format  If true, the internal format (with points instead of spaces) will be used.
      *                                  All other parameters will be ignored if this is true.
@@ -147,7 +147,7 @@ class SystemVersion
      * @param boolean $hide_rev         if true, the svn revision number will never be printed @deprecated
      * @param boolean $show_type        if true, the type (stable or unstable) will be printed (in brackets)
      *
-     * @retval string       the version string, like "0.2.3.RC2" (internal format), "0.2.3", "0.2.3 RC5", "0.2.3 (stable)", and so on...
+     * @return string       the version string, like "0.2.3.RC2" (internal format), "0.2.3", "0.2.3 RC5", "0.2.3 (stable)", and so on...
      *
      * @note    The release candidate number won't be printed if it is zero (even if "$hide_rc == false")!
      */
@@ -175,13 +175,13 @@ class SystemVersion
     }
 
     /**
-     * @brief Check if this Version is newer than another Version
+     * Check if this Version is newer than another Version
      *
      * With this function we can compare two objects.
      *
      * @param SystemVersion $version_2    the Version which we want to compare with this Version
      *
-     * @retval boolean  @li true if this Version is newer than $version_2
+     * @return boolean  @li true if this Version is newer than $version_2
      *                  @li otherwise false (equal or older)
      */
     public function is_newer_than($version_2)
@@ -228,9 +228,9 @@ class SystemVersion
      *********************************************************************************/
 
     /**
-     * @brief Get the version type of this version ('stable' or 'unstable')
+     * Get the version type of this version ('stable' or 'unstable')
      *
-     * @retval string       'stable' or 'unstable'
+     * @return string       'stable' or 'unstable'
      */
     public function get_version_type()
     {
@@ -244,9 +244,9 @@ class SystemVersion
      *********************************************************************************/
 
     /**
-     * @brief Get the installed system version
+     * Get the installed system version
      *
-     * @retval Version      the installed system version
+     * @return Version      the installed system version
      *
      * @throws Exception if there was an error
      */
@@ -260,11 +260,11 @@ class SystemVersion
     }
 
     /**
-     * @brief Get the latest system version which is available (in the internet or in the directory "/updates/")
+     * Get the latest system version which is available (in the internet or in the directory "/updates/")
      *
      * @param string $type      'stable' or 'unstable'
      *
-     * @retval Version          the latest available system version
+     * @return SystemVersion    the latest available system version
      *
      * @throws Exception if there was an error
      *
