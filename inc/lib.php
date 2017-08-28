@@ -653,11 +653,11 @@ function is_path_absolute_and_unix($path, $accept_protocols = true)
     }
 
     //Dont check if DOCUMENT_ROOT or BASE_RELATIVE are empty, so we dont get a warning about missing delimiter
-    if (!empty(DOCUMENT_ROOT) && mb_strpos($path, DOCUMENT_ROOT) === 0) { // $path begins with DOCUMENT_ROOT
+    if (defined(DOCUMENT_ROOT) && mb_strpos($path, DOCUMENT_ROOT) === 0) { // $path begins with DOCUMENT_ROOT
         return true;
     }
 
-    if (!empty(BASE_RELATIVE) && mb_strpos($path, BASE_RELATIVE) === 0) { // $path begins with BASE_RELATIVE
+    if (defined(BASE_RELATIVE) && mb_strpos($path, BASE_RELATIVE) === 0) { // $path begins with BASE_RELATIVE
         return false;
     }
 
@@ -1031,4 +1031,14 @@ function get_class_short($object)
 {
     $reflect = new \ReflectionClass($object);
     return $reflect->getShortName();
+}
+
+/**
+ * Checks if $var is empty. This function capsules the empty function, so we can use it for expressions.
+ * @param $var mixed The variable which should be checked.
+ * @return boolean
+ */
+function _empty(&$var)
+{
+    return empty($var);
 }

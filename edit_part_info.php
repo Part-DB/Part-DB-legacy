@@ -270,14 +270,15 @@ use PartDB\User;
 
                         $is_new_part = false;
                     } else {
-                        if (empty($category->get_partname_hint(true, false))) {
+                        $partname_hint = $category->get_partname_hint(true, false);
+                        if (empty($partname_hint)) {
                             $messages[] = array('text' => sprintf(_('Der Name "%s" entspricht nicht den Vorgaben!'), $new_name),
                                 'strong' => true, 'color' => 'red');
                         } else {
                             $messages[] = array('html' => sprintf(
                                 _('Der Name "%s" entspricht nicht den Vorgaben <b>(%s)</b>!'),
                                 $new_name,
-                                $category->get_partname_hint(true, false)
+                                $partname_hint
                             ));
                         }
 
@@ -344,7 +345,8 @@ use PartDB\User;
                     if (Part::is_valid_name($new_name, $part->get_category())) {
                         $part->set_name($new_name);
                     } else {
-                        if (empty($part->get_category()->get_partname_hint(true, false))) {
+                        $parname_hint = $part->get_category()->get_partname_hint(true, false);
+                        if (empty($parname_hint)) {
                             $messages[] = array('text' => sprintf(_('Der Name "%s" entspricht nicht den Vorgaben!'), $new_name),
                                 'strong' => true, 'color' => 'red');
                         } else {

@@ -200,14 +200,14 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function get_default_description($including_parents = false, $show_escape = true)
     {
-        if ($including_parents && empty($this->get_default_description())) {
+        if ($including_parents && _empty($this->get_default_description())) {
             $parent_id = $this->get_id();
 
             while ($parent_id > 0) {
                 $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $category->get_parent_id();
 
-                if (!empty($category->get_default_description())) {
+                if (!_empty($category->get_default_description())) {
                     if ($category->get_default_description() == "@@") {
                         break;
                     }
@@ -237,14 +237,14 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function get_default_comment($including_parents = false, $show_escape = true)
     {
-        if ($including_parents && empty($this->get_default_comment()) && $this->get_default_comment() != "@@") {
+        if ($including_parents && _empty($this->get_default_comment()) && $this->get_default_comment() != "@@") {
             $parent_id = $this->get_id();
 
             while ($parent_id > 0) {
                 $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $category->get_parent_id();
 
-                if (!empty($category->get_default_comment())) {
+                if (!_empty($category->get_default_comment())) {
                     if ($category->get_default_comment() == "@@") {
                         break;
                     }
@@ -271,14 +271,14 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function get_partname_hint($including_parents = false, $show_escape = true)
     {
-        if ($including_parents && empty($this->get_partname_hint())) {
+        if ($including_parents && _empty($this->get_partname_hint())) {
             $parent_id = $this->get_id();
 
             while ($parent_id > 0) {
                 $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $category->get_parent_id();
 
-                if (!empty($category->get_partname_hint())) {
+                if (!_empty($category->get_partname_hint())) {
                     if ($category->get_partname_hint() == "@@") {
                         break;
                     }
@@ -307,14 +307,14 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function get_partname_regex_raw($including_parents = false, $show_escape = true)
     {
-        if ($including_parents && empty($this->get_partname_regex_raw())) {
+        if ($including_parents && _empty($this->get_partname_regex_raw())) {
             $parent_id = $this->get_id();
 
             while ($parent_id > 0) {
                 $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
                 $parent_id = $category->get_parent_id();
 
-                if (!empty($category->get_partname_regex_raw())) {
+                if (!_empty($category->get_partname_regex_raw())) {
                     if ($category->get_partname_regex_raw() == "@@") {
                         break;
                     }

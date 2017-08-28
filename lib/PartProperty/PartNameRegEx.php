@@ -104,7 +104,7 @@ class PartNameRegEx
     {
         $tmp = array();
 
-        if (empty($this->get_regex())) {
+        if (_empty($this->get_regex())) {
             return $tmp;
         }
 
@@ -129,7 +129,7 @@ class PartNameRegEx
      */
     public function check_name($name)
     {
-        if ($this->is_nofilter() || empty($this->get_regex())) { //When we dont filter, every name is ok.
+        if ($this->is_nofilter() || _empty($this->get_regex())) { //When we dont filter, every name is ok.
             return true;
         }
 

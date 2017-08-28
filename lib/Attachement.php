@@ -394,7 +394,7 @@ class Attachement extends Base\NamedDBElement
         }
 
         // check "class_name"
-        $supported_classes = array(Part::class); // to be continued (step by step)...
+        $supported_classes = array("PartDB\Part"); // to be continued (step by step)...
         if (! in_array($values['class_name'], $supported_classes)) {
             debug(
                 'error',
