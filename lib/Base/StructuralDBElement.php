@@ -191,7 +191,7 @@
             }
             else
             {
-                $class_name = get_class_short($this);
+                $class_name = get_class($this);
                 $parent_element = new $class_name($this->database, $this->current_user, $this->log, $this->get_parent_id());
 
                 return (($parent_element->get_id() == $another_element->get_id()) || ($parent_element->is_child_of($another_element)));
@@ -260,7 +260,7 @@
                 $this->full_path_strings = array();
                 $this->full_path_strings[] = $this->get_name();
                 $parent_id = $this->get_parent_id();
-                $class = get_class_short($this);
+                $class = get_class($this);
                 while ($parent_id > 0)
                 {
                     $element = new $class($this->database, $this->current_user, $this->log, $parent_id);

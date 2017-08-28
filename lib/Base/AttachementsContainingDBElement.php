@@ -165,7 +165,7 @@
                             'WHERE class_name=? AND element_id=? '.
                             'GROUP BY type_id '.
                             'ORDER BY attachement_types.name ASC';
-                $query_data = $this->database->query($query, array(get_class_short($this), $this->get_id()));
+                $query_data = $this->database->query($query, array(get_class($this), $this->get_id()));
 
                 //debug('temp', 'Anzahl gefundener Dateitypen: '.count($query_data));
                 foreach ($query_data as $row)
@@ -197,7 +197,7 @@
                             'LEFT JOIN attachement_types ON attachements.type_id=attachement_types.id '.
                             'WHERE class_name=? AND element_id=? ';
                 $query .= 'ORDER BY attachement_types.name ASC, attachements.name ASC';
-                $query_data = $this->database->query($query, array(get_class_short($this), $this->get_id()));
+                $query_data = $this->database->query($query, array(get_class($this), $this->get_id()));
 
                 //debug('temp', 'Anzahl gefundene Dateianhänge: '.count($query_data));
                 foreach ($query_data as $row)
