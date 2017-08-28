@@ -799,8 +799,8 @@ function search_string_to_array($search_str)
 
 /***
  * Returns the keyword after a search modifier.(e.g. "inname:Test" with the modifier inname: would return "Test")
- * @param $search_str The string which contains the modifiers and keywords.
- * @param $modifier The modifier which should be searched for
+ * @param $search_str string The string which contains the modifiers and keywords.
+ * @param $modifier  string The modifier which should be searched for
  * @return string Return the keyword after the modifier, if it was found. Else returns "".
  */
 function get_keyword_after_modifier($search_str, $modifier)

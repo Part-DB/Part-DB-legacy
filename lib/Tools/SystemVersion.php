@@ -246,7 +246,7 @@ class SystemVersion
     /**
      * Get the installed system version
      *
-     * @return Version      the installed system version
+     * @return SystemVersion      the installed system version
      *
      * @throws Exception if there was an error
      */

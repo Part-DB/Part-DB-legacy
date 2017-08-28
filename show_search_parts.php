@@ -24,6 +24,7 @@
 */
 
 include_once('start_session.php');
+/** @noinspection PhpIncludeInspection */
 include_once(BASE.'/inc/lib.export.php');
 
 use PartDB\Database;

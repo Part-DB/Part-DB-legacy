@@ -537,7 +537,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @param boolean $hide_obsolete    If true, obsolete orderdetails will NOT be returned
      *
-     * @return array    @li all orderdetails as a one-dimensional array of Orderdetails objects
+     * @return Orderdetails[]    @li all orderdetails as a one-dimensional array of Orderdetails objects
      *                      (empty array if there are no ones)
      *                  @li the array is sorted by the suppliers names / minimum order quantity
      *
@@ -576,7 +576,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      *  Get all devices which uses this part
      *
-     * @return array    @li all devices which uses this part as a one-dimensional array of Device objects
+     * @return Device[]    @li all devices which uses this part as a one-dimensional array of Device objects
      *                      (empty array if there are no ones)
      *                  @li the array is sorted by the devices names
      *

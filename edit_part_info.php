@@ -384,7 +384,7 @@ use PartDB\User;
                         $current_user,
                         $log,
                         $part_id,
-                                                            $new_supplier_id,
+                        $new_supplier_id,
                         $new_supplierpartnr,
                         $new_obsolete
                     );

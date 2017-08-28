@@ -266,7 +266,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @param boolean $recursive        if true, the parts of all subelements will be listed too
      *
-     * @return array        all parts as a one-dimensional array of "DevicePart"-objects,
+     * @return Part[]        all parts as a one-dimensional array of "DevicePart"-objects,
      *                      sorted by their names (only if "$recursive == false")
      *
      * @throws Exception if there was an error
