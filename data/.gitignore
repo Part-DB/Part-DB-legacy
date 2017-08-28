@@ -1,3 +1,4 @@
 # ignore private files
 config.php
 ENABLE-DOKUWIKI-WRITE-PERMS.txt
+*.bak
