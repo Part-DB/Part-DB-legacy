@@ -26,170 +26,170 @@
 namespace PartDB;
 
 /**
-    * @todo
-    *   Soll der SysAdmin einen Datenbankeintrag haben? Mit Admin-Gruppe?
-    *   Oder sollen die Rechte des Admins hardgecoded sein (ID = 0) (wie bei "StructuralDBElement")?
-    *   Zweiteres wäre theoretisch schöner, da man die Adminrechte nicht verlieren kann durch eine
-    *   kaputte Datenbank. Allerdings müsste das Admin-Passwort dann irgendwo gespeichert werden,
-    *   wo man es auch bequem wieder ändern kann, vielleicht in $config (config.php)?
-    *   Da momentan andere Sachen eine höhere Priorität haben als die Benutzerverwaltung,
-    *   lasse ich das hier einfach mal so stehen, das kann man dann anschauen sobald es gebraucht wird.
-    *   kami89
-    */
+ * @todo
+ *   Soll der SysAdmin einen Datenbankeintrag haben? Mit Admin-Gruppe?
+ *   Oder sollen die Rechte des Admins hardgecoded sein (ID = 0) (wie bei "StructuralDBElement")?
+ *   Zweiteres wäre theoretisch schöner, da man die Adminrechte nicht verlieren kann durch eine
+ *   kaputte Datenbank. Allerdings müsste das Admin-Passwort dann irgendwo gespeichert werden,
+ *   wo man es auch bequem wieder ändern kann, vielleicht in $config (config.php)?
+ *   Da momentan andere Sachen eine höhere Priorität haben als die Benutzerverwaltung,
+ *   lasse ich das hier einfach mal so stehen, das kann man dann anschauen sobald es gebraucht wird.
+ *   kami89
+ */
 
 use Exception;
 
 /**
-     * @file User.php
-     * @brief class User
+ * @file User.php
+ * @brief class User
+ *
+ * @class User
+ * @brief All elements of this class are stored in the database table "users".
+ * @author kami89
+ */
+class User extends Base\AttachementsContainingDBElement
+{
+    /********************************************************************************
      *
-     * @class User
-     * @brief All elements of this class are stored in the database table "users".
-     * @author kami89
+     *   Calculated Attributes
+     *
+     *   Calculated attributes will be NULL until they are requested for first time (to save CPU time)!
+     *   After changing an element attribute, all calculated data will be NULLed again.
+     *   So: the calculated data will be cached.
+     *
+     *********************************************************************************/
+
+    /** @brief (object) the group of this user */
+    private $group = null;
+
+    /********************************************************************************
+     *
+     *   Constructor / Destructor / reset_attributes()
+     *
+     *********************************************************************************/
+
+    /**
+     * @brief Constructor
+     *
+     * @param Database      &$database      reference to the Database-object
+     * @param User|NULL     &$current_user  @li reference to the current user which is logged in
+     *                                      @li NULL if $id is the ID of the current user
+     * @param Log           &$log           reference to the Log-object
+     * @param integer       $id             ID of the user we want to get
+     *
+     * @throws Exception    if there is no such user in the database
+     * @throws Exception    if there was an error
      */
-    class User extends Base\AttachementsContainingDBElement
+    public function __construct(&$database, &$current_user, &$log, $id)
     {
-        /********************************************************************************
-        *
-        *   Calculated Attributes
-        *
-        *   Calculated attributes will be NULL until they are requested for first time (to save CPU time)!
-        *   After changing an element attribute, all calculated data will be NULLed again.
-        *   So: the calculated data will be cached.
-        *
-        *********************************************************************************/
+        if (! is_object($current_user)) {     // this is that you can create an User-instance for first time
+            $current_user = $this;
+        }           // --> which one was first: the egg or the chicken? :-)
 
-        /** @brief (object) the group of this user */
-        private $group = null;
+        //parent::__construct($database, $current_user, $log, 'users', $id);
+    }
 
-        /********************************************************************************
-        *
-        *   Constructor / Destructor / reset_attributes()
-        *
-        *********************************************************************************/
+    /**
+     * @copydoc DBElement::reset_attributes()
+     */
+    public function reset_attributes($all = false)
+    {
+        $this->group = null;
 
-        /**
-         * @brief Constructor
-         *
-         * @param Database      &$database      reference to the Database-object
-         * @param User|NULL     &$current_user  @li reference to the current user which is logged in
-         *                                      @li NULL if $id is the ID of the current user
-         * @param Log           &$log           reference to the Log-object
-         * @param integer       $id             ID of the user we want to get
-         *
-         * @throws Exception    if there is no such user in the database
-         * @throws Exception    if there was an error
-         */
-        public function __construct(&$database, &$current_user, &$log, $id)
-        {
-            if (! is_object($current_user)) {     // this is that you can create an User-instance for first time
-                $current_user = $this;
-            }           // --> which one was first: the egg or the chicken? :-)
+        parent::reset_attributes($all);
+    }
 
-            //parent::__construct($database, $current_user, $log, 'users', $id);
+    /********************************************************************************
+     *
+     *   Getters
+     *
+     *********************************************************************************/
+
+    /**
+     * @brief Get the group of this user
+     *
+     * @retval Group        the group of this user
+     *
+     * @throws Exception    if there was an error
+     */
+    public function get_group()
+    {
+        if (! is_object($this->group)) {
+            $this->group = new Group(
+                $this->database,
+                $this->current_user,
+                $this->log,
+                $this->db_data['group_id']
+            );
         }
 
-        /**
-         * @copydoc DBElement::reset_attributes()
-         */
-        public function reset_attributes($all = false)
-        {
-            $this->group = null;
+        return $this->group;
+    }
 
-            parent::reset_attributes($all);
-        }
+    /********************************************************************************
+     *
+     *   Setters
+     *
+     *********************************************************************************/
 
-        /********************************************************************************
-        *
-        *   Getters
-        *
-        *********************************************************************************/
+    /**
+     * @brief Change the group ID of this user
+     *
+     * @param integer $new_group_id     the ID of the new group
+     *
+     * @throws Exception if the new group ID is not valid
+     * @throws Exception if there was an error
+     */
+    public function set_group_id($new_group_id)
+    {
+        $this->set_attributes(array('group_id' => $new_group_id));
+    }
 
-        /**
-         * @brief Get the group of this user
-         *
-         * @retval Group        the group of this user
-         *
-         * @throws Exception    if there was an error
-         */
-        public function get_group()
-        {
-            if (! is_object($this->group)) {
-                $this->group = new Group(
-                    $this->database,
-                    $this->current_user,
-                                            $this->log,
-                    $this->db_data['group_id']
-                );
-            }
+    /********************************************************************************
+     *
+     *   Static Methods
+     *
+     *********************************************************************************/
 
-            return $this->group;
-        }
+    /**
+     * @copydoc DBElement::check_values_validity()
+     */
+    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    {
+        // first, we let all parent classes to check the values
+        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
 
-        /********************************************************************************
-        *
-        *   Setters
-        *
-        *********************************************************************************/
-
-        /**
-         * @brief Change the group ID of this user
-         *
-         * @param integer $new_group_id     the ID of the new group
-         *
-         * @throws Exception if the new group ID is not valid
-         * @throws Exception if there was an error
-         */
-        public function set_group_id($new_group_id)
-        {
-            $this->set_attributes(array('group_id' => $new_group_id));
-        }
-
-        /********************************************************************************
-        *
-        *   Static Methods
-        *
-        *********************************************************************************/
-
-        /**
-         * @copydoc DBElement::check_values_validity()
-         */
-        public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
-        {
-            // first, we let all parent classes to check the values
-            parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
-
-            // check "group_id"
-            try {
-                $group = new Group($database, $current_user, $log, $values['group_id']);
-            } catch (Exception $e) {
-                debug(
-                    'warning',
-                    _('Ungültige "group_id": "').$values['group_id'].'"'.
-                        _("\n\nUrsprüngliche Fehlermeldung: ").$e->getMessage(),
-                        __FILE__,
-                    __LINE__,
-                    __METHOD__
-                );
-                throw new Exception(_('Die gewählte Gruppe existiert nicht!'));
-            }
-        }
-
-        /**
-         * @brief Get count of users
-         *
-         * @param Database &$database   reference to the Database-object
-         *
-         * @retval integer              count of users
-         *
-         * @throws Exception            if there was an error
-         */
-        public static function get_count(&$database)
-        {
-            if (!$database instanceof Database) {
-                throw new Exception(_('$database ist kein Database-Objekt!'));
-            }
-
-            return $database->get_count_of_records('users');
+        // check "group_id"
+        try {
+            $group = new Group($database, $current_user, $log, $values['group_id']);
+        } catch (Exception $e) {
+            debug(
+                'warning',
+                _('Ungültige "group_id": "').$values['group_id'].'"'.
+                _("\n\nUrsprüngliche Fehlermeldung: ").$e->getMessage(),
+                __FILE__,
+                __LINE__,
+                __METHOD__
+            );
+            throw new Exception(_('Die gewählte Gruppe existiert nicht!'));
         }
     }
+
+    /**
+     * @brief Get count of users
+     *
+     * @param Database &$database   reference to the Database-object
+     *
+     * @retval integer              count of users
+     *
+     * @throws Exception            if there was an error
+     */
+    public static function get_count(&$database)
+    {
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt!'));
+        }
+
+        return $database->get_count_of_records('users');
+    }
+}

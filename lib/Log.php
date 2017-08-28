@@ -23,54 +23,54 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-    namespace PartDB;
+namespace PartDB;
 
 use Exception;
 
+/**
+ * @file Log.php
+ * @brief class Log
+ *
+ * @class Log
+ * @brief Class Log
+ *
+ * This class manages all log types.
+ * With one instance of this class, you have access to all supported log types.
+ *
+ * @author kami89
+ *
+ * @todo There are no log types implemented yet.
+ */
+class Log
+{
+    /********************************************************************************
+     *
+     *   Attributes
+     *
+     *********************************************************************************/
+
+    /** (Database) the Database object for the database access of the logs */
+    private $database = null;
+
+    /********************************************************************************
+     *
+     *   Constructor / Destructor
+     *
+     *********************************************************************************/
+
     /**
-     * @file Log.php
-     * @brief class Log
+     * @brief Constructor
      *
-     * @class Log
-     * @brief Class Log
+     * @param Database  &$database      reference to the database
      *
-     * This class manages all log types.
-     * With one instance of this class, you have access to all supported log types.
-     *
-     * @author kami89
-     *
-     * @todo There are no log types implemented yet.
+     * @throws Exception if there was an error
      */
-    class Log
+    public function __construct(&$database)
     {
-        /********************************************************************************
-        *
-        *   Attributes
-        *
-        *********************************************************************************/
-
-        /** (Database) the Database object for the database access of the logs */
-        private $database = null;
-
-        /********************************************************************************
-        *
-        *   Constructor / Destructor
-        *
-        *********************************************************************************/
-        
-        /**
-         * @brief Constructor
-         *
-         * @param Database  &$database      reference to the database
-         *
-         * @throws Exception if there was an error
-         */
-        public function __construct(&$database)
-        {
-            if (!$database instanceof Database) {
-                throw new Exception(_('$database ist kein Database-Objekt'));
-            }
-
-            $this->database = $database;
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt'));
         }
+
+        $this->database = $database;
     }
+}

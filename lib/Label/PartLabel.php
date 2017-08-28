@@ -129,9 +129,9 @@ class PartLabel
     {
         if (true) { //case S
             $c = array("size" => array(50,30),
-             "margins" => array(1,2,1),
-             "fontsize" => 8
-             );
+                "margins" => array(1,2,1),
+                "fontsize" => 8
+            );
 
             return $c;
         }

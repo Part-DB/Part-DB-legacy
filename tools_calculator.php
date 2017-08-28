@@ -23,45 +23,45 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-    include_once('start_session.php');
+include_once('start_session.php');
 
 use PartDB\HTML;
 
 $messages = array();
-    $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
+$fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
-    /********************************************************************************
-    *
-    *   Initialize Objects
-    *
-    *********************************************************************************/
+/********************************************************************************
+ *
+ *   Initialize Objects
+ *
+ *********************************************************************************/
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Widerstandsrechner'));
+$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Widerstandsrechner'));
 
-    /********************************************************************************
-    *
-    *   Set all HTML variables
-    *
-    *********************************************************************************/
+/********************************************************************************
+ *
+ *   Set all HTML variables
+ *
+ *********************************************************************************/
 
-    $html->use_javascript(array('calculator'), 'reset4ring(); reset6ring(); ratio_reset(); resistor_reset();');
+$html->use_javascript(array('calculator'), 'reset4ring(); reset6ring(); ratio_reset(); resistor_reset();');
 
-    /********************************************************************************
-    *
-    *   Generate HTML Output
-    *
-    *********************************************************************************/
+/********************************************************************************
+ *
+ *   Generate HTML Output
+ *
+ *********************************************************************************/
 
 
-    //If a ajax version is requested, say this the template engine.
-    if (isset($_REQUEST["ajax"])) {
-        $html->set_variable("ajax_request", true);
-    }
+//If a ajax version is requested, say this the template engine.
+if (isset($_REQUEST["ajax"])) {
+    $html->set_variable("ajax_request", true);
+}
 
-    $html->print_header($messages);
+$html->print_header($messages);
 
-    if (! $fatal_error) {
-        $html->print_template('calculator');
-    }
+if (! $fatal_error) {
+    $html->print_template('calculator');
+}
 
-    $html->print_footer();
+$html->print_footer();
