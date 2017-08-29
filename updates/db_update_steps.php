@@ -23,37 +23,37 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-    /*
-     * DATABASE UPDATE STEPS:
-     *
-     * This file contains all steps to update the database step by step to the latest version.
-     *
-     * To add a new step, you have to:
-     *      - increment the constant "LATEST_DB_VERSION" by one
-     *      - add a new "case" element at the end of the function below.
-     *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
-     */
+/*
+ * DATABASE UPDATE STEPS:
+ *
+ * This file contains all steps to update the database step by step to the latest version.
+ *
+ * To add a new step, you have to:
+ *      - increment the constant "LATEST_DB_VERSION" by one
+ *      - add a new "case" element at the end of the function below.
+ *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
+ */
 
-    define('LATEST_DB_VERSION', 19);  // <-- increment here
+define('LATEST_DB_VERSION', 19);  // <-- increment here
 
-    /*
-     * Get update steps
-     *
-     * This function will be executed one time for every update step until we have the latest version.
-     *
-     * Arguments:
-     *      $current_version:       the current version
-     *
-     * Return:
-     *      an array of SQL queries which we have to execute
-     */
-    function get_db_update_steps($current_version)
+/*
+ * Get update steps
+ *
+ * This function will be executed one time for every update step until we have the latest version.
+ *
+ * Arguments:
+ *      $current_version:       the current version
+ *
+ * Return:
+ *      an array of SQL queries which we have to execute
+ */
+function get_db_update_steps($current_version)
+{
+    $updateSteps = array();
+
+    switch($current_version)
     {
-        $updateSteps = array();
-
-        switch($current_version)
-        {
-          case 0:
+        case 0:
             // there are no tables (empty database), so we will create them.
             // Please note: We will directly create the database version 13, not the first version!
 
@@ -257,36 +257,36 @@
 
             break;
 
-          case 1:
+        case 1:
             $updateSteps[] = NULL; // nothing to do (steps removed)
             break;
 
-          case 2:
+        case 2:
             $updateSteps[] = "ALTER TABLE  `part_device` ADD  `mountname` mediumtext NOT NULL AFTER  `quantity` ;";
             break;
 
-          case 3:
+        case 3:
             $updateSteps[] = "ALTER TABLE  `storeloc` ADD  `parentnode` int(11) NOT NULL default '0' AFTER  `name` ;";
             $updateSteps[] = "ALTER TABLE  `storeloc` ADD  `is_full` boolean NOT NULL default false AFTER `parentnode` ;";
             break;
 
-          case 4:
+        case 4:
             $updateSteps[] = "ALTER TABLE  `part_device` DROP PRIMARY KEY;";
             break;
 
-          case 5:
+        case 5:
             $updateSteps[] = "ALTER TABLE  `devices` ADD  `parentnode` int(11) NOT NULL default '0' AFTER  `name` ;";
             break;
 
-          case 6:
+        case 6:
             $updateSteps[] = "ALTER TABLE  footprints ADD  parentnode INT(11) NOT NULL default '0' AFTER name;";
             break;
 
-          case 7:
+        case 7:
             $updateSteps[] = "ALTER TABLE  parts  ADD  obsolete boolean NOT NULL default false AFTER comment;";
             break;
 
-          case 8:
+        case 8:
             // footprints auf neues schema umbennenen
             $updateSteps[] = "UPDATE footprints SET name='GLEICHRICHTER_2KBB-R'                   WHERE name='2KBB-R';";
             $updateSteps[] = "UPDATE footprints SET name='GLEICHRICHTER_2KBB'                     WHERE name='2KBB';";
@@ -1141,12 +1141,12 @@
             $updateSteps[] = "UPDATE footprints SET name=''                                       WHERE name='';";
             break;
 
-          case 9:
+        case 9:
             $updateSteps[] = "ALTER TABLE `parts` ADD `description` mediumtext AFTER `name`;";
             $updateSteps[] = "ALTER TABLE `parts` ADD `visible`     boolean NOT NULL AFTER `obsolete`;";
             break;
 
-          case 10:
+        case 10:
             $updateSteps[] = "ALTER TABLE `preise` CHANGE COLUMN `t` `last_update` datetime NOT NULL DEFAULT '0000-00-00 00:00:00';";
             $updateSteps[] = "ALTER TABLE `preise` CHANGE COLUMN `ma` `manual_input` tinyint(1) NOT NULL DEFAULT '0';";
             $updateSteps[] = "ALTER TABLE `preise` CHANGE COLUMN `preis` `price` decimal(6,2) NOT NULL DEFAULT '0.00';";
@@ -1154,7 +1154,7 @@
             $updateSteps[] = "ALTER TABLE `preise` ADD `supplierpartnr` mediumtext NOT NULL AFTER `id_supplier`;";
             break;
 
-          case 11:
+        case 11:
             $updateSteps[] = "ALTER TABLE `footprints` ADD `filename` mediumtext AFTER `name`;";
             $updateSteps[] = "UPDATE footprints SET filename = name;";
 
@@ -2012,28 +2012,28 @@
             $updateSteps[] = "UPDATE footprints SET name='' WHERE name='';";
             break;
 
-          case 12:
+        case 12:
 
             /*****************************************************************************************
-            **                                                                                      **
-            ** Update to Database version 13 (for Part-DB Verison 0.3.0):                           **
-            **      - Change to the MySQL Engine "InnoDB" because of the support for transactions   **
-            **      - Make a lot of changes for the new object-oriented design of Part-DB           **
-            **      - Add new keys                                                                  **
-            **      - Make all existing keys unique over the whole database (change names)          **
-            **      - Use now foreign keys                                                          **
-            **      - Remove unused tables/columns                                                  **
-            **                                                                                      **
-            ** ATTENTION: IT IS STRONGLY RECOMMENDED TO MAKE A DATABASE BACKUP BEFORE UPDATING!!!!  **
-            **                                                                                      **
-            ** Please note:                                                                         **
-            ** This is a huge update, so the risk of a failure is higher than usual.                **
-            ** Because of this, automatic database updates are temporary disabled for this one.     **
-            ** The user will get a warning and a recommendation to make a database backup.          **
-            **                                                                                      **
-            ** January 2013, kami89                                                                 **
-            **                                                                                      **
-            ******************************************************************************************/
+             **                                                                                      **
+             ** Update to Database version 13 (for Part-DB Verison 0.3.0):                           **
+             **      - Change to the MySQL Engine "InnoDB" because of the support for transactions   **
+             **      - Make a lot of changes for the new object-oriented design of Part-DB           **
+             **      - Add new keys                                                                  **
+             **      - Make all existing keys unique over the whole database (change names)          **
+             **      - Use now foreign keys                                                          **
+             **      - Remove unused tables/columns                                                  **
+             **                                                                                      **
+             ** ATTENTION: IT IS STRONGLY RECOMMENDED TO MAKE A DATABASE BACKUP BEFORE UPDATING!!!!  **
+             **                                                                                      **
+             ** Please note:                                                                         **
+             ** This is a huge update, so the risk of a failure is higher than usual.                **
+             ** Because of this, automatic database updates are temporary disabled for this one.     **
+             ** The user will get a warning and a recommendation to make a database backup.          **
+             **                                                                                      **
+             ** January 2013, kami89                                                                 **
+             **                                                                                      **
+             ******************************************************************************************/
 
             // drop table "pending_orders" (until now, that table is not used - we will create a new one later when we need it)
             $updateSteps[] = "DROP TABLE `pending_orders`";
@@ -2053,8 +2053,8 @@
 
             // Fix a charset bug of an older version of Part-DB (see german post on uC.net: http://www.mikrocontroller.net/topic/269289#3147877)
             $charset_search_replace = array('Ã¤' => 'ä', 'Ã„' => 'Ä', 'Ã¶' => 'ö', 'Ã–' => 'Ö', 'Ã¼' => 'ü', 'Ãœ' => 'Ü',
-                                            'Â°' => '°', 'Âµ' => 'µ', 'â‚¬' => '€', 'â€°' => '‰', 'Ã¨' => 'è', 'Ãˆ' => 'È',
-                                            'Ã©' => 'é', 'Ã‰' => 'É', 'Ã' => 'à', 'Ã€' => 'À', 'Â£' => '£', 'Ã¸' => 'ø');
+                'Â°' => '°', 'Âµ' => 'µ', 'â‚¬' => '€', 'â€°' => '‰', 'Ã¨' => 'è', 'Ãˆ' => 'È',
+                'Ã©' => 'é', 'Ã‰' => 'É', 'Ã' => 'à', 'Ã€' => 'À', 'Â£' => '£', 'Ã¸' => 'ø');
             foreach ($charset_search_replace as $search => $replace)
             {
                 $updateSteps[] = "UPDATE `categories` SET name = REPLACE(name, '".$search."', '".$replace."')";
@@ -2079,20 +2079,20 @@
             $updateSteps[] = "UPDATE `parts` SET id_supplier = '0' WHERE id_supplier NOT IN (SELECT id FROM `suppliers`)";
             $updateSteps[] = "INSERT IGNORE INTO `categories` (name) VALUES ('Unsortiert')";
             $updateSteps[] = "UPDATE `parts` SET id_category = (SELECT `id` FROM `categories` WHERE name='Unsortiert') ".
-                             "WHERE id_category NOT IN (SELECT id FROM `categories`)";
+                "WHERE id_category NOT IN (SELECT id FROM `categories`)";
             $updateSteps[] = "DELETE FROM categories WHERE id NOT IN (SELECT id_category FROM parts) AND name='Unsortiert'";
             $updateSteps[] = "UPDATE `categories` ".
-                                "LEFT JOIN `categories` AS categories2 ON categories2.id = categories.parentnode ".
-                                "SET categories.parentnode = 0 WHERE categories2.id IS NULL";
+                "LEFT JOIN `categories` AS categories2 ON categories2.id = categories.parentnode ".
+                "SET categories.parentnode = 0 WHERE categories2.id IS NULL";
             $updateSteps[] = "UPDATE `devices` ".
-                                "LEFT JOIN `devices` AS devices2 ON devices2.id = devices.parentnode ".
-                                "SET devices.parentnode = 0 WHERE devices2.id IS NULL";
+                "LEFT JOIN `devices` AS devices2 ON devices2.id = devices.parentnode ".
+                "SET devices.parentnode = 0 WHERE devices2.id IS NULL";
             $updateSteps[] = "UPDATE `footprints` ".
-                                "LEFT JOIN `footprints` AS footprints2 ON footprints2.id = footprints.parentnode ".
-                                "SET footprints.parentnode = 0 WHERE footprints2.id IS NULL";
+                "LEFT JOIN `footprints` AS footprints2 ON footprints2.id = footprints.parentnode ".
+                "SET footprints.parentnode = 0 WHERE footprints2.id IS NULL";
             $updateSteps[] = "UPDATE `storeloc` ".
-                                "LEFT JOIN `storeloc` AS storeloc2 ON storeloc2.id = storeloc.parentnode ".
-                                "SET storeloc.parentnode = 0 WHERE storeloc2.id IS NULL";
+                "LEFT JOIN `storeloc` AS storeloc2 ON storeloc2.id = storeloc.parentnode ".
+                "SET storeloc.parentnode = 0 WHERE storeloc2.id IS NULL";
             $updateSteps[] = "DELETE FROM `datasheets` WHERE part_id NOT IN (SELECT id FROM `parts`)";
             $updateSteps[] = "DELETE FROM `preise` WHERE part_id NOT IN (SELECT id FROM `parts`)";
             $updateSteps[] = "DELETE FROM `pictures` WHERE part_id NOT IN (SELECT id FROM `parts`)";
@@ -2117,8 +2117,8 @@
             $updateSteps[] = "INSERT IGNORE INTO `suppliers` (name, parent_id) VALUES ('Unbekannt', NULL)";
             $updateSteps[] = "UPDATE `parts` SET supplierpartnr='' WHERE supplierpartnr='0'"; // "0" is not a supplier part-nr! ;-)
             $updateSteps[] = "UPDATE `parts` LEFT JOIN `preise` ON parts.id = preise.part_id ".
-                                "SET parts.id_supplier = (SELECT `id` FROM `suppliers` WHERE name='Unbekannt') ".
-                                "WHERE (parts.id_supplier = 0) AND ((preise.price > 0) OR (parts.supplierpartnr != ''))";
+                "SET parts.id_supplier = (SELECT `id` FROM `suppliers` WHERE name='Unbekannt') ".
+                "WHERE (parts.id_supplier = 0) AND ((preise.price > 0) OR (parts.supplierpartnr != ''))";
             $updateSteps[] = "DELETE FROM suppliers WHERE id NOT IN (SELECT id_supplier FROM parts) AND name='Unbekannt'";
 
             // table "categories"
@@ -2171,35 +2171,35 @@
             $updateSteps[] = "CREATE INDEX orderdetails_part_id_k ON orderdetails(part_id)";
             $updateSteps[] = "CREATE INDEX orderdetails_id_supplier_k ON orderdetails(id_supplier)";
             $updateSteps[] = "UPDATE `orderdetails` ".
-                                "LEFT JOIN `parts` ON parts.id = orderdetails.part_id ".
-                                "SET orderdetails.id_supplier=parts.id_supplier, ".
-                                "orderdetails.supplierpartnr=parts.supplierpartnr, ".
-                                "orderdetails.obsolete=parts.obsolete ".
-                                "WHERE parts.id IS NOT NULL";
+                "LEFT JOIN `parts` ON parts.id = orderdetails.part_id ".
+                "SET orderdetails.id_supplier=parts.id_supplier, ".
+                "orderdetails.supplierpartnr=parts.supplierpartnr, ".
+                "orderdetails.obsolete=parts.obsolete ".
+                "WHERE parts.id IS NOT NULL";
             $updateSteps[] = "INSERT IGNORE INTO `orderdetails` ".
-                                "(`part_id`, `id_supplier`, `supplierpartnr`, `last_update`, `manual_input`, `obsolete`) ".
-                                "SELECT `id`, `id_supplier`, `supplierpartnr`, now(), '1', `obsolete` FROM `parts` ".
-                                "WHERE (id_supplier > '0') AND (parts.id NOT IN (SELECT part_id FROM orderdetails))";
+                "(`part_id`, `id_supplier`, `supplierpartnr`, `last_update`, `manual_input`, `obsolete`) ".
+                "SELECT `id`, `id_supplier`, `supplierpartnr`, now(), '1', `obsolete` FROM `parts` ".
+                "WHERE (id_supplier > '0') AND (parts.id NOT IN (SELECT part_id FROM orderdetails))";
             $updateSteps[] = "UPDATE `orderdetails` SET datetime_added=CURRENT_TIMESTAMP";
 
             // create table "pricedetails"
             $updateSteps[] = "CREATE TABLE `pricedetails` (".
-                                "`id` int(11) NOT NULL AUTO_INCREMENT,".
-                                "`orderdetails_id` INT(11) NOT NULL,".
-                                "`price` DECIMAL(6,2) NOT NULL,".
-                                "`price_related_quantity` INT(11) NOT NULL DEFAULT 1,".
-                                "`min_discount_quantity`INT(11) NOT NULL DEFAULT 1,".
-                                "`manual_input` BOOL NOT NULL DEFAULT true,".
-                                "`last_modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,".
-                                " PRIMARY KEY  (`id`),".
-                                " UNIQUE KEY pricedetails_combination_uk (`orderdetails_id`, `min_discount_quantity`)".
-                                ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;";
+                "`id` int(11) NOT NULL AUTO_INCREMENT,".
+                "`orderdetails_id` INT(11) NOT NULL,".
+                "`price` DECIMAL(6,2) NOT NULL,".
+                "`price_related_quantity` INT(11) NOT NULL DEFAULT 1,".
+                "`min_discount_quantity`INT(11) NOT NULL DEFAULT 1,".
+                "`manual_input` BOOL NOT NULL DEFAULT true,".
+                "`last_modified` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,".
+                " PRIMARY KEY  (`id`),".
+                " UNIQUE KEY pricedetails_combination_uk (`orderdetails_id`, `min_discount_quantity`)".
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci AUTO_INCREMENT=1;";
             $updateSteps[] = "CREATE INDEX pricedetails_orderdetails_id_k ON pricedetails(orderdetails_id)";
             $updateSteps[] = "INSERT INTO `pricedetails` ".
-                                "(`orderdetails_id`, `price`, `price_related_quantity`, ".
-                                    "`min_discount_quantity`, `manual_input`) ".
-                                "SELECT `id`, `price`, '1', '1', `manual_input` FROM `orderdetails` ".
-                                "WHERE (price > 0)";
+                "(`orderdetails_id`, `price`, `price_related_quantity`, ".
+                "`min_discount_quantity`, `manual_input`) ".
+                "SELECT `id`, `price`, '1', '1', `manual_input` FROM `orderdetails` ".
+                "WHERE (price > 0)";
 
             // clean up table "orderdetails"
             $updateSteps[] = "ALTER TABLE `orderdetails` DROP COLUMN `manual_input`";
@@ -2230,8 +2230,8 @@
             $updateSteps[] = "CREATE INDEX parts_order_orderdetails_id_k ON parts(order_orderdetails_id)";
             $updateSteps[] = "CREATE INDEX parts_id_manufacturer_k ON parts(id_manufacturer)";
             $updateSteps[] = "UPDATE `parts`, `pictures` SET ".
-                                "parts.id_master_picture_attachement=pictures.id ".
-                                "WHERE (pictures.part_id=parts.id) AND (pictures.pict_masterpict=TRUE)";
+                "parts.id_master_picture_attachement=pictures.id ".
+                "WHERE (pictures.part_id=parts.id) AND (pictures.pict_masterpict=TRUE)";
             $updateSteps[] = "UPDATE `parts` SET datetime_added=CURRENT_TIMESTAMP";
             $updateSteps[] = "UPDATE `parts` SET last_modified=CURRENT_TIMESTAMP";
             $updateSteps[] = "UPDATE `parts` SET id_footprint=NULL WHERE id_footprint=0";
@@ -2253,9 +2253,9 @@
             $updateSteps[] = "CREATE INDEX device_parts_id_part_k ON device_parts(id_part)";
             $updateSteps[] = "CREATE INDEX device_parts_id_device_k ON device_parts(id_device)";
             $updateSteps[] = "INSERT INTO `device_parts` ".
-                                "(`id_part`, `id_device`, `quantity`, `mountnames`) ".
-                                "SELECT `id_part`, `id_device`, SUM(`quantity`), GROUP_CONCAT(`mountname`) FROM `part_device` ".
-                                "GROUP BY id_part, id_device ";
+                "(`id_part`, `id_device`, `quantity`, `mountnames`) ".
+                "SELECT `id_part`, `id_device`, SUM(`quantity`), GROUP_CONCAT(`mountname`) FROM `part_device` ".
+                "GROUP BY id_part, id_device ";
             $updateSteps[] = "DROP TABLE `part_device`";
 
             // table "internal"
@@ -2264,12 +2264,12 @@
 
             // create table "attachement_types"
             $updateSteps[] = "CREATE TABLE `attachement_types` (".
-                                "`id` INT(11) NOT NULL AUTO_INCREMENT,".
-                                "`name` TINYTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,".
-                                "`parent_id` INT(11) DEFAULT NULL,".
-                                " PRIMARY KEY  (`id`)".
-                                ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
-             $updateSteps[] = "CREATE INDEX attachement_types_parent_id_k ON attachement_types(parent_id)";
+                "`id` INT(11) NOT NULL AUTO_INCREMENT,".
+                "`name` TINYTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,".
+                "`parent_id` INT(11) DEFAULT NULL,".
+                " PRIMARY KEY  (`id`)".
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+            $updateSteps[] = "CREATE INDEX attachement_types_parent_id_k ON attachement_types(parent_id)";
 
             // create attachement types "Bilder" and "Datenblätter"
             $updateSteps[] = "INSERT INTO attachement_types (name, parent_id) VALUES ('Bilder', NULL)";
@@ -2300,24 +2300,24 @@
 
             // table "datasheets" will now be added to "attachements", and then "datasheets" will be deleted
             $updateSteps[] = "INSERT INTO `attachements` ".
-                                "(`element_id`, `name`, `filename`, `class_name`, `type_id`, `show_in_table`) ".
-                                "SELECT `part_id` as `element_id`, 'Datenblatt' as `name`, `datasheeturl` as `filename`, ".
-                                "'Part', (SELECT `id` FROM `attachement_types` WHERE name = 'Datenblätter'), TRUE FROM `datasheets`";
+                "(`element_id`, `name`, `filename`, `class_name`, `type_id`, `show_in_table`) ".
+                "SELECT `part_id` as `element_id`, 'Datenblatt' as `name`, `datasheeturl` as `filename`, ".
+                "'Part', (SELECT `id` FROM `attachement_types` WHERE name = 'Datenblätter'), TRUE FROM `datasheets`";
             $updateSteps[] = "DROP TABLE `datasheets`";
 
             // create table "manufacturers"
             $updateSteps[] = "CREATE TABLE `manufacturers` (".
-                                "`id` INT(11) NOT NULL AUTO_INCREMENT,".
-                                "`name` TINYTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,".
-                                "`parent_id` INT(11) DEFAULT NULL,".
-                                "`address` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,".
-                                "`phone_number` TINYTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,".
-                                "`fax_number` TINYTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,".
-                                "`email_address` TINYTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,".
-                                "`website` TINYTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,".
-                                "`datetime_added` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,".
-                                " PRIMARY KEY  (`id`)".
-                                ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+                "`id` INT(11) NOT NULL AUTO_INCREMENT,".
+                "`name` TINYTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,".
+                "`parent_id` INT(11) DEFAULT NULL,".
+                "`address` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,".
+                "`phone_number` TINYTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,".
+                "`fax_number` TINYTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,".
+                "`email_address` TINYTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,".
+                "`website` TINYTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,".
+                "`datetime_added` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,".
+                " PRIMARY KEY  (`id`)".
+                ") ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
             $updateSteps[] = "CREATE INDEX manufacturers_parent_id_k ON manufacturers(parent_id)";
 
             // add foreign keys
@@ -2335,27 +2335,27 @@
             $updateSteps[] = "ALTER TABLE `attachements` ADD CONSTRAINT attachements_type_id_fk FOREIGN KEY (type_id) REFERENCES attachement_types(id)";
             break;
 
-          case 13:
+        case 13:
             // we have created the new directory "data", now we have to rename all filenames
             $updateSteps[] = "UPDATE `attachements` set `filename` = REPLACE(`filename`,'%BASE%/media/','%BASE%/data/media/')";
             break;
 
-          case 14:
+        case 14:
             // if a part has no master picture attachement, but it has picture attachements, set one of them as the master picture attachement
             $updateSteps[] = "UPDATE `parts` ".
-                                "INNER JOIN `attachements` ".
-                                "ON (attachements.element_id=parts.id) ".
-                                    "AND (attachements.class_name='Part') ".
-                                    "AND ((LOCATE('.jpg', LOWER(attachements.filename)) > 0) ".
-                                        "OR (LOCATE('.jpeg', LOWER(attachements.filename)) > 0) ".
-                                        "OR (LOCATE('.png', LOWER(attachements.filename)) > 0) ".
-                                        "OR (LOCATE('.gif', LOWER(attachements.filename)) > 0) ".
-                                        "OR (LOCATE('.bmp', LOWER(attachements.filename)) > 0)) ".
-                                "SET parts.id_master_picture_attachement=attachements.id ".
-                                "WHERE (parts.id_master_picture_attachement IS NULL)";
+                "INNER JOIN `attachements` ".
+                "ON (attachements.element_id=parts.id) ".
+                "AND (attachements.class_name='Part') ".
+                "AND ((LOCATE('.jpg', LOWER(attachements.filename)) > 0) ".
+                "OR (LOCATE('.jpeg', LOWER(attachements.filename)) > 0) ".
+                "OR (LOCATE('.png', LOWER(attachements.filename)) > 0) ".
+                "OR (LOCATE('.gif', LOWER(attachements.filename)) > 0) ".
+                "OR (LOCATE('.bmp', LOWER(attachements.filename)) > 0)) ".
+                "SET parts.id_master_picture_attachement=attachements.id ".
+                "WHERE (parts.id_master_picture_attachement IS NULL)";
             break;
 
-          case 15:
+        case 15:
             // add new columns to the suppliers/manufacturers table for the new automatic links to the parts on the company's website
             $updateSteps[] = "ALTER TABLE `suppliers` ADD `auto_product_url` TINYTEXT NOT NULL AFTER `website`";
             $updateSteps[] = "ALTER TABLE `manufacturers` ADD `auto_product_url` TINYTEXT NOT NULL AFTER `website`";
@@ -2364,189 +2364,189 @@
             $updateSteps[] = "ALTER TABLE `orderdetails` ADD `supplier_product_url` TINYTEXT NOT NULL AFTER `obsolete`";
             break;
 
-          case 16:
+        case 16:
             //Price is now stored with 5 decimal places.
             $updateSteps[] = "ALTER TABLE `pricedetails` MODIFY `price` DECIMAL(9,5)";
             break;
 
-          case 17:
-              $updateSteps[] = "ALTER TABLE `footprints` ADD `filename_3d` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL AFTER `filename`";
-              $updateSteps[]  = "UPDATE footprints SET filename_3d = '';";
-              break;
-
-            case 18:
-                //Disable properties option
-                $updateSteps[] = "ALTER TABLE `categories` ADD `disable_properties` TINYINT(1) NOT NULL DEFAULT '0' AFTER `disable_autodatasheets`;";
-                $updateSteps[] = "UPDATE categories SET disable_properties = 0";
-                //Name Regex
-                $updateSteps[] = "ALTER TABLE `categories` ADD `partname_regex` TEXT NOT NULL DEFAULT '' AFTER `disable_properties`";
-                $updateSteps[] = "UPDATE categories SET partname_regex = ''";
-                //Name Filter hint
-                $updateSteps[] = "ALTER TABLE `categories` ADD `partname_hint` TEXT NOT NULL DEFAULT '' AFTER `partname_regex`";
-                $updateSteps[] = "UPDATE categories SET partname_hint = ''";
-                //Default Description
-                $updateSteps[] = "ALTER TABLE `categories` ADD `default_description` TEXT NOT NULL DEFAULT '' AFTER `partname_hint`";
-                $updateSteps[] = "UPDATE categories SET default_description = ''";
-                //Default Comment
-                $updateSteps[] = "ALTER TABLE `categories` ADD `default_comment` TEXT NOT NULL DEFAULT '' AFTER `default_description`";
-                $updateSteps[] = "UPDATE categories SET default_comment = ''";
-                break;
-
-          /*case 17:
-            // create table "users"
-            $updateSteps[] = "CREATE TABLE `users` (".
-                // Benutzerinformationen
-                "`id` INT(11) NOT NULL AUTO_INCREMENT,".            // Benutzer-ID
-                "`name` VARCHAR(30) NOT NULL,".                     // Anmeldename
-                "`password` VARCHAR(32),".                          // MD5-Hash des Passworts
-                "`first_name` TINYTEXT,".                           // Vorname
-                "`last_name` TINYTEXT,".                            // Nachname
-                "`department` TINYTEXT,".                           // Abteilung
-                "`email` TINYTEXT,".                                // E-Mail Adresse
-                // Einstellungen und Gruppenzugehörigkeit
-                "`auto_login` BOOLEAN NOT NULL DEFAULT '0',".       // Automatische Anmeldung ein/aus
-                "`session_id` VARCHAR(32),".                        // Session-ID für die Identifizierung
-                "`group_id` INT(11) NOT NULL,".                     // Gruppen-ID von der Gruppe des Users
-                // System-Rechte
-                "`perms_system` INT(3) NOT NULL,".                  // Allgemeine Rechte ("Kleinkram")
-                "`perms_system_group_childs` INT(3) NOT NULL,".     // Gruppenverwaltung (nur Untergruppen der eigenen Gruppe)
-                "`perms_system_group_others` INT(3) NOT NULL,".     // Gruppenverwaltung (alle, ausser die Untergruppen)
-                "`perms_system_users_subgroups` INT(3) NOT NULL,".  // Benutzerverwaltung (Benutzer aller untergeortneten Gruppen)
-                "`perms_system_users_others` INT(3) NOT NULL,".     // Benutzerverwaltung (alle, ausser von untergeordneten Gruppen)
-                "`perms_system_dbupdate` INT(3) NOT NULL,".         // Datenbankaktualisierung bzw. dessen Einstellungen
-                "`perms_system_dbbackup` INT(3) NOT NULL,".         // Datenbank-Backup bzw. dessen Einstellungen
-                // Bauteil-Rechte
-                "`perms_parts` INT(3) NOT NULL,".                   // Betrachten/Erstellen/Löschen/Verschieben
-                "`perms_parts_name` INT(3) NOT NULL,".              // Name
-                "`perms_parts_description` INT(3) NOT NULL,".       // Beschreibung
-                "`perms_parts_instock` INT(3) NOT NULL,".           // Menge (an Lager)
-                "`perms_parts_mininstock` INT(3) NOT NULL,".        // Mindestmenge
-                "`perms_parts_footprint` INT(3) NOT NULL,".         // Footprint
-                "`perms_parts_storelocation` INT(3) NOT NULL,".     // Lagerort
-                "`perms_parts_obsolete` INT(3) NOT NULL,".          // Obsolet
-                "`perms_parts_comment` INT(3) NOT NULL,".           // Kommentar
-                "`perms_parts_orderdetails` INT(3) NOT NULL,".      // Bestellinformationen (Lieferanten, Bestellnummern)
-                "`perms_parts_prices` INT(3) NOT NULL,".            // Preisinformationen
-                "`perms_parts_attachements` INT(3) NOT NULL,".      // Dateianhänge (Bilder, Datenblätter, ...)
-                // Baugruppen-Rechte
-                "`perms_devices` INT(3) NOT NULL,".                 // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-                "`perms_devices_parts` INT(3) NOT NULL,".           // Bauteile betrachten/bearbeiten
-                // Lagerorte-Rechte
-                "`perms_storelocations` INT(3) NOT NULL,".          // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-                "`perms_storelocations_isfull` INT(3) NOT NULL,".   // Eigenschaft, ob Lagerort voll ist
-                // Footprints-Rechte
-                "`perms_footprints` INT(3) NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-                // Kategorien-Rechte
-                "`perms_categories` INT(3) NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-                // Lieferanten-Rechte
-                "`perms_suppliers` INT(3) NOT NULL,".               // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-                // Hersteller-Rechte
-                "`perms_manufacturers` INT(3) NOT NULL,".           // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-                // Attribute
-                " PRIMARY KEY  (`id`),".
-                " UNIQUE KEY `name` (`name`)".
-                ") ENGINE=InnoDB;";
-
-            // create table "groups"
-            $updateSteps[] = "CREATE TABLE `groups` (".
-                // Gruppeninformationen
-                "`id` INT(11) NOT NULL AUTO_INCREMENT,".            // Gruppen-ID
-                "`name` TINYTEXT NOT NULL,".                        // Gruppenname
-                "`parent_id` INT(11) NOT NULL,".                    // ID der übergeordneten Gruppe ('-1' bei root)
-                "`comment` MEDIUMTEXT,".                            // Kommentar (optional)
-                // System-Rechte
-                "`perms_system` INT(3) NOT NULL,".                  // Allgemeine Rechte ("Kleinkram")
-                "`perms_system_group_childs` INT(3) NOT NULL,".     // Gruppenverwaltung (nur Untergruppen der eigenen Gruppe)
-                "`perms_system_group_others` INT(3) NOT NULL,".     // Gruppenverwaltung (alle, ausser die Untergruppen)
-                "`perms_system_users_subgroups` INT(3) NOT NULL,".  // Benutzerverwaltung (Benutzer aller untergeortneten Gruppen)
-                "`perms_system_users_others` INT(3) NOT NULL,".     // Benutzerverwaltung (alle, ausser von untergeordneten Gruppen)
-                "`perms_system_dbupdate` INT(3) NOT NULL,".         // Datenbankaktualisierung bzw. dessen Einstellungen
-                "`perms_system_dbbackup` INT(3) NOT NULL,".         // Datenbank-Backup bzw. dessen Einstellungen
-                // Bauteil-Rechte
-                "`perms_parts` INT(3) NOT NULL,".                   // Betrachten/Erstellen/Löschen/Verschieben
-                "`perms_parts_name` INT(3) NOT NULL,".              // Name
-                "`perms_parts_description` INT(3) NOT NULL,".       // Beschreibung
-                "`perms_parts_instock` INT(3) NOT NULL,".           // Menge (an Lager)
-                "`perms_parts_mininstock` INT(3) NOT NULL,".        // Mindestmenge
-                "`perms_parts_footprint` INT(3) NOT NULL,".         // Footprint
-                "`perms_parts_storelocation` INT(3) NOT NULL,".     // Lagerort
-                "`perms_parts_obsolete` INT(3) NOT NULL,".          // Obsolet
-                "`perms_parts_comment` INT(3) NOT NULL,".           // Kommentar
-                "`perms_parts_orderdetails` INT(3) NOT NULL,".      // Bestellinformationen (Lieferanten, Bestellnummern)
-                "`perms_parts_prices` INT(3) NOT NULL,".            // Preisinformationen
-                "`perms_parts_attachements` INT(3) NOT NULL,".      // Dateianhänge (Bilder, Datenblätter, ...)
-                // Baugruppen-Rechte
-                "`perms_devices` INT(3) NOT NULL,".                 // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-                "`perms_devices_parts` INT(3) NOT NULL,".           // Bauteile betrachten/bearbeiten
-                // Lagerorte-Rechte
-                "`perms_storelocations` INT(3) NOT NULL,".          // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-                "`perms_storelocations_isfull` INT(3) NOT NULL,".   // Eigenschaft, ob Lagerort voll ist
-                // Footprints-Rechte
-                "`perms_footprints` INT(3) NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-                // Kategorien-Rechte
-                "`perms_categories` INT(3) NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-                // Lieferanten-Rechte
-                "`perms_suppliers` INT(3) NOT NULL,".               // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-                // Hersteller-Rechte
-                "`perms_manufacturers` INT(3) NOT NULL,".           // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-                // Attribute
-                " PRIMARY KEY  (`id`)".
-                ") ENGINE=InnoDB;";
-
-            // create user "admin"
-            $updateSteps[] = "INSERT INTO users SET ".
-                "name='admin',".
-                "password='81dc9bdb52d04dc20036dbd8313ed055',". // Passwort = "1234"
-                "first_name='',".
-                "last_name='',".
-                "department='',".
-                "email='',".
-                "auto_login='0',".
-                "session_id='',".
-                "group_id='0',". // Gruppe 0 existiert nicht in der Datenbank, dies ist nur für den Benutzer "admin" erlaubt
-                "perms_system='127',".
-                "perms_system_group_childs='127',".
-                "perms_system_group_others='127',".
-                "perms_system_users_subgroups='127',".
-                "perms_system_users_others='127',".
-                "perms_system_dbupdate='127',".
-                "perms_system_dbbackup='127',".
-                "perms_parts='127',".
-                "perms_parts_name='127',".
-                "perms_parts_description='127',".
-                "perms_parts_instock='127',".
-                "perms_parts_mininstock='127',".
-                "perms_parts_footprint='127',".
-                "perms_parts_storelocation='127',".
-                "perms_parts_obsolete='127',".
-                "perms_parts_comment='127',".
-                "perms_parts_orderdetails='127',".
-                "perms_parts_prices='127',".
-                "perms_parts_attachements='127',".
-                "perms_devices='127',".
-                "perms_devices_parts='127',".
-                "perms_storelocations='127',".
-                "perms_storelocations_isfull='127',".
-                "perms_footprints='127',".
-                "perms_categories='127',".
-                "perms_suppliers='127',".
-                "perms_manufacturers='127'";
-            break;*/
-
-/*
-        Templates:
-
-          case 14:
-            $updateSteps[] = "INSERT INTO internal (keyName, keyValue) VALUES ('test', 'muh')";
+        case 17:
+            $updateSteps[] = "ALTER TABLE `footprints` ADD `filename_3d` MEDIUMTEXT CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL AFTER `filename`";
+            $updateSteps[]  = "UPDATE footprints SET filename_3d = '';";
             break;
-          case 15:
-            $updateSteps[] = "DELETE FROM internal WHERE keyName='test2'";
+
+        case 18:
+            //Disable properties option
+            $updateSteps[] = "ALTER TABLE `categories` ADD `disable_properties` TINYINT(1) NOT NULL DEFAULT '0' AFTER `disable_autodatasheets`;";
+            $updateSteps[] = "UPDATE categories SET disable_properties = 0";
+            //Name Regex
+            $updateSteps[] = "ALTER TABLE `categories` ADD `partname_regex` TEXT NOT NULL DEFAULT '' AFTER `disable_properties`";
+            $updateSteps[] = "UPDATE categories SET partname_regex = ''";
+            //Name Filter hint
+            $updateSteps[] = "ALTER TABLE `categories` ADD `partname_hint` TEXT NOT NULL DEFAULT '' AFTER `partname_regex`";
+            $updateSteps[] = "UPDATE categories SET partname_hint = ''";
+            //Default Description
+            $updateSteps[] = "ALTER TABLE `categories` ADD `default_description` TEXT NOT NULL DEFAULT '' AFTER `partname_hint`";
+            $updateSteps[] = "UPDATE categories SET default_description = ''";
+            //Default Comment
+            $updateSteps[] = "ALTER TABLE `categories` ADD `default_comment` TEXT NOT NULL DEFAULT '' AFTER `default_description`";
+            $updateSteps[] = "UPDATE categories SET default_comment = ''";
             break;
-*/
-          default:
+
+        /*case 17:
+          // create table "users"
+          $updateSteps[] = "CREATE TABLE `users` (".
+              // Benutzerinformationen
+              "`id` INT(11) NOT NULL AUTO_INCREMENT,".            // Benutzer-ID
+              "`name` VARCHAR(30) NOT NULL,".                     // Anmeldename
+              "`password` VARCHAR(32),".                          // MD5-Hash des Passworts
+              "`first_name` TINYTEXT,".                           // Vorname
+              "`last_name` TINYTEXT,".                            // Nachname
+              "`department` TINYTEXT,".                           // Abteilung
+              "`email` TINYTEXT,".                                // E-Mail Adresse
+              // Einstellungen und Gruppenzugehörigkeit
+              "`auto_login` BOOLEAN NOT NULL DEFAULT '0',".       // Automatische Anmeldung ein/aus
+              "`session_id` VARCHAR(32),".                        // Session-ID für die Identifizierung
+              "`group_id` INT(11) NOT NULL,".                     // Gruppen-ID von der Gruppe des Users
+              // System-Rechte
+              "`perms_system` INT(3) NOT NULL,".                  // Allgemeine Rechte ("Kleinkram")
+              "`perms_system_group_childs` INT(3) NOT NULL,".     // Gruppenverwaltung (nur Untergruppen der eigenen Gruppe)
+              "`perms_system_group_others` INT(3) NOT NULL,".     // Gruppenverwaltung (alle, ausser die Untergruppen)
+              "`perms_system_users_subgroups` INT(3) NOT NULL,".  // Benutzerverwaltung (Benutzer aller untergeortneten Gruppen)
+              "`perms_system_users_others` INT(3) NOT NULL,".     // Benutzerverwaltung (alle, ausser von untergeordneten Gruppen)
+              "`perms_system_dbupdate` INT(3) NOT NULL,".         // Datenbankaktualisierung bzw. dessen Einstellungen
+              "`perms_system_dbbackup` INT(3) NOT NULL,".         // Datenbank-Backup bzw. dessen Einstellungen
+              // Bauteil-Rechte
+              "`perms_parts` INT(3) NOT NULL,".                   // Betrachten/Erstellen/Löschen/Verschieben
+              "`perms_parts_name` INT(3) NOT NULL,".              // Name
+              "`perms_parts_description` INT(3) NOT NULL,".       // Beschreibung
+              "`perms_parts_instock` INT(3) NOT NULL,".           // Menge (an Lager)
+              "`perms_parts_mininstock` INT(3) NOT NULL,".        // Mindestmenge
+              "`perms_parts_footprint` INT(3) NOT NULL,".         // Footprint
+              "`perms_parts_storelocation` INT(3) NOT NULL,".     // Lagerort
+              "`perms_parts_obsolete` INT(3) NOT NULL,".          // Obsolet
+              "`perms_parts_comment` INT(3) NOT NULL,".           // Kommentar
+              "`perms_parts_orderdetails` INT(3) NOT NULL,".      // Bestellinformationen (Lieferanten, Bestellnummern)
+              "`perms_parts_prices` INT(3) NOT NULL,".            // Preisinformationen
+              "`perms_parts_attachements` INT(3) NOT NULL,".      // Dateianhänge (Bilder, Datenblätter, ...)
+              // Baugruppen-Rechte
+              "`perms_devices` INT(3) NOT NULL,".                 // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+              "`perms_devices_parts` INT(3) NOT NULL,".           // Bauteile betrachten/bearbeiten
+              // Lagerorte-Rechte
+              "`perms_storelocations` INT(3) NOT NULL,".          // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+              "`perms_storelocations_isfull` INT(3) NOT NULL,".   // Eigenschaft, ob Lagerort voll ist
+              // Footprints-Rechte
+              "`perms_footprints` INT(3) NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+              // Kategorien-Rechte
+              "`perms_categories` INT(3) NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+              // Lieferanten-Rechte
+              "`perms_suppliers` INT(3) NOT NULL,".               // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+              // Hersteller-Rechte
+              "`perms_manufacturers` INT(3) NOT NULL,".           // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+              // Attribute
+              " PRIMARY KEY  (`id`),".
+              " UNIQUE KEY `name` (`name`)".
+              ") ENGINE=InnoDB;";
+
+          // create table "groups"
+          $updateSteps[] = "CREATE TABLE `groups` (".
+              // Gruppeninformationen
+              "`id` INT(11) NOT NULL AUTO_INCREMENT,".            // Gruppen-ID
+              "`name` TINYTEXT NOT NULL,".                        // Gruppenname
+              "`parent_id` INT(11) NOT NULL,".                    // ID der übergeordneten Gruppe ('-1' bei root)
+              "`comment` MEDIUMTEXT,".                            // Kommentar (optional)
+              // System-Rechte
+              "`perms_system` INT(3) NOT NULL,".                  // Allgemeine Rechte ("Kleinkram")
+              "`perms_system_group_childs` INT(3) NOT NULL,".     // Gruppenverwaltung (nur Untergruppen der eigenen Gruppe)
+              "`perms_system_group_others` INT(3) NOT NULL,".     // Gruppenverwaltung (alle, ausser die Untergruppen)
+              "`perms_system_users_subgroups` INT(3) NOT NULL,".  // Benutzerverwaltung (Benutzer aller untergeortneten Gruppen)
+              "`perms_system_users_others` INT(3) NOT NULL,".     // Benutzerverwaltung (alle, ausser von untergeordneten Gruppen)
+              "`perms_system_dbupdate` INT(3) NOT NULL,".         // Datenbankaktualisierung bzw. dessen Einstellungen
+              "`perms_system_dbbackup` INT(3) NOT NULL,".         // Datenbank-Backup bzw. dessen Einstellungen
+              // Bauteil-Rechte
+              "`perms_parts` INT(3) NOT NULL,".                   // Betrachten/Erstellen/Löschen/Verschieben
+              "`perms_parts_name` INT(3) NOT NULL,".              // Name
+              "`perms_parts_description` INT(3) NOT NULL,".       // Beschreibung
+              "`perms_parts_instock` INT(3) NOT NULL,".           // Menge (an Lager)
+              "`perms_parts_mininstock` INT(3) NOT NULL,".        // Mindestmenge
+              "`perms_parts_footprint` INT(3) NOT NULL,".         // Footprint
+              "`perms_parts_storelocation` INT(3) NOT NULL,".     // Lagerort
+              "`perms_parts_obsolete` INT(3) NOT NULL,".          // Obsolet
+              "`perms_parts_comment` INT(3) NOT NULL,".           // Kommentar
+              "`perms_parts_orderdetails` INT(3) NOT NULL,".      // Bestellinformationen (Lieferanten, Bestellnummern)
+              "`perms_parts_prices` INT(3) NOT NULL,".            // Preisinformationen
+              "`perms_parts_attachements` INT(3) NOT NULL,".      // Dateianhänge (Bilder, Datenblätter, ...)
+              // Baugruppen-Rechte
+              "`perms_devices` INT(3) NOT NULL,".                 // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+              "`perms_devices_parts` INT(3) NOT NULL,".           // Bauteile betrachten/bearbeiten
+              // Lagerorte-Rechte
+              "`perms_storelocations` INT(3) NOT NULL,".          // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+              "`perms_storelocations_isfull` INT(3) NOT NULL,".   // Eigenschaft, ob Lagerort voll ist
+              // Footprints-Rechte
+              "`perms_footprints` INT(3) NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+              // Kategorien-Rechte
+              "`perms_categories` INT(3) NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+              // Lieferanten-Rechte
+              "`perms_suppliers` INT(3) NOT NULL,".               // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+              // Hersteller-Rechte
+              "`perms_manufacturers` INT(3) NOT NULL,".           // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+              // Attribute
+              " PRIMARY KEY  (`id`)".
+              ") ENGINE=InnoDB;";
+
+          // create user "admin"
+          $updateSteps[] = "INSERT INTO users SET ".
+              "name='admin',".
+              "password='81dc9bdb52d04dc20036dbd8313ed055',". // Passwort = "1234"
+              "first_name='',".
+              "last_name='',".
+              "department='',".
+              "email='',".
+              "auto_login='0',".
+              "session_id='',".
+              "group_id='0',". // Gruppe 0 existiert nicht in der Datenbank, dies ist nur für den Benutzer "admin" erlaubt
+              "perms_system='127',".
+              "perms_system_group_childs='127',".
+              "perms_system_group_others='127',".
+              "perms_system_users_subgroups='127',".
+              "perms_system_users_others='127',".
+              "perms_system_dbupdate='127',".
+              "perms_system_dbbackup='127',".
+              "perms_parts='127',".
+              "perms_parts_name='127',".
+              "perms_parts_description='127',".
+              "perms_parts_instock='127',".
+              "perms_parts_mininstock='127',".
+              "perms_parts_footprint='127',".
+              "perms_parts_storelocation='127',".
+              "perms_parts_obsolete='127',".
+              "perms_parts_comment='127',".
+              "perms_parts_orderdetails='127',".
+              "perms_parts_prices='127',".
+              "perms_parts_attachements='127',".
+              "perms_devices='127',".
+              "perms_devices_parts='127',".
+              "perms_storelocations='127',".
+              "perms_storelocations_isfull='127',".
+              "perms_footprints='127',".
+              "perms_categories='127',".
+              "perms_suppliers='127',".
+              "perms_manufacturers='127'";
+          break;*/
+
+        /*
+                Templates:
+
+                  case 14:
+                    $updateSteps[] = "INSERT INTO internal (keyName, keyValue) VALUES ('test', 'muh')";
+                    break;
+                  case 15:
+                    $updateSteps[] = "DELETE FROM internal WHERE keyName='test2'";
+                    break;
+        */
+        default:
             throw new Exception("Unbekannte Datenbankversion \"$current_version\"!");
             break;
-        }
-
-        return $updateSteps;
     }
+
+    return $updateSteps;
+}
