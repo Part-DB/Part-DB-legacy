@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<phpdoc>
+    <title><![CDATA[Part-DB]]></title>
+    <parser>
+        <target>./development/phpdoc/html</target>
+    </parser>
+    <transformer>
+        <target>./development/phpdoc/html</target>
+    </transformer>
+    <files>
+        <file>./*.php</file>
+        <directory>lib</directory>
+        <directory>inc</directory>
+        <directory>updates</directory>
+    </files>
+</phpdoc>

@@ -22,5 +22,9 @@
       "type": "vcs",
       "url":  "git@github.com:jbtronics/Part-DB_tcpdf.git"
     }
-  ]
+  ],
+
+  "autoload": {
+    "psr-4": {"PartDB\\": "lib/"}
+  }
 }

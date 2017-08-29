@@ -23,87 +23,85 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-    include_once('start_session.php');
+include_once('start_session.php');
 
-    $messages = array();
-    $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
+use PartDB\Database;
+use PartDB\HTML;
+use PartDB\Log;
+use PartDB\Part;
+use PartDB\User;
 
-    /********************************************************************************
-    *
-    *   Initialize Objects
-    *
-    *********************************************************************************/
+$messages = array();
+$fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Teile ohne Preis');
+/********************************************************************************
+ *
+ *   Initialize Objects
+ *
+ *********************************************************************************/
 
-    try
-    {
-        $database           = new Database();
-        $log                = new Log($database);
-        $current_user       = new User($database, $current_user, $log, 1); // admin
-    }
-    catch (Exception $e)
-    {
+$html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Teile ohne Preis');
+
+try {
+    $database           = new Database();
+    $log                = new Log($database);
+    $current_user       = new User($database, $current_user, $log, 1); // admin
+} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+    $fatal_error = true;
+}
+
+/********************************************************************************
+ *
+ *   Generate Table
+ *
+ *********************************************************************************/
+
+if (! $fatal_error) {
+    try {
+        $parts = Part::get_noprice_parts($database, $current_user, $log);
+        $table_loop = Part::build_template_table_array($parts, 'noprice_parts');
+        $html->set_loop('table', $table_loop);
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
+}
 
-    /********************************************************************************
-    *
-    *   Generate Table
-    *
-    *********************************************************************************/
-
-    if ( ! $fatal_error)
-    {
-        try
-        {
-            $parts = Part::get_noprice_parts($database, $current_user, $log);
-            $table_loop = Part::build_template_table_array($parts, 'noprice_parts');
-            $html->set_loop('table', $table_loop);
-        }
-        catch (Exception $e)
-        {
-            $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
-            $fatal_error = true;
-        }
-    }
-
-    /********************************************************************************
-    *
-    *   Set the rest of the HTML variables
-    *
-    *********************************************************************************/
+/********************************************************************************
+ *
+ *   Set the rest of the HTML variables
+ *
+ *********************************************************************************/
 
 
-    if ( ! $fatal_error)
-    {
-        // global stuff
-        $html->set_variable('disable_footprints',       $config['footprints']['disable'],       'boolean');
-        $html->set_variable('disable_manufacturers',    $config['manufacturers']['disable'],    'boolean');
-        $html->set_variable('disable_auto_datasheets',  $config['auto_datasheets']['disable'],  'boolean');
+if (! $fatal_error) {
+    // global stuff
+    $html->set_variable('disable_footprints', $config['footprints']['disable'], 'boolean');
+    $html->set_variable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+    $html->set_variable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-        $html->set_variable('use_modal_popup',          $config['popup']['modal'],              'boolean');
-        $html->set_variable('popup_width',              $config['popup']['width'],              'integer');
-        $html->set_variable('popup_height',             $config['popup']['height'],             'integer');
-    }
+    $html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
+    $html->set_variable('popup_width', $config['popup']['width'], 'integer');
+    $html->set_variable('popup_height', $config['popup']['height'], 'integer');
+}
 
-    /********************************************************************************
-    *
-    *   Generate HTML Output
-    *
-    *********************************************************************************/
+/********************************************************************************
+ *
+ *   Generate HTML Output
+ *
+ *********************************************************************************/
 
 
-    //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
-        $html->set_variable("ajax_request", true);
-    }
+//If a ajax version is requested, say this the template engine.
+if (isset($_REQUEST["ajax"])) {
+    $html->set_variable("ajax_request", true);
+}
 
-    $html->print_header($messages);
+$html->print_header($messages);
 
-    if (! $fatal_error)
-        $html->print_template('show_noprice_parts');
+if (! $fatal_error) {
+    $html->print_template('show_noprice_parts');
+}
 
-    $html->print_footer();
+$html->print_footer();

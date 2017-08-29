@@ -23,91 +23,73 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-    include_once('start_session.php');
+include_once('start_session.php');
 
-    $errors = array();
+use PartDB\HTML;
 
-    if (isset($_REQUEST["add"]))
-    {
-        try
-        {
-            debug($_REQUEST['new_type'], $_REQUEST['new_text'], __FILE__, __LINE__, __METHOD__, false);
-        }
-        catch (Exception $exception)
-        {
-            $errors[] = $exception->getMessage();
-        }
+$errors = array();
+
+if (isset($_REQUEST["add"])) {
+    try {
+        debug($_REQUEST['new_type'], $_REQUEST['new_text'], __FILE__, __LINE__, __METHOD__, false);
+    } catch (Exception $exception) {
+        $errors[] = $exception->getMessage();
     }
-    elseif (isset($_REQUEST["clear"]))
-    {
-        try
-        {
-             create_debug_log_file(); // override the existing debug log with a new, empty debug log
-        }
-        catch (Exception $exception)
-        {
-            $errors[] = $exception->getMessage();
-        }
+} elseif (isset($_REQUEST["clear"])) {
+    try {
+        create_debug_log_file(); // override the existing debug log with a new, empty debug log
+    } catch (Exception $exception) {
+        $errors[] = $exception->getMessage();
     }
-    elseif (isset($_REQUEST["download"]))
-    {
-        if (is_readable(DEBUG_LOG_FILENAME))
-        {
-            send_file(DEBUG_LOG_FILENAME);
-            // TODO: how can we re-activate the autorefresh now?!
-        }
-        else
-            $errors[] = _('Die Log-Datei kann nicht gelesen werden!');
+} elseif (isset($_REQUEST["download"])) {
+    if (is_readable(DEBUG_LOG_FILENAME)) {
+        send_file(DEBUG_LOG_FILENAME);
+        // TODO: how can we re-activate the autorefresh now?!
+    } else {
+        $errors[] = _('Die Log-Datei kann nicht gelesen werden!');
     }
-    elseif (isset($_REQUEST["enable"]))
-    {
-        try
-        {
-            set_debug_enable(true, $_REQUEST['admin_password']);
-            header('Location: system_debug.php');
-        }
-        catch (Exception $exception)
-        {
-            $errors[] = $exception->getMessage();
-        }
+} elseif (isset($_REQUEST["enable"])) {
+    try {
+        set_debug_enable(true, $_REQUEST['admin_password']);
+        header('Location: system_debug.php');
+    } catch (Exception $exception) {
+        $errors[] = $exception->getMessage();
     }
-    elseif (isset($_REQUEST["disable"]) || isset($_REQUEST["disable_and_delete"]))
-    {
-        try
-        {
-            set_debug_enable(false);
+} elseif (isset($_REQUEST["disable"]) || isset($_REQUEST["disable_and_delete"])) {
+    try {
+        set_debug_enable(false);
 
-            if (isset($_REQUEST["disable_and_delete"]))
-                delete_debug_log_file();
+        if (isset($_REQUEST["disable_and_delete"])) {
+            delete_debug_log_file();
+        }
 
-            header('Location: system_debug.php');
-        }
-        catch (Exception $exception)
-        {
-            $errors[] = $exception->getMessage();
-        }
+        header('Location: system_debug.php');
+    } catch (Exception $exception) {
+        $errors[] = $exception->getMessage();
     }
+}
 
-    if ($config['debug']['enable'] && (count($errors) == 0) && ( ! isset($_REQUEST['stop_autorefresh']))
-            && (( ! isset($_REQUEST['autorefresh_disabled'])) || (isset($_REQUEST['start_autorefresh']))))
-        $autorefresh = true;
-    else
-        $autorefresh = false;
+if ($config['debug']['enable'] && (count($errors) == 0) && (! isset($_REQUEST['stop_autorefresh']))
+    && ((! isset($_REQUEST['autorefresh_disabled'])) || (isset($_REQUEST['start_autorefresh'])))) {
+    $autorefresh = true;
+} else {
+    $autorefresh = false;
+}
 
 
-    //Fill template with values
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], "Debugging");
+//Fill template with values
+$html = new HTML($config['html']['theme'], $config['html']['custom_css'], "Debugging");
 
-    $html->set_variable("debug_enable", $config['debug']['enable'], "boolean");
-    $html->set_variable("autorefresh", $autorefresh, "boolean");
-    //$html->set_variable("errors_count", count($errors), "integer");
-    $html->set_loop("errors", $errors);
-    $html->set_loop("logs", get_debug_log_elements());
+$html->set_variable("debug_enable", $config['debug']['enable'], "boolean");
+$html->set_variable("autorefresh", $autorefresh, "boolean");
+//$html->set_variable("errors_count", count($errors), "integer");
+$html->set_loop("errors", $errors);
+$html->set_loop("logs", get_debug_log_elements());
 
-    // Print template
-    $html->print_header();
-    $html->print_template("system_debug");
-    $html->print_footer();
+// Print template
+$html->print_header();
+$html->print_template("system_debug");
+$html->print_footer();
 ?>
 
 

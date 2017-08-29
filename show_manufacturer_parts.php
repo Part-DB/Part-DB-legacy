@@ -25,7 +25,14 @@
 
     include_once('start_session.php');
 
-    $messages = array();
+use PartDB\Database;
+use PartDB\HTML;
+use PartDB\Log;
+use PartDB\Manufacturer;
+use PartDB\Part;
+use PartDB\User;
+
+$messages = array();
     $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
     $starttime = microtime(true); // this is to measure the time while debugging is active
 
@@ -40,20 +47,19 @@
     $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
 
     $action = 'default';
-    if (isset($_REQUEST['subman_button']))      {$action = 'change_subman_state';}
+    if (isset($_REQUEST['subman_button'])) {
+        $action = 'change_subman_state';
+    }
     $selected_part_id = 0;
-    for($i=0; $i<$table_rowcount; $i++)
-    {
+    for ($i=0; $i<$table_rowcount; $i++) {
         $selected_part_id = isset($_REQUEST['id_'.$i]) ? (integer)$_REQUEST['id_'.$i] : 0;
 
-        if (isset($_REQUEST['decrement_'.$i]))
-        {
+        if (isset($_REQUEST['decrement_'.$i])) {
             $action = 'decrement';
             break;
         }
 
-        if (isset($_REQUEST['increment_'.$i]))
-        {
+        if (isset($_REQUEST['increment_'.$i])) {
             $action = 'increment';
             break;
         }
@@ -67,26 +73,25 @@
 
     $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Teileansicht'));
 
-    try
-    {
+    try {
         $database           = new Database();
         $log                = new Log($database);
         $current_user       = new User($database, $current_user, $log, 1); // admin
 
-        if ($manufacturer_id < 1)
+        if ($manufacturer_id < 1) {
             throw new Exception(_('Es wurde keine gültige Kategorien-ID übermittelt!'));
+        }
 
         $manufacturer = new Manufacturer($database, $current_user, $log, $manufacturer_id);
 
-        if ($selected_part_id > 0)
+        if ($selected_part_id > 0) {
             $part = new Part($database, $current_user, $log, $selected_part_id);
-        else
-            $part = NULL;
+        } else {
+            $part = null;
+        }
 
         $html->set_title(_('Teileansicht') . ': ' . $manufacturer->get_name());
-    }
-    catch (Exception $e)
-    {
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
@@ -97,50 +102,43 @@
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-        switch ($action)
-        {
+    if (! $fatal_error) {
+        switch ($action) {
             case 'change_subcat_state':
                 $reload_site = true;
                 break;
 
             case 'decrement': // remove one part
-                try
-                {
-                    if ( ! is_object($part))
+                try {
+                    if (! is_object($part)) {
                         throw new Exception('Es wurde keine gültige Bauteil-ID übermittelt!');
+                    }
 
                     $part->set_instock($part->get_instock() - 1);
 
                     $reload_site = true;
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
                 }
                 break;
 
             case 'increment': // add one part
-                try
-                {
-                    if ( ! is_object($part))
+                try {
+                    if (! is_object($part)) {
                         throw new Exception(_('Es wurde keine gültige Bauteil-ID übermittelt!'));
+                    }
 
                     $part->set_instock($part->get_instock() + 1);
 
                     $reload_site = true;
-                }
-                catch (Exception $e)
-                {
+                } catch (Exception $e) {
                     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
                 }
                 break;
         }
     }
 
-    if (isset($reload_site) && $reload_site && ( ! $config['debug']['request_debugging_enable']))
-    {
+    if (isset($reload_site) && $reload_site && (! $config['debug']['request_debugging_enable'])) {
         // reload the site to avoid multiple actions by manual refreshing
         header('Location: show_manufacturer_parts.php?mid='.$manufacturer_id.'&subcat='.$with_submanufacturers);
     }
@@ -151,17 +149,13 @@
     *
     *********************************************************************************/
 
-    if ( ! $fatal_error)
-    {
-        try
-        {
+    if (! $fatal_error) {
+        try {
             $parts = $manufacturer->get_parts($with_submanufacturers, true);
             $table_loop = Part::build_template_table_array($parts, 'manufacturer_parts');
             $html->set_variable('table_rowcount', count($parts), 'integer');
             $html->set_loop('table', $table_loop);
-        }
-        catch (Exception $e)
-        {
+        } catch (Exception $e) {
             $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             $fatal_error = true;
         }
@@ -178,17 +172,16 @@
 
     $html->set_variable('with_submanufacturers', $with_submanufacturers, 'boolean');
 
-    if ( ! $fatal_error)
-    {
-        $html->set_variable('mid',                      $manufacturer->get_id(), 'integer');
-        $html->set_variable('manufacturer_name',         $manufacturer->get_name(), 'string');
-        $html->set_variable('disable_footprints',       ($config['footprints']['disable']), 'boolean');
-        $html->set_variable('disable_manufacturers',    ($config['manufacturers']['disable']), 'boolean');
-        $html->set_variable('disable_auto_datasheets',  ($config['auto_datasheets']['disable'] ), 'boolean');
+    if (! $fatal_error) {
+        $html->set_variable('mid', $manufacturer->get_id(), 'integer');
+        $html->set_variable('manufacturer_name', $manufacturer->get_name(), 'string');
+        $html->set_variable('disable_footprints', ($config['footprints']['disable']), 'boolean');
+        $html->set_variable('disable_manufacturers', ($config['manufacturers']['disable']), 'boolean');
+        $html->set_variable('disable_auto_datasheets', ($config['auto_datasheets']['disable']), 'boolean');
 
-        $html->set_variable('use_modal_popup',          $config['popup']['modal'], 'boolean');
-        $html->set_variable('popup_width',              $config['popup']['width'], 'integer');
-        $html->set_variable('popup_height',             $config['popup']['height'], 'integer');
+        $html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
+        $html->set_variable('popup_width', $config['popup']['width'], 'integer');
+        $html->set_variable('popup_height', $config['popup']['height'], 'integer');
     }
 
     /********************************************************************************
@@ -199,8 +192,7 @@
 
 
     //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
+    if (isset($_REQUEST["ajax"])) {
         $html->set_variable("ajax_request", true);
     }
 
@@ -210,13 +202,13 @@
     $html->print_header($messages, $reload_link);                                   // ...reload-button won't be visible
 
 
-    if ( ! $fatal_error)
+    if (! $fatal_error) {
         $html->print_template('show_manufacturer_parts');
+    }
 
     // If debugging is enabled, print some debug informations
     $debug_messages = array();
-    if ((! $fatal_error) && ($config['debug']['enable']))
-    {
+    if ((! $fatal_error) && ($config['debug']['enable'])) {
         $endtime = microtime(true);
         $lifetime = (integer)(1000*($endtime - $starttime));
         $php_lifetime = (integer)(1000*($php_endtime - $starttime));

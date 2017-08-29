@@ -268,7 +268,7 @@ var ajaxui = AjaxUI.getInstance();
 /**
  * Register the events which has to be run in AjaxUI and start the execution.
  */
-$(document).ready(function (event) {
+$(function (event) {
     ajaxui.addStartAction(addCollapsedClass);
     ajaxui.addStartAction(treeviewBtnInit);
     ajaxui.addStartAction(registerJumpToTop);
@@ -347,7 +347,7 @@ function registerJumpToTop() {
         return false;
     }).tooltip('show');
 }
-;
+
 /**
  * Registers the collapse/expand all buttons of the TreeViews
  */
