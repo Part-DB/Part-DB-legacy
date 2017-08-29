@@ -131,7 +131,7 @@ if (! function_exists('money_format')) {
  * str_getcsv()
  */
 if (! function_exists('str_getcsv')) {
-    function str_getcsv($str, $delim=',', $enclose='"', $preserve=false)
+    function str_getcsv($str, $delim = ',', $enclose = '"', $preserve = false)
     {
         $resArr = array();
         $n = 0;
