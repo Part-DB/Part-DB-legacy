@@ -271,7 +271,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_parts($recursive = false)
+    public function get_parts($recursive = false, $hide_obsolet_and_zero = false)
     {
         if (! is_array($this->parts)) {
             $this->parts = array();

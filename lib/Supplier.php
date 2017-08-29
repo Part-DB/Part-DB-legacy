@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Interfaces\ISearchable;
 
 /**
  * @file Supplier.php
@@ -35,7 +36,7 @@ use Exception;
  * All elements of this class are stored in the database table "suppliers".
  * @author kami89
  */
-class Supplier extends Base\Company
+class Supplier extends Base\Company implements ISearchable
 {
     /********************************************************************************
      *
@@ -268,6 +269,6 @@ class Supplier extends Base\Company
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
-        return parent::search($database, $current_user, $log, 'suppliers', $keyword, $exact_match);
+        return parent::search_table($database, $current_user, $log, 'suppliers', $keyword, $exact_match);
     }
 }

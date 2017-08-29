@@ -35,7 +35,7 @@ use Exception;
  * All elements of this class are stored in the database table "footprints".
  * @author kami89
  */
-class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPIModel
+class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPIModel, Interfaces\ISearchable
 {
     /********************************************************************************
      *
@@ -117,7 +117,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      */
     public function get_parts($recursive = false, $hide_obsolete_and_zero = false)
     {
-        return parent::get_parts('id_footprint', $recursive, $hide_obsolete_and_zero);
+        return parent::get_table_parts('id_footprint', $recursive, $hide_obsolete_and_zero);
     }
 
     /**
@@ -356,7 +356,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
-        return parent::search($database, $current_user, $log, 'footprints', $keyword, $exact_match);
+        return parent::search_table($database, $current_user, $log, 'footprints', $keyword, $exact_match);
     }
 
     /**
