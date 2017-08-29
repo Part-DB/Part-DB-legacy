@@ -423,7 +423,7 @@ function registerJumpToTop() {
         }, 800);
         return false;
     }).tooltip('show');
-};
+}
 
 /**
  * Registers the collapse/expand all buttons of the TreeViews
