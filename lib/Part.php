@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use Golonka\BBCode\BBCodeParser;
 use PartDB\PartProperty\PartProperty;
 
 /**
@@ -230,7 +231,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if ($parse_bbcode) {
-            $bbcode = new \Golonka\BBCode\BBCodeParser;
+            $bbcode = new BBCodeParser;
             $val = $bbcode->only("bold", "italic", "underline", "linethrough")->parse($val);
         }
 
@@ -267,7 +268,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     {
         $val = htmlspecialchars($this->db_data['comment']);
         if ($parse_bbcode) {
-            $bbcode = new \Golonka\BBCode\BBCodeParser;
+            $bbcode = new BBCodeParser;
             $val = $bbcode->parse($val);
         }
 
