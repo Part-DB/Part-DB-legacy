@@ -3,6 +3,7 @@
 
 {if !isset($ajax_request) || !ajax_request}
 <!DOCTYPE html>
+<!--suppress JSUnresolvedLibraryURL -->
 <html lang="{if isset($lang)}{$lang}{else}en{/if}">
     <head>
         {if isset($http_charset)}<meta charset={$http_charset}>
