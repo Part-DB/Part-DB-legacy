@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Interfaces\ISearchable;
 
 /**
  * @file Storelocation.php
@@ -35,7 +36,7 @@ use Exception;
  * All elements of this class are stored in the database table "storelocations".
  * @author kami89
  */
-class Storelocation extends Base\PartsContainingDBElement implements Interfaces\IAPIModel
+class Storelocation extends Base\PartsContainingDBElement implements Interfaces\IAPIModel, ISearchable
 {
     /********************************************************************************
      *
@@ -58,7 +59,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'storelocations', $id, false, $data);
+        parent::__construct($database, $current_user, $log, 'storelocations', $id, $data);
 
         if ($id == 0) {
             // this is the root node
@@ -101,7 +102,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public function get_parts($recursive = false, $hide_obsolete_and_zero = false)
     {
-        return parent::get_parts('id_storelocation', $recursive, $hide_obsolete_and_zero);
+        return parent::get_table_parts('id_storelocation', $recursive, $hide_obsolete_and_zero);
     }
 
     /********************************************************************************
@@ -181,7 +182,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public static function add(&$database, &$current_user, &$log, $name, $parent_id, $is_full = false)
     {
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,
@@ -197,7 +198,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
-        return parent::search($database, $current_user, $log, 'storelocations', $keyword, $exact_match);
+        return parent::search_table($database, $current_user, $log, 'storelocations', $keyword, $exact_match);
     }
 
     /**

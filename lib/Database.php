@@ -26,6 +26,7 @@
 namespace PartDB;
 
 /** @noinspection PhpIncludeInspection */
+use DebugBar\DataCollector\PDO\TraceablePDO;
 use Exception;
 use PartDB\Tools\PDBDebugBar;
 use PDO;
@@ -170,7 +171,7 @@ class Database
         }
 
         if (PDBDebugBar::is_activated()) {
-            $this->pdo = new \DebugBar\DataCollector\PDO\TraceablePDO($this->pdo);
+            $this->pdo = new TraceablePDO($this->pdo);
             PDBDebugBar::getInstance()->registerPDO($this->pdo);
         }
     }

@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use Golonka\BBCode\BBCodeParser;
 use PartDB\PartProperty\PartProperty;
 
 /**
@@ -230,7 +231,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if ($parse_bbcode) {
-            $bbcode = new \Golonka\BBCode\BBCodeParser;
+            $bbcode = new BBCodeParser;
             $val = $bbcode->only("bold", "italic", "underline", "linethrough")->parse($val);
         }
 
@@ -267,7 +268,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     {
         $val = htmlspecialchars($this->db_data['comment']);
         if ($parse_bbcode) {
-            $bbcode = new \Golonka\BBCode\BBCodeParser;
+            $bbcode = new BBCodeParser;
             $val = $bbcode->parse($val);
         }
 
@@ -2083,7 +2084,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $comment = '',
         $visible = false
     ) {
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,
@@ -2111,6 +2112,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * Check if the name of the part is valid regarding the partname_regex of the category.
      * @param $partname string The name of the part.
      * @param $category Category The category of the part.
+     * @return boolean True if name is valid
      */
     public static function is_valid_name($partname, $category)
     {

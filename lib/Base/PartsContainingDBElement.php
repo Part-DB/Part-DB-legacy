@@ -75,9 +75,9 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      * @throws Exception if there is no such element in the database
      * @throws Exception if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $tablename, $id)
+    public function __construct(&$database, &$current_user, &$log, $tablename, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, $tablename, $id);
+        parent::__construct($database, $current_user, $log, $tablename, $id, $data);
     }
 
     /**
@@ -161,43 +161,8 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_parts($parts_rowname, $recursive = false, $hide_obsolete_and_zero = false)
+    public function get_table_parts($parts_rowname, $recursive = false, $hide_obsolete_and_zero = false)
     {
-        /*
-            if ( ! is_array($this->parts))
-            {
-                $this->parts = array();
-
-                $query = 'SELECT id FROM parts WHERE '.$parts_rowname.'=? ORDER BY name, description';
-                $query_data = $this->database->query($query, array($this->get_id()));
-
-                foreach ($query_data as $row)
-                    $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['id']);
-            }
-
-            $parts = $this->parts;
-
-            if ($hide_obsolete_and_zero)
-            {
-                // remove obsolete parts from array
-                $parts = array_values(array_filter($parts, function($part) {return (( ! $part->get_obsolete()) || ($part->get_instock() > 0));}));
-            }
-
-            if ($recursive)
-            {
-                $subelements = $this->get_subelements(false);
-
-                foreach ($subelements as $element) {
-                    $i = $element->get_id();
-
-                    $parts = array_merge($parts, $element->get_parts(true, $hide_obsolete_and_zero));
-                }
-                usort($parts, 'PartsContainingDBElement::usort_compare'); // Sort all parts by their names and descriptions
-            }
-
-            return $parts;
-            */
-
         $subelements = array();
 
         if ($recursive) {
@@ -248,6 +213,8 @@ abstract class PartsContainingDBElement extends StructuralDBElement
 
         return $parts;
     }
+
+    public abstract function get_parts($recursive = false, $hide_obsolete_and_zero = false);
 
     /**
      * Compare function for "usort()"

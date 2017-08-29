@@ -1,5 +1,4 @@
 //import {addURLparam, openInNewTab, openLink, scrollUpForMsg} from "./functions";
-"use_strict";
 var BASE = "";
 /****************************************************************************************
  * **************************************************************************************
@@ -347,7 +346,6 @@ function registerJumpToTop() {
         return false;
     }).tooltip('show');
 }
-;
 /**
  * Registers the collapse/expand all buttons of the TreeViews
  */

@@ -200,7 +200,7 @@ function delete_debug_log_file()
  * @param array|null $types     @li here you can supply an array of all log types (strings) you want to get
  *                              @li NULL if you want to get ALL log elements
  *
- * @retval array     log elements (array-like)
+ * @return array     log elements (array-like)
  *
  * @throws Exception if there was an error (maybe no file or no read permissions)
  */

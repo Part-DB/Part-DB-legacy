@@ -76,7 +76,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public function get_attachements()
+    public function get_attachements_for_type()
     {
         // the attribute $this->attachements is used from class "AttachementsContainingDBELement"
         if (! is_array($this->attachements)) {
@@ -138,7 +138,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      */
     public static function add(&$database, &$current_user, &$log, $name, $parent_id)
     {
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,

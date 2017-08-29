@@ -65,7 +65,7 @@ class Device extends Base\PartsContainingDBElement
      */
     public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'devices', $id, false, $data);
+        parent::__construct($database, $current_user, $log, 'devices', $id, $data);
 
         if ($id == 0) {
             // this is the root node
@@ -271,7 +271,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_parts($recursive = false)
+    public function get_parts($recursive = false, $hide_obsolet_and_zero = false)
     {
         if (! is_array($this->parts)) {
             $this->parts = array();
@@ -500,7 +500,7 @@ class Device extends Base\PartsContainingDBElement
      */
     public static function add(&$database, &$current_user, &$log, $name, $parent_id)
     {
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,

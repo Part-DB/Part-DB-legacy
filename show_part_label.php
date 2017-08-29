@@ -70,14 +70,11 @@ switch($action)
  *
  *********************************************************************************/
 
-if (! $fatal_error)
-{
-    try
-    {
+if (! $fatal_error) {
+    try {
         $html->set_variable("pid", $part_id, "integer");
         $html->set_variable("download_link", 'generate_part_label.php?pid='.$part_id.'&download', "string");
-    }
-    catch (Exception $e)
+    } catch (Exception $e)
     {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -92,8 +89,7 @@ if (! $fatal_error)
 
 
 //If a ajax version is requested, say this the template engine.
-if(isset($_REQUEST["ajax"]))
-{
+if (isset($_REQUEST["ajax"])) {
     $html->set_variable("ajax_request", true);
 }
 
@@ -104,7 +100,9 @@ $html->print_header($messages, $reload_link);                           // ...re
 
 
 
-if (! $fatal_error)
+if (! $fatal_error) {
     $html->print_template('show_part_label');
+}
+
 
 $html->print_footer();

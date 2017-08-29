@@ -52,6 +52,7 @@ class PartNameRegEx
 
     /**
      * Returns the Regular Expression part.
+     * @param $is_mb bool True if should be prepared for the multibyte regex functions. (Strip slashes)
      * @return string The Reguala Expression.
      */
     public function get_regex($is_mb = false)

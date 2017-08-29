@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Interfaces\ISearchable;
 
 /**
  * @file Manufacturer.php
@@ -35,7 +36,7 @@ use Exception;
  *  All elements of this class are stored in the database table "manufacturers".
  * @author kami89
  */
-class Manufacturer extends Base\Company
+class Manufacturer extends Base\Company implements ISearchable
 {
     /********************************************************************************
      *
@@ -82,7 +83,7 @@ class Manufacturer extends Base\Company
      */
     public function get_parts($recursive = false, $hide_obsolete_and_zero = false)
     {
-        return parent::get_parts('id_manufacturer', $recursive, $hide_obsolete_and_zero);
+        return parent::get_table_parts('id_manufacturer', $recursive, $hide_obsolete_and_zero);
     }
 
     /********************************************************************************
@@ -144,7 +145,7 @@ class Manufacturer extends Base\Company
         $website = '',
         $auto_product_url = ''
     ) {
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,
@@ -165,6 +166,6 @@ class Manufacturer extends Base\Company
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
-        return parent::search($database, $current_user, $log, 'manufacturers', $keyword, $exact_match);
+        return parent::search_table($database, $current_user, $log, 'manufacturers', $keyword, $exact_match);
     }
 }

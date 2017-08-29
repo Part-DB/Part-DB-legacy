@@ -342,11 +342,11 @@ abstract class DBElement
      *                                          @li example: @code
      *                                              array(['name'] => 'abcd', ['parent_id'] => 123, ...) @endcode
      *
-     * @retval object       the created object (e.g. Device, Part, Category, ...)
+     * @return static       the created object (e.g. Device, Part, Category, ...)
      *
      * @throws Exception if the values are not valid / the combination of values is not valid
      */
-    public static function add(&$database, &$current_user, &$log, $tablename, $new_values)
+    protected static function add_via_array(&$database, &$current_user, &$log, $tablename, $new_values)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein gültiges Database-Objekt!'));

@@ -128,7 +128,7 @@ abstract class NamedDBElement extends DBElement
     }
 
     /**
-     * Search elements by name
+     * Search elements by name in the given table
      *
      * @param Database  &$database              reference to the database object
      * @param User      &$current_user          reference to the user which is logged in
@@ -142,7 +142,7 @@ abstract class NamedDBElement extends DBElement
      *
      * @throws Exception if there was an error
      */
-    public static function search(&$database, &$current_user, &$log, $tablename, $keyword, $exact_match)
+    protected static function search_table(&$database, &$current_user, &$log, $tablename, $keyword, $exact_match)
     {
         if (strlen($keyword) == 0) {
             return array();
@@ -166,4 +166,5 @@ abstract class NamedDBElement extends DBElement
 
         return $objects;
     }
+
 }

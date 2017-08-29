@@ -36,7 +36,7 @@ use PartDB\PartProperty\PartNameRegEx;
  * All elements of this class are stored in the database table "categories".
  * @author kami89
  */
-class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIModel
+class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIModel, Interfaces\ISearchable
 {
     /********************************************************************************
      *
@@ -59,7 +59,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'categories', $id, false, $data);
+        parent::__construct($database, $current_user, $log, 'categories', $id, $data);
     }
 
     /********************************************************************************
@@ -335,6 +335,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     /**
      * Gets the regex of this Category.
      * @param bool $including_parents
+     * @return string The regex.
      */
     public function get_partname_regex($including_parents = true)
     {
@@ -378,7 +379,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function get_parts($recursive = false, $hide_obsolete_and_zero = false)
     {
-        return parent::get_parts('id_category', $recursive, $hide_obsolete_and_zero);
+        return parent::get_table_parts('id_category', $recursive, $hide_obsolete_and_zero);
     }
 
     /********************************************************************************
@@ -547,7 +548,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
         $default_description = "",
         $default_comment = ""
     ) {
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,
@@ -568,7 +569,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
-        return parent::search($database, $current_user, $log, 'categories', $keyword, $exact_match);
+        return parent::search_table($database, $current_user, $log, 'categories', $keyword, $exact_match);
     }
 
     /**

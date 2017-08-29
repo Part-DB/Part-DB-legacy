@@ -1,4 +1,5 @@
 {if isset($messages)}
+    <!--suppress ALL -->
     <div class="panel panel-default">
         <form action="" method="post" class="panel-body">
             {foreach $messages as $msg}

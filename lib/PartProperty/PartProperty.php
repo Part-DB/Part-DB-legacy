@@ -82,8 +82,8 @@ class PartProperty implements IAPIModel
     /**
      * Parses the in $description given string, extracts different part properties and retuns an array
      *          PartProperty objects.
-     * @param $description The description string which should be parsed
-     * @retval array An array containing PartProperty objects. Empty if no properties could be parsed.
+     * @param $description string The description string which should be parsed
+     * @return PartProperty[] An array containing PartProperty objects. Empty if no properties could be parsed.
      */
     public static function parse_description($description)
     {
