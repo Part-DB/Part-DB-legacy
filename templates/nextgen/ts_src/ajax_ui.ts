@@ -220,7 +220,7 @@ class AjaxUI {
      */
     private onNodeSelected(event, data : BootstrapTreeViewNodeData) {
         'use strict';
-        if(data.href.indexOf("github.com") !== -1 || data.href.indexOf("doxygen") !== -1)  //If the href points to github, then open it in new tab. TODO: Find better solution to detect external links.
+        if(data.href.indexOf("github.com") !== -1 || data.href.indexOf("phpdoc") !== -1)  //If the href points to github, then open it in new tab. TODO: Find better solution to detect external links.
         {
             openInNewTab(data.href);
             $(this).treeview('toggleNodeSelected',data.nodeId);
