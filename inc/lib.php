@@ -1038,7 +1038,7 @@ function get_class_short($object)
  * @param $var mixed The variable which should be checked.
  * @return boolean
  */
-function _empty(&$var)
+function _empty($var)
 {
     return empty($var);
 }
