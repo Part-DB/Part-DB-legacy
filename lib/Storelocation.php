@@ -59,7 +59,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'storelocations', $data);
+        parent::__construct($database, $current_user, $log, 'storelocations', $id, $data);
 
         if ($id == 0) {
             // this is the root node
