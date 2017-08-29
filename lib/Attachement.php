@@ -499,7 +499,7 @@ class Attachement extends Base\NamedDBElement
             throw new Exception(_('$element ist kein Objekt!'));
         }
 
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,

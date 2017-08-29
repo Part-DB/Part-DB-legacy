@@ -409,7 +409,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
         $price_related_quantity = 1,
         $min_discount_quantity = 1
     ) {
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,

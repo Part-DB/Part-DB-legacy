@@ -248,7 +248,7 @@ class Supplier extends Base\Company implements ISearchable
         $website = '',
         $auto_product_url = ''
     ) {
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,

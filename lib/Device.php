@@ -500,7 +500,7 @@ class Device extends Base\PartsContainingDBElement
      */
     public static function add(&$database, &$current_user, &$log, $name, $parent_id)
     {
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,

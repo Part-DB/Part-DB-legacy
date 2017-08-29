@@ -438,7 +438,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
         $supplierpartnr = '',
         $obsolete = false
     ) {
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,

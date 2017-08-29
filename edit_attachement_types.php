@@ -124,7 +124,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist kein Dateityp markiert oder es trat ein Fehler auf!'));
                 }
 
-                $attachements = $selected_attachement_type->get_attachements();
+                $attachements = $selected_attachement_type->get_attachements_for_type();
                 $count = count($attachements);
 
                 if ($count > 0) {

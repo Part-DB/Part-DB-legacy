@@ -444,7 +444,7 @@ class DevicePart extends Base\DBElement
         }
 
         // there is no such DevicePart, so we will create it
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,

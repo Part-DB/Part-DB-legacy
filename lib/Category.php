@@ -547,7 +547,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
         $default_description = "",
         $default_comment = ""
     ) {
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,

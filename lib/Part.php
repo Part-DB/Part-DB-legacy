@@ -2083,7 +2083,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $comment = '',
         $visible = false
     ) {
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,

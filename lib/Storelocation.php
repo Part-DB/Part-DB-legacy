@@ -182,7 +182,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public static function add(&$database, &$current_user, &$log, $name, $parent_id, $is_full = false)
     {
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,

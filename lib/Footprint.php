@@ -340,7 +340,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      */
     public static function add(&$database, &$current_user, &$log, $name, $parent_id, $filename = '', $filename_3d = '')
     {
-        return parent::add(
+        return parent::add_via_array(
             $database,
             $current_user,
             $log,
