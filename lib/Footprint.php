@@ -58,7 +58,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      */
     public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'footprints', $id, false, $data);
+        parent::__construct($database, $current_user, $log, 'footprints', $id, $data);
 
         if ($id == 0) {
             // this is the root node

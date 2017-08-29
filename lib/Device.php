@@ -65,7 +65,7 @@ class Device extends Base\PartsContainingDBElement
      */
     public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'devices', $id, false, $data);
+        parent::__construct($database, $current_user, $log, 'devices', $id, $data);
 
         if ($id == 0) {
             // this is the root node

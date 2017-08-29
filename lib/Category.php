@@ -59,7 +59,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log, 'categories', $id, false, $data);
+        parent::__construct($database, $current_user, $log, 'categories', $id, $data);
     }
 
     /********************************************************************************
