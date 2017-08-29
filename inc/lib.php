@@ -988,7 +988,7 @@ function buildToolsTree($params)
     $dev_nodes[] = treeview_node(_("Werkzeuge"), BASE_RELATIVE . "/development/developer_tools.php");
     $dev_nodes[] = treeview_node(_("Debugging"), BASE_RELATIVE . "/system_debug.php");
     $dev_nodes[] = treeview_node(_("Sandkasten"), BASE_RELATIVE . "/development/sandbox.php");
-    $dev_nodes[] = treeview_node(_("Quellcode-Doku"), BASE_RELATIVE . "/development/doxygen/html/index.html");
+    $dev_nodes[] = treeview_node(_("Quellcode-Doku"), BASE_RELATIVE . "/development/phpdoc/html/index.html");
 
     //Add nodes to root
     $tree = array();
