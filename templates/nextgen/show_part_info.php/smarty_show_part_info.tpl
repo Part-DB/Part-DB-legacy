@@ -1,5 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 
+<!--suppress Annotator -->
 <div class="panel panel-primary">
     <div class="panel-heading">
         <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;

@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-
+<!--suppress Annotator -->
 <div class="panel panel-default">
     <div class="panel-heading"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;
         {t}Willkommen bei Part-DB!{/t}</div>
