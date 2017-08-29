@@ -342,7 +342,7 @@ abstract class DBElement
      *                                          @li example: @code
      *                                              array(['name'] => 'abcd', ['parent_id'] => 123, ...) @endcode
      *
-     * @retval object       the created object (e.g. Device, Part, Category, ...)
+     * @return static       the created object (e.g. Device, Part, Category, ...)
      *
      * @throws Exception if the values are not valid / the combination of values is not valid
      */

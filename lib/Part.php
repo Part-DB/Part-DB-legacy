@@ -2112,6 +2112,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * Check if the name of the part is valid regarding the partname_regex of the category.
      * @param $partname string The name of the part.
      * @param $category Category The category of the part.
+     * @return boolean True if name is valid
      */
     public static function is_valid_name($partname, $category)
     {

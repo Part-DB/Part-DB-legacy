@@ -335,6 +335,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     /**
      * Gets the regex of this Category.
      * @param bool $including_parents
+     * @return string The regex.
      */
     public function get_partname_regex($including_parents = true)
     {
