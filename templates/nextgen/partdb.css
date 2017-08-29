@@ -80,8 +80,10 @@ input[type=text], input[type=password] {
 /** new: 20120712 Udo Neist **/
 
 a.headline {color: #2652BA;}
-a.headline:before {content:"- "}
-a.headline:after {content:" -"}
+a.headline:before {content:"- ";
+}
+a.headline:after {content:" -";
+}
 
 /** end: 20120712 Udo Neist **/
 

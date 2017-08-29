@@ -358,7 +358,7 @@
                 <b>{$attach_type.attachement_type}:</b><br>
                 {foreach $attach_type.attachements_loop as $attach}
                     {if $attach.is_picture}
-                        <img src="{$attach.filename}" style="max-height:180px; max-width:180px" class="hoverpic" rel="popover"></a>
+                        <img src="{$attach.filename}" style="max-height:180px; max-width:180px;" class="hoverpic" rel="popover"></a>
                     {else}
                         <a target="_blank" href="{$attach.filename}" class="link-external">{$attach.attachement_name}</a><br>
                     {/if}

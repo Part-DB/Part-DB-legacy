@@ -208,7 +208,7 @@
                     <div class="container-fluid container-progress" id="progressbar" hidden>
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0"
-                                aria-valuemax="100" style="width: 100%">
+                                aria-valuemax="100" style="width: 100%;">
                                 <span>{t}Lade{/t}</span>
                             </div>
                         </div>

@@ -8,7 +8,7 @@
             Wenn Sie Part-DB bereits benutzt haben, können Sie die vorhandene Datenbank weiter benutzen,
             ansonsten sollte die Datenbank komplett leer sein.{/t}
             <br><br>
-            <span style="color:red">
+            <span style="color:red;">
                 {t}Achtung:{/t}
                 <ul>
                     <li>{t}Damit Part-DB korrekt funktioniert, müssen Sie dem Benutzer jegliche Rechte an der Datenbank gewähren!{/t}</li>

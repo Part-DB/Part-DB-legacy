@@ -12,7 +12,7 @@
         <strong>{t}Wiki:{/t}</strong> {t escape=off}Weitere Informationen gibt es im <a target="_blank" href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Artikel{/t}</a>
     </div>
     <br>
-    <div style="background-color:#FFFC86">
+    <div style="background-color:#FFFC86;">
         <table><tr>
                 <td><img src="{$relative_path}img/partdb/help.png"></td>
                 <td>
