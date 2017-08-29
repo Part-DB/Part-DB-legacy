@@ -90,6 +90,6 @@ $html->set_loop("logs", get_debug_log_elements());
 $html->print_header();
 $html->print_template("system_debug");
 $html->print_footer();
-?>
+
 
 

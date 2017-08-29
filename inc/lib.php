@@ -419,7 +419,7 @@ function save_config()
     $content .= '    //$manual_config[\'money_format\'][\'POSIX\']                = \'%!n €\';'."\n";
     $content .= '    //$manual_config[\'DOCUMENT_ROOT\']                        = \'/var/www\';'."\n";
     $content .= array_to_php_lines($manual_config, $manual_config, '    $manual_config', false);
-    $content .= "\n?>";
+    $content .= "\n";
 
     if (! ($fp = fopen(BASE.'/data/config.php', 'wb'))) {
         throw new Exception('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.');
