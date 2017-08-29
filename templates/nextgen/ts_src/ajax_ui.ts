@@ -1,7 +1,5 @@
 //import {addURLparam, openInNewTab, openLink, scrollUpForMsg} from "./functions";
 
-"use_strict";
-
 let BASE="";
 
 
