@@ -588,19 +588,19 @@ if (! $fatal_error) {
             break;
 
         case 'search_category':
-            $classname = 'Category';
+            $classname = 'PartDB\Category';
             $search_name = $search_category_name;
             break;
         case 'search_footprint':
-            $classname = 'Footprint';
+            $classname = 'PartDB\Footprint';
             $search_name = $search_footprint_name;
             break;
         case 'search_storelocation':
-            $classname = 'Storelocation';
+            $classname = 'PartDB\Storelocation';
             $search_name = $search_storelocation_name;
             break;
         case 'search_manufacturer':
-            $classname = 'Manufacturer';
+            $classname = 'PartDB\Manufacturer';
             $search_name = $search_manufacturer_name;
             break;
     }
