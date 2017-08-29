@@ -38,6 +38,7 @@ namespace PartDB;
  */
 
 use Exception;
+use PartDB\Interfaces\ISearchable;
 
 /**
  * @file User.php
@@ -47,7 +48,7 @@ use Exception;
  * All elements of this class are stored in the database table "users".
  * @author kami89
  */
-class User extends Base\AttachementsContainingDBElement
+class User extends Base\NamedDBElement implements ISearchable
 {
     /********************************************************************************
      *
@@ -126,6 +127,61 @@ class User extends Base\AttachementsContainingDBElement
         return $this->group;
     }
 
+    /**
+     * Gets the username of the User.
+     * @return string The username.
+     */
+    public function get_name()
+    {
+        return $this->db_data['name'];
+    }
+
+    /**
+     * Gets the first name of the user.
+     * @return string The first name.
+     */
+    public function getFirstName()
+    {
+        return $this->db_data['first_name'];
+    }
+
+    /**
+     * Gets the last name of the user.
+     * @return string The first name.
+     */
+    public function getLastName()
+    {
+        return $this->db_data['last_name'];
+    }
+
+    /**
+     * Gets the email address of the user.
+     * @return string The email address.
+     */
+    public function getEmail()
+    {
+        return $this->db_data['last_name'];
+    }
+
+    /**
+     * Gets the department of the user.
+     * @return string The department of the user.
+     */
+    public function getDepartment()
+    {
+        return $this->db_data['department'];
+    }
+
+    /**
+     * Checks if a given password, is valid for this account.
+     * @param $password string The password which should be checked.
+     */
+    public function isPasswordValid($password)
+    {
+        $hash = $this->db_data['password'];
+        return password_verify($password, $hash);
+    }
+
     /********************************************************************************
      *
      *   Setters
@@ -144,6 +200,35 @@ class User extends Base\AttachementsContainingDBElement
     {
         $this->set_attributes(array('group_id' => $new_group_id));
     }
+
+    /**
+     * Sets a new password, for the User.
+     * @param $new_password string The new password.
+     */
+    public function setPassword($new_password)
+    {
+        $hash = password_hash($new_password, PASSWORD_DEFAULT);
+        $this->set_attributes(array("password" => $hash));
+    }
+
+    /**
+     * Set a new first name.
+     * @param $new_first_name string The new first name.
+     */
+    public function setFirstName($new_first_name)
+    {
+        $this->set_attributes(array('first_name' => $new_first_name));
+    }
+
+    /**
+     * Set a new first name.
+     * @param $new_first_name string The new first name.
+     */
+    public function setLastName($new_last_name)
+    {
+        $this->set_attributes(array('last_name' => $new_last_name));
+    }
+
 
     /********************************************************************************
      *
@@ -175,6 +260,8 @@ class User extends Base\AttachementsContainingDBElement
         }
     }
 
+
+
     /**
      * Get count of users
      *
@@ -191,5 +278,30 @@ class User extends Base\AttachementsContainingDBElement
         }
 
         return $database->get_count_of_records('users');
+    }
+
+    /**
+     * Search elements by name.
+     *
+     * @param Database &$database reference to the database object
+     * @param User &$current_user reference to the user which is logged in
+     * @param Log &$log reference to the Log-object
+     * @param string $keyword the search string
+     * @param boolean $exact_match @li If true, only records which matches exactly will be returned
+     * @li If false, all similar records will be returned
+     *
+     * @return array    all found elements as a one-dimensional array of objects,
+     *                  sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public static function search(&$database, &$current_user, &$log, $keyword, $exact_match)
+    {
+        return parent::search_table($database, $current_user, $log, "user", $keyword, $exact_match);
+    }
+
+    public static function getUserByName(&$database, &$current_user, &$log, $username)
+    {
+        self::search($database, $current_user, $log, $username, true);
     }
 }
