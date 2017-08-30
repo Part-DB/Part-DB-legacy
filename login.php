@@ -49,12 +49,15 @@ try {
 
     if($logout && User::isLoggedIn()) {
         User::logout();
+        $html->set_variable("loggedout", true, "boolean");
+        $html->set_variable("refresh_navigation_frame", true, "boolean");
     }
 
     if(!User::isLoggedIn() && $user_name != "") {
         $user               = User::getUserByName($database, $log, $user_name);
         $pw_valid           = User::login($user, $password);
         $html->set_variable("pw_valid", $pw_valid, "boolean");
+        $html->set_variable("refresh_navigation_frame", true, "boolean");
     }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -75,6 +78,7 @@ if(User::isLoggedIn())
 
 $html->set_variable("username", $user_name, "string");
 
+//$html->set_variable("refresh_navigation_frame", true, "boolean");
 
 
 $reload_link = $fatal_error ? 'login.php'  : ''; // an empty string means that the...

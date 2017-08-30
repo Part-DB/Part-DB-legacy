@@ -107,10 +107,28 @@
                     <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> {if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</a>
                 </div>
 
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle link-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            {if $loggedin}<i class="fa fa-user" aria-hidden="true"></i>{else}<i class="fa fa-user-o" aria-hidden="true"></i>{/if} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            {if $loggedin}
+                            <li><a href="{$relative_path}login.php?logout">Logout</a></li>
+                            {else}
+                            <li><a href="{$relative_path}login.php">Login</a></li>
+                            {/if}
+                        </ul>
+                    </li>
+                </ul>
+
                 <!-- Navbar -->
-                <div class="collapse navbar-collapse" id="searchbar">
+                <div class="collapse navbar-collapse navbar-right" id="searchbar">
                     <!-- Searchbar -->
-                    <form class="navbar-form navbar-right" action="{$relative_path}show_search_parts.php" method="get">
+                    <form class="navbar-form " action="{$relative_path}show_search_parts.php" method="get">
                             <div class="btn-group">
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     {t}Suchoptionen{/t}
@@ -146,6 +164,9 @@
                             <button type="submit" id="search-submit" class="btn btn-default">{t}Los!{/t}</button>
                     </form>
                 </div><!-- /.navbar-collapse -->
+
+
+
             </div><!-- /.container-fluid -->
         </nav>
     </header>

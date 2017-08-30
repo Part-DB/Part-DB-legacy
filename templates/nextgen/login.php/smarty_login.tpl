@@ -1,3 +1,9 @@
+{if isset($refresh_navigation_frame) && $refresh_navigation_frame}
+    <script type="text/javascript">
+        location.href = location.href.replace("?logout", "");
+    </script>
+{/if}
+
 {if isset($pw_valid) && $pw_valid == false}
     <div class="alert alert-danger alert-dismissible" role="alert">
         <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -16,31 +22,31 @@
         </div>
     </div>
 {else}
-    <div class="panel panel-primary">
-        <div class="panel-heading"><h4><i class="fa fa-sign-in" aria-hidden="true"></i>
-                Login</h4></div>
-        <div class="panel-body">
-            <form action="login.php" class="form-horizontal no-progbar" method="post">
+        <div class="panel panel-primary">
+            <div class="panel-heading"><h4><i class="fa fa-sign-in" aria-hidden="true"></i>
+                    Login</h4></div>
+            <div class="panel-body">
+                <form action="login.php" class="form-horizontal no-progbar" method="post">
 
-                <div class="form-group">
-                    <label class="control-label col-md-2">Benutzername:</label>
-                    <div class="col-md-10">
-                        <input type="text" class="form-control" placeholder="Nutzername" name="username" value="{$username}">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Benutzername:</label>
+                        <div class="col-md-10">
+                            <input type="text" class="form-control" placeholder="Nutzername" name="username" value="{$username}">
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="control-label col-md-2">Password:</label>
-                    <div class="col-md-10">
-                        <input type="password" class="form-control" placeholder="Password" name="password">
+                    <div class="form-group">
+                        <label class="control-label col-md-2">Password:</label>
+                        <div class="col-md-10">
+                            <input type="password" class="form-control" placeholder="Password" name="password">
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <div class="col-md-10 col-md-offset-2">
-                        <button type="submit" class="btn btn-primary">Login</button>
+                    <div class="form-group">
+                        <div class="col-md-10 col-md-offset-2">
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </div>
                     </div>
-                </div>
-            </form>
+                </form>
+            </div>
         </div>
-    </div>
 {/if}

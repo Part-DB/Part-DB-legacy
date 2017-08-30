@@ -364,6 +364,7 @@ class HTML
         $tmpl->assign('frameset', $this->meta['frameset']);
         $tmpl->assign('redirect', $redirect);
         $tmpl->assign('partdb_title', $config['partdb_title']);
+        $tmpl->assign("loggedin", User::isLoggedIn());
         if (strlen($this->meta['custom_css']) > 0) {
             $tmpl->assign('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
         }
