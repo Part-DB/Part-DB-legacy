@@ -118,7 +118,10 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
 					-o  -path "*/.idea*" \
 					-o  -path "*/.vs*" \
                     -o  -name "README.md" \
-					-o  -name "*.sln" \
+                    -o  -name "*.sln" \
+					-o  -name ".csslint*" \
+					-o  -name ".eslint*" \
+					-o  -name "*.xml" \
 					-o  -name "*.phpproj*" \
                     -o  -name ".gitignore" \
 					-o  -name ".gitattributes" \
@@ -128,6 +131,7 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
 					-o 	-path "./development/templates_c/*"	\
 					-o 	-path "./nbproject*"	\
                     -o  -path "./development*" \
+                    -o  -path "./node_modules*" \
                     -o  -path "./documentation/dokuwiki/data/cache/*" \
                     -o  -path "./documentation/dokuwiki/data/tmp/*" \
                     -o  \(          -path "./data*" \
@@ -138,10 +142,7 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
                             -a -not -name ".htaccess" \
                         \) \
                 \) -exec cp --parents {} development/package_output/part-db/ \;
-    
-    # create empty folders "cache" and "tmp" because DokuWiki needs them
-    mkdir development/package_output/part-db/documentation/dokuwiki/data/cache
-    mkdir development/package_output/part-db/documentation/dokuwiki/data/tmp
+
 
     cd "development/package_output/"
     
@@ -190,7 +191,7 @@ while [ "$1" != "" ]; do
             ;;
         -p|--pack)
             remove_backups
-            tab2spaces
+            #tab2spaces
             build_install_package
             ;;
         -d|--doxygen)
