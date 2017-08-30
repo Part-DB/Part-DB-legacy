@@ -81,13 +81,13 @@ class User extends Base\NamedDBElement implements ISearchable
      * @throws Exception    if there is no such user in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id)
+    public function __construct(&$database, &$current_user, &$log, $id, $data = 1)
     {
         if (! is_object($current_user)) {     // this is that you can create an User-instance for first time
             $current_user = $this;
         }           // --> which one was first: the egg or the chicken? :-)
 
-        //parent::__construct($database, $current_user, $log, 'users', $id);
+        parent::__construct($database, $current_user, $log, 'users', $id, $data);
     }
 
     /**
@@ -300,8 +300,87 @@ class User extends Base\NamedDBElement implements ISearchable
         return parent::search_table($database, $current_user, $log, "user", $keyword, $exact_match);
     }
 
-    public static function getUserByName(&$database, &$current_user, &$log, $username)
+    /**
+     * @param $database Database
+     * @param $username string The username, for which the User should be returned.
+     * @return User
+     * @throws Exception
+     */
+    public static function getUserByName(&$database, &$log, $username)
     {
-        self::search($database, $current_user, $log, $username, true);
+        $username = trim($username);
+        $query = 'SELECT * FROM users WHERE name = ?';
+        $query_data = $database->query($query, array($username));
+
+        if (count($query_data) > 1)
+        {
+            throw new Exception("Die Abfrage des Nutzernamens hat mehrere Nutzer ergeben");
+        }
+
+        $user_data = $query_data[0];
+        $user = null;
+        return new User($database, $user, $log, $user_data['id'], $user_data);
+    }
+
+    /**
+     * Checks if a user is logged in, in the current session.
+     * @return boolean true, if a user is logged in.
+     */
+    public static function isLoggedIn()
+    {
+        return self::getLoggedInID() > 0;
+    }
+
+    /**
+     * Gets the id of the currently logged in user.
+     * @return int The id of the logged in user, if someone is logged in. Else 0 (anonymous).
+     */
+    public static function getLoggedInID()
+    {
+        if (!isset($_SESSION['user']) || $_SESSION['user']<0){
+            return 0;   //User anonymous.
+        }
+        else {
+            return $_SESSION['user'];
+        }
+    }
+
+    /**
+     * Gets a user instance for the currently logged in user.
+     * If nobody is logged in, it will return the anonymous user (id = 0)
+     * @param $database Database The Database which should be used for request.
+     * @param $log Log The Log, which should be used.
+     * @return User The user, which is currently logged in.
+     */
+    public static function getLoggedInUser(&$database, &$log)
+    {
+        $var = null;
+        return new User($database, $var, $log, self::getLoggedInID());
+    }
+
+    /**
+     * Log in the given user for the current session.
+     * @param $user User The user which should be logged in.
+     * @param $password string When not empty, it will be checked if this password is correct, and only then the user
+     * will be logged in.
+     * @return boolean True, if the user was successfully logged in. False if a error appeared, like a wrong password.
+     */
+    public static function login(&$user, $password = "")
+    {
+        if(!empty($password) && !$user->isPasswordValid($password)) { //If $password is set, and wrong.
+            return false;
+        }
+        $_SESSION['user'] = $user->get_id();
+        return true;
+    }
+
+    /**
+     * Log out the current user and set logged in to anonymous.
+     * @return boolean True, if the user was successful logged out.
+     */
+    public static function logout()
+    {
+        $_SESSION['user'] = 0;
+        return true;
     }
 }
