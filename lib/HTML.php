@@ -364,7 +364,22 @@ class HTML
         $tmpl->assign('frameset', $this->meta['frameset']);
         $tmpl->assign('redirect', $redirect);
         $tmpl->assign('partdb_title', $config['partdb_title']);
+
+        //Informations about User
         $tmpl->assign("loggedin", User::isLoggedIn());
+        try {
+            $user = User::getLoggedInUser();
+            $tmpl->assign("username", $user->get_name());
+            $tmpl->assign("firstname", $user->getFirstName());
+            $tmpl->assign("lastname", $user->getLastName());
+        }
+        catch (Exception $exception)
+        {
+            //TODO
+        }
+
+
+
         if (strlen($this->meta['custom_css']) > 0) {
             $tmpl->assign('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
         }

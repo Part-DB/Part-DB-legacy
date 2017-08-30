@@ -352,8 +352,12 @@ class User extends Base\NamedDBElement implements ISearchable
      * @param $log Log The Log, which should be used.
      * @return User The user, which is currently logged in.
      */
-    public static function getLoggedInUser(&$database, &$log)
+    public static function getLoggedInUser(&$database = null, &$log = null)
     {
+        if(is_null($database) || is_null($log)) {
+            $database = new Database();
+            $log = new Log($database);
+        }
         $var = null;
         return new User($database, $var, $log, self::getLoggedInID());
     }

@@ -112,15 +112,15 @@
                         <a href="#" class="dropdown-toggle link-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
                             {if $loggedin}<i class="fa fa-user" aria-hidden="true"></i>{else}<i class="fa fa-user-o" aria-hidden="true"></i>{/if} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Action</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
+                        {if $loggedin}
+                            <li class="disabled"><a href="#" >Eingeloggt als {$firstname} {$lastname} ({$username})</a></li>
+                            <li><a href="user_settings.php"><i class="fa fa-cogs" aria-hidden="true"></i> Benutzereinstellungen</a></li>
+                            <li><a href="user_info.php"><i class="fa fa-info-circle" aria-hidden="true"></i> Benutzerinformationen</a></li>
                             <li role="separator" class="divider"></li>
-                            {if $loggedin}
-                            <li><a href="{$relative_path}login.php?logout">Logout</a></li>
-                            {else}
-                            <li><a href="{$relative_path}login.php">Login</a></li>
-                            {/if}
+                            <li><a href="{$relative_path}login.php?logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                        {else}
+                            <li><a href="{$relative_path}login.php"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a></li>
+                        {/if}
                         </ul>
                     </li>
                 </ul>
