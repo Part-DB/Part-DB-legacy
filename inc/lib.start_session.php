@@ -272,3 +272,19 @@ function checkIfConfigIsValid()
 
     return true;
 }
+
+/**
+ * Handles an Exception
+ * @param $e \Exception
+ */
+function exception_handler($e)
+{
+    printMessagesWithoutTemplate(
+        'Part-DB: Schwerwiegender Fehler!',
+        null,
+        '<span style="color: red; "><strong>Es ist ein schwerwiegender Fehler aufgetreten:' .
+        '<br><br>'.nl2br($e->getMessage()).'</strong><br><br>'.
+        '(Exception wurde geworfen in '.$e->getFile().', Zeile '.$e->getLine(). ')</span>'
+    );
+    exit;
+}
