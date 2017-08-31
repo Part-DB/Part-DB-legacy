@@ -309,7 +309,7 @@ abstract class DBElement
      *                                              array(['name'] => 'abcd', ['parent_id'] => 123, ...) @endcode
      * @param boolean       $is_new             @li if true, this means we will create a new element.
      *                                          @li if false, this means we will set attributes of an existing element
-     * @param object|NULL   &$element           if $is_new is 'false', we have to supply the element,
+     * @param static|NULL   &$element           if $is_new is 'false', we have to supply the element,
      *                                          which will be edited, here.
      *
      * @throws Exception if the values are not valid / the combination of values is not valid

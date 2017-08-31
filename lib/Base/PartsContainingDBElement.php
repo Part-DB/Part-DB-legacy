@@ -207,7 +207,8 @@ abstract class PartsContainingDBElement extends StructuralDBElement
         if ($hide_obsolete_and_zero) {
             // remove obsolete parts from array
             $parts = array_values(array_filter($parts, function ($part) {
-                return ((! $part->get_obsolete()) || ($part->get_instock() > 0));
+                /** @var $part Part */
+                return ((! $part->getObsolete()) || ($part->getInstock() > 0));
             }));
         }
 

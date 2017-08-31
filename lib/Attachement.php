@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Base\AttachementsContainingDBElement;
 
 /**
  * @file Attachement.php
@@ -413,8 +414,9 @@ class Attachement extends Base\NamedDBElement
                 throw new Exception('"element_id" ist Null!');
             }
 
+            /** @var AttachementsContainingDBElement $element */
             $element = new $values['class_name']($database, $current_user, $log, $values['element_id']);
-            $element->set_attributes(array()); // save element attributes to update its "last_modified"
+            $element->setAttributes(array()); // save element attributes to update its "last_modified"
         } catch (Exception $e) {
             debug(
                 'warning',

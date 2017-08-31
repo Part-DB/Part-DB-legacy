@@ -85,7 +85,7 @@ class System
         $this->log = $log;
 
         // get the installed version
-        $this->installed_version = SystemVersion::get_installed_version();
+        $this->installed_version = SystemVersion::getInstalledVersion();
 
         debug(
             'hint',
@@ -107,7 +107,7 @@ class System
      *
      * @return SystemVersion      the installed version
      *
-     * @see SystemVersion::get_installed_version()
+     * @see SystemVersion::getInstalledVersion()
      */
     public function getInstalledVersion()
     {

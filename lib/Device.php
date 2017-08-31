@@ -162,14 +162,15 @@ class Device extends Base\PartsContainingDBElement
 
             $device_parts = $this->getParts();
             foreach ($device_parts as $part) {
+                /** @var DevicePart $part */
                 $new_part = DevicePart::add(
                     $this->database,
                     $this->current_user,
                     $this->log,
                     $new_device->getID(),
-                    $part->get_part()->get_id(),
-                    $part->get_mount_quantity(),
-                    $part->get_mount_names()
+                    $part->getPart()->getID(),
+                    $part->getMountQuantity(),
+                    $part->getMountNames()
                 );
             }
 
@@ -210,14 +211,16 @@ class Device extends Base\PartsContainingDBElement
 
             // check if there are enought parts in stock
             foreach ($device_parts as $part) {
-                if (($part->get_mount_quantity() * $book_multiplier) > $part->get_part()->get_instock()) {
+                /** @var DevicePart $part */
+                if (($part->getMountQuantity() * $book_multiplier) > $part->getPart()->getInstock()) {
                     throw new Exception('Es sind nicht von allen Bauteilen genügend an Lager');
                 }
             }
 
             // OK there are enough parts in stock, we will book them
             foreach ($device_parts as $part) {
-                $part->get_part()->set_instock($part->get_part()->get_instock() - ($part->get_mount_quantity() * $book_multiplier));
+                /** @var DevicePart $part  */
+                $part->getPart()->setInstock($part->getPart()->getInstock() - ($part->getMountQuantity() * $book_multiplier));
             }
 
             $this->database->commit($transaction_id); // commit transaction
@@ -334,7 +337,8 @@ class Device extends Base\PartsContainingDBElement
         $device_parts = $this->getParts($recursive);
 
         foreach ($device_parts as $device_part) {
-            $count += $device_part->get_mount_quantity();
+            /** @var DevicePart $device_part */
+            $count += $device_part->getMountQuantity();
         }
 
         return $count;
@@ -366,7 +370,8 @@ class Device extends Base\PartsContainingDBElement
         $device_parts = $this->getParts($recursive);
 
         foreach ($device_parts as $device_part) {
-            $price += $device_part->get_part()->get_average_price(false, $device_part->get_mount_quantity());
+            /** @var DevicePart $device_part */
+            $price += $device_part->getPart()->getAveragePrice(false, $device_part->getMountQuantity());
         }
 
         if ($as_money_string) {

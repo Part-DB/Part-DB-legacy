@@ -116,6 +116,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
             $all_pricedetails = array_reverse($this->getPricedetails()); // the last one must be deleted first!
             $this->resetAttributes(); // set $this->pricedetails to NULL
             foreach ($all_pricedetails as $pricedetails) {
+                /** @var Pricedetails $pricedetails */
                 $pricedetails->delete();
             }
 

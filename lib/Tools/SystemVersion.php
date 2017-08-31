@@ -250,7 +250,7 @@ class SystemVersion
      *
      * @throws Exception if there was an error
      */
-    public static function get_installed_version()
+    public static function getInstalledVersion()
     {
         global $config;
 

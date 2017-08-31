@@ -42,6 +42,10 @@ include_once($BASE_tmp.'/inc/lib.start_session.php');
  *
  *********************************************************************************/
 
+/**
+ * Handles an Exception
+ * @param $e \Exception
+ */
 function exception_handler($e)
 {
     print_messages_without_template(

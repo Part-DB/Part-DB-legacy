@@ -153,7 +153,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 if ($delete_device_parts) {
                     foreach ($devices as $device) {
                         foreach ($device->getParts() as $device_part) {
-                            if ($device_part->get_part()->get_id() == $this->getID()) {
+                            /** @var $device_part DevicePart */
+                            if ($device_part->getPart()->getId() == $this->getID()) {
                                 $device_part->delete();
                             }
                         }
@@ -362,11 +363,13 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             $count_should_order = 0;    // for devices with "order_only_missing_parts == true"
             $deviceparts = DevicePart::getOrderDeviceParts($this->database, $this->current_user, $this->log, $this->getID());
             foreach ($deviceparts as $devicepart) {
-                $device = $devicepart->get_device();
-                if ($device->get_order_only_missing_parts()) {
-                    $count_should_order += $device->get_order_quantity() * $devicepart->get_mount_quantity();
+                /** @var $devicepart DevicePart */
+                /** @var $device Device */
+                $device = $devicepart->getDevice();
+                if ($device->getOrderOnlyMissingParts()) {
+                    $count_should_order += $device->getOrderQuantity() * $devicepart->getMountQuantity();
                 } else {
-                    $count_must_order += $device->get_order_quantity() * $devicepart->get_mount_quantity();
+                    $count_must_order += $device->getOrderQuantity() * $devicepart->getMountQuantity();
                 }
             }
 
@@ -1334,7 +1337,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         $row_index = 0;
         foreach ($parts as $part) {
-            $table_loop[] = $part->build_template_table_row_array($table_type, $row_index);
+            /** @var $part Part */
+            $table_loop[] = $part->buildTemplateTableRowArray($table_type, $row_index);
             $row_index++;
         }
 
@@ -1348,12 +1352,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *********************************************************************************/
 
     /**
-     * @param $database
-     * @param $current_user
-     * @param $log
-     * @param $proposed_name
-     * @param $proposed_storelocation_id
-     * @param $proposed_category_id
+     * @param $database Database
+     * @param $current_user User
+     * @param $log Log
+     * @param $proposed_name string
+     * @param $proposed_storelocation_id integer
+     * @param $proposed_category_id integer
      * @return array|bool An array containing parts with similar name and storelocation and category
      */
     public static function checkForExistingPart(&$database, &$current_user, &$log, $proposed_name, $proposed_storelocation_id, $proposed_category_id)
@@ -1391,6 +1395,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
     /**
      * @copydoc DBElement::check_values_validity()
+     * @param $element Part
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -1426,12 +1431,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
             if ((! $is_new) && ($values['order_orderdetails_id'] == null)
                 && (($values['instock'] < $values['mininstock']) || ($values['manual_order']))
-                && (($element->get_instock() >= $element->get_mininstock()) && (! $element->get_manual_order()))) {
+                && (($element->getInstock() >= $element->getMinInstock()) && (! $element->getManualOrder()))) {
                 // if this part will be added now to the list of parts to order (instock is now less than mininstock, or manual_order is now true),
                 // and this part has only one orderdetails, we will set that orderdetails as orderdetails to order from (attribute "order_orderdetails_id").
                 // Note: If that part was already in the list of parts to order, wo mustn't change the orderdetails to order!!
-                $orderdetails = $element->get_orderdetails();
-                $order_orderdetails_id = ((count($orderdetails) == 1) ? $orderdetails[0]->get_id() : null);
+                $orderdetails = $element->getOrderdetails();
+                $order_orderdetails_id = ((count($orderdetails) == 1) ? $orderdetails[0]->getID(): null);
                 $values['order_orderdetails_id'] = $order_orderdetails_id;
             }
 
@@ -1452,7 +1457,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         // check if we have to reset the order attributes ("instock" is now less than "mininstock")
-        if (($values['instock'] < $values['mininstock']) && (($is_new) || ($element->get_instock() >= $element->get_mininstock()))) {
+        if (($values['instock'] < $values['mininstock']) && (($is_new) || ($element->getInstock() >= $element->getMininstock()))) {
             if (! $values['manual_order']) {
                 $values['order_quantity'] = $values['mininstock'] - $values['instock'];
             }

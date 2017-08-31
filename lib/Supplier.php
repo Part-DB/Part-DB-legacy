@@ -100,6 +100,7 @@ class Supplier extends Base\Company implements ISearchable
         if ($hide_obsolete_and_zero) {
             // remove obsolete parts from array
             $parts = array_values(array_filter($parts, function ($part) {
+                /** @var Part $part */
                 return ((! $part->getObsolete()) || ($part->getInstock() > 0));
             }));
         }

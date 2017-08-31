@@ -28,6 +28,7 @@ namespace PartDB\Base;
 use Exception;
 use PartDB\Database;
 use PartDB\Log;
+use PartDB\Part;
 use PartDB\User;
 
 /**
@@ -176,7 +177,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     /**
      * Check if this element is a child of another element (recursive)
      *
-     * @param object $another_element       the object to compare
+     * @param Part $another_element       the object to compare
      *                                      IMPORTANT: both objects to compare must be from the same class (for example two "Device" objects)!
      *
      * @return bool
@@ -189,9 +190,10 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             return false;
         } else {
             $class_name = get_class($this);
+            /** @var StructuralDBElement $parent_element */
             $parent_element = new $class_name($this->database, $this->current_user, $this->log, $this->getParentID());
 
-            return (($parent_element->get_id() == $another_element->get_id()) || ($parent_element->is_child_of($another_element)));
+            return (($parent_element->getID() == $another_element->getID()) || ($parent_element->isChildOf($another_element)));
         }
     }
 
@@ -230,8 +232,9 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             $parent_id = $this->getParentID();
             $class = get_class($this);
             while ($parent_id > 0) {
+                /** @var StructuralDBElement $element */
                 $element = new $class($this->database, $this->current_user, $this->log, $parent_id);
-                $parent_id = $element->get_parent_id();
+                $parent_id = $element->getParentID();
                 $this->level++;
             }
         }
@@ -256,9 +259,10 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             $parent_id = $this->getParentID();
             $class = get_class($this);
             while ($parent_id > 0) {
+                /** @var StructuralDBElement $element */
                 $element = new $class($this->database, $this->current_user, $this->log, $parent_id);
-                $parent_id = $element->get_parent_id();
-                $this->full_path_strings[] = $element->get_name();
+                $parent_id = $element->getParentID();
+                $this->full_path_strings[] = $element->getName();
             }
             $this->full_path_strings = array_reverse($this->full_path_strings);
         }
@@ -544,6 +548,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         }
 
         try {
+            /** @var StructuralDBElement $parent_element */
             $parent_element = new $classname($database, $current_user, $log, $values['parent_id'], true);
         } catch (Exception $e) {
             debug(
@@ -558,7 +563,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         }
 
         // to avoid infinite parent_id loops (this is not the same as the "check parent_id" above!)
-        if ((! $is_new) && ($parent_element->get_parent_id() == $values['id'])) {
+        if ((! $is_new) && ($parent_element->getParentID() == $values['id'])) {
             throw new Exception(_('Ein Element kann nicht einem seiner direkten Unterelemente zugeordnet werden!'));
         }
 
@@ -567,13 +572,13 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         // we search for an element with the same name and parent ID, there shouldn't be one!
         $id = ($is_new) ? -1 : $values['id'];
         $query_data = $database->query(
-            'SELECT * FROM '. $parent_element->get_tablename() .
+            'SELECT * FROM '. $parent_element->getTablename() .
             ' WHERE name=? AND parent_id <=> ? AND id<>?',
             array($values['name'], $values['parent_id'], $id)
         );
         if (count($query_data) > 0) {
             throw new Exception(sprintf(_('Es existiert bereits ein Element auf gleicher Ebene (%1$s::%2$s)'.
-                ' mit gleichem Namen (%3$s)!'), $classname, $parent_element->get_full_path(), $values['name']));
+                ' mit gleichem Namen (%3$s)!'), $classname, $parent_element->getFullPath(), $values['name']));
         }
     }
 }

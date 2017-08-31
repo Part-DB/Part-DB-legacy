@@ -260,9 +260,10 @@ if (! $fatal_error) {
 
                 if ($export_only_missing) {
                     foreach ($device_parts as $key => $devicepart) {
-                        $needed = $devicepart->get_mount_quantity() * $export_multiplier;
-                        $instock = $devicepart->get_part()->get_instock();
-                        $mininstock = $devicepart->get_part()->get_mininstock();
+                        /** @var DevicePart $devicepart */
+                        $needed = $devicepart->getMountQuantity() * $export_multiplier;
+                        $instock = $devicepart->getPart()->getInstock();
+                        $mininstock = $devicepart->getPart()->getMinInstock();
 
                         if ($instock - $needed >= $mininstock) {
                             unset($device_parts[$key]);

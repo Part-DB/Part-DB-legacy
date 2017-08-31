@@ -278,6 +278,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
 
     /**
      * @copydoc DBElement::check_values_validity()
+     * @param Pricedetails $element
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -363,9 +364,9 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
             if ($same_min_discount_quantity_count > 0) {
                 throw new Exception('Es existiert bereits eine Preisangabe für die selbe Mengenrabatt-Menge!');
             }
-        } elseif ($values['min_discount_quantity'] != $element->get_min_discount_quantity()) {
+        } elseif ($values['min_discount_quantity'] != $element->getMinDiscountQuantity()) {
             // does the user try to change the "min_discount_quantity", but it is "1" ?
-            if ($element->get_min_discount_quantity() == 1) {
+            if ($element->getMinDiscountQuantity() == 1) {
                 throw new Exception('Die Mengenrabatt-Menge beim Preis für ein Bauteil kann nicht verändert werden!');
             }
 

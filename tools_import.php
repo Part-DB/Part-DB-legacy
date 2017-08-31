@@ -134,7 +134,8 @@ if (! $fatal_error) {
 
                 $new_part_ids = '';
                 foreach ($new_parts as $part) {
-                    $new_part_ids .= $part->get_id().';';
+                    /** @var Part $part */
+                    $new_part_ids .= $part->getID().';';
                 }
 
                 // reload the site to avoid multiple actions by manual refreshing

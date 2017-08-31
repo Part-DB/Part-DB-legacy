@@ -94,7 +94,7 @@ if (isset($_REQUEST['save_db_backup_path'])) {
 $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Part-DB Installation/Update'));
 
 try {
-    $system_version = SystemVersion::get_installed_version();
+    $system_version = SystemVersion::getInstalledVersion();
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;

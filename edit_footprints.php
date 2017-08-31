@@ -299,11 +299,12 @@ if (! $fatal_error) {
                     break;
                 }
 
+                /** @var Footprint $footprint */
                 $footprint = $broken_filename_footprints[$i];
                 $proposed_filenames_loop = array();
-                $proposed_filenames = get_proposed_filenames($footprint->get_filename(), $available_proposed_files);
+                $proposed_filenames = get_proposed_filenames($footprint->getFilename(), $available_proposed_files);
 
-                if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->get_filename(), PATHINFO_FILENAME))) {
+                if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->getFilename(), PATHINFO_FILENAME))) {
                     $exact_match = true;
                 } else {
                     $exact_match = false;
@@ -317,9 +318,9 @@ if (! $fatal_error) {
 
                 $broken_filename_loop[] = array(    'index'                     => $i,
                     'checked'                   => $exact_match,
-                    'broken_id'                 => $footprint->get_id(),
-                    'broken_full_path'          => $footprint->get_full_path(),
-                    'broken_filename'           => str_replace(BASE.'/', '', $footprint->get_filename()),
+                    'broken_id'                 => $footprint->getID(),
+                    'broken_full_path'          => $footprint->getFullPath(),
+                    'broken_filename'           => str_replace(BASE.'/', '', $footprint->getFilename()),
                     'proposed_filenames_count'  => count($proposed_filenames_loop),
                     'proposed_filenames'        => $proposed_filenames_loop);
             }
@@ -367,9 +368,9 @@ if (! $fatal_error) {
 
                 $footprint = $broken_filename_footprints[$i];
                 $proposed_filenames_loop = array();
-                $proposed_filenames = get_proposed_filenames($footprint->get_3d_filename(), $available_proposed_files);
+                $proposed_filenames = get_proposed_filenames($footprint->get3dFilename(), $available_proposed_files);
 
-                if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->get_3d_filename(), PATHINFO_FILENAME))) {
+                if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->get3dFilename(), PATHINFO_FILENAME))) {
                     $exact_match = true;
                 } else {
                     $exact_match = false;
@@ -383,9 +384,9 @@ if (! $fatal_error) {
 
                 $broken_filename_loop[] = array(    'index'                     => $i,
                     'checked'                   => $exact_match,
-                    'broken_id'                 => $footprint->get_id(),
-                    'broken_full_path'          => $footprint->get_full_path(),
-                    'broken_filename'           => str_replace(BASE.'/', '', $footprint->get_3d_filename()),
+                    'broken_id'                 => $footprint->getID(),
+                    'broken_full_path'          => $footprint->getFullPath(),
+                    'broken_filename'           => str_replace(BASE.'/', '', $footprint->get3dFilename()),
                     'proposed_filenames_count'  => count($proposed_filenames_loop),
                     'proposed_filenames'        => $proposed_filenames_loop);
             }

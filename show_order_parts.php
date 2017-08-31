@@ -98,10 +98,11 @@ function get_suppliers_template_loop($suppliers, $selected_supplier_id)
     $loop = array();
 
     foreach ($suppliers as $supplier) {
-        $loop[] = array(    'id'                => $supplier->get_id(),
-            'full_path'         => ($supplier->get_full_path()),
-            'selected'          => ($supplier->get_id() == $selected_supplier_id),
-            'count_of_parts'    => $supplier->get_count_of_parts_to_order());
+        /** @var Supplier $supplier */
+        $loop[] = array(    'id'                => $supplier->getID(),
+            'full_path'         => ($supplier->getFullPath()),
+            'selected'          => ($supplier->getID() == $selected_supplier_id),
+            'count_of_parts'    => $supplier->getCountOfPartsToOrder());
     }
 
     return $loop;
@@ -227,9 +228,10 @@ if (! $fatal_error) {
 
         $sum_price = 0;
         foreach ($parts as $part) {
-            $orderdetails = $part->get_order_orderdetails();
+            /** @var Part $part */
+            $orderdetails = $part->getOrderOrderdetails();
             if (is_object($orderdetails)) {
-                $sum_price += $orderdetails->get_price(false, $part->get_order_quantity());
+                $sum_price += $orderdetails->getPrice(false, $part->getOrderQuantity());
             }
         }
 
@@ -255,11 +257,13 @@ if (! $fatal_error) {
         $order_devices_loop = array();
         $row_odd = true;
         foreach ($order_devices as $device) {
+            /** @var Device $device */
             $too_less_parts = 0;
-            foreach ($device->get_parts() as $devicepart) {
-                $needed = $devicepart->get_mount_quantity() * $device->get_order_quantity();
-                $instock = $devicepart->get_part()->get_instock();
-                $mininstock = $devicepart->get_part()->get_mininstock();
+            foreach ($device->getParts() as $devicepart) {
+                /** @var \PartDB\DevicePart  $devicepart */
+                $needed = $devicepart->getMountQuantity() * $device->getOrderQuantity();
+                $instock = $devicepart->getPart()->getInstock();
+                $mininstock = $devicepart->getPart()->getMinInstock();
 
                 if ($instock - $needed < $mininstock) {
                     $too_less_parts++;
@@ -268,12 +272,12 @@ if (! $fatal_error) {
 
             $order_devices_loop[] = array(
                 'row_odd'               => $row_odd,
-                'id'                    => $device->get_id(),
-                'name'                  => $device->get_name(),
-                'full_path'             => $device->get_full_path(),
-                'order_quantity'        => $device->get_order_quantity(),
-                'only_missing_parts'    => $device->get_order_only_missing_parts(),
-                'parts_count'           => $device->get_parts_count(),
+                'id'                    => $device->getID(),
+                'name'                  => $device->getName(),
+                'full_path'             => $device->getFullPath(),
+                'order_quantity'        => $device->getOrderQuantity(),
+                'only_missing_parts'    => $device->getOrderOnlyMissingParts(),
+                'parts_count'           => $device->getPartsCount(),
                 'parts_count_to_order'  => $too_less_parts
             );
 
