@@ -83,11 +83,11 @@ abstract class PartsContainingDBElement extends StructuralDBElement
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function reset_attributes($all = false)
+    public function resetAttributes($all = false)
     {
         $this->parts = null;
 
-        parent::reset_attributes($all);
+        parent::resetAttributes($all);
     }
 
     /********************************************************************************
@@ -114,9 +114,9 @@ abstract class PartsContainingDBElement extends StructuralDBElement
     public function delete($delete_recursive = false, $delete_files_from_hdd = false)
     {
         try {
-            $transaction_id = $this->database->begin_transaction(); // start transaction
+            $transaction_id = $this->database->beginTransaction(); // start transaction
 
-            $parts = $this->get_parts('id_category');
+            $parts = $this->getParts('id_category');
 
             if (count($parts) > 0) {
                 throw new Exception('Das Element enthält noch '.count($parts).' Bauteile!');
@@ -129,9 +129,9 @@ abstract class PartsContainingDBElement extends StructuralDBElement
             $this->database->rollback(); // rollback transaction
 
             // restore the settings from BEFORE the transaction
-            $this->reset_attributes();
+            $this->resetAttributes();
 
-            throw new Exception("Das Element \"".$this->get_name()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
+            throw new Exception("Das Element \"".$this->getName()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
         }
     }
 
@@ -161,12 +161,12 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_table_parts($parts_rowname, $recursive = false, $hide_obsolete_and_zero = false)
+    public function getTableParts($parts_rowname, $recursive = false, $hide_obsolete_and_zero = false)
     {
         $subelements = array();
 
         if ($recursive) {
-            $subelements = $this->get_subelements(true);
+            $subelements = $this->getSubelements(true);
         }
 
         if (is_null($this->parts) || ! is_array($this->parts)) {
@@ -181,11 +181,11 @@ abstract class PartsContainingDBElement extends StructuralDBElement
             }
             */
             $query = 'SELECT parts.* FROM parts WHERE '.$parts_rowname.'=?';
-            $vals = array($this->get_id());
+            $vals = array($this->getID());
 
             foreach ($subelements as $element) {
                 $query = $query . " OR ".$parts_rowname."=?";
-                $vals[] = $element->get_id();
+                $vals[] = $element->getID();
             }
 
 
@@ -207,14 +207,15 @@ abstract class PartsContainingDBElement extends StructuralDBElement
         if ($hide_obsolete_and_zero) {
             // remove obsolete parts from array
             $parts = array_values(array_filter($parts, function ($part) {
-                return ((! $part->get_obsolete()) || ($part->get_instock() > 0));
+                /** @var $part Part */
+                return ((! $part->getObsolete()) || ($part->getInstock() > 0));
             }));
         }
 
         return $parts;
     }
 
-    public abstract function get_parts($recursive = false, $hide_obsolete_and_zero = false);
+    public abstract function getParts($recursive = false, $hide_obsolete_and_zero = false);
 
     /**
      * Compare function for "usort()"
@@ -230,10 +231,10 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      */
     public static function usort_compare($part_1, $part_2)
     {
-        if ($part_1->get_name() != $part_2->get_name()) {
-            return strcasecmp($part_1->get_name(), $part_2->get_name());
+        if ($part_1->getName() != $part_2->getName()) {
+            return strcasecmp($part_1->getName(), $part_2->getName());
         } else { // names are identical, so we compare the description of the parts
-            return strcasecmp($part_1->get_description(), $part_2->get_description());
+            return strcasecmp($part_1->getDescription(), $part_2->getDescription());
         }
     }
 }

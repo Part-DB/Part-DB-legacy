@@ -93,11 +93,11 @@ class User extends Base\NamedDBElement implements ISearchable
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function reset_attributes($all = false)
+    public function resetAttributes($all = false)
     {
         $this->group = null;
 
-        parent::reset_attributes($all);
+        parent::resetAttributes($all);
     }
 
     /********************************************************************************
@@ -113,7 +113,7 @@ class User extends Base\NamedDBElement implements ISearchable
      *
      * @throws Exception    if there was an error
      */
-    public function get_group()
+    public function getGroup()
     {
         if (! is_object($this->group)) {
             $this->group = new Group(
@@ -196,9 +196,9 @@ class User extends Base\NamedDBElement implements ISearchable
      * @throws Exception if the new group ID is not valid
      * @throws Exception if there was an error
      */
-    public function set_group_id($new_group_id)
+    public function setGroupID($new_group_id)
     {
-        $this->set_attributes(array('group_id' => $new_group_id));
+        $this->setAttributes(array('group_id' => $new_group_id));
     }
 
     /**
@@ -239,10 +239,10 @@ class User extends Base\NamedDBElement implements ISearchable
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
-        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
+        parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // check "group_id"
         try {
@@ -271,13 +271,13 @@ class User extends Base\NamedDBElement implements ISearchable
      *
      * @throws Exception            if there was an error
      */
-    public static function get_count(&$database)
+    public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
-        return $database->get_count_of_records('users');
+        return $database->getCountOfRecords('users');
     }
 
     /**

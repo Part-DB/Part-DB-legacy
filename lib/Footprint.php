@@ -79,7 +79,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @return string   @li the absolute path to the picture (from filesystem root), as a UNIX path (with slashes)
      *                  @li an empty string if there is no picture
      */
-    public function get_filename($absolute = true)
+    public function getFilename($absolute = true)
     {
         if ($absolute == true) {
             return str_replace('%BASE%', BASE, $this->db_data['filename']);
@@ -94,7 +94,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @return string   @li the absolute path to the model (from filesystem root), as a UNIX path (with slashes)
      *                  @li an empty string if there is no model
      */
-    public function get_3d_filename($absolute = true)
+    public function get3dFilename($absolute = true)
     {
         if ($absolute == true) {
             return str_replace('%BASE%', BASE, $this->db_data['filename_3d']);
@@ -113,11 +113,11 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @throws Exception    if there was an error
      *
-     * @see PartsContainingDBElement::get_parts()
+     * @see PartsContainingDBElement::getParts()
      */
-    public function get_parts($recursive = false, $hide_obsolete_and_zero = false)
+    public function getParts($recursive = false, $hide_obsolete_and_zero = false)
     {
-        return parent::get_table_parts('id_footprint', $recursive, $hide_obsolete_and_zero);
+        return parent::getTableParts('id_footprint', $recursive, $hide_obsolete_and_zero);
     }
 
     /**
@@ -131,13 +131,13 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @return boolean      @li true if file exists or filename is empty
      *                      @li false if there is no file with this filename
      */
-    public function is_filename_valid()
+    public function isFilenameValid()
     {
-        if (strlen($this->get_filename()) == 0) {
+        if (strlen($this->getFilename()) == 0) {
             return true;
         }
 
-        return file_exists($this->get_filename());
+        return file_exists($this->getFilename());
     }
 
     /**
@@ -151,18 +151,18 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @return boolean      @li true if file exists or filename is empty
      *                      @li false if there is no file with this filename
      */
-    public function is_3d_filename_valid()
+    public function is3dFilenameValid()
     {
-        if (strlen($this->get_3d_filename()) == 0) {
+        if (strlen($this->get3dFilename()) == 0) {
             return true;
         }
 
         //Check if file is X3D-Model
-        if (strpos($this->get_3d_filename(), '.x3d') == false) {
+        if (strpos($this->get3dFilename(), '.x3d') == false) {
             return false;
         }
 
-        return file_exists($this->get_3d_filename());
+        return file_exists($this->get3dFilename());
     }
 
     /********************************************************************************
@@ -191,18 +191,18 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @throws Exception if there was an error
      */
-    public function set_filename($new_filename)
+    public function setFilename($new_filename)
     {
-        $this->set_attributes(array('filename' => $new_filename));
+        $this->setAttributes(array('filename' => $new_filename));
     }
 
     /**
      *  Change the 3d model filename of this footprint
      * @throws Exception if there was an error
      */
-    public function set_3d_filename($new_filename)
+    public function set3dFilename($new_filename)
     {
-        $this->set_attributes(array('filename_3d' => $new_filename));
+        $this->setAttributes(array('filename_3d' => $new_filename));
     }
 
     /********************************************************************************
@@ -214,10 +214,10 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
-        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
+        parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         //For image footprints
 
@@ -254,13 +254,13 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @throws Exception            if there was an error
      */
-    public static function get_count(&$database)
+    public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
         }
 
-        return $database->get_count_of_records('footprints');
+        return $database->getCountOfRecords('footprints');
     }
 
     /**
@@ -275,14 +275,14 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @throws Exception if there was an error
      */
-    public static function get_broken_filename_footprints(&$database, &$current_user, &$log)
+    public static function getBrokenFilenameFootprints(&$database, &$current_user, &$log)
     {
         $broken_filename_footprints = array();
         $root_footprint = new Footprint($database, $current_user, $log, 0);
-        $all_footprints = $root_footprint->get_subelements(true);
+        $all_footprints = $root_footprint->getSubelements(true);
 
         foreach ($all_footprints as $footprint) {
-            if (! $footprint->is_filename_valid()) {
+            if (! $footprint->isFilenameValid()) {
                 $broken_filename_footprints[] = $footprint;
             }
         }
@@ -303,14 +303,14 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @throws Exception if there was an error
      */
-    public static function get_broken_3d_filename_footprints(&$database, &$current_user, &$log)
+    public static function getBroken3dFilenameFootprints(&$database, &$current_user, &$log)
     {
         $broken_filename_footprints = array();
         $root_footprint = new Footprint($database, $current_user, $log, 0);
-        $all_footprints = $root_footprint->get_subelements(true);
+        $all_footprints = $root_footprint->getSubelements(true);
 
         foreach ($all_footprints as $footprint) {
-            if (! $footprint->is_3d_filename_valid()) {
+            if (! $footprint->is3dFilenameValid()) {
                 $broken_filename_footprints[] = $footprint;
             }
         }
@@ -340,7 +340,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      */
     public static function add(&$database, &$current_user, &$log, $name, $parent_id, $filename = '', $filename_3d = '')
     {
-        return parent::add_via_array(
+        return parent::addByArray(
             $database,
             $current_user,
             $log,
@@ -356,7 +356,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
-        return parent::search_table($database, $current_user, $log, 'footprints', $keyword, $exact_match);
+        return parent::searchTable($database, $current_user, $log, 'footprints', $keyword, $exact_match);
     }
 
     /**
@@ -364,20 +364,20 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
      */
-    public function get_API_array($verbose = false)
+    public function getAPIArray($verbose = false)
     {
-        $json =  array( "id" => $this->get_id(),
-            "name" => $this->get_name(),
-            "fullpath" => $this->get_full_path("/"),
-            "parentid" => $this->get_parent_id(),
-            "level" => $this->get_level()
+        $json =  array( "id" => $this->getID(),
+            "name" => $this->getName(),
+            "fullpath" => $this->getFullPath("/"),
+            "parentid" => $this->getParentID(),
+            "level" => $this->getLevel()
         );
 
         if ($verbose == true) {
-            $ver = array("filename" => $this->get_filename(false),
-                "filename_valid" => $this->is_filename_valid(),
-                "filename3d" => $this->get_3d_filename(),
-                "filename3d_valid" => $this->is_3d_filename_valid());
+            $ver = array("filename" => $this->getFilename(false),
+                "filename_valid" => $this->isFilenameValid(),
+                "filename3d" => $this->get3dFilename(),
+                "filename3d_valid" => $this->is3dFilenameValid());
             return array_merge($json, $ver);
         }
         return $json;

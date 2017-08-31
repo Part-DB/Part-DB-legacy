@@ -131,7 +131,7 @@ try {
     $current_user       = new User($database, $current_user, $log, 1); // admin
     $root_device        = new Device($database, $current_user, $log, 0);
     $device             = new Device($database, $current_user, $log, $device_id);
-    $subdevices         = $device->get_subelements(false);
+    $subdevices         = $device->getSubelements(false);
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -148,7 +148,7 @@ if (! $fatal_error) {
         case 'show_searched_parts': // show the search results for adding parts to this device
             try {
                 // search parts by name and description
-                $searched_parts = Part::search_parts(
+                $searched_parts = Part::searchParts(
                     $database,
                     $current_user,
                     $log,
@@ -164,9 +164,9 @@ if (! $fatal_error) {
                     false
                 );
 
-                $searched_parts_loop = Part::build_template_table_array($searched_parts, 'searched_device_parts');
-                $html->set_variable('searched_parts_rowcount', count($searched_parts), 'integer');
-                $html->set_variable('no_searched_parts_found', (count($searched_parts) == 0), 'integer');
+                $searched_parts_loop = Part::buildTemplateTableArray($searched_parts, 'searched_device_parts');
+                $html->setVariable('searched_parts_rowcount', count($searched_parts), 'integer');
+                $html->setVariable('no_searched_parts_found', (count($searched_parts) == 0), 'integer');
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -212,7 +212,7 @@ if (! $fatal_error) {
                     $device_part = new DevicePart($database, $current_user, $log, $part_id);
 
                     if ($quantity > 0) {
-                        $device_part->set_attributes(array('quantity' => $quantity, 'mountnames' => $mountname));
+                        $device_part->setAttributes(array('quantity' => $quantity, 'mountnames' => $mountname));
                     } else {
                         $device_part->delete();
                     } // remove the part from this device
@@ -228,7 +228,7 @@ if (! $fatal_error) {
 
         case 'book_parts': // book parts from this device (decrease "instock" of all parts in this device)
             try {
-                $device->book_parts($export_multiplier);
+                $device->bookParts($export_multiplier);
                 $reload_site = true;
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -237,8 +237,8 @@ if (! $fatal_error) {
 
         case 'add_order': // mark this device as "to order" (then the parts of this device will be shown in "parts to order")
             try {
-                $device->set_order_quantity($export_multiplier);
-                $device->set_order_only_missing_parts(isset($_REQUEST['add_order_only_missing']));
+                $device->setOrderQuantity($export_multiplier);
+                $device->setOrderOnlyMissingParts(isset($_REQUEST['add_order_only_missing']));
                 $reload_site = true;
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -248,7 +248,7 @@ if (! $fatal_error) {
         case 'copy_device': // make a copy of this device (including all parts)
             try {
                 $device->copy($copy_new_name, $copy_new_parent_id, $copy_recursive);
-                $html->set_variable('refresh_navigation_frame', true, 'boolean');
+                $html->setVariable('refresh_navigation_frame', true, 'boolean');
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -256,13 +256,14 @@ if (! $fatal_error) {
 
         case 'export':
             try {
-                $device_parts = $device->get_parts();
+                $device_parts = $device->getParts();
 
                 if ($export_only_missing) {
                     foreach ($device_parts as $key => $devicepart) {
-                        $needed = $devicepart->get_mount_quantity() * $export_multiplier;
-                        $instock = $devicepart->get_part()->get_instock();
-                        $mininstock = $devicepart->get_part()->get_mininstock();
+                        /** @var DevicePart $devicepart */
+                        $needed = $devicepart->getMountQuantity() * $export_multiplier;
+                        $instock = $devicepart->getPart()->getInstock();
+                        $mininstock = $devicepart->getPart()->getMinInstock();
 
                         if ($instock - $needed >= $mininstock) {
                             unset($device_parts[$key]);
@@ -271,12 +272,12 @@ if (! $fatal_error) {
                 }
 
                 $download = isset($_REQUEST['export_download']);
-                $export_string = export_parts(
+                $export_string = exportParts(
                     $device_parts,
                     'deviceparts',
                     $export_format_id,
                     $download,
-                    'deviceparts_'.$device->get_name(),
+                    'deviceparts_'.$device->getName(),
                     array('export_quantity' => $export_multiplier)
                 );
             } catch (Exception $e) {
@@ -286,9 +287,9 @@ if (! $fatal_error) {
 
         case 'import_readtext':
             try {
-                $import_data = import_text_to_array($import_file_content, $import_format, $import_separator);
-                match_devicepart_names_to_ids($database, $current_user, $log, $import_data);
-                $import_loop = build_deviceparts_import_template_loop($database, $current_user, $log, $import_data);
+                $import_data = importTextToArray($import_file_content, $import_format, $import_separator);
+                matchDevicepartNamesToIds($database, $current_user, $log, $import_data);
+                $import_loop = buildDevicepartsImportTemplateLoop($database, $current_user, $log, $import_data);
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -297,10 +298,10 @@ if (! $fatal_error) {
         case 'import':
             $only_check_data = isset($_REQUEST['check_import_data']);
             try {
-                $import_data = extract_import_data_from_request($import_rowcount);
-                $import_loop = build_deviceparts_import_template_loop($database, $current_user, $log, $import_data);
+                $import_data = extractImportDataFromRequest($import_rowcount);
+                $import_loop = buildDevicepartsImportTemplateLoop($database, $current_user, $log, $import_data);
 
-                import_device_parts($database, $current_user, $log, $device->get_id(), $import_data, $only_check_data);
+                importDeviceParts($database, $current_user, $log, $device->getID(), $import_data, $only_check_data);
                 $import_data_is_valid = true; // no exception in "import_device_parts()", so the data is valid
 
                 if (! $only_check_data) {
@@ -334,16 +335,16 @@ if (! $fatal_error) {
         foreach ($subdevices as $subdevice) {
             $subdevices_loop[] = array(
                 'row_odd'               => $row_odd,
-                'id'                    => $subdevice->get_id(),
-                'name'                  => $subdevice->get_name(),
-                'parts_count'           => $subdevice->get_parts_count(),
-                'parts_sum_count'       => $subdevice->get_parts_sum_count(),
-                'sum_price'             => $subdevice->get_total_price(true, false)
+                'id'                    => $subdevice->getID(),
+                'name'                  => $subdevice->getName(),
+                'parts_count'           => $subdevice->getPartsCount(),
+                'parts_sum_count'       => $subdevice->getPartsSumCount(),
+                'sum_price'             => $subdevice->getTotalPrice(true, false)
             );
 
             $row_odd = ! $row_odd;
         }
-        $html->set_loop('subdevices', $subdevices_loop);
+        $html->setLoop('subdevices', $subdevices_loop);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -358,12 +359,12 @@ if (! $fatal_error) {
 
 if (! $fatal_error) {
     try {
-        $device_parts = $device->get_parts();
+        $device_parts = $device->getParts();
         // don't forget: $device_parts contains "DevicePart"-objects, not "Part"-objects!!
-        $device_parts_loop = DevicePart::build_template_table_array($device_parts, 'device_parts');
+        $device_parts_loop = DevicePart::buildTemplateTableArray($device_parts, 'device_parts');
 
-        $html->set_variable('device_parts_rowcount', count($device_parts), 'integer');
-        $html->set_variable('sum_price', $device->get_total_price(true, false), 'string');
+        $html->setVariable('device_parts_rowcount', count($device_parts), 'integer');
+        $html->setVariable('sum_price', $device->getTotalPrice(true, false), 'string');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -377,38 +378,38 @@ if (! $fatal_error) {
  *********************************************************************************/
 if (! $fatal_error) {
     // global stuff
-    $html->set_variable('disable_footprints', $config['footprints']['disable'], 'boolean');
-    $html->set_variable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
-    $html->set_variable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
+    $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
+    $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+    $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-    $html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->set_variable('popup_width', $config['popup']['width'], 'integer');
-    $html->set_variable('popup_height', $config['popup']['height'], 'integer');
+    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
+    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 
     // device stuff
-    $html->set_variable('device_id', $device->get_id(), 'integer');
-    $html->set_variable('device_name', $device->get_name(), 'string');
+    $html->setVariable('device_id', $device->getID(), 'integer');
+    $html->setVariable('device_name', $device->getName(), 'string');
 
-    $parent_device_list = $root_device->build_html_tree($device->get_parent_id(), true, true);
-    $html->set_variable('parent_device_list', $parent_device_list, 'string');
+    $parent_device_list = $root_device->buildHtmlTree($device->getParentID(), true, true);
+    $html->setVariable('parent_device_list', $parent_device_list, 'string');
 
     // export stuff
-    $html->set_variable('export_multiplier', $export_multiplier_original, 'integer');
-    $html->set_variable('order_quantity', $device->get_order_quantity(), 'integer');
-    $html->set_variable('order_only_missing_parts', $device->get_order_only_missing_parts(), 'boolean');
-    $html->set_variable('export_only_missing', $export_only_missing, 'boolean');
-    $html->set_loop('export_formats', build_export_formats_loop('deviceparts', $export_format_id));
+    $html->setVariable('export_multiplier', $export_multiplier_original, 'integer');
+    $html->setVariable('order_quantity', $device->getOrderQuantity(), 'integer');
+    $html->setVariable('order_only_missing_parts', $device->getOrderOnlyMissingParts(), 'boolean');
+    $html->setVariable('export_only_missing', $export_only_missing, 'boolean');
+    $html->setLoop('export_formats', buildExportFormatsLoop('deviceparts', $export_format_id));
     if (isset($export_string)) {
-        $html->set_variable('export_result', str_replace("\n", '<br>', str_replace("\n  ", '<br>&nbsp;&nbsp;',   // yes, this is quite ugly,
+        $html->setVariable('export_result', str_replace("\n", '<br>', str_replace("\n  ", '<br>&nbsp;&nbsp;',   // yes, this is quite ugly,
             str_replace("\n    ", '<br>&nbsp;&nbsp;&nbsp;&nbsp;',               // but the result is pretty ;-)
                 htmlspecialchars($export_string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')))), 'string');
     }
 
     // import stuff
-    $html->set_variable('import_rowcount', (isset($import_data) ? count($import_data) : 0), 'integer');
-    $html->set_variable('import_file_content', $import_file_content, 'string');
-    $html->set_variable('import_format', $import_format, 'string');
-    $html->set_variable('import_separator', $import_separator, 'string');
+    $html->setVariable('import_rowcount', (isset($import_data) ? count($import_data) : 0), 'integer');
+    $html->setVariable('import_file_content', $import_file_content, 'string');
+    $html->setVariable('import_format', $import_format, 'string');
+    $html->setVariable('import_separator', $import_separator, 'string');
     //$html->set_variable('import_data_is_valid',     (isset($import_data_is_valid) && ($import_data_is_valid)), 'boolean');
 }
 
@@ -421,31 +422,31 @@ if (! $fatal_error) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
 $reload_link = $fatal_error ? 'show_device_parts.php?devid='.$device_id : ''; // an empty string means that the...
-$html->print_header($messages, $reload_link);                                 // ...reload-button won't be visible
+$html->printHeader($messages, $reload_link);                                 // ...reload-button won't be visible
 
 if (! $fatal_error) {
     if ((count($subdevices_loop) > 0) || ($device_id == 0)) {
-        $html->print_template('subdevices');
+        $html->printTemplate('subdevices');
     }
 
     if ($device_id > 0) {
-        $html->set_loop('table', (isset($searched_parts_loop) ? $searched_parts_loop : array()));
-        $html->print_template('add_parts');
+        $html->setLoop('table', (isset($searched_parts_loop) ? $searched_parts_loop : array()));
+        $html->printTemplate('add_parts');
 
-        $html->set_loop('table', $device_parts_loop);
-        $html->print_template('device_parts');
+        $html->setLoop('table', $device_parts_loop);
+        $html->printTemplate('device_parts');
 
-        $html->print_template('export');
+        $html->printTemplate('export');
 
-        $html->set_loop('table', (isset($import_loop) ? $import_loop : array()));
-        $html->print_template('import');
+        $html->setLoop('table', (isset($import_loop) ? $import_loop : array()));
+        $html->printTemplate('import');
 
-        $html->print_template('copy_device');
+        $html->printTemplate('copy_device');
     }
 }
 
-$html->print_footer();
+$html->printFooter();

@@ -81,12 +81,12 @@ class DevicePart extends Base\DBElement
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function reset_attributes($all = false)
+    public function resetAttributes($all = false)
     {
         $this->device = null;
         $this->part = null;
 
-        parent::reset_attributes($all);
+        parent::resetAttributes($all);
     }
 
     /********************************************************************************
@@ -102,7 +102,7 @@ class DevicePart extends Base\DBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_device()
+    public function getDevice()
     {
         if (! is_object($this->device)) {
             $this->device = new Device(
@@ -123,7 +123,7 @@ class DevicePart extends Base\DBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_part()
+    public function getPart()
     {
         if (! is_object($this->part)) {
             $this->part = new Part(
@@ -142,7 +142,7 @@ class DevicePart extends Base\DBElement
      *
      * @return integer      the mount quantity
      */
-    public function get_mount_quantity()
+    public function getMountQuantity()
     {
         return $this->db_data['quantity'];
     }
@@ -154,7 +154,7 @@ class DevicePart extends Base\DBElement
      *
      * @return string       the mountname(s)
      */
-    public function get_mount_names()
+    public function getMountNames()
     {
         return $this->db_data['mountnames'];
     }
@@ -173,9 +173,9 @@ class DevicePart extends Base\DBElement
      * @throws Exception if the mount quantity is not valid
      * @throws Exception if there was an error
      */
-    public function set_mount_quantity($new_mount_quantity)
+    public function setMountQuantity($new_mount_quantity)
     {
-        $this->set_attributes(array('quantity' => $new_mount_quantity));
+        $this->setAttributes(array('quantity' => $new_mount_quantity));
     }
 
     /**
@@ -187,9 +187,9 @@ class DevicePart extends Base\DBElement
      *
      * @throws Exception if there was an error
      */
-    public function set_mount_names($new_mount_names)
+    public function setMountNames($new_mount_names)
     {
-        $this->set_attributes(array('mountnames' => $new_mount_names));
+        $this->setAttributes(array('mountnames' => $new_mount_names));
     }
 
     /********************************************************************************
@@ -201,19 +201,19 @@ class DevicePart extends Base\DBElement
     /**
      * @copydoc Part::build_template_table_row_array()
      */
-    public function build_template_table_row_array($table_type, $row_index, $additional_values = array())
+    public function buildTemplateTableRowArray($table_type, $row_index, $additional_values = array())
     {
         //$single_prices = $this->get_part()->get_prices(false, '<br>', $this->get_mount_quantity(), 1);
         //$total_prices = $this->get_part()->get_prices(false, '<br>', $this->get_mount_quantity());
 
         $single_prices_loop = array();
-        foreach ($this->get_part()->get_prices(false, null, $this->get_mount_quantity(), 1, true) as $price) { // prices from obsolete orderdetails will not be shown
+        foreach ($this->getPart()->getPrices(false, null, $this->getMountQuantity(), 1, true) as $price) { // prices from obsolete orderdetails will not be shown
             $single_prices_loop[] = array(  'row_index'     => $row_index,
                 'single_price'  => $price);
         }
 
         $total_prices_loop = array();
-        foreach ($this->get_part()->get_prices(false, null, $this->get_mount_quantity(), null, true) as $price) { // prices from obsolete orderdetails will not be shown
+        foreach ($this->getPart()->getPrices(false, null, $this->getMountQuantity(), null, true) as $price) { // prices from obsolete orderdetails will not be shown
             $total_prices_loop[] = array(   'row_index'     => $row_index,
                 'total_price'   => $price);
         }
@@ -221,21 +221,21 @@ class DevicePart extends Base\DBElement
         // We override "not_enought_instock" from the class Part, because here it's less relevant
         // if the part should be ordered (instock < mininstock). More importand is to know if
         // there are enought parts instock to build the device (instock < [mount]quantity)!
-        $not_enought_instock = ($this->get_mount_quantity() > $this->get_part()->get_instock());
+        $not_enought_instock = ($this->getMountQuantity() > $this->getPart()->getInstock());
 
         $additional_values = array(
-            'id'                    => array('id'                   => $this->get_id()),
+            'id'                    => array('id'                   => $this->getID()),
             'single_prices'         => array('single_prices'        => $single_prices_loop),
             'total_prices'          => array('total_prices'         => $total_prices_loop),
-            'mountnames'            => array('mountnames'           => $this->get_mount_names()),
-            'mountnames_edit'       => array('mountnames'           => $this->get_mount_names()),
-            'quantity'              => array('quantity'             => $this->get_mount_quantity()),
-            'quantity_edit'         => array('quantity'             => $this->get_mount_quantity()),
+            'mountnames'            => array('mountnames'           => $this->getMountNames()),
+            'mountnames_edit'       => array('mountnames'           => $this->getMountNames()),
+            'quantity'              => array('quantity'             => $this->getMountQuantity()),
+            'quantity_edit'         => array('quantity'             => $this->getMountQuantity()),
             'instock'               => array('not_enought_instock'  => $not_enought_instock),
             'instock_mininstock'    => array('not_enought_instock'  => $not_enought_instock));
 
-        $table_row = $this->get_part()->build_template_table_row_array($table_type, $row_index, $additional_values);
-        $table_row['id'] = $this->get_id(); // we want the DevicePart ID, not the Part ID!!
+        $table_row = $this->getPart()->buildTemplateTableRowArray($table_type, $row_index, $additional_values);
+        $table_row['id'] = $this->getID(); // we want the DevicePart ID, not the Part ID!!
 
         return $table_row;
     }
@@ -243,9 +243,9 @@ class DevicePart extends Base\DBElement
     /**
      * @copydoc Part::build_template_table_array()
      */
-    public static function build_template_table_array($parts, $table_type)
+    public static function buildTemplateTableArray($parts, $table_type)
     {
-        return Part::build_template_table_array($parts, $table_type);
+        return Part::buildTemplateTableArray($parts, $table_type);
     }
 
     /********************************************************************************
@@ -257,10 +257,10 @@ class DevicePart extends Base\DBElement
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
-        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
+        parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // check "id_device"
         try {
@@ -318,7 +318,7 @@ class DevicePart extends Base\DBElement
      *
      * @throws Exception if there was an error
      */
-    public static function get_device_part(&$database, &$current_user, &$log, $device_id, $part_id)
+    public static function getDevicePart(&$database, &$current_user, &$log, $device_id, $part_id)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -349,7 +349,7 @@ class DevicePart extends Base\DBElement
      *
      * @throws Exception if there was an error
      */
-    public static function get_order_device_parts(&$database, &$current_user, &$log, $part_id = null)
+    public static function getOrderDeviceParts(&$database, &$current_user, &$log, $part_id = null)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
@@ -411,7 +411,7 @@ class DevicePart extends Base\DBElement
         $mountnames = '',
         $increase_if_exist = false
     ) {
-        $existing_devicepart = DevicePart::get_device_part($database, $current_user, $log, $device_id, $part_id);
+        $existing_devicepart = DevicePart::getDevicePart($database, $current_user, $log, $device_id, $part_id);
         if (is_object($existing_devicepart)) {
             if ($increase_if_exist) {
                 if (((! is_int($quantity)) && (! ctype_digit($quantity))) || ($quantity < 0)) {
@@ -419,9 +419,9 @@ class DevicePart extends Base\DBElement
                     throw new Exception(_('Die Bestückungs-Anzahl ist ungültig!'));
                 }
 
-                $quantity = $existing_devicepart->get_mount_quantity() + $quantity;
+                $quantity = $existing_devicepart->getMountQuantity() + $quantity;
 
-                $old_mountnames = $existing_devicepart->get_mount_names();
+                $old_mountnames = $existing_devicepart->getMountNames();
                 if (strlen($mountnames) > 0) {
                     if (strlen($old_mountnames) > 0) {
                         $mountnames = $old_mountnames . ', ' . $mountnames;
@@ -430,7 +430,7 @@ class DevicePart extends Base\DBElement
                     $mountnames = $old_mountnames;
                 }
 
-                $existing_devicepart->set_attributes(array( 'quantity'      => $quantity,
+                $existing_devicepart->setAttributes(array( 'quantity'      => $quantity,
                     'mountnames'    => $mountnames));
 
                 return $existing_devicepart;
@@ -439,12 +439,12 @@ class DevicePart extends Base\DBElement
                 $part = new Part($database, $current_user, $log, $part_id);
 
                 throw new Exception(sprintf(_('Die Baugruppe "%1$s"'.
-                    ' enthält bereits das Bauteil "%2$s"!'), $device->get_name(), $part->get_name()));
+                    ' enthält bereits das Bauteil "%2$s"!'), $device->getName(), $part->getName()));
             }
         }
 
         // there is no such DevicePart, so we will create it
-        return parent::add_via_array(
+        return parent::addByArray(
             $database,
             $current_user,
             $log,

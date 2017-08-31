@@ -160,7 +160,7 @@ function debug($type, $text, $file = '', $line = '', $method = '', $silent = tru
  *
  * @throws Exception if there was an error (maybe no permissions)
  */
-function create_debug_log_file()
+function createDebugLogFile()
 {
     $dom = new DOMDocument('1.0', 'utf-8');
     $dom->formatOutput = true;
@@ -177,7 +177,7 @@ function create_debug_log_file()
  *
  * @throws Exception if there was an error (maybe no permissions)
  */
-function delete_debug_log_file()
+function deleteDebugLogFile()
 {
     if (! file_exists(DEBUG_LOG_FILENAME)) {
         return;
@@ -204,11 +204,11 @@ function delete_debug_log_file()
  *
  * @throws Exception if there was an error (maybe no file or no read permissions)
  */
-function get_debug_log_elements($types = null)
+function getDebugLogElements($types = null)
 {
     if (! is_readable(DEBUG_LOG_FILENAME)) {
         //throw new Exception('Es existiert kein Debug-Log!');
-        create_debug_log_file();
+        createDebugLogFile();
     }
 
     $dom = new DOMDocument('1.0', 'utf-8');
@@ -252,10 +252,10 @@ function get_debug_log_elements($types = null)
  *
  * @throws Exception if there was an error (maybe no file or no read permissions)
  */
-function get_all_debug_types()
+function getAllDebugTypes()
 {
     $types = array();
-    $logs = get_debug_log_elements();
+    $logs = getDebugLogElements();
 
     foreach ($logs as $log) {
         if (! in_array((string)$log['type'], $types)) {
@@ -285,7 +285,7 @@ function get_all_debug_types()
  *
  * @throws Exception if there was an error (maybe wrong password)
  */
-function set_debug_enable($new_enable, $admin_password = null)
+function setDebugEnable($new_enable, $admin_password = null)
 {
     global $config;
 
@@ -298,7 +298,7 @@ function set_debug_enable($new_enable, $admin_password = null)
         $config['debug']['template_debugging_enable'] = false;
         $config['debug']['request_debugging_enable'] = false;
         try {
-            save_config();
+            saveConfig();
         } catch (Exception $e) {
             $config['debug']['enable'] = true;
             throw $e;
@@ -309,18 +309,18 @@ function set_debug_enable($new_enable, $admin_password = null)
 
     // to activate the debug log, we have to check the admin password.
     // or, for online demos, it's allowed to activate debugging for everyone.
-    if ((! is_admin_password($admin_password)) && (! $config['is_online_demo'])) {
+    if ((! isAdminPassword($admin_password)) && (! $config['is_online_demo'])) {
         throw new Exception('Das Passwort ist nicht korrekt!');
     }
 
     // create new debug log file if it does not exist already
     if (! is_readable(DEBUG_LOG_FILENAME)) {
-        create_debug_log_file();
+        createDebugLogFile();
     }
 
     $config['debug']['enable'] = true;
     try {
-        save_config();
+        saveConfig();
     } catch (Exception $e) {
         $config['debug']['enable'] = false;
         throw $e;

@@ -91,9 +91,9 @@ if (isset($reload_site) && $reload_site && (! $config['debug']['request_debuggin
 
 if (! $fatal_error) {
     try {
-        $parts = Part::get_obsolete_parts($database, $current_user, $log, $show_no_orderdetails_parts);
-        $table_loop = Part::build_template_table_array($parts, 'obsolete_parts');
-        $html->set_loop('table', $table_loop);
+        $parts = Part::getObsoleteParts($database, $current_user, $log, $show_no_orderdetails_parts);
+        $table_loop = Part::buildTemplateTableArray($parts, 'obsolete_parts');
+        $html->setLoop('table', $table_loop);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -108,16 +108,16 @@ if (! $fatal_error) {
 
 if (! $fatal_error) {
     // obsolete parts
-    $html->set_variable('show_no_orderdetails_parts', $show_no_orderdetails_parts, 'boolean');
+    $html->setVariable('show_no_orderdetails_parts', $show_no_orderdetails_parts, 'boolean');
 
     // global stuff
-    $html->set_variable('disable_footprints', $config['footprints']['disable'], 'boolean');
-    $html->set_variable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
-    $html->set_variable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
+    $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
+    $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+    $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-    $html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->set_variable('popup_width', $config['popup']['width'], 'integer');
-    $html->set_variable('popup_height', $config['popup']['height'], 'integer');
+    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
+    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 }
 
 /********************************************************************************
@@ -129,13 +129,13 @@ if (! $fatal_error) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
-$html->print_header($messages);
+$html->printHeader($messages);
 
 if (! $fatal_error) {
-    $html->print_template('show_obsolete_parts');
+    $html->printTemplate('show_obsolete_parts');
 }
 
-$html->print_footer();
+$html->printFooter();

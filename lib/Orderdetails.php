@@ -87,13 +87,13 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function reset_attributes($all = false)
+    public function resetAttributes($all = false)
     {
         $this->part             = null;
         $this->supplier         = null;
         $this->pricedetails     = null;
 
-        parent::reset_attributes($all);
+        parent::resetAttributes($all);
     }
 
     /********************************************************************************
@@ -110,21 +110,22 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     public function delete()
     {
         try {
-            $transaction_id = $this->database->begin_transaction(); // start transaction
+            $transaction_id = $this->database->beginTransaction(); // start transaction
 
             // Delete all Pricedetails
-            $all_pricedetails = array_reverse($this->get_pricedetails()); // the last one must be deleted first!
-            $this->reset_attributes(); // set $this->pricedetails to NULL
+            $all_pricedetails = array_reverse($this->getPricedetails()); // the last one must be deleted first!
+            $this->resetAttributes(); // set $this->pricedetails to NULL
             foreach ($all_pricedetails as $pricedetails) {
+                /** @var Pricedetails $pricedetails */
                 $pricedetails->delete();
             }
 
             // Check if this Orderdetails is the Part's selected Orderdetails for ordering and delete this reference if neccessary
-            $order_orderdetails = $this->get_part()->get_order_orderdetails();
-            if (is_object($order_orderdetails) && ($order_orderdetails->get_id() == $this->get_id())) {
-                $this->get_part()->set_order_orderdetails_id(null);
+            $order_orderdetails = $this->getPart()->getOrderOrderdetails();
+            if (is_object($order_orderdetails) && ($order_orderdetails->getID() == $this->getID())) {
+                $this->getPart()->setOrderOrderdetailsID(null);
             } else {
-                $this->get_part()->set_attributes(array());
+                $this->getPart()->setAttributes(array());
             } // save part attributes to update its "last_modified"
 
             // now we can delete this orderdetails
@@ -135,7 +136,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
             $this->database->rollback(); // rollback transaction
 
             // restore the settings from BEFORE the transaction
-            $this->reset_attributes();
+            $this->resetAttributes();
 
             throw new Exception("Die Einkaufsinformationen konnten nicht gelöscht werden!\nGrund: " . $e->getMessage());
         }
@@ -154,7 +155,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function get_part()
+    public function getPart()
     {
         if (! is_object($this->part)) {
             $this->part = new Part(
@@ -175,7 +176,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function get_supplier()
+    public function getSupplier()
     {
         if (! is_object($this->supplier)) {
             $this->supplier = new Supplier(
@@ -194,7 +195,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @return string       the part-nr.
      */
-    public function get_supplierpartnr()
+    public function getSupplierPartNr()
     {
         return $this->db_data['supplierpartnr'];
     }
@@ -208,7 +209,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @return boolean      @li true if this part is obsolete at that supplier
      *                      @li false if this part isn't obsolete at that supplier
      */
-    public function get_obsolete()
+    public function getObsolete()
     {
         return $this->db_data['obsolete'];
     }
@@ -218,13 +219,12 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @return string           the link to the article
      */
-    public function get_supplier_product_url()
+    public function getSupplierProductUrl()
     {
         if (strlen($this->db_data['supplier_product_url']) > 0) {
             return $this->db_data['supplier_product_url'];
-        }  // a manual url is available
-        else {
-            return $this->get_supplier()->get_auto_product_url($this->db_data['supplierpartnr']);
+        } else {
+            return $this->getSupplier()->getAutoProductUrl($this->db_data['supplierpartnr']);
         } // maybe an automatic url is available...
     }
 
@@ -236,7 +236,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function get_pricedetails()
+    public function getPricedetails()
     {
         if (! is_array($this->pricedetails)) {
             $this->pricedetails = array();
@@ -245,7 +245,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
                 'WHERE orderdetails_id=? '.
                 'ORDER BY min_discount_quantity ASC';
 
-            $query_data = $this->database->query($query, array($this->get_id()));
+            $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
                 $this->pricedetails[] = new Pricedetails($this->database, $this->current_user, $this->log, $row['id'], $row);
@@ -273,23 +273,23 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *          but the choosed quantity is '5' --> the price for 5 parts is not defined!)
      * @throws Exception if there was an error
      *
-     * @see float_to_money_string()
+     * @see floatToMoneyString()
      */
-    public function get_price($as_money_string = false, $quantity = 1, $multiplier = null)
+    public function getPrice($as_money_string = false, $quantity = 1, $multiplier = null)
     {
         if (($quantity == 0) && ($multiplier === null)) {
             if ($as_money_string) {
-                return float_to_money_string(0);
+                return floatToMoneyString(0);
             } else {
                 return 0;
             }
         }
 
-        $all_pricedetails = $this->get_pricedetails();
+        $all_pricedetails = $this->getPricedetails();
 
         if (count($all_pricedetails) == 0) {
             if ($as_money_string) {
-                return float_to_money_string(null);
+                return floatToMoneyString(null);
             } else {
                 return null;
             }
@@ -297,7 +297,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
 
         foreach ($all_pricedetails as $pricedetails) {
             // choose the correct pricedetails for the choosed quantity ($quantity)
-            if ($quantity < $pricedetails->get_min_discount_quantity()) {
+            if ($quantity < $pricedetails->getMinDiscountQuantity()) {
                 break;
             }
 
@@ -312,7 +312,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
             $multiplier = $quantity;
         }
 
-        return $correct_pricedetails->get_price($as_money_string, $multiplier);
+        return $correct_pricedetails->getPrice($as_money_string, $multiplier);
     }
 
     /********************************************************************************
@@ -329,9 +329,9 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @throws Exception if the new supplier ID is not valid
      * @throws Exception if there was an error
      */
-    public function set_supplier_id($new_supplier_id)
+    public function setSupplierId($new_supplier_id)
     {
-        $this->set_attributes(array('id_supplier' => $new_supplier_id));
+        $this->setAttributes(array('id_supplier' => $new_supplier_id));
     }
 
     /**
@@ -341,9 +341,9 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function set_supplierpartnr($new_supplierpartnr)
+    public function setSupplierpartnr($new_supplierpartnr)
     {
-        $this->set_attributes(array('supplierpartnr' => $new_supplierpartnr));
+        $this->setAttributes(array('supplierpartnr' => $new_supplierpartnr));
     }
 
     /**
@@ -353,9 +353,9 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function set_obsolete($new_obsolete)
+    public function setObsolete($new_obsolete)
     {
-        $this->set_attributes(array('obsolete' => $new_obsolete));
+        $this->setAttributes(array('obsolete' => $new_obsolete));
     }
 
     /********************************************************************************
@@ -367,10 +367,10 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
-        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
+        parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set the datetype of the boolean attributes
         settype($values['obsolete'], 'boolean');
@@ -378,7 +378,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
         // check "part_id"
         try {
             $part = new Part($database, $current_user, $log, $values['part_id']);
-            $part->set_attributes(array()); // save part attributes to update its "last_modified"
+            $part->setAttributes(array()); // save part attributes to update its "last_modified"
         } catch (Exception $e) {
             debug(
                 'error',
@@ -438,7 +438,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
         $supplierpartnr = '',
         $obsolete = false
     ) {
-        return parent::add_via_array(
+        return parent::addByArray(
             $database,
             $current_user,
             $log,
@@ -455,17 +455,17 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
      */
-    public function get_API_array($verbose = false)
+    public function getAPIArray($verbose = false)
     {
-        $json =  array( "id" => $this->get_id(),
-            "supplierpartnr" => $this->get_supplierpartnr()
+        $json =  array( "id" => $this->getID(),
+            "supplierpartnr" => $this->getSupplierPartNr()
         );
 
         if ($verbose == true) {
-            $ver = array("supplier" => $this->get_supplier()->get_API_array(),
-                "obsolete" => $this->get_obsolete() == true,
-                "supplier_product_url" => $this->get_supplier_product_url(),
-                "pricedetails" => convert_APIModel_array($this->get_pricedetails(), true));
+            $ver = array("supplier" => $this->getSupplier()->getAPIArray(),
+                "obsolete" => $this->getObsolete() == true,
+                "supplier_product_url" => $this->getSupplierProductUrl(),
+                "pricedetails" => convertAPIModelArray($this->getPricedetails(), true));
             return array_merge($json, $ver);
         }
         return $json;

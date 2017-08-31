@@ -28,6 +28,7 @@ class PartLabel
     private $log;
     private $pid;
     private $type = 0;
+    /** @var  Part $part */
     private $part;
     private $footprint;
     private $storelocation;
@@ -51,7 +52,7 @@ class PartLabel
         $this->log = $log;
         $this->lines = array();
         if (isset($pid)) {
-            $this->set_pid($pid);
+            $this->setPid($pid);
         }
     }
 
@@ -65,7 +66,7 @@ class PartLabel
      * Gets the current label type. Compare with PartLabel::TYPE_*
      * @return int the current label type
      */
-    public function get_type()
+    public function getType()
     {
         return $this->type;
     }
@@ -74,7 +75,7 @@ class PartLabel
      * Summary of get_lines
      * @return string[] the current lines
      */
-    public function get_lines()
+    public function getLines()
     {
         return $this->lines;
     }
@@ -86,7 +87,7 @@ class PartLabel
      *
      *********************************************************************************/
 
-    public function set_type($new_type)
+    public function setType($new_type)
     {
         $this->type = $new_type;
     }
@@ -95,26 +96,26 @@ class PartLabel
      * Sets the part id of the label
      * @param mixed $new_pid the id of the new part.
      */
-    public function set_pid($new_pid)
+    public function setPid($new_pid)
     {
         $this->pid = $new_pid;
         $this->part               = new Part($this->database, $this->current_user, $this->log, $this->pid);
-        $this->footprint          = $this->part->get_footprint();
-        $this->storelocation      = $this->part->get_storelocation();
-        $this->manufacturer       = $this->part->get_manufacturer();
-        $this->category           = $this->part->get_category();
-        $this->all_orderdetails   = $this->part->get_orderdetails();
+        $this->footprint          = $this->part->getFootprint();
+        $this->storelocation      = $this->part->getStorelocation();
+        $this->manufacturer       = $this->part->getManufacturer();
+        $this->category           = $this->part->getCategory();
+        $this->all_orderdetails   = $this->part->getOrderdetails();
     }
 
-    public function set_size()
+    public function setSize()
     {
     }
 
-    public function set_lines($new_lines)
+    public function setLines($new_lines)
     {
         $tmp = array();
         foreach ($new_lines as $line) {
-            $tmp[] = replace_placeholder_with_infos($line, $this->part);
+            $tmp[] = replacePlaceholderWithInfos($line, $this->part);
         }
         $this->lines = $tmp;
     }
@@ -125,7 +126,7 @@ class PartLabel
      *
      *********************************************************************************/
 
-    private function build_barcode_config()
+    private function buildBarcodeConfig()
     {
         if (true) { //case S
             $c = array("size" => array(50,30),
@@ -138,7 +139,7 @@ class PartLabel
         return "";
     }
 
-    public function generate_barcode($download = false)
+    public function generateBarcode($download = false)
     {
         // create new PDF document
         $pdf = new TCPDF('L', 'mm', array(50,30), true, 'UTF-8', false);
@@ -146,7 +147,7 @@ class PartLabel
         // set document information
         $pdf->SetCreator(PDF_CREATOR);
         $pdf->SetAuthor('Part-DB');
-        $pdf->SetTitle('PartDB Label: ' . $this->part->get_name() . " (ID: " . $this->part->get_id() . ")");
+        $pdf->SetTitle('PartDB Label: ' . $this->part->getName() . " (ID: " . $this->part->getID() . ")");
         $pdf->SetSubject('Part-DB label with barcode');
 
         // remove default header/footer
@@ -189,22 +190,22 @@ class PartLabel
             'font' => 'helvetica',
             'fontsize' => 8 );
 
-        $pdf->write1DBarcode($this->part->get_barcode_content(), "EAN8", "", "", "", "", "", $style, 'N');
+        $pdf->write1DBarcode($this->part->getBarcodeContent(), "EAN8", "", "", "", "", "", $style, 'N');
 
         //$pdf->write2DBarcode($this->part->get_barcode_content("QR"),"QRCODE,Q");
 
         if ($download) {
-            $pdf->Output('label_'.$this->part->get_id().'.pdf', 'D');
+            $pdf->Output('label_'.$this->part->getID().'.pdf', 'D');
         } else {
             //Close and output PDF document
-            $pdf->Output('label_'.$this->part->get_id().'.pdf', 'I');
+            $pdf->Output('label_'.$this->part->getID().'.pdf', 'I');
         }
     }
 
     /**
      * Returns all presets for lines
      */
-    public function get_line_presets()
+    public function getLinePresets()
     {
         $presets = array();
 
@@ -250,11 +251,11 @@ class PartLabel
      */
     public function generate()
     {
-        $this->generate_barcode();
+        $this->generateBarcode();
     }
 
     public function download()
     {
-        $this->generate_barcode(true);
+        $this->generateBarcode(true);
     }
 }

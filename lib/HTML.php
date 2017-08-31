@@ -138,7 +138,7 @@ class HTML
      *
      * @throws Exception if the parameter is no array
      */
-    public function set_meta($meta = array())
+    public function setMeta($meta = array())
     {
         if (! is_array($meta)) {
             debug('error', '$meta='.print_r($meta, true), __FILE__, __LINE__, __METHOD__);
@@ -155,7 +155,7 @@ class HTML
      * @param string $new_title the new title of the page
      * @throws Exception if the param is not a string or is null
      */
-    public function set_title($new_title)
+    public function setTitle($new_title)
     {
         if (is_null($new_title)) {
             throw new Exception("$new_title must not be null!");
@@ -182,7 +182,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function use_javascript($filenames = array(), $body_onload = '')
+    public function useJavascript($filenames = array(), $body_onload = '')
     {
         if (! is_array($filenames)) {
             debug('error', '$filenames='.print_r($filenames, true), __FILE__, __LINE__, __METHOD__);
@@ -214,7 +214,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function set_variable($key, $value, $type = '')
+    public function setVariable($key, $value, $type = '')
     {
         settype($key, 'string');
         settype($type, 'string');
@@ -244,7 +244,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function set_loop($key, $loop = array())
+    public function setLoop($key, $loop = array())
     {
         settype($key, 'string');
         settype($loop, 'array');
@@ -270,7 +270,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function unset_variable($key)
+    public function unsetVariable($key)
     {
         settype($key, 'string');
 
@@ -289,7 +289,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function unset_loop($key)
+    public function unsetLoop($key)
     {
         settype($key, 'string');
 
@@ -322,9 +322,9 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function print_header($messages = array(), $reload_link = '', $messages_div_title = '', $redirect = false)
+    public function printHeader($messages = array(), $reload_link = '', $messages_div_title = '', $redirect = false)
     {
-        if (PDBDebugBar::is_activated()) {
+        if (PDBDebugBar::isActivated()) {
             PDBDebugBar::getInstance()->sendData();
         }
 
@@ -401,7 +401,7 @@ class HTML
             $tmpl->assign('javascript_files', $javascript_loop);
         }
 
-        if (PDBDebugBar::is_activated()) {
+        if (PDBDebugBar::isActivated()) {
             $renderer = PDBDebugBar::getInstance()->getRenderer();
             $tmpl->assign("debugbar_head", $renderer->renderHead());
         }
@@ -440,7 +440,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function print_template($template, $use_scriptname = true)
+    public function printTemplate($template, $use_scriptname = true)
     {
         global $config;
 
@@ -502,7 +502,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function print_footer($messages = array(), $messages_div_title = '')
+    public function printFooter($messages = array(), $messages_div_title = '')
     {
         global $config;
 
@@ -535,7 +535,7 @@ class HTML
         $tmpl->assign("tracking_code", $config['tracking_code']);
         $tmpl->assign("autorefresh", $this->meta['autorefresh']);
 
-        if (PDBDebugBar::is_activated()) {
+        if (PDBDebugBar::isActivated()) {
             $renderer = PDBDebugBar::getInstance()->getRenderer();
             $tmpl->assign("debugbar_body", $renderer->render(!isset($_REQUEST['ajax_request'])));
         }

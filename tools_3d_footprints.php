@@ -40,14 +40,14 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 
 $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('3D Footprints'));
 
-$dirs = find_all_files(BASE.'/models/', true);
+$dirs = findAllFiles(BASE.'/models/', true);
 
-$html->set_loop("directories", $dir);
+$html->setLoop("directories", $dir);
 
-$html->print_header($messages);
+$html->printHeader($messages);
 
 if (! $fatal_error) {
-    $html->print_template('footprints3d');
+    $html->printTemplate('footprints3d');
 }
 
-$html->print_footer();
+$html->printFooter();

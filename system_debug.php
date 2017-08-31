@@ -37,30 +37,30 @@ if (isset($_REQUEST["add"])) {
     }
 } elseif (isset($_REQUEST["clear"])) {
     try {
-        create_debug_log_file(); // override the existing debug log with a new, empty debug log
+        createDebugLogFile(); // override the existing debug log with a new, empty debug log
     } catch (Exception $exception) {
         $errors[] = $exception->getMessage();
     }
 } elseif (isset($_REQUEST["download"])) {
     if (is_readable(DEBUG_LOG_FILENAME)) {
-        send_file(DEBUG_LOG_FILENAME);
+        sendFile(DEBUG_LOG_FILENAME);
         // TODO: how can we re-activate the autorefresh now?!
     } else {
         $errors[] = _('Die Log-Datei kann nicht gelesen werden!');
     }
 } elseif (isset($_REQUEST["enable"])) {
     try {
-        set_debug_enable(true, $_REQUEST['admin_password']);
+        setDebugEnable(true, $_REQUEST['admin_password']);
         header('Location: system_debug.php');
     } catch (Exception $exception) {
         $errors[] = $exception->getMessage();
     }
 } elseif (isset($_REQUEST["disable"]) || isset($_REQUEST["disable_and_delete"])) {
     try {
-        set_debug_enable(false);
+        setDebugEnable(false);
 
         if (isset($_REQUEST["disable_and_delete"])) {
-            delete_debug_log_file();
+            deleteDebugLogFile();
         }
 
         header('Location: system_debug.php');
@@ -80,16 +80,13 @@ if ($config['debug']['enable'] && (count($errors) == 0) && (! isset($_REQUEST['s
 //Fill template with values
 $html = new HTML($config['html']['theme'], $config['html']['custom_css'], "Debugging");
 
-$html->set_variable("debug_enable", $config['debug']['enable'], "boolean");
-$html->set_variable("autorefresh", $autorefresh, "boolean");
+$html->setVariable("debug_enable", $config['debug']['enable'], "boolean");
+$html->setVariable("autorefresh", $autorefresh, "boolean");
 //$html->set_variable("errors_count", count($errors), "integer");
-$html->set_loop("errors", $errors);
-$html->set_loop("logs", get_debug_log_elements());
+$html->setLoop("errors", $errors);
+$html->setLoop("logs", getDebugLogElements());
 
 // Print template
-$html->print_header();
-$html->print_template("system_debug");
-$html->print_footer();
-
-
-
+$html->printHeader();
+$html->printTemplate("system_debug");
+$html->printFooter();

@@ -56,14 +56,14 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 $selected_id                    = isset($_REQUEST['selected_id'])                   ? (integer)$_REQUEST['selected_id']                     : 0;
 $new_name                       = isset($_REQUEST['name'])                          ? trim((string)$_REQUEST['name'])                       : '';
 $new_parent_id                  = isset($_REQUEST['parent_id'])                     ? (integer)$_REQUEST['parent_id']                       : 0;
-$new_filename                   = isset($_REQUEST['filename'])                      ? to_unix_path(trim((string)$_REQUEST['filename']))     : '';
-$new_3d_filename                = isset($_REQUEST['filename_3d'])                   ? to_unix_path(trim((string)$_REQUEST['filename_3d']))  : '';
+$new_filename                   = isset($_REQUEST['filename'])                      ? toUnixPath(trim((string)$_REQUEST['filename']))     : '';
+$new_3d_filename                = isset($_REQUEST['filename_3d'])                   ? toUnixPath(trim((string)$_REQUEST['filename_3d']))  : '';
 
-if ((strlen($new_filename) > 0) && (! is_path_absolute_and_unix($new_filename))) {
+if ((strlen($new_filename) > 0) && (! isPathabsoluteAndUnix($new_filename))) {
     $new_filename = BASE.'/'.$new_filename;
 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
-if ((strlen($new_3d_filename) > 0) && (! is_path_absolute_and_unix($new_3d_filename))) {
+if ((strlen($new_3d_filename) > 0) && (! isPathabsoluteAndUnix($new_3d_filename))) {
     $new_3d_filename = BASE.'/'.$new_3d_filename;
 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
@@ -148,7 +148,7 @@ if (! $fatal_error) {
 
                 if (! $add_more) {
                     $selected_footprint = $new_footprint;
-                    $selected_id = $selected_footprint->get_id();
+                    $selected_id = $selected_footprint->getID();
                 }
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Der neue Footprint konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
@@ -162,7 +162,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist kein Footprint markiert oder es trat ein Fehler auf!'));
                 }
 
-                $parts = $selected_footprint->get_parts();
+                $parts = $selected_footprint->getParts();
                 $count = count($parts);
 
                 if ($count > 0) {
@@ -170,11 +170,11 @@ if (! $fatal_error) {
                         'daher kann der Footprint nicht gelöscht werden.'), $count), 'strong' => true, 'color' => 'red');
                 } else {
                     $messages[] = array('text' => sprintf(_('Soll der Footprint "%s'.
-                        '" wirklich unwiederruflich gelöscht werden?'), $selected_footprint->get_full_path()), 'strong' => true, 'color' => 'red');
+                        '" wirklich unwiederruflich gelöscht werden?'), $selected_footprint->getFullPath()), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
                     $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Bauteile mit diesem Footprint.'));
                     $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet dieser Footprint noch Unterfootprints, dann werden diese eine Ebene nach oben verschoben.'));
-                    $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_footprint->get_id().'">');
+                    $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_footprint->getID().'">');
                     $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
                     $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Footprint löschen').'">');
                 }
@@ -204,7 +204,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist kein Footprint markiert oder es trat ein Fehler auf!'));
                 }
 
-                $selected_footprint->set_attributes(array(  'name'          => $new_name,
+                $selected_footprint->setAttributes(array(  'name'          => $new_name,
                     'parent_id'     => $new_parent_id,
                     'filename'      => $new_filename,
                     'filename_3d'   => $new_3d_filename));
@@ -218,17 +218,17 @@ if (! $fatal_error) {
             $errors = array();
             for ($i=0; $i < $broken_footprints_count; $i++) {
                 $spf_footprint_id   = isset($_REQUEST['broken_footprint_id_'.$i])  ? $_REQUEST['broken_footprint_id_'.$i] : -1; // -1 will produce an error
-                $spf_new_filename   = isset($_REQUEST['proposed_filename_'.$i])    ? to_unix_path($_REQUEST['proposed_filename_'.$i])   : null;
+                $spf_new_filename   = isset($_REQUEST['proposed_filename_'.$i])    ? toUnixPath($_REQUEST['proposed_filename_'.$i])   : null;
                 $spf_checked        = isset($_REQUEST['filename_checkbox_'.$i])     || $save_all_proposed_filenames;
 
-                if ((strlen($spf_new_filename) > 0) && (! is_path_absolute_and_unix($spf_new_filename))) {
+                if ((strlen($spf_new_filename) > 0) && (! isPathabsoluteAndUnix($spf_new_filename))) {
                     $spf_new_filename = BASE.'/'.$spf_new_filename;
                 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
                 try {
                     if ($spf_checked) {
                         $spf_broken_footprint = new Footprint($database, $current_user, $log, $spf_footprint_id);
-                        $spf_broken_footprint->set_filename($spf_new_filename);
+                        $spf_broken_footprint->setFilename($spf_new_filename);
                     }
                 } catch (Exception $e) {
                     $errors[] = $e->getMessage();
@@ -245,17 +245,17 @@ if (! $fatal_error) {
             $errors = array();
             for ($i=0; $i < $broken_3d_footprints_count; $i++) {
                 $spf_footprint_id   = isset($_REQUEST['broken_3d_footprint_id_'.$i])  ? $_REQUEST['broken_3d_footprint_id_'.$i] : -1; // -1 will produce an error
-                $spf_new_filename   = isset($_REQUEST['proposed_3d_filename_'.$i])    ? to_unix_path($_REQUEST['proposed_3d_filename_'.$i])   : null;
+                $spf_new_filename   = isset($_REQUEST['proposed_3d_filename_'.$i])    ? toUnixPath($_REQUEST['proposed_3d_filename_'.$i])   : null;
                 $spf_checked        = isset($_REQUEST['filename_3d_checkbox_'.$i])     || $save_all_proposed_3d_filenames;
 
-                if ((strlen($spf_new_filename) > 0) && (! is_path_absolute_and_unix($spf_new_filename))) {
+                if ((strlen($spf_new_filename) > 0) && (! isPathabsoluteAndUnix($spf_new_filename))) {
                     $spf_new_filename = BASE.'/'.$spf_new_filename;
                 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
                 try {
                     if ($spf_checked) {
                         $spf_broken_footprint = new Footprint($database, $current_user, $log, $spf_footprint_id);
-                        $spf_broken_footprint->set_3d_filename($spf_new_filename);
+                        $spf_broken_footprint->set3dFilename($spf_new_filename);
                     }
                 } catch (Exception $e) {
                     $errors[] = $e->getMessage();
@@ -278,12 +278,12 @@ if (! $fatal_error) {
 
 if (! $fatal_error) {
     try {
-        $broken_filename_footprints = Footprint::get_broken_filename_footprints($database, $current_user, $log);
+        $broken_filename_footprints = Footprint::getBrokenFilenameFootprints($database, $current_user, $log);
         $broken_filename_loop = array();
 
         if (count($broken_filename_footprints) > 0) {
             // get all available files for the proposed footprint images
-            $available_proposed_files = array_merge(find_all_files(BASE.'/img/', true), find_all_files(BASE.'/data/media/', true));
+            $available_proposed_files = array_merge(findAllFiles(BASE.'/img/', true), findAllFiles(BASE.'/data/media/', true));
 
             // read the PHP constant "max_input_vars"
             $max_input_vars = ((ini_get('max_input_vars') !== false) ? (int)ini_get('max_input_vars') : 999999);
@@ -299,11 +299,12 @@ if (! $fatal_error) {
                     break;
                 }
 
+                /** @var Footprint $footprint */
                 $footprint = $broken_filename_footprints[$i];
                 $proposed_filenames_loop = array();
-                $proposed_filenames = get_proposed_filenames($footprint->get_filename(), $available_proposed_files);
+                $proposed_filenames = getProposedFilenames($footprint->getFilename(), $available_proposed_files);
 
-                if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->get_filename(), PATHINFO_FILENAME))) {
+                if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->getFilename(), PATHINFO_FILENAME))) {
                     $exact_match = true;
                 } else {
                     $exact_match = false;
@@ -317,18 +318,18 @@ if (! $fatal_error) {
 
                 $broken_filename_loop[] = array(    'index'                     => $i,
                     'checked'                   => $exact_match,
-                    'broken_id'                 => $footprint->get_id(),
-                    'broken_full_path'          => $footprint->get_full_path(),
-                    'broken_filename'           => str_replace(BASE.'/', '', $footprint->get_filename()),
+                    'broken_id'                 => $footprint->getID(),
+                    'broken_full_path'          => $footprint->getFullPath(),
+                    'broken_filename'           => str_replace(BASE.'/', '', $footprint->getFilename()),
                     'proposed_filenames_count'  => count($proposed_filenames_loop),
                     'proposed_filenames'        => $proposed_filenames_loop);
             }
 
-            $html->set_loop('broken_filename_footprints', $broken_filename_loop);
+            $html->setLoop('broken_filename_footprints', $broken_filename_loop);
         }
 
-        $html->set_variable('broken_footprints_count', count($broken_filename_loop), 'integer');
-        $html->set_variable('broken_footprints_count_total', count($broken_filename_footprints), 'integer');
+        $html->setVariable('broken_footprints_count', count($broken_filename_loop), 'integer');
+        $html->setVariable('broken_footprints_count_total', count($broken_filename_footprints), 'integer');
     } catch (Exception $e) {
         $messages[] = array('text' => 'Es konnten nicht alle Footprints mit defektem Dateinamen aufgelistet werden!',
             'strong' => true, 'color' => 'red');
@@ -344,12 +345,12 @@ if (! $fatal_error) {
 
 if (! $fatal_error) {
     try {
-        $broken_filename_footprints = Footprint::get_broken_3d_filename_footprints($database, $current_user, $log);
+        $broken_filename_footprints = Footprint::getBroken3dFilenameFootprints($database, $current_user, $log);
         $broken_filename_loop = array();
 
         if (count($broken_filename_footprints) > 0) {
             // get all available files for the proposed footprint images
-            $available_proposed_files = array_merge(find_all_files(BASE.'/models/', true));
+            $available_proposed_files = array_merge(findAllFiles(BASE.'/models/', true));
 
             // read the PHP constant "max_input_vars"
             $max_input_vars = ((ini_get('max_input_vars') !== false) ? (int)ini_get('max_input_vars') : 999999);
@@ -367,9 +368,9 @@ if (! $fatal_error) {
 
                 $footprint = $broken_filename_footprints[$i];
                 $proposed_filenames_loop = array();
-                $proposed_filenames = get_proposed_filenames($footprint->get_3d_filename(), $available_proposed_files);
+                $proposed_filenames = getProposedFilenames($footprint->get3dFilename(), $available_proposed_files);
 
-                if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->get_3d_filename(), PATHINFO_FILENAME))) {
+                if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->get3dFilename(), PATHINFO_FILENAME))) {
                     $exact_match = true;
                 } else {
                     $exact_match = false;
@@ -383,18 +384,18 @@ if (! $fatal_error) {
 
                 $broken_filename_loop[] = array(    'index'                     => $i,
                     'checked'                   => $exact_match,
-                    'broken_id'                 => $footprint->get_id(),
-                    'broken_full_path'          => $footprint->get_full_path(),
-                    'broken_filename'           => str_replace(BASE.'/', '', $footprint->get_3d_filename()),
+                    'broken_id'                 => $footprint->getID(),
+                    'broken_full_path'          => $footprint->getFullPath(),
+                    'broken_filename'           => str_replace(BASE.'/', '', $footprint->get3dFilename()),
                     'proposed_filenames_count'  => count($proposed_filenames_loop),
                     'proposed_filenames'        => $proposed_filenames_loop);
             }
 
-            $html->set_loop('broken_3d_filename_footprints', $broken_filename_loop);
+            $html->setLoop('broken_3d_filename_footprints', $broken_filename_loop);
         }
 
-        $html->set_variable('broken_3d_footprints_count', count($broken_filename_loop), 'integer');
-        $html->set_variable('broken_3d_footprints_count_total', count($broken_filename_footprints), 'integer');
+        $html->setVariable('broken_3d_footprints_count', count($broken_filename_loop), 'integer');
+        $html->setVariable('broken_3d_footprints_count_total', count($broken_filename_footprints), 'integer');
     } catch (Exception $e) {
         $messages[] = array('text' => 'Es konnten nicht alle Footprints mit defektem Dateinamen aufgelistet werden!',
             'strong' => true, 'color' => 'red');
@@ -409,16 +410,16 @@ if (! $fatal_error) {
  *
  *********************************************************************************/
 
-$html->set_variable('add_more', $add_more, 'boolean');
+$html->setVariable('add_more', $add_more, 'boolean');
 
 if (! $fatal_error) {
     try {
         if (is_object($selected_footprint)) {
-            $parent_id = $selected_footprint->get_parent_id();
-            $html->set_variable('id', $selected_footprint->get_id(), 'integer');
-            $name = $selected_footprint->get_name();
-            $filename = $selected_footprint->get_filename();
-            $filename_3d = $selected_footprint->get_3d_filename();
+            $parent_id = $selected_footprint->getParentID();
+            $html->setVariable('id', $selected_footprint->getID(), 'integer');
+            $name = $selected_footprint->getName();
+            $filename = $selected_footprint->getFilename();
+            $filename_3d = $selected_footprint->get3dFilename();
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
@@ -431,23 +432,23 @@ if (! $fatal_error) {
             $filename_3d = '';
         }
 
-        $html->set_variable('name', $name, 'string');
-        $html->set_variable('filename', str_replace(BASE.'/', '', $filename), 'string');
+        $html->setVariable('name', $name, 'string');
+        $html->setVariable('filename', str_replace(BASE.'/', '', $filename), 'string');
 
-        $html->set_variable('filename_3d', str_replace(BASE.'/', '', $filename_3d), 'string');
-        $html->set_variable('foot3d_active', $config['foot3d']['active'], 'boolean');
+        $html->setVariable('filename_3d', str_replace(BASE.'/', '', $filename_3d), 'string');
+        $html->setVariable('foot3d_active', $config['foot3d']['active'], 'boolean');
 
         //Say if file is valid (needed for preview in footprints)
         if (is_object($selected_footprint)) {
-            $html->set_variable('filename_3d_valid', $selected_footprint->is_3d_filename_valid(), 'boolean');
-            $html->set_variable('filename_valid', $selected_footprint->is_filename_valid(), 'boolean');
+            $html->setVariable('filename_3d_valid', $selected_footprint->is3dFilenameValid(), 'boolean');
+            $html->setVariable('filename_valid', $selected_footprint->isFilenameValid(), 'boolean');
         }
 
-        $footprint_list = $root_footprint->build_html_tree($selected_id, true, false);
-        $html->set_variable('footprint_list', $footprint_list, 'string');
+        $footprint_list = $root_footprint->buildHtmlTree($selected_id, true, false);
+        $html->setVariable('footprint_list', $footprint_list, 'string');
 
-        $parent_footprint_list = $root_footprint->build_html_tree($parent_id, true, true);
-        $html->set_variable('parent_footprint_list', $parent_footprint_list, 'string');
+        $parent_footprint_list = $root_footprint->buildHtmlTree($parent_id, true, true);
+        $html->setVariable('parent_footprint_list', $parent_footprint_list, 'string');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
@@ -463,14 +464,14 @@ if (! $fatal_error) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
 $reload_link = $fatal_error ? 'edit_footprints.php' : '';    // an empty string means that the...
-$html->print_header($messages, $reload_link);                // ...reload-button won't be visible
+$html->printHeader($messages, $reload_link);                // ...reload-button won't be visible
 
 if (! $fatal_error) {
-    $html->print_template('edit_footprints');
+    $html->printTemplate('edit_footprints');
 }
 
-$html->print_footer();
+$html->printFooter();

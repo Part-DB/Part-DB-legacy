@@ -94,7 +94,7 @@ if (isset($_REQUEST['save_db_backup_path'])) {
 $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Part-DB Installation/Update'));
 
 try {
-    $system_version = SystemVersion::get_installed_version();
+    $system_version = SystemVersion::getInstalledVersion();
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -114,7 +114,7 @@ if (! $fatal_error) {
                 $config['language'] = $language;
 
                 // check if the server supports the selected language and print a warning if not
-                if (! own_setlocale(LC_ALL, $config['language'])) {
+                if (! ownSetlocale(LC_ALL, $config['language'])) {
                     throw new Exception(sprintf(_('Die gewählte Sprache "%s" wird vom Server nicht unterstützt!'.
                         "\nBitte installieren Sie diese Sprache oder wählen Sie eine andere."), $config['language']));
                 }
@@ -128,7 +128,7 @@ if (! $fatal_error) {
         case 'save_admin_password':
             try {
                 // set_admin_password() throws an exception if the new passwords are not valid
-                set_admin_password(null, $adminpass_1, $adminpass_2, false);
+                setAdminPassword(null, $adminpass_1, $adminpass_2, false);
 
                 $config['installation_complete']['admin_password'] = true; // admin password successful set
             } catch (Exception $e) {
@@ -176,7 +176,7 @@ if (! $fatal_error) {
 
 // try to save the config array in config.php --> fatal error if this does not work!
 try {
-    save_config();
+    saveConfig();
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -191,30 +191,30 @@ try {
 
 if (! $fatal_error) {
     // global variables
-    $html->set_variable('system_version', $system_version->as_string(false, true, true, false), 'string');
-    $html->set_variable('system_version_full', $system_version->as_string(false, false, false, true), 'string');
+    $html->setVariable('system_version', $system_version->asString(false, true, true, false), 'string');
+    $html->setVariable('system_version_full', $system_version->asString(false, false, false, true), 'string');
 
     if (! $config['installation_complete']['locales']) {
         // step "set_locales"
         $tmpl_site_to_show = 'set_locales';
-        $html->set_loop('timezone_loop', array_to_template_loop($config['timezones'], $config['timezone']));
-        $html->set_loop('language_loop', array_to_template_loop($config['languages'], $config['language']));
+        $html->setLoop('timezone_loop', arrayToTemplateLoop($config['timezones'], $config['timezone']));
+        $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
     } elseif (! $config['installation_complete']['admin_password']) {
         $tmpl_site_to_show = 'set_admin_password';
     } elseif (! $config['installation_complete']['database']) {
         // step "set_db_settings"
         $tmpl_site_to_show = 'set_db_settings';
-        $html->set_loop('db_type_loop', array_to_template_loop($config['db_types'], $config['db']['type']));
-        $html->set_loop('db_charset_loop', array_to_template_loop($config['db_charsets'], $config['db']['charset']));
-        $html->set_variable('db_host', $config['db']['host'], 'string');
-        $html->set_variable('db_name', $config['db']['name'], 'string');
-        $html->set_variable('db_user', $config['db']['user'], 'string');
-        $html->set_variable("space_fix", $config['db']['space_fix'], 'boolean');
+        $html->setLoop('db_type_loop', arrayToTemplateLoop($config['db_types'], $config['db']['type']));
+        $html->setLoop('db_charset_loop', arrayToTemplateLoop($config['db_charsets'], $config['db']['charset']));
+        $html->setVariable('db_host', $config['db']['host'], 'string');
+        $html->setVariable('db_name', $config['db']['name'], 'string');
+        $html->setVariable('db_user', $config['db']['user'], 'string');
+        $html->setVariable("space_fix", $config['db']['space_fix'], 'boolean');
     } elseif (! $config['installation_complete']['db_backup_path']) {
         // step "set_db_backup_path"
         $tmpl_site_to_show = 'set_db_backup_path';
-        $html->set_variable('db_backup_name', $config['db']['backup']['name'], 'string');
-        $html->set_variable('db_backup_path', $config['db']['backup']['url'], 'string');
+        $html->setVariable('db_backup_name', $config['db']['backup']['name'], 'string');
+        $html->setVariable('db_backup_path', $config['db']['backup']['url'], 'string');
     } else {
         // installation/update complete
         $tmpl_site_to_show = 'finish';
@@ -231,13 +231,13 @@ $reload_link = $fatal_error ? 'install.php' : '';   // an empty string means tha
 //$html->print_header($messages, $reload_link);       // ...reload-button won't be visible
 
 if (!empty($messages)) {
-    $html->set_loop("messages", $messages);
+    $html->setLoop("messages", $messages);
 }
 
-$html->print_template('header');
+$html->printTemplate('header');
 
 if (! $fatal_error) {
-    $html->print_template($tmpl_site_to_show);
+    $html->printTemplate($tmpl_site_to_show);
 }
 
 //$html->print_footer();

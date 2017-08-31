@@ -37,7 +37,7 @@
  *
  * @return array    The template loop
  */
-function build_export_formats_loop($export_type, $selected_index = 0)
+function buildExportFormatsLoop($export_type, $selected_index = 0)
 {
     global $config;
 
@@ -71,7 +71,7 @@ function build_export_formats_loop($export_type, $selected_index = 0)
  *
  * @throws Exception if there was an error
  */
-function export_parts(&$objects, $export_type, $format_id, $send_file = false, $filename = '', $additional_params = array())
+function exportParts(&$objects, $export_type, $format_id, $send_file = false, $filename = '', $additional_params = array())
 {
     global $config;
 
@@ -116,11 +116,11 @@ function export_parts(&$objects, $export_type, $format_id, $send_file = false, $
                 break;
 
             case 'XML':
-                $object_node = $dom->createElement(strtolower(get_class_short($object)));
+                $object_node = $dom->createElement(strtolower(getClassShort($object)));
                 break;
         }
 
-        switch (get_class_short($object)) {
+        switch (getClassShort($object)) {
             case 'Part':
                 $part = $object;
                 break;
@@ -129,7 +129,7 @@ function export_parts(&$objects, $export_type, $format_id, $send_file = false, $
                 $devicepart = $object;
                 break;
             default:
-                throw new Exception('Klasse "'.get_class_short($object).'" kann nicht exportiert werden (wird nicht unterstützt)!');
+                throw new Exception('Klasse "'.getClassShort($object).'" kann nicht exportiert werden (wird nicht unterstützt)!');
                 break;
         }
 
@@ -326,7 +326,7 @@ function export_parts(&$objects, $export_type, $format_id, $send_file = false, $
     if ($send_file) {
         $mimetype = $config['export'][$export_type][$format_id]['mimetype'];
         $filename .= '.'.substr($mimetype, strpos($mimetype, '/') + 1);
-        send_string($output, $filename, $mimetype); // in this function is an "exit;" !
+        sendString($output, $filename, $mimetype); // in this function is an "exit;" !
         return ""; //Useless but its suppresses warnings.
     } else {
         return $output;

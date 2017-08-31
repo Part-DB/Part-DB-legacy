@@ -151,7 +151,7 @@ class SystemVersion
      *
      * @note    The release candidate number won't be printed if it is zero (even if "$hide_rc == false")!
      */
-    public function as_string($internal_format = true, $hide_rc = false, $hide_rev = false, $show_type = false)
+    public function asString($internal_format = true, $hide_rc = false, $hide_rev = false, $show_type = false)
     {
         $string = $this->major_version.'.'.$this->minor_version.'.'.$this->update_version;
 
@@ -184,7 +184,7 @@ class SystemVersion
      * @return boolean  @li true if this Version is newer than $version_2
      *                  @li otherwise false (equal or older)
      */
-    public function is_newer_than($version_2)
+    public function isNewerThan($version_2)
     {
         if ($this->major_version != $version_2->major_version) {
             return ($this->major_version > $version_2->major_version);
@@ -232,7 +232,7 @@ class SystemVersion
      *
      * @return string       'stable' or 'unstable'
      */
-    public function get_version_type()
+    public function getVersionType()
     {
         return $this->type;
     }
@@ -250,7 +250,7 @@ class SystemVersion
      *
      * @throws Exception if there was an error
      */
-    public static function get_installed_version()
+    public static function getInstalledVersion()
     {
         global $config;
 
@@ -271,11 +271,11 @@ class SystemVersion
      * @todo    Search also in the local direcotry "/updates/" for updates.
      *          This is needed for manual updates (maybe the server has no internet access, or no "curl").
      */
-    public static function get_latest_version($type)
+    public static function getLatestVersion($type)
     {
         if ((($type == 'stable') && (! is_object(SystemVersion::$latest_stable_version)))
             || (($type == 'unstable') && (! is_object(SystemVersion::$latest_unstable_version)))) {
-            $ini = curl_get_data('http://kami89.myparts.info/updates/latest.ini');
+            $ini = curlGetData('http://kami89.myparts.info/updates/latest.ini');
             $ini_array = parse_ini_string($ini, true);
 
             SystemVersion::$latest_stable_version    = new SystemVersion($ini_array['stable']['version']);
