@@ -48,7 +48,7 @@ include_once($BASE_tmp.'/inc/lib.start_session.php');
  */
 function exception_handler($e)
 {
-    print_messages_without_template(
+    printMessagesWithoutTemplate(
         'Part-DB: Schwerwiegender Fehler!',
         null,
         '<span style="color: red; "><strong>Es ist ein schwerwiegender Fehler aufgetreten:' .
@@ -92,7 +92,7 @@ if (($old_config_exists) || ($old_backup_exists) || ($old_media_exists) || ($old
         'Die Zielordner enthalten bereits (teilweise versteckte) Dateien, die auf keinen Fall &uuml;berschrieben werden d&uuml;rfen!<br>'.
         'Kopieren Sie also nur den Inhalt dieser Ordner und l&ouml;schen Sie danach die alten, leeren Ordner im Hauptverzeichnis.</span></strong>';
 
-    print_messages_without_template('Part-DB', 'Update von Part-DB: Manuelle Eingriffe notwendig', $messages);
+    printMessagesWithoutTemplate('Part-DB', 'Update von Part-DB: Manuelle Eingriffe notwendig', $messages);
     exit;
 }
 
@@ -147,7 +147,7 @@ if (isset($config['DOCUMENT_ROOT'])) {
 } else {
     $messages = 'Die Konstante "DOCUMENT_ROOT" konnte auf Ihrem Server nicht ermittelt werden.<br>'.
         'Bitte definieren Sie diese Konstante manuell in Ihrer Konfigurationsdatei "data/config.php".';
-    print_messages_without_template('Part-DB', 'DOCUMENT_ROOT kann nicht ermittelt werden', $messages);
+    printMessagesWithoutTemplate('Part-DB', 'DOCUMENT_ROOT kann nicht ermittelt werden', $messages);
     exit;
 }
 
@@ -176,9 +176,9 @@ else {
  *
  *********************************************************************************/
 
-$messages = check_requirements();
+$messages = checkRequirements();
 if (count($messages) > 0) {
-    print_messages_without_template(
+    printMessagesWithoutTemplate(
         'Part-DB',
         'Mindestanforderungen von Part-DB nicht erfüllt!',
         '<span style="color: red; "><strong>&bull;' .implode('<br>&bull;', $messages). '</strong></span><br><br>' .
@@ -188,7 +188,7 @@ if (count($messages) > 0) {
     exit;
 }
 
-$messages = check_file_permissions();
+$messages = checkFilePermissions();
 if (count($messages) > 0) {
     $message = '<strong><span style="color: red; ">';
     foreach ($messages as $msg) {
@@ -199,16 +199,16 @@ if (count($messages) > 0) {
         'https://github.com/jbtronics/Part-DB/wiki/Installation">Dokumentation</a>.<br><br>';
     $message .= '<form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>';
 
-    print_messages_without_template('Part-DB', 'Anpassung der Rechte von Verzeichnissen und Dateien', $message);
+    printMessagesWithoutTemplate('Part-DB', 'Anpassung der Rechte von Verzeichnissen und Dateien', $message);
     exit;
 
     // please note: the messages and the "exit;" here are very important, we mustn't continue the script!
     // the reasen is: if the config.php is not readable, the array $config is now not loaded successfully.
 }
 
-$message = check_if_config_is_valid();
+$message = checkIfConfigIsValid();
 if (is_string($message)) {
-    print_messages_without_template(
+    printMessagesWithoutTemplate(
         'Part-DB',
         'Ihre config.php ist fehlerhaft!',
         '<span style="color: red; "><strong>' .$message. '</strong></span><br><br>' .
@@ -219,7 +219,7 @@ if (is_string($message)) {
     exit;
 }
 
-$messages = check_composer_folder();
+$messages = checkComposerFolder();
 if (count($messages) > 0) {
     $message = "<b>Part-DB benutzt den PHP Abhängikeitsmanager <a href='https://getcomposer.org/' target='_blank'>Composer</a>" .
         " um benötigte Bibliotheken bereitzustellen.<br> Bevor sie Part-DB nutzen können müssen sie diese" .
@@ -234,7 +234,7 @@ if (count($messages) > 0) {
     //    'https://github.com/jbtronics/Part-DB/wiki/Installation">Dokumentation</a>.<br><br>';
     $message .= '<br><form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>';
 
-    print_messages_without_template('Part-DB', 'Benötigte Bibliotheken fehlen!', $message);
+    printMessagesWithoutTemplate('Part-DB', 'Benötigte Bibliotheken fehlen!', $message);
     exit;
 
     // please note: the messages and the "exit;" here are very important, we mustn't continue the script!
@@ -272,7 +272,7 @@ if (($config['system']['current_config_version'] < $config['system']['latest_con
 
     $message .= '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>';
 
-    print_messages_without_template('Part-DB', 'Aktualisierung ihrer config.php', $message);
+    printMessagesWithoutTemplate('Part-DB', 'Aktualisierung ihrer config.php', $message);
     exit;
 }
 
@@ -315,7 +315,7 @@ date_default_timezone_set($config['timezone']);
 
 //$lang = (isset($_SESSION["lang"])) ? $_SESSION["lang"] : $config['language'];
 
-own_setlocale(LC_ALL, $config['language']);
+ownSetlocale(LC_ALL, $config['language']);
 
 //Set gettext locale for PHP
 $domain = "php";

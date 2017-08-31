@@ -174,7 +174,7 @@ $app->get("/1.0.0/parts", function ($request, $response, $args) use (&$database,
     /** @var \Slim\Http\Response $response */
     try {
         $parts = Part::getAllParts($database, $current_user, $log);
-        return $response->withJson(convert_APIModel_array($parts));
+        return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
     }
@@ -184,7 +184,7 @@ $app->get("/1.0.0/parts/noprice", function ($request, $response, $args) use (&$d
     /** @var \Slim\Http\Response $response */
     try {
         $parts = Part::getNoPriceParts($database, $current_user, $log);
-        return $response->withJson(convert_APIModel_array($parts));
+        return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
     }
@@ -194,7 +194,7 @@ $app->get("/1.0.0/parts/ordered", function ($request, $response, $args) use (&$d
     /** @var \Slim\Http\Response $response */
     try {
         $parts = Part::getOrderParts($database, $current_user, $log);
-        return $response->withJson(convert_APIModel_array($parts));
+        return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
     }
@@ -204,7 +204,7 @@ $app->get("/1.0.0/parts/obsolete", function ($request, $response, $args) use (&$
     /** @var \Slim\Http\Response $response */
     try {
         $parts = Part::getObsoleteParts($database, $current_user, $log);
-        return $response->withJson(convert_APIModel_array($parts));
+        return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
     }
@@ -232,7 +232,7 @@ $app->get("/1.0.0/parts/by-category/{id}", function ($request, $response, $args)
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
         $category = new Category($database, $current_user, $log, $args['id']);
         $parts = $category->getParts($recursive);
-        return $response->withJson(convert_APIModel_array($parts));
+        return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
     }
@@ -247,7 +247,7 @@ $app->get("/1.0.0/parts/by-location/{id}", function ($request, $response, $args)
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
         $location = new Storelocation($database, $current_user, $log, $args['id']);
         $parts = $location->getParts($recursive);
-        return $response->withJson(convert_APIModel_array($parts));
+        return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
     }
@@ -262,7 +262,7 @@ $app->get("/1.0.0/parts/by-footprint/{id}", function ($request, $response, $args
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
         $footprint = new Footprint($database, $current_user, $log, $args['id']);
         $parts = $footprint->getParts($recursive);
-        return $response->withJson(convert_APIModel_array($parts));
+        return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
     }
@@ -277,7 +277,7 @@ $app->get("/1.0.0/parts/by-manufacturer/{id}", function ($request, $response, $a
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
         $manufacturer = new Manufacturer($database, $current_user, $log, $args['id']);
         $parts = $manufacturer->getParts($recursive);
-        return $response->withJson(convert_APIModel_array($parts));
+        return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
     }
@@ -292,7 +292,7 @@ $app->get("/1.0.0/parts/by-supplier/{id}", function ($request, $response, $args)
         $recursive = (isset($args['recursive'])) ?  $args['recursive'] : false;
         $supplier = new Supplier($database, $current_user, $log, $args['id']);
         $parts = $supplier->getParts($recursive);
-        return $response->withJson(convert_APIModel_array($parts));
+        return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
     }
@@ -320,7 +320,7 @@ $app->get("/1.0.0/parts/by-keyword/{keyword}", function ($request, $response, $a
             sie($args['manufacturer'], false),
             false
         );
-        return $response->withJson(convert_APIModel_array($parts));
+        return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
     }
@@ -348,7 +348,7 @@ $app->get("/1.0.0/parts/by-regex/{keyword}", function ($request, $response, $arg
             sie($args['manufacturer'], false),
             true
         );
-        return $response->withJson(convert_APIModel_array($parts));
+        return $response->withJson(convertAPIModelArray($parts));
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
     }
@@ -365,7 +365,7 @@ $app->get("/1.0.0/system/info", function ($request, $response, $args) {
     /** @var \Slim\Http\Response $response */
     $ver_str = SystemVersion::getInstalledVersion()->asString();
     $data = array("version" => $ver_str,
-        "gitBranch" => get_git_branch_name(), "gitCommit" => get_git_commit_hash());
+        "gitBranch" => getGitBranchName(), "gitCommit" => getGitCommitHash());
     return $response->withJson($data);
 });
 

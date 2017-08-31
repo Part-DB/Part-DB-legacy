@@ -341,7 +341,7 @@ class Database
         // so the next attempt can start at the same position. But if the user has no write access to the config.php,
         // this will not work. So we will try to write the configs to the config.php now. If this is not successfully,
         // the function "save_config()" will throw an exception and the update proccess is aborted.
-        save_config();
+        saveConfig();
 
         debug('hint', 'Update von Datenbankversion "'.$current.'" auf Version "'.$latest.'" wird gestartet...');
         $add_log('Ihre Datenbank wird von der Version '. $current .' auf die Version '. $latest .' aktualisiert:');
@@ -439,7 +439,7 @@ class Database
                     $config['db']['update_error']['version'] = -1;
                 }
 
-                save_config();
+                saveConfig();
             } catch (Exception $exception) {
                 $add_log(_('FEHLER: Die aktuelle Update-Position konnte nicht in der config.php gespeichert werden!'), true);
                 $add_log(_('Fehlermeldung: ').$exception->getMessage(), true);

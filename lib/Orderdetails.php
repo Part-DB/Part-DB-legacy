@@ -274,13 +274,13 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *          but the choosed quantity is '5' --> the price for 5 parts is not defined!)
      * @throws Exception if there was an error
      *
-     * @see float_to_money_string()
+     * @see floatToMoneyString()
      */
     public function getPrice($as_money_string = false, $quantity = 1, $multiplier = null)
     {
         if (($quantity == 0) && ($multiplier === null)) {
             if ($as_money_string) {
-                return float_to_money_string(0);
+                return floatToMoneyString(0);
             } else {
                 return 0;
             }
@@ -290,7 +290,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
 
         if (count($all_pricedetails) == 0) {
             if ($as_money_string) {
-                return float_to_money_string(null);
+                return floatToMoneyString(null);
             } else {
                 return null;
             }
@@ -466,7 +466,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
             $ver = array("supplier" => $this->getSupplier()->getAPIArray(),
                 "obsolete" => $this->getObsolete() == true,
                 "supplier_product_url" => $this->getSupplierProductUrl(),
-                "pricedetails" => convert_APIModel_array($this->getPricedetails(), true));
+                "pricedetails" => convertAPIModelArray($this->getPricedetails(), true));
             return array_merge($json, $ver);
         }
         return $json;

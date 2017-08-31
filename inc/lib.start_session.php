@@ -38,7 +38,7 @@
  * @param string|NULL   $div_title      a DIV title, or NULL for a message without a title
  * @param string        $messages       the HTML-coded messages
  */
-function print_messages_without_template($page_title, $div_title, $messages)
+function printMessagesWithoutTemplate($page_title, $div_title, $messages)
 {
     print '<!DOCTYPE html><html lang="en"><head>';
     print '<title>'.htmlspecialchars($page_title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8').'</title>';
@@ -69,7 +69,7 @@ function print_messages_without_template($page_title, $div_title, $messages)
  *
  * @todo    the Workaround for Windows is not really pretty -> make it better!
  */
-function own_setlocale($category, $locale)
+function ownSetlocale($category, $locale)
 {
     $charsets = array('utf8', 'UTF8', 'utf-8', 'UTF-8');
     $base_locales = array($locale);
@@ -146,7 +146,7 @@ function own_setlocale($category, $locale)
  *
  * @throws Exception if there was an error
  */
-function check_requirements()
+function checkRequirements()
 {
     global $config;
     $messages = array();
@@ -180,7 +180,7 @@ function check_requirements()
  * @return string[]  * an array with a string for each error message
  * * an empty array means everything is fine
  */
-function check_file_permissions()
+function checkFilePermissions()
 {
     $messages = array();
 
@@ -233,7 +233,7 @@ function check_file_permissions()
  *  @return array * an array with a string for each error message
  *  * an empty array means everything is fine
  */
-function check_composer_folder()
+function checkComposerFolder()
 {
     $messages = array();
 
@@ -258,7 +258,7 @@ function check_composer_folder()
  * @return string|bool      * true if the config.php is valid
  * * an error message if the config.php is not valid
  */
-function check_if_config_is_valid()
+function checkIfConfigIsValid()
 {
     global $config_defaults;
 

@@ -43,7 +43,7 @@ function build_theme_loop()
 {
     global $config;
     $loop = array();
-    $directories = find_all_directories(BASE.'/templates/');
+    $directories = findAllDirectories(BASE.'/templates/');
 
     foreach ($directories as $directory) {
         $name = str_ireplace(BASE.'/templates/', '', $directory);
@@ -59,7 +59,7 @@ function build_custom_css_loop()
 {
     global $config;
     $loop = array();
-    $files = find_all_files(BASE.'/templates/custom_css/', true, '.css');
+    $files = findAllFiles(BASE.'/templates/custom_css/', true, '.css');
 
     foreach ($files as $file) {
         $name = str_ireplace(BASE.'/templates/custom_css/', '', $file);
@@ -214,7 +214,7 @@ if (! $fatal_error) {
             }
 
             try {
-                save_config();
+                saveConfig();
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
                 //header('Location: system_config.php'); // Reload the page that we can see if the new settings are stored successfully --> does not work correctly?!
             } catch (Exception $e) {
@@ -231,9 +231,9 @@ if (! $fatal_error) {
                 }
 
                 // set_admin_password() throws an exception if the old or the new passwords are not valid
-                set_admin_password($current_admin_password, $new_admin_password_1, $new_admin_password_2, false);
+                setAdminPassword($current_admin_password, $new_admin_password_1, $new_admin_password_2, false);
 
-                save_config();
+                saveConfig();
 
                 $messages[] = array('text' => _('Das neue Administratorpasswort wurde erfolgreich gespeichert.'), 'strong' => true, 'color' => 'darkgreen');
             } catch (Exception $e) {
@@ -251,13 +251,13 @@ if (! $fatal_error) {
  *********************************************************************************/
 
 // http charset / theme
-$html->setLoop('http_charset_loop', array_to_template_loop($config['http_charsets'], $config['html']['http_charset']));
+$html->setLoop('http_charset_loop', arrayToTemplateLoop($config['http_charsets'], $config['html']['http_charset']));
 $html->setLoop('theme_loop', build_theme_loop());
 $html->setLoop('custom_css_loop', build_custom_css_loop());
 
 // locale settings
-$html->setLoop('timezone_loop', array_to_template_loop($config['timezones'], $config['timezone']));
-$html->setLoop('language_loop', array_to_template_loop($config['languages'], $config['language']));
+$html->setLoop('timezone_loop', arrayToTemplateLoop($config['timezones'], $config['timezone']));
+$html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
 
 // checkboxes
 $html->setVariable('disable_updatelist', $config['startup']['disable_update_list'], 'boolean');
@@ -303,7 +303,7 @@ $html->setVariable('foot3d_show_info', $config['foot3d']['show_info'], 'boolean'
 $html->setVariable('short_description', $config['appearance']['short_description'], 'boolean');
 
 // check if the server supports the selected language and print a warning if not
-if (! own_setlocale(LC_ALL, $config['language'])) {
+if (! ownSetlocale(LC_ALL, $config['language'])) {
     $messages[] = array('text' => _('Achtung:'), 'strong' => true, 'color' => 'red');
     $messages[] = array('text' => sprintf(_('Die gewählte Sprache "%s" wird vom Server nicht unterstützt!'), $config['language']), 'color' => 'red', );
     $messages[] = array('text' => _('Bitte installieren Sie diese Sprache oder wählen Sie eine andere.'), 'color' => 'red', );

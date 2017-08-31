@@ -40,7 +40,7 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 
 $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('3D Footprints'));
 
-$dirs = find_all_files(BASE.'/models/', true);
+$dirs = findAllFiles(BASE.'/models/', true);
 
 $html->setLoop("directories", $dir);
 

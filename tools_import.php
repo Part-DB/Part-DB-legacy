@@ -98,8 +98,8 @@ if (! $fatal_error) {
 
                 $file_content = file_get_contents($_FILES['uploaded_file']['tmp_name']);
 
-                $import_data = import_text_to_array($file_content, $file_format, $separator);
-                $table_loop = build_parts_import_template_loop($database, $current_user, $log, $import_data);
+                $import_data = importTextToArray($file_content, $file_format, $separator);
+                $table_loop = buildPartsImportTemplateLoop($database, $current_user, $log, $import_data);
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Es gab ein Fehler!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -108,9 +108,9 @@ if (! $fatal_error) {
 
         case 'check_data':
             try {
-                $import_data = extract_import_data_from_request($table_rowcount);
-                $table_loop = build_parts_import_template_loop($database, $current_user, $log, $import_data);
-                import_parts($database, $current_user, $log, $import_data, true);
+                $import_data = extractImportDataFromRequest($table_rowcount);
+                $table_loop = buildPartsImportTemplateLoop($database, $current_user, $log, $import_data);
+                importParts($database, $current_user, $log, $import_data, true);
 
                 $html->setVariable('data_is_valid', true, 'boolean'); // now the "import" button will be visible
                 $messages[] = array('text' => _('Die Daten sind gültig!'), 'strong' => true, 'color' => 'darkgreen');
@@ -122,9 +122,9 @@ if (! $fatal_error) {
 
         case 'import_data':
             try {
-                $import_data = extract_import_data_from_request($table_rowcount);
-                $table_loop = build_parts_import_template_loop($database, $current_user, $log, $import_data);
-                $new_parts = import_parts($database, $current_user, $log, $import_data, false);
+                $import_data = extractImportDataFromRequest($table_rowcount);
+                $table_loop = buildPartsImportTemplateLoop($database, $current_user, $log, $import_data);
+                $new_parts = importParts($database, $current_user, $log, $import_data, false);
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
                 $messages[] = array('text' => _('Die Daten wurden erfolgreich importiert!'), 'strong' => true, 'color' => 'darkgreen');

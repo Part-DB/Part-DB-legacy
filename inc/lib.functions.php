@@ -155,7 +155,7 @@ if (! function_exists('str_getcsv')) {
  *
  * @param string    $filename   The file to check (absolute filename from filesystem root!)
  */
-function get_mimetype($filename)
+function getMimetype($filename)
 {
     $mime_types = array(
         'txt' => 'text/plain',
@@ -238,14 +238,14 @@ function get_mimetype($filename)
  *
  * @param string    $dir   The path to the directory (absolute filename from filesystem root!)
  */
-function rmdir_recursive($dir)
+function rmdirRecursive($dir)
 {
     if (is_dir($dir)) {
         $objects = scandir($dir);
         foreach ($objects as $object) {
             if ($object != "." && $object != "..") {
                 if (filetype($dir."/".$object) == "dir") {
-                    rmdir_recursive($dir."/".$object);
+                    rmdirRecursive($dir."/".$object);
                 } else {
                     unlink($dir."/".$object);
                 }

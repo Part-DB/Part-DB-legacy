@@ -114,7 +114,7 @@ class PartLabel
     {
         $tmp = array();
         foreach ($new_lines as $line) {
-            $tmp[] = replace_placeholder_with_infos($line, $this->part);
+            $tmp[] = replacePlaceholderWithInfos($line, $this->part);
         }
         $this->lines = $tmp;
     }

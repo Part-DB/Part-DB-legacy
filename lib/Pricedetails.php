@@ -167,14 +167,14 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @return float    the price as a float number (if "$as_money_string == false")
      * @return string   the price as a string incl. currency (if "$as_money_string == true")
      *
-     * @see float_to_money_string()
+     * @see floatToMoneyString()
      */
     public function getPrice($as_money_string = false, $multiplier = 1)
     {
         $price = ($this->db_data['price'] * $multiplier) / $this->db_data['price_related_quantity'];
 
         if ($as_money_string) {
-            return float_to_money_string($price);
+            return floatToMoneyString($price);
         } else {
             return $price;
         }

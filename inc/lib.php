@@ -41,7 +41,7 @@ use PartDB\Part;
  * * true if the number is odd
  * * false if the number is even
  */
-function is_odd($number)
+function isOdd($number)
 {
     return ($number & 1) ? true : false; // false = even, true = odd
 }
@@ -53,7 +53,7 @@ function is_odd($number)
  *
  * @throws Exception if there was an error
  */
-function get_git_branch_name()
+function getGitBranchName()
 {
     if (file_exists(BASE.'/.git/HEAD')) {
         $git = File(BASE.'/.git/HEAD');
@@ -76,9 +76,9 @@ function get_git_branch_name()
  *
  * @throws Exception if there was an error
  */
-function get_git_commit_hash($length = 40)
+function getGitCommitHash($length = 40)
 {
-    $filename = BASE.'/.git/refs/remotes/origin/'.get_git_branch_name();
+    $filename = BASE.'/.git/refs/remotes/origin/'.getGitBranchName();
 
     if (file_exists($filename)) {
         $head = File($filename);
@@ -90,7 +90,7 @@ function get_git_commit_hash($length = 40)
 }
 
 
-function treeview_node($name, $href=null, $nodes = null, $icon = null)
+function treeviewNode($name, $href=null, $nodes = null, $icon = null)
 {
     $ret = array('text' => $name);
 
@@ -125,11 +125,11 @@ function treeview_node($name, $href=null, $nodes = null, $icon = null)
  *
  * @throws Exception if there was an error
  */
-function find_all_files($directory, $recursive = false, $search_string = '')
+function findAllFiles($directory, $recursive = false, $search_string = '')
 {
     $files = array();
 
-    if ((! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || (! is_path_absolute_and_unix($directory, false))) {
+    if ((! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || (! isPathabsoluteAndUnix($directory, false))) {
         throw new Exception('"'.$directory.'" ist kein gültiges Verzeichnis!');
     }
 
@@ -138,7 +138,7 @@ function find_all_files($directory, $recursive = false, $search_string = '')
         if (($file != ".") && ($file != "..") && ($file != ".svn") && ($file != ".git") && ($file != ".gitignore") && ($file != ".htaccess")) {
             if (is_dir($directory.$file)) {
                 if ($recursive) {
-                    $files = array_merge($files, find_all_files($directory.$file.'/', true, $search_string));
+                    $files = array_merge($files, findAllFiles($directory.$file.'/', true, $search_string));
                 }
             } elseif (($search_string == '') || (mb_substr_count(mb_strtolower($file), mb_strtolower($search_string)) > 0)) {
                 $files[] = $directory.$file;
@@ -159,11 +159,11 @@ function find_all_files($directory, $recursive = false, $search_string = '')
  *
  * @throws Exception if there was an error
  */
-function find_all_directories($directory, $recursive = false)
+function findAllDirectories($directory, $recursive = false)
 {
     $directories = array();
 
-    if ((! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || (! is_path_absolute_and_unix($directory, false))) {
+    if ((! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || (! isPathabsoluteAndUnix($directory, false))) {
         throw new Exception('"'.$directory.'" ist kein gültiges Verzeichnis!');
     }
 
@@ -172,7 +172,7 @@ function find_all_directories($directory, $recursive = false)
         if (($file != ".") && ($file != "..") && ($file != ".svn") && ($file != ".git") && (is_dir($directory.$file))) {
             $directories[] = $directory.$file;
             if ($recursive) {
-                $directories = array_merge($directories, find_all_directories($directory.$file.'/', true));
+                $directories = array_merge($directories, findAllDirectories($directory.$file.'/', true));
             }
         }
     }
@@ -189,7 +189,7 @@ function find_all_directories($directory, $recursive = false)
  * @param string $mimetype      * The mime type of the file
  * * if NULL, we will try to read the mimetype from the file
  */
-function send_file($filename, $mimetype = null)
+function sendFile($filename, $mimetype = null)
 {
     $mtime = ($mtime = filemtime($filename)) ? $mtime : time();
 
@@ -200,7 +200,7 @@ function send_file($filename, $mimetype = null)
     }
 
     if ($mimetype == null) {
-        $mimetype = get_mimetype($filename);
+        $mimetype = getMimetype($filename);
     } // lib.functions.php
 
     header("Content-Type: ".$mimetype);
@@ -224,7 +224,7 @@ function send_file($filename, $mimetype = null)
  * @param string $filename      The name of the file which is displayed in the user's browser
  * @param string $mimetype      The mime type of the file
  */
-function send_string($content, $filename, $mimetype)
+function sendString($content, $filename, $mimetype)
 {
     $mtime = gmmktime();
 
@@ -256,7 +256,7 @@ function send_string($content, $filename, $mimetype)
  * @throws Exception if the destination file exists already
  * @throws Exception if there was an error
  */
-function upload_file($file_array, $destination_directory, $destination_filename = null)
+function uploadFile($file_array, $destination_directory, $destination_filename = null)
 {
     if ((! isset($file_array['name'])) || (! isset($file_array['tmp_name'])) || (! isset($file_array['error']))) {
         throw new Exception(_('Ungültiges Array übergeben!'));
@@ -268,7 +268,7 @@ function upload_file($file_array, $destination_directory, $destination_filename 
 
     $destination = $destination_directory.$destination_filename;
 
-    if ((! is_dir($destination_directory)) || (mb_substr($destination_directory, -1, 1) != '/') || (! is_path_absolute_and_unix($destination_directory, false))) {
+    if ((! is_dir($destination_directory)) || (mb_substr($destination_directory, -1, 1) != '/') || (! isPathabsoluteAndUnix($destination_directory, false))) {
         throw new Exception('"'.$destination_directory.'" ist kein gültiges Verzeichnis!');
     }
 
@@ -336,7 +336,7 @@ function upload_file($file_array, $destination_directory, $destination_filename 
  * @throws Exception    if the new passworts are different
  * @throws Exception    if $config could not be saved in config.php
  */
-function set_admin_password($old_password, $new_password_1, $new_password_2, $save_config = true)
+function setAdminPassword($old_password, $new_password_1, $new_password_2, $save_config = true)
 {
     global $config;
     $salt = 'h>]gW3$*j&o;O"s;@&G)';
@@ -348,7 +348,7 @@ function set_admin_password($old_password, $new_password_1, $new_password_2, $sa
     $new_password_1 = trim($new_password_1);
     $new_password_2 = trim($new_password_2);
 
-    if (! is_admin_password($old_password)) {
+    if (! isAdminPassword($old_password)) {
         throw new Exception('Das eingegebene Administratorpasswort ist nicht korrekt!');
     }
 
@@ -364,7 +364,7 @@ function set_admin_password($old_password, $new_password_1, $new_password_2, $sa
     $config['admin']['password'] = hash('sha256', $salt.$new_password_1);
 
     if ($save_config) {
-        save_config();
+        saveConfig();
     }
 }
 
@@ -377,7 +377,7 @@ function set_admin_password($old_password, $new_password_1, $new_password_2, $sa
  * @return boolean      * true if the password is correct
  * * false if the password is not correct
  */
-function is_admin_password($password)
+function isAdminPassword($password)
 {
     global $config;
     $salt = 'h>]gW3$*j&o;O"s;@&G)';
@@ -400,7 +400,7 @@ function is_admin_password($password)
  *
  * @throws Exception if there was an error (maybe not enought permissions)
  */
-function save_config()
+function saveConfig()
 {
     if ((file_exists(BASE.'/data/config.php')) && (! is_writeable(BASE.'/data/config.php'))) {
         throw new Exception('Es sind nicht genügend Rechte vorhanden um die Datei "config.php" zu beschreiben!');
@@ -414,11 +414,11 @@ function save_config()
     $config['system']['current_config_version'] = $config['system']['latest_config_version'];
 
     $content = "<?php\n\n";
-    $content .= array_to_php_lines($config_defaults, $config, '    $config', false);
+    $content .= arrayToPhpLines($config_defaults, $config, '    $config', false);
     $content .= "\n    //How to declare manual configs:\n";
     $content .= '    //$manual_config[\'money_format\'][\'POSIX\']                = \'%!n €\';'."\n";
     $content .= '    //$manual_config[\'DOCUMENT_ROOT\']                        = \'/var/www\';'."\n";
-    $content .= array_to_php_lines($manual_config, $manual_config, '    $manual_config', false);
+    $content .= arrayToPhpLines($manual_config, $manual_config, '    $manual_config', false);
     $content .= "\n";
 
     if (! ($fp = fopen(BASE.'/data/config.php', 'wb'))) {
@@ -437,14 +437,14 @@ function save_config()
 /**
  * @brief For save_config()
  */
-function array_to_php_lines(&$array_defaults, &$array, $path, $ignore_defaults)
+function arrayToPhpLines(&$array_defaults, &$array, $path, $ignore_defaults)
 {
     $lines = '';
     foreach ($array_defaults as $key => $value) {
         if (isset($array[$key])) {
             $full_path = $path.'['.var_export($key, true).']';
             if (is_array($value)) {
-                $lines .= array_to_php_lines($array_defaults[$key], $array[$key], $full_path, $ignore_defaults);
+                $lines .= arrayToPhpLines($array_defaults[$key], $array[$key], $full_path, $ignore_defaults);
             } else {
                 if (($array[$key] !== $array_defaults[$key]) || (! $ignore_defaults)) {
                     $space_count = max(60-mb_strlen($full_path), 0);
@@ -468,7 +468,7 @@ function array_to_php_lines(&$array_defaults, &$array, $path, $ignore_defaults)
  *
  * @return string       The formatted money string
  */
-function float_to_money_string($number, $language = '')
+function floatToMoneyString($number, $language = '')
 {
     if ($number === null) {
         return '-';
@@ -484,7 +484,7 @@ function float_to_money_string($number, $language = '')
 
     if ($language != $config['language']) {
         // change locale, because the $language is not the default language!
-        if (! own_setlocale(LC_MONETARY, $language)) {
+        if (! ownSetlocale(LC_MONETARY, $language)) {
             debug('error', 'Sprache "'.$language.'" kann nicht gesetzt werden!', __FILE__, __LINE__, __METHOD__);
         }
     }
@@ -514,7 +514,7 @@ function float_to_money_string($number, $language = '')
     $result = trim(money_format($format, $number));
 
     if ($language != $config['language']) {
-        own_setlocale(LC_MONETARY, $config['language']);
+        ownSetlocale(LC_MONETARY, $config['language']);
     } // change locale back to default
 
     return $result;
@@ -529,7 +529,7 @@ function float_to_money_string($number, $language = '')
  *
  * @throws Exception if there was an error (maybe "curl" is not installed on the server)
  */
-function curl_get_data($url)
+function curlGetData($url)
 {
     if (! extension_loaded('curl')) {
         throw new Exception('"curl" scheint auf ihrem System nicht installiert zu sein! '.
@@ -568,7 +568,7 @@ function curl_get_data($url)
  * * Best matches are at the beginning of the array,
  *                          worst matches are at the end of the array
  */
-function get_proposed_filenames($missing_filename, $available_files)
+function getProposedFilenames($missing_filename, $available_files)
 {
     $filenames = array();
     $filenames_tmp = array();
@@ -613,7 +613,7 @@ function get_proposed_filenames($missing_filename, $available_files)
  *
  * @return array        The template loop array
  */
-function array_to_template_loop($array, $selected_value = null)
+function arrayToTemplateLoop($array, $selected_value = null)
 {
     $loop = array();
     foreach ($array as $key => $value) {
@@ -631,7 +631,7 @@ function array_to_template_loop($array, $selected_value = null)
  *
  * @return string           the UNIX path
  */
-function to_unix_path($path)
+function toUnixPath($path)
 {
     return str_replace('\\', '/', trim($path)); // replace all "\" with "/"
 }
@@ -646,7 +646,7 @@ function to_unix_path($path)
  * * false if the path is definitive not absolute or definitive not an UNIX path
  * * if $path is an empty string, this function will return "false"
  */
-function is_path_absolute_and_unix($path, $accept_protocols = true)
+function isPathabsoluteAndUnix($path, $accept_protocols = true)
 {
     if (mb_strpos($path, '\\') !== false) { // $path contains backslashes -> it's not a UNIX path
         return false;
@@ -703,7 +703,7 @@ function is_path_absolute_and_unix($path, $accept_protocols = true)
  * @param Part $part
  * @return string the
  */
-function replace_placeholder_with_infos($string, $part)
+function replacePlaceholderWithInfos($string, $part)
 {
     //General infos
     $string = str_replace("%id%", $part->getID(), $string);                        //part id
@@ -755,30 +755,30 @@ function replace_placeholder_with_infos($string, $part)
  * * if $search_str does not contain any search modifier, then every element of the array
  *                          will contain the original search string.
  */
-function search_string_to_array($search_str)
+function searchStringToArray($search_str)
 {
     $arr = array();
-    $arr['name'] = get_keyword_after_modifier($search_str, "inname:");
+    $arr['name'] = getKeywordAfterModifier($search_str, "inname:");
 
-    $arr['description'] = get_keyword_after_modifier($search_str, "indescription:");
-    $arr['description'] = get_keyword_after_modifier($search_str, "indesc:");
+    $arr['description'] = getKeywordAfterModifier($search_str, "indescription:");
+    $arr['description'] = getKeywordAfterModifier($search_str, "indesc:");
 
-    $arr['comment'] = get_keyword_after_modifier($search_str, "incomment:");
+    $arr['comment'] = getKeywordAfterModifier($search_str, "incomment:");
 
-    $arr['footprint'] = get_keyword_after_modifier($search_str, "infootprint:");
-    $arr['footprint'] = get_keyword_after_modifier($search_str, "infoot:");
+    $arr['footprint'] = getKeywordAfterModifier($search_str, "infootprint:");
+    $arr['footprint'] = getKeywordAfterModifier($search_str, "infoot:");
 
-    $arr['category'] = get_keyword_after_modifier($search_str, "incategory:");
-    $arr['category'] = get_keyword_after_modifier($search_str, "incat:");
+    $arr['category'] = getKeywordAfterModifier($search_str, "incategory:");
+    $arr['category'] = getKeywordAfterModifier($search_str, "incat:");
 
-    $arr['storelocation'] = get_keyword_after_modifier($search_str, "inlocation:");
-    $arr['storelocation'] = get_keyword_after_modifier($search_str, "inloc:");
+    $arr['storelocation'] = getKeywordAfterModifier($search_str, "inlocation:");
+    $arr['storelocation'] = getKeywordAfterModifier($search_str, "inloc:");
 
-    $arr['suppliername'] = get_keyword_after_modifier($search_str, "insupplier:");
+    $arr['suppliername'] = getKeywordAfterModifier($search_str, "insupplier:");
 
-    $arr['partnr'] = get_keyword_after_modifier($search_str, "inpartnr:");
+    $arr['partnr'] = getKeywordAfterModifier($search_str, "inpartnr:");
 
-    $arr['manufacturername'] = get_keyword_after_modifier($search_str, "inmanufacturer:");
+    $arr['manufacturername'] = getKeywordAfterModifier($search_str, "inmanufacturer:");
 
     //Check if all array entries are "", which means $search_str contains no modifier
     $no_modifier = true;
@@ -803,7 +803,7 @@ function search_string_to_array($search_str)
  * @param $modifier  string The modifier which should be searched for
  * @return string Return the keyword after the modifier, if it was found. Else returns "".
  */
-function get_keyword_after_modifier($search_str, $modifier)
+function getKeywordAfterModifier($search_str, $modifier)
 {
     $pos = strpos($search_str, $modifier);
     if ($pos === false) {   //This modifier was not found in the search_str, so return "".
@@ -829,12 +829,12 @@ function get_keyword_after_modifier($search_str, $modifier)
  * @param $pattern string
  * @return string
  */
-function regex_allow_umlauts($pattern)
+function regexAllowUmlauts($pattern)
 {
     return str_replace("\w", '[\wÄäÖöÜüß]', $pattern);
 }
 
-function regex_strip_slashes($pattern, $mb = true)
+function regexStripSlashes($pattern, $mb = true)
 {
     if (mb_substr($pattern, 0, 1) === "/" &&  substr($pattern, -1, 1) === "/") {
         return mb_substr($pattern, 1, -1);
@@ -850,19 +850,19 @@ function regex_strip_slashes($pattern, $mb = true)
  * @param $value string The "value" attribute of the <input> element
  * @return string The HTML string.
  */
-function generate_input_hidden($name, $value="")
+function generateInputHidden($name, $value="")
 {
     return '<input type="hidden" name="' . $name . '" value="' . $value . '">';
 }
 
-function generate_button($name, $text, $theme="btn-default", $val="")
+function generateButton($name, $text, $theme="btn-default", $val="")
 {
     return "<button type='submit' class='btn $theme' name='$name' value='$val'>$text</button>";
 }
 
-function generate_button_red($name, $text, $theme="btn-danger", $val="")
+function generateButtonRed($name, $text, $theme="btn-danger", $val="")
 {
-    return generate_button($name, $text, $theme, $val);
+    return generateButton($name, $text, $theme, $val);
 }
 
 /**
@@ -886,7 +886,7 @@ function strcontains($haystack, $needle)
  * @return IAPIModel[] An array of API objects
  * @throws Exception
  */
-function convert_APIModel_array($array, $verbose = false)
+function convertAPIModelArray($array, $verbose = false)
 {
     if (is_null($array)) {
         return null;
@@ -904,15 +904,15 @@ function convert_APIModel_array($array, $verbose = false)
 
 /**
  * Try to call get_APIModel_array of $object. If $object is null, null is returned!
- * @param $array array The array of the APIModel objects.
- * @return array An array of API objects
+ * @param IAPIModel $object The object, of which the API info should be get.
+ * @return array An array describing the object.
  */
-function try_to_get_APIModel_array($object, $verbose = false)
+function tryToGetAPIModelArray($object, $verbose = false)
 {
     if (is_null($object)) {
         return null;
     } else {
-        return $object->get_API_array($verbose);
+        return $object->getAPIArray($verbose);
     }
 }
 
@@ -942,66 +942,66 @@ function buildToolsTree($params)
 
     //Tools nodes
     $tools_nodes = array();
-    $tools_nodes[] = treeview_node(_("Import"), BASE_RELATIVE . "/tools_import.php");
+    $tools_nodes[] = treeviewNode(_("Import"), BASE_RELATIVE . "/tools_import.php");
     if (!$disable_labels) {
-        $tools_nodes[] = treeview_node(_("Labels"), BASE_RELATIVE . "/tools_labels.php");
+        $tools_nodes[] = treeviewNode(_("Labels"), BASE_RELATIVE . "/tools_labels.php");
     }
     if (!$disable_calculator) {
-        $tools_nodes[] = treeview_node(_("Widerstandsrechner"), BASE_RELATIVE . "/tools_calculator.php");
+        $tools_nodes[] = treeviewNode(_("Widerstandsrechner"), BASE_RELATIVE . "/tools_calculator.php");
     }
     if (!$disable_footprint) {
-        $tools_nodes[] = treeview_node(_("Footprints"), BASE_RELATIVE . "/tools_footprints.php");
+        $tools_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/tools_footprints.php");
     }
     if (!$disable_iclogos) {
-        $tools_nodes[] = treeview_node(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");
+        $tools_nodes[] = treeviewNode(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");
     }
 
     $system_nodes = array();
-    $system_nodes[] = treeview_node(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
-    $system_nodes[] = treeview_node(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
+    $system_nodes[] = treeviewNode(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
+    $system_nodes[] = treeviewNode(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
 
 
     //Show nodes
     $show_nodes = array();
-    $show_nodes[] = treeview_node(_("Zu bestellende Teile"), BASE_RELATIVE . "/show_order_parts.php");
-    $show_nodes[] = treeview_node(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
-    $show_nodes[] = treeview_node(_("Obsolente Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
-    $show_nodes[] = treeview_node(_("Statistik"), BASE_RELATIVE . "/statistics.php");
-    $show_nodes[] = treeview_node(_("Alle Teile"), BASE_RELATIVE . "/show_all_parts.php");
+    $show_nodes[] = treeviewNode(_("Zu bestellende Teile"), BASE_RELATIVE . "/show_order_parts.php");
+    $show_nodes[] = treeviewNode(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
+    $show_nodes[] = treeviewNode(_("Obsolente Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
+    $show_nodes[] = treeviewNode(_("Statistik"), BASE_RELATIVE . "/statistics.php");
+    $show_nodes[] = treeviewNode(_("Alle Teile"), BASE_RELATIVE . "/show_all_parts.php");
 
     //Edit nodes
     $edit_nodes = array();
     if (!$disable_devices) {
-        $edit_nodes[] = treeview_node(_("Baugruppen"), BASE_RELATIVE . "/edit_devices.php");
+        $edit_nodes[] = treeviewNode(_("Baugruppen"), BASE_RELATIVE . "/edit_devices.php");
     }
-    $edit_nodes[] = treeview_node(_("Lagerorte"), BASE_RELATIVE . "/edit_storelocations.php");
-    $edit_nodes[] = treeview_node(_("Footprints"), BASE_RELATIVE . "/edit_footprints.php");
-    $edit_nodes[] = treeview_node(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
-    $edit_nodes[] = treeview_node(_("Lieferanten"), BASE_RELATIVE . "/edit_suppliers.php");
+    $edit_nodes[] = treeviewNode(_("Lagerorte"), BASE_RELATIVE . "/edit_storelocations.php");
+    $edit_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/edit_footprints.php");
+    $edit_nodes[] = treeviewNode(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
+    $edit_nodes[] = treeviewNode(_("Lieferanten"), BASE_RELATIVE . "/edit_suppliers.php");
     if (!$disable_manufactur) {
-        $edit_nodes[] = treeview_node(_("Hersteller"), BASE_RELATIVE . "/edit_manufacturers.php");
+        $edit_nodes[] = treeviewNode(_("Hersteller"), BASE_RELATIVE . "/edit_manufacturers.php");
     }
-    $edit_nodes[] = treeview_node(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
+    $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
 
     //Developer nodes
     $dev_nodes = array();
-    $dev_nodes[] = treeview_node(_("Werkzeuge"), BASE_RELATIVE . "/development/developer_tools.php");
-    $dev_nodes[] = treeview_node(_("Debugging"), BASE_RELATIVE . "/system_debug.php");
-    $dev_nodes[] = treeview_node(_("Sandkasten"), BASE_RELATIVE . "/development/sandbox.php");
-    $dev_nodes[] = treeview_node(_("Quellcode-Doku"), BASE_RELATIVE . "/development/phpdoc/html/index.html");
+    $dev_nodes[] = treeviewNode(_("Werkzeuge"), BASE_RELATIVE . "/development/developer_tools.php");
+    $dev_nodes[] = treeviewNode(_("Debugging"), BASE_RELATIVE . "/system_debug.php");
+    $dev_nodes[] = treeviewNode(_("Sandkasten"), BASE_RELATIVE . "/development/sandbox.php");
+    $dev_nodes[] = treeviewNode(_("Quellcode-Doku"), BASE_RELATIVE . "/development/phpdoc/html/index.html");
 
     //Add nodes to root
     $tree = array();
-    $tree[] = treeview_node(_("Tools"), null, $tools_nodes);
-    $tree[] = treeview_node(_("Bearbeiten"), null, $edit_nodes);
-    $tree[] = treeview_node(_("Zeige"), null, $show_nodes);
+    $tree[] = treeviewNode(_("Tools"), null, $tools_nodes);
+    $tree[] = treeviewNode(_("Bearbeiten"), null, $edit_nodes);
+    $tree[] = treeviewNode(_("Zeige"), null, $show_nodes);
     if (!$disable_config) {
-        $tree[] = treeview_node(_("System"), null, $system_nodes);
+        $tree[] = treeviewNode(_("System"), null, $system_nodes);
     }
     if ($developer_mode) {
-        $tree[] = treeview_node(_("Entwickler-Werkzeuge"), null, $dev_nodes);
+        $tree[] = treeviewNode(_("Entwickler-Werkzeuge"), null, $dev_nodes);
     }
-    $tree[] = treeview_node(_("Hilfe"), "https://github.com/jbtronics/Part-DB/wiki", null);
+    $tree[] = treeviewNode(_("Hilfe"), "https://github.com/jbtronics/Part-DB/wiki", null);
 
     return $tree;
 }
@@ -1027,7 +1027,7 @@ function sie($test, $default_val = "")
  * @param $object mixed  The object, whose clasname should be get.
  * @return string The class name of $object.
  */
-function get_class_short($object)
+function getClassShort($object)
 {
     $reflect = new \ReflectionClass($object);
     return $reflect->getShortName();

@@ -163,7 +163,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
                 'WHERE (class_name=? OR class_name=?) AND element_id=? '.
                 'GROUP BY type_id '.
                 'ORDER BY attachement_types.name ASC';
-            $query_data = $this->database->query($query, array(get_class($this),get_class_short($this), $this->getID()));
+            $query_data = $this->database->query($query, array(get_class($this),getClassShort($this), $this->getID()));
 
             //debug('temp', 'Anzahl gefundener Dateitypen: '.count($query_data));
             foreach ($query_data as $row) {
@@ -195,7 +195,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
                 'LEFT JOIN attachement_types ON attachements.type_id=attachement_types.id '.
                 'WHERE (class_name=? OR class_name=?) AND element_id=? ';
             $query .= 'ORDER BY attachement_types.name ASC, attachements.name ASC';
-            $query_data = $this->database->query($query, array(get_class($this), get_class_short($this), $this->getID()));
+            $query_data = $this->database->query($query, array(get_class($this), getClassShort($this), $this->getID()));
 
             //debug('temp', 'Anzahl gefundene Dateianhänge: '.count($query_data));
             foreach ($query_data as $row) {

@@ -98,7 +98,7 @@ if (! $fatal_error) {
             break;
 
         case 'show_others':
-            $directories = find_all_directories(BASE.'/img/footprints/');
+            $directories = findAllDirectories(BASE.'/img/footprints/');
             if (array_search(BASE.'/img/footprints/Aktiv', $directories) !== false) {
                 unset($directories[array_search(BASE.'/img/footprints/Aktiv', $directories)]);
             }
@@ -137,12 +137,12 @@ if (count($directories) > 0) {
     $categories = array();
     foreach ($directories as $directory) {
         $categories[] = rtrim($directory, "\\/");
-        $categories = array_merge($categories, find_all_directories($directory, true));
+        $categories = array_merge($categories, findAllDirectories($directory, true));
     }
     sort($categories);
     foreach ($categories as $category) {
         $pictures_loop = array();
-        $pictures = find_all_files($category.'/', false, '.png');
+        $pictures = findAllFiles($category.'/', false, '.png');
         foreach ($pictures as $filename) {
             $pictures_loop[] = array(   'title' => str_replace('.png', '', basename($filename)),
                 'filename' => str_replace(BASE, BASE_RELATIVE, $filename));

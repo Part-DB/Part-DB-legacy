@@ -438,7 +438,7 @@ class Attachement extends Base\NamedDBElement
         }
 
         // check if "filename" is a valid (absolute and UNIX) filepath
-        if (! is_path_absolute_and_unix($values['filename'])) {
+        if (! isPathabsoluteAndUnix($values['filename'])) {
             throw new Exception(sprintf(_('Der Dateipfad "%s" ist kein gültiger absoluter UNIX Dateipfad!'), $values['filename']));
         }
 

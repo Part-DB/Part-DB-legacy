@@ -180,7 +180,7 @@ if (! $fatal_error) {
                 }
 
                 $download = isset($_REQUEST['export_download']);
-                $export_string = export_parts($parts, 'orderparts', $export_format_id, $download, $filename);
+                $export_string = exportParts($parts, 'orderparts', $export_format_id, $download, $filename);
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -238,7 +238,7 @@ if (! $fatal_error) {
         $table_loop = Part::buildTemplateTableArray($parts, 'order_parts');
         $html->setLoop('table', $table_loop);
         $html->setVariable('table_rowcount', count($parts), 'integer');
-        $html->setVariable('sum_price', float_to_money_string($sum_price), 'string');
+        $html->setVariable('sum_price', floatToMoneyString($sum_price), 'string');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -299,7 +299,7 @@ if (! $fatal_error) {
 
 if (! $fatal_error) {
     // export formats
-    $html->setLoop('export_formats', build_export_formats_loop('orderparts', $export_format_id));
+    $html->setLoop('export_formats', buildExportFormatsLoop('orderparts', $export_format_id));
 
     if (isset($export_string)) {
         $html->setVariable('export_result', str_replace("\n", '<br>', str_replace("\n  ", '<br>&nbsp;&nbsp;',   // yes, this is quite ugly,

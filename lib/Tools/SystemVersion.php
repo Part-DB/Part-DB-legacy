@@ -275,7 +275,7 @@ class SystemVersion
     {
         if ((($type == 'stable') && (! is_object(SystemVersion::$latest_stable_version)))
             || (($type == 'unstable') && (! is_object(SystemVersion::$latest_unstable_version)))) {
-            $ini = curl_get_data('http://kami89.myparts.info/updates/latest.ini');
+            $ini = curlGetData('http://kami89.myparts.info/updates/latest.ini');
             $ini_array = parse_ini_string($ini, true);
 
             SystemVersion::$latest_stable_version    = new SystemVersion($ini_array['stable']['version']);

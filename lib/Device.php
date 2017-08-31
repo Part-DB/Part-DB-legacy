@@ -360,7 +360,7 @@ class Device extends Base\PartsContainingDBElement
      * @return string       the price as a formatted string with currency (if "$as_money_string == true")
      * @return float        the price as a float (if "$as_money_string == false")
      *
-     * @see float_to_money_string()
+     * @see floatToMoneyString()
      *
      * @throws Exception if there was an error
      */
@@ -375,7 +375,7 @@ class Device extends Base\PartsContainingDBElement
         }
 
         if ($as_money_string) {
-            return float_to_money_string($price);
+            return floatToMoneyString($price);
         } else {
             return $price;
         }

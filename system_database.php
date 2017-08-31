@@ -89,7 +89,7 @@ switch ($action) {
                 break;
             }
 
-            if (! is_admin_password($admin_password)) {
+            if (! isAdminPassword($admin_password)) {
                 throw new Exception(_('Das Administratorpasswort ist falsch!'));
             }
 
@@ -99,7 +99,7 @@ switch ($action) {
             $config['db']['name'] = $db_name;
             $config['db']['user'] = $db_user;
             $config['db']['password'] = $db_password;
-            save_config();
+            saveConfig();
             header('Location: system_database.php'); // Reload the page that we can see if the new settings are stored successfully
         } catch (Exception $e) {
             $config = $config_old; // reload the old config
@@ -112,7 +112,7 @@ switch ($action) {
         $config_old = $config;
         try {
             $config['db']['auto_update'] = $automatic_updates_enabled;
-            save_config();
+            saveConfig();
             //header('Location: system_database.php'); // Reload the page that we can see if the new settings are stored successfully --> does not work correctly?!
         } catch (Exception $e) {
             $config = $config_old; // reload the old config
@@ -152,8 +152,8 @@ switch ($action) {
  *********************************************************************************/
 
 $html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
-$html->setLoop('db_type_loop', array_to_template_loop($config['db_types'], $config['db']['type']));
-$html->setLoop('db_charset_loop', array_to_template_loop($config['db_charsets'], $config['db']['charset']));
+$html->setLoop('db_type_loop', arrayToTemplateLoop($config['db_types'], $config['db']['type']));
+$html->setLoop('db_charset_loop', arrayToTemplateLoop($config['db_charsets'], $config['db']['charset']));
 $html->setVariable('db_host', $config['db']['host'], 'string');
 $html->setVariable('db_name', $config['db']['name'], 'string');
 $html->setVariable('db_user', $config['db']['user'], 'string');

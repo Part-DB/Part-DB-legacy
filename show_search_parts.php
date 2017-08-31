@@ -173,7 +173,7 @@ if (! $fatal_error) {
                     $search_manufacturer
                 );
 
-                $export_string = export_parts($parts, 'searchparts', $export_format_id, true, 'search_parts');
+                $export_string = exportParts($parts, 'searchparts', $export_format_id, true, 'search_parts');
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -274,7 +274,7 @@ $html->setVariable('search_manufacturer', $search_manufacturer, 'boolean');
 
 if (! $fatal_error) {
     // export formats
-    $html->setLoop('export_formats', build_export_formats_loop('searchparts'));
+    $html->setLoop('export_formats', buildExportFormatsLoop('searchparts'));
 
     // global stuff
     $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');

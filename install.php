@@ -114,7 +114,7 @@ if (! $fatal_error) {
                 $config['language'] = $language;
 
                 // check if the server supports the selected language and print a warning if not
-                if (! own_setlocale(LC_ALL, $config['language'])) {
+                if (! ownSetlocale(LC_ALL, $config['language'])) {
                     throw new Exception(sprintf(_('Die gewählte Sprache "%s" wird vom Server nicht unterstützt!'.
                         "\nBitte installieren Sie diese Sprache oder wählen Sie eine andere."), $config['language']));
                 }
@@ -128,7 +128,7 @@ if (! $fatal_error) {
         case 'save_admin_password':
             try {
                 // set_admin_password() throws an exception if the new passwords are not valid
-                set_admin_password(null, $adminpass_1, $adminpass_2, false);
+                setAdminPassword(null, $adminpass_1, $adminpass_2, false);
 
                 $config['installation_complete']['admin_password'] = true; // admin password successful set
             } catch (Exception $e) {
@@ -176,7 +176,7 @@ if (! $fatal_error) {
 
 // try to save the config array in config.php --> fatal error if this does not work!
 try {
-    save_config();
+    saveConfig();
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -197,15 +197,15 @@ if (! $fatal_error) {
     if (! $config['installation_complete']['locales']) {
         // step "set_locales"
         $tmpl_site_to_show = 'set_locales';
-        $html->setLoop('timezone_loop', array_to_template_loop($config['timezones'], $config['timezone']));
-        $html->setLoop('language_loop', array_to_template_loop($config['languages'], $config['language']));
+        $html->setLoop('timezone_loop', arrayToTemplateLoop($config['timezones'], $config['timezone']));
+        $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
     } elseif (! $config['installation_complete']['admin_password']) {
         $tmpl_site_to_show = 'set_admin_password';
     } elseif (! $config['installation_complete']['database']) {
         // step "set_db_settings"
         $tmpl_site_to_show = 'set_db_settings';
-        $html->setLoop('db_type_loop', array_to_template_loop($config['db_types'], $config['db']['type']));
-        $html->setLoop('db_charset_loop', array_to_template_loop($config['db_charsets'], $config['db']['charset']));
+        $html->setLoop('db_type_loop', arrayToTemplateLoop($config['db_types'], $config['db']['type']));
+        $html->setLoop('db_charset_loop', arrayToTemplateLoop($config['db_charsets'], $config['db']['charset']));
         $html->setVariable('db_host', $config['db']['host'], 'string');
         $html->setVariable('db_name', $config['db']['name'], 'string');
         $html->setVariable('db_user', $config['db']['user'], 'string');

@@ -84,11 +84,11 @@ $new_is_master_picture      = isset($_REQUEST['is_master_picture']);
 $attachement_id             = isset($_REQUEST['attachement_id'])            ? (integer)$_REQUEST['attachement_id']           : 0;
 $new_attachement_type_id    = isset($_REQUEST['attachement_type_id'])       ? (integer)$_REQUEST['attachement_type_id']      : 0;
 $new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
-$new_filename               = isset($_REQUEST['attachement_filename'])      ? to_unix_path(trim((string)$_REQUEST['attachement_filename'])) : '';
+$new_filename               = isset($_REQUEST['attachement_filename'])      ? toUnixPath(trim((string)$_REQUEST['attachement_filename'])) : '';
 
 $partname_invalid           = isset($_REQUEST['name_edit'])                 ? true                                           : false;
 
-if ((strlen($new_filename) > 0) && (! is_path_absolute_and_unix($new_filename))) {
+if ((strlen($new_filename) > 0) && (! isPathabsoluteAndUnix($new_filename))) {
     $new_filename = BASE.'/'.$new_filename;
 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
@@ -288,23 +288,23 @@ if (! $fatal_error) {
                     $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $category->getPartnameRegex(true) . "</b>");
                     if (!$category->getPartnameRegexObj()->is_enforced()) {
                         $messages[] = array('html' => _('Möchten sie wirklich fortfahren?<br>'));
-                        $messages[] = array('html' => generate_button("", _('Nein, Name überarbeiten')), 'no_linebreak' => true);
-                        $messages[] = array('html' => generate_button_red("create_name_save", _('Ja, Name speichern')));
+                        $messages[] = array('html' => generateButton("", _('Nein, Name überarbeiten')), 'no_linebreak' => true);
+                        $messages[] = array('html' => generateButtonRed("create_name_save", _('Ja, Name speichern')));
                     } else {
                         $messages[] = array('html' => _('Dies kann nicht ignoriert werden, da das Enforcement-Flag für diese Kategorie gesetzt ist!<br>'));
                         $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="" >'._('Ok, Name überarbeiten').'</button>', 'no_linebreak' => true);
                     }
 
-                    $messages[] = array('html' => generate_input_hidden("name", $new_name), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("category_id", $new_category_id), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("description", $new_description), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("instock", $new_instock), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("mininstock", $new_mininstock), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("storelocation_id", $new_storelocation_id), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("manufacturer_id", $new_manufacturer_id), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("footprint_id", $new_footprint_id), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("comment", $new_comment), 'no_linebreak' => 'true');
-                    $messages[] = array('html' => generate_input_hidden("visible", $new_visible), 'no_linebreak' => 'true');
+                    $messages[] = array('html' => generateInputHidden("name", $new_name), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("category_id", $new_category_id), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("description", $new_description), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("instock", $new_instock), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("mininstock", $new_mininstock), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("storelocation_id", $new_storelocation_id), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("manufacturer_id", $new_manufacturer_id), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("footprint_id", $new_footprint_id), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("comment", $new_comment), 'no_linebreak' => 'true');
+                    $messages[] = array('html' => generateInputHidden("visible", $new_visible), 'no_linebreak' => 'true');
 
 
                     $partname_invalid = true;
@@ -472,7 +472,7 @@ if (! $fatal_error) {
                 }
 
                 if (strlen($_FILES['attachement_file']['name']) > 0) {
-                    $new_filename = upload_file($_FILES['attachement_file'], BASE.'/data/media/');
+                    $new_filename = uploadFile($_FILES['attachement_file'], BASE.'/data/media/');
                 }
 
                 $new_attachement = Attachement::add(
@@ -501,7 +501,7 @@ if (! $fatal_error) {
                 }
 
                 if (strlen($_FILES['attachement_file']['name']) > 0) {
-                    $new_filename = upload_file($_FILES['attachement_file'], BASE.'/data/media/');
+                    $new_filename = uploadFile($_FILES['attachement_file'], BASE.'/data/media/');
                 }
 
                 $attachement->setAttributes(array( 'type_id'           => $new_attachement_type_id,

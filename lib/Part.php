@@ -769,7 +769,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if ($as_money_string) {
-            return float_to_money_string($average_price);
+            return floatToMoneyString($average_price);
         } else {
             return $average_price;
         }
@@ -1071,7 +1071,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         $table_row = array();
-        $table_row['row_odd']       = is_odd($row_index);
+        $table_row['row_odd']       = isOdd($row_index);
         $table_row['row_index']     = $row_index;
         $table_row['id']            = $this->getID();
         $table_row['row_fields']    = array();
@@ -1663,7 +1663,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $price_sum = round($price_sum, 2);
 
         if ($as_money_string) {
-            return float_to_money_string($price_sum);
+            return floatToMoneyString($price_sum);
         } else {
             return $price_sum;
         }
@@ -1874,7 +1874,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             return array();
         }
 
-        $keywords = search_string_to_array($keyword);
+        $keywords = searchStringToArray($keyword);
 
         //Select the correct LIKE operator, for Regex or normal search
         if ($regex_search == false) {
@@ -2140,10 +2140,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             "instock" => $this->getInstock(),
             "mininstock" => $this->getMinInstock(),
             "category" => $this->getCategory()->getAPIArray(false),
-            "footprint" => try_to_get_APIModel_array($this->getFootprint(), false),
-            "storelocation" => try_to_get_APIModel_array($this->getStorelocation(), false),
-            "manufacturer" => try_to_get_APIModel_array($this->getManufacturer(), false),
-            "orderdetails" => convert_APIModel_array($this->getOrderdetails(), false),
+            "footprint" => tryToGetAPIModelArray($this->getFootprint(), false),
+            "storelocation" => tryToGetAPIModelArray($this->getStorelocation(), false),
+            "manufacturer" => tryToGetAPIModelArray($this->getManufacturer(), false),
+            "orderdetails" => convertAPIModelArray($this->getOrderdetails(), false),
         );
 
         if ($verbose == true) {
@@ -2156,7 +2156,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 "lastmodified" => $this->getLastModified(),
                 "datetime_added" => $this->getDatetimeAdded(),
                 "avgprice" => $this->getAveragePrice(),
-                "properties" => convert_APIModel_array($this->getProperties(), false));
+                "properties" => convertAPIModelArray($this->getProperties(), false));
             return array_merge($json, $ver);
         }
         return $json;

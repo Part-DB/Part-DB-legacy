@@ -272,7 +272,7 @@ if (! $fatal_error) {
                 }
 
                 $download = isset($_REQUEST['export_download']);
-                $export_string = export_parts(
+                $export_string = exportParts(
                     $device_parts,
                     'deviceparts',
                     $export_format_id,
@@ -287,9 +287,9 @@ if (! $fatal_error) {
 
         case 'import_readtext':
             try {
-                $import_data = import_text_to_array($import_file_content, $import_format, $import_separator);
-                match_devicepart_names_to_ids($database, $current_user, $log, $import_data);
-                $import_loop = build_deviceparts_import_template_loop($database, $current_user, $log, $import_data);
+                $import_data = importTextToArray($import_file_content, $import_format, $import_separator);
+                matchDevicepartNamesToIds($database, $current_user, $log, $import_data);
+                $import_loop = buildDevicepartsImportTemplateLoop($database, $current_user, $log, $import_data);
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -298,10 +298,10 @@ if (! $fatal_error) {
         case 'import':
             $only_check_data = isset($_REQUEST['check_import_data']);
             try {
-                $import_data = extract_import_data_from_request($import_rowcount);
-                $import_loop = build_deviceparts_import_template_loop($database, $current_user, $log, $import_data);
+                $import_data = extractImportDataFromRequest($import_rowcount);
+                $import_loop = buildDevicepartsImportTemplateLoop($database, $current_user, $log, $import_data);
 
-                import_device_parts($database, $current_user, $log, $device->getID(), $import_data, $only_check_data);
+                importDeviceParts($database, $current_user, $log, $device->getID(), $import_data, $only_check_data);
                 $import_data_is_valid = true; // no exception in "import_device_parts()", so the data is valid
 
                 if (! $only_check_data) {
@@ -398,7 +398,7 @@ if (! $fatal_error) {
     $html->setVariable('order_quantity', $device->getOrderQuantity(), 'integer');
     $html->setVariable('order_only_missing_parts', $device->getOrderOnlyMissingParts(), 'boolean');
     $html->setVariable('export_only_missing', $export_only_missing, 'boolean');
-    $html->setLoop('export_formats', build_export_formats_loop('deviceparts', $export_format_id));
+    $html->setLoop('export_formats', buildExportFormatsLoop('deviceparts', $export_format_id));
     if (isset($export_string)) {
         $html->setVariable('export_result', str_replace("\n", '<br>', str_replace("\n  ", '<br>&nbsp;&nbsp;',   // yes, this is quite ugly,
             str_replace("\n    ", '<br>&nbsp;&nbsp;&nbsp;&nbsp;',               // but the result is pretty ;-)

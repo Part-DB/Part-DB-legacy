@@ -143,7 +143,7 @@ if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
         $feed_content = '';
 
         try {
-            $feed_content = curl_get_data($feed_link);
+            $feed_content = curlGetData($feed_link);
         } catch (Exception $e) {
             $feed_content = file_get_contents($feed_link);
         }
@@ -206,8 +206,8 @@ if (! $fatal_error) {
         $system_version = $system->getInstalledVersion();
         $html->setVariable('system_version', $system_version->asString(false, true, true, false), 'string');
         $html->setVariable('system_version_full', $system_version->asString(false, false, false, true), 'string');
-        $html->setVariable('git_branch', get_git_branch_name(), 'string');
-        $html->setVariable('git_commit', get_git_commit_hash(10), 'string');
+        $html->setVariable('git_branch', getGitBranchName(), 'string');
+        $html->setVariable('git_commit', getGitCommitHash(10), 'string');
         $html->setVariable('partdb_title', $config['partdb_title'], 'string');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');

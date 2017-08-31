@@ -56,14 +56,14 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 $selected_id                    = isset($_REQUEST['selected_id'])                   ? (integer)$_REQUEST['selected_id']                     : 0;
 $new_name                       = isset($_REQUEST['name'])                          ? trim((string)$_REQUEST['name'])                       : '';
 $new_parent_id                  = isset($_REQUEST['parent_id'])                     ? (integer)$_REQUEST['parent_id']                       : 0;
-$new_filename                   = isset($_REQUEST['filename'])                      ? to_unix_path(trim((string)$_REQUEST['filename']))     : '';
-$new_3d_filename                = isset($_REQUEST['filename_3d'])                   ? to_unix_path(trim((string)$_REQUEST['filename_3d']))  : '';
+$new_filename                   = isset($_REQUEST['filename'])                      ? toUnixPath(trim((string)$_REQUEST['filename']))     : '';
+$new_3d_filename                = isset($_REQUEST['filename_3d'])                   ? toUnixPath(trim((string)$_REQUEST['filename_3d']))  : '';
 
-if ((strlen($new_filename) > 0) && (! is_path_absolute_and_unix($new_filename))) {
+if ((strlen($new_filename) > 0) && (! isPathabsoluteAndUnix($new_filename))) {
     $new_filename = BASE.'/'.$new_filename;
 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
-if ((strlen($new_3d_filename) > 0) && (! is_path_absolute_and_unix($new_3d_filename))) {
+if ((strlen($new_3d_filename) > 0) && (! isPathabsoluteAndUnix($new_3d_filename))) {
     $new_3d_filename = BASE.'/'.$new_3d_filename;
 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
@@ -218,10 +218,10 @@ if (! $fatal_error) {
             $errors = array();
             for ($i=0; $i < $broken_footprints_count; $i++) {
                 $spf_footprint_id   = isset($_REQUEST['broken_footprint_id_'.$i])  ? $_REQUEST['broken_footprint_id_'.$i] : -1; // -1 will produce an error
-                $spf_new_filename   = isset($_REQUEST['proposed_filename_'.$i])    ? to_unix_path($_REQUEST['proposed_filename_'.$i])   : null;
+                $spf_new_filename   = isset($_REQUEST['proposed_filename_'.$i])    ? toUnixPath($_REQUEST['proposed_filename_'.$i])   : null;
                 $spf_checked        = isset($_REQUEST['filename_checkbox_'.$i])     || $save_all_proposed_filenames;
 
-                if ((strlen($spf_new_filename) > 0) && (! is_path_absolute_and_unix($spf_new_filename))) {
+                if ((strlen($spf_new_filename) > 0) && (! isPathabsoluteAndUnix($spf_new_filename))) {
                     $spf_new_filename = BASE.'/'.$spf_new_filename;
                 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
@@ -245,10 +245,10 @@ if (! $fatal_error) {
             $errors = array();
             for ($i=0; $i < $broken_3d_footprints_count; $i++) {
                 $spf_footprint_id   = isset($_REQUEST['broken_3d_footprint_id_'.$i])  ? $_REQUEST['broken_3d_footprint_id_'.$i] : -1; // -1 will produce an error
-                $spf_new_filename   = isset($_REQUEST['proposed_3d_filename_'.$i])    ? to_unix_path($_REQUEST['proposed_3d_filename_'.$i])   : null;
+                $spf_new_filename   = isset($_REQUEST['proposed_3d_filename_'.$i])    ? toUnixPath($_REQUEST['proposed_3d_filename_'.$i])   : null;
                 $spf_checked        = isset($_REQUEST['filename_3d_checkbox_'.$i])     || $save_all_proposed_3d_filenames;
 
-                if ((strlen($spf_new_filename) > 0) && (! is_path_absolute_and_unix($spf_new_filename))) {
+                if ((strlen($spf_new_filename) > 0) && (! isPathabsoluteAndUnix($spf_new_filename))) {
                     $spf_new_filename = BASE.'/'.$spf_new_filename;
                 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
@@ -283,7 +283,7 @@ if (! $fatal_error) {
 
         if (count($broken_filename_footprints) > 0) {
             // get all available files for the proposed footprint images
-            $available_proposed_files = array_merge(find_all_files(BASE.'/img/', true), find_all_files(BASE.'/data/media/', true));
+            $available_proposed_files = array_merge(findAllFiles(BASE.'/img/', true), findAllFiles(BASE.'/data/media/', true));
 
             // read the PHP constant "max_input_vars"
             $max_input_vars = ((ini_get('max_input_vars') !== false) ? (int)ini_get('max_input_vars') : 999999);
@@ -302,7 +302,7 @@ if (! $fatal_error) {
                 /** @var Footprint $footprint */
                 $footprint = $broken_filename_footprints[$i];
                 $proposed_filenames_loop = array();
-                $proposed_filenames = get_proposed_filenames($footprint->getFilename(), $available_proposed_files);
+                $proposed_filenames = getProposedFilenames($footprint->getFilename(), $available_proposed_files);
 
                 if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->getFilename(), PATHINFO_FILENAME))) {
                     $exact_match = true;
@@ -350,7 +350,7 @@ if (! $fatal_error) {
 
         if (count($broken_filename_footprints) > 0) {
             // get all available files for the proposed footprint images
-            $available_proposed_files = array_merge(find_all_files(BASE.'/models/', true));
+            $available_proposed_files = array_merge(findAllFiles(BASE.'/models/', true));
 
             // read the PHP constant "max_input_vars"
             $max_input_vars = ((ini_get('max_input_vars') !== false) ? (int)ini_get('max_input_vars') : 999999);
@@ -368,7 +368,7 @@ if (! $fatal_error) {
 
                 $footprint = $broken_filename_footprints[$i];
                 $proposed_filenames_loop = array();
-                $proposed_filenames = get_proposed_filenames($footprint->get3dFilename(), $available_proposed_files);
+                $proposed_filenames = getProposedFilenames($footprint->get3dFilename(), $available_proposed_files);
 
                 if ((count($proposed_filenames) > 0) && (pathinfo($proposed_filenames[0], PATHINFO_FILENAME) == pathinfo($footprint->get3dFilename(), PATHINFO_FILENAME))) {
                     $exact_match = true;

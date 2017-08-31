@@ -58,7 +58,7 @@ class PartNameRegEx
     public function get_regex($is_mb = false)
     {
         if ($is_mb) {
-            return regex_strip_slashes($this->regex);
+            return regexStripSlashes($this->regex);
         } else {
             return $this->regex;
         }
@@ -158,12 +158,12 @@ class PartNameRegEx
     public static function get_pattern($for_html_pattern = false, $for_mb = false)
     {
         if ($for_html_pattern) {
-            $pattern = regex_strip_slashes(regex_allow_umlauts(PartNameRegEx::$pattern));
+            $pattern = regexStripSlashes(regexAllowUmlauts(PartNameRegEx::$pattern));
             return "($pattern)|(@@)";
         } elseif ($for_mb) {
-            return regex_strip_slashes(PartNameRegEx::$pattern);
+            return regexStripSlashes(PartNameRegEx::$pattern);
         } else {
-            return regex_allow_umlauts(PartNameRegEx::$pattern);
+            return regexAllowUmlauts(PartNameRegEx::$pattern);
         }
     }
 }
