@@ -286,7 +286,7 @@ if (! $fatal_error) {
 
                     $messages[] = array('text' => _('<br>Hinweis:'), 'strong' => true);
                     $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $category->getPartnameRegex(true) . "</b>");
-                    if (!$category->getPartnameRegexObj()->is_enforced()) {
+                    if (!$category->getPartnameRegexObj()->isEnforced()) {
                         $messages[] = array('html' => _('Möchten sie wirklich fortfahren?<br>'));
                         $messages[] = array('html' => generateButton("", _('Nein, Name überarbeiten')), 'no_linebreak' => true);
                         $messages[] = array('html' => generateButtonRed("create_name_save", _('Ja, Name speichern')));
@@ -359,7 +359,7 @@ if (! $fatal_error) {
 
                     $messages[] = array('text' => _('<br>Hinweis:'), 'strong' => true);
                     $messages[] = array('html' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $part->getCategory()->getPartnameRegex(true) . "</b>");
-                    if ($part->getCategory()->getPartnameRegexObj()->is_enforced()) {
+                    if ($part->getCategory()->getPartnameRegexObj()->isEnforced()) {
                         $messages[] = array('html' => _('Dies kann nicht ignoriert werden, da das Enforcement-Flag für diese Kategorie gesetzt ist!<br>'));
                         $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="name_edit" >'._('Ok, Name überarbeiten').'</button>', 'no_linebreak' => true);
                     } else {

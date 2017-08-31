@@ -8,7 +8,6 @@
 
 namespace PartDB\Interfaces;
 
-
 use Exception;
 use PartDB\Database;
 use PartDB\Log;

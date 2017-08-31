@@ -54,7 +54,7 @@ class PDBDebugBar
         $this->debugbar['time']->stopMeasure($id);
     }
 
-    public static function is_activated()
+    public static function isActivated()
     {
         global $config;
         return $config['debug']['debugbar'];

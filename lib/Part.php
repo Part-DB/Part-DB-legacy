@@ -398,11 +398,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     {
         if (strlen($this->db_data['manufacturer_product_url']) > 0) {
             return $this->db_data['manufacturer_product_url'];
-        }  // a manual url is available
-        elseif (is_object($this->getManufacturer())) {
+        } elseif (is_object($this->getManufacturer())) {
             return $this->getManufacturer()->getAutoProductUrl($this->db_data['name']);
-        } // an automatic url is available
-        else {
+        } else {
             return '';
         } // no url is available
     }
@@ -827,13 +825,13 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             $comm = array();
 
             if ($use_name === true) {
-                $name = $this->getCategory()->getPartnameRegexObj()->get_properties($this->getName());
+                $name = $this->getCategory()->getPartnameRegexObj()->getProperties($this->getName());
             }
             if ($use_description === true) {
-                $desc = PartProperty::parse_description($this->getDescription());
+                $desc = PartProperty::parseDescription($this->getDescription());
             }
             if ($use_comment === true) {
-                $comm = PartProperty::parse_description($this->getComment());
+                $comm = PartProperty::parseDescription($this->getComment());
             }
 
             $arr = array_merge($name, $desc, $comm);
@@ -2021,7 +2019,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getAllParts(&$database, &$current_user, &$log, $group_by='')
+    public static function getAllParts(&$database, &$current_user, &$log, $group_by = '')
     {
         $query = 'SELECT * FROM parts';
 

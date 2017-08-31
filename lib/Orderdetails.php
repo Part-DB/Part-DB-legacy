@@ -223,8 +223,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     {
         if (strlen($this->db_data['supplier_product_url']) > 0) {
             return $this->db_data['supplier_product_url'];
-        }  // a manual url is available
-        else {
+        } else {
             return $this->getSupplier()->getAutoProductUrl($this->db_data['supplierpartnr']);
         } // maybe an automatic url is available...
     }

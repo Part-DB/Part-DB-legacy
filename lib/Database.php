@@ -170,7 +170,7 @@ class Database
             }
         }
 
-        if (PDBDebugBar::is_activated()) {
+        if (PDBDebugBar::isActivated()) {
             $this->pdo = new TraceablePDO($this->pdo);
             PDBDebugBar::getInstance()->registerPDO($this->pdo);
         }

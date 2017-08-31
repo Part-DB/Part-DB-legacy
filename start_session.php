@@ -158,7 +158,7 @@ if (isset($config['BASE_RELATIVE'])) {
     define('BASE_RELATIVE', $config['BASE_RELATIVE']);
 } elseif (mb_strpos(BASE, DOCUMENT_ROOT) === false) {   // workaround for STRATO servers, see german post on uC.net:
     define('BASE_RELATIVE', '.');
-}                   // http://www.mikrocontroller.net/topic/269289#3152928
+} // http://www.mikrocontroller.net/topic/269289#3152928
 else {
     define('BASE_RELATIVE', str_replace(DOCUMENT_ROOT, '', BASE));
 }

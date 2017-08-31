@@ -324,7 +324,7 @@ class HTML
      */
     public function printHeader($messages = array(), $reload_link = '', $messages_div_title = '', $redirect = false)
     {
-        if (PDBDebugBar::is_activated()) {
+        if (PDBDebugBar::isActivated()) {
             PDBDebugBar::getInstance()->sendData();
         }
 
@@ -385,7 +385,7 @@ class HTML
             $tmpl->assign('javascript_files', $javascript_loop);
         }
 
-        if (PDBDebugBar::is_activated()) {
+        if (PDBDebugBar::isActivated()) {
             $renderer = PDBDebugBar::getInstance()->getRenderer();
             $tmpl->assign("debugbar_head", $renderer->renderHead());
         }
@@ -519,7 +519,7 @@ class HTML
         $tmpl->assign("tracking_code", $config['tracking_code']);
         $tmpl->assign("autorefresh", $this->meta['autorefresh']);
 
-        if (PDBDebugBar::is_activated()) {
+        if (PDBDebugBar::isActivated()) {
             $renderer = PDBDebugBar::getInstance()->getRenderer();
             $tmpl->assign("debugbar_body", $renderer->render(!isset($_REQUEST['ajax_request'])));
         }

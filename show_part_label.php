@@ -34,8 +34,12 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 $part_id            = isset($_REQUEST['pid'])               ? (integer)$_REQUEST['pid']             : 0;
 
 $action = 'default';
-if (isset($_REQUEST["label_generate"]))                    {$action = 'generate';}
-if (isset($_REQUEST["label_download"]))                    {$action = 'download';}
+if (isset($_REQUEST["label_generate"])) {
+    $action = 'generate';
+}
+if (isset($_REQUEST["label_download"])) {
+    $action = 'download';
+}
 
 
 /********************************************************************************
@@ -53,14 +57,13 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Label
  *
  *********************************************************************************/
 
-switch($action)
-{
+switch ($action) {
     case "generate":
-        $html->setVariable("preview_src", "generate_part_label.php?pid=" . $part_id , "string");
+        $html->setVariable("preview_src", "generate_part_label.php?pid=" . $part_id, "string");
         break;
 
     case "download":
-        $html->setVariable("preview_src", "generate_part_label.php?download&pid=" . $part_id , "string");
+        $html->setVariable("preview_src", "generate_part_label.php?download&pid=" . $part_id, "string");
         break;
 }
 
@@ -74,8 +77,7 @@ if (! $fatal_error) {
     try {
         $html->setVariable("pid", $part_id, "integer");
         $html->setVariable("download_link", 'generate_part_label.php?pid='.$part_id.'&download', "string");
-    } catch (Exception $e)
-    {
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }

@@ -339,7 +339,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function getPartnameRegex($including_parents = true)
     {
-        return $this->getPartnameRegexObj($including_parents)->get_regex();
+        return $this->getPartnameRegexObj($including_parents)->getRegex();
     }
 
     /**
@@ -362,7 +362,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     public function checkPartname($name, $including_parents = true)
     {
         $obj = $this->getPartnameRegexObj($including_parents);
-        return $obj->check_name($name);
+        return $obj->checkName($name);
     }
 
 

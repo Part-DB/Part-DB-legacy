@@ -37,7 +37,7 @@ class PartProperty implements IAPIModel
      * Returns the value part of this Property
      * @return string The value part of this property
      */
-    public function get_value()
+    public function getValue()
     {
         return $this->value;
     }
@@ -48,7 +48,7 @@ class PartProperty implements IAPIModel
      * @param bool $with_colon If true, a colon get added at the end of the name.
      * @return string The name part of this property.
      */
-    public function get_name($with_colon = true)
+    public function getName($with_colon = true)
     {
         if ($with_colon === true) {
             return $this->name . ":";
@@ -62,15 +62,15 @@ class PartProperty implements IAPIModel
      * @param bool $named If true the array has named keys.
      * @return array An array with the contents of this Property. 'name'/0 contains the name part. 'value'/1 the value part.
      */
-    public function get_array($named = true)
+    public function getArray($named = true)
     {
         if ($named == true) {
             return array(
-                'name' => $this->get_name(),
-                'value' => $this->get_value()
+                'name' => $this->getName(),
+                'value' => $this->getValue()
             );
         } else {
-            return array($this->get_name(), $this->get_value());
+            return array($this->getName(), $this->getValue());
         }
     }
 
@@ -85,7 +85,7 @@ class PartProperty implements IAPIModel
      * @param $description string The description string which should be parsed
      * @return PartProperty[] An array containing PartProperty objects. Empty if no properties could be parsed.
      */
-    public static function parse_description($description)
+    public static function parseDescription($description)
     {
         $pattern = '/([^\,\;\n]+)\s?[\=\:]\s?(\w+(?:[\.\,]\w+)?(?:[^\,\;\n]|\,\w)*)/iu';
 
@@ -114,6 +114,6 @@ class PartProperty implements IAPIModel
      */
     public function getAPIArray($verbose = false)
     {
-        return $this->get_array(true);
+        return $this->getArray(true);
     }
 }

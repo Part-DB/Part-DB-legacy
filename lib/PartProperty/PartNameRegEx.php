@@ -30,7 +30,7 @@ class PartNameRegEx
     public function __construct($partname_regex)
     {
         if (!empty($partname_regex)) {
-            if (!self::is_valid($partname_regex)) {
+            if (!self::isValid($partname_regex)) {
                 throw new Exception("The PartNameRegex string (" . $partname_regex . ") is not valid!");
             }
 
@@ -41,7 +41,7 @@ class PartNameRegEx
     private function parse($str)
     {
         $matches = array();
-        mb_ereg(self::get_pattern(false, true), $str, $matches);
+        mb_ereg(self::getPattern(false, true), $str, $matches);
 
         $this->regex = $matches[1];
         $this->flags_str = $matches[2];
@@ -55,7 +55,7 @@ class PartNameRegEx
      * @param $is_mb bool True if should be prepared for the multibyte regex functions. (Strip slashes)
      * @return string The Reguala Expression.
      */
-    public function get_regex($is_mb = false)
+    public function getRegex($is_mb = false)
     {
         if ($is_mb) {
             return regexStripSlashes($this->regex);
@@ -64,7 +64,7 @@ class PartNameRegEx
         }
     }
 
-    public function get_flags()
+    public function getFlags()
     {
         return $this->flags_str;
     }
@@ -73,7 +73,7 @@ class PartNameRegEx
      * Checks if the Name filter is enforced, so it cant be ignored.
      * @return bool True, if the filter is enforced.
      */
-    public function is_enforced()
+    public function isEnforced()
     {
         return strcontains($this->flags_str, "f");
     }
@@ -82,7 +82,7 @@ class PartNameRegEx
      * Check if this RegEx does not apply a filter to the name.
      * @return bool True, if RegEx is not a filter.
      */
-    public function is_nofilter()
+    public function isNofilter()
     {
         return strcontains($this->flags_str, "n");
     }
@@ -91,7 +91,7 @@ class PartNameRegEx
      * Gets the names of the capture groups of this regex.
      * @return array
      */
-    public function get_capturegroup_names()
+    public function getCapturegroupNames()
     {
         return $this->capture_names;
     }
@@ -101,15 +101,15 @@ class PartNameRegEx
      * @param $name string The name from which the properties should be parsed
      * @return array A array of PartProperty Elements.
      */
-    public function get_properties($name)
+    public function getProperties($name)
     {
         $tmp = array();
 
-        if (_empty($this->get_regex())) {
+        if (_empty($this->getRegex())) {
             return $tmp;
         }
 
-        mb_eregi($this->get_regex(true), $name, $tmp);
+        mb_eregi($this->getRegex(true), $name, $tmp);
 
         $properties = array();
 
@@ -128,13 +128,13 @@ class PartNameRegEx
      * @param $name string The name which should be checked.
      * @return bool True if the name is valid, or the nofilter flag is set.
      */
-    public function check_name($name)
+    public function checkName($name)
     {
-        if ($this->is_nofilter() || _empty($this->get_regex())) { //When we dont filter, every name is ok.
+        if ($this->isNofilter() || _empty($this->getRegex())) { //When we dont filter, every name is ok.
             return true;
         }
 
-        if (mb_eregi($this->get_regex(true), $name) !== false) {
+        if (mb_eregi($this->getRegex(true), $name) !== false) {
             return true;
         } else {
             return false;
@@ -150,12 +150,12 @@ class PartNameRegEx
      * @param $partname_regex string The string which should be checked.
      * @return bool True, if the string is valid.
      */
-    public static function is_valid($partname_regex)
+    public static function isValid($partname_regex)
     {
-        return mb_ereg_match(PartNameRegEx::get_pattern(false, true), $partname_regex);
+        return mb_ereg_match(PartNameRegEx::getPattern(false, true), $partname_regex);
     }
 
-    public static function get_pattern($for_html_pattern = false, $for_mb = false)
+    public static function getPattern($for_html_pattern = false, $for_mb = false)
     {
         if ($for_html_pattern) {
             $pattern = regexStripSlashes(regexAllowUmlauts(PartNameRegEx::$pattern));

@@ -90,6 +90,3 @@ $html->setLoop("logs", getDebugLogElements());
 $html->printHeader();
 $html->printTemplate("system_debug");
 $html->printFooter();
-
-
-

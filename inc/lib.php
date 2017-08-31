@@ -90,7 +90,7 @@ function getGitCommitHash($length = 40)
 }
 
 
-function treeviewNode($name, $href=null, $nodes = null, $icon = null)
+function treeviewNode($name, $href = null, $nodes = null, $icon = null)
 {
     $ret = array('text' => $name);
 
@@ -850,17 +850,17 @@ function regexStripSlashes($pattern, $mb = true)
  * @param $value string The "value" attribute of the <input> element
  * @return string The HTML string.
  */
-function generateInputHidden($name, $value="")
+function generateInputHidden($name, $value = "")
 {
     return '<input type="hidden" name="' . $name . '" value="' . $value . '">';
 }
 
-function generateButton($name, $text, $theme="btn-default", $val="")
+function generateButton($name, $text, $theme = "btn-default", $val = "")
 {
     return "<button type='submit' class='btn $theme' name='$name' value='$val'>$text</button>";
 }
 
-function generateButtonRed($name, $text, $theme="btn-danger", $val="")
+function generateButtonRed($name, $text, $theme = "btn-danger", $val = "")
 {
     return generateButton($name, $text, $theme, $val);
 }

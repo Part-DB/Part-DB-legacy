@@ -166,5 +166,4 @@ abstract class NamedDBElement extends DBElement
 
         return $objects;
     }
-
 }
