@@ -325,3 +325,10 @@ include_once(BASE.'/inc/lib.php');
 
 //Include Composer autoloader
 require 'vendor/autoload.php';
+
+//Check if Klass exists, and debugging is enabled.
+if (class_exists("\Whoops\Run") && $config['debug']['enable']) {
+    $whoops = new \Whoops\Run;
+    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+    $whoops->register();
+}
