@@ -369,7 +369,7 @@ class HTML
         $tmpl->assign("loggedin", User::isLoggedIn());
         try {
             $user = User::getLoggedInUser();
-            $tmpl->assign("username", $user->get_name());
+            $tmpl->assign("username", $user->getName());
             $tmpl->assign("firstname", $user->getFirstName());
             $tmpl->assign("lastname", $user->getLastName());
         }

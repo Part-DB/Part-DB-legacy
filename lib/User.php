@@ -131,7 +131,7 @@ class User extends Base\NamedDBElement implements ISearchable
      * Gets the username of the User.
      * @return string The username.
      */
-    public function get_name()
+    public function getName()
     {
         return $this->db_data['name'];
     }
@@ -208,7 +208,7 @@ class User extends Base\NamedDBElement implements ISearchable
     public function setPassword($new_password)
     {
         $hash = password_hash($new_password, PASSWORD_DEFAULT);
-        $this->set_attributes(array("password" => $hash));
+        $this->setAttributes(array("password" => $hash));
     }
 
     /**
@@ -217,7 +217,7 @@ class User extends Base\NamedDBElement implements ISearchable
      */
     public function setFirstName($new_first_name)
     {
-        $this->set_attributes(array('first_name' => $new_first_name));
+        $this->setAttributes(array('first_name' => $new_first_name));
     }
 
     /**
@@ -226,7 +226,7 @@ class User extends Base\NamedDBElement implements ISearchable
      */
     public function setLastName($new_last_name)
     {
-        $this->set_attributes(array('last_name' => $new_last_name));
+        $this->setAttributes(array('last_name' => $new_last_name));
     }
 
 
@@ -297,7 +297,7 @@ class User extends Base\NamedDBElement implements ISearchable
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match)
     {
-        return parent::search_table($database, $current_user, $log, "user", $keyword, $exact_match);
+        return parent::searchTable($database, $current_user, $log, "user", $keyword, $exact_match);
     }
 
     /**
@@ -374,7 +374,7 @@ class User extends Base\NamedDBElement implements ISearchable
         if(!empty($password) && !$user->isPasswordValid($password)) { //If $password is set, and wrong.
             return false;
         }
-        $_SESSION['user'] = $user->get_id();
+        $_SESSION['user'] = $user->getID();
         return true;
     }
 

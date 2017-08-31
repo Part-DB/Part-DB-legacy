@@ -49,15 +49,15 @@ try {
 
     if($logout && User::isLoggedIn()) {
         User::logout();
-        $html->set_variable("loggedout", true, "boolean");
-        $html->set_variable("refresh_navigation_frame", true, "boolean");
+        $html->setVariable("loggedout", true, "boolean");
+        $html->setVariable("refresh_navigation_frame", true, "boolean");
     }
 
     if(!User::isLoggedIn() && $user_name != "") {
         $user               = User::getUserByName($database, $log, $user_name);
         $pw_valid           = User::login($user, $password);
-        $html->set_variable("pw_valid", $pw_valid, "boolean");
-        $html->set_variable("refresh_navigation_frame", true, "boolean");
+        $html->setVariable("pw_valid", $pw_valid, "boolean");
+        $html->setVariable("refresh_navigation_frame", true, "boolean");
     }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -67,26 +67,26 @@ try {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
 if(User::isLoggedIn())
 {
     $user = User::getLoggedInUser($database, $log);
-    $html->set_variable("loggedin", true, "boolean");
+    $html->setVariable("loggedin", true, "boolean");
 }
 
-$html->set_variable("username", $user_name, "string");
+$html->setVariable("username", $user_name, "string");
 
 //$html->set_variable("refresh_navigation_frame", true, "boolean");
 
 
 $reload_link = $fatal_error ? 'login.php'  : ''; // an empty string means that the...
-$html->print_header($messages, $reload_link);                                   // ...reload-button won't be visible
+$html->printHeader($messages, $reload_link);                                   // ...reload-button won't be visible
 
 
 if (! $fatal_error) {
-    $html->print_template('login');
+    $html->printTemplate('login');
 }
 
-$html->print_footer();
+$html->printFooter();
