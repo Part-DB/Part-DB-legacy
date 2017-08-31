@@ -13,6 +13,10 @@
     "maximebf/debugbar": "1.*"
   },
 
+  "require-dev": {
+    "squizlabs/php_codesniffer": "3.*"
+  },
+
   "suggests": {
     "phpunit/phpunit": "Needed for unittests in development."
   },
