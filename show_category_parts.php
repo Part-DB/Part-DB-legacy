@@ -90,7 +90,7 @@ try {
         $part = null;
     }
 
-    $html->set_title(_('Teileansicht') . ': ' . $category->get_name());
+    $html->setTitle(_('Teileansicht') . ': ' . $category->getName());
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -114,7 +114,7 @@ if (! $fatal_error) {
                     throw new Exception('Es wurde keine gültige Bauteil-ID übermittelt!');
                 }
 
-                $part->set_instock($part->get_instock() - 1);
+                $part->setInstock($part->getInstock() - 1);
 
                 $reload_site = true;
             } catch (Exception $e) {
@@ -128,7 +128,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es wurde keine gültige Bauteil-ID übermittelt!'));
                 }
 
-                $part->set_instock($part->get_instock() + 1);
+                $part->setInstock($part->getInstock() + 1);
 
                 $reload_site = true;
             } catch (Exception $e) {
@@ -151,10 +151,10 @@ if (isset($reload_site) && $reload_site && (! $config['debug']['request_debuggin
 
 if (! $fatal_error) {
     try {
-        $parts = $category->get_parts($with_subcategories, true);
-        $table_loop = Part::build_template_table_array($parts, 'category_parts');
-        $html->set_variable('table_rowcount', count($parts), 'integer');
-        $html->set_loop('table', $table_loop);
+        $parts = $category->getParts($with_subcategories, true);
+        $table_loop = Part::buildTemplateTableArray($parts, 'category_parts');
+        $html->setVariable('table_rowcount', count($parts), 'integer');
+        $html->setLoop('table', $table_loop);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -170,18 +170,18 @@ $php_endtime = microtime(true); // For Debug informations
  *********************************************************************************/
 
 
-$html->set_variable('with_subcategories', $with_subcategories, 'boolean');
+$html->setVariable('with_subcategories', $with_subcategories, 'boolean');
 
 if (! $fatal_error) {
-    $html->set_variable('cid', $category->get_id(), 'integer');
-    $html->set_variable('category_name', $category->get_name(), 'string');
-    $html->set_variable('disable_footprints', ($config['footprints']['disable'] || $category->get_disable_footprints(true)), 'boolean');
-    $html->set_variable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->get_disable_manufacturers(true)), 'boolean');
-    $html->set_variable('disable_auto_datasheets', ($config['auto_datasheets']['disable'] || $category->get_disable_autodatasheets(true)), 'boolean');
+    $html->setVariable('cid', $category->getID(), 'integer');
+    $html->setVariable('category_name', $category->getName(), 'string');
+    $html->setVariable('disable_footprints', ($config['footprints']['disable'] || $category->getDisableFootprints(true)), 'boolean');
+    $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
+    $html->setVariable('disable_auto_datasheets', ($config['auto_datasheets']['disable'] || $category->getDisableAutodatasheets(true)), 'boolean');
 
-    $html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->set_variable('popup_width', $config['popup']['width'], 'integer');
-    $html->set_variable('popup_height', $config['popup']['height'], 'integer');
+    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
+    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 }
 
 /********************************************************************************
@@ -193,17 +193,17 @@ if (! $fatal_error) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
 
 
 $reload_link = $fatal_error ? 'show_category_parts.php?cid='.$category_id : ''; // an empty string means that the...
-$html->print_header($messages, $reload_link);                                   // ...reload-button won't be visible
+$html->printHeader($messages, $reload_link);                                   // ...reload-button won't be visible
 
 
 if (! $fatal_error) {
-    $html->print_template('show_category_parts');
+    $html->printTemplate('show_category_parts');
 }
 
 // If debugging is enabled, print some debug informations
@@ -220,4 +220,4 @@ if ((! $fatal_error) && ($config['debug']['enable'])) {
     $debug_messages[] = array('text' => 'HTML Laufzeit: '.$html_lifetime.'ms', 'color' => 'darkblue');
 }
 
-$html->print_footer($debug_messages);
+$html->printFooter($debug_messages);

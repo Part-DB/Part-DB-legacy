@@ -128,7 +128,7 @@ if (! $fatal_error) {
 
                 if (! $add_more) {
                     $selected_supplier = $new_supplier;
-                    $selected_id = $selected_supplier->get_id();
+                    $selected_id = $selected_supplier->getID();
                 }
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Der neue Lieferant konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
@@ -142,7 +142,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist kein Lieferant markiert oder es trat ein Fehler auf!'));
                 }
 
-                $parts = $selected_supplier->get_parts();
+                $parts = $selected_supplier->getParts();
                 $count = count($parts);
 
                 if ($count > 0) {
@@ -150,11 +150,11 @@ if (! $fatal_error) {
                         'daher kann der Lieferant nicht gelöscht werden.'), $count), 'strong' => true, 'color' => 'red');
                 } else {
                     $messages[] = array('text' => sprintf(_('Soll der Lieferant "%s'.
-                        '" wirklich unwiederruflich gelöscht werden?'), $selected_supplier->get_full_path()), 'strong' => true, 'color' => 'red');
+                        '" wirklich unwiederruflich gelöscht werden?'), $selected_supplier->getFullPath()), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
                     $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Bauteile, die diesen Lieferanten zugeordnet haben.'));
                     $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet dieser Lieferant noch Unterlieferanten, dann werden diese eine Ebene nach oben verschoben.'));
-                    $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_supplier->get_id().'">');
+                    $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_supplier->getID().'">');
                     $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
                     $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Lieferant löschen').'">');
                 }
@@ -184,7 +184,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist kein Lieferant markiert oder es trat ein Fehler auf!'));
                 }
 
-                $selected_supplier->set_attributes(array(   'name'             => $new_name,
+                $selected_supplier->setAttributes(array(   'name'             => $new_name,
                     'parent_id'        => $new_parent_id,
                     'address'          => $new_address,
                     'phone_number'     => $new_phone_number,
@@ -206,31 +206,31 @@ if (! $fatal_error) {
  *
  *********************************************************************************/
 
-$html->set_variable('add_more', $add_more, 'boolean');
+$html->setVariable('add_more', $add_more, 'boolean');
 
 if (! $fatal_error) {
     try {
         if (is_object($selected_supplier)) {
-            $parent_id = $selected_supplier->get_parent_id();
-            $html->set_variable('id', $selected_supplier->get_id(), 'integer');
-            $html->set_variable('name', $selected_supplier->get_name(), 'string');
-            $html->set_variable('address', $selected_supplier->get_address(), 'string');
-            $html->set_variable('phone_number', $selected_supplier->get_phone_number(), 'string');
-            $html->set_variable('fax_number', $selected_supplier->get_fax_number(), 'string');
-            $html->set_variable('email_address', $selected_supplier->get_email_address(), 'string');
-            $html->set_variable('website', $selected_supplier->get_website(), 'string');
-            $html->set_variable('auto_product_url', $selected_supplier->get_auto_product_url(null), 'string');
+            $parent_id = $selected_supplier->getParentID();
+            $html->setVariable('id', $selected_supplier->getID(), 'integer');
+            $html->setVariable('name', $selected_supplier->getName(), 'string');
+            $html->setVariable('address', $selected_supplier->getAddress(), 'string');
+            $html->setVariable('phone_number', $selected_supplier->getPhoneNumber(), 'string');
+            $html->setVariable('fax_number', $selected_supplier->getFaxNumber(), 'string');
+            $html->setVariable('email_address', $selected_supplier->getEmailAddress(), 'string');
+            $html->setVariable('website', $selected_supplier->getWebsite(), 'string');
+            $html->setVariable('auto_product_url', $selected_supplier->getAutoProductUrl(null), 'string');
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
         } else {
             $parent_id = 0;
         }
 
-        $supplier_list = $root_supplier->build_html_tree($selected_id, true, false);
-        $html->set_variable('supplier_list', $supplier_list, 'string');
+        $supplier_list = $root_supplier->buildHtmlTree($selected_id, true, false);
+        $html->setVariable('supplier_list', $supplier_list, 'string');
 
-        $parent_supplier_list = $root_supplier->build_html_tree($parent_id, true, true);
-        $html->set_variable('parent_supplier_list', $parent_supplier_list, 'string');
+        $parent_supplier_list = $root_supplier->buildHtmlTree($parent_id, true, true);
+        $html->setVariable('parent_supplier_list', $parent_supplier_list, 'string');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
@@ -246,14 +246,14 @@ if (! $fatal_error) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
 $reload_link = $fatal_error ? 'edit_suppliers.php' : '';    // an empty string means that the...
-$html->print_header($messages, $reload_link);               // ...reload-button won't be visible
+$html->printHeader($messages, $reload_link);               // ...reload-button won't be visible
 
 if (! $fatal_error) {
-    $html->print_template('edit_suppliers');
+    $html->printTemplate('edit_suppliers');
 }
 
-$html->print_footer();
+$html->printFooter();

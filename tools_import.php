@@ -112,7 +112,7 @@ if (! $fatal_error) {
                 $table_loop = build_parts_import_template_loop($database, $current_user, $log, $import_data);
                 import_parts($database, $current_user, $log, $import_data, true);
 
-                $html->set_variable('data_is_valid', true, 'boolean'); // now the "import" button will be visible
+                $html->setVariable('data_is_valid', true, 'boolean'); // now the "import" button will be visible
                 $messages[] = array('text' => _('Die Daten sind gültig!'), 'strong' => true, 'color' => 'darkgreen');
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die Daten sind nicht gültig!'), 'strong' => true, 'color' => 'red');
@@ -126,7 +126,7 @@ if (! $fatal_error) {
                 $table_loop = build_parts_import_template_loop($database, $current_user, $log, $import_data);
                 $new_parts = import_parts($database, $current_user, $log, $import_data, false);
 
-                $html->set_variable('refresh_navigation_frame', true, 'boolean');
+                $html->setVariable('refresh_navigation_frame', true, 'boolean');
                 $messages[] = array('text' => _('Die Daten wurden erfolgreich importiert!'), 'strong' => true, 'color' => 'darkgreen');
                 unset($import_data);
                 unset($table_loop);
@@ -147,7 +147,7 @@ if (! $fatal_error) {
 
         case 'show_imported_parts':
             try {
-                $html->set_variable('refresh_navigation_frame', true, 'boolean');
+                $html->setVariable('refresh_navigation_frame', true, 'boolean');
 
                 $ids = explode(';', $new_part_ids);
                 $new_parts = array();
@@ -172,29 +172,29 @@ if (! $fatal_error) {
 
 if (! $fatal_error) {
     // global settings
-    $html->set_variable('disable_footprints', $config['footprints']['disable'], 'boolean');
-    $html->set_variable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
-    $html->set_variable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
+    $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
+    $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+    $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-    $html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->set_variable('popup_width', $config['popup']['width'], 'integer');
-    $html->set_variable('popup_height', $config['popup']['height'], 'integer');
+    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
+    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 
     // import stuff
-    $html->set_variable('file_format', $file_format, 'string');
-    $html->set_variable('separator', $separator, 'string');
+    $html->setVariable('file_format', $file_format, 'string');
+    $html->setVariable('separator', $separator, 'string');
 
     $csv_file_example = file_get_contents(BASE.'/documentation/examples/import_parts/import_parts.csv');
-    $html->set_variable('csv_file_example', $csv_file_example, 'string');
+    $html->setVariable('csv_file_example', $csv_file_example, 'string');
 
     $xml_file_example = file_get_contents(BASE.'/documentation/examples/import_parts/import_parts.xml');
-    $html->set_variable('xml_file_example', $xml_file_example, 'string');
+    $html->setVariable('xml_file_example', $xml_file_example, 'string');
 
-    $html->set_variable('file_content', $file_content, 'string');
+    $html->setVariable('file_content', $file_content, 'string');
 
     try {
         if (isset($new_parts)) {
-            $new_parts_loop = Part::build_template_table_array($new_parts, 'imported_parts');
+            $new_parts_loop = Part::buildTemplateTableArray($new_parts, 'imported_parts');
         }
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -210,32 +210,32 @@ if (! $fatal_error) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
-$html->print_header($messages);
+$html->printHeader($messages);
 
 if (! $fatal_error) {
-    $html->print_template('upload');
+    $html->printTemplate('upload');
 
     if (isset($import_data)) {
-        $html->set_loop('table', $table_loop);
-        $html->set_variable('table_rowcount', count($import_data), 'integer');
-        $html->print_template('check_data');
+        $html->setLoop('table', $table_loop);
+        $html->setVariable('table_rowcount', count($import_data), 'integer');
+        $html->printTemplate('check_data');
     }
 
     if (strlen($file_content) > 0) {
-        $html->print_template('file_content');
+        $html->printTemplate('file_content');
     }
 
     if (isset($new_parts_loop)) {
-        $html->set_loop('table', $new_parts_loop);
-        $html->print_template('new_parts');
+        $html->setLoop('table', $new_parts_loop);
+        $html->printTemplate('new_parts');
     }
 
     if ($action == 'default') {
-        $html->print_template('file_examples');
+        $html->printTemplate('file_examples');
     }
 }
 
-$html->print_footer();
+$html->printFooter();

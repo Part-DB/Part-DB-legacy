@@ -104,7 +104,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function reset_attributes($all = false)
+    public function resetAttributes($all = false)
     {
         $this->category                     = null;
         $this->footprint                    = null;
@@ -115,7 +115,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $this->master_picture_attachement   = null;
         $this->order_orderdetails           = null;
 
-        parent::reset_attributes($all);
+        parent::resetAttributes($all);
     }
 
     /********************************************************************************
@@ -142,24 +142,24 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     public function delete($delete_files_from_hdd = false, $delete_device_parts = false)
     {
         try {
-            $transaction_id = $this->database->begin_transaction(); // start transaction
+            $transaction_id = $this->database->beginTransaction(); // start transaction
 
-            $devices = $this->get_devices();
-            $orderdetails = $this->get_orderdetails();
-            $this->reset_attributes(); // set $this->devices ans $this->orderdetails to NULL
+            $devices = $this->getDevices();
+            $orderdetails = $this->getOrderdetails();
+            $this->resetAttributes(); // set $this->devices ans $this->orderdetails to NULL
 
             // Check if there are no Devices with this Part (and delete them if neccessary)
             if (count($devices) > 0) {
                 if ($delete_device_parts) {
                     foreach ($devices as $device) {
-                        foreach ($device->get_parts() as $device_part) {
-                            if ($device_part->get_part()->get_id() == $this->get_id()) {
+                        foreach ($device->getParts() as $device_part) {
+                            if ($device_part->get_part()->get_id() == $this->getID()) {
                                 $device_part->delete();
                             }
                         }
                     }
                 } else {
-                    throw new Exception('Das Bauteil "'.$this->get_name().'" wird noch in '.count($devices).
+                    throw new Exception('Das Bauteil "'.$this->getName().'" wird noch in '.count($devices).
                         ' Baugruppen verwendet und kann daher nicht gelöscht werden!');
                 }
             }
@@ -177,9 +177,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             $this->database->rollback(); // rollback transaction
 
             // restore the settings from BEFORE the transaction
-            $this->reset_attributes();
+            $this->resetAttributes();
 
-            throw new Exception("Das Bauteil \"".$this->get_name()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
+            throw new Exception("Das Bauteil \"".$this->getName()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
         }
     }
 
@@ -189,18 +189,18 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @return string
      * @throws Exception An Exception is thrown if you selected a unknown barcode type.
      */
-    public function get_barcode_content($barcode_type = "EAN8")
+    public function getBarcodeContent($barcode_type = "EAN8")
     {
         switch ($barcode_type) {
             case "EAN8":
-                $code = (string) $this->get_id();
+                $code = (string) $this->getID();
                 while (strlen($code) < 7) {
                     $code = '0' . $code;
                 }
                 return $code;
 
             case "QR":
-                return "Part-DB; Part: " . $this->get_id();
+                return "Part-DB; Part: " . $this->getID();
 
             default:
                 throw new Exception(_("Label type unknown: ").$barcode_type);
@@ -220,7 +220,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param int $short_output If this is bigger than 0, than the description will be shortened to this length.
      * @return string       the description
      */
-    public function get_description($parse_bbcode = true, $short_output = 0)
+    public function getDescription($parse_bbcode = true, $short_output = 0)
     {
         $val = htmlspecialchars($this->db_data['description']);
 
@@ -243,7 +243,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @return integer       count of parts which are in stock
      */
-    public function get_instock()
+    public function getInstock()
     {
         return $this->db_data['instock'];
     }
@@ -253,7 +253,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @return integer       count of parts which must be in stock at least
      */
-    public function get_mininstock()
+    public function getMinInstock()
     {
         return $this->db_data['mininstock'];
     }
@@ -264,7 +264,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param boolean $parse_bbcode Should BBCode converted to HTML, before returning
      * @return string       the comment
      */
-    public function get_comment($parse_bbcode = true)
+    public function getComment($parse_bbcode = true)
     {
         $val = htmlspecialchars($this->db_data['comment']);
         if ($parse_bbcode) {
@@ -284,16 +284,16 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @return boolean      @li true if this part is obsolete
      *                      @li false if this part isn't obsolete
      */
-    public function get_obsolete()
+    public function getObsolete()
     {
-        $all_orderdetails = $this->get_orderdetails();
+        $all_orderdetails = $this->getOrderdetails();
 
         if (count($all_orderdetails) == 0) {
             return false;
         }
 
         foreach ($all_orderdetails as $orderdetails) {
-            if (! $orderdetails->get_obsolete()) {
+            if (! $orderdetails->getObsolete()) {
                 return false;
             }
         }
@@ -307,7 +307,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @return boolean      @li true if this part is visible
      *                      @li false if this part isn't visible
      */
-    public function get_visible()
+    public function getVisible()
     {
         return $this->db_data['visible'];
     }
@@ -318,7 +318,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @return Orderdetails         the selected order orderdetails
      * @return NULL                 if there is no order supplier selected
      */
-    public function get_order_orderdetails()
+    public function getOrderOrderdetails()
     {
         if ((! is_object($this->order_orderdetails)) && ($this->db_data['order_orderdetails_id'] != null)) {
             $this->order_orderdetails = new Orderdetails(
@@ -328,8 +328,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 $this->db_data['order_orderdetails_id']
             );
 
-            if ($this->order_orderdetails->get_obsolete()) {
-                $this->set_order_orderdetails_id(null);
+            if ($this->order_orderdetails->getObsolete()) {
+                $this->setOrderOrderdetailsID(null);
                 $this->order_orderdetails = null;
             }
         }
@@ -342,7 +342,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @return integer      the order quantity
      */
-    public function get_order_quantity()
+    public function getOrderQuantity()
     {
         return $this->db_data['order_quantity'];
     }
@@ -355,12 +355,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @return integer      the minimum order quantity
      */
-    public function get_min_order_quantity($with_devices = true)
+    public function getMinOrderQuantity($with_devices = true)
     {
         if ($with_devices) {
             $count_must_order = 0;      // for devices with "order_only_missing_parts == false"
             $count_should_order = 0;    // for devices with "order_only_missing_parts == true"
-            $deviceparts = DevicePart::get_order_device_parts($this->database, $this->current_user, $this->log, $this->get_id());
+            $deviceparts = DevicePart::getOrderDeviceParts($this->database, $this->current_user, $this->log, $this->getID());
             foreach ($deviceparts as $devicepart) {
                 $device = $devicepart->get_device();
                 if ($device->get_order_only_missing_parts()) {
@@ -370,9 +370,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 }
             }
 
-            return $count_must_order + max(0, $this->get_mininstock() - $this->get_instock() + $count_should_order);
+            return $count_must_order + max(0, $this->getMinInstock() - $this->getInstock() + $count_should_order);
         } else {
-            return max(0, $this->get_mininstock() - $this->get_instock());
+            return max(0, $this->getMinInstock() - $this->getInstock());
         }
     }
 
@@ -381,7 +381,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @return boolean      the "manual_order" attribute
      */
-    public function get_manual_order()
+    public function getManualOrder()
     {
         return $this->db_data['manual_order'];
     }
@@ -391,13 +391,13 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @return string           the link to the article
      */
-    public function get_manufacturer_product_url()
+    public function getManufacturerProductUrl()
     {
         if (strlen($this->db_data['manufacturer_product_url']) > 0) {
             return $this->db_data['manufacturer_product_url'];
         }  // a manual url is available
-        elseif (is_object($this->get_manufacturer())) {
-            return $this->get_manufacturer()->get_auto_product_url($this->db_data['name']);
+        elseif (is_object($this->getManufacturer())) {
+            return $this->getManufacturer()->getAutoProductUrl($this->db_data['name']);
         } // an automatic url is available
         else {
             return '';
@@ -408,7 +408,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * Returns the last time when the part was modified.
      * @return string The time of the last edit.
      */
-    public function get_last_modified()
+    public function getLastModified()
     {
         return $this->db_data['last_modified'];
     }
@@ -417,7 +417,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * Returns the date/time when the part was created
      * @return string The creation time of the part.
      */
-    public function get_datetime_added()
+    public function getDatetimeAdded()
     {
         return $this->db_data['datetime_added'];
     }
@@ -431,7 +431,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function get_category()
+    public function getCategory()
     {
         if (! is_object($this->category)) {
             $this->category = new Category(
@@ -453,7 +453,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function get_footprint()
+    public function getFootprint()
     {
         if ((! is_object($this->footprint)) && ($this->db_data['id_footprint'] != null)) {
             $this->footprint = new Footprint(
@@ -475,7 +475,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function get_storelocation()
+    public function getStorelocation()
     {
         if ((! is_object($this->storelocation)) && ($this->db_data['id_storelocation'] != null)) {
             $this->storelocation = new Storelocation(
@@ -497,7 +497,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function get_manufacturer()
+    public function getManufacturer()
     {
         if ((! is_object($this->manufacturer)) && ($this->db_data['id_manufacturer'] != null)) {
             $this->manufacturer = new Manufacturer(
@@ -519,7 +519,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function get_master_picture_attachement()
+    public function getMasterPictureAttachement()
     {
         if ((! is_object($this->master_picture_attachement)) && ($this->db_data['id_master_picture_attachement'] != null)) {
             $this->master_picture_attachement = new Attachement(
@@ -544,7 +544,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function get_orderdetails($hide_obsolete = false)
+    public function getOrderdetails($hide_obsolete = false)
     {
         if (! is_array($this->orderdetails)) {
             $this->orderdetails = array();
@@ -554,7 +554,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 'WHERE part_id=? '.
                 'ORDER BY suppliers.name ASC';
 
-            $query_data = $this->database->query($query, array($this->get_id()));
+            $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
                 $this->orderdetails[] = new Orderdetails($this->database, $this->current_user, $this->log, $row['id'], $row);
@@ -564,7 +564,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         if ($hide_obsolete) {
             $orderdetails = $this->orderdetails;
             foreach ($orderdetails as $key => $details) {
-                if ($details->get_obsolete()) {
+                if ($details->getObsolete()) {
                     unset($orderdetails[$key]);
                 }
             }
@@ -583,7 +583,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function get_devices()
+    public function getDevices()
     {
         if (! is_array($this->devices)) {
             $this->devices = array();
@@ -594,7 +594,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 'GROUP BY id_device '.
                 'ORDER BY devices.name ASC';
 
-            $query_data = $this->database->query($query, array($this->get_id()));
+            $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
                 $this->devices[] = new Device($this->database, $this->current_user, $this->log, $row['id_device'], $row);
@@ -630,13 +630,13 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception    if there was an error
      */
-    public function get_suppliers($object_array = true, $delimeter = null, $full_paths = false, $hide_obsolete = false)
+    public function getSuppliers($object_array = true, $delimeter = null, $full_paths = false, $hide_obsolete = false)
     {
         $suppliers = array();
-        $orderdetails = $this->get_orderdetails($hide_obsolete);
+        $orderdetails = $this->getOrderdetails($hide_obsolete);
 
         foreach ($orderdetails as $details) {
-            $suppliers[] = $details->get_supplier();
+            $suppliers[] = $details->getSupplier();
         }
 
         if ($object_array) {
@@ -674,12 +674,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception    if there was an error
      */
-    public function get_supplierpartnrs($delimeter = null, $hide_obsolete = false)
+    public function getSupplierPartNrs($delimeter = null, $hide_obsolete = false)
     {
         $supplierpartnrs = array();
 
-        foreach ($this->get_orderdetails($hide_obsolete) as $details) {
-            $supplierpartnrs[] = $details->get_supplierpartnr();
+        foreach ($this->getOrderdetails($hide_obsolete) as $details) {
+            $supplierpartnrs[] = $details->getSupplierPartNr();
         }
 
         if (is_string($delimeter)) {
@@ -714,12 +714,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception    if there was an error
      */
-    public function get_prices($float_array = false, $delimeter = null, $quantity = 1, $multiplier = null, $hide_obsolete = false)
+    public function getPrices($float_array = false, $delimeter = null, $quantity = 1, $multiplier = null, $hide_obsolete = false)
     {
         $prices = array();
 
-        foreach ($this->get_orderdetails($hide_obsolete) as $details) {
-            $prices[] = $details->get_price((! $float_array), $quantity, $multiplier);
+        foreach ($this->getOrderdetails($hide_obsolete) as $details) {
+            $prices[] = $details->getPrice((! $float_array), $quantity, $multiplier);
         }
 
         if (is_string($delimeter)) {
@@ -748,9 +748,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception    if there was an error
      */
-    public function get_average_price($as_money_string = false, $quantity = 1, $multiplier = null)
+    public function getAveragePrice($as_money_string = false, $quantity = 1, $multiplier = null)
     {
-        $prices = $this->get_prices(true, null, $quantity, $multiplier, true);
+        $prices = $this->getPrices(true, null, $quantity, $multiplier, true);
         $average_price = null;
 
         $count = 0;
@@ -785,18 +785,18 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function get_master_picture_filename($use_footprint_filename = false)
+    public function getMasterPictureFilename($use_footprint_filename = false)
     {
-        $master_picture = $this->get_master_picture_attachement(); // returns an Attachement-object
+        $master_picture = $this->getMasterPictureAttachement(); // returns an Attachement-object
 
         if (is_object($master_picture)) {
-            return $master_picture->get_filename();
+            return $master_picture->getFilename();
         }
 
         if ($use_footprint_filename) {
-            $footprint = $this->get_footprint();
+            $footprint = $this->getFootprint();
             if (is_object($footprint)) {
-                return $footprint->get_filename();
+                return $footprint->getFilename();
             }
         }
 
@@ -811,12 +811,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @return array A array of PartProperty objects.
      * @return array If Properties are disabled or nothing was detected, then an empty array is returned.
      */
-    public function get_properties($use_description = true, $use_comment = true, $use_name = true, $force_output = false)
+    public function getProperties($use_description = true, $use_comment = true, $use_name = true, $force_output = false)
     {
         global $config;
 
         if ($config['properties']['active'] || $force_output) {
-            if ($this->get_category()->get_disable_properties(true)) {
+            if ($this->getCategory()->getDisableProperties(true)) {
                 return array();
             }
 
@@ -824,13 +824,13 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             $comm = array();
 
             if ($use_name === true) {
-                $name = $this->get_category()->get_partname_regex_obj()->get_properties($this->get_name());
+                $name = $this->getCategory()->getPartnameRegexObj()->get_properties($this->getName());
             }
             if ($use_description === true) {
-                $desc = PartProperty::parse_description($this->get_description());
+                $desc = PartProperty::parse_description($this->getDescription());
             }
             if ($use_comment === true) {
-                $comm = PartProperty::parse_description($this->get_comment());
+                $comm = PartProperty::parse_description($this->getComment());
             }
 
             $arr = array_merge($name, $desc, $comm);
@@ -847,18 +847,18 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param bool $use_comment Use the comment field for parsing
      * @return array A array of arrays with the name and value of the properties.
      */
-    public function get_properties_loop($use_description = true, $use_comment = true)
+    public function getPropertiesLoop($use_description = true, $use_comment = true)
     {
         $arr = array();
-        foreach ($this->get_properties() as $property) {
+        foreach ($this->getProperties() as $property) {
             $arr[] = $property->get_array($use_description, $use_comment);
         }
         return $arr;
     }
 
-    public function has_valid_name()
+    public function hasValidName()
     {
-        return Part::is_valid_name($this->get_name(), $this->get_category());
+        return Part::isValidName($this->getName(), $this->getCategory());
     }
 
 
@@ -876,9 +876,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function set_description($new_description)
+    public function setDescription($new_description)
     {
-        $this->set_attributes(array('description' => $new_description));
+        $this->setAttributes(array('description' => $new_description));
     }
 
     /**
@@ -889,9 +889,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the new instock is not valid
      * @throws Exception if there was an error
      */
-    public function set_instock($new_instock)
+    public function setInstock($new_instock)
     {
-        $this->set_attributes(array('instock' => $new_instock));
+        $this->setAttributes(array('instock' => $new_instock));
     }
 
     /**
@@ -902,9 +902,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the new mininstock is not valid
      * @throws Exception if there was an error
      */
-    public function set_mininstock($new_mininstock)
+    public function setMinInstock($new_mininstock)
     {
-        $this->set_attributes(array('mininstock' => $new_mininstock));
+        $this->setAttributes(array('mininstock' => $new_mininstock));
     }
 
     /**
@@ -914,9 +914,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function set_comment($new_comment)
+    public function setComment($new_comment)
     {
-        $this->set_attributes(array('comment' => $new_comment));
+        $this->setAttributes(array('comment' => $new_comment));
     }
 
     /**
@@ -933,9 +933,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function set_manual_order($new_manual_order, $new_order_quantity = 1, $new_order_orderdetails_id = null)
+    public function setManualOrder($new_manual_order, $new_order_quantity = 1, $new_order_orderdetails_id = null)
     {
-        $this->set_attributes(array('manual_order'          => $new_manual_order,
+        $this->setAttributes(array('manual_order'          => $new_manual_order,
             'order_orderdetails_id' => $new_order_orderdetails_id,
             'order_quantity'        => $new_order_quantity));
     }
@@ -948,9 +948,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function set_order_orderdetails_id($new_order_orderdetails_id)
+    public function setOrderOrderdetailsID($new_order_orderdetails_id)
     {
-        $this->set_attributes(array('order_orderdetails_id' => $new_order_orderdetails_id));
+        $this->setAttributes(array('order_orderdetails_id' => $new_order_orderdetails_id));
     }
 
     /**
@@ -961,9 +961,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the order quantity is not valid
      * @throws Exception if there was an error
      */
-    public function set_order_quantity($new_order_quantity)
+    public function setOrderQuantity($new_order_quantity)
     {
-        $this->set_attributes(array('order_quantity' => $new_order_quantity));
+        $this->setAttributes(array('order_quantity' => $new_order_quantity));
     }
 
     /**
@@ -977,9 +977,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the new category ID is not valid
      * @throws Exception if there was an error
      */
-    public function set_category_id($new_category_id)
+    public function setCategoryID($new_category_id)
     {
-        $this->set_attributes(array('id_category' => $new_category_id));
+        $this->setAttributes(array('id_category' => $new_category_id));
     }
 
     /**
@@ -991,9 +991,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the new footprint ID is not valid
      * @throws Exception if there was an error
      */
-    public function set_footprint_id($new_footprint_id)
+    public function setFootprintID($new_footprint_id)
     {
-        $this->set_attributes(array('id_footprint' => $new_footprint_id));
+        $this->setAttributes(array('id_footprint' => $new_footprint_id));
     }
 
     /**
@@ -1005,9 +1005,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the new storelocation ID is not valid
      * @throws Exception if there was an error
      */
-    public function set_storelocation_id($new_storelocation_id)
+    public function setStorelocationID($new_storelocation_id)
     {
-        $this->set_attributes(array('id_storelocation' => $new_storelocation_id));
+        $this->setAttributes(array('id_storelocation' => $new_storelocation_id));
     }
 
     /**
@@ -1019,9 +1019,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the new manufacturer ID is not valid
      * @throws Exception if there was an error
      */
-    public function set_manufacturer_id($new_manufacturer_id)
+    public function setManufacturerID($new_manufacturer_id)
     {
-        $this->set_attributes(array('id_manufacturer' => $new_manufacturer_id));
+        $this->setAttributes(array('id_manufacturer' => $new_manufacturer_id));
     }
 
     /**
@@ -1033,9 +1033,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the new ID is not valid
      * @throws Exception if there was an error
      */
-    public function set_master_picture_attachement_id($new_master_picture_attachement_id)
+    public function setMasterPictureAttachementID($new_master_picture_attachement_id)
     {
-        $this->set_attributes(array('id_master_picture_attachement' => $new_master_picture_attachement_id));
+        $this->setAttributes(array('id_master_picture_attachement' => $new_master_picture_attachement_id));
     }
 
     /********************************************************************************
@@ -1057,7 +1057,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function build_template_table_row_array($table_type, $row_index, $additional_values = array())
+    public function buildTemplateTableRowArray($table_type, $row_index, $additional_values = array())
     {
         global $config;
 
@@ -1070,19 +1070,19 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $table_row = array();
         $table_row['row_odd']       = is_odd($row_index);
         $table_row['row_index']     = $row_index;
-        $table_row['id']            = $this->get_id();
+        $table_row['id']            = $this->getID();
         $table_row['row_fields']    = array();
 
         foreach (explode(';', $config['table'][$table_type]['columns']) as $caption) {
             $row_field = array();
             $row_field['row_index']     = $row_index;
             $row_field['caption']       = $caption;
-            $row_field['id']            = $this->get_id();
-            $row_field['name']          = $this->get_name();
+            $row_field['id']            = $this->getID();
+            $row_field['name']          = $this->getName();
 
             switch ($caption) {
                 case 'hover_picture':
-                    $picture_filename = str_replace(BASE, BASE_RELATIVE, $this->get_master_picture_filename(true));
+                    $picture_filename = str_replace(BASE, BASE_RELATIVE, $this->getMasterPictureFilename(true));
                     $row_field['picture_name']  = strlen($picture_filename) ? basename($picture_filename) : '';
                     $row_field['small_picture'] = strlen($picture_filename) ? $picture_filename : '';
                     $row_field['hover_picture'] = strlen($picture_filename) ? $picture_filename : '';
@@ -1092,57 +1092,57 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'description':
                 case 'comment':
                 case 'name_description':
-                    $row_field['obsolete']          = $this->get_obsolete();
-                    $row_field['comment']           = $this->get_comment();
-                    $row_field['description']       = $this->get_description(true, $max_length);
+                    $row_field['obsolete']          = $this->getObsolete();
+                    $row_field['comment']           = $this->getComment();
+                    $row_field['description']       = $this->getDescription(true, $max_length);
                     break;
 
                 case 'instock':
                 case 'mininstock':
                 case 'instock_mininstock':
                 case 'instock_edit_buttons':
-                    $row_field['instock']               = $this->get_instock();
-                    $row_field['mininstock']            = $this->get_mininstock();
-                    $row_field['not_enought_instock']   = ($this->get_instock() < $this->get_mininstock());
+                    $row_field['instock']               = $this->getInstock();
+                    $row_field['mininstock']            = $this->getMinInstock();
+                    $row_field['not_enought_instock']   = ($this->getInstock() < $this->getMinInstock());
                     break;
 
                 case 'category':
-                    $category = $this->get_category();
-                    $row_field['category_name'] = $category->get_name();
-                    $row_field['category_path'] = $category->get_full_path();
-                    $row_field['category_id'] = $category->get_id();
+                    $category = $this->getCategory();
+                    $row_field['category_name'] = $category->getName();
+                    $row_field['category_path'] = $category->getFullPath();
+                    $row_field['category_id'] = $category->getID();
                     break;
 
                 case 'footprint':
-                    $footprint = $this->get_footprint();
+                    $footprint = $this->getFootprint();
                     if (is_object($footprint)) {
-                        $row_field['footprint_name'] = $footprint->get_name();
-                        $row_field['footprint_path'] = $footprint->get_full_path();
-                        $row_field['footprint_id'] = $footprint->get_id();
+                        $row_field['footprint_name'] = $footprint->getName();
+                        $row_field['footprint_path'] = $footprint->getFullPath();
+                        $row_field['footprint_id'] = $footprint->getID();
                     }
                     break;
 
                 case 'manufacturer':
-                    $manufacturer = $this->get_manufacturer();
+                    $manufacturer = $this->getManufacturer();
                     if (is_object($manufacturer)) {
-                        $row_field['manufacturer_name'] = $manufacturer->get_name();
-                        $row_field['manufacturer_path'] = $manufacturer->get_full_path();
-                        $row_field['manufacturer_id'] = $manufacturer->get_id();
+                        $row_field['manufacturer_name'] = $manufacturer->getName();
+                        $row_field['manufacturer_path'] = $manufacturer->getFullPath();
+                        $row_field['manufacturer_id'] = $manufacturer->getID();
                     }
                     break;
 
                 case 'storelocation':
-                    $storelocation = $this->get_storelocation();
+                    $storelocation = $this->getStorelocation();
                     if (is_object($storelocation)) {
-                        $row_field['storelocation_name'] = $storelocation->get_name();
-                        $row_field['storelocation_path'] = $storelocation->get_full_path();
-                        $row_field['storelocation_id'] = $storelocation->get_id();
+                        $row_field['storelocation_name'] = $storelocation->getName();
+                        $row_field['storelocation_path'] = $storelocation->getFullPath();
+                        $row_field['storelocation_id'] = $storelocation->getID();
                     }
                     break;
 
                 case 'suppliers':
                     $suppliers_loop = array();
-                    foreach ($this->get_suppliers(false, null, false, true) as $supplier_name) { // suppliers from obsolete orderdetails will not be shown
+                    foreach ($this->getSuppliers(false, null, false, true) as $supplier_name) { // suppliers from obsolete orderdetails will not be shown
                         $suppliers_loop[] = array(  'row_index'         => $row_index,
                             'supplier_name'     => $supplier_name);
                     }
@@ -1152,18 +1152,18 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
                 case 'suppliers_radiobuttons':
                     if ($table_type == 'order_parts') {
-                        if (is_object($this->get_order_orderdetails())) {
-                            $order_orderdetails_id = $this->get_order_orderdetails()->get_id();
+                        if (is_object($this->getOrderOrderdetails())) {
+                            $order_orderdetails_id = $this->getOrderOrderdetails()->getID();
                         } else {
                             $order_orderdetails_id = 0;
                         }
 
                         $suppliers_loop = array();
-                        foreach ($this->get_orderdetails(true) as $orderdetails) { // obsolete orderdetails will not be shown
+                        foreach ($this->getOrderdetails(true) as $orderdetails) { // obsolete orderdetails will not be shown
                             $suppliers_loop[] = array(  'row_index'         => $row_index,
-                                'orderdetails_id'   => $orderdetails->get_id(),
-                                'supplier_name'     => $orderdetails->get_supplier()->get_full_path(),
-                                'selected'          => ($order_orderdetails_id == $orderdetails->get_id()));
+                                'orderdetails_id'   => $orderdetails->getID(),
+                                'supplier_name'     => $orderdetails->getSupplier()->getFullPath(),
+                                'selected'          => ($order_orderdetails_id == $orderdetails->getID()));
                         }
                         $suppliers_loop[] = array(      'row_index'         => $row_index,
                             'orderdetails_id'   => 0,
@@ -1176,10 +1176,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
                 case 'supplier_partnrs':
                     $partnrs_loop = array();
-                    foreach ($this->get_orderdetails(true) as $details) { // partnrs from obsolete orderdetails will not be shown
+                    foreach ($this->getOrderdetails(true) as $details) { // partnrs from obsolete orderdetails will not be shown
                         $partnrs_loop[] = array(    'row_index'            => $row_index,
-                            'supplier_partnr'      => $details->get_supplierpartnr(),
-                            'supplier_product_url' => $details->get_supplier_product_url());
+                            'supplier_partnr'      => $details->getSupplierPartNr(),
+                            'supplier_product_url' => $details->getSupplierProductUrl());
                     }
 
                     $row_field['supplier_partnrs'] = $partnrs_loop;
@@ -1189,7 +1189,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                     $datasheet_loop = $config['auto_datasheets']['entries'];
 
                     foreach ($datasheet_loop as $key => $entry) {
-                        $datasheet_loop[$key]['url'] = str_replace('%%PARTNAME%%', urlencode($this->get_name()), $entry['url']);
+                        $datasheet_loop[$key]['url'] = str_replace('%%PARTNAME%%', urlencode($this->getName()), $entry['url']);
                     }
 
                     if ($config['appearance']['use_old_datasheet_icons'] == true) {
@@ -1204,18 +1204,18 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                     break;
 
                 case 'average_single_price':
-                    $row_field['average_single_price'] = $this->get_average_price(true, 1);
+                    $row_field['average_single_price'] = $this->getAveragePrice(true, 1);
                     break;
 
                 case 'single_prices':
                     if ($table_type == 'order_parts') {
-                        $min_discount_quantity = $this->get_order_quantity();
+                        $min_discount_quantity = $this->getOrderQuantity();
                     } else {
                         $min_discount_quantity = 1;
                     }
 
                     $prices_loop = array();
-                    foreach ($this->get_prices(false, null, $min_discount_quantity, 1, true) as $price) { // prices from obsolete orderdetails will not be shown
+                    foreach ($this->getPrices(false, null, $min_discount_quantity, 1, true) as $price) { // prices from obsolete orderdetails will not be shown
                         $prices_loop[] = array(     'row_index'         => $row_index,
                             'single_price'      => $price);
                     }
@@ -1226,7 +1226,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'total_prices':
                     switch ($table_type) {
                         case 'order_parts':
-                            $min_discount_quantity = $this->get_order_quantity();
+                            $min_discount_quantity = $this->getOrderQuantity();
                             break;
                         default:
                             //throw new Exception('Keine Totalpreise verfügbar für den Tabellentyp "'.$table_type.'"!');
@@ -1234,7 +1234,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                     }
 
                     $prices_loop = array();
-                    foreach ($this->get_prices(false, null, $min_discount_quantity, null, true) as $price) { // prices from obsolete orderdetails will not be shown
+                    foreach ($this->getPrices(false, null, $min_discount_quantity, null, true) as $price) { // prices from obsolete orderdetails will not be shown
                         $prices_loop[] = array( 'row_index'     => $row_index,
                             'total_price'   => $price);
                     }
@@ -1244,28 +1244,28 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
                 case 'order_quantity_edit':
                     if ($table_type == 'order_parts') {
-                        $row_field['order_quantity'] = $this->get_order_quantity();
-                        $row_field['min_order_quantity'] = $this->get_min_order_quantity();
+                        $row_field['order_quantity'] = $this->getOrderQuantity();
+                        $row_field['min_order_quantity'] = $this->getMinOrderQuantity();
                     }
                     break;
 
                 case 'order_options':
                     if ($table_type == 'order_parts') {
                         $suppliers_loop = array();
-                        $row_field['enable_remove'] = (($this->get_instock() >= $this->get_mininstock()) && ($this->get_manual_order()));
+                        $row_field['enable_remove'] = (($this->getInstock() >= $this->getMinInstock()) && ($this->getManualOrder()));
                     }
                     break;
 
                 case 'button_decrement':
-                    $row_field['decrement_disabled'] = ($this->get_instock() < 1);
+                    $row_field['decrement_disabled'] = ($this->getInstock() < 1);
                     break;
 
                 case 'attachements':
                     $attachements = array();
-                    foreach ($this->get_attachements(null, true) as $attachement) {
-                        $attachements[] = array(    'name'      => $attachement->get_name(),
-                            'filename'  => str_replace(BASE, BASE_RELATIVE, $attachement->get_filename()),
-                            'type'      => $attachement->get_type()->get_full_path());
+                    foreach ($this->getAttachements(null, true) as $attachement) {
+                        $attachements[] = array(    'name'      => $attachement->getName(),
+                            'filename'  => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
+                            'type'      => $attachement->getType()->getFullPath());
                     }
                     $row_field['attachements'] = $attachements;
                     break;
@@ -1314,7 +1314,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function build_template_table_array($parts, $table_type)
+    public static function buildTemplateTableArray($parts, $table_type)
     {
         global $config;
 
@@ -1356,7 +1356,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param $proposed_category_id
      * @return array|bool An array containing parts with similar name and storelocation and category
      */
-    public static function check_for_existing_part(&$database, &$current_user, &$log, $proposed_name, $proposed_storelocation_id, $proposed_category_id)
+    public static function checkForExistingPart(&$database, &$current_user, &$log, $proposed_name, $proposed_storelocation_id, $proposed_category_id)
     {
         $query = 'SELECT parts.id FROM parts'.
             ' LEFT JOIN storelocations ON parts.id_storelocation=storelocations.id'.
@@ -1392,10 +1392,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
-        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
+        parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set "last_modified" to current datetime
         $values['last_modified'] = date('Y-m-d H:i:s');
@@ -1576,13 +1576,13 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception            if there was an error
      */
-    public static function get_count(&$database)
+    public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
         }
 
-        return $database->get_count_of_records('parts');
+        return $database->getCountOfRecords('parts');
     }
 
     /**
@@ -1598,7 +1598,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function get_sum_count_instock(&$database)
+    public static function getSumCountInstock(&$database)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
@@ -1626,7 +1626,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function get_sum_price_instock(&$database, &$current_user, &$log, $as_money_string = true)
+    public static function getSumPriceInstock(&$database, &$current_user, &$log, $as_money_string = true)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
@@ -1682,7 +1682,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function get_order_parts(&$database, &$current_user, &$log, $supplier_ids = array(), $with_devices = true)
+    public static function getOrderParts(&$database, &$current_user, &$log, $supplier_ids = array(), $with_devices = true)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
@@ -1711,7 +1711,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         foreach ($query_data as $row) {
             $part = new Part($database, $current_user, $log, $row['id'], $row);
-            if (($part->get_manual_order()) || ($part->get_min_order_quantity() > 0)) {
+            if (($part->getManualOrder()) || ($part->getMinOrderQuantity() > 0)) {
                 $parts[] = $part;
             }
         }
@@ -1730,7 +1730,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function get_noprice_parts(&$database, &$current_user, &$log)
+    public static function getNoPriceParts(&$database, &$current_user, &$log)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
@@ -1765,7 +1765,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function get_obsolete_parts(&$database, &$current_user, &$log, $no_orderdetails_parts = false)
+    public static function getObsoleteParts(&$database, &$current_user, &$log, $no_orderdetails_parts = false)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
@@ -1838,7 +1838,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function search_parts(
+    public static function searchParts(
         &$database,
         &$current_user,
         &$log,
@@ -1982,7 +1982,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                     break;
 
                 case 'categories':
-                    $groups[$part->get_category()->get_full_path()][] = $part;
+                    $groups[$part->getCategory()->getFullPath()][] = $part;
                     break;
             }
         }
@@ -2016,7 +2016,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function get_all_parts(&$database, &$current_user, &$log, $group_by='')
+    public static function getAllParts(&$database, &$current_user, &$log, $group_by='')
     {
         $query = 'SELECT * FROM parts';
 
@@ -2031,7 +2031,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                     break;
 
                 case 'categories':
-                    $groups[$part->get_category()->get_full_path()][] = $part;
+                    $groups[$part->getCategory()->getFullPath()][] = $part;
                     break;
             }
         }
@@ -2084,7 +2084,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $comment = '',
         $visible = false
     ) {
-        return parent::add_via_array(
+        return parent::addByArray(
             $database,
             $current_user,
             $log,
@@ -2114,9 +2114,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param $category Category The category of the part.
      * @return boolean True if name is valid
      */
-    public static function is_valid_name($partname, $category)
+    public static function isValidName($partname, $category)
     {
-        return $category->check_partname($partname);
+        return $category->checkPartname($partname);
     }
 
     /**
@@ -2124,34 +2124,34 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
      */
-    public function get_API_array($verbose = false)
+    public function getAPIArray($verbose = false)
     {
-        $json =  array( "id" => $this->get_id(),
-            "name" => $this->get_name(),
-            "description" => $this->get_description(true),
-            "description_raw" => $this->get_description(false),
-            "comment" => $this->get_comment(true),
-            "comment_raw" => $this->get_comment(false),
-            "instock" => $this->get_instock(),
-            "mininstock" => $this->get_mininstock(),
-            "category" => $this->get_category()->get_API_array(false),
-            "footprint" => try_to_get_APIModel_array($this->get_footprint(), false),
-            "storelocation" => try_to_get_APIModel_array($this->get_storelocation(), false),
-            "manufacturer" => try_to_get_APIModel_array($this->get_manufacturer(), false),
-            "orderdetails" => convert_APIModel_array($this->get_orderdetails(), false),
+        $json =  array( "id" => $this->getID(),
+            "name" => $this->getName(),
+            "description" => $this->getDescription(true),
+            "description_raw" => $this->getDescription(false),
+            "comment" => $this->getComment(true),
+            "comment_raw" => $this->getComment(false),
+            "instock" => $this->getInstock(),
+            "mininstock" => $this->getMinInstock(),
+            "category" => $this->getCategory()->getAPIArray(false),
+            "footprint" => try_to_get_APIModel_array($this->getFootprint(), false),
+            "storelocation" => try_to_get_APIModel_array($this->getStorelocation(), false),
+            "manufacturer" => try_to_get_APIModel_array($this->getManufacturer(), false),
+            "orderdetails" => convert_APIModel_array($this->getOrderdetails(), false),
         );
 
         if ($verbose == true) {
             $ver = array(
-                "obsolete" => $this->get_obsolete() == true,
-                "visible" => $this->get_visible() == true,
-                "orderquantity" => $this->get_order_quantity(),
-                "minorderquantity" => $this->get_min_order_quantity(),
-                "manualorder" => $this->get_manual_order(),
-                "lastmodified" => $this->get_last_modified(),
-                "datetime_added" => $this->get_datetime_added(),
-                "avgprice" => $this->get_average_price(),
-                "properties" => convert_APIModel_array($this->get_properties(), false));
+                "obsolete" => $this->getObsolete() == true,
+                "visible" => $this->getVisible() == true,
+                "orderquantity" => $this->getOrderQuantity(),
+                "minorderquantity" => $this->getMinOrderQuantity(),
+                "manualorder" => $this->getManualOrder(),
+                "lastmodified" => $this->getLastModified(),
+                "datetime_added" => $this->getDatetimeAdded(),
+                "avgprice" => $this->getAveragePrice(),
+                "properties" => convert_APIModel_array($this->getProperties(), false));
             return array_merge($json, $ver);
         }
         return $json;

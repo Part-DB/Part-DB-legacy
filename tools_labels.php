@@ -47,13 +47,13 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Lab
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
-$html->print_header($messages);
+$html->printHeader($messages);
 
 if (! $fatal_error) {
-    $html->print_template('labels');
+    $html->printTemplate('labels');
 }
 
-$html->print_footer();
+$html->printFooter();

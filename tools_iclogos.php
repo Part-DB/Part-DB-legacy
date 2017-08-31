@@ -47,13 +47,13 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Her
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
-$html->print_header($messages);
+$html->printHeader($messages);
 
 if (! $fatal_error) {
-    $html->print_template('iclogos');
+    $html->printTemplate('iclogos');
 }
 
-$html->print_footer();
+$html->printFooter();

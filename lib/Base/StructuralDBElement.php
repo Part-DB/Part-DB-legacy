@@ -104,13 +104,13 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function reset_attributes($all = false)
+    public function resetAttributes($all = false)
     {
         $this->full_path_strings    = null;
         $this->level                = null;
         $this->subelements          = null;
 
-        parent::reset_attributes($all);
+        parent::resetAttributes($all);
     }
 
     /********************************************************************************
@@ -136,18 +136,18 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      */
     public function delete($delete_recursive = false, $delete_files_from_hdd = false)
     {
-        if ($this->get_id() == null) {
+        if ($this->getID() == null) {
             throw new Exception(_('Die Oberste Ebene kann nicht gelöscht werden!'));
         }
 
         try {
-            $transaction_id = $this->database->begin_transaction(); // start transaction
+            $transaction_id = $this->database->beginTransaction(); // start transaction
 
             // first, we take all subelements of this element...
-            $subelements = $this->get_subelements(false);
+            $subelements = $this->getSubelements(false);
 
             // then we set $this->subelements to NULL, because if there was an error while deleting
-            $this->reset_attributes();
+            $this->resetAttributes();
 
             // ant then we change the parent IDs of the subelments to the parent ID of this element
             foreach ($subelements as $element) {
@@ -155,7 +155,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
                     $element->delete(true, $delete_files_from_hdd);
                 } // delete it with all child nodes (!!)
                 else {
-                    $element->set_parent_id($this->get_parent_id());
+                    $element->setParentID($this->getParentID());
                 } // just change its parent
             }
 
@@ -167,9 +167,9 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             $this->database->rollback(); // rollback transaction
 
             // restore the settings from BEFORE the transaction
-            $this->reset_attributes();
+            $this->resetAttributes();
 
-            throw new Exception(sprintf(_("Das Element \"%s\" konnte nicht gelöscht werden!\nGrund: "), $this->get_name()).$e->getMessage());
+            throw new Exception(sprintf(_("Das Element \"%s\" konnte nicht gelöscht werden!\nGrund: "), $this->getName()).$e->getMessage());
         }
     }
 
@@ -183,13 +183,13 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function is_child_of($another_element)
+    public function isChildOf($another_element)
     {
-        if ($this->get_id() == null) { // this is the root node
+        if ($this->getID() == null) { // this is the root node
             return false;
         } else {
             $class_name = get_class($this);
-            $parent_element = new $class_name($this->database, $this->current_user, $this->log, $this->get_parent_id());
+            $parent_element = new $class_name($this->database, $this->current_user, $this->log, $this->getParentID());
 
             return (($parent_element->get_id() == $another_element->get_id()) || ($parent_element->is_child_of($another_element)));
         }
@@ -208,7 +208,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *                          @li NULL means, the parent is the root node
      *                          @li the parent ID of the root node is -1
      */
-    public function get_parent_id()
+    public function getParentID()
     {
         return $this->db_data['parent_id'];
     }
@@ -223,11 +223,11 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_level()
+    public function getLevel()
     {
         if ($this->level === null) {
             $this->level = 0;
-            $parent_id = $this->get_parent_id();
+            $parent_id = $this->getParentID();
             $class = get_class($this);
             while ($parent_id > 0) {
                 $element = new $class($this->database, $this->current_user, $this->log, $parent_id);
@@ -248,12 +248,12 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * @throws Exception    if there was an error
      */
-    public function get_full_path($delimeter = ' → ')
+    public function getFullPath($delimeter = ' → ')
     {
         if (! is_array($this->full_path_strings)) {
             $this->full_path_strings = array();
-            $this->full_path_strings[] = $this->get_name();
-            $parent_id = $this->get_parent_id();
+            $this->full_path_strings[] = $this->getName();
+            $parent_id = $this->getParentID();
             $class = get_class($this);
             while ($parent_id > 0) {
                 $element = new $class($this->database, $this->current_user, $this->log, $parent_id);
@@ -275,13 +275,13 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * @throws Exception    if there was an error
      */
-    public function get_subelements($recursive)
+    public function getSubelements($recursive)
     {
         if (! is_array($this->subelements)) {
             $this->subelements = array();
 
             $query_data = $this->database->query('SELECT * FROM ' . $this->tablename .
-                ' WHERE parent_id <=> ? ORDER BY name ASC', array($this->get_id()));
+                ' WHERE parent_id <=> ? ORDER BY name ASC', array($this->getID()));
 
             $class = get_class($this);
             foreach ($query_data as $row) {
@@ -295,7 +295,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             $all_elements = array();
             foreach ($this->subelements as $subelement) {
                 $all_elements[] = $subelement;
-                $all_elements = array_merge($all_elements, $subelement->get_subelements(true));
+                $all_elements = array_merge($all_elements, $subelement->getSubelements(true));
             }
 
             return $all_elements;
@@ -317,9 +317,9 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      * @throws Exception if the new parent ID is not valid
      * @throws Exception if there was an error
      */
-    public function set_parent_id($new_parent_id)
+    public function setParentID($new_parent_id)
     {
-        $this->set_attributes(array('parent_id' => $new_parent_id));
+        $this->setAttributes(array('parent_id' => $new_parent_id));
     }
 
     /********************************************************************************
@@ -345,7 +345,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * @throws Exception    if there was an error
      */
-    public function build_javascript_tree(
+    public function buildJavascriptTree(
         $tree_name,
         $page,
         $parameter,
@@ -366,37 +366,37 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
 
         if ($show_root) {
             // the root node is visible
-            if ($this->get_id() > 0) {
-                $root_name = $this->get_name();
+            if ($this->getID() > 0) {
+                $root_name = $this->getName();
             }
 
             if ($root_is_link) {
-                $root_link = $page ."?". $parameter ."=".$this->get_id();
+                $root_link = $page ."?". $parameter ."=".$this->getID();
             } else {
                 $root_link = '';
             }
 
             if ($root_expand) {
                 // we need a second (invisible) root node
-                $javascript[] = "$tree_name.add(". strval($this->get_parent_id()+1).",-1, '');";
-                $javascript[] = "$tree_name.add(". strval($this->get_id()+1) .",". strval($this->get_parent_id()+1) .
+                $javascript[] = "$tree_name.add(". strval($this->getParentID()+1).",-1, '');";
+                $javascript[] = "$tree_name.add(". strval($this->getID()+1) .",". strval($this->getParentID()+1) .
                     ",'". $root_name ."', '".$root_link."', '', '".$target."');";
             } else {
-                $javascript[] = "$tree_name.add(". strval($this->get_id()+1) .",-1,'". $root_name ."', '".
+                $javascript[] = "$tree_name.add(". strval($this->getID()+1) .",-1,'". $root_name ."', '".
                     $root_link."', '', '".$target."');";
             }
         } else {
             // the root node is invisible
-            $javascript[] = "$tree_name.add(". strval($this->get_id()+1).",-1, '');";
+            $javascript[] = "$tree_name.add(". strval($this->getID()+1).",-1, '');";
         }
 
         // get all subelements
-        $subelements = $this->get_subelements($recursive);
+        $subelements = $this->getSubelements($recursive);
 
         foreach ($subelements as $element) {
-            $javascript[] = $tree_name.'.add('.strval($element->get_id()+1).','.strval($element->get_parent_id()+1).
-                ",'".addslashes(htmlentities($element->get_name(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'))."','".
-                $page.'?'.$parameter.'='.$element->get_id()."','','".$target."');";
+            $javascript[] = $tree_name.'.add('.strval($element->getID()+1).','.strval($element->getParentID()+1).
+                ",'".addslashes(htmlentities($element->getName(), ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8'))."','".
+                $page.'?'.$parameter.'='.$element->getID()."','','".$target."');";
         }
 
         $javascript[] = "document.write($tree_name);";
@@ -424,7 +424,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * @throws Exception    if there was an error
      */
-    public function build_html_tree(
+    public function buildHtmlTree(
         $selected_id = null,
         $recursive = true,
         $show_root = true,
@@ -437,35 +437,35 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         $html = array();
 
         if ($show_root) {
-            $root_level = $this->get_level();
-            if ($this->get_id() > 0) {
-                $root_name = $this->get_name();
+            $root_level = $this->getLevel();
+            if ($this->getID() > 0) {
+                $root_name = $this->getName();
             }
 
-            $html[] = '<option value="'. $this->get_id() . '">'. $root_name .'</option>';
+            $html[] = '<option value="'. $this->getID() . '">'. $root_name .'</option>';
         } else {
-            $root_level =  $this->get_level() + 1;
+            $root_level =  $this->getLevel() + 1;
         }
 
         // get all subelements
-        $subelements = $this->get_subelements($recursive);
+        $subelements = $this->getSubelements($recursive);
 
         foreach ($subelements as $element) {
-            $level = $element->get_level() - $root_level;
-            $selected = ($element->get_id() == $selected_id) ? 'selected' : '';
+            $level = $element->getLevel() - $root_level;
+            $selected = ($element->getID() == $selected_id) ? 'selected' : '';
 
-            $html[] = '<option '. $selected .' value="'. $element->get_id() . '">';
+            $html[] = '<option '. $selected .' value="'. $element->getID() . '">';
             for ($i = 0; $i < $level; $i++) {
                 $html[] = "&nbsp;&nbsp;&nbsp;";
             }
-            $html[] = $element->get_name() .'</option>';
+            $html[] = $element->getName() .'</option>';
         }
 
         return implode("\n", $html);
     }
 
 
-    public function build_bootstrap_tree(
+    public function buildBootstrapTree(
         $page,
         $parameter,
         $recursive = false,
@@ -477,19 +477,19 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             $root_name=_('Oberste Ebene');
         }
 
-        $subelements = $this->get_subelements(false);
+        $subelements = $this->getSubelements(false);
         $nodes = array();
 
         foreach ($subelements as $element) {
-            $nodes[] = $element->build_bootstrap_tree($page, $parameter);
+            $nodes[] = $element->buildBootstrapTree($page, $parameter);
         }
 
         // if we are on root level?
-        if ($this->get_parent_id()==-1) {
+        if ($this->getParentID()==-1) {
             if ($show_root) {
                 $tree = array(
-                    array('text' => ($use_db_root_name) ? $this->get_name() : $root_name ,
-                        'href' => $page ."?". $parameter ."=".$this->get_id(),
+                    array('text' => ($use_db_root_name) ? $this->getName() : $root_name ,
+                        'href' => $page ."?". $parameter ."=".$this->getID(),
                         'nodes' => $nodes)
                 );
             } else { //Dont show root node
@@ -497,13 +497,13 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             }
         } else {
             if (!empty($nodes)) {
-                $tree = array('text' => $this->get_name(),
-                    'href' => $page ."?". $parameter ."=".$this->get_id(),
+                $tree = array('text' => $this->getName(),
+                    'href' => $page ."?". $parameter ."=".$this->getID(),
                     'nodes' => $nodes
                 );
             } else {
-                $tree = array('text' => $this->get_name(),
-                    'href' => $page ."?". $parameter ."=".$this->get_id()
+                $tree = array('text' => $this->getName(),
+                    'href' => $page ."?". $parameter ."=".$this->getID()
                 );
             }
         }
@@ -521,14 +521,14 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         if ($values['parent_id'] == 0) {
             $values['parent_id'] = null;
         } // NULL is the root node
 
         // first, we let all parent classes to check the values
-        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
+        parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         if ((! $is_new) && ($values['id'] == 0)) {
             throw new Exception(_('Die Oberste Ebene kann nicht bearbeitet werden!'));

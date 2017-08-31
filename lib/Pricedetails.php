@@ -83,11 +83,11 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function reset_attributes($all = false)
+    public function resetAttributes($all = false)
     {
         $this->orderdetails = null;
 
-        parent::reset_attributes($all);
+        parent::resetAttributes($all);
     }
 
     /********************************************************************************
@@ -109,9 +109,9 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
     public function delete()
     {
         // Check if it is allowed to delete this pricedetails
-        if ($this->get_min_discount_quantity() == 1) {
-            $orderdetails = $this->get_orderdetails();
-            $all_pricedetails = $orderdetails->get_pricedetails();
+        if ($this->getMinDiscountQuantity() == 1) {
+            $orderdetails = $this->getOrderdetails();
+            $all_pricedetails = $orderdetails->getPricedetails();
 
             if (count($all_pricedetails) > 1) {
                 throw new Exception('Die ausgewählte Preisinformation kann erst gelöscht werden '.
@@ -120,7 +120,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
         }
 
         // save orderdetails attributes to update its "last_modified" and "last_modified" of the part
-        $this->get_orderdetails()->set_attributes(array());
+        $this->getOrderdetails()->setAttributes(array());
 
         // now we can delete this orderdetails
         parent::delete();
@@ -139,7 +139,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function get_orderdetails()
+    public function getOrderdetails()
     {
         if (! is_object($this->orderdetails)) {
             $this->orderdetails = new Orderdetails(
@@ -169,7 +169,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @see float_to_money_string()
      */
-    public function get_price($as_money_string = false, $multiplier = 1)
+    public function getPrice($as_money_string = false, $multiplier = 1)
     {
         $price = ($this->db_data['price'] * $multiplier) / $this->db_data['price_related_quantity'];
 
@@ -187,9 +187,9 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @return integer       the price related quantity
      *
-     * @see Pricedetails::set_price_related_quantity()
+     * @see Pricedetails::setPriceRelatedQuantity()
      */
-    public function get_price_related_quantity()
+    public function getPriceRelatedQuantity()
     {
         return $this->db_data['price_related_quantity'];
     }
@@ -202,9 +202,9 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @return integer       the minimum discount quantity
      *
-     * @see Pricedetails::set_min_discount_quantity()
+     * @see Pricedetails::setMinDiscountQuantity()
      */
-    public function get_min_discount_quantity()
+    public function getMinDiscountQuantity()
     {
         return $this->db_data['min_discount_quantity'];
     }
@@ -227,9 +227,9 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @throws Exception if the new price is not valid
      * @throws Exception if there was an error
      */
-    public function set_price($new_price)
+    public function setPrice($new_price)
     {
-        $this->set_attributes(array('price' => $new_price));
+        $this->setAttributes(array('price' => $new_price));
     }
 
     /**
@@ -243,9 +243,9 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @param integer $new_price_related_quantity       the price related quantity
      */
-    public function set_price_related_quantity($new_price_related_quantity)
+    public function setPriceRelatedQuantity($new_price_related_quantity)
     {
-        $this->set_attributes(array('price_related_quantity' => $new_price_related_quantity));
+        $this->setAttributes(array('price_related_quantity' => $new_price_related_quantity));
     }
 
     /**
@@ -265,9 +265,9 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @param integer $new_min_discount_quantity       the minimum discount quantity
      */
-    public function set_min_discount_quantity($new_min_discount_quantity)
+    public function setMinDiscountQuantity($new_min_discount_quantity)
     {
-        $this->set_attributes(array('min_discount_quantity' => $new_min_discount_quantity));
+        $this->setAttributes(array('min_discount_quantity' => $new_min_discount_quantity));
     }
 
     /********************************************************************************
@@ -279,10 +279,10 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
-        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
+        parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set the type of the boolean attributes
         settype($values['manual_input'], 'boolean');
@@ -292,7 +292,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
             $orderdetails = new Orderdetails($database, $current_user, $log, $values['orderdetails_id']);
 
             // save orderdetails attributes to update its "last_modified" and "last_modified" of the part
-            $orderdetails->set_attributes(array());
+            $orderdetails->setAttributes(array());
         } catch (Exception $e) {
             debug(
                 'error',
@@ -346,9 +346,9 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
 
         // search for pricedetails with the same "min_discount_quantity"
         $same_min_discount_quantity_count = 0;
-        $all_pricedetails = $orderdetails->get_pricedetails();
+        $all_pricedetails = $orderdetails->getPricedetails();
         foreach ($all_pricedetails as $pricedetails) {
-            if ($pricedetails->get_min_discount_quantity() == $values['min_discount_quantity']) {
+            if ($pricedetails->getMinDiscountQuantity() == $values['min_discount_quantity']) {
                 $same_min_discount_quantity_count++;
             }
         }
@@ -409,7 +409,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
         $price_related_quantity = 1,
         $min_discount_quantity = 1
     ) {
-        return parent::add_via_array(
+        return parent::addByArray(
             $database,
             $current_user,
             $log,
@@ -427,12 +427,12 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
      */
-    public function get_API_array($verbose = false)
+    public function getAPIArray($verbose = false)
     {
-        $json =  array( "id" => $this->get_id(),
-            "quantity" => $this->get_price_related_quantity(),
-            "price" => $this->get_price(),
-            "minDiscountQuantity" => $this->get_min_discount_quantity()
+        $json =  array( "id" => $this->getID(),
+            "quantity" => $this->getPriceRelatedQuantity(),
+            "price" => $this->getPrice(),
+            "minDiscountQuantity" => $this->getMinDiscountQuantity()
         );
         return $json;
     }

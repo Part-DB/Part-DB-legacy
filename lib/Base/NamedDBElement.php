@@ -77,7 +77,7 @@ abstract class NamedDBElement extends DBElement
      *
      * @return string   the name of this element
      */
-    public function get_name()
+    public function getName()
     {
         return $this->db_data['name'];
     }
@@ -100,9 +100,9 @@ abstract class NamedDBElement extends DBElement
      * @throws Exception if the new name is not valid (e.g. empty)
      * @throws Exception if there was an error
      */
-    public function set_name($new_name)
+    public function setName($new_name)
     {
-        $this->set_attributes(array('name' => $new_name));
+        $this->setAttributes(array('name' => $new_name));
     }
 
     /********************************************************************************
@@ -114,10 +114,10 @@ abstract class NamedDBElement extends DBElement
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
-        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
+        parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // we trim the name (spaces at the begin or at the end of a name are ugly, so we remove them)
         $values['name'] = trim($values['name']);
@@ -142,7 +142,7 @@ abstract class NamedDBElement extends DBElement
      *
      * @throws Exception if there was an error
      */
-    protected static function search_table(&$database, &$current_user, &$log, $tablename, $keyword, $exact_match)
+    protected static function searchTable(&$database, &$current_user, &$log, $tablename, $keyword, $exact_match)
     {
         if (strlen($keyword) == 0) {
             return array();

@@ -80,16 +80,16 @@ if ($config['debug']['enable'] && (count($errors) == 0) && (! isset($_REQUEST['s
 //Fill template with values
 $html = new HTML($config['html']['theme'], $config['html']['custom_css'], "Debugging");
 
-$html->set_variable("debug_enable", $config['debug']['enable'], "boolean");
-$html->set_variable("autorefresh", $autorefresh, "boolean");
+$html->setVariable("debug_enable", $config['debug']['enable'], "boolean");
+$html->setVariable("autorefresh", $autorefresh, "boolean");
 //$html->set_variable("errors_count", count($errors), "integer");
-$html->set_loop("errors", $errors);
-$html->set_loop("logs", get_debug_log_elements());
+$html->setLoop("errors", $errors);
+$html->setLoop("logs", get_debug_log_elements());
 
 // Print template
-$html->print_header();
-$html->print_template("system_debug");
-$html->print_footer();
+$html->printHeader();
+$html->printTemplate("system_debug");
+$html->printFooter();
 
 
 

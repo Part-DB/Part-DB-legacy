@@ -112,7 +112,7 @@ class PartProperty implements IAPIModel
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
      */
-    public function get_API_array($verbose = false)
+    public function getAPIArray($verbose = false)
     {
         return $this->get_array(true);
     }

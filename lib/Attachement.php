@@ -77,12 +77,12 @@ class Attachement extends Base\NamedDBElement
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function reset_attributes($all = false)
+    public function resetAttributes($all = false)
     {
         $this->element          = null;
         $this->attachement_type = null;
 
-        parent::reset_attributes($all);
+        parent::resetAttributes($all);
     }
 
     /********************************************************************************
@@ -105,12 +105,12 @@ class Attachement extends Base\NamedDBElement
      */
     public function delete($delete_from_hdd = false)
     {
-        $filename = $this->get_filename();
+        $filename = $this->getFilename();
         $must_file_delete = false;
 
         if (($delete_from_hdd) && (strlen($filename) > 0)) {
             // we will delete the file only from HDD if there are no other "Attachement" objects with the same filename!
-            $attachements = Attachement::get_attachements_by_filename($this->database, $this->current_user, $this->log, $filename);
+            $attachements = Attachement::getAttachementsByFilename($this->database, $this->current_user, $this->log, $filename);
 
             if ((count($attachements) <= 1) && (file_exists($filename))) {
                 // check if there are enought permissions to delete the file
@@ -125,18 +125,18 @@ class Attachement extends Base\NamedDBElement
         }
 
         try {
-            $transaction_id = $this->database->begin_transaction(); // start transaction
+            $transaction_id = $this->database->beginTransaction(); // start transaction
 
             // Set all "id_master_picture_attachement" in the table "parts" to NULL where the master picture is this attachement
             $query = 'SELECT * from parts WHERE id_master_picture_attachement=?';
-            $query_data = $this->database->query($query, array($this->get_id()));
+            $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
                 $part = new Part($this->database, $this->current_user, $this->log, $row['id'], $row);
-                $part->set_master_picture_attachement_id(null);
+                $part->setMasterPictureAttachementID(null);
             }
 
-            $this->get_element()->set_attributes(array()); // save element attributes to update its "last_modified"
+            $this->getElement()->set_attributes(array()); // save element attributes to update its "last_modified"
 
             // Now we can delete the database record of this attachement
             parent::delete();
@@ -154,9 +154,9 @@ class Attachement extends Base\NamedDBElement
             $this->database->rollback(); // rollback transaction
 
             // restore the settings from BEFORE the transaction
-            $this->reset_attributes();
+            $this->resetAttributes();
 
-            throw new Exception(sprintf(_("Der Dateianhang \"%s\" konnte nicht entfernt werden!\nGrund: "), $this->get_name()).$e->getMessage());
+            throw new Exception(sprintf(_("Der Dateianhang \"%s\" konnte nicht entfernt werden!\nGrund: "), $this->getName()).$e->getMessage());
         }
     }
 
@@ -166,9 +166,9 @@ class Attachement extends Base\NamedDBElement
      * @return boolean      @li true if the file extension is a picture extension
      *                      @li otherwise false
      */
-    public function is_picture()
+    public function isPicture()
     {
-        $extension = pathinfo($this->get_filename(), PATHINFO_EXTENSION);
+        $extension = pathinfo($this->getFilename(), PATHINFO_EXTENSION);
 
         // list all file extensions which are supported to display them by HTML code
         $picture_extensions = array('gif', 'png', 'jpg', 'jpeg', 'bmp', 'svg', 'tif');
@@ -189,7 +189,7 @@ class Attachement extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_element()
+    public function getElement()
     {
         if (! is_object($this->element)) {
             $this->element = new $this->db_data['class_name'](
@@ -208,7 +208,7 @@ class Attachement extends Base\NamedDBElement
      *
      * @return string   the filename as an absolute UNIX filepath from filesystem root
      */
-    public function get_filename()
+    public function getFilename()
     {
         return str_replace('%BASE%', BASE, $this->db_data['filename']);
     }
@@ -219,7 +219,7 @@ class Attachement extends Base\NamedDBElement
      * @return boolean      @li true means, this attachement will be listed in the "Attachements" column of the HTML tables
      *                      @li false means, this attachement won't be listed in the "Attachements" column of the HTML tables
      */
-    public function get_show_in_table()
+    public function getShowInTable()
     {
         return $this->db_data['show_in_table'];
     }
@@ -231,7 +231,7 @@ class Attachement extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_type()
+    public function getType()
     {
         if (! is_object($this->attachement_type)) {
             $this->attachement_type = new AttachementType(
@@ -268,9 +268,9 @@ class Attachement extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public function set_filename($new_filename)
+    public function setFilename($new_filename)
     {
-        $this->set_attributes(array('filename' => $new_filename));
+        $this->setAttributes(array('filename' => $new_filename));
     }
 
     /**
@@ -281,9 +281,9 @@ class Attachement extends Base\NamedDBElement
      * @throws Exception if the new type ID is not valid
      * @throws Exception if there was an error
      */
-    public function set_type_id($new_type_id)
+    public function setTypeID($new_type_id)
     {
-        $this->set_attributes(array('type_id' => $new_type_id));
+        $this->setAttributes(array('type_id' => $new_type_id));
     }
 
     /********************************************************************************
@@ -305,7 +305,7 @@ class Attachement extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public static function get_attachements_by_filename(&$database, &$current_user, &$log, $filename)
+    public static function getAttachementsByFilename(&$database, &$current_user, &$log, $filename)
     {
         $attachements = array();
 
@@ -339,7 +339,7 @@ class Attachement extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public static function get_invalid_filename_attachements(&$database, &$current_user, &$log)
+    public static function getInvalidFilenameAttachements(&$database, &$current_user, &$log)
     {
         $attachements = array();
 
@@ -359,7 +359,7 @@ class Attachement extends Base\NamedDBElement
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         // first, we set the basename as the name if the name is empty
         $values['name'] = trim($values['name']);
@@ -368,7 +368,7 @@ class Attachement extends Base\NamedDBElement
         }
 
         // then we let all parent classes to check the values
-        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
+        parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set boolean attributes
         settype($values['show_in_table'], 'boolean');
@@ -453,13 +453,13 @@ class Attachement extends Base\NamedDBElement
      *
      * @throws Exception            if there was an error
      */
-    public static function get_count(&$database)
+    public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
-        return $database->get_count_of_records('attachements');
+        return $database->getCountOfRecords('attachements');
     }
 
     /**
@@ -499,7 +499,7 @@ class Attachement extends Base\NamedDBElement
             throw new Exception(_('$element ist kein Objekt!'));
         }
 
-        return parent::add_via_array(
+        return parent::addByArray(
             $database,
             $current_user,
             $log,

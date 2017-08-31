@@ -59,7 +59,7 @@ $t = textdomain(null);
 $messages[] = array('text' =>   sprintf(_('Das ist %s!'), "english"),
     'strong' => true, 'color' => 'red');
 
-$html->print_header($messages);
+$html->printHeader($messages);
 
 /********************************************************************************
  *
@@ -172,4 +172,4 @@ phpinfo();
  *
  *********************************************************************************/
 
-$html->print_footer();
+$html->printFooter();

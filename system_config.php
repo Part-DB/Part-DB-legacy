@@ -215,7 +215,7 @@ if (! $fatal_error) {
 
             try {
                 save_config();
-                $html->set_variable('refresh_navigation_frame', true, 'boolean');
+                $html->setVariable('refresh_navigation_frame', true, 'boolean');
                 //header('Location: system_config.php'); // Reload the page that we can see if the new settings are stored successfully --> does not work correctly?!
             } catch (Exception $e) {
                 $config = $config_old; // reload the old config
@@ -251,56 +251,56 @@ if (! $fatal_error) {
  *********************************************************************************/
 
 // http charset / theme
-$html->set_loop('http_charset_loop', array_to_template_loop($config['http_charsets'], $config['html']['http_charset']));
-$html->set_loop('theme_loop', build_theme_loop());
-$html->set_loop('custom_css_loop', build_custom_css_loop());
+$html->setLoop('http_charset_loop', array_to_template_loop($config['http_charsets'], $config['html']['http_charset']));
+$html->setLoop('theme_loop', build_theme_loop());
+$html->setLoop('custom_css_loop', build_custom_css_loop());
 
 // locale settings
-$html->set_loop('timezone_loop', array_to_template_loop($config['timezones'], $config['timezone']));
-$html->set_loop('language_loop', array_to_template_loop($config['languages'], $config['language']));
+$html->setLoop('timezone_loop', array_to_template_loop($config['timezones'], $config['timezone']));
+$html->setLoop('language_loop', array_to_template_loop($config['languages'], $config['language']));
 
 // checkboxes
-$html->set_variable('disable_updatelist', $config['startup']['disable_update_list'], 'boolean');
-$html->set_variable('disable_help', $config['menu']['disable_help'], 'boolean');
-$html->set_variable('disable_config', $config['menu']['disable_config'], 'boolean');
-$html->set_variable('enable_debug_link', $config['menu']['enable_debug'], 'boolean');
-$html->set_variable('disable_devices', $config['devices']['disable'], 'boolean');
-$html->set_variable('disable_footprints', $config['footprints']['disable'], 'boolean');
-$html->set_variable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
-$html->set_variable('disable_labels', $config['menu']['disable_labels'], 'boolean');
-$html->set_variable('disable_calculator', $config['menu']['disable_calculator'], 'boolean');
-$html->set_variable('disable_iclogos', $config['menu']['disable_iclogos'], 'boolean');
-$html->set_variable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
-$html->set_variable('disable_tools_footprints', $config['menu']['disable_footprints'], 'boolean');
-$html->set_variable('tools_footprints_autoload', $config['tools']['footprints']['autoload'], 'boolean');
-$html->set_variable('developer_mode_available', file_exists(BASE.'/development'), 'boolean');
-$html->set_variable('enable_developer_mode', $config['developer_mode'], 'boolean');
-$html->set_variable('enable_dokuwiki_write_perms', file_exists(DOKUWIKI_PERMS_FILENAME), 'boolean');
-$html->set_variable('use_old_datasheet_icons', $config['appearance']['use_old_datasheet_icons'], 'boolean');
+$html->setVariable('disable_updatelist', $config['startup']['disable_update_list'], 'boolean');
+$html->setVariable('disable_help', $config['menu']['disable_help'], 'boolean');
+$html->setVariable('disable_config', $config['menu']['disable_config'], 'boolean');
+$html->setVariable('enable_debug_link', $config['menu']['enable_debug'], 'boolean');
+$html->setVariable('disable_devices', $config['devices']['disable'], 'boolean');
+$html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
+$html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+$html->setVariable('disable_labels', $config['menu']['disable_labels'], 'boolean');
+$html->setVariable('disable_calculator', $config['menu']['disable_calculator'], 'boolean');
+$html->setVariable('disable_iclogos', $config['menu']['disable_iclogos'], 'boolean');
+$html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
+$html->setVariable('disable_tools_footprints', $config['menu']['disable_footprints'], 'boolean');
+$html->setVariable('tools_footprints_autoload', $config['tools']['footprints']['autoload'], 'boolean');
+$html->setVariable('developer_mode_available', file_exists(BASE.'/development'), 'boolean');
+$html->setVariable('enable_developer_mode', $config['developer_mode'], 'boolean');
+$html->setVariable('enable_dokuwiki_write_perms', file_exists(DOKUWIKI_PERMS_FILENAME), 'boolean');
+$html->setVariable('use_old_datasheet_icons', $config['appearance']['use_old_datasheet_icons'], 'boolean');
 
 // popup settings
-$html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
-$html->set_variable('popup_width', $config['popup']['width'], 'integer');
-$html->set_variable('popup_height', $config['popup']['height'], 'integer');
+$html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+$html->setVariable('popup_width', $config['popup']['width'], 'integer');
+$html->setVariable('popup_height', $config['popup']['height'], 'integer');
 
 // site properties
-$html->set_variable('page_title', $config['partdb_title'], 'string');
-$html->set_variable('startup_banner', $config['startup']['custom_banner'], 'string');
+$html->setVariable('page_title', $config['partdb_title'], 'string');
+$html->setVariable('startup_banner', $config['startup']['custom_banner'], 'string');
 
 // server
-$html->set_variable('php_version', phpversion(), 'string');
-$html->set_variable('htaccess_works', (getenv('htaccessWorking')=='true'), 'boolean');
-$html->set_variable('is_online_demo', $config['is_online_demo'], 'boolean');
+$html->setVariable('php_version', phpversion(), 'string');
+$html->setVariable('htaccess_works', (getenv('htaccessWorking')=='true'), 'boolean');
+$html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
 
 //Part properties
-$html->set_variable('properties_active', $config['properties']['active'], 'boolean');
+$html->setVariable('properties_active', $config['properties']['active'], 'boolean');
 
 // 3d Footprints
-$html->set_variable('foot3d_active', $config['foot3d']['active'], 'boolean');
-$html->set_variable('foot3d_show_info', $config['foot3d']['show_info'], 'boolean');
+$html->setVariable('foot3d_active', $config['foot3d']['active'], 'boolean');
+$html->setVariable('foot3d_show_info', $config['foot3d']['show_info'], 'boolean');
 
 // Appearance
-$html->set_variable('short_description', $config['appearance']['short_description'], 'boolean');
+$html->setVariable('short_description', $config['appearance']['short_description'], 'boolean');
 
 // check if the server supports the selected language and print a warning if not
 if (! own_setlocale(LC_ALL, $config['language'])) {
@@ -318,13 +318,13 @@ if (! own_setlocale(LC_ALL, $config['language'])) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
-$html->print_header($messages);
+$html->printHeader($messages);
 
 if (! $fatal_error) {
-    $html->print_template('system_config');
+    $html->printTemplate('system_config');
 }
 
-$html->print_footer();
+$html->printFooter();

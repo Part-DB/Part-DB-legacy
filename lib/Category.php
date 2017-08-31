@@ -78,16 +78,16 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *
      * @return boolean          "disable footprints" attribute
      */
-    public function get_disable_footprints($including_parents = false)
+    public function getDisableFootprints($including_parents = false)
     {
         if ($including_parents) {
-            $parent_id = $this->get_id();
+            $parent_id = $this->getID();
 
             while ($parent_id > 0) {
                 $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
-                $parent_id = $category->get_parent_id();
+                $parent_id = $category->getParentID();
 
-                if ($category->get_disable_footprints()) {
+                if ($category->getDisableFootprints()) {
                     return true;
                 }
             }
@@ -108,16 +108,16 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *
      * @return boolean          the "disable manufacturers" attribute
      */
-    public function get_disable_manufacturers($including_parents = false)
+    public function getDisableManufacturers($including_parents = false)
     {
         if ($including_parents) {
-            $parent_id = $this->get_id();
+            $parent_id = $this->getID();
 
             while ($parent_id > 0) {
                 $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
-                $parent_id = $category->get_parent_id();
+                $parent_id = $category->getParentID();
 
-                if ($category->get_disable_manufacturers()) {
+                if ($category->getDisableManufacturers()) {
                     return true;
                 }
             }
@@ -138,16 +138,16 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *
      * @return boolean          the "disable automatic datasheets" attribute
      */
-    public function get_disable_autodatasheets($including_parents = false)
+    public function getDisableAutodatasheets($including_parents = false)
     {
         if ($including_parents) {
-            $parent_id = $this->get_id();
+            $parent_id = $this->getID();
 
             while ($parent_id > 0) {
                 $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
-                $parent_id = $category->get_parent_id();
+                $parent_id = $category->getParentID();
 
-                if ($category->get_disable_autodatasheets()) {
+                if ($category->getDisableAutodatasheets()) {
                     return true;
                 }
             }
@@ -168,16 +168,16 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *
      * @return boolean          the "disable automatic properties" attribute
      */
-    public function get_disable_properties($including_parents = false)
+    public function getDisableProperties($including_parents = false)
     {
         if ($including_parents) {
-            $parent_id = $this->get_id();
+            $parent_id = $this->getID();
 
             while ($parent_id > 0) {
                 $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
-                $parent_id = $category->get_parent_id();
+                $parent_id = $category->getParentID();
 
-                if ($category->get_disable_properties()) {
+                if ($category->getDisableProperties()) {
                     return true;
                 }
             }
@@ -198,20 +198,20 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *
      * @return string          the "default description" attribute
      */
-    public function get_default_description($including_parents = false, $show_escape = true)
+    public function getDefaultDescription($including_parents = false, $show_escape = true)
     {
-        if ($including_parents && _empty($this->get_default_description())) {
-            $parent_id = $this->get_id();
+        if ($including_parents && _empty($this->getDefaultDescription())) {
+            $parent_id = $this->getID();
 
             while ($parent_id > 0) {
                 $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
-                $parent_id = $category->get_parent_id();
+                $parent_id = $category->getParentID();
 
-                if (!_empty($category->get_default_description())) {
-                    if ($category->get_default_description() == "@@") {
+                if (!_empty($category->getDefaultDescription())) {
+                    if ($category->getDefaultDescription() == "@@") {
                         break;
                     }
-                    return $category->get_default_description();
+                    return $category->getDefaultDescription();
                 }
             }
 
@@ -235,20 +235,20 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *
      * @return string          the "default comment" attribute
      */
-    public function get_default_comment($including_parents = false, $show_escape = true)
+    public function getDefaultComment($including_parents = false, $show_escape = true)
     {
-        if ($including_parents && _empty($this->get_default_comment()) && $this->get_default_comment() != "@@") {
-            $parent_id = $this->get_id();
+        if ($including_parents && _empty($this->getDefaultComment()) && $this->getDefaultComment() != "@@") {
+            $parent_id = $this->getID();
 
             while ($parent_id > 0) {
                 $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
-                $parent_id = $category->get_parent_id();
+                $parent_id = $category->getParentID();
 
-                if (!_empty($category->get_default_comment())) {
-                    if ($category->get_default_comment() == "@@") {
+                if (!_empty($category->getDefaultComment())) {
+                    if ($category->getDefaultComment() == "@@") {
                         break;
                     }
-                    return $category->get_default_comment();
+                    return $category->getDefaultComment();
                 }
             }
 
@@ -269,20 +269,20 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @param bool $show_escape If true, the escape code "@@" will be returned, otherwise it will be "" (empty string).
      * @return string  The partname_hint attribute
      */
-    public function get_partname_hint($including_parents = false, $show_escape = true)
+    public function getPartnameHint($including_parents = false, $show_escape = true)
     {
-        if ($including_parents && _empty($this->get_partname_hint())) {
-            $parent_id = $this->get_id();
+        if ($including_parents && _empty($this->getPartnameHint())) {
+            $parent_id = $this->getID();
 
             while ($parent_id > 0) {
                 $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
-                $parent_id = $category->get_parent_id();
+                $parent_id = $category->getParentID();
 
-                if (!_empty($category->get_partname_hint())) {
-                    if ($category->get_partname_hint() == "@@") {
+                if (!_empty($category->getPartnameHint())) {
+                    if ($category->getPartnameHint() == "@@") {
                         break;
                     }
-                    return $category->get_partname_hint();
+                    return $category->getPartnameHint();
                 }
             }
 
@@ -305,20 +305,20 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @param bool $show_escape If true, the escape code "@@" will be returned, otherwise it will be "" (empty string).
      * @return string  The partname_hint attribute
      */
-    public function get_partname_regex_raw($including_parents = false, $show_escape = true)
+    public function getPartnameRegexRaw($including_parents = false, $show_escape = true)
     {
-        if ($including_parents && _empty($this->get_partname_regex_raw())) {
-            $parent_id = $this->get_id();
+        if ($including_parents && _empty($this->getPartnameRegexRaw())) {
+            $parent_id = $this->getID();
 
             while ($parent_id > 0) {
                 $category = new Category($this->database, $this->current_user, $this->log, $parent_id);
-                $parent_id = $category->get_parent_id();
+                $parent_id = $category->getParentID();
 
-                if (!_empty($category->get_partname_regex_raw())) {
-                    if ($category->get_partname_regex_raw() == "@@") {
+                if (!_empty($category->getPartnameRegexRaw())) {
+                    if ($category->getPartnameRegexRaw() == "@@") {
                         break;
                     }
-                    return $category->get_partname_regex_raw();
+                    return $category->getPartnameRegexRaw();
                 }
             }
 
@@ -337,9 +337,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @param bool $including_parents
      * @return string The regex.
      */
-    public function get_partname_regex($including_parents = true)
+    public function getPartnameRegex($including_parents = true)
     {
-        return $this->get_partname_regex_obj($including_parents)->get_regex();
+        return $this->getPartnameRegexObj($including_parents)->get_regex();
     }
 
     /**
@@ -347,9 +347,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @param bool $including_parents
      * @return PartNameRegEx
      */
-    public function get_partname_regex_obj($including_parents = true)
+    public function getPartnameRegexObj($including_parents = true)
     {
-        $str = $this->get_partname_regex_raw($including_parents);
+        $str = $this->getPartnameRegexRaw($including_parents);
         return new PartNameRegEx($str);
     }
 
@@ -359,9 +359,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @param bool $including_parents
      * @return bool True if the partname is valid.
      */
-    public function check_partname($name, $including_parents = true)
+    public function checkPartname($name, $including_parents = true)
     {
-        $obj = $this->get_partname_regex_obj($including_parents);
+        $obj = $this->getPartnameRegexObj($including_parents);
         return $obj->check_name($name);
     }
 
@@ -377,9 +377,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *
      * @throws Exception if there was an error
      */
-    public function get_parts($recursive = false, $hide_obsolete_and_zero = false)
+    public function getParts($recursive = false, $hide_obsolete_and_zero = false)
     {
-        return parent::get_table_parts('id_category', $recursive, $hide_obsolete_and_zero);
+        return parent::getTableParts('id_category', $recursive, $hide_obsolete_and_zero);
     }
 
     /********************************************************************************
@@ -395,9 +395,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *
      * @throws Exception if there was an error
      */
-    public function set_disable_footprints($new_disable_footprints)
+    public function setDisableFootprints($new_disable_footprints)
     {
-        $this->set_attributes(array('disable_footprints' => $new_disable_footprints));
+        $this->setAttributes(array('disable_footprints' => $new_disable_footprints));
     }
 
     /**
@@ -407,9 +407,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *
      * @throws Exception if there was an error
      */
-    public function set_disable_manufacturers($new_disable_manufacturers)
+    public function setDisableManufacturers($new_disable_manufacturers)
     {
-        $this->set_attributes(array('disable_manufacturers' => $new_disable_manufacturers));
+        $this->setAttributes(array('disable_manufacturers' => $new_disable_manufacturers));
     }
 
     /**
@@ -419,9 +419,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *
      * @throws Exception if there was an error
      */
-    public function set_disable_autodatasheets($new_disable_autodatasheets)
+    public function setDisableAutodatasheets($new_disable_autodatasheets)
     {
-        $this->set_attributes(array('disable_autodatasheets' => $new_disable_autodatasheets));
+        $this->setAttributes(array('disable_autodatasheets' => $new_disable_autodatasheets));
     }
 
     /**
@@ -431,9 +431,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *
      * @throws Exception if there was an error
      */
-    public function set_disable_properties($new_disable_properties)
+    public function setDisableProperties($new_disable_properties)
     {
-        $this->set_attributes(array('disable_properties' => $new_disable_properties));
+        $this->setAttributes(array('disable_properties' => $new_disable_properties));
     }
 
     /**
@@ -441,9 +441,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @param string $new_default_description the new value
      * @throws Exception if there was an error
      */
-    public function set_default_description($new_default_description)
+    public function setDefaultDescription($new_default_description)
     {
-        $this->set_attributes(array('default_description' => $new_default_description));
+        $this->setAttributes(array('default_description' => $new_default_description));
     }
 
     /**
@@ -451,9 +451,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @param string $new_default_comment the new value
      * @throws Exception if there was an error
      */
-    public function set_default_comment($new_default_comment)
+    public function setDefaultComment($new_default_comment)
     {
-        $this->set_attributes(array('default_comment' => $new_default_comment));
+        $this->setAttributes(array('default_comment' => $new_default_comment));
     }
 
     /**
@@ -461,9 +461,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @param string $new_partname_hint the new value
      * @throws Exception if there was an error
      */
-    public function set_partname_hint($new_partname_hint)
+    public function setPartnameHint($new_partname_hint)
     {
-        $this->set_attributes(array('partname_hint' => $new_partname_hint));
+        $this->setAttributes(array('partname_hint' => $new_partname_hint));
     }
 
     /**
@@ -471,9 +471,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @param string $new_default_comment the new value
      * @throws Exception if there was an error
      */
-    public function set_partname_regex($new_partname_regex)
+    public function setPartnameRegex($new_partname_regex)
     {
-        $this->set_attributes(array('partname_regex' => $new_partname_regex));
+        $this->setAttributes(array('partname_regex' => $new_partname_regex));
     }
 
     /********************************************************************************
@@ -485,10 +485,10 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
-        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
+        parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         settype($values['disable_footprints'], 'boolean');
         settype($values['disable_manufacturers'], 'boolean');
@@ -504,13 +504,13 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *
      * @throws Exception            if there was an error
      */
-    public static function get_count(&$database)
+    public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
-        return $database->get_count_of_records('categories');
+        return $database->getCountOfRecords('categories');
     }
 
     /**
@@ -548,7 +548,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
         $default_description = "",
         $default_comment = ""
     ) {
-        return parent::add_via_array(
+        return parent::addByArray(
             $database,
             $current_user,
             $log,
@@ -569,7 +569,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
-        return parent::search_table($database, $current_user, $log, 'categories', $keyword, $exact_match);
+        return parent::searchTable($database, $current_user, $log, 'categories', $keyword, $exact_match);
     }
 
     /**
@@ -577,22 +577,22 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
      */
-    public function get_API_array($verbose = false)
+    public function getAPIArray($verbose = false)
     {
-        $values = array( "id" => $this->get_id(),
-            "name" => $this->get_name(),
-            "fullpath" => $this->get_full_path("/"),
-            "parentid" => $this->get_parent_id(),
-            "level" => $this->get_level()
+        $values = array( "id" => $this->getID(),
+            "name" => $this->getName(),
+            "fullpath" => $this->getFullPath("/"),
+            "parentid" => $this->getParentID(),
+            "level" => $this->getLevel()
         );
 
         if ($verbose == true) {
-            $ver = array("disable_footprints" => $this->get_disable_footprints() == true,
-                "disable_manufacturers" => $this->get_disable_manufacturers() == true,
-                "disable_autodatasheets" => $this->get_disable_autodatasheets() == true,
-                "disable_properties" => $this->get_disable_properties() == true,
-                "default_description" => $this->get_default_description(),
-                "default_comment" => $this->get_default_comment());
+            $ver = array("disable_footprints" => $this->getDisableFootprints() == true,
+                "disable_manufacturers" => $this->getDisableManufacturers() == true,
+                "disable_autodatasheets" => $this->getDisableAutodatasheets() == true,
+                "disable_properties" => $this->getDisableProperties() == true,
+                "default_description" => $this->getDefaultDescription(),
+                "default_comment" => $this->getDefaultComment());
             $values = array_merge($values, $ver);
         }
 

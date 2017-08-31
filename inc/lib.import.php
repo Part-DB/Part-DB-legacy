@@ -370,7 +370,7 @@ $import_data_columns = array(   // for import parts
                 // we have only the name of the part, not the ID
                 // --> try to find the ID by the name
 
-                $parts = Part::search_parts($database, $current_user, $log, $row['devicepart_part_name'], '', true, false);
+                $parts = Part::searchParts($database, $current_user, $log, $row['devicepart_part_name'], '', true, false);
 
                 foreach ($parts as $partkey => $part) {
                     if ($part->get_name() != $row['devicepart_part_name']) {
@@ -531,19 +531,19 @@ $import_data_columns = array(   // for import parts
                         $row_field['row'] = $row_index + 1;
                         break;
                     case 'hover_picture':
-                        $picture_filename = is_object($part) ? str_replace(BASE, BASE_RELATIVE, $part->get_master_picture_filename(true)) : '';
+                        $picture_filename = is_object($part) ? str_replace(BASE, BASE_RELATIVE, $part->getMasterPictureFilename(true)) : '';
                         $row_field['picture_name']  = strlen($picture_filename) ? basename($picture_filename) : '';
                         $row_field['small_picture'] = strlen($picture_filename) ? $picture_filename : '';
                         $row_field['hover_picture'] = strlen($picture_filename) ? $picture_filename : '';
                         break;
                     case 'name':
-                        $row_field['name'] = is_object($part) ? $part->get_name() : $row['devicepart_part_name'];
+                        $row_field['name'] = is_object($part) ? $part->getName() : $row['devicepart_part_name'];
                         break;
                     case 'description':
-                        $row_field['description'] = is_object($part) ? $part->get_description() : 'BAUTEIL NICHT GEFUNDEN!';
+                        $row_field['description'] = is_object($part) ? $part->getDescription() : 'BAUTEIL NICHT GEFUNDEN!';
                         break;
                     case 'footprint_name':
-                        $row_field['footprint_name'] = (is_object($part) && is_object($part->get_footprint())) ? $part->get_footprint()->get_name() : '';
+                        $row_field['footprint_name'] = (is_object($part) && is_object($part->getFootprint())) ? $part->getFootprint()->getName() : '';
                         break;
                     case 'quantity_edit':
                         $row_field['quantity'] = $row['devicepart_mount_quantity'];
@@ -584,7 +584,7 @@ $import_data_columns = array(   // for import parts
         $parts = array();
 
         try {
-            $transaction_id = $database->begin_transaction(); // start transaction
+            $transaction_id = $database->beginTransaction(); // start transaction
 
             // Get the category, footprint, storelocation, ... which are named "Import", or create them.
             // We need this elements as parent for new elements, which will be created while import parts.
@@ -662,7 +662,7 @@ $import_data_columns = array(   // for import parts
                     if (count($categories) > 0) {
                         $category = $categories[0];
                     } else {
-                        $category = Category::add($database, $current_user, $log, $category_name, $import_category->get_id());
+                        $category = Category::add($database, $current_user, $log, $category_name, $import_category->getID());
                         $import_category_used = true;
                     }
                 } else {
@@ -675,7 +675,7 @@ $import_data_columns = array(   // for import parts
                     if (count($storelocations) > 0) {
                         $storelocation = $storelocations[0];
                     } else {
-                        $storelocation = Storelocation::add($database, $current_user, $log, $storelocation_name, $import_storelocation->get_id());
+                        $storelocation = Storelocation::add($database, $current_user, $log, $storelocation_name, $import_storelocation->getID());
                         $import_storelocation_used = true;
                     }
                 }
@@ -686,7 +686,7 @@ $import_data_columns = array(   // for import parts
                     if (count($manufacturers) > 0) {
                         $manufacturer = $manufacturers[0];
                     } else {
-                        $manufacturer = Manufacturer::add($database, $current_user, $log, $manufacturer_name, $import_manufacturer->get_id());
+                        $manufacturer = Manufacturer::add($database, $current_user, $log, $manufacturer_name, $import_manufacturer->getID());
                         $import_manufacturer_used = true;
                     }
                 }
@@ -697,7 +697,7 @@ $import_data_columns = array(   // for import parts
                     if (count($footprints) > 0) {
                         $footprint = $footprints[0];
                     } else {
-                        $footprint = Footprint::add($database, $current_user, $log, $footprint_name, $import_footprint->get_id());
+                        $footprint = Footprint::add($database, $current_user, $log, $footprint_name, $import_footprint->getID());
                         $import_footprint_used = true;
                     }
                 }
@@ -708,7 +708,7 @@ $import_data_columns = array(   // for import parts
                     if (count($suppliers) > 0) {
                         $supplier = $suppliers[0];
                     } else {
-                        $supplier = Supplier::add($database, $current_user, $log, $supplier_name, $import_supplier->get_id());
+                        $supplier = Supplier::add($database, $current_user, $log, $supplier_name, $import_supplier->getID());
                         $import_supplier_used = true;
                     }
                 } else {
@@ -722,21 +722,21 @@ $import_data_columns = array(   // for import parts
                     $current_user,
                     $log,
                     $name,
-                    $category->get_id(),
+                    $category->getID(),
                     $description,
                     $instock,
                     $mininstock,
-                                        (isset($storelocation) ? $storelocation->get_id() : null),
-                    (isset($manufacturer) ? $manufacturer->get_id() : null),
-                                        (isset($footprint) ? $footprint->get_id() : null),
+                                        (isset($storelocation) ? $storelocation->getID() : null),
+                    (isset($manufacturer) ? $manufacturer->getID() : null),
+                                        (isset($footprint) ? $footprint->getID() : null),
                     $comment
                 );
 
                 if (isset($supplier)) {
-                    $new_orderdetails = Orderdetails::add($database, $current_user, $log, $new_part->get_id(), $supplier->get_id(), $supplierpartnr);
+                    $new_orderdetails = Orderdetails::add($database, $current_user, $log, $new_part->getID(), $supplier->getID(), $supplierpartnr);
 
                     if ($price > 0) {
-                        $new_pricedetails = Pricedetails::add($database, $current_user, $log, $new_orderdetails->get_id(), $price);
+                        $new_pricedetails = Pricedetails::add($database, $current_user, $log, $new_orderdetails->getID(), $price);
                     }
                 }
 
@@ -799,7 +799,7 @@ $import_data_columns = array(   // for import parts
     function import_device_parts(&$database, &$current_user, &$log, $device_id, $data, $only_check_data = false)
     {
         try {
-            $transaction_id = $database->begin_transaction(); // start transaction
+            $transaction_id = $database->beginTransaction(); // start transaction
 
             foreach ($data as $row) {
                 $part_id = $row['devicepart_part_id'];

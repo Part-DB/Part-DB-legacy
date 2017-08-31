@@ -108,11 +108,11 @@ if (! $fatal_error) {
             try {
                 $new_device = Device::add($database, $current_user, $log, $new_name, $new_parent_id);
 
-                $html->set_variable('refresh_navigation_frame', true, 'boolean');
+                $html->setVariable('refresh_navigation_frame', true, 'boolean');
 
                 if (! $add_more) {
                     $selected_device = $new_device;
-                    $selected_id = $selected_device->get_id();
+                    $selected_id = $selected_device->getID();
                 }
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neue Baugruppe konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
@@ -126,11 +126,11 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist keine Baugruppe markiert oder es trat ein Fehler auf!'));
                 }
 
-                $parts = $selected_device->get_parts();
+                $parts = $selected_device->getParts();
                 $count = count($parts);
 
                 $messages[] = array('text' => sprintf(_('Soll die Baugruppe "%s'.
-                    '" wirklich unwiederruflich gelöscht werden?'), $selected_device->get_full_path()), 'strong' => true, 'color' => 'red');
+                    '" wirklich unwiederruflich gelöscht werden?'), $selected_device->getFullPath()), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
                 if ($count > 0) {
                     $messages[] = array('text' => sprintf(_('&nbsp;&nbsp;&bull; Es gibt noch %d Bauteile in dieser Baugruppe!'), $count) , 'strong' => true, 'color' => 'red');
@@ -138,7 +138,7 @@ if (! $fatal_error) {
                     $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Bauteile in dieser Baugruppe.'));
                 }
                 $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet diese Baugruppe noch Unterbaugruppen, dann werden diese eine Ebene nach oben verschoben.'));
-                $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_device->get_id().'">');
+                $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_device->getID().'">');
                 $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._("Nein, nicht löschen").'">', 'no_linebreak' => true);
                 $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Baugruppe löschen').'">');
             } catch (Exception $e) {
@@ -156,7 +156,7 @@ if (! $fatal_error) {
                 $selected_device->delete();
                 $selected_device = null;
 
-                $html->set_variable('refresh_navigation_frame', true, 'boolean');
+                $html->setVariable('refresh_navigation_frame', true, 'boolean');
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die Baugruppe konnte nicht gelöscht werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -169,10 +169,10 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist keine Baugruppe markiert oder es trat ein Fehler auf!'));
                 }
 
-                $selected_device->set_attributes(array( 'name'                  => $new_name,
+                $selected_device->setAttributes(array( 'name'                  => $new_name,
                     'parent_id'             => $new_parent_id));
 
-                $html->set_variable('refresh_navigation_frame', true, 'boolean');
+                $html->setVariable('refresh_navigation_frame', true, 'boolean');
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -187,14 +187,14 @@ if (! $fatal_error) {
  *
  *********************************************************************************/
 
-$html->set_variable('add_more', $add_more, 'boolean');
+$html->setVariable('add_more', $add_more, 'boolean');
 
 if (! $fatal_error) {
     try {
         if (is_object($selected_device)) {
-            $parent_id = $selected_device->get_parent_id();
-            $html->set_variable('id', $selected_device->get_id(), 'integer');
-            $name = $selected_device->get_name();
+            $parent_id = $selected_device->getParentID();
+            $html->setVariable('id', $selected_device->getID(), 'integer');
+            $name = $selected_device->getName();
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
@@ -203,13 +203,13 @@ if (! $fatal_error) {
             $name = '';
         }
 
-        $html->set_variable('name', $name, 'string');
+        $html->setVariable('name', $name, 'string');
 
-        $device_list = $root_device->build_html_tree($selected_id, true, false);
-        $html->set_variable('device_list', $device_list, 'string');
+        $device_list = $root_device->buildHtmlTree($selected_id, true, false);
+        $html->setVariable('device_list', $device_list, 'string');
 
-        $parent_device_list = $root_device->build_html_tree($parent_id, true, true);
-        $html->set_variable('parent_device_list', $parent_device_list, 'string');
+        $parent_device_list = $root_device->buildHtmlTree($parent_id, true, true);
+        $html->setVariable('parent_device_list', $parent_device_list, 'string');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
@@ -225,14 +225,14 @@ if (! $fatal_error) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
 $reload_link = $fatal_error ? 'edit_devices.php' : '';    // an empty string means that the...
-$html->print_header($messages, $reload_link);             // ...reload-button won't be visible
+$html->printHeader($messages, $reload_link);             // ...reload-button won't be visible
 
 if (! $fatal_error) {
-    $html->print_template('edit_devices');
+    $html->printTemplate('edit_devices');
 }
 
-$html->print_footer();
+$html->printFooter();

@@ -179,32 +179,32 @@ if ( ! $fatal_error)
  *
  *********************************************************************************/
 
-$html->set_variable('current_system_version', $config['system']['version'], 'string');
+$html->setVariable('current_system_version', $config['system']['version'], 'string');
 
 if (file_exists($release_package_filename))
 {
-    $html->set_variable('release_archive_link', str_replace(BASE, BASE_RELATIVE, $release_package_filename), 'string');
-    $html->set_variable('release_archive_basename', basename($release_package_filename), 'string');
+    $html->setVariable('release_archive_link', str_replace(BASE, BASE_RELATIVE, $release_package_filename), 'string');
+    $html->setVariable('release_archive_basename', basename($release_package_filename), 'string');
 }
 
-$html->set_variable('packing_checklist_link', BASE_RELATIVE.'/development/package_output/readme.txt', 'string');
+$html->setVariable('packing_checklist_link', BASE_RELATIVE.'/development/package_output/readme.txt', 'string');
 
 if (isset($doxygen_output_loop))
 {
     //$html->set_variable('exec_successful', $doxygen_successful, 'boolean');
-    $html->set_loop('exec_output', $doxygen_output_loop);
+    $html->setLoop('exec_output', $doxygen_output_loop);
 }
 
 if (isset($tab2spaces_output_loop))
 {
     //$html->set_variable('exec_successful', $tab2spaces_successful, 'boolean');
-    $html->set_loop('exec_output', $tab2spaces_output_loop);
+    $html->setLoop('exec_output', $tab2spaces_output_loop);
 }
 
 if (isset($release_packing_output_loop))
 {
     //$html->set_variable('exec_successful', $release_packing_successful, 'boolean');
-    $html->set_loop('exec_output', $release_packing_output_loop);
+    $html->setLoop('exec_output', $release_packing_output_loop);
 }
 
 /********************************************************************************
@@ -213,9 +213,9 @@ if (isset($release_packing_output_loop))
  *
  *********************************************************************************/
 
-$html->print_header($messages);
+$html->printHeader($messages);
 
 if ( ! $fatal_error)
-    $html->print_template('developer_tools');
+    $html->printTemplate('developer_tools');
 
-$html->print_footer();
+$html->printFooter();

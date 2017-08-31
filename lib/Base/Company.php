@@ -87,7 +87,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the address of the company (with "\n" as line break)
      */
-    public function get_address()
+    public function getAddress()
     {
         return $this->db_data['address'];
     }
@@ -97,7 +97,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the phone number of the company
      */
-    public function get_phone_number()
+    public function getPhoneNumber()
     {
         return $this->db_data['phone_number'];
     }
@@ -107,7 +107,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the fax number of the company
      */
-    public function get_fax_number()
+    public function getFaxNumber()
     {
         return $this->db_data['fax_number'];
     }
@@ -117,7 +117,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the e-mail address of the company
      */
-    public function get_email_address()
+    public function getEmailAddress()
     {
         return $this->db_data['email_address'];
     }
@@ -127,7 +127,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the website of the company
      */
-    public function get_website()
+    public function getWebsite()
     {
         return $this->db_data['website'];
     }
@@ -140,7 +140,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string           the link to the article
      */
-    public function get_auto_product_url($partnr = null)
+    public function getAutoProductUrl($partnr = null)
     {
         if (is_string($partnr)) {
             return str_replace('%PARTNUMBER%', $partnr, $this->db_data['auto_product_url']);
@@ -162,9 +162,9 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function set_address($new_address)
+    public function setAddress($new_address)
     {
-        $this->set_attributes(array('address' => $new_address));
+        $this->setAttributes(array('address' => $new_address));
     }
 
     /**
@@ -174,9 +174,9 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function set_phone_number($new_phone_number)
+    public function setPhoneNumber($new_phone_number)
     {
-        $this->set_attributes(array('phone_number' => $new_phone_number));
+        $this->setAttributes(array('phone_number' => $new_phone_number));
     }
 
     /**
@@ -186,9 +186,9 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function set_fax_number($new_fax_number)
+    public function setFaxNumber($new_fax_number)
     {
-        $this->set_attributes(array('fax_number' => $new_fax_number));
+        $this->setAttributes(array('fax_number' => $new_fax_number));
     }
 
     /**
@@ -198,9 +198,9 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function set_email_address($new_email_address)
+    public function setEmailAddress($new_email_address)
     {
-        $this->set_attributes(array('email_address' => $new_email_address));
+        $this->setAttributes(array('email_address' => $new_email_address));
     }
 
     /**
@@ -210,9 +210,9 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function set_website($new_website)
+    public function setWebsite($new_website)
     {
-        $this->set_attributes(array('website' => $new_website));
+        $this->setAttributes(array('website' => $new_website));
     }
 
     /**
@@ -222,9 +222,9 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function set_auto_product_url($new_url)
+    public function setAutoProductUrl($new_url)
     {
-        $this->set_attributes(array('auto_product_url' => $new_url));
+        $this->setAttributes(array('auto_product_url' => $new_url));
     }
 
     /********************************************************************************
@@ -236,10 +236,10 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
-        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
+        parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // optimize attribute "website"
         $values['website'] = trim($values['website']);
@@ -259,21 +259,21 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
      */
-    public function get_API_array($verbose = false)
+    public function getAPIArray($verbose = false)
     {
-        $json =  array( "id" => $this->get_id(),
-            "name" => $this->get_name(),
-            "fullpath" => $this->get_full_path("/"),
-            "parentid" => $this->get_parent_id(),
-            "level" => $this->get_level()
+        $json =  array( "id" => $this->getID(),
+            "name" => $this->getName(),
+            "fullpath" => $this->getFullPath("/"),
+            "parentid" => $this->getParentID(),
+            "level" => $this->getLevel()
         );
 
         if ($verbose == true) {
-            $ver = array("address" => $this->get_address(),
-                "phone_number" => $this->get_phone_number(),
-                "fax_number" => $this->get_fax_number(),
-                "website" => $this->get_website(),
-                "auto_url" => $this->get_auto_product_url());
+            $ver = array("address" => $this->getAddress(),
+                "phone_number" => $this->getPhoneNumber(),
+                "fax_number" => $this->getFaxNumber(),
+                "website" => $this->getWebsite(),
+                "auto_url" => $this->getAutoProductUrl());
             return array_merge($json, $ver);
         }
         return $json;

@@ -109,7 +109,7 @@ abstract class DBElement
         $this->log = $log;
 
         if ($db_data==null) { //Dont check for table exist, if we already have db_data
-            if (! $this->database->does_table_exist($tablename)) {
+            if (! $this->database->doesTableExist($tablename)) {
                 throw new Exception('Die Tabelle "'.$tablename.'" existiert nicht in der Datenbank!');
             }
         }
@@ -125,7 +125,7 @@ abstract class DBElement
         // But if the ID is zero, it could be a root element of StructuralDBElement,
         // so there is no data to get from database.
         if ($id != 0 && $db_data == null) {
-            $this->db_data = $this->database->get_record_data($this->tablename, $id);
+            $this->db_data = $this->database->getRecordData($this->tablename, $id);
         }
 
         if ($db_data !== null) {
@@ -149,7 +149,7 @@ abstract class DBElement
      * * if false, only the calculated data will be deleted.
      *                              This is needed if you change an attribute of the object.
      */
-    public function reset_attributes($all = false)
+    public function resetAttributes($all = false)
     {
         if ($all) {
             //$this->database =       NULL; // we still need them...
@@ -164,8 +164,8 @@ abstract class DBElement
             // get all data of the database record with the ID "$id"
             // But if the ID is zero, it could be a root element of StructuralDBElement,
             // so there is no data to get from database.
-            if ($this->get_id() != 0) {
-                $this->db_data = $this->database->get_record_data($this->tablename, $this->get_id());
+            if ($this->getID() != 0) {
+                $this->db_data = $this->database->getRecordData($this->tablename, $this->getID());
             }
         }
     }
@@ -183,14 +183,14 @@ abstract class DBElement
      */
     public function delete()
     {
-        if ($this->get_id() < 1) { // is this object a valid element from the database?
+        if ($this->getID() < 1) { // is this object a valid element from the database?
             throw new Exception('Die ID ist kleiner als 1, das darf nicht vorkommen!');
         }
 
-        $this->database->delete_record($this->tablename, $this->get_id());
+        $this->database->deleteRecord($this->tablename, $this->getID());
 
         // set ALL element attributes to NULL
-        $this->reset_attributes(true);
+        $this->resetAttributes(true);
     }
 
     /********************************************************************************
@@ -204,7 +204,7 @@ abstract class DBElement
      *
      * @retval integer the ID of this element
      */
-    public function get_id()
+    public function getID()
     {
         return $this->db_data['id'];
     }
@@ -214,7 +214,7 @@ abstract class DBElement
      *
      * @retval string the tablename of the database table where this element is stored
      */
-    public function get_tablename()
+    public function getTablename()
     {
         return $this->tablename;
     }
@@ -241,9 +241,9 @@ abstract class DBElement
      * @throws Exception if the values are not valid / the combination of values is not valid
      * @throws Exception if there was an error
      */
-    public function set_attributes($new_values)
+    public function setAttributes($new_values)
     {
-        if ($this->get_id() < 1) {
+        if ($this->getID() < 1) {
             throw new Exception('Das ausgewählte Element existiert nicht in der Datenbank!');
         }
 
@@ -261,20 +261,20 @@ abstract class DBElement
         // we check if the new data is valid
         // (with "static::" we let check EVERY subclass from the class of $this
         // up to the DBElement to check the data!)
-        static::check_values_validity($this->database, $this->current_user, $this->log, $values, false, $this);
+        static::checkValuesValidity($this->database, $this->current_user, $this->log, $values, false, $this);
 
         // all values are valid (there was no exception), so we write them to the database
         // note:    We use the values from $values instead of the values from $new_values
         //          because this way the method check_values_validity() can adjust the values.
         //          For example, names can be trimmed [trim()] in check_values_validity().
-        $this->database->set_data_fields($this->tablename, $this->get_id(), $values);
+        $this->database->setDataFields($this->tablename, $this->getID(), $values);
 
         // get all data from the database again (this is the savest way to be up-to-date)
-        $this->db_data = $this->database->get_record_data($this->tablename, $this->get_id());
+        $this->db_data = $this->database->getRecordData($this->tablename, $this->getID());
 
         // set all calculated attributes to NULL (maybe they are no longer valid)
         // (all same-named methods of every subclass of DBElement will be executed!)
-        $this->reset_attributes();
+        $this->resetAttributes();
     }
 
     /********************************************************************************
@@ -315,7 +315,7 @@ abstract class DBElement
      * @throws Exception if the values are not valid / the combination of values is not valid
      * @throws Exception if there was an error
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         // YOU HAVE TO IMPLEMENT THIS METHOD IN YOUR SUBCLASSES IF YOU WANT TO CHECK NEW VALUES !!
 
@@ -346,7 +346,7 @@ abstract class DBElement
      *
      * @throws Exception if the values are not valid / the combination of values is not valid
      */
-    protected static function add_via_array(&$database, &$current_user, &$log, $tablename, $new_values)
+    protected static function addByArray(&$database, &$current_user, &$log, $tablename, $new_values)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein gültiges Database-Objekt!'));
@@ -372,13 +372,13 @@ abstract class DBElement
             throw new Exception(_('Das Array $new_values ist leer!'));
         }
 
-        if (! $database->does_table_exist($tablename)) {
+        if (! $database->doesTableExist($tablename)) {
             throw new Exception('Die Tabelle "'.$tablename.'" existiert nicht!');
         }
 
         // we check if the new data is valid
         // (with "static::" we let check every subclass of DBElement to check the data!)
-        static::check_values_validity($database, $current_user, $log, $new_values, true);
+        static::checkValuesValidity($database, $current_user, $log, $new_values, true);
 
         // if there was no exception, all values are valid
 

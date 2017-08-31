@@ -78,7 +78,7 @@ class Supplier extends Base\Company implements ISearchable
      *
      * @throws Exception    if there was an error
      */
-    public function get_parts($recursive = false, $hide_obsolete_and_zero = false)
+    public function getParts($recursive = false, $hide_obsolete_and_zero = false)
     {
         if (! is_array($this->parts)) {
             $this->parts = array();
@@ -88,7 +88,7 @@ class Supplier extends Base\Company implements ISearchable
                 'WHERE id_supplier=? '.
                 'GROUP BY part_id ORDER BY parts.name';
 
-            $query_data = $this->database->query($query, array($this->get_id()));
+            $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
                 $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['part_id']);
@@ -100,15 +100,15 @@ class Supplier extends Base\Company implements ISearchable
         if ($hide_obsolete_and_zero) {
             // remove obsolete parts from array
             $parts = array_values(array_filter($parts, function ($part) {
-                return ((! $part->get_obsolete()) || ($part->get_instock() > 0));
+                return ((! $part->getObsolete()) || ($part->getInstock() > 0));
             }));
         }
 
         if ($recursive) {
-            $sub_suppliers = $this->get_subelements(true);
+            $sub_suppliers = $this->getSubelements(true);
 
             foreach ($sub_suppliers as $sub_supplier) {
-                $parts = array_merge($parts, $sub_supplier->get_parts(false, $hide_obsolete_and_zero));
+                $parts = array_merge($parts, $sub_supplier->getParts(false, $hide_obsolete_and_zero));
             }
         }
 
@@ -124,7 +124,7 @@ class Supplier extends Base\Company implements ISearchable
      *
      * @throws Exception    if there was an error
      */
-    public function get_count_of_parts_to_order()
+    public function getCountOfPartsToOrder()
     {
         $query =    'SELECT COUNT(*) as count FROM parts '.
             'LEFT JOIN device_parts ON device_parts.id_part = parts.id '.
@@ -137,7 +137,7 @@ class Supplier extends Base\Company implements ISearchable
             'AND (parts.order_orderdetails_id IS NOT NULL) '.
             'AND (orderdetails.id_supplier = ?)';
 
-        $query_data = $this->database->query($query, array($this->get_id()));
+        $query_data = $this->database->query($query, array($this->getID()));
 
         return $query_data[0]['count'];
     }
@@ -157,13 +157,13 @@ class Supplier extends Base\Company implements ISearchable
      *
      * @throws Exception            if there was an error
      */
-    public static function get_count(&$database)
+    public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
         }
 
-        return $database->get_count_of_records('suppliers');
+        return $database->getCountOfRecords('suppliers');
     }
 
     /**
@@ -184,7 +184,7 @@ class Supplier extends Base\Company implements ISearchable
      *
      * @todo Check if the SQL query works correctly! It's a quite complicated query...
      */
-    public static function get_order_suppliers(&$database, &$current_user, &$log)
+    public static function getOrderSuppliers(&$database, &$current_user, &$log)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
@@ -248,7 +248,7 @@ class Supplier extends Base\Company implements ISearchable
         $website = '',
         $auto_product_url = ''
     ) {
-        return parent::add_via_array(
+        return parent::addByArray(
             $database,
             $current_user,
             $log,
@@ -269,6 +269,6 @@ class Supplier extends Base\Company implements ISearchable
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
-        return parent::search_table($database, $current_user, $log, 'suppliers', $keyword, $exact_match);
+        return parent::searchTable($database, $current_user, $log, 'suppliers', $keyword, $exact_match);
     }
 }

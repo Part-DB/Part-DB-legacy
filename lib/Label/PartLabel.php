@@ -99,11 +99,11 @@ class PartLabel
     {
         $this->pid = $new_pid;
         $this->part               = new Part($this->database, $this->current_user, $this->log, $this->pid);
-        $this->footprint          = $this->part->get_footprint();
-        $this->storelocation      = $this->part->get_storelocation();
-        $this->manufacturer       = $this->part->get_manufacturer();
-        $this->category           = $this->part->get_category();
-        $this->all_orderdetails   = $this->part->get_orderdetails();
+        $this->footprint          = $this->part->getFootprint();
+        $this->storelocation      = $this->part->getStorelocation();
+        $this->manufacturer       = $this->part->getManufacturer();
+        $this->category           = $this->part->getCategory();
+        $this->all_orderdetails   = $this->part->getOrderdetails();
     }
 
     public function set_size()

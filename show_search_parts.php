@@ -98,7 +98,7 @@ try {
     }
 
     if (!empty($keyword)) {
-        $html->set_title(_('Suchresultate') . ": " . $keyword);
+        $html->setTitle(_('Suchresultate') . ": " . $keyword);
     }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -132,7 +132,7 @@ if (! $fatal_error) {
                     throw new Exception('Es wurde keine gültige Bauteil-ID übermittelt!');
                 }
 
-                $part->set_instock($part->get_instock() - 1);
+                $part->setInstock($part->getInstock() - 1);
 
                 $reload_site = true;
             } catch (Exception $e) {
@@ -146,7 +146,7 @@ if (! $fatal_error) {
                     throw new Exception('Es wurde keine gültige Bauteil-ID übermittelt!');
                 }
 
-                $part->set_instock($part->get_instock() + 1);
+                $part->setInstock($part->getInstock() + 1);
 
                 $reload_site = true;
             } catch (Exception $e) {
@@ -156,7 +156,7 @@ if (! $fatal_error) {
 
         case 'export':
             try {
-                $parts = Part::search_parts(
+                $parts = Part::searchParts(
                     $database,
                     $current_user,
                     $log,
@@ -222,7 +222,7 @@ if (isset($reload_site) && $reload_site) {
 
 if (! $fatal_error) {
     try {
-        $category_parts = Part::search_parts(
+        $category_parts = Part::searchParts(
             $database,
             $current_user,
             $log,
@@ -245,7 +245,7 @@ if (! $fatal_error) {
         $parts_table_loops = array();
 
         foreach ($category_parts as $category_full_path => $parts) {
-            $parts_table_loops[$category_full_path] = Part::build_template_table_array($parts, 'search_parts');
+            $parts_table_loops[$category_full_path] = Part::buildTemplateTableArray($parts, 'search_parts');
         }
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -260,30 +260,30 @@ if (! $fatal_error) {
  *********************************************************************************/
 
 
-$html->set_variable('keyword', $keyword, 'string');
-$html->set_variable('hits_count', (isset($hits_count) ? $hits_count : 0), 'integer');
-$html->set_variable('search_name', $search_name, 'boolean');
-$html->set_variable('search_category', $search_category, 'boolean');
-$html->set_variable('search_description', $search_description, 'boolean');
-$html->set_variable('search_comment', $search_comment, 'boolean');
-$html->set_variable('search_supplier', $search_supplier, 'boolean');
-$html->set_variable('search_supplierpartnr', $search_supplierpartnr, 'boolean');
-$html->set_variable('search_storelocation', $search_storelocation, 'boolean');
-$html->set_variable('search_footprint', $search_footprint, 'boolean');
-$html->set_variable('search_manufacturer', $search_manufacturer, 'boolean');
+$html->setVariable('keyword', $keyword, 'string');
+$html->setVariable('hits_count', (isset($hits_count) ? $hits_count : 0), 'integer');
+$html->setVariable('search_name', $search_name, 'boolean');
+$html->setVariable('search_category', $search_category, 'boolean');
+$html->setVariable('search_description', $search_description, 'boolean');
+$html->setVariable('search_comment', $search_comment, 'boolean');
+$html->setVariable('search_supplier', $search_supplier, 'boolean');
+$html->setVariable('search_supplierpartnr', $search_supplierpartnr, 'boolean');
+$html->setVariable('search_storelocation', $search_storelocation, 'boolean');
+$html->setVariable('search_footprint', $search_footprint, 'boolean');
+$html->setVariable('search_manufacturer', $search_manufacturer, 'boolean');
 
 if (! $fatal_error) {
     // export formats
-    $html->set_loop('export_formats', build_export_formats_loop('searchparts'));
+    $html->setLoop('export_formats', build_export_formats_loop('searchparts'));
 
     // global stuff
-    $html->set_variable('disable_footprints', $config['footprints']['disable'], 'boolean');
-    $html->set_variable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
-    $html->set_variable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
+    $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
+    $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+    $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-    $html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->set_variable('popup_width', $config['popup']['width'], 'integer');
-    $html->set_variable('popup_height', $config['popup']['height'], 'integer');
+    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
+    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 }
 
 /********************************************************************************
@@ -295,20 +295,20 @@ if (! $fatal_error) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
-$html->print_header($messages);
+$html->printHeader($messages);
 
 if (! $fatal_error) {
-    $html->print_template('search_header');
+    $html->printTemplate('search_header');
 
     foreach ($parts_table_loops as $category_full_path => $loop) {
-        $html->set_variable('category_full_path', $category_full_path, 'string');
-        $html->set_variable('table_rowcount', count($loop), 'integer');
-        $html->set_loop('table', $loop);
-        $html->print_template('searched_parts_table');
+        $html->setVariable('category_full_path', $category_full_path, 'string');
+        $html->setVariable('table_rowcount', count($loop), 'integer');
+        $html->setLoop('table', $loop);
+        $html->printTemplate('searched_parts_table');
     }
 }
 
-$html->print_footer();
+$html->printFooter();

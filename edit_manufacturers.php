@@ -128,7 +128,7 @@ if (! $fatal_error) {
 
                 if (! $add_more) {
                     $selected_manufacturer = $new_manufacturer;
-                    $selected_id = $selected_manufacturer->get_id();
+                    $selected_id = $selected_manufacturer->getID();
                 }
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Der neue Hersteller konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
@@ -142,7 +142,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist kein Hersteller markiert oder es trat ein Fehler auf!'));
                 }
 
-                $parts = $selected_manufacturer->get_parts();
+                $parts = $selected_manufacturer->getParts();
                 $count = count($parts);
 
                 if ($count > 0) {
@@ -150,11 +150,11 @@ if (! $fatal_error) {
                         'daher kann der Hersteller nicht gelöscht werden.'), $count), 'strong' => true, 'color' => 'red');
                 } else {
                     $messages[] = array('text' =>  sprintf(_('Soll der Hersteller "%s'.
-                        '" wirklich unwiederruflich gelöscht werden?'), $selected_manufacturer->get_full_path()), 'strong' => true, 'color' => 'red');
+                        '" wirklich unwiederruflich gelöscht werden?'), $selected_manufacturer->getFullPath()), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
                     $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Bauteile, die diesen Hersteller zugeordnet haben.'));
                     $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet dieser Hersteller noch Unterhersteller, dann werden diese eine Ebene nach oben verschoben.'));
-                    $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_manufacturer->get_id().'">');
+                    $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_manufacturer->getID().'">');
                     $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
                     $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Hersteller löschen').'">');
                 }
@@ -184,7 +184,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist kein Hersteller markiert oder es trat ein Fehler auf!'));
                 }
 
-                $selected_manufacturer->set_attributes(array(   'name'             => $new_name,
+                $selected_manufacturer->setAttributes(array(   'name'             => $new_name,
                     'parent_id'        => $new_parent_id,
                     'address'          => $new_address,
                     'phone_number'     => $new_phone_number,
@@ -206,31 +206,31 @@ if (! $fatal_error) {
  *
  *********************************************************************************/
 
-$html->set_variable('add_more', $add_more, 'boolean');
+$html->setVariable('add_more', $add_more, 'boolean');
 
 if (! $fatal_error) {
     try {
         if (is_object($selected_manufacturer)) {
-            $parent_id = $selected_manufacturer->get_parent_id();
-            $html->set_variable('id', $selected_manufacturer->get_id(), 'integer');
-            $html->set_variable('name', $selected_manufacturer->get_name(), 'string');
-            $html->set_variable('address', $selected_manufacturer->get_address(), 'string');
-            $html->set_variable('phone_number', $selected_manufacturer->get_phone_number(), 'string');
-            $html->set_variable('fax_number', $selected_manufacturer->get_fax_number(), 'string');
-            $html->set_variable('email_address', $selected_manufacturer->get_email_address(), 'string');
-            $html->set_variable('website', $selected_manufacturer->get_website(), 'string');
-            $html->set_variable('auto_product_url', $selected_manufacturer->get_auto_product_url(null), 'string');
+            $parent_id = $selected_manufacturer->getParentID();
+            $html->setVariable('id', $selected_manufacturer->getID(), 'integer');
+            $html->setVariable('name', $selected_manufacturer->getName(), 'string');
+            $html->setVariable('address', $selected_manufacturer->getAddress(), 'string');
+            $html->setVariable('phone_number', $selected_manufacturer->getPhoneNumber(), 'string');
+            $html->setVariable('fax_number', $selected_manufacturer->getFaxNumber(), 'string');
+            $html->setVariable('email_address', $selected_manufacturer->getEmailAddress(), 'string');
+            $html->setVariable('website', $selected_manufacturer->getWebsite(), 'string');
+            $html->setVariable('auto_product_url', $selected_manufacturer->getAutoProductUrl(null), 'string');
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
         } else {
             $parent_id = 0;
         }
 
-        $manufacturer_list = $root_manufacturer->build_html_tree($selected_id, true, false);
-        $html->set_variable('manufacturer_list', $manufacturer_list, 'string');
+        $manufacturer_list = $root_manufacturer->buildHtmlTree($selected_id, true, false);
+        $html->setVariable('manufacturer_list', $manufacturer_list, 'string');
 
-        $parent_manufacturer_list = $root_manufacturer->build_html_tree($parent_id, true, true);
-        $html->set_variable('parent_manufacturer_list', $parent_manufacturer_list, 'string');
+        $parent_manufacturer_list = $root_manufacturer->buildHtmlTree($parent_id, true, true);
+        $html->setVariable('parent_manufacturer_list', $parent_manufacturer_list, 'string');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
@@ -246,14 +246,14 @@ if (! $fatal_error) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
 $reload_link = $fatal_error ? 'edit_manufacturers.php' : '';    // an empty string means that the...
-$html->print_header($messages, $reload_link);                   // ...reload-button won't be visible
+$html->printHeader($messages, $reload_link);                   // ...reload-button won't be visible
 
 if (! $fatal_error) {
-    $html->print_template('edit_manufacturers');
+    $html->printTemplate('edit_manufacturers');
 }
 
-$html->print_footer();
+$html->printFooter();

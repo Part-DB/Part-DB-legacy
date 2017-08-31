@@ -101,22 +101,22 @@ class Device extends Base\PartsContainingDBElement
     public function delete($delete_recursive = false, $delete_files_from_hdd = false)
     {
         try {
-            $transaction_id = $this->database->begin_transaction(); // start transaction
+            $transaction_id = $this->database->beginTransaction(); // start transaction
 
             // work on subdevices (delete or move up)
-            $subdevices = $this->get_subelements(false);
+            $subdevices = $this->getSubelements(false);
             foreach ($subdevices as $device) {
                 if ($delete_recursive) {
                     $device->delete($delete_recursive, $delete_files_from_hdd);
                 } // delete all subdevices
                 else {
-                    $device->set_parent_id($this->get_parent_id());
+                    $device->setParentID($this->getParentID());
                 } // set new parent ID
             }
 
             // delete all device-parts in this device
-            $device_parts = $this->get_parts(false); // DevicePart object, not Part objects!
-            $this->reset_attributes(); // to set $this->parts to NULL
+            $device_parts = $this->getParts(false); // DevicePart object, not Part objects!
+            $this->resetAttributes(); // to set $this->parts to NULL
             foreach ($device_parts as $device_part) {
                 $device_part->delete();
             }
@@ -129,9 +129,9 @@ class Device extends Base\PartsContainingDBElement
             $this->database->rollback(); // rollback transaction
 
             // restore the settings from BEFORE the transaction
-            $this->reset_attributes();
+            $this->resetAttributes();
 
-            throw new Exception("Die Baugruppe \"".$this->get_name()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
+            throw new Exception("Die Baugruppe \"".$this->getName()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
         }
     }
 
@@ -151,22 +151,22 @@ class Device extends Base\PartsContainingDBElement
                 // check if $parent_id is NOT a child of this device
                 $parent_device = new Device($this->database, $this->current_user, $this->log, $parent_id);
 
-                if (($parent_device->get_id() == $this->get_id()) || ($parent_device->is_child_of($this))) {
+                if (($parent_device->getID() == $this->getID()) || ($parent_device->isChildOf($this))) {
                     throw new Exception('Eine Baugruppe kann nicht in sich selber kopiert werden!');
                 }
             }
 
-            $transaction_id = $this->database->begin_transaction(); // start transaction
+            $transaction_id = $this->database->beginTransaction(); // start transaction
 
             $new_device = Device::add($this->database, $this->current_user, $this->log, $name, $parent_id);
 
-            $device_parts = $this->get_parts();
+            $device_parts = $this->getParts();
             foreach ($device_parts as $part) {
                 $new_part = DevicePart::add(
                     $this->database,
                     $this->current_user,
                     $this->log,
-                    $new_device->get_id(),
+                    $new_device->getID(),
                     $part->get_part()->get_id(),
                     $part->get_mount_quantity(),
                     $part->get_mount_names()
@@ -174,9 +174,9 @@ class Device extends Base\PartsContainingDBElement
             }
 
             if ($with_subdevices) {
-                $subdevices = $this->get_subelements(false);
+                $subdevices = $this->getSubelements(false);
                 foreach ($subdevices as $device) {
-                    $device->copy($device->get_name(), $new_device->get_id(), true);
+                    $device->copy($device->getName(), $new_device->getID(), true);
                 }
             }
 
@@ -184,7 +184,7 @@ class Device extends Base\PartsContainingDBElement
         } catch (Exception $e) {
             $this->database->rollback(); // rollback transaction
 
-            throw new Exception("Die Baugruppe \"".$this->get_name()."\"konnte nicht kopiert werden!\nGrund: ".$e->getMessage());
+            throw new Exception("Die Baugruppe \"".$this->getName()."\"konnte nicht kopiert werden!\nGrund: ".$e->getMessage());
         }
     }
 
@@ -202,11 +202,11 @@ class Device extends Base\PartsContainingDBElement
      * @throws Exception    if there are not enough parts in stock to book them
      * @throws Exception    if there was an error
      */
-    public function book_parts($book_multiplier)
+    public function bookParts($book_multiplier)
     {
         try {
-            $transaction_id = $this->database->begin_transaction(); // start transaction
-            $device_parts = $this->get_parts(); // DevicePart objects
+            $transaction_id = $this->database->beginTransaction(); // start transaction
+            $device_parts = $this->getParts(); // DevicePart objects
 
             // check if there are enought parts in stock
             foreach ($device_parts as $part) {
@@ -225,7 +225,7 @@ class Device extends Base\PartsContainingDBElement
             $this->database->rollback(); // rollback transaction
 
             // restore the settings from BEFORE the transaction
-            $this->reset_attributes();
+            $this->resetAttributes();
 
             throw new Exception("Die Teile konnten nicht abgefasst werden!\nGrund: ".$e->getMessage());
         }
@@ -242,7 +242,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @return integer      the order quantity
      */
-    public function get_order_quantity()
+    public function getOrderQuantity()
     {
         return $this->db_data['order_quantity'];
     }
@@ -252,7 +252,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @return boolean      the "order_only_missing_parts" attribute
      */
-    public function get_order_only_missing_parts()
+    public function getOrderOnlyMissingParts()
     {
         return $this->db_data['order_only_missing_parts'];
     }
@@ -271,7 +271,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_parts($recursive = false, $hide_obsolet_and_zero = false)
+    public function getParts($recursive = false, $hide_obsolet_and_zero = false)
     {
         if (! is_array($this->parts)) {
             $this->parts = array();
@@ -280,7 +280,7 @@ class Device extends Base\PartsContainingDBElement
                 'LEFT JOIN parts ON device_parts.id_part=parts.id '.
                 'WHERE id_device=? ORDER BY parts.name ASC';
 
-            $query_data = $this->database->query($query, array($this->get_id()));
+            $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
                 $this->parts[] = new DevicePart($this->database, $this->current_user, $this->log, $row['id'], $row);
@@ -291,10 +291,10 @@ class Device extends Base\PartsContainingDBElement
             return $this->parts;
         } else {
             $parts = $this->parts;
-            $subdevices = $this->get_subelements(true);
+            $subdevices = $this->getSubelements(true);
 
             foreach ($subdevices as $device) {
-                $parts = array_merge($parts, $device->get_parts(false));
+                $parts = array_merge($parts, $device->getParts(false));
             }
 
             return $parts;
@@ -312,9 +312,9 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_parts_count($recursive = false)
+    public function getPartsCount($recursive = false)
     {
-        $device_parts = $this->get_parts($recursive);
+        $device_parts = $this->getParts($recursive);
 
         return count($device_parts);
     }
@@ -328,10 +328,10 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_parts_sum_count($recursive = false)
+    public function getPartsSumCount($recursive = false)
     {
         $count = 0;
-        $device_parts = $this->get_parts($recursive);
+        $device_parts = $this->getParts($recursive);
 
         foreach ($device_parts as $device_part) {
             $count += $device_part->get_mount_quantity();
@@ -360,10 +360,10 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_total_price($as_money_string = true, $recursive = false)
+    public function getTotalPrice($as_money_string = true, $recursive = false)
     {
         $price = 0;
-        $device_parts = $this->get_parts($recursive);
+        $device_parts = $this->getParts($recursive);
 
         foreach ($device_parts as $device_part) {
             $price += $device_part->get_part()->get_average_price(false, $device_part->get_mount_quantity());
@@ -390,9 +390,9 @@ class Device extends Base\PartsContainingDBElement
      * @throws Exception if the order quantity is not valid
      * @throws Exception if there was an error
      */
-    public function set_order_quantity($new_order_quantity)
+    public function setOrderQuantity($new_order_quantity)
     {
-        $this->set_attributes(array('order_quantity' => $new_order_quantity));
+        $this->setAttributes(array('order_quantity' => $new_order_quantity));
     }
 
     /**
@@ -402,9 +402,9 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function set_order_only_missing_parts($new_order_only_missing_parts)
+    public function setOrderOnlyMissingParts($new_order_only_missing_parts)
     {
-        $this->set_attributes(array('order_only_missing_parts' => $new_order_only_missing_parts));
+        $this->setAttributes(array('order_only_missing_parts' => $new_order_only_missing_parts));
     }
 
     /********************************************************************************
@@ -416,10 +416,10 @@ class Device extends Base\PartsContainingDBElement
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
-        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
+        parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set the datetype of the boolean attributes
         settype($values['order_only_missing_parts'], 'boolean');
@@ -443,7 +443,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public static function get_order_devices(&$database, &$current_user, &$log)
+    public static function getOrderDevices(&$database, &$current_user, &$log)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
@@ -473,13 +473,13 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception            if there was an error
      */
-    public static function get_count(&$database)
+    public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
         }
 
-        return $database->get_count_of_records('devices');
+        return $database->getCountOfRecords('devices');
     }
 
     /**
@@ -500,7 +500,7 @@ class Device extends Base\PartsContainingDBElement
      */
     public static function add(&$database, &$current_user, &$log, $name, $parent_id)
     {
-        return parent::add_via_array(
+        return parent::addByArray(
             $database,
             $current_user,
             $log,

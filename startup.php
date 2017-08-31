@@ -63,20 +63,20 @@ try {
  *
  *********************************************************************************/
 
-if ((! $fatal_error) && ($database->is_update_required())) {
-    if (($database->get_current_version() < 13) && ($database->get_latest_version() >= 13)) { // v12 to v13 was a huge update! disable auto-update temporary!
+if ((! $fatal_error) && ($database->isUpdateRequired())) {
+    if (($database->getCurrentVersion() < 13) && ($database->getLatestVersion() >= 13)) { // v12 to v13 was a huge update! disable auto-update temporary!
         $config['db']['auto_update'] = false;
-        $html->set_variable('auto_disabled_autoupdate', true, 'boolean');
+        $html->setVariable('auto_disabled_autoupdate', true, 'boolean');
     }
 
-    $html->set_variable('database_update', true, 'boolean');
-    $html->set_variable('disabled_autoupdate', ! $config['db']['auto_update'], 'boolean');
-    $html->set_variable('db_version_current', $database->get_current_version(), 'integer');
-    $html->set_variable('db_version_latest', $database->get_latest_version(), 'integer');
+    $html->setVariable('database_update', true, 'boolean');
+    $html->setVariable('disabled_autoupdate', ! $config['db']['auto_update'], 'boolean');
+    $html->setVariable('db_version_current', $database->getCurrentVersion(), 'integer');
+    $html->setVariable('db_version_latest', $database->getLatestVersion(), 'integer');
 
     if ($config['db']['auto_update'] == true) {
         $update_log = $database->update();
-        $html->set_variable('database_update_log', nl2br($update_log));
+        $html->setVariable('database_update_log', nl2br($update_log));
     }
 }
 
@@ -87,24 +87,24 @@ if ((! $fatal_error) && ($database->is_update_required())) {
  *
  *********************************************************************************/
 
-if ((! $fatal_error) && (! $database->is_update_required())) {
+if ((! $fatal_error) && (! $database->isUpdateRequired())) {
     $good = "&#x2714; ";
     $bad  = "&#x2718; ";
 
     try {
-        $missing_category       = ((Category::      get_count($database) == 0) ? $bad : $good);
-        $missing_storelocation  = ((Storelocation:: get_count($database) == 0) ? $bad : $good);
-        $missing_footprint      = ((Footprint::     get_count($database) == 0) ? $bad : $good);
-        $missing_supplier       = ((Supplier::      get_count($database) == 0) ? $bad : $good);
+        $missing_category       = ((Category::      getCount($database) == 0) ? $bad : $good);
+        $missing_storelocation  = ((Storelocation:: getCount($database) == 0) ? $bad : $good);
+        $missing_footprint      = ((Footprint::     getCount($database) == 0) ? $bad : $good);
+        $missing_supplier       = ((Supplier::      getCount($database) == 0) ? $bad : $good);
 
         $display_warning        = (($missing_category == $bad) || ($missing_storelocation == $bad)
             || ($missing_footprint == $bad) || ($missing_supplier == $bad));
 
-        $html->set_variable('missing_category', $missing_category);
-        $html->set_variable('missing_storeloc', $missing_storelocation);
-        $html->set_variable('missing_footprint', $missing_footprint);
-        $html->set_variable('missing_supplier', $missing_supplier);
-        $html->set_variable('display_warning', $display_warning, 'boolean');
+        $html->setVariable('missing_category', $missing_category);
+        $html->setVariable('missing_storeloc', $missing_storelocation);
+        $html->setVariable('missing_footprint', $missing_footprint);
+        $html->setVariable('missing_supplier', $missing_supplier);
+        $html->setVariable('display_warning', $display_warning, 'boolean');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     }
@@ -116,12 +116,12 @@ if ((! $fatal_error) && (! $database->is_update_required())) {
  *
  *********************************************************************************/
 
-if ((! $fatal_error) && (! $database->is_update_required())) {
+if ((! $fatal_error) && (! $database->isUpdateRequired())) {
     try {
-        if (count(Footprint::get_broken_filename_footprints($database, $current_user, $log)) > 0) {
-            $html->set_variable('broken_filename_footprints', true);
+        if (count(Footprint::getBrokenFilenameFootprints($database, $current_user, $log)) > 0) {
+            $html->setVariable('broken_filename_footprints', true);
         } else {
-            $html->set_variable('broken_filename_footprints', false);
+            $html->setVariable('broken_filename_footprints', false);
         }
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -186,7 +186,7 @@ if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
         $rss_loop = array(array('title' => $e->getMessage()));
     }
 
-    $html->set_loop('rss_feed_loop', $rss_loop);
+    $html->setLoop('rss_feed_loop', $rss_loop);
 }
 
 /********************************************************************************
@@ -195,20 +195,20 @@ if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
  *
  *********************************************************************************/
 
-$html->set_loop('authors', $authors);
+$html->setLoop('authors', $authors);
 
 if (! $fatal_error) {
     $bbcode = new \Golonka\BBCode\BBCodeParser();
     $str = $bbcode->parse(htmlspecialchars($config['startup']['custom_banner']));
-    $html->set_variable('banner', $str, 'string');
+    $html->setVariable('banner', $str, 'string');
 
     try {
-        $system_version = $system->get_installed_version();
-        $html->set_variable('system_version', $system_version->as_string(false, true, true, false), 'string');
-        $html->set_variable('system_version_full', $system_version->as_string(false, false, false, true), 'string');
-        $html->set_variable('git_branch', get_git_branch_name(), 'string');
-        $html->set_variable('git_commit', get_git_commit_hash(10), 'string');
-        $html->set_variable('partdb_title', $config['partdb_title'], 'string');
+        $system_version = $system->getInstalledVersion();
+        $html->setVariable('system_version', $system_version->asString(false, true, true, false), 'string');
+        $html->setVariable('system_version_full', $system_version->asString(false, false, false, true), 'string');
+        $html->setVariable('git_branch', get_git_branch_name(), 'string');
+        $html->setVariable('git_commit', get_git_commit_hash(10), 'string');
+        $html->setVariable('partdb_title', $config['partdb_title'], 'string');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     }
@@ -223,14 +223,14 @@ if (! $fatal_error) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
 $reload_link = $fatal_error ? 'startup.php' : '';   // an empty string means that the...
-$html->print_header($messages, $reload_link);       // ...reload-button won't be visible
+$html->printHeader($messages, $reload_link);       // ...reload-button won't be visible
 
 if (! $fatal_error) {
-    $html->print_template('startup');
+    $html->printTemplate('startup');
 }
 
-$html->print_footer();
+$html->printFooter();

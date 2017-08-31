@@ -130,14 +130,14 @@ if (! $fatal_error) {
                     $new_default_comment
                 );
 
-                $new_category->set_partname_regex($new_partname_regex);
-                $new_category->set_partname_hint($new_partname_hint);
+                $new_category->setPartnameRegex($new_partname_regex);
+                $new_category->setPartnameHint($new_partname_hint);
 
-                $html->set_variable('refresh_navigation_frame', true, 'boolean');
+                $html->setVariable('refresh_navigation_frame', true, 'boolean');
 
                 if (! $add_more) {
                     $selected_category = $new_category;
-                    $selected_id = $selected_category->get_id();
+                    $selected_id = $selected_category->getID();
                 }
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neue Kategorie konnte nicht angelegt werden!'), 'strong' => true, 'color' => 'red');
@@ -151,7 +151,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist keine Kategorie markiert oder es trat ein Fehler auf!'));
                 }
 
-                $parts = $selected_category->get_parts();
+                $parts = $selected_category->getParts();
                 $count = count($parts);
 
                 if ($count > 0) {
@@ -159,11 +159,11 @@ if (! $fatal_error) {
                         'daher kann die Kategorie nicht gelöscht werden.'), $count), 'strong' => true, 'color' => 'red');
                 } else {
                     $messages[] = array('text' => sprintf(_('Soll die Kategorie "%s'.
-                        '" wirklich unwiederruflich gelöscht werden?'), $selected_category->get_full_path()), 'strong' => true, 'color' => 'red');
+                        '" wirklich unwiederruflich gelöscht werden?'), $selected_category->getFullPath()), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => '<br>'._('Hinweise:'), 'strong' => true);
                     $messages[] = array('text' => '&nbsp;&nbsp;&bull; '._('Es gibt keine Bauteile in dieser Kategorie.'));
                     $messages[] = array('text' => '&nbsp;&nbsp;&bull; '._('Beinhaltet diese Kategorie noch Unterkategorien, dann werden diese eine Ebene nach oben verschoben.'));
-                    $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_category->get_id().'">');
+                    $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_category->getID().'">');
                     $messages[] = array('html' => '<input class="btn btn-default" type="submit" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
                     $messages[] = array('html' => '<input class="btn btn-danger" type="submit" name="delete_confirmed" value="'._('Ja, Kategorie löschen').'">');
                 }
@@ -182,7 +182,7 @@ if (! $fatal_error) {
                 $selected_category->delete();
                 $selected_category = null;
 
-                $html->set_variable('refresh_navigation_frame', true, 'boolean');
+                $html->setVariable('refresh_navigation_frame', true, 'boolean');
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die Kategorie konnte nicht gelöscht werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -195,7 +195,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist keine Kategorie markiert oder es trat ein Fehler auf!'));
                 }
 
-                $selected_category->set_attributes(array('name'                     => $new_name,
+                $selected_category->setAttributes(array('name'                     => $new_name,
                     'parent_id'                => $new_parent_id,
                     'disable_footprints'       => $new_disable_footprints,
                     'disable_manufacturers'    => $new_disable_manufacturers,
@@ -206,7 +206,7 @@ if (! $fatal_error) {
                     'partname_regex'           => $new_partname_regex,
                     'partname_hint'            => $new_partname_hint));
 
-                $html->set_variable('refresh_navigation_frame', true, 'boolean');
+                $html->setVariable('refresh_navigation_frame', true, 'boolean');
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -221,48 +221,48 @@ if (! $fatal_error) {
  *
  *********************************************************************************/
 
-$html->set_variable('add_more', $add_more, 'boolean');
+$html->setVariable('add_more', $add_more, 'boolean');
 
 if (! $fatal_error) {
     try {
         if (is_object($selected_category)) {
-            $parent_id = $selected_category->get_parent_id();
-            $html->set_variable('id', $selected_category->get_id(), 'integer');
-            $name = $selected_category->get_name();
+            $parent_id = $selected_category->getParentID();
+            $html->setVariable('id', $selected_category->getID(), 'integer');
+            $name = $selected_category->getName();
 
             //Default description/comment fields
-            $default_description = $selected_category->get_default_description(false);
-            $default_comment = $selected_category->get_default_comment(false);
+            $default_description = $selected_category->getDefaultDescription(false);
+            $default_comment = $selected_category->getDefaultComment(false);
 
-            $default_description_parent = $selected_category->get_default_description(true);
-            $default_comment_parent = $selected_category->get_default_comment(true);
-            $html->set_variable('default_description_parent', $default_description_parent, 'string');
-            $html->set_variable('default_comment_parent', $default_comment_parent, 'string');
+            $default_description_parent = $selected_category->getDefaultDescription(true);
+            $default_comment_parent = $selected_category->getDefaultComment(true);
+            $html->setVariable('default_description_parent', $default_description_parent, 'string');
+            $html->setVariable('default_comment_parent', $default_comment_parent, 'string');
 
             //Partname fields
-            $partname_regex = $selected_category->get_partname_regex_raw(false, true);
-            $partname_hint = $selected_category->get_partname_hint(false);
+            $partname_regex = $selected_category->getPartnameRegexRaw(false, true);
+            $partname_hint = $selected_category->getPartnameHint(false);
 
-            $partname_regex_parent = $selected_category->get_partname_regex_raw(true);
-            $partname_hint_parent = $selected_category->get_partname_hint(true);
-            $html->set_variable('partname_regex_parent', $partname_regex_parent, 'string');
-            $html->set_variable('partname_hint_parent', $partname_hint_parent, 'string');
+            $partname_regex_parent = $selected_category->getPartnameRegexRaw(true);
+            $partname_hint_parent = $selected_category->getPartnameHint(true);
+            $html->setVariable('partname_regex_parent', $partname_regex_parent, 'string');
+            $html->setVariable('partname_hint_parent', $partname_hint_parent, 'string');
 
             //Disable fields
-            $disable_footprints = $selected_category->get_disable_footprints(true);
-            $disable_manufacturers = $selected_category->get_disable_manufacturers(true);
-            $disable_autodatasheets = $selected_category->get_disable_autodatasheets(true);
-            $disable_properties = $selected_category->get_disable_properties(true);
+            $disable_footprints = $selected_category->getDisableFootprints(true);
+            $disable_manufacturers = $selected_category->getDisableManufacturers(true);
+            $disable_autodatasheets = $selected_category->getDisableAutodatasheets(true);
+            $disable_properties = $selected_category->getDisableProperties(true);
 
-            $html->set_variable('parent_disable_footprints', ($selected_category->get_disable_footprints(true)
-                && (! $selected_category->get_disable_footprints(false))), 'boolean');
-            $html->set_variable('parent_disable_manufacturers', ($selected_category->get_disable_manufacturers(true)
-                && (! $selected_category->get_disable_manufacturers(false))), 'boolean');
-            $html->set_variable('parent_disable_autodatasheets', ($selected_category->get_disable_autodatasheets(true)
-                && (! $selected_category->get_disable_autodatasheets(false))), 'boolean');
+            $html->setVariable('parent_disable_footprints', ($selected_category->getDisableFootprints(true)
+                && (! $selected_category->getDisableFootprints(false))), 'boolean');
+            $html->setVariable('parent_disable_manufacturers', ($selected_category->getDisableManufacturers(true)
+                && (! $selected_category->getDisableManufacturers(false))), 'boolean');
+            $html->setVariable('parent_disable_autodatasheets', ($selected_category->getDisableAutodatasheets(true)
+                && (! $selected_category->getDisableAutodatasheets(false))), 'boolean');
 
-            $html->set_variable('parent_disable_properties', ($selected_category->get_disable_properties(true)
-                && (! $selected_category->get_disable_properties(false))), 'boolean');
+            $html->setVariable('parent_disable_properties', ($selected_category->getDisableProperties(true)
+                && (! $selected_category->getDisableProperties(false))), 'boolean');
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
@@ -287,24 +287,24 @@ if (! $fatal_error) {
             $partname_regex = "";
         }
 
-        $html->set_variable('name', $name, 'string');
-        $html->set_variable('disable_footprints', $disable_footprints, 'boolean');
-        $html->set_variable('disable_manufacturers', $disable_manufacturers, 'boolean');
-        $html->set_variable('disable_autodatasheets', $disable_autodatasheets, 'boolean');
-        $html->set_variable('disable_properties', $disable_properties, 'boolean');
+        $html->setVariable('name', $name, 'string');
+        $html->setVariable('disable_footprints', $disable_footprints, 'boolean');
+        $html->setVariable('disable_manufacturers', $disable_manufacturers, 'boolean');
+        $html->setVariable('disable_autodatasheets', $disable_autodatasheets, 'boolean');
+        $html->setVariable('disable_properties', $disable_properties, 'boolean');
 
-        $html->set_variable('default_description', $default_description, 'string');
-        $html->set_variable('default_comment', $default_comment, 'string');
+        $html->setVariable('default_description', $default_description, 'string');
+        $html->setVariable('default_comment', $default_comment, 'string');
 
-        $html->set_variable('partname_regex', $partname_regex, 'string');
-        $html->set_variable('partname_hint', $partname_hint, 'string');
-        $html->set_variable('partname_input_pattern', PartNameRegEx::get_pattern(true), 'string');
+        $html->setVariable('partname_regex', $partname_regex, 'string');
+        $html->setVariable('partname_hint', $partname_hint, 'string');
+        $html->setVariable('partname_input_pattern', PartNameRegEx::get_pattern(true), 'string');
 
-        $category_list = $root_category->build_html_tree($selected_id, true, false);
-        $html->set_variable('category_list', $category_list, 'string');
+        $category_list = $root_category->buildHtmlTree($selected_id, true, false);
+        $html->setVariable('category_list', $category_list, 'string');
 
-        $parent_category_list = $root_category->build_html_tree($parent_id, true, true);
-        $html->set_variable('parent_category_list', $parent_category_list, 'string');
+        $parent_category_list = $root_category->buildHtmlTree($parent_id, true, true);
+        $html->setVariable('parent_category_list', $parent_category_list, 'string');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
@@ -320,14 +320,14 @@ if (! $fatal_error) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
 $reload_link = $fatal_error ? 'edit_categories.php' : '';    // an empty string means that the...
-$html->print_header($messages, $reload_link);                // ...reload-button won't be visible
+$html->printHeader($messages, $reload_link);                // ...reload-button won't be visible
 
 if (! $fatal_error) {
-    $html->print_template('edit_categories');
+    $html->printTemplate('edit_categories');
 }
 
-$html->print_footer();
+$html->printFooter();

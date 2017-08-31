@@ -706,34 +706,34 @@ function is_path_absolute_and_unix($path, $accept_protocols = true)
 function replace_placeholder_with_infos($string, $part)
 {
     //General infos
-    $string = str_replace("%id%", $part->get_id(), $string);                        //part id
-    $string = str_replace("%name%", $part->get_name(), $string);                    //Name of the part
-    $string = str_replace("%desc%", $part->get_description(), $string);             //description of the part
-    $string = str_replace("%comment%", $part->get_comment(), $string);              //comment of the part
-    $string = str_replace("%mininstock%", $part->get_mininstock(), $string);        //minimum in stock
-    $string = str_replace("%instock%", $part->get_instock(), $string);              //current in stock
-    $string = str_replace("%avgprice%", $part->get_average_price(), $string);       //average price
+    $string = str_replace("%id%", $part->getID(), $string);                        //part id
+    $string = str_replace("%name%", $part->getName(), $string);                    //Name of the part
+    $string = str_replace("%desc%", $part->getDescription(), $string);             //description of the part
+    $string = str_replace("%comment%", $part->getComment(), $string);              //comment of the part
+    $string = str_replace("%mininstock%", $part->getMinInstock(), $string);        //minimum in stock
+    $string = str_replace("%instock%", $part->getInstock(), $string);              //current in stock
+    $string = str_replace("%avgprice%", $part->getAveragePrice(), $string);       //average price
 
     //Category infos
-    $string = str_replace("%cat%", is_object($part->get_category()) ? $part->get_category()->get_name() : "", $string);
-    $string = str_replace("%cat_full%", is_object($part->get_category()) ? $part->get_category()->get_full_path() : "", $string);
+    $string = str_replace("%cat%", is_object($part->getCategory()) ? $part->getCategory()->getName() : "", $string);
+    $string = str_replace("%cat_full%", is_object($part->getCategory()) ? $part->getCategory()->getFullPath() : "", $string);
 
     //Footprint info
-    $string = str_replace("%foot%", is_object($part->get_footprint()) ? $part->get_footprint()->get_name() : "", $string);
-    $string = str_replace("%foot_full%", is_object($part->get_footprint()) ? $part->get_footprint()->get_full_path() : "", $string);
+    $string = str_replace("%foot%", is_object($part->getFootprint()) ? $part->getFootprint()->getName() : "", $string);
+    $string = str_replace("%foot_full%", is_object($part->getFootprint()) ? $part->getFootprint()->getFullPath() : "", $string);
 
     //Manufacturer info
-    $string = str_replace("%manufact%", is_object($part->get_manufacturer()) ? $part->get_manufacturer()->get_name() : "", $string);
+    $string = str_replace("%manufact%", is_object($part->getManufacturer()) ? $part->getManufacturer()->getName() : "", $string);
 
     //Order infos
-    $all_orderdetails   = $part->get_orderdetails();
-    $string = str_replace("%supplier%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->get_supplier()->get_name() : "", $string);
-    $string = str_replace("%order_nr%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->get_supplierpartnr() : "", $string);
+    $all_orderdetails   = $part->getOrderdetails();
+    $string = str_replace("%supplier%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getName() : "", $string);
+    $string = str_replace("%order_nr%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplierPartNr() : "", $string);
 
     //Store location
-    $storelocation      = $part->get_storelocation();
-    $string = str_replace("%storeloc%", is_object($storelocation) ? $storelocation->get_name() : '', $string);
-    $string = str_replace("%storeloc_full%", is_object($storelocation) ? $storelocation->get_full_path() : '', $string);
+    $storelocation      = $part->getStorelocation();
+    $string = str_replace("%storeloc%", is_object($storelocation) ? $storelocation->getName() : '', $string);
+    $string = str_replace("%storeloc_full%", is_object($storelocation) ? $storelocation->getFullPath() : '', $string);
 
     //Remove single '-' without other infos
     if (trim($string) == "-") {
@@ -897,7 +897,7 @@ function convert_APIModel_array($array, $verbose = false)
         if (! $element instanceof IAPIModel) {
             throw new Exception("The given array, contains objects that dont implement IAPIModel!");
         }
-        $json[] = $element->get_API_array($verbose);
+        $json[] = $element->getAPIArray($verbose);
     }
     return $json;
 }

@@ -79,11 +79,11 @@ class Group extends Base\StructuralDBElement
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function reset_attributes($all = false)
+    public function resetAttributes($all = false)
     {
         $this->users = null;
 
-        parent::reset_attributes($all);
+        parent::resetAttributes($all);
     }
 
     /********************************************************************************
@@ -102,7 +102,7 @@ class Group extends Base\StructuralDBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_users($recursive = false)
+    public function getUsers($recursive = false)
     {
         if (! is_array($this->users)) {
             $this->users = array();
@@ -110,7 +110,7 @@ class Group extends Base\StructuralDBElement
             $query =    'SELECT id FROM users '.
                 'WHERE group_id=? ORDER BY name ASC';
 
-            $query_data = $this->database->query($query, array($this->get_id()));
+            $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
                 $this->users[] = new User($this->database, $this->current_user, $this->log, $row['id']);
@@ -119,10 +119,10 @@ class Group extends Base\StructuralDBElement
 
         if ($recursive) {
             $all_users = $this->users;
-            $subgroups = $this->get_subelements(true);
+            $subgroups = $this->getSubelements(true);
 
             foreach ($subgroups as $group) {
-                $all_users = array_merge($all_users, $group->get_users(true));
+                $all_users = array_merge($all_users, $group->getUsers(true));
             }
 
             return $all_users;
@@ -140,10 +140,10 @@ class Group extends Base\StructuralDBElement
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
-        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
+        parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // TODO
     }
@@ -157,12 +157,12 @@ class Group extends Base\StructuralDBElement
      *
      * @throws Exception            if there was an error
      */
-    public static function get_count(&$database)
+    public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
         }
 
-        return $database->get_count_of_records('groups');
+        return $database->getCountOfRecords('groups');
     }
 }

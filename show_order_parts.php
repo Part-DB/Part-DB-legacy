@@ -124,15 +124,15 @@ if (! $fatal_error) {
                 try {
                     $part = new Part($database, $current_user, $log, $part_id);
 
-                    $part->set_order_orderdetails_id($order_orderdetails_id);
-                    $part->set_order_quantity($order_quantity);
+                    $part->setOrderOrderdetailsID($order_orderdetails_id);
+                    $part->setOrderQuantity($order_quantity);
 
-                    if (isset($_REQUEST['remove_'.$i]) && ($part->get_manual_order())) {
-                        $part->set_manual_order(false);
+                    if (isset($_REQUEST['remove_'.$i]) && ($part->getManualOrder())) {
+                        $part->setManualOrder(false);
                     }
 
                     if (isset($_REQUEST['tostock_'.$i])) {
-                        $part->set_instock($part->get_instock() + $order_quantity);
+                        $part->setInstock($part->getInstock() + $order_quantity);
                     }
                 } catch (Exception $e) {
                     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -148,7 +148,7 @@ if (! $fatal_error) {
 
                 try {
                     $part = new Part($database, $current_user, $log, $part_id);
-                    $part->set_order_quantity($part->get_min_order_quantity());
+                    $part->setOrderQuantity($part->getMinOrderQuantity());
                 } catch (Exception $e) {
                     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
                 }
@@ -160,7 +160,7 @@ if (! $fatal_error) {
         case 'remove_device':
             try {
                 $device = new Device($database, $current_user, $log, $device_id);
-                $device->set_order_quantity(0);
+                $device->setOrderQuantity(0);
                 $reload_site = true;
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -171,10 +171,10 @@ if (! $fatal_error) {
             try {
                 if ($selected_supplier_id > 0) {
                     $supplier = new Supplier($database, $current_user, $log, $selected_supplier_id);
-                    $parts = Part::get_order_parts($database, $current_user, $log, array($selected_supplier_id)); // parts from ONE supplier
-                    $filename = 'order_parts_'.$supplier->get_name();
+                    $parts = Part::getOrderParts($database, $current_user, $log, array($selected_supplier_id)); // parts from ONE supplier
+                    $filename = 'order_parts_'.$supplier->getName();
                 } else {
-                    $parts = Part::get_order_parts($database, $current_user, $log); // parts from ALL suppliers
+                    $parts = Part::getOrderParts($database, $current_user, $log); // parts from ALL suppliers
                     $filename = 'order_parts';
                 }
 
@@ -200,10 +200,10 @@ if (isset($reload_site) && $reload_site && (! $config['debug']['request_debuggin
 
 if (! $fatal_error) {
     try {
-        $suppliers = Supplier::get_order_suppliers($database, $current_user, $log);
+        $suppliers = Supplier::getOrderSuppliers($database, $current_user, $log);
         $supplier_loop = get_suppliers_template_loop($suppliers, $selected_supplier_id);
-        $html->set_loop('suppliers', $supplier_loop);
-        $html->set_variable('selected_supplier_id', $selected_supplier_id, 'integer');
+        $html->setLoop('suppliers', $supplier_loop);
+        $html->setVariable('selected_supplier_id', $selected_supplier_id, 'integer');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -219,10 +219,10 @@ if (! $fatal_error) {
 if (! $fatal_error) {
     try {
         if ($selected_supplier_id > 0) {
-            $parts = Part::get_order_parts($database, $current_user, $log, array($selected_supplier_id));
+            $parts = Part::getOrderParts($database, $current_user, $log, array($selected_supplier_id));
         } // parts from ONE supplier
         else {
-            $parts = Part::get_order_parts($database, $current_user, $log);
+            $parts = Part::getOrderParts($database, $current_user, $log);
         } // parts from ALL suppliers
 
         $sum_price = 0;
@@ -233,10 +233,10 @@ if (! $fatal_error) {
             }
         }
 
-        $table_loop = Part::build_template_table_array($parts, 'order_parts');
-        $html->set_loop('table', $table_loop);
-        $html->set_variable('table_rowcount', count($parts), 'integer');
-        $html->set_variable('sum_price', float_to_money_string($sum_price), 'string');
+        $table_loop = Part::buildTemplateTableArray($parts, 'order_parts');
+        $html->setLoop('table', $table_loop);
+        $html->setVariable('table_rowcount', count($parts), 'integer');
+        $html->setVariable('sum_price', float_to_money_string($sum_price), 'string');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -251,7 +251,7 @@ if (! $fatal_error) {
 
 if (! $fatal_error) {
     try {
-        $order_devices = Device::get_order_devices($database, $current_user, $log);
+        $order_devices = Device::getOrderDevices($database, $current_user, $log);
         $order_devices_loop = array();
         $row_odd = true;
         foreach ($order_devices as $device) {
@@ -279,7 +279,7 @@ if (! $fatal_error) {
 
             $row_odd = ! $row_odd;
         }
-        $html->set_loop('order_devices_loop', $order_devices_loop);
+        $html->setLoop('order_devices_loop', $order_devices_loop);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -295,22 +295,22 @@ if (! $fatal_error) {
 
 if (! $fatal_error) {
     // export formats
-    $html->set_loop('export_formats', build_export_formats_loop('orderparts', $export_format_id));
+    $html->setLoop('export_formats', build_export_formats_loop('orderparts', $export_format_id));
 
     if (isset($export_string)) {
-        $html->set_variable('export_result', str_replace("\n", '<br>', str_replace("\n  ", '<br>&nbsp;&nbsp;',   // yes, this is quite ugly,
+        $html->setVariable('export_result', str_replace("\n", '<br>', str_replace("\n  ", '<br>&nbsp;&nbsp;',   // yes, this is quite ugly,
             str_replace("\n    ", '<br>&nbsp;&nbsp;&nbsp;&nbsp;',               // but the result is pretty ;-)
                 htmlspecialchars($export_string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')))), 'string');
     }
 
     // global stuff
-    $html->set_variable('disable_footprints', $config['footprints']['disable'], 'boolean');
-    $html->set_variable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
-    $html->set_variable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
+    $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
+    $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+    $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-    $html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->set_variable('popup_width', $config['popup']['width'], 'integer');
-    $html->set_variable('popup_height', $config['popup']['height'], 'integer');
+    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
+    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 }
 
 /********************************************************************************
@@ -322,13 +322,13 @@ if (! $fatal_error) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
-$html->print_header($messages);
+$html->printHeader($messages);
 
 if (! $fatal_error) {
-    $html->print_template('show_order_parts');
+    $html->printTemplate('show_order_parts');
 }
 
-$html->print_footer();
+$html->printFooter();

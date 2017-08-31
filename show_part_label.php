@@ -56,11 +56,11 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Label
 switch($action)
 {
     case "generate":
-        $html->set_variable("preview_src", "generate_part_label.php?pid=" . $part_id , "string");
+        $html->setVariable("preview_src", "generate_part_label.php?pid=" . $part_id , "string");
         break;
 
     case "download":
-        $html->set_variable("preview_src", "generate_part_label.php?download&pid=" . $part_id , "string");
+        $html->setVariable("preview_src", "generate_part_label.php?download&pid=" . $part_id , "string");
         break;
 }
 
@@ -72,8 +72,8 @@ switch($action)
 
 if (! $fatal_error) {
     try {
-        $html->set_variable("pid", $part_id, "integer");
-        $html->set_variable("download_link", 'generate_part_label.php?pid='.$part_id.'&download', "string");
+        $html->setVariable("pid", $part_id, "integer");
+        $html->setVariable("download_link", 'generate_part_label.php?pid='.$part_id.'&download', "string");
     } catch (Exception $e)
     {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -90,19 +90,19 @@ if (! $fatal_error) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
 
 $reload_link = $fatal_error ? 'show_part_label.php?pid='.$part_id : '';  // an empty string means that the...
-$html->print_header($messages, $reload_link);                           // ...reload-button won't be visible
+$html->printHeader($messages, $reload_link);                           // ...reload-button won't be visible
 
 
 
 
 if (! $fatal_error) {
-    $html->print_template('show_part_label');
+    $html->printTemplate('show_part_label');
 }
 
 
-$html->print_footer();
+$html->printFooter();

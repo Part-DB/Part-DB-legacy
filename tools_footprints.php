@@ -124,7 +124,7 @@ if (! $fatal_error) {
 }
 
 //Give action to Template, so we can mark the active button
-$html->set_variable("action", $action, "string");
+$html->setVariable("action", $action, "string");
 
 /********************************************************************************
  *
@@ -154,7 +154,7 @@ if (count($directories) > 0) {
         }
     }
 
-    $html->set_loop('categories_loop', $categories_loop);
+    $html->setLoop('categories_loop', $categories_loop);
 }
 
 /********************************************************************************
@@ -166,13 +166,13 @@ if (count($directories) > 0) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
-$html->print_header($messages);
+$html->printHeader($messages);
 
 if (! $fatal_error) {
-    $html->print_template('footprints');
+    $html->printTemplate('footprints');
 }
 
-$html->print_footer();
+$html->printFooter();

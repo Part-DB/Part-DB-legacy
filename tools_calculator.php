@@ -44,7 +44,7 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Wid
  *
  *********************************************************************************/
 
-$html->use_javascript(array('calculator'), 'reset4ring(); reset6ring(); ratio_reset(); resistor_reset();');
+$html->useJavascript(array('calculator'), 'reset4ring(); reset6ring(); ratio_reset(); resistor_reset();');
 
 /********************************************************************************
  *
@@ -55,13 +55,13 @@ $html->use_javascript(array('calculator'), 'reset4ring(); reset6ring(); ratio_re
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
-$html->print_header($messages);
+$html->printHeader($messages);
 
 if (! $fatal_error) {
-    $html->print_template('calculator');
+    $html->printTemplate('calculator');
 }
 
-$html->print_footer();
+$html->printFooter();

@@ -53,10 +53,10 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      *********************************************************************************/
 
     /** @var AttachementType[] All attachement types of the attachements of this element as an array of AttachementType objects.
-     *  @see AttachementsContainingDBElement::get_attachement_types() */
+     *  @see AttachementsContainingDBElement::getAttachementTypes() */
     protected $attachement_types     = null;
     /** @var Attachement[] All attachements of this element as a one-dimensional array of Attachement objects.
-     *  @see AttachementsContainingDBElement::get_attachements() */
+     *  @see AttachementsContainingDBElement::getAttachements() */
     protected $attachements          = null;
 
     /********************************************************************************
@@ -87,12 +87,12 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function reset_attributes($all = false)
+    public function resetAttributes($all = false)
     {
         $this->attachement_types = null;
         $this->attachements = null;
 
-        parent::reset_attributes($all);
+        parent::resetAttributes($all);
     }
 
     /********************************************************************************
@@ -117,11 +117,11 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
     public function delete($delete_files_from_hdd = false)
     {
         try {
-            $transaction_id = $this->database->begin_transaction(); // start transaction
+            $transaction_id = $this->database->beginTransaction(); // start transaction
 
             // first, we will delete all files of this element
-            $attachements = $this->get_attachements();
-            $this->reset_attributes(); // set $this->attachements to NULL
+            $attachements = $this->getAttachements();
+            $this->resetAttributes(); // set $this->attachements to NULL
             foreach ($attachements as $attachement) {
                 $attachement->delete($delete_files_from_hdd);
             }
@@ -133,9 +133,9 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
             $this->database->rollback(); // rollback transaction
 
             // restore the settings from BEFORE the transaction
-            $this->reset_attributes();
+            $this->resetAttributes();
 
-            throw new Exception(sprintf(_("Das Element \"%s\" konnte nicht gelöscht werden!\nGrund: "), $this->get_name()).$e->getMessage());
+            throw new Exception(sprintf(_("Das Element \"%s\" konnte nicht gelöscht werden!\nGrund: "), $this->getName()).$e->getMessage());
         }
     }
 
@@ -153,7 +153,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_attachement_types()
+    public function getAttachementTypes()
     {
         if (! is_array($this->attachement_types)) {
             $this->attachement_types = array();
@@ -163,7 +163,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
                 'WHERE (class_name=? OR class_name=?) AND element_id=? '.
                 'GROUP BY type_id '.
                 'ORDER BY attachement_types.name ASC';
-            $query_data = $this->database->query($query, array(get_class($this),get_class_short($this), $this->get_id()));
+            $query_data = $this->database->query($query, array(get_class($this),get_class_short($this), $this->getID()));
 
             //debug('temp', 'Anzahl gefundener Dateitypen: '.count($query_data));
             foreach ($query_data as $row) {
@@ -186,7 +186,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public function get_attachements($type_id = null, $only_table_attachements = false)
+    public function getAttachements($type_id = null, $only_table_attachements = false)
     {
         if (! is_array($this->attachements)) {
             $this->attachements = array();
@@ -195,7 +195,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
                 'LEFT JOIN attachement_types ON attachements.type_id=attachement_types.id '.
                 'WHERE (class_name=? OR class_name=?) AND element_id=? ';
             $query .= 'ORDER BY attachement_types.name ASC, attachements.name ASC';
-            $query_data = $this->database->query($query, array(get_class($this), get_class_short($this), $this->get_id()));
+            $query_data = $this->database->query($query, array(get_class($this), get_class_short($this), $this->getID()));
 
             //debug('temp', 'Anzahl gefundene Dateianhänge: '.count($query_data));
             foreach ($query_data as $row) {
@@ -207,8 +207,8 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
             $attachements = $this->attachements;
 
             foreach ($attachements as $key => $attachement) {
-                if (($only_table_attachements && (! $attachement->get_show_in_table()))
-                    || ($type_id && ($attachement->get_type()->get_id() != $type_id))) {
+                if (($only_table_attachements && (! $attachement->getShowInTable()))
+                    || ($type_id && ($attachement->getType()->getID() != $type_id))) {
                     unset($attachements[$key]);
                 }
             }
