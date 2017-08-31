@@ -121,7 +121,7 @@ function update_users_config_php()
         $current++;
     }
 
-    save_config(); // now save all changes
+    saveConfig(); // now save all changes
 
     return $messages;
 }

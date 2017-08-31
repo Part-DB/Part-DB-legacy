@@ -89,7 +89,7 @@ switch ($action) {
                 break;
             }
 
-            if (! is_admin_password($admin_password)) {
+            if (! isAdminPassword($admin_password)) {
                 throw new Exception(_('Das Administratorpasswort ist falsch!'));
             }
 
@@ -99,7 +99,7 @@ switch ($action) {
             $config['db']['name'] = $db_name;
             $config['db']['user'] = $db_user;
             $config['db']['password'] = $db_password;
-            save_config();
+            saveConfig();
             header('Location: system_database.php'); // Reload the page that we can see if the new settings are stored successfully
         } catch (Exception $e) {
             $config = $config_old; // reload the old config
@@ -112,7 +112,7 @@ switch ($action) {
         $config_old = $config;
         try {
             $config['db']['auto_update'] = $automatic_updates_enabled;
-            save_config();
+            saveConfig();
             //header('Location: system_database.php'); // Reload the page that we can see if the new settings are stored successfully --> does not work correctly?!
         } catch (Exception $e) {
             $config = $config_old; // reload the old config
@@ -151,23 +151,23 @@ switch ($action) {
  *
  *********************************************************************************/
 
-$html->set_variable('is_online_demo', $config['is_online_demo'], 'boolean');
-$html->set_loop('db_type_loop', array_to_template_loop($config['db_types'], $config['db']['type']));
-$html->set_loop('db_charset_loop', array_to_template_loop($config['db_charsets'], $config['db']['charset']));
-$html->set_variable('db_host', $config['db']['host'], 'string');
-$html->set_variable('db_name', $config['db']['name'], 'string');
-$html->set_variable('db_user', $config['db']['user'], 'string');
-$html->set_variable('automatic_updates_enabled', $config['db']['auto_update'], 'boolean');
-$html->set_variable('refresh_navigation_frame', (isset($database_update_executed) && $database_update_executed), 'boolean');
+$html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
+$html->setLoop('db_type_loop', arrayToTemplateLoop($config['db_types'], $config['db']['type']));
+$html->setLoop('db_charset_loop', arrayToTemplateLoop($config['db_charsets'], $config['db']['charset']));
+$html->setVariable('db_host', $config['db']['host'], 'string');
+$html->setVariable('db_name', $config['db']['name'], 'string');
+$html->setVariable('db_user', $config['db']['user'], 'string');
+$html->setVariable('automatic_updates_enabled', $config['db']['auto_update'], 'boolean');
+$html->setVariable('refresh_navigation_frame', (isset($database_update_executed) && $database_update_executed), 'boolean');
 
 if (! $fatal_error) {
     try {
-        $current = $database->get_current_version();
-        $latest = $database->get_latest_version();
-        $html->set_variable('current_version', $current, 'integer');
-        $html->set_variable('latest_version', $latest, 'integer');
-        $html->set_variable('update_required', ($latest > $current), 'boolean');
-        $html->set_variable('last_update_failed', ($config['db']['update_error']['version'] == $current), 'boolean');
+        $current = $database->getCurrentVersion();
+        $latest = $database->getLatestVersion();
+        $html->setVariable('current_version', $current, 'integer');
+        $html->setVariable('latest_version', $latest, 'integer');
+        $html->setVariable('update_required', ($latest > $current), 'boolean');
+        $html->setVariable('last_update_failed', ($config['db']['update_error']['version'] == $current), 'boolean');
 
         if (($current > 0) && ($current < 13) && ($latest >= 13)) { // v12 to v13 was a huge update! show warning!
             $messages[] = array('text' =>   _('Achtung!<br><br>'.
@@ -190,7 +190,7 @@ if (! $fatal_error) {
     }
 }
 
-$html->set_variable('hide_status', $fatal_error, 'boolean');
+$html->setVariable('hide_status', $fatal_error, 'boolean');
 
 /********************************************************************************
  *
@@ -201,14 +201,14 @@ $html->set_variable('hide_status', $fatal_error, 'boolean');
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
 // an empty $reload_link means that the reload-button won't be visible
 $reload_link = ($fatal_error || isset($database_update_executed)) ? 'system_database.php' : '';
-$html->print_header($messages, $reload_link);
+$html->printHeader($messages, $reload_link);
 
 //if (! $fatal_error) // we don't hide the site content if there is an error, because this way we can set the database connection data
-$html->print_template('system_database');
+$html->printTemplate('system_database');
 
-$html->print_footer();
+$html->printFooter();

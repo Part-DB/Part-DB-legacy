@@ -84,11 +84,11 @@ $new_is_master_picture      = isset($_REQUEST['is_master_picture']);
 $attachement_id             = isset($_REQUEST['attachement_id'])            ? (integer)$_REQUEST['attachement_id']           : 0;
 $new_attachement_type_id    = isset($_REQUEST['attachement_type_id'])       ? (integer)$_REQUEST['attachement_type_id']      : 0;
 $new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
-$new_filename               = isset($_REQUEST['attachement_filename'])      ? to_unix_path(trim((string)$_REQUEST['attachement_filename'])) : '';
+$new_filename               = isset($_REQUEST['attachement_filename'])      ? toUnixPath(trim((string)$_REQUEST['attachement_filename'])) : '';
 
 $partname_invalid           = isset($_REQUEST['name_edit'])                 ? true                                           : false;
 
-if ((strlen($new_filename) > 0) && (! is_path_absolute_and_unix($new_filename))) {
+if ((strlen($new_filename) > 0) && (! isPathabsoluteAndUnix($new_filename))) {
     $new_filename = BASE.'/'.$new_filename;
 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
@@ -205,7 +205,7 @@ try {
         $part               = new Part($database, $current_user, $log, $part_id);
 
         ///@todo: remove this line:
-        $new_visible = $part->get_visible();
+        $new_visible = $part->getVisible();
     }
 
     $root_storelocation     = new Storelocation($database, $current_user, $log, 0);
@@ -251,7 +251,7 @@ if (! $fatal_error) {
             try {
                 $category = new Category($database, $current_user, $log, $new_category_id);
 
-                if (Part::is_valid_name($new_name, $category) || isset($_REQUEST['create_name_save'])) {
+                if (Part::isValidName($new_name, $category) || isset($_REQUEST['create_name_save'])) {
                     $part = Part::add(
                         $database,
                         $current_user,
@@ -270,7 +270,7 @@ if (! $fatal_error) {
 
                     $is_new_part = false;
                 } else {
-                    $partname_hint = $category->get_partname_hint(true, false);
+                    $partname_hint = $category->getPartnameHint(true, false);
                     if (empty($partname_hint)) {
                         $messages[] = array('text' => sprintf(_('Der Name "%s" entspricht nicht den Vorgaben!'), $new_name),
                             'strong' => true, 'color' => 'red');
@@ -285,26 +285,26 @@ if (! $fatal_error) {
 
 
                     $messages[] = array('text' => _('<br>Hinweis:'), 'strong' => true);
-                    $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $category->get_partname_regex(true) . "</b>");
-                    if (!$category->get_partname_regex_obj()->is_enforced()) {
+                    $messages[] = array('text' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $category->getPartnameRegex(true) . "</b>");
+                    if (!$category->getPartnameRegexObj()->isEnforced()) {
                         $messages[] = array('html' => _('Möchten sie wirklich fortfahren?<br>'));
-                        $messages[] = array('html' => generate_button("", _('Nein, Name überarbeiten')), 'no_linebreak' => true);
-                        $messages[] = array('html' => generate_button_red("create_name_save", _('Ja, Name speichern')));
+                        $messages[] = array('html' => generateButton("", _('Nein, Name überarbeiten')), 'no_linebreak' => true);
+                        $messages[] = array('html' => generateButtonRed("create_name_save", _('Ja, Name speichern')));
                     } else {
                         $messages[] = array('html' => _('Dies kann nicht ignoriert werden, da das Enforcement-Flag für diese Kategorie gesetzt ist!<br>'));
                         $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="" >'._('Ok, Name überarbeiten').'</button>', 'no_linebreak' => true);
                     }
 
-                    $messages[] = array('html' => generate_input_hidden("name", $new_name), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("category_id", $new_category_id), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("description", $new_description), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("instock", $new_instock), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("mininstock", $new_mininstock), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("storelocation_id", $new_storelocation_id), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("manufacturer_id", $new_manufacturer_id), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("footprint_id", $new_footprint_id), 'no_linebreak' => true);
-                    $messages[] = array('html' => generate_input_hidden("comment", $new_comment), 'no_linebreak' => 'true');
-                    $messages[] = array('html' => generate_input_hidden("visible", $new_visible), 'no_linebreak' => 'true');
+                    $messages[] = array('html' => generateInputHidden("name", $new_name), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("category_id", $new_category_id), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("description", $new_description), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("instock", $new_instock), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("mininstock", $new_mininstock), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("storelocation_id", $new_storelocation_id), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("manufacturer_id", $new_manufacturer_id), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("footprint_id", $new_footprint_id), 'no_linebreak' => true);
+                    $messages[] = array('html' => generateInputHidden("comment", $new_comment), 'no_linebreak' => 'true');
+                    $messages[] = array('html' => generateInputHidden("visible", $new_visible), 'no_linebreak' => 'true');
 
 
                     $partname_invalid = true;
@@ -316,7 +316,7 @@ if (! $fatal_error) {
 
         case 'apply_name_confirmed':
             try {
-                $part->set_name($new_name);
+                $part->setName($new_name);
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -340,12 +340,12 @@ if (! $fatal_error) {
                     $new_attributes['id_manufacturer'] = $new_manufacturer_id;
                 }
 
-                $part->set_attributes($new_attributes);
+                $part->setAttributes($new_attributes);
 
-                if (Part::is_valid_name($new_name, $part->get_category())) {
-                    $part->set_name($new_name);
+                if (Part::isValidName($new_name, $part->getCategory())) {
+                    $part->setName($new_name);
                 } else {
-                    $parname_hint = $part->get_category()->get_partname_hint(true, false);
+                    $parname_hint = $part->getCategory()->getPartnameHint(true, false);
                     if (empty($parname_hint)) {
                         $messages[] = array('text' => sprintf(_('Der Name "%s" entspricht nicht den Vorgaben!'), $new_name),
                             'strong' => true, 'color' => 'red');
@@ -353,13 +353,13 @@ if (! $fatal_error) {
                         $messages[] = array('html' => sprintf(
                             _('Der Name "%s" entspricht nicht den Vorgaben <b>(%s)</b>!'),
                             $new_name,
-                            $part->get_category()->get_partname_hint(true, false)
+                            $part->getCategory()->getPartnameHint(true, false)
                         ));
                     }
 
                     $messages[] = array('text' => _('<br>Hinweis:'), 'strong' => true);
-                    $messages[] = array('html' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $part->get_category()->get_partname_regex(true) . "</b>");
-                    if ($part->get_category()->get_partname_regex_obj()->is_enforced()) {
+                    $messages[] = array('html' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $part->getCategory()->getPartnameRegex(true) . "</b>");
+                    if ($part->getCategory()->getPartnameRegexObj()->isEnforced()) {
                         $messages[] = array('html' => _('Dies kann nicht ignoriert werden, da das Enforcement-Flag für diese Kategorie gesetzt ist!<br>'));
                         $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="name_edit" >'._('Ok, Name überarbeiten').'</button>', 'no_linebreak' => true);
                     } else {
@@ -399,7 +399,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist keine Einkaufsinformation ausgewählt!'));
                 }
 
-                $orderdetails->set_attributes(array(    'id_supplier'               => $new_supplier_id,
+                $orderdetails->setAttributes(array(    'id_supplier'               => $new_supplier_id,
                     'supplierpartnr'            => $new_supplierpartnr,
                     'obsolete'                  => $new_obsolete));
             } catch (Exception $e) {
@@ -444,7 +444,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist keine Preisinformation ausgewählt!'));
                 }
 
-                $pricedetails->set_attributes(array(    'price'                     => $new_price,
+                $pricedetails->setAttributes(array(    'price'                     => $new_price,
                     'price_related_quantity'    => $new_price_related_quantity,
                     'min_discount_quantity'     => $new_min_discount_quantity));
             } catch (Exception $e) {
@@ -472,7 +472,7 @@ if (! $fatal_error) {
                 }
 
                 if (strlen($_FILES['attachement_file']['name']) > 0) {
-                    $new_filename = upload_file($_FILES['attachement_file'], BASE.'/data/media/');
+                    $new_filename = uploadFile($_FILES['attachement_file'], BASE.'/data/media/');
                 }
 
                 $new_attachement = Attachement::add(
@@ -486,8 +486,8 @@ if (! $fatal_error) {
                     $new_show_in_table
                 );
 
-                if ($new_is_master_picture && $new_attachement->is_picture()) {
-                    $part->set_master_picture_attachement_id($new_attachement->get_id());
+                if ($new_is_master_picture && $new_attachement->isPicture()) {
+                    $part->setMasterPictureAttachementID($new_attachement->getID());
                 }
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -501,21 +501,21 @@ if (! $fatal_error) {
                 }
 
                 if (strlen($_FILES['attachement_file']['name']) > 0) {
-                    $new_filename = upload_file($_FILES['attachement_file'], BASE.'/data/media/');
+                    $new_filename = uploadFile($_FILES['attachement_file'], BASE.'/data/media/');
                 }
 
-                $attachement->set_attributes(array( 'type_id'           => $new_attachement_type_id,
+                $attachement->setAttributes(array( 'type_id'           => $new_attachement_type_id,
                     'name'              => $new_name,
                     'filename'          => $new_filename,
                     'show_in_table'     => $new_show_in_table));
 
                 if ($new_is_master_picture) {
-                    $part->set_master_picture_attachement_id($attachement->get_id());
+                    $part->setMasterPictureAttachementID($attachement->getID());
                 } else {
-                    $master_picture = $part->get_master_picture_attachement();
+                    $master_picture = $part->getMasterPictureAttachement();
 
-                    if (is_object($master_picture) && ($master_picture->get_id() == $attachement->get_id())) {
-                        $part->set_master_picture_attachement_id(null);
+                    if (is_object($master_picture) && ($master_picture->getID() == $attachement->getID())) {
+                        $part->setMasterPictureAttachementID(null);
                     } // remove master picture
                 }
             } catch (Exception $e) {
@@ -530,9 +530,9 @@ if (! $fatal_error) {
                 }
 
                 // if this is the master picture, we have to remove that attribute
-                $master_picture = $part->get_master_picture_attachement();
-                if (is_object($master_picture) && ($master_picture->get_id() == $attachement->get_id())) {
-                    $part->set_master_picture_attachement_id(null);
+                $master_picture = $part->getMasterPictureAttachement();
+                if (is_object($master_picture) && ($master_picture->getID() == $attachement->getID())) {
+                    $part->setMasterPictureAttachementID(null);
                 } // remove master picture
 
                 $attachement->delete(true); // the file will be deleted only if there are no other attachements with the same filename
@@ -544,17 +544,17 @@ if (! $fatal_error) {
         case 'delete_part':
             try {
                 // check if there are devices with this part. if there are some, the part can't be deleted!
-                $devices = $part->get_devices();
+                $devices = $part->getDevices();
                 if (count($devices) > 0) {
                     $device_names = '';
                     foreach ($devices as $device) {
-                        $device_names .= "\n&nbsp;&nbsp;&bull; ".$device->get_full_path();
+                        $device_names .= "\n&nbsp;&nbsp;&bull; ".$device->getFullPath();
                     }
                     throw new Exception(_('Das Bauteil kann nicht gelöscht werden, da es noch in den '.
                             'folgenden Baugruppen verwendet wird:').$device_names);
                 }
 
-                $messages[] = array('text' => sprintf(_('Soll das Bauteil "%s" wirklich unwiederruflich gelöscht werden?'), $part->get_name()),
+                $messages[] = array('text' => sprintf(_('Soll das Bauteil "%s" wirklich unwiederruflich gelöscht werden?'), $part->getName()),
                     'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
                 $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Baugruppen die dieses Bauteil verwenden.'));
@@ -637,50 +637,50 @@ if (! $fatal_error) {
 if (! $fatal_error) {
     try {
         // global settings
-        $html->set_variable('use_modal_popup', $config['popup']['modal'], 'boolean');
-        $html->set_variable('popup_width', $config['popup']['width'], 'integer');
-        $html->set_variable('popup_height', $config['popup']['height'], 'integer');
+        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
+        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 
         // special
-        $html->set_variable('is_new_part', ($is_new_part || $add_one_more_part), 'boolean');
+        $html->setVariable('is_new_part', ($is_new_part || $add_one_more_part), 'boolean');
 
         // part attributes
         if (isset($part) && is_object($part)) {
-            $html->set_variable('pid', $part->get_id(), 'integer');
+            $html->setVariable('pid', $part->getID(), 'integer');
             if ($partname_invalid) {
-                $html->set_variable('name', $new_name, 'string');
+                $html->setVariable('name', $new_name, 'string');
             } else {
-                $html->set_variable('name', $part->get_name(), 'string');
+                $html->setVariable('name', $part->getName(), 'string');
             }
-            $html->set_variable('description', $part->get_description(false), 'string');
-            $html->set_variable('instock', $part->get_instock(), 'integer');
-            $html->set_variable('mininstock', $part->get_mininstock(), 'integer');
-            $html->set_variable('visible', $part->get_visible(), 'boolean');
-            $html->set_variable('comment', $part->get_comment(false), 'string');
-            $html->set_variable('format_hint', $part->get_category()->get_partname_hint(true, false), 'string');
+            $html->setVariable('description', $part->getDescription(false), 'string');
+            $html->setVariable('instock', $part->getInstock(), 'integer');
+            $html->setVariable('mininstock', $part->getMinInstock(), 'integer');
+            $html->setVariable('visible', $part->getVisible(), 'boolean');
+            $html->setVariable('comment', $part->getComment(false), 'string');
+            $html->setVariable('format_hint', $part->getCategory()->getPartnameHint(true, false), 'string');
 
             // dropdown lists -> get IDs
-            $category_id        = (is_object($part->get_category())         ?   $part->get_category()->get_id()      : 0);
-            $footprint_id       = (is_object($part->get_footprint())        ?   $part->get_footprint()->get_id()     : 0);
-            $storelocation_id   = (is_object($part->get_storelocation())    ?   $part->get_storelocation()->get_id() : 0);
-            $manufacturer_id    = (is_object($part->get_manufacturer())     ?   $part->get_manufacturer()->get_id()  : 0);
+            $category_id        = (is_object($part->getCategory())         ?   $part->getCategory()->getID()      : 0);
+            $footprint_id       = (is_object($part->getFootprint())        ?   $part->getFootprint()->getID()     : 0);
+            $storelocation_id   = (is_object($part->getStorelocation())    ?   $part->getStorelocation()->getID() : 0);
+            $manufacturer_id    = (is_object($part->getManufacturer())     ?   $part->getManufacturer()->getID()  : 0);
 
             // build orderdetails loop
             $orderdetails_loop = array();
             $row_odd = true;
-            foreach ($part->get_orderdetails() as $orderdetails) {
-                $supplier_list = $root_supplier->build_html_tree($orderdetails->get_supplier()->get_id(), true, false);
+            foreach ($part->getOrderdetails() as $orderdetails) {
+                $supplier_list = $root_supplier->buildHtmlTree($orderdetails->getSupplier()->getID(), true, false);
                 $pricedetails_loop = array();
-                foreach ($orderdetails->get_pricedetails() as $pricedetails) {
+                foreach ($orderdetails->getPricedetails() as $pricedetails) {
                     //HTML5 wants a float number with a dot as a decimal point. The browser should change its display correspondingly to HTML locale.
-                    $price = str_replace(",", ".", $pricedetails->get_price(false, $pricedetails->get_price_related_quantity()));
+                    $price = str_replace(",", ".", $pricedetails->getPrice(false, $pricedetails->getPriceRelatedQuantity()));
 
                     $pricedetails_loop[] = array(   'row_odd'                   => ! $row_odd,
-                        'orderdetails_id'           => $orderdetails->get_id(),
-                        'pricedetails_id'           => $pricedetails->get_id(),
-                        'min_discount_quantity'     => $pricedetails->get_min_discount_quantity(),
+                        'orderdetails_id'           => $orderdetails->getID(),
+                        'pricedetails_id'           => $pricedetails->getID(),
+                        'min_discount_quantity'     => $pricedetails->getMinDiscountQuantity(),
                         'price'                     => $price,
-                        'price_related_quantity'    => $pricedetails->get_price_related_quantity());
+                        'price_related_quantity'    => $pricedetails->getPriceRelatedQuantity());
                 }
 
                 if (count($pricedetails_loop) > 0) {
@@ -689,53 +689,53 @@ if (! $fatal_error) {
                     $next_min_discount_quantity = 1;
                 }
 
-                $pricedetails_loop[] = array(       'orderdetails_id'           => $orderdetails->get_id(),
+                $pricedetails_loop[] = array(       'orderdetails_id'           => $orderdetails->getID(),
                     'pricedetails_id'           => 'new',
                     'min_discount_quantity'     => $next_min_discount_quantity,
                     'price'                     => 0,
                     'price_related_quantity'    => 1);
 
                 $orderdetails_loop[] = array(       'row_odd'                   => $row_odd,
-                    'orderdetails_id'           => $orderdetails->get_id(),
+                    'orderdetails_id'           => $orderdetails->getID(),
                     'supplier_list'             => $supplier_list,
-                    'supplierpartnr'            => $orderdetails->get_supplierpartnr(),
-                    'obsolete'                  => $orderdetails->get_obsolete(),
+                    'supplierpartnr'            => $orderdetails->getSupplierPartNr(),
+                    'obsolete'                  => $orderdetails->getObsolete(),
                     'pricedetails'              => $pricedetails_loop);
                 $row_odd = ! $row_odd;
             }
 
             // add one additional row -> with this row you can add more orderdetails
-            $supplier_list = $root_supplier->build_html_tree(0, true, false);
+            $supplier_list = $root_supplier->buildHtmlTree(0, true, false);
             $orderdetails_loop[] = array(   'row_odd'                   => $row_odd,
                 'orderdetails_id'           => 'new',
                 'supplier_list'             => $supplier_list,
                 'supplierpartnr'            => '',
                 'obsolete'                  => false);
 
-            $html->set_loop('orderdetails', $orderdetails_loop);
+            $html->setLoop('orderdetails', $orderdetails_loop);
 
             // build attachements loop
-            $master_picture_id = (is_object($part->get_master_picture_attachement()) ? $part->get_master_picture_attachement()->get_id() : null);
+            $master_picture_id = (is_object($part->getMasterPictureAttachement()) ? $part->getMasterPictureAttachement()->getID() : null);
             $attachements_loop = array();
-            $all_attachements = $part->get_attachements();
+            $all_attachements = $part->getAttachements();
             $row_odd = true;
             foreach ($all_attachements as $attachement) {
-                $attachement_types_list = $root_attachement_type->build_html_tree($attachement->get_type()->get_id(), true, false);
+                $attachement_types_list = $root_attachement_type->buildHtmlTree($attachement->getType()->getID(), true, false);
                 $attachements_loop[] = array(   'row_odd'                   => $row_odd,
-                    'id'                        => $attachement->get_id(),
+                    'id'                        => $attachement->getID(),
                     'attachement_types_list'    => $attachement_types_list,
-                    'name'                      => $attachement->get_name(),
-                    'show_in_table'             => $attachement->get_show_in_table(),
-                    'is_picture'                => $attachement->is_picture(),
-                    'is_master_picture'         => ($attachement->get_id() == $master_picture_id),
-                    'filename'                  => str_replace(BASE, BASE_RELATIVE, $attachement->get_filename()),
-                    'filename_base_relative'    => str_replace(BASE.'/', '', $attachement->get_filename()),
-                    'picture_filename'          => ($attachement->is_picture() ? str_replace(BASE, BASE_RELATIVE, $attachement->get_filename()) : ''));
+                    'name'                      => $attachement->getName(),
+                    'show_in_table'             => $attachement->getShowInTable(),
+                    'is_picture'                => $attachement->isPicture(),
+                    'is_master_picture'         => ($attachement->getID() == $master_picture_id),
+                    'filename'                  => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
+                    'filename_base_relative'    => str_replace(BASE.'/', '', $attachement->getFilename()),
+                    'picture_filename'          => ($attachement->isPicture() ? str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()) : ''));
                 $row_odd = ! $row_odd;
             }
 
             // add one additional row -> with this row you can add more files
-            $attachement_types_list = $root_attachement_type->build_html_tree(0, true, false);
+            $attachement_types_list = $root_attachement_type->buildHtmlTree(0, true, false);
             $attachements_loop[] = array(   'row_odd'                   => $row_odd,
                 'id'                        => 'new',
                 'attachement_types_list'    => $attachement_types_list,
@@ -747,27 +747,27 @@ if (! $fatal_error) {
                 'filename_base_relative'    => '',
                 'picture_filename'          => '');
 
-            $html->set_loop('attachements_loop', $attachements_loop);
+            $html->setLoop('attachements_loop', $attachements_loop);
         }
 
         if (($print_unsaved_values) || (! isset($part)) || (! is_object($part))) {
             if (isset($new_category_id)) {
                 $cat = new Category($database, $current_user, $log, $new_category_id);
                 if (empty($new_description)) {
-                    $new_description = $cat->get_default_description(true, false);
+                    $new_description = $cat->getDefaultDescription(true, false);
                 }
                 if (empty($new_comment)) {
-                    $new_comment = $cat->get_default_comment(true, false);
+                    $new_comment = $cat->getDefaultComment(true, false);
                 }
-                $new_comment = $cat->get_default_comment(true, false);
+                $new_comment = $cat->getDefaultComment(true, false);
             }
 
-            $html->set_variable('name', $new_name, 'string');
-            $html->set_variable('description', $new_description, 'string');
-            $html->set_variable('instock', $new_instock, 'integer');
-            $html->set_variable('mininstock', $new_mininstock, 'integer');
-            $html->set_variable('visible', $new_visible, 'boolean');
-            $html->set_variable('comment', $new_comment, 'string');
+            $html->setVariable('name', $new_name, 'string');
+            $html->setVariable('description', $new_description, 'string');
+            $html->setVariable('instock', $new_instock, 'integer');
+            $html->setVariable('mininstock', $new_mininstock, 'integer');
+            $html->setVariable('visible', $new_visible, 'boolean');
+            $html->setVariable('comment', $new_comment, 'string');
 
             $category_id        = $new_category_id;
             $footprint_id       = $new_footprint_id;
@@ -776,42 +776,42 @@ if (! $fatal_error) {
         }
 
         if (isset($searched_element) && $searched_element instanceof Category) {
-            $category_id = $searched_element->get_id();
+            $category_id = $searched_element->getID();
         }
 
         if (isset($searched_element) && $searched_element instanceof Footprint) {
-            $footprint_id = $searched_element->get_id();
+            $footprint_id = $searched_element->getID();
         }
 
         if (isset($searched_element) && $searched_element instanceof Storelocation) {
-            $storelocation_id = $searched_element->get_id();
+            $storelocation_id = $searched_element->getID();
         }
 
         if (isset($searched_element) && $searched_element instanceof Manufacturer) {
-            $manufacturer_id = $searched_element->get_id();
+            $manufacturer_id = $searched_element->getID();
         }
 
 
         // dropdown lists -> generate lists
-        $manufacturer_list  = $root_manufacturer->build_html_tree($manufacturer_id, true, false);
-        $category_list      = $root_category->build_html_tree($category_id, true, false);
-        $storelocation_list = $root_storelocation->build_html_tree($storelocation_id, true, false);
-        $footprint_list     = $root_footprint->build_html_tree($footprint_id, true, false);
+        $manufacturer_list  = $root_manufacturer->buildHtmlTree($manufacturer_id, true, false);
+        $category_list      = $root_category->buildHtmlTree($category_id, true, false);
+        $storelocation_list = $root_storelocation->buildHtmlTree($storelocation_id, true, false);
+        $footprint_list     = $root_footprint->buildHtmlTree($footprint_id, true, false);
 
         // the category ID is used for creating a new part (in *.tmpl file the latest DIV element)
-        $html->set_variable('category_id', $category_id, 'integer');
+        $html->setVariable('category_id', $category_id, 'integer');
 
         // dropdown lists -> set html variables
-        $html->set_variable('manufacturer_list', $manufacturer_list, 'string');
-        $html->set_variable('category_list', $category_list, 'string');
-        $html->set_variable('storelocation_list', $storelocation_list, 'string');
-        $html->set_variable('footprint_list', $footprint_list, 'string');
+        $html->setVariable('manufacturer_list', $manufacturer_list, 'string');
+        $html->setVariable('category_list', $category_list, 'string');
+        $html->setVariable('storelocation_list', $storelocation_list, 'string');
+        $html->setVariable('footprint_list', $footprint_list, 'string');
 
         // global/category stuff
         $category = new Category($database, $current_user, $log, $category_id);
-        $html->set_variable('disable_footprints', ($config['footprints']['disable'] || $category->get_disable_footprints(true)), 'boolean');
-        $html->set_variable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->get_disable_manufacturers(true)), 'boolean');
-        $html->set_variable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
+        $html->setVariable('disable_footprints', ($config['footprints']['disable'] || $category->getDisableFootprints(true)), 'boolean');
+        $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
+        $html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -827,21 +827,21 @@ if (! $fatal_error) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
 // an empty string in "$reload_link" means that the reload-button won't be visible
 $reload_link = ($fatal_error && ($action != 'delete_part_confirmed')) ? 'edit_part_info.php?pid='.$part_id : '';
-$html->print_header($messages, $reload_link);
+$html->printHeader($messages, $reload_link);
 
 if (! $fatal_error) {
-    $html->print_template('part');
+    $html->printTemplate('part');
 
     if (! ($is_new_part || $add_one_more_part)) {
-        $html->print_template('orderdetails');
-        $html->print_template('attachements');
-        $html->print_template('actions');
+        $html->printTemplate('orderdetails');
+        $html->printTemplate('attachements');
+        $html->printTemplate('actions');
     }
 }
 
-$html->print_footer();
+$html->printFooter();

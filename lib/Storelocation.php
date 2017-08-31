@@ -83,7 +83,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @return boolean      @li true if the storelocation is full
      *                      @li false if the storelocation isn't full
      */
-    public function get_is_full()
+    public function getIsFull()
     {
         return $this->db_data['is_full'];
     }
@@ -98,11 +98,11 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      *
      * @throws Exception    if there was an error
      *
-     * @see PartsContainingDBElement::get_parts()
+     * @see PartsContainingDBElement::getParts()
      */
-    public function get_parts($recursive = false, $hide_obsolete_and_zero = false)
+    public function getParts($recursive = false, $hide_obsolete_and_zero = false)
     {
-        return parent::get_table_parts('id_storelocation', $recursive, $hide_obsolete_and_zero);
+        return parent::getTableParts('id_storelocation', $recursive, $hide_obsolete_and_zero);
     }
 
     /********************************************************************************
@@ -122,9 +122,9 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      *
      * @throws Exception if there was an error
      */
-    public function set_is_full($new_is_full)
+    public function setIsFull($new_is_full)
     {
-        $this->set_attributes(array('is_full' => $new_is_full));
+        $this->setAttributes(array('is_full' => $new_is_full));
     }
 
     /********************************************************************************
@@ -136,10 +136,10 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
     /**
      * @copydoc DBElement::check_values_validity()
      */
-    public static function check_values_validity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
-        parent::check_values_validity($database, $current_user, $log, $values, $is_new, $element);
+        parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
         // set the datetype of the boolean attributes
         settype($values['is_full'], 'boolean');
@@ -154,13 +154,13 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      *
      * @throws Exception            if there was an error
      */
-    public static function get_count(&$database)
+    public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
         }
 
-        return $database->get_count_of_records('storelocations');
+        return $database->getCountOfRecords('storelocations');
     }
 
     /**
@@ -182,7 +182,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public static function add(&$database, &$current_user, &$log, $name, $parent_id, $is_full = false)
     {
-        return parent::add_via_array(
+        return parent::addByArray(
             $database,
             $current_user,
             $log,
@@ -198,7 +198,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
-        return parent::search_table($database, $current_user, $log, 'storelocations', $keyword, $exact_match);
+        return parent::searchTable($database, $current_user, $log, 'storelocations', $keyword, $exact_match);
     }
 
     /**
@@ -206,17 +206,17 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
      */
-    public function get_API_array($verbose = false)
+    public function getAPIArray($verbose = false)
     {
-        $json =  array( "id" => $this->get_id(),
-            "name" => $this->get_name(),
-            "fullpath" => $this->get_full_path("/"),
-            "parentid" => $this->get_parent_id(),
-            "level" => $this->get_level()
+        $json =  array( "id" => $this->getID(),
+            "name" => $this->getName(),
+            "fullpath" => $this->getFullPath("/"),
+            "parentid" => $this->getParentID(),
+            "level" => $this->getLevel()
         );
 
         if ($verbose == true) {
-            $ver = array("isFull" => $this->get_is_full() == true);
+            $ver = array("isFull" => $this->getIsFull() == true);
             return array_merge($json, $ver);
         }
         return $json;

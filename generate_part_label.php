@@ -86,7 +86,7 @@ try {
 
     $label = new PartLabel($database, $current_user, $log, $part_id);
 
-    $label->set_lines($label->get_line_presets()[$preset]);
+    $label->setLines($label->getLinePresets()[$preset]);
 
 
     if ($action=="download") {

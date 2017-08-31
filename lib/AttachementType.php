@@ -76,7 +76,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public function get_attachements_for_type()
+    public function getAttachementsForType()
     {
         // the attribute $this->attachements is used from class "AttachementsContainingDBELement"
         if (! is_array($this->attachements)) {
@@ -85,7 +85,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
             $query = 'SELECT * FROM attachements '.
                 'WHERE type_id=? '.
                 'ORDER BY name ASC';
-            $query_data = $this->database->query($query, array($this->get_id()));
+            $query_data = $this->database->query($query, array($this->getID()));
 
             //debug('temp', 'Anzahl gefundene Dateien: '.count($query_data));
             foreach ($query_data as $row) {
@@ -111,13 +111,13 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      *
      * @throws Exception            if there was an error
      */
-    public static function get_count(&$database)
+    public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
-        return $database->get_count_of_records('attachement_types');
+        return $database->getCountOfRecords('attachement_types');
     }
 
     /**
@@ -138,7 +138,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      */
     public static function add(&$database, &$current_user, &$log, $name, $parent_id)
     {
-        return parent::add_via_array(
+        return parent::addByArray(
             $database,
             $current_user,
             $log,
@@ -153,12 +153,12 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
      */
-    public function get_API_array($verbose = false)
+    public function getAPIArray($verbose = false)
     {
-        return array("id" => $this->get_id(),
-            "name" => $this->get_name(),
-            "fullpath" => $this->get_full_path("/"),
-            "parentid" => $this->get_parent_id(),
-            "level" => $this->get_level());
+        return array("id" => $this->getID(),
+            "name" => $this->getName(),
+            "fullpath" => $this->getFullPath("/"),
+            "parentid" => $this->getParentID(),
+            "level" => $this->getLevel());
     }
 }

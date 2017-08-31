@@ -85,11 +85,11 @@ class System
         $this->log = $log;
 
         // get the installed version
-        $this->installed_version = SystemVersion::get_installed_version();
+        $this->installed_version = SystemVersion::getInstalledVersion();
 
         debug(
             'hint',
-            'System initialisiert: Version '.$this->get_installed_version()->as_string(false, false, false, true),
+            'System initialisiert: Version '.$this->getInstalledVersion()->asString(false, false, false, true),
             __FILE__,
             __LINE__,
             __METHOD__
@@ -107,9 +107,9 @@ class System
      *
      * @return SystemVersion      the installed version
      *
-     * @see SystemVersion::get_installed_version()
+     * @see SystemVersion::getInstalledVersion()
      */
-    public function get_installed_version()
+    public function getInstalledVersion()
     {
         return $this->installed_version;
     }
@@ -123,11 +123,11 @@ class System
      *
      * @throws Exception if there was an error
      *
-     * @see SystemVersion::get_latest_version()
+     * @see SystemVersion::getLatestVersion()
      */
-    public function get_latest_version($type)
+    public function getLatestVersion($type)
     {
-        return SystemVersion::get_latest_version($type);
+        return SystemVersion::getLatestVersion($type);
     }
 
     /********************************************************************************
@@ -155,7 +155,7 @@ class System
      *
      * @todo ...not finished...
      */
-    public function download_and_extract_update_archives()
+    public function downloadAndExtractUpdateArchives()
     {
         /*if ( ! class_exists('ZipArchive'))
             throw new Exception('"ZipArchive" scheint nicht installiert zu sein!');
@@ -264,7 +264,7 @@ class System
      *
      * @todo ...not finished...
      */
-    public function update_to_next_version()
+    public function updateToNextVersion()
     {
         /*$current_version = $this->get_installed_version();
         $update_folder = BASE.'/updates/update_for_'.$current_version->as_string().'/';

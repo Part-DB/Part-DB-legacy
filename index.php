@@ -49,7 +49,7 @@ if ((! is_array($config['installation_complete']))
  *********************************************************************************/
 
 $html = new HTML($config['html']['theme'], $config['html']['custom_css'], $config['page_title']);
-$html->set_variable('title', $config['page_title'], 'string');
+$html->setVariable('title', $config['page_title'], 'string');
 
 /********************************************************************************
  *
@@ -88,13 +88,13 @@ $html->set_variable('mobile', $mobile, 'boolean');*/
  *********************************************************************************/
 
 if (count($messages) == 0) {
-    $html->set_meta(array('frameset' => true));
+    $html->setMeta(array('frameset' => true));
 }
 
-$html->print_header($messages, 'index.php', '', true);
+$html->printHeader($messages, 'index.php', '', true);
 
 if ((! $fatal_error) && (count($messages) == 0)) {
-    $html->print_template('frameset');
+    $html->printTemplate('frameset');
 }
 
-$html->print_footer();
+$html->printFooter();

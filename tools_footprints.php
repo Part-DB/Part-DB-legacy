@@ -98,7 +98,7 @@ if (! $fatal_error) {
             break;
 
         case 'show_others':
-            $directories = find_all_directories(BASE.'/img/footprints/');
+            $directories = findAllDirectories(BASE.'/img/footprints/');
             if (array_search(BASE.'/img/footprints/Aktiv', $directories) !== false) {
                 unset($directories[array_search(BASE.'/img/footprints/Aktiv', $directories)]);
             }
@@ -124,7 +124,7 @@ if (! $fatal_error) {
 }
 
 //Give action to Template, so we can mark the active button
-$html->set_variable("action", $action, "string");
+$html->setVariable("action", $action, "string");
 
 /********************************************************************************
  *
@@ -137,12 +137,12 @@ if (count($directories) > 0) {
     $categories = array();
     foreach ($directories as $directory) {
         $categories[] = rtrim($directory, "\\/");
-        $categories = array_merge($categories, find_all_directories($directory, true));
+        $categories = array_merge($categories, findAllDirectories($directory, true));
     }
     sort($categories);
     foreach ($categories as $category) {
         $pictures_loop = array();
-        $pictures = find_all_files($category.'/', false, '.png');
+        $pictures = findAllFiles($category.'/', false, '.png');
         foreach ($pictures as $filename) {
             $pictures_loop[] = array(   'title' => str_replace('.png', '', basename($filename)),
                 'filename' => str_replace(BASE, BASE_RELATIVE, $filename));
@@ -154,7 +154,7 @@ if (count($directories) > 0) {
         }
     }
 
-    $html->set_loop('categories_loop', $categories_loop);
+    $html->setLoop('categories_loop', $categories_loop);
 }
 
 /********************************************************************************
@@ -166,13 +166,13 @@ if (count($directories) > 0) {
 
 //If a ajax version is requested, say this the template engine.
 if (isset($_REQUEST["ajax"])) {
-    $html->set_variable("ajax_request", true);
+    $html->setVariable("ajax_request", true);
 }
 
-$html->print_header($messages);
+$html->printHeader($messages);
 
 if (! $fatal_error) {
-    $html->print_template('footprints');
+    $html->printTemplate('footprints');
 }
 
-$html->print_footer();
+$html->printFooter();

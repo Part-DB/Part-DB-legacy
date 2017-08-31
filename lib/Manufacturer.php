@@ -79,11 +79,11 @@ class Manufacturer extends Base\Company implements ISearchable
      *
      * @throws Exception if there was an error
      *
-     * @see PartsContainingDBElement::get_parts()
+     * @see PartsContainingDBElement::getParts()
      */
-    public function get_parts($recursive = false, $hide_obsolete_and_zero = false)
+    public function getParts($recursive = false, $hide_obsolete_and_zero = false)
     {
-        return parent::get_table_parts('id_manufacturer', $recursive, $hide_obsolete_and_zero);
+        return parent::getTableParts('id_manufacturer', $recursive, $hide_obsolete_and_zero);
     }
 
     /********************************************************************************
@@ -101,13 +101,13 @@ class Manufacturer extends Base\Company implements ISearchable
      *
      * @throws Exception            if there was an error
      */
-    public static function get_count(&$database)
+    public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
         }
 
-        return $database->get_count_of_records('manufacturers');
+        return $database->getCountOfRecords('manufacturers');
     }
 
     /**
@@ -145,7 +145,7 @@ class Manufacturer extends Base\Company implements ISearchable
         $website = '',
         $auto_product_url = ''
     ) {
-        return parent::add_via_array(
+        return parent::addByArray(
             $database,
             $current_user,
             $log,
@@ -166,6 +166,6 @@ class Manufacturer extends Base\Company implements ISearchable
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
-        return parent::search_table($database, $current_user, $log, 'manufacturers', $keyword, $exact_match);
+        return parent::searchTable($database, $current_user, $log, 'manufacturers', $keyword, $exact_match);
     }
 }

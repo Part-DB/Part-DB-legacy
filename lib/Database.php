@@ -153,7 +153,7 @@ class Database
         }
 
         // make some checks
-        if ($this->get_current_version() > 12) {
+        if ($this->getCurrentVersion() > 12) {
             // Check if all tables uses the engine "InnoDB" (this is very important for all database versions greater than 12!)
             // Without InnoDB, transactions are not supported!
             $wrong_engine_tables = array();
@@ -170,7 +170,7 @@ class Database
             }
         }
 
-        if (PDBDebugBar::is_activated()) {
+        if (PDBDebugBar::isActivated()) {
             $this->pdo = new TraceablePDO($this->pdo);
             PDBDebugBar::getInstance()->registerPDO($this->pdo);
         }
@@ -189,9 +189,9 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function get_current_version()
+    public function getCurrentVersion()
     {
-        if (! $this->does_table_exist('internal', true)) {
+        if (! $this->doesTableExist('internal', true)) {
             return 0;
         } // Empty table --> return version 0 to create tables with the update mechanism
 
@@ -212,7 +212,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function get_latest_version()
+    public function getLatestVersion()
     {
         if (! defined('LATEST_DB_VERSION')) {
             throw new Exception(_('Konstante "LATEST_DB_VERSION" ist nicht definiert!'));
@@ -254,10 +254,10 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function is_update_required()
+    public function isUpdateRequired()
     {
-        $current = $this->get_current_version();
-        $latest = $this->get_latest_version();
+        $current = $this->getCurrentVersion();
+        $latest = $this->getLatestVersion();
 
         return ($current < $latest);
     }
@@ -275,7 +275,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    private function convert_mysql_query($query)
+    private function convertMysqlQuery($query)
     {
         global $config;
 
@@ -330,8 +330,8 @@ class Database
             $log[] = array('text' => $msg, 'error' => $err);
         };
 
-        $current = $this->get_current_version();
-        $latest = $this->get_latest_version();
+        $current = $this->getCurrentVersion();
+        $latest = $this->getLatestVersion();
 
         if ($this->transaction_active) {
             throw new Exception(_('Ein Datenbankupdate kann nicht mitten in einer offenen Transaktion durchgeführt werden!'));
@@ -341,7 +341,7 @@ class Database
         // so the next attempt can start at the same position. But if the user has no write access to the config.php,
         // this will not work. So we will try to write the configs to the config.php now. If this is not successfully,
         // the function "save_config()" will throw an exception and the update proccess is aborted.
-        save_config();
+        saveConfig();
 
         debug('hint', 'Update von Datenbankversion "'.$current.'" auf Version "'.$latest.'" wird gestartet...');
         $add_log('Ihre Datenbank wird von der Version '. $current .' auf die Version '. $latest .' aktualisiert:');
@@ -388,7 +388,7 @@ class Database
             } // no error, start with the first update step
 
             for ($steps_pos = $start_position; (($steps_pos < count($steps)) && (! $error)); $steps_pos++) {
-                $query = $this->convert_mysql_query($steps[$steps_pos]);
+                $query = $this->convertMysqlQuery($steps[$steps_pos]);
 
                 if ($query === null) { // for "dummys" (steps which are removed afterwards)
                     continue;
@@ -439,7 +439,7 @@ class Database
                     $config['db']['update_error']['version'] = -1;
                 }
 
-                save_config();
+                saveConfig();
             } catch (Exception $exception) {
                 $add_log(_('FEHLER: Die aktuelle Update-Position konnte nicht in der config.php gespeichert werden!'), true);
                 $add_log(_('Fehlermeldung: ').$exception->getMessage(), true);
@@ -449,7 +449,7 @@ class Database
 
             if (! $error) {
                 try {
-                    $current = $this->get_current_version();
+                    $current = $this->getCurrentVersion();
                 } catch (Exception $exception) {
                     $add_log(_('FEHLER: Die aktuelle Version konnte nicht gelesen werden!'), true);
                     $add_log(_('Fehlermeldung: ').$exception->getMessage(), true);
@@ -546,7 +546,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function begin_transaction()
+    public function beginTransaction()
     {
         if (! $this->transaction_active) {
             // start a new transaction
@@ -802,7 +802,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function does_table_exist($tablename, $forcecheck = false)
+    public function doesTableExist($tablename, $forcecheck = false)
     {
         //A whitelist of tables, we know that exists, so we dont need to check with a DB Request
         //Dont include "internal" here, because otherwise it leads to problems, when starting with a fresh database.
@@ -846,7 +846,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function get_count_of_records($tablename)
+    public function getCountOfRecords($tablename)
     {
         $query_data = $this->query('SELECT count(*) as count FROM '.$tablename);
 
@@ -867,7 +867,7 @@ class Database
      * @throws Exception if there is no element with that ID
      * @throws Exception if there was an error
      */
-    public function get_record_data($tablename, $id, $fetch_style = PDO::FETCH_ASSOC)
+    public function getRecordData($tablename, $id, $fetch_style = PDO::FETCH_ASSOC)
     {
         $query_data = $this->query('SELECT * FROM '. $tablename .
             ' WHERE id=?', array($id), $fetch_style);
@@ -887,7 +887,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function delete_record($tablename, $id)
+    public function deleteRecord($tablename, $id)
     {
         $this->execute('DELETE FROM '.$tablename.' WHERE id=? LIMIT 1', array($id));
     }
@@ -903,7 +903,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function set_data_fields($tablename, $id, $values)
+    public function setDataFields($tablename, $id, $values)
     {
         if ((! is_array($values)) || (count($values) < 1)) {
             debug('error', '$values="'.print_r($values, true).'"', __FILE__, __LINE__, __METHOD__);
