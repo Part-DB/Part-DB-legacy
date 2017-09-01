@@ -6,7 +6,7 @@
 
 
 <div class="panel panel-default">
-    <div class="panel-heading">{t}Widerstandsrechner{/t}</div>
+    <div class="panel-heading"><i class="fa fa-calculator" aria-hidden="true"></i> {t}Widerstandsrechner{/t}</div>
     <div class="panel-body">
         <div class="col-md-6">
             <form id="resistor4ring" name="resistor4ring">
