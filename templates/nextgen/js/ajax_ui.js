@@ -284,6 +284,7 @@ $(function (event) {
     ajaxui.addStartAction(registerJumpToTop);
     ajaxui.addStartAction(fixCurrencyEdits);
     ajaxui.addStartAction(registerAutoRefresh);
+    ajaxui.addStartAction(scrollUpForMsg);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
@@ -292,6 +293,7 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(registerBootstrapSelect);
     ajaxui.addAjaxCompleteAction(fixCurrencyEdits);
     ajaxui.addAjaxCompleteAction(registerAutoRefresh);
+    ajaxui.addAjaxCompleteAction(scrollUpForMsg);
     ajaxui.start();
 });
 /**
