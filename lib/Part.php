@@ -645,10 +645,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         } else {
             $supplier_names = array();
             foreach ($suppliers as $supplier) {
+                /** @var Supplier $supplier */
                 if ($full_paths) {
-                    $supplier_names[] = $supplier->get_full_path();
+                    $supplier_names[] = $supplier->getFullPath();
                 } else {
-                    $supplier_names[] = $supplier->get_name();
+                    $supplier_names[] = $supplier->getName();
                 }
             }
 

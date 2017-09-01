@@ -13,15 +13,36 @@
 
         <form class="form-horizontal" action="" method="post" class="no-progbar">
 
-            <p><i>{t}Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere Einstellungen kann man direkt in der "config.php" vornehmen. Mögliche Parameter entnehmen Sie bitte der "config_defaults.php" oder der Dokumentation.{/t}</i></p>
+            <p>{t}Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere Einstellungen kann man direkt in der "config.php" vornehmen. Mögliche Parameter entnehmen Sie bitte der "config_defaults.php" oder der Dokumentation.{/t}</p>
 
             <hr>
 
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#appearance" class="link-anchor">{t}Aussehen{/t}</a></li>
-                <li><a data-toggle="tab" href="#features" class="link-anchor">{t}Funktionen{/t}</a></li>
-                <li><a data-toggle="tab" href="#misc" class="link-anchor">{t}Sonstiges{/t}</a></li>
-                {if $developer_mode_available}<li><a data-toggle="tab" href="#dev" class="link-anchor">{t}Entwickler{/t}</a></li>{/if}
+                <li class="active"><a data-toggle="tab" href="#appearance" class="link-anchor">
+                        <span class="fa-stack">
+                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="fa fa-magic fa-stack-1x"></i>
+                        </span>
+                        {t}Aussehen{/t}</a></li>
+                <li><a data-toggle="tab" href="#features" class="link-anchor">
+                         <span class="fa-stack">
+                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="fa fa-sliders fa-stack-1x"></i>
+                        </span>
+                        {t}Funktionen{/t}</a></li>
+                <li><a data-toggle="tab" href="#misc" class="link-anchor">
+                        <span class="fa-stack">
+                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="fa fa-gears fa-stack-1x"></i>
+                        </span>
+                        {t}Sonstiges{/t}</a></li>
+                {if $developer_mode_available}<li><a data-toggle="tab" href="#dev" class="link-anchor">
+                        <span class="fa-stack">
+                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="fa fa-code fa-stack-1x"></i>
+                        </span>
+                        {t}Entwickler{/t}
+                    </a></li>{/if}
             </ul>
 
             <div class="tab-content">
@@ -29,6 +50,7 @@
                 <div id="appearance" class="tab-pane fade in active">
                     <br>
 
+                    {*
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="theme">{t}Theme:{/t}</label>
                         <div class="col-sm-10">
@@ -38,13 +60,13 @@
                                 {/foreach}
                             </select>
                         </div>
-                    </div>
+                    </div> *}
 
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="custom_css">{t}CSS-Datei:{/t}</label>
+                        <label class="control-label col-sm-2" for="custom_css">{t}Theme:{/t}</label>
                         <div class="col-sm-10">
                             <select class="form-control" name="custom_css">
-                                <option value="">{t}Standard des verwendeten Themes verwenden{/t}</option>
+                                <option value="">{t}Standardmäßiges Theme{/t}</option>
                                 {foreach $custom_css_loop as $css}
                                     <option value="{$css.value}" {if $css.selected}selected{/if}>{$css.text}</option>
                                 {/foreach}
@@ -157,6 +179,25 @@
                     <hr>
 
                     <div class="form-group">
+                        <label for="modal-container" class="control-label col-sm-2">{t}Bauteilebearbeitung:{/t}</label>
+                        <div class="col-sm-10">
+                            <div class="checkbox">
+                                <input type="checkbox" name="created_redirect" {if $created_redirect} checked{/if}>
+                                <label for="properties_active">{t}Springe zu Bauteileübersicht, nachdem ein neues Teil angelegt wurde.{/t}</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" name="saved_redirect" {if $saved_redirect} checked{/if}>
+                                <label for="properties_active">{t}Springe zu Bauteileübersicht, nachdem ein neues Teil bearbeitet und gespeichert wurde.{/t}</label>
+                            </div>
+                            <p class="help-block">{t}Tipp: Wird der Dialog zur Erzeugung bzw. Bearbeitung von Bauteilen mit einem Rechtsklick bestätigt, so werden obige Einstellungen, für diese Aktion umgekehrt.{/t}<br>
+                                {t}So wird bei einem Rechtsklick auf "Bauteil anlegen", auch ohne oben gesetzen Haken, auf die Übersichtsseite des neuen Bauteils umgeleitet, und umgekehrt.{/t}
+                            </p>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group">
                         <label for="modal-container" class="control-label col-sm-2">{t}Bauteileeigenschaften:{/t}</label>
                         <div class="col-sm-10">
                             <div class="checkbox">
@@ -178,11 +219,7 @@
                                     <input type="checkbox" name="enable_developer_mode" {if $enable_developer_mode} checked{/if}>
                                     <label>{t}Entwickler-Werkzeuge aktivieren (für Entwickler und Tester){/t}</label>
                                 </div>
-
-                                <div class="checkbox">
-                                    <input type="checkbox" name="enable_dokuwiki_write_perms" {if $enable_dokuwiki_write_perms} checked{/if} {if $is_online_demo}disabled{/if}>
-                                    <label>{t}Schreibrechte im DokuWiki aktivieren{/t}</label>
-                                </div>
+                                
                                 <div class="checkbox">
                                     <input type="checkbox" name="enable_debug_link" {if $enable_debug_link} checked{/if}>
                                     <label>{t}Menüpunkt "System -> Debugging" aktivieren{/t}</label>

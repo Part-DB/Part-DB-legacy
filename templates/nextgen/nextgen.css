@@ -218,3 +218,15 @@ table.dataTable tbody th, table.dataTable tbody td {
     font-weight:bold;
 }
 
+/* Show symbol after exteral links */
+a[target="_blank"].link-external:after {
+    content: "\f08e ";
+    font-family: FontAwesome;
+    margin-left: 3px;
+    font-weight: normal;
+    font-size: smaller;
+    font-style: normal;
+    display: inline-block;
+    text-decoration: inherit;
+}
+

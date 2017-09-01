@@ -39,6 +39,7 @@ var AjaxUI = (function () {
         var page = window.location.pathname;
         //Set base path
         BASE = getBasePath();
+        this.checkRedirect();
         //Only load start page when on index.php (and no content is loaded already)!
         if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
             openLink("startup.php");
@@ -50,6 +51,15 @@ var AjaxUI = (function () {
         for (var _i = 0, _a = this.start_listeners; _i < _a.length; _i++) {
             var entry = _a[_i];
             entry();
+        }
+    };
+    /**
+     * Check if the Page should be redirected.
+     */
+    AjaxUI.prototype.checkRedirect = function () {
+        var redirect_url = $("input#redirect_url").val().toString();
+        if (redirect_url != "") {
+            openLink(redirect_url);
         }
     };
     /**
@@ -103,6 +113,7 @@ var AjaxUI = (function () {
             $('#content').hide(0);
             $('#progressbar').show(0);
         }
+        return true;
     };
     /**
      * Unregister the form submit event on every button which has a "submit" class.
@@ -150,7 +161,7 @@ var AjaxUI = (function () {
     AjaxUI.prototype.registerLinks = function () {
         'use strict';
         $("a").not(".link-anchor").not(".link-external").not(".tree-btns")
-            .not(".back-to-top").unbind("click").click(function (event) {
+            .not(".back-to-top").not(".link-datasheet").unbind("click").click(function (event) {
             event.preventDefault();
             var a = $(this);
             var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
@@ -241,6 +252,12 @@ var AjaxUI = (function () {
         this.registerForm();
         this.registerLinks();
         this.registerSubmitBtn();
+        var url = settings.url;
+        if (url.indexOf("#") != -1) {
+            var hash = url.substring(url.indexOf("#"));
+            scrollToAnchor(hash);
+        }
+        this.checkRedirect();
         //Execute the registered handlers.
         for (var _i = 0, _a = this.ajax_complete_listeners; _i < _a.length; _i++) {
             var entry = _a[_i];
@@ -273,6 +290,8 @@ $(function (event) {
     ajaxui.addStartAction(registerJumpToTop);
     ajaxui.addStartAction(fixCurrencyEdits);
     ajaxui.addStartAction(registerAutoRefresh);
+    ajaxui.addStartAction(scrollUpForMsg);
+    ajaxui.addStartAction(rightClickSubmit);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
@@ -281,6 +300,8 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(registerBootstrapSelect);
     ajaxui.addAjaxCompleteAction(fixCurrencyEdits);
     ajaxui.addAjaxCompleteAction(registerAutoRefresh);
+    ajaxui.addAjaxCompleteAction(scrollUpForMsg);
+    ajaxui.addAjaxCompleteAction(rightClickSubmit);
     ajaxui.start();
 });
 /**
@@ -345,6 +366,19 @@ function registerJumpToTop() {
         }, 800);
         return false;
     }).tooltip('show');
+}
+/**
+ * This function add a hidden input element, if a button with the class ".rightclick" is rightclicked.
+ */
+function rightClickSubmit() {
+    var _ajaxui = AjaxUI.getInstance();
+    $("button.rightclick").off("contextmenu").contextmenu(function (event) {
+        event.preventDefault();
+        var form = $(this).closest("form");
+        form.append('<input type="hidden" name="rightclicked" value="true">');
+        _ajaxui.submitFormSubmitBtn(form, this);
+        return false;
+    });
 }
 /**
  * Registers the collapse/expand all buttons of the TreeViews

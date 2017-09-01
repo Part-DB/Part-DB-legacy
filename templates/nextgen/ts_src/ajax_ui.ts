@@ -58,6 +58,8 @@ class AjaxUI {
         //Set base path
         BASE = getBasePath();
 
+        this.checkRedirect();
+
         //Only load start page when on index.php (and no content is loaded already)!
         if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
             openLink("startup.php");
@@ -71,6 +73,17 @@ class AjaxUI {
         for (let entry of this.start_listeners)
         {
             entry();
+        }
+    }
+
+    /**
+     * Check if the Page should be redirected.
+     */
+    public checkRedirect()
+    {
+        let redirect_url : string = $("input#redirect_url").val().toString();
+        if(redirect_url != "") {
+            openLink(redirect_url);
         }
     }
 
@@ -129,12 +142,13 @@ class AjaxUI {
      * @param jqForm
      * @param options
      */
-    private showRequest(formData, jqForm, options) : void {
+    private showRequest(formData, jqForm: JQuery<HTMLElement>, options: JQueryFormOptions) : boolean {
         'use strict';
         if(!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
             $('#progressbar').show(0);
         }
+        return true;
     }
 
     /**
@@ -189,7 +203,7 @@ class AjaxUI {
     private registerLinks() : void {
         'use strict';
         $("a").not(".link-anchor").not(".link-external").not(".tree-btns")
-            .not(".back-to-top").unbind("click").click(function (event) {
+            .not(".back-to-top").not(".link-datasheet").unbind("click").click(function (event) {
             event.preventDefault();
             let a = $(this);
             let href : string = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
@@ -242,15 +256,15 @@ class AjaxUI {
 
         let node_handler = this.onNodeSelected;
 
-        $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree : BootstrapTreeViewNodeData) {
+        $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree : BootstrapTreeViewNodeData[]) {
             $("#tree-categories").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler}).treeview('collapseAll', { silent: true });
         });
 
-        $.getJSON(BASE + 'api.php/1.0.0/tree/devices', function (tree :BootstrapTreeViewNodeData) {
+        $.getJSON(BASE + 'api.php/1.0.0/tree/devices', function (tree :BootstrapTreeViewNodeData[]) {
             $('#tree-devices').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler}).treeview('collapseAll', { silent: true });
         });
 
-        $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree :BootstrapTreeViewNodeData) {
+        $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree :BootstrapTreeViewNodeData[]) {
             $('#tree-tools').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler}).treeview('collapseAll', { silent: true });
         });
     }
@@ -301,6 +315,16 @@ class AjaxUI {
         this.registerLinks();
         this.registerSubmitBtn();
 
+        let url = settings.url;
+
+        if(url.indexOf("#") != -1)
+        {
+            let hash = url.substring(url.indexOf("#"));
+            scrollToAnchor(hash);
+        }
+
+        this.checkRedirect();
+
         //Execute the registered handlers.
         for(let entry of this.ajax_complete_listeners)
         {
@@ -342,6 +366,8 @@ $(function(event){
     ajaxui.addStartAction(registerJumpToTop);
     ajaxui.addStartAction(fixCurrencyEdits);
     ajaxui.addStartAction(registerAutoRefresh);
+    ajaxui.addStartAction(scrollUpForMsg);
+    ajaxui.addStartAction(rightClickSubmit);
 
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
@@ -352,6 +378,8 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(registerBootstrapSelect);
     ajaxui.addAjaxCompleteAction(fixCurrencyEdits);
     ajaxui.addAjaxCompleteAction(registerAutoRefresh);
+    ajaxui.addAjaxCompleteAction(scrollUpForMsg);
+    ajaxui.addAjaxCompleteAction(rightClickSubmit);
 
     ajaxui.start();
 });
@@ -421,6 +449,24 @@ function registerJumpToTop() {
         }, 800);
         return false;
     }).tooltip('show');
+}
+
+/**
+ * This function add a hidden input element, if a button with the class ".rightclick" is rightclicked.
+ */
+function rightClickSubmit()
+{
+    let _ajaxui = AjaxUI.getInstance();
+
+    $("button.rightclick").off("contextmenu").contextmenu(function (event) {
+        event.preventDefault();
+
+        let form = $(this).closest("form");
+        form.append('<input type="hidden" name="rightclicked" value="true">');
+        _ajaxui.submitFormSubmitBtn(form, this);
+
+        return false;
+    });
 }
 
 /**
