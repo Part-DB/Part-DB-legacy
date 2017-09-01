@@ -5,7 +5,7 @@ var BASE = "";
  *                                      AjaxUI Class
  * **************************************************************************************
  ****************************************************************************************/
-var AjaxUI = /** @class */ (function () {
+var AjaxUI = (function () {
     /**
      * Creates a new AjaxUI object.
      */
@@ -113,6 +113,7 @@ var AjaxUI = /** @class */ (function () {
             $('#content').hide(0);
             $('#progressbar').show(0);
         }
+        return true;
     };
     /**
      * Unregister the form submit event on every button which has a "submit" class.
@@ -285,6 +286,7 @@ $(function (event) {
     ajaxui.addStartAction(fixCurrencyEdits);
     ajaxui.addStartAction(registerAutoRefresh);
     ajaxui.addStartAction(scrollUpForMsg);
+    ajaxui.addStartAction(rightClickSubmit);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
@@ -294,6 +296,7 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(fixCurrencyEdits);
     ajaxui.addAjaxCompleteAction(registerAutoRefresh);
     ajaxui.addAjaxCompleteAction(scrollUpForMsg);
+    ajaxui.addAjaxCompleteAction(rightClickSubmit);
     ajaxui.start();
 });
 /**
@@ -358,6 +361,19 @@ function registerJumpToTop() {
         }, 800);
         return false;
     }).tooltip('show');
+}
+/**
+ * This function add a hidden input element, if a button with the class ".rightclick" is rightclicked.
+ */
+function rightClickSubmit() {
+    var _ajaxui = AjaxUI.getInstance();
+    $("button.rightclick").off("contextmenu").contextmenu(function (event) {
+        event.preventDefault();
+        var form = $(this).closest("form");
+        form.append('<input type="hidden" name="rightclicked" value="true">');
+        _ajaxui.submitFormSubmitBtn(form, this);
+        return false;
+    });
 }
 /**
  * Registers the collapse/expand all buttons of the TreeViews

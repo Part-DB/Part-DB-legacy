@@ -359,6 +359,7 @@ $(function(event){
     ajaxui.addStartAction(fixCurrencyEdits);
     ajaxui.addStartAction(registerAutoRefresh);
     ajaxui.addStartAction(scrollUpForMsg);
+    ajaxui.addStartAction(rightClickSubmit);
 
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
@@ -370,6 +371,7 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(fixCurrencyEdits);
     ajaxui.addAjaxCompleteAction(registerAutoRefresh);
     ajaxui.addAjaxCompleteAction(scrollUpForMsg);
+    ajaxui.addAjaxCompleteAction(rightClickSubmit);
 
     ajaxui.start();
 });
@@ -439,6 +441,24 @@ function registerJumpToTop() {
         }, 800);
         return false;
     }).tooltip('show');
+}
+
+/**
+ * This function add a hidden input element, if a button with the class ".rightclick" is rightclicked.
+ */
+function rightClickSubmit()
+{
+    let _ajaxui = AjaxUI.getInstance();
+
+    $("button.rightclick").off("contextmenu").contextmenu(function (event) {
+        event.preventDefault();
+
+        let form = $(this).closest("form");
+        form.append('<input type="hidden" name="rightclicked" value="true">');
+        _ajaxui.submitFormSubmitBtn(form, this);
+
+        return false;
+    });
 }
 
 /**
