@@ -23,6 +23,7 @@
 
 <input type="hidden" id="basepath" value="{$relative_path}">
 <input type="hidden" id="autorefresh" value="{$autorefresh}">
+<input type="hidden" id="redirect_url" value="{$redirect_url}">
 
 
 </div> <!-- content-data -->

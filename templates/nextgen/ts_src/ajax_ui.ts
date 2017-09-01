@@ -58,6 +58,8 @@ class AjaxUI {
         //Set base path
         BASE = getBasePath();
 
+        this.checkRedirect();
+
         //Only load start page when on index.php (and no content is loaded already)!
         if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
             openLink("startup.php");
@@ -71,6 +73,17 @@ class AjaxUI {
         for (let entry of this.start_listeners)
         {
             entry();
+        }
+    }
+
+    /**
+     * Check if the Page should be redirected.
+     */
+    public checkRedirect()
+    {
+        let redirect_url : string = $("input#redirect_url").val().toString();
+        if(redirect_url != "") {
+            openLink(redirect_url);
         }
     }
 
@@ -300,6 +313,8 @@ class AjaxUI {
         this.registerForm();
         this.registerLinks();
         this.registerSubmitBtn();
+
+        this.checkRedirect();
 
         //Execute the registered handlers.
         for(let entry of this.ajax_complete_listeners)

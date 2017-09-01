@@ -5,7 +5,7 @@ var BASE = "";
  *                                      AjaxUI Class
  * **************************************************************************************
  ****************************************************************************************/
-var AjaxUI = (function () {
+var AjaxUI = /** @class */ (function () {
     /**
      * Creates a new AjaxUI object.
      */
@@ -39,6 +39,7 @@ var AjaxUI = (function () {
         var page = window.location.pathname;
         //Set base path
         BASE = getBasePath();
+        this.checkRedirect();
         //Only load start page when on index.php (and no content is loaded already)!
         if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
             openLink("startup.php");
@@ -50,6 +51,15 @@ var AjaxUI = (function () {
         for (var _i = 0, _a = this.start_listeners; _i < _a.length; _i++) {
             var entry = _a[_i];
             entry();
+        }
+    };
+    /**
+     * Check if the Page should be redirected.
+     */
+    AjaxUI.prototype.checkRedirect = function () {
+        var redirect_url = $("input#redirect_url").val().toString();
+        if (redirect_url != "") {
+            openLink(redirect_url);
         }
     };
     /**
@@ -241,6 +251,7 @@ var AjaxUI = (function () {
         this.registerForm();
         this.registerLinks();
         this.registerSubmitBtn();
+        this.checkRedirect();
         //Execute the registered handlers.
         for (var _i = 0, _a = this.ajax_complete_listeners; _i < _a.length; _i++) {
             var entry = _a[_i];

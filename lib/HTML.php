@@ -64,6 +64,8 @@ class HTML
     private $variables          = array();
     /** @var array loops for the HTML template */
     private $loops              = array();
+    /** @var string  */
+    private $redirect_url       = "";
 
     /********************************************************************************
      *
@@ -166,6 +168,22 @@ class HTML
 
         $this->meta['title'] = $new_title;
     }
+
+    /**
+     * Redirects the User to a other page (must be part of Part-DB), using ajax.
+     * Note, that the redirect happens when footer is printed.
+     * @param $url string The URL to which should be redirected. Set to empty string, to disable redirect
+     */
+    public function redirect($url)
+    {
+        if(!is_string($url))
+        {
+            throw new \InvalidArgumentException(_('$url must be a valid a string'));
+        }
+
+        $this->redirect_url = $url;
+    }
+
 
     /**
      * Set all JavaScript filenames which must be included in the HTML header.
@@ -472,8 +490,9 @@ class HTML
         //Prevents XSS
         $tmpl->escape_html = true;
 
-        $tmpl->display($smarty_template);
-        //}
+        if($this->redirect_url == "") { //Dont print template, if the page should be redirected.
+            $tmpl->display($smarty_template);
+        }
     }
 
     /**
@@ -523,6 +542,8 @@ class HTML
             $renderer = PDBDebugBar::getInstance()->getRenderer();
             $tmpl->assign("debugbar_body", $renderer->render(!isset($_REQUEST['ajax_request'])));
         }
+
+        $tmpl->assign("redirect_url", $this->redirect_url);
 
         //Remove white space from Output
         $tmpl->loadFilter('output', 'trimwhitespace');
