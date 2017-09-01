@@ -23,76 +23,78 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-    include_once('start_session.php');
+include_once('start_session.php');
 
-    $messages = array();
-    $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
+use PartDB\HTML;
 
-    /********************************************************************************
-    *
-    *   Check if all installation steps are done. If not, go to the installer.
-    *
-    *********************************************************************************/
+$messages = array();
+$fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
-    if (( ! is_array($config['installation_complete']))
-        || in_array(false, $config['installation_complete'], true)) // is at least one array item 'false'?...
+/********************************************************************************
+ *
+ *   Check if all installation steps are done. If not, go to the installer.
+ *
+ *********************************************************************************/
+
+if ((! is_array($config['installation_complete']))
+    || in_array(false, $config['installation_complete'], true)) { // is at least one array item 'false'?...
+    header('Location: install.php'); // ...then go to the installation page
+    exit;
+}
+
+/********************************************************************************
+ *
+ *   Initialize Objects
+ *
+ *********************************************************************************/
+
+$html = new HTML($config['html']['theme'], $config['html']['custom_css'], $config['page_title']);
+$html->setVariable('title', $config['page_title'], 'string');
+
+/********************************************************************************
+ *
+ *   Check if client is a mobile device
+ *
+ *********************************************************************************/
+
+/*$mobile = false;
+if (isset($_SERVER["HTTP_USER_AGENT"]))
+{
+    $agents = array(
+        'Windows CE', 'Pocket', 'Mobile',
+        'Portable', 'Smartphone', 'SDA',
+        'PDA', 'Handheld', 'Symbian',
+        'WAP', 'Palm', 'Avantgo',
+        'cHTML', 'BlackBerry', 'Opera Mini',
+        'Nokia', 'PSP', 'J2ME'
+    );
+
+    foreach ($agents as $agent)
     {
-        header('Location: install.php'); // ...then go to the installation page
-        exit;
-    }
-
-    /********************************************************************************
-    *
-    *   Initialize Objects
-    *
-    *********************************************************************************/
-
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], $config['page_title']);
-    $html->set_variable('title', $config['page_title'], 'string');
-
-    /********************************************************************************
-    *
-    *   Check if client is a mobile device
-    *
-    *********************************************************************************/
-
-    /*$mobile = false;
-    if (isset($_SERVER["HTTP_USER_AGENT"]))
-    {
-        $agents = array(
-            'Windows CE', 'Pocket', 'Mobile',
-            'Portable', 'Smartphone', 'SDA',
-            'PDA', 'Handheld', 'Symbian',
-            'WAP', 'Palm', 'Avantgo',
-            'cHTML', 'BlackBerry', 'Opera Mini',
-            'Nokia', 'PSP', 'J2ME'
-        );
-
-        foreach ($agents as $agent)
+        if (strpos($_SERVER["HTTP_USER_AGENT"], $agent))
         {
-            if (strpos($_SERVER["HTTP_USER_AGENT"], $agent))
-            {
-                $mobile = true;
-                break;
-            }
+            $mobile = true;
+            break;
         }
     }
+}
 
-    $html->set_variable('mobile', $mobile, 'boolean');*/
+$html->set_variable('mobile', $mobile, 'boolean');*/
 
-    /********************************************************************************
-    *
-    *   Generate HTML Output
-    *
-    *********************************************************************************/
+/********************************************************************************
+ *
+ *   Generate HTML Output
+ *
+ *********************************************************************************/
 
-    if (count($messages) == 0)
-        $html->set_meta(array('frameset' => true));
+if (count($messages) == 0) {
+    $html->setMeta(array('frameset' => true));
+}
 
-    $html->print_header($messages, 'index.php','', true);
+$html->printHeader($messages, 'index.php', '', true);
 
-    if (( ! $fatal_error) && (count($messages) == 0))
-        $html->print_template('frameset');
+if ((! $fatal_error) && (count($messages) == 0)) {
+    $html->printTemplate('frameset');
+}
 
-    $html->print_footer();
-
+$html->printFooter();

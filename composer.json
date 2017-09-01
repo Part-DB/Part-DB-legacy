@@ -1,0 +1,47 @@
+{
+  "name": "part-db/server",
+  "description": "Part-DB is a tool for managment of electronic parts.",
+  "version": "0.4.0",
+  "type": "project",
+  "keywords": ["database", "electronic", "application"],
+  "homepage": "https://github.com/jbtronics/Part-DB",
+  "support": {
+    "issues": "https://github.com/jbtronics/Part-DB/issues",
+    "forum": "https://www.mikrocontroller.net/topic/305023",
+    "wiki": "https://github.com/jbtronics/Part-DB/wiki"
+  },
+  "license": "GPL-2.0+",
+
+  "require": {
+    "php": ">=5.4",
+    "ext-mbstring": "*",
+    "ext-pdo": "*",
+    "ext-pdo_mysql": "*",
+    "ext-gettext": "*",
+    "golonka/bbcodeparser": "~v2.2.2",
+    "smarty/smarty": "~3.1",
+    "smarty-gettext/smarty-gettext": "~1.5.1",
+    "tecnickcom/tcpdf": "dev-master",
+    "slim/slim": "3.*",
+    "maximebf/debugbar": "1.*"
+  },
+
+  "require-dev": {
+    "squizlabs/php_codesniffer": "3.*"
+  },
+
+  "suggest": {
+    "phpunit/phpunit": "Needed for unittests in development."
+  },
+
+  "repositories": [
+    {
+      "type": "vcs",
+      "url":  "git@github.com:jbtronics/Part-DB_tcpdf.git"
+    }
+  ],
+
+  "autoload": {
+    "psr-4": {"PartDB\\": "lib/"}
+  }
+}

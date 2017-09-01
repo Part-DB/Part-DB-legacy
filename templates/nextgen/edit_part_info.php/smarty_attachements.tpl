@@ -14,7 +14,7 @@
                             {else}
                                 {if isset($attach.picture_filename)}
                                     <a href="{$attach.picture_filename}">
-                                        <img style="max-height:180px; max-width:180px" src="{$attach.picture_filename}" alt="{$attach.name}">
+                                        <img style="max-height:180px; max-width:180px;" src="{$attach.picture_filename}" alt="{$attach.name}">
                                     </a>
                                 {else}
                                     {if isset($attach.filename)}

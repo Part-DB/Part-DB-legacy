@@ -52,11 +52,11 @@
         </div>
         <div class="panel-body">
             Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>
-            <blockquote>{$missing_category}eine <a href="edit_categories.php" target="content_frame">{t}Kategorie{/t}</a> </blockquote>hinzufügt werden muss.<br><br>
+            <blockquote>{$missing_category nofilter}eine <a href="edit_categories.php" target="content_frame">{t}Kategorie{/t}</a> </blockquote>hinzufügt werden muss.<br><br>
             Um das Potential der Suchfunktion zu nutzen, wird empfohlen
-            <blockquote>{$missing_storeloc}einen <a href="edit_storelocations.php">{t}Lagerort{/t}</a> </blockquote>
-            <blockquote>{$missing_footprint}einen <a href="edit_footprints.php">{t}Footprint{/t}</a> </blockquote>
-            <blockquote>{$missing_supplier}und einen <a href="edit_suppliers.php">{t}Lieferanten{/t}</a> </blockquote>
+            <blockquote>{$missing_storeloc nofilter}einen <a href="edit_storelocations.php">{t}Lagerort{/t}</a> </blockquote>
+            <blockquote>{$missing_footprint nofilter}einen <a href="edit_footprints.php">{t}Footprint{/t}</a> </blockquote>
+            <blockquote>{$missing_supplier nofilter}und einen <a href="edit_suppliers.php">{t}Lieferanten{/t}</a> </blockquote>
             anzugeben.
         </div>
     </div>

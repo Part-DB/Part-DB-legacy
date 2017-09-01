@@ -1,3 +1,5 @@
+<!--suppress Annotator -->
+
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-primary">
     <div class="panel-heading">{t}Kategorie wählen{/t}</div>
@@ -20,25 +22,25 @@
                 {counter start=0 assign="count"}
                 {foreach $cat.pictures_loop as $pic}
                     {if $count%4==0}
-                    <div class="row">
+                        <div class="row">
                     {/if}
-                        <div class="col-xs-3">
-                            <div class="thumbnail" >
-                                <img src="{$pic.filename}"  title="{$pic.title}" alt="">
-                                <div class="caption"><p>{$pic.title}</p></div>
-                            </div>
+                    <div class="col-xs-3">
+                        <div class="thumbnail" >
+                            <img src="{$pic.filename}"  title="{$pic.title}" alt="">
+                            <div class="caption"><p>{$pic.title}</p></div>
                         </div>
+                    </div>
                     {counter}
                     {if $count%4==0}
-                    </div>
+                        </div>
                     {/if}
                 {/foreach}
-                
+
                 {if $count%4>=0}
-                    </div>
+                </div>
                 {/if}
-            </div>
-            
+        </div>
+
         </div>
     {/foreach}
 {/if}

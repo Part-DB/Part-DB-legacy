@@ -124,7 +124,7 @@
                     {/if}
                     {if $row.caption == "name_edit"}
                         {* name edit *}
-                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:150px" name="name_{$row.row_index}" value="{$row.name}"></td>
+                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:150px;" name="name_{$row.row_index}" value="{$row.name}"></td>
                     {/if}
                     {if $row.caption == "description"}
                         {* description *}
@@ -132,7 +132,7 @@
                     {/if}
                     {if $row.caption == "description_edit"}
                         {* description edit *}
-                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:150px" name="description_{$row.row_index}" value="{$row.description nofilter}"></td>
+                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:150px;" name="description_{$row.row_index}" value="{$row.description nofilter}"></td>
                     {/if}
                     {if $row.caption == "comment"}
                         {* comment *}
@@ -140,7 +140,7 @@
                     {/if}
                     {if $row.caption == "comment_edit"}
                         {* comment edit *}
-                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:150px" name="comment_{$row.row_index}" value="{$row.comment nofilter}"></td>
+                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:150px;" name="comment_{$row.row_index}" value="{$row.comment nofilter}"></td>
                     {/if}
                     {if $row.caption == "name_description"}
                         {* name/comment/description *}
@@ -159,7 +159,7 @@
                     {/if}
                     {if $row.caption == "instock_edit"}
                         {* instock edit *}
-                        <td class="tdrow1"><input type="number" class="form-control input-sm" style="max-width: 75px" name="instock_{$row.row_index}" value="{$row.instock}"></td>
+                        <td class="tdrow1"><input type="number" class="form-control input-sm" style="max-width: 75px;" name="instock_{$row.row_index}" value="{$row.instock}"></td>
                     {/if}
                     {if $row.caption == "order_quantity_edit"}
                         {* order quantity edit (only for order parts)  *}
@@ -176,7 +176,7 @@
                     {/if}
                     {if $row.caption == "mininstock_edit"}
                         {* instock edit *}
-                        <td class="tdrow1"><input type="number" min="0" class="form-control input-sm" style="max-width: 75px" name="mininstock_{$row.row_index}" value="{$row.mininstock}"></td>
+                        <td class="tdrow1"><input type="number" min="0" class="form-control input-sm" style="max-width: 75px;" name="mininstock_{$row.row_index}" value="{$row.mininstock}"></td>
                     {/if}
                     {if $row.caption == "instock_mininstock"}
                         {* instock/mininstock *}
@@ -192,7 +192,7 @@
                     {/if}
                     {if $row.caption == "category_edit"}
                         {* category edit *}
-                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:100px" name="category_{$row.row_index}" value="{$row.category_name}"></td>
+                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:100px;" name="category_{$row.row_index}" value="{$row.category_name}"></td>
                     {/if}
                     {if !$disable_footprints}
                         {if $row.caption == "footprint"}
@@ -205,7 +205,7 @@
                         {/if}
                         {if $row.caption == "footprint_edit"}
                             {* footprint edit (only for import parts) *}
-                            <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:100px" name="footprint_{$row.row_index}" value="{$row.footprint_name}"></td>
+                            <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:100px;" name="footprint_{$row.row_index}" value="{$row.footprint_name}"></td>
                         {/if}
                     {/if}
                     {if !isset($disable_manufacturers) || !$disable_manufacturers }
@@ -217,7 +217,7 @@
                         {/if}
                         {if $row.caption == "manufacturer_edit"}
                             {* manufacturer edit *}
-                            <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:100px" name="manufacturer_{$row.row_index}" value="{$row.manufacturer_name}"></td>
+                            <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:100px;" name="manufacturer_{$row.row_index}" value="{$row.manufacturer_name}"></td>
                         {/if}
                     {/if}
                     {if $row.caption == "storelocation"}
@@ -230,7 +230,7 @@
                     {/if}
                     {if $row.caption == "storelocation_edit"}
                         {* storelocation edit *}
-                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:100px" name="storelocation_{$row.row_index}" value="{$row.storelocation_name}"></td>
+                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:100px;" name="storelocation_{$row.row_index}" value="{$row.storelocation_name}"></td>
                     {/if}
                     {if $row.caption == "datasheets"}
                         {if !$disable_auto_datasheets}
@@ -273,7 +273,7 @@
                         {* quantity for DevicePart elements *}
                         <td class="tdrow1" nowrap>
                            <div class="input-group">
-                                <input type="text" class="form-control input-sm" style="width:45px" name="quantity_{$row.row_index}" value="{if isset($row.quantity)}{$row.quantity}{else}0{/if}">
+                                <input type="text" class="form-control input-sm" style="width:45px;" name="quantity_{$row.row_index}" value="{if isset($row.quantity)}{$row.quantity}{else}0{/if}">
                                 <div class="input-group-btn">
                                     <button class="btn btn-default btn-sm" type="button" onClick="elements['quantity_{$row.row_index}'].value=0">
                                     <span class="glyphicon glyphicon-remove"></span></button>
@@ -299,7 +299,7 @@
                     {/if}
                     {if $row.caption == "supplier_edit"}
                         {* supplier edit (only for import parts) *}
-                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:100px" name="supplier_{$row.row_index}" value="{$row.supplier_name}"></td>
+                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:100px;" name="supplier_{$row.row_index}" value="{$row.supplier_name}"></td>
                     {/if}
                     {if $row.caption == "suppliers_radiobuttons"}
                         {* supplier-radiobuttons (only for order parts) *}
@@ -358,7 +358,7 @@
                     {/if}
                     {if $row.caption == "supplier_partnr_edit"}
                         {* supplier part-nr edit *}
-                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:120px" name="supplier_partnr_{$row.row_index}" value="{$row.supplier_partnr}"></td>
+                        <td class="tdrow1"><input type="text" class="form-control input-sm" style="width:120px;" name="supplier_partnr_{$row.row_index}" value="{$row.supplier_partnr}"></td>
                     {/if}
                     {if $row.caption == "attachements"}
                         {* attachements (names with hyperlinks) *}
@@ -371,25 +371,25 @@
                     {/if}
                     {if $row.caption == "systemupdate_from_version"}
                         {* only for systemupdates *}
-                        <td class="tdrow1{if  $row.stable} backgreen{/if}" style="min-width:100px">
+                        <td class="tdrow1{if  $row.stable} backgreen{/if}" style="min-width:100px;">
                             {$from_version}
                         </td>
                     {/if}
                     {if $row.caption == "systemupdate_to_version"}
                         {* only for systemupdates *}
-                        <td class="tdrow1{if $row.stable} backgreen{/if}" style="min-width:100px">
+                        <td class="tdrow1{if $row.stable} backgreen{/if}" style="min-width:100px;">
                             <b>{$to_version}</b>
                         </td>
                     {/if}
                     {if $row.caption == "systemupdate_release_date"}
                         {* only for systemupdates *}
-                        <td class="tdrow1{if $row.stable} backgreen{/if}" style="min-width:100px">
+                        <td class="tdrow1{if $row.stable} backgreen{/if}" style="min-width:100px;">
                             {$release_date}
                         </td>
                     {/if}
                     {if $row.caption == "systemupdate_changelog"}
                         {* only for systemupdates *}
-                        <td class="tdrow1{if $row.stable} backgreen{/if}" style="min-width:100px">
+                        <td class="tdrow1{if $row.stable} backgreen{/if}" style="min-width:100px;">
                             {foreach $changelog as $change}
                                 {if isset($change.log_item)}&nbsp;&bull;&nbsp;{$change.log_item}<br>{/if}
                             {/foreach}

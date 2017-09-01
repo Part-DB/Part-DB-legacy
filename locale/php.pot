@@ -810,7 +810,7 @@ msgid "$database ist kein Database-Objekt"
 msgstr ""
 
 #: lib/class.Part.php:242
-msgid "Barcode type unknown: "
+msgid "Label type unknown: "
 msgstr ""
 
 #: lib/class.Part.php:1265
@@ -908,7 +908,7 @@ msgid "Es wurde keine gültige Bauteil-ID übermittelt!"
 msgstr ""
 
 #: show_part_info.php:64
-msgid "Barcode input is not valid!"
+msgid "Label input is not valid!"
 msgstr ""
 
 #: show_part_info.php:81 show_part_info.php:182

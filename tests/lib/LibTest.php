@@ -17,17 +17,17 @@ class LibTest extends PHPUnit_Framework_TestCase
 
     public function testOddDetect()
     {
-        $this->assertTrue(is_odd(3));
+        $this->assertTrue(isOdd(3));
     }
 
     public function testEvenDetect()
     {
-        $this->assertFalse(is_odd(4));
+        $this->assertFalse(isOdd(4));
     }
 
     public function test_toUnixPath()
     {
-        $this->assertEquals(to_unix_path("\\test\\test.jpg"),"/test/test.jpg");
+        $this->assertEquals(toUnixPath("\\test\\test.jpg"),"/test/test.jpg");
     }
 
 

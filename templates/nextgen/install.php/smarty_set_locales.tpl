@@ -1,23 +1,22 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-
+<!--suppress Annotator -->
 <div class="panel panel-default">
     <div class="panel-heading"><i class="fa fa-book" aria-hidden="true"></i>&nbsp;
         {t}Willkommen bei Part-DB!{/t}</div>
     <div class="panel-body">
         Part-DB, Copyright &copy; 2005 of <strong>Christoph Lechner</strong>. Part-DB is published under the <strong>GPL</strong>, so it comes with <strong>ABSOLUTELY NO WARRANTY</strong>, click <a href="{$relative_path}readme/gpl.txt">here</a> for details. This is free software, and you are welcome to redistribute it under certain conditions. Click <a href="{$relative_path}readme/gpl.txt">here</a> for details.<br>
         <br>
-        <strong>{t}Projektseite:{/t}</strong> {t escape=off}Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a target="_blank" href="https://github.com/sandboxgangster/Part-DB">GitHub Projektseite</a>{/t}<br>
+        <strong>{t}Projektseite:{/t}</strong> {t escape=off}Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a target="_blank" href="https://github.com/jbtronics/Part-DB">GitHub Projektseite</a>{/t}<br>
         <strong>{t}Forum:{/t}</strong> {t escape=off}Für Fragen rund um die Part-DB gibt es einen Thread auf <a target="_blank" href="https://www.mikrocontroller.net/topic/305023">mikrocontroller.net</a>{/t}<br>
         <strong>{t}Wiki:{/t}</strong> {t escape=off}Weitere Informationen gibt es im <a target="_blank" href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Artikel{/t}</a>
     </div>
     <br>
-    <div style="background-color:#FFFC86">
+    <div style="background-color:#FFFC86;">
         <table><tr>
                 <td><img src="{$relative_path}img/partdb/help.png"></td>
                 <td>
-                    <strong>{t escape=off}In der <a href="{$relative_path}documentation/dokuwiki/index.php" target="_blank">Dokumentation</a> gibt es eine Installationsanleitung, FAQ und weitere Informationen.</strong><br>
-                    Davon gibt es auch eine (meistens aktuellere) <a href="http://www.partdb.grautier.com/svn/documentation/dokuwiki/index.php" target="_blank">Online-Version</a>.{/t}
+                    <strong>{t escape=off}In der <a href="https://github.com/jbtronics/Part-DB/wiki" target="_blank">Dokumentation</a> gibt es eine Installationsanleitung, FAQ und weitere Informationen.</strong><br>{/t}
                 </td>
             </tr></table>
     </div>

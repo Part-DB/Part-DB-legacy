@@ -1,6 +1,9 @@
-[![Build Status](https://travis-ci.org/do9jhb/Part-DB.svg?branch=nextgen)](https://travis-ci.org/do9jhb/Part-DB)
-
 # Part-DB
+
+**Achtung: Nach dem Update auf die aktuelle Version, muss im Part-DB Homeverzeichniss der Befehl
+`php composer.phar install` ausgeführt werden, damit Part-DB funktioniert!
+Sollte dies nicht möglich sein, dann muss der Ordner `vendor/` aus einem mit composer eingerichtetem
+Part-DB kopiert werden.**
 
 ### Beschreibung
 
@@ -21,17 +24,21 @@ Part-DB ist eine webbasierte Datenbank zum Verwalten von Elektronischen Bauteile
  * Verschiedene mitgelieferte Themes
  * 3D Footprints
  * Unterstützung von BBCode, in den Bauteilen
+ * Suche mittels regulärer Ausdrücke
+ * Auflistung von Teilen in einem Lagerort, mit einem bestimmten Footprint oder einem bestimmten Hersteller
+ * automatische Erzeugung einer Tabelle mit Bauteileigenschaften aus dem Beschreibungsfeld.
  * nutzt HTML5, mobile Ansicht
 
 ### Anforderungen
 
  * Webserver mit ca. 10MB Platz (ohne Footprints)
- * PHP >= 5.3.0
+ * PHP >= 5.4.0, mit PDO und mbstring
  * MySQL/MariaDB Datenbank
 
 ### Lizenz
-
-Mit Ausnahme des JavaScript-Menü stehen alle Module unter der GPL. Das JavaScript-Menü ist Bierware. Somit ist eine kommerzielle Nutzung nur möglich, wenn es vom Ersteller des Menüs genehmigt wird.
+Part-DB steht unter der [General Public License Version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.de.html).
+Zusätzlich verwendet Part-DB einige Bibliotheken, die andere Lizenzen verwenden. 
+Genaue infos hierzu liefert readme/EXTERNAL_LIBS.md
 
 ### Installationsanleitung & Dokumentation
 

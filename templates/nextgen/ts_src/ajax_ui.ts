@@ -1,7 +1,5 @@
 //import {addURLparam, openInNewTab, openLink, scrollUpForMsg} from "./functions";
 
-"use_strict";
-
 let BASE="";
 
 
@@ -220,7 +218,7 @@ class AjaxUI {
      */
     private onNodeSelected(event, data : BootstrapTreeViewNodeData) {
         'use strict';
-        if(data.href.indexOf("github.com") !== -1 || data.href.indexOf("doxygen") !== -1)  //If the href points to github, then open it in new tab. TODO: Find better solution to detect external links.
+        if(data.href.indexOf("github.com") !== -1 || data.href.indexOf("phpdoc") !== -1)  //If the href points to github, then open it in new tab. TODO: Find better solution to detect external links.
         {
             openInNewTab(data.href);
             $(this).treeview('toggleNodeSelected',data.nodeId);
@@ -244,15 +242,15 @@ class AjaxUI {
 
         let node_handler = this.onNodeSelected;
 
-        $.getJSON(BASE + 'api_json.php?mode="tree_category"', function (tree : BootstrapTreeViewNodeData) {
+        $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree : BootstrapTreeViewNodeData) {
             $("#tree-categories").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler}).treeview('collapseAll', { silent: true });
         });
 
-        $.getJSON(BASE + 'api_json.php?mode="tree_devices"', function (tree :BootstrapTreeViewNodeData) {
+        $.getJSON(BASE + 'api.php/1.0.0/tree/devices', function (tree :BootstrapTreeViewNodeData) {
             $('#tree-devices').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler}).treeview('collapseAll', { silent: true });
         });
 
-        $.getJSON(BASE + 'api_json.php?mode="tree_tools"', function (tree :BootstrapTreeViewNodeData) {
+        $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree :BootstrapTreeViewNodeData) {
             $('#tree-tools').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler}).treeview('collapseAll', { silent: true });
         });
     }
@@ -337,7 +335,7 @@ let ajaxui : AjaxUI = AjaxUI.getInstance();
 /**
  * Register the events which has to be run in AjaxUI and start the execution.
  */
-$(document).ready(function(event){
+$(function(event){
 
     ajaxui.addStartAction(addCollapsedClass);
     ajaxui.addStartAction(treeviewBtnInit);
@@ -423,7 +421,7 @@ function registerJumpToTop() {
         }, 800);
         return false;
     }).tooltip('show');
-};
+}
 
 /**
  * Registers the collapse/expand all buttons of the TreeViews

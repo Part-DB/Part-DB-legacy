@@ -3,6 +3,7 @@
 
 {if !isset($ajax_request) || !ajax_request}
 <!DOCTYPE html>
+<!--suppress JSUnresolvedLibraryURL -->
 <html lang="{if isset($lang)}{$lang}{else}en{/if}">
     <head>
         {if isset($http_charset)}<meta charset={$http_charset}>
@@ -71,7 +72,8 @@
         {/foreach}
         {/if} *}
                
-
+        <!-- PHP Debugbar -->
+        {if isset($debugbar_head)}{$debugbar_head nofilter}{/if}
 
 
 
@@ -207,7 +209,7 @@
                     <div class="container-fluid container-progress" id="progressbar" hidden>
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0"
-                                aria-valuemax="100" style="width: 100%">
+                                aria-valuemax="100" style="width: 100%;">
                                 <span>{t}Lade{/t}</span>
                             </div>
                         </div>
@@ -227,11 +229,11 @@
                        {if isset($messages)}
                        {assign "alert_style" "alert-info"}
                        {foreach $messages as $msg}
-                            {if $msg.color == "red"}
+                            {if isset($msg.color) && $msg.color == "red"}
                                 {assign "alert_style" "alert-danger"}
-                            {elseif $msg.color == "green" || $msg.color == "darkgreen"}
+                            {elseif isset($msg.color) && ( $msg.color == "green" || $msg.color == "darkgreen")}
                                  {assign "alert_style" "alert-success"}
-                            {elseif $msg.color == "yellow" || $msg.color == "orange"}
+                            {elseif isset($msg.color) && ($msg.color == "yellow" || $msg.color == "orange")}
                                  {assign "alert_style" "alert-warning"}
                             {/if}
                        {/foreach}
