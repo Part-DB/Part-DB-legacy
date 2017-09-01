@@ -237,7 +237,7 @@
                             {* datasheet links with icons *}
                             <td class="tdrow5" nowrap>
                                 {foreach $row.datasheets as $sheet }
-                                    <a class="link-external" title="{$sheet.name}" href="{$sheet.url}" target="_blank"><img class="companypic" src="{$relative_path}{$sheet.image}" alt="{$sheet.name}"></a>
+                                    <a class="link-datasheet datasheet" title="{$sheet.name}" href="{$sheet.url}" target="_blank"><img class="companypic" src="{$relative_path}{$sheet.image}" alt="{$sheet.name}"></a>
                                 {/foreach}
                             </td>
                         {/if}

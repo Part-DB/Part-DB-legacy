@@ -202,7 +202,7 @@ class AjaxUI {
     private registerLinks() : void {
         'use strict';
         $("a").not(".link-anchor").not(".link-external").not(".tree-btns")
-            .not(".back-to-top").unbind("click").click(function (event) {
+            .not(".back-to-top").not(".link-datasheet").unbind("click").click(function (event) {
             event.preventDefault();
             let a = $(this);
             let href : string = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
