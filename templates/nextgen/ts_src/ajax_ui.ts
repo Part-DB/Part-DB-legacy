@@ -315,6 +315,14 @@ class AjaxUI {
         this.registerLinks();
         this.registerSubmitBtn();
 
+        let url = settings.url;
+
+        if(url.indexOf("#") != -1)
+        {
+            let hash = url.substring(url.indexOf("#"));
+            scrollToAnchor(hash);
+        }
+
         this.checkRedirect();
 
         //Execute the registered handlers.

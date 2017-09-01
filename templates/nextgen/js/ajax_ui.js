@@ -252,6 +252,11 @@ var AjaxUI = (function () {
         this.registerForm();
         this.registerLinks();
         this.registerSubmitBtn();
+        var url = settings.url;
+        if (url.indexOf("#") != -1) {
+            var hash = url.substring(url.indexOf("#"));
+            scrollToAnchor(hash);
+        }
         this.checkRedirect();
         //Execute the registered handlers.
         for (var _i = 0, _a = this.ajax_complete_listeners; _i < _a.length; _i++) {
