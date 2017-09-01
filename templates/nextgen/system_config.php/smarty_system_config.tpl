@@ -157,6 +157,22 @@
                     <hr>
 
                     <div class="form-group">
+                        <label for="modal-container" class="control-label col-sm-2">{t}Bauteilebearbeitung:{/t}</label>
+                        <div class="col-sm-10">
+                            <div class="checkbox">
+                                <input type="checkbox" name="created_redirect" {if $created_redirect} checked{/if}>
+                                <label for="properties_active">{t}Springe zu Bauteileübersicht, nachdem ein neues Teil angelegt wurde.{/t}</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" name="saved_redirect" {if $saved_redirect} checked{/if}>
+                                <label for="properties_active">{t}Springe zu Bauteileübersicht, nachdem ein neues Teil bearbeitet und gespeichert wurde.{/t}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <hr>
+
+                    <div class="form-group">
                         <label for="modal-container" class="control-label col-sm-2">{t}Bauteileeigenschaften:{/t}</label>
                         <div class="col-sm-10">
                             <div class="checkbox">
