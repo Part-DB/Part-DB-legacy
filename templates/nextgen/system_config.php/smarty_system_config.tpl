@@ -13,15 +13,36 @@
 
         <form class="form-horizontal" action="" method="post" class="no-progbar">
 
-            <p><i>{t}Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere Einstellungen kann man direkt in der "config.php" vornehmen. Mögliche Parameter entnehmen Sie bitte der "config_defaults.php" oder der Dokumentation.{/t}</i></p>
+            <p>{t}Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere Einstellungen kann man direkt in der "config.php" vornehmen. Mögliche Parameter entnehmen Sie bitte der "config_defaults.php" oder der Dokumentation.{/t}</p>
 
             <hr>
 
             <ul class="nav nav-tabs">
-                <li class="active"><a data-toggle="tab" href="#appearance" class="link-anchor">{t}Aussehen{/t}</a></li>
-                <li><a data-toggle="tab" href="#features" class="link-anchor">{t}Funktionen{/t}</a></li>
-                <li><a data-toggle="tab" href="#misc" class="link-anchor">{t}Sonstiges{/t}</a></li>
-                {if $developer_mode_available}<li><a data-toggle="tab" href="#dev" class="link-anchor">{t}Entwickler{/t}</a></li>{/if}
+                <li class="active"><a data-toggle="tab" href="#appearance" class="link-anchor">
+                        <span class="fa-stack">
+                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="fa fa-magic fa-stack-1x"></i>
+                        </span>
+                        {t}Aussehen{/t}</a></li>
+                <li><a data-toggle="tab" href="#features" class="link-anchor">
+                         <span class="fa-stack">
+                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="fa fa-sliders fa-stack-1x"></i>
+                        </span>
+                        {t}Funktionen{/t}</a></li>
+                <li><a data-toggle="tab" href="#misc" class="link-anchor">
+                        <span class="fa-stack">
+                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="fa fa-gears fa-stack-1x"></i>
+                        </span>
+                        {t}Sonstiges{/t}</a></li>
+                {if $developer_mode_available}<li><a data-toggle="tab" href="#dev" class="link-anchor">
+                        <span class="fa-stack">
+                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="fa fa-code fa-stack-1x"></i>
+                        </span>
+                        {t}Entwickler{/t}
+                    </a></li>{/if}
             </ul>
 
             <div class="tab-content">
