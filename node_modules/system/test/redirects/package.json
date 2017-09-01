@@ -1,7 +1,0 @@
-{
-    "name": "redirects",
-    "redirects": {
-        "./bar": "./barz",
-        "tezt": "test"
-    }
-}
