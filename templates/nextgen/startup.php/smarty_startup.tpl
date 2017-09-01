@@ -84,9 +84,13 @@
         <h3><i class="fa fa-book" aria-hidden="true"></i>&nbsp{t}Lizenz{/t}</h3>
     </div>
     <div class="panel-body">
-        Part-DB, Copyright &copy; 2005 of <strong>Christoph Lechner</strong>. Part-DB is published under the <strong>GPL</strong>, so it comes with <strong>ABSOLUTELY NO WARRANTY</strong>, click <a href="{$relative_path}readme/gpl.txt">here</a> for details. This is free software, and you are welcome to redistribute it under certain conditions. Click <a href="{$relative_path}readme/gpl.txt">here</a> for details.<br>
-        <br>
+        <p>Part-DB, Copyright &copy; 2005 of <strong>Christoph Lechner</strong>. <br> Part-DB is published under the <strong>GPL</strong>, so it comes with <strong>ABSOLUTELY NO WARRANTY</strong>,
+            click <a href="{$relative_path}readme/gpl.txt" class="link-external" target="_blank">here</a> for details.
+            This is free software, and you are welcome to redistribute it under certain conditions.
+            Click <a href="{$relative_path}readme/gpl.txt" class="link-external" target="_blank">here</a> for details.<br>
+        </p>
         <strong>{t}Projektseite:{/t}</strong> Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a class="link-external" target="_blank" href="https://github.com/do9jhb/Part-DB/">GitHub Projektseite</a><br>
+        <strong>{t}Hilfe{/t}</strong> Hilfe und Tipps finden sie im <a class="link-external" href="https://github.com/jbtronics/Part-DB/wiki" target="_blank">Wiki</a> der GitHub Seite. <br>
         <strong>Forum:</strong> Für Fragen rund um die Part-DB gibt es einen Thread auf <a class="link-external" target="_blank" href="https://www.mikrocontroller.net/topic/305023">mikrocontroller.net</a><br>
         <strong>Wiki:</strong> Weitere Informationen gibt es im <a class="link-external" target="_blank" href="http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Artikel</a><br>
         <br>
