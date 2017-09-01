@@ -216,11 +216,7 @@
                                     <input type="checkbox" name="enable_developer_mode" {if $enable_developer_mode} checked{/if}>
                                     <label>{t}Entwickler-Werkzeuge aktivieren (für Entwickler und Tester){/t}</label>
                                 </div>
-
-                                <div class="checkbox">
-                                    <input type="checkbox" name="enable_dokuwiki_write_perms" {if $enable_dokuwiki_write_perms} checked{/if} {if $is_online_demo}disabled{/if}>
-                                    <label>{t}Schreibrechte im DokuWiki aktivieren{/t}</label>
-                                </div>
+                                
                                 <div class="checkbox">
                                     <input type="checkbox" name="enable_debug_link" {if $enable_debug_link} checked{/if}>
                                     <label>{t}Menüpunkt "System -> Debugging" aktivieren{/t}</label>
