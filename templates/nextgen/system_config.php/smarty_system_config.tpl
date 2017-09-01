@@ -29,6 +29,7 @@
                 <div id="appearance" class="tab-pane fade in active">
                     <br>
 
+                    {*
                     <div class="form-group">
                         <label class="control-label col-sm-2" for="theme">{t}Theme:{/t}</label>
                         <div class="col-sm-10">
@@ -38,13 +39,13 @@
                                 {/foreach}
                             </select>
                         </div>
-                    </div>
+                    </div> *}
 
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="custom_css">{t}CSS-Datei:{/t}</label>
+                        <label class="control-label col-sm-2" for="custom_css">{t}Theme:{/t}</label>
                         <div class="col-sm-10">
                             <select class="form-control" name="custom_css">
-                                <option value="">{t}Standard des verwendeten Themes verwenden{/t}</option>
+                                <option value="">{t}Standardmäßiges Theme{/t}</option>
                                 {foreach $custom_css_loop as $css}
                                     <option value="{$css.value}" {if $css.selected}selected{/if}>{$css.text}</option>
                                 {/foreach}
