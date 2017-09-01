@@ -1,0 +1,19 @@
+{
+  "name": "Part-DB",
+  "description": "Part-DB is a electronics parts managment tool.",
+  "license": "GPL-2.0+",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jbtronics/Part-DB"
+  } ,
+  "devDependencies": {
+    "typescript": "^2.5.2",
+    "@types/jquery": "^3.2.12",
+    "@types/bootstrap": "^3.3.36",
+    "@types/bootstrap-select": "^1.11.1",
+    "@types/bootstrap-treeview": "^1.20.0",
+    "@types/jquery.form": "^3.26.30",
+    "@types/bootstrap-fileinput": "^0.0.6",
+    "@types/datatables.net": "^1.10.6"
+  }
+}
