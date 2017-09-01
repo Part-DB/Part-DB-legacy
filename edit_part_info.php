@@ -88,6 +88,8 @@ $new_filename               = isset($_REQUEST['attachement_filename'])      ? to
 
 $partname_invalid           = isset($_REQUEST['name_edit'])                 ? true                                           : false;
 
+$rightclicked               = isset($_REQUEST['rightclicked']);
+
 if ((strlen($new_filename) > 0) && (! isPathabsoluteAndUnix($new_filename))) {
     $new_filename = BASE.'/'.$new_filename;
 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
@@ -271,7 +273,7 @@ if (! $fatal_error) {
                     $is_new_part = false;
 
                     global $config;
-                    if ($config['edit_parts']['created_go_to_info']) {
+                    if ($config['edit_parts']['created_go_to_info'] xor $rightclicked) {
                         $html->redirect("show_part_info.php?pid=" . $part->getID(), true);
                     }
                 } else {
@@ -350,7 +352,7 @@ if (! $fatal_error) {
                 if (Part::isValidName($new_name, $part->getCategory())) {
                     $part->setName($new_name);
                     global $config;
-                    if ($config['edit_parts']['saved_go_to_info']) {
+                    if ($config['edit_parts']['saved_go_to_info'] xor $rightclicked) {
                         $html->redirect("show_part_info.php?pid=" . $part->getID(), true);
                     }
                 } else {

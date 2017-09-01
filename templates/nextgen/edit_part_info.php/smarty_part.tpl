@@ -161,10 +161,10 @@
                 <div class="form-group">
                     <div class="col-md-10 col-md-offset-2">
                         {if $is_new_part}
-                            <button type="button" class="btn btn-success submit" name="create_new_part" id="btn_enter">{t}Bauteil erstellen{/t}</button>
+                            <button type="button" class="btn btn-success submit rightclick" name="create_new_part" id="btn_enter">{t}Bauteil erstellen{/t}</button>
                         {else}
                             <input type="hidden" name="pid" value="{$pid}">
-                            <button type="button" name="apply_attributes" class="btn btn-success submit" id="btn_enter">{t}Änderungen übernehmen{/t}</button>
+                            <button type="button" name="apply_attributes" class="btn btn-success submit rightclick" id="btn_enter">{t}Änderungen übernehmen{/t}</button>
                             <button type="button" class="btn btn-danger submit">{t}Änderungen verwerfen{/t}</button>
                         {/if}
                     </div>
