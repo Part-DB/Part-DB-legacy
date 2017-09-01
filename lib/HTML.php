@@ -173,15 +173,23 @@ class HTML
      * Redirects the User to a other page (must be part of Part-DB), using ajax.
      * Note, that the redirect happens when footer is printed.
      * @param $url string The URL to which should be redirected. Set to empty string, to disable redirect
+     * @param $instant boolean True, if the page should be redirected with the call of redirect(). Not just when Footer
+     * is printed. Note, if this option is activated, the code execution is stopped after this call.
      */
-    public function redirect($url)
+    public function redirect($url, $instant = false)
     {
-        if(!is_string($url))
+        if (!is_string($url))
         {
             throw new \InvalidArgumentException(_('$url must be a valid a string'));
         }
 
         $this->redirect_url = $url;
+
+        if ($instant) {
+            $this->printHeader();
+            $this->printFooter();
+            exit();
+        }
     }
 
 

@@ -269,6 +269,11 @@ if (! $fatal_error) {
                     );
 
                     $is_new_part = false;
+
+                    global $config;
+                    if ($config['edit_parts']['created_go_to_info']) {
+                        $html->redirect("show_part_info.php?pid=" . $part->getID(), true);
+                    }
                 } else {
                     $partname_hint = $category->getPartnameHint(true, false);
                     if (empty($partname_hint)) {
@@ -344,6 +349,10 @@ if (! $fatal_error) {
 
                 if (Part::isValidName($new_name, $part->getCategory())) {
                     $part->setName($new_name);
+                    global $config;
+                    if ($config['edit_parts']['saved_go_to_info']) {
+                        $html->redirect("show_part_info.php?pid=" . $part->getID(), true);
+                    }
                 } else {
                     $parname_hint = $part->getCategory()->getPartnameHint(true, false);
                     if (empty($parname_hint)) {
