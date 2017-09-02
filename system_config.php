@@ -298,6 +298,9 @@ $html->setVariable('startup_banner', $config['startup']['custom_banner'], 'strin
 $html->setVariable('php_version', phpversion(), 'string');
 $html->setVariable('htaccess_works', (getenv('htaccessWorking')=='true'), 'boolean');
 $html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
+$html->setVariable('using_https', isUsingHTTPS(), 'boolean');
+$html->setVariable('max_input_vars', ini_get('max_input_vars'), 'string');
+$html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
 
 //Part properties
 $html->setVariable('properties_active', $config['properties']['active'], 'boolean');

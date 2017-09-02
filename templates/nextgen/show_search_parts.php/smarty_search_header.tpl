@@ -7,7 +7,7 @@
         {t 1=$keyword 2=$hits_count escape=no}Die Suche nach <b>"%1"</b> ergab <b>%2 Treffer</b>.{/t}
         
         <div style="float: right; display: inline;">
-            <form action="" method="post" style="display: inline;" class="no-progbar">
+            <form action="" method="post" style="display: inline;" class="no-progbar no-ajax">
                 <input type='hidden' name='keyword'     value='{$keyword}'>
                 {if isset($search_name)}                <input type='hidden' name='search_name'>{/if}
                 {if isset($search_category)}            <input type='hidden' name='search_category'>{/if}

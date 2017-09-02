@@ -219,7 +219,7 @@
                                     <input type="checkbox" name="enable_developer_mode" {if $enable_developer_mode} checked{/if}>
                                     <label>{t}Entwickler-Werkzeuge aktivieren (für Entwickler und Tester){/t}</label>
                                 </div>
-                                
+
                                 <div class="checkbox">
                                     <input type="checkbox" name="enable_debug_link" {if $enable_debug_link} checked{/if}>
                                     <label>{t}Menüpunkt "System -> Debugging" aktivieren{/t}</label>
@@ -324,16 +324,37 @@
             {t}Server{/t}
         </div>
         <div class="panel-body">
-            <table width="100%">
+            <table width="" class="table table-condensed">
+                <thead>
+                <tr>
+                    <th>{t}Eigenschaft{/t}</th>
+                    <th>{t}Wert{/t}</th>
+                </tr>
+                </thead>
+                <tbody>
                 <tr>
                     <td><b>{t}PHP-Version:{/t}</b></td>
                     <td>{$php_version}</td>
                 </tr>
                 <tr>
                     <td><b>{t}.htaccess funktioniert:{/t}</b></td>
-                    <td>{if $htaccess_works}<span style="color: green; ">{t}ja{/t}</span>{else}<span
-                                style="color: red; ">{t}nein{/t}</span>{/if}</td>
+                    <td>{if $htaccess_works}<span class="text-success">{t}ja{/t}</span>{else}
+                            <span class="text-danger font-weight-bold">{t}nein{/t}</span>{/if}</td>
                 </tr>
+                <tr>
+                    <td><b>{t}Verbindung benutzt HTTPS:{/t}</b></td>
+                    <td>{if $using_https}<span class="text-success">{t}ja{/t}</span>{else}
+                            <span class="text-danger font-weight-bold">{t}nein{/t}</span>{/if}</td>
+                </tr>
+                <tr>
+                    <td><b>{t}Max. Input Vars:{/t}</b></td>
+                    <td>{$max_input_vars}</td>
+                </tr>
+                <tr>
+                    <td><b>Maximale Dateigröße beim Upload:</b></td>
+                    <td>{$max_upload_filesize}B</td>
+                </tr>
+                </tbody>
             </table>
         </div>
     </div>
