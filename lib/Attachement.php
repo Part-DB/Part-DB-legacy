@@ -27,6 +27,7 @@ namespace PartDB;
 
 use Exception;
 use PartDB\Base\AttachementsContainingDBElement;
+use PartDB\Base\DBElement;
 
 /**
  * @file Attachement.php
@@ -137,7 +138,7 @@ class Attachement extends Base\NamedDBElement
                 $part->setMasterPictureAttachementID(null);
             }
 
-            $this->getElement()->set_attributes(array()); // save element attributes to update its "last_modified"
+            $this->getElement()->setAttributes(array()); // save element attributes to update its "last_modified"
 
             // Now we can delete the database record of this attachement
             parent::delete();
@@ -470,7 +471,7 @@ class Attachement extends Base\NamedDBElement
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
-     * @param object    &$element           @li the element on which the file will be attached
+     * @param DBElement &$element           @li the element on which the file will be attached
      *                                      @li For supported elements see Attachement::check_values_validity()
      * @param integer   $type_id            the ID of the attachement type (see Attachement::set_type_id())
      * @param string    $filename           the filename of the new attachement (see Attachement::set_filename())
@@ -508,7 +509,7 @@ class Attachement extends Base\NamedDBElement
             'attachements',
             array(  'name'              => $name,
                 'class_name'        => get_class($element),
-                'element_id'        => $element->get_id(),
+                'element_id'        => $element->getID(),
                 'type_id'           => $type_id,
                 'filename'          => $filename,
                 'show_in_table'     => $show_in_table)

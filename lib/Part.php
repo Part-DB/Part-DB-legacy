@@ -853,7 +853,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     {
         $arr = array();
         foreach ($this->getProperties() as $property) {
-            $arr[] = $property->get_array($use_description, $use_comment);
+            /* @var PartProperty $property */
+            $arr[] = $property->getArray($use_description, $use_comment);
         }
         return $arr;
     }

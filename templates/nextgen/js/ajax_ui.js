@@ -90,7 +90,7 @@ var AjaxUI = (function () {
             success: this.showFormResponse,
             beforeSubmit: this.showRequest
         };
-        $('form').ajaxForm(data);
+        $('form').not(".no-ajax").ajaxForm(data);
     };
     /**
      * Called when Form submit was submited and we received a response.
@@ -222,6 +222,10 @@ var AjaxUI = (function () {
     AjaxUI.prototype.onAjaxError = function (event, request, settings) {
         'use strict';
         console.log(event);
+        //If it was a server error and response is not empty, show it to user.
+        if (request.status == 500 && request.responseText !== "") {
+            $("html").html(request.responseText);
+        }
     };
     /**
      * This function gets called every time, the "back" button in the browser is pressed.
