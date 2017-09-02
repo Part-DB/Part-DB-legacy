@@ -3,6 +3,7 @@
 
 {if !isset($ajax_request) || !ajax_request}
 <!DOCTYPE html>
+<!--suppress JSUnresolvedLibraryURL -->
 <html lang="{if isset($lang)}{$lang}{else}en{/if}">
     <head>
         {if isset($http_charset)}<meta charset={$http_charset}>
@@ -208,7 +209,7 @@
                     <div class="container-fluid container-progress" id="progressbar" hidden>
                         <div class="progress">
                             <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0"
-                                aria-valuemax="100" style="width: 100%">
+                                aria-valuemax="100" style="width: 100%;">
                                 <span>{t}Lade{/t}</span>
                             </div>
                         </div>

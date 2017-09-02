@@ -1342,7 +1342,7 @@ msgid "Letzte Änderung:"
 msgstr ""
 
 #: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:201
-msgid "Barcode erzeugen"
+msgid "Label erzeugen"
 msgstr ""
 
 #: templates/nextgen/show_part_info.php/smarty_show_part_info.tpl:224
@@ -1406,7 +1406,7 @@ msgid "Toggle Navigation"
 msgstr ""
 
 #: templates/nextgen/smarty_head.tpl:113
-msgid "Scanne Barcode"
+msgid "Scanne Label"
 msgstr ""
 
 #: templates/nextgen/smarty_head.tpl:124
@@ -1436,7 +1436,7 @@ msgid "Kommentar"
 msgstr ""
 
 #: templates/nextgen/smarty_head.tpl:147
-msgid "Deakt. Barcode"
+msgid "Deakt. Label"
 msgstr ""
 
 #: templates/nextgen/smarty_head.tpl:151

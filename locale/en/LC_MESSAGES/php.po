@@ -809,8 +809,8 @@ msgid "Die Baugruppe \"%1$s\" enthält bereits das Bauteil \"%2$s\"!"
 msgstr "The device \"%1$s\" already contains the part \"%2$s\""
 
 #: ../lib/class.Part.php:241
-msgid "Barcode type unknown: "
-msgstr "Barcode type unknown: "
+msgid "Label type unknown: "
+msgstr "Label type unknown: "
 
 #: ../lib/class.StructuralDBElement.php:99
 #: ../lib/class.StructuralDBElement.php:101

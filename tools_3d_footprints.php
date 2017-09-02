@@ -30,21 +30,24 @@
         2012-09-13  kami89              - changed to OOP
 */
 
-    include_once('start_session.php');
+include_once('start_session.php');
 
-    $messages = array();
-    $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
+use PartDB\HTML;
+
+$messages = array();
+$fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('3D Footprints'));
+$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('3D Footprints'));
 
-    $dirs = find_all_files(BASE.'/models/', true);
+$dirs = findAllFiles(BASE.'/models/', true);
 
-    $html->set_loop("directories", $dir);
+$html->setLoop("directories", $dir);
 
-    $html->print_header($messages);
+$html->printHeader($messages);
 
-    if (! $fatal_error)
-        $html->print_template('footprints3d');
+if (! $fatal_error) {
+    $html->printTemplate('footprints3d');
+}
 
-    $html->print_footer();
+$html->printFooter();

@@ -1,7 +1,0 @@
-{
-    "name": "*",
-    "version": "*",
-    "redirect-patterns": {
-        "^(.*)\\.foo$": "foo-$1"
-    }
-}

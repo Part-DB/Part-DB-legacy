@@ -7,14 +7,14 @@
     <div class="panel-body">
             {foreach $attachements_loop as $attach}
                <div class="row">
-                <form action="{$relative_path}edit_part_info.php" method="post" enctype="multipart/form-data" class="no-progbar">
+                <form action="{$relative_path}edit_part_info.php" method="post" enctype="multipart/form-data" class="no-progbar" id="attachements">
                         <div class="col-sm-2">
                             {if $attach.id == "new"}
                                 <b>{t}Neue Datei hinzufügen:{/t}</b>
                             {else}
                                 {if isset($attach.picture_filename)}
                                     <a href="{$attach.picture_filename}">
-                                        <img style="max-height:180px; max-width:180px" src="{$attach.picture_filename}" alt="{$attach.name}">
+                                        <img style="max-height:180px; max-width:180px;" src="{$attach.picture_filename}" alt="{$attach.name}">
                                     </a>
                                 {else}
                                     {if isset($attach.filename)}

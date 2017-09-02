@@ -31,67 +31,70 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-    include_once('start_session.php');
+include_once('start_session.php');
 
-    $messages = array();
-    $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
+use PartDB\Database;
+use PartDB\Label\PartLabel;
+use PartDB\Log;
+use PartDB\User;
 
-    /********************************************************************************
-    *
-    *   Evaluate $_REQUEST
-    *
-    *********************************************************************************/
+$messages = array();
+$fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
-    $part_id            = isset($_REQUEST['pid'])               ? (integer)$_REQUEST['pid']             : 0;
-    $preset             = isset($_REQUEST['preset'])            ? (integer)$_REQUEST['preset']          : 0;
+/********************************************************************************
+ *
+ *   Evaluate $_REQUEST
+ *
+ *********************************************************************************/
 
-    $action = 'default';
-    if (isset($_REQUEST["download"]))                    {$action = 'download';}
+$part_id            = isset($_REQUEST['pid'])               ? (integer)$_REQUEST['pid']             : 0;
+$preset             = isset($_REQUEST['preset'])            ? (integer)$_REQUEST['preset']          : 0;
 
-
-    $size_str = "50x30";
-    if(isset($_REQUEST['size']))                    {$size_str  = $_REQUEST['size']; }
-
-    $lang_str = "de";
-    //if(isset($_REQUEST['lang']))                  {$lang_str     = $_LANG['lang'];    }
-
-
-    /********************************************************************************
-    *
-    *   Initialize Objects
-    *
-    *********************************************************************************/
+$action = 'default';
+if (isset($_REQUEST["download"])) {
+    $action = 'download';
+}
 
 
+$size_str = "50x30";
+if (isset($_REQUEST['size'])) {
+    $size_str  = $_REQUEST['size'];
+}
 
-    try
-    {
-        $database           = new Database();
-        $log                = new Log($database);
-        $current_user       = new User($database, $current_user, $log, 1); // admin
-        //$part               = new Part($database, $current_user, $log, $part_id);
-        //$footprint          = $part->get_footprint();
-        //$storelocation      = $part->get_storelocation();
-        //$manufacturer       = $part->get_manufacturer();
-        //$category           = $part->get_category();
-        //$all_orderdetails   = $part->get_orderdetails();
-
-        $label = new PartLabel($database, $current_user, $log, $part_id);
-
-        $label->set_lines($label->get_line_presets()[$preset]);
+$lang_str = "de";
+//if(isset($_REQUEST['lang']))                  {$lang_str     = $_LANG['lang'];    }
 
 
-        if($action=="download")
-        {
-            $label->download();
-        }
-        else
-        {
-            $label->generate();
-        }
+/********************************************************************************
+ *
+ *   Initialize Objects
+ *
+ *********************************************************************************/
+
+
+
+try {
+    $database           = new Database();
+    $log                = new Log($database);
+    $current_user       = new User($database, $current_user, $log, 1); // admin
+    //$part               = new Part($database, $current_user, $log, $part_id);
+    //$footprint          = $part->get_footprint();
+    //$storelocation      = $part->get_storelocation();
+    //$manufacturer       = $part->get_manufacturer();
+    //$category           = $part->get_category();
+    //$all_orderdetails   = $part->get_orderdetails();
+
+    $label = new PartLabel($database, $current_user, $log, $part_id);
+
+    $label->setLines($label->getLinePresets()[$preset]);
+
+
+    if ($action=="download") {
+        $label->download();
+    } else {
+        $label->generate();
     }
-    catch (Exception $e)
-    {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
-        $fatal_error = true;
-    }
+} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+    $fatal_error = true;
+}

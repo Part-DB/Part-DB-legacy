@@ -1,4 +1,5 @@
 {if isset($messages)}
+    <!--suppress ALL -->
     <div class="panel panel-default">
         <form action="" method="post" class="panel-body">
             {foreach $messages as $msg}
@@ -22,6 +23,7 @@
 
 <input type="hidden" id="basepath" value="{$relative_path}">
 <input type="hidden" id="autorefresh" value="{$autorefresh}">
+<input type="hidden" id="redirect_url" value="{$redirect_url}">
 
 
 </div> <!-- content-data -->

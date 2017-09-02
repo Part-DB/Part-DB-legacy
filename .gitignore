@@ -8,6 +8,7 @@
 
 # ignore Doxygen builds
 development/doxygen/html/
+development/phpdoc/html/
 
 # ignore IDE project files
 *.geany
@@ -181,3 +182,5 @@ node_modules/*
 
 #Ignore composer vendor/ folder
 vendor/*
+
+*.cache

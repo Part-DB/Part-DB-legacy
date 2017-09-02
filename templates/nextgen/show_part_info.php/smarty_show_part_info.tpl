@@ -1,5 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 
+<!--suppress Annotator -->
 <div class="panel panel-primary">
     <div class="panel-heading">
         <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;
@@ -342,7 +343,7 @@
     {else}
         <div class="panel-body">
             {t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}
-            <a class="btn btn-default pull-right hidden-print" href="edit_part_info.php?pid={$pid}">{t}Einkaufsinformationen hinzufügen{/t}</a>
+            <a class="btn btn-default pull-right hidden-print" class="link-anchor" href="edit_part_info.php?pid={$pid}#orderdetails">{t}Einkaufsinformationen hinzufügen{/t}</a>
         </div>
     {/if}
 </div>
@@ -358,7 +359,7 @@
                 <b>{$attach_type.attachement_type}:</b><br>
                 {foreach $attach_type.attachements_loop as $attach}
                     {if $attach.is_picture}
-                        <img src="{$attach.filename}" style="max-height:180px; max-width:180px" class="hoverpic" rel="popover"></a>
+                        <img src="{$attach.filename}" style="max-height:180px; max-width:180px;" class="hoverpic" rel="popover"></a>
                     {else}
                         <a target="_blank" href="{$attach.filename}" class="link-external">{$attach.attachement_name}</a><br>
                     {/if}
@@ -366,7 +367,7 @@
             {/foreach}
         {else}
             {t}Dieses Bauteil besitzt keine Dateianhänge.{/t}
-            <a class="btn btn-default pull-right hidden-print" class=" hidden-print-href" href="edit_part_info.php?pid={$pid}">{t}Dateianhänge hinzufügen{/t}</a>
+            <a class="btn btn-default pull-right hidden-print" class=" hidden-print-href" href="edit_part_info.php?pid={$pid}#attachements">{t}Dateianhänge hinzufügen{/t}</a>
         {/if}
     </div>
 </div>

@@ -23,36 +23,37 @@
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
-    include_once('start_session.php');
+include_once('start_session.php');
 
-    $messages = array();
-    $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
+use PartDB\HTML;
 
-    /********************************************************************************
-    *
-    *   Initialize Objects
-    *
-    *********************************************************************************/ 
+$messages = array();
+$fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
-    $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Hersteller IC Logos'));
+/********************************************************************************
+ *
+ *   Initialize Objects
+ *
+ *********************************************************************************/
 
-    /********************************************************************************
-    *
-    *   Generate HTML Output
-    *
-    *********************************************************************************/
+$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Hersteller IC Logos'));
+
+/********************************************************************************
+ *
+ *   Generate HTML Output
+ *
+ *********************************************************************************/
 
 
-    //If a ajax version is requested, say this the template engine.
-    if(isset($_REQUEST["ajax"]))
-    {
-        $html->set_variable("ajax_request", true);
-    }
+//If a ajax version is requested, say this the template engine.
+if (isset($_REQUEST["ajax"])) {
+    $html->setVariable("ajax_request", true);
+}
 
-    $html->print_header($messages);
+$html->printHeader($messages);
 
-    if (! $fatal_error) 
-        $html->print_template('iclogos');
+if (! $fatal_error) {
+    $html->printTemplate('iclogos');
+}
 
-    $html->print_footer();
-
+$html->printFooter();
