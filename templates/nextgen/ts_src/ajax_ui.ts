@@ -121,7 +121,7 @@ class AjaxUI {
             success:  this.showFormResponse,
             beforeSubmit: this.showRequest
         };
-        $('form').ajaxForm(data);
+        $('form').not(".no-ajax").ajaxForm(data);
     }
 
 

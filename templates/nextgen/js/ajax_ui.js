@@ -90,7 +90,7 @@ var AjaxUI = (function () {
             success: this.showFormResponse,
             beforeSubmit: this.showRequest
         };
-        $('form').ajaxForm(data);
+        $('form').not(".no-ajax").ajaxForm(data);
     };
     /**
      * Called when Form submit was submited and we received a response.
