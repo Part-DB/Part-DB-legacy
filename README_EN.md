@@ -40,7 +40,7 @@ Part-DB is a web-based database for managing electronic components. Since access
 ### License
 Part-DB is available under the [General Public License Version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.de.html).
 In addition, Part-DB uses some libraries that use other licenses. 
-For detailed information see [[readme/EXTERNAL_LIBS.md]]
+For detailed information see [EXTERNAL_LIBS](readme/EXTERNAL_LIBS.md)s
 
 ### Installation instructions & documentation
 
