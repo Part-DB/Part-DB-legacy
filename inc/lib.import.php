@@ -373,13 +373,13 @@ function matchDevicepartNamesToIds(&$database, &$current_user, &$log, &$data)
             $parts = Part::searchParts($database, $current_user, $log, $row['devicepart_part_name'], '', true, false);
 
             foreach ($parts as $partkey => $part) {
-                if ($part->get_name() != $row['devicepart_part_name']) {
+                if ($part->getName() != $row['devicepart_part_name']) {
                     unset($parts[$partkey]);
                 }
             }
 
             if (count($parts) == 1) {
-                $data[$key]['devicepart_part_id'] = $parts[0]->get_id();
+                $data[$key]['devicepart_part_id'] = $parts[0]->getID();
             }
         }
     }
