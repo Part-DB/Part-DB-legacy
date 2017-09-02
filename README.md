@@ -49,3 +49,9 @@ Die gesamte Dokumentation inkl. Installationsanleitung gibts hier:
 
 Eine Test-Datenbank ist unter <http://part-db.bplaced.net/> zu finden.
 
+### Übersetung
+Part-DB ist auch in Englisch verfügbar: Hierfür muss die Einstellung Sprache in den Einstellungen oder während der 
+Installation auf _[en_US] English (United States)_ gestellt werden. 
+
+Möchte man sich an der Übersetzung beteiligen (insbesondere bei anderen Sprachen als Englisch), 
+dann kann dies [hier](https://translate.zanata.org/iteration/view/part-db/0.4.0/) tun.
