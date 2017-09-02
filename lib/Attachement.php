@@ -138,7 +138,7 @@ class Attachement extends Base\NamedDBElement
                 $part->setMasterPictureAttachementID(null);
             }
 
-            $this->getElement()->set_attributes(array()); // save element attributes to update its "last_modified"
+            $this->getElement()->setAttributes(array()); // save element attributes to update its "last_modified"
 
             // Now we can delete the database record of this attachement
             parent::delete();
