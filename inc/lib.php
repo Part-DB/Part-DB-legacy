@@ -1042,3 +1042,13 @@ function _empty($var)
 {
     return empty($var);
 }
+
+/**
+ * Check if the connection to the server is using HTTPS.
+ * @return bool True if the connection is using HTTPS, false if not.
+ */
+function isUsingHTTPS() {
+    return
+        (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || $_SERVER['SERVER_PORT'] == 443;
+}
