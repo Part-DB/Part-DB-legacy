@@ -226,7 +226,7 @@ function sendFile($filename, $mimetype = null)
  */
 function sendString($content, $filename, $mimetype)
 {
-    $mtime = gmmktime();
+    $mtime = time();
 
     if (strstr($_SERVER["HTTP_USER_AGENT"], "MSIE") != false) {
         header("Content-Disposition: attachment; filename=".urlencode($filename)."; modification-date=".date('r', $mtime).";");
