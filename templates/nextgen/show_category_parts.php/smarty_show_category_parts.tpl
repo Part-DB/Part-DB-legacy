@@ -9,9 +9,8 @@
             <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">
             
             <div class="form-group">
-                <label class="control-label col-md-2">{t}Unterkategorien:{/t}</label>
                 <div class="col-md-10">
-                    <button type="submit" class="btn btn-default" name="subcat_button" >{if $with_subcategories}{t}ausblenden{/t}{else}{t}einblenden{/t}{/if}</button>
+                    <button type="submit" class="btn btn-default {if $with_subcategories}active{/if}" name="subcat_button" >{t}Unterkategorien einblenden{/t}</button>
                 </div>
             </div>
         </form>
