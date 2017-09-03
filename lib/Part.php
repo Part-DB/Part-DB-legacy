@@ -2001,6 +2001,25 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
+     * Build a template loop for a <select> list of group by options for the available group by options in part_search
+     *
+     * @param integer|string    $selected_val
+     *
+     * @return array    The template loop
+     */
+    public static function buildSearchGroupByLoop($selected_val = "")
+    {
+        $loop = array();
+
+
+        $loop[] = array('value' => "", 'text' => _("Keine"), 'selected' => ($selected_val === ""));
+        $loop[] = array('value' => "categories", 'text' => _("Kategorien"), 'selected' => ($selected_val === "categories"));
+
+
+        return $loop;
+    }
+
+    /**
      *  Get all existing parts
      *
      * @param Database  &$database              reference to the database object
