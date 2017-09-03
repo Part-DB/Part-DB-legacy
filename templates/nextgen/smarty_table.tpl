@@ -245,15 +245,15 @@
                     {if $row.caption == "button_decrement"}
                         {* build the "-" button, only if more than 0 parts on stock *}
                         <td class="tdrow6">
-                            <button type="submit" class="btn btn-xs btn-outline-secondary" name="decrement_{$row.row_index}" {if $row.decrement_disabled}disabled="disabled"{/if}><span class="glyphicon glyphicon-minus"></span></button>
+                            <button type="submit" class="btn btn-xs btn-default btn-outline" name="decrement_{$row.row_index}" {if $row.decrement_disabled}disabled="disabled"{/if}><span class="glyphicon glyphicon-minus"></span></button>
                         </td>
                     {/if}
                     {if $row.caption == "button_increment"}
                         {* build the "+" button *}
                         <td class="tdrow7">
-                            <button type="submit" class="btn btn-xs btn-outline-secondary" name="increment_{$row.row_index}"><span class="glyphicon glyphicon-plus"></span></button>
+                            <button type="submit" class="btn btn-xs btn-default btn-outline" name="increment_{$row.row_index}"><span class="glyphicon glyphicon-plus"></span></button>
                         </td>
-                    {/if} 
+                    {/if}
                     {if $row.caption == "order_options"}
                         {* build the order options (e.g. the "to stock" checkbox) (only for order parts) *}
                         <td class="tdrow1" class="form-control" nowrap>
