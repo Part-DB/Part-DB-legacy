@@ -313,4 +313,8 @@ $config['auto_datasheets']['entries'][2]['name']        = 'datasheetcatalog.net'
 $config['auto_datasheets']['entries'][2]['url']         = 'http://search.datasheetcatalog.net/key/%%PARTNAME%%';
 $config['auto_datasheets']['entries'][2]['image']       = 'img/partdb/file_dc.svg';
 $config['auto_datasheets']['entries'][2]['old_image']   = 'img/partdb/dc.png';
+$config['auto_datasheets']['entries'][3]['name']        = 'google.com';
+$config['auto_datasheets']['entries'][3]['url']         = 'https://www.google.com/search?q=%%PARTNAME%%';
+$config['auto_datasheets']['entries'][3]['image']       = 'img/partdb/file_google.svg';
+
 // IMPORTANT: If you add your own export formats to your config.php, use letters instead of numbers as array indexes!! e.g. $config['auto_datasheets']['entries']['A']['name'] = 'foo';
