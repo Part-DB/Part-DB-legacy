@@ -316,5 +316,9 @@ $config['auto_datasheets']['entries'][2]['old_image']   = 'img/partdb/dc.png';
 $config['auto_datasheets']['entries'][3]['name']        = 'google.com';
 $config['auto_datasheets']['entries'][3]['url']         = 'https://www.google.com/search?q=%%PARTNAME%%';
 $config['auto_datasheets']['entries'][3]['image']       = 'img/partdb/file_google.svg';
+$config['auto_datasheets']['entries'][4]['name']        = 'octopart.com';
+$config['auto_datasheets']['entries'][4]['url']         = 'https://octopart.com/search?q=%%PARTNAME%%';
+$config['auto_datasheets']['entries'][4]['image']       = 'img/partdb/file_octo.svg';
+
 
 // IMPORTANT: If you add your own export formats to your config.php, use letters instead of numbers as array indexes!! e.g. $config['auto_datasheets']['entries']['A']['name'] = 'foo';
