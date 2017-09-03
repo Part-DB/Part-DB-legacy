@@ -56,6 +56,7 @@
                         {if $col.caption=="datasheets"}{if !$disable_auto_datasheets}<th class="no-sort">{t}Datenblätter{/t}</th>{/if}{/if}
                         {if $col.caption=="button_decrement"}<th class="text-center no-sort">-</th>{/if}
                         {if $col.caption=="button_increment"}<th class="text-center no-sort">+</th>{/if}
+                        {if $col.caption=="button_edit"}<th class="text-center no-sort"></th>{/if}
                         {if $col.caption=="order_options"}<th class="no-sort">{t}Optionen{/t}</th>{/if} {*  only for order parts  *}
                         {if $col.caption=="quantity_edit"}<th class="no-sort">{t}Anzahl{/t}</th>{/if} {*  only for device parts  *}
                         {if $col.caption=="mountnames_edit"}<th class="no-sort">{t escape=no}Bestückungs-<br>daten{/t}</th>{/if} {*  only for device parts  *}
@@ -255,9 +256,8 @@
                         </td>
                     {/if}
                     {if $row.caption == "button_edit"}
-                        {* build the "+" button *}
                         <td class="tdrow7">
-                            <a href="btn btn-xs btn-default btn-outline"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>
+                            <a class="btn btn-xs btn-default btn-outline" href="{$relative_path}edit_part_info.php?pid={$row.id}"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>
                         </td>
                     {/if}
                     {if $row.caption == "order_options"}

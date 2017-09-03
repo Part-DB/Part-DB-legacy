@@ -1275,6 +1275,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
                 case 'id':
                 case 'button_increment':
+                case 'button_edit':
                 case 'quantity_edit': // for DevicePart Objects
                 case 'mountnames_edit': // for DevicePart Objects
                     // nothing to do, only to avoid the Exception in the default-case
