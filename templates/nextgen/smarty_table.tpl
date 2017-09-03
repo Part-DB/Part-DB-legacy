@@ -245,13 +245,19 @@
                     {if $row.caption == "button_decrement"}
                         {* build the "-" button, only if more than 0 parts on stock *}
                         <td class="tdrow6">
-                            <button type="submit" class="btn btn-xs btn-default btn-outline" name="decrement_{$row.row_index}" {if $row.decrement_disabled}disabled="disabled"{/if}><span class="glyphicon glyphicon-minus"></span></button>
+                            <button type="submit" class="btn btn-xs btn-default btn-outline" name="decrement_{$row.row_index}" {if $row.decrement_disabled}disabled="disabled"{/if}><i class="fa fa-minus" aria-hidden="true"></i></span></button>
                         </td>
                     {/if}
                     {if $row.caption == "button_increment"}
                         {* build the "+" button *}
                         <td class="tdrow7">
-                            <button type="submit" class="btn btn-xs btn-default btn-outline" name="increment_{$row.row_index}"><span class="glyphicon glyphicon-plus"></span></button>
+                            <button type="submit" class="btn btn-xs btn-default btn-outline" name="increment_{$row.row_index}"><i class="fa fa-plus" aria-hidden="true"></i></span></button>
+                        </td>
+                    {/if}
+                    {if $row.caption == "button_edit"}
+                        {* build the "+" button *}
+                        <td class="tdrow7">
+                            <a href="btn btn-xs btn-default btn-outline"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>
                         </td>
                     {/if}
                     {if $row.caption == "order_options"}
