@@ -24,7 +24,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;
-        {t}Teile in der Kategorie{/t} <b>"{$category_name}"</b>
+        <b>{$table_rowcount}</b> {t}Teile in der Kategorie{/t} <b>"{$category_name}"</b>
     </div>
     <form method="post" action="" class="no-progbar">
         <input type="hidden" name="cid" value="{$cid}">
