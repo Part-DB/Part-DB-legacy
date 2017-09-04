@@ -94,6 +94,7 @@ if (! $fatal_error) {
         $parts = Part::getObsoleteParts($database, $current_user, $log, $show_no_orderdetails_parts);
         $table_loop = Part::buildTemplateTableArray($parts, 'obsolete_parts');
         $html->setLoop('table', $table_loop);
+        $html->setVariable("table_rowcount", count($parts), 'int');
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

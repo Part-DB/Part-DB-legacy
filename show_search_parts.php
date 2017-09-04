@@ -55,6 +55,8 @@ $search_footprint       = isset($_REQUEST['search_footprint']);
 $search_manufacturer    = isset($_REQUEST['search_manufacturer']);
 $table_rowcount         = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
 
+$groupby                = isset($_REQUEST['groupby']) ? (string)$_REQUEST['groupby'] : "categories";
+
 $export_format_id       = isset($_REQUEST['export_format'])     ? (integer)$_REQUEST['export_format']   : 0;
 
 $disable_pid_input      = isset($_REQUEST['disable_pid_input']);
@@ -227,7 +229,7 @@ if (! $fatal_error) {
             $current_user,
             $log,
             $keyword,
-            'categories',
+            $groupby,
             $search_name,
             $search_description,
             $search_comment,
@@ -244,9 +246,16 @@ if (! $fatal_error) {
 
         $parts_table_loops = array();
 
-        foreach ($category_parts as $category_full_path => $parts) {
-            $parts_table_loops[$category_full_path] = Part::buildTemplateTableArray($parts, 'search_parts');
+        //When parts should not get grouped by a variable, we only have a one dimensional array
+        if ($groupby == "") {
+            $parts_table_loops["Alle Kategorien"] = Part::buildTemplateTableArray($category_parts, 'search_parts_category');
+        } else {
+            foreach ($category_parts as $category_full_path => $parts) {
+                $parts_table_loops[$category_full_path] = Part::buildTemplateTableArray($parts, 'search_parts');
+            }
         }
+
+
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -275,6 +284,7 @@ $html->setVariable('search_manufacturer', $search_manufacturer, 'boolean');
 if (! $fatal_error) {
     // export formats
     $html->setLoop('export_formats', buildExportFormatsLoop('searchparts'));
+    $html->setLoop('group_formats', Part::buildSearchGroupByLoop($groupby));
 
     // global stuff
     $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
