@@ -19,8 +19,10 @@
             {if isset($search_manufacturer)}        <input type='hidden' name='search_manufacturer'>{/if}
 
           
-           </form>
+
            
            {include file='../smarty_table.tpl'}
+
+        </form>
 </div>
 
