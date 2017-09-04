@@ -198,19 +198,33 @@ var AjaxUI = (function () {
         $("#sidebar").removeClass("in");
     };
     /**
+     * Called whenever a node from the TreeView is clicked.
+     * We use it to start a ajax request, to expand the node and to close the sidebar div on mobile view.
+     * When the link contains "github.com" the link is opened in a new tab: We use this for the help node.
+     * @param event
+     * @param {BootstrapTreeViewNodeData} data
+     */
+    AjaxUI.prototype.onNodeContextmenu = function (event, data) {
+        'use strict';
+        if (data.href !== "") {
+            openInNewTab(data.href);
+        }
+    };
+    /**
      * Request JSON files describing the TreeView nodes and fill them with that.
      */
     AjaxUI.prototype.tree_fill = function () {
         'use strict';
         var node_handler = this.onNodeSelected;
+        var contextmenu_handler = this.onNodeContextmenu;
         $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree) {
-            $("#tree-categories").treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
+            $("#tree-categories").treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
         });
         $.getJSON(BASE + 'api.php/1.0.0/tree/devices', function (tree) {
-            $('#tree-devices').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
+            $('#tree-devices').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
         });
         $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree) {
-            $('#tree-tools').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
+            $('#tree-tools').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
         });
     };
     /********************************************************************************************
