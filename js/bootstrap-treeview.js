@@ -17,6 +17,12 @@
  * limitations under the License.
  * ========================================================= */
 
+/****************************************************************
+ * Modified by Jan Böhmer 2017 for use in Part-DB.
+ * Added functions:
+ * * Contextmenu handler
+ *****************************************************************/
+
 ;(function ($, window, document, undefined) {
 
 	/*global jQuery, console*/
@@ -69,7 +75,8 @@
 		onNodeUnchecked: undefined,
 		onNodeUnselected: undefined,
 		onSearchComplete: undefined,
-		onSearchCleared: undefined
+		onSearchCleared: undefined,
+        onNodeContextmenu: undefined
 	};
 
 	_default.options = {
@@ -189,6 +196,8 @@
 	Tree.prototype.unsubscribeEvents = function () {
 
 		this.$element.off('click');
+		this.$element.off('contextmenu');
+		this.$element.off('nodeContextmenu')
 		this.$element.off('nodeChecked');
 		this.$element.off('nodeCollapsed');
 		this.$element.off('nodeDisabled');
@@ -206,10 +215,15 @@
 		this.unsubscribeEvents();
 
 		this.$element.on('click', $.proxy(this.clickHandler, this));
+        this.$element.on('contextmenu', $.proxy(this.contextmenuHandler, this));
 
 		if (typeof (this.options.onNodeChecked) === 'function') {
 			this.$element.on('nodeChecked', this.options.onNodeChecked);
 		}
+
+        if (typeof (this.options.onNodeContextmenu) === 'function') {
+            this.$element.on('nodeContextmenu', this.options.onNodeContextmenu);
+        }
 
 		if (typeof (this.options.onNodeCollapsed) === 'function') {
 			this.$element.on('nodeCollapsed', this.options.onNodeCollapsed);
@@ -344,6 +358,17 @@
 			this.render();
 		}
 	};
+
+    Tree.prototype.contextmenuHandler = function (event) {
+
+        if (!this.options.enableLinks) event.preventDefault();
+
+        var target = $(event.target);
+        var node = this.findNode(target);
+        if (!node || node.state.disabled) return;
+
+        this.$element.trigger('nodeContextmenu' , $.extend(true, {}, node));
+    };
 
 	// Looks up the DOM for the closest parent list item to retrieve the
 	// data attribute nodeid, which is used to lookup the node in the flattened structure.
