@@ -45,7 +45,7 @@
 </div>
 
 <div class="panel panel-default">
-    <div class="panel-heading">{t}Zu bestellende Teile{/t}</div>
+    <div class="panel-heading"><b>{if isset($table_rowcount)}{$table_rowcount}{else}0{/if}</b> {t}Zu bestellende Teile{/t}</div>
     <div class="panel-body">
         <form method="post" action="" class="no-progbar">
             {if isset($table_rowcount) && $table_rowcount > 0}

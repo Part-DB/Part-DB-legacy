@@ -11,6 +11,6 @@
 </div>
 
 <div class="panel panel-default">
-    <div class="panel-heading">Nicht mehr erh&auml;ltliche Teile</div>
+    <div class="panel-heading"><b>{$table_rowcount}</b> Nicht mehr erh&auml;ltliche Teile</div>
         {include file="../smarty_table.tpl"}
 </div>

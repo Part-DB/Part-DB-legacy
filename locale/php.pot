@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2016-12-31 18:46+0100\n"
+"POT-Creation-Date: 2017-09-02 23:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,715 +17,867 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: development/sandbox.php:60
+#: ../development/sandbox.php:59
 #, php-format
 msgid "Das ist %s!"
 msgstr ""
 
-#: edit_attachement_types.php:73 lib/class.API.php:170
+#: ../edit_attachement_types.php:81 ../inc/lib.php:984
 msgid "Dateitypen"
 msgstr ""
 
-#: edit_attachement_types.php:116
+#: ../edit_attachement_types.php:116
 msgid "Der neue Dateityp konnte nicht angelegt werden!"
 msgstr ""
 
-#: edit_attachement_types.php:117 edit_attachement_types.php:150
-#: edit_attachement_types.php:166 edit_attachement_types.php:182
-#: edit_categories.php:125 edit_categories.php:158 edit_categories.php:176
-#: edit_categories.php:197 edit_devices.php:120 edit_devices.php:148
-#: edit_devices.php:166 edit_devices.php:184 edit_footprints.php:139
-#: edit_footprints.php:172 edit_footprints.php:188 edit_footprints.php:206
-#: edit_footprints.php:236 edit_manufacturers.php:127
-#: edit_manufacturers.php:160 edit_manufacturers.php:176
-#: edit_manufacturers.php:198 edit_storelocations.php:139
-#: edit_storelocations.php:171 edit_storelocations.php:192
-#: edit_storelocations.php:214 edit_suppliers.php:130 edit_suppliers.php:163
-#: edit_suppliers.php:179 edit_suppliers.php:201 lib/class.Database.php:340
-#: lib/class.Database.php:397 lib/class.Database.php:418
-#: lib/class.Database.php:443 lib/class.Database.php:457
-#: lib/class.Database.php:482 lib/class.Database.php:497 system_config.php:226
-#: system_config.php:246 system_database.php:109 system_database.php:125
-#: system_database.php:148 tools_import.php:104 tools_import.php:121
-#: tools_import.php:148
+#: ../edit_attachement_types.php:117 ../edit_attachement_types.php:145
+#: ../edit_attachement_types.php:159 ../edit_attachement_types.php:173
+#: ../edit_categories.php:144 ../edit_categories.php:172
+#: ../edit_categories.php:188 ../edit_categories.php:212
+#: ../edit_devices.php:119 ../edit_devices.php:146 ../edit_devices.php:162
+#: ../edit_devices.php:178 ../edit_footprints.php:155
+#: ../edit_footprints.php:183 ../edit_footprints.php:197
+#: ../edit_footprints.php:213 ../edit_footprints.php:239
+#: ../edit_manufacturers.php:135 ../edit_manufacturers.php:163
+#: ../edit_manufacturers.php:177 ../edit_manufacturers.php:197
+#: ../edit_storelocations.php:145 ../edit_storelocations.php:170
+#: ../edit_storelocations.php:185 ../edit_storelocations.php:201
+#: ../edit_suppliers.php:135 ../edit_suppliers.php:163
+#: ../edit_suppliers.php:177 ../edit_suppliers.php:197 ../lib/Database.php:356
+#: ../lib/Database.php:410 ../lib/Database.php:426 ../lib/Database.php:445
+#: ../lib/Database.php:455 ../lib/Database.php:476 ../lib/Database.php:487
+#: ../system_config.php:230 ../system_config.php:248 ../system_database.php:107
+#: ../system_database.php:120 ../system_database.php:142
+#: ../tools_import.php:105 ../tools_import.php:119 ../tools_import.php:145
 msgid "Fehlermeldung: "
 msgstr ""
 
-#: edit_attachement_types.php:125 edit_attachement_types.php:158
-#: edit_attachement_types.php:174
+#: ../edit_attachement_types.php:124 ../edit_attachement_types.php:152
+#: ../edit_attachement_types.php:166
 msgid "Es ist kein Dateityp markiert oder es trat ein Fehler auf!"
 msgstr ""
 
-#: edit_attachement_types.php:132
+#: ../edit_attachement_types.php:131
 #, php-format
 msgid ""
 "Es gibt noch %d Dateianhänge mit diesem Dateityp, daher kann der Dateityp "
 "nicht gelöscht werden."
 msgstr ""
 
-#: edit_attachement_types.php:140
+#: ../edit_attachement_types.php:137
 msgid "&nbsp;&nbsp;&bull; Es gibt keine Dateianhänge mit diesem Dateityp."
 msgstr ""
 
-#: edit_attachement_types.php:141
+#: ../edit_attachement_types.php:138
 msgid ""
 "&nbsp;&nbsp;&bull; Beinhaltet diese Dateityp noch Unterdateitypen, dann "
 "werden diese eine Ebene nach oben verschoben."
 msgstr ""
 
-#: edit_attachement_types.php:143 edit_categories.php:151 edit_devices.php:142
-#: edit_footprints.php:165 edit_manufacturers.php:153 edit_part_info.php:424
-#: edit_storelocations.php:164 edit_suppliers.php:156
+#: ../edit_attachement_types.php:140 ../edit_categories.php:167
+#: ../edit_devices.php:142 ../edit_footprints.php:178
+#: ../edit_manufacturers.php:158 ../edit_part_info.php:582
+#: ../edit_storelocations.php:165 ../edit_suppliers.php:158
 msgid "Nein, nicht löschen"
 msgstr ""
 
-#: edit_attachement_types.php:144
+#: ../edit_attachement_types.php:141
 msgid "Ja, Dateityp löschen"
 msgstr ""
 
-#: edit_attachement_types.php:149 edit_categories.php:157 edit_devices.php:147
-#: edit_footprints.php:171 edit_manufacturers.php:159
-#: edit_storelocations.php:170 edit_suppliers.php:162 system_database.php:147
+#: ../edit_attachement_types.php:144 ../edit_categories.php:171
+#: ../edit_devices.php:145 ../edit_footprints.php:182
+#: ../edit_manufacturers.php:162 ../edit_storelocations.php:169
+#: ../edit_suppliers.php:162 ../system_database.php:141
 msgid "Es trat ein Fehler auf!"
 msgstr ""
 
-#: edit_attachement_types.php:165
+#: ../edit_attachement_types.php:158
 msgid "Der Dateityp konnte nicht gelöscht werden!"
 msgstr ""
 
-#: edit_attachement_types.php:181 edit_categories.php:196 edit_devices.php:183
-#: edit_footprints.php:205 edit_manufacturers.php:197
-#: edit_storelocations.php:213 edit_suppliers.php:200 system_config.php:225
-#: system_config.php:245 system_database.php:108 system_database.php:124
+#: ../edit_attachement_types.php:172 ../edit_categories.php:211
+#: ../edit_devices.php:177 ../edit_footprints.php:212
+#: ../edit_manufacturers.php:196 ../edit_storelocations.php:200
+#: ../edit_suppliers.php:196 ../system_config.php:229 ../system_config.php:247
+#: ../system_database.php:106 ../system_database.php:119
 msgid "Die neuen Werte konnten nicht gespeichert werden!"
 msgstr ""
 
-#: edit_categories.php:77 lib/class.API.php:167
+#: ../edit_categories.php:91 ../inc/lib.php:979
 msgid "Kategorien"
 msgstr ""
 
-#: edit_categories.php:124
+#: ../edit_categories.php:143
 msgid "Die neue Kategorie konnte nicht angelegt werden!"
 msgstr ""
 
-#: edit_categories.php:133 edit_categories.php:166 edit_categories.php:184
+#: ../edit_categories.php:151 ../edit_categories.php:179
+#: ../edit_categories.php:195
 msgid "Es ist keine Kategorie markiert oder es trat ein Fehler auf!"
 msgstr ""
 
-#: edit_categories.php:140
+#: ../edit_categories.php:158
 #, php-format
 msgid ""
 "Es gibt noch %d Bauteile in dieser Kategorie, daher kann die Kategorie nicht "
 "gelöscht werden."
 msgstr ""
 
-#: edit_categories.php:145
+#: ../edit_categories.php:161
 #, php-format
 msgid "Soll die Kategorie \"%s\" wirklich unwiederruflich gelöscht werden?"
 msgstr ""
 
-#: edit_categories.php:147
+#: ../edit_categories.php:163
 msgid "Hinweise:"
 msgstr ""
 
-#: edit_categories.php:148
+#: ../edit_categories.php:164
 msgid "Es gibt keine Bauteile in dieser Kategorie."
 msgstr ""
 
-#: edit_categories.php:149
+#: ../edit_categories.php:165
 msgid ""
 "Beinhaltet diese Kategorie noch Unterkategorien, dann werden diese eine "
 "Ebene nach oben verschoben."
 msgstr ""
 
-#: edit_categories.php:152
+#: ../edit_categories.php:168
 msgid "Ja, Kategorie löschen"
 msgstr ""
 
-#: edit_categories.php:175
+#: ../edit_categories.php:187
 msgid "Die Kategorie konnte nicht gelöscht werden!"
 msgstr ""
 
-#: edit_devices.php:74 lib/class.API.php:164
+#: ../edit_devices.php:81 ../inc/lib.php:975
 msgid "Baugruppen"
 msgstr ""
 
-#: edit_devices.php:119
+#: ../edit_devices.php:118
 msgid "Die neue Baugruppe konnte nicht angelegt werden!"
 msgstr ""
 
-#: edit_devices.php:128 edit_devices.php:156 edit_devices.php:174
+#: ../edit_devices.php:126 ../edit_devices.php:153 ../edit_devices.php:169
 msgid "Es ist keine Baugruppe markiert oder es trat ein Fehler auf!"
 msgstr ""
 
-#: edit_devices.php:133
+#: ../edit_devices.php:132
 #, php-format
 msgid "Soll die Baugruppe \"%s\" wirklich unwiederruflich gelöscht werden?"
 msgstr ""
 
-#: edit_devices.php:135 edit_footprints.php:161 edit_manufacturers.php:149
-#: edit_part_info.php:414 edit_storelocations.php:160 edit_suppliers.php:152
+#: ../edit_devices.php:134 ../edit_footprints.php:174
+#: ../edit_manufacturers.php:154 ../edit_part_info.php:570
+#: ../edit_storelocations.php:161 ../edit_suppliers.php:154
 msgid "<br>Hinweise:"
 msgstr ""
 
-#: edit_devices.php:137
+#: ../edit_devices.php:136
 #, php-format
 msgid "&nbsp;&nbsp;&bull; Es gibt noch %d Bauteile in dieser Baugruppe!"
 msgstr ""
 
-#: edit_devices.php:139
+#: ../edit_devices.php:138
 msgid "&nbsp;&nbsp;&bull; Es gibt keine Bauteile in dieser Baugruppe."
 msgstr ""
 
-#: edit_devices.php:140
+#: ../edit_devices.php:140
 msgid ""
 "&nbsp;&nbsp;&bull; Beinhaltet diese Baugruppe noch Unterbaugruppen, dann "
 "werden diese eine Ebene nach oben verschoben."
 msgstr ""
 
-#: edit_devices.php:143
+#: ../edit_devices.php:143
 msgid "Ja, Baugruppe löschen"
 msgstr ""
 
-#: edit_devices.php:165
+#: ../edit_devices.php:161
 msgid "Die Baugruppe konnte nicht gelöscht werden!"
 msgstr ""
 
-#: edit_footprints.php:94 lib/class.API.php:147 lib/class.API.php:166
+#: ../edit_footprints.php:111 ../inc/lib.php:953 ../inc/lib.php:978
 msgid "Footprints"
 msgstr ""
 
-#: edit_footprints.php:138
+#: ../edit_footprints.php:154
 msgid "Der neue Footprint konnte nicht angelegt werden!"
 msgstr ""
 
-#: edit_footprints.php:147 edit_footprints.php:180 edit_footprints.php:196
+#: ../edit_footprints.php:162 ../edit_footprints.php:190
+#: ../edit_footprints.php:204
 msgid "Es ist kein Footprint markiert oder es trat ein Fehler auf!"
 msgstr ""
 
-#: edit_footprints.php:154
+#: ../edit_footprints.php:169
 #, php-format
 msgid ""
 "Es gibt noch %d Bauteile mit diesem Footprint, daher kann der Footprint "
 "nicht gelöscht werden."
 msgstr ""
 
-#: edit_footprints.php:159
+#: ../edit_footprints.php:172
 #, php-format
 msgid "Soll der Footprint \"%s\" wirklich unwiederruflich gelöscht werden?"
 msgstr ""
 
-#: edit_footprints.php:162
+#: ../edit_footprints.php:175
 msgid "&nbsp;&nbsp;&bull; Es gibt keine Bauteile mit diesem Footprint."
 msgstr ""
 
-#: edit_footprints.php:163
+#: ../edit_footprints.php:176
 msgid ""
 "&nbsp;&nbsp;&bull; Beinhaltet dieser Footprint noch Unterfootprints, dann "
 "werden diese eine Ebene nach oben verschoben."
 msgstr ""
 
-#: edit_footprints.php:166
+#: ../edit_footprints.php:179
 msgid "Ja, Footprint löschen"
 msgstr ""
 
-#: edit_footprints.php:187
+#: ../edit_footprints.php:196
 msgid "Der Footprint konnte nicht gelöscht werden!"
 msgstr ""
 
-#: edit_manufacturers.php:80 lib/class.API.php:169
+#: ../edit_manufacturers.php:87 ../inc/lib.php:982
 msgid "Hersteller"
 msgstr ""
 
-#: edit_manufacturers.php:126
+#: ../edit_manufacturers.php:134
 msgid "Der neue Hersteller konnte nicht angelegt werden!"
 msgstr ""
 
-#: edit_manufacturers.php:135 edit_manufacturers.php:168
-#: edit_manufacturers.php:184
+#: ../edit_manufacturers.php:142 ../edit_manufacturers.php:170
+#: ../edit_manufacturers.php:184
 msgid "Es ist kein Hersteller markiert oder es trat ein Fehler auf!"
 msgstr ""
 
-#: edit_manufacturers.php:142
+#: ../edit_manufacturers.php:149
 #, php-format
 msgid ""
 "Es gibt noch %d Bauteile mit diesem Hersteller, daher kann der Hersteller "
 "nicht gelöscht werden."
 msgstr ""
 
-#: edit_manufacturers.php:147
+#: ../edit_manufacturers.php:152
 #, php-format
 msgid "Soll der Hersteller \"%s\" wirklich unwiederruflich gelöscht werden?"
 msgstr ""
 
-#: edit_manufacturers.php:150
+#: ../edit_manufacturers.php:155
 msgid ""
 "&nbsp;&nbsp;&bull; Es gibt keine Bauteile, die diesen Hersteller zugeordnet "
 "haben."
 msgstr ""
 
-#: edit_manufacturers.php:151
+#: ../edit_manufacturers.php:156
 msgid ""
 "&nbsp;&nbsp;&bull; Beinhaltet dieser Hersteller noch Unterhersteller, dann "
 "werden diese eine Ebene nach oben verschoben."
 msgstr ""
 
-#: edit_manufacturers.php:154
+#: ../edit_manufacturers.php:159
 msgid "Ja, Hersteller löschen"
 msgstr ""
 
-#: edit_manufacturers.php:175
+#: ../edit_manufacturers.php:176
 msgid "Der Hersteller konnte nicht gelöscht werden!"
 msgstr ""
 
-#: edit_part_info.php:131
+#: ../edit_part_info.php:199
 msgid "Bauteil bearbeiten"
 msgstr ""
 
-#: edit_part_info.php:252 edit_part_info.php:269
+#: ../edit_part_info.php:282 ../edit_part_info.php:361
+#, php-format
+msgid "Der Name \"%s\" entspricht nicht den Vorgaben!"
+msgstr ""
+
+#: ../edit_part_info.php:286 ../edit_part_info.php:365
+#, php-format
+msgid "Der Name \"%s\" entspricht nicht den Vorgaben <b>(%s)</b>!"
+msgstr ""
+
+#: ../edit_part_info.php:294 ../edit_part_info.php:371
+msgid "<br>Hinweis:"
+msgstr ""
+
+#: ../edit_part_info.php:295 ../edit_part_info.php:372
+msgid "Der Name muss folgendem Format entsprechen: "
+msgstr ""
+
+#: ../edit_part_info.php:297 ../edit_part_info.php:377
+msgid "Möchten sie wirklich fortfahren?<br>"
+msgstr ""
+
+#: ../edit_part_info.php:298 ../edit_part_info.php:378
+msgid "Nein, Name überarbeiten"
+msgstr ""
+
+#: ../edit_part_info.php:299 ../edit_part_info.php:379
+msgid "Ja, Name speichern"
+msgstr ""
+
+#: ../edit_part_info.php:301 ../edit_part_info.php:374
+msgid ""
+"Dies kann nicht ignoriert werden, da das Enforcement-Flag für diese "
+"Kategorie gesetzt ist!<br>"
+msgstr ""
+
+#: ../edit_part_info.php:302 ../edit_part_info.php:375
+msgid "Ok, Name überarbeiten"
+msgstr ""
+
+#: ../edit_part_info.php:410 ../edit_part_info.php:425
 msgid "Es ist keine Einkaufsinformation ausgewählt!"
 msgstr ""
 
-#: edit_part_info.php:299 edit_part_info.php:316
+#: ../edit_part_info.php:455 ../edit_part_info.php:470
 msgid "Es ist keine Preisinformation ausgewählt!"
 msgstr ""
 
-#: edit_part_info.php:330
+#: ../edit_part_info.php:482
 msgid ""
 "Sie müssen entweder ein Dateiname angeben, oder eine Datei zum Hochladen "
 "wählen!"
 msgstr ""
 
-#: edit_part_info.php:351 edit_part_info.php:383
+#: ../edit_part_info.php:511 ../edit_part_info.php:540
 msgid "Es ist kein Dateianhang ausgewählt!"
 msgstr ""
 
-#: edit_part_info.php:408
+#: ../edit_part_info.php:564
 msgid ""
 "Das Bauteil kann nicht gelöscht werden, da es noch in den folgenden "
 "Baugruppen verwendet wird:"
 msgstr ""
 
-#: edit_part_info.php:412
+#: ../edit_part_info.php:568
 #, php-format
 msgid "Soll das Bauteil \"%s\" wirklich unwiederruflich gelöscht werden?"
 msgstr ""
 
-#: edit_part_info.php:415
+#: ../edit_part_info.php:571
 msgid ""
 "&nbsp;&nbsp;&bull; Es gibt keine Baugruppen die dieses Bauteil verwenden."
 msgstr ""
 
-#: edit_part_info.php:417
+#: ../edit_part_info.php:573
 msgid ""
 "&nbsp;&nbsp;&bull; Alle Dateien dieses Bauteiles, die nicht von anderen "
 "Bauteilen verwendet werden, werden von der Festplatte gelöscht!"
 msgstr ""
 
-#: edit_part_info.php:419
+#: ../edit_part_info.php:575
 msgid ""
 "&nbsp;&nbsp;&bull; Alle Dateien dieses Bauteiles bleiben weiterhin erhalten."
 msgstr ""
 
-#: edit_part_info.php:425
+#: ../edit_part_info.php:583
 msgid "Ja, Bauteil löschen"
 msgstr ""
 
-#: edit_part_info.php:438
+#: ../edit_part_info.php:593
 msgid "Das Bauteil wurde erfolgreich gelöscht!"
 msgstr ""
 
-#: edit_part_info.php:439
+#: ../edit_part_info.php:594
 msgid "Fenster schliessen"
 msgstr ""
 
-#: edit_storelocations.php:78 lib/class.API.php:165
+#: ../edit_storelocations.php:85 ../inc/lib.php:977
 msgid "Lagerorte"
 msgstr ""
 
-#: edit_storelocations.php:138
+#: ../edit_storelocations.php:144
 msgid "Der neue Lagerort konnte nicht angelegt werden!"
 msgstr ""
 
-#: edit_storelocations.php:153
+#: ../edit_storelocations.php:156
 #, php-format
 msgid ""
 "Es gibt noch %d Bauteile an diesem Lagerort, daher kann der Lagerort nicht "
 "gelöscht werden."
 msgstr ""
 
-#: edit_storelocations.php:158
+#: ../edit_storelocations.php:159
 #, php-format
 msgid "Soll der Lagerort \"%s\" wirklich unwiederruflich gelöscht werden?"
 msgstr ""
 
-#: edit_storelocations.php:161
+#: ../edit_storelocations.php:162
 msgid "&nbsp;&nbsp;&bull; Es gibt keine Bauteile an diesem Lagerort."
 msgstr ""
 
-#: edit_storelocations.php:162
+#: ../edit_storelocations.php:163
 msgid ""
 "&nbsp;&nbsp;&bull; Beinhaltet dieser Lagerort noch Unterlagerorte, dann "
 "werden diese eine Ebene nach oben verschoben."
 msgstr ""
 
-#: edit_storelocations.php:165
+#: ../edit_storelocations.php:166
 msgid "Ja, Lagerort löschen"
 msgstr ""
 
-#: edit_storelocations.php:176 edit_storelocations.php:197
-#: edit_storelocations.php:219
+#: ../edit_storelocations.php:173 ../edit_storelocations.php:188
+#: ../edit_storelocations.php:204
 msgid "Es ist kein Lagerort markiert oder es trat ein Fehler auf!"
 msgstr ""
 
-#: edit_storelocations.php:191
+#: ../edit_storelocations.php:184
 msgid "Der Lagerort konnte nicht gelöscht werden!"
 msgstr ""
 
-#: edit_suppliers.php:83 lib/class.API.php:168
+#: ../edit_suppliers.php:87 ../inc/lib.php:980
 msgid "Lieferanten"
 msgstr ""
 
-#: edit_suppliers.php:129
+#: ../edit_suppliers.php:134
 msgid "Der neue Lieferant konnte nicht angelegt werden!"
 msgstr ""
 
-#: edit_suppliers.php:138 edit_suppliers.php:171 edit_suppliers.php:187
+#: ../edit_suppliers.php:142 ../edit_suppliers.php:170
+#: ../edit_suppliers.php:184
 msgid "Es ist kein Lieferant markiert oder es trat ein Fehler auf!"
 msgstr ""
 
-#: edit_suppliers.php:145
+#: ../edit_suppliers.php:149
 #, php-format
 msgid ""
 "Es gibt noch %d Bauteile mit diesem Lieferanten, daher kann der Lieferant "
 "nicht gelöscht werden."
 msgstr ""
 
-#: edit_suppliers.php:150
+#: ../edit_suppliers.php:152
 #, php-format
 msgid "Soll der Lieferant \"%s\" wirklich unwiederruflich gelöscht werden?"
 msgstr ""
 
-#: edit_suppliers.php:153
+#: ../edit_suppliers.php:155
 msgid ""
 "&nbsp;&nbsp;&bull; Es gibt keine Bauteile, die diesen Lieferanten zugeordnet "
 "haben."
 msgstr ""
 
-#: edit_suppliers.php:154
+#: ../edit_suppliers.php:156
 msgid ""
 "&nbsp;&nbsp;&bull; Beinhaltet dieser Lieferant noch Unterlieferanten, dann "
 "werden diese eine Ebene nach oben verschoben."
 msgstr ""
 
-#: edit_suppliers.php:157
+#: ../edit_suppliers.php:159
 msgid "Ja, Lieferant löschen"
 msgstr ""
 
-#: edit_suppliers.php:178
+#: ../edit_suppliers.php:176
 msgid "Der Lieferant konnte nicht gelöscht werden!"
 msgstr ""
 
-#: install.php:87
+#: ../inc/lib.php:262
+msgid "Ungültiges Array übergeben!"
+msgstr ""
+
+#: ../inc/lib.php:276
+msgid "Sie haben keine Schreibrechte im Verzeichnis \""
+msgstr ""
+
+#: ../inc/lib.php:288
+msgid "Es existiert bereits eine Datei mit dem Dateinamen \""
+msgstr ""
+
+#: ../inc/lib.php:549
+msgid "Der Download mit \"curl\" lieferte kein Ergebnis!"
+msgstr ""
+
+#: ../inc/lib.php:945
+msgid "Import"
+msgstr ""
+
+#: ../inc/lib.php:947 ../tools_labels.php:39
+msgid "Labels"
+msgstr ""
+
+#: ../inc/lib.php:950 ../tools_calculator.php:39
+msgid "Widerstandsrechner"
+msgstr ""
+
+#: ../inc/lib.php:956
+msgid "IC-Logos"
+msgstr ""
+
+#: ../inc/lib.php:960 ../system_config.php:139
+msgid "Konfiguration"
+msgstr ""
+
+#: ../inc/lib.php:961
+msgid "Datenbank"
+msgstr ""
+
+#: ../inc/lib.php:966
+msgid "Zu bestellende Teile"
+msgstr ""
+
+#: ../inc/lib.php:967
+msgid "Teile ohne Preis"
+msgstr ""
+
+#: ../inc/lib.php:968
+msgid "Obsolente Bauteile"
+msgstr ""
+
+#: ../inc/lib.php:969 ../statistics.php:50
+msgid "Statistik"
+msgstr ""
+
+#: ../inc/lib.php:970
+msgid "Alle Teile"
+msgstr ""
+
+#: ../inc/lib.php:988
+msgid "Werkzeuge"
+msgstr ""
+
+#: ../inc/lib.php:989
+msgid "Debugging"
+msgstr ""
+
+#: ../inc/lib.php:990
+msgid "Sandkasten"
+msgstr ""
+
+#: ../inc/lib.php:991
+msgid "Quellcode-Doku"
+msgstr ""
+
+#: ../inc/lib.php:995
+msgid "Tools"
+msgstr ""
+
+#: ../inc/lib.php:996
+msgid "Bearbeiten"
+msgstr ""
+
+#: ../inc/lib.php:997
+msgid "Zeige"
+msgstr ""
+
+#: ../inc/lib.php:999
+msgid "System"
+msgstr ""
+
+#: ../inc/lib.php:1002
+msgid "Entwickler-Werkzeuge"
+msgstr ""
+
+#: ../inc/lib.php:1004
+msgid "Hilfe"
+msgstr ""
+
+#: ../inc/lib.start_session.php:165
+msgid "PDO (PHP Data Objects) wird benötigt, ist aber nicht installiert!"
+msgstr ""
+
+#: ../inc/lib.start_session.php:170
+msgid "Unbekannte Mindestanforderung: "
+msgstr ""
+
+#: ../install.php:94
 msgid "Part-DB Installation/Update"
 msgstr ""
 
-#: install.php:117
+#: ../install.php:118
 #, php-format
 msgid ""
 "Die gewählte Sprache \"%s\" wird vom Server nicht unterstützt!\n"
 "Bitte installieren Sie diese Sprache oder wählen Sie eine andere."
 msgstr ""
 
-#: lib/class.API.php:113
-msgid "&Uuml;bersicht"
-msgstr ""
-
-#: lib/class.API.php:144
-msgid "Import"
-msgstr ""
-
-#: lib/class.API.php:145 tools_labels.php:44
-msgid "Labels"
-msgstr ""
-
-#: lib/class.API.php:146 tools_calculator.php:44
-msgid "Widerstandsrechner"
-msgstr ""
-
-#: lib/class.API.php:148
-msgid "IC-Logos"
-msgstr ""
-
-#: lib/class.API.php:151 system_config.php:131
-msgid "Konfiguration"
-msgstr ""
-
-#: lib/class.API.php:152
-msgid "Datenbank"
-msgstr ""
-
-#: lib/class.API.php:157
-msgid "Zu bestellende Teile"
-msgstr ""
-
-#: lib/class.API.php:158
-msgid "Teile ohne Preis"
-msgstr ""
-
-#: lib/class.API.php:159
-msgid "Obsolente Bauteile"
-msgstr ""
-
-#: lib/class.API.php:160 statistics.php:44
-msgid "Statistik"
-msgstr ""
-
-#: lib/class.API.php:174
-msgid "Werkzeuge"
-msgstr ""
-
-#: lib/class.API.php:175
-msgid "Debugging"
-msgstr ""
-
-#: lib/class.API.php:176
-msgid "Sandkasten"
-msgstr ""
-
-#: lib/class.API.php:177
-msgid "Quellcode-Doku"
-msgstr ""
-
-#: lib/class.API.php:181
-msgid "Tools"
-msgstr ""
-
-#: lib/class.API.php:182
-msgid "Bearbeiten"
-msgstr ""
-
-#: lib/class.API.php:183
-msgid "Zeige"
-msgstr ""
-
-#: lib/class.API.php:184
-msgid "System"
-msgstr ""
-
-#: lib/class.API.php:185
-msgid "Entwickler-Werkzeuge"
-msgstr ""
-
-#: lib/class.API.php:186
-msgid "Hilfe"
-msgstr ""
-
-#: lib/class.API.php:195
-msgid "You must specify a part id, with the 'pid' param!"
-msgstr ""
-
-#: lib/class.Attachement.php:127
+#: ../lib/Attachement.php:120
 #, php-format
 msgid ""
 "Die Datei \"%s\" kann nicht gelöscht werden, da im übergeordneten Ordner "
 "keine Schreibrechte vorhanden sind!"
 msgstr ""
 
-#: lib/class.Attachement.php:159
+#: ../lib/Attachement.php:149
 #, php-format
 msgid ""
 "Die Datei \"%s\" kann nicht von der Festplatte gelöscht werden! \n"
 "Überprüfen Sie, ob die nötigen Rechte vorhanden sind."
 msgstr ""
 
-#: lib/class.Attachement.php:172
+#: ../lib/Attachement.php:161
 #, php-format
 msgid ""
 "Der Dateianhang \"%s\" konnte nicht entfernt werden!\n"
 "Grund: "
 msgstr ""
 
-#: lib/class.Attachement.php:386
+#: ../lib/Attachement.php:382
 msgid "\"type_id\" ist Null!"
 msgstr ""
 
-#: lib/class.Attachement.php:395
+#: ../lib/Attachement.php:395
 msgid "Der gewählte Dateityp existiert nicht!"
 msgstr ""
 
-#: lib/class.Attachement.php:404
+#: ../lib/Attachement.php:408
 #, php-format
 msgid "Ungültiger Klassenname: \"%s\""
 msgstr ""
 
-#: lib/class.Attachement.php:422
+#: ../lib/Attachement.php:430
 msgid "Das gewählte Element existiert nicht!"
 msgstr ""
 
-#: lib/class.Attachement.php:430
+#: ../lib/Attachement.php:438
 msgid "Der Dateiname ist leer, das ist nicht erlaubt!"
 msgstr ""
 
-#: lib/class.Attachement.php:434
+#: ../lib/Attachement.php:443
 #, php-format
 msgid "Der Dateipfad \"%s\" ist kein gültiger absoluter UNIX Dateipfad!"
 msgstr ""
 
-#: lib/class.Attachement.php:452 lib/class.AttachementType.php:122
-#: lib/class.Category.php:278 lib/class.DBElement.php:97
-#: lib/class.DevicePart.php:319 lib/class.User.php:186
+#: ../lib/Attachement.php:462 ../lib/AttachementType.php:117
+#: ../lib/Base/DBElement.php:96 ../lib/Category.php:510
+#: ../lib/DevicePart.php:324 ../lib/User.php:190
 msgid "$database ist kein Database-Objekt!"
 msgstr ""
 
-#: lib/class.Attachement.php:484
+#: ../lib/Attachement.php:502
 msgid "$element ist kein Objekt!"
 msgstr ""
 
-#: lib/class.AttachementsContainingDBElement.php:141
-#: lib/class.StructuralDBElement.php:175
+#: ../lib/Base/AttachementsContainingDBElement.php:138
+#: ../lib/Base/StructuralDBElement.php:173
 #, php-format
 msgid ""
 "Das Element \"%s\" konnte nicht gelöscht werden!\n"
 "Grund: "
 msgstr ""
 
-#: lib/class.Database.php:127
+#: ../lib/Base/DBElement.php:100
+msgid "$current_user ist kein User-Objekt!"
+msgstr ""
+
+#: ../lib/Base/DBElement.php:104
+msgid "$log ist kein DebugLog-Objekt!"
+msgstr ""
+
+#: ../lib/Base/DBElement.php:352
+msgid "$database ist kein gültiges Database-Objekt!"
+msgstr ""
+
+#: ../lib/Base/DBElement.php:356
+msgid "$current_user ist kein gültiges User-Objekt!"
+msgstr ""
+
+#: ../lib/Base/DBElement.php:360
+msgid "$log ist kein gültiges Log-Objekt!"
+msgstr ""
+
+#: ../lib/Base/DBElement.php:364
+msgid "$tablename ist kein String!"
+msgstr ""
+
+#: ../lib/Base/DBElement.php:368
+msgid "$new_values ist kein Array!"
+msgstr ""
+
+#: ../lib/Base/DBElement.php:372
+msgid "Das Array $new_values ist leer!"
+msgstr ""
+
+#: ../lib/Base/StructuralDBElement.php:98
+#: ../lib/Base/StructuralDBElement.php:100
+#: ../lib/Base/StructuralDBElement.php:364
+#: ../lib/Base/StructuralDBElement.php:438
+#: ../lib/Base/StructuralDBElement.php:481
+msgid "Oberste Ebene"
+msgstr ""
+
+#: ../lib/Base/StructuralDBElement.php:141
+msgid "Die Oberste Ebene kann nicht gelöscht werden!"
+msgstr ""
+
+#: ../lib/Base/StructuralDBElement.php:538
+msgid "Die Oberste Ebene kann nicht bearbeitet werden!"
+msgstr ""
+
+#: ../lib/Base/StructuralDBElement.php:547
+msgid ""
+"Ein Element kann nicht als Unterelement von sich selber zugeordnet werden!"
+msgstr ""
+
+#: ../lib/Base/StructuralDBElement.php:556
+msgid "Ungültige \"parent_id\": \""
+msgstr ""
+
+#: ../lib/Base/StructuralDBElement.php:557 ../lib/User.php:169
+msgid ""
+"\n"
+"\n"
+"Ursprüngliche Fehlermeldung: "
+msgstr ""
+
+#: ../lib/Base/StructuralDBElement.php:562
+msgid "Das ausgewählte übergeordnete Element existiert nicht!"
+msgstr ""
+
+#: ../lib/Base/StructuralDBElement.php:567
+msgid ""
+"Ein Element kann nicht einem seiner direkten Unterelemente zugeordnet werden!"
+msgstr ""
+
+#: ../lib/Base/StructuralDBElement.php:580
+#, php-format
+msgid ""
+"Es existiert bereits ein Element auf gleicher Ebene (%1$s::%2$s) mit "
+"gleichem Namen (%3$s)!"
+msgstr ""
+
+#: ../lib/Database.php:135
 msgid "Unbekannter Datenbanktyp: \""
 msgstr ""
 
-#: lib/class.Database.php:139
+#: ../lib/Database.php:150
 msgid ""
 "Es konnte nicht mit der Datenbank verbunden werden! \n"
 "Überprüfen Sie, ob die Zugangsdaten korrekt sind."
 msgstr ""
 
-#: lib/class.Database.php:157
+#: ../lib/Database.php:152
+msgid "Details: "
+msgstr ""
+
+#: ../lib/Database.php:168
 msgid ""
 "Die folgenden MySQL Tabellen haben eine falsche Speicherengine (benötigt "
 "wird \"InnoDB\"): \n"
 msgstr ""
 
-#: lib/class.Database.php:183
+#: ../lib/Database.php:201
 msgid "Eintrag \"dbVersion\" existiert nicht in der Tabelle \"internal\"!"
 msgstr ""
 
-#: lib/class.Database.php:199
+#: ../lib/Database.php:218
 msgid "Konstante \"LATEST_DB_VERSION\" ist nicht definiert!"
 msgstr ""
 
-#: lib/class.Database.php:318
+#: ../lib/Database.php:337
 msgid ""
 "Ein Datenbankupdate kann nicht mitten in einer offenen Transaktion "
 "durchgeführt werden!"
 msgstr ""
 
-#: lib/class.Database.php:339
+#: ../lib/Database.php:355
 msgid "FEHLER: Wird zur Zeit schon ein Update durchgeführt?"
 msgstr ""
 
-#: lib/class.Database.php:348 lib/class.Database.php:476
+#: ../lib/Database.php:363 ../lib/Database.php:472
 msgid "SQL_MODE wird gesetzt..."
 msgstr ""
 
-#: lib/class.Database.php:367
+#: ../lib/Database.php:378
 #, php-format
 msgid "FEHLER: Keine Updateschritte für Version %s gefunden!"
 msgstr ""
 
-#: lib/class.Database.php:389
+#: ../lib/Database.php:401
 #, php-format
 msgid "Schritt: %s ...OK"
 msgstr ""
 
-#: lib/class.Database.php:395
+#: ../lib/Database.php:408
 msgid "Fehlermeldung: \""
 msgstr ""
 
-#: lib/class.Database.php:396
+#: ../lib/Database.php:409
 #, php-format
 msgid "Schritt: %s ...FEHLER!"
 msgstr ""
 
-#: lib/class.Database.php:417 lib/class.Database.php:465
+#: ../lib/Database.php:425 ../lib/Database.php:462
 msgid "FEHLER: Die neue Version konnte nicht gesetzt werden!"
 msgstr ""
 
-#: lib/class.Database.php:442
+#: ../lib/Database.php:444
 msgid ""
 "FEHLER: Die aktuelle Update-Position konnte nicht in der config.php "
 "gespeichert werden!"
 msgstr ""
 
-#: lib/class.Database.php:456
+#: ../lib/Database.php:454
 msgid "FEHLER: Die aktuelle Version konnte nicht gelesen werden!"
 msgstr ""
 
-#: lib/class.Database.php:481
+#: ../lib/Database.php:475
 msgid "FEHLER!"
 msgstr ""
 
-#: lib/class.Database.php:491
+#: ../lib/Database.php:483
 msgid "Datenbank wird freigegeben..."
 msgstr ""
 
-#: lib/class.Database.php:496
+#: ../lib/Database.php:486
 msgid "FEHLER: Die Datenbank konnte nicht entsperrt werden!"
 msgstr ""
 
-#: lib/class.Database.php:504 lib/class.Database.php:507
+#: ../lib/Database.php:493 ../lib/Database.php:496
 msgid "ABBRUCH: Das Update konnte nicht durchgeführt werden!"
 msgstr ""
 
-#: lib/class.Database.php:505
+#: ../lib/Database.php:494
 msgid "Zweitletzte Zeile: "
 msgstr ""
 
-#: lib/class.Database.php:506
+#: ../lib/Database.php:495
 msgid "Letzte Zeile: "
 msgstr ""
 
-#: lib/class.Database.php:511 lib/class.Database.php:512
+#: ../lib/Database.php:498 ../lib/Database.php:499
 msgid "Das Update wurde erfolgreich durchgeführt."
 msgstr ""
 
-#: lib/class.Database.php:576
+#: ../lib/Database.php:559
 msgid "PDO::begin_transaction() lieferte einen Fehler: "
 msgstr ""
 
-#: lib/class.Database.php:596
+#: ../lib/Database.php:579
 msgid "Es wurde noch keine Transaktion gestartet!"
 msgstr ""
 
-#: lib/class.Database.php:602
+#: ../lib/Database.php:587
 msgid "Die übermittelte Transaktions-ID ist nicht korrekt!"
 msgstr ""
 
-#: lib/class.Database.php:621
+#: ../lib/Database.php:601
 msgid "PDO::commit() lieferte einen Fehler: "
 msgstr ""
 
-#: lib/class.Database.php:680 lib/class.Database.php:758
+#: ../lib/Database.php:658 ../lib/Database.php:737
 msgid "$values ist kein Array!"
 msgstr ""
 
-#: lib/class.Database.php:694 lib/class.Database.php:767
+#: ../lib/Database.php:672 ../lib/Database.php:745
 msgid "PDO prepare Fehler!"
 msgstr ""
 
-#: lib/class.Database.php:705 lib/class.Database.php:778
+#: ../lib/Database.php:686 ../lib/Database.php:759
 msgid "PDO: Wert konnte nicht gebunden werden!"
 msgstr ""
 
-#: lib/class.Database.php:713 lib/class.Database.php:786
+#: ../lib/Database.php:693 ../lib/Database.php:766
 msgid "PDO execute lieferte einen Fehler!"
 msgstr ""
 
-#: lib/class.Database.php:726
+#: ../lib/Database.php:705
 msgid "Datenbankfehler: \n"
 msgstr ""
 
-#: lib/class.Database.php:726
+#: ../lib/Database.php:705
 msgid ""
 "\n"
 "\n"
@@ -733,245 +885,165 @@ msgid ""
 " "
 msgstr ""
 
-#: lib/class.Database.php:766
+#: ../lib/Database.php:744
 msgid "PDO Prepare Fehler!"
 msgstr ""
 
-#: lib/class.Database.php:803
+#: ../lib/Database.php:782
 msgid "PDO Ergebnis ist kein Array!"
 msgstr ""
 
-#: lib/class.Database.php:916
+#: ../lib/Database.php:910
 msgid "$values ist kein gültiges Array!"
 msgstr ""
 
-#: lib/class.DBElement.php:100
-msgid "$current_user ist kein User-Objekt!"
-msgstr ""
-
-#: lib/class.DBElement.php:103
-msgid "$log ist kein DebugLog-Objekt!"
-msgstr ""
-
-#: lib/class.DBElement.php:343
-msgid "$database ist kein gültiges Database-Objekt!"
-msgstr ""
-
-#: lib/class.DBElement.php:346
-msgid "$current_user ist kein gültiges User-Objekt!"
-msgstr ""
-
-#: lib/class.DBElement.php:349
-msgid "$log ist kein gültiges Log-Objekt!"
-msgstr ""
-
-#: lib/class.DBElement.php:352
-msgid "$tablename ist kein String!"
-msgstr ""
-
-#: lib/class.DBElement.php:355
-msgid "$new_values ist kein Array!"
-msgstr ""
-
-#: lib/class.DBElement.php:358
-msgid "Das Array $new_values ist leer!"
-msgstr ""
-
-#: lib/class.DevicePart.php:268
+#: ../lib/DevicePart.php:268
 msgid "Der obersten Ebene können keine Bauteile zugeordnet werden!"
 msgstr ""
 
-#: lib/class.DevicePart.php:277
+#: ../lib/DevicePart.php:281
 #, php-format
 msgid "Es existiert keine Baugruppe mit der ID \"%d\"!"
 msgstr ""
 
-#: lib/class.DevicePart.php:290
+#: ../lib/DevicePart.php:296
 #, php-format
 msgid "Es existiert kein Bauteil mit der ID \"%d\"!"
 msgstr ""
 
-#: lib/class.DevicePart.php:298
+#: ../lib/DevicePart.php:303
 #, php-format
 msgid "Die Bestückungs-Anzahl \"%d\" ist ungültig!"
 msgstr ""
 
-#: lib/class.DevicePart.php:403
+#: ../lib/DevicePart.php:419
 msgid "Die Bestückungs-Anzahl ist ungültig!"
 msgstr ""
 
-#: lib/class.DevicePart.php:427
+#: ../lib/DevicePart.php:441
 #, php-format
 msgid "Die Baugruppe \"%1$s\" enthält bereits das Bauteil \"%2$s\"!"
 msgstr ""
 
-#: lib/class.Log.php:74
+#: ../lib/HTML.php:183
+msgid "$url must be a valid a string"
+msgstr ""
+
+#: ../lib/Log.php:71
 msgid "$database ist kein Database-Objekt"
 msgstr ""
 
-#: lib/class.Part.php:242
+#: ../lib/Part.php:207
 msgid "Label type unknown: "
 msgstr ""
 
-#: lib/class.Part.php:1265
+#: ../lib/Part.php:1326
 msgid "\"$table_type\" ist ungültig!"
 msgstr ""
 
-#: lib/class.StructuralDBElement.php:99 lib/class.StructuralDBElement.php:101
-#: lib/class.StructuralDBElement.php:368 lib/class.StructuralDBElement.php:445
-#: lib/class.StructuralDBElement.php:484
-msgid "Oberste Ebene"
-msgstr ""
-
-#: lib/class.StructuralDBElement.php:142
-msgid "Die Oberste Ebene kann nicht gelöscht werden!"
-msgstr ""
-
-#: lib/class.StructuralDBElement.php:550
-msgid "Die Oberste Ebene kann nicht bearbeitet werden!"
-msgstr ""
-
-#: lib/class.StructuralDBElement.php:558
-msgid ""
-"Ein Element kann nicht als Unterelement von sich selber zugeordnet werden!"
-msgstr ""
-
-#: lib/class.StructuralDBElement.php:566
-msgid "Ungültige \"parent_id\": \""
-msgstr ""
-
-#: lib/class.StructuralDBElement.php:567 lib/class.User.php:168
-msgid ""
-"\n"
-"\n"
-"Ursprüngliche Fehlermeldung: "
-msgstr ""
-
-#: lib/class.StructuralDBElement.php:569
-msgid "Das ausgewählte übergeordnete Element existiert nicht!"
-msgstr ""
-
-#: lib/class.StructuralDBElement.php:574
-msgid ""
-"Ein Element kann nicht einem seiner direkten Unterelemente zugeordnet werden!"
-msgstr ""
-
-#: lib/class.StructuralDBElement.php:584
-#, php-format
-msgid ""
-"Es existiert bereits ein Element auf gleicher Ebene (%1$s::%2$s) mit "
-"gleichem Namen (%3$s)!"
-msgstr ""
-
-#: lib/class.User.php:167
+#: ../lib/User.php:168
 msgid "Ungültige \"group_id\": \""
 msgstr ""
 
-#: lib/class.User.php:170
+#: ../lib/User.php:174
 msgid "Die gewählte Gruppe existiert nicht!"
 msgstr ""
 
-#: lib/lib.php:288
-msgid "Ungültiges Array übergeben!"
-msgstr ""
-
-#: lib/lib.php:299
-msgid "Sie haben keine Schreibrechte im Verzeichnis \""
-msgstr ""
-
-#: lib/lib.php:310
-msgid "Es existiert bereits eine Datei mit dem Dateinamen \""
-msgstr ""
-
-#: lib/lib.php:564
-msgid "Der Download mit \"curl\" lieferte kein Ergebnis!"
-msgstr ""
-
-#: lib/lib.start_session.php:174
-msgid "PDO (PHP Data Objects) wird benötigt, ist aber nicht installiert!"
-msgstr ""
-
-#: lib/lib.start_session.php:179
-msgid "Unbekannte Mindestanforderung: "
-msgstr ""
-
-#: show_category_parts.php:75
+#: ../show_all_parts.php:72 ../show_category_parts.php:74
+#: ../show_category_parts.php:93 ../show_footprint_parts.php:74
+#: ../show_footprint_parts.php:93 ../show_location_parts.php:74
+#: ../show_location_parts.php:93 ../show_manufacturer_parts.php:74
+#: ../show_manufacturer_parts.php:93
 msgid "Teileansicht"
 msgstr ""
 
-#: show_category_parts.php:84
-msgid "Es wurde keine gültige Kategorien-ID übermittelt!"
-msgstr ""
-
-#: show_category_parts.php:133
+#: ../show_all_parts.php:114 ../show_category_parts.php:128
+#: ../show_footprint_parts.php:128 ../show_location_parts.php:128
+#: ../show_manufacturer_parts.php:128
 msgid "Es wurde keine gültige Bauteil-ID übermittelt!"
 msgstr ""
 
-#: show_part_info.php:64
+#: ../show_category_parts.php:82 ../show_manufacturer_parts.php:82
+msgid "Es wurde keine gültige Kategorien-ID übermittelt!"
+msgstr ""
+
+#: ../show_footprint_parts.php:82
+msgid "Es wurde keine gültige Footprint-ID übermittelt!"
+msgstr ""
+
+#: ../show_location_parts.php:82
+msgid "Es wurde keine gültige Lagerort-ID übermittelt!"
+msgstr ""
+
+#: ../show_part_info.php:58
 msgid "Label input is not valid!"
 msgstr ""
 
-#: show_part_info.php:81 show_part_info.php:182
+#: ../show_part_info.php:83 ../show_part_info.php:167
 msgid "Detailinfo"
 msgstr ""
 
-#: startup.php:45
+#: ../show_search_parts.php:101
+msgid "Suchresultate"
+msgstr ""
+
+#: ../startup.php:48
 msgid "Startseite"
 msgstr ""
 
-#: startup.php:167
+#: ../startup.php:152
 msgid ""
 "Der Atom-Feed konnte nicht aus dem Internet heruntergeladen werden. Prüfen "
 "Sie bitte, ob Ihre PHP-Konfiguration das Herunterladen aus dem Internet "
 "zulässt."
 msgstr ""
 
-#: startup.php:171
+#: ../startup.php:157
 msgid "Die Klasse \"SimpleXMLElement\" ist nicht vorhanden!"
 msgstr ""
 
-#: startup.php:176
+#: ../startup.php:163
 msgid "Das SimpleXMLElement konnte nicht erzeugt werden!"
 msgstr ""
 
-#: startup.php:186
+#: ../startup.php:174
 msgid "FEHLER - Kein Link im Atom-Feed gefunden!"
 msgstr ""
 
-#: system_config.php:204 system_config.php:213
+#: ../system_config.php:211 ../system_config.php:219
 msgid "Überprüfen Sie, ob Sie die nötigen Schreibrechte besitzen."
 msgstr ""
 
-#: system_config.php:234
+#: ../system_config.php:237
 msgid "Diese Funktion steht in der Online-Demo nicht zur Verfügung!"
 msgstr ""
 
-#: system_config.php:241
+#: ../system_config.php:245
 msgid "Das neue Administratorpasswort wurde erfolgreich gespeichert."
 msgstr ""
 
-#: system_config.php:308
+#: ../system_config.php:321
 msgid "Achtung:"
 msgstr ""
 
-#: system_config.php:309
+#: ../system_config.php:322
 #, php-format
 msgid "Die gewählte Sprache \"%s\" wird vom Server nicht unterstützt!"
 msgstr ""
 
-#: system_config.php:310
+#: ../system_config.php:323
 msgid "Bitte installieren Sie diese Sprache oder wählen Sie eine andere."
 msgstr ""
 
-#: system_database.php:94
+#: ../system_database.php:93
 msgid "Das Administratorpasswort ist falsch!"
 msgstr ""
 
-#: system_database.php:137
+#: ../system_database.php:132
 msgid "Es konnte keine Verbindung mit der Datenbank hergestellt werden!"
 msgstr ""
 
-#: system_database.php:182
+#: ../system_database.php:173
 msgid ""
 "Achtung!<br><br>Das Datenbankupdate auf Version 13 ist sehr umfangreich, es "
 "finden sehr viele Veränderungen statt.<br>Es wird dringend empfohlen, vor "
@@ -982,54 +1054,54 @@ msgid ""
 "hervorgerufen werden."
 msgstr ""
 
-#: system_database.php:192
+#: ../system_database.php:181
 msgid ""
-"Hinweis:<br><br>Es wird dringend empfohlen, vor jedem Datenbankupdate eine "
+"Hinweis:<br>Es wird dringend empfohlen, vor jedem Datenbankupdate eine "
 "Sicherung der Datenbank anzulegen.<br>Die Entwickler von Part-DB übernehmen "
 "keinerlei Haftung für Schäden, die durch fehlgeschlagene Updates, Fehler in "
 "der Software oder durch andere Ursachen hervorgerufen werden."
 msgstr ""
 
-#: system_debug.php:66
+#: ../system_debug.php:49
 msgid "Die Log-Datei kann nicht gelesen werden!"
 msgstr ""
 
-#: tools_3d_footprints.php:39
+#: ../tools_3d_footprints.php:41
 msgid "3D Footprints"
 msgstr ""
 
-#: tools_footprints.php:57
+#: ../tools_footprints.php:63
 msgid "Footprint-Bilder"
 msgstr ""
 
-#: tools_iclogos.php:44
+#: ../tools_iclogos.php:39
 msgid "Hersteller IC Logos"
 msgstr ""
 
-#: tools_import.php:66
+#: ../tools_import.php:74
 msgid "Teile importieren"
 msgstr ""
 
-#: tools_import.php:94
+#: ../tools_import.php:96
 msgid "Datei konnte nicht hochgeladen werden!"
 msgstr ""
 
-#: tools_import.php:103
+#: ../tools_import.php:104
 msgid "Es gab ein Fehler!"
 msgstr ""
 
-#: tools_import.php:116
+#: ../tools_import.php:116
 msgid "Die Daten sind gültig!"
 msgstr ""
 
-#: tools_import.php:120
+#: ../tools_import.php:118
 msgid "Die Daten sind nicht gültig!"
 msgstr ""
 
-#: tools_import.php:133
+#: ../tools_import.php:130
 msgid "Die Daten wurden erfolgreich importiert!"
 msgstr ""
 
-#: tools_import.php:147
+#: ../tools_import.php:144
 msgid "Es gab ein Fehler beim Importieren!"
 msgstr ""

@@ -26,7 +26,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-cube" aria-hidden="true"></i>&nbsp;
-        {t}Teile mit Footprint{/t} "<b>{$footprint_name}</b>"
+        <b>{$table_rowcount}</b> {t}Teile mit Footprint{/t} "<b>{$footprint_name}</b>"
     </div>
     <form method="post" action="" class="no-progbar">
         <input type="hidden" name="lid" value="{$fid}">
