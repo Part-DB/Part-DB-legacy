@@ -549,7 +549,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
 
         try {
             /** @var StructuralDBElement $parent_element */
-            $parent_element = new $classname($database, $current_user, $log, $values['parent_id'], true);
+            $parent_element = new $classname($database, $current_user, $log, $values['parent_id']);
         } catch (Exception $e) {
             debug(
                 'warning',
