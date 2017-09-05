@@ -318,6 +318,11 @@ class AjaxUI {
         }
     }
 
+    public updateTrees()
+    {
+        this.tree_fill();
+    }
+
     /**
      * Called whenever a Ajax Request was successful completed.
      * We use it to hide the progbar and show the requested content, register some elements on the page for ajax usage

@@ -1,7 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 {if isset($refresh_navigation_frame) && $refresh_navigation_frame}
     <script type="text/javascript">
-        location.reload();
+        AjaxUI.getInstance().updateTrees();
     </script>
 {/if}
 
