@@ -56,6 +56,7 @@
                         {if $col.caption=="datasheets"}{if !$disable_auto_datasheets}<th class="no-sort">{t}Datenblätter{/t}</th>{/if}{/if}
                         {if $col.caption=="button_decrement"}<th class="text-center no-sort">-</th>{/if}
                         {if $col.caption=="button_increment"}<th class="text-center no-sort">+</th>{/if}
+                        {if $col.caption=="button_edit"}<th class="text-center no-sort"></th>{/if}
                         {if $col.caption=="order_options"}<th class="no-sort">{t}Optionen{/t}</th>{/if} {*  only for order parts  *}
                         {if $col.caption=="quantity_edit"}<th class="no-sort">{t}Anzahl{/t}</th>{/if} {*  only for device parts  *}
                         {if $col.caption=="mountnames_edit"}<th class="no-sort">{t escape=no}Bestückungs-<br>daten{/t}</th>{/if} {*  only for device parts  *}
@@ -237,7 +238,7 @@
                             {* datasheet links with icons *}
                             <td class="tdrow5" nowrap>
                                 {foreach $row.datasheets as $sheet }
-                                    <a class="link-external" title="{$sheet.name}" href="{$sheet.url}" target="_blank"><img class="companypic" src="{$relative_path}{$sheet.image}" alt="{$sheet.name}"></a>
+                                    <a class="link-datasheet datasheet" title="{$sheet.name}" href="{$sheet.url}" target="_blank"><img class="companypic" src="{$relative_path}{$sheet.image}" alt="{$sheet.name}"></a>
                                 {/foreach}
                             </td>
                         {/if}
@@ -245,15 +246,20 @@
                     {if $row.caption == "button_decrement"}
                         {* build the "-" button, only if more than 0 parts on stock *}
                         <td class="tdrow6">
-                            <button type="submit" class="btn btn-xs btn-outline-secondary" name="decrement_{$row.row_index}" {if $row.decrement_disabled}disabled="disabled"{/if}><span class="glyphicon glyphicon-minus"></span></button>
+                            <button type="submit" class="btn btn-xs btn-default btn-outline" name="decrement_{$row.row_index}" {if $row.decrement_disabled}disabled="disabled"{/if}><i class="fa fa-minus" aria-hidden="true"></i></span></button>
                         </td>
                     {/if}
                     {if $row.caption == "button_increment"}
                         {* build the "+" button *}
                         <td class="tdrow7">
-                            <button type="submit" class="btn btn-xs btn-outline-secondary" name="increment_{$row.row_index}"><span class="glyphicon glyphicon-plus"></span></button>
+                            <button type="submit" class="btn btn-xs btn-default btn-outline" name="increment_{$row.row_index}"><i class="fa fa-plus" aria-hidden="true"></i></span></button>
                         </td>
-                    {/if} 
+                    {/if}
+                    {if $row.caption == "button_edit"}
+                        <td class="tdrow7">
+                            <a class="btn btn-xs btn-default btn-outline" href="{$relative_path}edit_part_info.php?pid={$row.id}"><i class="fa fa-pencil" aria-hidden="true"></i></span></a>
+                        </td>
+                    {/if}
                     {if $row.caption == "order_options"}
                         {* build the order options (e.g. the "to stock" checkbox) (only for order parts) *}
                         <td class="tdrow1" class="form-control" nowrap>

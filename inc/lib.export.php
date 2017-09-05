@@ -125,7 +125,7 @@ function exportParts(&$objects, $export_type, $format_id, $send_file = false, $f
                 $part = $object;
                 break;
             case 'DevicePart':
-                $part = $object->get_part();
+                $part = $object->getPart();
                 $devicepart = $object;
                 break;
             default:
@@ -133,6 +133,8 @@ function exportParts(&$objects, $export_type, $format_id, $send_file = false, $f
                 break;
         }
 
+        /* @var \PartDB\Part $part */
+        /* @var \PartDB\DevicePart $devicepart */
 
         for ($i=0; $i<count($columns); $i++) {
             $column = $columns[$i];
@@ -145,132 +147,134 @@ function exportParts(&$objects, $export_type, $format_id, $send_file = false, $f
 
                 // general parts stuff
                 case 'id':
-                    $value = $part->get_id();
+                    $value = $part->getID();
                     break;
                 case 'name':
-                    $value = $part->get_name();
+                    $value = $part->getID();
                     break;
                 case 'description':
-                    $value = $part->get_description();
+                    $value = $part->getID();
                     break;
                 case 'instock':
-                    $value = $part->get_instock();
+                    $value = $part->getInstock();
                     break;
                 case 'mininstock':
-                    $value = $part->get_mininstock();
+                    $value = $part->getMinInstock();
                     break;
                 case 'footprint':
-                    if (is_object($part->get_footprint())) {
-                        $value = $part->get_footprint()->get_name();
+                    if (is_object($part->getFootprint())) {
+                        $value = $part->getFootprint()->getName();
                     } else {
                         $value = '';
                     }
                     break;
                 case 'footprint_fullpath':
-                    if (is_object($part->get_footprint())) {
-                        $value = $part->get_footprint()->get_full_path();
+                    if (is_object($part->getFootprint())) {
+                        $value = $part->getFootprint()->getFullPath();
                     } else {
                         $value = '';
                     }
                     break;
                 case 'manufacturer':
-                    if (is_object($part->get_manufacturer())) {
-                        $value = $part->get_manufacturer()->get_name();
+                    if (is_object($part->getManufacturer())) {
+                        $value = $part->getManufacturer()->getName();
                     } else {
                         $value = '';
                     }
                     break;
                 case 'manufacturer_fullpath':
-                    if (is_object($part->get_manufacturer())) {
-                        $value = $part->get_manufacturer()->get_full_path();
+                    if (is_object($part->getManufacturer())) {
+                        $value = $part->getManufacturer()->getFullPath();
                     } else {
                         $value = '';
                     }
                     break;
                 case 'storelocation':
-                    if (is_object($part->get_storelocation())) {
-                        $value = $part->get_storelocation()->get_name();
+                    if (is_object($part->getStorelocation())) {
+                        $value = $part->getStorelocation()->getName();
                     } else {
                         $value = '';
                     }
                     break;
                 case 'storelocation_fullpath':
-                    if (is_object($part->get_storelocation())) {
-                        $value = $part->get_storelocation()->get_full_path();
+                    if (is_object($part->getStorelocation())) {
+                        $value = $part->getStorelocation()->getFullPath();
                     } else {
                         $value = '';
                     }
                     break;
                 case 'suppliers':
-                    $value = $part->get_suppliers(false, $items_separator, false, true);
+                    $value = $part->getSuppliers(false, $items_separator, false, true);
                     break;
                 case 'suppliers_fullpath':
-                    $value = $part->get_suppliers(false, $items_separator, true, true);
+                    $value = $part->getSuppliers(false, $items_separator, true, true);
                     break;
                 case 'supplierpartnrs':
-                    $value = $part->get_supplierpartnrs($items_separator, true);
+                    $value = $part->getSupplierpartnrs($items_separator, true);
                     break;
                 case 'average_single_price':
-                    $value = $part->get_average_price(true);
+                    $value = $part->getAveragePrice(true);
                     break;
                 case 'single_prices':
-                    $value = $part->get_prices(false, $items_separator, 1, null, true);
+                    $value = $part->getPrices(false, $items_separator, 1, null, true);
                     break;
 
                 // order parts stuff
                 case 'order_supplier':
-                    if (is_object($part->get_order_orderdetails())) {
-                        $value = $part->get_order_orderdetails()->get_supplier()->get_name();
+                    if (is_object($part->getOrderOrderdetails())) {
+                        $value = $part->getOrderOrderdetails()->getSupplier()->getName();
                     } else {
                         $value = '';
                     }
                     break;
                 case 'order_supplierpartnr':
-                    if (is_object($part->get_order_orderdetails())) {
-                        $value = $part->get_order_orderdetails()->get_supplierpartnr();
+                    if (is_object($part->getOrderOrderdetails())) {
+                        $value = $part->getOrderOrderdetails()->getSupplierPartNr();
                     } else {
                         $value = '';
                     }
                     break;
                 case 'order_quantity':
-                    $value = $part->get_order_quantity();
+                    $value = $part->getOrderQuantity();
                     break;
                 case 'order_single_price': // the single price of the selected orderdetails
-                    if (is_object($part->get_order_orderdetails())) {
-                        $value = $part->get_order_orderdetails()->get_price(true);
+                    if (is_object($part->getOrderOrderdetails())) {
+                        $value = $part->getOrderOrderdetails()->getPrice(true);
                     } else {
                         $value = '';
                     }
                     break;
                 case 'order_total_price': // the total price of the selected orderdetails
-                    if (is_object($part->get_order_orderdetails())) {
-                        $value = $part->get_order_orderdetails()->get_price(true, $object->get_order_quantity());
+                    if (is_object($part->getOrderOrderdetails())) {
+                        $value = $part->getOrderOrderdetails()->getPrice(true, $object->getOrderQuantity());
                     } else {
                         $value = '';
                     }
                     break;
                 case 'order_total_prices':
-                    $value = $part->get_prices(false, $items_separator, $part->get_order_quantity(), null, true);
+                    $value = $part->getPrices(false, $items_separator, $part->getOrderQuantity(), null, true);
                     break;
+
+                    /** @var \PartDB\DevicePart $devicepart */
 
                 // device parts stuff
                 case 'mount_quantity':
-                    $value = $devicepart->get_mount_quantity();
+                    $value = $devicepart->getMountQuantity();
                     break;
                 case 'total_mount_quantity':
                     if (! isset($additional_params['export_quantity'])) {
                         throw new Exception('$additional_params[\'export_quantity\'] ist nicht gesetzt!');
                     }
-                    $value = $devicepart->get_mount_quantity() * (integer)$additional_params['export_quantity'];
+                    $value = $devicepart->getMountQuantity() * (integer)$additional_params['export_quantity'];
                     break;
                 case 'mount_names':
-                    $value = $devicepart->get_mount_names();
+                    $value = $devicepart->getMountNames();
                     break;
                 case 'total_prices':
                     if (! isset($additional_params['export_quantity'])) {
                         throw new Exception('$additional_params[\'export_quantity\'] ist nicht gesetzt!');
                     }
-                    $value = $part->get_prices(false, $items_separator, $devicepart->get_mount_quantity() * (integer)$additional_params['export_quantity'], null, true);
+                    $value = $part->getPrices(false, $items_separator, $devicepart->getMountQuantity() * (integer)$additional_params['export_quantity'], null, true);
                     break;
 
                 // unknown column
@@ -298,7 +302,7 @@ function exportParts(&$objects, $export_type, $format_id, $send_file = false, $f
         // finish stuff for that object (only if that object has to be exported!)
         if (((! in_array('order_supplier', $columns)) && (! in_array('order_supplierpartnr', $columns))
                 && (! in_array('order_single_price', $columns)) && (! in_array('order_total_price', $columns)))
-            || (isset($part) && is_object($part->get_order_orderdetails()))) {
+            || (isset($part) && is_object($part->getOrderOrderdetails()))) {
             switch ($format) {
                 case 'CSV':
                     $output .= $column_output."\n"; // Add a line break

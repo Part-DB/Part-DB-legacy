@@ -1,7 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
    <div class="panel-heading"><i class="fa fa-tag" aria-hidden="true"></i>&nbsp;
-      {t}Treffer in der Kategorie{/t} <b>"{$category_full_path}"</b>
+       <b>{$table_rowcount - 1}</b> {t}Treffer in der Kategorie{/t} <b>"{$category_full_path}"</b>
    </div>
         <form method="post" action="" class="no-progbar">
             <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
@@ -19,8 +19,10 @@
             {if isset($search_manufacturer)}        <input type='hidden' name='search_manufacturer'>{/if}
 
           
-           </form>
+
            
            {include file='../smarty_table.tpl'}
+
+        </form>
 </div>
 

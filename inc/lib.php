@@ -226,7 +226,7 @@ function sendFile($filename, $mimetype = null)
  */
 function sendString($content, $filename, $mimetype)
 {
-    $mtime = gmmktime();
+    $mtime = time();
 
     if (strstr($_SERVER["HTTP_USER_AGENT"], "MSIE") != false) {
         header("Content-Disposition: attachment; filename=".urlencode($filename)."; modification-date=".date('r', $mtime).";");
@@ -1041,4 +1041,14 @@ function getClassShort($object)
 function _empty($var)
 {
     return empty($var);
+}
+
+/**
+ * Check if the connection to the server is using HTTPS.
+ * @return bool True if the connection is using HTTPS, false if not.
+ */
+function isUsingHTTPS() {
+    return
+        (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+        || $_SERVER['SERVER_PORT'] == 443;
 }

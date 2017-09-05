@@ -118,6 +118,10 @@ $current_admin_password     = isset($_REQUEST['current_admin_password'])    ? (s
 $new_admin_password_1       = isset($_REQUEST['new_admin_password_1'])      ? (string)$_REQUEST['new_admin_password_1']     : '';
 $new_admin_password_2       = isset($_REQUEST['new_admin_password_2'])      ? (string)$_REQUEST['new_admin_password_2']     : '';
 
+//Edit parts
+$created_redirect           = isset($_REQUEST['created_redirect']);
+$saved_redirect             = isset($_REQUEST['saved_redirect']);
+
 $action = 'default';
 if (isset($_REQUEST["apply"])) {
     $action = 'apply';
@@ -181,9 +185,12 @@ if (! $fatal_error) {
             $config['appearance']['short_description'] = $short_description;
 
             $config['foot3d']['active']                 = $foot3d_active;
-            $config['foot3d']['show_info']              = $foot3d_show_infos;
+            $config['foot3d']['show_info']              = $foot3d_show_info;
 
             $config['properties']['active']             = $properties_active;
+
+            $config['edit_parts']['created_go_to_info']      = $created_redirect;    //Jump to info page of a part, if a new part was created
+            $config['edit_parts']['saved_go_to_info']        = $saved_redirect;
 
             if (! $config['is_online_demo']) {
                 // settings which should not be able to change in the online demo
@@ -291,6 +298,9 @@ $html->setVariable('startup_banner', $config['startup']['custom_banner'], 'strin
 $html->setVariable('php_version', phpversion(), 'string');
 $html->setVariable('htaccess_works', (getenv('htaccessWorking')=='true'), 'boolean');
 $html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
+$html->setVariable('using_https', isUsingHTTPS(), 'boolean');
+$html->setVariable('max_input_vars', ini_get('max_input_vars'), 'string');
+$html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
 
 //Part properties
 $html->setVariable('properties_active', $config['properties']['active'], 'boolean');
@@ -298,6 +308,10 @@ $html->setVariable('properties_active', $config['properties']['active'], 'boolea
 // 3d Footprints
 $html->setVariable('foot3d_active', $config['foot3d']['active'], 'boolean');
 $html->setVariable('foot3d_show_info', $config['foot3d']['show_info'], 'boolean');
+
+// Edit Dialog settings
+$html->setVariable("created_redirect", $config['edit_parts']['created_go_to_info'], "boolean");
+$html->setVariable("saved_redirect", $config['edit_parts']['saved_go_to_info'], "boolean");
 
 // Appearance
 $html->setVariable('short_description', $config['appearance']['short_description'], 'boolean');

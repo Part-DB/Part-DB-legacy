@@ -645,10 +645,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         } else {
             $supplier_names = array();
             foreach ($suppliers as $supplier) {
+                /** @var Supplier $supplier */
                 if ($full_paths) {
-                    $supplier_names[] = $supplier->get_full_path();
+                    $supplier_names[] = $supplier->getFullPath();
                 } else {
-                    $supplier_names[] = $supplier->get_name();
+                    $supplier_names[] = $supplier->getName();
                 }
             }
 
@@ -852,7 +853,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     {
         $arr = array();
         foreach ($this->getProperties() as $property) {
-            $arr[] = $property->get_array($use_description, $use_comment);
+            /* @var PartProperty $property */
+            $arr[] = $property->getArray($use_description, $use_comment);
         }
         return $arr;
     }
@@ -1273,6 +1275,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
                 case 'id':
                 case 'button_increment':
+                case 'button_edit':
                 case 'quantity_edit': // for DevicePart Objects
                 case 'mountnames_edit': // for DevicePart Objects
                     // nothing to do, only to avoid the Exception in the default-case
@@ -1996,6 +1999,25 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         } else {
             return $parts;
         }
+    }
+
+    /**
+     * Build a template loop for a <select> list of group by options for the available group by options in part_search
+     *
+     * @param integer|string    $selected_val
+     *
+     * @return array    The template loop
+     */
+    public static function buildSearchGroupByLoop($selected_val = "")
+    {
+        $loop = array();
+
+
+        $loop[] = array('value' => "", 'text' => _("Keine"), 'selected' => ($selected_val === ""));
+        $loop[] = array('value' => "categories", 'text' => _("Kategorien"), 'selected' => ($selected_val === "categories"));
+
+
+        return $loop;
     }
 
     /**

@@ -1,5 +1,7 @@
 # Part-DB
 
+**This file is available in English, too: [README](README_EN.md)**
+
 **Achtung: Nach dem Update auf die aktuelle Version, muss im Part-DB Homeverzeichniss der Befehl
 `php composer.phar install` ausgeführt werden, damit Part-DB funktioniert!
 Sollte dies nicht möglich sein, dann muss der Ordner `vendor/` aus einem mit composer eingerichtetem
@@ -38,7 +40,7 @@ Part-DB ist eine webbasierte Datenbank zum Verwalten von Elektronischen Bauteile
 ### Lizenz
 Part-DB steht unter der [General Public License Version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.de.html).
 Zusätzlich verwendet Part-DB einige Bibliotheken, die andere Lizenzen verwenden. 
-Genaue infos hierzu liefert readme/EXTERNAL_LIBS.md
+Genaue infos hierzu liefert [EXTERNAL_LIBS](readme/EXTERNAL_LIBS.md)
 
 ### Installationsanleitung & Dokumentation
 
@@ -49,3 +51,9 @@ Die gesamte Dokumentation inkl. Installationsanleitung gibts hier:
 
 Eine Test-Datenbank ist unter <http://part-db.bplaced.net/> zu finden.
 
+### Übersetung
+Part-DB ist auch in Englisch verfügbar: Hierfür muss die Einstellung Sprache in den Einstellungen oder während der 
+Installation auf _[en_US] English (United States)_ gestellt werden. 
+
+Möchte man sich an der Übersetzung beteiligen (insbesondere bei anderen Sprachen als Englisch), 
+dann kann dies [hier](https://translate.zanata.org/iteration/view/part-db/0.4.0/) tun.

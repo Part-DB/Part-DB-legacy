@@ -15,13 +15,19 @@ function openLink(page) {
  */
 function addURLparam(url, param) {
     'use strict';
+    var hash = "";
+    if (url.indexOf("#") != -1) {
+        hash = url.substring(url.indexOf("#"));
+        url = url.replace(hash, "");
+    }
     //If url already contains a ? than use a & for param addition
     if (url.indexOf('?') >= 0) {
-        return url + "&" + param;
+        url = url + "&" + param;
     }
     else {
-        return url + "?" + param;
+        url = url + "?" + param;
     }
+    return url + hash;
 }
 /**
  * Removes the given param from the url.

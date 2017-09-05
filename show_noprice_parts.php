@@ -62,6 +62,7 @@ if (! $fatal_error) {
         $parts = Part::getNoPriceParts($database, $current_user, $log);
         $table_loop = Part::buildTemplateTableArray($parts, 'noprice_parts');
         $html->setLoop('table', $table_loop);
+        $html->setVariable('table_rowcount', count($parts));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

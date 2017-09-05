@@ -19,7 +19,7 @@ body {
 }
 
 .companypic {
-    width: 20px;
+    width: 17px;
     display: inline;
 }
 
@@ -216,5 +216,53 @@ table.dataTable tbody th, table.dataTable tbody td {
 
 .font-weight-bold {
     font-weight:bold;
+}
+
+/* Show symbol after exteral links */
+a[target="_blank"].link-external:after {
+    content: "\f08e ";
+    font-family: FontAwesome;
+    margin-left: 3px;
+    font-weight: normal;
+    font-size: smaller;
+    font-style: normal;
+    display: inline-block;
+    text-decoration: inherit;
+}
+
+/** Button outline defintions */
+
+.btn-outline {
+    background-color: transparent;
+    color: inherit;
+    transition: all .5s;
+}
+
+.btn-primary.btn-outline {
+    color: #428bca;
+}
+
+.btn-success.btn-outline {
+    color: #5cb85c;
+}
+
+.btn-info.btn-outline {
+    color: #5bc0de;
+}
+
+.btn-warning.btn-outline {
+    color: #f0ad4e;
+}
+
+.btn-danger.btn-outline {
+    color: #d9534f;
+}
+
+.btn-primary.btn-outline:hover,
+.btn-success.btn-outline:hover,
+.btn-info.btn-outline:hover,
+.btn-warning.btn-outline:hover,
+.btn-danger.btn-outline:hover {
+    color: #fff;
 }
 
