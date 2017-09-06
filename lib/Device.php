@@ -491,6 +491,7 @@ class Device extends Base\PartsContainingDBElement
      *  Create a new device
      *
      * @param Database  &$database                  reference to the database object
+     * @param Database  &$database                  reference to the database object
      * @param User      &$current_user              reference to the current user which is logged in
      * @param Log       &$log                       reference to the Log-object
      * @param string    $name                       the name of the new device (see Device::set_name())

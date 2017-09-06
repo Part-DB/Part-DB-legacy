@@ -81,13 +81,13 @@ class User extends Base\NamedDBElement implements ISearchable
      * @throws Exception    if there is no such user in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data = 1)
+    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
         if (! is_object($current_user)) {     // this is that you can create an User-instance for first time
             $current_user = $this;
         }           // --> which one was first: the egg or the chicken? :-)
 
-        parent::__construct($database, $current_user, $log, 'users', $id, $data);
+        parent::__construct($database, $current_user, $log, 'users', $id, true, $data);
     }
 
     /**
@@ -160,7 +160,7 @@ class User extends Base\NamedDBElement implements ISearchable
      */
     public function getEmail()
     {
-        return $this->db_data['last_name'];
+        return $this->db_data['email'];
     }
 
     /**
@@ -180,6 +180,18 @@ class User extends Base\NamedDBElement implements ISearchable
     {
         $hash = $this->db_data['password'];
         return password_verify($password, $hash);
+    }
+
+    public function delete()
+    {
+        if($this->getID() == 0) {
+            throw new Exception(_("Der anonymous Benutzer (ID=0) kann nicht gelöscht werden!"));
+        }
+
+        if($this->getID() == 1) {
+            throw new Exception(_("Der Systemadministrator (ID=1) kann nicht gelöscht werden!"));
+        }
+        parent::delete();
     }
 
     /********************************************************************************
@@ -227,6 +239,22 @@ class User extends Base\NamedDBElement implements ISearchable
     public function setLastName($new_last_name)
     {
         $this->setAttributes(array('last_name' => $new_last_name));
+    }
+
+    /**
+     * Returns the full name in the format FIRSTNAME LASTNAME [(USERNAME)].
+     * Example: Max Muster (m.muster)
+     * @param bool $including_username Include the username in the full name.
+     * @return string A string with the full name of this user.
+     */
+    public function getFullName($including_username = false)
+    {
+        $str = $this->getFirstName() . " " . $this->getLastName();
+        if ($including_username) {
+            $str .= " (" . $this->getName() . ")";
+        }
+
+        return $str;
     }
 
 
@@ -354,7 +382,7 @@ class User extends Base\NamedDBElement implements ISearchable
      */
     public static function getLoggedInUser(&$database = null, &$log = null)
     {
-        if(is_null($database) || is_null($log)) {
+        if (is_null($database) || is_null($log)) {
             $database = new Database();
             $log = new Log($database);
         }
@@ -371,7 +399,7 @@ class User extends Base\NamedDBElement implements ISearchable
      */
     public static function login(&$user, $password = "")
     {
-        if(!empty($password) && !$user->isPasswordValid($password)) { //If $password is set, and wrong.
+        if (!empty($password) && !$user->isPasswordValid($password)) { //If $password is set, and wrong.
             return false;
         }
         $_SESSION['user'] = $user->getID();
@@ -386,5 +414,46 @@ class User extends Base\NamedDBElement implements ISearchable
     {
         $_SESSION['user'] = 0;
         return true;
+    }
+
+    public static function buildHTMLList(&$database, &$current_user, &$log, $selected_id = -1)
+    {
+        $users = self::getAllUsers($database, $current_user, $log);
+        $html = array();
+        foreach ($users as $user) {
+            /** @var User $user */
+            $selected = $user->getID() == $selected_id ? " selected" : "";
+            $html[] = "<option value='" . $user->getID()  . "'" . $selected . ">" . $user->getFullName(true) . "</option>";
+        }
+        return implode("\n", $html);
+    }
+
+    /**
+     * @param Database $database
+     * @param User $current_user
+     * @param Log $log
+     * @return User[]
+     */
+    public static function getAllUsers(&$database, &$current_user, &$log)
+    {
+        $results = $database->query("SELECT * FROM users");
+        $users = array();
+        foreach ($results as $result) {
+            $users[] = new User($database, $current_user, $log, $result['id'], $result);
+        }
+
+        return $users;
+    }
+
+    public static function add(&$database, &$current_user, &$log, $name, $group_id)
+    {
+        return parent::addByArray(
+            $database,
+            $current_user,
+            $log,
+            'users',
+            array(  'name'                      => $name,
+                'group_id'                      => $group_id)
+        );
     }
 }
