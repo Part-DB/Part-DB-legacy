@@ -395,6 +395,11 @@ class Attachement extends Base\NamedDBElement
             throw new Exception(_('Der gewählte Dateityp existiert nicht!'));
         }
 
+        //Namespace migration for old non-Namespace parts
+        if($values['class_name'] == "Part"){
+            $values['class_name'] = "PartDB\Part";
+        }
+
         // check "class_name"
         $supported_classes = array("PartDB\Part"); // to be continued (step by step)...
         if (! in_array($values['class_name'], $supported_classes)) {
