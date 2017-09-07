@@ -136,14 +136,16 @@ if (! $fatal_error) {
                     '" wirklich unwiederruflich gelöscht werden?'), $selected_group->getFullPath()), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
                 if ($count > 0) {
-                    $messages[] = array('text' => sprintf(_('&nbsp;&nbsp;&bull; Es gibt noch %d Benutzer mit dieser Gruppe!'), $count) , 'strong' => true, 'color' => 'red');
+                    $messages[] = array(
+                        'text' => sprintf(_('&nbsp;&nbsp;&bull; Es gibt noch %d Benutzer mit dieser Gruppe! Daher kann diese Gruppe nicht gelöscht werden'), $count)
+                    , 'strong' => true, 'color' => 'red');
                 } else {
                     $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Benutzer mit dieser Gruppe.'));
+                    $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet diese Gruppe noch Untergruppen, dann werden diese eine Ebene nach oben verschoben.'));
+                    $messages[] = array('html' => '<input type="hidden" name="selected_id" value="' . $selected_group->getID() . '">');
+                    $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="' . _("Nein, nicht löschen") . '">', 'no_linebreak' => true);
+                    $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="' . _('Ja, Gruppe löschen') . '">');
                 }
-                $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet diese Gruppe noch Untergruppen, dann werden diese eine Ebene nach oben verschoben.'));
-                $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_group->getID().'">');
-                $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._("Nein, nicht löschen").'">', 'no_linebreak' => true);
-                $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Gruppe löschen').'">');
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
