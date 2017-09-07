@@ -62,6 +62,7 @@ $new_first_name             = isset($_REQUEST['first_name'])    ? (string)$_REQU
 $new_last_name              = isset($_REQUEST['last_name'])     ? (string)$_REQUEST['last_name']    : "";
 $new_email                  = isset($_REQUEST['email'])         ? (string)$_REQUEST['email']        : "";
 $new_department             = isset($_REQUEST['department'])    ? (string)$_REQUEST['department']   : "";
+$new_group_id               = isset($_REQUEST['group_id'])      ? (int)$_REQUEST['group_id']        : 0;
 
 //Tab "set password"
 $new_password               = isset($_REQUEST['password_1'])    ? (string)$_REQUEST['password_1']   : "";
@@ -93,6 +94,7 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
+    $root_group         = new \PartDB\Group($database, $current_user, $log, 0);
 
     if ($selected_id > -1) {
         $selected_user = new User($database, $current_user, $log, $selected_id);
@@ -119,7 +121,8 @@ if (! $fatal_error) {
                 $new_user->setAttributes(array("first_name" => $new_first_name,
                     "last_name" => $new_last_name,
                     "department" => $new_department,
-                    "email" => $new_email
+                    "email" => $new_email,
+                    "group_id" => $new_group_id
                 ));
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
@@ -189,7 +192,8 @@ if (! $fatal_error) {
                     "first_name" => $new_first_name,
                     "last_name" => $new_last_name,
                     "department" => $new_department,
-                    "email" => $new_email
+                    "email" => $new_email,
+                    "group_id" => $new_group_id
                 ));
 
                 //When user wants to set a new password
@@ -235,6 +239,7 @@ if (! $fatal_error) {
             $email = $selected_user->getEmail();
             $department = $selected_user->getDepartment();
             $no_password = $selected_user->hasNoPassword();
+            $group_id   = $selected_user->getGroup()->getID();
         } elseif ($action == 'add') {
             $name = $new_name;
             $first_name = $new_first_name;
@@ -242,6 +247,7 @@ if (! $fatal_error) {
             $email = $new_email;
             $department = $new_department;
             $no_password = false;
+            $group_id = $new_group_id;
         } else {
             $name = '';
             $first_name = "";
@@ -249,15 +255,17 @@ if (! $fatal_error) {
             $email = "";
             $department = "";
             $no_password = false;
+            $group_id = 0;
         }
 
         $html->setVariable('name', $name, 'string');
         $html->setVariable('first_name', $first_name, 'string');
-        $html->setVariable('last_name',  $last_name,'string');
+        $html->setVariable('last_name', $last_name,'string');
         $html->setVariable('email', $email, 'string');
         $html->setVariable('department', $department, 'string');
         $html->setVariable('no_password', $no_password, 'string');
 
+        $html->setVariable('group_list', $root_group->buildHtmlTree($group_id), 'string');
 
         $user_list = User::buildHTMLList($database, $current_user, $log, $selected_id);
         $html->setVariable('user_list', $user_list, 'string');

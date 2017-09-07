@@ -85,8 +85,8 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Gruppe*:{/t}</label>
                                 <div class="col-md-9">
-                                    <select class="form-control selectpicker" data-live-search="true" name="parent_id" size="1">
-                                        {* {$parent_device_list nofilter} *}
+                                    <select class="form-control selectpicker" data-live-search="true" name="group_id" size="1">
+                                         {$group_list nofilter}
                                     </select>
                                 </div>
                             </div>
