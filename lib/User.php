@@ -210,6 +210,11 @@ class User extends Base\NamedDBElement implements ISearchable
      */
     public function delete()
     {
+        $loggedin_user = static::getLoggedInUser($this->database, $this->log);
+        if($loggedin_user->getID() == $this->getID()) {
+            throw new Exception(_("Sie versuchen ihren aktuellen Benutzer zu löschen. Dies ist nicht möglich!"));
+        }
+
         if ($this->getID() == static::ID_ANONYMOUS) {
             throw new Exception(_("Der anonymous Benutzer (ID=0) kann nicht gelöscht werden!"));
         }
@@ -369,7 +374,7 @@ class User extends Base\NamedDBElement implements ISearchable
         $query = 'SELECT * FROM users WHERE name = ?';
         $query_data = $database->query($query, array($username));
 
-        if (count($query_data) > 1)
+        if(count($query_data) > 1)
         {
             throw new Exception("Die Abfrage des Nutzernamens hat mehrere Nutzer ergeben");
         }
@@ -394,10 +399,20 @@ class User extends Base\NamedDBElement implements ISearchable
      */
     public static function getLoggedInID()
     {
-        if (!isset($_SESSION['user']) || $_SESSION['user']<0) {
+        if (!isset($_SESSION['user']) || $_SESSION['user']<=0) {
             return 0;   //User anonymous.
-        }
-        else {
+        } else {
+            try {
+                $db = new Database();
+                $query = "SELECT id FROM users WHERE id = ?";
+                $results = $db->query($query, array($_SESSION['user']));
+                if (count($results) !== 1) { //If not exactly one user with the id exists, we are not logged in.
+                    return 0;
+                }
+            } catch (Exception $ex) {
+                return 0; //If an error happened, we are not logged in.
+            }
+
             return $_SESSION['user'];
         }
     }
