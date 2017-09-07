@@ -19,28 +19,15 @@
         <div class="panel panel-default">
             <div class="panel-heading">{t}Kategorie:{/t} {$cat.category_name}</div>
             <div class="panel-body">
-                {counter start=0 assign="count"}
                 {foreach $cat.pictures_loop as $pic}
-                    {if $count%4==0}
-                        <div class="row">
-                    {/if}
-                    <div class="col-xs-3">
-                        <div class="thumbnail" >
-                            <img src="{$pic.filename}"  title="{$pic.title}" alt="">
-                            <div class="caption"><p>{$pic.title}</p></div>
-                        </div>
+                    <div class="col-lg-2 col-md-3 col-xs-4 thumb">
+                        <a class="thumbnail link-external" href="{$pic.filename}" target="_blank">
+                            <img class="img-responsive" src="{$pic.filename}" alt="">
+                        </a>
                     </div>
-                    {counter}
-                    {if $count%4==0}
-                        </div>
-                    {/if}
                 {/foreach}
-
-                {if $count%4>=0}
-                </div>
-                {/if}
-        </div>
-
+            </div>
         </div>
     {/foreach}
 {/if}
+
