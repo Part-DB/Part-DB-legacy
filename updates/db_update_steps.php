@@ -751,7 +751,7 @@ function get_db_update_steps($current_version)
                 // Gruppeninformationen
                 "`id` INT(11) NOT NULL AUTO_INCREMENT,".            // Gruppen-ID
                 "`name` TINYTEXT NOT NULL,".                        // Gruppenname
-                "`parent_id` INT(11) NOT NULL,".                    // ID der übergeordneten Gruppe ('-1' bei root)
+                "`parent_id` INT(11) DEFAULT NULL,".                    // ID der übergeordneten Gruppe (NULL bei root)
                 "`comment` MEDIUMTEXT,".                            // Kommentar (optional)
                 // System-Rechte
                 "`perms_system` INT(3) NOT NULL,".                  // Allgemeine Rechte ("Kleinkram")

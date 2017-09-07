@@ -73,7 +73,7 @@ class Group extends Base\StructuralDBElement
      */
     public function __construct(&$database, &$current_user, &$log, $id)
     {
-        //parent::__construct($database, $current_user, $log, 'groups', $id);
+        parent::__construct($database, $current_user, $log, 'groups', $id);
     }
 
     /**
@@ -85,6 +85,8 @@ class Group extends Base\StructuralDBElement
 
         parent::resetAttributes($all);
     }
+
+
 
     /********************************************************************************
      *
@@ -107,13 +109,13 @@ class Group extends Base\StructuralDBElement
         if (! is_array($this->users)) {
             $this->users = array();
 
-            $query =    'SELECT id FROM users '.
+            $query =    'SELECT * FROM users '.
                 'WHERE group_id=? ORDER BY name ASC';
 
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $this->users[] = new User($this->database, $this->current_user, $this->log, $row['id']);
+                $this->users[] = new User($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
         }
 
@@ -129,6 +131,30 @@ class Group extends Base\StructuralDBElement
         } else {
             return $this->users;
         }
+    }
+
+    /**
+     * Returns the comment field of this group.
+     * @return string The comment of this group.
+     */
+    public function getComment()
+    {
+        return $this->db_data['comment'];
+    }
+
+    /********************************************************************************
+     *
+     *   Setters
+     *
+     *********************************************************************************/
+
+    /**
+     * Sets the comment of this group.
+     * @param $new_comment string The new comment that this group should get.
+     */
+    public function setComment($new_comment)
+    {
+        $this->setAttributes(array('comment' => $new_comment));
     }
 
     /********************************************************************************
@@ -164,5 +190,26 @@ class Group extends Base\StructuralDBElement
         }
 
         return $database->getCountOfRecords('groups');
+    }
+
+    /**
+     * Adds a new group to the database.
+     * @param $database Database The database which should be used for requests.
+     * @param $current_user User The database which should be used for requests.
+     * @param $log Log The database which should be used for requests.
+     * @param $name string The username of the new user.
+     * @param $parent_id int The id of the parental group of the new group.
+     * @return static The newly added group.
+     */
+    public static function add(&$database, &$current_user, &$log, $name, $parent_id)
+    {
+        return parent::addByArray(
+            $database,
+            $current_user,
+            $log,
+            'groups',
+            array(  'name'                      => $name,
+                'parent_id'                      => $parent_id)
+        );
     }
 }
