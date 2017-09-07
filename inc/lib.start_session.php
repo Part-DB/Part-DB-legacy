@@ -38,7 +38,7 @@
  * @param string|NULL   $div_title      a DIV title, or NULL for a message without a title
  * @param string        $messages       the HTML-coded messages
  */
-function printMessagesWithoutTemplate($page_title, $div_title, $messages)
+function printMessagesWithoutTemplate($page_title, $div_title, $messages, $panel_type = "panel-danger")
 {
     print '<!DOCTYPE html><html lang="en"><head>';
     print '<title>'.htmlspecialchars($page_title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8').'</title>';
@@ -46,7 +46,7 @@ function printMessagesWithoutTemplate($page_title, $div_title, $messages)
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <link href="css/bootstrap.min.css" rel="stylesheet"></head>';
-    print '<body><main><div class="container-fluid" id="content"><br><div class="panel panel-danger">';
+    print '<body><main><div class="container-fluid" id="content"><br><div class="panel ' . $panel_type. '">';
     if ($div_title) {
         print '<div class="panel-heading">'.$div_title.'</div>';
     }
