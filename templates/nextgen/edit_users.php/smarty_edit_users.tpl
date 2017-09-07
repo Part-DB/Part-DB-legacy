@@ -59,6 +59,15 @@
                         <br>
                         <div id="home" class="tab-pane fade in active">
 
+                            {if $no_password}
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                    <b>{t}Der gewählte Nutzer hat bisher noch kein Password und kann sich daher nicht einloggen{/t}</b>
+                                    <p>{t}Um ein Password zu setzen, gehen sie in den Reiter "Password setzen"{/t}</p>
+                                    </div>
+                                </div>
+                            {/if}
+
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}ID:{/t}</label>
                                 <div class="col-md-9">

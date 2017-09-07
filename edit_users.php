@@ -234,21 +234,29 @@ if (! $fatal_error) {
             $last_name = $selected_user->getLastName();
             $email = $selected_user->getEmail();
             $department = $selected_user->getDepartment();
+            $no_password = $selected_user->hasNoPassword();
         } elseif ($action == 'add') {
             $name = $new_name;
+            $first_name = $new_first_name;
+            $last_name = $new_last_name;
+            $email = $new_email;
+            $department = $new_department;
+            $no_password = false;
         } else {
             $name = '';
             $first_name = "";
             $last_name = "";
             $email = "";
             $department = "";
+            $no_password = false;
         }
 
         $html->setVariable('name', $name, 'string');
         $html->setVariable('first_name', $first_name, 'string');
-        $html->setVariable('last_name',  $last_name, 'string');
+        $html->setVariable('last_name',  $last_name,'string');
         $html->setVariable('email', $email, 'string');
         $html->setVariable('department', $department, 'string');
+        $html->setVariable('no_password', $no_password, 'string');
 
 
         $user_list = User::buildHTMLList($database, $current_user, $log, $selected_id);

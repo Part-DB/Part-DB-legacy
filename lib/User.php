@@ -190,8 +190,24 @@ class User extends Base\NamedDBElement implements ISearchable
         }
         return password_verify($password, $hash);
     }
-    
 
+    /**
+     * Checks if the user has no password set.
+     * @return bool True, if the user has no password yet.
+     */
+    public function hasNoPassword()
+    {
+        if ($this->getID() == static::ID_ANONYMOUS) { //Anonymous user is allowed to have an empty password.
+            return false;
+        }
+        $hash = $this->db_data['password'];
+        return empty($hash);
+    }
+
+    /**
+     * Deletes the given User from DB.
+     * @throws Exception
+     */
     public function delete()
     {
         if ($this->getID() == static::ID_ANONYMOUS) {
@@ -378,7 +394,7 @@ class User extends Base\NamedDBElement implements ISearchable
      */
     public static function getLoggedInID()
     {
-        if (!isset($_SESSION['user']) || $_SESSION['user']<0){
+        if (!isset($_SESSION['user']) || $_SESSION['user']<0) {
             return 0;   //User anonymous.
         }
         else {
@@ -429,6 +445,15 @@ class User extends Base\NamedDBElement implements ISearchable
         return true;
     }
 
+    /**
+     * Builds a HTML List of <option> elemements for an <select> element, showing all users.
+     * @param $database Database The database which should be used for requests.
+     * @param $current_user User The user which should be used for requests.
+     * @param $log Log The log which should be used for requests.
+     * @param int $selected_id The ID of the currently selected user. This will the selected user in the list.
+     *          Set to -1, when you dont want to have any selection.
+     * @return string A string with HTML
+     */
     public static function buildHTMLList(&$database, &$current_user, &$log, $selected_id = -1)
     {
         $users = self::getAllUsers($database, $current_user, $log);
@@ -436,16 +461,18 @@ class User extends Base\NamedDBElement implements ISearchable
         foreach ($users as $user) {
             /** @var User $user */
             $selected = $user->getID() == $selected_id ? " selected" : "";
-            $html[] = "<option value='" . $user->getID()  . "'" . $selected . ">" . $user->getFullName(true) . "</option>";
+            $no_pw    = $user->hasNoPassword() ? _("  [Kein Password]") : "";
+            $html[] = "<option value='" . $user->getID()  . "'" . $selected . ">" . $user->getFullName(true) . $no_pw . "</option>";
         }
         return implode("\n", $html);
     }
 
     /**
-     * @param Database $database
-     * @param User $current_user
-     * @param Log $log
-     * @return User[]
+     * Returns all users of the database
+     * @param Database $database The database which should be used for requests.
+     * @param User $current_user The user which should be used for requests.
+     * @param Log $log The log which should be used for requests.
+     * @return User[] Any array of all users in the database.
      */
     public static function getAllUsers(&$database, &$current_user, &$log)
     {
@@ -458,6 +485,15 @@ class User extends Base\NamedDBElement implements ISearchable
         return $users;
     }
 
+    /**
+     * Adds a new user to the database.
+     * @param $database Database The database which should be used for requests.
+     * @param $current_user User The database which should be used for requests.
+     * @param $log Log The database which should be used for requests.
+     * @param $name string The username of the new user.
+     * @param $group_id int The id of the group of the new user.
+     * @return static The newly added user.
+     */
     public static function add(&$database, &$current_user, &$log, $name, $group_id)
     {
         return parent::addByArray(
