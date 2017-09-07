@@ -57,10 +57,15 @@ $selected_id                = isset($_REQUEST['selected_id'])   ? (integer)$_REQ
 $new_name                   = isset($_REQUEST['name'])          ? (string)$_REQUEST['name']         : '';
 $add_more                   = isset($_REQUEST['add_more']);
 
+//Tab standard
 $new_first_name             = isset($_REQUEST['first_name'])    ? (string)$_REQUEST['first_name']   : "";
 $new_last_name              = isset($_REQUEST['last_name'])     ? (string)$_REQUEST['last_name']    : "";
 $new_email                  = isset($_REQUEST['email'])         ? (string)$_REQUEST['email']        : "";
 $new_department             = isset($_REQUEST['department'])    ? (string)$_REQUEST['department']   : "";
+
+//Tab "set password"
+$new_password               = isset($_REQUEST['password_1'])    ? (string)$_REQUEST['password_1']   : "";
+$new_password_2             = isset($_REQUEST['password_2'])    ? (string)$_REQUEST['password_2']   : "";
 
 $action = 'default';
 if (isset($_REQUEST["add"])) {
@@ -119,6 +124,20 @@ if (! $fatal_error) {
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
 
+                //When user wants to set a new password
+                if ($new_password !== "") {
+                    try {
+                        if ($new_password !== $new_password_2) {
+                            throw new Exception(_("Das neue Password und die Bestätigung müssen übereinstimmen!"));
+                        }
+
+                        $new_user->setPassword($new_password);
+                    } catch (Exception $e) {
+                        $messages[] = array('text' => _('Das Password des Users konnte nicht geändert werden!'), 'strong' => true, 'color' => 'red');
+                        $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
+                    }
+                }
+
                 if (! $add_more) {
                     $selected_user = $new_user;
                     $selected_id = $selected_user->getID();
@@ -172,6 +191,21 @@ if (! $fatal_error) {
                     "department" => $new_department,
                     "email" => $new_email
                 ));
+
+                //When user wants to set a new password
+                if ($new_password !== "") {
+                    try {
+                        if ($new_password !== $new_password_2) {
+                            throw new Exception(_("Das neue Password und die Bestätigung müssen übereinstimmen!"));
+                        }
+
+                        $selected_user->setPassword($new_password);
+                        $messages[] = array('text' => _("Das Passwort wurde erfolgreich geändert!"), 'strong' => true, 'color' => 'green');
+                    } catch (Exception $e) {
+                        $messages[] = array('text' => _('Das Password des Users konnte nicht geändert werden!'), 'strong' => true, 'color' => 'red');
+                        $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
+                    }
+                }
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
             } catch (Exception $e) {

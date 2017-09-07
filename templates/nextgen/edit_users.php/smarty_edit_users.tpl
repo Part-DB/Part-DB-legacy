@@ -119,6 +119,27 @@
 
                         <div id="password" class="tab-pane fade">
 
+                            <div class="form-group">
+                                <div class="col-md-12">
+                                    <p class="help-block">{t}Füllen sie die folgenden Felder aus, um dem Nutzer ein neues Password zu setzen!{/t}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Neues Password:{/t}</label>
+                                <div class="col-md-9">
+                                    <input type="password" class="form-control" name="password_1" value=""
+                                           placeholder="{t}Neues Password{/t}">
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Password Bestätigung:{/t}</label>
+                                <div class="col-md-9">
+                                    <input type="password" class="form-control" name="password_2" value=""
+                                           placeholder="{t}Password Bestätigung{/t}">
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
@@ -129,7 +150,7 @@
 
                         <div class="form-group">
                             <div class="col-md-9 col-md-offset-3">
-                                {if !isset($id) || $id == 0}
+                                {if !isset($id) || $id == -1}
                                     <button class="btn btn-success" type="submit" name="add">{t}Neuen Benutzer anlegen{/t}</button>
                                     <div class="checkbox">
                                         <input type="checkbox" name="add_more" {if $add_more}checked{/if}>

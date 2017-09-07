@@ -50,6 +50,12 @@ use PartDB\Interfaces\ISearchable;
  */
 class User extends Base\NamedDBElement implements ISearchable
 {
+
+    /** The User id of the anonymous user */
+    const ID_ANONYMOUS      = 0;
+    /** The user id of the main admin user */
+    const ID_ADMIN          = 1;
+
     /********************************************************************************
      *
      *   Calculated Attributes
@@ -179,16 +185,20 @@ class User extends Base\NamedDBElement implements ISearchable
     public function isPasswordValid($password)
     {
         $hash = $this->db_data['password'];
+        if ($hash === "") {
+            return false; //When no password was set, the any password is invalid
+        }
         return password_verify($password, $hash);
     }
+    
 
     public function delete()
     {
-        if($this->getID() == 0) {
+        if ($this->getID() == static::ID_ANONYMOUS) {
             throw new Exception(_("Der anonymous Benutzer (ID=0) kann nicht gelöscht werden!"));
         }
 
-        if($this->getID() == 1) {
+        if ($this->getID() == static::ID_ADMIN) {
             throw new Exception(_("Der Systemadministrator (ID=1) kann nicht gelöscht werden!"));
         }
         parent::delete();
@@ -219,6 +229,9 @@ class User extends Base\NamedDBElement implements ISearchable
      */
     public function setPassword($new_password)
     {
+        if ($this->getID() == static::ID_ANONYMOUS) {
+            throw new Exception(_("Das Password des anonymous Users kann nicht geändert werden!"));
+        }
         $hash = password_hash($new_password, PASSWORD_DEFAULT);
         $this->setAttributes(array("password" => $hash));
     }
