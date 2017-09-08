@@ -1001,7 +1001,10 @@ function buildToolsTree($params)
     if ($developer_mode) {
         $tree[] = treeviewNode(_("Entwickler-Werkzeuge"), null, $dev_nodes);
     }
-    $tree[] = treeviewNode(_("Hilfe"), "https://github.com/jbtronics/Part-DB/wiki", null);
+    if(!$disable_help) {
+        $tree[] = treeviewNode(_("Hilfe"), "https://github.com/jbtronics/Part-DB/wiki", null);
+    }
+
 
     return $tree;
 }
