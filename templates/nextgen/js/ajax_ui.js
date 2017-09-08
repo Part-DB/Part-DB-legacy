@@ -374,7 +374,7 @@ function makeSortTable() {
             "order": [],
             "columnDefs": [
                 {
-                    "targets": "_all", type: "natural-nohtml-ci"
+                    "targets": "_all", type: "natural-nohtml"
                 }, {
                     targets: 'no-sort', orderable: false
                 }
