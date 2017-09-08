@@ -400,6 +400,8 @@ class HTML
 
         //Assign informations about, which functions are globally, so we can hide them in the header
         $tmpl->assign('devices_disabled', $config['devices']['disable']);
+        $tmpl->assign('footprints_disabled', $config['footprints']['disable']);
+        $tmpl->assign('manufacturers_disabled', $config['manufacturers']['disable']);
 
         //Only load X3D libraries if this is activated
         $tmpl->assign('foot3d_active', $config['foot3d']['active']);

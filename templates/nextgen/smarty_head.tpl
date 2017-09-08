@@ -131,10 +131,12 @@
                                        <label for="search_supplierpartnr">{t}Bestellnr.{/t}</label></li>
                                    <li class="checkbox"><input type="checkbox" name="search_supplier" value="true">
                                        <label for="search_supplier">{t}Lieferant{/t}</label></li>
+                                   {if !$manufacturers_disabled}
                                    <li class="checkbox"><input type="checkbox" name="search_manufacturer" value="true">
-                                       <label for="search_manufacturer">{t}Hersteller{/t}</label></li>
+                                       <label for="search_manufacturer">{t}Hersteller{/t}</label></li>{/if}
+                                   {if !$footprints_disabled}
                                    <li class="checkbox"><input type="checkbox" name="search_footprint" value="true">
-                                       <label for="search_footprint">{t}Footprint{/t}</label></li>
+                                       <label for="search_footprint">{t}Footprint{/t}</label></li>{/if}
                                    <li class="checkbox"><input type="checkbox" name="disable_pid_input" value="false">
                                         <label for="disable_pid_input">{t}Deakt. Barcode{/t}</label></li>
                                    <li class="checkbox"><input type="checkbox" name="regex" value="true">
