@@ -47,9 +47,9 @@
 
     <!-- Datatables -->
     <link rel="stylesheet" type="text/css" href="{$relative_path}datatables/datatables.min.css"/>
-    <script type="text/javascript" src="{$relative_path}datatables/datatables.min.js" async></script>
+    <script type="text/javascript" src="{$relative_path}datatables/datatables.min.js"></script>
     <!-- Datatables plugin for natural sorting -->
-    <script type="text/javascript" src="{$relative_path}datatables/natural.js" async></script>
+    <script type="text/javascript" src="{$relative_path}datatables/natural.js"></script>
 
     <!-- Treeview -->
     <script src="{$relative_path}js/bootstrap-treeview.js" async></script>
