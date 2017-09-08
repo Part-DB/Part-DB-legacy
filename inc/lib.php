@@ -949,7 +949,7 @@ function buildToolsTree($params)
     if (!$disable_calculator) {
         $tools_nodes[] = treeviewNode(_("Widerstandsrechner"), BASE_RELATIVE . "/tools_calculator.php");
     }
-    if (!$disable_footprint) {
+    if (!$disable_tools_footprints) {
         $tools_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/tools_footprints.php");
     }
     if (!$disable_iclogos) {
@@ -975,7 +975,9 @@ function buildToolsTree($params)
         $edit_nodes[] = treeviewNode(_("Baugruppen"), BASE_RELATIVE . "/edit_devices.php");
     }
     $edit_nodes[] = treeviewNode(_("Lagerorte"), BASE_RELATIVE . "/edit_storelocations.php");
-    $edit_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/edit_footprints.php");
+    if (!$disable_footprint) {
+        $edit_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/edit_footprints.php");
+    }
     $edit_nodes[] = treeviewNode(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
     $edit_nodes[] = treeviewNode(_("Lieferanten"), BASE_RELATIVE . "/edit_suppliers.php");
     if (!$disable_manufactur) {
