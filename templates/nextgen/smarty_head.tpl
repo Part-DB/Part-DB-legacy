@@ -172,6 +172,7 @@
                                     </div>
                                     <div id="tree-categories"></div>
                                 </li>
+                                {if !$devices_disabled}
                                 <li id="devices">
                                     <div class="dropdown">
                                         <button class="btn-text dropdown-toggle" type="button" id="dropdownDev" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -185,6 +186,7 @@
                                     </div>
                                     <div id="tree-devices"></div>
                                 </li>
+                                {/if}
 
                                 <li id="tools">
                                     <div class="dropdown">
