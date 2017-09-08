@@ -511,7 +511,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist kein Dateianhang ausgewählt!'));
                 }
 
-                if (strlen($_FILES['attachement_file']['name']) > 0) {
+                if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
                     $new_filename = uploadFile($_FILES['attachement_file'], BASE.'/data/media/');
                 }
 

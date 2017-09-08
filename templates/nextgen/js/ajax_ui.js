@@ -255,6 +255,9 @@ var AjaxUI = (function () {
             $('#progressbar').show(0);
         }
     };
+    AjaxUI.prototype.updateTrees = function () {
+        this.tree_fill();
+    };
     /**
      * Called whenever a Ajax Request was successful completed.
      * We use it to hide the progbar and show the requested content, register some elements on the page for ajax usage
@@ -290,6 +293,26 @@ var AjaxUI = (function () {
             var title = extractTitle(input);
             if (title !== "") {
                 document.title = title;
+            }
+            //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
+            var selected = $("#tree-categories").treeview("getSelected")[0];
+            //If the current page, does not contain the url of the selected tree node...
+            if (typeof selected !== 'undefined' && settings.url.indexOf(selected.href) == -1) {
+                $('#tree-categories').treeview('unselectNode', [selected.nodeId, { silent: true }]);
+            }
+            //The same for devices tree
+            //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
+            selected = $("#tree-devices").treeview("getSelected")[0];
+            //If the current page, does not contain the url of the selected tree node...
+            if (typeof selected !== 'undefined' && settings.url.indexOf(selected.href) == -1) {
+                $('#tree-devices').treeview('unselectNode', [selected.nodeId, { silent: true }]);
+            }
+            //The same for tools tree
+            //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
+            selected = $("#tree-tools").treeview("getSelected")[0];
+            //If the current page, does not contain the url of the selected tree node...
+            if (typeof selected !== 'undefined' && settings.url.indexOf(selected.href) == -1) {
+                $('#tree-tools').treeview('unselectNode', [selected.nodeId, { silent: true }]);
             }
         }
     };
