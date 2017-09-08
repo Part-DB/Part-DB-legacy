@@ -462,10 +462,12 @@ function makeSortTable() {
             "info":     false,
             "searching":   false,
             "order": [],
-            "columnDefs": [ {
-                "targets"  : 'no-sort',
-                "orderable": false
-            }]
+            "columnDefs": [
+                {
+                "targets": "_all", type: "natural-nohtml-ci"
+                }, {
+                    targets: 'no-sort', orderable: false
+                }]
         });
         //$(".table-sortable").DataTable().fnDraw();
     }
