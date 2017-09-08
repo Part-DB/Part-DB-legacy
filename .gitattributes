@@ -1,6 +1,9 @@
 # Set the default behavior, in case people don't have core.autocrlf set.
 * text=auto eol=lf
 *.phar binary
+*.mo binary
+*.po binary
+*.pot binary
 
 js/* linguist-vendored
 datatables/* linguist-vendored
