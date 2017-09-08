@@ -17,30 +17,20 @@
 {if isset($categories_loop)}
     {foreach $categories_loop as $cat}
         <div class="panel panel-default">
-            <div class="panel-heading">{t}Kategorie:{/t} {$cat.category_name}</div>
+            <div class="panel-heading">{t}Kategorie:{/t} <b>{$cat.category_name}</b></div>
             <div class="panel-body">
-                {counter start=0 assign="count"}
                 {foreach $cat.pictures_loop as $pic}
-                    {if $count%4==0}
-                        <div class="row">
-                    {/if}
-                    <div class="col-xs-3">
-                        <div class="thumbnail" >
-                            <img src="{$pic.filename}"  title="{$pic.title}" alt="">
-                            <div class="caption"><p>{$pic.title}</p></div>
+                    <div class="col-lg-2 col-md-3 col-xs-4">
+                        <div class="thumbnail">
+                            <a class="link-external" href="{$pic.filename}" target="_blank">
+                                <img class="img-responsive" src="{$pic.filename}" alt="">
+                            </a>
+                            <span class="caption text-break">{$pic.title}</span>
                         </div>
                     </div>
-                    {counter}
-                    {if $count%4==0}
-                        </div>
-                    {/if}
                 {/foreach}
-
-                {if $count%4>=0}
-                </div>
-                {/if}
-        </div>
-
+            </div>
         </div>
     {/foreach}
 {/if}
+

@@ -393,7 +393,9 @@ $app->get("/1.0.0/tree/categories[/{root_id}]", function ($request, $response, $
 $app->get("/1.0.0/tree/devices[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     try {
-        $tree = generateTreeForClass(Device::class, $database, $current_user, $log, $args, "show_device_parts.php", "cid");
+        $root_device = new Device($database, $current_user, $log, 0);
+        $tree = $root_device->buildBootstrapTree("show_device_parts.php", "device_id", true,
+            true, false, _("Übersicht"));
         return $response->withJson($tree);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
