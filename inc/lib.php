@@ -268,8 +268,14 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
 
     $destination = $destination_directory.$destination_filename;
 
-    if ((! is_dir($destination_directory)) || (mb_substr($destination_directory, -1, 1) != '/') || (! isPathabsoluteAndUnix($destination_directory, false))) {
+    if ((mb_substr($destination_directory, -1, 1) != '/') || (! isPathabsoluteAndUnix($destination_directory, false))) {
         throw new Exception('"'.$destination_directory.'" ist kein gültiges Verzeichnis!');
+    }
+
+    try {
+        createPath($destination_directory);
+    } catch (Exception $ex) {
+        throw new Exception(_("Das Verzeichniss konnte nicht angelegt werden!"));
     }
 
     if (! is_writable($destination_directory)) {
@@ -1056,4 +1062,89 @@ function isUsingHTTPS() {
     return
         (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
         || $_SERVER['SERVER_PORT'] == 443;
+}
+
+/**
+ * Generates a path, based on category structure of a part.
+ * @param $base_dir string The base path for the file path structure (with trailing slash)
+ * @param $category \PartDB\Category
+ * @return string The generated path
+ */
+function generateAttachementPath($base_dir, $category)
+{
+    //Split full path into different categories
+    $categories = explode("@@", $category->getFullPath("@@"));
+    //Sanatize each category path
+    foreach ($categories as &$category) {
+        $category = filter_filename($category, true);
+    }
+
+    return $base_dir . "" . implode("/", $categories). "/";
+
+}
+
+/**
+ * Removes characters, that are not allowed in filenames, from the filenames.
+ * @param $filename string The filename which should be parsed.
+ * @param bool $beautify boolean When true, the filename gets beautified, so test---file.pdf, becomes test-file.pdf
+ * @return mixed|string
+ */
+function filter_filename($filename, $beautify=true)
+{
+    // sanitize filename
+    $filename = preg_replace(
+        '~
+        [<>:"/\\|?*]|            # file system reserved https://en.wikipedia.org/wiki/Filename#Reserved_characters_and_words
+        [\x00-\x1F]|             # control characters http://msdn.microsoft.com/en-us/library/windows/desktop/aa365247%28v=vs.85%29.aspx
+        [\x7F\xA0\xAD]|          # non-printing characters DEL, NO-BREAK SPACE, SOFT HYPHEN
+        [#\[\]@!$&\'()+,;=]|     # URI reserved https://tools.ietf.org/html/rfc3986#section-2.2
+        [{}^\~`]                 # URL unsafe characters https://www.ietf.org/rfc/rfc1738.txt
+        ~x',
+        '-', $filename);
+    // avoids ".", ".." or ".hiddenFiles"
+    $filename = ltrim($filename, '.-');
+    // optional beautification
+    if ($beautify) $filename = beautify_filename($filename);
+    // maximise filename length to 255 bytes http://serverfault.com/a/9548/44086
+    $ext = pathinfo($filename, PATHINFO_EXTENSION);
+    $filename = mb_strcut(pathinfo($filename, PATHINFO_FILENAME), 0, 255 - ($ext ? strlen($ext) + 1 : 0), mb_detect_encoding($filename)) . ($ext ? '.' . $ext : '');
+    return $filename;
+}
+
+/**
+ * Makes a filename more beatiful. For example: file___name.zip becomes file-name.zip
+ * @param $filename
+ * @return mixed|string
+ */
+function beautify_filename($filename)
+{
+    //Spaces becomes _
+    $filename = preg_replace(array('/ +/'), "_", $filename);
+    $filename = preg_replace(array('/_+/'), "_", $filename);
+    // reduce consecutive characters
+    $filename = preg_replace(array(
+        // "file---name.zip" becomes "file-name.zip"
+        '/-+/'
+    ), '-', $filename);
+    $filename = preg_replace(array(
+        // "file--.--.-.--name.zip" becomes "file.name.zip"
+        '/-*\.-*/',
+        // "file...name..zip" becomes "file.name.zip"
+        '/\.{2,}/'
+    ), '.', $filename);
+    // lowercase for windows/unix interoperability http://support.microsoft.com/kb/100625
+    //$filename = mb_strtolower($filename, mb_detect_encoding($filename));
+    // ".file-name.-" becomes "file-name"
+    $filename = trim($filename, '.-');
+    return $filename;
+}
+
+/**
+ * Recursively creates a long directory path, if it not exists.
+ */
+function createPath($path) {
+    if (is_dir($path)) return true;
+    $prev_path = substr($path, 0, strrpos($path, '/', -2) + 1 );
+    $return = createPath($prev_path);
+    return ($return && is_writable($prev_path)) ? mkdir($path) : false;
 }

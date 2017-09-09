@@ -483,7 +483,9 @@ if (! $fatal_error) {
                 }
 
                 if (strlen($_FILES['attachement_file']['name']) > 0) {
-                    $new_filename = uploadFile($_FILES['attachement_file'], BASE.'/data/media/');
+                    $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/", $part->getCategory()) : BASE.'/data/media/';
+                    $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
+                    //$new_filename = uploadFile($_FILES['attachement_file'], BASE.'/data/media/');
                 }
 
                 $new_attachement = Attachement::add(
@@ -512,7 +514,8 @@ if (! $fatal_error) {
                 }
 
                 if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
-                    $new_filename = uploadFile($_FILES['attachement_file'], BASE.'/data/media/');
+                    $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/", $part->getCategory()) : BASE.'/data/media/';
+                    $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
                 }
 
                 $attachement->setAttributes(array( 'type_id'           => $new_attachement_type_id,
