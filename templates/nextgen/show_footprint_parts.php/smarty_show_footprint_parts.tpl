@@ -7,19 +7,13 @@
         <form action="" method="post" class="form-horizontal no-progbar">
             <input type="hidden" name="fid" value="{$fid}">
             <input type="hidden" name="subfoot" value="{if $with_subfoot}0{else}1{/if}">
-            
+
             <div class="form-group">
-                <label class="control-label col-md-2">{t}Unterkategorien:{/t}</label>
                 <div class="col-md-10">
-                    <button type="submit" class="btn btn-default" name="subfoot_button" >{if $with_subfoot}{t}ausblenden{/t}{else}{t}einblenden{/t}{/if}</button>
+                    <button type="submit" class="btn btn-default {if $with_subfoot}active{/if}" name="subfoot_button" >{t}Unterfootprints einblenden{/t}</button>
                 </div>
             </div>
         </form>
-        {*
-        <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}">
-            {t}Neues Teil in dieser Kategorie{/t}
-        </a> *}
-        
     </div>
 </div>
 
