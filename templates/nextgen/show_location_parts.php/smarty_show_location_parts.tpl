@@ -7,19 +7,13 @@
         <form action="" method="post" class="form-horizontal no-progbar">
             <input type="hidden" name="lid" value="{$lid}">
             <input type="hidden" name="subloc" value="{if $with_sublocations}0{else}1{/if}">
-            
+
             <div class="form-group">
-                <label class="control-label col-md-2">{t}Unterkategorien:{/t}</label>
                 <div class="col-md-10">
-                    <button type="submit" class="btn btn-default" name="subloc_button" >{if $with_sublocations}{t}ausblenden{/t}{else}{t}einblenden{/t}{/if}</button>
+                    <button type="submit" class="btn btn-default {if $with_sublocations}active{/if}" name="subloc_button" >{t}Unterlagerorte einblenden{/t}</button>
                 </div>
             </div>
         </form>
-        {*
-        <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}">
-            {t}Neues Teil in dieser Kategorie{/t}
-        </a> *}
-        
     </div>
 </div>
 
