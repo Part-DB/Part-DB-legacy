@@ -151,6 +151,9 @@ $config['properties']['active']                  = false;
 $config['edit_parts']['created_go_to_info']      = false;    //Jump to info page of a part, if a new part was created
 $config['edit_parts']['saved_go_to_info']        = false;    //Jump to info page of a part, if part was edited and saved.
 
+//Table settings
+$config['table']['autosort']                     = false;
+
 /********************************************************************************
  *
  *   Below, there are attributes which we don't want to save in the user's "config.php".

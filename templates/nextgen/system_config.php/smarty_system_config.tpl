@@ -207,6 +207,18 @@
                         </div>
                     </div>
 
+                    <hr>
+
+                    <div class="form-group">
+                        <label for="modal-container" class="control-label col-sm-2">{t}Bauteiletabellen:{/t}</label>
+                        <div class="col-sm-10">
+                            <div class="checkbox">
+                                <input type="checkbox" name="table_autosort" {if $table_autosort} checked{/if}>
+                                <label for="table_autosort">{t}Aktiviere initiale Sortierung.{/t}</label>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 {if $developer_mode_available}

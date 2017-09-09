@@ -548,6 +548,7 @@ class HTML
         }
 
         $tmpl->assign("tracking_code", $config['tracking_code']);
+        $tmpl->assign('auto_sort', $config['table']['autosort'] );
         $tmpl->assign("autorefresh", $this->meta['autorefresh']);
 
         if (PDBDebugBar::isActivated()) {
