@@ -122,6 +122,9 @@ $new_admin_password_2       = isset($_REQUEST['new_admin_password_2'])      ? (s
 $created_redirect           = isset($_REQUEST['created_redirect']);
 $saved_redirect             = isset($_REQUEST['saved_redirect']);
 
+//Table settings
+$table_autosort             = isset($_REQUEST['table_autosort']);
+
 $action = 'default';
 if (isset($_REQUEST["apply"])) {
     $action = 'apply';
@@ -191,6 +194,8 @@ if (! $fatal_error) {
 
             $config['edit_parts']['created_go_to_info']      = $created_redirect;    //Jump to info page of a part, if a new part was created
             $config['edit_parts']['saved_go_to_info']        = $saved_redirect;
+
+            $config['table']['autosort']                = $table_autosort;
 
             if (! $config['is_online_demo']) {
                 // settings which should not be able to change in the online demo
@@ -315,6 +320,9 @@ $html->setVariable("saved_redirect", $config['edit_parts']['saved_go_to_info'], 
 
 // Appearance
 $html->setVariable('short_description', $config['appearance']['short_description'], 'boolean');
+
+//Table
+$html->setVariable('table_autosort', $config['table']['autosort'], 'boolean');
 
 // check if the server supports the selected language and print a warning if not
 if (! ownSetlocale(LC_ALL, $config['language'])) {

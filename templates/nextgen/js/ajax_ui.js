@@ -366,7 +366,7 @@ function registerHoverImages() {
 function makeSortTable() {
     'use strict';
     if (!$.fn.DataTable.isDataTable('.table-sortable')) {
-        $('.table-sortable').DataTable({
+        var table = $('.table-sortable').DataTable({
             "paging": false,
             "ordering": true,
             "info": false,
@@ -380,7 +380,9 @@ function makeSortTable() {
                 }
             ]
         });
-        //$(".table-sortable").DataTable().fnDraw();
+        if ($("#auto_sort").val() == true) {
+            table.columns(".order-default").order('asc').draw();
+        }
     }
 }
 /**
