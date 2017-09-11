@@ -136,6 +136,15 @@ if (! $fatal_error) {
     switch ($action) {
         case 'add':
             try {
+                if (isURL($new_filename)) {
+                    $downloaded_file_name =  downloadFile($new_filename, BASE  . "/data/media/footprints/");
+                    if ($downloaded_file_name !== "") {
+                        $new_filename = $downloaded_file_name;
+                    } else {
+                        $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
+                    }
+                }
+
                 $new_footprint = Footprint::add(
                     $database,
                     $current_user,
@@ -202,6 +211,15 @@ if (! $fatal_error) {
             try {
                 if (! is_object($selected_footprint)) {
                     throw new Exception(_('Es ist kein Footprint markiert oder es trat ein Fehler auf!'));
+                }
+
+                if (isURL($new_filename)) {
+                    $downloaded_file_name =  downloadFile($new_filename, BASE  . "/data/media/footprints/");
+                    if ($downloaded_file_name !== "") {
+                        $new_filename = $downloaded_file_name;
+                    } else {
+                        $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
+                    }
                 }
 
                 $selected_footprint->setAttributes(array(  'name'          => $new_name,

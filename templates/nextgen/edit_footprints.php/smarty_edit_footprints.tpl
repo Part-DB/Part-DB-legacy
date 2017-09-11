@@ -72,6 +72,7 @@
                         <div class="col-md-9">
                             <input type="text" name="filename" value="{$filename}" placeholder="{t}z.B. img/footprints/Aktiv/ICs/DIP/IC_DIP8.png{/t}" class="form-control">
                             <p class="help-block">{t}Hinweis: Sie können hier z.B. "DIP28" eintippen und übernehmen. Der Footprint wird dann unter "Footprints mit fehlerhaften Dateinamen" aufgelistet, wo Sie Vorschläge für Dateinamen bekommen und dann einfach übernehmen können.{/t}</p>
+                            <p class="help-block">{t}Geben sie hier eine URL ein, so wird das Bild heruntergeladen und auf dem Server gespeichert.{/t}</p>
                             {if !empty($filename) && $filename_valid}
                                 <img class="" rel="popover" height="70" src="{$filename}">
                             {/if}
