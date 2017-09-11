@@ -456,7 +456,7 @@ function makeSortTable() {
     'use strict';
 
     if (!$.fn.DataTable.isDataTable('.table-sortable')) {
-        $('.table-sortable').DataTable({
+        let table = $('.table-sortable').DataTable({
             "paging":   false,
             "ordering": true,
             "info":     false,
@@ -469,7 +469,10 @@ function makeSortTable() {
                     targets: 'no-sort', orderable: false
                 }]
         });
-        //$(".table-sortable").DataTable().fnDraw();
+        if($("#auto_sort").val() == true) {
+            table.columns(".order-default").order('asc').draw();
+        }
+
     }
 }
 
