@@ -219,6 +219,22 @@
                         </div>
                     </div>
 
+                    <hr>
+
+                    <div class="form-group">
+                        <label class="control-label col-sm-2">{t}Dateianhänge:{/t}</label>
+                        <div class="col-sm-10">
+                            <div class="checkbox">
+                                <input type="checkbox" name="attachements_structure" {if $attachements_structure} checked{/if}>
+                                <label for="table_autosort">{t}Speichere Anhänge in Ordnerstruktur, ähnlich der Kategorienhierachie.{/t}</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" name="attachements_download" {if $attachements_download} checked{/if}>
+                                <label for="table_autosort">{t}Lade Medien von externen Quellen standardmäßig herunter.{/t}</label>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 {if $developer_mode_available}
