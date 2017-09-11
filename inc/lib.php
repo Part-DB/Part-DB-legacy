@@ -559,6 +559,37 @@ function curlGetData($url)
 }
 
 /**
+ * Download a file from web to the server.
+ * @param $url string The URL of the resource which should be downloaded.
+ * @param $path string The path, where the file should be placed. (Must be absolute, unix style and end with a slash)
+ * @param string $filename string Defaultly the filename of the new file gets determined from the url.
+ *          However you can override the filename with this param.
+ * @throws Exception Throws an exception if an error happened, or file could not be downloaded.
+ * @return True if the download was successful.
+ */
+function downloadFile($url, $path, $filename = "") {
+    if(!isPathabsoluteAndUnix($path)) {
+        throw new Exception(_('$path ist kein gültiger und absoluter Pfad!'));
+    }
+    if (!isURL($url)) {
+        throw new Exception(_('$url ist keine gültige URL'));
+    }
+    if ($filename == "") {
+        $parts = parse_url($url);
+        $filename = basename($parts['path']);
+    }
+
+    set_time_limit(30);
+
+    createPath($path);
+
+    $ret = file_put_contents($path . $filename, fopen($url, 'r'));
+    if ($ret !== false) { //If download was successful
+        return $path . $filename;
+    }
+}
+
+/**
  * Get proposed filenames for an invalid filename
  *
  * If the user moves a file (e.g. in the media/ directory), the files will be found no longer.
@@ -1147,4 +1178,18 @@ function createPath($path) {
     $prev_path = substr($path, 0, strrpos($path, '/', -2) + 1 );
     $return = createPath($prev_path);
     return ($return && is_writable($prev_path)) ? mkdir($path) : false;
+}
+
+/**
+ * Check if a string is a URL and is valid.
+ * @param $string string The string which should be checked.
+ * @param bool $path_required If true, the string must contain a path to be valid. (e.g. foo.bar would be invalid, foo.bar/test.php would be valid).
+ * @return bool True if the string is a valid URL. False, if the string is not an URL or invalid.
+ */
+function isURL($string, $path_required = true) {
+    if ($path_required) {
+        return filter_var($string, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED);
+    } else {
+        return filter_var($string, FILTER_VALIDATE_URL);
+    }
 }

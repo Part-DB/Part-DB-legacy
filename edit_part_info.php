@@ -85,6 +85,7 @@ $attachement_id             = isset($_REQUEST['attachement_id'])            ? (i
 $new_attachement_type_id    = isset($_REQUEST['attachement_type_id'])       ? (integer)$_REQUEST['attachement_type_id']      : 0;
 $new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
 $new_filename               = isset($_REQUEST['attachement_filename'])      ? toUnixPath(trim((string)$_REQUEST['attachement_filename'])) : '';
+$download_file              = isset($_REQUEST['download_file']);
 
 $partname_invalid           = isset($_REQUEST['name_edit'])                 ? true                                           : false;
 
@@ -478,14 +479,23 @@ if (! $fatal_error) {
 
         case 'attachement_add':
             try {
-                if (empty($new_filename) || (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) == 0)) {
+                if (empty($new_filename) && (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) == 0)) {
                     throw new Exception(_('Sie müssen entweder ein Dateiname angeben, oder eine Datei zum Hochladen wählen!'));
                 }
 
+                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/", $part->getCategory()) : BASE.'/data/media/';
+
                 if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
-                    $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/", $part->getCategory()) : BASE.'/data/media/';
                     $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
-                    //$new_filename = uploadFile($_FILES['attachement_file'], BASE.'/data/media/');
+                } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
+                    if (isURL($new_filename) && $download_file) {
+                        $downloaded_file_name =  downloadFile($new_filename, $filepath);
+                        if ($downloaded_file_name !== "") {
+                            $new_filename = $downloaded_file_name;
+                        } else {
+                            $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
+                        }
+                    }
                 }
 
                 $new_attachement = Attachement::add(
@@ -513,9 +523,19 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist kein Dateianhang ausgewählt!'));
                 }
 
+                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/", $part->getCategory()) : BASE.'/data/media/';
+
                 if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
-                    $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/", $part->getCategory()) : BASE.'/data/media/';
                     $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
+                } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
+                    if (isURL($new_filename) && $download_file) {
+                        $downloaded_file_name =  downloadFile($new_filename, $filepath);
+                        if ($downloaded_file_name !== "") {
+                            $new_filename = $downloaded_file_name;
+                        } else {
+                            $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
+                        }
+                    }
                 }
 
                 $attachement->setAttributes(array( 'type_id'           => $new_attachement_type_id,
