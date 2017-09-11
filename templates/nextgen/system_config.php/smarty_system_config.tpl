@@ -219,6 +219,18 @@
                         </div>
                     </div>
 
+                    <hr>
+
+                    <div class="form-group">
+                        <label for="modal-container" class="control-label col-sm-2">{t}Dateianhänge:{/t}</label>
+                        <div class="col-sm-10">
+                            <div class="checkbox">
+                                <input type="checkbox" name="attachements_structure" {if $attachements_structure} checked{/if}>
+                                <label for="table_autosort">{t}Speichere Anhänge in Ordnerstruktur, ähnlich der Kategorienhierachie.{/t}</label>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 {if $developer_mode_available}
