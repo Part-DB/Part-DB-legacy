@@ -478,11 +478,11 @@ if (! $fatal_error) {
 
         case 'attachement_add':
             try {
-                if ((strlen($_FILES['attachement_file']['name']) == 0) == (strlen($new_filename) == 0)) {
+                if (empty($new_filename) || (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) == 0)) {
                     throw new Exception(_('Sie müssen entweder ein Dateiname angeben, oder eine Datei zum Hochladen wählen!'));
                 }
 
-                if (strlen($_FILES['attachement_file']['name']) > 0) {
+                if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
                     $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/", $part->getCategory()) : BASE.'/data/media/';
                     $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
                     //$new_filename = uploadFile($_FILES['attachement_file'], BASE.'/data/media/');
