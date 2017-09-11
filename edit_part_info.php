@@ -764,7 +764,8 @@ if (! $fatal_error) {
                     'is_master_picture'         => ($attachement->getID() == $master_picture_id),
                     'filename'                  => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
                     'filename_base_relative'    => str_replace(BASE.'/', '', $attachement->getFilename()),
-                    'picture_filename'          => ($attachement->isPicture() ? str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()) : ''));
+                    'picture_filename'          => ($attachement->isPicture() ? str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()) : ''),
+                    'download_file'             => $config['attachements']['download_default'] && isURL($attachement->getFilename()));
                 $row_odd = ! $row_odd;
             }
 
@@ -779,7 +780,8 @@ if (! $fatal_error) {
                 'is_master_picture'         => false,
                 'filename'                  => '',
                 'filename_base_relative'    => '',
-                'picture_filename'          => '');
+                'picture_filename'          => '',
+                'download_file'             => $config['attachements']['download_default']);
 
             $html->setLoop('attachements_loop', $attachements_loop);
         }

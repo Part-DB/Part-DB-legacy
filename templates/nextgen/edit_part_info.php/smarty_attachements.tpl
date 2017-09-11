@@ -70,7 +70,7 @@
                             </div>
                             <div class="col-sm-3">
                                 <div class="checkbox">
-                                    <input type="checkbox" name="download_file">
+                                    <input type="checkbox" name="download_file" {if $attach.download_file}checked{/if} >
                                     <label for="download_file">{t}Downloade Datei{/t}</label>
                                 </div>
                             </div>

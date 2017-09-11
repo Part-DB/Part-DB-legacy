@@ -156,6 +156,7 @@ $config['table']['autosort']                     = false;
 
 //Attachements settings
 $config['attachements']['folder_structure']     = false;    //Put attachements in a folder structure, similar to the categories.
+$config['attachements']['download_default']     = false;    //Download external media defaultly.
 
 /********************************************************************************
  *
