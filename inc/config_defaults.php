@@ -305,6 +305,21 @@ $config['export']['searchparts'][1]['format']            = 'XML';
 $config['export']['searchparts'][1]['name']              = 'Standard';
 $config['export']['searchparts'][1]['mimetype']          = 'text/xml';
 $config['export']['searchparts'][1]['columns']           = 'name;description;instock;footprint;storelocation;suppliers;supplierpartnrs;single_prices';
+
+//export configuration for show_* parts
+// export configurations for searched parts*
+$config['export']['showparts'][0]['format']            = 'CSV';
+$config['export']['showparts'][0]['name']              = 'Standard';
+$config['export']['showparts'][0]['separator']         = ';';
+$config['export']['showparts'][0]['header']            = true;
+$config['export']['showparts'][0]['mimetype']          = 'text/csv';
+$config['export']['showparts'][0]['columns']           = 'name;description;instock;footprint;storelocation;suppliers;supplierpartnrs;single_prices';
+
+$config['export']['showparts'][1]['format']            = 'XML';
+$config['export']['showparts'][1]['name']              = 'Standard';
+$config['export']['showparts'][1]['mimetype']          = 'text/xml';
+$config['export']['showparts'][1]['columns']           = 'name;description;instock;footprint;storelocation;suppliers;supplierpartnrs;single_prices';
+
 // IMPORTANT: If you add your own export formats to your config.php, use letters instead of numbers as array indexes!! e.g. $config['export']['orderparts']['A']['format'] = 'foo';
 
 // automatic datasheets settings
