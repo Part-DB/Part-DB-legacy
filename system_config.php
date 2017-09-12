@@ -125,6 +125,10 @@ $saved_redirect             = isset($_REQUEST['saved_redirect']);
 //Table settings
 $table_autosort             = isset($_REQUEST['table_autosort']);
 
+//Attachement settings
+$attachements_structure     = isset($_REQUEST['attachements_structure']);
+$attachements_download      = isset($_REQUEST['attachements_download']);
+
 $action = 'default';
 if (isset($_REQUEST["apply"])) {
     $action = 'apply';
@@ -196,6 +200,9 @@ if (! $fatal_error) {
             $config['edit_parts']['saved_go_to_info']        = $saved_redirect;
 
             $config['table']['autosort']                = $table_autosort;
+
+            $config['attachements']['folder_structure'] = $attachements_structure;
+            $config['attachements']['download_default'] = $attachements_download;
 
             if (! $config['is_online_demo']) {
                 // settings which should not be able to change in the online demo
@@ -323,6 +330,10 @@ $html->setVariable('short_description', $config['appearance']['short_description
 
 //Table
 $html->setVariable('table_autosort', $config['table']['autosort'], 'boolean');
+
+//Attachements
+$html->setVariable("attachements_structure", $config['attachements']['folder_structure'], 'boolean');
+$html->setVariable('attachements_download', $config['attachements']['download_default'], 'boolean');
 
 // check if the server supports the selected language and print a warning if not
 if (! ownSetlocale(LC_ALL, $config['language'])) {

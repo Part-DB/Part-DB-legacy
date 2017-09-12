@@ -154,6 +154,10 @@ $config['edit_parts']['saved_go_to_info']        = false;    //Jump to info page
 //Table settings
 $config['table']['autosort']                     = false;
 
+//Attachements settings
+$config['attachements']['folder_structure']     = false;    //Put attachements in a folder structure, similar to the categories.
+$config['attachements']['download_default']     = false;    //Download external media defaultly.
+
 /********************************************************************************
  *
  *   Below, there are attributes which we don't want to save in the user's "config.php".
