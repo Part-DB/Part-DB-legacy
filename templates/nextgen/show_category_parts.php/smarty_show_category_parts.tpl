@@ -4,7 +4,8 @@
         {t}Sonstiges{/t}
     </div>
     <div class="panel-body">
-        <form action="" method="post" class="form-horizontal no-progbar">
+
+        <form action="" method="post" class="no-progbar form-horizontal">
             <input type="hidden" name="cid" value="{$cid}">
             <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">
             
@@ -14,10 +15,32 @@
                 </div>
             </div>
         </form>
+
+
+        <div style="float: right;">
+            <form action="" method="post" class="no-progbar no-ajax">
+                <input type='hidden' name='cid'   value='{$cid}'>
+                <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">
+
+                <div class="form-inline">
+                    <label>{t}Exportieren:{/t}</label>
+                    <select name="export_format" class="form-control">
+                        {foreach $export_formats as $format}
+                            <option value="{$format.value}" {if isset($format.selected)}selected{/if}>{$format.text}</option>
+                        {/foreach}
+                    </select>
+
+                    <button class="btn btn-primary" type="submit" name="export">{t}OK{/t}</button>
+                </div>
+            </form>
+        </div>
+
         <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}">
             {t}Neues Teil in dieser Kategorie{/t}
         </a>
-        
+
+
+
     </div>
 </div>
 
