@@ -60,8 +60,8 @@
         
         <!-- 3d footprint viewer -->
         {if isset($foot3d_active) && $foot3d_active}
-        <script src="http://www.x3dom.org/release/x3dom.js" async></script>
-        <link rel="stylesheet" href="http://www.x3dom.org/release/x3dom.css">
+        <script src="https://www.x3dom.org/release/x3dom.js" async></script>
+        <link rel="stylesheet" href="https://www.x3dom.org/release/x3dom.css">
         {/if}
         
 
@@ -149,10 +149,12 @@
                                        <label for="search_supplierpartnr">{t}Bestellnr.{/t}</label></li>
                                    <li class="checkbox"><input type="checkbox" name="search_supplier" value="true">
                                        <label for="search_supplier">{t}Lieferant{/t}</label></li>
+                                   {if !$manufacturers_disabled}
                                    <li class="checkbox"><input type="checkbox" name="search_manufacturer" value="true">
-                                       <label for="search_manufacturer">{t}Hersteller{/t}</label></li>
+                                       <label for="search_manufacturer">{t}Hersteller{/t}</label></li>{/if}
+                                   {if !$footprints_disabled}
                                    <li class="checkbox"><input type="checkbox" name="search_footprint" value="true">
-                                       <label for="search_footprint">{t}Footprint{/t}</label></li>
+                                       <label for="search_footprint">{t}Footprint{/t}</label></li>{/if}
                                    <li class="checkbox"><input type="checkbox" name="disable_pid_input" value="false">
                                         <label for="disable_pid_input">{t}Deakt. Barcode{/t}</label></li>
                                    <li class="checkbox"><input type="checkbox" name="regex" value="true">
@@ -193,6 +195,7 @@
                                     </div>
                                     <div id="tree-categories"></div>
                                 </li>
+                                {if !$devices_disabled}
                                 <li id="devices">
                                     <div class="dropdown">
                                         <button class="btn-text dropdown-toggle" type="button" id="dropdownDev" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -206,6 +209,7 @@
                                     </div>
                                     <div id="tree-devices"></div>
                                 </li>
+                                {/if}
 
                                 <li id="tools">
                                     <div class="dropdown">

@@ -151,6 +151,13 @@ $config['properties']['active']                  = false;
 $config['edit_parts']['created_go_to_info']      = false;    //Jump to info page of a part, if a new part was created
 $config['edit_parts']['saved_go_to_info']        = false;    //Jump to info page of a part, if part was edited and saved.
 
+//Table settings
+$config['table']['autosort']                     = false;
+
+//Attachements settings
+$config['attachements']['folder_structure']     = false;    //Put attachements in a folder structure, similar to the categories.
+$config['attachements']['download_default']     = false;    //Download external media defaultly.
+
 /********************************************************************************
  *
  *   Below, there are attributes which we don't want to save in the user's "config.php".
@@ -298,6 +305,21 @@ $config['export']['searchparts'][1]['format']            = 'XML';
 $config['export']['searchparts'][1]['name']              = 'Standard';
 $config['export']['searchparts'][1]['mimetype']          = 'text/xml';
 $config['export']['searchparts'][1]['columns']           = 'name;description;instock;footprint;storelocation;suppliers;supplierpartnrs;single_prices';
+
+//export configuration for show_* parts
+// export configurations for searched parts*
+$config['export']['showparts'][0]['format']            = 'CSV';
+$config['export']['showparts'][0]['name']              = 'Standard';
+$config['export']['showparts'][0]['separator']         = ';';
+$config['export']['showparts'][0]['header']            = true;
+$config['export']['showparts'][0]['mimetype']          = 'text/csv';
+$config['export']['showparts'][0]['columns']           = 'name;description;instock;footprint;storelocation;suppliers;supplierpartnrs;single_prices';
+
+$config['export']['showparts'][1]['format']            = 'XML';
+$config['export']['showparts'][1]['name']              = 'Standard';
+$config['export']['showparts'][1]['mimetype']          = 'text/xml';
+$config['export']['showparts'][1]['columns']           = 'name;description;instock;footprint;storelocation;suppliers;supplierpartnrs;single_prices';
+
 // IMPORTANT: If you add your own export formats to your config.php, use letters instead of numbers as array indexes!! e.g. $config['export']['orderparts']['A']['format'] = 'foo';
 
 // automatic datasheets settings

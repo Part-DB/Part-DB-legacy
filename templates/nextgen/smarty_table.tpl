@@ -24,7 +24,7 @@
                         {if $col.caption=="hover_picture"}<th class="no-sort"></th>{/if}
                         {if $col.caption=="id"}<th class="idclass">{t}ID{/t}</th>{/if}
                         {if $col.caption=="row_index"}<th class="idclass">{t}Nr.{/t}</th>{/if} {*  only for import parts  *}
-                        {if $col.caption=="name"}<th>{t}Name{/t}</th>{/if}
+                        {if $col.caption=="name"}<th class="order-default">{t}Name{/t}</th>{/if}
                         {if $col.caption=="name_edit"}<th>{t}Name{/t}</th>{/if} {*  only for import parts  *}
                         {if $col.caption=="description"}<th>{t}Beschreibung{/t}</th>{/if}
                         {if $col.caption=="description_edit"}<th>{t}Beschreibung{/t}</th>{/if} {*  only for import parts  *}

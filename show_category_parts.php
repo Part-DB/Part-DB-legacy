@@ -24,6 +24,8 @@
 */
 
 include_once('start_session.php');
+/** @noinspection PhpIncludeInspection */
+include_once(BASE.'/inc/lib.export.php');
 
 use PartDB\Category;
 use PartDB\Database;
@@ -46,10 +48,15 @@ $category_id        = isset($_REQUEST['cid'])               ? (integer)$_REQUEST
 $with_subcategories = isset($_REQUEST['subcat'])            ? (boolean)$_REQUEST['subcat']          : true;
 $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
 
+$export_format_id       = isset($_REQUEST['export_format'])     ? (integer)$_REQUEST['export_format']   : 0;
+
 $action = 'default';
 if (isset($_REQUEST['subcat_button'])) {
     $action = 'change_subcat_state';
+} else if(isset($_REQUEST['export'])) {
+    $action = 'export';
 }
+
 $selected_part_id = 0;
 for ($i=0; $i<$table_rowcount; $i++) {
     $selected_part_id = isset($_REQUEST['id_'.$i]) ? (integer)$_REQUEST['id_'.$i] : 0;
@@ -155,11 +162,17 @@ if (! $fatal_error) {
         $table_loop = Part::buildTemplateTableArray($parts, 'category_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
         $html->setLoop('table', $table_loop);
+
+        //Export Parts
+        if($action == "export") {
+            $export_string = exportParts($parts, 'showparts', $export_format_id, true, 'category_parts');
+        }
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
+
 
 $php_endtime = microtime(true); // For Debug informations
 
@@ -182,6 +195,8 @@ if (! $fatal_error) {
     $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
     $html->setVariable('popup_width', $config['popup']['width'], 'integer');
     $html->setVariable('popup_height', $config['popup']['height'], 'integer');
+
+    $html->setLoop('export_formats', buildExportFormatsLoop('showparts'));
 }
 
 /********************************************************************************

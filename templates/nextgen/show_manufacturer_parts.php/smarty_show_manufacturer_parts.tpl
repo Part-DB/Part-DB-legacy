@@ -7,19 +7,12 @@
         <form action="" method="post" class="form-horizontal no-progbar">
             <input type="hidden" name="mid" value="{$mid}">
             <input type="hidden" name="subman" value="{if $with_submanufacturers}0{else}1{/if}">
-            
             <div class="form-group">
-                <label class="control-label col-md-2">{t}Unterkategorien:{/t}</label>
                 <div class="col-md-10">
-                    <button type="submit" class="btn btn-default" name="subloc_button" >{if $with_submanufacturers}{t}ausblenden{/t}{else}{t}einblenden{/t}{/if}</button>
+                    <button type="submit" class="btn btn-default {if $with_submanufacturers}active{/if}" name="subman_button" >{t}Unterhersteller einblenden{/t}</button>
                 </div>
             </div>
         </form>
-        {*
-        <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}">
-            {t}Neues Teil in dieser Kategorie{/t}
-        </a> *}
-        
     </div>
 </div>
 

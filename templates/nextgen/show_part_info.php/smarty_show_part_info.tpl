@@ -287,7 +287,7 @@
                         </td>
 
                         <td class="tdrow1{if $order.obsolete} backred{/if}">
-                            {if isset($order.supplier_product_url)}
+                            {if isset($order.supplier_product_url) && !empty($order.supplier_product_url)}
                                 <a title="{$order.supplier_product_url}" target="_blank" class="hidden-print-href link-external" href="{$order.supplier_product_url}">{$order.supplierpartnr}</a>
                             {else}
                                 {$order.supplierpartnr}
@@ -359,11 +359,12 @@
                 <b>{$attach_type.attachement_type}:</b><br>
                 {foreach $attach_type.attachements_loop as $attach}
                     {if $attach.is_picture}
-                        <img src="{$attach.filename}" style="max-height:180px; max-width:180px;" class="hoverpic" rel="popover"></a>
+                        <img src="{$attach.filename}" class="img-attachement" rel="popover"></a>
                     {else}
                         <a target="_blank" href="{$attach.filename}" class="link-external">{$attach.attachement_name}</a><br>
                     {/if}
                 {/foreach}
+                <br><br>
             {/foreach}
         {else}
             {t}Dieses Bauteil besitzt keine Dateianhänge.{/t}

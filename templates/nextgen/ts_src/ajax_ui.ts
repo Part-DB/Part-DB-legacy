@@ -372,6 +372,29 @@ class AjaxUI {
                 document.title = title;
             }
 
+            //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
+            let selected = $("#tree-categories").treeview("getSelected")[0];
+            //If the current page, does not contain the url of the selected tree node...
+            if(typeof selected!=='undefined' && settings.url.indexOf(selected.href) == -1) {
+                $('#tree-categories').treeview('unselectNode', [ selected.nodeId, { silent: true } ]);
+            }
+
+            //The same for devices tree
+            //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
+            selected = $("#tree-devices").treeview("getSelected")[0];
+            //If the current page, does not contain the url of the selected tree node...
+            if(typeof selected!=='undefined' && settings.url.indexOf(selected.href) == -1) {
+                $('#tree-devices').treeview('unselectNode', [ selected.nodeId, { silent: true } ]);
+            }
+
+            //The same for tools tree
+            //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
+            selected = $("#tree-tools").treeview("getSelected")[0];
+            //If the current page, does not contain the url of the selected tree node...
+            if(typeof selected!=='undefined' && settings.url.indexOf(selected.href) == -1) {
+                $('#tree-tools').treeview('unselectNode', [ selected.nodeId, { silent: true } ]);
+            }
+
         }
     }
 }
@@ -433,18 +456,23 @@ function makeSortTable() {
     'use strict';
 
     if (!$.fn.DataTable.isDataTable('.table-sortable')) {
-        $('.table-sortable').DataTable({
+        let table = $('.table-sortable').DataTable({
             "paging":   false,
             "ordering": true,
             "info":     false,
             "searching":   false,
             "order": [],
-            "columnDefs": [ {
-                "targets"  : 'no-sort',
-                "orderable": false
-            }]
+            "columnDefs": [
+                {
+                "targets": "_all", type: "natural-nohtml"
+                }, {
+                    targets: 'no-sort', orderable: false
+                }]
         });
-        //$(".table-sortable").DataTable().fnDraw();
+        if($("#auto_sort").val() == true) {
+            table.columns(".order-default").order('asc').draw();
+        }
+
     }
 }
 
