@@ -131,6 +131,11 @@ $attachements_structure     = isset($_REQUEST['attachements_structure']);
 $attachements_download      = isset($_REQUEST['attachements_download']);
 $attachements_show_name     = isset($_REQUEST['attachements_show_name']);
 
+//Detailinfo settings
+$info_hide_actions              = isset($_REQUEST['info_hide_actions']);
+$info_hide_empty_orderdetails   = isset($_REQUEST['info_hide_empty_orderdetails']);
+$info_hide_empty_attachements   = isset($_REQUEST['info_hide_empty_attachements']);
+
 $action = 'default';
 if (isset($_REQUEST["apply"])) {
     $action = 'apply';
@@ -207,6 +212,10 @@ if (! $fatal_error) {
             $config['attachements']['folder_structure'] = $attachements_structure;
             $config['attachements']['download_default'] = $attachements_download;
             $config['attachements']['show_name']        = $attachements_show_name;
+
+            $config['part_info']['hide_actions']                = $info_hide_actions;
+            $config['part_info']['hide_empty_attachements']     = $info_hide_empty_attachements;
+            $config['part_info']['hide_empty_orderdetails']     = $info_hide_empty_orderdetails;
 
             if (! $config['is_online_demo']) {
                 // settings which should not be able to change in the online demo
@@ -340,6 +349,11 @@ $html->setVariable("attachements_structure", $config['attachements']['folder_str
 $html->setVariable('attachements_download', $config['attachements']['download_default'], 'boolean');
 $html->setVariable('attachements_show_name', $config['attachements']['show_name'], 'boolean');
 $html->setVariable('disable_suppliers', $config['suppliers']['disable'], 'boolean');
+
+//Detail infos
+$html->setVariable('info_hide_actions', $config['part_info']['hide_actions'], 'boolean');
+$html->setVariable('info_hide_empty_orderdetails', $config['part_info']['hide_empty_orderdetails'] , 'boolean');
+$html->setVariable('info_hide_empty_attachements', $config['part_info']['hide_empty_attachements'] , 'boolean');
 
 // check if the server supports the selected language and print a warning if not
 if (! ownSetlocale(LC_ALL, $config['language'])) {

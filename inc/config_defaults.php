@@ -147,6 +147,11 @@ $config['appearance']['use_old_datasheet_icons']    = false;
 $config['appearance']['short_description_length']   = 200;
 $config['appearance']['short_description']          = true;
 
+//part info settings
+$config['part_info']['hide_actions']                = false;    //Hide actions panel
+$config['part_info']['hide_empty_attachements']     = false;    //Hide empty attachements panel
+$config['part_info']['hide_empty_orderdetails']     = false;    //Hide empty orderdetails panel
+
 //Properties settings
 $config['properties']['active']                  = false;
 
