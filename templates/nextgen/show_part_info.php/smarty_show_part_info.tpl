@@ -359,7 +359,7 @@
                 <b>{$attach_type.attachement_type}:</b><br>
                 {foreach $attach_type.attachements_loop as $attach}
                     {if $attach.is_picture}
-                        <img src="{$attach.filename}" class="img-attachement" rel="popover"></a>
+                        <a target="_blank" href="{$attach.filename}" class="link-datasheet""><img src="{$attach.filename}" class="img-attachement" rel="popover"></a>
                     {else}
                         <a target="_blank" href="{$attach.filename}" class="link-external">{$attach.attachement_name}</a><br>
                     {/if}
