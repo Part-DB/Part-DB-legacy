@@ -443,7 +443,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         if ($show_root) {
             $root_level = $this->getLevel();
             if ($this->getID() > 0) {
-                $root_name = $this->getName();
+                $root_name = htmlspecialchars($this->getName());
             }
 
             $html[] = '<option value="'. $this->getID() . '">'. $root_name .'</option>';
@@ -462,7 +462,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             for ($i = 0; $i < $level; $i++) {
                 $html[] = "&nbsp;&nbsp;&nbsp;";
             }
-            $html[] = $element->getName() .'</option>';
+            $html[] = htmlspecialchars($element->getName()) .'</option>';
         }
 
         return implode("\n", $html);
