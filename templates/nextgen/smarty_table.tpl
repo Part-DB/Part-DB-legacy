@@ -370,7 +370,12 @@
                         {* attachements (names with hyperlinks) *}
                         <td class="tdrow5" id="attach">
                             {foreach $row.attachements as $attach}
-                                <a class="link-external" title="{$attach.type}" href="{$attach.filename}" target="_blank">{$attach.name}</a><br>
+                                {if $t.use_attachements_names}
+                                    <a class="link-external" title="{$attach.type}" href="{$attach.filename}" target="_blank">{$attach.name}</a><br>
+                                {else}
+                                    <a class="link-datasheet" title="{$attach.type}: {$attach.name}" href="{$attach.filename}" target="_blank">{$attach.icon nofilter}</a>
+                                {/if}
+
                             {/foreach}
                             <div></div>
                         </td>

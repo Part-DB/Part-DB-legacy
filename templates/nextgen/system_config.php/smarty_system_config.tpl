@@ -232,6 +232,10 @@
                                 <input type="checkbox" name="attachements_download" {if $attachements_download} checked{/if}>
                                 <label for="table_autosort">{t}Lade Medien von externen Quellen standardmäßig herunter.{/t}</label>
                             </div>
+                            <div class="checkbox">
+                                <input type="checkbox" name="attachements_show_name" {if $attachements_show_name} checked{/if}>
+                                <label for="table_autosort">{t}Zeige die Namen der Anhängen in der Übersichtstabelle (statt Icons).{/t}</label>
+                            </div>
                         </div>
                     </div>
 

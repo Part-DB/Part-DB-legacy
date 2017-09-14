@@ -128,6 +128,7 @@ $table_autosort             = isset($_REQUEST['table_autosort']);
 //Attachement settings
 $attachements_structure     = isset($_REQUEST['attachements_structure']);
 $attachements_download      = isset($_REQUEST['attachements_download']);
+$attachements_show_name     = isset($_REQUEST['attachements_show_name']);
 
 $action = 'default';
 if (isset($_REQUEST["apply"])) {
@@ -203,6 +204,7 @@ if (! $fatal_error) {
 
             $config['attachements']['folder_structure'] = $attachements_structure;
             $config['attachements']['download_default'] = $attachements_download;
+            $config['attachements']['show_name']        = $attachements_show_name;
 
             if (! $config['is_online_demo']) {
                 // settings which should not be able to change in the online demo
@@ -334,6 +336,7 @@ $html->setVariable('table_autosort', $config['table']['autosort'], 'boolean');
 //Attachements
 $html->setVariable("attachements_structure", $config['attachements']['folder_structure'], 'boolean');
 $html->setVariable('attachements_download', $config['attachements']['download_default'], 'boolean');
+$html->setVariable('attachements_show_name', $config['attachements']['show_name'], 'boolean');
 
 // check if the server supports the selected language and print a warning if not
 if (! ownSetlocale(LC_ALL, $config['language'])) {

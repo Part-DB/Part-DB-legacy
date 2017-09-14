@@ -1193,3 +1193,90 @@ function isURL($string, $path_required = true) {
         return filter_var($string, FILTER_VALIDATE_URL);
     }
 }
+
+/**
+ * Returns a Fontawesome icon for the filepath based on the file extension.
+ * @param $path string The path (including filename) for which the Icon should be generated.
+ * @param $with_html bool When true a whole HTML tag is generated (e.g. <i class="fa fa-file" aria-hidden="true"></i>).
+ *      When false, only the special fa-class is returned. (e.g. fa-file)
+ * @return string The resulted HTML code or the fa-class.
+ */
+function extToFAIcon($path, $with_html = true, $size = "fa-lg") {
+    $ext = pathinfo($path, PATHINFO_EXTENSION);
+    $fa_class = "";
+    switch ($ext) {
+        case "pdf":
+            $fa_class = "fa-file-pdf-o";
+            break;
+        case "txt":
+        case "csv":
+        case "md":
+        case "rtf":
+            $fa_class = "fa-file-text-o";
+            break;
+        case "jpg":
+        case "jpeg":
+        case "gif":
+        case "png":
+        case "svg":
+        case "tif":
+        case "tiff":
+            $fa_class = "fa-file-image-o";
+            break;
+        case "zip":
+        case "rar":
+        case "bz2":
+        case "tar":
+        case "7z":
+            $fa_class = "fa-file-archive-o";
+            break;
+        case "mp3":
+        case "wav":
+        case "aac":
+        case "m4a":
+        case "wma":
+            $fa_class = "fa-file-audio-o";
+            break;
+        case "mp4":
+        case "mkv":
+        case "wmv":
+            $fa_class = "fa-file-video-o";
+            break;
+        case "ppt":
+        case "pptx":
+        case "odp":
+            $fa_class = "fa-file-powerpoint-o";
+            break;
+        case "doc":
+        case "docx":
+        case "odt":
+            $fa_class = "fa-file-word-o";
+            break;
+        case "xls":
+        case "xlsx":
+        case "ods":
+            $fa_class = "fa-file-excel-o";
+            break;
+        case "php":
+        case "xml":
+        case "html":
+        case "js":
+        case "ts":
+        case "htm":
+            $fa_class = "fa-file-code-o";
+            break;
+
+        default: //Use generic file icon
+            $fa_class = "fa-file-o";
+            break;
+    }
+
+    if ($with_html == false) {
+        return $fa_class;
+    }
+
+    $fa_class = $fa_class . " " . $size;
+
+    //Build HTML
+    return '<i class="fa ' . $fa_class . '" aria-hidden="true"></i>';
+}
