@@ -79,7 +79,8 @@ abstract class NamedDBElement extends DBElement
      */
     public function getName()
     {
-        return $this->db_data['name'];
+        //Strip HTML from Name, so no XSS injection is possible.
+        return strip_tags($this->db_data['name']);
     }
 
     /********************************************************************************

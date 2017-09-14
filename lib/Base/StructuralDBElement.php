@@ -578,7 +578,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         );
         if (count($query_data) > 0) {
             throw new Exception(sprintf(_('Es existiert bereits ein Element auf gleicher Ebene (%1$s::%2$s)'.
-                ' mit gleichem Namen (%3$s)!'), $classname, $parent_element->getFullPath(), $values['name']));
+                ' mit gleichem Namen (%3$s)!'), $classname, $parent_element->getFullPath(), strip_tags($values['name'])));
         }
     }
 }
