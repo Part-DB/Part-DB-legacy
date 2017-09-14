@@ -443,7 +443,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         if ($show_root) {
             $root_level = $this->getLevel();
             if ($this->getID() > 0) {
-                $root_name = $this->getName();
+                $root_name = htmlspecialchars($this->getName());
             }
 
             $html[] = '<option value="'. $this->getID() . '">'. $root_name .'</option>';
@@ -462,7 +462,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             for ($i = 0; $i < $level; $i++) {
                 $html[] = "&nbsp;&nbsp;&nbsp;";
             }
-            $html[] = $element->getName() .'</option>';
+            $html[] = htmlspecialchars($element->getName()) .'</option>';
         }
 
         return implode("\n", $html);
@@ -492,7 +492,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         if ($this->getParentID()==-1) {
             if ($show_root) {
                 $tree = array(
-                    array('text' => ($use_db_root_name) ? $this->getName() : $root_name ,
+                    array('text' => ($use_db_root_name) ? htmlspecialchars($this->getName()) : $root_name ,
                         'href' => $page ."?". $parameter ."=".$this->getID(),
                         'nodes' => $nodes)
                 );
@@ -501,12 +501,12 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             }
         } else {
             if (!empty($nodes)) {
-                $tree = array('text' => $this->getName(),
+                $tree = array('text' => htmlspecialchars($this->getName()),
                     'href' => $page ."?". $parameter ."=".$this->getID(),
                     'nodes' => $nodes
                 );
             } else {
-                $tree = array('text' => $this->getName(),
+                $tree = array('text' => htmlspecialchars($this->getName()),
                     'href' => $page ."?". $parameter ."=".$this->getID()
                 );
             }
@@ -578,7 +578,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         );
         if (count($query_data) > 0) {
             throw new Exception(sprintf(_('Es existiert bereits ein Element auf gleicher Ebene (%1$s::%2$s)'.
-                ' mit gleichem Namen (%3$s)!'), $classname, $parent_element->getFullPath(), $values['name']));
+                ' mit gleichem Namen (%3$s)!'), $classname, $parent_element->getFullPath(), strip_tags($values['name'])));
         }
     }
 }
