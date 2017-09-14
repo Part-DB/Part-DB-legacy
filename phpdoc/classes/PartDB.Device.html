@@ -1,0 +1,2742 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>Part-DB</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="../js/html5.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">Part-DB</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/PartDB.html">\PartDB</a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">475</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">22</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-539376537"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-539376537" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-591691625"></a>
+                                <a href="../namespaces/PartDB.html" style="margin-left: 30px; padding-left: 0">PartDB</a>
+            </div>
+            <div id="namespace-591691625" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-516761457"></a>
+                                <a href="../namespaces/PartDB.Base.html" style="margin-left: 30px; padding-left: 0">Base</a>
+            </div>
+            <div id="namespace-516761457" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Base.AttachementsContainingDBElement.html">AttachementsContainingDBElement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.Company.html">Company</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.DBElement.html">DBElement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.NamedDBElement.html">NamedDBElement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.PartsContainingDBElement.html">PartsContainingDBElement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.StructuralDBElement.html">StructuralDBElement</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2127979829"></a>
+                                <a href="../namespaces/PartDB.Interfaces.html" style="margin-left: 30px; padding-left: 0">Interfaces</a>
+            </div>
+            <div id="namespace-2127979829" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/PartDB.Interfaces.IAPIModel.html">IAPIModel</a></li>
+                                                    <li class="interface"><a href="../classes/PartDB.Interfaces.ISearchable.html">ISearchable</a></li>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1382367240"></a>
+                                <a href="../namespaces/PartDB.Label.html" style="margin-left: 30px; padding-left: 0">Label</a>
+            </div>
+            <div id="namespace-1382367240" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Label.PartLabel.html">PartLabel</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1254169332"></a>
+                                <a href="../namespaces/PartDB.PartProperty.html" style="margin-left: 30px; padding-left: 0">PartProperty</a>
+            </div>
+            <div id="namespace-1254169332" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.PartProperty.PartNameRegEx.html">PartNameRegEx</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.PartProperty.PartProperty.html">PartProperty</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-2034463685"></a>
+                                <a href="../namespaces/PartDB.Tools.html" style="margin-left: 30px; padding-left: 0">Tools</a>
+            </div>
+            <div id="namespace-2034463685" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Tools.PDBDebugBar.html">PDBDebugBar</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Tools.SystemVersion.html">SystemVersion</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Attachement.html">Attachement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.AttachementType.html">AttachementType</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Category.html">Category</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Database.html">Database</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Device.html">Device</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.DevicePart.html">DevicePart</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Footprint.html">Footprint</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Group.html">Group</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.HTML.html">HTML</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Log.html">Log</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Manufacturer.html">Manufacturer</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Orderdetails.html">Orderdetails</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Part.html">Part</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Pricedetails.html">Pricedetails</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Storelocation.html">Storelocation</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Supplier.html">Supplier</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.System.html">System</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.User.html">User</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/PartDB.html">\PartDB</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\PartDB</small>Device</h1>
+                    <p><em></em></p>
+                    
+                    
+                                        
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/PartDB.Device.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#method_resetAttributes" class="">resetAttributes()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_delete" class="">delete()</a><br />
+                                                                    <a href="../classes/PartDB.Base.PartsContainingDBElement.html#method_getTableParts" class="">getTableParts()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_getParts" class="">getParts()</a><br />
+                                                                    <a href="../classes/PartDB.Base.PartsContainingDBElement.html#method_usort_compare" class="">usort_compare()</a><br />
+                                                                    <a href="../classes/PartDB.Base.StructuralDBElement.html#method_isChildOf" class="">isChildOf()</a><br />
+                                                                    <a href="../classes/PartDB.Base.StructuralDBElement.html#method_getParentID" class="">getParentID()</a><br />
+                                                                    <a href="../classes/PartDB.Base.StructuralDBElement.html#method_getLevel" class="">getLevel()</a><br />
+                                                                    <a href="../classes/PartDB.Base.StructuralDBElement.html#method_getFullPath" class="">getFullPath()</a><br />
+                                                                    <a href="../classes/PartDB.Base.StructuralDBElement.html#method_getSubelements" class="">getSubelements()</a><br />
+                                                                    <a href="../classes/PartDB.Base.StructuralDBElement.html#method_setParentID" class="">setParentID()</a><br />
+                                                                    <a href="../classes/PartDB.Base.StructuralDBElement.html#method_buildJavascriptTree" class="">buildJavascriptTree()</a><br />
+                                                                    <a href="../classes/PartDB.Base.StructuralDBElement.html#method_buildHtmlTree" class="">buildHtmlTree()</a><br />
+                                                                    <a href="../classes/PartDB.Base.StructuralDBElement.html#method_buildBootstrapTree" class="">buildBootstrapTree()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_checkValuesValidity" class="">checkValuesValidity()</a><br />
+                                                                    <a href="../classes/PartDB.Base.AttachementsContainingDBElement.html#method_getAttachementTypes" class="">getAttachementTypes()</a><br />
+                                                                    <a href="../classes/PartDB.Base.AttachementsContainingDBElement.html#method_getAttachements" class="">getAttachements()</a><br />
+                                                                    <a href="../classes/PartDB.Base.NamedDBElement.html#method_getName" class="">getName()</a><br />
+                                                                    <a href="../classes/PartDB.Base.NamedDBElement.html#method_setName" class="">setName()</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#method_getID" class="">getID()</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#method_getTablename" class="">getTablename()</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#method_setAttributes" class="">setAttributes()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_copy" class="">copy()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_bookParts" class="">bookParts()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_getOrderQuantity" class="">getOrderQuantity()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_getOrderOnlyMissingParts" class="">getOrderOnlyMissingParts()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_getPartsCount" class="">getPartsCount()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_getPartsSumCount" class="">getPartsSumCount()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_getTotalPrice" class="">getTotalPrice()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_setOrderQuantity" class="">setOrderQuantity()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_setOrderOnlyMissingParts" class="">setOrderOnlyMissingParts()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_getOrderDevices" class="">getOrderDevices()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_getCount" class="">getCount()</a><br />
+                                                                    <a href="../classes/PartDB.Device.html#method_add" class="">add()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No public properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <a href="../classes/PartDB.Base.NamedDBElement.html#method_searchTable" class="">searchTable()</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#method_addByArray" class="">addByArray()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/PartDB.Base.PartsContainingDBElement.html#property_parts" class="">$parts</a><br />
+                                                                    <a href="../classes/PartDB.Base.AttachementsContainingDBElement.html#property_attachement_types" class="">$attachement_types</a><br />
+                                                                    <a href="../classes/PartDB.Base.AttachementsContainingDBElement.html#property_attachements" class="">$attachements</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#property_current_user" class="">$current_user</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#property_log" class="">$log</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#property_database" class="">$database</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#property_tablename" class="">$tablename</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#property_db_data" class="">$db_data</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/PartDB.Base.StructuralDBElement.html#property_full_path_strings" class="">$full_path_strings</a><br />
+                                                                    <a href="../classes/PartDB.Base.StructuralDBElement.html#property_level" class="">$level</a><br />
+                                                                    <a href="../classes/PartDB.Base.StructuralDBElement.html#property_subelements" class="">$subelements</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/lib.Device.html"><div class="path-wrapper">lib\Device.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">Default</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+                                        <div class="namespace-wrapper"><a href="../classes/PartDB.Base.DBElement.html">\PartDB\Base\DBElement</a></div>
+                                                                    
+                                        <div class="namespace-wrapper"><a href="../classes/PartDB.Base.NamedDBElement.html">\PartDB\Base\NamedDBElement</a></div>
+                                                                    
+                                        <div class="namespace-wrapper"><a href="../classes/PartDB.Base.AttachementsContainingDBElement.html">\PartDB\Base\AttachementsContainingDBElement</a></div>
+                                                                    
+                                        <div class="namespace-wrapper"><a href="../classes/PartDB.Base.StructuralDBElement.html">\PartDB\Base\StructuralDBElement</a></div>
+                                                                    
+                                        <div class="namespace-wrapper"><a href="../classes/PartDB.Base.PartsContainingDBElement.html">\PartDB\Base\PartsContainingDBElement</a></div>
+                                                                                                    <div class="namespace-wrapper">\PartDB\Device</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr>
+                            <th>
+                                file
+                            </th>
+                            <td>
+                                                                    <p>Device.php</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                brief
+                            </th>
+                            <td>
+                                                                    <p>class Device</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                class
+                            </th>
+                            <td>
+                                                                    <p>Device
+All elements of this class are stored in the database table &quot;devices&quot;.</p>
+<p>There cannot be more than one DeviceParts with the same Part in a Device!
+The Reason is, that it would be quite complicated to &quot;calculate&quot; if there are enough parts in stock.
+Example: If there is the same Part in a Device two times and only one Part in stock.
+Which one should be marked as &quot;enought in stock&quot;, which one as &quot;not enought in stock&quot;?
+So it's better if every Part can only be one time in a Device...</p>
+                                                            </td>
+                        </tr>
+                                            <tr>
+                            <th>
+                                author
+                            </th>
+                            <td>
+                                                                    <p>kami89</p>
+                                                            </td>
+                        </tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_parts" name="property_parts" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$parts</h3>
+                <pre class="signature">$parts : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.PartsContainingDBElement.html"><div class="path-wrapper">\PartDB\Base\PartsContainingDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            brief
+                        </th>
+                        <td>
+                                                            <p>(array) all part objects which are included in this element
+(see PartsContainingDBElement::get_parts())</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_attachement_types" name="property_attachement_types" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$attachement_types</h3>
+                <pre class="signature">$attachement_types : array&lt;mixed,\PartDB\AttachementType&gt;</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                array&lt;mixed,<a href="../classes/PartDB.AttachementType.html">\PartDB\AttachementType</a>&gt;
+                &mdash; All attachement types of the attachements of this element as an array of AttachementType objects.
+ @see AttachementsContainingDBElement::getAttachementTypes()                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.AttachementsContainingDBElement.html"><div class="path-wrapper">\PartDB\Base\AttachementsContainingDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_attachements" name="property_attachements" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$attachements</h3>
+                <pre class="signature">$attachements : array&lt;mixed,\PartDB\Attachement&gt;</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                array&lt;mixed,<a href="../classes/PartDB.Attachement.html">\PartDB\Attachement</a>&gt;
+                &mdash; All attachements of this element as a one-dimensional array of Attachement objects.
+ @see AttachementsContainingDBElement::getAttachements()                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.AttachementsContainingDBElement.html"><div class="path-wrapper">\PartDB\Base\AttachementsContainingDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_current_user" name="property_current_user" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$current_user</h3>
+                <pre class="signature">$current_user : \PartDB\User</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../classes/PartDB.User.html">\PartDB\User</a>
+                &mdash; object of the user which is logged in                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_log" name="property_log" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$log</h3>
+                <pre class="signature">$log : \PartDB\Log</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../classes/PartDB.Log.html">\PartDB\Log</a>
+                &mdash; a log object for logging events / bookings                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_database" name="property_database" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$database</h3>
+                <pre class="signature">$database : \PartDB\Database</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../classes/PartDB.Database.html">\PartDB\Database</a>
+                &mdash; the database object for all database transactions                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_tablename" name="property_tablename" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$tablename</h3>
+                <pre class="signature">$tablename : string</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; the tablename of the element, e.g. &quot;categories&quot; for the class &quot;Category&quot; and so on...                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_db_data" name="property_db_data" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$db_data</h3>
+                <pre class="signature">$db_data : array</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                &mdash; (array [1..*]) the record data from the database
+        (for every table column there is an element in this array)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            par
+                        </th>
+                        <td>
+                                                            <p>Example:</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            code
+                        </th>
+                        <td>
+                                                            <p>array(['row1'] =&gt; 'value1', ['row2'] =&gt; 'value2', ...) @endcode</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_full_path_strings" name="property_full_path_strings" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$full_path_strings</h3>
+                <pre class="signature">$full_path_strings : array&lt;mixed,string&gt;</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                array&lt;mixed,string&gt;
+                &mdash; all names of all parent elements as a array of strings,
+ the last array element is the name of the element itself                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.StructuralDBElement.html"><div class="path-wrapper">\PartDB\Base\StructuralDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_level" name="property_level" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$level</h3>
+                <pre class="signature">$level : integer</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                &mdash; the level of the most top elements is zero                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.StructuralDBElement.html"><div class="path-wrapper">\PartDB\Base\StructuralDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_subelements" name="property_subelements" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$subelements</h3>
+                <pre class="signature">$subelements : array&lt;mixed,static&gt;</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                array&lt;mixed,static&gt;
+                &mdash; all subelements (not recursive) of this element as a array of objects                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.StructuralDBElement.html"><div class="path-wrapper">\PartDB\Base\StructuralDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(\PartDB\Database  <span class="argument">$database</span>, \PartDB\User  <span class="argument">$current_user</span>, \PartDB\Log  <span class="argument">$log</span>, integer  <span class="argument">$id</span>,   <span class="argument">$data = null</span>) </pre>
+                <p><em>Constructor</em></p>
+                <p>It's allowed to create an object with the ID 0 (for the root element).</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/PartDB.Database.html">\PartDB\Database</a></td>
+                                <td>$database </td>
+                                <td><p>reference to the Database-object</p></td>
+                            </tr>
+                                                    <tr>
+                                <td><a href="../classes/PartDB.User.html">\PartDB\User</a></td>
+                                <td>$current_user </td>
+                                <td><p>reference to the current user which is logged in</p></td>
+                            </tr>
+                                                    <tr>
+                                <td><a href="../classes/PartDB.Log.html">\PartDB\Log</a></td>
+                                <td>$log </td>
+                                <td><p>reference to the Log-object</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id </td>
+                                <td><p>ID of the device we want to get</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$data </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there is no such device in the database</p></dd>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            note
+                        </th>
+                        <td>
+                                                                                            <p>It's allowed to create an object with the ID 0 (for the root element).</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_resetAttributes" name="method_resetAttributes" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">resetAttributes()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">resetAttributes(boolean  <span class="argument">$all = false</span>) </pre>
+                <p><em>Reset all attributes of this object (set them to NULL).</em></p>
+                <p>Reasons why we need this method:</p>
+<ul>
+<li>If we change an attribute of the element, some calculated attributes are no longer valid.
+So this method is called with $all=false to set all calculated attributes to NULL (&quot;clear the cache&quot;)</li>
+<li>If this element is deleted by delete(), we need to clear ALL data from this element,
+including non-calculated attributes. So this method will be called with $all=true.</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$all </td>
+                                <td><ul>
+<li>if true, ALL attributes will be deleted (use it only for &quot;destroying&quot; the object).</li>
+<li>if false, only the calculated data will be deleted.
+This is needed if you change an attribute of the object.</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            warning
+                        </th>
+                        <td>
+                                                                                            <p>You should implement this function in your subclass (including a call to this function here!),
+if your subclass has its own attributes (calculated or non-calculated)!</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_delete" name="method_delete" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">delete()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">delete(boolean  <span class="argument">$delete_recursive = false</span>, boolean  <span class="argument">$delete_files_from_hdd = false</span>) </pre>
+                <p><em>Delete this device (with all DeviceParts in it)</em></p>
+                <p>This function overrides the same-named function from the parent class.
+This is required to delete the attachements of an element too.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$delete_recursive </td>
+                                <td><p>If true, all subdevices will be deleted too (!!)</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$delete_files_from_hdd </td>
+                                <td><p>@li if true, the attached files of this device will be deleted from
+harddisc drive (!) See AttachementContainingDBElement::delete()
+@li if false, only the attachement records in the database will be
+deleted, but not the files on the harddisc</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href=""><span class="namespace-wrapper">\PartDB\FilesContainingDBElement::delete()</span></a></dd>
+                                            <dd><a href=""><span class="namespace-wrapper">\PartDB\DevicePart::delete()</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            note
+                        </th>
+                        <td>
+                                                                                            <p>This function overrides the same-named function from the parent class.</p>
+                                                                                            <p>The DeviceParts in this device will be deleted too (not the parts itself,
+but the entries in the table &quot;device_parts&quot;).</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTableParts" name="method_getTableParts" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getTableParts()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTableParts(string  <span class="argument">$parts_rowname</span>, boolean  <span class="argument">$recursive = false</span>, boolean  <span class="argument">$hide_obsolete_and_zero = false</span>) : array&lt;mixed,\PartDB\Part&gt;</pre>
+                <p><em>Get all parts of this element</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$parts_rowname </td>
+                                <td><p>@li this is the name of the table row of the parts table,
+where the ID of this element is located (example: 'id_category')
+@li example: &quot;id_manufacturer&quot;, &quot;id_category&quot;, ...</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$recursive </td>
+                                <td><p>if true, the parts of all subelements will be listed too</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$hide_obsolete_and_zero </td>
+                                <td><p>if true, obsolete parts with &quot;instock == 0&quot; will not be returned</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,<a href="../classes/PartDB.Part.html">\PartDB\Part</a>&gt;
+                                            &mdash; <p>all parts as a one-dimensional array of Part objects</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.PartsContainingDBElement.html"><div class="path-wrapper">\PartDB\Base\PartsContainingDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            par
+                        </th>
+                        <td>
+                                                                                            <p>Examples:</p>
+<ul>
+<li>$category-&gt;get_parts():       you will get all Part-objects in this category</li>
+<li>
+<p>$supplier-&gt;get_parts():       you will get all Part-objects, which have (at least) this supplier</p>
+<p>To get the DevicePart-objects of a Device, there is the method Device::get_parts().
+(This method here allows only to get Part objects, but a Device has DevicePart objects!)</p>
+</li>
+</ul>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getParts" name="method_getParts" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getParts()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getParts(boolean  <span class="argument">$recursive = false</span>,   <span class="argument">$hide_obsolet_and_zero = false</span>) : array&lt;mixed,\PartDB\Part&gt;</pre>
+                <p><em>Get all device-parts of this device</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$recursive </td>
+                                <td><p>if true, the parts of all subelements will be listed too</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$hide_obsolet_and_zero </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,<a href="../classes/PartDB.Part.html">\PartDB\Part</a>&gt;
+                                            &mdash; <p>all parts as a one-dimensional array of &quot;DevicePart&quot;-objects,
+sorted by their names (only if &quot;$recursive == false&quot;)</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            note
+                        </th>
+                        <td>
+                                                                                            <p>This method overrides the same-named method of the parent class.</p>
+                                                                                            <p>The attribute &quot;$this-&gt;parts&quot; will be used to store the parts.
+(but there will be stored DevicePart-objects instead of Part-objects)</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_usort_compare" name="method_usort_compare" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">usort_compare()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">usort_compare(\PartDB\Part  <span class="argument">$part_1</span>, \PartDB\Part  <span class="argument">$part_2</span>) : integer</pre>
+                <p><em>Compare function for &quot;usort()&quot;</em></p>
+                <p>From php.net:    The comparison function must return an integer less than,
+equal to, or greater than zero if the first argument is considered
+to be respectively less than, equal to, or greater than the second.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/PartDB.Part.html">\PartDB\Part</a></td>
+                                <td>$part_1 </td>
+                                <td><p>The Part Object #1</p></td>
+                            </tr>
+                                                    <tr>
+                                <td><a href="../classes/PartDB.Part.html">\PartDB\Part</a></td>
+                                <td>$part_2 </td>
+                                <td><p>The Part Object #2</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.PartsContainingDBElement.html"><div class="path-wrapper">\PartDB\Base\PartsContainingDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_isChildOf" name="method_isChildOf" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">isChildOf()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">isChildOf(\PartDB\Part  <span class="argument">$another_element</span>) : boolean</pre>
+                <p><em>Check if this element is a child of another element (recursive)</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/PartDB.Part.html">\PartDB\Part</a></td>
+                                <td>$another_element </td>
+                                <td><p>the object to compare
+IMPORTANT: both objects to compare must be from the same class (for example two &quot;Device&quot; objects)!</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.StructuralDBElement.html"><div class="path-wrapper">\PartDB\Base\StructuralDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getParentID" name="method_getParentID" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getParentID()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getParentID() </pre>
+                <p><em></em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.StructuralDBElement.html"><div class="path-wrapper">\PartDB\Base\StructuralDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            brief
+                        </th>
+                        <td>
+                                                                                            <p>Get the parent-ID</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            retval
+                        </th>
+                        <td>
+                                                                                            <p>integer|null     @li the ID of the parent element
+@li NULL means, the parent is the root node
+@li the parent ID of the root node is -1</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getLevel" name="method_getLevel" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getLevel()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getLevel() : integer</pre>
+                <p><em>Get the level</em></p>
+                
+
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>the level of this element (zero means a most top element
+[a subelement of the root node])</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.StructuralDBElement.html"><div class="path-wrapper">\PartDB\Base\StructuralDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            note
+                        </th>
+                        <td>
+                                                                                            <p>The level of the root node is -1.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getFullPath" name="method_getFullPath" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getFullPath()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getFullPath(string  <span class="argument">$delimeter = &#039; → &#039;</span>) : string</pre>
+                <p><em>Get the full path</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$delimeter </td>
+                                <td><p>the delimeter of the returned string</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>the full path (incl. the name of this element), delimeted by $delimeter</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.StructuralDBElement.html"><div class="path-wrapper">\PartDB\Base\StructuralDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getSubelements" name="method_getSubelements" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getSubelements()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getSubelements(boolean  <span class="argument">$recursive</span>) : array&lt;mixed,static&gt;</pre>
+                <p><em>Get all subelements of this element</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$recursive </td>
+                                <td><p>if true, the search is recursive</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,static&gt;
+                                            &mdash; <p>all subelements as an array of objects (sorted by their full path)</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.StructuralDBElement.html"><div class="path-wrapper">\PartDB\Base\StructuralDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setParentID" name="method_setParentID" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setParentID()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setParentID(integer|null  <span class="argument">$new_parent_id</span>) </pre>
+                <p><em>Change the parent ID of this element</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer|null</td>
+                                <td>$new_parent_id </td>
+                                <td><p>@li the ID of the new parent element
+@li NULL if the parent should be the root node</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if the new parent ID is not valid</p></dd>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.StructuralDBElement.html"><div class="path-wrapper">\PartDB\Base\StructuralDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_buildJavascriptTree" name="method_buildJavascriptTree" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">buildJavascriptTree()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">buildJavascriptTree(string  <span class="argument">$tree_name</span>, string  <span class="argument">$page</span>, string  <span class="argument">$parameter</span>, string  <span class="argument">$target = &#039;&#039;</span>, boolean  <span class="argument">$recursive = true</span>, boolean  <span class="argument">$show_root = false</span>, string  <span class="argument">$root_name = &#039;$$&#039;</span>, boolean  <span class="argument">$root_expand = true</span>, boolean  <span class="argument">$root_is_link = true</span>) : string</pre>
+                <p><em>Build a JavaScript tree with all subcategories of this element</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$tree_name </td>
+                                <td><p>name of the tree (like 'cat_navtree', this is not visible for the user)</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$page </td>
+                                <td><p>filename of the target page of the nodes (e.g. 'showparts.php')</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$parameter </td>
+                                <td><p>name of the parameter (e.g. 'cid' for 'showparts.php?cid=')</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$target </td>
+                                <td><p>target frame (e.g. 'content_frame')</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$recursive </td>
+                                <td><p>if true, the tree will be recursive</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$show_root </td>
+                                <td><p>if true, the root node will be displayed</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$root_name </td>
+                                <td><p>if the root node is the very root element, you can set its name here</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$root_expand </td>
+                                <td><p>if true, the root node will be expandable</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$root_is_link </td>
+                                <td><p>if true, the root node will be a link</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>HTML/Javascript string</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.StructuralDBElement.html"><div class="path-wrapper">\PartDB\Base\StructuralDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_buildHtmlTree" name="method_buildHtmlTree" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">buildHtmlTree()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">buildHtmlTree(integer  <span class="argument">$selected_id = null</span>, boolean  <span class="argument">$recursive = true</span>, boolean  <span class="argument">$show_root = true</span>, string  <span class="argument">$root_name = &#039;$$&#039;</span>) : string</pre>
+                <p><em>Build a HTML tree with all subcategories of this element</em></p>
+                <p>This method prints a <option>-Line for every item.
+<b>The <select>-tags are not printed here, you have to print them yourself!</b>
+Deeper levels have more spaces in front.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$selected_id </td>
+                                <td><p>the ID of the selected item</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$recursive </td>
+                                <td><p>if true, the tree will be recursive</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$show_root </td>
+                                <td><p>if true, the root node will be displayed</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$root_name </td>
+                                <td><p>if the root node is the very root element, you can set its name here</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>HTML string if success</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.StructuralDBElement.html"><div class="path-wrapper">\PartDB\Base\StructuralDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_buildBootstrapTree" name="method_buildBootstrapTree" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">buildBootstrapTree()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">buildBootstrapTree(  <span class="argument">$page</span>,   <span class="argument">$parameter</span>,   <span class="argument">$recursive = false</span>,   <span class="argument">$show_root = false</span>,   <span class="argument">$use_db_root_name = true</span>,   <span class="argument">$root_name = &#039;$$&#039;</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$page </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$parameter </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$recursive </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$show_root </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$use_db_root_name </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$root_name </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.StructuralDBElement.html"><div class="path-wrapper">\PartDB\Base\StructuralDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_checkValuesValidity" name="method_checkValuesValidity" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">checkValuesValidity()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">checkValuesValidity(  <span class="argument">$database</span>,   <span class="argument">$current_user</span>,   <span class="argument">$log</span>,   <span class="argument">$values</span>,   <span class="argument">$is_new</span>,   <span class="argument">$element = null</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$current_user </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$log </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$values </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$is_new </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$element </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            copydoc
+                        </th>
+                        <td>
+                                                                                            <p>DBElement::check_values_validity()</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getAttachementTypes" name="method_getAttachementTypes" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getAttachementTypes()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getAttachementTypes() : array&lt;mixed,\PartDB\AttachementType&gt;</pre>
+                <p><em>Get all different attachement types of the attachements of this element</em></p>
+                
+
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,<a href="../classes/PartDB.AttachementType.html">\PartDB\AttachementType</a>&gt;
+                                            &mdash; <p>the attachement types as a one-dimensional array of AttachementType objects,
+sorted by their names</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.AttachementsContainingDBElement.html"><div class="path-wrapper">\PartDB\Base\AttachementsContainingDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getAttachements" name="method_getAttachements" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getAttachements()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getAttachements(integer  <span class="argument">$type_id = null</span>, boolean  <span class="argument">$only_table_attachements = false</span>) : array&lt;mixed,\PartDB\Attachement&gt;</pre>
+                <p><em>Get all attachements of this element / Get the element&#039;s attachements with a specific type</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$type_id </td>
+                                <td><p>@li if NULL, all attachements of this element will be returned
+@li if this is a number &gt; 0, only attachements with this type ID will be returned</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$only_table_attachements </td>
+                                <td><p>if true, only attachements with &quot;show_in_table == true&quot;</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,<a href="../classes/PartDB.Attachement.html">\PartDB\Attachement</a>&gt;
+                                            &mdash; <p>the attachements as a one-dimensional array of Attachement objects</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.AttachementsContainingDBElement.html"><div class="path-wrapper">\PartDB\Base\AttachementsContainingDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getName" name="method_getName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getName() : string</pre>
+                <p><em>Get the name</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>the name of this element</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.NamedDBElement.html"><div class="path-wrapper">\PartDB\Base\NamedDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setName" name="method_setName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setName(string  <span class="argument">$new_name</span>) </pre>
+                <p><em>Change the name of this element</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$new_name </td>
+                                <td><p>the new name</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if the new name is not valid (e.g. empty)</p></dd>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.NamedDBElement.html"><div class="path-wrapper">\PartDB\Base\NamedDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            note
+                        </th>
+                        <td>
+                                                                                            <p>Spaces at the begin and at the end of the string will be removed
+automatically in NamedDBElement::check_values_validity().
+So you don't have to do this yourself.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getID" name="method_getID" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getID()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getID() </pre>
+                <p><em>Get the ID</em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            retval
+                        </th>
+                        <td>
+                                                                                            <p>integer the ID of this element</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTablename" name="method_getTablename" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getTablename()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTablename() </pre>
+                <p><em>Get the tablename</em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            retval
+                        </th>
+                        <td>
+                                                                                            <p>string the tablename of the database table where this element is stored</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setAttributes" name="method_setAttributes" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setAttributes()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setAttributes(array  <span class="argument">$new_values</span>) </pre>
+                <p><em>Set one or more database attributes of this element</em></p>
+                <p>This method let the method check_values_validity() to check all new values if they are valid!
+You don't have to check the data before you call this method!
+And the values will also be corrected automatically (e.g. trim names of elements or so).</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$new_values </td>
+                                <td><p>all new values in a one-dimensional array [1..*] like this:
+@code array(['row1'] =&gt; 'value1', ['row2'] =&gt; 'value2', ...) @endcode</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if the values are not valid / the combination of values is not valid</p></dd>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            warning
+                        </th>
+                        <td>
+                                                                                            <p>To ensure that this works correctly, you have to check the data in your
+subclasses method check_values_validity()!</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_copy" name="method_copy" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">copy()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">copy(string  <span class="argument">$name</span>, integer  <span class="argument">$parent_id</span>, boolean  <span class="argument">$with_subdevices = false</span>) </pre>
+                <p><em>Create a new Device as a copy from this one. All DeviceParts will be copied too.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$name </td>
+                                <td><p>The name of the new device</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$parent_id </td>
+                                <td><p>The ID of the new device's parent device</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$with_subdevices </td>
+                                <td><p>If true, all subdevices will be copied too</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_bookParts" name="method_bookParts" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">bookParts()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">bookParts(integer  <span class="argument">$book_multiplier</span>) </pre>
+                <p><em>Book all parts (decrease or increase instock)</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$book_multiplier </td>
+                                <td><p>@li if positive: the instock of the parts will be DEcreased
+@li if negative: the instock of the parts will be INcreased</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there are not enough parts in stock to book them</p></dd>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            note
+                        </th>
+                        <td>
+                                                                                            <p>This method will book all parts depending on their &quot;mount_quantity&quot;.
+@li Example with $book_multiplier = 2:
+@li The &quot;instock&quot; of a DevicePart with &quot;mount_quantity = 1&quot; will be reduced by &quot;2&quot;.
+@li The &quot;instock&quot; of a DevicePart with &quot;mount_quantity = 4&quot; will be reduced by &quot;8&quot;.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getOrderQuantity" name="method_getOrderQuantity" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getOrderQuantity()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getOrderQuantity() : integer</pre>
+                <p><em>Get the order quantity of this device</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>the order quantity</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getOrderOnlyMissingParts" name="method_getOrderOnlyMissingParts" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getOrderOnlyMissingParts()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getOrderOnlyMissingParts() : boolean</pre>
+                <p><em>Get the &quot;order_only_missing_parts&quot; attribute</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>the &quot;order_only_missing_parts&quot; attribute</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getPartsCount" name="method_getPartsCount" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getPartsCount()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getPartsCount(boolean  <span class="argument">$recursive = false</span>) : integer</pre>
+                <p><em>Get the count of different parts in this device</em></p>
+                <p>This method simply returns the count of the returned array of Device::get_parts().</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$recursive </td>
+                                <td><p>if true, the parts of all subelements will be counted too</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>count of different parts in this device</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getPartsSumCount" name="method_getPartsSumCount" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getPartsSumCount()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getPartsSumCount(boolean  <span class="argument">$recursive = false</span>) : integer</pre>
+                <p><em>Get the count of all parts in this device (every part multiplied by its quantity)</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$recursive </td>
+                                <td><p>if true, the parts of all subelements will be counted too</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>count of all parts in this device</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTotalPrice" name="method_getTotalPrice" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getTotalPrice()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTotalPrice(boolean  <span class="argument">$as_money_string = true</span>, boolean  <span class="argument">$recursive = false</span>) : string</pre>
+                <p><em>Get the total price of all parts in this device (counted with their mount quantity)</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$as_money_string </td>
+                                <td><p>@li if true, this method will return the price as a string incl. currency
+@li if false, this method will return the price as a float</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$recursive </td>
+                                <td><p>if true, the parts of all subdevicess will be counted too</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>the price as a formatted string with currency (if &quot;$as_money_string == true&quot;)</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href=""><span class="namespace-wrapper">\PartDB\floatToMoneyString()</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            note
+                        </th>
+                        <td>
+                                                                                            <p>To calculate the price, the average prices of the parts will be used.
+More details: Part::get_average_price()</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            warning
+                        </th>
+                        <td>
+                                                                                            <p>If some parts don't have a price, they will be ignored!
+Only parts with at least one price will be counted.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setOrderQuantity" name="method_setOrderQuantity" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setOrderQuantity()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setOrderQuantity(integer  <span class="argument">$new_order_quantity</span>) </pre>
+                <p><em>Set the order quantity</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$new_order_quantity </td>
+                                <td><p>the new order quantity</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if the order quantity is not valid</p></dd>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setOrderOnlyMissingParts" name="method_setOrderOnlyMissingParts" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setOrderOnlyMissingParts()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setOrderOnlyMissingParts(boolean  <span class="argument">$new_order_only_missing_parts</span>) </pre>
+                <p><em>Set the &quot;order_only_missing_parts&quot; attribute</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$new_order_only_missing_parts </td>
+                                <td><p>the new &quot;order_only_missing_parts&quot; attribute</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getOrderDevices" name="method_getOrderDevices" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getOrderDevices()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getOrderDevices(  <span class="argument">$database</span>,   <span class="argument">$current_user</span>,   <span class="argument">$log</span>) : array</pre>
+                <p><em>Get all devices which should be ordered (marked manually as &quot;to order&quot;)</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$current_user </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$log </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>all devices as a one-dimensional array of Device objects, sorted by their names</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getCount" name="method_getCount" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getCount()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getCount(  <span class="argument">$database</span>) : integer</pre>
+                <p><em>Get count of devices</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>count of devices</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_add" name="method_add" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">add()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">add(  <span class="argument">$database</span>,   <span class="argument">$current_user</span>,   <span class="argument">$log</span>, string  <span class="argument">$name</span>, integer  <span class="argument">$parent_id</span>) : \PartDB\Device</pre>
+                <p><em>Create a new device</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$current_user </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$log </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$name </td>
+                                <td><p>the name of the new device (see Device::set_name())</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$parent_id </td>
+                                <td><p>the parent ID of the new device (see Device::set_parent_id())</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if (this combination of) values is not valid</p></dd>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/PartDB.Device.html">\PartDB\Device</a>
+                                            &mdash; <p>the new device</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                                            <dt>See also</dt>
+                                                                <dd><a href=""><span class="namespace-wrapper">\PartDB\DBElement::add()</span></a></dd>
+                                                                </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_searchTable" name="method_searchTable" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">searchTable()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">searchTable(  <span class="argument">$database</span>,   <span class="argument">$current_user</span>,   <span class="argument">$log</span>,   <span class="argument">$tablename</span>, string  <span class="argument">$keyword</span>, boolean  <span class="argument">$exact_match</span>) : array</pre>
+                <p><em>Search elements by name in the given table</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$current_user </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$log </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$tablename </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$keyword </td>
+                                <td><p>the search string</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$exact_match </td>
+                                <td><p>@li If true, only records which matches exactly will be returned
+@li If false, all similar records will be returned</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>all found elements as a one-dimensional array of objects,
+sorted by their names</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.NamedDBElement.html"><div class="path-wrapper">\PartDB\Base\NamedDBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_addByArray" name="method_addByArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">addByArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">addByArray(\PartDB\Database  <span class="argument">$database</span>, \PartDB\User  <span class="argument">$current_user</span>, \PartDB\Log  <span class="argument">$log</span>, string  <span class="argument">$tablename</span>, array  <span class="argument">$new_values</span>) : static</pre>
+                <p><em>Create a new DBElement (store it in the database)</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/PartDB.Database.html">\PartDB\Database</a></td>
+                                <td>$database </td>
+                                <td><p>reference to the database onject</p></td>
+                            </tr>
+                                                    <tr>
+                                <td><a href="../classes/PartDB.User.html">\PartDB\User</a></td>
+                                <td>$current_user </td>
+                                <td><p>reference to the current user which is logged in</p></td>
+                            </tr>
+                                                    <tr>
+                                <td><a href="../classes/PartDB.Log.html">\PartDB\Log</a></td>
+                                <td>$log </td>
+                                <td><p>reference to the Log-object</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$tablename </td>
+                                <td><p>the name of the table where the new element should be inserted</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$new_values </td>
+                                <td><p>@li one-dimensional array with all keys (table columns)
+and the new values
+@li example: @code
+array(['name'] =&gt; 'abcd', ['parent_id'] =&gt; 123, ...) @endcode</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if the values are not valid / the combination of values is not valid</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    static
+                                            &mdash; <p>the created object (e.g. Device, Part, Category, ...)</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">Device.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/lib\Device.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/PartDB.html">\PartDB</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on September 14th, 2017 at 21:54.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>
