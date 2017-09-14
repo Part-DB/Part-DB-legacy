@@ -492,7 +492,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         if ($this->getParentID()==-1) {
             if ($show_root) {
                 $tree = array(
-                    array('text' => ($use_db_root_name) ? $this->getName() : $root_name ,
+                    array('text' => ($use_db_root_name) ? htmlspecialchars($this->getName()) : $root_name ,
                         'href' => $page ."?". $parameter ."=".$this->getID(),
                         'nodes' => $nodes)
                 );
@@ -501,12 +501,12 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             }
         } else {
             if (!empty($nodes)) {
-                $tree = array('text' => $this->getName(),
+                $tree = array('text' => htmlspecialchars($this->getName()),
                     'href' => $page ."?". $parameter ."=".$this->getID(),
                     'nodes' => $nodes
                 );
             } else {
-                $tree = array('text' => $this->getName(),
+                $tree = array('text' => htmlspecialchars($this->getName()),
                     'href' => $page ."?". $parameter ."=".$this->getID()
                 );
             }
