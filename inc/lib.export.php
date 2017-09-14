@@ -150,10 +150,10 @@ function exportParts(&$objects, $export_type, $format_id, $send_file = false, $f
                     $value = $part->getID();
                     break;
                 case 'name':
-                    $value = $part->getID();
+                    $value = $part->getName();
                     break;
                 case 'description':
-                    $value = $part->getID();
+                    $value = $part->getDescription();
                     break;
                 case 'instock':
                     $value = $part->getInstock();

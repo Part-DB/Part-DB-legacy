@@ -136,6 +136,21 @@ if (! $fatal_error) {
     switch ($action) {
         case 'add':
             try {
+                $filepath = BASE . "/data/media/footprints/";
+
+                if (isset($_FILES['footprint_file']) && strlen($_FILES['footprint_file']['name']) > 0) {
+                    $new_filename = uploadFile($_FILES['footprint_file'], $filepath);
+                } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
+                    if (isURL($new_filename)) {
+                        $downloaded_file_name =  downloadFile($new_filename, $filepath);
+                        if ($downloaded_file_name !== "") {
+                            $new_filename = $downloaded_file_name;
+                        } else {
+                            $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
+                        }
+                    }
+                }
+
                 $new_footprint = Footprint::add(
                     $database,
                     $current_user,
@@ -202,6 +217,21 @@ if (! $fatal_error) {
             try {
                 if (! is_object($selected_footprint)) {
                     throw new Exception(_('Es ist kein Footprint markiert oder es trat ein Fehler auf!'));
+                }
+
+                $filepath = BASE . "/data/media/footprints/";
+
+                if (isset($_FILES['footprint_file']) && strlen($_FILES['footprint_file']['name']) > 0) {
+                    $new_filename = uploadFile($_FILES['footprint_file'], $filepath);
+                } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
+                    if (isURL($new_filename)) {
+                        $downloaded_file_name =  downloadFile($new_filename, $filepath);
+                        if ($downloaded_file_name !== "") {
+                            $new_filename = $downloaded_file_name;
+                        } else {
+                            $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
+                        }
+                    }
                 }
 
                 $selected_footprint->setAttributes(array(  'name'          => $new_name,
