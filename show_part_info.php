@@ -274,7 +274,14 @@ $reload_link = $fatal_error ? 'show_part_info.php?pid='.$part_id : '';  // an em
 $html->printHeader($messages, $reload_link);                           // ...reload-button won't be visible
 
 if (! $fatal_error) {
-    $html->printTemplate('show_part_info');
+    $html->printTemplate('main');
+    $html->printTemplate('properties');
+    if (!$config['suppliers']['disable']) {
+        $html->printTemplate('orderdetails');
+    }
+    $html->printTemplate('attachements');
+    $html->printTemplate('actions');
+    $html->printTemplate('modal');
 }
 
 $html->printFooter();

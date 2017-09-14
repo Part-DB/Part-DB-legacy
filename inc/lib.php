@@ -964,6 +964,7 @@ function buildToolsTree($params)
 
     $disable_footprint = $config['footprints']['disable'];
     $disable_manufactur = $config['manufacturers']['disable'];
+    $disable_suppliers  = $config['suppliers']['disable'];
     $disable_devices = $config['devices']['disable'];
     $disable_help = $config['menu']['disable_help'];
     $disable_config = $config['menu']['disable_config'];
@@ -1016,7 +1017,10 @@ function buildToolsTree($params)
         $edit_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/edit_footprints.php");
     }
     $edit_nodes[] = treeviewNode(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
-    $edit_nodes[] = treeviewNode(_("Lieferanten"), BASE_RELATIVE . "/edit_suppliers.php");
+    if (!$disable_suppliers) {
+        $edit_nodes[] = treeviewNode(_("Lieferanten"), BASE_RELATIVE . "/edit_suppliers.php");
+    }
+
     if (!$disable_manufactur) {
         $edit_nodes[] = treeviewNode(_("Hersteller"), BASE_RELATIVE . "/edit_manufacturers.php");
     }

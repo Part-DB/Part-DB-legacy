@@ -91,6 +91,8 @@ $config['manufacturers']['disable']                     = false;
 // automatic datasheets settings ("automatic datasheets" means auto-created links to datasheetcatalog.net and so on)
 $config['auto_datasheets']['disable']                   = false;
 
+$config['suppliers']['disable']                         = false;
+
 // tools settings
 $config['tools']['footprints']['autoload']              = false; // If true, all footprint pictures will be listed automatically (default value is "false" because of the long time for loading)
 

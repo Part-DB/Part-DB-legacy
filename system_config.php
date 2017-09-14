@@ -93,6 +93,7 @@ $disable_calculator         = isset($_REQUEST['disable_calculator']);
 $disable_iclogos            = isset($_REQUEST['disable_iclogos']);
 $disable_auto_datasheets    = isset($_REQUEST['disable_auto_datasheets']);
 $disable_tools_footprints   = isset($_REQUEST['disable_tools_footprints']);
+$disable_suppliers          = isset($_REQUEST['disable_suppliers']);
 $tools_footprints_autoload  = isset($_REQUEST['tools_footprints_autoload']);
 $enable_developer_mode      = isset($_REQUEST['enable_developer_mode']);
 $enable_dokuwiki_write_perms= isset($_REQUEST['enable_dokuwiki_write_perms']);
@@ -182,6 +183,7 @@ if (! $fatal_error) {
             $config['footprints']['disable']            = $disable_footprints;
             $config['manufacturers']['disable']         = $disable_manufacturers;
             $config['auto_datasheets']['disable']       = $disable_auto_datasheets;
+            $config['suppliers']['disable']             = $disable_suppliers;
             $config['menu']['disable_footprints']       = $disable_tools_footprints;
             $config['tools']['footprints']['autoload']  = $tools_footprints_autoload;
             $config['developer_mode']                   = ($enable_developer_mode && file_exists(BASE.'/development'));
@@ -337,6 +339,7 @@ $html->setVariable('table_autosort', $config['table']['autosort'], 'boolean');
 $html->setVariable("attachements_structure", $config['attachements']['folder_structure'], 'boolean');
 $html->setVariable('attachements_download', $config['attachements']['download_default'], 'boolean');
 $html->setVariable('attachements_show_name', $config['attachements']['show_name'], 'boolean');
+$html->setVariable('disable_suppliers', $config['suppliers']['disable'], 'boolean');
 
 // check if the server supports the selected language and print a warning if not
 if (! ownSetlocale(LC_ALL, $config['language'])) {

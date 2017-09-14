@@ -111,6 +111,12 @@
                             </div>
 
                             <div class="checkbox">
+                                <input type="checkbox" name="disable_suppliers" {if $disable_suppliers} checked{/if}>
+                                <label for="disable_suppliers">{t}Lieferanten und Einkaufsinformationen global deaktivieren{/t}</label>
+                            </div>
+
+
+                            <div class="checkbox">
                                 <input type="checkbox" name="disable_devices" {if $disable_devices} checked{/if}>
                                 <label for="disable_devices">{t}Baugruppenfunktion global deaktivieren{/t} *</label>
                             </div>
