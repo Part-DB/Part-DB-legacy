@@ -1268,7 +1268,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                     foreach ($this->getAttachements(null, true) as $attachement) {
                         $attachements[] = array(    'name'      => $attachement->getName(),
                             'filename'  => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
-                            'type'      => $attachement->getType()->getFullPath());
+                            'type'      => $attachement->getType()->getFullPath(),
+                            'icon'      => extToFAIcon($attachement->getFilename()));
                     }
                     $row_field['attachements'] = $attachements;
                     break;
@@ -1294,6 +1295,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             }
 
             $table_row['row_fields'][] = $row_field;
+            $table_row['use_attachements_names'] = $config['attachements']['show_name'];
         }
 
         return $table_row;
@@ -1334,7 +1336,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         $table_loop = array();
-        $table_loop[] = array('print_header' => true, 'columns' => $columns); // print the table header
+        $table_loop[] = array('print_header' => true,
+            'columns' => $columns); // print the table header
 
         $row_index = 0;
         foreach ($parts as $part) {

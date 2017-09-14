@@ -870,11 +870,14 @@ if (isset($_REQUEST["ajax"])) {
 $reload_link = ($fatal_error && ($action != 'delete_part_confirmed')) ? 'edit_part_info.php?pid='.$part_id : '';
 $html->printHeader($messages, $reload_link);
 
+
 if (! $fatal_error) {
     $html->printTemplate('part');
 
     if (! ($is_new_part || $add_one_more_part)) {
-        $html->printTemplate('orderdetails');
+        if (!$config['suppliers']['disable']) { //Dont print orderdetails template, when suppliers are disabled.
+            $html->printTemplate('orderdetails');
+        }
         $html->printTemplate('attachements');
         $html->printTemplate('actions');
     }
