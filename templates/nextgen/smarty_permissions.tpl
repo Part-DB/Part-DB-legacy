@@ -15,7 +15,7 @@
                 <td>
                     {foreach $perm.ops as $op}
                         <div class="checkbox checkbox-inline">
-                            <input type="checkbox" class="styled tristate" name="{$perm.name}_{$op.name}"
+                            <input type="checkbox" class="styled tristate" name="perm_{$perm.name}_{$op.name}"
                                 {if $op.value == 0} indeterminate="indeterminate"{elseif $op.value == 1} checked="checked"{/if}>
                             <label>{$op.description}</label>
                         </div>
@@ -27,10 +27,3 @@
 
     </table>
 {/if}
-
-<script type="text/javascript">
-    function changeState(el) {
-        if (el.readOnly) el.checked=el.readOnly=false;
-        else if (!el.checked) el.readOnly=el.indeterminate=true;
-    }
-</script>

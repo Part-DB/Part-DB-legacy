@@ -119,7 +119,8 @@ class AjaxUI {
 
         let data : JQueryFormOptions = {
             success:  this.showFormResponse,
-            beforeSubmit: this.showRequest
+            beforeSubmit: this.showRequest,
+            beforeSerialize: this.form_beforeSerialize
         };
         $('form').not(".no-ajax").ajaxForm(data);
     }
@@ -136,9 +137,26 @@ class AjaxUI {
     }
 
     /**
+     * Modify the form, so tristate checkbox values are submitted, even if the checkbox is not a succesfull control (value = checked)
+     * @param $form
+     * @param options
+     */
+    private form_beforeSerialize($form, options) {
+        $form.find("input[type=checkbox].tristate").each(function(index)  {
+                let name = $(this).attr("name");
+                let value = $(this).val();
+                $form.append('<input type="hidden" name="' + name + '" value="' + value + '">');
+        });
+
+        $form.find("input[type=checkbox].tristate").remove();
+
+        return true;
+    }
+
+    /**
      * Called directly after a form was submited, and no content is requested yet.
      * We use it to show a progbar, if the form dont have a .no-progbar class.
-     * @param formData
+     * @param formData Array<any>
      * @param jqForm
      * @param options
      */
@@ -147,6 +165,11 @@ class AjaxUI {
         if(!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
             $('#progressbar').show(0);
+            formData.push({
+                name: "test",
+                value: "Test2435",
+                required: "false"
+            });
         }
         return true;
     }
