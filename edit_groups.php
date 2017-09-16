@@ -113,6 +113,9 @@ if (! $fatal_error) {
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
 
+                //Apply permissions
+                $new_group->getPermissionManager()->parsePermissionsFromRequest($_REQUEST);
+
                 if (! $add_more) {
                     $selected_group = $new_group;
                     $selected_id = $selected_group->getID();
@@ -178,6 +181,9 @@ if (! $fatal_error) {
                     'parent_id'             => $new_parent_id,
                     'comment'               => $new_comment));
 
+                //Apply permissions
+                $selected_group->getPermissionManager()->parsePermissionsFromRequest($_REQUEST);
+
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
@@ -202,15 +208,24 @@ if (! $fatal_error) {
             $html->setVariable('id', $selected_group->getID(), 'integer');
             $name = $selected_group->getName();
             $comment = $selected_group->getComment();
+            //Permissions loop
+            $perm_loop = $selected_group->getPermissionManager()->generatePermissionsLoop();
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
             $comment = $new_comment;
+            //Permissions loop
+            if (isset($new_user)) {
+                $perm_loop = $selected_group->getPermissionManager()->generatePermissionsLoop();
+            } else {
+                $perm_loop = \PartDB\Tools\PermissionManager::defaultPermissionsLoop();
+            }
 
         } else {
             $parent_id = 0;
             $name = '';
             $comment = "";
+            $perm_loop = \PartDB\Tools\PermissionManager::defaultPermissionsLoop();
         }
 
         $html->setVariable('name', $name, 'string');
@@ -218,6 +233,8 @@ if (! $fatal_error) {
 
         $device_list = $root_group->buildHtmlTree($selected_id, true, false);
         $html->setVariable('group_list', $device_list, 'string');
+
+        $html->setLoop("perm_loop", $perm_loop);
 
         $parent_device_list = $root_group->buildHtmlTree($parent_id, true, true);
         $html->setVariable('parent_group_list', $parent_device_list, 'string');

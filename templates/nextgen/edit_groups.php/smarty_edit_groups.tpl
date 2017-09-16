@@ -92,7 +92,7 @@
                         </div>
 
                         <div id="permissions" class="tab-pane fade">
-                            TODO!!
+                            {include file='../smarty_permissions.tpl'}
                         </div>
 
 

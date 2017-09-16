@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Tools\PermissionManager;
 
 /**
  * @file Group.php
@@ -34,10 +35,8 @@ use Exception;
  * @class Group
  * All elements of this class are stored in the database table "groups".
  * @author kami89
- *
- * @todo    This class is not really complete ;-)
  */
-class Group extends Base\StructuralDBElement
+class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissions
 {
     /********************************************************************************
      *
@@ -51,6 +50,8 @@ class Group extends Base\StructuralDBElement
 
     /** @var User[] All users of this group as a one-dimensional array of User objects */
     private $users = null;
+
+    protected $perm_manager;
 
     /********************************************************************************
      *
@@ -74,6 +75,7 @@ class Group extends Base\StructuralDBElement
     public function __construct(&$database, &$current_user, &$log, $id)
     {
         parent::__construct($database, $current_user, $log, 'groups', $id);
+        $this->perm_manager = new PermissionManager($this);
     }
 
     /**
@@ -155,6 +157,37 @@ class Group extends Base\StructuralDBElement
     public function setComment($new_comment)
     {
         $this->setAttributes(array('comment' => $new_comment));
+    }
+
+    /*********************************************************************
+     * Permission system function
+     *********************************************************************/
+
+    /**
+     * Gets the integer value of a permission of the current object.
+     * @param $permsission_name string The name of the permission that should be get. (Without "perms_"
+     * @return int The int value of the requested permission.
+     */
+    public function getPermissionRaw($permsission_name)
+    {
+        return intval($this->db_data["perms_" . $permsission_name]);
+    }
+
+    /**
+     * Sets the integer value of a permission of the current object.
+     * @param $permsission_name string The name of the permission that should be get. (Without "perms_")
+     * @param $value int The value the permission should be set to.
+     */
+    public function setPermissionRaw($permission_name, $value)
+    {
+        $this->setAttributes(array("perms_" . $permission_name => $value));
+    }
+
+    /**
+     * @return PermissionManager
+     */
+    public function &getPermissionManager() {
+        return $this->perm_manager;
     }
 
     /********************************************************************************
