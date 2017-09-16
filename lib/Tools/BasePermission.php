@@ -62,8 +62,11 @@ abstract class BasePermission
     public function setValue($operation, $new_value)
     {
         $n = static::opToBitN($operation);
-        $this->perm_holder->setPermissionRaw($this->perm_name,
-            static::writeBitPair($this->perm_holder->getPermissionRaw($this->perm_name), $n, $new_value));
+        $old_value = $this->perm_holder->getPermissionRaw($this->perm_name);
+        $new_value = static::writeBitPair($old_value, $n, $new_value);
+        if ($new_value !== $old_value) { //Only write to DB, if a value was changed.
+            $this->perm_holder->setPermissionRaw($this->perm_name, $new_value);
+        }
     }
 
     /**
