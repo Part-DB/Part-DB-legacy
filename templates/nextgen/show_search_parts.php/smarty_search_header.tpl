@@ -4,7 +4,7 @@
         {t}Suchergebnis{/t}
     </div>
     <div class="panel-body">
-        {t 1=$keyword 2=$hits_count escape=true}Die Suche nach <b>"%1"</b> ergab <b>%2 Treffer</b>.{/t}
+        {t 1=$keyword|escape 2=$hits_count|escape escape=false}Die Suche nach <b>"%1"</b> ergab <b>%2 Treffer</b>.{/t}
 
         <div style="float: right; display: inline;">
             <form action="" method="post" style="display: inline;" class="no-progbar no-ajax">
