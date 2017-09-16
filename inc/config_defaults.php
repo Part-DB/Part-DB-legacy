@@ -91,6 +91,8 @@ $config['manufacturers']['disable']                     = false;
 // automatic datasheets settings ("automatic datasheets" means auto-created links to datasheetcatalog.net and so on)
 $config['auto_datasheets']['disable']                   = false;
 
+$config['suppliers']['disable']                         = false;
+
 // tools settings
 $config['tools']['footprints']['autoload']              = false; // If true, all footprint pictures will be listed automatically (default value is "false" because of the long time for loading)
 
@@ -145,6 +147,11 @@ $config['appearance']['use_old_datasheet_icons']    = false;
 $config['appearance']['short_description_length']   = 200;
 $config['appearance']['short_description']          = true;
 
+//part info settings
+$config['part_info']['hide_actions']                = false;    //Hide actions panel
+$config['part_info']['hide_empty_attachements']     = false;    //Hide empty attachements panel
+$config['part_info']['hide_empty_orderdetails']     = false;    //Hide empty orderdetails panel
+
 //Properties settings
 $config['properties']['active']                  = false;
 
@@ -157,6 +164,7 @@ $config['table']['autosort']                     = false;
 //Attachements settings
 $config['attachements']['folder_structure']     = false;    //Put attachements in a folder structure, similar to the categories.
 $config['attachements']['download_default']     = false;    //Download external media defaultly.
+$config['attachements']['show_name']            = false;    //Show the names of attachements in the parts tables.
 
 /********************************************************************************
  *

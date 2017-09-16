@@ -87,6 +87,24 @@
                             </div>
                         </div>
                     </div>
+
+                    <div class="form-group">
+                        <label for="checkbox-container" class="control-label col-sm-2">{t}Detailinfos:{/t}</label>
+                        <div class="checkbox-container col-sm-10">
+                            <div class="checkbox">
+                                <input type="checkbox" name="info_hide_actions" {if $info_hide_actions} checked{/if}>
+                                <label>{t}Verstecke "Aktionen" Dialog in den Detailinfos{/t}</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" name="info_hide_empty_orderdetails" {if $info_hide_empty_orderdetails} checked{/if}>
+                                <label>{t}Verstecke "Einkaufsinformationen" Panel, wenn keine Einkaufsinformationen vorhanden sind.{/t}</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" name="info_hide_empty_attachements" {if $info_hide_empty_attachements} checked{/if}>
+                                <label>{t}Verstecke "Dateianhänge" Panel, wenn keine Dateianhänge vorhanden sind.{/t}</label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
 
                 <div id="features" class="tab-pane fade">
@@ -109,6 +127,12 @@
                                 <input type="checkbox" name="disable_manufacturers" {if $disable_manufacturers} checked{/if}>
                                 <label for="disable_manufacturers">{t}Hersteller global deaktivieren{/t}</label>
                             </div>
+
+                            <div class="checkbox">
+                                <input type="checkbox" name="disable_suppliers" {if $disable_suppliers} checked{/if}>
+                                <label for="disable_suppliers">{t}Lieferanten und Einkaufsinformationen global deaktivieren{/t}</label>
+                            </div>
+
 
                             <div class="checkbox">
                                 <input type="checkbox" name="disable_devices" {if $disable_devices} checked{/if}>
@@ -231,6 +255,10 @@
                             <div class="checkbox">
                                 <input type="checkbox" name="attachements_download" {if $attachements_download} checked{/if}>
                                 <label for="table_autosort">{t}Lade Medien von externen Quellen standardmäßig herunter.{/t}</label>
+                            </div>
+                            <div class="checkbox">
+                                <input type="checkbox" name="attachements_show_name" {if $attachements_show_name} checked{/if}>
+                                <label for="table_autosort">{t}Zeige die Namen der Anhängen in der Übersichtstabelle (statt Icons).{/t}</label>
                             </div>
                         </div>
                     </div>

@@ -245,6 +245,10 @@ if (! $fatal_error) {
             }
         }
 
+        if (count($attachement_types) == 0) {
+            $attachements_empty = true;
+        }
+
         if (count($attachement_types_loop) > 0) {
             $html->setLoop('attachement_types_loop', $attachement_types_loop);
         }
@@ -274,7 +278,20 @@ $reload_link = $fatal_error ? 'show_part_info.php?pid='.$part_id : '';  // an em
 $html->printHeader($messages, $reload_link);                           // ...reload-button won't be visible
 
 if (! $fatal_error) {
-    $html->printTemplate('show_part_info');
+    $html->printTemplate('main');
+    $html->printTemplate('properties');
+    if (!($config['suppliers']['disable'] || ($config['part_info']['hide_empty_orderdetails'] && count($all_orderdetails) == 0))) {
+        $html->printTemplate('orderdetails');
+    }
+    if (!($config['part_info']['hide_empty_attachements'] && isset($attachements_empty))) {
+        $html->printTemplate('attachements');
+    }
+
+    if (!$config['part_info']['hide_actions']) {
+        $html->printTemplate('actions');
+    }
+
+    $html->printTemplate('modal');
 }
 
 $html->printFooter();

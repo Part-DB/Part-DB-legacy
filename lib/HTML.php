@@ -402,6 +402,7 @@ class HTML
         $tmpl->assign('devices_disabled', $config['devices']['disable']);
         $tmpl->assign('footprints_disabled', $config['footprints']['disable']);
         $tmpl->assign('manufacturers_disabled', $config['manufacturers']['disable']);
+        $tmpl->assign('suppliers_disabled', $config['suppliers']['disable']);
 
         //Only load X3D libraries if this is activated
         $tmpl->assign('foot3d_active', $config['foot3d']['active']);
