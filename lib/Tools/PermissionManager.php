@@ -55,6 +55,44 @@ class PermissionManager
         return $loop;
     }
 
+    public function parsePermissionsFromRequest($request_array)
+    {
+        foreach ($request_array as $request => $value) {
+            //The request variable is a permission when it begins with perm/
+            if (strpos($request, "perm/") !== false) {
+                try {
+                    //Split the $name string into the different parts.
+                    $tmp = explode("/", $request);
+                    $permission = $tmp[1];
+                    $operation  = $tmp[2];
+
+                    //Get permession object.
+                    $perm = $this->getPermission($permission);
+                    //Set Value of the operation.
+                    $perm->setValue($operation, parseTristateCheckbox($value));
+
+                } catch (\Exception $ex) {
+                    //Ignore exceptions. Dont do anything.
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the permission object for the permission with given name.
+     * @param $name string The name of the requested permission.
+     * @return BasePermission The requeste
+     */
+    public function &getPermission($name) {
+        foreach ($this->permissions as $perm) {
+            if ($perm->getName() == $name) {
+                return $perm;
+            }
+        }
+
+        throw new \InvalidArgumentException(_("Keine Permission mit dem gegebenen Namen vorhanden!"));
+    }
+
 
     protected function fillPermissionsArray()
     {

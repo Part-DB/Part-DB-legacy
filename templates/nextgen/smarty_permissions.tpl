@@ -15,7 +15,7 @@
                 <td>
                     {foreach $perm.ops as $op}
                         <div class="checkbox checkbox-inline">
-                            <input type="checkbox" class="styled tristate" name="perm_{$perm.name}_{$op.name}"
+                            <input type="checkbox" class="styled tristate" name="perm/{$perm.name}/{$op.name}"
                                 {if $op.value == 0} indeterminate="indeterminate"{elseif $op.value == 1} checked="checked"{/if}>
                             <label>{$op.description}</label>
                         </div>

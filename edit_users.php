@@ -196,6 +196,9 @@ if (! $fatal_error) {
                     "group_id" => $new_group_id
                 ));
 
+                //Apply permissions
+                $selected_user->getPermissionManager()->parsePermissionsFromRequest($_REQUEST);
+
                 //When user wants to set a new password
                 if ($new_password !== "") {
                     try {

@@ -1286,3 +1286,19 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg") {
     //Build HTML
     return '<i class="fa ' . $fa_class . '" aria-hidden="true"></i>';
 }
+
+/**
+ * Parses the value of a Tristate Checkbox input.
+ * @param $tristate_data string The Request data of the Tristate input.
+ * @return int 0, if checkbox was indetermined, 1 if checkbox was checked, 2 if checkbox, was not checked.
+ */
+function parseTristateCheckbox($tristate_data) {
+    switch ($tristate_data) {
+        case "true":
+            return 1;
+        case "false":
+            return 2;
+        case "indeterminate":
+            return 0;
+    }
+}
