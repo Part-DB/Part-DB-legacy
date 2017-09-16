@@ -27,7 +27,8 @@ class PermissionManager
 
     /**
      * PermissionManager constructor.
-     * @param $perm_holder IHasPermissions
+     * @param $perm_holder IHasPermissions A object which has permissions properties and which should be used for read/write.
+     *                  Use null, when you want to return default values.
      */
     public function __construct(&$perm_holder)
     {
@@ -83,7 +84,8 @@ class PermissionManager
      * @param $name string The name of the requested permission.
      * @return BasePermission The requeste
      */
-    public function &getPermission($name) {
+    public function &getPermission($name)
+    {
         foreach ($this->permissions as $perm) {
             if ($perm->getName() == $name) {
                 return $perm;
@@ -101,5 +103,18 @@ class PermissionManager
         $this->permissions[] = new StructuralPermission($this->perm_holder, static::CATEGORIES, _("Kategorien"));
         $this->permissions[] = new StructuralPermission($this->perm_holder, static::SUPPLIERS, _("Lieferanten"));
         $this->permissions[] = new StructuralPermission($this->perm_holder, static::MANUFACTURERS, _("Hersteller"));
+    }
+
+    /*******************************************************
+     * Static functions
+     *******************************************************/
+
+    public static function defaultPermissionsLoop()
+    {
+        //Create a temp object for pass by reference.
+        $tmp = null;
+        $manager = new static($tmp);
+        return $manager->generatePermissionsLoop();
+
     }
 }

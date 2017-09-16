@@ -126,6 +126,8 @@ if (! $fatal_error) {
                 ));
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
+                //Apply permissions
+                $new_user->getPermissionManager()->parsePermissionsFromRequest($_REQUEST);
 
                 //When user wants to set a new password
                 if ($new_password !== "") {
@@ -246,7 +248,6 @@ if (! $fatal_error) {
 
             //Permissions loop
             $perm_loop = $selected_user->getPermissionManager()->generatePermissionsLoop();
-            $html->setLoop("perm_loop", $perm_loop);
 
         } elseif ($action == 'add') {
             $name = $new_name;
@@ -255,6 +256,12 @@ if (! $fatal_error) {
             $email = $new_email;
             $department = $new_department;
             $no_password = false;
+            //Permissions loop
+            if (isset($new_user)) {
+                $perm_loop = $new_user->getPermissionManager()->generatePermissionsLoop();
+            } else {
+                $perm_loop = \PartDB\Tools\PermissionManager::defaultPermissionsLoop();
+            }
             $group_id = $new_group_id;
         } else {
             $name = '';
@@ -264,6 +271,7 @@ if (! $fatal_error) {
             $department = "";
             $no_password = false;
             $group_id = 0;
+            $perm_loop = \PartDB\Tools\PermissionManager::defaultPermissionsLoop();
         }
 
         $html->setVariable('name', $name, 'string');
@@ -278,7 +286,7 @@ if (! $fatal_error) {
         $user_list = User::buildHTMLList($database, $current_user, $log, $selected_id);
         $html->setVariable('user_list', $user_list, 'string');
 
-
+        $html->setLoop("perm_loop", $perm_loop);
 
         //$parent_device_list = $root_device->buildHtmlTree($parent_id, true, true);
         //$html->setVariable('parent_device_list', $parent_device_list, 'string');
