@@ -333,6 +333,7 @@ $(function (event) {
     ajaxui.addStartAction(registerAutoRefresh);
     ajaxui.addStartAction(scrollUpForMsg);
     ajaxui.addStartAction(rightClickSubmit);
+    ajaxui.addStartAction(makeTriStateCheckbox);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
@@ -343,8 +344,16 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(registerAutoRefresh);
     ajaxui.addAjaxCompleteAction(scrollUpForMsg);
     ajaxui.addAjaxCompleteAction(rightClickSubmit);
+    ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
     ajaxui.start();
 });
+function makeTriStateCheckbox() {
+    $(".tristate").tristate({
+        checked: "true",
+        unchecked: "false",
+        indeterminate: "indeterminate",
+    });
+}
 /**
  * Registers the popups for the hover images in the table-
  */

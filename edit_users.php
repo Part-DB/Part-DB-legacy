@@ -240,6 +240,11 @@ if (! $fatal_error) {
             $department = $selected_user->getDepartment();
             $no_password = $selected_user->hasNoPassword();
             $group_id   = $selected_user->getGroup()->getID();
+
+            //Permissions loop
+            $perm_loop = $selected_user->getPermissionManager()->generatePermissionsLoop();
+            $html->setLoop("perm_loop", $perm_loop);
+
         } elseif ($action == 'add') {
             $name = $new_name;
             $first_name = $new_first_name;
@@ -269,6 +274,8 @@ if (! $fatal_error) {
 
         $user_list = User::buildHTMLList($database, $current_user, $log, $selected_id);
         $html->setVariable('user_list', $user_list, 'string');
+
+
 
         //$parent_device_list = $root_device->buildHtmlTree($parent_id, true, true);
         //$html->setVariable('parent_device_list', $parent_device_list, 'string');

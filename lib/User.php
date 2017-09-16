@@ -38,7 +38,9 @@ namespace PartDB;
  */
 
 use Exception;
+use PartDB\Interfaces\IHasPermissions;
 use PartDB\Interfaces\ISearchable;
+use PartDB\Tools\PermissionManager;
 
 /**
  * @file User.php
@@ -48,7 +50,7 @@ use PartDB\Interfaces\ISearchable;
  * All elements of this class are stored in the database table "users".
  * @author kami89
  */
-class User extends Base\NamedDBElement implements ISearchable
+class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 {
 
     /** The User id of the anonymous user */
@@ -68,6 +70,8 @@ class User extends Base\NamedDBElement implements ISearchable
 
     /** @var Group the group of this user */
     private $group = null;
+
+    protected $perm_manager;
 
     /********************************************************************************
      *
@@ -94,6 +98,8 @@ class User extends Base\NamedDBElement implements ISearchable
         }           // --> which one was first: the egg or the chicken? :-)
 
         parent::__construct($database, $current_user, $log, 'users', $id, true, $data);
+
+        $this->perm_manager = new PermissionManager($this);
     }
 
     /**
@@ -519,5 +525,32 @@ class User extends Base\NamedDBElement implements ISearchable
             array(  'name'                      => $name,
                 'group_id'                      => $group_id)
         );
+    }
+
+    /**
+     * Gets the integer value of a permission of the current object.
+     * @param $permsission_name string The name of the permission that should be get. (Without "perms_"
+     * @return int The int value of the requested permission.
+     */
+    public function getPermissionRaw($permsission_name)
+    {
+        return intval($this->db_data["perms_" . $permsission_name]);
+    }
+
+    /**
+     * Sets the integer value of a permission of the current object.
+     * @param $permsission_name string The name of the permission that should be get. (Without "perms_")
+     * @param $value int The value the permission should be set to.
+     */
+    public function setPermissionRaw($permission_name, $value)
+    {
+        $this->setAttributes(array("perms_" . $permission_name => $value));
+    }
+
+    /**
+     * @return PermissionManager
+     */
+    public function &getPermissionManager() {
+        return $this->perm_manager;
     }
 }
