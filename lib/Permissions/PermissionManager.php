@@ -18,7 +18,7 @@ class PermissionManager
 {
     /** @var IHasPermissions  */
     protected $perm_holder;
-    /** @var  BasePermission[] */
+    /** @var  PermissionGroup[] */
     protected $permissions;
 
     const STORELOCATIONS    = "storelocations";
@@ -52,8 +52,8 @@ class PermissionManager
     public function generatePermissionsLoop()
     {
         $loop = array();
-        foreach ($this->permissions as $permission) {
-            $loop[] = $permission->generateLoopRow();
+        foreach ($this->permissions as $perm_group) {
+            $loop[] = $perm_group->generatePermissionsLoop();
         }
 
         return $loop;
@@ -120,9 +120,12 @@ class PermissionManager
      */
     public function &getPermission($name)
     {
-        foreach ($this->permissions as $perm) {
-            if ($perm->getName() == $name) {
-                return $perm;
+        foreach ($this->permissions as $perm_group) {
+            $perms = $perm_group->getPermissions();
+            foreach ($perms as $perm) {
+                if ($perm->getName() == $name) {
+                    return $perm;
+                }
             }
         }
 
@@ -136,15 +139,19 @@ class PermissionManager
      */
     protected function fillPermissionsArray()
     {
-        $this->permissions[] = new StructuralPermission($this->perm_holder, static::STORELOCATIONS, _("Lagerorte"));
-        $this->permissions[] = new StructuralPermission($this->perm_holder, static::FOOTRPINTS, _("Footprints"));
-        $this->permissions[] = new StructuralPermission($this->perm_holder, static::CATEGORIES, _("Kategorien"));
-        $this->permissions[] = new StructuralPermission($this->perm_holder, static::SUPPLIERS, _("Lieferanten"));
-        $this->permissions[] = new StructuralPermission($this->perm_holder, static::MANUFACTURERS, _("Hersteller"));
-        $this->permissions[] = new StructuralPermission($this->perm_holder, static::DEVICES, _("Baugruppen"));
-        $this->permissions[] = new StructuralPermission($this->perm_holder, static::ATTACHEMENT_TYPES, _("Dateianhänge"));
+        $structural_permissions = array();
+        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::STORELOCATIONS, _("Lagerorte"));
+        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::FOOTRPINTS, _("Footprints"));
+        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::CATEGORIES, _("Kategorien"));
+        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::SUPPLIERS, _("Lieferanten"));
+        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::MANUFACTURERS, _("Hersteller"));
+        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::DEVICES, _("Baugruppen"));
+        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::ATTACHEMENT_TYPES, _("Dateianhänge"));
+        $this->permissions[] = new PermissionGroup("Datenstrukturen", $structural_permissions);
 
-        $this->permissions[] = new ToolsPermission($this->perm_holder, static::TOOLS, _("Tools"));
+        $misc_permissions = array();
+        $misc_permissions[] = new ToolsPermission($this->perm_holder, static::TOOLS, _("Tools"));
+        $this->permissions[] = new PermissionGroup("Verschiedenes", $misc_permissions);
     }
 
     /*******************************************************
