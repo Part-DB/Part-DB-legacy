@@ -186,8 +186,26 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
     /**
      * @return PermissionManager
      */
-    public function &getPermissionManager() {
+    public function &getPermissionManager()
+    {
         return $this->perm_manager;
+    }
+
+    /**
+     * Returns the PermissionManager of the (permission) parent of the current object.
+     * @return PermissionManager|null The PermissionManager of the parent, or null if the current object has no parent.
+     */
+    public function &getParentPermissionManager()
+    {
+        $parent_id = $this->getParentID();
+
+        if ($parent_id < 1) {   //If parent is root, then this object has not a parent perm manager.
+            return null;
+        }
+
+        $parent = new Group($this->database, $this->current_user, $this->log, $parent_id);
+        //Otherwise return the perm manager of the group.
+        return $parent->getPermissionManager();
     }
 
     /********************************************************************************

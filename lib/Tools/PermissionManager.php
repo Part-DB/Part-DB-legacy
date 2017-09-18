@@ -38,14 +38,7 @@ class PermissionManager
 
         $this->fillPermissionsArray();
     }
-
-
-
-    public function canDo($target, $operation)
-    {
-
-    }
-
+    
     public function generatePermissionsLoop()
     {
         $loop = array();
@@ -76,6 +69,33 @@ class PermissionManager
                     //Ignore exceptions. Dont do anything.
                 }
             }
+        }
+    }
+
+    /**
+     * Gets the value of the Permission.
+     * @param $perm_name string The name of the permission.
+     * @param $perm_op string The name of the operation.
+     * @param bool $inheritance When this is true, than inherit values gets resolved.
+     *      Set this to false, when you want to get only the value of the permission, and not to resolve inherit values.
+     * @return int The value of the requested permission.
+     */
+    public function getPermissionValue($perm_name, $perm_op, $inheritance = true)
+    {
+        $perm = $this->getPermission($perm_name);
+        $val = $perm->getValue($perm_op);
+        if ($inheritance == false) { //When no inheritance is needed, simply return the value.
+            return $val;
+        } else {
+            if ($val == BasePermission::INHERIT) {
+                $parent = $this->perm_holder->getParentPermissionManager(); //Get the parent permission manager.
+                if ($parent == null) { //When no parent exists, than return current value.
+                    return $val;
+                }
+                //Repeat the request for the parent.
+                return $parent->getPermissionValue($perm_name, $perm_op, true);
+            }
+            return $val;
         }
     }
 

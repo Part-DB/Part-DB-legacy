@@ -9,6 +9,8 @@
 namespace PartDB\Interfaces;
 
 
+use PartDB\Tools\PermissionManager;
+
 interface IHasPermissions
 {
     /**
@@ -24,4 +26,10 @@ interface IHasPermissions
      * @param $value int The value the permission should be set to.
      */
     public function setPermissionRaw($permission_name, $value);
+
+    /**
+     * Returns the PermissionManager of the (permission) parent of the current object.
+     * @return PermissionManager|null The PermissionManager of the parent, or null if the current object has no parent.
+     */
+    public function &getParentPermissionManager();
 }

@@ -553,4 +553,19 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     public function &getPermissionManager() {
         return $this->perm_manager;
     }
+
+    /**
+     * Returns the PermissionManager of the (permission) parent of the current object.
+     * @return PermissionManager|null The PermissionManager of the parent, or null if the current object has no parent.
+     */
+    public function &getParentPermissionManager()
+    {
+        $parent = $this->getGroup();
+        if ($parent->getID() == 0) {
+            //When group is root, then this user doesnt has a parent perm manager.
+            return null;
+        }
+        //Otherwise return the perm manager of the group.
+        return $parent->getPermissionManager();
+    }
 }
