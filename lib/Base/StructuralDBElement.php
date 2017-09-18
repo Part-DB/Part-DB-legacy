@@ -623,6 +623,6 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      */
     protected static function getPermissionName()
     {
-        throw new NotImplementedException();
+        throw new NotImplementedException(_("getPermissionName() wurde nicht implementiert!"));
     }
 }

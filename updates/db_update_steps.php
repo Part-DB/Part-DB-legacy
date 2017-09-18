@@ -741,6 +741,8 @@ function get_db_update_steps($current_version)
                 "`perms_suppliers` INT(3) NOT NULL,".               // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
                 // Hersteller-Rechte
                 "`perms_manufacturers` INT(3) NOT NULL,".           // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                //Dateitypen
+                "`perms_attachement_types` INT(3) NOT NULL,".       // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
                 // Attribute
                 " PRIMARY KEY  (`id`),".
                 " UNIQUE KEY `name` (`name`)".
@@ -788,6 +790,8 @@ function get_db_update_steps($current_version)
                 "`perms_suppliers` INT(3) NOT NULL,".               // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
                 // Hersteller-Rechte
                 "`perms_manufacturers` INT(3) NOT NULL,".           // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                //Dateitypen
+                "`perms_attachement_types` INT(3) NOT NULL,".       // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
                 // Attribute
                 " PRIMARY KEY  (`id`)".
                 ") ENGINE=InnoDB;";
@@ -829,7 +833,8 @@ function get_db_update_steps($current_version)
                 "perms_footprints='127',".
                 "perms_categories='127',".
                 "perms_suppliers='127',".
-                "perms_manufacturers='127'";
+                "perms_attachement_types='127',".
+                "perms_manufacturers='127,'";
             break;
 
         /*
