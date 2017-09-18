@@ -134,7 +134,7 @@ abstract class BasePermission
 
         foreach ($operations as $operation) {
             if ($operation["name"] == $op) {
-                return $op["n"];
+                return $operation["n"];
             }
         }
 
@@ -220,7 +220,8 @@ abstract class BasePermission
      * @param $name
      * @return array
      */
-    protected static function buildOperationArray($n, $name, $description) {
+    protected static function buildOperationArray($n, $name, $description)
+    {
         return array("n" => $n, "name" => $name, "description" => $description);
     }
 
