@@ -567,8 +567,9 @@ function curlGetData($url)
  * @throws Exception Throws an exception if an error happened, or file could not be downloaded.
  * @return True if the download was successful.
  */
-function downloadFile($url, $path, $filename = "") {
-    if(!isPathabsoluteAndUnix($path)) {
+function downloadFile($url, $path, $filename = "")
+{
+    if (!isPathabsoluteAndUnix($path)) {
         throw new Exception(_('$path ist kein gültiger und absoluter Pfad!'));
     }
     if (!isURL($url)) {
@@ -1181,8 +1182,11 @@ function beautify_filename($filename)
 
 /**
  * Recursively creates a long directory path, if it not exists.
+ * @param $path string The path of the deepest folder, that should be created.
+ * @return boolean Returns true, if the folder hierachy was created successful.
  */
-function createPath($path) {
+function createPath($path)
+{
     if (is_dir($path)) {
         return true;
     }
@@ -1195,9 +1199,18 @@ function createPath($path) {
  * Check if a string is a URL and is valid.
  * @param $string string The string which should be checked.
  * @param bool $path_required If true, the string must contain a path to be valid. (e.g. foo.bar would be invalid, foo.bar/test.php would be valid).
+ * @param $only_http bool Set this to true, if only HTTPS or HTTP schemata should be allowed.
+ *  *Caution: When this is set to false, a attacker could use the file:// schema, to get internal server files, like /etc/passwd.*
  * @return bool True if the string is a valid URL. False, if the string is not an URL or invalid.
  */
-function isURL($string, $path_required = true) {
+function isURL($string, $path_required = true, $only_http = true)
+{
+    if ($only_http) {   //Check if scheme is HTTPS or HTTP
+        $scheme = parse_url($string, PHP_URL_SCHEME);
+        if ($scheme !== "http" || $scheme !== "https") {
+            return false;   //All other schemes are not valid.
+        }
+    }
     if ($path_required) {
         return filter_var($string, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED);
     } else {
@@ -1212,7 +1225,8 @@ function isURL($string, $path_required = true) {
  *      When false, only the special fa-class is returned. (e.g. fa-file)
  * @return string The resulted HTML code or the fa-class.
  */
-function extToFAIcon($path, $with_html = true, $size = "fa-lg") {
+function extToFAIcon($path, $with_html = true, $size = "fa-lg")
+{
     $ext = pathinfo($path, PATHINFO_EXTENSION);
     $fa_class = "";
     switch ($ext) {
