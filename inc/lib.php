@@ -1044,7 +1044,7 @@ function buildToolsTree($params)
     if ($developer_mode) {
         $tree[] = treeviewNode(_("Entwickler-Werkzeuge"), null, $dev_nodes);
     }
-    if(!$disable_help) {
+    if (!$disable_help) {
         $tree[] = treeviewNode(_("Hilfe"), "https://github.com/jbtronics/Part-DB/wiki", null);
     }
 
@@ -1093,7 +1093,8 @@ function _empty($var)
  * Check if the connection to the server is using HTTPS.
  * @return bool True if the connection is using HTTPS, false if not.
  */
-function isUsingHTTPS() {
+function isUsingHTTPS()
+{
     return
         (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
         || $_SERVER['SERVER_PORT'] == 443;
@@ -1135,11 +1136,15 @@ function filter_filename($filename, $beautify=true)
         [#\[\]@!$&\'()+,;=]|     # URI reserved https://tools.ietf.org/html/rfc3986#section-2.2
         [{}^\~`]                 # URL unsafe characters https://www.ietf.org/rfc/rfc1738.txt
         ~x',
-        '-', $filename);
+        '-',
+        $filename
+    );
     // avoids ".", ".." or ".hiddenFiles"
     $filename = ltrim($filename, '.-');
     // optional beautification
-    if ($beautify) $filename = beautify_filename($filename);
+    if ($beautify) {
+        $filename = beautify_filename($filename);
+    }
     // maximise filename length to 255 bytes http://serverfault.com/a/9548/44086
     $ext = pathinfo($filename, PATHINFO_EXTENSION);
     $filename = mb_strcut(pathinfo($filename, PATHINFO_FILENAME), 0, 255 - ($ext ? strlen($ext) + 1 : 0), mb_detect_encoding($filename)) . ($ext ? '.' . $ext : '');
@@ -1178,8 +1183,10 @@ function beautify_filename($filename)
  * Recursively creates a long directory path, if it not exists.
  */
 function createPath($path) {
-    if (is_dir($path)) return true;
-    $prev_path = substr($path, 0, strrpos($path, '/', -2) + 1 );
+    if (is_dir($path)) {
+        return true;
+    }
+    $prev_path = substr($path, 0, strrpos($path, '/', -2) + 1);
     $return = createPath($prev_path);
     return ($return && is_writable($prev_path)) ? mkdir($path) : false;
 }
