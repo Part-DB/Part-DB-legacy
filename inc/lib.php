@@ -564,11 +564,17 @@ function curlGetData($url)
  * @param $path string The path, where the file should be placed. (Must be absolute, unix style and end with a slash)
  * @param string $filename string Defaultly the filename of the new file gets determined from the url.
  *          However you can override the filename with this param.
+ * @param $download_override boolean Set this to true, if you want to download a file, even when $config['allow_server_downloads'] is false.
  * @throws Exception Throws an exception if an error happened, or file could not be downloaded.
  * @return True if the download was successful.
  */
-function downloadFile($url, $path, $filename = "")
+function downloadFile($url, $path, $filename = "", $download_override = false)
 {
+    global $config;
+    if ($config['allow_server_downloads'] == false && $download_override == false) {
+        throw new Exception(_("Das Herunterladen von Dateien über den Server ist deaktiviert!"));
+    }
+
     if (!isPathabsoluteAndUnix($path)) {
         throw new Exception(_('$path ist kein gültiger und absoluter Pfad!'));
     }

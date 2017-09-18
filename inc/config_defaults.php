@@ -134,6 +134,7 @@ $config['developer_mode']                               = false; // enables the 
 $config['page_title']                                   = 'Part-DB Elektronische Bauteile-Datenbank'; //Dont use this anymore, use partdb_title instead
 $config['partdb_title']                                 = 'Part-DB';
 $config['tracking_code']                                = "";   //Allows to inject some HTML on the footer (e.g. for usage of google analytics)
+$config['allow_server_downloads']                       = false; //Allow the user to download files via the server. Caution: This maybe could be used, to access internal servers.
 
 // Settings for design
 $config['design']['use_smarty']                         = true;
