@@ -27,6 +27,7 @@ namespace PartDB;
 
 use Exception;
 use PartDB\PartProperty\PartNameRegEx;
+use PartDB\Tools\PermissionManager;
 
 /**
  * @file Category.php
@@ -597,5 +598,14 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
         }
 
         return $values;
+    }
+
+    /**
+     * Gets the permission name for control access to this StructuralDBElement
+     * @return string The name of the permission for this StructuralDBElement.
+     */
+    protected static function getPermissionName()
+    {
+        return PermissionManager::CATEGORIES;
     }
 }

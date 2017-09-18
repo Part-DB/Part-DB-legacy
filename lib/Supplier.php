@@ -27,6 +27,7 @@ namespace PartDB;
 
 use Exception;
 use PartDB\Interfaces\ISearchable;
+use PartDB\Tools\PermissionManager;
 
 /**
  * @file Supplier.php
@@ -272,4 +273,14 @@ class Supplier extends Base\Company implements ISearchable
     {
         return parent::searchTable($database, $current_user, $log, 'suppliers', $keyword, $exact_match);
     }
+
+    /**
+     * Gets the permission name for control access to this StructuralDBElement
+     * @return string The name of the permission for this StructuralDBElement.
+     */
+    protected static function getPermissionName()
+    {
+        return PermissionManager::SUPPLIERS;
+    }
+
 }

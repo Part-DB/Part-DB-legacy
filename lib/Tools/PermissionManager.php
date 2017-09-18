@@ -24,6 +24,7 @@ class PermissionManager
     const CATEGORIES        = "categories";
     const SUPPLIERS         = "suppliers";
     const MANUFACTURERS     = "manufacturers";
+    const DEVICES           = "devices";
 
     /**
      * PermissionManager constructor.
@@ -123,6 +124,7 @@ class PermissionManager
         $this->permissions[] = new StructuralPermission($this->perm_holder, static::CATEGORIES, _("Kategorien"));
         $this->permissions[] = new StructuralPermission($this->perm_holder, static::SUPPLIERS, _("Lieferanten"));
         $this->permissions[] = new StructuralPermission($this->perm_holder, static::MANUFACTURERS, _("Hersteller"));
+        $this->permissions[] = new StructuralPermission($this->perm_holder, static::DEVICES, _("Baugruppen"));
     }
 
     /*******************************************************

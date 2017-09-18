@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Tools\PermissionManager;
 
 /**
  * @file Device.php
@@ -516,5 +517,14 @@ class Device extends Base\PartsContainingDBElement
                 'order_quantity'            => 0,
                 'order_only_missing_parts'  => false)
         );
+    }
+
+    /**
+     * Gets the permission name for control access to this StructuralDBElement
+     * @return string The name of the permission for this StructuralDBElement.
+     */
+    protected static function getPermissionName()
+    {
+        return PermissionManager::DEVICES;
     }
 }

@@ -27,6 +27,8 @@ namespace PartDB;
 
 use Exception;
 use PartDB\Interfaces\ISearchable;
+use PartDB\Tools\PermissionManager;
+use PartDB\Tools\StructuralPermission;
 
 /**
  * @file Manufacturer.php
@@ -85,6 +87,7 @@ class Manufacturer extends Base\Company implements ISearchable
     {
         return parent::getTableParts('id_manufacturer', $recursive, $hide_obsolete_and_zero);
     }
+
 
     /********************************************************************************
      *
@@ -145,6 +148,7 @@ class Manufacturer extends Base\Company implements ISearchable
         $website = '',
         $auto_product_url = ''
     ) {
+
         return parent::addByArray(
             $database,
             $current_user,
@@ -161,11 +165,22 @@ class Manufacturer extends Base\Company implements ISearchable
         );
     }
 
+
+
     /**
      * @copydoc NamedDBElement::search()
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
         return parent::searchTable($database, $current_user, $log, 'manufacturers', $keyword, $exact_match);
+    }
+
+    /**
+     * Gets the permission name for control access to this StructuralDBElement
+     * @return string The name of the permission for this StructuralDBElement.
+     */
+    protected static function getPermissionName()
+    {
+        return PermissionManager::MANUFACTURERS;
     }
 }
