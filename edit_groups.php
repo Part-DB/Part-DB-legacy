@@ -218,14 +218,14 @@ if (! $fatal_error) {
             if (isset($new_user)) {
                 $perm_loop = $selected_group->getPermissionManager()->generatePermissionsLoop();
             } else {
-                $perm_loop = \PartDB\Tools\PermissionManager::defaultPermissionsLoop();
+                $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop();
             }
 
         } else {
             $parent_id = 0;
             $name = '';
             $comment = "";
-            $perm_loop = \PartDB\Tools\PermissionManager::defaultPermissionsLoop();
+            $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop();
         }
 
         $html->setVariable('name', $name, 'string');

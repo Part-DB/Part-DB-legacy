@@ -27,8 +27,8 @@ namespace PartDB;
 
 use Exception;
 use PartDB\Interfaces\ISearchable;
-use PartDB\Tools\PermissionManager;
-use PartDB\Tools\StructuralPermission;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\StructuralPermission;
 
 /**
  * @file Manufacturer.php

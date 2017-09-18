@@ -41,8 +41,8 @@ use Exception;
 use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Interfaces\IHasPermissions;
 use PartDB\Interfaces\ISearchable;
-use PartDB\Tools\BasePermission;
-use PartDB\Tools\PermissionManager;
+use PartDB\Permissions\BasePermission;
+use PartDB\Permissions\PermissionManager;
 
 /**
  * @file User.php

@@ -37,8 +37,8 @@ use PartDB\Database;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\Storelocation;
-use PartDB\Tools\PermissionManager;
-use PartDB\Tools\StructuralPermission;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\StructuralPermission;
 use PartDB\User;
 
 $messages = array();

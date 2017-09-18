@@ -6,7 +6,7 @@
  * Time: 16:32
  */
 
-namespace PartDB\Tools;
+namespace PartDB\Permissions;
 
 
 use PartDB\Exceptions\NotImplementedException;

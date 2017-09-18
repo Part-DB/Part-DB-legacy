@@ -9,7 +9,7 @@
 namespace PartDB\Interfaces;
 
 
-use PartDB\Tools\PermissionManager;
+use PartDB\Permissions\PermissionManager;
 
 interface IHasPermissions
 {

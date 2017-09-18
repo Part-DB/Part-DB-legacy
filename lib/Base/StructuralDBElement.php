@@ -31,7 +31,7 @@ use PartDB\Exceptions\NotImplementedException;
 use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Log;
 use PartDB\Part;
-use PartDB\Tools\StructuralPermission;
+use PartDB\Permissions\StructuralPermission;
 use PartDB\User;
 
 /**
@@ -358,7 +358,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *   Tree / Table Builders
      *
      *********************************************************************************/
-    
+
     /**
      * Build a HTML tree with all subcategories of this element
      *

@@ -26,7 +26,7 @@
 namespace PartDB;
 
 use Exception;
-use PartDB\Tools\PermissionManager;
+use PartDB\Permissions\PermissionManager;
 
 /**
  * @file Device.php

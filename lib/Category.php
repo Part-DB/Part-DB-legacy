@@ -27,7 +27,7 @@ namespace PartDB;
 
 use Exception;
 use PartDB\PartProperty\PartNameRegEx;
-use PartDB\Tools\PermissionManager;
+use PartDB\Permissions\PermissionManager;
 
 /**
  * @file Category.php

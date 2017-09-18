@@ -6,7 +6,9 @@
  * Time: 12:55
  */
 
-namespace PartDB\Tools;
+namespace PartDB\Permissions;
+
+use PartDB\Permissions\BasePermission;
 
 /**
  * Use permissions objects of this class, if you want to control permissions on StructuralDBElements like Category or Footprint

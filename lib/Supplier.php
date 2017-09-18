@@ -27,7 +27,7 @@ namespace PartDB;
 
 use Exception;
 use PartDB\Interfaces\ISearchable;
-use PartDB\Tools\PermissionManager;
+use PartDB\Permissions\PermissionManager;
 
 /**
  * @file Supplier.php

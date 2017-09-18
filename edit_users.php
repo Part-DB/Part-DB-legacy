@@ -260,7 +260,7 @@ if (! $fatal_error) {
             if (isset($new_user)) {
                 $perm_loop = $new_user->getPermissionManager()->generatePermissionsLoop();
             } else {
-                $perm_loop = \PartDB\Tools\PermissionManager::defaultPermissionsLoop();
+                $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop();
             }
             $group_id = $new_group_id;
         } else {
@@ -271,7 +271,7 @@ if (! $fatal_error) {
             $department = "";
             $no_password = false;
             $group_id = 0;
-            $perm_loop = \PartDB\Tools\PermissionManager::defaultPermissionsLoop();
+            $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop();
         }
 
         $html->setVariable('name', $name, 'string');

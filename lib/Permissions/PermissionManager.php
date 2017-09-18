@@ -6,11 +6,13 @@
  * Time: 12:51
  */
 
-namespace PartDB\Tools;
+namespace PartDB\Permissions;
 
 
 use PartDB\Base\DBElement;
 use PartDB\Interfaces\IHasPermissions;
+use PartDB\Permissions\BasePermission;
+use PartDB\Permissions\StructuralPermission;
 
 class PermissionManager
 {
@@ -26,6 +28,8 @@ class PermissionManager
     const MANUFACTURERS     = "manufacturers";
     const DEVICES           = "devices";
     const ATTACHEMENT_TYPES = "attachement_types";
+
+    const TOOLS             = "tools";
 
     /**
      * PermissionManager constructor.
