@@ -80,7 +80,7 @@ if (isset($_REQUEST["apply"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Baugruppen'));
+$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Benutzergruppen'));
 
 try {
     $database           = new Database();

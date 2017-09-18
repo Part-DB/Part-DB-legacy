@@ -18,8 +18,13 @@
                 <i class="fa fa-plus-square" aria-hidden="true"></i>
                 {t}Neues Bauteil erstellen{/t}
             {/if}
-    </div>    
-        
+    </div>
+
+    {if $is_new_part}
+        {assign "can_edit" $can_create}
+        {assign "can_move" $can_create}
+    {/if}
+
     <div class="panel-body">
         <form action="{$relative_path}edit_part_info.php" class="form-horizontal no-progbar" method="post">
             <!--<table class="table">-->
@@ -29,7 +34,8 @@
                     </label>
                     <div class="col-md-10">
                         <input type="text" name="name" id="name" class="form-control" placeholder="{if empty($format_hint)}{t}z.B. BC547{/t}{else}{$format_hint}{/if}"
-                               value="{$name}" onkeydown="if (event.keyCode == 13) { document.getElementById('btn_enter').click();}" required>
+                               value="{$name}" onkeydown="if (event.keyCode == 13) { document.getElementById('btn_enter').click();}"
+                               required {if !$can_edit}disabled{/if}>
                         {if !empty($format_hint)}<p class="help-block">{t}Hinweis zum Format:{/t} {$format_hint}</p>{/if}
                     </div>
                 </div>
@@ -40,14 +46,17 @@
                     {if isset($auto_desc) && $auto_desc}
                     <div class="col-md-8">
                         <input type="text" id="description" class="form-control" name="description"
-                               placeholder="{t}z.B. NPN 45V 0,1A 0,5W{/t}" value="{$description nofilter}">
+                               placeholder="{t}z.B. NPN 45V 0,1A 0,5W{/t}" value="{$description nofilter}"
+                               {if !$can_edit}disabled{/if}>
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-default" onClick="octoPart();">Auto</button>
                     </div>
                     {else}
                     <div class="col-md-10">
-                        <input type="text" id="description" class="form-control" name="description" placeholder="{t}z.B. NPN 45V 0,1A 0,5W{/t}" value="{$description nofilter}" onkeydown="if (event.keyCode == 13) { document.getElementById('btn_enter').click();}">
+                        <input type="text" id="description" class="form-control" name="description" placeholder="{t}z.B. NPN 45V 0,1A 0,5W{/t}"
+                               value="{$description nofilter}" onkeydown="if (event.keyCode == 13) { document.getElementById('btn_enter').click();}"
+                               {if !$can_edit}disabled{/if}>
                         <p class="help-block">{t}Hinweis: Hier kann BBCode verwendet werden um den Text besonders auszuzeichnen (z.B. [b]Fett[/b]).{/t}</p>
                     </div>
                     {/if}
@@ -73,15 +82,21 @@
                         {t}Kategorie:{/t}
                     </label>
                     <div class="col-md-7">
-                        <select class="form-control selectpicker" data-live-search="true" name="category_id" onChange="document.getElementById('search_category_name').value='__ID__='+this.value; document.getElementById('search_category').click();">
+                        <select class="form-control selectpicker" data-live-search="true" name="category_id"
+                                onChange="document.getElementById('search_category_name').value='__ID__='+this.value; document.getElementById('search_category').click();"
+                                {if !$can_move}disabled{/if}>
                              {$category_list nofilter}
                         </select>
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <input type="text" class="form-control" name="search_category_name" id="search_category_name" placeholder="Suchen / Hinzufügen" class="cleardefault" onkeydown="if (event.keyCode == 13) { document.getElementById('search_category').click();} ">
+                            <input type="text" class="form-control" name="search_category_name" id="search_category_name"
+                                   placeholder="Suchen / Hinzufügen" class="cleardefault"
+                                   onkeydown="if (event.keyCode == 13) { document.getElementById('search_category').click();} "
+                                   {if !$can_move}disabled{/if}>
                             <span class="input-group-btn">
-                                <button type="button" class="btn btn-default submit" name="search_category" id="search_category">{t}OK!{/t}</button>
+                                <button type="button" class="btn btn-default submit" name="search_category" id="search_category"
+                                        {if !$can_move}disabled{/if}>{t}OK!{/t}</button>
                             </span>
                         </div>
                     </div>
@@ -153,7 +168,9 @@
                         {t}Kommentar:{/t}
                     </label>
                     <div class="col-md-10">
-                        <textarea  class="form-control scedit" name="comment" id="edit_comment" rows="4" cols="40">{$comment nofilter}</textarea>
+                        <textarea  class="form-control scedit" name="comment" id="edit_comment" rows="4" cols="40" {if !$can_edit}disabled{/if}>
+                            {$comment nofilter}
+                        </textarea>
                         <p class="help-block">{t}Hinweis: Hier kann BBCode verwendet werden um den Text besonders auszuzeichnen (z.B. [b]Fett[/b]).{/t}</p>
                     </div>
                 </div>
@@ -161,7 +178,8 @@
                 <div class="form-group">
                     <div class="col-md-10 col-md-offset-2">
                         {if $is_new_part}
-                            <button type="button" class="btn btn-success submit rightclick" name="create_new_part" id="btn_enter">{t}Bauteil erstellen{/t}</button>
+                            <button type="button" class="btn btn-success submit rightclick" name="create_new_part" id="btn_enter"
+                            {if !$can_create}disabled{/if}>{t}Bauteil erstellen{/t}</button>
                         {else}
                             <input type="hidden" name="pid" value="{$pid}">
                             <button type="button" name="apply_attributes" class="btn btn-success submit rightclick" id="btn_enter">{t}Änderungen übernehmen{/t}</button>

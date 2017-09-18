@@ -27,7 +27,10 @@ namespace PartDB;
 
 use Exception;
 use Golonka\BBCode\BBCodeParser;
+use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\PartProperty\PartProperty;
+use PartDB\Permissions\PartPermission;
+use PartDB\Permissions\PermissionManager;
 
 /**
  * @file Part.php
@@ -141,6 +144,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function delete($delete_files_from_hdd = false, $delete_device_parts = false)
     {
+        $this->current_user->tryDo(PermissionManager::PARTS, PartPermission::DELETE);
+
         try {
             $transaction_id = $this->database->beginTransaction(); // start transaction
 
@@ -1039,6 +1044,38 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     public function setMasterPictureAttachementID($new_master_picture_attachement_id)
     {
         $this->setAttributes(array('id_master_picture_attachement' => $new_master_picture_attachement_id));
+    }
+
+    public function setAttributes($new_values)
+    {
+        //Override this function, so we can check if user has the needed permissions.
+        $arr = array();
+        if ($this->current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {
+            //Make an exception for $parent_id
+            if (isset($new_values['id_category'])) {
+                $arr['id_category'] = $new_values['id_category'];
+            }
+        }
+        if ($this->current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT)) {
+            if (isset($new_values['name'])) {
+                $arr['name'] = $new_values;
+            }
+            if (isset($new_values['description'])) {
+                $arr['description'] = $new_values;
+            }
+            if (isset($new_values['comment'])) {
+                $arr['comment'] = $new_values;
+            }
+            if (isset($new_values['visible'])) {
+                $arr['visible'] = $new_values;
+            }
+        }
+
+        if (empty($arr)) {
+            throw new UserNotAllowedException(_("Der aktuelle Benutzer darf die gewünschte Operation nicht durchführen!"));
+        }
+
+        parent::setAttributes($arr);
     }
 
     /********************************************************************************
@@ -2112,6 +2149,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $comment = '',
         $visible = false
     ) {
+
+        $current_user->tryDo(PermissionManager::PARTS, PartPermission::CREATE);
+
         return parent::addByArray(
             $database,
             $current_user,

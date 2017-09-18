@@ -31,6 +31,8 @@ class PermissionManager
 
     const TOOLS             = "tools";
 
+    const PARTS             = "parts";
+
     /**
      * PermissionManager constructor.
      * @param $perm_holder IHasPermissions A object which has permissions properties and which should be used for read/write.
@@ -139,6 +141,11 @@ class PermissionManager
      */
     protected function fillPermissionsArray()
     {
+        $part_permissions       = array();
+        $part_permissions[]     = new PartPermission($this->perm_holder, static::PARTS, _("Bauteile"));
+
+        $this->permissions[] = new PermissionGroup(_("Bauteile"), $part_permissions, _("Bauteile"));
+
         $structural_permissions = array();
         $structural_permissions[] = new StructuralPermission($this->perm_holder, static::STORELOCATIONS, _("Lagerorte"));
         $structural_permissions[] = new StructuralPermission($this->perm_holder, static::FOOTRPINTS, _("Footprints"));
@@ -147,11 +154,11 @@ class PermissionManager
         $structural_permissions[] = new StructuralPermission($this->perm_holder, static::MANUFACTURERS, _("Hersteller"));
         $structural_permissions[] = new StructuralPermission($this->perm_holder, static::DEVICES, _("Baugruppen"));
         $structural_permissions[] = new StructuralPermission($this->perm_holder, static::ATTACHEMENT_TYPES, _("Dateianhänge"));
-        $this->permissions[] = new PermissionGroup("Datenstrukturen", $structural_permissions);
+        $this->permissions[] = new PermissionGroup(_("Datenstrukturen"), $structural_permissions);
 
         $misc_permissions = array();
         $misc_permissions[] = new ToolsPermission($this->perm_holder, static::TOOLS, _("Tools"));
-        $this->permissions[] = new PermissionGroup("Verschiedenes", $misc_permissions);
+        $this->permissions[] = new PermissionGroup(_("Verschiedenes"), $misc_permissions);
     }
 
     /*******************************************************
