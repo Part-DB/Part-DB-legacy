@@ -3,7 +3,7 @@
 {if isset($perm_loop)}
     {foreach $perm_loop as $perm_group}
 
-        <table class="table table-bordered">
+        <table class="table table-bordered table-condensed">
             <caption><h4>{$perm_group.title}</h4></caption>
             <thead>
             <tr>
