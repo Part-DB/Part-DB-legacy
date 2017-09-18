@@ -89,7 +89,7 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Lag
 try {
     $database           = new Database();
     $log                = new Log($database);
-    $current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
     $root_storelocation = new Storelocation($database, $current_user, $log, 0);
 
     if ($selected_id > 0) {

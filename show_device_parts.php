@@ -128,7 +128,7 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Baugr
 try {
     $database           = new Database();
     $log                = new Log($database);
-    $current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
     $root_device        = new Device($database, $current_user, $log, 0);
     $device             = new Device($database, $current_user, $log, $device_id);
     $subdevices         = $device->getSubelements(false);
