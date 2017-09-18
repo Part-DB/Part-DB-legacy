@@ -566,7 +566,7 @@ function curlGetData($url)
  *          However you can override the filename with this param.
  * @param $download_override boolean Set this to true, if you want to download a file, even when $config['allow_server_downloads'] is false.
  * @throws Exception Throws an exception if an error happened, or file could not be downloaded.
- * @return True if the download was successful.
+ * @return string|boolean The path of the created file, when the file was successful downloaded. False, when an error happened.
  */
 function downloadFile($url, $path, $filename = "", $download_override = false)
 {
@@ -594,6 +594,7 @@ function downloadFile($url, $path, $filename = "", $download_override = false)
     if ($ret !== false) { //If download was successful
         return $path . $filename;
     }
+    return false;
 }
 
 /**
