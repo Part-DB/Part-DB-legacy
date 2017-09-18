@@ -73,7 +73,12 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     /** @var Group the group of this user */
     private $group = null;
 
-    protected $perm_manager;
+    /** @var PermissionManager  */
+    protected $perm_manager = null;
+
+
+    /** @var User  */
+    protected static $loggedin_user = null;
 
     /********************************************************************************
      *
@@ -434,12 +439,25 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public static function getLoggedInUser(&$database = null, &$log = null)
     {
+        $loggedin_ID    = self::getLoggedInID();
+
         if (is_null($database) || is_null($log)) {
             $database = new Database();
             $log = new Log($database);
         }
-        $var = null;
-        return new User($database, $var, $log, self::getLoggedInID());
+        if (!is_object(static::$loggedin_user)) {
+            $var = null;
+            static::$loggedin_user = new User($database, $var, $log, $loggedin_ID);
+        } else { //A user is cached...
+            //Check if the the cached user, is the one we want!
+            if (static::$loggedin_user->getID() != $loggedin_ID) {
+                $var = null;
+                static::$loggedin_user = new User($database, $var, $log, $loggedin_ID);
+            }
+        }
+
+        return static::$loggedin_user;
+
     }
 
     /**
@@ -552,7 +570,8 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     /**
      * @return PermissionManager
      */
-    public function &getPermissionManager() {
+    public function &getPermissionManager()
+    {
         return $this->perm_manager;
     }
 
@@ -590,7 +609,8 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param $perm_operation string The name of the operation that should be checked.
      * @throws UserNotAllowedException This Exception is thrown, when the user is not allowed to do the requested action.
      */
-    public function tryDo($perm_name, $perm_operation) {
+    public function tryDo($perm_name, $perm_operation)
+    {
         if ($this->canDo($perm_name, $perm_operation) == false) {
             throw new UserNotAllowedException(_("Der aktuelle Benutzer darf die gewünschte Operation nicht durchführen!"));
         }
