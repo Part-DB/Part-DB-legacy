@@ -38,6 +38,8 @@ use PartDB\Device;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\User;
+use PartDB\Tools\StructuralPermission;
+use PartDB\Tools\PermissionManager;
 
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
@@ -215,6 +217,12 @@ if (! $fatal_error) {
         $fatal_error = true;
     }
 }
+
+$html->setVariable("can_delete", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::DELETE));
+$html->setVariable("can_edit", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::EDIT));
+$html->setVariable("can_create", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::CREATE));
+$html->setVariable("can_move", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::MOVE));
+$html->setVariable("can_read", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::READ));
 
 /********************************************************************************
  *

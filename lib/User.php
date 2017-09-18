@@ -565,7 +565,8 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         $parent = $this->getGroup();
         if ($parent->getID() == 0) {
             //When group is root, then this user doesnt has a parent perm manager.
-            return null;
+            $tmp = null;
+            return $tmp;
         }
         //Otherwise return the perm manager of the group.
         return $parent->getPermissionManager();

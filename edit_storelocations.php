@@ -37,6 +37,8 @@ use PartDB\Database;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\Storelocation;
+use PartDB\Tools\PermissionManager;
+use PartDB\Tools\StructuralPermission;
 use PartDB\User;
 
 $messages = array();
@@ -246,6 +248,12 @@ if (! $fatal_error) {
         $fatal_error = true;
     }
 }
+
+$html->setVariable("can_delete", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::DELETE));
+$html->setVariable("can_edit", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::EDIT));
+$html->setVariable("can_create", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::CREATE));
+$html->setVariable("can_move", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::MOVE));
+$html->setVariable("can_read", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::READ));
 
 /********************************************************************************
  *
