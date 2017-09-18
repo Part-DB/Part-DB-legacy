@@ -102,6 +102,7 @@ $popup_width                = isset($_REQUEST['popup_width'])       ? (integer)$
 $popup_height               = isset($_REQUEST['popup_height'])      ? (integer)$_REQUEST['popup_height']    : $config['popup']['height'];
 $page_title                 = isset($_REQUEST['page_title'])        ? (string)$_REQUEST['page_title']       : $config['page_title'];
 $startup_banner             = isset($_REQUEST['startup_banner'])    ? (string)$_REQUEST['startup_banner']   : $config['startup']['custom_banner'];
+$downloads_enable           = isset($_REQUEST['downloads_enable']);
 
 // section "appearance"
 $use_old_datasheet_icons    = isset($_REQUEST['use_old_datasheet_icons']);
@@ -195,6 +196,7 @@ if (! $fatal_error) {
             $config['popup']['modal']                   = $use_modal_popup;
             $config['popup']['width']                   = $popup_width;
             $config['popup']['height']                  = $popup_height;
+            $config['allow_server_downloads']           = $downloads_enable;
 
             $config['appearance']['use_old_datasheet_icons'] = $use_old_datasheet_icons;
             $config['appearance']['short_description'] = $short_description;
@@ -354,6 +356,9 @@ $html->setVariable('disable_suppliers', $config['suppliers']['disable'], 'boolea
 $html->setVariable('info_hide_actions', $config['part_info']['hide_actions'], 'boolean');
 $html->setVariable('info_hide_empty_orderdetails', $config['part_info']['hide_empty_orderdetails'] , 'boolean');
 $html->setVariable('info_hide_empty_attachements', $config['part_info']['hide_empty_attachements'] , 'boolean');
+
+//Misc
+$html->setVariable("downloads_enable", $config['allow_server_downloads'], 'boolean');
 
 // check if the server supports the selected language and print a warning if not
 if (! ownSetlocale(LC_ALL, $config['language'])) {

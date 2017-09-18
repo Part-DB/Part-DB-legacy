@@ -564,11 +564,18 @@ function curlGetData($url)
  * @param $path string The path, where the file should be placed. (Must be absolute, unix style and end with a slash)
  * @param string $filename string Defaultly the filename of the new file gets determined from the url.
  *          However you can override the filename with this param.
+ * @param $download_override boolean Set this to true, if you want to download a file, even when $config['allow_server_downloads'] is false.
  * @throws Exception Throws an exception if an error happened, or file could not be downloaded.
- * @return True if the download was successful.
+ * @return string|boolean The path of the created file, when the file was successful downloaded. False, when an error happened.
  */
-function downloadFile($url, $path, $filename = "") {
-    if(!isPathabsoluteAndUnix($path)) {
+function downloadFile($url, $path, $filename = "", $download_override = false)
+{
+    global $config;
+    if ($config['allow_server_downloads'] == false && $download_override == false) {
+        throw new Exception(_("Das Herunterladen von Dateien über den Server ist deaktiviert!"));
+    }
+
+    if (!isPathabsoluteAndUnix($path)) {
         throw new Exception(_('$path ist kein gültiger und absoluter Pfad!'));
     }
     if (!isURL($url)) {
@@ -587,6 +594,7 @@ function downloadFile($url, $path, $filename = "") {
     if ($ret !== false) { //If download was successful
         return $path . $filename;
     }
+    return false;
 }
 
 /**
@@ -1046,7 +1054,7 @@ function buildToolsTree($params)
     if ($developer_mode) {
         $tree[] = treeviewNode(_("Entwickler-Werkzeuge"), null, $dev_nodes);
     }
-    if(!$disable_help) {
+    if (!$disable_help) {
         $tree[] = treeviewNode(_("Hilfe"), "https://github.com/jbtronics/Part-DB/wiki", null);
     }
 
@@ -1095,7 +1103,8 @@ function _empty($var)
  * Check if the connection to the server is using HTTPS.
  * @return bool True if the connection is using HTTPS, false if not.
  */
-function isUsingHTTPS() {
+function isUsingHTTPS()
+{
     return
         (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
         || $_SERVER['SERVER_PORT'] == 443;
@@ -1137,11 +1146,15 @@ function filter_filename($filename, $beautify=true)
         [#\[\]@!$&\'()+,;=]|     # URI reserved https://tools.ietf.org/html/rfc3986#section-2.2
         [{}^\~`]                 # URL unsafe characters https://www.ietf.org/rfc/rfc1738.txt
         ~x',
-        '-', $filename);
+        '-',
+        $filename
+    );
     // avoids ".", ".." or ".hiddenFiles"
     $filename = ltrim($filename, '.-');
     // optional beautification
-    if ($beautify) $filename = beautify_filename($filename);
+    if ($beautify) {
+        $filename = beautify_filename($filename);
+    }
     // maximise filename length to 255 bytes http://serverfault.com/a/9548/44086
     $ext = pathinfo($filename, PATHINFO_EXTENSION);
     $filename = mb_strcut(pathinfo($filename, PATHINFO_FILENAME), 0, 255 - ($ext ? strlen($ext) + 1 : 0), mb_detect_encoding($filename)) . ($ext ? '.' . $ext : '');
@@ -1178,10 +1191,15 @@ function beautify_filename($filename)
 
 /**
  * Recursively creates a long directory path, if it not exists.
+ * @param $path string The path of the deepest folder, that should be created.
+ * @return boolean Returns true, if the folder hierachy was created successful.
  */
-function createPath($path) {
-    if (is_dir($path)) return true;
-    $prev_path = substr($path, 0, strrpos($path, '/', -2) + 1 );
+function createPath($path)
+{
+    if (is_dir($path)) {
+        return true;
+    }
+    $prev_path = substr($path, 0, strrpos($path, '/', -2) + 1);
     $return = createPath($prev_path);
     return ($return && is_writable($prev_path)) ? mkdir($path) : false;
 }
@@ -1190,9 +1208,18 @@ function createPath($path) {
  * Check if a string is a URL and is valid.
  * @param $string string The string which should be checked.
  * @param bool $path_required If true, the string must contain a path to be valid. (e.g. foo.bar would be invalid, foo.bar/test.php would be valid).
+ * @param $only_http bool Set this to true, if only HTTPS or HTTP schemata should be allowed.
+ *  *Caution: When this is set to false, a attacker could use the file:// schema, to get internal server files, like /etc/passwd.*
  * @return bool True if the string is a valid URL. False, if the string is not an URL or invalid.
  */
-function isURL($string, $path_required = true) {
+function isURL($string, $path_required = true, $only_http = true)
+{
+    if ($only_http) {   //Check if scheme is HTTPS or HTTP
+        $scheme = parse_url($string, PHP_URL_SCHEME);
+        if ($scheme !== "http" || $scheme !== "https") {
+            return false;   //All other schemes are not valid.
+        }
+    }
     if ($path_required) {
         return filter_var($string, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED);
     } else {
@@ -1207,7 +1234,8 @@ function isURL($string, $path_required = true) {
  *      When false, only the special fa-class is returned. (e.g. fa-file)
  * @return string The resulted HTML code or the fa-class.
  */
-function extToFAIcon($path, $with_html = true, $size = "fa-lg") {
+function extToFAIcon($path, $with_html = true, $size = "fa-lg")
+{
     $ext = pathinfo($path, PATHINFO_EXTENSION);
     $fa_class = "";
     switch ($ext) {

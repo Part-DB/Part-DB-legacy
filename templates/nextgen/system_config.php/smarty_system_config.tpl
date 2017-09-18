@@ -322,6 +322,22 @@
                             <textarea name="startup_banner" rows="5" class="form-control"  {if $is_online_demo}disabled{/if}>{$startup_banner}</textarea>
                         </div>
                     </div>
+
+                    <hr>
+
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <div class="checkbox">
+                                <input type="checkbox" name="downloads_enable" {if $downloads_enable} checked{/if}>
+                                <label for="downloads_enable">{t}Erlaube Nutzern Dateien (z.B. Anhänge) über den Server herunterzuladen.{/t}</label>
+                            </div>
+                            <p class="help-block"><b>{t}Achtung:{/t}</b> {t}Wenn diese Option aktiviert ist, können Benutzer potentiell, Dateien von jedem Server herunterladen, auf den dieser Server Zugriff hat.{/t}
+                            {t}Dies könnte einen Angreifer in die Lage versetzen, auf Dateien von internen Servern zuzugreifen.{/t}</p>
+                        </div>
+                    </div>
+
+                    <br>
+
                 </div>
 
 
