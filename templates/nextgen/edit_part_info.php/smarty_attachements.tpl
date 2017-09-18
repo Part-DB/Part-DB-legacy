@@ -68,12 +68,14 @@
                                 <input data-show-caption="false" data-show-upload="false" type="file" class="file" name="attachement_file">
                                 <p>(max. {$max_upload_filesize})</p>
                             </div>
-                            <div class="col-sm-3">
-                                <div class="checkbox">
-                                    <input type="checkbox" name="download_file" {if $attach.download_file}checked{/if} >
-                                    <label for="download_file">{t}Downloade Datei{/t}</label>
+                            {if $downloads_enable}
+                                <div class="col-sm-3">
+                                    <div class="checkbox">
+                                        <input type="checkbox" name="download_file" {if $attach.download_file}checked{/if} >
+                                        <label for="download_file">{t}Downloade Datei{/t}</label>
+                                    </div>
                                 </div>
-                            </div>
+                            {/if}
 
                         </div>
                     </div>

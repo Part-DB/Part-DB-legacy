@@ -127,8 +127,10 @@ if (isset($footprint_milliseconds)) {print 'Zeit: '.$footprint_milliseconds.'ms<
 if (isset($footprint_error)) {print '<b><font style="color:red">Fehlermeldung: '.$footprint_error.'</font></b><br>';}
 print '</form></div></div>'; */
 
+if($config['debug']['enable'] == true) {
+    phpinfo();
+}
 
-phpinfo();
 
 
 
