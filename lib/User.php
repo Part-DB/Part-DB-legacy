@@ -38,8 +38,10 @@ namespace PartDB;
  */
 
 use Exception;
+use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Interfaces\IHasPermissions;
 use PartDB\Interfaces\ISearchable;
+use PartDB\Tools\BasePermission;
 use PartDB\Tools\PermissionManager;
 
 /**
@@ -567,5 +569,29 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         }
         //Otherwise return the perm manager of the group.
         return $parent->getPermissionManager();
+    }
+
+
+    /**
+     * Check if the user can perform the given operation and return the result as boolean.
+     * @param $perm_name string The name of the permission, that should be checked.
+     * @param $perm_operation string The name of the operation that should be checked.
+     * @return bool True, if the user can perform the action, false if not.
+     */
+    public function canDo($perm_name, $perm_operation)
+    {
+        return $this->perm_manager->getPermissionValue($perm_name, $perm_operation, true) == BasePermission::ALLOW;
+    }
+
+    /**
+     * Check if the current user can permform the action. Throws an exception if he is not allowed to do the operation.
+     * @param $perm_name string The name of the permission, that should be checked.
+     * @param $perm_operation string The name of the operation that should be checked.
+     * @throws UserNotAllowedException This Exception is thrown, when the user is not allowed to do the requested action.
+     */
+    public function tryDo($perm_name, $perm_operation) {
+        if ($this->canDo($perm_name, $perm_operation) == false) {
+            throw new UserNotAllowedException(_("Der aktuelle Benutzer darf die gewünschte Operation nicht durchführen!"));
+        }
     }
 }

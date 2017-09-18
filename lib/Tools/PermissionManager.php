@@ -38,7 +38,7 @@ class PermissionManager
 
         $this->fillPermissionsArray();
     }
-    
+
     public function generatePermissionsLoop()
     {
         $loop = array();
