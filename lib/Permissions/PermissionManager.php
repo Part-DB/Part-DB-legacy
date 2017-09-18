@@ -45,6 +45,10 @@ class PermissionManager
         $this->fillPermissionsArray();
     }
 
+    /**
+     * Generates a template loop for smarty_permissions.tpl (the permissions table).
+     * @return array The loop for the permissions table.
+     */
     public function generatePermissionsLoop()
     {
         $loop = array();
@@ -55,6 +59,10 @@ class PermissionManager
         return $loop;
     }
 
+    /**
+     * Takes a $_REQUEST array and parse permissions from it. Use it in combination with the smarty_permissions.tpl Template.
+     * @param $request_array array The request array which should be parsed.
+     */
     public function parsePermissionsFromRequest($request_array)
     {
         foreach ($request_array as $request => $value) {
@@ -122,6 +130,10 @@ class PermissionManager
     }
 
 
+    /**
+     * Add all wanted permissions to $this->permissions.
+     * If you want to add a new permission, then do it here.
+     */
     protected function fillPermissionsArray()
     {
         $this->permissions[] = new StructuralPermission($this->perm_holder, static::STORELOCATIONS, _("Lagerorte"));
@@ -131,6 +143,8 @@ class PermissionManager
         $this->permissions[] = new StructuralPermission($this->perm_holder, static::MANUFACTURERS, _("Hersteller"));
         $this->permissions[] = new StructuralPermission($this->perm_holder, static::DEVICES, _("Baugruppen"));
         $this->permissions[] = new StructuralPermission($this->perm_holder, static::ATTACHEMENT_TYPES, _("Dateianhänge"));
+
+        $this->permissions[] = new ToolsPermission($this->perm_holder, static::TOOLS, _("Tools"));
     }
 
     /*******************************************************

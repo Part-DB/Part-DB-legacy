@@ -22,33 +22,7 @@ class StructuralPermission extends BasePermission
     const MOVE  = "move";
     const DELETE = "delete";
 
-    /**
-     * Gets the bit number for every operation (see Constants in Permission class).
-     * @param $op string The operation for which the bit number should be calculated.
-     * @return int The bitnumber for the operation.
-     */
-    protected static function opToBitN($op)
-    {
-        $op = mb_strtolower($op);
-        /**
-         * Dont change these definitions, because it would break compatibility with older database.
-         * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
-         */
-        switch ($op) {
-            case static::READ:
-                return 0;
-            case static::EDIT:
-                return 2;
-            case static::CREATE:
-                return 4;
-            case static::MOVE:
-                return 6;
-            case static::DELETE:
-                return 8;
-        }
 
-        throw new \InvalidArgumentException(_('$op ist keine gültige Operation!'));
-    }
 
     /**
      * Returns an array of all available operations for this Permission.

@@ -31,6 +31,9 @@
 
 use PartDB\Interfaces\IAPIModel;
 use PartDB\Part;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\ToolsPermission;
+use PartDB\User;
 
 /**
  * check if a given number is odd
@@ -970,6 +973,9 @@ function buildToolsTree($params)
 {
     global $config;
 
+    //Build objects
+    $current_user       = User::getLoggedInUser();
+
     $disable_footprint = $config['footprints']['disable'];
     $disable_manufactur = $config['manufacturers']['disable'];
     $disable_suppliers  = $config['suppliers']['disable'];
@@ -988,17 +994,19 @@ function buildToolsTree($params)
 
     //Tools nodes
     $tools_nodes = array();
-    $tools_nodes[] = treeviewNode(_("Import"), BASE_RELATIVE . "/tools_import.php");
-    if (!$disable_labels) {
+    if ($current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IMPORT)) {
+        $tools_nodes[] = treeviewNode(_("Import"), BASE_RELATIVE . "/tools_import.php");
+    }
+    if (!$disable_labels && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::LABELS)) {
         $tools_nodes[] = treeviewNode(_("Labels"), BASE_RELATIVE . "/tools_labels.php");
     }
-    if (!$disable_calculator) {
+    if (!$disable_calculator && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::CALCULATOR)) {
         $tools_nodes[] = treeviewNode(_("Widerstandsrechner"), BASE_RELATIVE . "/tools_calculator.php");
     }
-    if (!$disable_tools_footprints) {
+    if (!$disable_tools_footprints && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::FOOTPRINTS)) {
         $tools_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/tools_footprints.php");
     }
-    if (!$disable_iclogos) {
+    if (!$disable_iclogos && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IC_LOGOS)) {
         $tools_nodes[] = treeviewNode(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");
     }
 
@@ -1045,7 +1053,10 @@ function buildToolsTree($params)
 
     //Add nodes to root
     $tree = array();
-    $tree[] = treeviewNode(_("Tools"), null, $tools_nodes);
+    if (!empty($tools_nodes)) {
+        $tree[] = treeviewNode(_("Tools"), null, $tools_nodes);
+    }
+
     $tree[] = treeviewNode(_("Bearbeiten"), null, $edit_nodes);
     $tree[] = treeviewNode(_("Zeige"), null, $show_nodes);
     if (!$disable_config) {
