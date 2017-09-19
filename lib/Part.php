@@ -2169,6 +2169,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public static function getAllParts(&$database, &$current_user, &$log, $group_by = '')
     {
+        $current_user->tryDo(PermissionManager::PARTS, PartPermission::ALL_PARTS);
+
         $query = 'SELECT * FROM parts';
 
         $query_data = $database->query($query);

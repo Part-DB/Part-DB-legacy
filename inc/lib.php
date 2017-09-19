@@ -31,6 +31,7 @@
 
 use PartDB\Interfaces\IAPIModel;
 use PartDB\Part;
+use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\ToolsPermission;
 use PartDB\User;
@@ -1023,7 +1024,9 @@ function buildToolsTree($params)
     $show_nodes[] = treeviewNode(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
     $show_nodes[] = treeviewNode(_("Obsolente Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
     $show_nodes[] = treeviewNode(_("Statistik"), BASE_RELATIVE . "/statistics.php");
-    $show_nodes[] = treeviewNode(_("Alle Teile"), BASE_RELATIVE . "/show_all_parts.php");
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::ALL_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Alle Teile"), BASE_RELATIVE . "/show_all_parts.php");
+    }
 
     //Edit nodes
     $edit_nodes = array();
