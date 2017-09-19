@@ -36,6 +36,7 @@ use PartDB\Part;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\StructuralPermission;
+use PartDB\Permissions\PartAttributePermission;
 use PartDB\Pricedetails;
 use PartDB\Storelocation;
 use PartDB\Supplier;
@@ -863,6 +864,14 @@ $html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, Pa
 $html->setVariable("can_create", $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
 $html->setVariable("can_move", $current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE));
 $html->setVariable("can_read", $current_user->canDo(PermissionManager::PARTS, PartPermission::READ));
+$html->setVariable("can_name", $current_user->canDo(PermissionManager::PARTS_NAME, PartAttributePermission::EDIT));
+$html->setVariable("can_description", $current_user->canDo(PermissionManager::PARTS_DESCRIPTION, PartAttributePermission::EDIT));
+$html->setVariable("can_comment", $current_user->canDo(PermissionManager::PARTS_COMMENT, PartAttributePermission::EDIT));
+$html->setVariable("can_instock", $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT));
+$html->setVariable("can_mininstock", $current_user->canDo(PermissionManager::PARTS_MININSTOCK, PartAttributePermission::EDIT));
+$html->setVariable("can_storelocation", $current_user->canDo(PermissionManager::PARTS_STORELOCATION, PartAttributePermission::EDIT));
+$html->setVariable("can_footprint", $current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT));
+$html->setVariable("can_manufacturer", $current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT));
 
 /********************************************************************************
  *

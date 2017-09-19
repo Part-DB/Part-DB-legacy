@@ -29,6 +29,7 @@ use Exception;
 use Golonka\BBCode\BBCodeParser;
 use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\PartProperty\PartProperty;
+use PartDB\Permissions\PartAttributePermission;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
 
@@ -1057,23 +1058,56 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             }
         }
         if ($this->current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT)) {
-            if (isset($new_values['name'])) {
-                $arr['name'] = $new_values;
-            }
-            if (isset($new_values['description'])) {
-                $arr['description'] = $new_values;
-            }
-            if (isset($new_values['comment'])) {
-                $arr['comment'] = $new_values;
-            }
             if (isset($new_values['visible'])) {
-                $arr['visible'] = $new_values;
+                $arr['visible'] = $new_values['visible'];
+            }
+        }
+        if ($this->current_user->canDo(PermissionManager::PARTS_NAME, PartAttributePermission::EDIT)) {
+            if (isset($new_values['name'])) {
+                $arr['name'] = $new_values['name'];
+            }
+        }
+        if ($this->current_user->canDo(PermissionManager::PARTS_DESCRIPTION, PartAttributePermission::EDIT)) {
+            if (isset($new_values['description'])) {
+                $arr['description'] = $new_values['description'];
+            }
+        }
+        if ($this->current_user->canDo(PermissionManager::PARTS_COMMENT, PartAttributePermission::EDIT)) {
+            if (isset($new_values['comment'])) {
+                $arr['comment'] = $new_values['comment'];
+            }
+        }
+        if ($this->current_user->canDo(PermissionManager::PARTS_MININSTOCK, PartAttributePermission::EDIT)) {
+            if (isset($new_values['mininstock'])) {
+                $arr['mininstock'] = $new_values['mininstock'];
+            }
+        }
+        if ($this->current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT)) {
+            if (isset($new_values['instock'])) {
+                $arr['instock'] = $new_values['instock'];
+            }
+        }
+        if ($this->current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT)) {
+            if (isset($new_values['id_footprint'])) {
+                $arr['id_footprint'] = $new_values['id_footprint'];
+            }
+        }
+        if ($this->current_user->canDo(PermissionManager::PARTS_STORELOCATION, PartAttributePermission::EDIT)) {
+            if (isset($new_values['id_storelocation'])) {
+                $arr['id_storelocation'] = $new_values['id_storelocation'];
+            }
+        }
+        if ($this->current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
+            if (isset($new_values['id_manufacturer'])) {
+                $arr['id_manufacturer'] = $new_values['id_manufacturer'];
             }
         }
 
+        /* Exception, gives problem, with editing the name of the Part, via edit_part_info.php
+        //Throw Exception, if nothing can be done!
         if (empty($arr)) {
             throw new UserNotAllowedException(_("Der aktuelle Benutzer darf die gewünschte Operation nicht durchführen!"));
-        }
+        }*/
 
         parent::setAttributes($arr);
     }

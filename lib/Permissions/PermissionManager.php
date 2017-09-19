@@ -32,6 +32,17 @@ class PermissionManager
     const TOOLS             = "tools";
 
     const PARTS             = "parts";
+    const PARTS_NAME        = "parts_name";
+    const PARTS_DESCRIPTION = "parts_description";
+    const PARTS_INSTOCK     = "parts_instock";
+    const PARTS_MININSTOCK  = "parts_mininstock";
+    const PARTS_FOOTPRINT   = "parts_footprint";
+    const PARTS_COMMENT     = "parts_comment";
+    const PARTS_STORELOCATION = "parts_storelocation";
+    const PARTS_ORDERDETAIL = "parts_orderdetails";
+    const PARTS_PRICES      = "parts_prices";
+    const PARTS_ATTACHEMENTS = "parts_attachements";
+    const PARTS_MANUFACTURER = "parts_manufacturer";
 
     /**
      * PermissionManager constructor.
@@ -142,9 +153,18 @@ class PermissionManager
     protected function fillPermissionsArray()
     {
         $part_permissions       = array();
-        $part_permissions[]     = new PartPermission($this->perm_holder, static::PARTS, _("Bauteile"));
+        $part_permissions[]     = new PartPermission($this->perm_holder, static::PARTS, _("Allgemein"));
+        $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_NAME, _("Name"));
+        $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_DESCRIPTION, _("Beschreibung"));
+        $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_INSTOCK, _("Vorhanden"));
+        $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_MININSTOCK, _("Min. Bestand"));
+        $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_COMMENT, _("Kommentar"));
+        $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_STORELOCATION, _("Lagerort"));
+        $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_MANUFACTURER, _("Hersteller"));
+        $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_FOOTPRINT, _("Beschreibung"));
 
-        $this->permissions[] = new PermissionGroup(_("Bauteile"), $part_permissions, _("Bauteile"));
+
+        $this->permissions[] = new PermissionGroup(_("Bauteile"), $part_permissions);
 
         $structural_permissions = array();
         $structural_permissions[] = new StructuralPermission($this->perm_holder, static::STORELOCATIONS, _("Lagerorte"));
