@@ -33,6 +33,7 @@ use PartDB\Log;
 use PartDB\Manufacturer;
 use PartDB\Orderdetails;
 use PartDB\Part;
+use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\StructuralPermission;
@@ -859,6 +860,7 @@ if (! $fatal_error) {
     }
 }
 
+//Set permissions
 $html->setVariable("can_delete", $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE));
 $html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
 $html->setVariable("can_create", $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
@@ -872,6 +874,18 @@ $html->setVariable("can_mininstock", $current_user->canDo(PermissionManager::PAR
 $html->setVariable("can_storelocation", $current_user->canDo(PermissionManager::PARTS_STORELOCATION, PartAttributePermission::EDIT));
 $html->setVariable("can_footprint", $current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT));
 $html->setVariable("can_manufacturer", $current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT));
+
+$html->setVariable("can_attachement_edit", $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::EDIT));
+$html->setVariable("can_attachement_delete", $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::DELETE));
+$html->setVariable("can_attachement_create", $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE));
+
+$html->setVariable("can_orderdetails_edit", $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::EDIT));
+$html->setVariable("can_orderdetails_delete", $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::DELETE));
+$html->setVariable("can_orderdetails_create", $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE));
+
+$html->setVariable("can_prices_edit", $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::EDIT));
+$html->setVariable("can_prices_delete", $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::DELETE));
+$html->setVariable("can_prices_create", $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::CREATE));
 
 /********************************************************************************
  *
