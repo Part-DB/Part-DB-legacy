@@ -133,16 +133,15 @@
             </div>
 
             <div class="col-md-3">
-
                 <form action="" method="post" class="hidden-print no-progbar">
                     <input type="hidden" name="pid" value="{$pid}">
                     <div class="row">
                         <div class="col-md-12">
                             <label for="n_less">{t}Teile entnehmen:{/t}</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="n_less" min="0" max="999" value="1" placeholder="Anzahl">
+                                <input type="number" class="form-control" name="n_less" min="0" max="999" value="1" placeholder="Anzahl" {if !$can_instock}disabled{/if}>
                                 <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-default" name="dec">{t}Entnehmen{/t}</button>
+                                            <button type="submit" class="btn btn-default" name="dec" {if !$can_instock}disabled{/if}>{t}Entnehmen{/t}</button>
                                         </span>
                             </div>
                         </div>
@@ -157,9 +156,9 @@
                         <div class="col-md-12">
                             <label for="n_more">{t}Teile hinzufügen{/t}</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="n_more" min="0" max="999" value="1">
+                                <input type="number" class="form-control" name="n_more" min="0" max="999" value="1" {if !$can_instock}disabled{/if}>
                                 <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-default" name="inc">{t}Hinzufügen{/t}</button>
+                                            <button type="submit" class="btn btn-default" name="inc" {if !$can_instock}disabled{/if}>{t}Hinzufügen{/t}</button>
                                         </span>
                             </div>
                         </div>
