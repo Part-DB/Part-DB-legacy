@@ -43,4 +43,18 @@ class StructuralPermission extends BasePermission
 
         return $operations;
     }
+
+    protected function modifyValueBeforeSetting($operation, $new_value, $data)
+    {
+        //Set read permission, too, when you get edit permissions.
+        if (($operation == static::EDIT
+                || $operation == static::DELETE
+                || $operation == static::MOVE
+                || $operation == static::CREATE)
+            && $new_value == static::ALLOW) {
+            return parent::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
+        }
+
+        return $data;
+    }
 }

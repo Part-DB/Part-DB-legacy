@@ -66,10 +66,24 @@ abstract class BasePermission
     {
         $n = static::opToBitN($operation);
         $old_value = $this->perm_holder->getPermissionRaw($this->perm_name);
-        $new_value = static::writeBitPair($old_value, $n, $new_value);
-        if ($new_value !== $old_value) { //Only write to DB, if a value was changed.
-            $this->perm_holder->setPermissionRaw($this->perm_name, $new_value);
+        $value = static::writeBitPair($old_value, $n, $new_value);
+        $value = static::modifyValueBeforeSetting($operation, $new_value, $value);
+        if ($value !== $old_value) { //Only write to DB, if a value was changed.
+            $this->perm_holder->setPermissionRaw($this->perm_name, $value);
         }
+    }
+
+    /**
+     * Modify the permissions data, before it gets written, to Database. This is called while setValue() is executed.
+     * @param $operation string The original $operation string from setValue().
+     * @param $new_value string The original $new_value string from setValue().
+     * @param $data int The raw data, that can be modifed.
+     * @return int The modified data.
+     */
+    protected function modifyValueBeforeSetting($operation, $new_value, $data)
+    {
+        //Do nothing on default
+        return $data;
     }
 
     /**
@@ -167,7 +181,8 @@ abstract class BasePermission
      * @return array All availabel operations.
      * @throws NotImplementedException When this function is not implemented in child classes, this exception is thrown.
      */
-    public static function listOperations(){
+    public static function listOperations()
+    {
         throw new NotImplementedException(_("listOperations() ist in nicht implementiert"));
     }
 
@@ -176,7 +191,7 @@ abstract class BasePermission
      * @param $data int The data from where the bits should be extracted from.
      * @param $n int The number of the lower bit (of the pair) that should be read. Starting from zero.
      */
-    protected static function readBitPair($data, $n)
+    final protected static function readBitPair($data, $n)
     {
         if (!is_int($data) || !is_int($n)) {
             throw new \InvalidArgumentException(_("Die Parameter müssen alles gültige Integervariablen sein!"));
@@ -196,7 +211,7 @@ abstract class BasePermission
      * @param $new int The new value of the pair.
      * @return int The new data with the modified pair.
      */
-    protected static function writeBitPair($data, $n, $new)
+    final protected static function writeBitPair($data, $n, $new)
     {
         if (!is_int($data) || !is_int($n) || !is_int($new)) {
             throw new \InvalidArgumentException(_("Die Parameter müssen alles gültige Integervariablen sein!"));

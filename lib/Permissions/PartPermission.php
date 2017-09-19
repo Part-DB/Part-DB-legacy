@@ -16,7 +16,6 @@ class PartPermission extends BasePermission
     const EDIT  = "edit";
     const MOVE  = "move";
     const DELETE = "delete";
-    const FOOTPRINT = "footprint";
     const SEARCH    = "search";
     const ALL_PARTS = "all_parts";
 
@@ -40,5 +39,21 @@ class PartPermission extends BasePermission
         $operations[] = static::buildOperationArray(12, static::ALL_PARTS, _("Alle Teile auflisten"));
 
         return $operations;
+    }
+
+    protected function modifyValueBeforeSetting($operation, $new_value, $data)
+    {
+        //Set read permission, too, when you get edit permissions.
+        if (($operation == static::EDIT
+                || $operation == static::DELETE
+                || $operation == static::MOVE
+                || $operation == static::CREATE
+                || $operation == static::SEARCH
+                || $operation == static::ALL_PARTS)
+            && $new_value == static::ALLOW) {
+            return parent::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
+        }
+
+        return $data;
     }
 }
