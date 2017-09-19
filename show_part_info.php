@@ -29,6 +29,7 @@ use PartDB\Database;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\Part;
+use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PartAttributePermission;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
@@ -295,10 +296,12 @@ $html->printHeader($messages, $reload_link);                           // ...rel
 if (! $fatal_error) {
     $html->printTemplate('main');
     $html->printTemplate('properties');
-    if (!($config['suppliers']['disable'] || ($config['part_info']['hide_empty_orderdetails'] && count($all_orderdetails) == 0))) {
+    if (!($config['suppliers']['disable'] || ($config['part_info']['hide_empty_orderdetails'] && count($all_orderdetails) == 0))
+        && $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::READ)) {
         $html->printTemplate('orderdetails');
     }
-    if (!($config['part_info']['hide_empty_attachements'] && isset($attachements_empty))) {
+    if (!($config['part_info']['hide_empty_attachements'] && isset($attachements_empty))
+        && $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::READ)) {
         $html->printTemplate('attachements');
     }
 
