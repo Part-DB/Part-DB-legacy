@@ -17,6 +17,8 @@ class PartPermission extends BasePermission
     const MOVE  = "move";
     const DELETE = "delete";
     const FOOTPRINT = "footprint";
+    const SEARCH    = "search";
+    const ALL_PARTS = "all_parts";
 
     /**
      * Returns an array of all available operations for this Permission.
@@ -34,6 +36,8 @@ class PartPermission extends BasePermission
         $operations[] = static::buildOperationArray(4, static::CREATE, _("Anlegen"));
         $operations[] = static::buildOperationArray(6, static::MOVE, _("Verschieben"));
         $operations[] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
+        $operations[] = static::buildOperationArray(10, static::SEARCH, _("Suchen"));
+        $operations[] = static::buildOperationArray(12, static::ALL_PARTS, _("Alle Teile auflisten"));
 
         return $operations;
     }

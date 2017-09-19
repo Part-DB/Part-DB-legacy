@@ -290,7 +290,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             return "";
         } else {
             if ($show_escape || $this->db_data['partname_hint'] !== "@@") {
-                return $this->db_data['partname_hint'];
+                if (isset($db_data['partname_hint'])) {
+                    return $this->db_data['partname_hint'];
+                }
             } else {
                 return "";
             }
@@ -326,10 +328,11 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             return "";
         } else {
             if ($show_escape || $this->db_data['partname_regex'] !== "@@") {
-                return $this->db_data['partname_regex'];
-            } else {
-                return "";
+                if (isset($this->db_data['partname_regex'])) {
+                    return $this->db_data['partname_regex'];
+                }
             }
+            return "";
         }
     }
 
