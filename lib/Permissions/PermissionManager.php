@@ -39,10 +39,11 @@ class PermissionManager
     const PARTS_FOOTPRINT   = "parts_footprint";
     const PARTS_COMMENT     = "parts_comment";
     const PARTS_STORELOCATION = "parts_storelocation";
-    const PARTS_ORDERDETAIL = "parts_orderdetails";
+    const PARTS_MANUFACTURER = "parts_manufacturer";
+    const PARTS_ORDERDETAILS = "parts_orderdetails";
     const PARTS_PRICES      = "parts_prices";
     const PARTS_ATTACHEMENTS = "parts_attachements";
-    const PARTS_MANUFACTURER = "parts_manufacturer";
+
 
     /**
      * PermissionManager constructor.
@@ -175,13 +176,15 @@ class PermissionManager
         $part_permissions[]     = new PartPermission($this->perm_holder, static::PARTS, _("Allgemein"));
         $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_NAME, _("Name"));
         $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_DESCRIPTION, _("Beschreibung"));
+        $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_COMMENT, _("Kommentar"));
         $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_INSTOCK, _("Vorhanden"));
         $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_MININSTOCK, _("Min. Bestand"));
-        $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_COMMENT, _("Kommentar"));
         $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_STORELOCATION, _("Lagerort"));
         $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_MANUFACTURER, _("Hersteller"));
-        $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_FOOTPRINT, _("Beschreibung"));
-
+        $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_FOOTPRINT, _("Footprint"));
+        $part_permissions[]     = new CPartAttributePermission($this->perm_holder, static::PARTS_ATTACHEMENTS, _("Dateianhänge"));
+        $part_permissions[]     = new CPartAttributePermission($this->perm_holder, static::PARTS_ORDERDETAILS, _("Bestellinformationen"));
+        $part_permissions[]     = new CPartAttributePermission($this->perm_holder, static::PARTS_PRICES, _("Preise"));
 
         $this->permissions[] = new PermissionGroup(_("Bauteile"), $part_permissions);
 
