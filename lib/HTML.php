@@ -26,6 +26,8 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Permissions\PartPermission;
+use PartDB\Permissions\PermissionManager;
 use PartDB\Tools\PDBDebugBar;
 use Smarty;
 
@@ -398,8 +400,8 @@ class HTML
             $tmpl->assign("username", $user->getName());
             $tmpl->assign("firstname", $user->getFirstName());
             $tmpl->assign("lastname", $user->getLastName());
-        }
-        catch (Exception $exception)
+            $tmpl->assign('can_search', $user->canDo(PermissionManager::PARTS, PartPermission::SEARCH));
+        } catch (Exception $exception)
         {
             //TODO
         }
@@ -413,8 +415,7 @@ class HTML
         if (isset($this->variables['ajax_request'])) {
             $tmpl->assign("ajax_request", $this->variables['ajax_request']);
         }
-
-        //Assign informations about, which functions are globally, so we can hide them in the header
+        
         $tmpl->assign('devices_disabled', $config['devices']['disable']);
         $tmpl->assign('footprints_disabled', $config['footprints']['disable']);
         $tmpl->assign('manufacturers_disabled', $config['manufacturers']['disable']);
@@ -519,7 +520,7 @@ class HTML
         //Prevents XSS
         $tmpl->escape_html = true;
 
-        if($this->redirect_url == "") { //Dont print template, if the page should be redirected.
+        if ($this->redirect_url == "") { //Dont print template, if the page should be redirected.
             $tmpl->display($smarty_template);
         }
     }

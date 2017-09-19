@@ -127,6 +127,8 @@
 
                 <!-- Navbar -->
                 <div class="collapse navbar-collapse navbar-right" id="searchbar">
+
+                    {if isset($can_search) && $can_search}
                     <!-- Searchbar -->
                     <form class="navbar-form " action="{$relative_path}show_search_parts.php" method="get">
                             <div class="btn-group">
@@ -166,6 +168,7 @@
                             <input type="search" class="form-control" placeholder="{t}Suche{/t}" name="keyword">
                             <button type="submit" id="search-submit" class="btn btn-default">{t}Los!{/t}</button>
                     </form>
+                    {/if}
                 </div><!-- /.navbar-collapse -->
 
 

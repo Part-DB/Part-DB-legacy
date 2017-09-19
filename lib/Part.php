@@ -1989,7 +1989,24 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         $keyword = trim($keyword);
 
-        $current_user->tryDo(PermissionManager::PARTS, PartPermission::SEARCH);
+        $current_user->tryDo(PermissionManager::PARTS, PartPermission::SEARCH);#
+
+        //Let the user only search properties, for which he has access
+        $part_name = $part_name
+            && $current_user->canDo(PermissionManager::PARTS_NAME, PartAttributePermission::READ);
+        $part_description = $part_description
+            && $current_user->canDo(PermissionManager::PARTS_DESCRIPTION, PartAttributePermission::READ);
+        $part_comment = $part_comment
+            && $current_user->canDo(PermissionManager::PARTS_COMMENT, PartAttributePermission::READ);
+        $footprint_name = $footprint_name
+            && $current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::READ);
+        $category_name = $category_name
+            && $current_user->canDo(PermissionManager::PARTS, PartPermission::READ);
+        $storelocation_name = $storelocation_name
+            && $current_user->canDo(PermissionManager::PARTS_STORELOCATION, PartAttributePermission::READ);
+        $manufacturer_name = $manufacturer_name
+            && $current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::READ);
+        //TODO: Implement missing permissions.
 
         //When searchstring begins and ends with a backslash, treat the input as regex query
         if (substr($keyword, 0, 1) === '\\' &&  substr($keyword, -1) === '\\') {
