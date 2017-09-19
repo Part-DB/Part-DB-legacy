@@ -90,6 +90,9 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
+    //Check permission
+    $current_user->tryDo(PermissionManager::PARTS, PartPermission::READ);
+
     $part               = new Part($database, $current_user, $log, $part_id);
     $footprint          = $part->getFootprint();
     $storelocation      = $part->getStorelocation();
@@ -155,17 +158,18 @@ if (! $fatal_error) {
  *
  *********************************************************************************/
 
-
-$properties = $part->getPropertiesLoop();
-$html->setLoop("properties_loop", $properties);
-
-// global settings
-$html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-$html->setVariable('popup_width', $config['popup']['width'], 'integer');
-$html->setVariable('popup_height', $config['popup']['height'], 'integer');
-
 if (! $fatal_error) {
     try {
+
+        $properties = $part->getPropertiesLoop();
+        $html->setLoop("properties_loop", $properties);
+
+// global settings
+        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
+        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
+
+
         //Set title
         $title = _('Detailinfo') . ': ' . $part->getName() . '';
         $html->setTitle($title);

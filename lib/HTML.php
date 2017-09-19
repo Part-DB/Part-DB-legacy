@@ -415,7 +415,7 @@ class HTML
         if (isset($this->variables['ajax_request'])) {
             $tmpl->assign("ajax_request", $this->variables['ajax_request']);
         }
-        
+
         $tmpl->assign('devices_disabled', $config['devices']['disable']);
         $tmpl->assign('footprints_disabled', $config['footprints']['disable']);
         $tmpl->assign('manufacturers_disabled', $config['manufacturers']['disable']);
