@@ -9,6 +9,8 @@
 namespace PartDB\Exceptions;
 
 
+use Throwable;
+
 class UserNotAllowedException extends \RuntimeException
 {
 

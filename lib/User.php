@@ -612,7 +612,13 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     public function tryDo($perm_name, $perm_operation)
     {
         if ($this->canDo($perm_name, $perm_operation) == false) {
-            throw new UserNotAllowedException(_("Der aktuelle Benutzer darf die gewünschte Operation nicht durchführen!"));
+            $group_title = $this->perm_manager->getPermGroupTitle($perm_name);
+            $perm = $this->perm_manager->getPermission($perm_name);
+            $perm_description = $perm->getDescription();
+            $op_description = $perm::opToDescription($perm_operation);
+            $str = _("Der aktuelle Benutzer darf die gewünschte Operation nicht durchführen!");
+            $str = $str . " ($group_title->$perm_description: $op_description)";
+            throw new UserNotAllowedException($str);
         }
     }
 }

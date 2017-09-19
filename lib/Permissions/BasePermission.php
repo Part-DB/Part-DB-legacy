@@ -143,11 +143,11 @@ abstract class BasePermission
 
     /**
      * Gets a trivial name for the operation.
-     * @param $op static The operation (name) for which the operation should be determined.
+     * @param $op string The operation (name) for which the operation should be determined.
      * @return static The trivial name for the operation.
      * @throws \InvalidArgumentException If no operation with the given name exists.
      */
-    protected static function opToDescription($op)
+    public static function opToDescription($op)
     {
         $op = mb_strtolower($op);
 
@@ -155,7 +155,7 @@ abstract class BasePermission
 
         foreach ($operations as $operation) {
             if ($operation["name"] == $op) {
-                return $op["description"];
+                return $operation["description"];
             }
         }
 

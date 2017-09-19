@@ -145,6 +145,25 @@ class PermissionManager
         throw new \InvalidArgumentException(_("Keine Permission mit dem gegebenen Namen vorhanden!"));
     }
 
+    /**
+     * Gets the title of the permission Group, in which the permission with the given name is.
+     * @param $perm_name string The name of the permissions, whichs permission group title should be determined.
+     * @return string The title of the permission group.
+     */
+    public function getPermGroupTitle($perm_name)
+    {
+        foreach ($this->permissions as $perm_group) {
+            $perms = $perm_group->getPermissions();
+            foreach ($perms as $perm) {
+                if ($perm->getName() == $perm_name) {
+                    return $perm_group->getTitle();
+                }
+            }
+        }
+
+        throw new \InvalidArgumentException(_("Keine Permission mit dem gegebenen Namen vorhanden!"));
+    }
+
 
     /**
      * Add all wanted permissions to $this->permissions.
