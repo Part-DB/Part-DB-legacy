@@ -116,18 +116,31 @@ abstract class BasePermission
     /**
      * Generates the a template loop, for this permission.
      * @param $read_only boolean When true, all checkboxes are disabled (greyed out)
+     * @param $inherit boolean If true, inherit values, are resolved.
      * @return array The template loop
      */
-    public function generateLoopRow($read_only = false)
+    public function generateLoopRow($read_only = false, $inherit = false)
     {
         $all_ops = static::listOperations();
 
         $ops = array();
 
         foreach ($all_ops as $op) {
+            $val = $this->getValue($op["name"]);
+
+            if ($inherit && $val == static::INHERIT) {
+                //Try to inherit permission
+                if ($this->perm_holder->getParentPermissionManager() == null) {
+                    $val = static::DISALLOW; //Default to disallow
+                } else {
+                    $this->perm_holder->getParentPermissionManager()->getPermissionValue($this->getName(), $op['name'], true);
+                }
+
+            }
+
             $ops[] = array("name" => $op["name"],
                 "description" => $op["description"],
-                "value" => $this->getValue($op["name"]));
+                "value" => $val);
         }
 
         return array("name" => $this->getName(),
