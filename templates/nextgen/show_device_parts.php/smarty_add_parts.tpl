@@ -7,9 +7,11 @@
                 <label class="control-label col-md-2">{t}Suchwort:{/t}</label>
                 <div class="col-md-10">
                    <div class="input-group">
-                        <input type="text" class="form-control" name="new_part_name" placeholder="{t}Suchwort:{/t}">
+                        <input type="text" class="form-control" name="new_part_name" placeholder="{t}Suchwort:{/t}"
+                            {if !$can_part_create}disabled{/if}>
                         <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit" name="show_searched_parts">{t}Teile auflisten{/t}</button>
+                            <button class="btn btn-default" type="submit" name="show_searched_parts" {if !$can_part_create}disabled{/if}>
+                                    {t}Teile auflisten{/t}</button >
                         </span>
                     </div>
                 </div>

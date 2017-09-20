@@ -14,13 +14,14 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">{t}Name der Kopie:{/t}</label>
                     <div class="col-md-9">
-                        <input type="text" class="form-control" name="copy_new_name" value="{t}Kopie_von_{/t}{$device_name}">
+                        <input type="text" class="form-control" name="copy_new_name"
+                               value="{t}Kopie_von_{/t}{$device_name}" {if !$can_devices_add}disabled{/if}>
                     </div>
                 </div>
                 <div class="form-group">
                     <label class="control-label col-md-3">{t}Übergeordnete Baugruppe:{/t}</label>
                     <div class="col-md-9">
-                        <select class="form-control" name="copy_new_parent_id" size="1">
+                        <select class="form-control" name="copy_new_parent_id" size="1" {if !$can_devices_add}disabled{/if}>
                             {$parent_device_list nofilter}
                         </select>
                     </div>
@@ -29,14 +30,15 @@
                     <label class="control-label col-md-3">{t}Rekursiv:{/t}</label>
                     <div class="col-md-9">
                         <div class="checkbox">
-                            <input type="checkbox" name="copy_recursive">
+                            <input type="checkbox" name="copy_recursive" {if !$can_devices_add}disabled{/if}>
                             <label>{t}Alle Unterbaugruppen mit all deren Teilen auch mitkopieren{/t}</label>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
                     <div class="col-md-9 col-md-offset-3">
-                        <button class="btn btn-success" type="submit" name="copy_device">{t}Kopie anlegen{/t}</button>
+                        <button class="btn btn-success" type="submit" name="copy_device" {if !$can_devices_add}disabled{/if}>
+                            {t}Kopie anlegen{/t}</button>
                     </div>
                 </div>
         </form>

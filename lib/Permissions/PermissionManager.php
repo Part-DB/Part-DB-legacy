@@ -48,6 +48,8 @@ class PermissionManager
 
     const GROUPS            = "system_group_others";
 
+    const DEVICE_PARTS      = "devices_parts";
+
 
     /**
      * PermissionManager constructor.
@@ -206,6 +208,7 @@ class PermissionManager
         $misc_permissions = array();
         $misc_permissions[] = new ToolsPermission($this->perm_holder, static::TOOLS, _("Tools"));
         $misc_permissions[] = new StructuralPermission($this->perm_holder, static::GROUPS, _("Gruppen"));
+        $misc_permissions[] = new DevicePartPermission($this->perm_holder, static::DEVICE_PARTS, _("Baugruppenbauteile"));
         $this->permissions[] = new PermissionGroup(_("Verschiedenes"), $misc_permissions);
     }
 
