@@ -197,7 +197,8 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      */
     public function &getParentPermissionManager()
     {
-        $parent_id = $this->getParentID();
+        //Ask directly, so we dont need any permissions, to resolve perms.
+        $parent_id = $this->db_data['parent_id'];
 
         if ($parent_id < 1) {   //If parent is root, then this object has not a parent perm manager.
             return null;

@@ -46,7 +46,7 @@ class PermissionManager
     const PARTS_ATTACHEMENTS = "parts_attachements";
     const PARTS_ORDER        = "parts_order";
 
-    const GROUPS            = "system_group_others";
+    const GROUPS            = "groups";
 
     const DEVICE_PARTS      = "devices_parts";
 

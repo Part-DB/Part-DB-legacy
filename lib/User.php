@@ -640,7 +640,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     public function &getParentPermissionManager()
     {
         $parent = $this->getGroup();
-        if ($parent->getID() == static::ID_ANONYMOUS) {
+        if ($parent->getID() == 0) {
             //When group is root, then this user doesnt has a parent perm manager.
             $tmp = null;
             return $tmp;

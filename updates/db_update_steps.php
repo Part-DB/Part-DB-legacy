@@ -704,7 +704,7 @@ function get_db_update_steps($current_version)
                 "`email` TINYTEXT,".                                // E-Mail Adresse
                 // Einstellungen und Gruppenzugehörigkeit
                 "`need_pw_change` BOOLEAN NOT NULL DEFAULT '0',".   // Must change password
-                "`group_id` INT NOT NULL,".                     // Gruppen-ID von der Gruppe des Users
+                "`group_id` INT NULL,".                     // Gruppen-ID von der Gruppe des Users
                 // System-Rechte
                 "`perms_system` INT NOT NULL,".                  // Allgemeine Rechte ("Kleinkram")
                 "`perms_groups` INT NOT NULL,".                  // Group managment
@@ -721,7 +721,6 @@ function get_db_update_steps($current_version)
                 "`perms_parts_footprint` SMALLINT NOT NULL,".         // Footprint
                 "`perms_parts_storelocation` SMALLINT NOT NULL,".     // Lagerort
                 "`perms_parts_manufacturer` SMALLINT NOT NULL,".      // Hersteller
-                "`perms_parts_obsolete` SMALLINT NOT NULL,".          // Obsolet
                 "`perms_parts_comment` SMALLINT NOT NULL,".           // Kommentar
                 "`perms_parts_order` SMALLINT NOT NULL,".             // Bestellung
                 "`perms_parts_orderdetails` SMALLINT NOT NULL,".      // Bestellinformationen (Lieferanten, Bestellnummern)
@@ -811,7 +810,7 @@ function get_db_update_steps($current_version)
                 "department='',".
                 "email='',".
                 "need_pw_change='0',".
-                "group_id='0',". // Gruppe 0 existiert nicht in der Datenbank, dies ist nur für den Benutzer "admin" erlaubt
+                "group_id=NULL,".
                 "perms_system='21845',".
                 "perms_groups='21845',".
                 "perms_users='21845',".
@@ -827,6 +826,7 @@ function get_db_update_steps($current_version)
                 "perms_parts_manufacturer='21845',".
                 "perms_parts_prices='21845',".
                 "perms_parts_attachements='21845',".
+                "perms_parts_order='21845',".
                 "perms_devices='21845',".
                 "perms_devices_parts='21845',".
                 "perms_storelocations='21845',".
@@ -836,7 +836,7 @@ function get_db_update_steps($current_version)
                 "perms_tools='21845',".
                 "perms_attachement_types='21845',".
                 "perms_manufacturers='21845,'";
-            
+
 
             // create user "admin"
             $updateSteps[] = "INSERT INTO users SET ".
@@ -847,7 +847,7 @@ function get_db_update_steps($current_version)
                 "department='',".
                 "email='',".
                 "need_pw_change='1',".
-                "group_id='0',". // Gruppe 0 existiert nicht in der Datenbank, dies ist nur für den Benutzer "admin" erlaubt
+                "group_id=NULL,".
                 "perms_system='21845',".
                 "perms_groups='21845',".
                 "perms_users='21845',".
@@ -856,6 +856,7 @@ function get_db_update_steps($current_version)
                 "perms_parts_description='21845',".
                 "perms_parts_instock='21845',".
                 "perms_parts_mininstock='21845',".
+                "perms_parts_order='21845',".
                 "perms_parts_footprint='21845',".
                 "perms_parts_storelocation='21845',".
                 "perms_parts_comment='21845',".
