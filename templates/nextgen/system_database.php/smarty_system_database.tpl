@@ -2,7 +2,7 @@
 
 {if $refresh_navigation_frame}
     <script type="text/javascript">
-        location.reload();
+        AjaxUI.getInstance().updateTrees();
     </script>
 {/if}
 

@@ -258,7 +258,7 @@ var AjaxUI = (function () {
         console.log(event);
         //If it was a server error and response is not empty, show it to user.
         if (request.status == 500 && request.responseText !== "") {
-            $("html").html(request.responseText);
+            console.log("Response:" + request.responseText);
         }
     };
     /**

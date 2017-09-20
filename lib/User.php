@@ -56,9 +56,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 {
 
     /** The User id of the anonymous user */
-    const ID_ANONYMOUS      = 0;
+    const ID_ANONYMOUS      = 1;
     /** The user id of the main admin user */
-    const ID_ADMIN          = 1;
+    const ID_ADMIN          = 2;
 
     /********************************************************************************
      *
@@ -104,7 +104,10 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             $current_user = $this;
         }           // --> which one was first: the egg or the chicken? :-)
 
+
         parent::__construct($database, $current_user, $log, 'users', $id, true, $data);
+
+
 
         $this->perm_manager = new PermissionManager($this);
     }
@@ -432,9 +435,12 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         $query = 'SELECT * FROM users WHERE name = ?';
         $query_data = $database->query($query, array($username));
 
-        if(count($query_data) > 1)
-        {
-            throw new Exception("Die Abfrage des Nutzernamens hat mehrere Nutzer ergeben");
+        if (count($query_data) > 1) {
+            throw new Exception(_("Die Abfrage des Nutzernamens hat mehrere Nutzer ergeben"));
+        }
+
+        if (count($query_data) == 0) {
+            throw new Exception(_("Kein Benutzer mit folgendem Benutzernamen vorhanden:") . " " .$username);
         }
 
         $user_data = $query_data[0];
@@ -448,7 +454,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public static function isLoggedIn()
     {
-        return self::getLoggedInID() > 0;
+        return self::getLoggedInID() > static::ID_ANONYMOUS;
     }
 
     /**
@@ -457,18 +463,18 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public static function getLoggedInID()
     {
-        if (!isset($_SESSION['user']) || $_SESSION['user']<=0) {
-            return 0;   //User anonymous.
+        if (!isset($_SESSION['user']) || $_SESSION['user']<=static::ID_ANONYMOUS) {
+            return static::ID_ANONYMOUS;   //User anonymous.
         } else {
             try {
                 $db = new Database();
                 $query = "SELECT id FROM users WHERE id = ?";
                 $results = $db->query($query, array($_SESSION['user']));
                 if (count($results) !== 1) { //If not exactly one user with the id exists, we are not logged in.
-                    return 0;
+                    return static::ID_ANONYMOUS;
                 }
             } catch (Exception $ex) {
-                return 0; //If an error happened, we are not logged in.
+                return static::ID_ANONYMOUS; //If an error happened, we are not logged in.
             }
 
             return $_SESSION['user'];
@@ -491,8 +497,15 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             $log = new Log($database);
         }
         if (!is_object(static::$loggedin_user)) {
-            $var = null;
-            static::$loggedin_user = new User($database, $var, $log, $loggedin_ID);
+            if ($database->doesTableExist('users')) {
+                $var = null;
+                static::$loggedin_user = new User($database, $var, $log, $loggedin_ID);
+            } else {
+                $var = null;
+                //When no user table exists, create a fake user, with all needed permission
+                return new User($database, $var, $log, 0, array("perms_system_database" => 21845));
+            }
+
         } else { //A user is cached...
             //Check if the the cached user, is the one we want!
             if (static::$loggedin_user->getID() != $loggedin_ID) {
@@ -527,7 +540,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public static function logout()
     {
-        $_SESSION['user'] = 0;
+        $_SESSION['user'] = static::ID_ANONYMOUS;
         return true;
     }
 
@@ -627,7 +640,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     public function &getParentPermissionManager()
     {
         $parent = $this->getGroup();
-        if ($parent->getID() == 0) {
+        if ($parent->getID() == static::ID_ANONYMOUS) {
             //When group is root, then this user doesnt has a parent perm manager.
             $tmp = null;
             return $tmp;
