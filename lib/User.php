@@ -678,7 +678,8 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             /** @var User $user */
             $selected = $user->getID() == $selected_id ? " selected" : "";
             $no_pw    = $user->hasNoPassword() ? _("  [Kein Password]") : "";
-            $html[] = "<option value='" . $user->getID()  . "'" . $selected . ">" . $user->getFullName(true) . $no_pw . "</option>";
+            $is_current =  $user->getID() == static::getLoggedInID() ? _("  [Aktueller Nutzer]") : "";
+            $html[] = "<option value='" . $user->getID()  . "'" . $selected . ">" . $user->getFullName(true) . $no_pw . $is_current . "</option>";
         }
         return implode("\n", $html);
     }
