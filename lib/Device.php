@@ -27,6 +27,7 @@ namespace PartDB;
 
 use Exception;
 use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\StructuralPermission;
 
 /**
  * @file Device.php
@@ -277,6 +278,7 @@ class Device extends Base\PartsContainingDBElement
      */
     public function getParts($recursive = false, $hide_obsolet_and_zero = false)
     {
+        $this->current_user->tryDo(static::getPermissionName(), StructuralPermission::LIST_PARTS);
         if (! is_array($this->parts)) {
             $this->parts = array();
 
