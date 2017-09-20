@@ -336,6 +336,16 @@
                         </div>
                     </div>
 
+                    <div class="form-group">
+                        <div class="col-sm-10 col-sm-offset-2">
+                            <div class="checkbox">
+                                <input type="checkbox" name="gravatar_enable" {if $gravatar_enable} checked{/if}>
+                                <label for="downloads_enable">{t}Benutze Gravatar für Benutzeravatare.{/t}</label>
+                            </div>
+                            <p class="help-block"><b>{t}Achtung:{/t}</b> {t}Wenn diese Option aktiv ist, werden die Email Addressen der Benutzer in MD5 gehashter Form an die Server von Gravatar gesendet.{/t}</p>
+                        </div>
+                    </div>
+
                     <br>
 
                 </div>

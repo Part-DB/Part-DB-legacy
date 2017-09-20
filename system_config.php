@@ -137,6 +137,9 @@ $info_hide_actions              = isset($_REQUEST['info_hide_actions']);
 $info_hide_empty_orderdetails   = isset($_REQUEST['info_hide_empty_orderdetails']);
 $info_hide_empty_attachements   = isset($_REQUEST['info_hide_empty_attachements']);
 
+//User settings
+$use_gravatar                   = isset($_REQUEST['gravatar_enable']);
+
 $action = 'default';
 if (isset($_REQUEST["apply"])) {
     $action = 'apply';
@@ -218,6 +221,8 @@ if (! $fatal_error) {
             $config['part_info']['hide_actions']                = $info_hide_actions;
             $config['part_info']['hide_empty_attachements']     = $info_hide_empty_attachements;
             $config['part_info']['hide_empty_orderdetails']     = $info_hide_empty_orderdetails;
+
+            $config['user']['avatars']['use_gravatar']          = $use_gravatar;
 
             if (! $config['is_online_demo']) {
                 // settings which should not be able to change in the online demo
@@ -359,6 +364,7 @@ $html->setVariable('info_hide_empty_attachements', $config['part_info']['hide_em
 
 //Misc
 $html->setVariable("downloads_enable", $config['allow_server_downloads'], 'boolean');
+$html->setVariable('gravatar_enable', $config['user']['avatars']['use_gravatar'], 'boolean');
 
 // check if the server supports the selected language and print a warning if not
 if (! ownSetlocale(LC_ALL, $config['language'])) {

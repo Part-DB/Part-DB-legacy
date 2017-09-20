@@ -3,7 +3,12 @@
         {t}Benutzerinformationen{/t}</div>
     <div class="panel-body">
         <div class="col-md-2">
+            {*
             <i class="fa fa-user fa-5x fa-border fa-pull-left" aria-hidden="true"></i>
+             *}
+            <div class="thumbnail">
+                <img class="img-responsive img-rounded" src="{$avatar_url}">
+            </div>
         </div>
         <div class="col-md-5">
             <div class="form form-horizontal">

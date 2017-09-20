@@ -101,6 +101,7 @@ if (! $fatal_error) {
         $html->setVariable("email", $selected_user->getEmail(), "string");
         $html->setVariable("department", $selected_user->getDepartment(), "string");
         $html->setVariable("group", $selected_user->getGroup()->getFullPath(), "string");
+        $html->setVariable('avatar_url', $selected_user->getAvatar(), "string");
 
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
