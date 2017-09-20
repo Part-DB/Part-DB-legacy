@@ -1,10 +1,4 @@
-<div class="panel panel-primary">
-    <div class="panel-heading">Benutzereinstellungen</div>
-    <div class="panel-body">
-        TODO
-    </div>
-</div>
-
+{locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
     <div class="panel-heading"><i class="fa fa-key" aria-hidden="true"></i>
         {t}Passwort ändern{/t}</div>

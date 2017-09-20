@@ -32,6 +32,7 @@ use PartDB\Interfaces\ISearchable;
 use PartDB\Permissions\BasePermission;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\SelfPermission;
 use PartDB\Permissions\UserPermission;
 
 /**
@@ -348,6 +349,30 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         //Override this function, so we can check if user has the needed permissions.
         $arr = array();
+
+        //Make exception for logged in user
+        if ($this->isLoggedInUser()) {
+            if (isset($new_values['password'])) {
+                $arr['password'] = $new_values['password'];
+            }
+            if ($this->current_user->canDo(PermissionManager::SELF, SelfPermission::EDIT_INFOS)) {
+                if (isset($new_values['first_name'])) {
+                    $arr['first_name'] = $new_values['first_name'];
+                }
+                if (isset($new_values['last_name'])) {
+                    $arr['last_name'] = $new_values['last_name'];
+                }
+                if (isset($new_values['department'])) {
+                    $arr['department'] = $new_values['department'];
+                }
+            }
+            if ($this->current_user->canDo(PermissionManager::SELF, UserPermission::EDIT_USERNAME)) {
+                if (isset($new_values['name'])) {
+                    $arr['name'] = $new_values['name'];
+                }
+            }
+        }
+
         if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_USERNAME)) {
             if (isset($new_values['name'])) {
                 $arr['name'] = $new_values['name'];

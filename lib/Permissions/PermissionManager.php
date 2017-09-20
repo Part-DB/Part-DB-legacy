@@ -50,6 +50,7 @@ class PermissionManager
     const USERS             = "users";
 
     const DEVICE_PARTS      = "devices_parts";
+    const SELF              = "self";
 
 
     /**
@@ -214,6 +215,7 @@ class PermissionManager
         $this->permissions[] = new PermissionGroup(_("System"), $system_permissions);
 
         $misc_permissions = array();
+        $misc_permissions[] = new SelfPermission($this->perm_holder, static::SELF, _("Eigenen Benutzer bearbeiten"));
         $misc_permissions[] = new ToolsPermission($this->perm_holder, static::TOOLS, _("Tools"));
 
         $misc_permissions[] = new DevicePartPermission($this->perm_holder, static::DEVICE_PARTS, _("Baugruppenbauteile"));
