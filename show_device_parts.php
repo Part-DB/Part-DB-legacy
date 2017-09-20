@@ -357,7 +357,8 @@ if (! $fatal_error) {
  *
  *********************************************************************************/
 
-if (! $fatal_error) {
+//Generate the parts list, only if a device id was set.
+if (! $fatal_error && $device_id > 0) {
     try {
         $device_parts = $device->getParts();
         // don't forget: $device_parts contains "DevicePart"-objects, not "Part"-objects!!

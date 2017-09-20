@@ -279,6 +279,17 @@ class Device extends Base\PartsContainingDBElement
     public function getParts($recursive = false, $hide_obsolet_and_zero = false)
     {
         $this->current_user->tryDo(static::getPermissionName(), StructuralPermission::LIST_PARTS);
+        return $this->getPartsWithoutPermCheck($recursive, $hide_obsolet_and_zero);
+    }
+
+    /**
+     * Similar to getParts() but without check of the Permission.
+     * For use in internal functions, like getPartsCount() or getPartsSumCount()
+     * @param bool $recursive
+     * @param bool $hide_obsolet_and_zero
+     * @return array|null
+     */
+    protected function getPartsWithoutPermCheck($recursive = false, $hide_obsolet_and_zero = false) {
         if (! is_array($this->parts)) {
             $this->parts = array();
 
@@ -320,7 +331,7 @@ class Device extends Base\PartsContainingDBElement
      */
     public function getPartsCount($recursive = false)
     {
-        $device_parts = $this->getParts($recursive);
+        $device_parts = $this->getPartsWithoutPermCheck($recursive);
 
         return count($device_parts);
     }
@@ -337,7 +348,7 @@ class Device extends Base\PartsContainingDBElement
     public function getPartsSumCount($recursive = false)
     {
         $count = 0;
-        $device_parts = $this->getParts($recursive);
+        $device_parts = $this->getPartsWithoutPermCheck($recursive);
 
         foreach ($device_parts as $device_part) {
             /** @var DevicePart $device_part */
@@ -370,7 +381,7 @@ class Device extends Base\PartsContainingDBElement
     public function getTotalPrice($as_money_string = true, $recursive = false)
     {
         $price = 0;
-        $device_parts = $this->getParts($recursive);
+        $device_parts = $this->getPartsWithoutPermCheck($recursive);
 
         foreach ($device_parts as $device_part) {
             /** @var DevicePart $device_part */
