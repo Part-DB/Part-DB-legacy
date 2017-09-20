@@ -47,7 +47,7 @@
                             <strong>{t}Neuen Benutzer hinzufügen:{/t}</strong>
                         {else}
                             {if isset($name)}
-                                <strong>{t}Benutzer bearbeiten:{/t}</strong>
+                                <strong>{t}Benutzer bearbeiten:{/t}</strong> {$name}
                             {else}
                                 <strong>{t}Es ist kein Benutzer angewählt!{/t}</strong>
                             {/if}
