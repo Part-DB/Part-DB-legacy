@@ -725,6 +725,7 @@ function get_db_update_steps($current_version)
                 "`perms_parts_manufacturer` INT(3) NOT NULL,".      // Hersteller
                 "`perms_parts_obsolete` INT(3) NOT NULL,".          // Obsolet
                 "`perms_parts_comment` INT(3) NOT NULL,".           // Kommentar
+                "`perms_parts_order` INT(3) NOT NULL,".             // Bestellung
                 "`perms_parts_orderdetails` INT(3) NOT NULL,".      // Bestellinformationen (Lieferanten, Bestellnummern)
                 "`perms_parts_prices` INT(3) NOT NULL,".            // Preisinformationen
                 "`perms_parts_attachements` INT(3) NOT NULL,".      // Dateianhänge (Bilder, Datenblätter, ...)

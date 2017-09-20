@@ -43,6 +43,7 @@ class PermissionManager
     const PARTS_ORDERDETAILS = "parts_orderdetails";
     const PARTS_PRICES      = "parts_prices";
     const PARTS_ATTACHEMENTS = "parts_attachements";
+    const PARTS_ORDER        = "parts_order";
 
 
     /**
@@ -185,6 +186,7 @@ class PermissionManager
         $part_permissions[]     = new CPartAttributePermission($this->perm_holder, static::PARTS_ATTACHEMENTS, _("Dateianhänge"));
         $part_permissions[]     = new CPartAttributePermission($this->perm_holder, static::PARTS_ORDERDETAILS, _("Bestellinformationen"));
         $part_permissions[]     = new CPartAttributePermission($this->perm_holder, static::PARTS_PRICES, _("Preise"));
+        $part_permissions[]     = new PartAttributePermission($this->perm_holder, static::PARTS_ORDER, _("Bestellungen"));
 
         $this->permissions[] = new PermissionGroup(_("Bauteile"), $part_permissions);
 

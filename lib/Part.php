@@ -352,6 +352,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function getOrderOrderdetails()
     {
+        if (!$this->current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ)) {
+            return null;
+        }
+
         if ((! is_object($this->order_orderdetails)) && ($this->db_data['order_orderdetails_id'] != null)) {
             $this->order_orderdetails = new Orderdetails(
                 $this->database,
@@ -376,6 +380,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function getOrderQuantity()
     {
+        if (!$this->current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ)) {
+            return -1;
+        }
+
         return $this->db_data['order_quantity'];
     }
 
@@ -389,6 +397,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function getMinOrderQuantity($with_devices = true)
     {
+        if (!$this->current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ)) {
+            return -1;
+        }
+
         if ($with_devices) {
             $count_must_order = 0;      // for devices with "order_only_missing_parts == false"
             $count_should_order = 0;    // for devices with "order_only_missing_parts == true"
@@ -417,6 +429,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function getManualOrder()
     {
+        if (!$this->current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ)) {
+            return false;
+        }
+
         return $this->db_data['manual_order'];
     }
 
@@ -1202,6 +1218,17 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         if ($this->current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
             if (isset($new_values['id_manufacturer'])) {
                 $arr['id_manufacturer'] = $new_values['id_manufacturer'];
+            }
+        }
+        if ($this->current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT)) {
+            if (isset($new_values['order_orderdetails_id'])) {
+                $arr['order_orderdetails_id'] = $new_values['order_orderdetails_id'];
+            }
+            if (isset($new_values['order_quantity'])) {
+                $arr['order_quantity'] = $new_values['order_quantity'];
+            }
+            if (isset($new_values['manual_order'])) {
+                $arr['manual_order'] = $new_values['manual_order'];
             }
         }
 
