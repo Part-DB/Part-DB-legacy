@@ -28,6 +28,7 @@ namespace PartDB;
 use Exception;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\StructuralPermission;
 use PartDB\Tools\PDBDebugBar;
 use Smarty;
 
@@ -401,6 +402,9 @@ class HTML
             $tmpl->assign("firstname", $user->getFirstName());
             $tmpl->assign("lastname", $user->getLastName());
             $tmpl->assign('can_search', $user->canDo(PermissionManager::PARTS, PartPermission::SEARCH));
+            $tmpl->assign('can_category', $user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ)
+                    && $user->canDo(PermissionManager::CATEGORIES, StructuralPermission::LIST_PARTS));
+            $tmpl->assign('can_device', $user->canDo(PermissionManager::DEVICES, StructuralPermission::READ));
         } catch (Exception $exception)
         {
             //TODO

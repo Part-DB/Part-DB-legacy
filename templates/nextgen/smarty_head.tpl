@@ -185,6 +185,7 @@
                     <nav class="fixed-sidebar">
                         <div class="">
                             <ul class="nav navmenu-nav">
+                            {if $can_category}
                                 <li id="categories">
                                 <!-- <h4>{t}Kategorien{/t}</h4>-->
                                     <div class="dropdown">
@@ -199,7 +200,8 @@
                                     </div>
                                     <div id="tree-categories"></div>
                                 </li>
-                                {if !$devices_disabled}
+                                {/if}
+                                {if !$devices_disabled && $can_device}
                                 <li id="devices">
                                     <div class="dropdown">
                                         <button class="btn-text dropdown-toggle" type="button" id="dropdownDev" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
