@@ -33,6 +33,7 @@ use PartDB\Interfaces\IAPIModel;
 use PartDB\Part;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\StructuralPermission;
 use PartDB\Permissions\ToolsPermission;
 use PartDB\User;
 
@@ -1030,22 +1031,27 @@ function buildToolsTree($params)
 
     //Edit nodes
     $edit_nodes = array();
-    if (!$disable_devices) {
+    if (!$disable_devices && $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Baugruppen"), BASE_RELATIVE . "/edit_devices.php");
     }
-    $edit_nodes[] = treeviewNode(_("Lagerorte"), BASE_RELATIVE . "/edit_storelocations.php");
-    if (!$disable_footprint) {
+    if ($current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::READ)) {
+        $edit_nodes[] = treeviewNode(_("Lagerorte"), BASE_RELATIVE . "/edit_storelocations.php");
+    }
+    if (!$disable_footprint && $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/edit_footprints.php");
     }
-    $edit_nodes[] = treeviewNode(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
-    if (!$disable_suppliers) {
+    if ($current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ)) {
+        $edit_nodes[] = treeviewNode(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
+    }
+    if (!$disable_suppliers && $current_user->canDo(PermissionManager::SUPPLIERS, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Lieferanten"), BASE_RELATIVE . "/edit_suppliers.php");
     }
-
-    if (!$disable_manufactur) {
+    if (!$disable_manufactur && $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Hersteller"), BASE_RELATIVE . "/edit_manufacturers.php");
     }
-    $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
+    if($current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ)) {
+        $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
+    }
 
     //Developer nodes
     $dev_nodes = array();
@@ -1059,8 +1065,9 @@ function buildToolsTree($params)
     if (!empty($tools_nodes)) {
         $tree[] = treeviewNode(_("Tools"), null, $tools_nodes);
     }
-
-    $tree[] = treeviewNode(_("Bearbeiten"), null, $edit_nodes);
+    if (!empty($edit_nodes)) {
+        $tree[] = treeviewNode(_("Bearbeiten"), null, $edit_nodes);
+    }
     $tree[] = treeviewNode(_("Zeige"), null, $show_nodes);
     if (!$disable_config) {
         $tree[] = treeviewNode(_("System"), null, $system_nodes);

@@ -88,6 +88,8 @@ try {
     $current_user           = User::getLoggedInUser($database, $log);
     $root_attachement_type  = new AttachementType($database, $current_user, $log, 0);
 
+    $current_user->tryDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ);
+
     if ($selected_id > 0) {
         $selected_attachement_type = new AttachementType($database, $current_user, $log, $selected_id);
     } else {

@@ -118,6 +118,8 @@ try {
     $current_user       = User::getLoggedInUser($database, $log);
     $root_footprint     = new Footprint($database, $current_user, $log, 0);
 
+    $current_user->tryDo(PermissionManager::FOOTRPINTS, StructuralPermission::READ);
+
     if ($selected_id > 0) {
         $selected_footprint = new Footprint($database, $current_user, $log, $selected_id);
     } else {
