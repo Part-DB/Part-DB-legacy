@@ -13,6 +13,7 @@ use PartDB\Base\DBElement;
 use PartDB\Interfaces\IHasPermissions;
 use PartDB\Permissions\BasePermission;
 use PartDB\Permissions\StructuralPermission;
+use Symfony\Component\VarDumper\Cloner\Stub;
 
 class PermissionManager
 {
@@ -44,6 +45,8 @@ class PermissionManager
     const PARTS_PRICES      = "parts_prices";
     const PARTS_ATTACHEMENTS = "parts_attachements";
     const PARTS_ORDER        = "parts_order";
+
+    const GROUPS            = "system_group_others";
 
 
     /**
@@ -202,6 +205,7 @@ class PermissionManager
 
         $misc_permissions = array();
         $misc_permissions[] = new ToolsPermission($this->perm_holder, static::TOOLS, _("Tools"));
+        $misc_permissions[] = new StructuralPermission($this->perm_holder, static::GROUPS, _("Gruppen"));
         $this->permissions[] = new PermissionGroup(_("Verschiedenes"), $misc_permissions);
     }
 

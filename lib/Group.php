@@ -243,6 +243,11 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
         return $database->getCountOfRecords('groups');
     }
 
+    public static function getPermissionName()
+    {
+        return PermissionManager::GROUPS;
+    }
+
     /**
      * Adds a new group to the database.
      * @param $database Database The database which should be used for requests.
