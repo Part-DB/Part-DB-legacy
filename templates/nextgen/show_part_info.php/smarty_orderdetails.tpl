@@ -83,7 +83,10 @@
     {else}
         <div class="panel-body">
             {t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}
-            <a class="btn btn-default pull-right hidden-print" class="link-anchor" href="edit_part_info.php?pid={$pid}#orderdetails">{t}Einkaufsinformationen hinzufügen{/t}</a>
+            <a class="btn btn-default pull-right hidden-print link-anchor"
+               href="edit_part_info.php?pid={$pid}#orderdetails"
+               {if !$can_orderdetails_create}disabled{/if}>
+                {t}Einkaufsinformationen hinzufügen{/t}</a>
         </div>
     {/if}
 </div>

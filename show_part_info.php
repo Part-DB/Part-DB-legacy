@@ -277,6 +277,8 @@ $html->setVariable("can_move", $current_user->canDo(PermissionManager::PARTS, Pa
 $html->setVariable("can_read", $current_user->canDo(PermissionManager::PARTS, PartPermission::READ), "bool");
 $html->setVariable("can_instock", $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT), "bool");
 
+$html->setVariable('can_orderdetails_create', $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE), "bool");
+$html->setVariable('can_attachement_create', $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE), "bool");
 
 /********************************************************************************
  *
