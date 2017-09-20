@@ -1238,7 +1238,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             throw new UserNotAllowedException(_("Der aktuelle Benutzer darf die gewünschte Operation nicht durchführen!"));
         }*/
 
-        parent::setAttributes($arr);
+        //Only apply attributes, if $arr contains values.
+        if (!empty($arr)) {
+            parent::setAttributes($arr);
+        }
+
     }
 
     /********************************************************************************
