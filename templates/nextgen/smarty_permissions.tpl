@@ -24,8 +24,9 @@
                         <tr>
                             <td style="vertical-align: middle;"><b>{$perm.description}</b></td>
                             <td>
-                                {foreach $perm.ops as $op}
-                                    <div class="checkbox checkbox-inline">
+                                {foreach from=$perm.ops  item=op key=m}
+                                    <div class="checkbox checkbox-inline"
+                                    {if $m==0}style="margin-left: 10px"{/if}>
                                         <input type="checkbox" class="styled tristate" name="perm/{$perm.name}/{$op.name}"
                                                 {if $op.value == 0} indeterminate="indeterminate"{elseif $op.value == 1} checked="checked"{/if}>
                                         <label>{$op.description}</label>
