@@ -47,6 +47,7 @@ class PermissionManager
     const PARTS_ORDER        = "parts_order";
 
     const GROUPS            = "groups";
+    const USERS             = "users";
 
     const DEVICE_PARTS      = "devices_parts";
 
@@ -207,9 +208,14 @@ class PermissionManager
         $structural_permissions[] = new StructuralPermission($this->perm_holder, static::ATTACHEMENT_TYPES, _("Dateianhänge"));
         $this->permissions[] = new PermissionGroup(_("Datenstrukturen"), $structural_permissions);
 
+        $system_permissions = array();
+        $system_permissions[] = new UserPermission($this->perm_holder, static::USERS, _("Benutzer"));
+        $system_permissions[] = new StructuralPermission($this->perm_holder, static::GROUPS, _("Gruppen"));
+        $this->permissions[] = new PermissionGroup(_("System"), $system_permissions);
+
         $misc_permissions = array();
         $misc_permissions[] = new ToolsPermission($this->perm_holder, static::TOOLS, _("Tools"));
-        $misc_permissions[] = new StructuralPermission($this->perm_holder, static::GROUPS, _("Gruppen"));
+
         $misc_permissions[] = new DevicePartPermission($this->perm_holder, static::DEVICE_PARTS, _("Baugruppenbauteile"));
         $this->permissions[] = new PermissionGroup(_("Verschiedenes"), $misc_permissions);
     }

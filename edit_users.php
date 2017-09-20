@@ -116,14 +116,15 @@ if (! $fatal_error) {
     switch ($action) {
         case 'add':
             try {
-                $new_user = User::add($database, $current_user, $log, $new_name, 0);
-
-                $new_user->setAttributes(array("first_name" => $new_first_name,
+                $data = array("first_name" => $new_first_name,
                     "last_name" => $new_last_name,
                     "department" => $new_department,
                     "email" => $new_email,
                     "group_id" => $new_group_id
-                ));
+                );
+
+                $new_user = User::add($database, $current_user, $log, $new_name, $new_group_id, $data);
+
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
                 //Apply permissions
