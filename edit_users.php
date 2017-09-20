@@ -37,6 +37,8 @@ use PartDB\Database;
 use PartDB\Device;
 use PartDB\HTML;
 use PartDB\Log;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\UserPermission;
 use PartDB\User;
 
 $messages = array();
@@ -237,6 +239,8 @@ $html->setVariable('add_more', $add_more, 'boolean');
 
 if (! $fatal_error) {
     try {
+        $perm_readonly = ! $current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_PERMISSIONS);
+
         if (isset($selected_user) && is_object($selected_user)) {
             $html->setVariable('id', $selected_user->getID(), 'integer');
             $name = $selected_user->getName();
@@ -248,7 +252,7 @@ if (! $fatal_error) {
             $group_id   = $selected_user->getGroup()->getID();
 
             //Permissions loop
-            $perm_loop = $selected_user->getPermissionManager()->generatePermissionsLoop();
+            $perm_loop = $selected_user->getPermissionManager()->generatePermissionsLoop($perm_readonly);
 
         } elseif ($action == 'add') {
             $name = $new_name;
@@ -259,9 +263,9 @@ if (! $fatal_error) {
             $no_password = false;
             //Permissions loop
             if (isset($new_user)) {
-                $perm_loop = $new_user->getPermissionManager()->generatePermissionsLoop();
+                $perm_loop = $new_user->getPermissionManager()->generatePermissionsLoop($perm_readonly);
             } else {
-                $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop();
+                $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop($perm_readonly);
             }
             $group_id = $new_group_id;
         } else {
@@ -272,7 +276,7 @@ if (! $fatal_error) {
             $department = "";
             $no_password = false;
             $group_id = 0;
-            $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop();
+            $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop($perm_readonly);
         }
 
         $html->setVariable('name', $name, 'string');
@@ -296,6 +300,13 @@ if (! $fatal_error) {
         $fatal_error = true;
     }
 }
+
+$html->setVariable('can_create', $current_user->canDo(PermissionManager::USERS, UserPermission::CREATE));
+$html->setVariable('can_delete', $current_user->canDo(PermissionManager::USERS, UserPermission::DELETE));
+$html->setVariable('can_password', $current_user->canDo(PermissionManager::USERS, UserPermission::SET_PASSWORD));
+$html->setVariable('can_infos', $current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_INFOS));
+$html->setVariable('can_group', $current_user->canDo(PermissionManager::USERS, UserPermission::CHANGE_GROUP));
+$html->setVariable('can_username', $current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_USERNAME));
 
 /********************************************************************************
  *

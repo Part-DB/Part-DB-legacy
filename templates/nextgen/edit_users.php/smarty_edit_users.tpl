@@ -5,6 +5,11 @@
     </script>
 {/if}
 
+{if !isset($id) || $id == -1}
+    {assign "can_infos" $can_create}
+    {assign "can_username" $can_create}
+{/if}
+
 <div class="panel panel-primary">
     <div class="panel-heading">
         <i class="fa fa-user" aria-hidden="true"></i>
@@ -78,14 +83,16 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Benutzername*:{/t}</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="name" value="{$name}" placeholder="{t}z.B. m.muster{/t}" required>
+                                    <input type="text" class="form-control" name="name" value="{$name}"
+                                           placeholder="{t}z.B. m.muster{/t}" required {if !$can_username}disabled{/if}>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Gruppe*:{/t}</label>
                                 <div class="col-md-9">
-                                    <select class="form-control selectpicker" data-live-search="true" name="group_id" size="1">
+                                    <select class="form-control selectpicker" data-live-search="true"
+                                            name="group_id" size="1" {if !$can_group}disabled{/if}>
                                          {$group_list nofilter}
                                     </select>
                                 </div>
@@ -94,28 +101,32 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Vorname:{/t}</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="first_name" value="{if isset($first_name)}{$first_name}{/if}" placeholder="{t}z.B. Max{/t}">
+                                    <input type="text" class="form-control" name="first_name" value="{if isset($first_name)}{$first_name}{/if}"
+                                           placeholder="{t}z.B. Max{/t}" {if !$can_infos}disabled{/if}>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Nachname:{/t}</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="last_name" value="{if isset($last_name)}{$last_name}{/if}" placeholder="{t}z.B. Muster{/t}">
+                                    <input type="text" class="form-control" name="last_name" value="{if isset($last_name)}{$last_name}{/if}"
+                                           placeholder="{t}z.B. Muster{/t}" {if !$can_infos}disabled{/if}>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Email:{/t}</label>
                                 <div class="col-md-9">
-                                    <input type="email" class="form-control" name="email" value="{if isset($email)}{$email}{/if}" placeholder="{t}z.B. m.muster@ecorp.com{/t}">
+                                    <input type="email" class="form-control" name="email" value="{if isset($email)}{$email}{/if}"
+                                           placeholder="{t}z.B. m.muster@ecorp.com{/t}" {if !$can_infos}disabled{/if}>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Abteilung:{/t}</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="department" value="{if isset($first_name)}{$department}{/if}" placeholder="{t}z.B. Entwicklung{/t}">
+                                    <input type="text" class="form-control" name="department" value="{if isset($first_name)}{$department}{/if}"
+                                           placeholder="{t}z.B. Entwicklung{/t}" {if !$can_infos}disabled{/if}>
                                 </div>
                             </div>
 
@@ -138,7 +149,7 @@
                                 <label class="control-label col-md-3">{t}Neues Password:{/t}</label>
                                 <div class="col-md-9">
                                     <input type="password" class="form-control" name="password_1" value=""
-                                           placeholder="{t}Neues Password{/t}">
+                                           placeholder="{t}Neues Password{/t}" {if !$can_password}disabled{/if}>
                                 </div>
                             </div>
 
@@ -146,7 +157,7 @@
                                 <label class="control-label col-md-3">{t}Password Bestätigung:{/t}</label>
                                 <div class="col-md-9">
                                     <input type="password" class="form-control" name="password_2" value=""
-                                           placeholder="{t}Password Bestätigung{/t}">
+                                           placeholder="{t}Password Bestätigung{/t}" {if !$can_password}disabled{/if}>
                                 </div>
                             </div>
                         </div>
@@ -160,14 +171,16 @@
                         <div class="form-group">
                             <div class="col-md-9 col-md-offset-3">
                                 {if !isset($id) || $id == -1}
-                                    <button class="btn btn-success" type="submit" name="add">{t}Neuen Benutzer anlegen{/t}</button>
+                                    <button class="btn btn-success" type="submit" name="add" {if !$can_create}disabled{/if}>
+                                        {t}Neuen Benutzer anlegen{/t}</button>
                                     <div class="checkbox">
-                                        <input type="checkbox" name="add_more" {if $add_more}checked{/if}>
+                                        <input type="checkbox" name="add_more" {if $add_more}checked{/if} {if !$can_create}disabled{/if}>
                                         <label>{t}Weiteren Benutzer anlegen{/t}</label>
                                     </div>
                                 {else}
                                     <button class="btn btn-success" type="submit" name="apply">{t}Änderungen übernehmen{/t}</button>
-                                    <button class="btn btn-danger" type="submit" name="delete">{t}Benutzer löschen{/t}</button>
+                                    <button class="btn btn-danger" type="submit" name="delete" {if !$can_delete}disabled{/if}>
+                                        {t}Benutzer löschen{/t}</button>
                                 {/if}
                             </div>
                         </div>

@@ -224,12 +224,12 @@ class PermissionManager
      * Static functions
      *******************************************************/
 
-    public static function defaultPermissionsLoop()
+    public static function defaultPermissionsLoop($read_only = false)
     {
         //Create a temp object for pass by reference.
         $tmp = null;
         $manager = new static($tmp);
-        return $manager->generatePermissionsLoop();
+        return $manager->generatePermissionsLoop($read_only);
 
     }
 }
