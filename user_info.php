@@ -103,6 +103,8 @@ if (! $fatal_error) {
         $html->setVariable("group", $selected_user->getGroup()->getFullPath(), "string");
         $html->setVariable('avatar_url', $selected_user->getAvatar(), "string");
 
+        $html->setLoop('perm_loop', $selected_user->getPermissionManager()->generatePermissionsLoop(true));
+
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -128,6 +130,7 @@ $html->printHeader($messages, $reload_link);                           // ...rel
 
 if (! $fatal_error) {
     $html->printTemplate('main');
+    $html->printTemplate('permissions');
 }
 
 

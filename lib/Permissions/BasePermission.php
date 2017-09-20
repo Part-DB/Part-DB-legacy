@@ -113,7 +113,12 @@ abstract class BasePermission
         return $this->description;
     }
 
-    public function generateLoopRow()
+    /**
+     * Generates the a template loop, for this permission.
+     * @param $read_only boolean When true, all checkboxes are disabled (greyed out)
+     * @return array The template loop
+     */
+    public function generateLoopRow($read_only = false)
     {
         $all_ops = static::listOperations();
 
@@ -127,6 +132,7 @@ abstract class BasePermission
 
         return array("name" => $this->getName(),
             "description" => $this->getDescription(),
+            "readonly"    => $read_only,
             "ops"   => $ops);
     }
 

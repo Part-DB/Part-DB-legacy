@@ -46,13 +46,14 @@ class PermissionGroup
 
     /**
      * Generates a template loop for smarty_permissions.tpl (the permissions table).
+     * @param $read_only boolean When true, all checkboxes are disabled (greyed out)
      * @return array The loop for the permissions table.
      */
-    public function generatePermissionsLoop()
+    public function generatePermissionsLoop($read_only = false)
     {
         $perms = array();
         foreach ($this->permissions as $permission) {
-            $perms[] = $permission->generateLoopRow();
+            $perms[] = $permission->generateLoopRow($read_only);
         }
 
         return array("permissions" => $perms,

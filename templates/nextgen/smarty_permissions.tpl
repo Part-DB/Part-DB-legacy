@@ -28,7 +28,8 @@
                                     <div class="checkbox checkbox-inline"
                                     {if $m==0}style="margin-left: 10px"{/if}>
                                         <input type="checkbox" class="styled tristate" name="perm/{$perm.name}/{$op.name}"
-                                                {if $op.value == 0} indeterminate="indeterminate"{elseif $op.value == 1} checked="checked"{/if}>
+                                                {if $op.value == 0} indeterminate="indeterminate"{elseif $op.value == 1} checked="checked"{/if}
+                                        {if $perm.readonly}disabled{/if}>
                                         <label>{$op.description}</label>
                                     </div>
                                 {/foreach}
