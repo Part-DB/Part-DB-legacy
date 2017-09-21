@@ -25,7 +25,12 @@
 
 include_once('start_session.php');
 
+use PartDB\Database;
 use PartDB\HTML;
+use PartDB\Log;
+use PartDB\Permissions\ConfigPermission;
+use PartDB\Permissions\PermissionManager;
+use PartDB\User;
 
 // this file enables write permissions in the DokuWiki
 define('DOKUWIKI_PERMS_FILENAME', BASE.'/data/ENABLE-DOKUWIKI-WRITE-PERMS.txt');
@@ -157,10 +162,10 @@ if (isset($_REQUEST["change_admin_password"])) {
 $html = new HTML($config['html']['theme'], /*$config['html']['custom_css']*/ $custom_css, _('Konfiguration'));
 
 try {
-    //$database           = new Database();
-    //$log                = new Log($database);
+    $database           = new Database();
+    $log                = new Log($database);
     //$system             = new System($database, $log);
-    //$current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -253,6 +258,7 @@ if (! $fatal_error) {
             }
 
             try {
+                $current_user->tryDo(PermissionManager::CONFIG, ConfigPermission::EDIT_CONFIG);
                 saveConfig();
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
                 //header('Location: system_config.php'); // Reload the page that we can see if the new settings are stored successfully --> does not work correctly?!
@@ -265,6 +271,7 @@ if (! $fatal_error) {
 
         case 'change_admin_password':
             try {
+                $current_user->tryDo(PermissionManager::CONFIG, ConfigPermission::CHANGE_ADMIN_PW);
                 if ($config['is_online_demo']) {
                     throw new Exception(_('Diese Funktion steht in der Online-Demo nicht zur Verfügung!'));
                 }
@@ -372,6 +379,12 @@ if (! ownSetlocale(LC_ALL, $config['language'])) {
     $messages[] = array('text' => sprintf(_('Die gewählte Sprache "%s" wird vom Server nicht unterstützt!'), $config['language']), 'color' => 'red', );
     $messages[] = array('text' => _('Bitte installieren Sie diese Sprache oder wählen Sie eine andere.'), 'color' => 'red', );
 }
+
+//Permission variables
+$html->setVariable('can_infos', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::SERVER_INFO));
+$html->setVariable('can_edit', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::EDIT_CONFIG));
+$html->setVariable('can_read', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::READ_CONFIG));
+$html->setVariable('can_password', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::CHANGE_ADMIN_PW));
 
 /********************************************************************************
  *

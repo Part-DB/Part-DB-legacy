@@ -51,6 +51,7 @@ class PermissionManager
     const GROUPS            = "groups";
     const USERS             = "users";
     const DATABASE          = "system_database";
+    const CONFIG            = "system_config";
 
     const DEVICE_PARTS      = "devices_parts";
     const SELF              = "self";
@@ -216,6 +217,7 @@ class PermissionManager
         $system_permissions[] = new UserPermission($this->perm_holder, static::USERS, _("Benutzer"));
         $system_permissions[] = new GroupPermission($this->perm_holder, static::GROUPS, _("Gruppen"));
         $system_permissions[] = new DatabasePermission($this->perm_holder, static::DATABASE, _("Datenbank"));
+        $system_permissions[] = new ConfigPermission($this->perm_holder, static::CONFIG, _("Konfiguration"));
         $this->permissions[] = new PermissionGroup(_("System"), $system_permissions);
 
         $misc_permissions = array();
