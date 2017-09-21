@@ -146,6 +146,10 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function getName()
     {
+        if (!$this->isLoggedInUser()
+            && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            return "???";
+        }
         return $this->db_data['name'];
     }
 
@@ -155,6 +159,10 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function getFirstName()
     {
+        if (!$this->isLoggedInUser()
+            && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            return "???";
+        }
         return $this->db_data['first_name'];
     }
 
@@ -164,6 +172,10 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function getLastName()
     {
+        if (!$this->isLoggedInUser()
+            && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            return "???";
+        }
         return $this->db_data['last_name'];
     }
 
@@ -173,6 +185,10 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function getEmail()
     {
+        if (!$this->isLoggedInUser()
+            && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            return "???";
+        }
         return $this->db_data['email'];
     }
 
@@ -182,6 +198,10 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function getDepartment()
     {
+        if (!$this->isLoggedInUser()
+            && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            return "???";
+        }
         return $this->db_data['department'];
     }
 
@@ -194,6 +214,11 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function getAvatar($size = 200)
     {
+        if (!$this->isLoggedInUser()
+            && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            return "???";
+        }
+
         global $config;
 
         if ($config['user']['avatars']['use_gravatar']) {
@@ -733,6 +758,10 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public static function getAllUsers(&$database, &$current_user, &$log)
     {
+        if (!$current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            return array($current_user);
+        }
+
         $results = $database->query("SELECT * FROM users");
         $users = array();
         foreach ($results as $result) {

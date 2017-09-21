@@ -98,6 +98,9 @@ try {
     $current_user       = User::getLoggedInUser($database, $log);
     $root_group         = new \PartDB\Group($database, $current_user, $log, 0);
 
+    //Check permissions
+    $current_user->tryDo(PermissionManager::USERS, UserPermission::READ);
+
     if ($selected_id > -1) {
         $selected_user = new User($database, $current_user, $log, $selected_id);
     } else {
