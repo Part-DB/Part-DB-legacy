@@ -160,6 +160,17 @@
                                            placeholder="{t}Password Bestätigung{/t}" {if !$can_password}disabled{/if}>
                                 </div>
                             </div>
+
+                            <div class="form-group">
+                                <div class="col-md-9 col-md-offset-3">
+                                    <div class="checkbox">
+                                        <input type="checkbox" class="styled"
+                                               name="must_change_pw" {if !$can_password}disabled{/if} checked>
+                                        <label>{t}Benutzer muss Passwort nach Login ändern{/t}</label>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div class="form-group">

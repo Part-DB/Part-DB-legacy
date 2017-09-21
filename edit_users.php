@@ -69,6 +69,7 @@ $new_group_id               = isset($_REQUEST['group_id'])      ? (int)$_REQUEST
 //Tab "set password"
 $new_password               = isset($_REQUEST['password_1'])    ? (string)$_REQUEST['password_1']   : "";
 $new_password_2             = isset($_REQUEST['password_2'])    ? (string)$_REQUEST['password_2']   : "";
+$must_change_pw             = isset($_REQUEST['must_change_pw']);
 
 $action = 'default';
 if (isset($_REQUEST["add"])) {
@@ -142,7 +143,7 @@ if (! $fatal_error) {
                             throw new Exception(_("Das neue Password und die Bestätigung müssen übereinstimmen!"));
                         }
 
-                        $new_user->setPassword($new_password);
+                        $new_user->setPassword($new_password, $must_change_pw);
                     } catch (Exception $e) {
                         $messages[] = array('text' => _('Das Password des Users konnte nicht geändert werden!'), 'strong' => true, 'color' => 'red');
                         $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -214,7 +215,7 @@ if (! $fatal_error) {
                             throw new Exception(_("Das neue Password und die Bestätigung müssen übereinstimmen!"));
                         }
 
-                        $selected_user->setPassword($new_password);
+                        $selected_user->setPassword($new_password, $must_change_pw);
                         $messages[] = array('text' => _("Das Passwort wurde erfolgreich geändert!"), 'strong' => true, 'color' => 'green');
                     } catch (Exception $e) {
                         $messages[] = array('text' => _('Das Password des Users konnte nicht geändert werden!'), 'strong' => true, 'color' => 'red');
