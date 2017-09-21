@@ -10,6 +10,7 @@ namespace PartDB\Permissions;
 
 
 use PartDB\Base\DBElement;
+use PartDB\Database;
 use PartDB\Interfaces\IHasPermissions;
 use PartDB\Part;
 use PartDB\Permissions\BasePermission;
@@ -49,6 +50,7 @@ class PermissionManager
 
     const GROUPS            = "groups";
     const USERS             = "users";
+    const DATABASE          = "system_database";
 
     const DEVICE_PARTS      = "devices_parts";
     const SELF              = "self";
@@ -213,6 +215,7 @@ class PermissionManager
         $system_permissions = array();
         $system_permissions[] = new UserPermission($this->perm_holder, static::USERS, _("Benutzer"));
         $system_permissions[] = new GroupPermission($this->perm_holder, static::GROUPS, _("Gruppen"));
+        $system_permissions[] = new DatabasePermission($this->perm_holder, static::DATABASE, _("Datenbank"));
         $this->permissions[] = new PermissionGroup(_("System"), $system_permissions);
 
         $misc_permissions = array();
