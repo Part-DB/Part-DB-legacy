@@ -18,6 +18,9 @@ class PartPermission extends BasePermission
     const DELETE = "delete";
     const SEARCH    = "search";
     const ALL_PARTS = "all_parts";
+    const ORDER_PARTS = "order_parts";
+    const NO_PRICE_PARTS = "no_price_parts";
+    const OBSOLETE_PARTS = "obsolete_parts";
 
     /**
      * Returns an array of all available operations for this Permission.
@@ -37,6 +40,9 @@ class PartPermission extends BasePermission
         $operations[] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
         $operations[] = static::buildOperationArray(10, static::SEARCH, _("Suchen"));
         $operations[] = static::buildOperationArray(12, static::ALL_PARTS, _("Alle Teile auflisten"));
+        $operations[] = static::buildOperationArray(14, static::ORDER_PARTS, _("Zu bestellende Teile auflisten"));
+        $operations[] = static::buildOperationArray(16, static::NO_PRICE_PARTS, _("Teile ohne Preis auflisten"));
+        $operations[] = static::buildOperationArray(18, static::OBSOLETE_PARTS, _("Obsolente Teile auflisten"));
 
         return $operations;
     }

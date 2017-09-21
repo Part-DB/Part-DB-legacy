@@ -1033,9 +1033,15 @@ function buildToolsTree($params)
 
     //Show nodes
     $show_nodes = array();
-    $show_nodes[] = treeviewNode(_("Zu bestellende Teile"), BASE_RELATIVE . "/show_order_parts.php");
-    $show_nodes[] = treeviewNode(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
-    $show_nodes[] = treeviewNode(_("Obsolente Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::ORDER_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Zu bestellende Teile"), BASE_RELATIVE . "/show_order_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::OBSOLETE_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Obsolente Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
+    }
     if ($current_user->canDo(PermissionManager::TOOLS, ToolsPermission::STATISTICS)) {
         $show_nodes[] = treeviewNode(_("Statistik"), BASE_RELATIVE . "/statistics.php");
     }
@@ -1082,7 +1088,9 @@ function buildToolsTree($params)
     if (!empty($edit_nodes)) {
         $tree[] = treeviewNode(_("Bearbeiten"), null, $edit_nodes);
     }
-    $tree[] = treeviewNode(_("Zeige"), null, $show_nodes);
+    if (!empty($show_nodes)) {
+        $tree[] = treeviewNode(_("Zeige"), null, $show_nodes);
+    }
     if (!$disable_config && !empty($system_nodes)) {
         $tree[] = treeviewNode(_("System"), null, $system_nodes);
     }

@@ -1897,6 +1897,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public static function getOrderParts(&$database, &$current_user, &$log, $supplier_ids = array(), $with_devices = true)
     {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::ORDER_PARTS)) {
+            return array();
+        }
+
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
         }
@@ -1945,6 +1949,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public static function getNoPriceParts(&$database, &$current_user, &$log)
     {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
+            return array();
+        }
+
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
         }
@@ -1980,6 +1988,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public static function getObsoleteParts(&$database, &$current_user, &$log, $no_orderdetails_parts = false)
     {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::OBSOLETE_PARTS)) {
+            return array();
+        }
+
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
         }
