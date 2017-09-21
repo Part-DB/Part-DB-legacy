@@ -5,6 +5,11 @@
     </script>
 {/if}
 
+{if !isset($id) || $id == 0}
+    {assign "can_edit" $can_create}
+    {assign "can_move" $can_create}
+{/if}
+
 <div class="panel panel-primary">
     <div class="panel-heading">
         <i class="fa fa-users" aria-hidden="true"></i>
@@ -68,14 +73,16 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Gruppenname*:{/t}</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="name" value="{$name}" placeholder="{t}z.B. admins{/t}" required>
+                                    <input type="text" class="form-control" name="name" value="{$name}"
+                                           placeholder="{t}z.B. admins{/t}" required {if !$can_edit}disabled{/if}>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}übergeordnete Gruppe*:{/t}</label>
                                 <div class="col-md-9">
-                                    <select class="form-control selectpicker" data-live-search="true" name="parent_id" size="1">
+                                    <select class="form-control selectpicker" data-live-search="true"
+                                            name="parent_id" size="1" {if !$can_move}disabled{/if}>
                                         {$parent_group_list nofilter}
                                     </select>
                                 </div>
@@ -84,7 +91,9 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Kommentar:{/t}</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="comment" value="{if isset($comment)}{$comment}{/if}" placeholder="{t}z.B. für Administratoren{/t}">
+                                    <input type="text" class="form-control" name="comment"
+                                           value="{if isset($comment)}{$comment}{/if}" placeholder="{t}z.B. für Administratoren{/t}"
+                                           {if !$can_edit}disabled{/if}>
                                 </div>
                             </div>
 
@@ -105,14 +114,17 @@
                         <div class="form-group">
                             <div class="col-md-9 col-md-offset-3">
                                 {if !isset($id) || $id == 0}
-                                    <button class="btn btn-success" type="submit" name="add">{t}Neue Gruppe anlegen{/t}</button>
+                                    <button class="btn btn-success" type="submit" name="add" {if !$can_create}disabled{/if}>{t}Neue Gruppe anlegen{/t}</button>
                                     <div class="checkbox">
-                                        <input type="checkbox" name="add_more" {if $add_more}checked{/if}>
+                                        <input type="checkbox" name="add_more" {if $add_more}checked{/if} {if !$can_create}disabled{/if}>
                                         <label>{t}Weitere Gruppe anlegen{/t}</label>
                                     </div>
                                 {else}
-                                    <button class="btn btn-success" type="submit" name="apply">{t}Änderungen übernehmen{/t}</button>
-                                    <button class="btn btn-danger" type="submit" name="delete">{t}Benutzer löschen{/t}</button>
+                                    <button class="btn btn-success" type="submit" name="apply"
+                                            {if !$can_move && !$can_edit && !$can_permission}disabled{/if}>
+                                        {t}Änderungen übernehmen{/t}</button>
+                                    <button class="btn btn-danger" type="submit" name="delete" {if !$can_delete}disabled{/if}>
+                                        {t}Benutzer löschen{/t}</button>
                                 {/if}
                             </div>
                         </div>

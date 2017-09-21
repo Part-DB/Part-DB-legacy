@@ -38,6 +38,8 @@ use PartDB\Device;
 use PartDB\Group;
 use PartDB\HTML;
 use PartDB\Log;
+use PartDB\Permissions\GroupPermission;
+use PartDB\Permissions\PermissionManager;
 use PartDB\User;
 
 $messages = array();
@@ -202,6 +204,8 @@ if (! $fatal_error) {
 $html->setVariable('add_more', $add_more, 'boolean');
 
 if (! $fatal_error) {
+
+    $perm_read_only = !$current_user->canDo(PermissionManager::GROUPS, GroupPermission::EDIT_PERMISSIONS);
     try {
         if (is_object($selected_group)) {
             $parent_id = $selected_group->getParentID();
@@ -209,23 +213,23 @@ if (! $fatal_error) {
             $name = $selected_group->getName();
             $comment = $selected_group->getComment();
             //Permissions loop
-            $perm_loop = $selected_group->getPermissionManager()->generatePermissionsLoop();
+            $perm_loop = $selected_group->getPermissionManager()->generatePermissionsLoop($perm_read_only);
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
             $comment = $new_comment;
             //Permissions loop
             if (isset($new_user)) {
-                $perm_loop = $selected_group->getPermissionManager()->generatePermissionsLoop();
+                $perm_loop = $selected_group->getPermissionManager()->generatePermissionsLoop($perm_read_only);
             } else {
-                $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop();
+                $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop($perm_read_only);
             }
 
         } else {
             $parent_id = 0;
             $name = '';
             $comment = "";
-            $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop();
+            $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop($perm_read_only);
         }
 
         $html->setVariable('name', $name, 'string');
@@ -242,6 +246,13 @@ if (! $fatal_error) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
     }
+
+    $html->setVariable('can_create', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::CREATE));
+    $html->setVariable('can_delete', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::DELETE));
+    $html->setVariable('can_edit', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::EDIT));
+    $html->setVariable('can_move', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::MOVE));
+    $html->setVariable('can_permission',!$perm_read_only );
+
 }
 
 /********************************************************************************
