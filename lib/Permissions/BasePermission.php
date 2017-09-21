@@ -133,7 +133,7 @@ abstract class BasePermission
                 if ($this->perm_holder->getParentPermissionManager() == null) {
                     $val = static::DISALLOW; //Default to disallow
                 } else {
-                    $this->perm_holder->getParentPermissionManager()->getPermissionValue($this->getName(), $op['name'], true);
+                    $val = $this->perm_holder->getParentPermissionManager()->getPermissionValue($this->getName(), $op['name'], true);
                 }
 
             }
