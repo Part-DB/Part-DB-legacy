@@ -365,6 +365,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
                 if (isset($new_values['department'])) {
                     $arr['department'] = $new_values['department'];
                 }
+                if (isset($new_values['email'])) {
+                    $arr['email'] = $new_values['email'];
+                }
             }
             if ($this->current_user->canDo(PermissionManager::SELF, UserPermission::EDIT_USERNAME)) {
                 if (isset($new_values['name'])) {
@@ -392,6 +395,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             }
             if (isset($new_values['department'])) {
                 $arr['department'] = $new_values['department'];
+            }
+            if (isset($new_values['email'])) {
+                $arr['email'] = $new_values['email'];
             }
         }
         if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::SET_PASSWORD)) {
@@ -765,6 +771,4 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             + $data
         );
     }
-
-
 }

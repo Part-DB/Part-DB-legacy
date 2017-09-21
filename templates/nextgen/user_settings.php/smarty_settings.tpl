@@ -35,7 +35,7 @@
             <div class="form-group">
                 <label class="control-label col-md-3">{t}Abteilung:{/t}</label>
                 <div class="col-md-9">
-                    <input type="text" class="form-control" value="{$email}"  name="department"
+                    <input type="text" class="form-control" value="{$department}"  name="department"
                            placeholder="{t}z.B. Entwicklung{/t}" {if !$can_infos}disabled{/if}>
                 </div>
             </div>
