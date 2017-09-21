@@ -29,6 +29,8 @@ use PartDB\HTML;
 
 $errors = array();
 
+\PartDB\User::getLoggedInUser()->tryDo(\PartDB\Permissions\PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::USE_DEBUG);
+
 if (isset($_REQUEST["add"])) {
     try {
         debug($_REQUEST['new_type'], $_REQUEST['new_text'], __FILE__, __LINE__, __METHOD__, false);

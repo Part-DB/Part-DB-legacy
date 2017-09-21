@@ -1069,7 +1069,7 @@ function buildToolsTree($params)
     if (!$disable_manufactur && $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Hersteller"), BASE_RELATIVE . "/edit_manufacturers.php");
     }
-    if($current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ)) {
+    if ($current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
     }
 
@@ -1094,7 +1094,7 @@ function buildToolsTree($params)
     if (!$disable_config && !empty($system_nodes)) {
         $tree[] = treeviewNode(_("System"), null, $system_nodes);
     }
-    if ($developer_mode) {
+    if ($developer_mode && $current_user->canDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::USE_DEBUG)) {
         $tree[] = treeviewNode(_("Entwickler-Werkzeuge"), null, $dev_nodes);
     }
     if (!$disable_help) {

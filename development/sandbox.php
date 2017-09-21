@@ -73,6 +73,8 @@ $log                = new Log($database);
 $system             = new System($database, $log);
 $current_user       = new User($database, $current_user, $log, 1); // admin
 
+\PartDB\User::getLoggedInUser()->tryDo(\PartDB\Permissions\PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::USE_DEBUG);
+
 // a PDO object
 $options['PDO::MYSQL_ATTR_INIT_COMMAND'] = 'SET NAMES '.$config['db']['charset'];
 $pdo = new PDO('mysql:host='.$config['db']['host'].';dbname='.$config['db']['name'],
