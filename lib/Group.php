@@ -205,6 +205,9 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      */
     public function getComment()
     {
+        if (!$this->current_user->canDo(PermissionManager::GROUPS, GroupPermission::READ)) {
+            return "???";
+        }
         return $this->db_data['comment'];
     }
 

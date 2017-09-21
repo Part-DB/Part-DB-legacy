@@ -1016,10 +1016,15 @@ function buildToolsTree($params)
     if ($current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ)) {
         $system_nodes[] = treeviewNode(_("Benutzer"), BASE_RELATIVE . "/edit_users.php");
     }
-
-    $system_nodes[] = treeviewNode(_("Gruppen"), BASE_RELATIVE . "/edit_groups.php");
+    if ($current_user->canDo(PermissionManager::GROUPS, \PartDB\Permissions\GroupPermission::READ)) {
+        $system_nodes[] = treeviewNode(_("Gruppen"), BASE_RELATIVE . "/edit_groups.php");
+    }
     $system_nodes[] = treeviewNode(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
-    $system_nodes[] = treeviewNode(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
+    if ($current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::SEE_STATUS)
+        || $current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::READ_DB_SETTINGS)) {
+        $system_nodes[] = treeviewNode(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
+    }
+
 
 
     //Show nodes
