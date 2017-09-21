@@ -209,6 +209,7 @@ if (! $fatal_error) {
         $html->setVariable('git_branch', getGitBranchName(), 'string');
         $html->setVariable('git_commit', getGitCommitHash(10), 'string');
         $html->setVariable('partdb_title', $config['partdb_title'], 'string');
+        $html->setVariable('must_change_pw', $current_user->getNeedPasswordChange());
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     }
