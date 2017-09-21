@@ -79,7 +79,12 @@ if (!$fatal_error) {
             }
             break;
         case "redirect":
-            $html->redirect("startup.php");
+            //Redirect to user settings, when user needs to change password.
+            if (User::getLoggedInUser()->getNeedPasswordChange()) {
+                $html->redirect("user_settings.php");
+            } else { //Else redirect to start page.
+                $html->redirect("startup.php");
+            }
             break;
         case "default":
             break;

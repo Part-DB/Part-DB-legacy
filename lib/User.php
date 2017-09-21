@@ -331,14 +331,16 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     /**
      * Sets a new password, for the User.
      * @param $new_password string The new password.
+     * @param $need_to_change_pw bool When true, the user has to change the password afterwards.
      */
-    public function setPassword($new_password)
+    public function setPassword($new_password, $need_to_change_pw = false)
     {
         if ($this->getID() == static::ID_ANONYMOUS) {
             throw new Exception(_("Das Password des anonymous Users kann nicht geändert werden!"));
         }
         $hash = password_hash($new_password, PASSWORD_DEFAULT);
-        $this->setAttributes(array("password" => $hash));
+        $this->setAttributes(array("password" => $hash,
+            "need_pw_change" => $need_to_change_pw));
     }
 
     /**
@@ -375,6 +377,24 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         return $str;
     }
 
+    /**
+     * Check if this user must change its password.
+     * @return bool True, if the user must change its password.
+     */
+    public function getNeedPasswordChange()
+    {
+        return $this->db_data['need_pw_change'];
+    }
+
+    /**
+     * Sets the "need_pw_change" attribute. When set to true, the user is asked to change his password after login.
+     * @param $new_val bool The value to which the need_pw_change attribute should be set to.
+     */
+    public function setNeedPasswordChange($new_val)
+    {
+        $this->setAttributes(array('need_pw_change' => $new_val));
+    }
+
     public function setAttributes($new_values)
     {
         //Normalize username
@@ -389,6 +409,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         if ($this->isLoggedInUser()) {
             if (isset($new_values['password'])) {
                 $arr['password'] = $new_values['password'];
+            }
+            if (isset($new_values['need_pw_change'])) {
+                $arr['need_pw_change'] = $new_values['need_pw_change'];
             }
             if ($this->current_user->canDo(PermissionManager::SELF, SelfPermission::EDIT_INFOS)) {
                 if (isset($new_values['first_name'])) {
@@ -438,6 +461,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::SET_PASSWORD)) {
             if (isset($new_values['password'])) {
                 $arr['password'] = $new_values['password'];
+            }
+            if (isset($new_values['need_pw_change'])) {
+                $arr['need_pw_change'] = $new_values['need_pw_change'];
             }
         }
         if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_PERMISSIONS)) {
@@ -707,7 +733,6 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         }
 
         return static::$loggedin_user;
-
     }
 
     /**

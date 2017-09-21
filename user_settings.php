@@ -95,7 +95,7 @@ if(!$fatal_error) {
                 break;
             }
             //If all checks were ok, change the password!
-            $current_user->setPassword($pw_1);
+            $current_user->setPassword($pw_1, false);
             $messages[] = array('text' => _("Das Passwort wurde erfolgreich geändert!"), 'strong' => true, 'color' => 'green');
             break;
 
@@ -162,6 +162,10 @@ $html->printHeader($messages, $reload_link);                           // ...rel
 
 
 if (! $fatal_error) {
+    if ($current_user->getNeedPasswordChange()) {
+        $html->printTemplate('password_alert');
+    }
+
     $html->printTemplate('settings');
     $html->printTemplate('password');
 }
