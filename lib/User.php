@@ -377,6 +377,11 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 
     public function setAttributes($new_values)
     {
+        //Normalize username
+        if (isset($new_values['name'])) {
+            $new_values['name'] = static::normalizeUsername($new_values['name']);
+        }
+
         //Override this function, so we can check if user has the needed permissions.
         $arr = array();
 
@@ -618,7 +623,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public static function getUserByName(&$database, &$log, $username)
     {
-        $username = trim($username);
+        $username = static::normalizeUsername($username);
         $query = 'SELECT * FROM users WHERE name = ?';
         $query_data = $database->query($query, array($username));
 
@@ -800,9 +805,33 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             $current_user,
             $log,
             'users',
-            array(  'name'                      => $name,
+            array(  'name'                      => static::normalizeUsername($name),
                 'group_id'                      => $group_id)
             + $data
         );
     }
+
+    /***************************************************************************************
+     * Helper functions
+     **************************************************************************************/
+    /**
+     * Normalize a username.
+     * This process contains: trim trailing/leading whitespaces, replace whitespaces with chars, and remove all non ASCII chars.
+     * @param $username string The username that should be normalized.
+     * @return static The normalized username.
+     */
+    public static function normalizeUsername($username)
+    {
+        //Strip leading and trailing whitespaces.
+        $username = trim($username);
+        //Replace all whitespace characters with an underscore
+        $username = preg_replace('/\s+/', '_', $username);
+
+        //Remove invalid characters.
+        $username = filter_var($username, FILTER_SANITIZE_EMAIL);
+
+        return $username;
+    }
+
+
 }
