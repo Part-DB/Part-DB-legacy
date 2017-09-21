@@ -2,23 +2,15 @@
 /**
  * Created by PhpStorm.
  * User: janhb
- * Date: 20.09.2017
- * Time: 20:23
+ * Date: 21.09.2017
+ * Time: 11:57
  */
 
 namespace PartDB\Permissions;
 
-
-class UserPermission extends BasePermission
+class GroupPermission extends StructuralPermission
 {
-    const CREATE = "create";
-    const READ  = "read";
-    const EDIT_USERNAME = "edit_username";
-    const EDIT_INFOS  = "edit_infos";
-    const CHANGE_GROUP  = "change_group";
-    const DELETE = "delete";
     const EDIT_PERMISSIONS = "edit_permissions";
-    const SET_PASSWORD   = "set_password";
 
     /**
      * Returns an array of all available operations for this Permission.
@@ -32,13 +24,11 @@ class UserPermission extends BasePermission
          */
         $operations = array();
         $operations[] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
+        $operations[] = static::buildOperationArray(2, static::EDIT, _("Bearbeiten"));
         $operations[] = static::buildOperationArray(4, static::CREATE, _("Anlegen"));
+        $operations[] = static::buildOperationArray(6, static::MOVE, _("Verschieben"));
         $operations[] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
-        $operations[] = static::buildOperationArray(2, static::EDIT_USERNAME, _("Nutzernamen ändern"));
-        $operations[] = static::buildOperationArray(6, static::CHANGE_GROUP, _("Gruppe ändern"));
-        $operations[] = static::buildOperationArray(10, static::EDIT_INFOS, _("Informationen ändern"));
-        $operations[] = static::buildOperationArray(12, static::EDIT_PERMISSIONS, _("Berechtigungen ändern"));
-        $operations[] = static::buildOperationArray(14, static::SET_PASSWORD, _("Password setzen"));
+        $operations[] = static::buildOperationArray(10, static::EDIT_PERMISSIONS, _("Berechtigungen ändern"));
 
         return $operations;
     }
@@ -46,14 +36,11 @@ class UserPermission extends BasePermission
     protected function modifyValueBeforeSetting($operation, $new_value, $data)
     {
         //Set read permission, too, when you get edit permissions.
-        if (($operation == static::EDIT_USERNAME
+        if (($operation == static::EDIT
                 || $operation == static::DELETE
-                || $operation == static::CHANGE_GROUP
+                || $operation == static::MOVE
                 || $operation == static::CREATE
-                || $operation == static::EDIT_INFOS
-                || $operation == static::EDIT_USERNAME
-                || $operation == static::SET_PASSWORD
-                || $operation == static::EDIT_PERMISSIONS)
+            || $operation == static::EDIT_PERMISSIONS)
             && $new_value == static::ALLOW) {
             return parent::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
         }

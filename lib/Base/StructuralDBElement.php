@@ -182,6 +182,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     public function setAttributes($new_values)
     {
         $arr = array();
+
         if ($this->current_user->canDo(static::getPermissionName(), StructuralPermission::MOVE)) {
             //Make an exception for $parent_id
             if (isset($new_values['parent_id'])) {
@@ -199,6 +200,15 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         }
 
         parent::setAttributes($arr);
+    }
+
+    /**
+     * Same like setAttributes(), but without check for permissions.
+     * Needed if you want to override the permissions handling in child classes.
+     */
+    final protected function setAttributesNoCheck($new_values)
+    {
+        parent::setAttributes($new_values);
     }
 
     /**
@@ -300,8 +310,8 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
 
         if (! is_array($this->full_path_strings)) {
             $this->full_path_strings = array();
-            $this->full_path_strings[] = $this->getName();
-            $parent_id = $this->getParentID();
+            $this->full_path_strings[] = static::getName();
+            $parent_id = static::getParentID();
             $class = get_class($this);
             while ($parent_id > 0) {
                 /** @var StructuralDBElement $element */

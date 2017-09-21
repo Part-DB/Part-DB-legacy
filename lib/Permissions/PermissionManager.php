@@ -11,6 +11,7 @@ namespace PartDB\Permissions;
 
 use PartDB\Base\DBElement;
 use PartDB\Interfaces\IHasPermissions;
+use PartDB\Part;
 use PartDB\Permissions\BasePermission;
 use PartDB\Permissions\StructuralPermission;
 use Symfony\Component\VarDumper\Cloner\Stub;
@@ -200,18 +201,18 @@ class PermissionManager
         $this->permissions[] = new PermissionGroup(_("Bauteile"), $part_permissions);
 
         $structural_permissions = array();
-        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::STORELOCATIONS, _("Lagerorte"));
-        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::FOOTRPINTS, _("Footprints"));
-        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::CATEGORIES, _("Kategorien"));
-        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::SUPPLIERS, _("Lieferanten"));
-        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::MANUFACTURERS, _("Hersteller"));
-        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::DEVICES, _("Baugruppen"));
+        $structural_permissions[] = new PartContainingPermission($this->perm_holder, static::STORELOCATIONS, _("Lagerorte"));
+        $structural_permissions[] = new PartContainingPermission($this->perm_holder, static::FOOTRPINTS, _("Footprints"));
+        $structural_permissions[] = new PartContainingPermission($this->perm_holder, static::CATEGORIES, _("Kategorien"));
+        $structural_permissions[] = new PartContainingPermission($this->perm_holder, static::SUPPLIERS, _("Lieferanten"));
+        $structural_permissions[] = new PartContainingPermission($this->perm_holder, static::MANUFACTURERS, _("Hersteller"));
+        $structural_permissions[] = new PartContainingPermission($this->perm_holder, static::DEVICES, _("Baugruppen"));
         $structural_permissions[] = new StructuralPermission($this->perm_holder, static::ATTACHEMENT_TYPES, _("Dateianhänge"));
         $this->permissions[] = new PermissionGroup(_("Datenstrukturen"), $structural_permissions);
 
         $system_permissions = array();
         $system_permissions[] = new UserPermission($this->perm_holder, static::USERS, _("Benutzer"));
-        $system_permissions[] = new StructuralPermission($this->perm_holder, static::GROUPS, _("Gruppen"));
+        $system_permissions[] = new GroupPermission($this->perm_holder, static::GROUPS, _("Gruppen"));
         $this->permissions[] = new PermissionGroup(_("System"), $system_permissions);
 
         $misc_permissions = array();

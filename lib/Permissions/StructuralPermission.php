@@ -21,7 +21,6 @@ class StructuralPermission extends BasePermission
     const EDIT  = "edit";
     const MOVE  = "move";
     const DELETE = "delete";
-    const LIST_PARTS  = "list_parts";
 
 
 
@@ -41,7 +40,6 @@ class StructuralPermission extends BasePermission
         $operations[] = static::buildOperationArray(4, static::CREATE, _("Anlegen"));
         $operations[] = static::buildOperationArray(6, static::MOVE, _("Verschieben"));
         $operations[] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
-        $operations[] = static::buildOperationArray(10, static::LIST_PARTS, _("Teile Auflisten"));
 
         return $operations;
     }
@@ -52,8 +50,7 @@ class StructuralPermission extends BasePermission
         if (($operation == static::EDIT
                 || $operation == static::DELETE
                 || $operation == static::MOVE
-                || $operation == static::CREATE
-                || $operation == static::LIST_PARTS)
+                || $operation == static::CREATE)
             && $new_value == static::ALLOW) {
             return parent::writeBitPair($data, static::opToBitN(static::READ), static::ALLOW);
         }

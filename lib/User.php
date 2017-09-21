@@ -128,6 +128,11 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function getGroup()
     {
+        if (!$this->isLoggedInUser()
+            && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            return null;
+        }
+
         if (! is_object($this->group)) {
             $this->group = new Group(
                 $this->database,
@@ -451,7 +456,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function isLoggedInUser()
     {
-        return $this->getID() == static::getLoggedInID();
+        return $this->getID() == $this->current_user->getID();
     }
 
     /*******************************************************************************

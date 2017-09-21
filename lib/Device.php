@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Permissions\PartContainingPermission;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\StructuralPermission;
 
@@ -278,7 +279,7 @@ class Device extends Base\PartsContainingDBElement
      */
     public function getParts($recursive = false, $hide_obsolet_and_zero = false)
     {
-        $this->current_user->tryDo(static::getPermissionName(), StructuralPermission::LIST_PARTS);
+        $this->current_user->tryDo(static::getPermissionName(), PartContainingPermission::LIST_PARTS);
         return $this->getPartsWithoutPermCheck($recursive, $hide_obsolet_and_zero);
     }
 
