@@ -1212,10 +1212,9 @@ function createPath($path)
  */
 function isURL($string, $path_required = true, $only_http = true)
 {
-    $string = trim($string);
     if ($only_http) {   //Check if scheme is HTTPS or HTTP
-        $scheme = trim(parse_url($string, PHP_URL_SCHEME));
-        if ($scheme != "http" && $scheme != "https") {
+        $scheme = parse_url($string, PHP_URL_SCHEME);
+        if ($scheme !== "http" || $scheme !== "https") {
             return false;   //All other schemes are not valid.
         }
     }
