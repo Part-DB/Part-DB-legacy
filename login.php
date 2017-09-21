@@ -37,6 +37,19 @@ $logout   = isset($_REQUEST['logout']);
 $messages = array();
 $fatal_error = false;
 
+$action = "default";
+if (!User::isLoggedIn() && $user_name != "") {
+    $action = "login";
+}
+
+if ($logout == true && User::isLoggedIn()) {
+    $action = "logout";
+}
+
+if(User::isLoggedIn() && $logout == false) {
+    $action = "redirect";
+}
+
 $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Login'));
 
 try {
@@ -44,33 +57,41 @@ try {
     $log                = new Log($database);
     $user               = User::getLoggedInUser($database, $log);
 
-    //$tmp = new User($database, $user, $log, 1);
-    //$tmp->setPassword("Test234");
-
-    if($logout && User::isLoggedIn()) {
-        User::logout();
-        $html->setVariable("loggedout", true, "boolean");
-        $html->setVariable("refresh_navigation_frame", true, "boolean");
-    }
-
-    if(!User::isLoggedIn() && $user_name != "") {
-        $user               = User::getUserByName($database, $log, $user_name);
-        $pw_valid           = User::login($user, $password);
-        $html->setVariable("pw_valid", $pw_valid, "boolean");
-        $html->setVariable("refresh_navigation_frame", true, "boolean");
-    }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
 
 
-//If a ajax version is requested, say this the template engine.
-if (isset($_REQUEST["ajax"])) {
-    $html->setVariable("ajax_request", true);
+if (!$fatal_error) {
+    switch ($action) {
+        case "logout":
+            User::logout();
+            $html->setVariable("refresh_navigation_frame", true, "boolean");
+            $html->setVariable('loggedout', true);
+            break;
+        case "login":
+            $user               = User::getUserByName($database, $log, $user_name);
+            $pw_valid           = User::login($user, $password);
+            $html->setVariable("pw_valid", $pw_valid, "boolean");
+            if (User::isLoggedIn()) {
+                $html->setVariable("refresh_navigation_frame", true, "boolean");
+            }
+            break;
+        case "redirect":
+            $html->redirect("startup.php");
+            break;
+        case "default":
+            break;
+    }
 }
 
-if(User::isLoggedIn())
+//If a ajax version is requested, say this the template engine.
+/*if (isset($_REQUEST["ajax"])) {
+    $html->setVariable("ajax_request", true);
+}*/
+
+if (User::isLoggedIn())
 {
     $user = User::getLoggedInUser($database, $log);
     $html->setVariable("loggedin", true, "boolean");

@@ -1,7 +1,19 @@
 {if isset($refresh_navigation_frame) && $refresh_navigation_frame}
     <script type="text/javascript">
-        location.href = location.href.replace("?logout", "");
+        //location.href = location.href.replace("?logout", "");
+        location.reload();
     </script>
+{/if}
+
+{if isset($loggedout)}
+    <div class="panel panel-success">
+        <div class="panel-heading">Erfolg</div>
+        <div class="panel-body">
+            <p>Erfolgreich ausgeloggt.</p>
+            {* We need this because $refresh_navigation_frame does not work and I dont know why... *}
+            <img src onerror='location.href = location.href.replace("?logout", "");'>
+        </div>
+    </div>
 {/if}
 
 {if isset($pw_valid) && $pw_valid == false}
