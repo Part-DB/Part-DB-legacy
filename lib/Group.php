@@ -201,7 +201,8 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
         $parent_id = $this->db_data['parent_id'];
 
         if ($parent_id < 1) {   //If parent is root, then this object has not a parent perm manager.
-            return null;
+            $tmp = null;
+            return $tmp;
         }
 
         $parent = new Group($this->database, $this->current_user, $this->log, $parent_id);
