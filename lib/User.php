@@ -383,6 +383,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function getNeedPasswordChange()
     {
+        if($this->getID() == static::ID_ANONYMOUS) {
+            return false; //Anonymous never has to change PW, because he has none.
+        }
         return $this->db_data['need_pw_change'];
     }
 
