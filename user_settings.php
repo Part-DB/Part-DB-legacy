@@ -104,16 +104,16 @@ if(!$fatal_error) {
                 $current_user->setName($new_username);
             }
             if (!empty($new_firstname)) {
-                $current_user->setName($new_firstname);
+                $current_user->setFirstName($new_firstname);
             }
             if (!empty($new_lastname)) {
-                $current_user->setName($new_lastname);
+                $current_user->setLastName($new_lastname);
             }
             if (!empty($new_email)) {
-                $current_user->setName($new_email);
+                $current_user->setEmail($new_email);
             }
             if (!empty($new_department)) {
-                $current_user->setName($new_department);
+                $current_user->setDepartment($new_department);
             }
 
             break;
