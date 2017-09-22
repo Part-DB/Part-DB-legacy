@@ -35,7 +35,7 @@
             </form>
         </div>
 
-        <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}">
+        <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}" {if !$can_create}disabled{/if}>
             {t}Neues Teil in dieser Kategorie{/t}
         </a>
 

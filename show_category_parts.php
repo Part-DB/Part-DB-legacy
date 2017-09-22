@@ -32,6 +32,8 @@ use PartDB\Database;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\Part;
+use PartDB\Permissions\PartPermission;
+use PartDB\Permissions\PermissionManager;
 use PartDB\User;
 
 $messages = array();
@@ -197,6 +199,8 @@ if (! $fatal_error) {
     $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 
     $html->setLoop('export_formats', buildExportFormatsLoop('showparts'));
+
+    $html->setVariable('can_create', $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
 }
 
 /********************************************************************************
