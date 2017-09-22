@@ -379,11 +379,18 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 
     /**
      * Check if this user must change its password.
+     * @param $ignore_rehash bool Set this to true, if you want to ignore Password change needs,
+     * because PHP has a better password hash algo.
      * @return bool True, if the user must change its password.
      */
-    public function getNeedPasswordChange()
+    public function getNeedPasswordChange($ignore_rehash = false)
     {
-        if($this->getID() == static::ID_ANONYMOUS) {
+        //Check if password needs rehash, because a better algo is available.
+        if (!$ignore_rehash && password_needs_rehash($this->db_data['password'], PASSWORD_DEFAULT)) {
+            return true;
+        }
+
+        if ($this->getID() == static::ID_ANONYMOUS) {
             return false; //Anonymous never has to change PW, because he has none.
         }
         return $this->db_data['need_pw_change'];
