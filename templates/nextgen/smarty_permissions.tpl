@@ -2,12 +2,32 @@
 
 {if isset($perm_loop)}
 
+    <div class="">
+        <label>{t}Erläuterung der Zustände:{/t}</label>
+        <div>
+            <div class="checkbox checkbox-inline">
+                <input type="checkbox" hidden>
+                <label>{t}Verboten{/t}</label>
+            </div>
+            <div class="checkbox checkbox-inline">
+                <input type="checkbox" hidden checked>
+                <label>{t}Erlaubt{/t}</label>
+            </div>
+            <div class="checkbox checkbox-inline">
+                <input type="checkbox" class="tristate" hidden indeterminate="indeterminate">
+                <label>{t}Erbe von (übergeordneter) Gruppe{/t}</label>
+            </div>
+        </div>
+    </div>
+
+    <br>
+
     <ul class="nav nav-pills">
         {foreach from=$perm_loop item=perm_group key=n}
             <li {if $n==0}class="active"{/if}><a data-toggle="pill" class="link-anchor" href="#perm_tab_{$n}">{$perm_group.title}</a></li>
         {/foreach}
     </ul>
-
+    
     <div class="tab-content">
         {foreach from=$perm_loop item=perm_group key=n}
             <div id="perm_tab_{$n}" class="tab-pane fade {if $n==0}in active{/if}">
@@ -26,10 +46,10 @@
                             <td>
                                 {foreach from=$perm.ops  item=op key=m}
                                     <div class="checkbox checkbox-inline"
-                                    {if $m==0}style="margin-left: 10px"{/if}>
+                                         {if $m==0}style="margin-left: 10px"{/if}>
                                         <input type="checkbox" class="styled tristate" name="perm/{$perm.name}/{$op.name}"
                                                 {if $op.value == 0} indeterminate="indeterminate"{elseif $op.value == 1} checked="checked"{/if}
-                                        {if $perm.readonly}disabled{/if}>
+                                                {if $perm.readonly}disabled{/if}>
                                         <label>{$op.description}</label>
                                     </div>
                                 {/foreach}
