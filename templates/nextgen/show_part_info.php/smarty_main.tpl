@@ -124,7 +124,7 @@
 
                     <div class="form-group hidden-print">
                         <div class="col-sm-9 col-sm-offset-3">
-                            <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}">
+                            <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}" {if !$can_edit}disabled="disabled"{/if}>
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {t}Angaben verändern{/t}</a>
                         </div>
                     </div>

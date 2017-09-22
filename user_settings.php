@@ -82,6 +82,11 @@ try {
 if(!$fatal_error) {
     switch ($action) {
         case "change_pw":
+            if ($config['is_online_demo']) {
+                $messages[] = array('text' => _("Diese Funktion ist in der Onlinedemo deaktiviert!"), 'strong' => true, 'color' => 'red');
+                break;
+            }
+
             if ($pw_1 == "" || $pw_2 == "") {
                 $messages[] = array('text' => _("Das neue Password darf nicht leer sein!"), 'strong' => true, 'color' => 'red');
                 break;

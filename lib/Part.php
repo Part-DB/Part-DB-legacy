@@ -1485,6 +1485,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                         PartAttributePermission::EDIT);
                 break;
                 case 'button_edit':
+                    $row_field['edit_disabled'] = !$this->current_user->canDo(PermissionManager::PARTS,
+                        PartPermission::EDIT);
+                    break;
                 case 'quantity_edit': // for DevicePart Objects
                 case 'mountnames_edit': // for DevicePart Objects
                     // nothing to do, only to avoid the Exception in the default-case

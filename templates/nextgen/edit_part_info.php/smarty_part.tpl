@@ -181,8 +181,9 @@
                         {t}Kommentar:{/t}
                     </label>
                     <div class="col-md-10">
-                        <textarea  class="form-control scedit" name="comment" id="edit_comment" rows="4" cols="40" {if !$can_comment}disabled{/if}>
-                            {$comment nofilter}
+                        {* Closing bracket has to be directly in front of the $comment, or spaces gets inserted in textarea *}
+                        <textarea  class="form-control scedit" name="comment" id="edit_comment" rows="4" cols="40" {if !$can_comment}disabled{/if}
+                        >{$comment nofilter}
                         </textarea>
                         <p class="help-block">{t}Hinweis: Hier kann BBCode verwendet werden um den Text besonders auszuzeichnen (z.B. [b]Fett[/b]).{/t}</p>
                     </div>
@@ -195,8 +196,9 @@
                             {if !$can_create}disabled{/if}>{t}Bauteil erstellen{/t}</button>
                         {else}
                             <input type="hidden" name="pid" value="{$pid}">
-                            <button type="button" name="apply_attributes" class="btn btn-success submit rightclick" id="btn_enter">{t}Änderungen übernehmen{/t}</button>
-                            <button type="button" class="btn btn-danger submit">{t}Änderungen verwerfen{/t}</button>
+                            <button type="button" name="apply_attributes" class="btn btn-success submit rightclick"
+                                    id="btn_enter" {if !$can_edit}disabled{/if}>{t}Änderungen übernehmen{/t}</button>
+                            <button type="button" class="btn btn-danger submit" {if !$can_edit}disabled{/if}>{t}Änderungen verwerfen{/t}</button>
                         {/if}
                     </div>
                 </div>
