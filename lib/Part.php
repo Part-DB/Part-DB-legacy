@@ -2101,7 +2101,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             && $current_user->canDo(PermissionManager::PARTS_STORELOCATION, PartAttributePermission::READ);
         $manufacturer_name = $manufacturer_name
             && $current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::READ);
-        //TODO: Implement missing permissions.
+        $supplier_name = $supplier_name
+            && $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, PartAttributePermission::READ);
+        $supplierpartnr = $supplierpartnr
+            && $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, PartAttributePermission::READ);
 
         //When searchstring begins and ends with a backslash, treat the input as regex query
         if (substr($keyword, 0, 1) === '\\' &&  substr($keyword, -1) === '\\') {
