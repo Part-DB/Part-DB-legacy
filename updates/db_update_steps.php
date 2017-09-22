@@ -799,80 +799,70 @@ function get_db_update_steps($current_version)
                 ") ENGINE=InnoDB;";
 
 
+            /***
+             * Dont move the EOD; of the next lines. It has to be in the first coloum of the line!!
+             */
 
-            //Create user "anonymous"
-            // create user "admin"
-            $updateSteps[] = "INSERT INTO users SET ".
-                "name='anonymous',".
-                "password='',". // Annonymous has no password!
-                "first_name='',".
-                "last_name='',".
-                "department='',".
-                "email='',".
-                "need_pw_change='0',".
-                "group_id=NULL,".
-                "perms_system='21845',".
-                "perms_groups='21845',".
-                "perms_users='21845',".
-                "perms_parts='21845',".
-                "perms_parts_name='21845',".
-                "perms_parts_description='21845',".
-                "perms_parts_instock='21845',".
-                "perms_parts_mininstock='21845',".
-                "perms_parts_footprint='21845',".
-                "perms_parts_storelocation='21845',".
-                "perms_parts_comment='21845',".
-                "perms_parts_orderdetails='21845',".
-                "perms_parts_manufacturer='21845',".
-                "perms_parts_prices='21845',".
-                "perms_parts_attachements='21845',".
-                "perms_parts_order='21845',".
-                "perms_devices='21845',".
-                "perms_devices_parts='21845',".
-                "perms_storelocations='21845',".
-                "perms_footprints='21845',".
-                "perms_categories='21845',".
-                "perms_suppliers='21845',".
-                "perms_tools='21845',".
-                "perms_attachement_types='21845',".
-                "perms_manufacturers='21845,'";
+            //Add needed groups.
+            $updateSteps[] = <<<'EOD'
+                INSERT INTO `groups`
+                (`id`,`name`,`parent_id`,`comment`,`perms_system`,`perms_groups`,
+                `perms_users`,
+                `perms_self`,`perms_system_config`,`perms_system_database`,
+                `perms_parts`,`perms_parts_name`,`perms_parts_description`,
+                `perms_parts_instock`,`perms_parts_mininstock`,
+                `perms_parts_footprint`,`perms_parts_storelocation`,
+                `perms_parts_manufacturer`,`perms_parts_comment`,
+                `perms_parts_order`,`perms_parts_orderdetails`,`perms_parts_prices`
+                ,`perms_parts_attachements`,`perms_devices`,`perms_devices_parts`,
+                `perms_storelocations`,`perms_footprints`,`perms_categories`,
+                `perms_suppliers`,`perms_manufacturers`,`perms_attachement_types`,
+                `perms_tools`)
+                VALUES (1,'admins',NULL,
+                'Users of this group can do everything: Read, Write and Administrative actions.'
+                ,1,1365,21845,21,85,21,349525,5,5,5,5,5,5,5,5,5,325,325,325,1365,
+                325,1365,1365,1365,1365,1365,341,1365),
+              (2,'readonly',NULL,
+              'Users of this group can only read informations, use tools, and don\'t have access to administrative tools.'
+              ,2,2730,43690,25,170,42,349865,9,9,9,9,9,9,9,9,9,649,649,649,1705,
+              649,1705,1705,1705,1705,1705,681,1366),
+              (3,'users',NULL,
+              'Users of this group, can edit part informations, create new ones, etc. but are not allowed to use administrative tools. (But can read current configuration, and see Server status)'
+              ,2,2730,43690,25,105,41,349525,5,5,5,5,5,5,5,5,5,325,325,325,1365,
+              325,1365,1365,1365,1365,1365,341,1365); 
+EOD;
 
 
-            // create user "admin"
-            $updateSteps[] = "INSERT INTO users SET ".
-                "name='admin',".
-                "password='\$2y\$10\$uxFlcffjO6SSkz4MVumawOPV6yhlibXBunobI8j4ooc.LjMLhPjpS',". // Passwort = "admin", Must escape $ with \$
-                "first_name='',".
-                "last_name='',".
-                "department='',".
-                "email='',".
-                "need_pw_change='1',".
-                "group_id=NULL,".
-                "perms_system='21845',".
-                "perms_groups='21845',".
-                "perms_users='21845',".
-                "perms_parts='21845',".
-                "perms_parts_name='21845',".
-                "perms_parts_description='21845',".
-                "perms_parts_instock='21845',".
-                "perms_parts_mininstock='21845',".
-                "perms_parts_order='21845',".
-                "perms_parts_footprint='21845',".
-                "perms_parts_storelocation='21845',".
-                "perms_parts_comment='21845',".
-                "perms_parts_orderdetails='21845',".
-                "perms_parts_manufacturer='21845',".
-                "perms_parts_prices='21845',".
-                "perms_parts_attachements='21845',".
-                "perms_devices='21845',".
-                "perms_devices_parts='21845',".
-                "perms_storelocations='21845',".
-                "perms_footprints='21845',".
-                "perms_categories='21845',".
-                "perms_suppliers='21845',".
-                "perms_tools='21845',".
-                "perms_attachement_types='21845',".
-                "perms_manufacturers='21845,'";
+            //Create user admin and anonymous (admin PW is: "admin" (without quotes)).
+
+            $updateSteps[] = <<<'EOD'
+            INSERT INTO `users`
+            (`id`,`name`,`password`,`first_name`,`last_name`,`department`,
+             `email`,
+             `need_pw_change`,`group_id`,`perms_system`,`perms_groups`,
+             `perms_users`,`perms_self`,`perms_system_config`,
+             `perms_system_database`,`perms_parts`,`perms_parts_name`,
+             `perms_parts_description`,`perms_parts_instock`,
+             `perms_parts_mininstock`,`perms_parts_footprint`,
+             `perms_parts_storelocation`,`perms_parts_manufacturer`,
+             `perms_parts_comment`,`perms_parts_order`,
+             `perms_parts_orderdetails`,`perms_parts_prices`,
+             `perms_parts_attachements`,`perms_devices`,`perms_devices_parts`,
+             `perms_storelocations`,`perms_footprints`,`perms_categories`,
+             `perms_suppliers`,`perms_manufacturers`,`perms_attachement_types`,
+             `perms_tools`)
+              VALUES (1,'anonymous','','','','','',0,2,21844,20480,0,0,0,0,0,21840,21840,
+             21840,21840,
+             21840,21840,21840,21840,21840,21520,21520,21520,20480,21520,20480,
+             20480,20480,20480,20480,21504,20480),
+              (
+              2,'admin','$2y$10$36AnqCBS.YnHlVdM4UQ0oOCV7BjU7NmE0qnAVEex65AyZw1cbcEjq','','',
+              '','',1,1,21845,21845,21845,21,85,21,349525,21845,21845,21845,21845
+              ,21845,21845,21845,21845,21845,21845,21845,21845,21845,21845,21845,
+              21845,21845,21845,21845,21845,21845); 
+EOD;
+
+            //Break is Important!
             break;
 
         /*

@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-{if $must_change_pw}
+{if isset($must_change_pw) && $must_change_pw}
     <div class="alert alert-danger">
         <h4>{t}Password Änderung erforderlich!{/t}</h4>
         <strong>{t}Aus Sicherheitsgründen müssen sie ihr Password ändern.{/t}</strong>
