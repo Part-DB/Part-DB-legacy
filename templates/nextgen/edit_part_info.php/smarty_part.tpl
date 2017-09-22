@@ -181,8 +181,9 @@
                         {t}Kommentar:{/t}
                     </label>
                     <div class="col-md-10">
-                        <textarea  class="form-control scedit" name="comment" id="edit_comment" rows="4" cols="40" {if !$can_comment}disabled{/if}>
-                            {$comment nofilter}
+                        {* Closing bracket has to be directly in front of the $comment, or spaces gets inserted in textarea *}
+                        <textarea  class="form-control scedit" name="comment" id="edit_comment" rows="4" cols="40" {if !$can_comment}disabled{/if}
+                        >{$comment nofilter}
                         </textarea>
                         <p class="help-block">{t}Hinweis: Hier kann BBCode verwendet werden um den Text besonders auszuzeichnen (z.B. [b]Fett[/b]).{/t}</p>
                     </div>
