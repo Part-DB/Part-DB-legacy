@@ -195,8 +195,9 @@
                             {if !$can_create}disabled{/if}>{t}Bauteil erstellen{/t}</button>
                         {else}
                             <input type="hidden" name="pid" value="{$pid}">
-                            <button type="button" name="apply_attributes" class="btn btn-success submit rightclick" id="btn_enter">{t}Änderungen übernehmen{/t}</button>
-                            <button type="button" class="btn btn-danger submit">{t}Änderungen verwerfen{/t}</button>
+                            <button type="button" name="apply_attributes" class="btn btn-success submit rightclick"
+                                    id="btn_enter" {if !$can_edit}disabled{/if}>{t}Änderungen übernehmen{/t}</button>
+                            <button type="button" class="btn btn-danger submit" {if !$can_edit}disabled{/if}>{t}Änderungen verwerfen{/t}</button>
                         {/if}
                     </div>
                 </div>
