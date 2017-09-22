@@ -67,8 +67,8 @@
                             {if $no_password}
                                 <div class="form-group">
                                     <div class="col-md-12">
-                                    <b>{t}Der gewählte Nutzer hat bisher noch kein Password und kann sich daher nicht einloggen{/t}</b>
-                                    <p>{t}Um ein Password zu setzen, gehen sie in den Reiter "Password setzen"{/t}</p>
+                                        <b>{t}Der gewählte Nutzer hat bisher noch kein Password und kann sich daher nicht einloggen{/t}</b>
+                                        <p>{t}Um ein Password zu setzen, gehen sie in den Reiter "Password setzen"{/t}</p>
                                     </div>
                                 </div>
                             {/if}
@@ -93,7 +93,7 @@
                                 <div class="col-md-9">
                                     <select class="form-control selectpicker" data-live-search="true"
                                             name="group_id" size="1" {if !$can_group}disabled{/if}>
-                                         {$group_list nofilter}
+                                        {$group_list nofilter}
                                     </select>
                                 </div>
                             </div>
@@ -129,13 +129,16 @@
                                            placeholder="{t}z.B. Entwicklung{/t}" {if !$can_infos}disabled{/if}>
                                 </div>
                             </div>
-
-
                         </div>
 
                         <div id="permissions" class="tab-pane fade">
+                            {if isset($is_current_user) && $is_current_user}
+                                <p><strong>{t}Achtung:{/t}</strong>
+                                    {t}Aus Sicherheitsgründen darf ein Benutzer seine eigenen Berechtigungen bezüglich Benutzern und Gruppen nicht bearbeiten!{/t}</p>
+                            {/if}
                             {include file='../smarty_permissions.tpl'}
                         </div>
+
 
                         <div id="password" class="tab-pane fade">
 

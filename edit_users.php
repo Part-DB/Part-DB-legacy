@@ -255,6 +255,8 @@ if (! $fatal_error) {
             $no_password = $selected_user->hasNoPassword();
             $group_id   = $selected_user->getGroup()->getID();
 
+            $html->setVariable('is_current_user', $selected_user->isLoggedInUser());
+
             //Permissions loop
             $perm_loop = $selected_user->getPermissionManager()->generatePermissionsLoop($perm_readonly);
 
@@ -311,6 +313,7 @@ $html->setVariable('can_password', $current_user->canDo(PermissionManager::USERS
 $html->setVariable('can_infos', $current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_INFOS));
 $html->setVariable('can_group', $current_user->canDo(PermissionManager::USERS, UserPermission::CHANGE_GROUP));
 $html->setVariable('can_username', $current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_USERNAME));
+
 
 /********************************************************************************
  *

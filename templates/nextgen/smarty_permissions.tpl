@@ -27,7 +27,7 @@
             <li {if $n==0}class="active"{/if}><a data-toggle="pill" class="link-anchor" href="#perm_tab_{$n}">{$perm_group.title}</a></li>
         {/foreach}
     </ul>
-    
+
     <div class="tab-content">
         {foreach from=$perm_loop item=perm_group key=n}
             <div id="perm_tab_{$n}" class="tab-pane fade {if $n==0}in active{/if}">
