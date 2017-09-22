@@ -12,6 +12,7 @@
 *.otf binary
 *.woff binary
 *.woff2 binary
+*.img binary
 
 
 js/* linguist-vendored
