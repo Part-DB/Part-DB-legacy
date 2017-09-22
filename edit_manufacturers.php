@@ -38,6 +38,8 @@ use PartDB\HTML;
 use PartDB\Log;
 use PartDB\Manufacturer;
 use PartDB\User;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\StructuralPermission;
 
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
@@ -89,8 +91,10 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Her
 try {
     $database           = new Database();
     $log                = new Log($database);
-    $current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
     $root_manufacturer  = new Manufacturer($database, $current_user, $log, 0);
+
+    $current_user->tryDo(PermissionManager::MANUFACTURERS, StructuralPermission::READ);
 
     if ($selected_id > 0) {
         $selected_manufacturer = new Manufacturer($database, $current_user, $log, $selected_id);
@@ -236,6 +240,12 @@ if (! $fatal_error) {
         $fatal_error = true;
     }
 }
+
+$html->setVariable("can_delete", $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::DELETE));
+$html->setVariable("can_edit", $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::EDIT));
+$html->setVariable("can_create", $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::CREATE));
+$html->setVariable("can_move", $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::MOVE));
+$html->setVariable("can_read", $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::READ));
 
 /********************************************************************************
  *

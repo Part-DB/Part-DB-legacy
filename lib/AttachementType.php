@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Permissions\PermissionManager;
 
 /**
  * @file AttachementType.php
@@ -144,7 +145,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
             $log,
             'attachement_types',
             array(  'name'              => $name,
-                'parent_id'         => $parent_id)
+                    'parent_id'         => $parent_id)
         );
     }
 
@@ -160,5 +161,10 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
             "fullpath" => $this->getFullPath("/"),
             "parentid" => $this->getParentID(),
             "level" => $this->getLevel());
+    }
+
+    public static function getPermissionName()
+    {
+        return PermissionManager::ATTACHEMENT_TYPES;
     }
 }

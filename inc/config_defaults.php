@@ -167,6 +167,9 @@ $config['attachements']['folder_structure']     = false;    //Put attachements i
 $config['attachements']['download_default']     = false;    //Download external media defaultly.
 $config['attachements']['show_name']            = false;    //Show the names of attachements in the parts tables.
 
+//Global user settings
+$config['user']['avatars']['use_gravatar']      = false;     //Use Gravatar for Avatars
+
 /********************************************************************************
  *
  *   Below, there are attributes which we don't want to save in the user's "config.php".

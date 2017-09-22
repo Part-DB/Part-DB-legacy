@@ -37,6 +37,8 @@ use PartDB\AttachementType;
 use PartDB\Database;
 use PartDB\HTML;
 use PartDB\Log;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\StructuralPermission;
 use PartDB\User;
 
 $messages = array();
@@ -83,8 +85,10 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Dat
 try {
     $database               = new Database();
     $log                    = new Log($database);
-    $current_user           = new User($database, $current_user, $log, 1); // admin
+    $current_user           = User::getLoggedInUser($database, $log);
     $root_attachement_type  = new AttachementType($database, $current_user, $log, 0);
+
+    $current_user->tryDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ);
 
     if ($selected_id > 0) {
         $selected_attachement_type = new AttachementType($database, $current_user, $log, $selected_id);
@@ -210,6 +214,12 @@ if (! $fatal_error) {
         $fatal_error = true;
     }
 }
+
+$html->setVariable("can_delete", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::DELETE));
+$html->setVariable("can_edit", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::EDIT));
+$html->setVariable("can_create", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::CREATE));
+$html->setVariable("can_move", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::MOVE));
+$html->setVariable("can_read", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ));
 
 /********************************************************************************
  *

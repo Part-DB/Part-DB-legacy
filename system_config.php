@@ -25,7 +25,12 @@
 
 include_once('start_session.php');
 
+use PartDB\Database;
 use PartDB\HTML;
+use PartDB\Log;
+use PartDB\Permissions\ConfigPermission;
+use PartDB\Permissions\PermissionManager;
+use PartDB\User;
 
 // this file enables write permissions in the DokuWiki
 define('DOKUWIKI_PERMS_FILENAME', BASE.'/data/ENABLE-DOKUWIKI-WRITE-PERMS.txt');
@@ -137,6 +142,9 @@ $info_hide_actions              = isset($_REQUEST['info_hide_actions']);
 $info_hide_empty_orderdetails   = isset($_REQUEST['info_hide_empty_orderdetails']);
 $info_hide_empty_attachements   = isset($_REQUEST['info_hide_empty_attachements']);
 
+//User settings
+$use_gravatar                   = isset($_REQUEST['gravatar_enable']);
+
 $action = 'default';
 if (isset($_REQUEST["apply"])) {
     $action = 'apply';
@@ -154,10 +162,10 @@ if (isset($_REQUEST["change_admin_password"])) {
 $html = new HTML($config['html']['theme'], /*$config['html']['custom_css']*/ $custom_css, _('Konfiguration'));
 
 try {
-    //$database           = new Database();
-    //$log                = new Log($database);
+    $database           = new Database();
+    $log                = new Log($database);
     //$system             = new System($database, $log);
-    //$current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -219,6 +227,8 @@ if (! $fatal_error) {
             $config['part_info']['hide_empty_attachements']     = $info_hide_empty_attachements;
             $config['part_info']['hide_empty_orderdetails']     = $info_hide_empty_orderdetails;
 
+            $config['user']['avatars']['use_gravatar']          = $use_gravatar;
+
             if (! $config['is_online_demo']) {
                 // settings which should not be able to change in the online demo
                 $config['menu']['disable_config']       = $disable_config;
@@ -248,6 +258,7 @@ if (! $fatal_error) {
             }
 
             try {
+                $current_user->tryDo(PermissionManager::CONFIG, ConfigPermission::EDIT_CONFIG);
                 saveConfig();
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
                 //header('Location: system_config.php'); // Reload the page that we can see if the new settings are stored successfully --> does not work correctly?!
@@ -260,6 +271,7 @@ if (! $fatal_error) {
 
         case 'change_admin_password':
             try {
+                $current_user->tryDo(PermissionManager::CONFIG, ConfigPermission::CHANGE_ADMIN_PW);
                 if ($config['is_online_demo']) {
                     throw new Exception(_('Diese Funktion steht in der Online-Demo nicht zur Verfügung!'));
                 }
@@ -359,6 +371,7 @@ $html->setVariable('info_hide_empty_attachements', $config['part_info']['hide_em
 
 //Misc
 $html->setVariable("downloads_enable", $config['allow_server_downloads'], 'boolean');
+$html->setVariable('gravatar_enable', $config['user']['avatars']['use_gravatar'], 'boolean');
 
 // check if the server supports the selected language and print a warning if not
 if (! ownSetlocale(LC_ALL, $config['language'])) {
@@ -366,6 +379,12 @@ if (! ownSetlocale(LC_ALL, $config['language'])) {
     $messages[] = array('text' => sprintf(_('Die gewählte Sprache "%s" wird vom Server nicht unterstützt!'), $config['language']), 'color' => 'red', );
     $messages[] = array('text' => _('Bitte installieren Sie diese Sprache oder wählen Sie eine andere.'), 'color' => 'red', );
 }
+
+//Permission variables
+$html->setVariable('can_infos', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::SERVER_INFO));
+$html->setVariable('can_edit', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::EDIT_CONFIG));
+$html->setVariable('can_read', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::READ_CONFIG));
+$html->setVariable('can_password', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::CHANGE_ADMIN_PW));
 
 /********************************************************************************
  *

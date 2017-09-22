@@ -88,7 +88,8 @@ var AjaxUI = (function () {
         'use strict';
         var data = {
             success: this.showFormResponse,
-            beforeSubmit: this.showRequest
+            beforeSubmit: this.showRequest,
+            beforeSerialize: this.form_beforeSerialize
         };
         $('form').not(".no-ajax").ajaxForm(data);
     };
@@ -101,9 +102,23 @@ var AjaxUI = (function () {
         $("#content").html($(responseText).find("#content-data").html()).fadeIn('slow');
     };
     /**
+     * Modify the form, so tristate checkbox values are submitted, even if the checkbox is not a succesfull control (value = checked)
+     * @param $form
+     * @param options
+     */
+    AjaxUI.prototype.form_beforeSerialize = function ($form, options) {
+        $form.find("input[type=checkbox].tristate").each(function (index) {
+            var name = $(this).attr("name");
+            var value = $(this).val();
+            $form.append('<input type="hidden" name="' + name + '" value="' + value + '">');
+        });
+        $form.find("input[type=checkbox].tristate").remove();
+        return true;
+    };
+    /**
      * Called directly after a form was submited, and no content is requested yet.
      * We use it to show a progbar, if the form dont have a .no-progbar class.
-     * @param formData
+     * @param formData Array<any>
      * @param jqForm
      * @param options
      */
@@ -112,6 +127,11 @@ var AjaxUI = (function () {
         if (!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
             $('#progressbar').show(0);
+            formData.push({
+                name: "test",
+                value: "Test2435",
+                required: "false"
+            });
         }
         return true;
     };
@@ -238,7 +258,7 @@ var AjaxUI = (function () {
         console.log(event);
         //If it was a server error and response is not empty, show it to user.
         if (request.status == 500 && request.responseText !== "") {
-            $("html").html(request.responseText);
+            console.log("Response:" + request.responseText);
         }
     };
     /**
@@ -333,6 +353,7 @@ $(function (event) {
     ajaxui.addStartAction(registerAutoRefresh);
     ajaxui.addStartAction(scrollUpForMsg);
     ajaxui.addStartAction(rightClickSubmit);
+    ajaxui.addStartAction(makeTriStateCheckbox);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
@@ -343,8 +364,16 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(registerAutoRefresh);
     ajaxui.addAjaxCompleteAction(scrollUpForMsg);
     ajaxui.addAjaxCompleteAction(rightClickSubmit);
+    ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
     ajaxui.start();
 });
+function makeTriStateCheckbox() {
+    $(".tristate").tristate({
+        checked: "true",
+        unchecked: "false",
+        indeterminate: "indeterminate",
+    });
+}
 /**
  * Registers the popups for the hover images in the table-
  */

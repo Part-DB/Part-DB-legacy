@@ -14,6 +14,12 @@
     <div class="panel-body">
         <form action="" method="post" class="row no-progbar">
             <div class="col-md-4">
+
+                {if !isset($id) || $id == 0}
+                    {assign "can_edit" $can_create}
+                    {assign "can_move" $can_create}
+                {/if}
+
                 <select class="form-control selectpicker"  data-live-search="true" onChange='$("[name=selected_id]").val(this.value); submitForm(this.form);'>
                     <optgroup label="Neu">
                         <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neue Kategorie{/t}</option>
@@ -70,14 +76,15 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Name*:{/t}</label>
                                 <div class="col-md-9">
-                                    <input type="text" class="form-control" name="name" value="{$name}" placeholder="{t}z.B. Kondensatoren{/t}" required>
+                                    <input type="text" class="form-control" name="name" value="{$name}"
+                                           placeholder="{t}z.B. Kondensatoren{/t}" required {if !$can_edit}disabled{/if}>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Übergeordnete Kategorie*:{/t}</label>
                                 <div class="col-md-9">
-                                    <select class="form-control selectpicker" data-live-search="true" name="parent_id" size="1">
+                                    <select class="form-control selectpicker" data-live-search="true" name="parent_id" size="1" {if !$can_move}disabled{/if}>
                                         {$parent_category_list nofilter}
                                     </select>
                                 </div>
@@ -94,7 +101,7 @@
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" name="partname_regex" value="{$partname_regex}"
                                            placeholder="{if !empty($partname_regex_parent)}{$partname_regex_parent}{else}{t}z.B. /([^\/]+)/(^\/]+)/@f$Kapazität$Spannung{/t}{/if}"
-                                            pattern="{$partname_input_pattern}">
+                                            pattern="{$partname_input_pattern}" {if !$can_edit}disabled{/if}>
                                 </div>
                             </div>
 
@@ -102,7 +109,8 @@
                                 <label class="control-label col-md-3">{t}Hinweis für Bauteilenamen:{/t}</label>
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" name="partname_hint" value="{$partname_hint}"
-                                           placeholder="{if !empty($partname_hint_parent)}{$partname_hint_parent}{else}{t}z.B. Kapazität/Spannung{/t}{/if}">
+                                           placeholder="{if !empty($partname_hint_parent)}{$partname_hint_parent}{else}{t}z.B. Kapazität/Spannung{/t}{/if}"
+                                           {if !$can_edit}disabled{/if}>
                                 </div>
                             </div>
 
@@ -112,7 +120,8 @@
                                 <label class="control-label col-md-3">{t}Standard Beschreibung:{/t}</label>
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" name="default_description" value="{$default_description}"
-                                           placeholder="{if !empty($default_description_parent)}{$default_description_parent}{else}{t}z.B. Durchmesser: ,Höhe:{/t}{/if}">
+                                           placeholder="{if !empty($default_description_parent)}{$default_description_parent}{else}{t}z.B. Durchmesser: ,Höhe:{/t}{/if}"
+                                           {if !$can_edit}disabled{/if}>
                                 </div>
                             </div>
 
@@ -120,7 +129,8 @@
                                 <label class="control-label col-md-3">{t}Standard Kommentar:{/t}</label>
                                 <div class="col-md-9">
                                     <input type="text" class="form-control" name="default_comment" value="{$default_comment}"
-                                           placeholder="{if !empty($default_comment_parent)}{$default_comment_parent}{else}{t}z.B. RM:{/t}{/if}">
+                                           placeholder="{if !empty($default_comment_parent)}{$default_comment_parent}{else}{t}z.B. RM:{/t}{/if}"
+                                           {if !$can_edit}disabled{/if}>
                                 </div>
                             </div>
 
@@ -135,7 +145,9 @@
                                 <label class="control-label col-md-3">{t}Footprints deaktivieren:{/t}</label>
                                 <div class="col-md-9">
                                     <div class="checkbox">
-                                        <input type="checkbox" name="disable_footprints" {if $disable_footprints}checked{/if} {if isset($parent_disable_footprints) && $parent_disable_footprints}disabled{/if}>
+                                        <input type="checkbox" name="disable_footprints" {if $disable_footprints}checked{/if}
+                                                {if isset($parent_disable_footprints) && $parent_disable_footprints}disabled{/if}
+                                                {if !$can_edit}disabled{/if}>
                                         <label>{t}Teile in dieser Kategorie (inkl. allen Unterkategorien) können keine Footprints haben{/t}</label>
                                     </div>
                                 </div>
@@ -145,7 +157,9 @@
                                 <label class="control-label col-md-3">{t}Hersteller deaktivieren:{/t}</label>
                                 <div class="col-md-9">
                                     <div class="checkbox">
-                                        <input type="checkbox" name="disable_manufacturers" {if $disable_manufacturers}checked{/if} {if isset($parent_disable_manufacturers) && $parent_disable_manufacturers}disabled{/if}>
+                                        <input type="checkbox" name="disable_manufacturers" {if $disable_manufacturers}checked{/if}
+                                                {if isset($parent_disable_manufacturers) && $parent_disable_manufacturers}disabled{/if}
+                                                {if !$can_edit}disabled{/if}>
                                         <label>{t}Teile in dieser Kategorie (inkl. allen Unterkategorien) können keine Hersteller haben{/t}</label>
                                     </div>
                                 </div>
@@ -157,7 +171,9 @@
                                 <label class="control-label col-md-3">{t}Automatische Links zu Datenblättern deaktivieren:{/t}</label>
                                 <div class="col-md-9">
                                     <div class="checkbox">
-                                        <input type="checkbox" name="disable_autodatasheets" {if $disable_autodatasheets}checked{/if} {if isset($parent_disable_autodatasheets) && $parent_disable_autodatasheets}disabled{/if}>
+                                        <input type="checkbox" name="disable_autodatasheets" {if $disable_autodatasheets}checked{/if}
+                                                {if isset($parent_disable_autodatasheets) && $parent_disable_autodatasheets}disabled{/if}
+                                                {if !$can_edit}disabled{/if}>
                                         <label>{t}Teile in dieser Kategorie (inkl. allen Unterkategorien) haben keine automatisch erzeugten Links zu Datenblättern{/t}</label>
                                     </div>
                                 </div>
@@ -167,7 +183,9 @@
                                 <label class="control-label col-md-3">{t}Automatische erzeugte Bauteileeigenschaften deaktivieren:{/t}</label>
                                 <div class="col-md-9">
                                     <div class="checkbox">
-                                        <input type="checkbox" name="disable_properties" {if $disable_properties}checked{/if} {if isset($parent_disable_properties) && $parent_disable_properties}disabled{/if}>
+                                        <input type="checkbox" name="disable_properties" {if $disable_properties}checked{/if}
+                                                {if isset($parent_disable_properties) && $parent_disable_properties}disabled{/if}
+                                                {if !$can_edit}disabled{/if}>
                                         <label>{t}Teile in dieser Kategorie (inkl. allen Unterkategorien) haben keine automatisch erzeugten Bauteileigenschaften{/t}</label>
                                     </div>
                                 </div>
@@ -185,14 +203,14 @@
                     <div class="form-group">
                         <div class="col-md-9 col-md-offset-3">
                             {if !isset($id) || $id == 0}
-                                <button class="btn btn-success" type="submit" name="add">{t}Neue Kategorie anlegen{/t}</button>
+                                <button class="btn btn-success" type="submit" name="add" {if !$can_create}disabled{/if}>{t}Neue Kategorie anlegen{/t}</button>
                                 <div class="checkbox">
-                                    <input type="checkbox" name="add_more" {if $add_more}checked{/if}>
+                                    <input type="checkbox" name="add_more" {if $add_more}checked{/if} {if !$can_create}disabled{/if}>
                                     <label>{t}Weitere Kategorien anlegen{/t}</label>
                                 </div>
                             {else}
-                                <button class="btn btn-success" type="submit" name="apply">{t}Änderungen übernehmen{/t}</button>
-                                <button class="btn btn-danger" type="submit" name="delete">{t}Kategorie löschen{/t}</button>
+                                <button class="btn btn-success" type="submit" name="apply" {if !$can_edit && !$can_move}disabled{/if}>{t}Änderungen übernehmen{/t}</button>
+                                <button class="btn btn-danger" type="submit" name="delete" {if !$can_delete}disabled{/if}>{t}Kategorie löschen{/t}</button>
                             {/if}
                         </div>
                     </div>

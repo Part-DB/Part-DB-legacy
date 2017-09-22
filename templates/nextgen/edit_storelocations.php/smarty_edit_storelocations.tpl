@@ -25,6 +25,11 @@
         <form action="" method="post" name="edit" class="row no-progbar">
             <div class="col-md-4">
 
+                {if !isset($id) || $id == 0}
+                    {assign "can_edit" $can_create}
+                    {assign "can_move" $can_create}
+                {/if}
+
                 <select class="form-control selectpicker"  data-live-search="true" onChange='$("[name=selected_id]").val(this.value); submitForm(this.form);'>
                     <optgroup label="Neu">
                         <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neuer Lagerort{/t}</option>
@@ -70,7 +75,8 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">{t}Name*:{/t}</label>
                     <div class="col-md-9">
-                        <input class="form-control" placeholder="{t}z.B. Aktive Bauteile I{/t}" type="text" name="name" value="{$name}" required>
+                        <input class="form-control" placeholder="{t}z.B. Aktive Bauteile I{/t}"
+                               type="text" name="name" value="{$name}" required {if !$can_edit}disabled{/if}>
                     </div>
                 </div>
                 
@@ -79,7 +85,8 @@
                     <label class="control-label col-md-3">{t}Serie:{/t}</label>
                     <div class="col-md-9">
                        <div class="checkbox">
-                            <input type="checkbox" name="series" {if isset($series)}checked{/if} onclick="switch_series()">
+                            <input type="checkbox" name="series" {if isset($series)}checked{/if}
+                                   onclick="switch_series()" {if !$can_edit}disabled{/if}>
                             <label>{t}Serie erzeugen{/t}</label>
                         </div>
                     </div>
@@ -105,7 +112,7 @@
                 <div class="form-group">
                     <label class="control-label col-md-3">{t}Übergeordneter Lagerort*:{/t}</label>
                     <div class="col-md-9">
-                        <select name="parent_id" class="form-control selectpicker" data-live-search="true" size="1">
+                        <select name="parent_id" class="form-control selectpicker" data-live-search="true" size="1" {if !$can_move}disabled{/if}>
                             {$parent_storelocation_list nofilter}
                         </select>
                     </div>
@@ -115,7 +122,7 @@
                     <label class="control-label col-md-3">{t}Voll:{/t}</label>
                     <div class="col-md-9">
                         <div class="checkbox"> 
-                            <input type="checkbox" name="is_full" {if $is_full}checked{/if}>
+                            <input type="checkbox" name="is_full" {if $is_full}checked{/if} {if !$can_edit}disabled{/if}>
                             <label>{t}Diesen Lagerort als "voll" markieren{/t}</label>
                         </div>
                     </div>
@@ -130,14 +137,14 @@
                 <div class="form-group"> 
                     <div class="col-md-9 col-md-offset-3">
                         {if !isset($id) || $id == 0}
-                            <button type="submit" class="btn btn-success" name="add">{t}Neuen Lagerort anlegen{/t}</button>
+                            <button type="submit" class="btn btn-success" name="add" {if !$can_create}disabled{/if}>{t}Neuen Lagerort anlegen{/t}</button>
                             <div class="checkbox">
-                                <input type="checkbox" name="add_more" {if $add_more}checked{/if}>
+                                <input type="checkbox" name="add_more" {if $add_more}checked{/if} {if !$can_create}disabled{/if}>
                                 <label>{t}Weitere Lagerorte anlegen{/t}</label>
                             </div>
                         {else}
-                            <button type="submit" class="btn btn-success" name="apply">{t}Änderungen übernehmen{/t}</button>
-                            <button type="submit" class="btn btn-danger" name="delete">{t}Lagerort löschen{/t}</button>
+                            <button type="submit" class="btn btn-success" name="apply" {if !$can_edit && !$can_move}disabled{/if}>{t}Änderungen übernehmen{/t}</button>
+                            <button type="submit" class="btn btn-danger" name="delete" {if !$can_delete}disabled{/if}>{t}Lagerort löschen{/t}</button>
                         {/if}
                     </div>
                 </div>

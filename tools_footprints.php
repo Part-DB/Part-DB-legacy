@@ -27,6 +27,8 @@ include_once('start_session.php');
 
 use PartDB\Database;
 use PartDB\HTML;
+use PartDB\Log;
+use PartDB\User;
 
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
@@ -63,7 +65,11 @@ if (isset($_REQUEST['show_others'])) {
 $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Footprint-Bilder'));
 
 try {
-    $database = new Database();
+    $database           = new Database();
+    $log                = new Log($database);
+    $current_user       = User::getLoggedInUser($database, $log); // admin
+
+    $current_user->tryDo(\PartDB\Permissions\PermissionManager::TOOLS, \PartDB\Permissions\ToolsPermission::FOOTPRINTS);
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -132,7 +138,7 @@ $html->setVariable("action", $action, "string");
  *
  *********************************************************************************/
 
-if (count($directories) > 0) {
+if (!$fatal_error && count($directories) > 0) {
     $categories_loop = array();
     $categories = array();
     foreach ($directories as $directory) {

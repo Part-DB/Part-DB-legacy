@@ -26,6 +26,9 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Permissions\PartContainingPermission;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\StructuralPermission;
 
 /**
  * @file Device.php
@@ -276,6 +279,18 @@ class Device extends Base\PartsContainingDBElement
      */
     public function getParts($recursive = false, $hide_obsolet_and_zero = false)
     {
+        $this->current_user->tryDo(static::getPermissionName(), PartContainingPermission::LIST_PARTS);
+        return $this->getPartsWithoutPermCheck($recursive, $hide_obsolet_and_zero);
+    }
+
+    /**
+     * Similar to getParts() but without check of the Permission.
+     * For use in internal functions, like getPartsCount() or getPartsSumCount()
+     * @param bool $recursive
+     * @param bool $hide_obsolet_and_zero
+     * @return array|null
+     */
+    protected function getPartsWithoutPermCheck($recursive = false, $hide_obsolet_and_zero = false) {
         if (! is_array($this->parts)) {
             $this->parts = array();
 
@@ -317,7 +332,7 @@ class Device extends Base\PartsContainingDBElement
      */
     public function getPartsCount($recursive = false)
     {
-        $device_parts = $this->getParts($recursive);
+        $device_parts = $this->getPartsWithoutPermCheck($recursive);
 
         return count($device_parts);
     }
@@ -334,7 +349,7 @@ class Device extends Base\PartsContainingDBElement
     public function getPartsSumCount($recursive = false)
     {
         $count = 0;
-        $device_parts = $this->getParts($recursive);
+        $device_parts = $this->getPartsWithoutPermCheck($recursive);
 
         foreach ($device_parts as $device_part) {
             /** @var DevicePart $device_part */
@@ -367,7 +382,7 @@ class Device extends Base\PartsContainingDBElement
     public function getTotalPrice($as_money_string = true, $recursive = false)
     {
         $price = 0;
-        $device_parts = $this->getParts($recursive);
+        $device_parts = $this->getPartsWithoutPermCheck($recursive);
 
         foreach ($device_parts as $device_part) {
             /** @var DevicePart $device_part */
@@ -491,6 +506,7 @@ class Device extends Base\PartsContainingDBElement
      *  Create a new device
      *
      * @param Database  &$database                  reference to the database object
+     * @param Database  &$database                  reference to the database object
      * @param User      &$current_user              reference to the current user which is logged in
      * @param Log       &$log                       reference to the Log-object
      * @param string    $name                       the name of the new device (see Device::set_name())
@@ -515,5 +531,14 @@ class Device extends Base\PartsContainingDBElement
                 'order_quantity'            => 0,
                 'order_only_missing_parts'  => false)
         );
+    }
+
+    /**
+     * Gets the permission name for control access to this StructuralDBElement
+     * @return string The name of the permission for this StructuralDBElement.
+     */
+    protected static function getPermissionName()
+    {
+        return PermissionManager::DEVICES;
     }
 }

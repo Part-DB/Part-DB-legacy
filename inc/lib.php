@@ -31,6 +31,11 @@
 
 use PartDB\Interfaces\IAPIModel;
 use PartDB\Part;
+use PartDB\Permissions\PartPermission;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\StructuralPermission;
+use PartDB\Permissions\ToolsPermission;
+use PartDB\User;
 
 /**
  * check if a given number is odd
@@ -970,6 +975,9 @@ function buildToolsTree($params)
 {
     global $config;
 
+    //Build objects
+    $current_user       = User::getLoggedInUser();
+
     $disable_footprint = $config['footprints']['disable'];
     $disable_manufactur = $config['manufacturers']['disable'];
     $disable_suppliers  = $config['suppliers']['disable'];
@@ -988,51 +996,82 @@ function buildToolsTree($params)
 
     //Tools nodes
     $tools_nodes = array();
-    $tools_nodes[] = treeviewNode(_("Import"), BASE_RELATIVE . "/tools_import.php");
-    if (!$disable_labels) {
+    if ($current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IMPORT)) {
+        $tools_nodes[] = treeviewNode(_("Import"), BASE_RELATIVE . "/tools_import.php");
+    }
+    if (!$disable_labels && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::LABELS)) {
         $tools_nodes[] = treeviewNode(_("Labels"), BASE_RELATIVE . "/tools_labels.php");
     }
-    if (!$disable_calculator) {
+    if (!$disable_calculator && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::CALCULATOR)) {
         $tools_nodes[] = treeviewNode(_("Widerstandsrechner"), BASE_RELATIVE . "/tools_calculator.php");
     }
-    if (!$disable_tools_footprints) {
+    if (!$disable_tools_footprints && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::FOOTPRINTS)) {
         $tools_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/tools_footprints.php");
     }
-    if (!$disable_iclogos) {
+    if (!$disable_iclogos && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IC_LOGOS)) {
         $tools_nodes[] = treeviewNode(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");
     }
 
     $system_nodes = array();
-    $system_nodes[] = treeviewNode(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
-    $system_nodes[] = treeviewNode(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
+    if ($current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ)) {
+        $system_nodes[] = treeviewNode(_("Benutzer"), BASE_RELATIVE . "/edit_users.php");
+    }
+    if ($current_user->canDo(PermissionManager::GROUPS, \PartDB\Permissions\GroupPermission::READ)) {
+        $system_nodes[] = treeviewNode(_("Gruppen"), BASE_RELATIVE . "/edit_groups.php");
+    }
+    if($current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::READ_CONFIG)
+        || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::SERVER_INFO)
+        || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::CHANGE_ADMIN_PW)) {
+        $system_nodes[] = treeviewNode(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
+    }
+    if ($current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::SEE_STATUS)
+        || $current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::READ_DB_SETTINGS)) {
+        $system_nodes[] = treeviewNode(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
+    }
+
 
 
     //Show nodes
     $show_nodes = array();
-    $show_nodes[] = treeviewNode(_("Zu bestellende Teile"), BASE_RELATIVE . "/show_order_parts.php");
-    $show_nodes[] = treeviewNode(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
-    $show_nodes[] = treeviewNode(_("Obsolente Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
-    $show_nodes[] = treeviewNode(_("Statistik"), BASE_RELATIVE . "/statistics.php");
-    $show_nodes[] = treeviewNode(_("Alle Teile"), BASE_RELATIVE . "/show_all_parts.php");
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::ORDER_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Zu bestellende Teile"), BASE_RELATIVE . "/show_order_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::OBSOLETE_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Obsolente Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::TOOLS, ToolsPermission::STATISTICS)) {
+        $show_nodes[] = treeviewNode(_("Statistik"), BASE_RELATIVE . "/statistics.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::ALL_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Alle Teile"), BASE_RELATIVE . "/show_all_parts.php");
+    }
 
     //Edit nodes
     $edit_nodes = array();
-    if (!$disable_devices) {
+    if (!$disable_devices && $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Baugruppen"), BASE_RELATIVE . "/edit_devices.php");
     }
-    $edit_nodes[] = treeviewNode(_("Lagerorte"), BASE_RELATIVE . "/edit_storelocations.php");
-    if (!$disable_footprint) {
+    if ($current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::READ)) {
+        $edit_nodes[] = treeviewNode(_("Lagerorte"), BASE_RELATIVE . "/edit_storelocations.php");
+    }
+    if (!$disable_footprint && $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/edit_footprints.php");
     }
-    $edit_nodes[] = treeviewNode(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
-    if (!$disable_suppliers) {
+    if ($current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ)) {
+        $edit_nodes[] = treeviewNode(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
+    }
+    if (!$disable_suppliers && $current_user->canDo(PermissionManager::SUPPLIERS, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Lieferanten"), BASE_RELATIVE . "/edit_suppliers.php");
     }
-
-    if (!$disable_manufactur) {
+    if (!$disable_manufactur && $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Hersteller"), BASE_RELATIVE . "/edit_manufacturers.php");
     }
-    $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
+    if ($current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ)) {
+        $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
+    }
 
     //Developer nodes
     $dev_nodes = array();
@@ -1043,13 +1082,19 @@ function buildToolsTree($params)
 
     //Add nodes to root
     $tree = array();
-    $tree[] = treeviewNode(_("Tools"), null, $tools_nodes);
-    $tree[] = treeviewNode(_("Bearbeiten"), null, $edit_nodes);
-    $tree[] = treeviewNode(_("Zeige"), null, $show_nodes);
-    if (!$disable_config) {
+    if (!empty($tools_nodes)) {
+        $tree[] = treeviewNode(_("Tools"), null, $tools_nodes);
+    }
+    if (!empty($edit_nodes)) {
+        $tree[] = treeviewNode(_("Bearbeiten"), null, $edit_nodes);
+    }
+    if (!empty($show_nodes)) {
+        $tree[] = treeviewNode(_("Zeige"), null, $show_nodes);
+    }
+    if (!$disable_config && !empty($system_nodes)) {
         $tree[] = treeviewNode(_("System"), null, $system_nodes);
     }
-    if ($developer_mode) {
+    if ($developer_mode && $current_user->canDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::USE_DEBUG)) {
         $tree[] = treeviewNode(_("Entwickler-Werkzeuge"), null, $dev_nodes);
     }
     if (!$disable_help) {
@@ -1311,4 +1356,20 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg")
 
     //Build HTML
     return '<i class="fa ' . $fa_class . '" aria-hidden="true"></i>';
+}
+
+/**
+ * Parses the value of a Tristate Checkbox input.
+ * @param $tristate_data string The Request data of the Tristate input.
+ * @return int 0, if checkbox was indetermined, 1 if checkbox was checked, 2 if checkbox, was not checked.
+ */
+function parseTristateCheckbox($tristate_data) {
+    switch ($tristate_data) {
+        case "true":
+            return 1;
+        case "false":
+            return 2;
+        case "indeterminate":
+            return 0;
+    }
 }

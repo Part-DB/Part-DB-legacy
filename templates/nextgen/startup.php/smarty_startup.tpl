@@ -1,5 +1,13 @@
 {locale path="nextgen/locale" domain="partdb"}
 
+{if isset($must_change_pw) && $must_change_pw}
+    <div class="alert alert-danger">
+        <h4>{t}Password Änderung erforderlich!{/t}</h4>
+        <strong>{t}Aus Sicherheitsgründen müssen sie ihr Password ändern.{/t}</strong>
+        <p>{t escape=false}Besuchen sie hierzu in die <a href="user_settings.php">Benutzeinstellungen</a>.{/t}</p>
+    </div>
+{/if}
+
 {if isset($database_update) && $database_update}
     {if $database_update}
         <div class="panel panel-danger">

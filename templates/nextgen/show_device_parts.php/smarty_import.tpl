@@ -42,14 +42,14 @@ ATMEGA328_SMD;1;
         <div class="form-group">
             <label class="col-md-12">{t}Import Text:{/t}</label>
             <div class="col-md-12">
-                <textarea class="form-control"  name="import_file_content" rows="10" cols="80">{$import_file_content}</textarea>
+                <textarea class="form-control"  name="import_file_content" rows="10" cols="80" {if !$can_part_create}disabled{/if}>{$import_file_content}</textarea>
             </div>
         </div>
         <div class="form-group">
             <label class="control-label col-md-3">{t}Export-Format:{/t}</label>
             <div class="col-md-9">
                 <input type="hidden" name="device_id" value="{$device_id}">
-                <select class="form-control" name="import_format">
+                <select class="form-control" name="import_format" {if !$can_part_create}disabled{/if}>
                     <option value="CSV" {if $import_format == "CSV"}selected{/if}>{t}CSV{/t}</option>
                     <option value="XML" {if $import_format == "XML"}selected{/if}>{t}XML{/t}</option>
                 </select>
@@ -59,13 +59,13 @@ ATMEGA328_SMD;1;
         <div class="form-group">
             <label class="control-label col-md-3">{t}Trennzeichen für CSV:{/t}</label>
             <div class="col-md-9">      
-                <input class="form-control" type="text" name="import_separator" value="{$import_separator}" size="5">
+                <input class="form-control" type="text" name="import_separator" value="{$import_separator}" size="5" {if !$can_part_create}disabled{/if}>
             </div> 
         </div>
         
         <div class="form-group">
             <div class="col-md-9 col-md-offset-3">
-                <button type="submit" class="btn btn-success" name="import_readtext">{t}Daten zum Überprüfen hochladen{/t}</button>
+                <button type="submit" class="btn btn-success" name="import_readtext" {if !$can_part_create}disabled{/if}>{t}Daten zum Überprüfen hochladen{/t}</button>
             </div>
         </div>
         

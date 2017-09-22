@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Permissions\PermissionManager;
 
 /**
  * @file Footprint.php
@@ -383,5 +384,14 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
             return array_merge($json, $ver);
         }
         return $json;
+    }
+
+    /**
+     * Gets the permission name for control access to this StructuralDBElement
+     * @return string The name of the permission for this StructuralDBElement.
+     */
+    protected static function getPermissionName()
+    {
+        return PermissionManager::FOOTRPINTS;
     }
 }

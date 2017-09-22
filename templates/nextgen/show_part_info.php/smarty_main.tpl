@@ -133,16 +133,15 @@
             </div>
 
             <div class="col-md-3">
-
                 <form action="" method="post" class="hidden-print no-progbar">
                     <input type="hidden" name="pid" value="{$pid}">
                     <div class="row">
                         <div class="col-md-12">
                             <label for="n_less">{t}Teile entnehmen:{/t}</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="n_less" min="0" max="999" value="1" placeholder="Anzahl">
+                                <input type="number" class="form-control" name="n_less" min="0" max="999" value="1" placeholder="Anzahl" {if !$can_instock}disabled{/if}>
                                 <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-default" name="dec">{t}Entnehmen{/t}</button>
+                                            <button type="submit" class="btn btn-default" name="dec" {if !$can_instock}disabled{/if}>{t}Entnehmen{/t}</button>
                                         </span>
                             </div>
                         </div>
@@ -157,9 +156,9 @@
                         <div class="col-md-12">
                             <label for="n_more">{t}Teile hinzufügen{/t}</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="n_more" min="0" max="999" value="1">
+                                <input type="number" class="form-control" name="n_more" min="0" max="999" value="1" {if !$can_instock}disabled{/if}>
                                 <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-default" name="inc">{t}Hinzufügen{/t}</button>
+                                            <button type="submit" class="btn btn-default" name="inc" {if !$can_instock}disabled{/if}>{t}Hinzufügen{/t}</button>
                                         </span>
                             </div>
                         </div>
@@ -168,22 +167,27 @@
 
                 <p></p>
 
+                {if $can_order_read}
                 <form action="" method="post" class="hidden-print no-progbar">
                     <input type="hidden" name="pid" value="{$pid}">
                     <div class="row">
                         <div class="col-md-12">
                             {if $manual_order_exists}
                                 <label for="remove_mark_to_order">{t}Bauteil wurde manuell zum Bestellen vorgemerkt.{/t}</label>
-                                <button type="submit" class="btn btn-default" name="remove_mark_to_order">{t}Aufheben{/t}</button>
+                                <button type="submit" class="btn btn-default"
+                                        name="remove_mark_to_order" {if !$can_order_read}disabled{/if}>
+                                    {t}Aufheben{/t}</button>
                             {else}
                                 {if $auto_order_exists}
                                     <i>{t}Das Bauteil wird unter "Zu bestellende Teile"aufgelistet, da der Bestand kleiner als der Mindestbestand ist.{/t}</i>
                                 {else}
                                     <label for="order_quantity">{t}Zum Bestellen vormerken:{/t}</label>
                                     <div class="input-group">
-                                        <input type="number" min="0" max="999" class="form-control" value="1" name="order_quantity" placeholder="Bestellmenge"><br>
+                                        <input type="number" min="0" max="999" class="form-control" value="1" name="order_quantity"
+                                               placeholder="Bestellmenge" {if !$can_order_edit}disabled{/if}><br>
                                         <span class="input-group-btn">
-                                                    <button type="submit" class="btn btn-default" name="mark_to_order">{t}Übernehmen{/t}</button>
+                                                    <button type="submit" class="btn btn-default"
+                                                            name="mark_to_order" {if !$can_order_edit}disabled{/if}>{t}Übernehmen{/t}</button>
                                                 </span>
                                     </div>
                                 {/if}
@@ -191,6 +195,7 @@
                         </div>
                     </div>
                 </form>
+                {/if}
 
                 <p></p>
 

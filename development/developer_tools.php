@@ -26,7 +26,10 @@
 include_once('../start_session.php');
 
 
+use PartDB\Database;
 use PartDB\HTML;
+use PartDB\Log;
+use PartDB\User;
 
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
@@ -136,10 +139,11 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Entwi
 
 try
 {
-    //$database           = new Database();
-    //$log                = new Log($database);
+    $database           = new Database();
+    $log                = new Log($database);
     //$system             = new System($database, $log);
-    //$current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
+    $current_user->tryDo(\PartDB\Permissions\PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::USE_DEBUG);
 }
 catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
