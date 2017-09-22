@@ -125,8 +125,7 @@ if (! $fatal_error) {
                 $data = array("first_name" => $new_first_name,
                     "last_name" => $new_last_name,
                     "department" => $new_department,
-                    "email" => $new_email,
-                    "group_id" => $new_group_id
+                    "email" => $new_email
                 );
 
                 $new_user = User::add($database, $current_user, $log, $new_name, $new_group_id, $data);
