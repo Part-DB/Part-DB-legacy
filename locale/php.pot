@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-22 19:27+0200\n"
+"POT-Creation-Date: 2017-09-22 23:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -594,6 +594,11 @@ msgstr ""
 msgid "Committer/Templates/Neue Funktionen"
 msgstr ""
 
+#: inc/lib.php:138 inc/lib.php:172 inc/lib.php:277
+#, php-format
+msgid "\"%s\" ist kein gültiges Verzeichnis!"
+msgstr ""
+
 #: inc/lib.php:267
 msgid "Ungültiges Array übergeben!"
 msgstr ""
@@ -608,6 +613,81 @@ msgstr ""
 
 #: inc/lib.php:299
 msgid "Es existiert bereits eine Datei mit dem Dateinamen \""
+msgstr ""
+
+#: inc/lib.php:307
+msgid ""
+"Die maximal mögliche Dateigrösse für Uploads wurde überschritten "
+"(\"upload_max_filesize\" in \"php.ini\")! "
+msgstr ""
+
+#: inc/lib.php:308 inc/lib.php:1101
+msgid "Hilfe"
+msgstr ""
+
+#: inc/lib.php:310
+msgid "Die maximal mögliche Dateigrösse für Uploads wurde überschritten!"
+msgstr ""
+
+#: inc/lib.php:312
+msgid "Die Datei wurde nur teilweise hochgeladen!"
+msgstr ""
+
+#: inc/lib.php:314
+msgid "Es wurde keine Datei hochgeladen!"
+msgstr ""
+
+#: inc/lib.php:316
+msgid "Es gibt keinen temporären Ordner für hochgeladene Dateien!"
+msgstr ""
+
+#: inc/lib.php:318
+msgid "Das Speichern der Datei auf die Festplatte ist fehlgeschlagen!"
+msgstr ""
+
+#: inc/lib.php:320
+msgid "Eine PHP Erweiterung hat den Upload der Datei gestoppt!"
+msgstr ""
+
+#: inc/lib.php:322 inc/lib.php:326
+msgid "Beim Hochladen der Datei trat ein unbekannter Fehler auf!"
+msgstr ""
+
+#: inc/lib.php:363
+msgid "Das eingegebene Administratorpasswort ist nicht korrekt!"
+msgstr ""
+
+#: inc/lib.php:367
+msgid "Das neue Passwort muss mindestens 4 Zeichen lang sein!"
+msgstr ""
+
+#: inc/lib.php:371
+msgid "Die neuen Passwörter stimmen nicht überein!"
+msgstr ""
+
+#: inc/lib.php:417
+msgid ""
+"Es sind nicht genügend Rechte vorhanden um die Datei \"config.php\" zu "
+"beschreiben!"
+msgstr ""
+
+#: inc/lib.php:436 inc/lib.php:440
+msgid ""
+"Die Datei \"config.php\" konnte nicht beschrieben werden. Überprüfen Sie, ob "
+"genügend Rechte vorhanden sind."
+msgstr ""
+
+#: inc/lib.php:444
+msgid ""
+"Es gab ein Fehler beim Abschliessen der Schreibvorgangs bei der Datei "
+"\"config.php\"."
+msgstr ""
+
+#: inc/lib.php:546
+msgid ""
+"\"curl\" scheint auf ihrem System nicht installiert zu sein! \n"
+"Bitte installieren Sie das entsprechende Modul, oder es werden gewisse "
+"Funktionen nicht zur Verfügung stehen."
 msgstr ""
 
 #: inc/lib.php:560
@@ -718,8 +798,14 @@ msgstr ""
 msgid "Entwickler-Werkzeuge"
 msgstr ""
 
-#: inc/lib.php:1101
-msgid "Hilfe"
+#: inc/lib.start_session.php:158
+#, php-format
+msgid "Für Part-DB wird mindestens PHP \"%s\" vorausgesetzt! "
+msgstr ""
+
+#: inc/lib.start_session.php:159
+#, php-format
+msgid "Die derzeit installierte Version ist PHP \"%s\" ."
 msgstr ""
 
 #: inc/lib.start_session.php:165
@@ -728,6 +814,55 @@ msgstr ""
 
 #: inc/lib.start_session.php:170
 msgid "Unbekannte Mindestanforderung: "
+msgstr ""
+
+#: inc/lib.start_session.php:210
+#, php-format
+msgid ""
+"Das Verzeichnis bzw. die Datei \"%s\" existiert nicht oder kann nicht "
+"gelesen werden!"
+msgstr ""
+
+#: inc/lib.start_session.php:222
+#, php-format
+msgid ""
+"Das Verzeichnis bzw. die Datei \"%s\" hat nicht die richtigen Dateirechte! "
+msgstr ""
+
+#: inc/lib.start_session.php:223
+#, php-format
+msgid "Benötigt werden \"%s\". Bitte manuell korrigieren."
+msgstr ""
+
+#: inc/lib.start_session.php:245
+#, php-format
+msgid "Die Datei \"%s\" ist benötigt und wurde nicht gefunden!"
+msgstr ""
+
+#: inc/lib.start_session.php:267
+msgid ""
+"Es scheint, als hätten Sie die Datei \"config_defaults.php\" als Vorlage für "
+"Ihre \"config.php\" verwendet.<br>Das ist aber nicht so vorgesehen und darf "
+"nicht so gemacht werden, da dies Probleme verursachen wird!<br><br>Löschen "
+"Sie Ihre \"config.php\" und öffnen Sie Part-DB im Webbrowser.<br>Es wird "
+"dann ein Installationsassistent gestartet, der automatisch eine korrekte "
+"\"config.php\" anlegen wird."
+msgstr ""
+
+#: inc/lib.start_session.php:283
+msgid "Part-DB: Schwerwiegender Fehler!"
+msgstr ""
+
+#: inc/lib.start_session.php:285
+msgid "Es ist ein schwerwiegender Fehler aufgetreten:"
+msgstr ""
+
+#: inc/lib.start_session.php:287
+msgid "(Exception wurde geworfen in "
+msgstr ""
+
+#: inc/lib.start_session.php:287
+msgid ", Zeile "
 msgstr ""
 
 #: install.php:94
@@ -789,8 +924,12 @@ msgid "Der Dateipfad \"%s\" ist kein gültiger absoluter UNIX Dateipfad!"
 msgstr ""
 
 #: lib/Attachement.php:477 lib/AttachementType.php:118
-#: lib/Base/DBElement.php:96 lib/Category.php:514 lib/DevicePart.php:334
-#: lib/User.php:661
+#: lib/Base/DBElement.php:96 lib/Category.php:514 lib/Device.php:469
+#: lib/Device.php:499 lib/DevicePart.php:334 lib/DevicePart.php:365
+#: lib/Manufacturer.php:110 lib/Part.php:1802 lib/Part.php:1824
+#: lib/Part.php:1852 lib/Part.php:1912 lib/Part.php:1964 lib/Part.php:2003
+#: lib/Storelocation.php:161 lib/Supplier.php:165 lib/Supplier.php:192
+#: lib/System.php:77 lib/User.php:661
 msgid "$database ist kein Database-Objekt!"
 msgstr ""
 
@@ -878,7 +1017,9 @@ msgstr ""
 msgid "Das Element \"%s\" konnte nicht gelöscht werden!"
 msgstr ""
 
-#: lib/Base/PartsContainingDBElement.php:136
+#: lib/Base/PartsContainingDBElement.php:136 lib/Device.php:137
+#: lib/Device.php:191 lib/Device.php:236 lib/Orderdetails.php:150
+#: lib/Part.php:190
 msgid "Grund: "
 msgstr ""
 
@@ -1086,8 +1227,39 @@ msgstr ""
 msgid "PDO Ergebnis ist kein Array!"
 msgstr ""
 
+#: lib/Database.php:876
+#, php-format
+msgid "Es existiert kein Datensatz mit der ID \"%d\" in der Tabelle \"%s\"!"
+msgstr ""
+
 #: lib/Database.php:910
 msgid "$values ist kein gültiges Array!"
+msgstr ""
+
+#: lib/Device.php:137
+#, php-format
+msgid "Die Baugruppe \"%s\" konnte nicht gelöscht werden!\\n"
+msgstr ""
+
+#: lib/Device.php:158
+msgid "Eine Baugruppe kann nicht in sich selber kopiert werden!"
+msgstr ""
+
+#: lib/Device.php:191
+#, php-format
+msgid "Die Baugruppe \"%s\"konnte nicht kopiert werden!\n"
+msgstr ""
+
+#: lib/Device.php:219
+msgid "Es sind nicht von allen Bauteilen genügend an Lager"
+msgstr ""
+
+#: lib/Device.php:236
+msgid "Die Teile konnten nicht abgefasst werden!\n"
+msgstr ""
+
+#: lib/Device.php:451 lib/Part.php:1671
+msgid "Die Bestellmenge ist ungültig!"
 msgstr ""
 
 #: lib/DevicePart.php:278
@@ -1126,12 +1298,84 @@ msgstr ""
 msgid "$database ist kein Database-Objekt"
 msgstr ""
 
+#: lib/Orderdetails.php:150
+msgid "Die Einkaufsinformationen konnten nicht gelöscht werden!\n"
+msgstr ""
+
+#: lib/Orderdetails.php:321
+msgid ""
+"Es sind keine Preisinformationen für die angegebene Bestellmenge vorhanden!"
+msgstr ""
+
+#: lib/Orderdetails.php:404
+msgid "Das gewählte Bauteil existiert nicht!"
+msgstr ""
+
+#: lib/Orderdetails.php:423
+msgid "Der gewählte Lieferant existiert nicht!"
+msgstr ""
+
+#: lib/Part.php:170
+#, php-format
+msgid ""
+"Das Bauteil \"%s\" wird noch in %d Baugruppen verwendet und kann daher nicht "
+"gelöscht werden!"
+msgstr ""
+
+#: lib/Part.php:190
+#, php-format
+msgid "Das Bauteil \"%s\" konnte nicht gelöscht werden!\n"
+msgstr ""
+
 #: lib/Part.php:214
 msgid "Label type unknown: "
 msgstr ""
 
 #: lib/Part.php:1540
 msgid "\"$table_type\" ist ungültig!"
+msgstr ""
+
+#: lib/Part.php:1636
+msgid "Der neue Lagerbestand ist ungültig!"
+msgstr ""
+
+#: lib/Part.php:1638
+#, php-format
+msgid ""
+"Der neue Lagerbestand von \"%s\" wäre negativ und kann deshalb nicht "
+"gespeichert werden!"
+msgstr ""
+
+#: lib/Part.php:1664
+msgid "Die gewählte Einkaufsinformation existiert nicht!"
+msgstr ""
+
+#: lib/Part.php:1693
+msgid "Der neue Mindestlagerbestand ist ungültig!"
+msgstr ""
+
+#: lib/Part.php:1700
+msgid "\"id_category\" ist Null!"
+msgstr ""
+
+#: lib/Part.php:1713
+msgid "Die gewählte Kategorie existiert nicht!"
+msgstr ""
+
+#: lib/Part.php:1731
+msgid "Der gewählte Footprint existiert nicht!"
+msgstr ""
+
+#: lib/Part.php:1749
+msgid "Der gewählte Lagerort existiert nicht!"
+msgstr ""
+
+#: lib/Part.php:1767
+msgid "Der gewählte Hersteller existiert nicht!"
+msgstr ""
+
+#: lib/Part.php:1786
+msgid "Die gewählte Datei existiert nicht!"
 msgstr ""
 
 #: lib/Part.php:2264
@@ -1359,6 +1603,60 @@ msgstr ""
 
 #: lib/Permissions/UserPermission.php:43
 msgid "Password setzen"
+msgstr ""
+
+#: lib/Pricedetails.php:126
+msgid ""
+"Die ausgewählte Preisinformation kann erst gelöscht werden wenn es sonst "
+"keine weiteren Preisinformationen gibt!"
+msgstr ""
+
+#: lib/Pricedetails.php:315
+msgid "Die gewählten Einkaufsinformationen existieren nicht!"
+msgstr ""
+
+#: lib/Pricedetails.php:328
+msgid "Der neue Preis ist ungültig!"
+msgstr ""
+
+#: lib/Pricedetails.php:341
+msgid "Die Preisbezogene Menge ist ungültig!"
+msgstr ""
+
+#: lib/Pricedetails.php:354
+msgid "Die Mengenrabatt-Menge ist ungültig!"
+msgstr ""
+
+#: lib/Pricedetails.php:369
+msgid "Die Mengenrabatt-Menge muss bei der ersten Preisangabe \"1\" sein!"
+msgstr ""
+
+#: lib/Pricedetails.php:374
+msgid "Es existiert bereits eine Preisangabe für die selbe Mengenrabatt-Menge!"
+msgstr ""
+
+#: lib/Pricedetails.php:379
+msgid ""
+"Die Mengenrabatt-Menge beim Preis für ein Bauteil kann nicht verändert "
+"werden!"
+msgstr ""
+
+#: lib/Pricedetails.php:384
+msgid ""
+"Es existiert bereits eine Preisangabe mit der selben Mengenrabatt-Menge!"
+msgstr ""
+
+#: lib/System.php:81
+msgid "$log ist kein Log-Objekt!"
+msgstr ""
+
+#: lib/Tools/SystemVersion.php:119
+#, php-format
+msgid "Fehlerhafte Version: \"%s\""
+msgstr ""
+
+#: lib/Tools/SystemVersion.php:120
+msgid "Es gab ein Fehler bei der Auswertung des Version-Strings!"
 msgstr ""
 
 #: lib/User.php:299
