@@ -1464,7 +1464,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                     break;
 
                 case 'button_decrement':
-                    $row_field['decrement_disabled'] = ($this->getInstock() < 1);
+                    $row_field['decrement_disabled'] = ($this->getInstock() < 1)
+                        || !$this->current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT);
                     break;
 
                 case 'attachements':
@@ -1480,6 +1481,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
                 case 'id':
                 case 'button_increment':
+                    $row_field['increment_disabled'] = !$this->current_user->canDo(PermissionManager::PARTS_INSTOCK,
+                        PartAttributePermission::EDIT);
+                break;
                 case 'button_edit':
                 case 'quantity_edit': // for DevicePart Objects
                 case 'mountnames_edit': // for DevicePart Objects
