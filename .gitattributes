@@ -4,6 +4,15 @@
 *.mo binary
 *.po binary
 *.pot binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.ttf binary
+*.eot binary
+*.otf binary
+*.woff binary
+*.woff2 binary
+
 
 js/* linguist-vendored
 datatables/* linguist-vendored
