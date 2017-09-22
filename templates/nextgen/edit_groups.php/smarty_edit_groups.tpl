@@ -47,7 +47,7 @@
                             <strong>{t}Neue Gruppe hinzufügen:{/t}</strong>
                         {else}
                             {if isset($name)}
-                                <strong>{t}Gruppe bearbeiten:{/t}</strong>
+                                <strong>{t}Gruppe bearbeiten:{/t}</strong> {$name}
                             {else}
                                 <strong>{t}Es ist keine Gruppe angewählt!{/t}</strong>
                             {/if}
