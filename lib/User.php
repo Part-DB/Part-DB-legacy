@@ -864,7 +864,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         $current_user->tryDo(PermissionManager::USERS, UserPermission::CREATE);
 
         //User needs Change group permission, to create a user with a group.
-        if ($current_user->canDo(PermissionManager::USERS, UserPermission::CHANGE_GROUP)) {
+        if (!$current_user->canDo(PermissionManager::USERS, UserPermission::CHANGE_GROUP)) {
             $group_id = 0; //Set group id to Root Group.
         }
 
