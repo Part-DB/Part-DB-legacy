@@ -85,12 +85,14 @@ try {
  *   Execute actions
  *
  *********************************************************************************/
-if(!$fatal_error) {
+if(true) { //Allow to save connection settings, even when a error happened.
     switch ($action) {
         case 'apply_connection_settings':
             $config_old = $config;
             try {
-                $current_user->tryDo(PermissionManager::DATABASE, DatabasePermission::WRITE_DB_SETTINGS);
+                if (isset($current_user)) {
+                    $current_user->tryDo(PermissionManager::DATABASE, DatabasePermission::WRITE_DB_SETTINGS);
+                }
 
                 if ($config['is_online_demo']) {
                     break;
@@ -209,10 +211,18 @@ if (! $fatal_error) {
 }
 
 $html->setVariable('hide_status', $fatal_error, 'boolean');
-$html->setVariable('can_status', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::SEE_STATUS));
-$html->setVariable('can_read_db_settings', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::READ_DB_SETTINGS));
-$html->setVariable('can_update', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::UPDATE_DB));
-$html->setVariable('can_edit_db_settings', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::WRITE_DB_SETTINGS));
+if (isset($current_user) && is_object($current_user)) {
+    $html->setVariable('can_status', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::SEE_STATUS));
+    $html->setVariable('can_read_db_settings', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::READ_DB_SETTINGS));
+    $html->setVariable('can_update', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::UPDATE_DB));
+    $html->setVariable('can_edit_db_settings', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::WRITE_DB_SETTINGS));
+} else { //In case no user could be created (DB Error), then allow everything.
+    $html->setVariable('can_status', true);
+    $html->setVariable('can_read_db_settings', true);
+    $html->setVariable('can_update', true);
+    $html->setVariable('can_edit_db_settings', true);
+}
+
 
 /********************************************************************************
  *
@@ -230,7 +240,7 @@ if (isset($_REQUEST["ajax"])) {
 $reload_link = ($fatal_error || isset($database_update_executed)) ? 'system_database.php' : '';
 $html->printHeader($messages, $reload_link);
 
-if (! $fatal_error) // we don't hide the site content if there is an error, because this way we can set the database connection data
+if (!$fatal_error || !isset($current_user)) // we don't hide the site content if no user could be created, so the db connection could be repaired.
     $html->printTemplate('system_database');
 
 $html->printFooter();
