@@ -385,6 +385,11 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function getNeedPasswordChange($ignore_rehash = false)
     {
+        //If 'need_pw_change' does not exist in db_data, you dont has to change PW.
+        if (!isset($this->db_data['need_pw_change'])) {
+            return false;
+        }
+
         //Check if password needs rehash, because a better algo is available.
         if (!$ignore_rehash) {
             if ($this->db_data['password'] !== "" &&
@@ -396,6 +401,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         if ($this->getID() == static::ID_ANONYMOUS) {
             return false; //Anonymous never has to change PW, because he has none.
         }
+
         return $this->db_data['need_pw_change'];
     }
 
