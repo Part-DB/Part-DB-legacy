@@ -124,7 +124,7 @@ abstract class NamedDBElement extends DBElement
         $values['name'] = trim($values['name']);
 
         if (empty($values['name'])) { // empty names are not allowed!
-            throw new Exception('Der neue Name ist leer, das ist nicht erlaubt!');
+            throw new Exception(_('Der neue Name ist leer, das ist nicht erlaubt!'));
         }
     }
 

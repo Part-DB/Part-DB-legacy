@@ -155,8 +155,8 @@ function checkRequirements()
         switch ($key) {
             case 'php_version':
                 if (version_compare(PHP_VERSION, $value) < 0) {
-                    $messages[] =   'Für Part-DB wird mindestens PHP '.$value.' vorausgesetzt! '.
-                        'Die derzeit installierte Version ist PHP '.PHP_VERSION.'.';
+                    $messages[] =   sprintf(_('Für Part-DB wird mindestens PHP "%s" vorausgesetzt! '), $value) .
+                        sprintf(_('Die derzeit installierte Version ist PHP "%s" .'), PHP_VERSION);
                 }
                 break;
 
@@ -207,7 +207,7 @@ function checkFilePermissions()
 
         if (! file_exists($whole_filename)) {
             if (strpos($needed_perms, 'e') !== false) {
-                $messages[] =   'Das Verzeichnis bzw. die Datei "'.$filename.'" existiert nicht oder kann nicht gelesen werden!';
+                $messages[] =   sprintf(_('Das Verzeichnis bzw. die Datei "%s" existiert nicht oder kann nicht gelesen werden!'), $filename);
             }
 
             continue; // file does not exist - go to next file
@@ -219,8 +219,8 @@ function checkFilePermissions()
         if (((strpos($needed_perms, 'r') !== false) && (! is_readable($whole_filename)))
             || ((strpos($needed_perms, 'w') !== false) && (! is_writable($whole_filename)))
             || ((strpos($needed_perms, 'x') !== false) && (DIRECTORY_SEPARATOR == '/') && (! $is_executable))) { // check for execution bit only for UNIX/Linux
-            $messages[] =   'Das Verzeichnis bzw. die Datei "'.$filename.'" hat nicht die richtigen Dateirechte! '.
-                'Benötigt werden "'.str_replace('e', '', $needed_perms).'". Bitte manuell korrigieren.';
+            $messages[] =   sprintf(_('Das Verzeichnis bzw. die Datei "%s" hat nicht die richtigen Dateirechte! '), $filename).
+                sprintf(_('Benötigt werden "%s". Bitte manuell korrigieren.'), str_replace('e', '', $needed_perms));
         }
     }
 
@@ -242,7 +242,7 @@ function checkComposerFolder()
     foreach ($check_filenames as $filename) {
         $whole_filename = BASE.$filename;
         if (!file_exists($whole_filename)) {
-            $messages[] = "Die Datei " . $filename . " ist benötigt und wurde nicht gefunden!";
+            $messages[] = sprintf(_('Die Datei "%s" ist benötigt und wurde nicht gefunden!'), $filename);
         }
     }
 
@@ -264,10 +264,10 @@ function checkIfConfigIsValid()
 
     if (isset($config_defaults['system']) && isset($config_defaults['system']['version'])) {
         // it seems that the user has copied the config_defaults.php to the config.php, this is not good!
-        return  'Es scheint, als hätten Sie die Datei "config_defaults.php" als Vorlage für Ihre "config.php" verwendet.<br>'.
+        return  _('Es scheint, als hätten Sie die Datei "config_defaults.php" als Vorlage für Ihre "config.php" verwendet.<br>'.
             'Das ist aber nicht so vorgesehen und darf nicht so gemacht werden, da dies Probleme verursachen wird!<br><br>'.
             'Löschen Sie Ihre "config.php" und öffnen Sie Part-DB im Webbrowser.<br>'.
-            'Es wird dann ein Installationsassistent gestartet, der automatisch eine korrekte "config.php" anlegen wird.';
+            'Es wird dann ein Installationsassistent gestartet, der automatisch eine korrekte "config.php" anlegen wird.');
     }
 
     return true;
@@ -280,11 +280,11 @@ function checkIfConfigIsValid()
 function exception_handler($e)
 {
     printMessagesWithoutTemplate(
-        'Part-DB: Schwerwiegender Fehler!',
+        _('Part-DB: Schwerwiegender Fehler!'),
         null,
-        '<span style="color: red; "><strong>Es ist ein schwerwiegender Fehler aufgetreten:' .
+        '<span style="color: red; "><strong>'._('Es ist ein schwerwiegender Fehler aufgetreten:') .
         '<br><br>'.nl2br($e->getMessage()).'</strong><br><br>'.
-        '(Exception wurde geworfen in '.$e->getFile().', Zeile '.$e->getLine(). ')</span>'
+        _('(Exception wurde geworfen in ').$e->getFile()._(', Zeile ').$e->getLine(). ')</span>'
     );
     exit;
 }

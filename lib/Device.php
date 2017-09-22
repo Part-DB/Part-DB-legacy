@@ -134,7 +134,7 @@ class Device extends Base\PartsContainingDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception("Die Baugruppe \"".$this->getName()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
+            throw new Exception(sprintf(_('Die Baugruppe "%s" konnte nicht gelöscht werden!\n'), $this->getName()) . _("Grund: ").$e->getMessage());
         }
     }
 
@@ -155,7 +155,7 @@ class Device extends Base\PartsContainingDBElement
                 $parent_device = new Device($this->database, $this->current_user, $this->log, $parent_id);
 
                 if (($parent_device->getID() == $this->getID()) || ($parent_device->isChildOf($this))) {
-                    throw new Exception('Eine Baugruppe kann nicht in sich selber kopiert werden!');
+                    throw new Exception(_('Eine Baugruppe kann nicht in sich selber kopiert werden!'));
                 }
             }
 
@@ -188,7 +188,7 @@ class Device extends Base\PartsContainingDBElement
         } catch (Exception $e) {
             $this->database->rollback(); // rollback transaction
 
-            throw new Exception("Die Baugruppe \"".$this->getName()."\"konnte nicht kopiert werden!\nGrund: ".$e->getMessage());
+            throw new Exception(sprintf( _("Die Baugruppe \"%s\"konnte nicht kopiert werden!\n"), $this->getName()) . _("Grund: ").$e->getMessage());
         }
     }
 
@@ -216,7 +216,7 @@ class Device extends Base\PartsContainingDBElement
             foreach ($device_parts as $part) {
                 /** @var DevicePart $part */
                 if (($part->getMountQuantity() * $book_multiplier) > $part->getPart()->getInstock()) {
-                    throw new Exception('Es sind nicht von allen Bauteilen genügend an Lager');
+                    throw new Exception(_('Es sind nicht von allen Bauteilen genügend an Lager'));
                 }
             }
 
@@ -233,7 +233,7 @@ class Device extends Base\PartsContainingDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception("Die Teile konnten nicht abgefasst werden!\nGrund: ".$e->getMessage());
+            throw new Exception(_("Die Teile konnten nicht abgefasst werden!\n") . _("Grund: ").$e->getMessage());
         }
     }
 
@@ -448,7 +448,7 @@ class Device extends Base\PartsContainingDBElement
         if (((! is_int($values['order_quantity'])) && (! ctype_digit($values['order_quantity'])))
             || ($values['order_quantity'] < 0)) {
             debug('error', 'order_quantity = "'.$values['order_quantity'].'"', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('Die Bestellmenge ist ungültig!');
+            throw new Exception(_('Die Bestellmenge ist ungültig!'));
         }
     }
 
@@ -466,7 +466,7 @@ class Device extends Base\PartsContainingDBElement
     public static function getOrderDevices(&$database, &$current_user, &$log)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         $devices = array();
@@ -496,7 +496,7 @@ class Device extends Base\PartsContainingDBElement
     public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         return $database->getCountOfRecords('devices');
