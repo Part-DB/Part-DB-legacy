@@ -52,8 +52,7 @@
     <!-- Datatables plugin for natural sorting -->
     <script type="text/javascript" src="{$relative_path}datatables/natural.js"></script>
 
-    <!-- JQuery Tristate -->
-    <script src="{$relative_path}js/jquery.tristate.js"></script>
+
 
     <!-- Treeview -->
     <script src="{$relative_path}js/bootstrap-treeview.js" async></script>

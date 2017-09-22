@@ -63,6 +63,10 @@
         <script src="https://www.x3dom.org/release/x3dom.js" async></script>
         <link rel="stylesheet" href="https://www.x3dom.org/release/x3dom.css">
         {/if}
+
+        <!-- JQuery Tristate -->
+        <!-- This must be in head because we need its functions in <script> Tags, in smarty_permission.tpl -->
+        <script src="{$relative_path}js/jquery.tristate.js"></script>
         
 
         {*

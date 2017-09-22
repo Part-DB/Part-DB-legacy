@@ -42,7 +42,17 @@
                     <tbody>
                     {foreach $perm_group.permissions as $perm}
                         <tr>
-                            <td style="vertical-align: middle;"><b>{$perm.description}</b></td>
+                            <td style="vertical-align: middle;">
+                                {if $perm.readonly}
+                                    <b>{$perm.description}</b>
+                                {else}
+                                    <div class="checkbox checkbox-inline">
+                                        <input type="checkbox" class="tristate-toggle-all" data-target="{$perm.name}">
+                                        <label><b>{$perm.description}</b></label>
+                                    </div>
+                                {/if}
+
+                            </td>
                             <td>
                                 {foreach from=$perm.ops  item=op key=m}
                                     <div class="checkbox checkbox-inline"
@@ -60,6 +70,26 @@
                 </table>
             </div>
         {/foreach}
-
     </div>
+
+    <script>
+        $("input.tristate-toggle-all").tristate({
+            change: function (state, value) {
+                var $this = $(this);
+                var target = $this.data('target');
+                var state = $this.tristate('state');
+                $("input.tristate[name^='perm/" + target + "/']").tristate('state', state);
+            }
+        });
+
+    
+        function toggleAllPermCheckboxes(element) {
+            var $this = $(element);
+            var state = $this.tristate('state');
+            var target = $this.data('target');
+            $("input.tristate[name^='perm/" + target + "/']").tristate('state', state);
+        }
+    </script>
+
+
 {/if}
