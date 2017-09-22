@@ -1220,6 +1220,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 $arr['id_manufacturer'] = $new_values['id_manufacturer'];
             }
         }
+        if ($this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::EDIT)
+        || $this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE)) {
+            if (isset($new_values['id_master_picture_attachement'])) {
+                $arr['id_master_picture_attachement'] = $new_values['id_master_picture_attachement'];
+            }
+        }
         if ($this->current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT)) {
             if (isset($new_values['order_orderdetails_id'])) {
                 $arr['order_orderdetails_id'] = $new_values['order_orderdetails_id'];
