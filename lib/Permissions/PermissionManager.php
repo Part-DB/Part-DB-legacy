@@ -211,7 +211,7 @@ class PermissionManager
         $structural_permissions[] = new PartContainingPermission($this->perm_holder, static::SUPPLIERS, _("Lieferanten"));
         $structural_permissions[] = new PartContainingPermission($this->perm_holder, static::MANUFACTURERS, _("Hersteller"));
         $structural_permissions[] = new PartContainingPermission($this->perm_holder, static::DEVICES, _("Baugruppen"));
-        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::ATTACHEMENT_TYPES, _("Dateianhänge"));
+        $structural_permissions[] = new StructuralPermission($this->perm_holder, static::ATTACHEMENT_TYPES, _("Dateitypen"));
         $this->permissions[] = new PermissionGroup(_("Datenstrukturen"), $structural_permissions);
 
         $system_permissions = array();
