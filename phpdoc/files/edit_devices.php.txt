@@ -38,6 +38,8 @@ use PartDB\Device;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\User;
+use PartDB\Permissions\StructuralPermission;
+use PartDB\Permissions\PermissionManager;
 
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
@@ -83,8 +85,10 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Bau
 try {
     $database           = new Database();
     $log                = new Log($database);
-    $current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
     $root_device        = new Device($database, $current_user, $log, 0);
+
+    $current_user->tryDo(PermissionManager::DEVICES, StructuralPermission::READ);
 
     if ($selected_id > 0) {
         $selected_device = new Device($database, $current_user, $log, $selected_id);
@@ -215,6 +219,12 @@ if (! $fatal_error) {
         $fatal_error = true;
     }
 }
+
+$html->setVariable("can_delete", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::DELETE));
+$html->setVariable("can_edit", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::EDIT));
+$html->setVariable("can_create", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::CREATE));
+$html->setVariable("can_move", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::MOVE));
+$html->setVariable("can_read", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::READ));
 
 /********************************************************************************
  *

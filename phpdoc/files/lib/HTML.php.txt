@@ -26,6 +26,10 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Permissions\PartContainingPermission;
+use PartDB\Permissions\PartPermission;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\StructuralPermission;
 use PartDB\Tools\PDBDebugBar;
 use Smarty;
 
@@ -390,6 +394,25 @@ class HTML
         $tmpl->assign('frameset', $this->meta['frameset']);
         $tmpl->assign('redirect', $redirect);
         $tmpl->assign('partdb_title', $config['partdb_title']);
+
+        //Informations about User
+        $tmpl->assign("loggedin", User::isLoggedIn());
+        try {
+            $user = User::getLoggedInUser();
+            $tmpl->assign("username", $user->getName());
+            $tmpl->assign("firstname", $user->getFirstName());
+            $tmpl->assign("lastname", $user->getLastName());
+            $tmpl->assign('can_search', $user->canDo(PermissionManager::PARTS, PartPermission::SEARCH));
+            $tmpl->assign('can_category', $user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ)
+                    && $user->canDo(PermissionManager::CATEGORIES, PartContainingPermission::LIST_PARTS));
+            $tmpl->assign('can_device', $user->canDo(PermissionManager::DEVICES, StructuralPermission::READ));
+        } catch (Exception $exception)
+        {
+            //TODO
+        }
+
+
+
         if (strlen($this->meta['custom_css']) > 0) {
             $tmpl->assign('custom_css', 'templates/custom_css/'.$this->meta['custom_css']);
         }
@@ -398,7 +421,6 @@ class HTML
             $tmpl->assign("ajax_request", $this->variables['ajax_request']);
         }
 
-        //Assign informations about, which functions are globally, so we can hide them in the header
         $tmpl->assign('devices_disabled', $config['devices']['disable']);
         $tmpl->assign('footprints_disabled', $config['footprints']['disable']);
         $tmpl->assign('manufacturers_disabled', $config['manufacturers']['disable']);
@@ -503,7 +525,7 @@ class HTML
         //Prevents XSS
         $tmpl->escape_html = true;
 
-        if($this->redirect_url == "") { //Dont print template, if the page should be redirected.
+        if ($this->redirect_url == "") { //Dont print template, if the page should be redirected.
             $tmpl->display($smarty_template);
         }
     }

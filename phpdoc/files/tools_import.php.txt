@@ -76,7 +76,9 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Tei
 try {
     $database           = new Database();
     $log                = new Log($database);
-    $current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log); // admin
+
+    $current_user->tryDo(\PartDB\Permissions\PermissionManager::TOOLS, \PartDB\Permissions\ToolsPermission::IMPORT);
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;

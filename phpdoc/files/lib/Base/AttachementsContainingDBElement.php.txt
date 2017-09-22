@@ -30,6 +30,8 @@ use PartDB\Attachement;
 use PartDB\AttachementType;
 use PartDB\Database;
 use PartDB\Log;
+use PartDB\Permissions\CPartAttributePermission;
+use PartDB\Permissions\PermissionManager;
 use PartDB\User;
 
 /**

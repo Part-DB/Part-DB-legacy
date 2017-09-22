@@ -134,6 +134,7 @@ $config['developer_mode']                               = false; // enables the 
 $config['page_title']                                   = 'Part-DB Elektronische Bauteile-Datenbank'; //Dont use this anymore, use partdb_title instead
 $config['partdb_title']                                 = 'Part-DB';
 $config['tracking_code']                                = "";   //Allows to inject some HTML on the footer (e.g. for usage of google analytics)
+$config['allow_server_downloads']                       = false; //Allow the user to download files via the server. Caution: This maybe could be used, to access internal servers.
 
 // Settings for design
 $config['design']['use_smarty']                         = true;
@@ -165,6 +166,9 @@ $config['table']['autosort']                     = false;
 $config['attachements']['folder_structure']     = false;    //Put attachements in a folder structure, similar to the categories.
 $config['attachements']['download_default']     = false;    //Download external media defaultly.
 $config['attachements']['show_name']            = false;    //Show the names of attachements in the parts tables.
+
+//Global user settings
+$config['user']['avatars']['use_gravatar']      = false;     //Use Gravatar for Avatars
 
 /********************************************************************************
  *

@@ -27,6 +27,9 @@ include_once('start_session.php');
 
 use PartDB\Database;
 use PartDB\HTML;
+use PartDB\Permissions\DatabasePermission;
+use PartDB\Permissions\PermissionManager;
+use PartDB\User;
 
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
@@ -70,6 +73,8 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Daten
 
 try {
     $database = new Database();
+    $log = new \PartDB\Log($database);
+    $current_user = User::getLoggedInUser($database, $log);
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -80,69 +85,77 @@ try {
  *   Execute actions
  *
  *********************************************************************************/
+if(true) { //Allow to save connection settings, even when a error happened.
+    switch ($action) {
+        case 'apply_connection_settings':
+            $config_old = $config;
+            try {
+                if (isset($current_user)) {
+                    $current_user->tryDo(PermissionManager::DATABASE, DatabasePermission::WRITE_DB_SETTINGS);
+                }
 
-switch ($action) {
-    case 'apply_connection_settings':
-        $config_old = $config;
-        try {
-            if ($config['is_online_demo']) {
-                break;
+                if ($config['is_online_demo']) {
+                    break;
+                }
+
+                if (!isAdminPassword($admin_password)) {
+                    throw new Exception(_('Das Administratorpasswort ist falsch!'));
+                }
+
+                $config['db']['type'] = $db_type;
+                //$config['db']['charset'] = $db_charset; // temporarly deactivated
+                $config['db']['host'] = $db_host;
+                $config['db']['name'] = $db_name;
+                $config['db']['user'] = $db_user;
+                $config['db']['password'] = $db_password;
+                saveConfig();
+                header('Location: system_database.php'); // Reload the page that we can see if the new settings are stored successfully
+            } catch (Exception $e) {
+                $config = $config_old; // reload the old config
+                $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
+                $messages[] = array('text' => _('Fehlermeldung: ') . nl2br($e->getMessage()), 'color' => 'red');
             }
+            break;
 
-            if (! isAdminPassword($admin_password)) {
-                throw new Exception(_('Das Administratorpasswort ist falsch!'));
+        case 'apply_auto_updates':
+            $config_old = $config;
+            try {
+                $current_user->tryDo(PermissionManager::DATABASE, DatabasePermission::WRITE_DB_SETTINGS);
+                $config['db']['auto_update'] = $automatic_updates_enabled;
+                saveConfig();
+                //header('Location: system_database.php'); // Reload the page that we can see if the new settings are stored successfully --> does not work correctly?!
+            } catch (Exception $e) {
+                $config = $config_old; // reload the old config
+                $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
+                $messages[] = array('text' => _('Fehlermeldung: ') . nl2br($e->getMessage()), 'color' => 'red');
             }
+            break;
 
-            $config['db']['type'] = $db_type;
-            //$config['db']['charset'] = $db_charset; // temporarly deactivated
-            $config['db']['host'] = $db_host;
-            $config['db']['name'] = $db_name;
-            $config['db']['user'] = $db_user;
-            $config['db']['password'] = $db_password;
-            saveConfig();
-            header('Location: system_database.php'); // Reload the page that we can see if the new settings are stored successfully
-        } catch (Exception $e) {
-            $config = $config_old; // reload the old config
-            $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
-            $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
-        }
-        break;
+        case 'make_new_update':
+            // start the next update attempt from the beginning, not from the step of the last error
+            $config['db']['update_error']['version'] = -1;
+            $config['db']['update_error']['next_step'] = 0;
+        // no break
+        case 'make_update':
+            try {
+                $current_user->tryDo(PermissionManager::DATABASE, DatabasePermission::UPDATE_DB);
 
-    case 'apply_auto_updates':
-        $config_old = $config;
-        try {
-            $config['db']['auto_update'] = $automatic_updates_enabled;
-            saveConfig();
-            //header('Location: system_database.php'); // Reload the page that we can see if the new settings are stored successfully --> does not work correctly?!
-        } catch (Exception $e) {
-            $config = $config_old; // reload the old config
-            $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
-            $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
-        }
-        break;
+                if (!is_object($database)) {
+                    throw new Exception(_('Es konnte keine Verbindung mit der Datenbank hergestellt werden!'));
+                }
 
-    case 'make_new_update':
-        // start the next update attempt from the beginning, not from the step of the last error
-        $config['db']['update_error']['version']    = -1;
-        $config['db']['update_error']['next_step']  = 0;
-    // no break
-    case 'make_update':
-        try {
-            if (! is_object($database)) {
-                throw new Exception(_('Es konnte keine Verbindung mit der Datenbank hergestellt werden!'));
+                $database_update_executed = true;
+                $update_log = $database->update();
+                foreach ($update_log as $message) {
+                    $messages[] = array('text' => nl2br($message['text']), 'color' => ($message['error'] == true ? 'red' : 'black'));
+                }
+            } catch (Exception $e) {
+                $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
+                $messages[] = array('text' => _('Fehlermeldung: ') . nl2br($e->getMessage()), 'color' => 'red');
             }
-
-            $database_update_executed = true;
-            $update_log = $database->update();
-            foreach ($update_log as $message) {
-                $messages[] = array('text' => nl2br($message['text']), 'color' => ($message['error'] == true ? 'red' : 'black'));
-            }
-        } catch (Exception $e) {
-            $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
-            $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
-        }
-        $messages[count($messages)-1]['text'] .= nl2br("\n");
-        break;
+            $messages[count($messages) - 1]['text'] .= nl2br("\n");
+            break;
+    }
 }
 
 /********************************************************************************
@@ -184,6 +197,13 @@ if (! $fatal_error) {
                 'Fehler in der Software oder durch andere Ursachen hervorgerufen werden.'),
                 'strong' => true, 'color' => 'red', );
         }
+
+        if (!$current_user->canDo(PermissionManager::DATABASE, DatabasePermission::READ_DB_SETTINGS)
+            && !$current_user->canDo(PermissionManager::DATABASE, DatabasePermission::SEE_STATUS)) {
+            //Throw message.
+            $current_user->tryDo(PermissionManager::DATABASE, DatabasePermission::SEE_STATUS);
+        }
+
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
@@ -191,6 +211,18 @@ if (! $fatal_error) {
 }
 
 $html->setVariable('hide_status', $fatal_error, 'boolean');
+if (isset($current_user) && is_object($current_user)) {
+    $html->setVariable('can_status', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::SEE_STATUS));
+    $html->setVariable('can_read_db_settings', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::READ_DB_SETTINGS));
+    $html->setVariable('can_update', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::UPDATE_DB));
+    $html->setVariable('can_edit_db_settings', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::WRITE_DB_SETTINGS));
+} else { //In case no user could be created (DB Error), then allow everything.
+    $html->setVariable('can_status', true);
+    $html->setVariable('can_read_db_settings', true);
+    $html->setVariable('can_update', true);
+    $html->setVariable('can_edit_db_settings', true);
+}
+
 
 /********************************************************************************
  *
@@ -208,8 +240,8 @@ if (isset($_REQUEST["ajax"])) {
 $reload_link = ($fatal_error || isset($database_update_executed)) ? 'system_database.php' : '';
 $html->printHeader($messages, $reload_link);
 
-//if (! $fatal_error) // we don't hide the site content if there is an error, because this way we can set the database connection data
-$html->printTemplate('system_database');
+if (!$fatal_error || !isset($current_user)) // we don't hide the site content if no user could be created, so the db connection could be repaired.
+    $html->printTemplate('system_database');
 
 $html->printFooter();
 

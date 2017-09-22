@@ -1,0 +1,1395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>Part-DB</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="../js/html5.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">Part-DB</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/PartDB.html">\PartDB</a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">628</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">37</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-280369844"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-280369844" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-510352357"></a>
+                                <a href="../namespaces/PartDB.html" style="margin-left: 30px; padding-left: 0">PartDB</a>
+            </div>
+            <div id="namespace-510352357" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-455037201"></a>
+                                <a href="../namespaces/PartDB.Base.html" style="margin-left: 30px; padding-left: 0">Base</a>
+            </div>
+            <div id="namespace-455037201" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Base.AttachementsContainingDBElement.html">AttachementsContainingDBElement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.Company.html">Company</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.DBElement.html">DBElement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.NamedDBElement.html">NamedDBElement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.PartsContainingDBElement.html">PartsContainingDBElement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.StructuralDBElement.html">StructuralDBElement</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-771475913"></a>
+                                <a href="../namespaces/PartDB.Exceptions.html" style="margin-left: 30px; padding-left: 0">Exceptions</a>
+            </div>
+            <div id="namespace-771475913" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Exceptions.NotImplementedException.html">NotImplementedException</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Exceptions.UserNotAllowedException.html">UserNotAllowedException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-908666052"></a>
+                                <a href="../namespaces/PartDB.Interfaces.html" style="margin-left: 30px; padding-left: 0">Interfaces</a>
+            </div>
+            <div id="namespace-908666052" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/PartDB.Interfaces.IAPIModel.html">IAPIModel</a></li>
+                                                    <li class="interface"><a href="../classes/PartDB.Interfaces.IHasPermissions.html">IHasPermissions</a></li>
+                                                    <li class="interface"><a href="../classes/PartDB.Interfaces.ISearchable.html">ISearchable</a></li>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-415860445"></a>
+                                <a href="../namespaces/PartDB.Label.html" style="margin-left: 30px; padding-left: 0">Label</a>
+            </div>
+            <div id="namespace-415860445" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Label.PartLabel.html">PartLabel</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1752633166"></a>
+                                <a href="../namespaces/PartDB.PartProperty.html" style="margin-left: 30px; padding-left: 0">PartProperty</a>
+            </div>
+            <div id="namespace-1752633166" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.PartProperty.PartNameRegEx.html">PartNameRegEx</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.PartProperty.PartProperty.html">PartProperty</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-262548663"></a>
+                                <a href="../namespaces/PartDB.Permissions.html" style="margin-left: 30px; padding-left: 0">Permissions</a>
+            </div>
+            <div id="namespace-262548663" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Permissions.BasePermission.html">BasePermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.ConfigPermission.html">ConfigPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.CPartAttributePermission.html">CPartAttributePermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.DatabasePermission.html">DatabasePermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.DevicePartPermission.html">DevicePartPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.GroupPermission.html">GroupPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.PartAttributePermission.html">PartAttributePermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.PartContainingPermission.html">PartContainingPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.PartPermission.html">PartPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.PermissionGroup.html">PermissionGroup</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.PermissionManager.html">PermissionManager</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.SelfPermission.html">SelfPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.StructuralPermission.html">StructuralPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.SystemPermission.html">SystemPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.ToolsPermission.html">ToolsPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.UserPermission.html">UserPermission</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-570727604"></a>
+                                <a href="../namespaces/PartDB.Tools.html" style="margin-left: 30px; padding-left: 0">Tools</a>
+            </div>
+            <div id="namespace-570727604" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Tools.PDBDebugBar.html">PDBDebugBar</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Tools.SystemVersion.html">SystemVersion</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Attachement.html">Attachement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.AttachementType.html">AttachementType</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Category.html">Category</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Database.html">Database</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Device.html">Device</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.DevicePart.html">DevicePart</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Footprint.html">Footprint</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Group.html">Group</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.HTML.html">HTML</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Log.html">Log</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Manufacturer.html">Manufacturer</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Orderdetails.html">Orderdetails</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Part.html">Part</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Pricedetails.html">Pricedetails</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Storelocation.html">Storelocation</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Supplier.html">Supplier</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.System.html">System</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.User.html">User</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/PartDB.Permissions.html">\PartDB\Permissions</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\PartDB\Permissions</small>GroupPermission</h1>
+                    <p><em>Use permissions objects of this class, if you want to control permissions on StructuralDBElements like Category or Footprint</em></p>
+                    
+                    
+                                        
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/PartDB.Permissions.GroupPermission.html#method_listOperations" class="">listOperations()</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#method_getValue" class="">getValue()</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#method_setValue" class="">setValue()</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#method_toData" class="">toData()</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#method_getName" class="">getName()</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#method_getDescription" class="">getDescription()</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.GroupPermission.html#method_generateLoopRow" class="">generateLoopRow()</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#method_opToDescription" class="">opToDescription()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No public properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/PartDB.Permissions.StructuralPermission.html#constant_CREATE" class="">CREATE</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.StructuralPermission.html#constant_READ" class="">READ</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.StructuralPermission.html#constant_EDIT" class="">EDIT</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.StructuralPermission.html#constant_MOVE" class="">MOVE</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.StructuralPermission.html#constant_DELETE" class="">DELETE</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#constant_INHERIT" class="">INHERIT</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#constant_ALLOW" class="">ALLOW</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#constant_DISALLOW" class="">DISALLOW</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.GroupPermission.html#constant_EDIT_PERMISSIONS" class="">EDIT_PERMISSIONS</a><br />
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <a href="../classes/PartDB.Permissions.GroupPermission.html#method_modifyValueBeforeSetting" class="">modifyValueBeforeSetting()</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#method_opToBitN" class="">opToBitN()</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#method_readBitPair" class="">readBitPair()</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#method_writeBitPair" class="">writeBitPair()</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#method_buildOperationArray" class="">buildOperationArray()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#property_perm_holder" class="">$perm_holder</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#property_perm_name" class="">$perm_name</a><br />
+                                                                    <a href="../classes/PartDB.Permissions.BasePermission.html#property_description" class="">$description</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No private properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/lib.Permissions.GroupPermission.html"><div class="path-wrapper">lib\Permissions\GroupPermission.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">Default</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                        <div class="namespace-wrapper"><a href="../classes/PartDB.Permissions.BasePermission.html">\PartDB\Permissions\BasePermission</a></div>
+                                                                    
+                                        <div class="namespace-wrapper"><a href="../classes/PartDB.Permissions.StructuralPermission.html">\PartDB\Permissions\StructuralPermission</a></div>
+                                                                                                    <div class="namespace-wrapper">\PartDB\Permissions\GroupPermission</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr><td colspan="2"><em>None found</em></td></tr>
+                                        </table>
+                </aside>
+            </div>
+
+                                    <a id="constants" name="constants"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Constants</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_CREATE" name="constant_CREATE" class="anchor"></a>
+            <article id="constant_CREATE" class="constant">
+                <h3 class="">CREATE</h3>
+                <pre class="signature">CREATE</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.StructuralPermission.html"><div class="path-wrapper">\PartDB\Permissions\StructuralPermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_READ" name="constant_READ" class="anchor"></a>
+            <article id="constant_READ" class="constant">
+                <h3 class="">READ</h3>
+                <pre class="signature">READ</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.StructuralPermission.html"><div class="path-wrapper">\PartDB\Permissions\StructuralPermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_EDIT" name="constant_EDIT" class="anchor"></a>
+            <article id="constant_EDIT" class="constant">
+                <h3 class="">EDIT</h3>
+                <pre class="signature">EDIT</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.StructuralPermission.html"><div class="path-wrapper">\PartDB\Permissions\StructuralPermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_MOVE" name="constant_MOVE" class="anchor"></a>
+            <article id="constant_MOVE" class="constant">
+                <h3 class="">MOVE</h3>
+                <pre class="signature">MOVE</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.StructuralPermission.html"><div class="path-wrapper">\PartDB\Permissions\StructuralPermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_DELETE" name="constant_DELETE" class="anchor"></a>
+            <article id="constant_DELETE" class="constant">
+                <h3 class="">DELETE</h3>
+                <pre class="signature">DELETE</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.StructuralPermission.html"><div class="path-wrapper">\PartDB\Permissions\StructuralPermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_INHERIT" name="constant_INHERIT" class="anchor"></a>
+            <article id="constant_INHERIT" class="constant">
+                <h3 class="">INHERIT</h3>
+                <pre class="signature">INHERIT</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_ALLOW" name="constant_ALLOW" class="anchor"></a>
+            <article id="constant_ALLOW" class="constant">
+                <h3 class="">ALLOW</h3>
+                <pre class="signature">ALLOW</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_DISALLOW" name="constant_DISALLOW" class="anchor"></a>
+            <article id="constant_DISALLOW" class="constant">
+                <h3 class="">DISALLOW</h3>
+                <pre class="signature">DISALLOW</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="constant_EDIT_PERMISSIONS" name="constant_EDIT_PERMISSIONS" class="anchor"></a>
+            <article id="constant_EDIT_PERMISSIONS" class="constant">
+                <h3 class="">EDIT_PERMISSIONS</h3>
+                <pre class="signature">EDIT_PERMISSIONS</pre>
+                <p><em></em></p>
+                
+            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                            
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_perm_holder" name="property_perm_holder" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$perm_holder</h3>
+                <pre class="signature">$perm_holder : \PartDB\Interfaces\IHasPermissions</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../classes/PartDB.Interfaces.IHasPermissions.html">\PartDB\Interfaces\IHasPermissions</a>
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_perm_name" name="property_perm_name" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$perm_name</h3>
+                <pre class="signature">$perm_name : string</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_description" name="property_description" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$description</h3>
+                <pre class="signature">$description : string</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_listOperations" name="method_listOperations" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">listOperations()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">listOperations() : array</pre>
+                <p><em>Returns an array of all available operations for this Permission.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                            &mdash; <p>All availabel operations.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(  <span class="argument">$perm_holder</span>,   <span class="argument">$perm_name</span>, string  <span class="argument">$description = &quot;&quot;</span>) </pre>
+                <p><em>BasePermission constructor.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$perm_holder </td>
+                                <td><p>IHasPermissions The object which has permissions, that can be written and read.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$perm_name </td>
+                                <td><p>string The name of the permission (without perms_)</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$description </td>
+                                <td><p>string A trivial name for this permission.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getValue" name="method_getValue" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getValue()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getValue(  <span class="argument">$operation</span>) : integer</pre>
+                <p><em>Get the permission value for the given Operation</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$operation </td>
+                                <td><p>string The operation.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>The permission value for the operation.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setValue" name="method_setValue" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setValue()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setValue(  <span class="argument">$operation</span>,   <span class="argument">$new_value</span>) </pre>
+                <p><em>Sets the permission value for the given operation.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$operation </td>
+                                <td><p>string The operation for which the value should be set.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$new_value </td>
+                                <td><p>int The new value of the operation bit pair.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_toData" name="method_toData" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">toData()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">toData() : integer</pre>
+                <p><em>Returns the current data of the Permission.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>The data of the permission.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getName" name="method_getName" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getName()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getName() : string</pre>
+                <p><em>Returns the name of the permsission. (without perms_)</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>The permission string.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getDescription" name="method_getDescription" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getDescription()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getDescription() : string</pre>
+                <p><em>Returns the description of the permsission.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>The permission string.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_generateLoopRow" name="method_generateLoopRow" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">generateLoopRow()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">generateLoopRow(  <span class="argument">$read_only = false</span>,   <span class="argument">$inherit = false</span>) </pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$read_only </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$inherit </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_opToDescription" name="method_opToDescription" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">opToDescription()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">opToDescription(  <span class="argument">$op</span>) : static</pre>
+                <p><em>Gets a trivial name for the operation.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$op </td>
+                                <td><p>string The operation (name) for which the operation should be determined.</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\InvalidArgumentException</dt>
+                            <dd><p>If no operation with the given name exists.</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    static
+                                            &mdash; <p>The trivial name for the operation.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_modifyValueBeforeSetting" name="method_modifyValueBeforeSetting" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">modifyValueBeforeSetting()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">modifyValueBeforeSetting(  <span class="argument">$operation</span>,   <span class="argument">$new_value</span>,   <span class="argument">$data</span>) : integer</pre>
+                <p><em>Modify the permissions data, before it gets written, to Database. This is called while setValue() is executed.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$operation </td>
+                                <td><p>string The original $operation string from setValue().</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$new_value </td>
+                                <td><p>string The original $new_value string from setValue().</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$data </td>
+                                <td><p>int The raw data, that can be modifed.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>The modified data.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_opToBitN" name="method_opToBitN" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">opToBitN()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">opToBitN(  <span class="argument">$op</span>) : integer</pre>
+                <p><em>Gets the bit number for every operation (see Constants in Permission class).</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$op </td>
+                                <td><p>string The operation for which the bit number should be calculated.</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\InvalidArgumentException</dt>
+                            <dd><p>If no operation with the given name exists.</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>The bitnumber for the operation.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_readBitPair" name="method_readBitPair" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">readBitPair()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">readBitPair(  <span class="argument">$data</span>,   <span class="argument">$n</span>) </pre>
+                <p><em>Reads a bit pair from $data.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$data </td>
+                                <td><p>int The data from where the bits should be extracted from.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$n </td>
+                                <td><p>int The number of the lower bit (of the pair) that should be read. Starting from zero.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                    <span class="label label-info">final</span>
+                                    <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_writeBitPair" name="method_writeBitPair" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">writeBitPair()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">writeBitPair(  <span class="argument">$data</span>,   <span class="argument">$n</span>,   <span class="argument">$new</span>) : integer</pre>
+                <p><em>Writes a bit pair in the given $data and returns it.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$data </td>
+                                <td><p>int The data which should be modified.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$n </td>
+                                <td><p>int The number of the lower bit of the pair which should be written.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$new </td>
+                                <td><p>int The new value of the pair.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>The new data with the modified pair.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                    <span class="label label-info">final</span>
+                                    <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_buildOperationArray" name="method_buildOperationArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">buildOperationArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">buildOperationArray(  <span class="argument">$n</span>,   <span class="argument">$name</span>,   <span class="argument">$description</span>) : array</pre>
+                <p><em></em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$n </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$name </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$description </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Permissions.BasePermission.html"><div class="path-wrapper">\PartDB\Permissions\BasePermission</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">GroupPermission.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/lib\Permissions\GroupPermission.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/PartDB.html">\PartDB</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on September 22nd, 2017 at 15:47.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

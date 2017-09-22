@@ -34,6 +34,10 @@ use PartDB\DevicePart;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\Part;
+use PartDB\Permissions\DevicePartPermission;
+use PartDB\Permissions\PartAttributePermission;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\StructuralPermission;
 use PartDB\User;
 
 $messages = array();
@@ -128,10 +132,15 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Baugr
 try {
     $database           = new Database();
     $log                = new Log($database);
-    $current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
     $root_device        = new Device($database, $current_user, $log, 0);
     $device             = new Device($database, $current_user, $log, $device_id);
     $subdevices         = $device->getSubelements(false);
+
+    //Check for Device parts read permission, when on Device detail page.
+    if ($device_id > 0){
+       $current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ);
+    }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -357,7 +366,8 @@ if (! $fatal_error) {
  *
  *********************************************************************************/
 
-if (! $fatal_error) {
+//Generate the parts list, only if a device id was set.
+if (! $fatal_error && $device_id > 0) {
     try {
         $device_parts = $device->getParts();
         // don't forget: $device_parts contains "DevicePart"-objects, not "Part"-objects!!
@@ -412,6 +422,14 @@ if (! $fatal_error) {
     $html->setVariable('import_separator', $import_separator, 'string');
     //$html->set_variable('import_data_is_valid',     (isset($import_data_is_valid) && ($import_data_is_valid)), 'boolean');
 }
+
+$html->setVariable("can_part_create", $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
+$html->setVariable("can_part_edit", $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::EDIT));
+$html->setVariable("can_part_delete", $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::DELETE));
+
+$html->setVariable('can_part_instock', $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT));
+$html->setVariable('can_part_order', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT));
+$html->setVariable('can_devices_add', $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::CREATE));
 
 /********************************************************************************
  *

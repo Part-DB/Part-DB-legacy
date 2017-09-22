@@ -27,6 +27,7 @@ namespace PartDB;
 
 use Exception;
 use PartDB\PartProperty\PartNameRegEx;
+use PartDB\Permissions\PermissionManager;
 
 /**
  * @file Category.php
@@ -289,7 +290,9 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             return "";
         } else {
             if ($show_escape || $this->db_data['partname_hint'] !== "@@") {
-                return $this->db_data['partname_hint'];
+                if (isset($db_data['partname_hint'])) {
+                    return $this->db_data['partname_hint'];
+                }
             } else {
                 return "";
             }
@@ -325,10 +328,11 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
             return "";
         } else {
             if ($show_escape || $this->db_data['partname_regex'] !== "@@") {
-                return $this->db_data['partname_regex'];
-            } else {
-                return "";
+                if (isset($this->db_data['partname_regex'])) {
+                    return $this->db_data['partname_regex'];
+                }
             }
+            return "";
         }
     }
 
@@ -597,6 +601,15 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
         }
 
         return $values;
+    }
+
+    /**
+     * Gets the permission name for control access to this StructuralDBElement
+     * @return string The name of the permission for this StructuralDBElement.
+     */
+    protected static function getPermissionName()
+    {
+        return PermissionManager::CATEGORIES;
     }
 }
 

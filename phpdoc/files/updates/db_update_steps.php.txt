@@ -36,7 +36,7 @@ include_once(BASE.'/updates/db_migration_functions.php');
  *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
  */
 
-define('LATEST_DB_VERSION', 19);  // <-- increment here
+define('LATEST_DB_VERSION', 20);  // <-- increment here
 
 /*
  * Get update steps
@@ -691,146 +691,179 @@ function get_db_update_steps($current_version)
             $updateSteps[] = "UPDATE categories SET default_comment = ''";
             break;
 
-        /*case 17:
-          // create table "users"
-          $updateSteps[] = "CREATE TABLE `users` (".
-              // Benutzerinformationen
-              "`id` INT(11) NOT NULL AUTO_INCREMENT,".            // Benutzer-ID
-              "`name` VARCHAR(30) NOT NULL,".                     // Anmeldename
-              "`password` VARCHAR(32),".                          // MD5-Hash des Passworts
-              "`first_name` TINYTEXT,".                           // Vorname
-              "`last_name` TINYTEXT,".                            // Nachname
-              "`department` TINYTEXT,".                           // Abteilung
-              "`email` TINYTEXT,".                                // E-Mail Adresse
-              // Einstellungen und Gruppenzugehörigkeit
-              "`auto_login` BOOLEAN NOT NULL DEFAULT '0',".       // Automatische Anmeldung ein/aus
-              "`session_id` VARCHAR(32),".                        // Session-ID für die Identifizierung
-              "`group_id` INT(11) NOT NULL,".                     // Gruppen-ID von der Gruppe des Users
-              // System-Rechte
-              "`perms_system` INT(3) NOT NULL,".                  // Allgemeine Rechte ("Kleinkram")
-              "`perms_system_group_childs` INT(3) NOT NULL,".     // Gruppenverwaltung (nur Untergruppen der eigenen Gruppe)
-              "`perms_system_group_others` INT(3) NOT NULL,".     // Gruppenverwaltung (alle, ausser die Untergruppen)
-              "`perms_system_users_subgroups` INT(3) NOT NULL,".  // Benutzerverwaltung (Benutzer aller untergeortneten Gruppen)
-              "`perms_system_users_others` INT(3) NOT NULL,".     // Benutzerverwaltung (alle, ausser von untergeordneten Gruppen)
-              "`perms_system_dbupdate` INT(3) NOT NULL,".         // Datenbankaktualisierung bzw. dessen Einstellungen
-              "`perms_system_dbbackup` INT(3) NOT NULL,".         // Datenbank-Backup bzw. dessen Einstellungen
-              // Bauteil-Rechte
-              "`perms_parts` INT(3) NOT NULL,".                   // Betrachten/Erstellen/Löschen/Verschieben
-              "`perms_parts_name` INT(3) NOT NULL,".              // Name
-              "`perms_parts_description` INT(3) NOT NULL,".       // Beschreibung
-              "`perms_parts_instock` INT(3) NOT NULL,".           // Menge (an Lager)
-              "`perms_parts_mininstock` INT(3) NOT NULL,".        // Mindestmenge
-              "`perms_parts_footprint` INT(3) NOT NULL,".         // Footprint
-              "`perms_parts_storelocation` INT(3) NOT NULL,".     // Lagerort
-              "`perms_parts_obsolete` INT(3) NOT NULL,".          // Obsolet
-              "`perms_parts_comment` INT(3) NOT NULL,".           // Kommentar
-              "`perms_parts_orderdetails` INT(3) NOT NULL,".      // Bestellinformationen (Lieferanten, Bestellnummern)
-              "`perms_parts_prices` INT(3) NOT NULL,".            // Preisinformationen
-              "`perms_parts_attachements` INT(3) NOT NULL,".      // Dateianhänge (Bilder, Datenblätter, ...)
-              // Baugruppen-Rechte
-              "`perms_devices` INT(3) NOT NULL,".                 // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-              "`perms_devices_parts` INT(3) NOT NULL,".           // Bauteile betrachten/bearbeiten
-              // Lagerorte-Rechte
-              "`perms_storelocations` INT(3) NOT NULL,".          // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-              "`perms_storelocations_isfull` INT(3) NOT NULL,".   // Eigenschaft, ob Lagerort voll ist
-              // Footprints-Rechte
-              "`perms_footprints` INT(3) NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-              // Kategorien-Rechte
-              "`perms_categories` INT(3) NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-              // Lieferanten-Rechte
-              "`perms_suppliers` INT(3) NOT NULL,".               // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-              // Hersteller-Rechte
-              "`perms_manufacturers` INT(3) NOT NULL,".           // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-              // Attribute
-              " PRIMARY KEY  (`id`),".
-              " UNIQUE KEY `name` (`name`)".
-              ") ENGINE=InnoDB;";
+        case 19:
+            // create table "users"
+            $updateSteps[] = "CREATE TABLE IF NOT EXISTS `users` (".
+                // Benutzerinformationen
+                "`id` INT(11) NOT NULL AUTO_INCREMENT,".            // Benutzer-ID
+                "`name` VARCHAR(32) NOT NULL,".                     // Anmeldename
+                "`password` VARCHAR(255),".                          // MD5-Hash des Passworts
+                "`first_name` TINYTEXT,".                           // Vorname
+                "`last_name` TINYTEXT,".                            // Nachname
+                "`department` TINYTEXT,".                           // Abteilung
+                "`email` TINYTEXT,".                                // E-Mail Adresse
+                // Einstellungen und Gruppenzugehörigkeit
+                "`need_pw_change` BOOLEAN NOT NULL DEFAULT '0',".   // Must change password
+                "`group_id` INT NULL,".                     // Gruppen-ID von der Gruppe des Users
+                // System-Rechte
+                "`perms_system` INT NOT NULL,".                  // Allgemeine Rechte ("Kleinkram")
+                "`perms_groups` INT NOT NULL,".                  // Group managment
+                "`perms_users` INT NOT NULL,".                   // User managment
+                "`perms_self` INT NOT NULL,".                    // Change own settings like firstname, lastname, email.
+                "`perms_system_config` INT NOT NULL,".           //System settings
+                "`perms_system_database` INT NOT NULL,".         //Database settings
+                // Bauteil-Rechte
+                "`perms_parts` INT NOT NULL,".                   // Betrachten/Erstellen/Löschen/Verschieben
+                "`perms_parts_name` SMALLINT NOT NULL,".              // Name
+                "`perms_parts_description` SMALLINT NOT NULL,".       // Beschreibung
+                "`perms_parts_instock` SMALLINT NOT NULL,".           // Menge (an Lager)
+                "`perms_parts_mininstock` SMALLINT NOT NULL,".        // Mindestmenge
+                "`perms_parts_footprint` SMALLINT NOT NULL,".         // Footprint
+                "`perms_parts_storelocation` SMALLINT NOT NULL,".     // Lagerort
+                "`perms_parts_manufacturer` SMALLINT NOT NULL,".      // Hersteller
+                "`perms_parts_comment` SMALLINT NOT NULL,".           // Kommentar
+                "`perms_parts_order` SMALLINT NOT NULL,".             // Bestellung
+                "`perms_parts_orderdetails` SMALLINT NOT NULL,".      // Bestellinformationen (Lieferanten, Bestellnummern)
+                "`perms_parts_prices` SMALLINT NOT NULL,".            // Preisinformationen
+                "`perms_parts_attachements` SMALLINT NOT NULL,".      // Dateianhänge (Bilder, Datenblätter, ...)
+                // Baugruppen-Rechte
+                "`perms_devices` INT NOT NULL,".                 // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                "`perms_devices_parts` INT NOT NULL,".           // Bauteile betrachten/bearbeiten
+                // Lagerorte-Rechte
+                "`perms_storelocations` INT NOT NULL,".          // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                // Footprints-Rechte
+                "`perms_footprints` INT NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                // Kategorien-Rechte
+                "`perms_categories` INT NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                // Lieferanten-Rechte
+                "`perms_suppliers` INT NOT NULL,".               // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                // Hersteller-Rechte
+                "`perms_manufacturers` INT NOT NULL,".           // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                //Dateitypen
+                "`perms_attachement_types` INT NOT NULL,".       // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                //Tools
+                "`perms_tools` INT NOT NULL,".
+                // Attribute
+                " PRIMARY KEY  (`id`),".
+                " UNIQUE KEY `name` (`name`)".
+                ") ENGINE=InnoDB;";
 
-          // create table "groups"
-          $updateSteps[] = "CREATE TABLE `groups` (".
-              // Gruppeninformationen
-              "`id` INT(11) NOT NULL AUTO_INCREMENT,".            // Gruppen-ID
-              "`name` TINYTEXT NOT NULL,".                        // Gruppenname
-              "`parent_id` INT(11) NOT NULL,".                    // ID der übergeordneten Gruppe ('-1' bei root)
-              "`comment` MEDIUMTEXT,".                            // Kommentar (optional)
-              // System-Rechte
-              "`perms_system` INT(3) NOT NULL,".                  // Allgemeine Rechte ("Kleinkram")
-              "`perms_system_group_childs` INT(3) NOT NULL,".     // Gruppenverwaltung (nur Untergruppen der eigenen Gruppe)
-              "`perms_system_group_others` INT(3) NOT NULL,".     // Gruppenverwaltung (alle, ausser die Untergruppen)
-              "`perms_system_users_subgroups` INT(3) NOT NULL,".  // Benutzerverwaltung (Benutzer aller untergeortneten Gruppen)
-              "`perms_system_users_others` INT(3) NOT NULL,".     // Benutzerverwaltung (alle, ausser von untergeordneten Gruppen)
-              "`perms_system_dbupdate` INT(3) NOT NULL,".         // Datenbankaktualisierung bzw. dessen Einstellungen
-              "`perms_system_dbbackup` INT(3) NOT NULL,".         // Datenbank-Backup bzw. dessen Einstellungen
-              // Bauteil-Rechte
-              "`perms_parts` INT(3) NOT NULL,".                   // Betrachten/Erstellen/Löschen/Verschieben
-              "`perms_parts_name` INT(3) NOT NULL,".              // Name
-              "`perms_parts_description` INT(3) NOT NULL,".       // Beschreibung
-              "`perms_parts_instock` INT(3) NOT NULL,".           // Menge (an Lager)
-              "`perms_parts_mininstock` INT(3) NOT NULL,".        // Mindestmenge
-              "`perms_parts_footprint` INT(3) NOT NULL,".         // Footprint
-              "`perms_parts_storelocation` INT(3) NOT NULL,".     // Lagerort
-              "`perms_parts_obsolete` INT(3) NOT NULL,".          // Obsolet
-              "`perms_parts_comment` INT(3) NOT NULL,".           // Kommentar
-              "`perms_parts_orderdetails` INT(3) NOT NULL,".      // Bestellinformationen (Lieferanten, Bestellnummern)
-              "`perms_parts_prices` INT(3) NOT NULL,".            // Preisinformationen
-              "`perms_parts_attachements` INT(3) NOT NULL,".      // Dateianhänge (Bilder, Datenblätter, ...)
-              // Baugruppen-Rechte
-              "`perms_devices` INT(3) NOT NULL,".                 // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-              "`perms_devices_parts` INT(3) NOT NULL,".           // Bauteile betrachten/bearbeiten
-              // Lagerorte-Rechte
-              "`perms_storelocations` INT(3) NOT NULL,".          // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-              "`perms_storelocations_isfull` INT(3) NOT NULL,".   // Eigenschaft, ob Lagerort voll ist
-              // Footprints-Rechte
-              "`perms_footprints` INT(3) NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-              // Kategorien-Rechte
-              "`perms_categories` INT(3) NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-              // Lieferanten-Rechte
-              "`perms_suppliers` INT(3) NOT NULL,".               // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-              // Hersteller-Rechte
-              "`perms_manufacturers` INT(3) NOT NULL,".           // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
-              // Attribute
-              " PRIMARY KEY  (`id`)".
-              ") ENGINE=InnoDB;";
+            // create table "groups"
+            $updateSteps[] = "CREATE TABLE IF NOT EXISTS `groups` (".
+                // Gruppeninformationen
+                "`id` INT(11) NOT NULL AUTO_INCREMENT,".            // Gruppen-ID
+                "`name` VARCHAR(32) NOT NULL,".                        // Gruppenname
+                "`parent_id` INT(11) DEFAULT NULL,".                    // ID der übergeordneten Gruppe (NULL bei root)
+                "`comment` MEDIUMTEXT,".                            // Kommentar (optional)
+                // System-Rechte
+                "`perms_system` INT NOT NULL,".                  // Allgemeine Rechte ("Kleinkram")
+                "`perms_groups` INT NOT NULL,".                  // Group managment
+                "`perms_users` INT NOT NULL,".                   // User managment
+                "`perms_self` INT NOT NULL,".                    // Change own settings like firstname, lastname, email.
+                "`perms_system_config` INT NOT NULL,".           //System settings
+                "`perms_system_database` INT NOT NULL,".         //Database settings
+                // Bauteil-Rechte
+                "`perms_parts` INT NOT NULL,".                   // Betrachten/Erstellen/Löschen/Verschieben
+                "`perms_parts_name` SMALLINT NOT NULL,".              // Name
+                "`perms_parts_description` SMALLINT NOT NULL,".       // Beschreibung
+                "`perms_parts_instock` SMALLINT NOT NULL,".           // Menge (an Lager)
+                "`perms_parts_mininstock` SMALLINT NOT NULL,".        // Mindestmenge
+                "`perms_parts_footprint` SMALLINT NOT NULL,".         // Footprint
+                "`perms_parts_storelocation` SMALLINT NOT NULL,".     // Lagerort
+                "`perms_parts_manufacturer` SMALLINT NOT NULL,".      // Hersteller
+                "`perms_parts_comment` SMALLINT NOT NULL,".           // Kommentar
+                "`perms_parts_order` SMALLINT NOT NULL,".             // Bestellung
+                "`perms_parts_orderdetails` SMALLINT NOT NULL,".      // Bestellinformationen (Lieferanten, Bestellnummern)
+                "`perms_parts_prices` SMALLINT NOT NULL,".            // Preisinformationen
+                "`perms_parts_attachements` SMALLINT NOT NULL,".      // Dateianhänge (Bilder, Datenblätter, ...)
+                // Baugruppen-Rechte
+                "`perms_devices` INT NOT NULL,".                 // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                "`perms_devices_parts` INT NOT NULL,".           // Bauteile betrachten/bearbeiten
+                // Lagerorte-Rechte
+                "`perms_storelocations` INT NOT NULL,".          // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                // Footprints-Rechte
+                "`perms_footprints` INT NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                // Kategorien-Rechte
+                "`perms_categories` INT NOT NULL,".              // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                // Lieferanten-Rechte
+                "`perms_suppliers` INT NOT NULL,".               // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                // Hersteller-Rechte
+                "`perms_manufacturers` INT NOT NULL,".           // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                //Dateitypen
+                "`perms_attachement_types` INT NOT NULL,".       // Betrachten/Bearbeiten/Erstellen/Löschen/Verschieben
+                //Tools
+                "`perms_tools` INT NOT NULL,".
+                // Attribute
+                " PRIMARY KEY  (`id`),".
+                " UNIQUE KEY `name` (`name`)".
+                ") ENGINE=InnoDB;";
 
-          // create user "admin"
-          $updateSteps[] = "INSERT INTO users SET ".
-              "name='admin',".
-              "password='81dc9bdb52d04dc20036dbd8313ed055',". // Passwort = "1234"
-              "first_name='',".
-              "last_name='',".
-              "department='',".
-              "email='',".
-              "auto_login='0',".
-              "session_id='',".
-              "group_id='0',". // Gruppe 0 existiert nicht in der Datenbank, dies ist nur für den Benutzer "admin" erlaubt
-              "perms_system='127',".
-              "perms_system_group_childs='127',".
-              "perms_system_group_others='127',".
-              "perms_system_users_subgroups='127',".
-              "perms_system_users_others='127',".
-              "perms_system_dbupdate='127',".
-              "perms_system_dbbackup='127',".
-              "perms_parts='127',".
-              "perms_parts_name='127',".
-              "perms_parts_description='127',".
-              "perms_parts_instock='127',".
-              "perms_parts_mininstock='127',".
-              "perms_parts_footprint='127',".
-              "perms_parts_storelocation='127',".
-              "perms_parts_obsolete='127',".
-              "perms_parts_comment='127',".
-              "perms_parts_orderdetails='127',".
-              "perms_parts_prices='127',".
-              "perms_parts_attachements='127',".
-              "perms_devices='127',".
-              "perms_devices_parts='127',".
-              "perms_storelocations='127',".
-              "perms_storelocations_isfull='127',".
-              "perms_footprints='127',".
-              "perms_categories='127',".
-              "perms_suppliers='127',".
-              "perms_manufacturers='127'";
-          break;*/
+
+            /***
+             * Dont move the EOD; of the next lines. It has to be in the first coloum of the line!!
+             */
+
+            //Add needed groups.
+            $updateSteps[] = <<<'EOD'
+                INSERT INTO `groups`
+                (`id`,`name`,`parent_id`,`comment`,`perms_system`,`perms_groups`,
+                `perms_users`,
+                `perms_self`,`perms_system_config`,`perms_system_database`,
+                `perms_parts`,`perms_parts_name`,`perms_parts_description`,
+                `perms_parts_instock`,`perms_parts_mininstock`,
+                `perms_parts_footprint`,`perms_parts_storelocation`,
+                `perms_parts_manufacturer`,`perms_parts_comment`,
+                `perms_parts_order`,`perms_parts_orderdetails`,`perms_parts_prices`
+                ,`perms_parts_attachements`,`perms_devices`,`perms_devices_parts`,
+                `perms_storelocations`,`perms_footprints`,`perms_categories`,
+                `perms_suppliers`,`perms_manufacturers`,`perms_attachement_types`,
+                `perms_tools`)
+                VALUES (1,'admins',NULL,
+                'Users of this group can do everything: Read, Write and Administrative actions.'
+                ,1,1365,21845,21,85,21,349525,5,5,5,5,5,5,5,5,5,325,325,325,1365,
+                325,1365,1365,1365,1365,1365,341,1365),
+              (2,'readonly',NULL,
+              'Users of this group can only read informations, use tools, and don\'t have access to administrative tools.'
+              ,2,2730,43690,25,170,42,349865,9,9,9,9,9,9,9,9,9,649,649,649,1705,
+              649,1705,1705,1705,1705,1705,681,1366),
+              (3,'users',NULL,
+              'Users of this group, can edit part informations, create new ones, etc. but are not allowed to use administrative tools. (But can read current configuration, and see Server status)'
+              ,2,2730,43690,25,105,41,349525,5,5,5,5,5,5,5,5,5,325,325,325,1365,
+              325,1365,1365,1365,1365,1365,341,1365); 
+EOD;
+
+
+            //Create user admin and anonymous (admin PW is: "admin" (without quotes)).
+
+            $updateSteps[] = <<<'EOD'
+            INSERT INTO `users`
+            (`id`,`name`,`password`,`first_name`,`last_name`,`department`,
+             `email`,
+             `need_pw_change`,`group_id`,`perms_system`,`perms_groups`,
+             `perms_users`,`perms_self`,`perms_system_config`,
+             `perms_system_database`,`perms_parts`,`perms_parts_name`,
+             `perms_parts_description`,`perms_parts_instock`,
+             `perms_parts_mininstock`,`perms_parts_footprint`,
+             `perms_parts_storelocation`,`perms_parts_manufacturer`,
+             `perms_parts_comment`,`perms_parts_order`,
+             `perms_parts_orderdetails`,`perms_parts_prices`,
+             `perms_parts_attachements`,`perms_devices`,`perms_devices_parts`,
+             `perms_storelocations`,`perms_footprints`,`perms_categories`,
+             `perms_suppliers`,`perms_manufacturers`,`perms_attachement_types`,
+             `perms_tools`)
+              VALUES (1,'anonymous','','','','','',0,2,21844,20480,0,0,0,0,0,21840,21840,
+             21840,21840,
+             21840,21840,21840,21840,21840,21520,21520,21520,20480,21520,20480,
+             20480,20480,20480,20480,21504,20480),
+              (
+              2,'admin','$2y$10$36AnqCBS.YnHlVdM4UQ0oOCV7BjU7NmE0qnAVEex65AyZw1cbcEjq','','',
+              '','',1,1,21845,21845,21845,21,85,21,349525,21845,21845,21845,21845
+              ,21845,21845,21845,21845,21845,21845,21845,21845,21845,21845,21845,
+              21845,21845,21845,21845,21845,21845); 
+EOD;
+
+            //Break is Important!
+            break;
 
         /*
                 Templates:

@@ -31,6 +31,11 @@
 
 use PartDB\Interfaces\IAPIModel;
 use PartDB\Part;
+use PartDB\Permissions\PartPermission;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\StructuralPermission;
+use PartDB\Permissions\ToolsPermission;
+use PartDB\User;
 
 /**
  * check if a given number is odd
@@ -564,11 +569,18 @@ function curlGetData($url)
  * @param $path string The path, where the file should be placed. (Must be absolute, unix style and end with a slash)
  * @param string $filename string Defaultly the filename of the new file gets determined from the url.
  *          However you can override the filename with this param.
+ * @param $download_override boolean Set this to true, if you want to download a file, even when $config['allow_server_downloads'] is false.
  * @throws Exception Throws an exception if an error happened, or file could not be downloaded.
- * @return True if the download was successful.
+ * @return string|boolean The path of the created file, when the file was successful downloaded. False, when an error happened.
  */
-function downloadFile($url, $path, $filename = "") {
-    if(!isPathabsoluteAndUnix($path)) {
+function downloadFile($url, $path, $filename = "", $download_override = false)
+{
+    global $config;
+    if ($config['allow_server_downloads'] == false && $download_override == false) {
+        throw new Exception(_("Das Herunterladen von Dateien über den Server ist deaktiviert!"));
+    }
+
+    if (!isPathabsoluteAndUnix($path)) {
         throw new Exception(_('$path ist kein gültiger und absoluter Pfad!'));
     }
     if (!isURL($url)) {
@@ -587,6 +599,7 @@ function downloadFile($url, $path, $filename = "") {
     if ($ret !== false) { //If download was successful
         return $path . $filename;
     }
+    return false;
 }
 
 /**
@@ -962,6 +975,9 @@ function buildToolsTree($params)
 {
     global $config;
 
+    //Build objects
+    $current_user       = User::getLoggedInUser();
+
     $disable_footprint = $config['footprints']['disable'];
     $disable_manufactur = $config['manufacturers']['disable'];
     $disable_suppliers  = $config['suppliers']['disable'];
@@ -980,51 +996,82 @@ function buildToolsTree($params)
 
     //Tools nodes
     $tools_nodes = array();
-    $tools_nodes[] = treeviewNode(_("Import"), BASE_RELATIVE . "/tools_import.php");
-    if (!$disable_labels) {
+    if ($current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IMPORT)) {
+        $tools_nodes[] = treeviewNode(_("Import"), BASE_RELATIVE . "/tools_import.php");
+    }
+    if (!$disable_labels && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::LABELS)) {
         $tools_nodes[] = treeviewNode(_("Labels"), BASE_RELATIVE . "/tools_labels.php");
     }
-    if (!$disable_calculator) {
+    if (!$disable_calculator && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::CALCULATOR)) {
         $tools_nodes[] = treeviewNode(_("Widerstandsrechner"), BASE_RELATIVE . "/tools_calculator.php");
     }
-    if (!$disable_tools_footprints) {
+    if (!$disable_tools_footprints && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::FOOTPRINTS)) {
         $tools_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/tools_footprints.php");
     }
-    if (!$disable_iclogos) {
+    if (!$disable_iclogos && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IC_LOGOS)) {
         $tools_nodes[] = treeviewNode(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");
     }
 
     $system_nodes = array();
-    $system_nodes[] = treeviewNode(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
-    $system_nodes[] = treeviewNode(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
+    if ($current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ)) {
+        $system_nodes[] = treeviewNode(_("Benutzer"), BASE_RELATIVE . "/edit_users.php");
+    }
+    if ($current_user->canDo(PermissionManager::GROUPS, \PartDB\Permissions\GroupPermission::READ)) {
+        $system_nodes[] = treeviewNode(_("Gruppen"), BASE_RELATIVE . "/edit_groups.php");
+    }
+    if($current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::READ_CONFIG)
+        || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::SERVER_INFO)
+        || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::CHANGE_ADMIN_PW)) {
+        $system_nodes[] = treeviewNode(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
+    }
+    if ($current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::SEE_STATUS)
+        || $current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::READ_DB_SETTINGS)) {
+        $system_nodes[] = treeviewNode(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
+    }
+
 
 
     //Show nodes
     $show_nodes = array();
-    $show_nodes[] = treeviewNode(_("Zu bestellende Teile"), BASE_RELATIVE . "/show_order_parts.php");
-    $show_nodes[] = treeviewNode(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
-    $show_nodes[] = treeviewNode(_("Obsolente Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
-    $show_nodes[] = treeviewNode(_("Statistik"), BASE_RELATIVE . "/statistics.php");
-    $show_nodes[] = treeviewNode(_("Alle Teile"), BASE_RELATIVE . "/show_all_parts.php");
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::ORDER_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Zu bestellende Teile"), BASE_RELATIVE . "/show_order_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::OBSOLETE_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Obsolente Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::TOOLS, ToolsPermission::STATISTICS)) {
+        $show_nodes[] = treeviewNode(_("Statistik"), BASE_RELATIVE . "/statistics.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::ALL_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Alle Teile"), BASE_RELATIVE . "/show_all_parts.php");
+    }
 
     //Edit nodes
     $edit_nodes = array();
-    if (!$disable_devices) {
+    if (!$disable_devices && $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Baugruppen"), BASE_RELATIVE . "/edit_devices.php");
     }
-    $edit_nodes[] = treeviewNode(_("Lagerorte"), BASE_RELATIVE . "/edit_storelocations.php");
-    if (!$disable_footprint) {
+    if ($current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::READ)) {
+        $edit_nodes[] = treeviewNode(_("Lagerorte"), BASE_RELATIVE . "/edit_storelocations.php");
+    }
+    if (!$disable_footprint && $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/edit_footprints.php");
     }
-    $edit_nodes[] = treeviewNode(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
-    if (!$disable_suppliers) {
+    if ($current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ)) {
+        $edit_nodes[] = treeviewNode(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
+    }
+    if (!$disable_suppliers && $current_user->canDo(PermissionManager::SUPPLIERS, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Lieferanten"), BASE_RELATIVE . "/edit_suppliers.php");
     }
-
-    if (!$disable_manufactur) {
+    if (!$disable_manufactur && $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Hersteller"), BASE_RELATIVE . "/edit_manufacturers.php");
     }
-    $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
+    if ($current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ)) {
+        $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
+    }
 
     //Developer nodes
     $dev_nodes = array();
@@ -1035,16 +1082,22 @@ function buildToolsTree($params)
 
     //Add nodes to root
     $tree = array();
-    $tree[] = treeviewNode(_("Tools"), null, $tools_nodes);
-    $tree[] = treeviewNode(_("Bearbeiten"), null, $edit_nodes);
-    $tree[] = treeviewNode(_("Zeige"), null, $show_nodes);
-    if (!$disable_config) {
+    if (!empty($tools_nodes)) {
+        $tree[] = treeviewNode(_("Tools"), null, $tools_nodes);
+    }
+    if (!empty($edit_nodes)) {
+        $tree[] = treeviewNode(_("Bearbeiten"), null, $edit_nodes);
+    }
+    if (!empty($show_nodes)) {
+        $tree[] = treeviewNode(_("Zeige"), null, $show_nodes);
+    }
+    if (!$disable_config && !empty($system_nodes)) {
         $tree[] = treeviewNode(_("System"), null, $system_nodes);
     }
-    if ($developer_mode) {
+    if ($developer_mode && $current_user->canDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::USE_DEBUG)) {
         $tree[] = treeviewNode(_("Entwickler-Werkzeuge"), null, $dev_nodes);
     }
-    if(!$disable_help) {
+    if (!$disable_help) {
         $tree[] = treeviewNode(_("Hilfe"), "https://github.com/jbtronics/Part-DB/wiki", null);
     }
 
@@ -1093,7 +1146,8 @@ function _empty($var)
  * Check if the connection to the server is using HTTPS.
  * @return bool True if the connection is using HTTPS, false if not.
  */
-function isUsingHTTPS() {
+function isUsingHTTPS()
+{
     return
         (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
         || $_SERVER['SERVER_PORT'] == 443;
@@ -1135,11 +1189,15 @@ function filter_filename($filename, $beautify=true)
         [#\[\]@!$&\'()+,;=]|     # URI reserved https://tools.ietf.org/html/rfc3986#section-2.2
         [{}^\~`]                 # URL unsafe characters https://www.ietf.org/rfc/rfc1738.txt
         ~x',
-        '-', $filename);
+        '-',
+        $filename
+    );
     // avoids ".", ".." or ".hiddenFiles"
     $filename = ltrim($filename, '.-');
     // optional beautification
-    if ($beautify) $filename = beautify_filename($filename);
+    if ($beautify) {
+        $filename = beautify_filename($filename);
+    }
     // maximise filename length to 255 bytes http://serverfault.com/a/9548/44086
     $ext = pathinfo($filename, PATHINFO_EXTENSION);
     $filename = mb_strcut(pathinfo($filename, PATHINFO_FILENAME), 0, 255 - ($ext ? strlen($ext) + 1 : 0), mb_detect_encoding($filename)) . ($ext ? '.' . $ext : '');
@@ -1176,10 +1234,15 @@ function beautify_filename($filename)
 
 /**
  * Recursively creates a long directory path, if it not exists.
+ * @param $path string The path of the deepest folder, that should be created.
+ * @return boolean Returns true, if the folder hierachy was created successful.
  */
-function createPath($path) {
-    if (is_dir($path)) return true;
-    $prev_path = substr($path, 0, strrpos($path, '/', -2) + 1 );
+function createPath($path)
+{
+    if (is_dir($path)) {
+        return true;
+    }
+    $prev_path = substr($path, 0, strrpos($path, '/', -2) + 1);
     $return = createPath($prev_path);
     return ($return && is_writable($prev_path)) ? mkdir($path) : false;
 }
@@ -1188,9 +1251,18 @@ function createPath($path) {
  * Check if a string is a URL and is valid.
  * @param $string string The string which should be checked.
  * @param bool $path_required If true, the string must contain a path to be valid. (e.g. foo.bar would be invalid, foo.bar/test.php would be valid).
+ * @param $only_http bool Set this to true, if only HTTPS or HTTP schemata should be allowed.
+ *  *Caution: When this is set to false, a attacker could use the file:// schema, to get internal server files, like /etc/passwd.*
  * @return bool True if the string is a valid URL. False, if the string is not an URL or invalid.
  */
-function isURL($string, $path_required = true) {
+function isURL($string, $path_required = true, $only_http = true)
+{
+    if ($only_http) {   //Check if scheme is HTTPS or HTTP
+        $scheme = parse_url($string, PHP_URL_SCHEME);
+        if ($scheme !== "http" || $scheme !== "https") {
+            return false;   //All other schemes are not valid.
+        }
+    }
     if ($path_required) {
         return filter_var($string, FILTER_VALIDATE_URL, FILTER_FLAG_PATH_REQUIRED);
     } else {
@@ -1205,7 +1277,8 @@ function isURL($string, $path_required = true) {
  *      When false, only the special fa-class is returned. (e.g. fa-file)
  * @return string The resulted HTML code or the fa-class.
  */
-function extToFAIcon($path, $with_html = true, $size = "fa-lg") {
+function extToFAIcon($path, $with_html = true, $size = "fa-lg")
+{
     $ext = pathinfo($path, PATHINFO_EXTENSION);
     $fa_class = "";
     switch ($ext) {
@@ -1283,4 +1356,20 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg") {
 
     //Build HTML
     return '<i class="fa ' . $fa_class . '" aria-hidden="true"></i>';
+}
+
+/**
+ * Parses the value of a Tristate Checkbox input.
+ * @param $tristate_data string The Request data of the Tristate input.
+ * @return int 0, if checkbox was indetermined, 1 if checkbox was checked, 2 if checkbox, was not checked.
+ */
+function parseTristateCheckbox($tristate_data) {
+    switch ($tristate_data) {
+        case "true":
+            return 1;
+        case "false":
+            return 2;
+        case "indeterminate":
+            return 0;
+    }
 }

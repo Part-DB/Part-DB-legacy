@@ -29,6 +29,8 @@ use PartDB\Database;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\Part;
+use PartDB\Permissions\PartPermission;
+use PartDB\Permissions\PermissionManager;
 use PartDB\User;
 
 $messages = array();
@@ -45,7 +47,9 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Teile
 try {
     $database           = new Database();
     $log                = new Log($database);
-    $current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
+
+    $current_user->tryDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS);
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
