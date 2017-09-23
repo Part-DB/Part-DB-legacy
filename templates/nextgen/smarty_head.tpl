@@ -248,7 +248,7 @@
                                 <span>{t}Lade{/t}</span>
                             </div>
                         </div>
-                        <h4>Dies kann einen Moment dauern...</h4>
+                        <h4>{t}Dies kann einen Moment dauern...{/t}</h4>
                     </div>
 
                    <div class="container-fluid" id="content">
