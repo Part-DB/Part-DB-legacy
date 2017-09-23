@@ -173,12 +173,21 @@
                                 </ul>
                             </div>
 
-                            <input type="search" class="form-control" placeholder="{t}Suche{/t}" name="keyword">
+                            <input type="search" class="form-control" placeholder="{t}Suche{/t}" name="keyword" onkeyup="livesearch(this);">
                             <button type="submit" id="search-submit" class="btn btn-default">{t}Los!{/t}</button>
                     </form>
                     {/if}
                 </div><!-- /.navbar-collapse -->
 
+                <script>
+                    function livesearch(object) {
+                        var $obj = $(object);
+                        var q = $obj.val();
+                        if(q.length >= 2) {
+                            submitForm($obj.closest("form"));
+                        }
+                    }
+                </script>
 
 
             </div><!-- /.container-fluid -->
