@@ -4,11 +4,11 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-22 23:43+0200\n"
+"POT-Creation-Date: 2017-09-23 11:43+0200\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-09-22 06:49-0400\n"
+"PO-Revision-Date: 2017-09-23 05:56-0400\n"
 "Last-Translator: Jan Böhmer <jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en\n"
@@ -626,6 +626,22 @@ msgstr "New functions"
 #: inc/authors.php:36
 msgid "Committer/Templates/Neue Funktionen"
 msgstr "Committer/Templates/New Features"
+
+#: inc/config_defaults.php:134
+msgid "Part-DB Elektronische Bauteile-Datenbank"
+msgstr "Part-DB electronical parts database"
+
+#: inc/config_defaults.php:263 inc/config_defaults.php:284
+msgid "Standard 1 (mit den jeweils markierten Lieferanten)"
+msgstr "Standard 1 (with marked suppliers)"
+
+#: inc/config_defaults.php:270 inc/config_defaults.php:289
+msgid "Standard 2 (alle Teile mit allen Lieferanten)"
+msgstr "Standard 2 (with all suppliers)"
+
+#: inc/config_defaults.php:277
+msgid "Distrelec Online-Bestellung"
+msgstr "Distrelec online-order"
 
 #: inc/lib.php:138 inc/lib.php:172 inc/lib.php:277
 #, php-format
@@ -1306,7 +1322,7 @@ msgstr "An device cannot be copied into itself!"
 #: lib/Device.php:191
 #, php-format
 msgid "Die Baugruppe \"%s\"konnte nicht kopiert werden!\n"
-msgstr "The device \"%s\" could not be copied!"
+msgstr "The device \"%s\" could not be copied!\n"
 
 #: lib/Device.php:219
 msgid "Es sind nicht von allen Bauteilen genügend an Lager"
@@ -1314,7 +1330,7 @@ msgstr "There are not enough of all components in stock"
 
 #: lib/Device.php:236
 msgid "Die Teile konnten nicht abgefasst werden!\n"
-msgstr "The parts could not be taken!"
+msgstr "The parts could not be taken!\n"
 
 #: lib/Device.php:451 lib/Part.php:1671
 msgid "Die Bestellmenge ist ungültig!"
@@ -1358,7 +1374,7 @@ msgstr "$database is not a database object"
 
 #: lib/Orderdetails.php:150
 msgid "Die Einkaufsinformationen konnten nicht gelöscht werden!\n"
-msgstr "Orderinformation could not be deleted!"
+msgstr "Orderinformation could not be deleted!\n"
 
 #: lib/Orderdetails.php:321
 msgid ""
@@ -1385,11 +1401,15 @@ msgstr ""
 #: lib/Part.php:190
 #, php-format
 msgid "Das Bauteil \"%s\" konnte nicht gelöscht werden!\n"
-msgstr "The part \"%s\" could not be deleted!"
+msgstr "The part \"%s\" could not be deleted!\n"
 
 #: lib/Part.php:214
 msgid "Label type unknown: "
 msgstr "Label type unknown:"
+
+#: lib/Part.php:1377
+msgid "Noch nicht bestellen"
+msgstr "Do not order yet"
 
 #: lib/Part.php:1540
 msgid "\"$table_type\" ist ungültig!"
