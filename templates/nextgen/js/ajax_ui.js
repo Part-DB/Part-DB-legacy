@@ -181,7 +181,7 @@ var AjaxUI = (function () {
      */
     AjaxUI.prototype.registerLinks = function () {
         'use strict';
-        $("a").not(".link-anchor").not(".link-external").not(".tree-btns")
+        $("a").not(".link-anchor").not(".link-collapse").not(".link-external").not(".tree-btns")
             .not(".back-to-top").not(".link-datasheet").unbind("click").click(function (event) {
             event.preventDefault();
             var a = $(this);

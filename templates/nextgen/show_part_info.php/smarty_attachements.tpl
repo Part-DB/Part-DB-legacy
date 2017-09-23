@@ -2,10 +2,11 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <i class="fa fa-file" aria-hidden="true"></i>&nbsp;
+        <a data-toggle="collapse" class="link-collapse text-default" href="#panel-attachements"><i class="fa fa-file fa-fw" aria-hidden="true"></i>
         {t}Dateianhänge{/t}
+        </a>
     </div>
-    <div class="panel-body">
+    <div class="panel-body panel-collapse collapse in" id="panel-attachements">
         {if isset($attachement_types_loop)}
             {foreach $attachement_types_loop as $attach_type}
                 <b>{$attach_type.attachement_type}:</b><br>
