@@ -135,7 +135,7 @@ function findAllFiles($directory, $recursive = false, $search_string = '')
     $files = array();
 
     if ((! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || (! isPathabsoluteAndUnix($directory, false))) {
-        throw new Exception('"'.$directory.'" ist kein gültiges Verzeichnis!');
+        throw new Exception(sprintf(_('"%s" ist kein gültiges Verzeichnis!'), $directory));
     }
 
     $dirfiles = scandir($directory);
@@ -169,7 +169,7 @@ function findAllDirectories($directory, $recursive = false)
     $directories = array();
 
     if ((! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || (! isPathabsoluteAndUnix($directory, false))) {
-        throw new Exception('"'.$directory.'" ist kein gültiges Verzeichnis!');
+        throw new Exception(sprintf(_('"%s" ist kein gültiges Verzeichnis!'), $directory));
     }
 
     $dirfiles = scandir($directory);
@@ -274,7 +274,7 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
     $destination = $destination_directory.$destination_filename;
 
     if ((mb_substr($destination_directory, -1, 1) != '/') || (! isPathabsoluteAndUnix($destination_directory, false))) {
-        throw new Exception('"'.$destination_directory.'" ist kein gültiges Verzeichnis!');
+        throw new Exception(sprintf(_('"%s" ist kein gültiges Verzeichnis!'), $destination_directory));
     }
 
     try {
@@ -304,26 +304,26 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
             // all OK, upload was successfully
             break;
         case UPLOAD_ERR_INI_SIZE:
-            throw new Exception('Die maximal mögliche Dateigrösse für Uploads wurde überschritten ("upload_max_filesize" in "php.ini")! '.
-                '<a target="_blank" href="'.BASE_RELATIVE.'/documentation/dokuwiki/doku.php?id=anforderungen">Hilfe</a>');
+            throw new Exception(_('Die maximal mögliche Dateigrösse für Uploads wurde überschritten ("upload_max_filesize" in "php.ini")! ').
+                '<a target="_blank" href="'.BASE_RELATIVE.'/documentation/dokuwiki/doku.php?id=anforderungen">'._("Hilfe").'</a>');
         case UPLOAD_ERR_FORM_SIZE:
-            throw new Exception('Die maximal mögliche Dateigrösse für Uploads wurde überschritten!');
+            throw new Exception(_('Die maximal mögliche Dateigrösse für Uploads wurde überschritten!'));
         case UPLOAD_ERR_PARTIAL:
-            throw new Exception('Die Datei wurde nur teilweise hochgeladen!');
+            throw new Exception(_('Die Datei wurde nur teilweise hochgeladen!'));
         case UPLOAD_ERR_NO_FILE:
-            throw new Exception('Es wurde keine Datei hochgeladen!');
+            throw new Exception(_('Es wurde keine Datei hochgeladen!'));
         case UPLOAD_ERR_NO_TMP_DIR:
-            throw new Exception('Es gibt keinen temporären Ordner für hochgeladene Dateien!');
+            throw new Exception(_('Es gibt keinen temporären Ordner für hochgeladene Dateien!'));
         case UPLOAD_ERR_CANT_WRITE:
-            throw new Exception('Das Speichern der Datei auf die Festplatte ist fehlgeschlagen!');
+            throw new Exception(_('Das Speichern der Datei auf die Festplatte ist fehlgeschlagen!'));
         case UPLOAD_ERR_EXTENSION:
-            throw new Exception('Eine PHP Erweiterung hat den Upload der Datei gestoppt!');
+            throw new Exception(_('Eine PHP Erweiterung hat den Upload der Datei gestoppt!'));
         default:
-            throw new Exception('Beim Hochladen der Datei trat ein unbekannter Fehler auf!');
+            throw new Exception(_('Beim Hochladen der Datei trat ein unbekannter Fehler auf!'));
     }
 
     if (! move_uploaded_file($file_array['tmp_name'], $destination)) {
-        throw new Exception('Beim Hochladen der Datei trat ein unbekannter Fehler auf!');
+        throw new Exception(_('Beim Hochladen der Datei trat ein unbekannter Fehler auf!'));
     }
 
     return $destination;
@@ -360,15 +360,15 @@ function setAdminPassword($old_password, $new_password_1, $new_password_2, $save
     $new_password_2 = trim($new_password_2);
 
     if (! isAdminPassword($old_password)) {
-        throw new Exception('Das eingegebene Administratorpasswort ist nicht korrekt!');
+        throw new Exception(_('Das eingegebene Administratorpasswort ist nicht korrekt!'));
     }
 
     if (mb_strlen($new_password_1) < 4) {
-        throw new Exception('Das neue Passwort muss mindestens 4 Zeichen lang sein!');
+        throw new Exception(_('Das neue Passwort muss mindestens 4 Zeichen lang sein!'));
     }
 
     if ($new_password_1 !== $new_password_2) {
-        throw new Exception('Die neuen Passwörter stimmen nicht überein!');
+        throw new Exception(_('Die neuen Passwörter stimmen nicht überein!'));
     }
 
     // all ok, save the new password
@@ -414,7 +414,7 @@ function isAdminPassword($password)
 function saveConfig()
 {
     if ((file_exists(BASE.'/data/config.php')) && (! is_writeable(BASE.'/data/config.php'))) {
-        throw new Exception('Es sind nicht genügend Rechte vorhanden um die Datei "config.php" zu beschreiben!');
+        throw new Exception(_('Es sind nicht genügend Rechte vorhanden um die Datei "config.php" zu beschreiben!'));
     }
 
     global $config;
@@ -433,15 +433,15 @@ function saveConfig()
     $content .= "\n";
 
     if (! ($fp = fopen(BASE.'/data/config.php', 'wb'))) {
-        throw new Exception('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.');
+        throw new Exception(_('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.'));
     }
 
     if (! fwrite($fp, $content)) {
-        throw new Exception('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.');
+        throw new Exception(_('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.'));
     }
 
     if (! fclose($fp)) {
-        throw new Exception('Es gab ein Fehler beim Abschliessen der Schreibvorgangs bei der Datei "config.php".');
+        throw new Exception(_('Es gab ein Fehler beim Abschliessen der Schreibvorgangs bei der Datei "config.php".'));
     }
 }
 
@@ -543,9 +543,9 @@ function floatToMoneyString($number, $language = '')
 function curlGetData($url)
 {
     if (! extension_loaded('curl')) {
-        throw new Exception('"curl" scheint auf ihrem System nicht installiert zu sein! '.
+        throw new Exception(_('"curl" scheint auf ihrem System nicht installiert zu sein! '.
             "\nBitte installieren Sie das entsprechende Modul, ".
-            'oder es werden gewisse Funktionen nicht zur Verfügung stehen.');
+            'oder es werden gewisse Funktionen nicht zur Verfügung stehen.'));
     }
 
     $ch = curl_init();

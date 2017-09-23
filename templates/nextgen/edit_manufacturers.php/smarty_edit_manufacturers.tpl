@@ -14,10 +14,10 @@
                 {/if}
 
                 <select class="form-control selectpicker"  data-live-search="true" onChange='$("[name=selected_id]").val(this.value); submitForm(this.form);'>
-                    <optgroup label="Neu">
+                    <optgroup label="{t}Neu{/t}">
                         <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neuer Hersteller:{/t}</option>
                     </optgroup>
-                    <optgroup label="Bearbeiten">
+                    <optgroup label="{t}Bearbeiten{/t}">
                         {$manufacturer_list nofilter}
                     </optgroup>
                 </select>
@@ -123,7 +123,7 @@
                     <div class="col-md-9">
                         <input type="url" class="form-control" name="auto_product_url" placeholder="{t}z.B. www.foo.bar/%PARTNUMBER%{/t}"
                                value="{if isset($auto_product_url)}{$auto_product_url}{/if}" {if !$can_edit}disabled{/if}>
-                        <p class="help-block">Platzhalter für die Bestellnummer: <i>%PARTNUMBER%</i></p>
+                        <p class="help-block">{t}Platzhalter für die Bestellnummer:{/t} <i>%PARTNUMBER%</i></p>
                     </div>
                 </div>
             

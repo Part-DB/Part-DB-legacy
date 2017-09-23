@@ -167,8 +167,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                         }
                     }
                 } else {
-                    throw new Exception('Das Bauteil "'.$this->getName().'" wird noch in '.count($devices).
-                        ' Baugruppen verwendet und kann daher nicht gelöscht werden!');
+                    throw new Exception(sprintf(_('Das Bauteil "%s" wird noch in %d'.
+                        ' Baugruppen verwendet und kann daher nicht gelöscht werden!'), $this->getName(), count($devices)));
                 }
             }
 
@@ -187,7 +187,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception("Das Bauteil \"".$this->getName()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
+            throw new Exception(sprintf(_("Das Bauteil \"%s\" konnte nicht gelöscht werden!\n"), $this->getName()) . _("Grund: ").$e->getMessage());
         }
     }
 
@@ -1380,7 +1380,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                         }
                         $suppliers_loop[] = array(      'row_index'         => $row_index,
                             'orderdetails_id'   => 0,
-                            'supplier_name'     => 'Noch nicht bestellen',
+                            'supplier_name'     => _('Noch nicht bestellen'),
                             'selected'          => ($order_orderdetails_id == 0));
 
                         $row_field['suppliers_radiobuttons'] = $suppliers_loop;
@@ -1639,9 +1639,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 __LINE__,
                 __METHOD__
             );
-            throw new Exception('Der neue Lagerbestand ist ungültig!');
+            throw new Exception(_('Der neue Lagerbestand ist ungültig!'));
         } elseif ($values['instock'] < 0) {
-            throw new Exception('Der neue Lagerbestand von "'.$values['name'].'" wäre negativ und kann deshalb nicht gespeichert werden!');
+            throw new Exception(sprintf(_('Der neue Lagerbestand von "%s" wäre negativ und kann deshalb nicht gespeichert werden!'), $values['name']));
         }
 
         // check "order_orderdetails_id"
@@ -1667,14 +1667,14 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         } catch (Exception $e) {
             debug('error', 'Ungültige "order_orderdetails_id": "'.$values['order_orderdetails_id'].'"'.
                 "\n\nUrsprüngliche Fehlermeldung: ".$e->getMessage(), __FILE__, __LINE__, __METHOD__);
-            throw new Exception('Die gewählte Einkaufsinformation existiert nicht!');
+            throw new Exception(_('Die gewählte Einkaufsinformation existiert nicht!'));
         }
 
         // check "order_quantity"
         if (((! is_int($values['order_quantity'])) && (! ctype_digit($values['order_quantity'])))
             || ($values['order_quantity'] < 1)) {
             debug('error', 'order_quantity = "'.$values['order_quantity'].'"', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('Die Bestellmenge ist ungültig!');
+            throw new Exception(_('Die Bestellmenge ist ungültig!'));
         }
 
         // check if we have to reset the order attributes ("instock" is now less than "mininstock")
@@ -1696,14 +1696,14 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 __LINE__,
                 __METHOD__
             );
-            throw new Exception('Der neue Mindestlagerbestand ist ungültig!');
+            throw new Exception(_('Der neue Mindestlagerbestand ist ungültig!'));
         }
 
         // check "id_category"
         try {
             // id_category == NULL means "no category", and this is not allowed!
             if ($values['id_category'] == null) {
-                throw new Exception('"id_category" ist Null!');
+                throw new Exception(_('"id_category" ist Null!'));
             }
 
             $category = new Category($database, $current_user, $log, $values['id_category']);
@@ -1716,7 +1716,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 __LINE__,
                 __METHOD__
             );
-            throw new Exception('Die gewählte Kategorie existiert nicht!');
+            throw new Exception(_('Die gewählte Kategorie existiert nicht!'));
         }
 
         // check "id_footprint"
@@ -1734,7 +1734,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 __LINE__,
                 __METHOD__
             );
-            throw new Exception('Der gewählte Footprint existiert nicht!');
+            throw new Exception(_('Der gewählte Footprint existiert nicht!'));
         }
 
         // check "id_storelocation"
@@ -1752,7 +1752,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 __LINE__,
                 __METHOD__
             );
-            throw new Exception('Der gewählte Lagerort existiert nicht!');
+            throw new Exception(_('Der gewählte Lagerort existiert nicht!'));
         }
 
         // check "id_manufacturer"
@@ -1770,7 +1770,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 __LINE__,
                 __METHOD__
             );
-            throw new Exception('Der gewählte Hersteller existiert nicht!');
+            throw new Exception(_('Der gewählte Hersteller existiert nicht!'));
         }
 
         // check "id_master_picture_attachement"
@@ -1789,7 +1789,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 __LINE__,
                 __METHOD__
             );
-            throw new Exception('Die gewählte Datei existiert nicht!');
+            throw new Exception(_('Die gewählte Datei existiert nicht!'));
         }
     }
 
@@ -1805,7 +1805,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         return $database->getCountOfRecords('parts');
@@ -1827,7 +1827,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     public static function getSumCountInstock(&$database)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         $query_data = $database->query('SELECT sum(instock) as sum FROM parts');
@@ -1855,7 +1855,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     public static function getSumPriceInstock(&$database, &$current_user, &$log, $as_money_string = true)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         $query =    'SELECT part_id, min_discount_quantity, price_related_quantity, price, instock FROM pricedetails ' .
@@ -1915,7 +1915,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         $parts = array();
@@ -1967,7 +1967,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         $parts = array();
@@ -2006,7 +2006,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         $parts = array();

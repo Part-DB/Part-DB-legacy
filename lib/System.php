@@ -74,11 +74,11 @@ class System
     public function __construct(&$database, &$log)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         if (!$log instanceof Log) {
-            throw new Exception('$log ist kein Log-Objekt!');
+            throw new Exception(_('$log ist kein Log-Objekt!'));
         }
 
         $this->database = $database;

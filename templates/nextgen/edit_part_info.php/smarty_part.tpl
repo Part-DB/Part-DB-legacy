@@ -95,7 +95,7 @@
                     <div class="col-md-3">
                         <div class="input-group">
                             <input type="text" class="form-control" name="search_category_name" id="search_category_name"
-                                   placeholder="Suchen / Hinzufügen" class="cleardefault"
+                                   placeholder="{t}Suchen / Hinzufügen{/t}" class="cleardefault"
                                    onkeydown="if (event.keyCode == 13) { document.getElementById('search_category').click();} "
                                    {if !$can_move}disabled{/if}>
                             <span class="input-group-btn">
@@ -117,7 +117,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="input-group">
-                            <input type="text" name="search_storelocation_name" class="form-control" placeholder="Suchen / Hinzufügen"
+                            <input type="text" name="search_storelocation_name" class="form-control" placeholder="{t}Suchen / Hinzufügen{/t}"
                                    class="cleardefault" onkeydown="if (event.keyCode == 13) { document.getElementById('search_storelocation').click();} "
                                    {if !$can_storelocation}disabled{/if}>
                             <span class="input-group-btn">
@@ -141,7 +141,7 @@
                         <div class="col-md-3">
                            <div class="input-group">
                                 <input type="text" class="form-control selectpicker" data-live-search="true"
-                                       name="search_manufacturer_name" placeholder="Suchen / Hinzufügen"
+                                       name="search_manufacturer_name" placeholder="{t}Suchen / Hinzufügen{/t}"
                                        onkeydown="if (event.keyCode == 13) { document.getElementById('search_manufacturer').click();} "
                                        {if !$can_storelocation}disabled{/if}>
                                 <span class="input-group-btn">
@@ -166,7 +166,7 @@
                         </div>
                         <div class="col-md-3">
                            <div class="input-group">
-                                <input type="text" name="search_footprint_name" placeholder="Suchen / Hinzufügen" class="form-control"
+                                <input type="text" name="search_footprint_name" placeholder="{t}Suchen / Hinzufügen{/t}" class="form-control"
                                        onkeydown="if (event.keyCode == 13) { document.getElementById('search_footprint').click();} "
                                        {if !$can_footprint}disabled{/if}>
                                 <span class="input-group-btn">

@@ -21,10 +21,10 @@
                 {/if}
 
                 <select class="form-control selectpicker"  data-live-search="true" onChange='$("[name=selected_id]").val(this.value); submitForm(this.form);'>
-                    <optgroup label="Neu">
+                    <optgroup label="{t}Neu{/t}">
                         <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neue Kategorie{/t}</option>
                     </optgroup>
-                    <optgroup label="Bearbeiten">
+                    <optgroup label="{t}Bearbeiten{/t}">
                         {$category_list nofilter}
                     </optgroup>
                 </select>
@@ -32,10 +32,10 @@
                 <hr>
 
                 <select class="form-control"  size="30" name="selected_id" onChange='submitForm(this.form)'>
-                    <optgroup label="Neu">
+                    <optgroup label="{t}Neu{/t}">
                         <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neue Kategorie{/t}</option>
                     </optgroup>
-                    <optgroup label="Bearbeiten">
+                    <optgroup label="{t}Bearbeiten{/t}">
                         {$category_list nofilter}
                     </optgroup>
                 </select>

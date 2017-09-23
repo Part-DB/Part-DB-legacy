@@ -34,7 +34,7 @@
                         {if $col.caption=="instock"}<th>{t}Bestand{/t}</th>{/if}
                         {if $col.caption=="instock_edit"}<th class="no-sort">{t}Bestand{/t}</th>{/if} {*  only for import parts  *}
                         {if $col.caption=="instock_edit_buttons"}<th>{t}Bestand ändern{/t}</th>{/if}
-                        {if $col.caption=="order_quantity_edit"}<th class="no-sort">Bestell-<br>menge</th>{/if} {*  only for order parts  *}
+                        {if $col.caption=="order_quantity_edit"}<th class="no-sort">{t escape=false}Bestell-<br>menge</th>{/t}{/if} {*  only for order parts  *}
                         {if $col.caption=="mininstock"}<th>{t escape=no}Mindest-{/t}<br>{t}bestand{/t}</th>{/if}
                         {if $col.caption=="mininstock_edit"}<th>{t}Mindest-{/t}<br>{t}bestand{/t}</th>{/if} {*  only for import parts  *}
                         {if $col.caption=="instock_mininstock"}<th>{t escape=no}Vorh./<br>Min.Best{/t}</th>{/if}

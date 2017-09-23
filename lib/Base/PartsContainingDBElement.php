@@ -133,7 +133,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception("Das Element \"".$this->getName()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
+            throw new Exception(sprintf(_("Das Element \"%s\" konnte nicht gelöscht werden!"), $this->getName()) . "\n" . _("Grund: ").$e->getMessage());
         }
     }
 
