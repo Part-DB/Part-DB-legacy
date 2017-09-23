@@ -13,6 +13,7 @@ var AjaxUI = (function () {
         this._this = this;
         this.ajax_complete_listeners = [];
         this.start_listeners = [];
+        this.trees_filled = false;
         //Make back in the browser go back in history
         window.onpopstate = this.onPopState;
         $(document).ajaxError(this.onAjaxError.bind(this));
@@ -246,6 +247,7 @@ var AjaxUI = (function () {
         $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree) {
             $('#tree-tools').treeview({ data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
         });
+        this.trees_filled = true;
     };
     /********************************************************************************************
      * Common ajax functions
@@ -314,25 +316,27 @@ var AjaxUI = (function () {
             if (title !== "") {
                 document.title = title;
             }
-            //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
-            var selected = $("#tree-categories").treeview("getSelected")[0];
-            //If the current page, does not contain the url of the selected tree node...
-            if (typeof selected !== 'undefined' && settings.url.indexOf(selected.href) == -1) {
-                $('#tree-categories').treeview('unselectNode', [selected.nodeId, { silent: true }]);
-            }
-            //The same for devices tree
-            //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
-            selected = $("#tree-devices").treeview("getSelected")[0];
-            //If the current page, does not contain the url of the selected tree node...
-            if (typeof selected !== 'undefined' && settings.url.indexOf(selected.href) == -1) {
-                $('#tree-devices').treeview('unselectNode', [selected.nodeId, { silent: true }]);
-            }
-            //The same for tools tree
-            //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
-            selected = $("#tree-tools").treeview("getSelected")[0];
-            //If the current page, does not contain the url of the selected tree node...
-            if (typeof selected !== 'undefined' && settings.url.indexOf(selected.href) == -1) {
-                $('#tree-tools').treeview('unselectNode', [selected.nodeId, { silent: true }]);
+            if (this.trees_filled) {
+                //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
+                var selected = $("#tree-categories").treeview("getSelected")[0];
+                //If the current page, does not contain the url of the selected tree node...
+                if (typeof selected !== 'undefined' && settings.url.indexOf(selected.href) == -1) {
+                    $('#tree-categories').treeview('unselectNode', [selected.nodeId, { silent: true }]);
+                }
+                //The same for devices tree
+                //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
+                selected = $("#tree-devices").treeview("getSelected")[0];
+                //If the current page, does not contain the url of the selected tree node...
+                if (typeof selected !== 'undefined' && settings.url.indexOf(selected.href) == -1) {
+                    $('#tree-devices').treeview('unselectNode', [selected.nodeId, { silent: true }]);
+                }
+                //The same for tools tree
+                //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
+                selected = $("#tree-tools").treeview("getSelected")[0];
+                //If the current page, does not contain the url of the selected tree node...
+                if (typeof selected !== 'undefined' && settings.url.indexOf(selected.href) == -1) {
+                    $('#tree-tools').treeview('unselectNode', [selected.nodeId, { silent: true }]);
+                }
             }
         }
     };
