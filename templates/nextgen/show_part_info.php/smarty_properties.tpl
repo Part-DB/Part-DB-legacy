@@ -3,16 +3,17 @@
 {if !empty($properties_loop)}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <i class="fa fa-table" aria-hidden="true"></i>
+            <a data-toggle="collapse" class="link-collapse text-default" href="#panel-properties"><i class="fa fa-table" aria-hidden="true"></i>
             {t}Bauteileeigenschaften{/t}
+            </a>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive panel-collape collapse in" id="panel-properties">
             <table class="table table-striped table-hover table-sortable">
                 <thead>
                 <tr>
                     <th class="no-sort"></th>
-                    <th>Eigenschaft</th>
-                    <th>Wert</th>
+                    <th>{t}Eigenschaft{/t}</th>
+                    <th>{t}Wert{/t}</th>
 
                 </tr>
                 </thead>
