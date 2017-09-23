@@ -11,7 +11,7 @@
                 <input type="hidden" name="pid" value="{$pid}">
                 <div class="col-sm-10">
                     <button type="submit" class="btn btn-danger" name="delete_part" {if !$can_delete}disabled{/if}>
-                        <i class="fa fa-trash" aria-hidden="true"></i> Lösche Teil!
+                        <i class="fa fa-trash" aria-hidden="true"></i> {t}Lösche Teil!{/t}
                     </button>
                     <div class="checkbox checkbox-danger">
                         <input type="checkbox" class="styled" id="delete_files_from_hdd" name="delete_files_from_hdd" {if !$can_delete}disabled{/if}>

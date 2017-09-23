@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-09-22 23:43+0200\n"
+"POT-Creation-Date: 2017-09-23 11:43+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -592,6 +592,22 @@ msgstr ""
 
 #: inc/authors.php:36
 msgid "Committer/Templates/Neue Funktionen"
+msgstr ""
+
+#: inc/config_defaults.php:134
+msgid "Part-DB Elektronische Bauteile-Datenbank"
+msgstr ""
+
+#: inc/config_defaults.php:263 inc/config_defaults.php:284
+msgid "Standard 1 (mit den jeweils markierten Lieferanten)"
+msgstr ""
+
+#: inc/config_defaults.php:270 inc/config_defaults.php:289
+msgid "Standard 2 (alle Teile mit allen Lieferanten)"
+msgstr ""
+
+#: inc/config_defaults.php:277
+msgid "Distrelec Online-Bestellung"
 msgstr ""
 
 #: inc/lib.php:138 inc/lib.php:172 inc/lib.php:277
@@ -1329,6 +1345,10 @@ msgstr ""
 
 #: lib/Part.php:214
 msgid "Label type unknown: "
+msgstr ""
+
+#: lib/Part.php:1377
+msgid "Noch nicht bestellen"
 msgstr ""
 
 #: lib/Part.php:1540

@@ -123,7 +123,7 @@
                     <div class="col-md-9">
                         <input type="url" class="form-control" name="auto_product_url" placeholder="{t}z.B. www.foo.bar/%PARTNUMBER%{/t}"
                                value="{if isset($auto_product_url)}{$auto_product_url}{/if}" {if !$can_edit}disabled{/if}>
-                        <p class="help-block">Platzhalter für die Bestellnummer: <i>%PARTNUMBER%</i></p>
+                        <p class="help-block">{t}Platzhalter für die Bestellnummer:{/t} <i>%PARTNUMBER%</i></p>
                     </div>
                 </div>
             

@@ -432,7 +432,7 @@
                     <td>{$max_input_vars}</td>
                 </tr>
                 <tr>
-                    <td><b>Maximale Dateigröße beim Upload:</b></td>
+                    <td><b>{t}Maximale Dateigröße beim Upload:{/t}</b></td>
                     <td>{$max_upload_filesize}B</td>
                 </tr>
                 </tbody>

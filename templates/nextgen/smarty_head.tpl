@@ -117,13 +117,13 @@
                             {if $loggedin}<i class="fa fa-user" aria-hidden="true"></i>{else}<i class="fa fa-user-o" aria-hidden="true"></i>{/if} <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                         {if $loggedin}
-                            <li class="disabled"><a href="#" >Eingeloggt als {$firstname} {$lastname} ({$username})</a></li>
-                            <li><a href="user_settings.php"><i class="fa fa-cogs" aria-hidden="true"></i> Benutzereinstellungen</a></li>
-                            <li><a href="user_info.php"><i class="fa fa-info-circle" aria-hidden="true"></i> Benutzerinformationen</a></li>
+                            <li class="disabled"><a href="#" >{t}Eingeloggt als{/t} {$firstname} {$lastname} ({$username})</a></li>
+                            <li><a href="user_settings.php"><i class="fa fa-cogs" aria-hidden="true"></i> {t}Benutzereinstellungen{/t}</a></li>
+                            <li><a href="user_info.php"><i class="fa fa-info-circle" aria-hidden="true"></i> {t}Benutzerinformationen{/t}</a></li>
                             <li role="separator" class="divider"></li>
-                            <li><a href="{$relative_path}login.php?logout"><i class="fa fa-sign-out" aria-hidden="true"></i> Logout</a></li>
+                            <li><a href="{$relative_path}login.php?logout"><i class="fa fa-sign-out" aria-hidden="true"></i> {t}Logout{/t}</a></li>
                         {else}
-                            <li><a href="{$relative_path}login.php"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</a></li>
+                            <li><a href="{$relative_path}login.php"><i class="fa fa-sign-in" aria-hidden="true"></i> {t}Login{/t}</a></li>
                         {/if}
                         </ul>
                     </li>

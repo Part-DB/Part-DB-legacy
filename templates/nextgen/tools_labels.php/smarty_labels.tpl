@@ -124,8 +124,8 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-5">
-                <b>DO23-Spule</b>
-                <p>Der Buchstabe ist die Toleranz und gleichzeitig das "," die Werte werden in µH angegeben</p>
+                <b>{t}DO23-Spule{/t}</b>
+                <p>{t}Der Buchstabe ist die Toleranz und gleichzeitig das "," die Werte werden in µH angegeben{/t}</p>
                 <i>F=1%, G=2%, J=5%, K=10% M=20%</i>
             </div>
             <div class="col-md-3">

@@ -1374,7 +1374,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                         }
                         $suppliers_loop[] = array(      'row_index'         => $row_index,
                             'orderdetails_id'   => 0,
-                            'supplier_name'     => 'Noch nicht bestellen',
+                            'supplier_name'     => _('Noch nicht bestellen'),
                             'selected'          => ($order_orderdetails_id == 0));
 
                         $row_field['suppliers_radiobuttons'] = $suppliers_loop;
