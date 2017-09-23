@@ -122,12 +122,14 @@
                         </div>
                     </div>
 
+                    {if $can_edit}
                     <div class="form-group hidden-print">
                         <div class="col-sm-9 col-sm-offset-3">
-                            <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}" {if !$can_edit}disabled="disabled"{/if}>
+                            <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}">
                                 <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {t}Angaben verändern{/t}</a>
                         </div>
                     </div>
+                    {/if}
                 </div>
 
             </div>
