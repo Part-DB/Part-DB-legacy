@@ -131,6 +131,7 @@ $saved_redirect             = isset($_REQUEST['saved_redirect']);
 
 //Table settings
 $table_autosort             = isset($_REQUEST['table_autosort']);
+$default_subcat             = isset($_REQUEST['default_subcat']);
 
 //Attachement settings
 $attachements_structure     = isset($_REQUEST['attachements_structure']);
@@ -218,6 +219,7 @@ if (! $fatal_error) {
             $config['edit_parts']['saved_go_to_info']        = $saved_redirect;
 
             $config['table']['autosort']                = $table_autosort;
+            $config['table']['default_show_subcategories'] = $default_subcat;
 
             $config['attachements']['folder_structure'] = $attachements_structure;
             $config['attachements']['download_default'] = $attachements_download;
@@ -357,6 +359,7 @@ $html->setVariable('short_description', $config['appearance']['short_description
 
 //Table
 $html->setVariable('table_autosort', $config['table']['autosort'], 'boolean');
+$html->setVariable('default_subcat', $config['table']['default_show_subcategories'], 'boolean');
 
 //Attachements
 $html->setVariable("attachements_structure", $config['attachements']['folder_structure'], 'boolean');
