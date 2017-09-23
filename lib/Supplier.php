@@ -162,7 +162,7 @@ class Supplier extends Base\Company implements ISearchable
     public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         return $database->getCountOfRecords('suppliers');
@@ -189,7 +189,7 @@ class Supplier extends Base\Company implements ISearchable
     public static function getOrderSuppliers(&$database, &$current_user, &$log)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         $suppliers = array();

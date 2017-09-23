@@ -239,7 +239,7 @@ class PartLabel
         $lines = array();
         $lines[] = "BAUTEIL : %name% - %cat%";
         $lines[] = "LAGER   : %storeloc%";
-        $lines[] = "GEH�USE : %foot%";
+        $lines[] = "GEHÄUSE : %foot%";
         $lines[] = "BEST-NR : %order_nr% - %supplier%";
         $presets[] = $lines;
 

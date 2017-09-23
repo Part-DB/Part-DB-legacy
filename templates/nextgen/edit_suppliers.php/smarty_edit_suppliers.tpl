@@ -14,10 +14,10 @@
 
             <div class="col-md-4">
                 <select class="form-control selectpicker"  data-live-search="true" onChange='$("[name=selected_id]").val(this.value); submitForm(this.form);'>
-                    <optgroup label="Neu">
+                    <optgroup label="{t}Neu{/t}">
                         <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neuer Lieferant{/t}</option>
                     </optgroup>
-                    <optgroup label="Bearbeiten">
+                    <optgroup label="{t}Bearbeiten{/t}">
                         {$supplier_list nofilter}
                     </optgroup>
                 </select>

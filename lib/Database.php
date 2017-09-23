@@ -873,7 +873,7 @@ class Database
             ' WHERE id=?', array($id), $fetch_style);
 
         if (count($query_data) == 0) {
-            throw new Exception('Es existiert kein Datensatz mit der ID "'.$id.'" in der Tabelle "'.$tablename.'"!');
+            throw new Exception(sprintf(_('Es existiert kein Datensatz mit der ID "%d" in der Tabelle "%s"!'), $id, $tablename));
         }
 
         return $query_data[0];

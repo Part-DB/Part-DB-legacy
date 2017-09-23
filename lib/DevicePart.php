@@ -362,7 +362,7 @@ class DevicePart extends Base\DBElement
     public static function getOrderDeviceParts(&$database, &$current_user, &$log, $part_id = null)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         $device_parts = array();

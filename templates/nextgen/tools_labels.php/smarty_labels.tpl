@@ -81,7 +81,7 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-5">
-                <b>{t}Tantal{/t}</b><p>Die ersten beiden Stellen sind der Wert in pF, die letzte der Exponent. Die untere Zahl ist die Spannungsfestigkeit in Volt</p>
+                <b>{t}Tantal{/t}</b><p>{t}Die ersten beiden Stellen sind der Wert in pF, die letzte der Exponent. Die untere Zahl ist die Spannungsfestigkeit in Volt.{/t}</p>
             </div>
             <div class="col-md-3">
                 <div class="thumbnail">
@@ -92,7 +92,7 @@
         </div>
         <div class="row">
             <div class="col-md-5">
-                <b>Elkos</b><p>Die Zahlen geben den Wert in µF an, der Buchstabe ist das Trennzeichen, und gibt gleichzeitig die Spannungsfestigkeit an</p>
+                <b>{t}Elkos{/t}</b><p>{t}Die Zahlen geben den Wert in µF an, der Buchstabe ist das Trennzeichen, und gibt gleichzeitig die Spannungsfestigkeit an{/t}</p>
                 <p><i>C=6,3V, D=10V, E=16V, F=25V, G=40V, H=63V</i></p>
             </div>
             <div class="col-md-3">
@@ -104,8 +104,8 @@
         </div>
         <div class="row">
             <div class="col-md-5">
-                    <b>ALU-Elko</b>
-                    <p>Der obere Wert ist die Kapazitiv in µF, der untere die Spannung in Volt.</p>
+                    <b>{t}ALU-Elko{/t}</b>
+                    <p>{t}Der obere Wert ist die Kapazitiv in µF, der untere die Spannung in Volt.{/t}</p>
             </div>
             <div class="col-md-3">
                 <div class="thumbnail">
@@ -124,8 +124,8 @@
     <div class="panel-body">
         <div class="row">
             <div class="col-md-5">
-                <b>DO23-Spule</b>
-                <p>Der Buchstabe ist die Toleranz und gleichzeitig das "," die Werte werden in µH angegeben</p>
+                <b>{t}DO23-Spule{/t}</b>
+                <p>{t}Der Buchstabe ist die Toleranz und gleichzeitig das "," die Werte werden in µH angegeben{/t}</p>
                 <i>F=1%, G=2%, J=5%, K=10% M=20%</i>
             </div>
             <div class="col-md-3">

@@ -14,10 +14,10 @@
                 {/if}
 
                 <select class="form-control selectpicker"  data-live-search="true" onChange='$("[name=selected_id]").val(this.value); submitForm(this.form);'>
-                    <optgroup label="Neu">
+                    <optgroup label="{t}Neu{/t}">
                         <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neuer Dateityp{/t}</option>
                     </optgroup>
-                    <optgroup label="Bearbeiten">
+                    <optgroup label="{t}Bearbeiten{/t}">
                         {$attachement_types_list nofilter}
                     </optgroup>
                 </select>
@@ -25,10 +25,10 @@
                 <hr>
 
                 <select name="selected_id" size="30" class="form-control auto-size-select" onChange="submitForm(this.form);">
-                    <optgroup label="Neu">
+                    <optgroup label="{t}Neu{/t}">
                         <option value="0" {if !isset($id) || $id == 0 }selected{/if}>{t}Neuer Dateityp{/t}</option>
                     </optgroup>
-                    <optgroup label="Bearbeiten">
+                    <optgroup label="{t}Bearbeiten{/t}">
                         {$attachement_types_list nofilter}
                     </optgroup>
                 </select>
