@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-primary">
-    <div class="panel-heading">{t}Sonstiges{/t}</div>
+    <div class="panel-heading"><i class="fa fa-heartbeat" aria-hidden="true"></i> {t}Sonstiges{/t}</div>
     <div class="panel-body">
         <form action="" method="post">
             {t}Teile ohne Einkaufsinformationen:{/t}

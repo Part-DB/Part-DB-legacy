@@ -1,7 +1,8 @@
 <form method="post">
 
     <div class="panel panel-primary">
-        <div class="panel-heading">{t}Label erzeugen{/t}</div>
+        <div class="panel-heading"><i class="fa fa-barcode" aria-hidden="true"></i>
+            {t}Label erzeugen{/t}</div>
         <div class="panel-body">
             <div class="form-horizontal">
                 <div class="form-group">
