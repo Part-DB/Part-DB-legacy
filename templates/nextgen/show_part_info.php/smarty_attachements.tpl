@@ -2,7 +2,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <a data-toggle="collapse" class="link-collapse text-default" href="#panel-attachements"><i class="fa fa-file" aria-hidden="true"></i>
+        <a data-toggle="collapse" class="link-collapse text-default" href="#panel-attachements"><i class="fa fa-file fa-fw" aria-hidden="true"></i>
         {t}Dateianhänge{/t}
         </a>
     </div>

@@ -3,7 +3,7 @@
 {if !empty($properties_loop)}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <a data-toggle="collapse" class="link-collapse text-default" href="#panel-properties"><i class="fa fa-table" aria-hidden="true"></i>
+            <a data-toggle="collapse" class="link-collapse text-default" href="#panel-properties"><i class="fa fa-table fa-fw" aria-hidden="true"></i>
             {t}Bauteileeigenschaften{/t}
             </a>
         </div>

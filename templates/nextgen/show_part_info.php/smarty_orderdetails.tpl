@@ -2,7 +2,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <a data-toggle="collapse" class="link-collapse text-default" href="#panel-orderdetails"><i class="fa fa-shopping-cart" aria-hidden="true"></i>
+        <a data-toggle="collapse" class="link-collapse text-default" href="#panel-orderdetails"><i class="fa fa-shopping-cart fa-fw" aria-hidden="true"></i>
             {t}Einkaufsinformationen{/t}
         </a>
     </div>

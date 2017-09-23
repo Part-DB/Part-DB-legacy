@@ -2,7 +2,7 @@
 
 <div class="panel panel-default hidden-print">
     <div class="panel-heading">
-        <a data-toggle="collapse" class="link-collapse text-default" href="#panel-actions"><i class="fa fa-bolt" aria-hidden="true"></i>
+        <a data-toggle="collapse" class="link-collapse text-default" href="#panel-actions"><i class="fa fa-bolt fa-fw" aria-hidden="true"></i>
             {t}Aktionen{/t}</a>
     </div>
     <div class="panel-body panel-collapse collapse in" id="panel-actions">
