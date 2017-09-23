@@ -1,0 +1,26 @@
+<?php
+/*
+ * This file resets the password of the main administrator.
+ *
+ * If you want to use it, copy it to the Part-DB root dir and rename it to reset_admin_pw.php.
+ * Now visit the file in a browser, you will be shown the username and the new password of the admin user.
+ *
+ * You MUST change the password of the admin user and remove this file from root dir, afterwards!!
+ */
+
+use PartDB\Database;
+use PartDB\Log;
+use PartDB\User;
+
+include_once "start_session.php";
+
+$database           = new Database();
+$log                = new Log($database);
+$current_user       = new User($database, $current_user, $log, User::ID_ADMIN); // admin
+
+$current_user->setPassword("admin");
+
+$messages = sprintf(_("Das Passwort für den Administrator (Benutzername: %s)  wurde erfolgreich zurückgesetzt. <br> Es lautet nun: <b>admin</b>"), $current_user->getName());
+$messages .= _("<br><br> <b>Ändern sie sofort das Passwort des Benutzers und löschen sie danach diese Datei</b>");
+
+printMessagesWithoutTemplate(_("Erfolg"), _("Erfolg"),  $messages, "panel-success");

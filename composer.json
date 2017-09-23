@@ -23,7 +23,8 @@
     "smarty-gettext/smarty-gettext": "~1.5.1",
     "tecnickcom/tcpdf": "dev-master",
     "slim/slim": "3.*",
-    "maximebf/debugbar": "1.*"
+    "maximebf/debugbar": "1.*",
+    "ircmaxell/password-compat": "1.*"
   },
 
   "require-dev": {

@@ -19,6 +19,8 @@ class AjaxUI {
     private ajax_complete_listeners : Array<() => void> = [];
     private start_listeners : Array<() => void> = [];
 
+    private trees_filled : boolean = false;
+
     /**
      * Creates a new AjaxUI object.
      */
@@ -119,7 +121,8 @@ class AjaxUI {
 
         let data : JQueryFormOptions = {
             success:  this.showFormResponse,
-            beforeSubmit: this.showRequest
+            beforeSubmit: this.showRequest,
+            beforeSerialize: this.form_beforeSerialize
         };
         $('form').not(".no-ajax").ajaxForm(data);
     }
@@ -136,9 +139,26 @@ class AjaxUI {
     }
 
     /**
+     * Modify the form, so tristate checkbox values are submitted, even if the checkbox is not a succesfull control (value = checked)
+     * @param $form
+     * @param options
+     */
+    private form_beforeSerialize($form, options) {
+        $form.find("input[type=checkbox].tristate").each(function(index)  {
+                let name = $(this).attr("name");
+                let value = $(this).val();
+                $form.append('<input type="hidden" name="' + name + '" value="' + value + '">');
+        });
+
+        $form.find("input[type=checkbox].tristate").remove();
+
+        return true;
+    }
+
+    /**
      * Called directly after a form was submited, and no content is requested yet.
      * We use it to show a progbar, if the form dont have a .no-progbar class.
-     * @param formData
+     * @param formData Array<any>
      * @param jqForm
      * @param options
      */
@@ -147,6 +167,11 @@ class AjaxUI {
         if(!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
             $('#progressbar').show(0);
+            formData.push({
+                name: "test",
+                value: "Test2435",
+                required: "false"
+            });
         }
         return true;
     }
@@ -283,6 +308,8 @@ class AjaxUI {
         $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree :BootstrapTreeViewNodeData[]) {
             $('#tree-tools').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
         });
+
+        this.trees_filled = true;
     }
 
     /********************************************************************************************
@@ -298,7 +325,7 @@ class AjaxUI {
         //If it was a server error and response is not empty, show it to user.
         if(request.status == 500 && request.responseText !== "")
         {
-            $("html").html(request.responseText);
+            console.log("Response:" + request.responseText);
         }
     }
 
@@ -372,29 +399,30 @@ class AjaxUI {
                 document.title = title;
             }
 
-            //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
-            let selected = $("#tree-categories").treeview("getSelected")[0];
-            //If the current page, does not contain the url of the selected tree node...
-            if(typeof selected!=='undefined' && settings.url.indexOf(selected.href) == -1) {
-                $('#tree-categories').treeview('unselectNode', [ selected.nodeId, { silent: true } ]);
-            }
+            if(this.trees_filled) {
+                //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
+                let selected = $("#tree-categories").treeview("getSelected")[0];
+                //If the current page, does not contain the url of the selected tree node...
+                if (typeof selected !== 'undefined' && settings.url.indexOf(selected.href) == -1) {
+                    $('#tree-categories').treeview('unselectNode', [selected.nodeId, {silent: true}]);
+                }
 
-            //The same for devices tree
-            //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
-            selected = $("#tree-devices").treeview("getSelected")[0];
-            //If the current page, does not contain the url of the selected tree node...
-            if(typeof selected!=='undefined' && settings.url.indexOf(selected.href) == -1) {
-                $('#tree-devices').treeview('unselectNode', [ selected.nodeId, { silent: true } ]);
-            }
+                //The same for devices tree
+                //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
+                selected = $("#tree-devices").treeview("getSelected")[0];
+                //If the current page, does not contain the url of the selected tree node...
+                if (typeof selected !== 'undefined' && settings.url.indexOf(selected.href) == -1) {
+                    $('#tree-devices').treeview('unselectNode', [selected.nodeId, {silent: true}]);
+                }
 
-            //The same for tools tree
-            //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
-            selected = $("#tree-tools").treeview("getSelected")[0];
-            //If the current page, does not contain the url of the selected tree node...
-            if(typeof selected!=='undefined' && settings.url.indexOf(selected.href) == -1) {
-                $('#tree-tools').treeview('unselectNode', [ selected.nodeId, { silent: true } ]);
+                //The same for tools tree
+                //Maybe deselect the treeview nodes if, we are not on the site, that it has requested.
+                selected = $("#tree-tools").treeview("getSelected")[0];
+                //If the current page, does not contain the url of the selected tree node...
+                if (typeof selected !== 'undefined' && settings.url.indexOf(selected.href) == -1) {
+                    $('#tree-tools').treeview('unselectNode', [selected.nodeId, {silent: true}]);
+                }
             }
-
         }
     }
 }
@@ -417,6 +445,7 @@ $(function(event){
     ajaxui.addStartAction(registerAutoRefresh);
     ajaxui.addStartAction(scrollUpForMsg);
     ajaxui.addStartAction(rightClickSubmit);
+    ajaxui.addStartAction(makeTriStateCheckbox);
 
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
@@ -429,9 +458,18 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(registerAutoRefresh);
     ajaxui.addAjaxCompleteAction(scrollUpForMsg);
     ajaxui.addAjaxCompleteAction(rightClickSubmit);
+    ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
 
     ajaxui.start();
 });
+
+function makeTriStateCheckbox() {
+    $(".tristate").tristate( {
+        checked:            "true",
+        unchecked:          "false",
+        indeterminate:      "indeterminate",
+    });
+}
 
 /**
  * Registers the popups for the hover images in the table-

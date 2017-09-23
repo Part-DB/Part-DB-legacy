@@ -29,6 +29,10 @@ use PartDB\Database;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\Part;
+use PartDB\Permissions\CPartAttributePermission;
+use PartDB\Permissions\PartAttributePermission;
+use PartDB\Permissions\PartPermission;
+use PartDB\Permissions\PermissionManager;
 use PartDB\User;
 
 $messages = array();
@@ -86,7 +90,10 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Det
 try {
     $database           = new Database();
     $log                = new Log($database);
-    $current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
+    //Check permission
+    $current_user->tryDo(PermissionManager::PARTS, PartPermission::READ);
+
     $part               = new Part($database, $current_user, $log, $part_id);
     $footprint          = $part->getFootprint();
     $storelocation      = $part->getStorelocation();
@@ -152,17 +159,18 @@ if (! $fatal_error) {
  *
  *********************************************************************************/
 
-
-$properties = $part->getPropertiesLoop();
-$html->setLoop("properties_loop", $properties);
-
-// global settings
-$html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-$html->setVariable('popup_width', $config['popup']['width'], 'integer');
-$html->setVariable('popup_height', $config['popup']['height'], 'integer');
-
 if (! $fatal_error) {
     try {
+
+        $properties = $part->getPropertiesLoop();
+        $html->setLoop("properties_loop", $properties);
+
+// global settings
+        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
+        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
+
+
         //Set title
         $title = _('Detailinfo') . ': ' . $part->getName() . '';
         $html->setTitle($title);
@@ -262,6 +270,18 @@ if (! $fatal_error) {
     }
 }
 
+$html->setVariable("can_delete", $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE), "bool");
+$html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT), "bool");
+$html->setVariable("can_create", $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE), "bool");
+$html->setVariable("can_move", $current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE), "bool");
+$html->setVariable("can_read", $current_user->canDo(PermissionManager::PARTS, PartPermission::READ), "bool");
+$html->setVariable("can_instock", $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT), "bool");
+
+$html->setVariable('can_orderdetails_create', $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE), "bool");
+$html->setVariable('can_attachement_create', $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE), "bool");
+$html->setVariable('can_order_edit', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT), "bool");
+$html->setVariable('can_order_read', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ), "bool");
+
 /********************************************************************************
  *
  *   Generate HTML Output
@@ -280,10 +300,12 @@ $html->printHeader($messages, $reload_link);                           // ...rel
 if (! $fatal_error) {
     $html->printTemplate('main');
     $html->printTemplate('properties');
-    if (!($config['suppliers']['disable'] || ($config['part_info']['hide_empty_orderdetails'] && count($all_orderdetails) == 0))) {
+    if (!($config['suppliers']['disable'] || ($config['part_info']['hide_empty_orderdetails'] && count($all_orderdetails) == 0))
+        && $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::READ)) {
         $html->printTemplate('orderdetails');
     }
-    if (!($config['part_info']['hide_empty_attachements'] && isset($attachements_empty))) {
+    if (!($config['part_info']['hide_empty_attachements'] && isset($attachements_empty))
+        && $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::READ)) {
         $html->printTemplate('attachements');
     }
 

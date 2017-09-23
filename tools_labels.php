@@ -25,7 +25,10 @@
 
 include_once('start_session.php');
 
+use PartDB\Database;
 use PartDB\HTML;
+use PartDB\Log;
+use PartDB\User;
 
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
@@ -37,6 +40,17 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Labels'));
+
+try {
+    $database           = new Database();
+    $log                = new Log($database);
+    $current_user       = User::getLoggedInUser($database, $log); // admin
+
+    $current_user->tryDo(\PartDB\Permissions\PermissionManager::TOOLS, \PartDB\Permissions\ToolsPermission::LABELS);
+} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+    $fatal_error = true;
+}
 
 /********************************************************************************
  *

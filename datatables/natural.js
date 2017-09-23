@@ -41,21 +41,21 @@
         x = x.replace(/,/g, '.')
 
     	//Pico
-    	x = x.replace(/\b(\d*[\,\.]?\d+)p([a-z]?)\b/ig,"$1e-12");
+    	x = x.replace(/\b(\d*[\,\.]?\d+)p(\S*)\b/ig,"$1e-12 $2");
         //Nano
-        x = x.replace(/\b(\d*[\,\.]?\d+)n([a-z]?)\b/ig,"$1e-09");
+        x = x.replace(/\b(\d*[\,\.]?\d+)n(\S*)\b/ig,"$1e-09 $2");
         //Micro
-        x = x.replace(/\b(\d*[\,\.]?\d+)u([a-z]?)\b/ig,"$1e-06");
-        x = x.replace(/\b(\d*[\,\.]?\d+)\u00b5([a-z]?)\b/ig,"$1e-06");
-        x = x.replace(/\b(\d*[\,\.]?\d+)\u03bc([a-z]?)\b/ig,"$1e-06");
+        x = x.replace(/\b(\d*[\,\.]?\d+)u(\S*)\b/ig,"$1e-06 $2");
+        x = x.replace(/\b(\d*[\,\.]?\d+)\u00b5(\S*)\b/ig,"$1e-06 $2");
+        x = x.replace(/\b(\d*[\,\.]?\d+)\u03bc(\S*)\b/ig,"$1e-06 $2");
 		//Milli
-        x = x.replace(/\b(\d*[\,\.]?\d+)m([a-z]?)\b/g,"$1e-03");
+        x = x.replace(/\b(\d*[\,\.]?\d+)m(\S*)\b/g,"$1e-03 $2");
         //Centi
-        x = x.replace(/\b(\d*[\,\.]?\d+)c([a-z]?)\b/ig,"$1e-02");
+        x = x.replace(/\b(\d*[\,\.]?\d+)c(\S*)\b/ig,"$1e-02 $2");
         //Kilo
-        x = x.replace(/\b(\d*[\,\.]?\d+)k([a-z]?)\b/ig,"$1e03");
+        x = x.replace(/\b(\d*[\,\.]?\d+)k(\S*)\b/ig,"$1e03 $2");
         //Mega
-        x = x.replace(/\b(\d*[\,\.]?\d+)M([a-z]?)\b/g,"$1e06");
+        x = x.replace(/\b(\d*[\,\.]?\d+)M(\S*)\b/g,"$1e06 $2");
 
         return x;
 	}

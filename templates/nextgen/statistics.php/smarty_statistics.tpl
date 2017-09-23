@@ -1,7 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 
 <div class="panel panel-primary">
-    <div class="panel-heading">
+    <div class="panel-heading"><i class="fa fa-bar-chart" aria-hidden="true"></i>
         {t}Statistik{/t}
     </div>
     <div class="panel-body table-responsive">

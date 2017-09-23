@@ -52,6 +52,8 @@
     <!-- Datatables plugin for natural sorting -->
     <script type="text/javascript" src="{$relative_path}datatables/natural.js"></script>
 
+
+
     <!-- Treeview -->
     <script src="{$relative_path}js/bootstrap-treeview.js" async></script>
 

@@ -32,6 +32,8 @@ use PartDB\Database;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\Part;
+use PartDB\Permissions\PartPermission;
+use PartDB\Permissions\PermissionManager;
 use PartDB\User;
 
 $messages = array();
@@ -45,7 +47,7 @@ $starttime = microtime(true); // this is to measure the time while debugging is 
  *********************************************************************************/
 
 $category_id        = isset($_REQUEST['cid'])               ? (integer)$_REQUEST['cid']             : 0;
-$with_subcategories = isset($_REQUEST['subcat'])            ? (boolean)$_REQUEST['subcat']          : true;
+$with_subcategories = isset($_REQUEST['subcat'])            ? (boolean)$_REQUEST['subcat']          : $config['table']['default_show_subcategories'];
 $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
 
 $export_format_id       = isset($_REQUEST['export_format'])     ? (integer)$_REQUEST['export_format']   : 0;
@@ -83,7 +85,7 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Tei
 try {
     $database           = new Database();
     $log                = new Log($database);
-    $current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
 
     if ($category_id < 1) {
         throw new Exception(_('Es wurde keine gültige Kategorien-ID übermittelt!'));
@@ -197,6 +199,8 @@ if (! $fatal_error) {
     $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 
     $html->setLoop('export_formats', buildExportFormatsLoop('showparts'));
+
+    $html->setVariable('can_create', $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
 }
 
 /********************************************************************************
