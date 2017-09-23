@@ -47,7 +47,7 @@ $starttime = microtime(true); // this is to measure the time while debugging is 
  *********************************************************************************/
 
 $category_id        = isset($_REQUEST['cid'])               ? (integer)$_REQUEST['cid']             : 0;
-$with_subcategories = isset($_REQUEST['subcat'])            ? (boolean)$_REQUEST['subcat']          : true;
+$with_subcategories = isset($_REQUEST['subcat'])            ? (boolean)$_REQUEST['subcat']          : $config['table']['default_show_subcategories'];
 $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
 
 $export_format_id       = isset($_REQUEST['export_format'])     ? (integer)$_REQUEST['export_format']   : 0;

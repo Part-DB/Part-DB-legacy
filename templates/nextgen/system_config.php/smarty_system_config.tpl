@@ -238,6 +238,10 @@
                                     <input type="checkbox" name="table_autosort" {if $table_autosort} checked{/if}>
                                     <label for="table_autosort">{t}Aktiviere initiale Sortierung.{/t}</label>
                                 </div>
+                                <div class="checkbox">
+                                    <input type="checkbox" name="default_subcat" {if $default_subcat} checked{/if}>
+                                    <label for="default_subcat">{t}Zeige die beim Auflisten aller Teile einer Kategorie, die Unterkategorien standarmäßig.{/t}</label>
+                                </div>
                             </div>
                         </div>
 

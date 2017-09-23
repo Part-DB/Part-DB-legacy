@@ -5,7 +5,7 @@
     </div>
     <div class="panel-body">
 
-        <form action="" method="post" class="no-progbar form-horizontal">
+        <form action="" method="post" class="form-horizontal">
             <input type="hidden" name="cid" value="{$cid}">
             <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">
             
