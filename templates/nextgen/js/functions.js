@@ -97,9 +97,9 @@ function scrollUpForMsg() {
  * @param {string} anchor The anchor, to which should be scrolled (with the #)
  */
 function scrollToAnchor(anchor) {
-    if (anchor.indexOf("#") == -1)
-        throw new Error("The anchor string must contain a #.");
-    $(document).scrollTop($(anchor).offset().top - 100);
+    //Dont throw an error, simply do nothing, when it dont contain a #
+    if (anchor.indexOf("#") !== -1)
+        $(document).scrollTop($(anchor).offset().top - 100);
 }
 /**
  * Returns the base path of Part-DB
