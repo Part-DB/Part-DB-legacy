@@ -1,10 +1,11 @@
 {locale path="nextgen/locale" domain="partdb"}
 
 <div class="panel panel-default hidden-print">
-    <div class="panel-heading"><i class="fa fa-bolt" aria-hidden="true"></i>
-        {t}Aktionen{/t}
+    <div class="panel-heading">
+        <a data-toggle="collapse" class="link-collapse text-default" href="#panel-actions"><i class="fa fa-bolt" aria-hidden="true"></i>
+            {t}Aktionen{/t}</a>
     </div>
-    <div class="panel-body">
+    <div class="panel-body panel-collapse collapse in" id="panel-actions">
         <form class="form-horizontal no-progbar" action="{$relative_path}edit_part_info.php" method="get">
             <div class="form-group">
                 <label class="control-label col-sm-2">{t}Bauteil löschen:{/t}</label>
