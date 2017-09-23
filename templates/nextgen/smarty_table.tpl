@@ -364,7 +364,7 @@
                             {foreach $row.supplier_partnrs as $sup}
                                 <div style="display:inline-block; height:1.7em; line-height:1.7em;">
                                     {if isset($sup.supplier_product_url)}
-                                        <a class="link-external" target="_blank" title="{$sup.supplier_product_url}" href="{$sup.supplier_product_url}">{$sup.supplier_partnr}</a>
+                                        <a class="link-external" target="_blank" rel="noopener" title="{$sup.supplier_product_url}" href="{$sup.supplier_product_url}">{$sup.supplier_partnr}</a>
                                     {else}
                                         {$sup.supplier_partnr}
                                     {/if}
@@ -381,9 +381,9 @@
                         <td class="tdrow5" id="attach">
                             {foreach $row.attachements as $attach}
                                 {if $t.use_attachements_names}
-                                    <a class="link-external" title="{$attach.type}" href="{$attach.filename}" target="_blank">{$attach.name}</a><br>
+                                    <a class="link-external" title="{$attach.type}" href="{$attach.filename}" rel="noopener" target="_blank">{$attach.name}</a><br>
                                 {else}
-                                    <a class="link-datasheet" title="{$attach.type}: {$attach.name}" href="{$attach.filename}" target="_blank">{$attach.icon nofilter}</a>
+                                    <a class="link-datasheet" title="{$attach.type}: {$attach.name}" href="{$attach.filename}" rel="noopener" target="_blank">{$attach.icon nofilter}</a>
                                 {/if}
 
                             {/foreach}
