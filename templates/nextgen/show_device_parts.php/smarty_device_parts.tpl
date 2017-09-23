@@ -20,8 +20,12 @@
                 <input type="hidden" name="device_parts_rowcount" value="{$device_parts_rowcount}">
                 <div class="form-group">
                     <div class="col-md-12">
-                        <button class="btn btn-success" type="submit" name="device_parts_apply">{t}Änderungen übernehmen{/t}</button>
-                        <button class="btn btn-danger" type="submit">{t}Änderungen verwerfen{/t}</button>
+                        <button class="btn btn-success" type="submit" name="device_parts_apply"
+                        {if !$can_part_edit && !$can_part_delete}disabled{/if}>
+                        {t}Änderungen übernehmen{/t}</button>
+                        <button class="btn btn-danger" type="submit"
+                                {if !$can_part_edit && !$can_part_delete}disabled{/if}>
+                            {t}Änderungen verwerfen{/t}</button>
                     </div>
                 </div>
             </form>

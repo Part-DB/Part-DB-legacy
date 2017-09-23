@@ -76,7 +76,7 @@ $lang_str = "de";
 try {
     $database           = new Database();
     $log                = new Log($database);
-    $current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
     //$part               = new Part($database, $current_user, $log, $part_id);
     //$footprint          = $part->get_footprint();
     //$storelocation      = $part->get_storelocation();

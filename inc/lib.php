@@ -31,6 +31,11 @@
 
 use PartDB\Interfaces\IAPIModel;
 use PartDB\Part;
+use PartDB\Permissions\PartPermission;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\StructuralPermission;
+use PartDB\Permissions\ToolsPermission;
+use PartDB\User;
 
 /**
  * check if a given number is odd
@@ -130,7 +135,7 @@ function findAllFiles($directory, $recursive = false, $search_string = '')
     $files = array();
 
     if ((! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || (! isPathabsoluteAndUnix($directory, false))) {
-        throw new Exception('"'.$directory.'" ist kein gültiges Verzeichnis!');
+        throw new Exception(sprintf(_('"%s" ist kein gültiges Verzeichnis!'), $directory));
     }
 
     $dirfiles = scandir($directory);
@@ -164,7 +169,7 @@ function findAllDirectories($directory, $recursive = false)
     $directories = array();
 
     if ((! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || (! isPathabsoluteAndUnix($directory, false))) {
-        throw new Exception('"'.$directory.'" ist kein gültiges Verzeichnis!');
+        throw new Exception(sprintf(_('"%s" ist kein gültiges Verzeichnis!'), $directory));
     }
 
     $dirfiles = scandir($directory);
@@ -269,7 +274,7 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
     $destination = $destination_directory.$destination_filename;
 
     if ((mb_substr($destination_directory, -1, 1) != '/') || (! isPathabsoluteAndUnix($destination_directory, false))) {
-        throw new Exception('"'.$destination_directory.'" ist kein gültiges Verzeichnis!');
+        throw new Exception(sprintf(_('"%s" ist kein gültiges Verzeichnis!'), $destination_directory));
     }
 
     try {
@@ -299,26 +304,26 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
             // all OK, upload was successfully
             break;
         case UPLOAD_ERR_INI_SIZE:
-            throw new Exception('Die maximal mögliche Dateigrösse für Uploads wurde überschritten ("upload_max_filesize" in "php.ini")! '.
-                '<a target="_blank" href="'.BASE_RELATIVE.'/documentation/dokuwiki/doku.php?id=anforderungen">Hilfe</a>');
+            throw new Exception(_('Die maximal mögliche Dateigrösse für Uploads wurde überschritten ("upload_max_filesize" in "php.ini")! ').
+                '<a target="_blank" href="'.BASE_RELATIVE.'/documentation/dokuwiki/doku.php?id=anforderungen">'._("Hilfe").'</a>');
         case UPLOAD_ERR_FORM_SIZE:
-            throw new Exception('Die maximal mögliche Dateigrösse für Uploads wurde überschritten!');
+            throw new Exception(_('Die maximal mögliche Dateigrösse für Uploads wurde überschritten!'));
         case UPLOAD_ERR_PARTIAL:
-            throw new Exception('Die Datei wurde nur teilweise hochgeladen!');
+            throw new Exception(_('Die Datei wurde nur teilweise hochgeladen!'));
         case UPLOAD_ERR_NO_FILE:
-            throw new Exception('Es wurde keine Datei hochgeladen!');
+            throw new Exception(_('Es wurde keine Datei hochgeladen!'));
         case UPLOAD_ERR_NO_TMP_DIR:
-            throw new Exception('Es gibt keinen temporären Ordner für hochgeladene Dateien!');
+            throw new Exception(_('Es gibt keinen temporären Ordner für hochgeladene Dateien!'));
         case UPLOAD_ERR_CANT_WRITE:
-            throw new Exception('Das Speichern der Datei auf die Festplatte ist fehlgeschlagen!');
+            throw new Exception(_('Das Speichern der Datei auf die Festplatte ist fehlgeschlagen!'));
         case UPLOAD_ERR_EXTENSION:
-            throw new Exception('Eine PHP Erweiterung hat den Upload der Datei gestoppt!');
+            throw new Exception(_('Eine PHP Erweiterung hat den Upload der Datei gestoppt!'));
         default:
-            throw new Exception('Beim Hochladen der Datei trat ein unbekannter Fehler auf!');
+            throw new Exception(_('Beim Hochladen der Datei trat ein unbekannter Fehler auf!'));
     }
 
     if (! move_uploaded_file($file_array['tmp_name'], $destination)) {
-        throw new Exception('Beim Hochladen der Datei trat ein unbekannter Fehler auf!');
+        throw new Exception(_('Beim Hochladen der Datei trat ein unbekannter Fehler auf!'));
     }
 
     return $destination;
@@ -355,15 +360,15 @@ function setAdminPassword($old_password, $new_password_1, $new_password_2, $save
     $new_password_2 = trim($new_password_2);
 
     if (! isAdminPassword($old_password)) {
-        throw new Exception('Das eingegebene Administratorpasswort ist nicht korrekt!');
+        throw new Exception(_('Das eingegebene Administratorpasswort ist nicht korrekt!'));
     }
 
     if (mb_strlen($new_password_1) < 4) {
-        throw new Exception('Das neue Passwort muss mindestens 4 Zeichen lang sein!');
+        throw new Exception(_('Das neue Passwort muss mindestens 4 Zeichen lang sein!'));
     }
 
     if ($new_password_1 !== $new_password_2) {
-        throw new Exception('Die neuen Passwörter stimmen nicht überein!');
+        throw new Exception(_('Die neuen Passwörter stimmen nicht überein!'));
     }
 
     // all ok, save the new password
@@ -409,7 +414,7 @@ function isAdminPassword($password)
 function saveConfig()
 {
     if ((file_exists(BASE.'/data/config.php')) && (! is_writeable(BASE.'/data/config.php'))) {
-        throw new Exception('Es sind nicht genügend Rechte vorhanden um die Datei "config.php" zu beschreiben!');
+        throw new Exception(_('Es sind nicht genügend Rechte vorhanden um die Datei "config.php" zu beschreiben!'));
     }
 
     global $config;
@@ -428,15 +433,15 @@ function saveConfig()
     $content .= "\n";
 
     if (! ($fp = fopen(BASE.'/data/config.php', 'wb'))) {
-        throw new Exception('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.');
+        throw new Exception(_('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.'));
     }
 
     if (! fwrite($fp, $content)) {
-        throw new Exception('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.');
+        throw new Exception(_('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.'));
     }
 
     if (! fclose($fp)) {
-        throw new Exception('Es gab ein Fehler beim Abschliessen der Schreibvorgangs bei der Datei "config.php".');
+        throw new Exception(_('Es gab ein Fehler beim Abschliessen der Schreibvorgangs bei der Datei "config.php".'));
     }
 }
 
@@ -538,9 +543,9 @@ function floatToMoneyString($number, $language = '')
 function curlGetData($url)
 {
     if (! extension_loaded('curl')) {
-        throw new Exception('"curl" scheint auf ihrem System nicht installiert zu sein! '.
+        throw new Exception(_('"curl" scheint auf ihrem System nicht installiert zu sein! '.
             "\nBitte installieren Sie das entsprechende Modul, ".
-            'oder es werden gewisse Funktionen nicht zur Verfügung stehen.');
+            'oder es werden gewisse Funktionen nicht zur Verfügung stehen.'));
     }
 
     $ch = curl_init();
@@ -970,6 +975,9 @@ function buildToolsTree($params)
 {
     global $config;
 
+    //Build objects
+    $current_user       = User::getLoggedInUser();
+
     $disable_footprint = $config['footprints']['disable'];
     $disable_manufactur = $config['manufacturers']['disable'];
     $disable_suppliers  = $config['suppliers']['disable'];
@@ -988,51 +996,82 @@ function buildToolsTree($params)
 
     //Tools nodes
     $tools_nodes = array();
-    $tools_nodes[] = treeviewNode(_("Import"), BASE_RELATIVE . "/tools_import.php");
-    if (!$disable_labels) {
+    if ($current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IMPORT)) {
+        $tools_nodes[] = treeviewNode(_("Import"), BASE_RELATIVE . "/tools_import.php");
+    }
+    if (!$disable_labels && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::LABELS)) {
         $tools_nodes[] = treeviewNode(_("Labels"), BASE_RELATIVE . "/tools_labels.php");
     }
-    if (!$disable_calculator) {
+    if (!$disable_calculator && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::CALCULATOR)) {
         $tools_nodes[] = treeviewNode(_("Widerstandsrechner"), BASE_RELATIVE . "/tools_calculator.php");
     }
-    if (!$disable_tools_footprints) {
+    if (!$disable_tools_footprints && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::FOOTPRINTS)) {
         $tools_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/tools_footprints.php");
     }
-    if (!$disable_iclogos) {
+    if (!$disable_iclogos && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IC_LOGOS)) {
         $tools_nodes[] = treeviewNode(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");
     }
 
     $system_nodes = array();
-    $system_nodes[] = treeviewNode(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
-    $system_nodes[] = treeviewNode(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
+    if ($current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ)) {
+        $system_nodes[] = treeviewNode(_("Benutzer"), BASE_RELATIVE . "/edit_users.php");
+    }
+    if ($current_user->canDo(PermissionManager::GROUPS, \PartDB\Permissions\GroupPermission::READ)) {
+        $system_nodes[] = treeviewNode(_("Gruppen"), BASE_RELATIVE . "/edit_groups.php");
+    }
+    if($current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::READ_CONFIG)
+        || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::SERVER_INFO)
+        || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::CHANGE_ADMIN_PW)) {
+        $system_nodes[] = treeviewNode(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
+    }
+    if ($current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::SEE_STATUS)
+        || $current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::READ_DB_SETTINGS)) {
+        $system_nodes[] = treeviewNode(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
+    }
+
 
 
     //Show nodes
     $show_nodes = array();
-    $show_nodes[] = treeviewNode(_("Zu bestellende Teile"), BASE_RELATIVE . "/show_order_parts.php");
-    $show_nodes[] = treeviewNode(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
-    $show_nodes[] = treeviewNode(_("Obsolente Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
-    $show_nodes[] = treeviewNode(_("Statistik"), BASE_RELATIVE . "/statistics.php");
-    $show_nodes[] = treeviewNode(_("Alle Teile"), BASE_RELATIVE . "/show_all_parts.php");
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::ORDER_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Zu bestellende Teile"), BASE_RELATIVE . "/show_order_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::OBSOLETE_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Obsolente Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::TOOLS, ToolsPermission::STATISTICS)) {
+        $show_nodes[] = treeviewNode(_("Statistik"), BASE_RELATIVE . "/statistics.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::ALL_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Alle Teile"), BASE_RELATIVE . "/show_all_parts.php");
+    }
 
     //Edit nodes
     $edit_nodes = array();
-    if (!$disable_devices) {
+    if (!$disable_devices && $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Baugruppen"), BASE_RELATIVE . "/edit_devices.php");
     }
-    $edit_nodes[] = treeviewNode(_("Lagerorte"), BASE_RELATIVE . "/edit_storelocations.php");
-    if (!$disable_footprint) {
+    if ($current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::READ)) {
+        $edit_nodes[] = treeviewNode(_("Lagerorte"), BASE_RELATIVE . "/edit_storelocations.php");
+    }
+    if (!$disable_footprint && $current_user->canDo(PermissionManager::FOOTRPINTS, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/edit_footprints.php");
     }
-    $edit_nodes[] = treeviewNode(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
-    if (!$disable_suppliers) {
+    if ($current_user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ)) {
+        $edit_nodes[] = treeviewNode(_("Kategorien"), BASE_RELATIVE . "/edit_categories.php");
+    }
+    if (!$disable_suppliers && $current_user->canDo(PermissionManager::SUPPLIERS, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Lieferanten"), BASE_RELATIVE . "/edit_suppliers.php");
     }
-
-    if (!$disable_manufactur) {
+    if (!$disable_manufactur && $current_user->canDo(PermissionManager::MANUFACTURERS, StructuralPermission::READ)) {
         $edit_nodes[] = treeviewNode(_("Hersteller"), BASE_RELATIVE . "/edit_manufacturers.php");
     }
-    $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
+    if ($current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ)) {
+        $edit_nodes[] = treeviewNode(_("Dateitypen"), BASE_RELATIVE . "/edit_attachement_types.php");
+    }
 
     //Developer nodes
     $dev_nodes = array();
@@ -1043,13 +1082,19 @@ function buildToolsTree($params)
 
     //Add nodes to root
     $tree = array();
-    $tree[] = treeviewNode(_("Tools"), null, $tools_nodes);
-    $tree[] = treeviewNode(_("Bearbeiten"), null, $edit_nodes);
-    $tree[] = treeviewNode(_("Zeige"), null, $show_nodes);
-    if (!$disable_config) {
+    if (!empty($tools_nodes)) {
+        $tree[] = treeviewNode(_("Tools"), null, $tools_nodes);
+    }
+    if (!empty($edit_nodes)) {
+        $tree[] = treeviewNode(_("Bearbeiten"), null, $edit_nodes);
+    }
+    if (!empty($show_nodes)) {
+        $tree[] = treeviewNode(_("Zeige"), null, $show_nodes);
+    }
+    if (!$disable_config && !empty($system_nodes)) {
         $tree[] = treeviewNode(_("System"), null, $system_nodes);
     }
-    if ($developer_mode) {
+    if ($developer_mode && $current_user->canDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::USE_DEBUG)) {
         $tree[] = treeviewNode(_("Entwickler-Werkzeuge"), null, $dev_nodes);
     }
     if (!$disable_help) {
@@ -1311,4 +1356,20 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg")
 
     //Build HTML
     return '<i class="fa ' . $fa_class . '" aria-hidden="true"></i>';
+}
+
+/**
+ * Parses the value of a Tristate Checkbox input.
+ * @param $tristate_data string The Request data of the Tristate input.
+ * @return int 0, if checkbox was indetermined, 1 if checkbox was checked, 2 if checkbox, was not checked.
+ */
+function parseTristateCheckbox($tristate_data) {
+    switch ($tristate_data) {
+        case "true":
+            return 1;
+        case "false":
+            return 2;
+        case "indeterminate":
+            return 0;
+    }
 }

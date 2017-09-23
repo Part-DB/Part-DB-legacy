@@ -63,6 +63,10 @@
         <script src="https://www.x3dom.org/release/x3dom.js" async></script>
         <link rel="stylesheet" href="https://www.x3dom.org/release/x3dom.css">
         {/if}
+
+        <!-- JQuery Tristate -->
+        <!-- This must be in head because we need its functions in <script> Tags, in smarty_permission.tpl -->
+        <script src="{$relative_path}js/jquery.tristate.js"></script>
         
 
         {*
@@ -107,10 +111,30 @@
                     <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> {if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</a>
                 </div>
 
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle link-anchor" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                            {if $loggedin}<i class="fa fa-user" aria-hidden="true"></i>{else}<i class="fa fa-user-o" aria-hidden="true"></i>{/if} <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                        {if $loggedin}
+                            <li class="disabled"><a href="#" >{t}Eingeloggt als{/t} {$firstname} {$lastname} ({$username})</a></li>
+                            <li><a href="user_settings.php"><i class="fa fa-cogs" aria-hidden="true"></i> {t}Benutzereinstellungen{/t}</a></li>
+                            <li><a href="user_info.php"><i class="fa fa-info-circle" aria-hidden="true"></i> {t}Benutzerinformationen{/t}</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="{$relative_path}login.php?logout"><i class="fa fa-sign-out" aria-hidden="true"></i> {t}Logout{/t}</a></li>
+                        {else}
+                            <li><a href="{$relative_path}login.php"><i class="fa fa-sign-in" aria-hidden="true"></i> {t}Login{/t}</a></li>
+                        {/if}
+                        </ul>
+                    </li>
+                </ul>
+
                 <!-- Navbar -->
-                <div class="collapse navbar-collapse" id="searchbar">
+                <div class="collapse navbar-collapse navbar-right" id="searchbar">
+
+                    {if isset($can_search) && $can_search}
                     <!-- Searchbar -->
-                    <form class="navbar-form navbar-right" action="{$relative_path}show_search_parts.php" method="get">
+                    <form class="navbar-form " action="{$relative_path}show_search_parts.php" method="get">
                             <div class="btn-group">
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     {t}Suchoptionen{/t}
@@ -148,7 +172,11 @@
                             <input type="search" class="form-control" placeholder="{t}Suche{/t}" name="keyword">
                             <button type="submit" id="search-submit" class="btn btn-default">{t}Los!{/t}</button>
                     </form>
+                    {/if}
                 </div><!-- /.navbar-collapse -->
+
+
+
             </div><!-- /.container-fluid -->
         </nav>
     </header>
@@ -161,6 +189,7 @@
                     <nav class="fixed-sidebar">
                         <div class="">
                             <ul class="nav navmenu-nav">
+                            {if isset($can_category) && $can_category}
                                 <li id="categories">
                                 <!-- <h4>{t}Kategorien{/t}</h4>-->
                                     <div class="dropdown">
@@ -175,7 +204,8 @@
                                     </div>
                                     <div id="tree-categories"></div>
                                 </li>
-                                {if !$devices_disabled}
+                                {/if}
+                                {if !$devices_disabled && isset($can_device) && $can_device}
                                 <li id="devices">
                                     <div class="dropdown">
                                         <button class="btn-text dropdown-toggle" type="button" id="dropdownDev" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
@@ -218,7 +248,7 @@
                                 <span>{t}Lade{/t}</span>
                             </div>
                         </div>
-                        <h4>Dies kann einen Moment dauern...</h4>
+                        <h4>{t}Dies kann einen Moment dauern...{/t}</h4>
                     </div>
 
                    <div class="container-fluid" id="content">

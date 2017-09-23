@@ -2,11 +2,12 @@
 
 {if $refresh_navigation_frame}
     <script type="text/javascript">
+        AjaxUI.getInstance().updateTrees();
         location.reload();
     </script>
 {/if}
 
-{if !$hide_status}
+{if !$hide_status && $can_status}
     <div class="panel panel-default">
         <div class="panel-heading">
             <i class="fa fa-info-circle" aria-hidden="true"></i>
@@ -55,11 +56,11 @@
                                     Sie haben deshalb die folgenden zwei Möglichkeiten:{/t}
                                     </span></strong>
                         <br>
-                        <button type="submit" class="btn btn-default" name="make_update">{t}Letztes, fehlgeschlagenes Update fortsetzen{/t}</button>
-                        <button type="submit" class="btn btn-default" name="make_new_update">{t}Neuer Update-Versuch beginnen (von Vorne){/t}</button>
+                        <button type="submit" class="btn btn-default" name="make_update" {if !$can_update}disabled{/if}>{t}Letztes, fehlgeschlagenes Update fortsetzen{/t}</button>
+                        <button type="submit" class="btn btn-default" name="make_new_update" {if !$can_update}disabled{/if}>{t}Neuer Update-Versuch beginnen (von Vorne){/t}</button>
                     {else}
                         <br>
-                        <button class="btn btn-success" type="submit" name="make_update">{t}Jetzt Datenbank updaten{/t}</button>
+                        <button class="btn btn-success" type="submit" name="make_update" {if !$can_update}disabled{/if}>{t}Jetzt Datenbank updaten{/t}</button>
                     {/if}
                 {else}
                     <span style="color: darkgreen; ">{t}Die Datenbank ist auf dem neusten Stand.{/t}</span>
@@ -70,86 +71,97 @@
     </div>
 {/if}
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <i class="fa fa-database" aria-hidden="true"></i>
-        {t}Datenbank-Einstellungen{/t}
-    </div>
-    <div class="panel-body">
-        <form action="" class="form-horizontal" method="post">
-            <div class="form-group">
-                <label class="control-label col-sm-3">{t}Datenbanktyp:{/t}</label>
-                <div class="col-sm-9">
-                    <select name="db_type" class="form-control">
-                        {foreach $db_type_loop as $db}
-                            <option value="{$db.value}" {if $db.selected}selected{/if}>{$db.text}</option>
-                        {/foreach}
-                    </select>
-                </div>
-            </div>
-
-
-            <div class="form-group">
-                <label class="control-label col-sm-3">{t}Host:{/t}</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="db_host" value="{if !$is_online_demo}{$db_host}{/if}">
-                    <!-- (nicht nötig für SQLite) -->
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-3">{t}Datenbankname:{/t}</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="db_name" value="{if !$is_online_demo}{$db_name}{/if}">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-3">{t}Benutzer:{/t}</label>
-                <div class="col-sm-9">
-                    <input type="text" class="form-control" name="db_user" value="{if !$is_online_demo}{$db_user}{/if}">
-                    <!-- (nicht nötig für SQLite) -->
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-3">{t}Datenbankpasswort:{/t}</label>
-                <div class="col-sm-9">
-                    <input type="password" class="form-control" name="db_password" value="">
-                    <!-- (nicht nötig für SQLite) -->
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label class="control-label col-sm-3">{t}Administratorpasswort:{/t}</label>
-                <div class="col-sm-9">
-                    <input type="password" class="form-control" name="admin_password" value="">
-                </div>
-            </div>
-
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-9">
-                    <button type="submit" class="btn btn-primary" name="apply_connection_settings" {if $is_online_demo}disabled{/if}>{t}Einstellungen übernehmen{/t}</button>
-                </div>
-            </div>
-
-            <hr>
-
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-9">
-                    <div class="checkbox">
-                        <input type="checkbox" name="automatic_updates_enabled" {if $automatic_updates_enabled} checked{/if}>
-                        <label for="automatic_updated_enabled">{t}Automatische Updates aktivieren{/t}</label>
+{if $can_read_db_settings}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <i class="fa fa-database" aria-hidden="true"></i>
+            {t}Datenbank-Einstellungen{/t}
+        </div>
+        <div class="panel-body">
+            <form action="" class="form-horizontal" method="post">
+                <div class="form-group">
+                    <label class="control-label col-sm-3">{t}Datenbanktyp:{/t}</label>
+                    <div class="col-sm-9">
+                        <select name="db_type" class="form-control" {if !$can_edit_db_settings}disabled{/if}>
+                            {foreach $db_type_loop as $db}
+                                <option value="{$db.value}" {if $db.selected}selected{/if}>{$db.text}</option>
+                            {/foreach}
+                        </select>
                     </div>
                 </div>
-            </div>
 
-            <div class="form-group">
-                <div class="col-sm-offset-3 col-sm-9">
-                    <button class="btn btn-success" type="submit" name="apply_auto_updates">{t}Übernehmen{/t}</button>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3">{t}Host:{/t}</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="db_host"
+                               value="{if !$is_online_demo}{$db_host}{/if}" {if !$can_edit_db_settings}disabled{/if}>
+                        <!-- (nicht nötig für SQLite) -->
+                    </div>
                 </div>
-            </div>
 
-        </form>
+                <div class="form-group">
+                    <label class="control-label col-sm-3">{t}Datenbankname:{/t}</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="db_name"
+                               value="{if !$is_online_demo}{$db_name}{/if}" {if !$can_edit_db_settings}disabled{/if}>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3">{t}Benutzer:{/t}</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control" name="db_user"
+                               value="{if !$is_online_demo}{$db_user}{/if}" {if !$can_edit_db_settings}disabled{/if}>
+                        <!-- (nicht nötig für SQLite) -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3">{t}Datenbankpasswort:{/t}</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" name="db_password"
+                               value="" {if !$can_edit_db_settings}disabled{/if}>
+                        <!-- (nicht nötig für SQLite) -->
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="control-label col-sm-3">{t}Administratorpasswort:{/t}</label>
+                    <div class="col-sm-9">
+                        <input type="password" class="form-control" name="admin_password"
+                               value="" {if !$can_edit_db_settings}disabled{/if}>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button type="submit" class="btn btn-primary" name="apply_connection_settings"
+                                {if $is_online_demo}disabled{/if} {if !$can_edit_db_settings}disabled{/if}>
+                            {t}Einstellungen übernehmen{/t}</button>
+                    </div>
+                </div>
+
+                <hr>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <div class="checkbox">
+                            <input type="checkbox" name="automatic_updates_enabled"
+                                    {if $automatic_updates_enabled} checked{/if} {if !$can_edit_db_settings}disabled{/if}>
+                            <label for="automatic_updated_enabled">{t}Automatische Updates aktivieren{/t}</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-offset-3 col-sm-9">
+                        <button class="btn btn-success" type="submit" name="apply_auto_updates" {if !$can_edit_db_settings}disabled{/if}>
+                            {t}Übernehmen{/t}</button>
+                    </div>
+                </div>
+
+            </form>
+        </div>
     </div>
-</div>
+{/if}

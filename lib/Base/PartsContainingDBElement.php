@@ -29,6 +29,8 @@ use Exception;
 use PartDB\Database;
 use PartDB\Log;
 use PartDB\Part;
+use PartDB\Permissions\PartContainingPermission;
+use PartDB\Permissions\StructuralPermission;
 use PartDB\User;
 
 /**
@@ -131,7 +133,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception("Das Element \"".$this->getName()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
+            throw new Exception(sprintf(_("Das Element \"%s\" konnte nicht gelöscht werden!"), $this->getName()) . "\n" . _("Grund: ").$e->getMessage());
         }
     }
 
@@ -163,6 +165,8 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      */
     public function getTableParts($parts_rowname, $recursive = false, $hide_obsolete_and_zero = false)
     {
+        $this->current_user->tryDo(static::getPermissionName(), PartContainingPermission::LIST_PARTS);
+
         $subelements = array();
 
         if ($recursive) {

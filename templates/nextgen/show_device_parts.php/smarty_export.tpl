@@ -7,15 +7,19 @@
             <div class="form-group">
                 <label class="control-label col-md-3">{t}Multiplikator:{/t}</label>
                 <div class="col-md-9">
-                    <input type="number" min="0"  class="form-control" name="export_multiplier" size="3" value="{if isset($export_multiplier)}{$export_multiplier}{else}1{/if}">
+                    <input type="number" min="0"  class="form-control" name="export_multiplier" size="3"
+                           value="{if isset($export_multiplier)}{$export_multiplier}{else}1{/if}"
+                           {if !$can_part_instock}disabled{/if}>
                 </div>
             </div>
             
             <div class="form-group">
                 <label class="control-label col-md-3">{t}Teile abfassen oder einbuchen:{/t}</label>
                 <div class="col-md-9" class="btn-group" role="group">
-                    <button class="btn btn-default" type="submit" name="book_parts">{t}Abfassen (-){/t}</button>
-                    <button class="btn btn-default" type="submit" name="book_parts_in">{t}Einbuchen (+){/t}</button>
+                    <button class="btn btn-default" type="submit" name="book_parts" {if !$can_part_instock}disabled{/if}>
+                        {t}Abfassen (-){/t}</button>
+                    <button class="btn btn-default" type="submit" name="book_parts_in" {if !$can_part_instock}disabled{/if}>
+                        {t}Einbuchen (+){/t}</button>
                 </div>
             </div>
             
@@ -23,12 +27,15 @@
                 <label class="control-label col-md-3">{t}Zum Bestellen vormerken:{/t}</label>
                 <div class="col-md-9">
                         {if isset($order_quantity)}
-                            <div class="form-control-static">Es sind {$order_quantity}Stk. von dieser Baugruppe zum Bestellen vorgemerkt
-                            ({if isset($order_only_missing_parts)}Nur fehlende Teile{else}Alle Teile{/if}).</div>
-                            <button class="btn btn-default" type="submit" name="remove_order">{t}Aufheben{/t}</button>
+                            <div class="form-control-static">{t 1=$order_quantity}Es sind %1 Stk. von dieser Baugruppe zum Bestellen vorgemerkt{/t}
+                            ({if isset($order_only_missing_parts)}{t}Nur fehlende Teile{/t}{else}{t}Alle Teile{/t}{/if}).</div>
+                            <button class="btn btn-default" type="submit" name="remove_order"
+                                    {if !$can_part_order}disabled{/if}>{t}Aufheben{/t}</button>
                         {else}
-                            <button class="btn btn-default" type="submit" name="add_order">{t}Alle{/t}</button>
-                            <button class="btn btn-default" type="submit" name="add_order_only_missing">{t}Nur fehlende Teile{/t}</button>
+                            <button class="btn btn-default" type="submit" name="add_order" {if !$can_part_order}disabled{/if}>
+                                {t}Alle{/t}</button>
+                            <button class="btn btn-default" type="submit" name="add_order_only_missing" {if !$can_part_order}disabled{/if}>
+                                {t}Nur fehlende Teile{/t}</button>
                         {/if}
                 </div>
             </div>

@@ -131,7 +131,7 @@ $config['timezone']                                     = 'Europe/Berlin';
 $config['language']                                     = 'en_US';
 $config['is_online_demo']                               = false; // disables some (safety-)critical features
 $config['developer_mode']                               = false; // enables the "Debug-Tools" menu
-$config['page_title']                                   = 'Part-DB Elektronische Bauteile-Datenbank'; //Dont use this anymore, use partdb_title instead
+$config['page_title']                                   = _('Part-DB Elektronische Bauteile-Datenbank'); //Dont use this anymore, use partdb_title instead
 $config['partdb_title']                                 = 'Part-DB';
 $config['tracking_code']                                = "";   //Allows to inject some HTML on the footer (e.g. for usage of google analytics)
 $config['allow_server_downloads']                       = false; //Allow the user to download files via the server. Caution: This maybe could be used, to access internal servers.
@@ -166,6 +166,9 @@ $config['table']['autosort']                     = false;
 $config['attachements']['folder_structure']     = false;    //Put attachements in a folder structure, similar to the categories.
 $config['attachements']['download_default']     = false;    //Download external media defaultly.
 $config['attachements']['show_name']            = false;    //Show the names of attachements in the parts tables.
+
+//Global user settings
+$config['user']['avatars']['use_gravatar']      = false;     //Use Gravatar for Avatars
 
 /********************************************************************************
  *
@@ -257,33 +260,33 @@ $config['table']['all_parts']['columns']                = 'hover_picture;name;de
 
 // export configurations for order parts*
 $config['export']['orderparts'][0]['format']            = 'CSV';
-$config['export']['orderparts'][0]['name']              = 'Standard 1 (mit den jeweils markierten Lieferanten)';
+$config['export']['orderparts'][0]['name']              = _('Standard 1 (mit den jeweils markierten Lieferanten)');
 $config['export']['orderparts'][0]['separator']         = ';';
 $config['export']['orderparts'][0]['header']            = true;
 $config['export']['orderparts'][0]['mimetype']          = 'text/csv';
 $config['export']['orderparts'][0]['columns']           = 'name;description;instock;mininstock;footprint;storelocation;order_supplier;order_supplierpartnr;order_quantity;order_single_price;order_total_price';
 
 $config['export']['orderparts'][1]['format']            = 'CSV';
-$config['export']['orderparts'][1]['name']              = 'Standard 2 (alle Teile mit allen Lieferanten)';
+$config['export']['orderparts'][1]['name']              = _('Standard 2 (alle Teile mit allen Lieferanten)');
 $config['export']['orderparts'][1]['separator']         = ';';
 $config['export']['orderparts'][1]['header']            = true;
 $config['export']['orderparts'][1]['mimetype']          = 'text/csv';
 $config['export']['orderparts'][1]['columns']           = 'name;description;instock;mininstock;footprint;storelocation;suppliers;supplierpartnrs;order_quantity;single_prices;order_total_prices';
 
 $config['export']['orderparts'][2]['format']            = 'CSV';
-$config['export']['orderparts'][2]['name']              = 'Distrelec Online-Bestellung';
+$config['export']['orderparts'][2]['name']              = _('Distrelec Online-Bestellung');
 $config['export']['orderparts'][2]['separator']         = ',';
 $config['export']['orderparts'][2]['header']            = false;
 $config['export']['orderparts'][2]['mimetype']          = 'text/csv';
 $config['export']['orderparts'][2]['columns']           = 'order_quantity;order_supplierpartnr;'; // the last column is empty
 
 $config['export']['orderparts'][3]['format']            = 'XML';
-$config['export']['orderparts'][3]['name']              = 'Standard 1 (mit den jeweils markierten Lieferanten)';
+$config['export']['orderparts'][3]['name']              = _('Standard 1 (mit den jeweils markierten Lieferanten)');
 $config['export']['orderparts'][3]['mimetype']          = 'text/xml';
 $config['export']['orderparts'][3]['columns']           = 'name;description;instock;mininstock;footprint;storelocation;order_supplier;order_supplierpartnr;order_quantity;order_single_price;order_total_price';
 
 $config['export']['orderparts'][4]['format']            = 'XML';
-$config['export']['orderparts'][4]['name']              = 'Standard 2 (alle Teile mit allen Lieferanten)';
+$config['export']['orderparts'][4]['name']              = _('Standard 2 (alle Teile mit allen Lieferanten)');
 $config['export']['orderparts'][4]['mimetype']          = 'text/xml';
 $config['export']['orderparts'][4]['columns']           = 'name;description;instock;mininstock;footprint;storelocation;suppliers;supplierpartnrs;order_quantity;single_prices;order_total_prices';
 // IMPORTANT: If you add your own export formats to your config.php, use letters instead of numbers as array indexes!! e.g. $config['export']['orderparts']['A']['format'] = 'foo';

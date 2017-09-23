@@ -32,6 +32,8 @@ use PartDB\Database;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\Part;
+use PartDB\Permissions\PartPermission;
+use PartDB\Permissions\PermissionManager;
 use PartDB\User;
 
 $messages = array();
@@ -83,7 +85,7 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Tei
 try {
     $database           = new Database();
     $log                = new Log($database);
-    $current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
 
     if ($category_id < 1) {
         throw new Exception(_('Es wurde keine gültige Kategorien-ID übermittelt!'));
@@ -197,6 +199,8 @@ if (! $fatal_error) {
     $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 
     $html->setLoop('export_formats', buildExportFormatsLoop('showparts'));
+
+    $html->setVariable('can_create', $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
 }
 
 /********************************************************************************

@@ -9,11 +9,17 @@
 
             <div class="col-md-4 auto-size-select">
 
+                {if !isset($id) || $id == 0}
+                    {assign "can_edit" $can_create}
+                    {assign "can_move" $can_create}
+                {/if}
+
+
                 <select class="form-control selectpicker"  data-live-search="true" onChange='$("[name=selected_id]").val(this.value); submitForm(this.form);'>
-                    <optgroup label="Neu">
+                    <optgroup label="{t}Neu{/t}">
                         <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neuer Footprint{/t}</option>
                     </optgroup>
-                    <optgroup label="Bearbeiten">
+                    <optgroup label="{t}Bearbeiten{/t}">
                         {$footprint_list nofilter}
                     </optgroup>
                 </select>
@@ -21,10 +27,10 @@
                 <hr>
 
                 <select name="selected_id" size="30" class="form-control auto-size-select" onChange="submitForm(this.form);">
-                    <optgroup label="Neu">
+                    <optgroup label="{t}Neu{/t}">
                         <option value="0" {if !isset($id) || $id == 0}selected{/if}>{t}Neuer Footprint{/t}</option>
                     </optgroup>
-                    <optgroup label="Bearbeiten">
+                    <optgroup label="{t}Bearbeiten{/t}">
                         {$footprint_list nofilter}
                     </optgroup>
                 </select>
@@ -54,14 +60,15 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">{t}Name*:{/t}</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" name="name" value="{$name}" placeholder="{t}z.B. DIP8{/t}" required>
+                            <input type="text" class="form-control" name="name" value="{$name}"
+                                   placeholder="{t}z.B. DIP8{/t}" required {if !$can_edit}disabled{/if}>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label class="control-label col-md-3">{t}Übergeordneter Footprint*:{/t}</label>
                         <div class="col-md-9">
-                            <select class="form-control selectpicker" data-live-search="true" name="parent_id" size="1">
+                            <select class="form-control selectpicker" data-live-search="true" name="parent_id" size="1" {if !$can_move}disabled{/if}>
                                 {$parent_footprint_list nofilter}
                             </select>
                         </div>
@@ -70,10 +77,10 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">{t}Bild:{/t}</label>
                         <div class="col-md-6">
-                            <input type="text" name="filename" value="{$filename}" placeholder="{t}z.B. img/footprints/Aktiv/ICs/DIP/IC_DIP8.png{/t}" class="form-control">
+                            <input type="text" name="filename" value="{$filename}" placeholder="{t}z.B. img/footprints/Aktiv/ICs/DIP/IC_DIP8.png{/t}" class="form-control" {if !$can_edit}disabled{/if}>
                         </div>
                         <div class="col-sm-3 pull-right">
-                            <input data-show-caption="false" data-show-preview="false" data-show-upload="false" type="file" class="file" name="footprint_file">
+                            <input data-show-caption="false" data-show-preview="false" data-show-upload="false" type="file" class="file" name="footprint_file" {if !$can_edit}disabled{/if}>
                         </div>
 
                     </div>
@@ -119,14 +126,14 @@
                     <div class="form-group">
                         <div class="col-md-9 col-md-offset-3">
                             {if !isset($id) || $id == 0}
-                                <button class="btn btn-success" type="submit" name="add">{t}Neuer Footprint anlegen{/t}</button>
+                                <button class="btn btn-success" type="submit" name="add" {if !$can_create}disabled{/if}>{t}Neuer Footprint anlegen{/t}</button>
                                 <div class="checkbox">
-                                    <input type="checkbox" name="add_more" {if $add_more}checked{/if}>
+                                    <input type="checkbox" name="add_more" {if $add_more}checked{/if} {if !$can_create}disabled{/if}>
                                     <label>{t}Weitere Footprints anlegen{/t}</label>
                                 </div>
                             {else}
-                                <button class="btn btn-success" type="submit" name="apply">{t}Änderungen übernehmen{/t}</button>
-                                <button class="btn btn-danger" type="submit" name="delete">{t}Footprint löschen{/t}</button>
+                                <button class="btn btn-success" type="submit" name="apply" {if !$can_edit && !$can_move}disabled{/if}>{t}Änderungen übernehmen{/t}</button>
+                                <button class="btn btn-danger" type="submit" name="delete" {if !$can_delete}disabled{/if}>{t}Footprint löschen{/t}</button>
                             {/if}
                         </div>
                     </div>
@@ -203,8 +210,8 @@
                     <label class="control-label">{t}Vorgeschlagene Dateinamen übernehmen:{/t}</label>
                     <input type="hidden" name="broken_footprints_count" value="{$broken_footprints_count}">
                     <div class="form-group">
-                        <button class="btn btn-default" type="submit" name="save_proposed_filenames">Nur die markierten</button>
-                        <button  class="btn btn-default" type="submit" name="save_all_proposed_filenames">Alle</button>
+                        <button class="btn btn-default" type="submit" name="save_proposed_filenames" {if !$can_edit}disabled{/if}>Nur die markierten</button>
+                        <button  class="btn btn-default" type="submit" name="save_all_proposed_filenames" {if !$can_edit}disabled{/if}>Alle</button>
                     </div>
                 </div>
             </form>
@@ -280,8 +287,8 @@
                     <label class="control-label">{t}Vorgeschlagene Dateinamen übernehmen:{/t}</label>
                     <input type="hidden" name="broken_3d_footprints_count" value="{$broken_3d_footprints_count}">
                     <div class="form-group">
-                        <button class="btn btn-default" type="submit" name="save_proposed_3d_filenames">{t}Nur die markierten{/t}</button>
-                        <button  class="btn btn-default" type="submit" name="save_all_proposed_3d_filenames">{t}Alle{/t}</button>
+                        <button class="btn btn-default" type="submit" name="save_proposed_3d_filenames" {if !$can_edit}disabled{/if}>{t}Nur die markierten{/t}</button>
+                        <button  class="btn btn-default" type="submit" name="save_all_proposed_3d_filenames" {if !$can_edit}disabled{/if}>{t}Alle{/t}</button>
                     </div>
                 </div>
             </form>

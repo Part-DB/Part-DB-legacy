@@ -76,7 +76,7 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Tei
 try {
     $database           = new Database();
     $log                = new Log($database);
-    $current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
 
     if ($footprint_id < 1) {
         throw new Exception(_('Es wurde keine gültige Footprint-ID übermittelt!'));

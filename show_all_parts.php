@@ -74,7 +74,7 @@ $html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Tei
 try {
     $database           = new Database();
     $log                = new Log($database);
-    $current_user       = new User($database, $current_user, $log, 1); // admin
+    $current_user       = User::getLoggedInUser($database, $log);
 
     if ($selected_part_id > 0) {
         $part = new Part($database, $current_user, $log, $selected_part_id);

@@ -27,6 +27,7 @@ namespace PartDB;
 
 use Exception;
 use PartDB\Interfaces\ISearchable;
+use PartDB\Permissions\PermissionManager;
 
 /**
  * @file Storelocation.php
@@ -157,7 +158,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
     public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         return $database->getCountOfRecords('storelocations');
@@ -220,5 +221,14 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
             return array_merge($json, $ver);
         }
         return $json;
+    }
+
+    /**
+     * Gets the permission name for control access to this StructuralDBElement
+     * @return string The name of the permission for this StructuralDBElement.
+     */
+    protected static function getPermissionName()
+    {
+        return PermissionManager::STORELOCATIONS;
     }
 }

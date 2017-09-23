@@ -21,7 +21,10 @@
             {/foreach}
         {else}
             {t}Dieses Bauteil besitzt keine Dateianhänge.{/t}
-            <a class="btn btn-default pull-right hidden-print" class=" hidden-print-href" href="edit_part_info.php?pid={$pid}#attachements">{t}Dateianhänge hinzufügen{/t}</a>
+            <a class="btn btn-default pull-right hidden-print" class=" hidden-print-href"
+               href="edit_part_info.php?pid={$pid}#attachements"
+               {if !$can_orderdetails_create}disabled{/if}>
+                {t}Dateianhänge hinzufügen{/t}</a>
         {/if}
     </div>
 </div>

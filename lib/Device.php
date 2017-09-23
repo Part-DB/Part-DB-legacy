@@ -26,6 +26,9 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Permissions\PartContainingPermission;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\StructuralPermission;
 
 /**
  * @file Device.php
@@ -131,7 +134,7 @@ class Device extends Base\PartsContainingDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception("Die Baugruppe \"".$this->getName()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
+            throw new Exception(sprintf(_('Die Baugruppe "%s" konnte nicht gelöscht werden!\n'), $this->getName()) . _("Grund: ").$e->getMessage());
         }
     }
 
@@ -152,7 +155,7 @@ class Device extends Base\PartsContainingDBElement
                 $parent_device = new Device($this->database, $this->current_user, $this->log, $parent_id);
 
                 if (($parent_device->getID() == $this->getID()) || ($parent_device->isChildOf($this))) {
-                    throw new Exception('Eine Baugruppe kann nicht in sich selber kopiert werden!');
+                    throw new Exception(_('Eine Baugruppe kann nicht in sich selber kopiert werden!'));
                 }
             }
 
@@ -185,7 +188,7 @@ class Device extends Base\PartsContainingDBElement
         } catch (Exception $e) {
             $this->database->rollback(); // rollback transaction
 
-            throw new Exception("Die Baugruppe \"".$this->getName()."\"konnte nicht kopiert werden!\nGrund: ".$e->getMessage());
+            throw new Exception(sprintf( _("Die Baugruppe \"%s\"konnte nicht kopiert werden!\n"), $this->getName()) . _("Grund: ").$e->getMessage());
         }
     }
 
@@ -213,7 +216,7 @@ class Device extends Base\PartsContainingDBElement
             foreach ($device_parts as $part) {
                 /** @var DevicePart $part */
                 if (($part->getMountQuantity() * $book_multiplier) > $part->getPart()->getInstock()) {
-                    throw new Exception('Es sind nicht von allen Bauteilen genügend an Lager');
+                    throw new Exception(_('Es sind nicht von allen Bauteilen genügend an Lager'));
                 }
             }
 
@@ -230,7 +233,7 @@ class Device extends Base\PartsContainingDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception("Die Teile konnten nicht abgefasst werden!\nGrund: ".$e->getMessage());
+            throw new Exception(_("Die Teile konnten nicht abgefasst werden!\n") . _("Grund: ").$e->getMessage());
         }
     }
 
@@ -276,6 +279,18 @@ class Device extends Base\PartsContainingDBElement
      */
     public function getParts($recursive = false, $hide_obsolet_and_zero = false)
     {
+        $this->current_user->tryDo(static::getPermissionName(), PartContainingPermission::LIST_PARTS);
+        return $this->getPartsWithoutPermCheck($recursive, $hide_obsolet_and_zero);
+    }
+
+    /**
+     * Similar to getParts() but without check of the Permission.
+     * For use in internal functions, like getPartsCount() or getPartsSumCount()
+     * @param bool $recursive
+     * @param bool $hide_obsolet_and_zero
+     * @return array|null
+     */
+    protected function getPartsWithoutPermCheck($recursive = false, $hide_obsolet_and_zero = false) {
         if (! is_array($this->parts)) {
             $this->parts = array();
 
@@ -317,7 +332,7 @@ class Device extends Base\PartsContainingDBElement
      */
     public function getPartsCount($recursive = false)
     {
-        $device_parts = $this->getParts($recursive);
+        $device_parts = $this->getPartsWithoutPermCheck($recursive);
 
         return count($device_parts);
     }
@@ -334,7 +349,7 @@ class Device extends Base\PartsContainingDBElement
     public function getPartsSumCount($recursive = false)
     {
         $count = 0;
-        $device_parts = $this->getParts($recursive);
+        $device_parts = $this->getPartsWithoutPermCheck($recursive);
 
         foreach ($device_parts as $device_part) {
             /** @var DevicePart $device_part */
@@ -367,7 +382,7 @@ class Device extends Base\PartsContainingDBElement
     public function getTotalPrice($as_money_string = true, $recursive = false)
     {
         $price = 0;
-        $device_parts = $this->getParts($recursive);
+        $device_parts = $this->getPartsWithoutPermCheck($recursive);
 
         foreach ($device_parts as $device_part) {
             /** @var DevicePart $device_part */
@@ -433,7 +448,7 @@ class Device extends Base\PartsContainingDBElement
         if (((! is_int($values['order_quantity'])) && (! ctype_digit($values['order_quantity'])))
             || ($values['order_quantity'] < 0)) {
             debug('error', 'order_quantity = "'.$values['order_quantity'].'"', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('Die Bestellmenge ist ungültig!');
+            throw new Exception(_('Die Bestellmenge ist ungültig!'));
         }
     }
 
@@ -451,7 +466,7 @@ class Device extends Base\PartsContainingDBElement
     public static function getOrderDevices(&$database, &$current_user, &$log)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         $devices = array();
@@ -481,7 +496,7 @@ class Device extends Base\PartsContainingDBElement
     public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         return $database->getCountOfRecords('devices');
@@ -490,6 +505,7 @@ class Device extends Base\PartsContainingDBElement
     /**
      *  Create a new device
      *
+     * @param Database  &$database                  reference to the database object
      * @param Database  &$database                  reference to the database object
      * @param User      &$current_user              reference to the current user which is logged in
      * @param Log       &$log                       reference to the Log-object
@@ -515,5 +531,14 @@ class Device extends Base\PartsContainingDBElement
                 'order_quantity'            => 0,
                 'order_only_missing_parts'  => false)
         );
+    }
+
+    /**
+     * Gets the permission name for control access to this StructuralDBElement
+     * @return string The name of the permission for this StructuralDBElement.
+     */
+    protected static function getPermissionName()
+    {
+        return PermissionManager::DEVICES;
     }
 }

@@ -27,6 +27,7 @@ namespace PartDB;
 
 use Exception;
 use PartDB\Interfaces\ISearchable;
+use PartDB\Permissions\PermissionManager;
 
 /**
  * @file Supplier.php
@@ -161,7 +162,7 @@ class Supplier extends Base\Company implements ISearchable
     public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         return $database->getCountOfRecords('suppliers');
@@ -188,7 +189,7 @@ class Supplier extends Base\Company implements ISearchable
     public static function getOrderSuppliers(&$database, &$current_user, &$log)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         $suppliers = array();
@@ -272,4 +273,14 @@ class Supplier extends Base\Company implements ISearchable
     {
         return parent::searchTable($database, $current_user, $log, 'suppliers', $keyword, $exact_match);
     }
+
+    /**
+     * Gets the permission name for control access to this StructuralDBElement
+     * @return string The name of the permission for this StructuralDBElement.
+     */
+    protected static function getPermissionName()
+    {
+        return PermissionManager::SUPPLIERS;
+    }
+
 }
