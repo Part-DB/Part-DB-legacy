@@ -312,6 +312,12 @@ class AjaxUI {
         this.trees_filled = true;
     }
 
+
+    public updateTrees()
+    {
+        this.tree_fill();
+    }
+
     /********************************************************************************************
      * Common ajax functions
      ********************************************************************************************/
@@ -321,6 +327,11 @@ class AjaxUI {
      */
     private onAjaxError (event, request, settings) {
         'use strict';
+        //Ignore aborted requests.
+        if (request.statusText =='abort') {
+            return;
+        }
+
         console.log(event);
         //If it was a server error and response is not empty, show it to user.
         if(request.status == 500 && request.responseText !== "")
@@ -345,10 +356,6 @@ class AjaxUI {
         }
     }
 
-    public updateTrees()
-    {
-        this.tree_fill();
-    }
 
     /**
      * Called whenever a Ajax Request was successful completed.
@@ -446,6 +453,7 @@ $(function(event){
     ajaxui.addStartAction(scrollUpForMsg);
     ajaxui.addStartAction(rightClickSubmit);
     ajaxui.addStartAction(makeTriStateCheckbox);
+    ajaxui.addStartAction(makeHighlight);
 
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
@@ -459,6 +467,7 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(scrollUpForMsg);
     ajaxui.addAjaxCompleteAction(rightClickSubmit);
     ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
+    ajaxui.addAjaxCompleteAction(makeHighlight);
 
     ajaxui.start();
 });
@@ -637,3 +646,35 @@ $("#search-submit").click(function (event) {
     $("#searchbar").removeClass("in");
 });
 
+/**
+ * Implements the livesearch for the searchbar.
+ * @param object
+ * @param {int} threshold
+ */
+function livesearch(object : any, threshold : int) {
+    let $obj = $(object);
+    let q = <string> $obj.val();
+    let form = $obj.closest("form");
+    //Dont show progbar on live search.
+    form.addClass("no-progbar");
+    if(q.length >= threshold) {
+        let xhr = form.data('jqxhr');
+        //If an ajax operation is already ongoing, then stop it.
+        if(typeof xhr !== "undefined") {
+            xhr.abort();
+        }
+        submitForm(form);
+    }
+    //Show progbar, when user presses submit button.
+    form.removeClass("no-progbar");
+}
+
+
+function makeHighlight() {
+    let highlight = $("#highlight").val();
+    if(typeof highlight !== "undefined" && highlight != "") {
+        $("table").highlight(highlight, {
+            element: "span"
+        });
+    }
+}

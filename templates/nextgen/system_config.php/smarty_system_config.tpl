@@ -232,6 +232,18 @@
                         <hr>
 
                         <div class="form-group">
+                            <label for="modal-container" class="control-label col-sm-2">{t}Bauteilesuche:{/t}</label>
+                            <div class="col-sm-10">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="livesearch_active" {if $livesearch_active} checked{/if}>
+                                    <label for="properties_active">{t}Suche bereits während der Eingabe in das Suchfeld (Livesuche).{/t}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group">
                             <label for="modal-container" class="control-label col-sm-2">{t}Bauteiletabellen:{/t}</label>
                             <div class="col-sm-10">
                                 <div class="checkbox">

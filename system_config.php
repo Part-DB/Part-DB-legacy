@@ -133,6 +133,9 @@ $saved_redirect             = isset($_REQUEST['saved_redirect']);
 $table_autosort             = isset($_REQUEST['table_autosort']);
 $default_subcat             = isset($_REQUEST['default_subcat']);
 
+//Search settings
+$livesearch_active          = isset($_REQUEST['livesearch_active']);
+
 //Attachement settings
 $attachements_structure     = isset($_REQUEST['attachements_structure']);
 $attachements_download      = isset($_REQUEST['attachements_download']);
@@ -214,6 +217,8 @@ if (! $fatal_error) {
             $config['foot3d']['show_info']              = $foot3d_show_info;
 
             $config['properties']['active']             = $properties_active;
+
+            $config['search']['livesearch']             = $livesearch_active;
 
             $config['edit_parts']['created_go_to_info']      = $created_redirect;    //Jump to info page of a part, if a new part was created
             $config['edit_parts']['saved_go_to_info']        = $saved_redirect;
@@ -375,6 +380,9 @@ $html->setVariable('info_hide_empty_attachements', $config['part_info']['hide_em
 //Misc
 $html->setVariable("downloads_enable", $config['allow_server_downloads'], 'boolean');
 $html->setVariable('gravatar_enable', $config['user']['avatars']['use_gravatar'], 'boolean');
+
+//Search
+$html->setVariable('livesearch_active', $config['search']['livesearch']);
 
 // check if the server supports the selected language and print a warning if not
 if (! ownSetlocale(LC_ALL, $config['language'])) {

@@ -22,7 +22,7 @@
                 {foreach $cat.pictures_loop as $pic}
                     <div class="col-lg-2 col-md-3 col-xs-4">
                         <div class="thumbnail">
-                            <a class="link-external" href="{$pic.filename}" target="_blank">
+                            <a class="link-external" href="{$pic.filename}" rel="noopener" target="_blank">
                                 <img class="img-responsive" src="{$pic.filename}" alt="">
                             </a>
                             <span class="caption text-break">{$pic.title}</span>

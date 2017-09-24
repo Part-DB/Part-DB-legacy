@@ -163,6 +163,9 @@ $config['edit_parts']['saved_go_to_info']        = false;    //Jump to info page
 $config['table']['autosort']                     = false;
 $config['table']['default_show_subcategories']   = true;    //Show the subcategories in show_category_parts on default.
 
+//Search settings
+$config['search']['livesearch']                  = true;
+
 //Attachements settings
 $config['attachements']['folder_structure']     = false;    //Put attachements in a folder structure, similar to the categories.
 $config['attachements']['download_default']     = false;    //Download external media defaultly.

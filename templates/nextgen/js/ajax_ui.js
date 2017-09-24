@@ -249,6 +249,9 @@ var AjaxUI = (function () {
         });
         this.trees_filled = true;
     };
+    AjaxUI.prototype.updateTrees = function () {
+        this.tree_fill();
+    };
     /********************************************************************************************
      * Common ajax functions
      ********************************************************************************************/
@@ -257,6 +260,10 @@ var AjaxUI = (function () {
      */
     AjaxUI.prototype.onAjaxError = function (event, request, settings) {
         'use strict';
+        //Ignore aborted requests.
+        if (request.statusText == 'abort') {
+            return;
+        }
         console.log(event);
         //If it was a server error and response is not empty, show it to user.
         if (request.status == 500 && request.responseText !== "") {
@@ -276,9 +283,6 @@ var AjaxUI = (function () {
             $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");
             $('#progressbar').show(0);
         }
-    };
-    AjaxUI.prototype.updateTrees = function () {
-        this.tree_fill();
     };
     /**
      * Called whenever a Ajax Request was successful completed.
@@ -358,6 +362,7 @@ $(function (event) {
     ajaxui.addStartAction(scrollUpForMsg);
     ajaxui.addStartAction(rightClickSubmit);
     ajaxui.addStartAction(makeTriStateCheckbox);
+    ajaxui.addStartAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
@@ -369,6 +374,7 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(scrollUpForMsg);
     ajaxui.addAjaxCompleteAction(rightClickSubmit);
     ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
+    ajaxui.addAjaxCompleteAction(makeHighlight);
     ajaxui.start();
 });
 function makeTriStateCheckbox() {
@@ -525,3 +531,33 @@ function registerAutoRefresh() {
 $("#search-submit").click(function (event) {
     $("#searchbar").removeClass("in");
 });
+/**
+ * Implements the livesearch for the searchbar.
+ * @param object
+ * @param {int} threshold
+ */
+function livesearch(object, threshold) {
+    var $obj = $(object);
+    var q = $obj.val();
+    var form = $obj.closest("form");
+    //Dont show progbar on live search.
+    form.addClass("no-progbar");
+    if (q.length >= threshold) {
+        var xhr = form.data('jqxhr');
+        //If an ajax operation is already ongoing, then stop it.
+        if (typeof xhr !== "undefined") {
+            xhr.abort();
+        }
+        submitForm(form);
+    }
+    //Show progbar, when user presses submit button.
+    form.removeClass("no-progbar");
+}
+function makeHighlight() {
+    var highlight = $("#highlight").val();
+    if (typeof highlight !== "undefined" && highlight != "") {
+        $("table").highlight(highlight, {
+            element: "span"
+        });
+    }
+}
