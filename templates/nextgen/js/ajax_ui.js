@@ -534,7 +534,9 @@ function livesearch(object, threshold) {
     var $obj = $(object);
     var q = $obj.val();
     var form = $obj.closest("form");
-    if (q.length > threshold) {
+    //Dont show progbar on live search.
+    form.addClass("no-progbar");
+    if (q.length >= threshold) {
         var xhr = form.data('jqxhr');
         //If an ajax operation is already ongoing, then stop it.
         if (typeof xhr !== "undefined") {
@@ -542,4 +544,6 @@ function livesearch(object, threshold) {
         }
         submitForm(form);
     }
+    //Show progbar, when user presses submit button.
+    form.removeClass("no-progbar");
 }

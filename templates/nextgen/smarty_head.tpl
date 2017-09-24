@@ -138,7 +138,7 @@
 
                     {if isset($can_search) && $can_search}
                     <!-- Searchbar -->
-                    <form class="navbar-form " action="{$relative_path}show_search_parts.php" method="get">
+                    <form class="navbar-form" action="{$relative_path}show_search_parts.php" method="get">
                             <div class="btn-group">
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     {t}Suchoptionen{/t}
