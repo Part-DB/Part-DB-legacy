@@ -173,7 +173,8 @@
                                 </ul>
                             </div>
 
-                            <input type="search" class="form-control" placeholder="{t}Suche{/t}" name="keyword" onkeyup="livesearch(this, 2);">
+                            <input type="search" class="form-control" placeholder="{t}Suche{/t}" name="keyword"
+                                {if $livesearch_active}onkeyup="livesearch(this, 2);"{/if}>
                             <button type="submit" id="search-submit" class="btn btn-default">{t}Los!{/t}</button>
                     </form>
                     {/if}
