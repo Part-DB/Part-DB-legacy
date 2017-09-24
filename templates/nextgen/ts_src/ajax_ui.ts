@@ -312,6 +312,12 @@ class AjaxUI {
         this.trees_filled = true;
     }
 
+
+    public updateTrees()
+    {
+        this.tree_fill();
+    }
+
     /********************************************************************************************
      * Common ajax functions
      ********************************************************************************************/
@@ -345,10 +351,6 @@ class AjaxUI {
         }
     }
 
-    public updateTrees()
-    {
-        this.tree_fill();
-    }
 
     /**
      * Called whenever a Ajax Request was successful completed.
@@ -636,4 +638,23 @@ function registerAutoRefresh() {
 $("#search-submit").click(function (event) {
     $("#searchbar").removeClass("in");
 });
+
+/**
+ * Implements the livesearch for the searchbar.
+ * @param object
+ * @param {int} threshold
+ */
+function livesearch(object : any, threshold : int) {
+    let $obj = $(object);
+    let q = <string> $obj.val();
+    let form = $obj.closest("form");
+    if(q.length > threshold) {
+        let xhr = form.data('jqxhr');
+        //If an ajax operation is already ongoing, then stop it.
+        if(typeof xhr !== "undefined") {
+            xhr.abort();
+        }
+        submitForm(form);
+    }
+}
 

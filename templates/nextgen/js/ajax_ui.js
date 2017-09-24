@@ -249,6 +249,9 @@ var AjaxUI = (function () {
         });
         this.trees_filled = true;
     };
+    AjaxUI.prototype.updateTrees = function () {
+        this.tree_fill();
+    };
     /********************************************************************************************
      * Common ajax functions
      ********************************************************************************************/
@@ -276,9 +279,6 @@ var AjaxUI = (function () {
             $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");
             $('#progressbar').show(0);
         }
-    };
-    AjaxUI.prototype.updateTrees = function () {
-        this.tree_fill();
     };
     /**
      * Called whenever a Ajax Request was successful completed.
@@ -525,3 +525,21 @@ function registerAutoRefresh() {
 $("#search-submit").click(function (event) {
     $("#searchbar").removeClass("in");
 });
+/**
+ * Implements the livesearch for the searchbar.
+ * @param object
+ * @param {int} threshold
+ */
+function livesearch(object, threshold) {
+    var $obj = $(object);
+    var q = $obj.val();
+    var form = $obj.closest("form");
+    if (q.length > threshold) {
+        var xhr = form.data('jqxhr');
+        //If an ajax operation is already ongoing, then stop it.
+        if (typeof xhr !== "undefined") {
+            xhr.abort();
+        }
+        submitForm(form);
+    }
+}
