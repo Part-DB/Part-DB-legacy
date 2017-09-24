@@ -453,6 +453,7 @@ $(function(event){
     ajaxui.addStartAction(scrollUpForMsg);
     ajaxui.addStartAction(rightClickSubmit);
     ajaxui.addStartAction(makeTriStateCheckbox);
+    ajaxui.addStartAction(makeHighlight);
 
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
@@ -466,6 +467,7 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(scrollUpForMsg);
     ajaxui.addAjaxCompleteAction(rightClickSubmit);
     ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
+    ajaxui.addAjaxCompleteAction(makeHighlight);
 
     ajaxui.start();
 });
@@ -667,3 +669,12 @@ function livesearch(object : any, threshold : int) {
     form.removeClass("no-progbar");
 }
 
+
+function makeHighlight() {
+    let highlight = $("#highlight").val();
+    if(typeof highlight !== "undefined" && highlight != "") {
+        $("table").highlight(highlight, {
+            element: "span"
+        });
+    }
+}

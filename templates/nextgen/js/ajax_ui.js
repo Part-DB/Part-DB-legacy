@@ -362,6 +362,7 @@ $(function (event) {
     ajaxui.addStartAction(scrollUpForMsg);
     ajaxui.addStartAction(rightClickSubmit);
     ajaxui.addStartAction(makeTriStateCheckbox);
+    ajaxui.addStartAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
@@ -373,6 +374,7 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(scrollUpForMsg);
     ajaxui.addAjaxCompleteAction(rightClickSubmit);
     ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
+    ajaxui.addAjaxCompleteAction(makeHighlight);
     ajaxui.start();
 });
 function makeTriStateCheckbox() {
@@ -550,4 +552,12 @@ function livesearch(object, threshold) {
     }
     //Show progbar, when user presses submit button.
     form.removeClass("no-progbar");
+}
+function makeHighlight() {
+    var highlight = $("#highlight").val();
+    if (typeof highlight !== "undefined" && highlight != "") {
+        $("table").highlight(highlight, {
+            element: "span"
+        });
+    }
 }

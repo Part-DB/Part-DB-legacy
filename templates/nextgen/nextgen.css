@@ -290,4 +290,8 @@ a.link-collapse {
     color: #333;
 }
 
+span.highlight {
+    background-color: yellow;
+}
+
 
