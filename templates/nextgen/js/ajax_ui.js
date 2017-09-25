@@ -14,6 +14,7 @@ var AjaxUI = (function () {
         this.ajax_complete_listeners = [];
         this.start_listeners = [];
         this.trees_filled = false;
+        this.xhrPool = [];
         //Make back in the browser go back in history
         window.onpopstate = this.onPopState;
         $(document).ajaxError(this.onAjaxError.bind(this));
@@ -40,6 +41,9 @@ var AjaxUI = (function () {
         var page = window.location.pathname;
         //Set base path
         BASE = getBasePath();
+        var _this = this;
+        $.ajaxSetup({ beforeSend: function (jqXHR) { _this.xhrPool.push(jqXHR); }
+        });
         this.checkRedirect();
         //Only load start page when on index.php (and no content is loaded already)!
         if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
@@ -58,9 +62,11 @@ var AjaxUI = (function () {
      * Check if the Page should be redirected.
      */
     AjaxUI.prototype.checkRedirect = function () {
-        var redirect_url = $("input#redirect_url").val().toString();
-        if (redirect_url != "") {
-            openLink(redirect_url);
+        if ($("input#redirect_url").val() != null) {
+            var redirect_url = $("input#redirect_url").val().toString();
+            if (redirect_url != "") {
+                openLink(redirect_url);
+            }
         }
     };
     /**
@@ -181,11 +187,13 @@ var AjaxUI = (function () {
      */
     AjaxUI.prototype.registerLinks = function () {
         'use strict';
-        $("a").not(".link-anchor").not(".link-external").not(".tree-btns")
+        var _this = this;
+        $("a").not(".link-anchor").not(".link-collapse").not(".link-external").not(".tree-btns")
             .not(".back-to-top").not(".link-datasheet").unbind("click").click(function (event) {
             event.preventDefault();
             var a = $(this);
             var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
+            _this.abortAllAjax();
             $('#content').hide(0).load(href + " #content-data");
             $('#progressbar').show(0);
             return true;
@@ -212,6 +220,7 @@ var AjaxUI = (function () {
             $(this).treeview('toggleNodeSelected', data.nodeId);
         }
         else {
+            AjaxUI.getInstance().abortAllAjax();
             $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
             $('#progressbar').show();
         }
@@ -249,6 +258,22 @@ var AjaxUI = (function () {
         });
         this.trees_filled = true;
     };
+    /**
+     * Update the treeviews.
+     */
+    AjaxUI.prototype.updateTrees = function () {
+        this.tree_fill();
+    };
+    /**
+     * Aborts all currently active XHR requests.
+     */
+    AjaxUI.prototype.abortAllAjax = function () {
+        var _this = this;
+        $(this.xhrPool).each(function (i, jqXHR) {
+            jqXHR.abort(); //  aborts connection
+            _this.xhrPool.splice(i, 1); //  removes from list by index
+        });
+    };
     /********************************************************************************************
      * Common ajax functions
      ********************************************************************************************/
@@ -257,6 +282,10 @@ var AjaxUI = (function () {
      */
     AjaxUI.prototype.onAjaxError = function (event, request, settings) {
         'use strict';
+        //Ignore aborted requests.
+        if (request.statusText == 'abort') {
+            return;
+        }
         console.log(event);
         //If it was a server error and response is not empty, show it to user.
         if (request.status == 500 && request.responseText !== "") {
@@ -277,9 +306,6 @@ var AjaxUI = (function () {
             $('#progressbar').show(0);
         }
     };
-    AjaxUI.prototype.updateTrees = function () {
-        this.tree_fill();
-    };
     /**
      * Called whenever a Ajax Request was successful completed.
      * We use it to hide the progbar and show the requested content, register some elements on the page for ajax usage
@@ -289,6 +315,10 @@ var AjaxUI = (function () {
      * @param settings
      */
     AjaxUI.prototype.onAjaxComplete = function (event, xhr, settings) {
+        //Remove the current XHR request from XHR pool.
+        var i = this.xhrPool.indexOf(xhr); //  get index for current connection completed
+        if (i > -1)
+            this.xhrPool.splice(i, 1); //  removes from list by index
         //Hide progressbar and show Result
         $('#progressbar').hide(0);
         $('#content').fadeIn("fast");
@@ -358,6 +388,7 @@ $(function (event) {
     ajaxui.addStartAction(scrollUpForMsg);
     ajaxui.addStartAction(rightClickSubmit);
     ajaxui.addStartAction(makeTriStateCheckbox);
+    ajaxui.addStartAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
@@ -369,6 +400,7 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(scrollUpForMsg);
     ajaxui.addAjaxCompleteAction(rightClickSubmit);
     ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
+    ajaxui.addAjaxCompleteAction(makeHighlight);
     ajaxui.start();
 });
 function makeTriStateCheckbox() {
@@ -407,7 +439,7 @@ function makeSortTable() {
             "order": [],
             "columnDefs": [
                 {
-                    "targets": "_all", type: "natural-nohtml"
+                    "targets": [1], type: "natural-nohtml"
                 }, {
                     targets: 'no-sort', orderable: false
                 }
@@ -524,4 +556,47 @@ function registerAutoRefresh() {
  */
 $("#search-submit").click(function (event) {
     $("#searchbar").removeClass("in");
+});
+/**
+ * Implements the livesearch for the searchbar.
+ * @param object
+ * @param {int} threshold
+ */
+function livesearch(event, object, threshold) {
+    //Ignore enter key.
+    if (event.key == "Enter") {
+        return;
+    }
+    var $obj = $(object);
+    var q = $obj.val();
+    var form = $obj.closest("form");
+    //Dont show progbar on live search.
+    form.addClass("no-progbar");
+    if (q.length >= threshold) {
+        var xhr = form.data('jqxhr');
+        //If an ajax operation is already ongoing, then stop it.
+        if (typeof xhr !== "undefined") {
+            xhr.abort();
+        }
+        submitForm(form);
+    }
+    //Show progbar, when user presses submit button.
+    form.removeClass("no-progbar");
+}
+function makeHighlight() {
+    var highlight = $("#highlight").val();
+    if (typeof highlight !== "undefined" && highlight != "") {
+        $("table").highlight(highlight, {
+            element: "span"
+        });
+    }
+}
+//Need for proper body padding, with every navbar height
+$(window).resize(function () {
+    $('body').css('padding-top', parseInt($('#main-navbar').css("height")) + 10);
+    $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
+});
+$(window).load(function () {
+    $('body').css('padding-top', parseInt($('#main-navbar').css("height")) + 10);
+    $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
 });

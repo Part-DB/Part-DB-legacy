@@ -92,7 +92,7 @@
 <body>
 
     <header>
-        <nav class="navbar navbar-default navbar-fixed-top">
+        <nav class="navbar navbar-default navbar-fixed-top" id="main-navbar">
             <div class="container-fluid">
              <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -138,7 +138,7 @@
 
                     {if isset($can_search) && $can_search}
                     <!-- Searchbar -->
-                    <form class="navbar-form " action="{$relative_path}show_search_parts.php" method="get">
+                    <form class="navbar-form" action="{$relative_path}show_search_parts.php" method="get">
                             <div class="btn-group">
                                 <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                     {t}Suchoptionen{/t}
@@ -173,14 +173,12 @@
                                 </ul>
                             </div>
 
-                            <input type="search" class="form-control" placeholder="{t}Suche{/t}" name="keyword">
+                            <input type="search" class="form-control" placeholder="{t}Suche{/t}" name="keyword"
+                                {if $livesearch_active}onkeyup="livesearch(event, this, 2);"{/if}>
                             <button type="submit" id="search-submit" class="btn btn-default">{t}Los!{/t}</button>
                     </form>
                     {/if}
                 </div><!-- /.navbar-collapse -->
-
-
-
             </div><!-- /.container-fluid -->
         </nav>
     </header>
@@ -190,7 +188,7 @@
    
            <div class="row">
                 <aside class="hidden-print col-sm-3 col-md-2 sidebar-collapse collapse sidebar-container" id="sidebar">
-                    <nav class="fixed-sidebar">
+                    <nav class="fixed-sidebar" id="fixed-sidebar">
                         <div class="">
                             <ul class="nav navmenu-nav">
                             {if isset($can_category) && $can_category}

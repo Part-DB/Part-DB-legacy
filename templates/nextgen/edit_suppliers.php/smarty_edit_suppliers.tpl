@@ -41,7 +41,7 @@
                         <strong>{t}Neuen Lieferanten hinzufügen:{/t}</strong>
                     {else}
                         {if !empty($name)}
-                            <strong>{t}Lieferant bearbeiten:{/t} {$name}</strong>
+                            <strong>{t}Lieferant bearbeiten:{/t}</strong> <a href="show_supplier_parts.php?sid={$id}&subsup=0">{$name}</a>
                         {else}
                             <strong>{t}Es ist kein Lieferant angewählt!{/t}</strong>
                         {/if}
@@ -113,7 +113,7 @@
                     <label class="col-md-3 control-label">{t}Webseite:{/t}</label>
                     <div class="col-md-9">
                         {if isset($website)}
-                        <a href="{$website}" target="_blank">{$website}</a><br>
+                        <a href="{$website}" target="_blank" rel="noopener">{$website}</a><br>
                         {/if}
                         <input type="url" class="form-control" name="website" value="{if isset($website)}{$website}{/if}"
                                placeholder="{t}z.B. www.foo.bar{/t}" {if !$can_edit}disabled{/if}>

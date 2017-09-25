@@ -21,6 +21,8 @@ class AjaxUI {
 
     private trees_filled : boolean = false;
 
+    private xhrPool : Array<JQueryXHR> = []
+
     /**
      * Creates a new AjaxUI object.
      */
@@ -60,6 +62,12 @@ class AjaxUI {
         //Set base path
         BASE = getBasePath();
 
+        let _this = this;
+
+        $.ajaxSetup(
+            {beforeSend: function(jqXHR) { _this.xhrPool.push(jqXHR); }
+            });
+
         this.checkRedirect();
 
         //Only load start page when on index.php (and no content is loaded already)!
@@ -83,9 +91,11 @@ class AjaxUI {
      */
     public checkRedirect()
     {
-        let redirect_url : string = $("input#redirect_url").val().toString();
-        if(redirect_url != "") {
-            openLink(redirect_url);
+        if($("input#redirect_url").val() != null) {
+            let redirect_url : string = $("input#redirect_url").val().toString();
+            if(redirect_url != "") {
+                openLink(redirect_url);
+            }
         }
     }
 
@@ -227,11 +237,15 @@ class AjaxUI {
      */
     private registerLinks() : void {
         'use strict';
-        $("a").not(".link-anchor").not(".link-external").not(".tree-btns")
+        var _this = this;
+
+        $("a").not(".link-anchor").not(".link-collapse").not(".link-external").not(".tree-btns")
             .not(".back-to-top").not(".link-datasheet").unbind("click").click(function (event) {
             event.preventDefault();
             let a = $(this);
             let href : string = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
+
+            _this.abortAllAjax();
 
             $('#content').hide(0).load(href + " #content-data");
             $('#progressbar').show(0);
@@ -264,6 +278,7 @@ class AjaxUI {
         }
         else
         {
+            AjaxUI.getInstance().abortAllAjax();
             $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
             $('#progressbar').show();
         }
@@ -312,6 +327,27 @@ class AjaxUI {
         this.trees_filled = true;
     }
 
+
+    /**
+     * Update the treeviews.
+     */
+    public updateTrees()
+    {
+        this.tree_fill();
+    }
+
+    /**
+     * Aborts all currently active XHR requests.
+     */
+    public abortAllAjax()
+    {
+        let _this = this;
+        $(this.xhrPool).each(function(i, jqXHR : JQueryXHR) {   //  cycle through list of recorded connection
+            jqXHR.abort();  //  aborts connection
+            _this.xhrPool.splice(i, 1); //  removes from list by index
+        });
+    }
+
     /********************************************************************************************
      * Common ajax functions
      ********************************************************************************************/
@@ -321,6 +357,11 @@ class AjaxUI {
      */
     private onAjaxError (event, request, settings) {
         'use strict';
+        //Ignore aborted requests.
+        if (request.statusText =='abort') {
+            return;
+        }
+
         console.log(event);
         //If it was a server error and response is not empty, show it to user.
         if(request.status == 500 && request.responseText !== "")
@@ -345,10 +386,6 @@ class AjaxUI {
         }
     }
 
-    public updateTrees()
-    {
-        this.tree_fill();
-    }
 
     /**
      * Called whenever a Ajax Request was successful completed.
@@ -358,7 +395,11 @@ class AjaxUI {
      * @param xhr
      * @param settings
      */
-    private onAjaxComplete (event, xhr, settings) {
+    private onAjaxComplete (event, xhr, settings)
+    {
+        //Remove the current XHR request from XHR pool.
+        let i = this.xhrPool.indexOf(xhr);   //  get index for current connection completed
+        if (i > -1) this.xhrPool.splice(i, 1); //  removes from list by index
 
         //Hide progressbar and show Result
         $('#progressbar').hide(0);
@@ -446,6 +487,7 @@ $(function(event){
     ajaxui.addStartAction(scrollUpForMsg);
     ajaxui.addStartAction(rightClickSubmit);
     ajaxui.addStartAction(makeTriStateCheckbox);
+    ajaxui.addStartAction(makeHighlight);
 
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
@@ -459,6 +501,7 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(scrollUpForMsg);
     ajaxui.addAjaxCompleteAction(rightClickSubmit);
     ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
+    ajaxui.addAjaxCompleteAction(makeHighlight);
 
     ajaxui.start();
 });
@@ -502,7 +545,7 @@ function makeSortTable() {
             "order": [],
             "columnDefs": [
                 {
-                "targets": "_all", type: "natural-nohtml"
+                "targets": [1], type: "natural-nohtml"
                 }, {
                     targets: 'no-sort', orderable: false
                 }]
@@ -637,3 +680,53 @@ $("#search-submit").click(function (event) {
     $("#searchbar").removeClass("in");
 });
 
+/**
+ * Implements the livesearch for the searchbar.
+ * @param object
+ * @param {int} threshold
+ */
+function livesearch(event, object : any, threshold : int) {
+
+    //Ignore enter key.
+    if(event.key == "Enter") {
+        return;
+    }
+
+    let $obj = $(object);
+    let q = <string> $obj.val();
+    let form = $obj.closest("form");
+    //Dont show progbar on live search.
+    form.addClass("no-progbar");
+    if(q.length >= threshold) {
+        let xhr = form.data('jqxhr');
+        //If an ajax operation is already ongoing, then stop it.
+        if(typeof xhr !== "undefined") {
+            xhr.abort();
+        }
+        submitForm(form);
+    }
+    //Show progbar, when user presses submit button.
+    form.removeClass("no-progbar");
+}
+
+
+function makeHighlight() {
+    let highlight = $("#highlight").val();
+    if(typeof highlight !== "undefined" && highlight != "") {
+        $("table").highlight(highlight, {
+            element: "span"
+        });
+    }
+}
+
+//Need for proper body padding, with every navbar height
+$(window).resize(function () {
+    $('body').css('padding-top', parseInt($('#main-navbar').css("height"))+10);
+    $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
+});
+
+$(window).load(function () {
+    $('body').css('padding-top', parseInt($('#main-navbar').css("height"))+10);
+
+    $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
+});

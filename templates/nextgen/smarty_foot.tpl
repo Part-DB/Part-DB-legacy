@@ -60,6 +60,9 @@
     <!-- FileInput -->
     <script src="{$relative_path}js/fileinput.min.js" async></script>
 
+    <!-- JQuery Highlight -->
+    <script src="{$relative_path}js/jquery.highlight.js" async></script>
+
     <!-- Functions -->
     <script src="{$relative_path}templates/nextgen/js/functions.js" async></script>
     <script src="{$relative_path}templates/nextgen/js/ajax_ui.js" async></script>

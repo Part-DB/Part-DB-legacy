@@ -43,7 +43,7 @@
             {if isset($release_archive_link)}
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="download" href="{$release_archive_link}">{t}Download{/t} "{$release_archive_basename}"</a>
             {/if}
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" class="link-external" href="{$packing_checklist_link}">{t}Checkliste{/t}</a>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a target="_blank" rel="noopener" class="link-external" href="{$packing_checklist_link}">{t}Checkliste{/t}</a>
             <div class="checkbox">
                 <input class="styled" type="checkbox" name="trim_exec_output" checked>
                 <label for="trim_exec_output">{t}Ausgabe stutzen (nur die ersten und letzten 20 Einträge anzeigen){/t}</label>

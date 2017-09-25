@@ -3,7 +3,7 @@
 <!--suppress Annotator -->
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <i class="fa fa-info-circle" aria-hidden="true"></i>&nbsp;
+        <i class="fa fa-info-circle fa-fw" aria-hidden="true"></i>
         {t}Detailinfo zu{/t} <b>"{$name}"</b>
         <div class="pull-right">
             {t}ID:{/t} {$pid}
@@ -141,9 +141,9 @@
                         <div class="col-md-12">
                             <label for="n_less">{t}Teile entnehmen:{/t}</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="n_less" min="0" max="999" value="1" placeholder="Anzahl" {if !$can_instock}disabled{/if}>
+                                <input type="number" class="form-control" name="n_less" min="0" max="999" value="1" placeholder="Anzahl" {if !$can_instock || $instock_unknown}disabled{/if}>
                                 <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-default" name="dec" {if !$can_instock}disabled{/if}>{t}Entnehmen{/t}</button>
+                                            <button type="submit" class="btn btn-default" name="dec" {if !$can_instock || $instock_unknown}disabled{/if}>{t}Entnehmen{/t}</button>
                                         </span>
                             </div>
                         </div>
@@ -158,9 +158,9 @@
                         <div class="col-md-12">
                             <label for="n_more">{t}Teile hinzufügen{/t}</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="n_more" min="0" max="999" value="1" {if !$can_instock}disabled{/if}>
+                                <input type="number" class="form-control" name="n_more" min="0" max="999" value="1" {if !$can_instock || $instock_unknown}disabled{/if}>
                                 <span class="input-group-btn">
-                                            <button type="submit" class="btn btn-default" name="inc" {if !$can_instock}disabled{/if}>{t}Hinzufügen{/t}</button>
+                                            <button type="submit" class="btn btn-default" name="inc" {if !$can_instock || $instock_unknown}disabled{/if}>{t}Hinzufügen{/t}</button>
                                         </span>
                             </div>
                         </div>
@@ -169,7 +169,7 @@
 
                 <p></p>
 
-                {if $can_order_read}
+                {if $can_order_read && !$instock_unknown}
                 <form action="" method="post" class="hidden-print no-progbar">
                     <input type="hidden" name="pid" value="{$pid}">
                     <div class="row">
@@ -218,14 +218,14 @@
                 <form action="show_part_label.php" class="hidden-print">
                     <input type="hidden" name="pid" value="{$pid}">
                     <input type="hidden" name="label_generate">
-                    <button type="submit" class="btn btn-default btn-block"><i class="fa fa-barcode" aria-hidden="true"></i>
+                    <button type="submit" class="btn btn-default btn-block"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
                         {t}Barcode erzeugen{/t}</button>
                 </form>
 
                 <p></p>
 
                 <div class="form-group hidden-print">
-                    <button type="button" class="btn btn-default btn-block" onclick="window.print();"><i class="fa fa-print" aria-hidden="true"></i>
+                    <button type="button" class="btn btn-default btn-block" onclick="window.print();"><i class="fa fa-print fa-fw" aria-hidden="true"></i>
                         {t}Übersicht drucken{/t}
                     </button>
                 </div>

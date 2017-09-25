@@ -294,6 +294,7 @@ if (! $fatal_error) {
     $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
     $html->setVariable('popup_width', $config['popup']['width'], 'integer');
     $html->setVariable('popup_height', $config['popup']['height'], 'integer');
+    $html->setVariable('highlighting', $config['search']['highlighting'], 'boolean');
 }
 
 /********************************************************************************

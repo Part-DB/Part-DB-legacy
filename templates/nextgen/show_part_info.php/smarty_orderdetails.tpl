@@ -2,86 +2,89 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <i class="fa fa-shopping-cart" aria-hidden="true"></i>&nbsp;
-        {t}Einkaufsinformationen{/t}
+        <a data-toggle="collapse" class="link-collapse text-default" href="#panel-orderdetails"><i class="fa fa-shopping-cart fa-fw" aria-hidden="true"></i>
+            {t}Einkaufsinformationen{/t}
+        </a>
     </div>
     {if isset($orderdetails) && $orderdetails}
-        <div class="table-responsive">
-            <table class="table table-striped table-header">
-                <thead>
-                <tr class="trcat">
-                    <th>{t}Lieferant{/t}</th>
-                    <th>{t}Bestellnummer{/t}</th>
-                    <th>{t}Ab Bestellmenge{/t}</th>
-                    <th>{t}Preis{/t}</th>
-                    <th>{t}Einzelpreis{/t}</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                {foreach $orderdetails as $order}
-                    <!--the alternating background colors are created here-->
-                    <tr class="">
-                        <td class="tdrow1{if $order.obsolete} backred{/if}">
-                            {$order.supplier_full_path}
-                        </td>
-
-                        <td class="tdrow1{if $order.obsolete} backred{/if}">
-                            {if isset($order.supplier_product_url) && !empty($order.supplier_product_url)}
-                                <a title="{$order.supplier_product_url}" target="_blank" class="hidden-print-href link-external" href="{$order.supplier_product_url}">{$order.supplierpartnr}</a>
-                            {else}
-                                {$order.supplierpartnr}
-                            {/if}
-                        </td>
-
-                        <td class="tdrow2{if $order.obsolete} backred{/if}">
-                            <table border="0" cellspacing="0" cellpadding="0" width="100%">
-                                {foreach $order.pricedetails as $price}
-                                    <tr>
-                                        <td class="tdrow2">
-                                            {$price.min_discount_quantity}
-                                        </td>
-                                    </tr>
-                                {/foreach}
-                            </table>
-                        </td>
-
-                        <td class="tdrow1{if $order.obsolete} backred{/if}">
-                            <table border="0" cellspacing="0" cellpadding="0" width="100%">
-                                {foreach $order.pricedetails as $price}
-                                    <tr>
-                                        <td class="tdrow2">
-                                            {$price.price} / {$price.price_related_quantity}Stk.
-                                        </td>
-                                    </tr>
-                                {/foreach}
-                            </table>
-                        </td>
-
-                        <td class="tdrow2{if $order.obsolete} backred{/if}">
-                            <table>
-                                {foreach $order.pricedetails as $price}
-                                    <tr>
-                                        <td class="tdrow2">
-                                            {$price.single_price}
-                                        </td>
-                                    </tr>
-                                {/foreach}
-                            </table>
-                        </td>
+        <div class="panel-collapse collapse in" id="panel-orderdetails">
+            <div class="table-responsive " >
+                <table class="table table-striped table-header">
+                    <thead>
+                    <tr class="trcat">
+                        <th>{t}Lieferant{/t}</th>
+                        <th>{t}Bestellnummer{/t}</th>
+                        <th>{t}Ab Bestellmenge{/t}</th>
+                        <th>{t}Preis{/t}</th>
+                        <th>{t}Einzelpreis{/t}</th>
                     </tr>
-                {/foreach}
-                </tbody>
-            </table>
-        </div>
-        {if isset($average_price)}
-            <div class="panel-body">
-                <b>{t}Durchschnittspreis für 1 Stk.:{/t} {$average_price}</b>
+                    </thead>
+
+                    <tbody>
+                    {foreach $orderdetails as $order}
+                        <!--the alternating background colors are created here-->
+                        <tr class="">
+                            <td class="tdrow1{if $order.obsolete} backred{/if}">
+                                <a href="{$relative_path}show_supplier_parts.php?sid={$order.supplier_id}&subsup=0">{$order.supplier_full_path}</a>
+                            </td>
+
+                            <td class="tdrow1{if $order.obsolete} backred{/if}">
+                                {if isset($order.supplier_product_url) && !empty($order.supplier_product_url)}
+                                    <a title="{$order.supplier_product_url}" rel="noopener" target="_blank" class="hidden-print-href link-external" href="{$order.supplier_product_url}">{$order.supplierpartnr}</a>
+                                {else}
+                                    {$order.supplierpartnr}
+                                {/if}
+                            </td>
+
+                            <td class="tdrow2{if $order.obsolete} backred{/if}">
+                                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                    {foreach $order.pricedetails as $price}
+                                        <tr>
+                                            <td class="tdrow2">
+                                                {$price.min_discount_quantity}
+                                            </td>
+                                        </tr>
+                                    {/foreach}
+                                </table>
+                            </td>
+
+                            <td class="tdrow1{if $order.obsolete} backred{/if}">
+                                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                                    {foreach $order.pricedetails as $price}
+                                        <tr>
+                                            <td class="tdrow2">
+                                                {$price.price} / {$price.price_related_quantity}Stk.
+                                            </td>
+                                        </tr>
+                                    {/foreach}
+                                </table>
+                            </td>
+
+                            <td class="tdrow2{if $order.obsolete} backred{/if}">
+                                <table>
+                                    {foreach $order.pricedetails as $price}
+                                        <tr>
+                                            <td class="tdrow2">
+                                                {$price.single_price}
+                                            </td>
+                                        </tr>
+                                    {/foreach}
+                                </table>
+                            </td>
+                        </tr>
+                    {/foreach}
+                    </tbody>
+                </table>
             </div>
-        {/if}
+            {if isset($average_price)}
+                <div class="panel-body" style="padding-top: 0px;">
+                    <b>{t}Durchschnittspreis für 1 Stk.:{/t} {$average_price}</b>
+                </div>
+            {/if}
+        </div>
 
     {else}
-        <div class="panel-body">
+        <div class="panel-body panel-collapse collapse in" id="panel-orderdetails">
             <!-- This a have not to have link-anchor class -->
             {t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}
             <a class="btn btn-default pull-right hidden-print"

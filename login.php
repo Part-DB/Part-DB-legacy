@@ -71,8 +71,13 @@ if (!$fatal_error) {
             $html->setVariable('loggedout', true);
             break;
         case "login":
-            $user               = User::getUserByName($database, $log, $user_name);
-            $pw_valid           = User::login($user, $password);
+            try {
+                $user               = User::getUserByName($database, $log, $user_name);
+                $pw_valid           = User::login($user, $password);
+            } catch (Exception $ex) {
+                $pw_valid = false;
+            }
+
             $html->setVariable("pw_valid", $pw_valid, "boolean");
             if (User::isLoggedIn()) {
                 $html->setVariable("refresh_navigation_frame", true, "boolean");
