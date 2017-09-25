@@ -165,6 +165,7 @@ $config['table']['default_show_subcategories']   = true;    //Show the subcatego
 
 //Search settings
 $config['search']['livesearch']                  = true;
+$config['search']['highlighting']                = true;
 
 //Attachements settings
 $config['attachements']['folder_structure']     = false;    //Put attachements in a folder structure, similar to the categories.
@@ -207,7 +208,7 @@ $config['system']['version']                            = '0.4.0.RC1';  // examp
 $config['system']['latest_config_version']              = 2; // only increase for one!
 
 // minimum requirements of the system (PHP, PHP Modules, Apache, ...) [used in "install.php"]
-$config['requirements']['php_version']                  = '5.3.0';
+$config['requirements']['php_version']                  = '5.4.0';
 $config['requirements']['pdo']                          = true; // PDO must be installed
 
 // HTTP charsets* (the key is used for the HTML header, the value is only used for displaying)
@@ -223,12 +224,6 @@ $config['db_charsets']['utf8']                          = 'UTF-8 Unicode (utf8)'
 //$config['db_charsets']['latin2']                        = 'ISO 8859-2 Central European (latin2)';
 //$config['db_charsets']['cp1250']                        = 'Windows Central European (cp1250)';
 //$config['db_charsets']['macce']                         = 'Mac Central European (macce)';
-
-// timezones* (the key is used for "date_default_timezone_set()", the value is only used for displaying)
-$config['timezones']['UTC']                             = 'UTC';
-$config['timezones']['Europe/Berlin']                   = 'Europe/Berlin';
-$config['timezones']['Europe/London']                   = 'Europe/London';
-$config['timezones']['Europe/Zurich']                   = 'Europe/Zurich';
 
 // languages (the key is used for "setlocale()", the value is only used for displaying)
 $config['languages']['POSIX']                           = '[POSIX] C-Standard';
@@ -247,20 +242,22 @@ $config['languages']['en_US']                           = '[en_US] English (Unit
 // table settings
 // available columns:       hover_picture,id,name,description,name_description,comment,instock,mininstock,instock_mininstock,category,footprint,manufacturer,
 //                          storelocation, suppliers,datasheets,button_increment,button_decrement,average_single_price,single_prices,supplier_partnrs,attachements
-$config['table']['category_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
+$config['table']['category_parts']['columns']           = 'hover_picture;name;description;instock;mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
 //$config['table']['search_parts']['columns']             = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices;datasheets;attachements;button_decrement;button_increment';
 $config['table']['search_parts']['columns']             = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices;datasheets;button_decrement;button_increment;button_edit';
 $config['table']['search_parts_category']['columns']    = 'hover_picture;name;description;category;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;datasheets;button_decrement;button_increment;button_edit';
 $config['table']['obsolete_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices';
 $config['table']['noprice_parts']['columns']            = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;button_edit';
+$config['table']['unknown_instock_parts']['columns']    = 'hover_picture;name;description;mininstock;footprint;storelocation;suppliers;supplier_partnrs;button_edit';
 $config['table']['order_parts']['columns']              = 'hover_picture;name_description;instock_mininstock;footprint;storelocation;suppliers_radiobuttons;supplier_partnrs;single_prices;total_prices;order_quantity_edit;order_options';
 $config['table']['searched_device_parts']['columns']    = 'hover_picture;quantity_edit;mountnames_edit;name;description;footprint;storelocation';
 $config['table']['device_parts']['columns']             = 'hover_picture;name_description;quantity_edit;mountnames_edit;footprint;instock;storelocation;suppliers;supplier_partnrs;single_prices;total_prices';
 $config['table']['imported_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices;datasheets;attachements';
-$config['table']['location_parts']['columns']           = 'hover_picture;name;description;category;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
-$config['table']['footprint_parts']['columns']          = 'hover_picture;name;description;category;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
-$config['table']['manufacturer_parts']['columns']       = 'hover_picture;name;description;category;instock_mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
-$config['table']['all_parts']['columns']                = 'hover_picture;name;description;category;instock_mininstock;footprint;storelocation;button_edit';
+$config['table']['location_parts']['columns']           = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
+$config['table']['footprint_parts']['columns']          = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
+$config['table']['manufacturer_parts']['columns']       = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
+$config['table']['supplier_parts']['columns']           = 'hover_picture;name;description;category;instock_mininstock;storelocation;supplier_partnrs;single_prices;button_decrement;button_increment;button_edit';
+$config['table']['all_parts']['columns']                = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;button_edit';
 
 // export configurations for order parts*
 $config['export']['orderparts'][0]['format']            = 'CSV';

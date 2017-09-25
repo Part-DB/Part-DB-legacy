@@ -1048,6 +1048,9 @@ function buildToolsTree($params)
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::ALL_PARTS)) {
         $show_nodes[] = treeviewNode(_("Alle Teile"), BASE_RELATIVE . "/show_all_parts.php");
     }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Teile mit unbekanntem Lagerbestand"), BASE_RELATIVE . "/show_unknown_instock_parts.php");
+    }
 
     //Edit nodes
     $edit_nodes = array();
@@ -1372,4 +1375,19 @@ function parseTristateCheckbox($tristate_data) {
         case "indeterminate":
             return 0;
     }
+}
+
+/**
+ * Format the current timestamp regarding to the locale settings.
+ * @param $timestamp
+ */
+function formatTimestamp($timestamp) {
+    global $config;
+    $formatter = $formatter = new IntlDateFormatter(
+        $config['language'],
+        IntlDateFormatter::MEDIUM,
+        IntlDateFormatter::MEDIUM,
+        $config['timezone']);
+
+    return $formatter->format($timestamp);
 }

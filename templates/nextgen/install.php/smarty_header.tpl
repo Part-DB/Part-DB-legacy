@@ -50,6 +50,12 @@
     <!-- jQuery Form lib -->
     <script src="{$relative_path}js/jquery.form.min.js"></script>
 
+    <!-- Bootstrap select -->
+    <link rel="stylesheet" href="{$relative_path}css/bootstrap-select.min.css">
+    <!-- Bootstrap-select -->
+    <script src="{$relative_path}js/bootstrap-select.min.js"></script>
+    <script src="{$relative_path}js/i18n/defaults-de_DE.js"></script>
+
     <!-- Functions -->
     <!-- <script src="{$relative_path}templates/nextgen/js/part-db.js"></script> -->
 

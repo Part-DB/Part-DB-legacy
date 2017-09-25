@@ -1,9 +1,10 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
     <div class="panel-heading">{t}Unterbaugruppen von{/t} "{$device_name}"</div>
+    <form method="post" class="no-progbar">
         <table class="table table-striped table-hover">
             <thead>
-                <tr class="trcat">
+                <tr class="">
                     <th>{t}Name{/t}</th>
                     <th>{t}Anzahl versch. Teile{/t}</th>
                     <th>{t}Anzahl Einzelteile{/t}</th>
@@ -15,8 +16,12 @@
             {foreach $subdevices as $dev}
                 <!--the alternating background colors are created here-->
                 <tr>
-                    <td class="tdrow1">
-                        <a href="show_device_parts.php?device_id={$dev.id}">{$dev.name}</a>
+                    <td>
+                        <div class="radio" style="width: 10px">
+                            <input type="radio" name="primary_device" value="{$dev.id}"
+                                   onchange="submitForm($(this).closest('form'));" {if $dev.is_primary}checked{/if}>
+                            <label><a href="show_device_parts.php?device_id={$dev.id}">{$dev.name}</a></label>
+                        </div>
                     </td>
                     <td class="tdrow2">
                         {$dev.parts_count}
@@ -33,7 +38,9 @@
             {/foreach}
             </tbody>
         </table>
+    </form>
     <div class="panel-body">
         <b>{t}Alle Angaben betreffen nur die jeweilige Baugruppe, deren evtl. vorhandenen Unterbaugruppen werden nicht berücksichtigt!{/t}</b>
+        <p>{t}Mit dem Radiobuttons lässen sich die Primäre Baugruppe auswählen. Diese wird standardmäßig verwendet, wenn man auf der Übersichtsseite eines Bauteils, das Bauteil einer Baugruppe hinzugefügt wird.{/t}</p>
     </div>
 </div>

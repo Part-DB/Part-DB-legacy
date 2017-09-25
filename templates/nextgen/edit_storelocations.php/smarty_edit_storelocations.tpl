@@ -58,7 +58,7 @@
                         <strong>{t}Neuen Lagerort hinzufügen:{/t}</strong>
                     {else}
                         {if isset($name)}
-                            <strong>{t}Lagerort bearbeiten:{/t} <a href="show_location_parts.php?lid={$id}&subloc=0">{$name}</a></strong>
+                            <strong>{t}Lagerort bearbeiten:{/t}</strong> <a href="show_location_parts.php?lid={$id}&subloc=0">{$name}</a>
                         {else}
                             <strong>{t}Es ist kein Lagerort angewählt!{/t}</strong>
                         {/if}

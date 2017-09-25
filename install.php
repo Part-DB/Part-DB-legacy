@@ -197,7 +197,13 @@ if (! $fatal_error) {
     if (! $config['installation_complete']['locales']) {
         // step "set_locales"
         $tmpl_site_to_show = 'set_locales';
-        $html->setLoop('timezone_loop', arrayToTemplateLoop($config['timezones'], $config['timezone']));
+        //Convert timezonelist, to a format, we can use
+        $timezones_raw = DateTimeZone::listIdentifiers();
+        $timezones = array();
+        foreach ($timezones_raw as $timezone) {
+            $timezones[$timezone] = $timezone;
+        }
+        $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
         $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
     } elseif (! $config['installation_complete']['admin_password']) {
         $tmpl_site_to_show = 'set_admin_password';

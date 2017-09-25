@@ -135,6 +135,7 @@ $default_subcat             = isset($_REQUEST['default_subcat']);
 
 //Search settings
 $livesearch_active          = isset($_REQUEST['livesearch_active']);
+$search_highlighting        = isset($_REQUEST['search_highlighting']);
 
 //Attachement settings
 $attachements_structure     = isset($_REQUEST['attachements_structure']);
@@ -219,6 +220,7 @@ if (! $fatal_error) {
             $config['properties']['active']             = $properties_active;
 
             $config['search']['livesearch']             = $livesearch_active;
+            $config['search']['highlighting']           = $search_highlighting;
 
             $config['edit_parts']['created_go_to_info']      = $created_redirect;    //Jump to info page of a part, if a new part was created
             $config['edit_parts']['saved_go_to_info']        = $saved_redirect;
@@ -309,7 +311,14 @@ $html->setLoop('theme_loop', build_theme_loop());
 $html->setLoop('custom_css_loop', build_custom_css_loop());
 
 // locale settings
-$html->setLoop('timezone_loop', arrayToTemplateLoop($config['timezones'], $config['timezone']));
+
+//Convert timezonelist, to a format, we can use
+$timezones_raw = DateTimeZone::listIdentifiers();
+$timezones = array();
+foreach ($timezones_raw as $timezone) {
+    $timezones[$timezone] = $timezone;
+}
+$html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
 $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
 
 // checkboxes
@@ -383,6 +392,7 @@ $html->setVariable('gravatar_enable', $config['user']['avatars']['use_gravatar']
 
 //Search
 $html->setVariable('livesearch_active', $config['search']['livesearch']);
+$html->setVariable('search_highlighting', $config['search']['highlighting']);
 
 // check if the server supports the selected language and print a warning if not
 if (! ownSetlocale(LC_ALL, $config['language'])) {

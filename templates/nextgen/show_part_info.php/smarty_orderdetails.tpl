@@ -25,7 +25,7 @@
                         <!--the alternating background colors are created here-->
                         <tr class="">
                             <td class="tdrow1{if $order.obsolete} backred{/if}">
-                                {$order.supplier_full_path}
+                                <a href="{$relative_path}show_supplier_parts.php?sid={$order.supplier_id}&subsup=0">{$order.supplier_full_path}</a>
                             </td>
 
                             <td class="tdrow1{if $order.obsolete} backred{/if}">
