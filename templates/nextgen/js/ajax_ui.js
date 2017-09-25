@@ -536,7 +536,11 @@ $("#search-submit").click(function (event) {
  * @param object
  * @param {int} threshold
  */
-function livesearch(object, threshold) {
+function livesearch(event, object, threshold) {
+    //Ignore enter key.
+    if (event.key == "Enter") {
+        return;
+    }
     var $obj = $(object);
     var q = $obj.val();
     var form = $obj.closest("form");
