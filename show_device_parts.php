@@ -120,6 +120,9 @@ if (isset($_REQUEST['check_import_data'])) {
 if (isset($_REQUEST['import_data'])) {
     $action = 'import';
 }
+if (isset($_REQUEST['primary_device'])) {
+    $action = "primary_device";
+}
 
 /********************************************************************************
  *
@@ -139,7 +142,7 @@ try {
 
     //Check for Device parts read permission, when on Device detail page.
     if ($device_id > 0){
-       $current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ);
+        $current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ);
     }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -323,6 +326,12 @@ if (! $fatal_error) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
             break;
+        case 'primary_device':
+            $id = (int) $_REQUEST['primary_device'];
+            if ($id > 0) {
+                Device::setPrimaryDevice($id);
+            }
+            break;
     }
 }
 
@@ -348,7 +357,8 @@ if (! $fatal_error) {
                 'name'                  => $subdevice->getName(),
                 'parts_count'           => $subdevice->getPartsCount(),
                 'parts_sum_count'       => $subdevice->getPartsSumCount(),
-                'sum_price'             => $subdevice->getTotalPrice(true, false)
+                'sum_price'             => $subdevice->getTotalPrice(true, false),
+                'is_primary'            => $subdevice->getID() == Device::getPrimaryDevice()
             );
 
             $row_odd = ! $row_odd;

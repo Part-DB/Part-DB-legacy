@@ -503,6 +503,31 @@ class Device extends Base\PartsContainingDBElement
     }
 
     /**
+     * Gets the primary device of this session. When a device is primary, it is preselected, when the user want to add a part to an device.
+     * @return null|int Null, if none or no valid value is set for a primary device. Int, the device id of the primary device.
+     */
+    public static function getPrimaryDevice()
+    {
+        if (!isset($_SESSION['primary_device'])) {
+            return null;
+        }
+        if ($_SESSION['primary_device'] > 0) {
+            return $_SESSION['primary_device'];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Sets the primary device.
+     * @param $primary_device_id int The id of the new primary device.
+     */
+    public static function setPrimaryDevice($primary_device_id)
+    {
+        $_SESSION['primary_device'] = $primary_device_id;
+    }
+
+    /**
      *  Create a new device
      *
      * @param Database  &$database                  reference to the database object

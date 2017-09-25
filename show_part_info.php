@@ -303,7 +303,7 @@ if (! $fatal_error) {
         }
 
         $root_device = new Device($database, $current_user, $log, 0);
-        $html->setVariable("devices_list", $root_device->buildHtmlTree(null, true, false), "string");
+        $html->setVariable("devices_list", $root_device->buildHtmlTree(Device::getPrimaryDevice(), true, false), "string");
 
         if (count($devices_loop) > 0) {
             $html->setLoop('devices_loop', $devices_loop);
