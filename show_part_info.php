@@ -182,7 +182,8 @@ if (! $fatal_error) {
         $html->setVariable('description', $part->getDescription(), 'string');
         $html->setVariable('category_full_path', $part->getCategory()->getFullPath(), 'string');
         $html->setVariable('category_id', $part->getCategory()->getID(), 'string');
-        $html->setVariable('instock', $part->getInstock(), 'integer');
+        $html->setVariable('instock', $part->getInstock(true), 'string');
+        $html->setVariable('instock_unknown', $part->isInstockUnknown(), 'boolean');
         $html->setVariable('mininstock', $part->getMinInstock(), 'integer');
         $html->setVariable('visible', $part->getVisible(), 'boolean');
         $html->setVariable('comment', nl2br($part->getComment()), 'string');
@@ -196,7 +197,7 @@ if (! $fatal_error) {
         $html->setVariable('manufacturer_full_path', (is_object($manufacturer) ? $manufacturer->getFullPath() : '-'), 'string');
         $html->setVariable('manufacturer_id', (is_object($manufacturer) ? $manufacturer->getID() : 0), 'integer');
         $html->setVariable('category_full_path', (is_object($category) ? $category->getFullPath() : '-'), 'string');
-        $html->setVariable('auto_order_exists', ($part->getInstock() < $part->getMinInstock()), 'boolean');
+        $html->setVariable('auto_order_exists', ($part->getAutoOrder()), 'boolean');
         $html->setVariable('manual_order_exists', ($part->getManualOrder() && ($part->getInstock() >= $part->getMinInstock())), 'boolean');
 
         $html->setVariable('last_modified', $part->getLastModified(), 'string');
