@@ -41,7 +41,7 @@
                         <strong>{t}Neuen Lieferanten hinzufügen:{/t}</strong>
                     {else}
                         {if !empty($name)}
-                            <strong>{t}Lieferant bearbeiten:{/t} <a href="show_supplier_parts.php?sid={$id}&subsup=0">{$name}</a></strong>
+                            <strong>{t}Lieferant bearbeiten:{/t}</strong> <a href="show_supplier_parts.php?sid={$id}&subsup=0">{$name}</a>
                         {else}
                             <strong>{t}Es ist kein Lieferant angewählt!{/t}</strong>
                         {/if}

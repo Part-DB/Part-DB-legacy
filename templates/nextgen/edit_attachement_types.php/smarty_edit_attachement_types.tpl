@@ -41,7 +41,7 @@
                             <strong>{t}Neuen Dateityp hinzufügen:{/t}</strong>
                         {else}
                             {if isset($name)}
-                                <strong>{t}Dateityp bearbeiten:{/t} {$name}</strong>
+                                <strong>{t}Dateityp bearbeiten:{/t}</strong> {$name}
                             {else}
                                 <strong>{t}Es ist keine Dateityp angewählt!{/t}</strong>
                             {/if}
