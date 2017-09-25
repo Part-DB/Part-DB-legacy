@@ -62,9 +62,11 @@ var AjaxUI = (function () {
      * Check if the Page should be redirected.
      */
     AjaxUI.prototype.checkRedirect = function () {
-        var redirect_url = $("input#redirect_url").val().toString();
-        if (redirect_url != "") {
-            openLink(redirect_url);
+        if ($("input#redirect_url").val() != null) {
+            var redirect_url = $("input#redirect_url").val().toString();
+            if (redirect_url != "") {
+                openLink(redirect_url);
+            }
         }
     };
     /**

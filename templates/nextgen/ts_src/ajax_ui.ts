@@ -91,9 +91,11 @@ class AjaxUI {
      */
     public checkRedirect()
     {
-        let redirect_url : string = $("input#redirect_url").val().toString();
-        if(redirect_url != "") {
-            openLink(redirect_url);
+        if($("input#redirect_url").val() != null) {
+            let redirect_url : string = $("input#redirect_url").val().toString();
+            if(redirect_url != "") {
+                openLink(redirect_url);
+            }
         }
     }
 
