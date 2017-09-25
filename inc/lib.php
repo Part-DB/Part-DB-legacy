@@ -1376,3 +1376,18 @@ function parseTristateCheckbox($tristate_data) {
             return 0;
     }
 }
+
+/**
+ * Format the current timestamp regarding to the locale settings.
+ * @param $timestamp
+ */
+function formatTimestamp($timestamp) {
+    global $config;
+    $formatter = $formatter = new IntlDateFormatter(
+        $config['language'],
+        IntlDateFormatter::MEDIUM,
+        IntlDateFormatter::MEDIUM,
+        $config['timezone']);
+
+    return $formatter->format($timestamp);
+}

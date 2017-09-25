@@ -485,26 +485,41 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
     /**
      * Returns the last time when the part was modified.
+     * @param $formatted bool When true, the date gets formatted with the locale and timezone settings.
+     *          When false, the raw value from the DB is returned.
      * @return string The time of the last edit.
      */
-    public function getLastModified()
+    public function getLastModified($formatted = true)
     {
+
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
             return "???";
         }
-        return $this->db_data['last_modified'];
+        $time_str = $this->db_data['last_modified'];
+        if ($formatted) {
+            $timestamp = strtotime($time_str);
+            return formatTimestamp($timestamp);
+        }
+        return $time_str;
     }
 
     /**
-     * Returns the date/time when the part was created
+     * Returns the date/time when the part was created.
+     * @param $formatted bool When true, the date gets formatted with the locale and timezone settings.
+     *       When false, the raw value from the DB is returned.
      * @return string The creation time of the part.
      */
-    public function getDatetimeAdded()
+    public function getDatetimeAdded($formatted = true)
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
             return "???";
         }
-        return $this->db_data['datetime_added'];
+        $time_str = $this->db_data['datetime_added'];
+        if ($formatted) {
+            $timestamp = strtotime($time_str);
+            return formatTimestamp($timestamp);
+        }
+        return $time_str;
     }
 
     /**
