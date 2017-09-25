@@ -26,10 +26,13 @@
 include_once('start_session.php');
 
 use PartDB\Database;
+use PartDB\Device;
+use PartDB\DevicePart;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\Part;
 use PartDB\Permissions\CPartAttributePermission;
+use PartDB\Permissions\DevicePartPermission;
 use PartDB\Permissions\PartAttributePermission;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
@@ -48,6 +51,11 @@ $part_id            = isset($_REQUEST['pid'])               ? (integer)$_REQUEST
 $n_less             = isset($_REQUEST['n_less'])            ? (integer)$_REQUEST['n_less']          : 0;
 $n_more             = isset($_REQUEST['n_more'])            ? (integer)$_REQUEST['n_more']          : 0;
 $order_quantity     = isset($_REQUEST['order_quantity'])    ? (integer)$_REQUEST['order_quantity']  : 0;
+
+//When adding to a device
+$device_id          = isset($_REQUEST['device_id_new'])     ? (integer)$_REQUEST['device_id_new']   : 0;
+$device_qty         = isset($_REQUEST['device_quantity_new']) ? (integer)$_REQUEST['device_quantity_new'] : 0;
+$device_name        = isset($_REQUEST['device_name_new'])   ? (string)$_REQUEST['device_name_new'] : "";
 
 //Parse Label scan
 if (isset($_REQUEST['barcode'])) {
@@ -76,6 +84,9 @@ if (isset($_REQUEST["mark_to_order"])) {
 }
 if (isset($_REQUEST["remove_mark_to_order"])) {
     $action = 'remove_mark_to_order';
+}
+if(isset($_REQUEST['device_add'])) {
+    $action = "device_add";
 }
 
 /********************************************************************************
@@ -146,6 +157,19 @@ if (! $fatal_error) {
         case 'remove_mark_to_order':
             try {
                 $part->setManualOrder(false);
+            } catch (Exception $e) {
+                $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+            }
+            break;
+        case "device_add":
+            try {
+                if ($device_id > 0 && $device_qty > 0) {
+                    $devicepart = DevicePart::add($database, $current_user, $log, $device_id, $part_id, $device_qty, $device_name);
+                    $devicepart->getID();
+                } else {
+                    throw new Exception(_("Ungültige Eingabedaten!"));
+                }
+
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -278,6 +302,9 @@ if (! $fatal_error) {
                 "mount_name" => $device_part->getMountNames());
         }
 
+        $root_device = new Device($database, $current_user, $log, 0);
+        $html->setVariable("devices_list", $root_device->buildHtmlTree(null, true, false), "string");
+
         if (count($devices_loop) > 0) {
             $html->setLoop('devices_loop', $devices_loop);
         }
@@ -302,6 +329,7 @@ $html->setVariable('can_orderdetails_create', $current_user->canDo(PermissionMan
 $html->setVariable('can_attachement_create', $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE), "bool");
 $html->setVariable('can_order_edit', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT), "bool");
 $html->setVariable('can_order_read', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ), "bool");
+$html->setVariable('can_devicepart_create', $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
 
 /********************************************************************************
  *
@@ -330,7 +358,10 @@ if (! $fatal_error) {
         $html->printTemplate('attachements');
     }
 
-    $html->printTemplate('devices');
+    if ($current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ)) {
+        $html->printTemplate('devices');
+    }
+
 
     if (!$config['part_info']['hide_actions']) {
         $html->printTemplate('actions');
