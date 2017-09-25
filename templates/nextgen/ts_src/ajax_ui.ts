@@ -718,3 +718,15 @@ function makeHighlight() {
         });
     }
 }
+
+//Need for proper body padding, with every navbar height
+$(window).resize(function () {
+    $('body').css('padding-top', parseInt($('#main-navbar').css("height"))+10);
+    $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
+});
+
+$(window).load(function () {
+    $('body').css('padding-top', parseInt($('#main-navbar').css("height"))+10);
+
+    $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
+});
