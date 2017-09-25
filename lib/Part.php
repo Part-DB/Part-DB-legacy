@@ -1860,7 +1860,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
-        $query_data = $database->query('SELECT sum(instock) as sum FROM parts');
+        $query_data = $database->query('SELECT sum(instock) as sum FROM parts WHERE instock > 0');
 
         return intval($query_data[0]['sum']);
     }
