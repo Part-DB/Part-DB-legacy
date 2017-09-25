@@ -208,7 +208,7 @@ $config['system']['version']                            = '0.4.0.RC1';  // examp
 $config['system']['latest_config_version']              = 2; // only increase for one!
 
 // minimum requirements of the system (PHP, PHP Modules, Apache, ...) [used in "install.php"]
-$config['requirements']['php_version']                  = '5.3.0';
+$config['requirements']['php_version']                  = '5.4.0';
 $config['requirements']['pdo']                          = true; // PDO must be installed
 
 // HTTP charsets* (the key is used for the HTML header, the value is only used for displaying)
