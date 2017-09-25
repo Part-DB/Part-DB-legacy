@@ -308,7 +308,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="timezon">{t}Zeitzone:{/t}</label>
                             <div class="col-sm-10">
-                                <select class="form-control" name="timezone">
+                                <select class="form-control selectpicker" data-live-search="true" name="timezone">
                                     {foreach $timezone_loop as $timezone}
                                         <option value="{$timezone.value}" {if $timezone.selected}selected{/if}>{$timezone.text}</option>
                                     {/foreach}

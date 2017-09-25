@@ -225,12 +225,6 @@ $config['db_charsets']['utf8']                          = 'UTF-8 Unicode (utf8)'
 //$config['db_charsets']['cp1250']                        = 'Windows Central European (cp1250)';
 //$config['db_charsets']['macce']                         = 'Mac Central European (macce)';
 
-// timezones* (the key is used for "date_default_timezone_set()", the value is only used for displaying)
-$config['timezones']['UTC']                             = 'UTC';
-$config['timezones']['Europe/Berlin']                   = 'Europe/Berlin';
-$config['timezones']['Europe/London']                   = 'Europe/London';
-$config['timezones']['Europe/Zurich']                   = 'Europe/Zurich';
-
 // languages (the key is used for "setlocale()", the value is only used for displaying)
 $config['languages']['POSIX']                           = '[POSIX] C-Standard';
 $config['languages']['de_AT']                           = '[de_AT] Deutsch (Österreich)';

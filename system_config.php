@@ -311,7 +311,14 @@ $html->setLoop('theme_loop', build_theme_loop());
 $html->setLoop('custom_css_loop', build_custom_css_loop());
 
 // locale settings
-$html->setLoop('timezone_loop', arrayToTemplateLoop($config['timezones'], $config['timezone']));
+
+//Convert timezonelist, to a format, we can use
+$timezones_raw = DateTimeZone::listIdentifiers();
+$timezones = array();
+foreach ($timezones_raw as $timezone) {
+    $timezones[$timezone] = $timezone;
+}
+$html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
 $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
 
 // checkboxes
