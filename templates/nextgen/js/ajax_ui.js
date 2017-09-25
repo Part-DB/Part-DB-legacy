@@ -14,6 +14,7 @@ var AjaxUI = (function () {
         this.ajax_complete_listeners = [];
         this.start_listeners = [];
         this.trees_filled = false;
+        this.xhrPool = [];
         //Make back in the browser go back in history
         window.onpopstate = this.onPopState;
         $(document).ajaxError(this.onAjaxError.bind(this));
@@ -40,6 +41,9 @@ var AjaxUI = (function () {
         var page = window.location.pathname;
         //Set base path
         BASE = getBasePath();
+        var _this = this;
+        $.ajaxSetup({ beforeSend: function (jqXHR) { _this.xhrPool.push(jqXHR); }
+        });
         this.checkRedirect();
         //Only load start page when on index.php (and no content is loaded already)!
         if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
@@ -181,11 +185,13 @@ var AjaxUI = (function () {
      */
     AjaxUI.prototype.registerLinks = function () {
         'use strict';
+        var _this = this;
         $("a").not(".link-anchor").not(".link-collapse").not(".link-external").not(".tree-btns")
             .not(".back-to-top").not(".link-datasheet").unbind("click").click(function (event) {
             event.preventDefault();
             var a = $(this);
             var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
+            _this.abortAllAjax();
             $('#content').hide(0).load(href + " #content-data");
             $('#progressbar').show(0);
             return true;
@@ -212,6 +218,7 @@ var AjaxUI = (function () {
             $(this).treeview('toggleNodeSelected', data.nodeId);
         }
         else {
+            AjaxUI.getInstance().abortAllAjax();
             $('#content').hide().load(addURLparam(data.href, "ajax") + " #content-data");
             $('#progressbar').show();
         }
@@ -249,8 +256,21 @@ var AjaxUI = (function () {
         });
         this.trees_filled = true;
     };
+    /**
+     * Update the treeviews.
+     */
     AjaxUI.prototype.updateTrees = function () {
         this.tree_fill();
+    };
+    /**
+     * Aborts all currently active XHR requests.
+     */
+    AjaxUI.prototype.abortAllAjax = function () {
+        var _this = this;
+        $(this.xhrPool).each(function (i, jqXHR) {
+            jqXHR.abort(); //  aborts connection
+            _this.xhrPool.splice(i, 1); //  removes from list by index
+        });
     };
     /********************************************************************************************
      * Common ajax functions
@@ -293,6 +313,10 @@ var AjaxUI = (function () {
      * @param settings
      */
     AjaxUI.prototype.onAjaxComplete = function (event, xhr, settings) {
+        //Remove the current XHR request from XHR pool.
+        var i = this.xhrPool.indexOf(xhr); //  get index for current connection completed
+        if (i > -1)
+            this.xhrPool.splice(i, 1); //  removes from list by index
         //Hide progressbar and show Result
         $('#progressbar').hide(0);
         $('#content').fadeIn("fast");
