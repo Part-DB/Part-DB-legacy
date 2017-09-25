@@ -1400,9 +1400,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
                 case 'suppliers':
                     $suppliers_loop = array();
-                    foreach ($this->getSuppliers(false, null, false, true) as $supplier_name) { // suppliers from obsolete orderdetails will not be shown
+                    $suppliers = $this->getSuppliers(true, null, false, true);
+                    foreach ($suppliers as $supplier) { // suppliers from obsolete orderdetails will not be shown
+                        /** @var $supplier Supplier */
                         $suppliers_loop[] = array(  'row_index'         => $row_index,
-                            'supplier_name'     => $supplier_name);
+                            'supplier_name'     => $supplier->getName(),
+                        'supplier_id' => $supplier->getID());
                     }
 
                     $row_field['suppliers'] = $suppliers_loop;
