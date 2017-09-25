@@ -262,6 +262,7 @@ $config['table']['imported_parts']['columns']           = 'hover_picture;name;de
 $config['table']['location_parts']['columns']           = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
 $config['table']['footprint_parts']['columns']          = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
 $config['table']['manufacturer_parts']['columns']       = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
+$config['table']['supplier_parts']['columns']           = 'hover_picture;name;description;category;instock_mininstock;storelocation;supplier_partnrs;single_prices;button_decrement;button_increment;button_edit';
 $config['table']['all_parts']['columns']                = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;button_edit';
 
 // export configurations for order parts*

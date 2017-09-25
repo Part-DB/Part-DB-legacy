@@ -223,6 +223,7 @@ if (! $fatal_error) {
 
             $orderdetails_loop[] = array(   'row_odd'                   => $row_odd,
                 'supplier_full_path'        => $orderdetails->getSupplier()->getFullPath(),
+                'supplier_id'               => $orderdetails->getSupplier()->getID(),
                 'supplierpartnr'            => $orderdetails->getSupplierPartNr(),
                 'supplier_product_url'      => $orderdetails->getSupplierProductUrl(),
                 'obsolete'                  => $orderdetails->getObsolete(),
