@@ -92,7 +92,7 @@
 <body>
 
     <header>
-        <nav class="navbar navbar-default navbar-fixed-top">
+        <nav class="navbar navbar-default navbar-fixed-top" id="main-navbar">
             <div class="container-fluid">
              <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -188,7 +188,7 @@
    
            <div class="row">
                 <aside class="hidden-print col-sm-3 col-md-2 sidebar-collapse collapse sidebar-container" id="sidebar">
-                    <nav class="fixed-sidebar">
+                    <nav class="fixed-sidebar" id="fixed-sidebar">
                         <div class="">
                             <ul class="nav navmenu-nav">
                             {if isset($can_category) && $can_category}

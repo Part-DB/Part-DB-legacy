@@ -358,7 +358,8 @@ if (! $fatal_error) {
         $html->printTemplate('attachements');
     }
 
-    if ($current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ)) {
+    if ($current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ)
+            && !$config['devices']['disable']) {
         $html->printTemplate('devices');
     }
 

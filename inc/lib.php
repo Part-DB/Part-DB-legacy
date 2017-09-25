@@ -1383,11 +1383,18 @@ function parseTristateCheckbox($tristate_data) {
  */
 function formatTimestamp($timestamp) {
     global $config;
-    $formatter = $formatter = new IntlDateFormatter(
-        $config['language'],
-        IntlDateFormatter::MEDIUM,
-        IntlDateFormatter::MEDIUM,
-        $config['timezone']);
+    //Check if user has intl extension installed.
+    if (class_exists("\IntlDateFormatter")) {
+        $formatter = $formatter = new \IntlDateFormatter(
+            $config['language'],
+            IntlDateFormatter::MEDIUM,
+            IntlDateFormatter::MEDIUM,
+            $config['timezone']);
 
-    return $formatter->format($timestamp);
+        return $formatter->format($timestamp);
+    } else {
+      //Failsafe, return as non localized string.
+        return date('Y-m-d H:i:s', $timestamp);
+    }
+
 }
