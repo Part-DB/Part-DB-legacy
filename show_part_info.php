@@ -241,9 +241,12 @@ if (! $fatal_error) {
         $attachement_types = $part->getAttachementTypes();
         $attachement_types_loop = array();
         foreach ($attachement_types as $attachement_type) {
+            /** @var $attachement_type \PartDB\AttachementType */
+            /** @var $attachements \PartDB\Attachement[] */
             $attachements = $part->getAttachements($attachement_type->getID());
             $attachements_loop = array();
             foreach ($attachements as $attachement) {
+                /** @var $attachement \PartDB\Attachement */
                 $attachements_loop[] = array(   'attachement_name'  => $attachement->getName(),
                     'filename'          => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
                     'is_picture'        => $attachement->isPicture());
@@ -261,6 +264,22 @@ if (! $fatal_error) {
 
         if (count($attachement_types_loop) > 0) {
             $html->setLoop('attachement_types_loop', $attachement_types_loop);
+        }
+
+        //Devices
+        $devices = $part->getDevices();
+        $devices_loop = array();
+        foreach ($devices as $device) {
+            $device_part = \PartDB\DevicePart::getDevicePart($database, $current_user, $log, $device->getID(), $part->getID());
+            $devices_loop[] = array("name" => $device->getName(),
+                "id" => $device->getID(),
+                "fullpath" => $device->getFullPath(),
+                "mount_quantity" => $device_part->getMountQuantity(),
+                "mount_name" => $device_part->getMountNames());
+        }
+
+        if (count($devices_loop) > 0) {
+            $html->setLoop('devices_loop', $devices_loop);
         }
 
         // global/category stuff
@@ -310,6 +329,8 @@ if (! $fatal_error) {
         && $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::READ)) {
         $html->printTemplate('attachements');
     }
+
+    $html->printTemplate('devices');
 
     if (!$config['part_info']['hide_actions']) {
         $html->printTemplate('actions');

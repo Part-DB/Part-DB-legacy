@@ -712,7 +712,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $this->devices[] = new Device($this->database, $this->current_user, $this->log, $row['id_device'], $row);
+                $this->devices[] = new Device($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
         }
 
