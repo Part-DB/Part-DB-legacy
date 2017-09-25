@@ -254,6 +254,7 @@ $config['table']['search_parts']['columns']             = 'hover_picture;name;de
 $config['table']['search_parts_category']['columns']    = 'hover_picture;name;description;category;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;datasheets;button_decrement;button_increment;button_edit';
 $config['table']['obsolete_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices';
 $config['table']['noprice_parts']['columns']            = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;button_edit';
+$config['table']['unknown_instock_parts']['columns']    = 'hover_picture;name;description;mininstock;footprint;storelocation;suppliers;supplier_partnrs;button_edit';
 $config['table']['order_parts']['columns']              = 'hover_picture;name_description;instock_mininstock;footprint;storelocation;suppliers_radiobuttons;supplier_partnrs;single_prices;total_prices;order_quantity_edit;order_options';
 $config['table']['searched_device_parts']['columns']    = 'hover_picture;quantity_edit;mountnames_edit;name;description;footprint;storelocation';
 $config['table']['device_parts']['columns']             = 'hover_picture;name_description;quantity_edit;mountnames_edit;footprint;instock;storelocation;suppliers;supplier_partnrs;single_prices;total_prices';
