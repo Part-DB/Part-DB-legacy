@@ -308,7 +308,7 @@
                         <td class="tdrow4" nowrap valign="top">
                             {foreach $row.suppliers as $sup}
                                 <div style="display:inline-block; height:1.7em; line-height:1.7em;">
-                                    {$sup.supplier_name}
+                                   <a href="{$relative_path}show_supplier_parts.php?sid={$sup.supplier_id}&subsup=0">{$sup.supplier_name}</a>
                                 </div><br>
                             {/foreach}
                         </td>
