@@ -238,6 +238,10 @@
                                     <input type="checkbox" name="livesearch_active" {if $livesearch_active} checked{/if}>
                                     <label for="properties_active">{t}Suche bereits während der Eingabe in das Suchfeld (Livesuche).{/t}</label>
                                 </div>
+                                <div class="checkbox">
+                                    <input type="checkbox" name="search_highlighting" {if $search_highlighting} checked{/if}>
+                                    <label for="properties_active">{t}Hebe den Suchbegriff in den Ergebnissen hervor (Highlighting).{/t}</label>
+                                </div>
                             </div>
                         </div>
 

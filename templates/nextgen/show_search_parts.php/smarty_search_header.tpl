@@ -5,7 +5,7 @@
     </div>
     <div class="panel-body">
 
-        <input type="hidden" value="{$keyword}" id="highlight">
+        {if $highlighting}<input type="hidden" value="{$keyword}" id="highlight">{/if}
 
         {t 1=$keyword|escape 2=$hits_count|escape escape=false}Die Suche nach <b>"%1"</b> ergab <b>%2 Treffer</b>.{/t}
 

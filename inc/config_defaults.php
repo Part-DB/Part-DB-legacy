@@ -165,6 +165,7 @@ $config['table']['default_show_subcategories']   = true;    //Show the subcatego
 
 //Search settings
 $config['search']['livesearch']                  = true;
+$config['search']['highlighting']                = true;
 
 //Attachements settings
 $config['attachements']['folder_structure']     = false;    //Put attachements in a folder structure, similar to the categories.
