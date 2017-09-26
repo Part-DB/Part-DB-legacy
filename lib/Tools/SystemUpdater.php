@@ -47,7 +47,7 @@ class SystemUpdater
         if ($this->channel == static::CHANNEL_DEV) {
             return $response[0]['commit']['author']['date'];
         } else {
-            return $response[0]['tag_name'];
+            return substr($response[0]['sha'], 0,6);
         }
     }
 
@@ -65,6 +65,10 @@ class SystemUpdater
 
     public function downloadUpdate()
     {
+        //Ignore user aborts.
+        ignore_user_abort(true);
+        set_time_limit(0);
+
         //Generate Update-Link
         if ($this->channel == static::CHANNEL_STABLE) {
             $newestVersion = $this->getLatestVersionName();
@@ -75,7 +79,7 @@ class SystemUpdater
 
         //Download Update from $link
         if (isset($link)) {
-            return downloadFile($link, BASE . "/data/updater/" , $this->buildUpdateDownloadTargetPath());
+            return downloadFile($link, BASE . "/data/updater/", $this->buildUpdateDownloadTargetPath());
         }
 
         throw new \Exception(_("Ungültige Version"));
