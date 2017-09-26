@@ -333,8 +333,11 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param $new_password string The new password.
      * @param $need_to_change_pw bool When true, the user has to change the password afterwards.
      */
-    public function setPassword($new_password, $need_to_change_pw = false)
+    public function setPassword($new_password, $need_to_change_pw = false, $check_pw_length = true)
     {
+        if ($check_pw_length && strlen($new_password) < 6) {
+            throw new Exception(sprintf(_("Das neue Password muss mindestens %d Zeichen lang sein"), 6));
+        }
         if ($this->getID() == static::ID_ANONYMOUS) {
             throw new Exception(_("Das Password des anonymous Users kann nicht geändert werden!"));
         }

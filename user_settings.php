@@ -82,26 +82,32 @@ try {
 if(!$fatal_error) {
     switch ($action) {
         case "change_pw":
-            if ($config['is_online_demo']) {
-                $messages[] = array('text' => _("Diese Funktion ist in der Onlinedemo deaktiviert!"), 'strong' => true, 'color' => 'red');
-                break;
+            try {
+                if ($config['is_online_demo']) {
+                    $messages[] = array('text' => _("Diese Funktion ist in der Onlinedemo deaktiviert!"), 'strong' => true, 'color' => 'red');
+                    break;
+                }
+
+                if ($pw_1 == "" || $pw_2 == "") {
+                    $messages[] = array('text' => _("Das neue Password darf nicht leer sein!"), 'strong' => true, 'color' => 'red');
+                    break;
+                }
+                if ($pw_1 !== $pw_2) {
+                    $messages[] = array('text' => _("Das neue Password und die Bestätigung müssen übereinstimmen!"), 'strong' => true, 'color' => 'red');
+                    break;
+                }
+                if (!$current_user->isPasswordValid($pw_old)) {
+                    $messages[] = array('text' => _("Das eingegebene alte Password war falsch!"), 'strong' => true, 'color' => 'red');
+                    break;
+                }
+                //If all checks were ok, change the password!
+                $current_user->setPassword($pw_1, false);
+                $messages[] = array('text' => _("Das Passwort wurde erfolgreich geändert!"), 'strong' => true, 'color' => 'green');
+            } catch (Exception $e) {
+                $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
+                $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
             }
 
-            if ($pw_1 == "" || $pw_2 == "") {
-                $messages[] = array('text' => _("Das neue Password darf nicht leer sein!"), 'strong' => true, 'color' => 'red');
-                break;
-            }
-            if ($pw_1 !== $pw_2) {
-                $messages[] = array('text' => _("Das neue Password und die Bestätigung müssen übereinstimmen!"), 'strong' => true, 'color' => 'red');
-                break;
-            }
-            if (!$current_user->isPasswordValid($pw_old)) {
-                $messages[] = array('text' => _("Das eingegebene alte Password war falsch!"), 'strong' => true, 'color' => 'red');
-                break;
-            }
-            //If all checks were ok, change the password!
-            $current_user->setPassword($pw_1, false);
-            $messages[] = array('text' => _("Das Passwort wurde erfolgreich geändert!"), 'strong' => true, 'color' => 'green');
             break;
 
         case 'apply':
