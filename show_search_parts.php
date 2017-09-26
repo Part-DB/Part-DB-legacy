@@ -80,6 +80,10 @@ for ($i=0; $i<$table_rowcount; $i++) {
     }
 }
 
+if (isset($_REQUEST['hint'])) {
+    $action = "hint";
+}
+
 /********************************************************************************
  *
  *   Initialize Objects
@@ -180,6 +184,11 @@ if (! $fatal_error) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
             break;
+
+        case 'hint':
+            //Set $fatal_error to true, so that the search gets skipped.
+            $fatal_error = true;
+            break;
     }
 }
 
@@ -268,20 +277,20 @@ if (! $fatal_error) {
  *
  *********************************************************************************/
 
-
-$html->setVariable('keyword', $keyword, 'string');
-$html->setVariable('hits_count', (isset($hits_count) ? $hits_count : 0), 'integer');
-$html->setVariable('search_name', $search_name, 'boolean');
-$html->setVariable('search_category', $search_category, 'boolean');
-$html->setVariable('search_description', $search_description, 'boolean');
-$html->setVariable('search_comment', $search_comment, 'boolean');
-$html->setVariable('search_supplier', $search_supplier, 'boolean');
-$html->setVariable('search_supplierpartnr', $search_supplierpartnr, 'boolean');
-$html->setVariable('search_storelocation', $search_storelocation, 'boolean');
-$html->setVariable('search_footprint', $search_footprint, 'boolean');
-$html->setVariable('search_manufacturer', $search_manufacturer, 'boolean');
-
 if (! $fatal_error) {
+
+    $html->setVariable('keyword', $keyword, 'string');
+    $html->setVariable('hits_count', (isset($hits_count) ? $hits_count : 0), 'integer');
+    $html->setVariable('search_name', $search_name, 'boolean');
+    $html->setVariable('search_category', $search_category, 'boolean');
+    $html->setVariable('search_description', $search_description, 'boolean');
+    $html->setVariable('search_comment', $search_comment, 'boolean');
+    $html->setVariable('search_supplier', $search_supplier, 'boolean');
+    $html->setVariable('search_supplierpartnr', $search_supplierpartnr, 'boolean');
+    $html->setVariable('search_storelocation', $search_storelocation, 'boolean');
+    $html->setVariable('search_footprint', $search_footprint, 'boolean');
+    $html->setVariable('search_manufacturer', $search_manufacturer, 'boolean');
+
     // export formats
     $html->setLoop('export_formats', buildExportFormatsLoop('searchparts'));
     $html->setLoop('group_formats', Part::buildSearchGroupByLoop($groupby));
@@ -320,6 +329,11 @@ if (! $fatal_error) {
         $html->setLoop('table', $loop);
         $html->printTemplate('searched_parts_table');
     }
+}
+
+if($action == "hint")
+{
+    $html->printTemplate('livesearch_hint');
 }
 
 $html->printFooter();

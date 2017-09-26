@@ -5,7 +5,7 @@ var BASE = "";
  *                                      AjaxUI Class
  * **************************************************************************************
  ****************************************************************************************/
-var AjaxUI = (function () {
+var AjaxUI = /** @class */ (function () {
     /**
      * Creates a new AjaxUI object.
      */
@@ -572,13 +572,19 @@ function livesearch(event, object, threshold) {
     var form = $obj.closest("form");
     //Dont show progbar on live search.
     form.addClass("no-progbar");
+    var xhr = form.data('jqxhr');
+    //If an ajax operation is already ongoing, then stop it.
+    if (typeof xhr !== "undefined") {
+        xhr.abort();
+    }
     if (q.length >= threshold) {
-        var xhr = form.data('jqxhr');
-        //If an ajax operation is already ongoing, then stop it.
-        if (typeof xhr !== "undefined") {
-            xhr.abort();
-        }
         submitForm(form);
+    }
+    else {
+        //Only show link, if the text is shorter than before.
+        if (event.key == "Backspace") {
+            openLink(BASE + "show_search_parts.php?hint");
+        }
     }
     //Show progbar, when user presses submit button.
     form.removeClass("no-progbar");
