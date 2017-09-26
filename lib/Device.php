@@ -524,7 +524,9 @@ class Device extends Base\PartsContainingDBElement
      */
     public static function setPrimaryDevice($primary_device_id)
     {
+        @session_start();
         $_SESSION['primary_device'] = $primary_device_id;
+        session_write_close();
     }
 
     /**
