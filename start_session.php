@@ -269,7 +269,7 @@ $config['html']['http_charset'] = 'utf-8'; ///< @todo remove this later; see con
  *********************************************************************************/
 
 session_name('Part-DB');
-session_start();
+session_start(['read_and_close'  => true]);
 
 /********************************************************************************
  *

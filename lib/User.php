@@ -790,7 +790,10 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         if (!empty($password) && !$user->isPasswordValid($password)) { //If $password is set, and wrong.
             return false;
         }
+        //Open session, so we can edit $_SESSION var.
+        @session_start();
         $_SESSION['user'] = $user->getID();
+        session_write_close();
         return true;
     }
 
@@ -800,7 +803,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public static function logout()
     {
+        @session_start();
         $_SESSION['user'] = static::ID_ANONYMOUS;
+        session_write_close();
         return true;
     }
 
