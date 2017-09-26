@@ -8,6 +8,14 @@
     </div>
 {/if}
 
+{if isset($must_change_admin_pw) && $must_change_admin_pw}
+    <div class="alert alert-danger">
+        <h4>{t}Password Änderung erforderlich!{/t}</h4>
+        <strong>{t}Aus Sicherheitsgründen müssen sie das Admin Password ändern.{/t}</strong>
+        <p>{t escape=false}Besuchen sie hierzu in die <a href="system_config.php">Systemeinstellungen</a>.{/t}</p>
+    </div>
+{/if}
+
 {if isset($database_update) && $database_update}
     {if $database_update}
         <div class="panel panel-danger">
