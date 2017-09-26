@@ -117,6 +117,11 @@ if (isset($config['BASE'])) {
     define('BASE', $BASE_tmp);
 }
 
+/** @const BASE Directory to the part-db installation, without slash at the end
+ * Example (UNIX/Linux):    "/var/www/part-db"
+ * Example (Windows):       "C:/wamp/www/part-db"
+ */
+
 // server-directory without slash at the end
 // Example (UNIX/Linux):    "/var/www"
 // Example (Windows):       "C:/wamp/www"
@@ -135,6 +140,11 @@ if (isset($config['DOCUMENT_ROOT'])) {
     exit;
 }
 
+/** @const DOCUMENT_ROOT Server-directory without slash at the end
+ * Example (UNIX/Linux):    "/var/www"
+ * Example (Windows):       "C:/wamp/www"
+ */
+
 // the part-db installation directory without document root, without slash at the end
 // Example (UNIX/Linux):    "/part-db"
 // Example (Windows):       "/part-db"
@@ -146,6 +156,11 @@ if (isset($config['BASE_RELATIVE'])) {
 else {
     define('BASE_RELATIVE', str_replace(DOCUMENT_ROOT, '', BASE));
 }
+
+/** @const BASE_RELATIVE Server-directory without slash at the end
+* Example (UNIX/Linux):    "/part-db"
+* Example (Windows):       "/part-db"
+*/
 
 // for debugging uncomment these lines:
 //print 'BASE = "'.BASE.'"<br>';
