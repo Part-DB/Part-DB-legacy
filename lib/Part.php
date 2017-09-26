@@ -54,6 +54,9 @@ use PartDB\Permissions\PermissionManager;
  */
 class Part extends Base\AttachementsContainingDBElement implements Interfaces\IAPIModel
 {
+
+    const INSTOCK_UNKNOWN   = -2;
+
     /********************************************************************************
      *
      *   Calculated Attributes
@@ -260,16 +263,30 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
     /**
      *  Get the count of parts which are in stock
+     * @param $with_unknown bool Set this, to true, if the unknown state should be returned as string. Otherwise -2 is returned.
      *
-     * @return integer       count of parts which are in stock
+     * @return integer|string       count of parts which are in stock, "Unknown" if $with_unknown is set and instock is unknown.
      */
-    public function getInstock()
+    public function getInstock($with_unknown = false)
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::READ)) {
             return "-1";
         }
 
+        if ($with_unknown && $this->isInstockUnknown()) {
+            return _("[Unbekannt]");
+        }
+
         return $this->db_data['instock'];
+    }
+
+    /**
+     * Check if the value of the Instock is unknown.
+     * @return bool True, if the value of the instock is unknown.
+     */
+    public function isInstockUnknown()
+    {
+        return $this->getInstock() <= static::INSTOCK_UNKNOWN;
     }
 
     /**
@@ -437,6 +454,20 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
+     * Check if the part is automatically marked for Ordering, because the instock value is smaller than the min instock value.
+     * @return bool True, if the part should be ordered.
+     */
+    public function getAutoOrder()
+    {
+        //Parts with negative instock never gets ordered.
+        if ($this->getInstock() < 0) {
+            return false;
+        }
+
+        return $this->getInstock() < $this->getMinInstock();
+    }
+
+    /**
      *  Get the link to the website of the article on the manufacturers website
      *
      * @return string           the link to the article
@@ -454,26 +485,41 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
     /**
      * Returns the last time when the part was modified.
+     * @param $formatted bool When true, the date gets formatted with the locale and timezone settings.
+     *          When false, the raw value from the DB is returned.
      * @return string The time of the last edit.
      */
-    public function getLastModified()
+    public function getLastModified($formatted = true)
     {
+
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
             return "???";
         }
-        return $this->db_data['last_modified'];
+        $time_str = $this->db_data['last_modified'];
+        if ($formatted) {
+            $timestamp = strtotime($time_str);
+            return formatTimestamp($timestamp);
+        }
+        return $time_str;
     }
 
     /**
-     * Returns the date/time when the part was created
+     * Returns the date/time when the part was created.
+     * @param $formatted bool When true, the date gets formatted with the locale and timezone settings.
+     *       When false, the raw value from the DB is returned.
      * @return string The creation time of the part.
      */
-    public function getDatetimeAdded()
+    public function getDatetimeAdded($formatted = true)
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
             return "???";
         }
-        return $this->db_data['datetime_added'];
+        $time_str = $this->db_data['datetime_added'];
+        if ($formatted) {
+            $timestamp = strtotime($time_str);
+            return formatTimestamp($timestamp);
+        }
+        return $time_str;
     }
 
     /**
@@ -681,7 +727,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
-                $this->devices[] = new Device($this->database, $this->current_user, $this->log, $row['id_device'], $row);
+                $this->devices[] = new Device($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
         }
 
@@ -1221,8 +1267,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             }
         }
         if ($this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::EDIT)
-        || $this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE)) {
-            if (isset($new_values['id_master_picture_attachement'])) {
+        || $this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE)
+            || $this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::DELETE)) {
+            if (array_key_exists('id_master_picture_attachement', $new_values)) {
                 $arr['id_master_picture_attachement'] = $new_values['id_master_picture_attachement'];
             }
         }
@@ -1248,7 +1295,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         if (!empty($arr)) {
             parent::setAttributes($arr);
         }
-
     }
 
     /********************************************************************************
@@ -1314,9 +1360,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'mininstock':
                 case 'instock_mininstock':
                 case 'instock_edit_buttons':
-                    $row_field['instock']               = $this->getInstock();
+                    $row_field['instock']               = $this->getInstock(true);
                     $row_field['mininstock']            = $this->getMinInstock();
-                    $row_field['not_enought_instock']   = ($this->getInstock() < $this->getMinInstock());
+                    $row_field['not_enought_instock']   = ($this->getAutoOrder());
                     break;
 
                 case 'category':
@@ -1355,9 +1401,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
                 case 'suppliers':
                     $suppliers_loop = array();
-                    foreach ($this->getSuppliers(false, null, false, true) as $supplier_name) { // suppliers from obsolete orderdetails will not be shown
+                    $suppliers = $this->getSuppliers(true, null, false, true);
+                    foreach ($suppliers as $supplier) { // suppliers from obsolete orderdetails will not be shown
+                        /** @var $supplier Supplier */
                         $suppliers_loop[] = array(  'row_index'         => $row_index,
-                            'supplier_name'     => $supplier_name);
+                            'supplier_name'     => $supplier->getName(),
+                        'supplier_id' => $supplier->getID());
                     }
 
                     $row_field['suppliers'] = $suppliers_loop;
@@ -1465,7 +1514,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'order_options':
                     if ($table_type == 'order_parts') {
                         $suppliers_loop = array();
-                        $row_field['enable_remove'] = (($this->getInstock() >= $this->getMinInstock()) && ($this->getManualOrder()));
+                        $row_field['enable_remove'] = (!$this->getAutoOrder()) && ($this->getManualOrder());
                     }
                     break;
 
@@ -1487,7 +1536,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
                 case 'id':
                 case 'button_increment':
-                    $row_field['increment_disabled'] = !$this->current_user->canDo(PermissionManager::PARTS_INSTOCK,
+                    $row_field['increment_disabled'] = ($this->getInstock() < 0) || !$this->current_user->canDo(PermissionManager::PARTS_INSTOCK,
                         PartAttributePermission::EDIT);
                 break;
                 case 'button_edit':
@@ -1631,7 +1680,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         settype($values['manual_order'], 'boolean');
 
         // check "instock"
-        if ((! is_int($values['instock'])) && (! ctype_digit($values['instock']))) {
+        if ((! is_int($values['instock'])) && (! is_numeric($values['instock']))) {
             debug(
                 'warning',
                 $values['instock'].'"!',
@@ -1640,7 +1689,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 __METHOD__
             );
             throw new Exception(_('Der neue Lagerbestand ist ungültig!'));
-        } elseif ($values['instock'] < 0) {
+        } elseif ($values['instock'] < 0 && $values['instock'] != static::INSTOCK_UNKNOWN) {
             throw new Exception(sprintf(_('Der neue Lagerbestand von "%s" wäre negativ und kann deshalb nicht gespeichert werden!'), $values['name']));
         }
 
@@ -1830,7 +1879,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
-        $query_data = $database->query('SELECT sum(instock) as sum FROM parts');
+        $query_data = $database->query('SELECT sum(instock) as sum FROM parts WHERE instock > 0');
 
         return intval($query_data[0]['sum']);
     }
@@ -1923,6 +1972,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $query =    'SELECT parts.* FROM parts '.
             'LEFT JOIN orderdetails ON orderdetails.id = parts.order_orderdetails_id '.
             'WHERE (parts.instock < parts.mininstock '.
+            'AND parts.instock >= 0 '.
             'OR parts.manual_order = true '.
             'OR parts.id IN '.
             '(SELECT device_parts.id_part FROM device_parts '.
@@ -1976,6 +2026,42 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             'WHERE id NOT IN (SELECT DISTINCT part_id FROM orderdetails '.
             'LEFT JOIN pricedetails ON orderdetails.id=pricedetails.orderdetails_id '.
             'WHERE pricedetails.id IS NOT NULL) '.
+            'ORDER BY parts.name ASC';
+
+        $query_data = $database->query($query);
+
+        foreach ($query_data as $row) {
+            $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
+        }
+
+        return $parts;
+    }
+
+    /**
+     *  Get all parts which have an unknown instock value.
+     *
+     * @param Database  &$database          reference to the database object
+     * @param User      &$current_user      reference to the user which is logged in
+     * @param Log       &$log               reference to the Log-object
+     *
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public static function getInstockUnknownParts(&$database, &$current_user, &$log)
+    {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
+            return array();
+        }
+
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt!'));
+        }
+
+        $parts = array();
+
+        $query =    'SELECT * from parts '.
+            'WHERE instock = -2 '.
             'ORDER BY parts.name ASC';
 
         $query_data = $database->query($query);

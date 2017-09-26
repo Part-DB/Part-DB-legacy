@@ -41,7 +41,7 @@
                         <strong>{t}Neuen Hersteller hinzufügen:{/t}</strong>
                     {else}
                         {if isset($name)}
-                            <strong>{t}Hersteller bearbeiten:{/t} <a href="show_manufacturer_parts.php?mid={$id}&subman=0">{$name}</a></strong>
+                            <strong>{t}Hersteller bearbeiten:{/t}</strong> <a href="show_manufacturer_parts.php?mid={$id}&subman=0">{$name}</a>
                         {else}
                             <strong>{t}Es ist kein Hersteller angewählt!{/t}</strong>
                         {/if}
@@ -111,7 +111,7 @@
                     <label class="col-md-3 control-label">{t}Webseite:{/t}</label>
                     <div class="col-md-9">
                         {if isset($website)}
-                        <a href="{$website}" target="_blank">{$website}</a><br>
+                        <a href="{$website}" target="_blank" rel="noopener">{$website}</a><br>
                         {/if}
                         <input type="url" class="form-control" name="website" placeholder="{t}z.B. www.foo.bar{/t}"
                                value="{if isset($website)}{$website}{/if}" {if !$can_edit}disabled{/if}>

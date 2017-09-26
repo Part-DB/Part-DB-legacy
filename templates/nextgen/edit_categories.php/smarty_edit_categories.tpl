@@ -48,7 +48,7 @@
                             <strong>{t}Neue Kategorie hinzufügen:{/t}</strong>
                         {else}
                             {if isset($name)}
-                                <strong>{t}Kategorie bearbeiten:{/t} <a href="show_category_parts.php?cid={$id}&subcat=0">{$name}</a></strong>
+                                <strong>{t}Kategorie bearbeiten:{/t}</strong> <a href="show_category_parts.php?cid={$id}&subcat=0">{$name}</a>
                             {else}
                                 <strong>{t}Es ist keine Kategorie angewählt!{/t}</strong>
                             {/if}

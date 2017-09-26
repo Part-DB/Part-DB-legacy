@@ -70,6 +70,7 @@ $new_name                   = isset($_REQUEST['name'])                      ? (s
 $new_description            = isset($_REQUEST['description'])               ? (string)$_REQUEST['description']               : '';
 $new_manufacturer_id        = isset($_REQUEST['manufacturer_id'])           ? (integer)$_REQUEST['manufacturer_id']          : 0;
 $new_instock                = isset($_REQUEST['instock'])                   ? (integer)$_REQUEST['instock']                  : 0;
+$new_instock                = isset($_REQUEST['instock_unknown'])           ? (integer) Part::INSTOCK_UNKNOWN                : $new_instock;
 $new_mininstock             = isset($_REQUEST['mininstock'])                ? (integer)$_REQUEST['mininstock']               : 0;
 $new_category_id            = isset($_REQUEST['category_id'])               ? (integer)$_REQUEST['category_id']              : 0;
 $new_storelocation_id       = isset($_REQUEST['storelocation_id'])          ? (integer)$_REQUEST['storelocation_id']         : 0;
@@ -693,6 +694,7 @@ if (! $fatal_error) {
             }
             $html->setVariable('description', $part->getDescription(false), 'string');
             $html->setVariable('instock', $part->getInstock(), 'integer');
+            $html->setVariable('instock_unknown', $part->isInstockUnknown(), 'boolean');
             $html->setVariable('mininstock', $part->getMinInstock(), 'integer');
             $html->setVariable('visible', $part->getVisible(), 'boolean');
             $html->setVariable('comment', $part->getComment(false), 'string');

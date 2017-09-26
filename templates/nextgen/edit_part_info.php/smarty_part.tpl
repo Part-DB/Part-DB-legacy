@@ -1,7 +1,15 @@
 {locale path="nextgen/locale" domain="partdb"}
 
 <script>
-
+    function checkInstockUnknown() {
+        var element = $("#instock_unknown");
+        var value = element.prop("checked");
+        $("#instock").prop("disabled",value);
+        if(value == false) {
+            $("#instock").val("0");
+        }
+    }
+    checkInstockUnknown();
 </script>
 
 
@@ -65,10 +73,17 @@
                     <label class="col-md-2 control-label">
                         {t}Vorhanden:{/t}
                     </label>
-                    <div class="col-md-10">
-                        <input type="number" name="instock" class="form-control" min="0"  placeholder="{t}z.B. 100{/t}"
+                    <div class="col-md-8">
+                        <input type="number" name="instock" id="instock" class="form-control" min="0"  placeholder="{t}z.B. 100{/t}"
                                value="{$instock}" onkeydown="if (event.keyCode == 13) { document.getElementById('btn_enter').click();}"
-                               {if !$can_instock}disabled{/if}>
+                               {if !$can_instock || $instock_unknown}disabled{/if}>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="checkbox">
+                            <input type="checkbox" name="instock_unknown" id="instock_unknown" onchange="checkInstockUnknown();"
+                                   {if $instock_unknown}checked{/if} {if !$can_instock}disabled{/if}>
+                            <label>{t}Unbekannt{/t}</label>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group">
@@ -183,8 +198,7 @@
                     <div class="col-md-10">
                         {* Closing bracket has to be directly in front of the $comment, or spaces gets inserted in textarea *}
                         <textarea  class="form-control scedit" name="comment" id="edit_comment" rows="4" cols="40" {if !$can_comment}disabled{/if}
-                        >{$comment nofilter}
-                        </textarea>
+                        >{$comment nofilter}</textarea>
                         <p class="help-block">{t}Hinweis: Hier kann BBCode verwendet werden um den Text besonders auszuzeichnen (z.B. [b]Fett[/b]).{/t}</p>
                     </div>
                 </div>

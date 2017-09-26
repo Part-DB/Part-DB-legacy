@@ -199,6 +199,7 @@ $html->setLoop('authors', $authors);
 
 if (! $fatal_error) {
     $bbcode = new \Golonka\BBCode\BBCodeParser();
+    $bbcode->setParser('brLinebreak', "/\[br\]/s", "<br/>", "");
     $str = $bbcode->parse(htmlspecialchars($config['startup']['custom_banner']));
     $html->setVariable('banner', $str, 'string');
 
