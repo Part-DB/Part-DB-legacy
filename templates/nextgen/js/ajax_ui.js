@@ -62,9 +62,11 @@ var AjaxUI = (function () {
      * Check if the Page should be redirected.
      */
     AjaxUI.prototype.checkRedirect = function () {
-        var redirect_url = $("input#redirect_url").val().toString();
-        if (redirect_url != "") {
-            openLink(redirect_url);
+        if ($("input#redirect_url").val() != null) {
+            var redirect_url = $("input#redirect_url").val().toString();
+            if (redirect_url != "") {
+                openLink(redirect_url);
+            }
         }
     };
     /**
@@ -437,7 +439,7 @@ function makeSortTable() {
             "order": [],
             "columnDefs": [
                 {
-                    "targets": "_all", type: "natural-nohtml"
+                    "targets": [1], type: "natural-nohtml"
                 }, {
                     targets: 'no-sort', orderable: false
                 }
@@ -589,3 +591,12 @@ function makeHighlight() {
         });
     }
 }
+//Need for proper body padding, with every navbar height
+$(window).resize(function () {
+    $('body').css('padding-top', parseInt($('#main-navbar').css("height")) + 10);
+    $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
+});
+$(window).load(function () {
+    $('body').css('padding-top', parseInt($('#main-navbar').css("height")) + 10);
+    $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
+});

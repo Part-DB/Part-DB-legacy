@@ -1267,8 +1267,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             }
         }
         if ($this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::EDIT)
-        || $this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE)) {
-            if (isset($new_values['id_master_picture_attachement'])) {
+        || $this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE)
+            || $this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::DELETE)) {
+            if (array_key_exists('id_master_picture_attachement', $new_values)) {
                 $arr['id_master_picture_attachement'] = $new_values['id_master_picture_attachement'];
             }
         }

@@ -168,12 +168,12 @@ if (! $fatal_error) {
                     '',
                     true,
                     true,
+                    true,
+                    true,
+                    true,
+                    true,
                     false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false
+                    true
                 );
 
                 $searched_parts_loop = Part::buildTemplateTableArray($searched_parts, 'searched_device_parts');

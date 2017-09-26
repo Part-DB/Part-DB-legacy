@@ -12,13 +12,13 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         
-        <link rel="apple-touch-icon" sizes="180x180" href="{$relative_path}/icons/apple-touch-icon.png">
-        <link rel="icon" type="image/png" href="{$relative_path}/icons/favicon-32x32.png" sizes="32x32">
-        <link rel="icon" type="image/png" href="{$relative_path}/icons/favicon-16x16.png" sizes="16x16">
-        <link rel="manifest" href="{$relative_path}/icons/manifest.json">
-        <link rel="mask-icon" href="{$relative_path}/icons/safari-pinned-tab.svg" color="#5bbad5">
-        <link rel="shortcut icon" href="{$relative_path}/icons/favicon.ico">
-        <meta name="msapplication-config" content="{$relative_path}/icons/browserconfig.xml">
+        <link rel="apple-touch-icon" sizes="180x180" href="{$relative_path}icons/apple-touch-icon.png">
+        <link rel="icon" type="image/png" href="{$relative_path}icons/favicon-32x32.png" sizes="32x32">
+        <link rel="icon" type="image/png" href="{$relative_path}icons/favicon-16x16.png" sizes="16x16">
+        <link rel="manifest" href="{$relative_path}icons/manifest.json">
+        <link rel="mask-icon" href="{$relative_path}icons/safari-pinned-tab.svg" color="#5bbad5">
+        <link rel="shortcut icon" href="{$relative_path}icons/favicon.ico">
+        <meta name="msapplication-config" content="{$relative_path}icons/browserconfig.xml">
         <meta name="theme-color" content="#ffffff">
         
         <title>{$page_title}</title> 
@@ -92,7 +92,7 @@
 <body>
 
     <header>
-        <nav class="navbar navbar-default navbar-fixed-top">
+        <nav class="navbar navbar-default navbar-fixed-top" id="main-navbar">
             <div class="container-fluid">
              <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -188,7 +188,7 @@
    
            <div class="row">
                 <aside class="hidden-print col-sm-3 col-md-2 sidebar-collapse collapse sidebar-container" id="sidebar">
-                    <nav class="fixed-sidebar">
+                    <nav class="fixed-sidebar" id="fixed-sidebar">
                         <div class="">
                             <ul class="nav navmenu-nav">
                             {if isset($can_category) && $can_category}
