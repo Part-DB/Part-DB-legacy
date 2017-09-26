@@ -381,7 +381,7 @@ function setAdminPassword($old_password, $new_password_1, $new_password_2, $save
 /**
  * Check if a string is the correct admin password
  *
- * @param $passwort string      The password (plain, not crypted) we want to check
+ * @param $password string      The password (plain, not crypted) we want to check
  *                              (compare with the administrators password)
  *
  * @return boolean      * true if the password is correct
@@ -1405,7 +1405,8 @@ function parseTristateCheckbox($tristate_data) {
 
 /**
  * Format the current timestamp regarding to the locale settings.
- * @param $timestamp
+ * @param $timestamp int The timestamp which should be formatted.
+ * @return string The formatted string.
  */
 function formatTimestamp($timestamp) {
     global $config;

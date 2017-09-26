@@ -222,6 +222,7 @@ abstract class BasePermission
      * Reads a bit pair from $data.
      * @param $data int The data from where the bits should be extracted from.
      * @param $n int The number of the lower bit (of the pair) that should be read. Starting from zero.
+     * @return int The value of the bit pair.
      */
     final protected static function readBitPair($data, $n)
     {

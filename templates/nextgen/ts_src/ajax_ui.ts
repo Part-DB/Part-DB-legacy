@@ -21,7 +21,7 @@ class AjaxUI {
 
     private trees_filled : boolean = false;
 
-    private xhrPool : Array<JQueryXHR> = []
+    private xhrPool : Array<JQueryXHR> = [];
 
     /**
      * Creates a new AjaxUI object.

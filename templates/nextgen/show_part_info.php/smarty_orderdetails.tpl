@@ -77,7 +77,7 @@
                 </table>
             </div>
             {if isset($average_price)}
-                <div class="panel-body" style="padding-top: 0px;">
+                <div class="panel-body" style="padding-top: 0;">
                     <b>{t}Durchschnittspreis für 1 Stk.:{/t} {$average_price}</b>
                 </div>
             {/if}

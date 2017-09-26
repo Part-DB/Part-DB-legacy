@@ -1666,6 +1666,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      * @copydoc DBElement::check_values_validity()
      * @param $element Part
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
