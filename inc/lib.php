@@ -1028,6 +1028,7 @@ function buildToolsTree($params)
         || $current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::READ_DB_SETTINGS)) {
         $system_nodes[] = treeviewNode(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
     }
+    $system_nodes[] = treeviewNode(_("Systemupdate"), BASE_RELATIVE . "/system_updater.php");
 
 
 
@@ -1262,7 +1263,7 @@ function isURL($string, $path_required = true, $only_http = true)
 {
     if ($only_http) {   //Check if scheme is HTTPS or HTTP
         $scheme = parse_url($string, PHP_URL_SCHEME);
-        if ($scheme !== "http" || $scheme !== "https") {
+        if ($scheme !== "http" && $scheme !== "https") {
             return false;   //All other schemes are not valid.
         }
     }

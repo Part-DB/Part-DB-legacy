@@ -177,11 +177,6 @@ class AjaxUI {
         if(!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
             $('#progressbar').show(0);
-            formData.push({
-                name: "test",
-                value: "Test2435",
-                required: "false"
-            });
         }
         return true;
     }
