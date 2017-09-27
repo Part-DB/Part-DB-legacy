@@ -9,7 +9,7 @@
             $("#instock").val("0");
         }
     }
-    checkInstockUnknown();
+    //checkInstockUnknown();
 </script>
 
 
@@ -75,7 +75,7 @@
                     </label>
                     <div class="col-md-8">
                         <input type="number" name="instock" id="instock" class="form-control" min="0"  placeholder="{t}z.B. 100{/t}"
-                               value="{$instock}" onkeydown="if (event.keyCode == 13) { document.getElementById('btn_enter').click();}"
+                               value="{if !$instock_unknown}{$instock}{/if}" onkeydown="if (event.keyCode == 13) { document.getElementById('btn_enter').click();}"
                                {if !$can_instock || $instock_unknown}disabled{/if}>
                     </div>
                     <div class="col-md-2">
