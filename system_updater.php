@@ -29,11 +29,14 @@ use PartDB\Database;
 use PartDB\HTML;
 use PartDB\Permissions\DatabasePermission;
 use PartDB\Permissions\PermissionManager;
-use PartDB\Tools\SystemUpdater;
+use PartDB\Updater\SystemUpdater;
+use PartDB\Updater\UpdateStatus;
 use PartDB\User;
 
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
+
+$refresh = false;
 
 /********************************************************************************
  *
@@ -52,12 +55,14 @@ if (isset($_POST['download'])) {
  *
  *********************************************************************************/
 
+
 $html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Datenbank');
 
 try {
     $database = new Database();
     $log = new \PartDB\Log($database);
     $current_user = User::getLoggedInUser($database, $log);
+    $status = new UpdateStatus();
 
     $updater = new SystemUpdater(SystemUpdater::CHANNEL_DEV);
 } catch (Exception $e) {
@@ -76,6 +81,7 @@ if (!$fatal_error) { //Allow to save connection settings, even when a error happ
             break;
         case "download":
             $updater->downloadUpdate();
+            $refresh = true;
             break;
     }
 }
@@ -85,6 +91,14 @@ if (!$fatal_error) { //Allow to save connection settings, even when a error happ
  *   Set all HTML variables
  *
  *********************************************************************************/
+
+if($status->getDownloading()){
+    $refresh = true;
+}
+
+if($refresh ) {
+    $html->setMeta(array('autorefresh' => 1000));
+}
 
 
 if (! $fatal_error) {
@@ -98,6 +112,7 @@ if (! $fatal_error) {
 }
 
 
+$html->setVariable('is_downloading', $status->getDownloading(), "bool");
 
 /********************************************************************************
  *

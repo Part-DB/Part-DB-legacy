@@ -421,7 +421,8 @@ class AjaxUI {
         }
 
         //Push only if it was a "GET" request and requested data was an HTML
-        if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
+        if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp"
+            && settings.url.indexOf("update_worker.php") == -1) {
 
             //Push the cleaned (no ajax request) to history
             window.history.pushState(null, "", removeURLparam(settings.url, "ajax"));

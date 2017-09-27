@@ -6,8 +6,10 @@
  * Time: 15:16
  */
 
-namespace PartDB\Tools;
+namespace PartDB\Updater;
 
+
+use PartDB\Updater\UpdateStatus;
 
 class SystemUpdater
 {
@@ -21,9 +23,12 @@ class SystemUpdater
 
     private $github_repo = "jbtronics/Part-DB";
 
+    protected $update_status;
+
     public function __construct($channel)
     {
         $this->channel = $channel;
+        $this->update_status = new UpdateStatus();
     }
 
     public function isUpdateAvailable()
@@ -45,9 +50,9 @@ class SystemUpdater
         $response = json_decode(file_get_contents($API_CALL, false, $context), true);
 
         if ($this->channel == static::CHANNEL_DEV) {
-            return $response[0]['commit']['author']['date'];
-        } else {
             return substr($response[0]['sha'], 0,6);
+        } else {
+            return $response[0]['tag_name'];
         }
     }
 
@@ -65,10 +70,6 @@ class SystemUpdater
 
     public function downloadUpdate()
     {
-        //Ignore user aborts.
-        ignore_user_abort(true);
-        set_time_limit(0);
-
         //Generate Update-Link
         if ($this->channel == static::CHANNEL_STABLE) {
             $newestVersion = $this->getLatestVersionName();
@@ -77,11 +78,11 @@ class SystemUpdater
             $link = "https://github.com/jbtronics/Part-DB/archive/nextgen.zip";
         }
 
-        //Download Update from $link
         if (isset($link)) {
-            return downloadFile($link, BASE . "/data/updater/", $this->buildUpdateDownloadTargetPath());
+            $this->update_status->setDownloadLink($link);
+            $this->update_status->setDownloadTarget($this->buildUpdateDownloadTargetPath());
+        } else {
+            $this->update_status->setDownloadLink("");
         }
-
-        throw new \Exception(_("Ungültige Version"));
     }
 }

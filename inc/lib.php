@@ -599,7 +599,7 @@ function curlGetData($url)
  * @throws Exception Throws an exception if an error happened, or file could not be downloaded.
  * @return string|boolean The path of the created file, when the file was successful downloaded. False, when an error happened.
  */
-function downloadFile($url, $path, $filename = "", $download_override = false)
+function downloadFile($url, $path, $filename = "", $download_override = false, $timeout = 30)
 {
     global $config;
     if ($config['allow_server_downloads'] == false && $download_override == false) {
@@ -617,7 +617,7 @@ function downloadFile($url, $path, $filename = "", $download_override = false)
         $filename = basename($parts['path']);
     }
 
-    set_time_limit(30);
+    set_time_limit($timeout);
 
     createPath($path);
 
