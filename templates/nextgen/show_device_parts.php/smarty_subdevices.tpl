@@ -17,7 +17,7 @@
                 <!--the alternating background colors are created here-->
                 <tr>
                     <td>
-                        <div class="radio" style="width: 10px">
+                        <div class="radio" style="width: 10px;">
                             <input type="radio" name="primary_device" value="{$dev.id}"
                                    onchange="submitForm($(this).closest('form'));" {if $dev.is_primary}checked{/if}>
                             <label><a href="show_device_parts.php?device_id={$dev.id}">{$dev.name}</a></label>

@@ -1,12 +1,8 @@
 <?php
 /*
-    part-db version 0.1
-    Copyright (C) 2005 Christoph Lechner
-    http://www.cl-projects.de/
-
-    part-db version 0.2+
-    Copyright (C) 2009 K. Jacobs and others (see authors.php)
-    http://code.google.com/p/part-db/
+    Part-DB Version 0.4+ "nextgen"
+    Copyright (C) 2017 Jan Böhmer
+    https://github.com/jbtronics
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -21,13 +17,6 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-
-    $Id$
-
-    Changelog (sorted by date):
-        [DATE]      [NICKNAME]          [CHANGES]
-        2012-??-??  weinbauer73         - changed to templates
-        2012-09-13  kami89              - changed to OOP
 */
 
 include_once('start_session.php');

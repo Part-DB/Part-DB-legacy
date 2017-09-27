@@ -286,8 +286,9 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *********************************************************************************/
 
     /**
-     * @copydoc DBElement::check_values_validity()
+     * @copydoc PartDB\DBElement::check_values_validity()
      * @param Pricedetails $element
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {

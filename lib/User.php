@@ -263,6 +263,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     /**
      * Checks if a given password, is valid for this account.
      * @param $password string The password which should be checked.
+     * @return bool True, if the password was valid.
      */
     public function isPasswordValid($password)
     {
@@ -332,9 +333,13 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Sets a new password, for the User.
      * @param $new_password string The new password.
      * @param $need_to_change_pw bool When true, the user has to change the password afterwards.
+     * @throws Exception If an error occured.
      */
-    public function setPassword($new_password, $need_to_change_pw = false)
+    public function setPassword($new_password, $need_to_change_pw = false, $check_pw_length = true)
     {
+        if ($check_pw_length && strlen($new_password) < 6) {
+            throw new Exception(sprintf(_("Das neue Password muss mindestens %d Zeichen lang sein"), 6));
+        }
         if ($this->getID() == static::ID_ANONYMOUS) {
             throw new Exception(_("Das Password des anonymous Users kann nicht geändert werden!"));
         }
@@ -790,7 +795,10 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         if (!empty($password) && !$user->isPasswordValid($password)) { //If $password is set, and wrong.
             return false;
         }
+        //Open session, so we can edit $_SESSION var.
+        @session_start();
         $_SESSION['user'] = $user->getID();
+        session_write_close();
         return true;
     }
 
@@ -800,7 +808,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public static function logout()
     {
+        @session_start();
         $_SESSION['user'] = static::ID_ANONYMOUS;
+        session_write_close();
         return true;
     }
 
