@@ -21,7 +21,7 @@ class AjaxUI {
 
     private trees_filled : boolean = false;
 
-    private xhrPool : Array<JQueryXHR> = []
+    private xhrPool : Array<JQueryXHR> = [];
 
     /**
      * Creates a new AjaxUI object.
@@ -681,7 +681,6 @@ $("#search-submit").click(function (event) {
  * @param {int} threshold
  */
 function livesearch(event, object : any, threshold : int) {
-
     //Ignore enter key.
     if(event.key == "Enter") {
         return;
@@ -692,13 +691,19 @@ function livesearch(event, object : any, threshold : int) {
     let form = $obj.closest("form");
     //Dont show progbar on live search.
     form.addClass("no-progbar");
+    let xhr = form.data('jqxhr');
+    //If an ajax operation is already ongoing, then stop it.
+    if(typeof xhr !== "undefined") {
+        xhr.abort();
+    }
     if(q.length >= threshold) {
-        let xhr = form.data('jqxhr');
-        //If an ajax operation is already ongoing, then stop it.
-        if(typeof xhr !== "undefined") {
-            xhr.abort();
-        }
         submitForm(form);
+    }
+    else {
+        //Only show link, if the text is shorter than before.
+        if(event.key == "Backspace") {
+            openLink(BASE + "show_search_parts.php?hint");
+        }
     }
     //Show progbar, when user presses submit button.
     form.removeClass("no-progbar");

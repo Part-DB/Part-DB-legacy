@@ -1,22 +1,23 @@
 <?php
 
 /*
-part-db version 0.4
-Copyright (C) 2016 Jan B�hmer
+    Part-DB Version 0.4+ "nextgen"
+    Copyright (C) 2017 Jan Böhmer
+    https://github.com/jbtronics
 
-This program is free software; you can redistribute it and/or
-modify it under the terms of the GNU General Public License
-as published by the Free Software Foundation; either version 2
-of the License, or (at your option) any later version.
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
 */
 
 include_once('start_session.php');
@@ -82,26 +83,32 @@ try {
 if(!$fatal_error) {
     switch ($action) {
         case "change_pw":
-            if ($config['is_online_demo']) {
-                $messages[] = array('text' => _("Diese Funktion ist in der Onlinedemo deaktiviert!"), 'strong' => true, 'color' => 'red');
-                break;
+            try {
+                if ($config['is_online_demo']) {
+                    $messages[] = array('text' => _("Diese Funktion ist in der Onlinedemo deaktiviert!"), 'strong' => true, 'color' => 'red');
+                    break;
+                }
+
+                if ($pw_1 == "" || $pw_2 == "") {
+                    $messages[] = array('text' => _("Das neue Password darf nicht leer sein!"), 'strong' => true, 'color' => 'red');
+                    break;
+                }
+                if ($pw_1 !== $pw_2) {
+                    $messages[] = array('text' => _("Das neue Password und die Bestätigung müssen übereinstimmen!"), 'strong' => true, 'color' => 'red');
+                    break;
+                }
+                if (!$current_user->isPasswordValid($pw_old)) {
+                    $messages[] = array('text' => _("Das eingegebene alte Password war falsch!"), 'strong' => true, 'color' => 'red');
+                    break;
+                }
+                //If all checks were ok, change the password!
+                $current_user->setPassword($pw_1, false);
+                $messages[] = array('text' => _("Das Passwort wurde erfolgreich geändert!"), 'strong' => true, 'color' => 'green');
+            } catch (Exception $e) {
+                $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
+                $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
             }
 
-            if ($pw_1 == "" || $pw_2 == "") {
-                $messages[] = array('text' => _("Das neue Password darf nicht leer sein!"), 'strong' => true, 'color' => 'red');
-                break;
-            }
-            if ($pw_1 !== $pw_2) {
-                $messages[] = array('text' => _("Das neue Password und die Bestätigung müssen übereinstimmen!"), 'strong' => true, 'color' => 'red');
-                break;
-            }
-            if (!$current_user->isPasswordValid($pw_old)) {
-                $messages[] = array('text' => _("Das eingegebene alte Password war falsch!"), 'strong' => true, 'color' => 'red');
-                break;
-            }
-            //If all checks were ok, change the password!
-            $current_user->setPassword($pw_1, false);
-            $messages[] = array('text' => _("Das Passwort wurde erfolgreich geändert!"), 'strong' => true, 'color' => 'green');
             break;
 
         case 'apply':

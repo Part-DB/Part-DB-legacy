@@ -350,7 +350,6 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
 function setAdminPassword($old_password, $new_password_1, $new_password_2, $save_config = true)
 {
     global $config;
-    $salt = 'h>]gW3$*j&o;O"s;@&G)';
 
     settype($old_password, 'string');
     settype($new_password_1, 'string');
@@ -363,8 +362,8 @@ function setAdminPassword($old_password, $new_password_1, $new_password_2, $save
         throw new Exception(_('Das eingegebene Administratorpasswort ist nicht korrekt!'));
     }
 
-    if (mb_strlen($new_password_1) < 4) {
-        throw new Exception(_('Das neue Passwort muss mindestens 4 Zeichen lang sein!'));
+    if (mb_strlen($new_password_1) < 6) {
+        throw new Exception(_('Das neue Passwort muss mindestens 6 Zeichen lang sein!'));
     }
 
     if ($new_password_1 !== $new_password_2) {
@@ -372,7 +371,7 @@ function setAdminPassword($old_password, $new_password_1, $new_password_2, $save
     }
 
     // all ok, save the new password
-    $config['admin']['password'] = hash('sha256', $salt.$new_password_1);
+    $config['admin']['password'] = password_hash($new_password_1, PASSWORD_DEFAULT);
 
     if ($save_config) {
         saveConfig();
@@ -382,7 +381,7 @@ function setAdminPassword($old_password, $new_password_1, $new_password_2, $save
 /**
  * Check if a string is the correct admin password
  *
- * @param $passwort string      The password (plain, not crypted) we want to check
+ * @param $password string      The password (plain, not crypted) we want to check
  *                              (compare with the administrators password)
  *
  * @return boolean      * true if the password is correct
@@ -403,7 +402,34 @@ function isAdminPassword($password)
         return true;
     }
 
-    return (hash('sha256', $salt.$password) === $config['admin']['password']);
+    if(strcontains($config['admin']['password'], "$") === false) {
+        //Old method
+        return (hash('sha256', $salt.$password) === $config['admin']['password']);
+    } else {
+        return password_verify($password, $config['admin']['password']);
+    }
+}
+
+/**
+ * Check if the admin password needs a change.
+ *
+ * This could be, because Part-DB is using the legacy SHA256 hash, or PHP has an better Hashing algorithm.
+ *
+ * @return bool True, if the password has to be changed.
+ */
+function needChangeAdminPassword()
+{
+    global $config;
+    if($config['admin']['password'] == "") {
+        return true;
+    }
+    //If Admin password uses the old hasing method using SHA256, we need to migrate.
+    if (strcontains($config['admin']['password'], "$") === false) {
+        return true;
+    } else {
+        //Check if default password algo has changed.
+        return password_needs_rehash($config['admin']['password'], PASSWORD_DEFAULT);
+    }
 }
 
 /**
@@ -1380,7 +1406,8 @@ function parseTristateCheckbox($tristate_data) {
 
 /**
  * Format the current timestamp regarding to the locale settings.
- * @param $timestamp
+ * @param $timestamp int The timestamp which should be formatted.
+ * @return string The formatted string.
  */
 function formatTimestamp($timestamp) {
     global $config;

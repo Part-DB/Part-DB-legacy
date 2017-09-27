@@ -214,7 +214,7 @@ if (! $fatal_error) {
                             throw new Exception(_("Das neue Password und die Bestätigung müssen übereinstimmen!"));
                         }
 
-                        $selected_user->setPassword($new_password, $must_change_pw);
+                        $selected_user->setPassword($new_password, $must_change_pw, false);
                         $messages[] = array('text' => _("Das Passwort wurde erfolgreich geändert!"), 'strong' => true, 'color' => 'green');
                     } catch (Exception $e) {
                         $messages[] = array('text' => _('Das Password des Users konnte nicht geändert werden!'), 'strong' => true, 'color' => 'red');

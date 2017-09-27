@@ -1,10 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: janhb
- * Date: 12.09.2017
- * Time: 16:32
- */
+/*
+    Part-DB Version 0.4+ "nextgen"
+    Copyright (C) 2017 Jan Böhmer
+    https://github.com/jbtronics
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+*/
 
 namespace PartDB\Permissions;
 
@@ -209,6 +222,7 @@ abstract class BasePermission
      * Reads a bit pair from $data.
      * @param $data int The data from where the bits should be extracted from.
      * @param $n int The number of the lower bit (of the pair) that should be read. Starting from zero.
+     * @return int The value of the bit pair.
      */
     final protected static function readBitPair($data, $n)
     {

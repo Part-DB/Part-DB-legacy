@@ -8,6 +8,14 @@
     </div>
 {/if}
 
+{if isset($must_change_admin_pw) && $must_change_admin_pw}
+    <div class="alert alert-danger">
+        <h4>{t}Password Änderung erforderlich!{/t}</h4>
+        <strong>{t}Aus Sicherheitsgründen müssen sie das Admin Password ändern.{/t}</strong>
+        <p>{t escape=false}Besuchen sie hierzu in die <a href="system_config.php">Systemeinstellungen</a>.{/t}</p>
+    </div>
+{/if}
+
 {if isset($database_update) && $database_update}
     {if $database_update}
         <div class="panel panel-danger">
@@ -104,7 +112,7 @@
         <br>
         {t}Initiator:{/t} <strong>Christoph Lechner</strong> - <a class="link-external" rel="noopener" target="_blank" href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
         {t}Autor seit 2009:{/t} <strong>K. Jacobs</strong> - <a class="link-external" rel="noopener" target="_blank" href="http://www.grautier.com/">http://grautier.com</a><br>
-        {t}Neues Design 2016 durch:{/t}  <strong>Jan Böhmer</strong><br>
+        {t}Autor seit 2016:{/t} <strong>Jan Böhmer</strong> - <a class="link-external" rel="noopener" target="_blank" href="https://github.com/jbtronics">Github</a><br>
         <br>
         {t}Weitere Autoren:{/t}
         <table class="table">
