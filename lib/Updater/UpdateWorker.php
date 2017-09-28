@@ -75,14 +75,14 @@ class UpdateWorker
         $excludes[] = "update_worker.php";
 
         //Remove all old files, so we can extract the new ones.
-        //$this->rmDirRecursive(BASE, $excludes);
+        $this->rmDirRecursive(BASE, $excludes);
         //Unzip the new version.
 
         $zipExcludes[] = "data";
         $zipExcludes[] = "vendor";
         $zipExcludes[] = ".idea";
 
-        $this->unzipUpdate(BASE . "/tmp", $path, $zipExcludes);
+        $this->unzipUpdate(BASE , $path, $zipExcludes);
 
         $this->update_status->setUpdateSource("");
         $this->update_status->setUpdating(false);
@@ -156,7 +156,7 @@ class UpdateWorker
                 $movedir = false;
                 foreach ($files as $file) {
                     if (strpos($file, "Part-DB-") !== false) {
-                        $movedir = $file;
+                        $movedir = $fle;
                     }
                 }
                 //When needed move files and clean up
