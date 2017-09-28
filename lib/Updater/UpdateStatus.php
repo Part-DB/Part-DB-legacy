@@ -68,10 +68,10 @@ class UpdateStatus
 
     public function getUpdateSource()
     {
-        if (!isset($this->data['update_target'])) {
+        if (!isset($this->data['update_source'])) {
             return "";
         }
-        return $this->data['update_target'];
+        return $this->data['update_source'];
     }
 
     public function getUpdating()
