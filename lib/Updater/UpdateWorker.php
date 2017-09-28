@@ -65,8 +65,9 @@ class UpdateWorker
         }
 
         $excludes = array();
-        $excludes[] = "data/";
-        $excludes[] = "vendor/";
+        $excludes[] = "data";
+        $excludes[] = "vendor";
+        $excludes[] = ".idea";
         $excludes[] = "user_settings.php";
         $excludes[] = "update_worker.php";
 
