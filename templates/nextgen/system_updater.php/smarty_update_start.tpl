@@ -30,6 +30,13 @@
                 <button class="btn btn-primary" type="submit" name="download" value=""
                         {if $is_downloading}disabled{/if}>{t}Downloade neue Version{/t}</button>
             </form>
+
+            <br>
+
+            <form method="post" class="form no-progbar">
+                <button class="btn btn-primary" type="submit" name="update" value=""
+                        {if $is_downloading}disabled{/if}>{t}Führe Aktualisierung durch.{/t}</button>
+            </form>
         </div>
     </div>
 {/if}

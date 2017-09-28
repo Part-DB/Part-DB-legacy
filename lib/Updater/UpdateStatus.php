@@ -66,6 +66,22 @@ class UpdateStatus
         return $this->data['download_target'];
     }
 
+    public function getUpdateSource()
+    {
+        if (!isset($this->data['update_target'])) {
+            return "";
+        }
+        return $this->data['update_target'];
+    }
+
+    public function getUpdating()
+    {
+        if (!isset($this->data['updating'])) {
+            return false;
+        }
+        return $this->data['updating'];
+    }
+
     /***********************
      * Setters
      ***********************/
@@ -86,6 +102,18 @@ class UpdateStatus
     public function setDownloadTarget($target_path)
     {
         $this->data['download_target'] = $target_path;
+        $this->saveFile();
+    }
+
+    public function setUpdateSource($source)
+    {
+        $this->data['update_source'] = $source;
+        $this->saveFile();
+    }
+
+    public function setUpdating($val)
+    {
+        $this->data['updating'] = $val;
         $this->saveFile();
     }
 

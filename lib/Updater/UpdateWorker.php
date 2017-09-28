@@ -28,6 +28,9 @@ class UpdateWorker
         if ($this->update_status->getDownloadLink() !== "" && $this->update_status->getDownloadTarget() !== "") {
             $this->download();
         }
+        if ($this->update_status->getUpdateSource() !== "") {
+            $this->update();
+        }
     }
 
     protected function download()
@@ -48,9 +51,60 @@ class UpdateWorker
                     $this->update_status->setDownloadLink("");
                     $this->update_status->setDownloadTarget("");
                 }
-            } catch (\Exception $ex){
+            } catch (\Exception $ex) {
                 $this->update_status->setDownloading(false);
             }
+        }
+    }
+
+    protected function update()
+    {
+        //Abort if update is already in progress.
+        if ($this->update_status->getUpdating()) {
+            return;
+        }
+
+        $excludes = array();
+        $excludes[] = "data/";
+        $excludes[] = "vendor/";
+        $excludes[] = "user_settings.php";
+        $excludes[] = "update_worker.php";
+
+        //Remove all old files, so we can extract the new ones.
+        $this->rmDirRecursive(BASE, $excludes);
+    }
+
+    //Deletes recursive all data from the path $dirname except the files and folders listet in array $deleteExceptions
+    protected static function rmDirRecursive($dirname, $deleteExceptions)
+    {
+        // Sanity check
+        if (!file_exists($dirname)) {
+            return false;
+        }
+
+        // Simple delete for a file
+        if (is_file($dirname) || is_link($dirname)) {
+            return unlink($dirname);
+        }
+
+        // Loop through the folder
+        $dir = dir($dirname);
+        while (false !== $entry = $dir->read()) {
+            // Skip pointers
+            if ($entry == '.' || $entry == '..' || in_array($entry, $deleteExceptions)) {
+                continue;
+            }
+
+            // Recurse
+            static::rmDirRecursive($dirname . DIRECTORY_SEPARATOR . $entry, $deleteExceptions);
+        }
+
+        // Clean up
+        $dir->close();
+
+        if($dirname != getcwd())
+        {
+            return rmdir($dirname);
         }
     }
 }

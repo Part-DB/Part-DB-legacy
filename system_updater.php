@@ -48,6 +48,9 @@ $action = 'default';
 if (isset($_POST['download'])) {
     $action = "download";
 }
+if (isset($_POST['update'])) {
+    $action = "update";
+}
 
 /********************************************************************************
  *
@@ -83,6 +86,10 @@ if (!$fatal_error) { //Allow to save connection settings, even when a error happ
             $updater->downloadUpdate();
             $refresh = true;
             break;
+        case "update":
+            $updater->startUpdate();
+            $refresh = true;
+            break;
     }
 }
 
@@ -92,7 +99,7 @@ if (!$fatal_error) { //Allow to save connection settings, even when a error happ
  *
  *********************************************************************************/
 
-if($status->getDownloading()){
+if($status->getDownloading() || $status->getDownloading()){
     $refresh = true;
 }
 

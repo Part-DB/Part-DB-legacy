@@ -85,4 +85,16 @@ class SystemUpdater
             $this->update_status->setDownloadLink("");
         }
     }
+
+    public function startUpdate()
+    {
+        $this->update_status->setUpdateSource(BASE . "/data/updater/" . $this->buildUpdateDownloadTargetPath());
+    }
+
+    public function checkIfUpdateValid()
+    {
+        if (!file_exists(BASE . "/data/updater/" . $this->buildUpdateDownloadTargetPath())) {
+            return false;
+        }
+    }
 }

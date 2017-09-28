@@ -55,11 +55,10 @@ function downloadUpdate($newestVersion)
     }
 
     //Download Update from $link
-    if(isset($link))
+    if (isset($link))
     {
         return file_put_contents($newestVersion . '.zip',file_get_contents($link));
-    }
-    else
+    } else
     {
         return false;
     }
