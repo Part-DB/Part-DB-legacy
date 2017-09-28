@@ -77,7 +77,12 @@ class UpdateWorker
         //Remove all old files, so we can extract the new ones.
         //$this->rmDirRecursive(BASE, $excludes);
         //Unzip the new version.
-        $this->unzipUpdate(BASE . "/tmp", $path, $excludes);
+
+        $zipExcludes[] = "data";
+        $zipExcludes[] = "vendor";
+        $zipExcludes[] = ".idea";
+
+        $this->unzipUpdate(BASE . "/tmp", $path, $zipExcludes);
 
         $this->update_status->setUpdateSource("");
         $this->update_status->setUpdating(false);
@@ -119,6 +124,7 @@ class UpdateWorker
     //Writes the new data from $newestVersion.zip to $dirname except the files and folders listet in array $unzipExceptions
     protected function unzipUpdate($dirname, $updatePath, $unzipExceptions)
     {
+
         //Check for Update-File
         if (!file_exists($updatePath)) {
             return 'Keine ZIP-Archive gefunden';
@@ -130,51 +136,43 @@ class UpdateWorker
             //Reading all Paths from ZIP
             if ($zip->open($updatePath) == true) {
                 for ($i = 1; $i < $zip->numFiles; $i++) {
-                    $zipPaths[] = $zip->getNameIndex($i);
-                }
-
-                //Alle PATHS durchlaufen
-                foreach ($zipPaths as $zipPath) {
+                    //Check for unzipExceptions
+                    $name = $zip->getNameIndex($i);
                     foreach ($unzipExceptions as $exception) {
-                        if (strpos($zipPath, $exception) !== false) {
-                            //zipPath Ã¼berspringen da in Ausnahme enthalten
-                            $skip = true;
+                        if (strpos($name, $exception)) {
+                            continue;
                         }
                     }
-
-                    //UNZIP
-                    //if $zipPath is a file, move that file from zip to target
-                    if (!(substr($zipPath, -1) == '/') && !$skip) {
-                        //Generate UnZip-Target Path
-                        $target = $dirname . '/' . explode('/', $zipPath, 2)[1];
-
-                        $fp = $zip->getStream($zipPath);
-                        $ofp = fopen($target, 'w');
-
-                        while (!feof($fp)) {
-                            fwrite($ofp, fread($fp, 8192));
-                        }
-                        fclose($fp);
-                        fclose($ofp);
-
-                        //Set rights for files
-                        chmod($target, 0444);
-                    } //if $zipPath is a folder, create a new folder to $target
-                    elseif ((substr($zipPath, -1) == '/') && !$skip) {
-                        $target = $dirname . '/' . explode('/', $zipPath, 2)[1];
-                        mkdir($target, 0555, true);
-                    }
-                    $skip = FALSE;
+                    $zipPaths[] = $name;
                 }
+
+                //Extract files from ZIP archive
+                $zip->extractTo($dirname, $zipPaths);
+
                 $zip->close();
+
+                //Check if we need to move files, because all files are in a Part-DB-* folder.
+                $files = scandir($dirname);
+                $movedir = false;
+                foreach ($files as $file) {
+                    if (strpos($file, "Part-DB-") !== false) {
+                        $movedir = $file;
+                    }
+                }
+                //When needed move files and clean up
+                if ($movedir !== false) {
+                    rmove($dirname . "/" . $movedir, $dirname);
+                    rmdir($dirname . "/" . $movedir);
+                }
+
 
                 //Delete ZIP-File
                 unlink($updatePath);
 
-                return TRUE;
+                return true;
             } else {
                 //open zip failed
-                return FALSE;
+                return false;
             }
         }
     }
