@@ -20,6 +20,19 @@
             <h4>{t}Dies kann einen Moment dauern...{/t}</h4>
         </div>
     </div>
+{elseif $is_updating}
+    <div class="panel panel-primary">
+        <div class="panel-heading">{t}Führe Aktualisierung durch{/t}</div>
+        <div class="panel-body">
+            <div class="progress">
+                <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+                     aria-valuemax="100" style="width: 100%;">
+                    <span>{t}Lade{/t}</span>
+                </div>
+            </div>
+            <h4>{t}Dies kann einen Moment dauern...{/t}</h4>
+        </div>
+    </div>
 {else}
     <div class="panel panel-primary">
         <div class="panel-heading"><i class="fa fa-cloud fa-fw" aria-hidden="true"></i>

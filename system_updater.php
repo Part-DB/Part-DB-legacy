@@ -120,6 +120,7 @@ if (! $fatal_error) {
 
 
 $html->setVariable('is_downloading', $status->getDownloading(), "bool");
+$html->setVariable('is_updating', $status->getUpdating(), "bool");
 
 /********************************************************************************
  *
