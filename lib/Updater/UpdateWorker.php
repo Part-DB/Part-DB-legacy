@@ -91,7 +91,7 @@ class UpdateWorker
         $dir = dir($dirname);
         while (false !== $entry = $dir->read()) {
             // Skip pointers
-            if ($entry == '.' || $entry == '..' || in_array($entry, $deleteExceptions)) {
+            if ($entry == '.' || $entry == '..' || $entry = ".git" || in_array($entry, $deleteExceptions)) {
                 continue;
             }
 
