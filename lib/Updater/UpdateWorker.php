@@ -75,9 +75,12 @@ class UpdateWorker
         $excludes[] = "update_worker.php";
 
         //Remove all old files, so we can extract the new ones.
-        $this->rmDirRecursive(BASE, $excludes);
+        //$this->rmDirRecursive(BASE, $excludes);
         //Unzip the new version.
-        $this->unzipUpdate(BASE, $path, $excludes);
+        $this->unzipUpdate(BASE . "/tmp", $path, $excludes);
+
+        $this->update_status->setUpdateSource("");
+        $this->update_status->setUpdating(false);
     }
 
     //Deletes recursive all data from the path $dirname except the files and folders listet in array $deleteExceptions

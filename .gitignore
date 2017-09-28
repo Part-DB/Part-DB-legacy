@@ -184,3 +184,5 @@ node_modules/*
 vendor/*
 
 *.cache
+
+tmp/
