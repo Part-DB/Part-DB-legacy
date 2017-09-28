@@ -64,6 +64,8 @@ class UpdateWorker
             return;
         }
 
+        $this->update_status->setUpdating(true);
+
         $excludes = array();
         $excludes[] = "data";
         $excludes[] = "vendor";
