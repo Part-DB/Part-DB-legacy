@@ -78,6 +78,9 @@ class UpdateWorker
         $excludes[] = "user_settings.php";
         $excludes[] = "update_worker.php";
 
+        //Create a new ZIP archive object, so PHP caches this, so we can use it, without Autoloader.
+        $zip = new \ZipArchive;
+
         //Remove all old files, so we can extract the new ones.
         $this->rmDirRecursive(BASE, $excludes);
         //Unzip the new version.
@@ -86,7 +89,7 @@ class UpdateWorker
         $zipExcludes[] = "vendor";
         $zipExcludes[] = ".idea";
 
-        $this->unzipUpdate(BASE , $path, $zipExcludes);
+        $this->unzipUpdate(BASE, $path, $zipExcludes, $zip);
 
         $this->update_status->setUpdateSource("");
         $this->update_status->setUpdating(false);
@@ -126,7 +129,7 @@ class UpdateWorker
     }
 
     //Writes the new data from $newestVersion.zip to $dirname except the files and folders listet in array $unzipExceptions
-    protected function unzipUpdate($dirname, $updatePath, $unzipExceptions)
+    protected function unzipUpdate($dirname, $updatePath, $unzipExceptions, &$zip = null)
     {
 
         //Check for Update-File
@@ -135,7 +138,9 @@ class UpdateWorker
         } //Proceed with Update
         else {
             $zipPaths = array();
-            $zip = new \ZipArchive;
+            if ($zip == null) {
+                $zip = new \ZipArchive;
+            }
 
             //Reading all Paths from ZIP
             if ($zip->open($updatePath) == true) {
