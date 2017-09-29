@@ -64,6 +64,10 @@ class UpdateWorker
             return;
         }
 
+        //Ignore user aborts.
+        ignore_user_abort(true);
+        set_time_limit(0);
+
         $this->update_status->setUpdating(true);
         $path = $this->update_status->getUpdateSource();
 
