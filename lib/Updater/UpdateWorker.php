@@ -75,7 +75,7 @@ class UpdateWorker
         $excludes[] = "data";
         $excludes[] = "vendor";
         $excludes[] = ".idea";
-        $excludes[] = "user_settings.php";
+        $excludes[] = "system_updater.php";
         $excludes[] = "update_worker.php";
 
         //Create a new ZIP archive object, so PHP caches this, so we can use it, without Autoloader.
