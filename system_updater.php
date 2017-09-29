@@ -29,6 +29,7 @@ use PartDB\Database;
 use PartDB\HTML;
 use PartDB\Permissions\DatabasePermission;
 use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\SystemPermission;
 use PartDB\Updater\SystemUpdater;
 use PartDB\Updater\UpdateStatus;
 use PartDB\User;
@@ -59,12 +60,14 @@ if (isset($_POST['update'])) {
  *********************************************************************************/
 
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Datenbank');
+$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Systemupdate'));
 
 try {
     $database = new Database();
     $log = new \PartDB\Log($database);
     $current_user = User::getLoggedInUser($database, $log);
+    $current_user->tryDo(PermissionManager::SYSTEM, SystemPermission::UPDATE);
+
     $status = new UpdateStatus();
 
     $updater = new SystemUpdater(SystemUpdater::CHANNEL_DEV);
@@ -99,19 +102,18 @@ if (!$fatal_error) { //Allow to save connection settings, even when a error happ
  *
  *********************************************************************************/
 
-if($status->getDownloading() || $status->getDownloading()){
-    $refresh = true;
-}
 
-if($refresh ) {
-    $html->setMeta(array('autorefresh' => 1000));
-}
+
+
 
 
 if (! $fatal_error) {
     try {
-
-
+        if ($status->getDownloading() || $status->getDownloading()){
+            $refresh = true;
+        }
+        $html->setVariable('is_downloading', $status->getDownloading(), "bool");
+        $html->setVariable('is_updating', $status->getUpdating(), "bool");
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
@@ -119,8 +121,11 @@ if (! $fatal_error) {
 }
 
 
-$html->setVariable('is_downloading', $status->getDownloading(), "bool");
-$html->setVariable('is_updating', $status->getUpdating(), "bool");
+
+
+if($refresh ) {
+    $html->setMeta(array('autorefresh' => 1000));
+}
 
 /********************************************************************************
  *
@@ -138,7 +143,9 @@ if (isset($_REQUEST["ajax"])) {
 $reload_link = ($fatal_error || isset($database_update_executed)) ? 'system_database.php' : '';
 $html->printHeader($messages, $reload_link);
 
-if (!$fatal_error || !isset($current_user)) // we don't hide the site content if no user could be created, so the db connection could be repaired.
+if (!$fatal_error) {
     $html->printTemplate('update_start');
+}
+
 
 $html->printFooter();

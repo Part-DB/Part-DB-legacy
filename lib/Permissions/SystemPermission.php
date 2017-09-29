@@ -25,6 +25,7 @@ namespace PartDB\Permissions;
 class SystemPermission extends BasePermission
 {
     const USE_DEBUG  = "use_debug";
+    const UPDATE     = "update";
 
     /**
      * Returns an array of all available operations for this Permission.
@@ -38,6 +39,7 @@ class SystemPermission extends BasePermission
          */
         $operations = array();
         $operations[] = static::buildOperationArray(0, static::USE_DEBUG, _("Debugtools benutzen"));
+        $operations[] = static::buildOperationArray(2, static::UPDATE, _("Update durchführen"));
         return $operations;
     }
 }
