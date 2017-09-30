@@ -731,7 +731,7 @@ $(window).resize(function () {
     $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
 });
 
-$(window).load(function () {
+$(window).on('load', function () {
     $('body').css('padding-top', parseInt($('#main-navbar').css("height"))+10);
 
     $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
