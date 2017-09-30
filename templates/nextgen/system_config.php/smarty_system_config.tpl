@@ -355,12 +355,17 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-sm-10 col-sm-offset-2">
+                            <label class="control-label col-sm-2">{t}Benutzer:{/t}</label>
+                            <div class="col-sm-10">
                                 <div class="checkbox">
                                     <input type="checkbox" name="gravatar_enable" {if $gravatar_enable} checked{/if}>
                                     <label for="downloads_enable">{t}Benutze Gravatar für Benutzeravatare.{/t}</label>
                                 </div>
                                 <p class="help-block"><b>{t}Achtung:{/t}</b> {t}Wenn diese Option aktiv ist, werden die Email Addressen der Benutzer in MD5 gehashter Form an die Server von Gravatar gesendet.{/t}</p>
+                                <div class="checkbox">
+                                    <input type="checkbox" name="login_redirect" {if $login_redirect} checked{/if}>
+                                    <label for="login_redirect">{t}Leite einen Benutzer ohne Rechte beim Aufruf der Startseite, zum Login weiter.{/t}</label>
+                                </div>
                             </div>
                         </div>
 

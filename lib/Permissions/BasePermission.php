@@ -273,4 +273,33 @@ abstract class BasePermission
         return array("n" => $n, "name" => $name, "description" => $description);
     }
 
+    /**
+     * Check if every operation on this Permission is not allowed (forbidden, or unresolved inherit).
+     * @param bool $inherit True, if inherit values should be inherited.
+     * @return bool True, if no operation is allowed on this Perm.
+     */
+    final public function isEverythingForbidden($inherit = true)
+    {
+        foreach (static::listOperations() as $op) {
+            $val = $this->getValue($op['name']);
+            //Inherit
+            if ($inherit && $val == static::INHERIT) {
+                //Try to inherit permission
+                if ($this->perm_holder->getParentPermissionManager() == null) {
+                    $val = static::DISALLOW; //Default to disallow
+                } else {
+                    $val = $this->perm_holder->getParentPermissionManager()->getPermissionValue($this->getName(), $op['name'], true);
+                }
+
+            }
+
+            //When one permission is ALLOW, then not everything is forbidden.
+            if ($val == static::ALLOW) {
+                return false;
+            }
+        }
+
+        return  true;
+    }
+
 }

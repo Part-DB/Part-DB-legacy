@@ -193,6 +193,23 @@ class PermissionManager
         throw new \InvalidArgumentException(_("Keine Permission mit dem gegebenen Namen vorhanden!"));
     }
 
+    /**
+     * Check if every permission, this Manager has access dont have a operation with a ALLOW value.
+     * @param bool $inherit True, if inherit values should be inherited.
+     * @return bool True, if no operation is allowed on this Perm.
+     */
+    public function isEverythingForbidden($inherit = true)
+    {
+        foreach ($this->permissions as $perm_group) {
+            foreach ($perm_group->getPermissions() as $perm) {
+                if (!$perm->isEverythingForbidden($inherit)) {
+                    return false;
+                }
+            }
+        }
+        //If function was not exited before, then every perm has EverythingForbidden.
+        return true;
+    }
 
     /**
      * Add all wanted permissions to $this->permissions.
@@ -242,6 +259,8 @@ class PermissionManager
         $misc_permissions[] = new DevicePartPermission($this->perm_holder, static::DEVICE_PARTS, _("Baugruppenbauteile"));
         $this->permissions[] = new PermissionGroup(_("Verschiedenes"), $misc_permissions);
     }
+
+
 
     /*******************************************************
      * Static functions

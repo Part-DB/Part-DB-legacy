@@ -149,6 +149,7 @@ $info_hide_empty_attachements   = isset($_REQUEST['info_hide_empty_attachements'
 
 //User settings
 $use_gravatar                   = isset($_REQUEST['gravatar_enable']);
+$login_redirect                 = isset($_REQUEST['login_redirect']);
 
 $action = 'default';
 if (isset($_REQUEST["apply"])) {
@@ -237,6 +238,7 @@ if (! $fatal_error) {
             $config['part_info']['hide_empty_orderdetails']     = $info_hide_empty_orderdetails;
 
             $config['user']['avatars']['use_gravatar']          = $use_gravatar;
+            $config['user']['redirect_to_login']                = $login_redirect;
 
             if (! $config['is_online_demo']) {
                 // settings which should not be able to change in the online demo
@@ -388,7 +390,10 @@ $html->setVariable('info_hide_empty_attachements', $config['part_info']['hide_em
 
 //Misc
 $html->setVariable("downloads_enable", $config['allow_server_downloads'], 'boolean');
+
+//Users
 $html->setVariable('gravatar_enable', $config['user']['avatars']['use_gravatar'], 'boolean');
+$html->setVariable('login_redirect', $config['user']['redirect_to_login'], 'boolean');
 
 //Search
 $html->setVariable('livesearch_active', $config['search']['livesearch']);
