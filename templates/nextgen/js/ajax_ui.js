@@ -192,11 +192,13 @@ var AjaxUI = (function () {
             .not(".back-to-top").not(".link-datasheet").unbind("click").click(function (event) {
             event.preventDefault();
             var a = $(this);
-            var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
-            _this.abortAllAjax();
-            $('#content').hide(0).load(href + " #content-data");
-            $('#progressbar').show(0);
-            return true;
+            if (a.attr("href") != null) {
+                var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
+                _this.abortAllAjax();
+                $('#content').hide(0).load(href + " #content-data");
+                $('#progressbar').show(0);
+                return true;
+            }
         });
         $("a.link-anchor").unbind("click").click(function (event) {
             event.preventDefault();
