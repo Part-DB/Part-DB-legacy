@@ -5,7 +5,7 @@ var BASE = "";
  *                                      AjaxUI Class
  * **************************************************************************************
  ****************************************************************************************/
-var AjaxUI = /** @class */ (function () {
+var AjaxUI = (function () {
     /**
      * Creates a new AjaxUI object.
      */
@@ -45,10 +45,10 @@ var AjaxUI = /** @class */ (function () {
         $.ajaxSetup({ beforeSend: function (jqXHR) { _this.xhrPool.push(jqXHR); }
         });
         this.checkRedirect();
-        //Only load start page when on index.php (and no content is loaded already)!
-        if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
-            openLink("startup.php");
-        }
+        /* //Only load start page when on index.php (and no content is loaded already)!
+         if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
+             openLink("startup.php");
+         }*/
         this.tree_fill();
         this.registerForm();
         this.registerLinks();

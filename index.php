@@ -51,6 +51,9 @@ if ((! is_array($config['installation_complete']))
 $html = new HTML($config['html']['theme'], $config['html']['custom_css'], $config['page_title']);
 $html->setVariable('title', $config['page_title'], 'string');
 
+header('Location: startup.php');
+$html->redirect("startup.php");
+
 /********************************************************************************
  *
  *   Check if client is a mobile device
