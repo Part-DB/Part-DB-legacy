@@ -60,11 +60,6 @@ table.dataTable tbody th, table.dataTable tbody td {
     padding: 3px;
 }
 
-.list-group-item {
-    padding: 5px 10px;
-}
-
-
 .thumbnail-sm {
     height: 100px;
 }
@@ -292,6 +287,16 @@ a.link-collapse {
 
 span.highlight {
     background-color: yellow;
+}
+
+/**
+Bootstrap-Treeview override
+ */
+/* Set display style to flexbox, so wraped text is aligned to */
+.list-group-item {
+    display: inherit;
+    padding: 5px 10px;
+    display: flex;
 }
 
 
