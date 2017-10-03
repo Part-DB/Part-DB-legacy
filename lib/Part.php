@@ -1267,7 +1267,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             }
         }
         if ($this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::EDIT)
-        || $this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE)
+            || $this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE)
             || $this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::DELETE)) {
             if (array_key_exists('id_master_picture_attachement', $new_values)) {
                 $arr['id_master_picture_attachement'] = $new_values['id_master_picture_attachement'];
@@ -1406,7 +1406,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                         /** @var $supplier Supplier */
                         $suppliers_loop[] = array(  'row_index'         => $row_index,
                             'supplier_name'     => $supplier->getName(),
-                        'supplier_id' => $supplier->getID());
+                            'supplier_id' => $supplier->getID());
                     }
 
                     $row_field['suppliers'] = $suppliers_loop;
@@ -1537,8 +1537,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'id':
                 case 'button_increment':
                     $row_field['increment_disabled'] = ($this->getInstock() < 0) || !$this->current_user->canDo(PermissionManager::PARTS_INSTOCK,
-                        PartAttributePermission::EDIT);
-                break;
+                            PartAttributePermission::EDIT);
+                    break;
                 case 'button_edit':
                     $row_field['edit_disabled'] = !$this->current_user->canDo(PermissionManager::PARTS,
                         PartPermission::EDIT);
@@ -2241,14 +2241,25 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
 
 
-        $query = 'SELECT parts.* FROM parts'.
-            ' LEFT JOIN footprints ON parts.id_footprint=footprints.id'.
-            ' LEFT JOIN storelocations ON parts.id_storelocation=storelocations.id'.
-            ' LEFT JOIN manufacturers  ON parts.id_manufacturer=manufacturers.id'.
-            ' LEFT JOIN categories ON parts.id_category=categories.id'.
-            ' LEFT JOIN orderdetails ON parts.id=orderdetails.part_id'.
-            ' LEFT JOIN suppliers ON orderdetails.id_supplier=suppliers.id'.
-            ' WHERE FALSE';
+        $query = 'SELECT parts.* FROM parts';
+        if ($footprint_name) {
+            $query .= ' LEFT JOIN footprints ON parts.id_footprint=footprints.id';
+        }
+        if ($storelocation_name) {
+            $query .= ' LEFT JOIN storelocations ON parts.id_storelocation=storelocations.id';
+        }
+        if ($manufacturer_name) {
+            $query .= ' LEFT JOIN manufacturers  ON parts.id_manufacturer=manufacturers.id';
+        }
+        if ($category_name) {
+            $query .= ' LEFT JOIN categories ON parts.id_category=categories.id';
+        }
+        if ($supplierpartnr || $supplier_name) {
+            $query .= ' LEFT JOIN orderdetails ON parts.id=orderdetails.part_id';
+            $query .= ' LEFT JOIN suppliers ON orderdetails.id_supplier=suppliers.id';
+        }
+
+        $query .= ' WHERE FALSE';
 
         if ($part_name && $keywords['name']!=="") {
             $query .= " OR (parts.name $like ?)";
