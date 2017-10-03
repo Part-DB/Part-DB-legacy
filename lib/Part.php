@@ -2207,7 +2207,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             && $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, PartAttributePermission::READ);
 
         //When searchstring begins and ends with a backslash, treat the input as regex query
-        if (substr($keyword, 0, 1) === '\\' &&  substr($keyword, -1) === '\\') {
+        if (substr($keyword, 0, 1) === '\\' &&  substr($keyword, -1) === '\\'
+        || substr($keyword, 0, 1) === '/' &&  substr($keyword, -1) === '/') {
             $regex_search = true;
             $keyword = substr($keyword, 1, -1); //Remove the backslashes
         }
