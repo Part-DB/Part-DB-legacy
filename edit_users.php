@@ -291,7 +291,8 @@ if (! $fatal_error) {
         $html->setVariable('department', $department, 'string');
         $html->setVariable('no_password', $no_password, 'string');
 
-        $html->setVariable('group_list', $root_group->buildHtmlTree($group_id), 'string');
+        $html->setVariable('group_list',
+            $root_group->buildHtmlTree($group_id, true, true, _("Keine Gruppe")), 'string');
 
         $user_list = User::buildHTMLList($database, $current_user, $log, $selected_id);
         $html->setVariable('user_list', $user_list, 'string');

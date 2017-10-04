@@ -28,6 +28,7 @@ include_once('start_session.php');
 include_once(BASE.'/inc/lib.export.php');
 include_once(BASE.'/inc/lib.import.php');
 
+use PartDB\Attachement;
 use PartDB\Database;
 use PartDB\Device;
 use PartDB\DevicePart;
@@ -73,6 +74,14 @@ $import_rowcount          = isset($_REQUEST['import_rowcount'])         ? (integ
 $copy_new_name            = isset($_REQUEST['copy_new_name'])           ? (string)$_REQUEST['copy_new_name']            : '';
 $copy_new_parent_id       = isset($_REQUEST['copy_new_parent_id'])      ? (integer)$_REQUEST['copy_new_parent_id']      : 0;
 $copy_recursive           = isset($_REQUEST['copy_recursive']);
+
+// section: attachements
+$new_show_in_table          = isset($_REQUEST['show_in_table']);
+$attachement_id             = isset($_REQUEST['attachement_id'])            ? (integer)$_REQUEST['attachement_id']           : 0;
+$new_attachement_type_id    = isset($_REQUEST['attachement_type_id'])       ? (integer)$_REQUEST['attachement_type_id']      : 0;
+$new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
+$new_filename               = isset($_REQUEST['attachement_filename'])      ? toUnixPath(trim((string)$_REQUEST['attachement_filename'])) : '';
+$download_file              = isset($_REQUEST['download_file']);
 
 
 $action = 'default';
@@ -124,6 +133,16 @@ if (isset($_REQUEST['primary_device'])) {
     $action = "primary_device";
 }
 
+if (isset($_REQUEST["attachement_add"])) {
+    $action = 'attachement_add';
+}
+if (isset($_REQUEST["attachement_apply"])) {
+    $action = 'attachement_apply';
+}
+if (isset($_REQUEST["attachement_delete"])) {
+    $action = 'attachement_delete';
+}
+
 /********************************************************************************
  *
  *   Initialize Objects
@@ -140,9 +159,17 @@ try {
     $device             = new Device($database, $current_user, $log, $device_id);
     $subdevices         = $device->getSubelements(false);
 
+    $root_attachement_type   = new \PartDB\AttachementType($database, $current_user, $log, 0);
+
     //Check for Device parts read permission, when on Device detail page.
-    if ($device_id > 0){
+    if ($device_id > 0) {
         $current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ);
+    }
+
+    if ($attachement_id > 0) {
+        $attachement = new Attachement($database, $current_user, $log, $attachement_id);
+    } else {
+        $attachement = null;
     }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -332,6 +359,81 @@ if (! $fatal_error) {
                 Device::setPrimaryDevice($id);
             }
             break;
+        case 'attachement_add':
+            try {
+                if (empty($new_filename) && (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) == 0)) {
+                    throw new Exception(_('Sie müssen entweder ein Dateiname angeben, oder eine Datei zum Hochladen wählen!'));
+                }
+
+                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/devices/", $device) : BASE.'/data/media/';
+
+                if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
+                    $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
+                } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
+                    if (isURL($new_filename) && $download_file) {
+                        $downloaded_file_name =  downloadFile($new_filename, $filepath);
+                        if ($downloaded_file_name !== "") {
+                            $new_filename = $downloaded_file_name;
+                        } else {
+                            $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
+                        }
+                    }
+                }
+
+                $new_attachement = Attachement::add(
+                    $database,
+                    $current_user,
+                    $log,
+                    $device,
+                    $new_attachement_type_id,
+                    $new_filename,
+                    $new_name,
+                    $new_show_in_table
+                );
+            } catch (Exception $e) {
+                $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+            }
+            break;
+
+        case 'attachement_apply':
+            try {
+                if (! is_object($attachement)) {
+                    throw new Exception(_('Es ist kein Dateianhang ausgewählt!'));
+                }
+
+                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/devices/", $device) : BASE.'/data/media/';
+
+                if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
+                    $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
+                } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
+                    if (isURL($new_filename) && $download_file) {
+                        $downloaded_file_name =  downloadFile($new_filename, $filepath);
+                        if ($downloaded_file_name !== "") {
+                            $new_filename = $downloaded_file_name;
+                        } else {
+                            $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
+                        }
+                    }
+                }
+
+                $attachement->setAttributes(array( 'type_id'           => $new_attachement_type_id,
+                    'name'              => $new_name,
+                    'filename'          => $new_filename));
+            } catch (Exception $e) {
+                $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+            }
+            break;
+
+        case 'attachement_delete':
+            try {
+                if (! is_object($attachement)) {
+                    throw new Exception(_('Es ist kein Dateianhang ausgewählt!'));
+                }
+                $attachement->delete(true); // the file will be deleted only if there are no other attachements with the same filename
+            } catch (Exception $e) {
+                $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+            }
+            break;
     }
 }
 
@@ -431,6 +533,42 @@ if (! $fatal_error) {
     $html->setVariable('import_format', $import_format, 'string');
     $html->setVariable('import_separator', $import_separator, 'string');
     //$html->set_variable('import_data_is_valid',     (isset($import_data_is_valid) && ($import_data_is_valid)), 'boolean');
+
+    $attachements_loop = array();
+    $all_attachements = $device->getAttachements();
+    $row_odd = true;
+    foreach ($all_attachements as $attachement) {
+        /** @var  $attachement Attachement */
+        $attachement_types_list = $root_attachement_type->buildHtmlTree($attachement->getType()->getID(), true, false);
+        $attachements_loop[] = array(   'row_odd'                   => $row_odd,
+            'id'                        => $attachement->getID(),
+            'attachement_types_list'    => $attachement_types_list,
+            'name'                      => $attachement->getName(),
+            'show_in_table'             => $attachement->getShowInTable(),
+            'is_picture'                => $attachement->isPicture(),
+            'filename'                  => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
+            'filename_base_relative'    => str_replace(BASE.'/', '', $attachement->getFilename()),
+            'picture_filename'          => ($attachement->isPicture() ? str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()) : ''),
+            'download_file'             => $config['attachements']['download_default'] && isURL($attachement->getFilename()));
+        $row_odd = ! $row_odd;
+    }
+
+    // add one additional row -> with this row you can add more files
+    $attachement_types_list = $root_attachement_type->buildHtmlTree(0, true, false);
+    $attachements_loop[] = array(   'row_odd'                   => $row_odd,
+        'id'                        => 'new',
+        'attachement_types_list'    => $attachement_types_list,
+        'name'                      => '',
+        'is_picture'                => true,
+        'show_in_table'             => false,
+        'is_master_picture'         => false,
+        'filename'                  => '',
+        'filename_base_relative'    => '',
+        'picture_filename'          => '',
+        'download_file'             => $config['attachements']['download_default']);
+
+    $html->setLoop('attachements_loop', $attachements_loop);
+
 }
 
 $html->setVariable("can_part_create", $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
@@ -441,6 +579,9 @@ $html->setVariable('can_part_instock', $current_user->canDo(PermissionManager::P
 $html->setVariable('can_part_order', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT));
 $html->setVariable('can_devices_add', $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::CREATE));
 
+$html->setVariable('can_attachement_edit', $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::EDIT));
+$html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
+$html->setVariable('downloads_enable', $config['allow_server_downloads'], "boolean");
 /********************************************************************************
  *
  *   Generate HTML Output
@@ -467,6 +608,8 @@ if (! $fatal_error) {
 
         $html->setLoop('table', $device_parts_loop);
         $html->printTemplate('device_parts');
+
+        $html->printTemplate('attachements');
 
         $html->printTemplate('export');
 

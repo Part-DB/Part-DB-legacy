@@ -70,10 +70,10 @@ class AjaxUI {
 
         this.checkRedirect();
 
-        //Only load start page when on index.php (and no content is loaded already)!
+       /* //Only load start page when on index.php (and no content is loaded already)!
         if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
             openLink("startup.php");
-        }
+        }*/
 
         this.tree_fill();
         this.registerForm();
@@ -243,13 +243,14 @@ class AjaxUI {
             .not(".back-to-top").not(".link-datasheet").unbind("click").click(function (event) {
             event.preventDefault();
             let a = $(this);
-            let href : string = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
+            if(a.attr("href") != null) {
+                let href : string = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
+                _this.abortAllAjax();
 
-            _this.abortAllAjax();
-
-            $('#content').hide(0).load(href + " #content-data");
-            $('#progressbar').show(0);
-            return true;
+                $('#content').hide(0).load(href + " #content-data");
+                $('#progressbar').show(0);
+                return true;
+            }
         });
         
         $("a.link-anchor").unbind("click").click(function (event) {
@@ -313,15 +314,18 @@ class AjaxUI {
         let contextmenu_handler = this.onNodeContextmenu;
 
         $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree : BootstrapTreeViewNodeData[]) {
-            $("#tree-categories").treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
+            $("#tree-categories").treeview({data: tree, enableLinks: false, showIcon: false
+                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
         });
 
         $.getJSON(BASE + 'api.php/1.0.0/tree/devices', function (tree :BootstrapTreeViewNodeData[]) {
-            $('#tree-devices').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
+            $('#tree-devices').treeview({data: tree, enableLinks: false, showIcon: false,
+                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
         });
 
         $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree :BootstrapTreeViewNodeData[]) {
-            $('#tree-tools').treeview({data: tree, enableLinks: false, showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
+            $('#tree-tools').treeview({data: tree, enableLinks: false, showIcon: false,
+                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
         });
 
         this.trees_filled = true;
@@ -730,7 +734,7 @@ $(window).resize(function () {
     $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
 });
 
-$(window).load(function () {
+$(window).on('load', function () {
     $('body').css('padding-top', parseInt($('#main-navbar').css("height"))+10);
 
     $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);

@@ -615,6 +615,11 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             $op_description = $perm::opToDescription($perm_operation);
             $str = _("Der aktuelle Benutzer darf die gewünschte Operation nicht durchführen!");
             $str = $str . " ($group_title->$perm_description: $op_description)";
+
+            //Only show, if the user is not logged in.
+            if ($this->getID() == static::ID_ANONYMOUS) {
+                $str .= _('<br><br>Bitte loggen sie sich ein:') . ' <a href="login.php">' . _('Login'). '</a>';
+            }
             throw new UserNotAllowedException($str);
         }
     }
