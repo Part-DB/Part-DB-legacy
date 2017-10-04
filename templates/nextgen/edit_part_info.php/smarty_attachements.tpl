@@ -13,13 +13,13 @@
                         {if $attach.id == "new"}
                             <b>{t}Neue Datei hinzufügen:{/t}</b>
                         {else}
-                            {if isset($attach.picture_filename)}
-                                <a href="{$attach.picture_filename}">
+                            {if isset($attach.picture_filename) && $attach.picture_filename !== ""}
+                                <a href="{$attach.picture_filename}" class="link-datasheet" rel="noopener" target="_blank">
                                     <img class="img-responsive" rel="popover" src="{$attach.picture_filename}" alt="{$attach.name}">
                                 </a>
                             {else}
-                                {if isset($attach.filename)}
-                                    <a href="{$attach.filename}">{$attach.name}</a>
+                                {if isset($attach.filename) && $attach.filename !== ""}
+                                    <a href="{$attach.filename}" rel="noopener" class="link-external" target="_blank">{$attach.name}</a>
                                 {else}
                                     {$attach.name}
                                 {/if}
