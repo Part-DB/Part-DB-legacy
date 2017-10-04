@@ -28,6 +28,7 @@ namespace PartDB;
 use Exception;
 use PartDB\Base\AttachementsContainingDBElement;
 use PartDB\Base\DBElement;
+use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PermissionManager;
 
@@ -148,7 +149,12 @@ class Attachement extends Base\NamedDBElement
                 $part->setMasterPictureAttachementID(null);
             }
 
-            $this->getElement()->setAttributes(array()); // save element attributes to update its "last_modified"
+            try {
+                $this->getElement()->setAttributes(array()); // save element attributes to update its "last_modified"
+            } catch (Exception $ex) {
+                //Do nothing
+            }
+
 
             // Now we can delete the database record of this attachement
             parent::delete();
@@ -168,7 +174,7 @@ class Attachement extends Base\NamedDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception(sprintf(_("Der Dateianhang \"%s\" konnte nicht entfernt werden!\nGrund: "), $this->getName()).$e->getMessage());
+            throw new Exception(sprintf(_("Der Dateianhang \"%s\" konnte nicht entfernt werden!\nGrund: "), $this->getName()) . $e->getMessage());
         }
     }
 
@@ -406,12 +412,13 @@ class Attachement extends Base\NamedDBElement
         }
 
         //Namespace migration for old non-Namespace parts
-        if($values['class_name'] == "Part"){
+        if ($values['class_name'] == "Part") {
             $values['class_name'] = "PartDB\Part";
         }
 
         // check "class_name"
-        $supported_classes = array("PartDB\Part"); // to be continued (step by step)...
+        $supported_classes = array("PartDB\Part",
+            "PartDB\Device"); // to be continued (step by step)...
         if (! in_array($values['class_name'], $supported_classes)) {
             debug(
                 'error',
@@ -432,7 +439,12 @@ class Attachement extends Base\NamedDBElement
 
             /** @var AttachementsContainingDBElement $element */
             $element = new $values['class_name']($database, $current_user, $log, $values['element_id']);
-            $element->setAttributes(array()); // save element attributes to update its "last_modified"
+            try {
+                $element->setAttributes(array()); // save element attributes to update its "last_modified"
+            } catch (UserNotAllowedException $ex) {
+                //Do nothing
+            }
+
         } catch (Exception $e) {
             debug(
                 'warning',
