@@ -393,7 +393,7 @@ $app->get("/1.0.0/system/info", function ($request, $response, $args) {
 $app->get("/1.0.0/tree/categories[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     try {
-        $tree = generateTreeForClass(Category::class, $database, $current_user, $log, $args, "show_category_parts.php", "cid");
+        $tree = generateTreeForClass("\PartDB\Category", $database, $current_user, $log, $args, "show_category_parts.php", "cid");
         return $response->withJson($tree);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -421,7 +421,7 @@ $app->get("/1.0.0/tree/devices[/{root_id}]", function ($request, $response, $arg
 $app->get("/1.0.0/tree/footprints[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     try {
-        $tree = generateTreeForClass(Footprint::class, $database, $current_user, $log, $args, "show_footprint_parts.php", "fid");
+        $tree = generateTreeForClass("\PartDB\Footprint", $database, $current_user, $log, $args, "show_footprint_parts.php", "fid");
         return $response->withJson($tree);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -434,7 +434,7 @@ $app->get("/1.0.0/tree/footprints[/{root_id}]", function ($request, $response, $
 $app->get("/1.0.0/tree/locations[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     try {
-        $tree = generateTreeForClass(Storelocation::class, $database, $current_user, $log, $args, "show_location_parts.php", "fid");
+        $tree = generateTreeForClass("\PartDB\Storelocation", $database, $current_user, $log, $args, "show_location_parts.php", "fid");
         return $response->withJson($tree);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -447,7 +447,7 @@ $app->get("/1.0.0/tree/locations[/{root_id}]", function ($request, $response, $a
 $app->get("/1.0.0/tree/manufacturers[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     try {
-        $tree = generateTreeForClass(Manufacturer::class, $database, $current_user, $log, $args, "show_manufacturer_parts.php", "fid");
+        $tree = generateTreeForClass("\PartDB\Manufacturer", $database, $current_user, $log, $args, "show_manufacturer_parts.php", "fid");
         return $response->withJson($tree);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
