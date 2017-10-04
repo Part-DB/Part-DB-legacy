@@ -365,7 +365,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Sie müssen entweder ein Dateiname angeben, oder eine Datei zum Hochladen wählen!'));
                 }
 
-                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/", $part->getCategory()) : BASE.'/data/media/';
+                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/devices/", $device) : BASE.'/data/media/';
 
                 if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
                     $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
@@ -401,7 +401,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es ist kein Dateianhang ausgewählt!'));
                 }
 
-                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/devices", $device) : BASE.'/data/media/';
+                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/devices/", $device) : BASE.'/data/media/';
 
                 if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
                     $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
