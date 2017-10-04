@@ -1185,13 +1185,13 @@ function isUsingHTTPS()
 /**
  * Generates a path, based on category structure of a part.
  * @param $base_dir string The base path for the file path structure (with trailing slash)
- * @param $category \PartDB\Category
+ * @param $element \PartDB\Base\StructuralDBElement
  * @return string The generated path
  */
-function generateAttachementPath($base_dir, $category)
+function generateAttachementPath($base_dir, $element)
 {
     //Split full path into different categories
-    $categories = explode("@@", $category->getFullPath("@@"));
+    $categories = explode("@@", $element->getFullPath("@@"));
     //Sanatize each category path
     foreach ($categories as &$category) {
         $category = filter_filename($category, true);

@@ -761,6 +761,7 @@ if (! $fatal_error) {
             $all_attachements = $part->getAttachements();
             $row_odd = true;
             foreach ($all_attachements as $attachement) {
+                /** @var  $attachement Attachement */
                 $attachement_types_list = $root_attachement_type->buildHtmlTree($attachement->getType()->getID(), true, false);
                 $attachements_loop[] = array(   'row_odd'                   => $row_odd,
                     'id'                        => $attachement->getID(),
