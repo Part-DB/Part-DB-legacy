@@ -1432,7 +1432,8 @@ function generatePagination($page_link ,$selected_page, $limit, $max_entries)
     //Back to first page
     $links[] = array("label" => '<i class="fa fa-angle-double-left" aria-hidden="true"></i>',
         "href" => $page_link . "&page=1&limit=$limit",
-        "disabled" => $selected_page == 1);
+        "disabled" => $selected_page == 1,
+        "hint" => _("Springe zur ersten Seite"));
 
     $max_page = ceil($max_entries / $limit);
     $max_page = $max_page > 0 ? $max_page : 1;
@@ -1449,12 +1450,14 @@ function generatePagination($page_link ,$selected_page, $limit, $max_entries)
     //Jump to last page.
     $links[] = array("label" => '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
         "href" => $page_link . "&page=$max_page&limit=$limit",
-        "disabled" => $selected_page == $max_page);
+        "disabled" => $selected_page == $max_page,
+        "hint" => _("Springe zur letzten Seite"));
 
     //Show all results
     $links[] = array("label" => '<i class="fa fa-bars" aria-hidden="true"></i>',
         "href" => $page_link . "&page=0",
-        "active" => $selected_page == 0);
+        "active" => $selected_page == 0,
+        "hint" => _("Zeige alle Bauteile"));
 
     return array("lower_result" => $selected_page > 0 ? ($selected_page -1) * $limit + 1 : 1,
         "upper_result" => ($selected_page * $limit +1) <= $max_entries && $selected_page > 0 ? $selected_page * $limit +1 : $max_entries,
