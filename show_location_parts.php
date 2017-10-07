@@ -42,6 +42,10 @@ $location_id        = isset($_REQUEST['lid'])               ? (integer)$_REQUEST
 $with_sublocations = isset($_REQUEST['subloc'])            ? (boolean)$_REQUEST['subloc']          : true;
 $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
 
+$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+
+
 $action = 'default';
 if (isset($_REQUEST['subloc_button'])) {
     $action = 'change_subloc_state';
@@ -134,10 +138,6 @@ if (! $fatal_error) {
     }
 }
 
-if (isset($reload_site) && $reload_site && (! $config['debug']['request_debugging_enable'])) {
-    // reload the site to avoid multiple actions by manual refreshing
-    header('Location: show_location_parts.php?lid='.$location_id.'&subloc='.$with_sublocations);
-}
 
 /********************************************************************************
  *
@@ -147,10 +147,15 @@ if (isset($reload_site) && $reload_site && (! $config['debug']['request_debuggin
 
 if (! $fatal_error) {
     try {
-        $parts = $location->getParts($with_sublocations, true);
+        $parts = $location->getParts($with_sublocations, true, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'location_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
         $html->setLoop('table', $table_loop);
+
+        $html->setLoop("pagination", generatePagination("show_location_parts.php?lid=$location_id", $page, $limit, $location->getPartsCount($with_sublocations)));
+        $html->setVariable("page", $page);
+        $html->setVariable('limit', $limit);
+
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

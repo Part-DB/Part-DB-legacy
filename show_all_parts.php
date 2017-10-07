@@ -42,6 +42,9 @@ $starttime = microtime(true); // this is to measure the time while debugging is 
 //$with_submanufacturers = isset($_REQUEST['subman'])            ? (boolean)$_REQUEST['subman']          : true;
 $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
 
+$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+
 $action = 'default';
 //if (isset($_REQUEST['subman_button']))      {$action = 'change_subman_state';}
 $selected_part_id = 0;
@@ -133,10 +136,13 @@ if (isset($reload_site) && $reload_site && (! $config['debug']['request_debuggin
 
 if (! $fatal_error) {
     try {
-        $parts = Part::getAllParts($database, $current_user, $log);
+        $parts = Part::getAllParts($database, $current_user, $log, "", $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'all_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
         $html->setLoop('table', $table_loop);
+        $html->setLoop("pagination", generatePagination("show_all_parts.php?", $page, $limit, Part::getCount($database)));
+        $html->setVariable("page", $page);
+        $html->setVariable('limit', $limit);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

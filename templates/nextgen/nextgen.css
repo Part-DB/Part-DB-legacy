@@ -299,4 +299,16 @@ Bootstrap-Treeview override
     display: flex;
 }
 
+/** Select in pagination */
+.pagination>li>select {
+    position: relative;
+    float: left;
+    padding: 7px 5px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
 

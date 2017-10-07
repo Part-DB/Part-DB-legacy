@@ -16,6 +16,14 @@
     </div>
 </div>
 
+<form method="get">
+    <input type="hidden" name="sid" value="{$sid}">
+    <input type="hidden" name="subsup" value="{$with_subsuppliers}">
+    <input type="hidden" name="page" value="1">
+
+    {include "../smarty_pagination.tpl"}
+</form>
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-truck fa-fw" aria-hidden="true"></i>&nbsp;
@@ -25,6 +33,16 @@
         <input type="hidden" name="lid" value="{$sid}">
         <input type="hidden" name="subloc" value="{if $with_subsuppliers}1{else}0{/if}">
         <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
+        <input type="hidden" name="limit" value="{$limit}">
+        <input type="hidden" name="page" value="{$page}">
            {include file='../smarty_table.tpl'}
     </form>
 </div>
+
+<form method="get">
+    <input type="hidden" name="sid" value="{$sid}">
+    <input type="hidden" name="subsup" value="{$with_subsuppliers}">
+    <input type="hidden" name="page" value="1">
+
+    {include "../smarty_pagination.tpl"}
+</form>

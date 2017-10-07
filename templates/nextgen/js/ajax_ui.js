@@ -5,7 +5,7 @@ var BASE = "";
  *                                      AjaxUI Class
  * **************************************************************************************
  ****************************************************************************************/
-var AjaxUI = (function () {
+var AjaxUI = /** @class */ (function () {
     /**
      * Creates a new AjaxUI object.
      */
@@ -134,11 +134,6 @@ var AjaxUI = (function () {
         if (!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
             $('#progressbar').show(0);
-            formData.push({
-                name: "test",
-                value: "Test2435",
-                required: "false"
-            });
         }
         return true;
     };

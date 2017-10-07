@@ -42,6 +42,10 @@ $footprint_id        = isset($_REQUEST['fid'])               ? (integer)$_REQUES
 $with_subfoot       = isset($_REQUEST['subfoot'])            ? (boolean)$_REQUEST['subfoot']          : true;
 $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
 
+$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+
+
 $action = 'default';
 if (isset($_REQUEST['subfoot_button'])) {
     $action = 'change_subfoot_state';
@@ -134,11 +138,6 @@ if (! $fatal_error) {
     }
 }
 
-if (isset($reload_site) && $reload_site && (! $config['debug']['request_debugging_enable'])) {
-    // reload the site to avoid multiple actions by manual refreshing
-    header('Location: show_footprint_parts.php?fid='.$footprint_id.'&subfoot='.$with_subfoot);
-}
-
 /********************************************************************************
  *
  *   Generate Table
@@ -147,10 +146,14 @@ if (isset($reload_site) && $reload_site && (! $config['debug']['request_debuggin
 
 if (! $fatal_error) {
     try {
-        $parts = $footprint->getParts($with_subfoot, true);
+        $parts = $footprint->getParts($with_subfoot, true, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'footprint_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
         $html->setLoop('table', $table_loop);
+
+        $html->setLoop("pagination", generatePagination("show_footprint_parts.php?fid=$footprint_id", $page, $limit, $footprint->getPartsCount($with_subfoot)));
+        $html->setVariable("page", $page);
+        $html->setVariable('limit', $limit);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
