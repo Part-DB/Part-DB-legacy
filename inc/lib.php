@@ -1434,8 +1434,8 @@ function generatePagination($page_link ,$selected_page, $limit, $max_entries)
         "href" => $page_link . "&page=1&limit=$limit",
         "disabled" => $selected_page == 1);
 
-    $max_page = floor($max_entries / $limit);
-    $max_page = $max_page>0 ? $max_page : 1;
+    $max_page = ceil($max_entries / $limit);
+    $max_page = $max_page > 0 ? $max_page : 1;
 
     $min_number = ($selected_page - 1) < 1 ? 1 : $selected_page -1;
     $max_number = ($selected_page + 2) > $max_page ? $max_page : $selected_page + 2;
