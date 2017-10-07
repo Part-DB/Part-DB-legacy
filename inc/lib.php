@@ -1429,21 +1429,23 @@ function generatePagination($page_link ,$selected_page, $limit, $max_entries)
 {
     $links = array();
 
+    //Back to first page
     $links[] = array("label" => '<i class="fa fa-angle-double-left" aria-hidden="true"></i>',
         "href" => $page_link . "&page=1&limit=$limit",
         "disabled" => $selected_page == 1);
 
-    $links[] = array("label" => '<i class="fa fa-angle-left" aria-hidden="true"></i>',
-        "href" => $page_link . "&page=" . ($selected_page - 1). "&limit=$limit",
-        "disabled" => $selected_page == 1);
-
     $max_page = floor($max_entries / $limit);
 
-    $links[] = array("label" => '<i class="fa fa-angle-right" aria-hidden="true"></i>',
-        "href" => $page_link . "&page=" . ($selected_page + 1). "&limit=$limit",
-        "disabled" => $selected_page == $max_page);
+    $min_number = ($selected_page - 1) < 1 ? 1 : $selected_page -1;
+    $max_number = ($selected_page + 3) > $max_page ? $max_page : $selected_page + 3;
 
-
+    for ($n=$min_number; $n<$max_number; $n++) {
+        $links[] = array("label" => $n,
+            "href" => $page_link . "&page=" . ($n). "&limit=$limit",
+            "active" => $n == $selected_page);
+    }
+    
+    //Jump to last page.
     $links[] = array("label" => '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
         "href" => $page_link . "&page=$max_page&limit=$limit",
         "disabled" => $selected_page == $max_page);

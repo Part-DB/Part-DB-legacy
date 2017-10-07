@@ -52,14 +52,15 @@
             <ul class="pagination pagination-sm">
                 <li class="disabled"><a class="no-progbar">{$pagination.lower_result}-{$pagination.upper_result}/{$pagination.max_entries}</a></li>
                 {foreach $pagination.entries as $page}
-                    <li {if isset($page.disabled) && $page.disabled}class="disabled" {/if}>
-                        <a {if !isset($page.disabled) || !$page.disabled}href="{$page.href}{/if}">{$page.label nofilter}</a></li>
+                    <li {if isset($page.disabled) && $page.disabled}class="disabled" {/if}
+                            {if isset($page.active) && $page.active}class="active"{/if}>
+                        <a {if !isset($page.disabled) || !$page.disabled}href="{$page.href}{/if}"
+                        >{$page.label nofilter}</a></li>
                 {/foreach}
             </ul>
         </nav>
     </div>
 </div>
-
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;
@@ -79,8 +80,10 @@
             <ul class="pagination pagination-sm">
                 <li class="disabled"><a class="no-progbar">{$pagination.lower_result}-{$pagination.upper_result}/{$pagination.max_entries}</a></li>
                 {foreach $pagination.entries as $page}
-                    <li {if isset($page.disabled) && $page.disabled}class="disabled" {/if}>
-                        <a {if !isset($page.disabled) || !$page.disabled}href="{$page.href}{/if}">{$page.label nofilter}</a></li>
+                    <li {if isset($page.disabled) && $page.disabled}class="disabled" {/if}
+                            {if isset($page.active) && $page.active}class="active"{/if}>
+                        <a {if !isset($page.disabled) || !$page.disabled}href="{$page.href}{/if}"
+                        >{$page.label nofilter}</a></li>
                 {/foreach}
             </ul>
         </nav>
