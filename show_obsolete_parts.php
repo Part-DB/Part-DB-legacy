@@ -44,6 +44,9 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 
 $show_no_orderdetails_parts = (isset($_REQUEST['show_no_orderdetails_parts'])) ? $_REQUEST['show_no_orderdetails_parts'] : false;
 
+$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+
 $action = 'default';
 if (isset($_REQUEST['change_show_no_orderdetails'])) {
     $action = 'change_show_no_orderdetails';
@@ -95,10 +98,15 @@ if (isset($reload_site) && $reload_site && (! $config['debug']['request_debuggin
 
 if (! $fatal_error) {
     try {
-        $parts = Part::getObsoleteParts($database, $current_user, $log, $show_no_orderdetails_parts);
+        $parts = Part::getObsoleteParts($database, $current_user, $log, $show_no_orderdetails_parts, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'obsolete_parts');
         $html->setLoop('table', $table_loop);
         $html->setVariable("table_rowcount", count($parts), 'int');
+
+        $html->setLoop("pagination", generatePagination("show_obsolete_parts.php?show_no_orderdetails_parts=" .($show_no_orderdetails_parts ? '1' : '0'),
+            $page, $limit, Part::getObsoletePartsCount($database, $current_user, $log, $show_no_orderdetails_parts)));
+        $html->setVariable("page", $page);
+        $html->setVariable('limit', $limit);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
