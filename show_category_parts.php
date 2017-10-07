@@ -50,6 +50,9 @@ $category_id        = isset($_REQUEST['cid'])               ? (integer)$_REQUEST
 $with_subcategories = isset($_REQUEST['subcat'])            ? (boolean)$_REQUEST['subcat']          : $config['table']['default_show_subcategories'];
 $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
 
+$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : 50;
+
 $export_format_id       = isset($_REQUEST['export_format'])     ? (integer)$_REQUEST['export_format']   : 0;
 
 $action = 'default';
@@ -160,13 +163,14 @@ if (isset($reload_site) && $reload_site && (! $config['debug']['request_debuggin
 
 if (! $fatal_error) {
     try {
-        $parts = $category->getParts($with_subcategories, true);
+        $parts = $category->getParts($with_subcategories, true, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'category_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
         $html->setLoop('table', $table_loop);
+        $html->setLoop("pagination", generatePagination("show_category_parts.php?cid=$category_id", $page, $limit, $category->getPartsCount($with_subcategories)));
 
         //Export Parts
-        if($action == "export") {
+        if ($action == "export") {
             $export_string = exportParts($parts, 'showparts', $export_format_id, true, 'category_parts');
         }
     } catch (Exception $e) {

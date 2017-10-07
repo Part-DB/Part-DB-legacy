@@ -71,21 +71,32 @@ class Manufacturer extends Base\Company implements ISearchable
      *********************************************************************************/
 
     /**
-     * @brief Get all parts from this manufacturer
+     *  Get all parts from this element
      *
-     * @param boolean $recursive                if true, the parts of all sub-manufacturers will be listed too
+     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
      * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
+     * @param int       $limit                      Limit the number of results, to this value.
+     *                                              If set to 0, then the results are not limited.
+     * @param int       $page                       Show the results of the page with given number.
+     *                                              Use in combination with $limit.
      *
-     * @return Part[]        all parts as a one-dimensional array of Manufacturer objects,
-     *                      sorted by their names
+     * @return array        all parts as a one-dimensional array of Part-objects, sorted by their names
      *
      * @throws Exception if there was an error
-     *
-     * @see PartsContainingDBElement::getParts()
      */
-    public function getParts($recursive = false, $hide_obsolete_and_zero = false)
+    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
     {
-        return parent::getTableParts('id_manufacturer', $recursive, $hide_obsolete_and_zero);
+        return parent::getTableParts('id_manufacturer', $recursive, $hide_obsolete_and_zero, $limit, $page);
+    }
+
+    /**
+     * Return the number of all parts in this PartsContainingDBElement
+     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
+     * @return int The number of parts of this PartContainingDBElement
+     */
+    public function getPartsCount($recursive = false)
+    {
+        return parent::getPartsCountInternal($recursive, 'id_manufacturer');
     }
 
 

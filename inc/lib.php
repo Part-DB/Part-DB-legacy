@@ -1423,5 +1423,33 @@ function formatTimestamp($timestamp) {
       //Failsafe, return as non localized string.
         return date('Y-m-d H:i:s', $timestamp);
     }
+}
 
+function generatePagination($page_link ,$selected_page, $limit, $max_entries)
+{
+    $links = array();
+
+    $links[] = array("label" => '<i class="fa fa-angle-double-left" aria-hidden="true"></i>',
+        "href" => $page_link . "&page=1&limit=$limit",
+        "disabled" => $selected_page == 1);
+
+    $links[] = array("label" => '<i class="fa fa-angle-left" aria-hidden="true"></i>',
+        "href" => $page_link . "&page=" . ($selected_page - 1). "&limit=$limit",
+        "disabled" => $selected_page == 1);
+
+    $max_page = floor($max_entries / $limit);
+
+    $links[] = array("label" => '<i class="fa fa-angle-right" aria-hidden="true"></i>',
+        "href" => $page_link . "&page=" . ($selected_page + 1). "&limit=$limit",
+        "disabled" => $selected_page == $max_page);
+
+
+    $links[] = array("label" => '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
+        "href" => $page_link . "&page=$max_page&limit=$limit",
+        "disabled" => $selected_page == $max_page);
+
+    return array("lower_result" => ($selected_page -1) * $limit + 1,
+        "upper_result" => ($selected_page * $limit +1) <= $max_entries ? $selected_page * $limit +1 : $max_entries,
+        "max_entries" => $max_entries,
+        "entries" => $links);
 }

@@ -72,14 +72,18 @@ class Supplier extends Base\Company implements ISearchable
     /**
      *  Get all parts from this element
      *
-     * @param boolean $recursive                if true, the parts of all sub-suppliers will be listed too
+     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
      * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
+     * @param int       $limit                      Limit the number of results, to this value.
+     *                                              If set to 0, then the results are not limited.
+     * @param int       $page                       Show the results of the page with given number.
+     *                                              Use in combination with $limit.
      *
-     * @return array        all parts in a one-dimensional array of Part objects
+     * @return array        all parts as a one-dimensional array of Part-objects, sorted by their names
      *
-     * @throws Exception    if there was an error
+     * @throws Exception if there was an error
      */
-    public function getParts($recursive = false, $hide_obsolete_and_zero = false)
+    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
     {
         if (! is_array($this->parts)) {
             $this->parts = array();
@@ -115,6 +119,16 @@ class Supplier extends Base\Company implements ISearchable
         }
 
         return $parts;
+    }
+
+    /**
+     * Return the number of all parts in this PartsContainingDBElement
+     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
+     * @return int The number of parts of this PartContainingDBElement
+     */
+    public function getPartsCount($recursive = false)
+    {
+        return 0;
     }
 
     /**
