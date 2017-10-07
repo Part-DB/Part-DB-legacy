@@ -32,6 +32,9 @@ use PartDB\User;
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
+$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+
 /********************************************************************************
  *
  *   Initialize Objects
@@ -59,10 +62,15 @@ try {
 
 if (! $fatal_error) {
     try {
-        $parts = Part::getInstockUnknownParts($database, $current_user, $log);
+        $parts = Part::getInstockUnknownParts($database, $current_user, $log, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'unknown_instock_parts');
         $html->setLoop('table', $table_loop);
         $html->setVariable('table_rowcount', count($parts));
+
+        $html->setLoop("pagination", generatePagination("show_unknown_instock_parts.php?", $page, $limit,
+            Part::getInstockUnknownPartsCount($database, $current_user, $log)));
+        $html->setVariable("page", $page);
+        $html->setVariable('limit', $limit);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
