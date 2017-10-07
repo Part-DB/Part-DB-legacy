@@ -33,6 +33,8 @@
         <input type="hidden" name="lid" value="{$mid}">
         <input type="hidden" name="subloc" value="{if $with_submanufacturers}1{else}0{/if}">
         <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
+        <input type="hidden" name="limit" value="{$limit}">
+        <input type="hidden" name="page" value="{$page}">
            {include file='../smarty_table.tpl'}
     </form>
 </div>

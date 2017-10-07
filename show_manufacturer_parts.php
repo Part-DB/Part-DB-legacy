@@ -137,11 +137,6 @@ if (! $fatal_error) {
     }
 }
 
-if (isset($reload_site) && $reload_site && (! $config['debug']['request_debugging_enable'])) {
-    // reload the site to avoid multiple actions by manual refreshing
-    header('Location: show_manufacturer_parts.php?mid='.$manufacturer_id.'&subcat='.$with_submanufacturers);
-}
-
 /********************************************************************************
  *
  *   Generate Table
