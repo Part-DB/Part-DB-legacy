@@ -49,7 +49,7 @@
 <div class="row">
     <div class="col-md-12">
         <nav aria-label="Page navigation" class="pull-right">
-            <ul class="pagination pagination-sm">
+            <ul class="pagination" style="margin-top: 0; margin-bottom: 5px;">
                 <li class="disabled"><a class="no-progbar">{$pagination.lower_result}-{$pagination.upper_result}/{$pagination.max_entries}</a></li>
                 {foreach $pagination.entries as $page}
                     <li {if isset($page.disabled) && $page.disabled}class="disabled" {/if}
@@ -61,6 +61,7 @@
         </nav>
     </div>
 </div>
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;
@@ -77,7 +78,7 @@
 <div class="row">
     <div class="col-md-12">
         <nav aria-label="Page navigation" class="pull-right">
-            <ul class="pagination pagination-sm">
+            <ul class="pagination" style="margin-top: 0px; margin-bottom: 5px;">
                 <li class="disabled"><a class="no-progbar">{$pagination.lower_result}-{$pagination.upper_result}/{$pagination.max_entries}</a></li>
                 {foreach $pagination.entries as $page}
                     <li {if isset($page.disabled) && $page.disabled}class="disabled" {/if}

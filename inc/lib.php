@@ -1435,20 +1435,25 @@ function generatePagination($page_link ,$selected_page, $limit, $max_entries)
         "disabled" => $selected_page == 1);
 
     $max_page = floor($max_entries / $limit);
+    $max_page = $max_page>0 ? $max_page : 1;
 
     $min_number = ($selected_page - 1) < 1 ? 1 : $selected_page -1;
-    $max_number = ($selected_page + 3) > $max_page ? $max_page : $selected_page + 3;
+    $max_number = ($selected_page + 2) > $max_page ? $max_page : $selected_page + 2;
 
-    for ($n=$min_number; $n<$max_number; $n++) {
+    for ($n=$min_number; $n <= $max_number; $n++) {
         $links[] = array("label" => $n,
             "href" => $page_link . "&page=" . ($n). "&limit=$limit",
             "active" => $n == $selected_page);
     }
-    
+
     //Jump to last page.
     $links[] = array("label" => '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
         "href" => $page_link . "&page=$max_page&limit=$limit",
         "disabled" => $selected_page == $max_page);
+
+    //Show all results
+    $links[] = array("label" => '<i class="fa fa-bars" aria-hidden="true"></i>',
+        "href" => $page_link . "&page=0");
 
     return array("lower_result" => ($selected_page -1) * $limit + 1,
         "upper_result" => ($selected_page * $limit +1) <= $max_entries ? $selected_page * $limit +1 : $max_entries,

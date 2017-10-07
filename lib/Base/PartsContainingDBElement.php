@@ -199,7 +199,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
             $query = $query.
                 ' ORDER BY name, description';
 
-            if ($limit > 0) {
+            if ($limit > 0 && $page > 0) {
                 $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
             }
 
