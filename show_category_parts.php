@@ -168,6 +168,8 @@ if (! $fatal_error) {
         $html->setVariable('table_rowcount', count($parts), 'integer');
         $html->setLoop('table', $table_loop);
         $html->setLoop("pagination", generatePagination("show_category_parts.php?cid=$category_id", $page, $limit, $category->getPartsCount($with_subcategories)));
+        $html->setVariable("page", $page);
+        $html->setVariable('limit', $limit);
 
         //Export Parts
         if ($action == "export") {
