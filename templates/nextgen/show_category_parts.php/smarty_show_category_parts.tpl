@@ -72,3 +72,17 @@
         {include file='../smarty_table.tpl'}
     </form>
 </div>
+
+<div class="row">
+    <div class="col-md-12">
+        <nav aria-label="Page navigation" class="pull-right">
+            <ul class="pagination pagination-sm">
+                <li class="disabled"><a class="no-progbar">{$pagination.lower_result}-{$pagination.upper_result}/{$pagination.max_entries}</a></li>
+                {foreach $pagination.entries as $page}
+                    <li {if isset($page.disabled) && $page.disabled}class="disabled" {/if}>
+                        <a {if !isset($page.disabled) || !$page.disabled}href="{$page.href}{/if}">{$page.label nofilter}</a></li>
+                {/foreach}
+            </ul>
+        </nav>
+    </div>
+</div>
