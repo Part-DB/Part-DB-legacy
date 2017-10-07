@@ -20,7 +20,7 @@
         <div style="float: right;">
             <form action="" method="post" class="no-progbar no-ajax">
                 <input type='hidden' name='cid'   value='{$cid}'>
-                <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">
+                <input type="hidden" name="subcat" value="{$with_subcategories}">
 
                 <div class="form-inline">
                     <label>{t}Exportieren:{/t}</label>

@@ -174,7 +174,9 @@ if (! $fatal_error) {
 
         //Export Parts
         if ($action == "export") {
-            $export_string = exportParts($parts, 'showparts', $export_format_id, true, 'category_parts');
+            //When export then get all parts.
+            $export_parts = $parts = $category->getParts($with_subcategories, true, 0, 0);
+            $export_string = exportParts($export_parts, 'showparts', $export_format_id, true, 'category_parts');
         }
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
