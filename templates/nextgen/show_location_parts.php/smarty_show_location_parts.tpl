@@ -17,6 +17,14 @@
     </div>
 </div>
 
+<form method="get">
+    <input type="hidden" name="lid" value="{$lid}">
+    <input type="hidden" name="subloc" value="{$with_sublocations}">
+    <input type="hidden" name="page" value="1">
+
+    {include "../smarty_pagination.tpl"}
+</form>
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-cube" aria-hidden="true"></i>&nbsp;
@@ -29,3 +37,11 @@
            {include file='../smarty_table.tpl'}
     </form>
 </div>
+
+<form method="get">
+    <input type="hidden" name="lid" value="{$lid}">
+    <input type="hidden" name="subloc" value="{$with_sublocations}">
+    <input type="hidden" name="page" value="1">
+
+    {include "../smarty_pagination.tpl"}
+</form>
