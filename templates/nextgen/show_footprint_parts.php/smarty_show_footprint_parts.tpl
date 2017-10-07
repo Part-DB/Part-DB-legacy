@@ -17,6 +17,14 @@
     </div>
 </div>
 
+<form method="get">
+    <input type="hidden" name="fid" value="{$fid}">
+    <input type="hidden" name="subfoot" value="{$with_subfoot}">
+    <input type="hidden" name="page" value="1">
+
+    {include "../smarty_pagination.tpl"}
+</form>
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-cube" aria-hidden="true"></i>&nbsp;
@@ -29,3 +37,11 @@
            {include file='../smarty_table.tpl'}
     </form>
 </div>
+
+<form method="get">
+    <input type="hidden" name="fid" value="{$fid}">
+    <input type="hidden" name="subcat" value="{$with_subfoot}">
+    <input type="hidden" name="page" value="1">
+
+    {include "../smarty_pagination.tpl"}
+</form>
