@@ -2011,7 +2011,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getNoPriceParts(&$database, &$current_user, &$log)
+    public static function getNoPriceParts(&$database, &$current_user, &$log, $limit = 50, $page = 1)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
             return array();
@@ -2029,6 +2029,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             'WHERE pricedetails.id IS NOT NULL) '.
             'ORDER BY parts.name ASC';
 
+        if ($limit > 0 && $page > 0) {
+            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+        }
+
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
@@ -2037,6 +2041,42 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         return $parts;
     }
+
+    /**
+     *  Get all parts which have no price
+     *
+     * @param Database  &$database          reference to the database object
+     * @param User      &$current_user      reference to the user which is logged in
+     * @param Log       &$log               reference to the Log-object
+     *
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public static function getNoPricePartsCount(&$database, &$current_user, &$log)
+    {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
+            return array();
+        }
+
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt!'));
+        }
+
+        $parts = array();
+
+        $query =    'SELECT count(id) AS count from parts '.
+            'WHERE id NOT IN (SELECT DISTINCT part_id FROM orderdetails '.
+            'LEFT JOIN pricedetails ON orderdetails.id=pricedetails.orderdetails_id '.
+            'WHERE pricedetails.id IS NOT NULL) '.
+            'ORDER BY parts.name ASC';
+
+
+        $query_data = $database->query($query);
+
+        return $query_data[0]['count'];
+    }
+
 
     /**
      *  Get all parts which have an unknown instock value.
