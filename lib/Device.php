@@ -302,11 +302,7 @@ class Device extends Base\PartsContainingDBElement
             $query =    'SELECT device_parts.* FROM device_parts '.
                 'LEFT JOIN parts ON device_parts.id_part=parts.id '.
                 'WHERE id_device=? ORDER BY parts.name ASC';
-
-            if ($limit > 0) {
-                $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
-            }
-
+            
             $query_data = $this->database->query($query, array($this->getID()));
 
             foreach ($query_data as $row) {
