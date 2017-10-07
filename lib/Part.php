@@ -2394,11 +2394,15 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getAllParts(&$database, &$current_user, &$log, $group_by = '')
+    public static function getAllParts(&$database, &$current_user, &$log, $group_by = '', $limit = 50, $page = 1)
     {
         $current_user->tryDo(PermissionManager::PARTS, PartPermission::ALL_PARTS);
 
         $query = 'SELECT * FROM parts';
+
+        if ($limit > 0 && $page > 0) {
+            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+        }
 
         $query_data = $database->query($query);
 
