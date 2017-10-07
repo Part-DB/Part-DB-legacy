@@ -1,4 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
+
+{include "../smarty_breadcrumb.tpl"}
+
 <div class="panel panel-primary">
     <div class="panel-heading">
         {t}Sonstiges{/t}

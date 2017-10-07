@@ -172,6 +172,8 @@ if (! $fatal_error) {
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
 
+        $html->setLoop('breadcrumb', $category->buildBreadcrumbLoop("show_category_parts.php", "cid", true, _("Kategorien")));
+
         //Export Parts
         if ($action == "export") {
             //When export then get all parts.
