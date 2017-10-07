@@ -156,6 +156,8 @@ if (! $fatal_error) {
         $html->setLoop("pagination", generatePagination("show_supplier_parts.php?sid=$supplier_id", $page, $limit, $supplier->getPartsCount($with_subsuppliers)));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
+
+        $html->setLoop('breadcrumb', $supplier->buildBreadcrumbLoop("show_supplier_parts.php", "sid", true, _("Lieferanten")));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

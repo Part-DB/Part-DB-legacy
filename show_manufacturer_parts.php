@@ -153,6 +153,8 @@ if (! $fatal_error) {
         $html->setLoop("pagination", generatePagination("show_manufacturer_parts.php?mid=$manufacturer_id", $page, $limit, $manufacturer->getPartsCount($with_submanufacturers)));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
+
+        $html->setLoop('breadcrumb', $manufacturer->buildBreadcrumbLoop("show_manufacturer_parts.php", "mid", true, _("Hersteller")));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

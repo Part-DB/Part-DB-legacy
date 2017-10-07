@@ -156,6 +156,7 @@ if (! $fatal_error) {
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
 
+        $html->setLoop('breadcrumb', $location->buildBreadcrumbLoop("show_location_parts.php", "lid", true, _("Lagerorte")));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

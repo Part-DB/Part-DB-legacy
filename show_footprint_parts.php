@@ -154,6 +154,8 @@ if (! $fatal_error) {
         $html->setLoop("pagination", generatePagination("show_footprint_parts.php?fid=$footprint_id", $page, $limit, $footprint->getPartsCount($with_subfoot)));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
+
+        $html->setLoop('breadcrumb', $footprint->buildBreadcrumbLoop("show_footprint_parts.php", "fid", true, _("Footprints")));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
