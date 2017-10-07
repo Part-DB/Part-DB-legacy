@@ -42,6 +42,9 @@ $manufacturer_id        = isset($_REQUEST['mid'])               ? (integer)$_REQ
 $with_submanufacturers = isset($_REQUEST['subman'])            ? (boolean)$_REQUEST['subman']          : true;
 $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
 
+$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+
 $action = 'default';
 if (isset($_REQUEST['subman_button'])) {
     $action = 'change_subman_state';
@@ -147,10 +150,14 @@ if (isset($reload_site) && $reload_site && (! $config['debug']['request_debuggin
 
 if (! $fatal_error) {
     try {
-        $parts = $manufacturer->getParts($with_submanufacturers, true);
+        $parts = $manufacturer->getParts($with_submanufacturers, true, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'manufacturer_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
         $html->setLoop('table', $table_loop);
+
+        $html->setLoop("pagination", generatePagination("show_manufacturer_parts.php?mid=$manufacturer_id", $page, $limit, $manufacturer->getPartsCount($with_submanufacturers)));
+        $html->setVariable("page", $page);
+        $html->setVariable('limit', $limit);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
