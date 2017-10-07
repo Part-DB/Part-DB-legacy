@@ -43,6 +43,10 @@ $supplier_id        = isset($_REQUEST['sid'])               ? (integer)$_REQUEST
 $with_subsuppliers = isset($_REQUEST['subsup'])            ? (boolean)$_REQUEST['subsup']          : true;
 $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
 
+$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+
+
 $action = 'default';
 if (isset($_REQUEST['subman_button'])) {
     $action = 'change_subman_state';
@@ -148,10 +152,14 @@ if (isset($reload_site) && $reload_site && (! $config['debug']['request_debuggin
 
 if (! $fatal_error) {
     try {
-        $parts = $supplier->getParts($with_subsuppliers, true);
+        $parts = $supplier->getParts($with_subsuppliers, true, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'supplier_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
         $html->setLoop('table', $table_loop);
+
+        $html->setLoop("pagination", generatePagination("show_supplier_parts.php?sid=$supplier_id", $page, $limit, $supplier->getPartsCount($with_subsuppliers)));
+        $html->setVariable("page", $page);
+        $html->setVariable('limit', $limit);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

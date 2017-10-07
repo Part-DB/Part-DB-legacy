@@ -16,6 +16,14 @@
     </div>
 </div>
 
+<form method="get">
+    <input type="hidden" name="sid" value="{$sid}">
+    <input type="hidden" name="subsup" value="{$with_subsuppliers}">
+    <input type="hidden" name="page" value="1">
+
+    {include "../smarty_pagination.tpl"}
+</form>
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-truck fa-fw" aria-hidden="true"></i>&nbsp;
@@ -28,3 +36,11 @@
            {include file='../smarty_table.tpl'}
     </form>
 </div>
+
+<form method="get">
+    <input type="hidden" name="sid" value="{$sid}">
+    <input type="hidden" name="subsup" value="{$with_subsuppliers}">
+    <input type="hidden" name="page" value="1">
+
+    {include "../smarty_pagination.tpl"}
+</form>
