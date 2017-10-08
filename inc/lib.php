@@ -1464,3 +1464,14 @@ function generatePagination($page_link ,$selected_page, $limit, $max_entries)
         "max_entries" => $max_entries,
         "entries" => $links);
 }
+
+function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $action, $target)
+{
+    $ids = explode(",", $selection);
+    foreach ($ids as $id) {
+        $part = new Part($database, $current_user, $log, $id);
+        if($action=="delete") {
+            $part->delete();
+        }
+    }
+}

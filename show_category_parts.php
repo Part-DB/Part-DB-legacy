@@ -59,8 +59,10 @@ $export_format_id       = isset($_REQUEST['export_format'])     ? (integer)$_REQ
 $action = 'default';
 if (isset($_REQUEST['subcat_button'])) {
     $action = 'change_subcat_state';
-} else if(isset($_REQUEST['export'])) {
+} elseif(isset($_REQUEST['export'])) {
     $action = 'export';
+} elseif(isset($_REQUEST["multi_action"])) {
+    $action = "multi_action";
 }
 
 $selected_part_id = 0;
@@ -147,6 +149,9 @@ if (! $fatal_error) {
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
+            break;
+        case "multi_action":
+            parsePartsSelection($database, $current_user, $log ,$_REQUEST['selected_ids'], $_REQUEST['action'], $_REQUEST['target']);
             break;
     }
 }
