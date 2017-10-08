@@ -49,7 +49,7 @@
     </div>
 </div>
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="cid" value="{$cid}">
     <input type="hidden" name="subcat" value="{$with_subcategories}">
     <input type="hidden" name="page" value="1">
@@ -74,7 +74,7 @@
     </form>
 </div>
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="cid" value="{$cid}">
     <input type="hidden" name="subcat" value="{$with_subcategories}">
     <input type="hidden" name="page" value="1">

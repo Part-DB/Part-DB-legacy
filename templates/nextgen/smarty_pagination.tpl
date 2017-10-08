@@ -1,30 +1,36 @@
 <div class="row">
     <div class="col-md-6">
-        <nav aria-label="Multi Actions" class="select_actions" style="display: none;">
-            <ul class="pagination" style="margin-top: 0; margin-bottom: 5px;">
-                <li class="disabled">
-                    <span><span class="selected_n">10</span> {t}Bauteile ausgewählt{/t}</span>
-                </li>
-                <li><select name="action">
+        <div class="select_actions" style="display: none;">
+            <input type="hidden" name="selected_ids" value="">
+            <div class="form-inline">
+                <div class="form-group">
+                    <span class="label label-primary"><span class="selected_n">10</span> {t}Bauteile:{/t}</span>
+                </div>
+                <div class="form-group">
+                    <select name="action" style="width: 110px;" class="form-control">
                         <option value="">{t}Auswählen{/t}</option>
                         <option value="delete">{t}Löschen{/t}</option>
                         <option value="move">{t}Verschieben nach{/t}</option>
                     </select>
-                </li>
-                <li>
-                    <select name="target">
+                </div>
+                <div class="form-group">
+                    <select name="target" style="width: 110px;" class="selectpicker" data-live-search="true">
                         <option>{t}Auswählen{/t}</option>
-                        <optgroup label="{t}Kategorie{/t}">
-
-                        </optgroup>
+                        {if isset($categories_list)}
+                            <optgroup label="{t}Kategorien{/t}">
+                                {$categories_list nofilter}
+                            </optgroup>
+                        {/if}
+                        {if isset($footprints_list)}
                         <optgroup label="{t}Footprint{/t}">
-
+                            {$footprints_list nofilter}
                         </optgroup>
+                        {/if}
                     </select>
-                </li>
-                <li><button type="submit" name="multi_action">Ok</button></li>
-            </ul>
-        </nav>
+                </div>
+                    <button type="submit" class="btn btn-primary" name="multi_action">Ok</button>
+            </div>
+        </div>
     </div>
     <div class="col-md-6">
         <nav aria-label="Page navigation" class="pull-right">

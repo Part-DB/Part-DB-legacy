@@ -29,6 +29,7 @@ include_once(BASE.'/inc/lib.export.php');
 
 use PartDB\Category;
 use PartDB\Database;
+use PartDB\Footprint;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\Part;
@@ -210,6 +211,11 @@ if (! $fatal_error) {
     $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 
     $html->setLoop('export_formats', buildExportFormatsLoop('showparts'));
+
+    $root_category = new Category($database, $current_user, $log, 0);
+    $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, "", "c"));
+    $root_footprint = new Footprint($database, $current_user, $log, 0);
+    $html->setVariable('footprints_list', $root_footprint->buildHtmlTree(0, true, false, "", "f"));
 
     $html->setVariable('can_create', $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
 }

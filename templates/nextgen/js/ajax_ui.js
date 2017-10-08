@@ -451,15 +451,24 @@ function makeSortTable() {
         }
         table_1
             .on('select deselect', function (e, dt, type, indexes) {
-            var count = table_1.rows({ selected: true }).count();
+            var data = table_1.rows({ selected: true });
+            var count = data.count();
+            var tmp = [];
             //Show The select action bar only, if a element is selected.
             if (count > 0) {
                 $(".select_actions").show();
                 $(".selected_n").text(count);
+                //Build a string containing all parts, that should be modified
+                for (var n = 0; n < count; n++) {
+                    tmp.push($(data.row(n).node()).find("input").val());
+                }
             }
             else {
                 $(".select_actions").hide();
             }
+            //Combine all selected IDs into a string.
+            var str = tmp.join();
+            $("input[name='selected_ids']").val(str);
         });
     }
 }

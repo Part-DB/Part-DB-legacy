@@ -402,6 +402,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      * @param boolean   $recursive      if true, the tree will be recursive
      * @param boolean   $show_root      if true, the root node will be displayed
      * @param string    $root_name      if the root node is the very root element, you can set its name here
+     * @param string    $value_prefix   This string is used as a prefix before the id in the value part of the option.
      *
      * @return string       HTML string if success
      *
@@ -411,7 +412,8 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         $selected_id = null,
         $recursive = true,
         $show_root = true,
-        $root_name = '$$'
+        $root_name = '$$',
+        $value_prefix = ''
     ) {
         if ($root_name=='$$') {
             $root_name=_('Oberste Ebene');
@@ -425,7 +427,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
                 $root_name = htmlspecialchars($this->getName());
             }
 
-            $html[] = '<option value="'. $this->getID() . '">'. $root_name .'</option>';
+            $html[] = '<option value="'. $value_prefix . $this->getID() . '">'. $root_name .'</option>';
         } else {
             $root_level =  $this->getLevel() + 1;
         }
@@ -437,7 +439,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             $level = $element->getLevel() - $root_level;
             $selected = ($element->getID() == $selected_id) ? 'selected' : '';
 
-            $html[] = '<option '. $selected .' value="'. $element->getID() . '">';
+            $html[] = '<option '. $selected .' value="'. $value_prefix . $element->getID() . '">';
             for ($i = 0; $i < $level; $i++) {
                 $html[] = "&nbsp;&nbsp;&nbsp;";
             }
