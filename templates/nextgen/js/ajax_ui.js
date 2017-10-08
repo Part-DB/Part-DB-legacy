@@ -431,7 +431,7 @@ function registerHoverImages() {
 function makeSortTable() {
     'use strict';
     if (!$.fn.DataTable.isDataTable('.table-sortable')) {
-        var table = $('.table-sortable').DataTable({
+        var table_1 = $('.table-sortable').DataTable({
             "paging": false,
             "ordering": true,
             "info": false,
@@ -447,8 +447,20 @@ function makeSortTable() {
             ]
         });
         if ($("#auto_sort").val() == true) {
-            table.columns(".order-default").order('asc').draw();
+            table_1.columns(".order-default").order('asc').draw();
         }
+        table_1
+            .on('select deselect', function (e, dt, type, indexes) {
+            var count = table_1.rows({ selected: true }).count();
+            //Show The select action bar only, if a element is selected.
+            if (count > 0) {
+                $(".select_actions").show();
+                $(".selected_n").text(count);
+            }
+            else {
+                $(".select_actions").hide();
+            }
+        });
     }
 }
 /**

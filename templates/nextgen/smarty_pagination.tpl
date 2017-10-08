@@ -1,5 +1,32 @@
 <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-6">
+        <nav aria-label="Multi Actions" class="select_actions" style="display: none;">
+            <ul class="pagination" style="margin-top: 0; margin-bottom: 5px;">
+                <li class="disabled">
+                    <span><span class="selected_n">10</span> {t}Bauteile ausgewählt{/t}</span>
+                </li>
+                <li><select name="action">
+                        <option value="">{t}Auswählen{/t}</option>
+                        <option value="delete">{t}Löschen{/t}</option>
+                        <option value="move">{t}Verschieben nach{/t}</option>
+                    </select>
+                </li>
+                <li>
+                    <select name="target">
+                        <option>{t}Auswählen{/t}</option>
+                        <optgroup label="{t}Kategorie{/t}">
+
+                        </optgroup>
+                        <optgroup label="{t}Footprint{/t}">
+
+                        </optgroup>
+                    </select>
+                </li>
+                <li><button type="submit" name="multi_action">Ok</button></li>
+            </ul>
+        </nav>
+    </div>
+    <div class="col-md-6">
         <nav aria-label="Page navigation" class="pull-right">
             <ul class="pagination" style="margin-top: 0; margin-bottom: 5px;">
                 <li class="disabled"><a class="no-progbar">{$pagination.lower_result}-{$pagination.upper_result}/{$pagination.max_entries}</a></li>

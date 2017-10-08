@@ -555,6 +555,18 @@ function makeSortTable() {
             table.columns(".order-default").order('asc').draw();
         }
 
+        table
+            .on( 'select deselect', function ( e, dt, type, indexes ) {
+                let count = table.rows( { selected: true } ).count();
+                //Show The select action bar only, if a element is selected.
+                if(count > 0) {
+                    $(".select_actions").show();
+                    $(".selected_n").text(count);
+                } else {
+                    $(".select_actions").hide();
+                }
+            } );
+
     }
 }
 
