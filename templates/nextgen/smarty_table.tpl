@@ -14,7 +14,7 @@
     Please Note: There are no empty lines between the {TMPL_IF}{/if} groups, because they would produce extremely large HTML output files (because of the loops)!
 *}  
    <div class="table-responsive">
-    <table class="table table-striped table-condensed table-compact table-hover table-sortable" cellspacing="0" width="100%">
+    <table class="table table-striped table-condensed table-compact table-hover table-sortable table-selectable" cellspacing="0" width="100%">
         <thead class="thead-default">
         {foreach $table as $t}
             {if isset($t.print_header) && $t.print_header}   

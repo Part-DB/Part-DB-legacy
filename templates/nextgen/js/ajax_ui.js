@@ -436,6 +436,7 @@ function makeSortTable() {
             "ordering": true,
             "info": false,
             "searching": false,
+            "select": $(".table-sortable").hasClass("table-selectable"),
             "order": [],
             "columnDefs": [
                 {

@@ -541,6 +541,7 @@ function makeSortTable() {
             "ordering": true,
             "info":     false,
             "searching":   false,
+            "select":   $(".table-sortable").hasClass("table-selectable"),
             "order": [],
             "columnDefs": [
                 {
@@ -549,6 +550,7 @@ function makeSortTable() {
                     targets: 'no-sort', orderable: false
                 }]
         });
+
         if($("#auto_sort").val() == true) {
             table.columns(".order-default").order('asc').draw();
         }
