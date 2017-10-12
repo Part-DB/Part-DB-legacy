@@ -1420,7 +1420,7 @@ function formatTimestamp($timestamp) {
 
         return $formatter->format($timestamp);
     } else {
-      //Failsafe, return as non localized string.
+        //Failsafe, return as non localized string.
         return date('Y-m-d H:i:s', $timestamp);
     }
 }
@@ -1470,8 +1470,32 @@ function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $act
     $ids = explode(",", $selection);
     foreach ($ids as $id) {
         $part = new Part($database, $current_user, $log, $id);
-        if($action=="delete") {
+        if ($action=="delete") {
             $part->delete();
+        } elseif ($action=="move" && $target !== "") {
+            $type = substr($target, 0, 1);
+            $target_id = intval(substr($target, 1));
+            //Check if target ID is valid.
+            if ($target_id < 1) {
+                throw new Exception(_("Ungültige ID"));
+            }
+            switch ($type) {
+                case "c": //Category
+                    $part->setCategoryID($target_id);
+                    break;
+                case "f": //Footptint
+                    $part->setFootprintID($target_id);
+                    break;
+                case "m": //Manufacturer
+                    $part->setManufacturerID($target_id);
+                    break;
+                case "s": //Storelocation
+                    $part->setStorelocationID($target_id);
+                    break;
+            }
+        } else {
+            throw new Exception(_("Unbekannte Aktion"));
         }
+
     }
 }

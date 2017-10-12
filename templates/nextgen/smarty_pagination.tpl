@@ -26,6 +26,16 @@
                             {$footprints_list nofilter}
                         </optgroup>
                         {/if}
+                        {if isset($storelocations_list)}
+                            <optgroup label="{t}Lagerort{/t}">
+                                {$storelocations_list nofilter}
+                            </optgroup>
+                        {/if}
+                        {if isset($manufacturers_list)}
+                            <optgroup label="{t}Hersteller{/t}">
+                                {$manufacturers_list nofilter}
+                            </optgroup>
+                        {/if}
                     </select>
                 </div>
                     <button type="submit" class="btn btn-primary" name="multi_action">Ok</button>
