@@ -9,12 +9,12 @@
                 <div class="form-group">
                     <select name="action" style="width: 110px;" class="form-control">
                         <option value="">{t}Auswählen{/t}</option>
-                        <option value="delete">{t}Löschen{/t}</option>
-                        <option value="move">{t}Verschieben nach{/t}</option>
+                        <option value="delete" {if !$can_delete}disabled{/if}>{t}Löschen{/t}</option>
+                        <option value="move" {if !$can_edit}disabled{/if}>{t}Verschieben nach{/t}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <select name="target" style="width: 110px;" class="selectpicker" data-live-search="true">
+                    <select name="target" style="width: 110px;" class="selectpicker" data-live-search="true" {if !$can_edit}disabled{/if}>
                         <option>{t}Auswählen{/t}</option>
                         {if isset($categories_list)}
                             <optgroup label="{t}Kategorien{/t}">

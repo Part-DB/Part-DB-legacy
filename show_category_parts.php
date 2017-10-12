@@ -34,6 +34,7 @@ use PartDB\HTML;
 use PartDB\Log;
 use PartDB\Manufacturer;
 use PartDB\Part;
+use PartDB\Permissions\PartAttributePermission;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Storelocation;
@@ -219,15 +220,25 @@ if (! $fatal_error) {
 
     $html->setLoop('export_formats', buildExportFormatsLoop('showparts'));
 
-    $root_category = new Category($database, $current_user, $log, 0);
-    $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, "", "c"));
-    $root_footprint = new Footprint($database, $current_user, $log, 0);
-    $html->setVariable('footprints_list', $root_footprint->buildHtmlTree(0, true, false, "", "f"));
-    $root_manufacturer = new Manufacturer($database, $current_user, $log, 0);
-    $html->setVariable('manufacturers_list', $root_manufacturer->buildHtmlTree(0, true, false, "", "m"));
-    $root_location = new Storelocation($database, $current_user, $log, 0);
-    $html->setVariable('storelocations_list', $root_location->buildHtmlTree(0, true, false, "", "s"));
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {
+        $root_category = new Category($database, $current_user, $log, 0);
+        $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, "", "c"));
+    }
+    if ($current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT)) {
+        $root_footprint = new Footprint($database, $current_user, $log, 0);
+        $html->setVariable('footprints_list', $root_footprint->buildHtmlTree(0, true, false, "", "f"));
+    }
+    if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
+        $root_manufacturer = new Manufacturer($database, $current_user, $log, 0);
+        $html->setVariable('manufacturers_list', $root_manufacturer->buildHtmlTree(0, true, false, "", "m"));
+    }
+    if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
+        $root_location = new Storelocation($database, $current_user, $log, 0);
+        $html->setVariable('storelocations_list', $root_location->buildHtmlTree(0, true, false, "", "s"));
+    }
 
+    $html->setVariable('can_edit', $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
+    $html->setVariable('can_delete', $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE));
     $html->setVariable('can_create', $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
 }
 
