@@ -1472,7 +1472,10 @@ function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $act
         $part = new Part($database, $current_user, $log, $id);
         if ($action=="delete") {
             $part->delete();
-        } elseif ($action=="move" && $target !== "") {
+        } elseif ($action=="move") {
+            if ($target == "") {
+                throw new Exception(_("Bitte wählen sie ein Ziel zum Verschieben aus."));
+            }
             $type = substr($target, 0, 1);
             $target_id = intval(substr($target, 1));
             //Check if target ID is valid.
@@ -1493,6 +1496,8 @@ function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $act
                     $part->setStorelocationID($target_id);
                     break;
             }
+        } elseif ($action == "") {
+            throw new Exception(_("Bitte wählen sie eine Aktion aus."));
         } else {
             throw new Exception(_("Unbekannte Aktion"));
         }

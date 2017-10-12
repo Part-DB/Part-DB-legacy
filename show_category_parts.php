@@ -155,7 +155,7 @@ if (! $fatal_error) {
             break;
         case "multi_action":
             try {
-                parsePartsSelection($database, $current_user, $log ,$_REQUEST['selected_ids'], $_REQUEST['action'], $_REQUEST['target']);
+                parsePartsSelection($database, $current_user, $log, $_REQUEST['selected_ids'], $_REQUEST['action'], $_REQUEST['target']);
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
