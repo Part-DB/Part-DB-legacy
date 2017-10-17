@@ -25,7 +25,7 @@
     <input type="hidden" name="subfoot" value="{$with_subfoot}">
     <input type="hidden" name="page" value="1">
 
-    {include "../smarty_pagination.tpl"}
+    {include "../smarty_pagination.tpl" }
 </form>
 
 <div class="panel panel-default">
@@ -39,7 +39,7 @@
         <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
         <input type="hidden" name="limit" value="{$limit}">
         <input type="hidden" name="page" value="{$page}">
-           {include file='../smarty_table.tpl'}
+           {include file='../smarty_table.tpl' table_selectable=true}
     </form>
 </div>
 

@@ -70,7 +70,7 @@
         <input type="hidden" name="limit" value="{$limit}">
         <input type="hidden" name="page" value="{$page}">
 
-        {include file='../smarty_table.tpl'}
+        {include file='../smarty_table.tpl' table_selectable=true}
     </form>
 </div>
 
@@ -79,5 +79,5 @@
     <input type="hidden" name="subcat" value="{$with_subcategories}">
     <input type="hidden" name="page" value="1">
 
-    {include "../smarty_pagination.tpl"}
+    {include "../smarty_pagination.tpl" }
 </form>
