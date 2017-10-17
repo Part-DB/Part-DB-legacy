@@ -156,7 +156,8 @@ if (! $fatal_error) {
         case "multi_action":
             try {
                 if (isset($_REQUEST['action']) && $_REQUEST['action'] == "delete") {
-                    $messages[] = array('text' => _('Sollen die gewählten Bauteile wirklich unwiederruflich gelöscht werden?'),
+                    $n = count(explode(",", $_REQUEST['selected_ids']));
+                    $messages[] = array('text' => sprintf(_('Sollen die %d gewählten Bauteile wirklich unwiederruflich gelöscht werden?'), $n),
                         'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
                     $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Alle Dateien dieses Bauteiles bleiben weiterhin erhalten.'));
