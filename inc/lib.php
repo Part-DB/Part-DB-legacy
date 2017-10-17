@@ -1470,7 +1470,7 @@ function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $act
     $ids = explode(",", $selection);
     foreach ($ids as $id) {
         $part = new Part($database, $current_user, $log, $id);
-        if ($action=="delete") {
+        if ($action=="delete_confirmed") {
             $part->delete();
         } elseif ($action=="move") {
             if ($target == "") {
