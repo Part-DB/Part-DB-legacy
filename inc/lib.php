@@ -1420,7 +1420,7 @@ function formatTimestamp($timestamp) {
 
         return $formatter->format($timestamp);
     } else {
-      //Failsafe, return as non localized string.
+        //Failsafe, return as non localized string.
         return date('Y-m-d H:i:s', $timestamp);
     }
 }
@@ -1463,4 +1463,44 @@ function generatePagination($page_link ,$selected_page, $limit, $max_entries)
         "upper_result" => ($selected_page * $limit +1) <= $max_entries && $selected_page > 0 ? $selected_page * $limit +1 : $max_entries,
         "max_entries" => $max_entries,
         "entries" => $links);
+}
+
+function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $action, $target)
+{
+    $ids = explode(",", $selection);
+    foreach ($ids as $id) {
+        $part = new Part($database, $current_user, $log, $id);
+        if ($action=="delete_confirmed") {
+            $part->delete();
+        } elseif ($action=="move") {
+            if ($target == "") {
+                throw new Exception(_("Bitte wählen sie ein Ziel zum Verschieben aus."));
+            }
+            $type = substr($target, 0, 1);
+            $target_id = intval(substr($target, 1));
+            //Check if target ID is valid.
+            if ($target_id < 1) {
+                throw new Exception(_("Ungültige ID"));
+            }
+            switch ($type) {
+                case "c": //Category
+                    $part->setCategoryID($target_id);
+                    break;
+                case "f": //Footptint
+                    $part->setFootprintID($target_id);
+                    break;
+                case "m": //Manufacturer
+                    $part->setManufacturerID($target_id);
+                    break;
+                case "s": //Storelocation
+                    $part->setStorelocationID($target_id);
+                    break;
+            }
+        } elseif ($action == "") {
+            throw new Exception(_("Bitte wählen sie eine Aktion aus."));
+        } else {
+            throw new Exception(_("Unbekannte Aktion"));
+        }
+
+    }
 }

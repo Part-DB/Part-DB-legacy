@@ -38,7 +38,7 @@
         <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
         <input type="hidden" name="limit" value="{$limit}">
         <input type="hidden" name="page" value="{$page}">
-           {include file='../smarty_table.tpl'}
+           {include file='../smarty_table.tpl' table_selectable=true}
     </form>
 </div>
 

@@ -49,7 +49,7 @@
     </div>
 </div>
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="cid" value="{$cid}">
     <input type="hidden" name="subcat" value="{$with_subcategories}">
     <input type="hidden" name="page" value="1">
@@ -70,14 +70,14 @@
         <input type="hidden" name="limit" value="{$limit}">
         <input type="hidden" name="page" value="{$page}">
 
-        {include file='../smarty_table.tpl'}
+        {include file='../smarty_table.tpl' table_selectable=true}
     </form>
 </div>
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="cid" value="{$cid}">
     <input type="hidden" name="subcat" value="{$with_subcategories}">
     <input type="hidden" name="page" value="1">
 
-    {include "../smarty_pagination.tpl"}
+    {include "../smarty_pagination.tpl" }
 </form>

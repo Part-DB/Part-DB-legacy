@@ -18,7 +18,7 @@
 
 <div class="panel panel-default">
     <div class="panel-heading"><b>{$table_rowcount}</b> {t}Nicht mehr erhältliche Teile{/t}</div>
-        {include file="../smarty_table.tpl"}
+        {include file="../smarty_table.tpl" table_selectable=true}
 </div>
 
 <form method="get">
