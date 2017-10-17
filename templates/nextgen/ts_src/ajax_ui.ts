@@ -565,7 +565,7 @@ function makeSortTable() {
                     $(".select_actions").show();
                     $(".selected_n").text(count);
                     //Build a string containing all parts, that should be modified
-                    for (let n=0;n<count;n++) {
+                    for (let n of data[0]) {
                         tmp.push($(data.row(n).node()).find("input").val());
                     }
                 } else {
