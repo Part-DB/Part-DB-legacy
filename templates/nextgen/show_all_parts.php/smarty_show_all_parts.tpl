@@ -13,7 +13,7 @@
     </div>
     <form method="post" action="" class="no-progbar">
         <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
-           {include file='../smarty_table.tpl'}
+           {include file='../smarty_table.tpl' table_selectable=true}
     </form>
 </div>
 
