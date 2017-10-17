@@ -245,7 +245,7 @@
                     {/if}
                     {if $row.caption == "button_decrement"}
                         {* build the "-" button, only if more than 0 parts on stock *}
-                        <td class="tdrow6">
+                        <td class="tdrow6 no-select">
                             <button type="submit" class="btn btn-xs btn-default btn-outline" name="decrement_{$row.row_index}"
                                     {if $row.decrement_disabled}disabled="disabled"{/if}
                             ><i class="fa fa-minus" aria-hidden="true"></i></span></button>
@@ -253,14 +253,14 @@
                     {/if}
                     {if $row.caption == "button_increment"}
                         {* build the "+" button *}
-                        <td class="tdrow7">
+                        <td class="tdrow7 no-select">
                             <button type="submit" class="btn btn-xs btn-default btn-outline" name="increment_{$row.row_index}"
                                     {if $row.increment_disabled}disabled="disabled"{/if}
                             ><i class="fa fa-plus" aria-hidden="true"></i></span></button>
                         </td>
                     {/if}
                     {if $row.caption == "button_edit"}
-                        <td class="tdrow7">
+                        <td class="tdrow7 no-select">
                         {if !$row.edit_disabled} <a class="btn btn-xs btn-default btn-outline" href="{$relative_path}edit_part_info.php?pid={$row.id}"
                             {if $row.edit_disabled}disabled="disabled" {/if}><i class="fa fa-pencil" aria-hidden="true"></i></span></a> {/if}
                         </td>

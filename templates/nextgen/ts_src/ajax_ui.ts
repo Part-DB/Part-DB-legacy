@@ -541,7 +541,7 @@ function makeSortTable() {
             "ordering": true,
             "info":     false,
             "searching":   false,
-            "select":   $(".table-sortable").hasClass("table-selectable"),
+            "select":   $(".table-sortable").hasClass("table-selectable") ? {style: "os", selector: "td:not(.no-select)"} : false,
             "order": [],
             "columnDefs": [
                 {
