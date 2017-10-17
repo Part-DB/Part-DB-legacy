@@ -1,46 +1,48 @@
 <div class="row">
     <div class="col-md-6">
-        <div class="select_actions" style="display: none;">
-            <input type="hidden" name="selected_ids" value="">
-            <div class="form-inline">
-                <div class="form-group">
-                    <span class="label label-primary"><span class="selected_n">10</span> {t}Bauteile:{/t}</span>
-                </div>
-                <div class="form-group">
-                    <select name="action" style="width: 110px;" class="form-control">
-                        <option value="">{t}Auswählen{/t}</option>
-                        <option value="delete" {if !$can_delete}disabled{/if}>{t}Löschen{/t}</option>
-                        <option value="move" {if !$can_edit}disabled{/if}>{t}Verschieben nach{/t}</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <select name="target" style="width: 110px;" class="selectpicker" data-live-search="true" {if !$can_edit}disabled{/if}>
-                        <option>{t}Auswählen{/t}</option>
-                        {if isset($categories_list)}
-                            <optgroup label="{t}Kategorien{/t}">
-                                {$categories_list nofilter}
-                            </optgroup>
-                        {/if}
-                        {if isset($footprints_list)}
-                        <optgroup label="{t}Footprint{/t}">
-                            {$footprints_list nofilter}
-                        </optgroup>
-                        {/if}
-                        {if isset($storelocations_list)}
-                            <optgroup label="{t}Lagerort{/t}">
-                                {$storelocations_list nofilter}
-                            </optgroup>
-                        {/if}
-                        {if isset($manufacturers_list)}
-                            <optgroup label="{t}Hersteller{/t}">
-                                {$manufacturers_list nofilter}
-                            </optgroup>
-                        {/if}
-                    </select>
-                </div>
+        {if isset($can_delete) && isset($can_edit)}
+            <div class="select_actions" style="display: none;">
+                <input type="hidden" name="selected_ids" value="">
+                <div class="form-inline">
+                    <div class="form-group">
+                        <span class="label label-primary"><span class="selected_n">10</span> {t}Bauteile:{/t}</span>
+                    </div>
+                    <div class="form-group">
+                        <select name="action" style="width: 110px;" class="form-control">
+                            <option value="">{t}Auswählen{/t}</option>
+                            <option value="delete" {if !$can_delete}disabled{/if}>{t}Löschen{/t}</option>
+                            <option value="move" {if !$can_edit}disabled{/if}>{t}Verschieben nach{/t}</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select name="target" style="width: 110px;" class="selectpicker" data-live-search="true" {if !$can_edit}disabled{/if}>
+                            <option>{t}Auswählen{/t}</option>
+                            {if isset($categories_list)}
+                                <optgroup label="{t}Kategorien{/t}">
+                                    {$categories_list nofilter}
+                                </optgroup>
+                            {/if}
+                            {if isset($footprints_list)}
+                                <optgroup label="{t}Footprint{/t}">
+                                    {$footprints_list nofilter}
+                                </optgroup>
+                            {/if}
+                            {if isset($storelocations_list)}
+                                <optgroup label="{t}Lagerort{/t}">
+                                    {$storelocations_list nofilter}
+                                </optgroup>
+                            {/if}
+                            {if isset($manufacturers_list)}
+                                <optgroup label="{t}Hersteller{/t}">
+                                    {$manufacturers_list nofilter}
+                                </optgroup>
+                            {/if}
+                        </select>
+                    </div>
                     <button type="submit" class="btn btn-primary" name="multi_action">Ok</button>
+                </div>
             </div>
-        </div>
+        {/if}
     </div>
     <div class="col-md-6">
         <nav aria-label="Page navigation" class="pull-right">
