@@ -36,7 +36,7 @@ include_once(BASE.'/updates/db_migration_functions.php');
  *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
  */
 
-define('LATEST_DB_VERSION', 20);  // <-- increment here
+define('LATEST_DB_VERSION', 21);  // <-- increment here
 
 /*
  * Get update steps
@@ -861,11 +861,73 @@ EOD;
               ,21845,21845,21845,21845,21845,21845,21845,21845,21845,21845,21845,
               21845,21845,21845,21845,21845,21845); 
 EOD;
-
             //Break is Important!
             break;
 
+        case 20:
+            
+            //Allow users to change some settings.
+            $updateSteps[] = 'ALTER TABLE `users` ' .
+                "ADD `config_language` TINYTEXT NULL DEFAULT NULL after `group_id`, ".
+                'ADD `config_timezone` TINYTEXT NULL DEFAULT NULL after `config_language`, '.
+                'ADD `config_theme` TINYTEXT NULL DEFAULT NULL after `config_timezone`, '.
+                'ADD `config_currency` TINYTEXT NULL DEFAULT NULL after `config_theme`, '.
+                "ADD `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, " .
+                'ADD `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\';';
+
+            $updateSteps[] = 'ALTER TABLE `groups` ' .
+                "ADD `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, " .
+                'ADD `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\';';
+
+            //Add comment and create/last modified timestamps.
+
+            $updateSteps[] = "ALTER TABLE `devices` " .
+                'ADD `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\', ' .
+                'ADD `comment` TEXT NULL DEFAULT NULL AFTER `last_modified`;';
+                
+              
+            $updateSteps[] = 'ALTER TABLE `attachement_types` ' .
+                'ADD `comment` TEXT NULL DEFAULT NULL, ' .
+                'ADD `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, ' .
+                'ADD `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\';';
+
+
+
+            $updateSteps[] = 'ALTER TABLE `categories` ' .
+                'ADD `comment` TEXT NULL DEFAULT NULL, ' .
+                'ADD `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, ' .
+                'ADD `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\';';
+
+
+
+            $updateSteps[] = "ALTER TABLE `footprints` " .
+                "ADD `comment` TEXT NULL DEFAULT NULL, " .
+                "ADD `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, " .
+                "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
+            
+            $updateSteps[] = "ALTER TABLE `manufacturers` " .
+                "ADD `comment` TEXT NULL DEFAULT NULL, " .
+                "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
+            
+            $updateSteps[] = "ALTER TABLE `storelocations` " .
+                "ADD `comment` TEXT NULL DEFAULT NULL, " .
+                "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
+            
+            $updateSteps[] = "ALTER TABLE `suppliers` " .
+                "ADD `comment` TEXT NULL DEFAULT NULL, " .
+                "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
+            
+            //Allow to favorite a part
+            $updateSteps[] = "ALTER TABLE `parts` ADD `favorite` BOOLEAN NOT NULL DEFAULT FALSE AFTER `last_modified`, ".
+                          "ADD INDEX `favorite` (`favorite`);";
+
+            break;
+
         /*
+        
+        `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                  `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\',
+        
                 Templates:
 
                   case 14:
