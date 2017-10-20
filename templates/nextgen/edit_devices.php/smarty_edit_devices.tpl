@@ -84,7 +84,8 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Kommentar:{/t}</label>
                                 <div class="col-md-9">
-                                    <textarea name="comment" class="form-control" rows="5">{if isset($comment)}{$comment}{/if}</textarea>
+                                    <textarea name="comment" class="form-control" rows="5"
+                                              placeholder="{t}z.B. wichtige Links{/t}">{if isset($comment)}{$comment}{/if}</textarea>
                                 </div>
                             </div>
                         </div>

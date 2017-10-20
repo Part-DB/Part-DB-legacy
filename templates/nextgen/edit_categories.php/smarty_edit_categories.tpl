@@ -87,16 +87,16 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Kommentar:{/t}</label>
                                 <div class="col-md-9">
-                                    <textarea name="comment" class="form-control" rows="5">{if isset($comment)}{$comment}{/if}</textarea>
+                                    <textarea name="comment" class="form-control" rows="5"
+                                              placeholder="{t}z.B. nur für SMD Bauteile{/t}"
+                                    >{if isset($comment)}{$comment}{/if}</textarea>
                                 </div>
                             </div>
 
                         </div>
 
                         <div id="menu2" class="tab-pane fade">
-
                             <br>
-
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Filter für Bauteilenamen (RegEx):{/t}</label>
                                 <div class="col-md-9">
