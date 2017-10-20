@@ -884,21 +884,16 @@ EOD;
             $updateSteps[] = "ALTER TABLE `devices` " .
                 'ADD `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\', ' .
                 'ADD `comment` TEXT NULL DEFAULT NULL AFTER `last_modified`;';
-                
-              
+            
             $updateSteps[] = 'ALTER TABLE `attachement_types` ' .
                 'ADD `comment` TEXT NULL DEFAULT NULL, ' .
                 'ADD `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, ' .
                 'ADD `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\';';
 
-
-
             $updateSteps[] = 'ALTER TABLE `categories` ' .
                 'ADD `comment` TEXT NULL DEFAULT NULL, ' .
                 'ADD `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, ' .
                 'ADD `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\';';
-
-
 
             $updateSteps[] = "ALTER TABLE `footprints` " .
                 "ADD `comment` TEXT NULL DEFAULT NULL, " .
