@@ -495,12 +495,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
             return "???";
         }
-        $time_str = $this->db_data['last_modified'];
-        if ($formatted) {
-            $timestamp = strtotime($time_str);
-            return formatTimestamp($timestamp);
-        }
-        return $time_str;
+        return parent::getLastModified($formatted);
     }
 
     /**
@@ -514,12 +509,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
             return "???";
         }
-        $time_str = $this->db_data['datetime_added'];
-        if ($formatted) {
-            $timestamp = strtotime($time_str);
-            return formatTimestamp($timestamp);
-        }
-        return $time_str;
+        return parent::getDatetimeAdded(true);
     }
 
     /**
@@ -1672,9 +1662,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
-
-        // set "last_modified" to current datetime
-        $values['last_modified'] = date('Y-m-d H:i:s');
 
         // set the datetype of the boolean attributes
         settype($values['visible'], 'boolean');

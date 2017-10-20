@@ -865,7 +865,7 @@ EOD;
             break;
 
         case 20:
-            
+
             //Allow users to change some settings.
             $updateSteps[] = 'ALTER TABLE `users` ' .
                 "ADD `config_language` TINYTEXT NULL DEFAULT NULL after `group_id`, ".

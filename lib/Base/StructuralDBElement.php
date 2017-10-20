@@ -264,6 +264,35 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     }
 
     /**
+     * Returns the last time when the part was modified.
+     * @param $formatted bool When true, the date gets formatted with the locale and timezone settings.
+     *          When false, the raw value from the DB is returned.
+     * @return string The time of the last edit.
+     */
+    public function getLastModified($formatted = true)
+    {
+
+        if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
+            return "???";
+        }
+        return parent::getLastModified($formatted);
+    }
+
+    /**
+     * Returns the date/time when the part was created.
+     * @param $formatted bool When true, the date gets formatted with the locale and timezone settings.
+     *       When false, the raw value from the DB is returned.
+     * @return string The creation time of the part.
+     */
+    public function getDatetimeAdded($formatted = true)
+    {
+        if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
+            return "???";
+        }
+        return parent::getDatetimeAdded(true);
+    }
+
+    /**
      * Get the level
      *
      * @note    The level of the root node is -1.
