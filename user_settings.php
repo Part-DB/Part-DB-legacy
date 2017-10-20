@@ -47,6 +47,8 @@ $new_lastname       = isset($_REQUEST['lastname'])          ? $_REQUEST['lastnam
 $new_email          = isset($_REQUEST['email'])             ? $_REQUEST['email']                    : "";
 $new_department     = isset($_REQUEST['department'])        ? $_REQUEST['department']               : "";
 
+$new_theme          = isset($_REQUEST['custom_css'])        ? $_REQUEST['custom_css']               : "";
+
 $action = 'default';
 if (isset($_REQUEST["change_pw"])) {
     $action = 'change_pw';
@@ -128,6 +130,10 @@ if(!$fatal_error) {
                 $current_user->setDepartment($new_department);
             }
 
+            if (!empty($new_theme)) {
+                $current_user->setTheme($new_theme);
+            }
+
             break;
     }
 }
@@ -147,6 +153,17 @@ if (! $fatal_error) {
         $html->setVariable("department", $current_user->getDepartment(), "string");
         $html->setVariable("group", $current_user->getGroup()->getFullPath(), "string");
         $html->setVariable('avatar_url', $current_user->getAvatar(), "string");
+
+        //Configuration settings
+        $html->setLoop('custom_css_loop', build_custom_css_loop($current_user->getTheme(true)));
+        //Convert timezonelist, to a format, we can use
+        $timezones_raw = DateTimeZone::listIdentifiers();
+        $timezones = array();
+        foreach ($timezones_raw as $timezone) {
+            $timezones[$timezone] = $timezone;
+        }
+        $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
+        $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
 
         $html->setVariable('can_username', $current_user->canDo(PermissionManager::SELF, SelfPermission::EDIT_USERNAME));
         $html->setVariable('can_infos', $current_user->canDo(PermissionManager::SELF, SelfPermission::EDIT_INFOS));

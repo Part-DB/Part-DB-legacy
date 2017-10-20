@@ -245,7 +245,8 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return String containing either just a URL or a complete image tag
      * @source https://gravatar.com/site/implement/images/php/
      */
-    public function getGravatar($s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+    public function getGravatar($s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array())
+    {
         $email = $this->getEmail();
         $url = 'https://www.gravatar.com/avatar/';
         $url .= md5(strtolower(trim($email)));
@@ -258,6 +259,26 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             $url .= ' />';
         }
         return $url;
+    }
+
+    /**
+     * Gets the theme configured for this user.
+     * @param bool $no_resolve_for_default When this is false, a empty value will be resolved to the system-wide default
+     *      theme. When set to true, an empty string will be returned.
+     * @return string The name of the configured theme.
+     */
+    public function getTheme($no_resolve_for_default = false)
+    {
+        if (!$this->isLoggedInUser()
+            && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            return "???";
+        }
+        if (empty($this->db_data['config_theme']) && !$no_resolve_for_default) {
+            global $config;
+            return  $config['html']['custom_css'];
+        } else {
+            return $this->db_data['config_theme'];
+        }
     }
 
     /**
@@ -382,6 +403,11 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     public function setDepartment($new_department)
     {
         $this->setAttributes(array('department' => $new_department));
+    }
+
+    public function setTheme($new_theme)
+    {
+        $this->setAttributes(array('config_theme' => $new_theme));
     }
 
     /**
@@ -519,6 +545,12 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
                 if (strpos($key, "perms_") !== false) {
                     $arr[$key] = $content;
                 }
+            }
+        }
+
+        if (true) {
+            if (isset($new_values['config_theme'])) {
+                $arr['config_theme'] = $new_values['config_theme'];
             }
         }
 

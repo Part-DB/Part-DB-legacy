@@ -1504,3 +1504,21 @@ function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $act
 
     }
 }
+
+function build_custom_css_loop($selected = null)
+{
+    global $config;
+    if ($selected == null) {
+        $selected = $config['html']['custom_css'];
+    }
+
+    $loop = array();
+    $files = findAllFiles(BASE.'/templates/custom_css/', true, '.css');
+
+    foreach ($files as $file) {
+        $name = str_ireplace(BASE.'/templates/custom_css/', '', $file);
+        $loop[] = array('value' => $name, 'text' => $name, 'selected' => ($name == $selected));
+    }
+
+    return $loop;
+}
