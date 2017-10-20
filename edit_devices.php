@@ -200,19 +200,22 @@ if (! $fatal_error) {
         if (is_object($selected_device)) {
             $parent_id = $selected_device->getParentID();
             $html->setVariable('id', $selected_device->getID(), 'integer');
-            $html->setVariable('comment', $selected_device->getComment(false));
+            $comment = $selected_device->getComment(false);
             $html->setVariable('datetime_added', $selected_device->getDatetimeAdded(true));
             $html->setVariable('last_modified', $selected_device->getLastModified(true));
             $name = $selected_device->getName();
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
+            $comment = $new_comment;
         } else {
             $parent_id = 0;
             $name = '';
+            $comment = "";
         }
 
         $html->setVariable('name', $name, 'string');
+        $html->setVariable('comment', $comment);
 
         $device_list = $root_device->buildHtmlTree($selected_id, true, false);
         $html->setVariable('device_list', $device_list, 'string');

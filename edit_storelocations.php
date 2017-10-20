@@ -63,6 +63,7 @@ $create_series      = isset($_REQUEST['series']);
 $series_from        = isset($_REQUEST['series_from'])   ? $_REQUEST['series_from'] : 1;
 $series_to          = isset($_REQUEST['series_to'])     ? $_REQUEST['series_to']   : 1;
 $add_more           = isset($_REQUEST['add_more']);
+$new_comment        = isset($_REQUEST['comment'])       ? (string)$_REQUEST['comment']      : "";
 
 $action = 'default';
 if (isset($_REQUEST["add"])) {
@@ -126,7 +127,8 @@ if (! $fatal_error) {
                             $log,
                             $new_storelocation_name,
                             $new_parent_id,
-                            $new_is_full
+                            $new_is_full,
+                            $new_comment
                         );
                     }
                 } else {
@@ -136,7 +138,8 @@ if (! $fatal_error) {
                         $log,
                         $new_name,
                         $new_parent_id,
-                        $new_is_full
+                        $new_is_full,
+                        $new_comment
                     );
                 }
 
@@ -199,7 +202,8 @@ if (! $fatal_error) {
                 try {
                     $selected_storelocation->setAttributes(array(  'name'       => $new_name,
                         'parent_id'  => $new_parent_id,
-                        'is_full'    => $new_is_full));
+                        'is_full'    => $new_is_full,
+                        "comment"    => $new_comment));
                 } catch (Exception $e) {
                     $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                     $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -227,18 +231,24 @@ if (! $fatal_error) {
             $html->setVariable('id', $selected_storelocation->getID(), 'integer');
             $name = $selected_storelocation->getName();
             $is_full = $selected_storelocation->getIsFull();
+            $comment = $selected_storelocation->getComment(false);
+            $html->setVariable('datetime_added', $selected_storelocation->getDatetimeAdded(true));
+            $html->setVariable('last_modified', $selected_storelocation->getLastModified(true));
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
             $is_full = $new_is_full;
+            $comment = $new_comment;
         } else {
             $parent_id = 0;
             $name = '';
             $is_full = false;
+            $comment = "";
         }
 
         $html->setVariable('name', $name, 'string');
         $html->setVariable('is_full', $is_full, 'boolean');
+        $html->setVariable('comment', $comment);
 
         $storelocation_list = $root_storelocation->buildHtmlTree($selected_id, true, false);
         $html->setVariable('storelocation_list', $storelocation_list, 'string');
