@@ -91,7 +91,7 @@ if (isset($_REQUEST['save_db_backup_path'])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Part-DB Installation/Update'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Part-DB Installation/Update'));
 
 try {
     $system_version = SystemVersion::getInstalledVersion();

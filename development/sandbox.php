@@ -45,7 +45,7 @@ use PartDB\User;
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Sandkasten');
+$html = new HTML($config['html']['theme'], $user_config['theme'], 'Sandkasten');
 /*$messages[] = array('text' =>   'Das ist eine Spielwiese für Entwickler, '.
                                 'hier kannst du dich austoben und Funktionen testen! :-)',
                                 'strong' => true, 'color' => 'green');

@@ -92,7 +92,7 @@ if (isset($_REQUEST["apply"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Kategorien'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Kategorien'));
 
 try {
     $database           = new Database();

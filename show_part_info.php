@@ -95,7 +95,7 @@ if(isset($_REQUEST['device_add'])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Detailinfo'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Detailinfo'));
 
 
 try {

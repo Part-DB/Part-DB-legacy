@@ -149,7 +149,7 @@ if (isset($_REQUEST["attachement_delete"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Baugruppe');
+$html = new HTML($config['html']['theme'], $user_config['theme'], 'Baugruppe');
 
 try {
     $database           = new Database();

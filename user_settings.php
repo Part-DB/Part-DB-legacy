@@ -65,7 +65,7 @@ if (isset($_REQUEST['apply_settings'])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Benutzereinstellungen'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Benutzereinstellungen'));
 
 try {
     $database           = new Database();

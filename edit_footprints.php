@@ -111,7 +111,7 @@ if (isset($_REQUEST["save_all_proposed_3d_filenames"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Footprints'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Footprints'));
 
 try {
     $database           = new Database();

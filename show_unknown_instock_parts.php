@@ -41,7 +41,7 @@ $limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Teile mit unbekanntem Lagerbestand'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Teile mit unbekanntem Lagerbestand'));
 
 try {
     $database           = new Database();

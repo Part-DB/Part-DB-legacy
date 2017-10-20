@@ -45,7 +45,7 @@ $limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Teile ohne Preis');
+$html = new HTML($config['html']['theme'], $user_config['theme'], 'Teile ohne Preis');
 
 try {
     $database           = new Database();

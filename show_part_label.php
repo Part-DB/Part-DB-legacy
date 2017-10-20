@@ -48,7 +48,7 @@ if (isset($_REQUEST["label_download"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Label');
+$html = new HTML($config['html']['theme'], $user_config['theme'], 'Label');
 
 
 /********************************************************************************

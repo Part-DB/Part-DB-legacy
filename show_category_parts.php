@@ -89,7 +89,7 @@ for ($i=0; $i<$table_rowcount; $i++) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Teileansicht'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Teileansicht'));
 
 try {
     $database           = new Database();

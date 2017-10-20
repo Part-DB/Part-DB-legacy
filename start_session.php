@@ -348,3 +348,11 @@ if (class_exists("\Whoops\Run") && $config['debug']['enable'] &&
         $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
         $whoops->register();
 }
+
+/**************************************************************************************
+ * Try to set settings that are only apply for the current user.
+ **************************************************************************************/
+global $user_config;
+$user_config = array();
+$current_user = \PartDB\User::getLoggedInUser();
+$user_config['theme'] = $current_user->getTheme();

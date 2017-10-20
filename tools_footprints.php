@@ -62,7 +62,7 @@ if (isset($_REQUEST['show_others'])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Footprint-Bilder'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Footprint-Bilder'));
 
 try {
     $database           = new Database();

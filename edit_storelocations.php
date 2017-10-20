@@ -85,7 +85,7 @@ if (isset($_REQUEST["apply"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Lagerorte'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Lagerorte'));
 
 try {
     $database           = new Database();
