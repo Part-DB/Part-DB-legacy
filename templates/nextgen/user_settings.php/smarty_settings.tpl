@@ -55,8 +55,8 @@
 
                 <div id="tab2" class="tab-pane fade">
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="custom_css">{t}Theme:{/t}</label>
-                        <div class="col-sm-10">
+                        <label class="control-label col-md-3" for="custom_css">{t}Theme:{/t}</label>
+                        <div class="col-md-9">
                             <select class="form-control" name="custom_css">
                                 <option value="">{t}Standardmäßiges Theme{/t}</option>
                                 {foreach $custom_css_loop as $css}
@@ -67,8 +67,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="timezon">{t}Zeitzone:{/t}</label>
-                        <div class="col-sm-10">
+                        <label class="control-label col-md-3" for="timezon">{t}Zeitzone:{/t}</label>
+                        <div class="col-sm-9">
                             <select class="form-control selectpicker" data-live-search="true" name="timezone">
                                 {foreach $timezone_loop as $timezone}
                                     <option value="{$timezone.value}" {if $timezone.selected}selected{/if}>{$timezone.text}</option>
@@ -78,8 +78,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="control-label col-sm-2" for="language">{t}Sprache:{/t}</label>
-                        <div class="col-sm-10">
+                        <label class="control-label col-md-3" for="language">{t}Sprache:{/t}</label>
+                        <div class="col-md-9">
                             <select class="form-control" name="language">
                                 {foreach $language_loop as $lang}
                                     <option value="{$lang.value}" {if $lang.selected}selected{/if}>{$lang.text}</option>
