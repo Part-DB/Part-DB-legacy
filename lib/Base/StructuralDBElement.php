@@ -26,11 +26,14 @@
 namespace PartDB\Base;
 
 use Exception;
+use Golonka\BBCode\BBCodeParser;
 use PartDB\Database;
 use PartDB\Exceptions\NotImplementedException;
 use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Log;
 use PartDB\Part;
+use PartDB\Permissions\PartAttributePermission;
+use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\StructuralPermission;
 use PartDB\User;
 
@@ -293,6 +296,27 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     }
 
     /**
+     *  Get the comment of the element.
+     *
+     * @param boolean $parse_bbcode Should BBCode converted to HTML, before returning
+     * @return string       the comment
+     */
+    public function getComment($parse_bbcode = true)
+    {
+        if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
+            return "???";
+        }
+
+        $val = htmlspecialchars($this->db_data['comment']);
+        if ($parse_bbcode) {
+            $bbcode = new BBCodeParser;
+            $val = $bbcode->parse($val);
+        }
+
+        return $val;
+    }
+
+    /**
      * Get the level
      *
      * @note    The level of the root node is -1.
@@ -412,6 +436,18 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     public function setParentID($new_parent_id)
     {
         $this->setAttributes(array('parent_id' => $new_parent_id));
+    }
+
+    /**
+     *  Set the comment
+     *
+     * @param string $new_comment       the new comment
+     *
+     * @throws Exception if there was an error
+     */
+    public function setComment($new_comment)
+    {
+        $this->setAttributes(array('comment' => $new_comment));
     }
 
     /********************************************************************************
