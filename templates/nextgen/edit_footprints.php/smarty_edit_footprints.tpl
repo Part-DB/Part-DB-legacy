@@ -50,72 +50,106 @@
                         {/if}
                     </legend>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}ID:{/t}</label>
-                        <div class="col-md-9">
-                            <p class="form-control-static">{if isset($id)}{$id}{else}-{/if}</p>
-                        </div>
-                    </div>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a class="link-anchor" data-toggle="tab" href="#home">{t}Standard{/t}</a></li>
+                        <li><a data-toggle="tab" class="link-anchor" href="#info">{t}Infos{/t}</a></li>
+                    </ul>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}Name*:{/t}</label>
-                        <div class="col-md-9">
-                            <input type="text" class="form-control" name="name" value="{$name}"
-                                   placeholder="{t}z.B. DIP8{/t}" required {if !$can_edit}disabled{/if}>
-                        </div>
-                    </div>
+                    <div class="tab-content">
+                        <br>
+                        <div id="home" class="tab-pane fade in active">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Name*:{/t}</label>
+                                <div class="col-md-9">
+                                    <input type="text" class="form-control" name="name" value="{$name}"
+                                           placeholder="{t}z.B. DIP8{/t}" required {if !$can_edit}disabled{/if}>
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}Übergeordneter Footprint*:{/t}</label>
-                        <div class="col-md-9">
-                            <select class="form-control selectpicker" data-live-search="true" name="parent_id" size="1" {if !$can_move}disabled{/if}>
-                                {$parent_footprint_list nofilter}
-                            </select>
-                        </div>
-                    </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Übergeordneter Footprint*:{/t}</label>
+                                <div class="col-md-9">
+                                    <select class="form-control selectpicker" data-live-search="true" name="parent_id" size="1" {if !$can_move}disabled{/if}>
+                                        {$parent_footprint_list nofilter}
+                                    </select>
+                                </div>
+                            </div>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}Bild:{/t}</label>
-                        <div class="col-md-6">
-                            <input type="text" name="filename" value="{$filename}" placeholder="{t}z.B. img/footprints/Aktiv/ICs/DIP/IC_DIP8.png{/t}" class="form-control" {if !$can_edit}disabled{/if}>
-                        </div>
-                        <div class="col-sm-3 pull-right">
-                            <input data-show-caption="false" data-show-preview="false" data-show-upload="false" type="file" class="file" name="footprint_file" {if !$can_edit}disabled{/if}>
-                        </div>
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Bild:{/t}</label>
+                                <div class="col-md-6">
+                                    <input type="text" name="filename" value="{$filename}" placeholder="{t}z.B. img/footprints/Aktiv/ICs/DIP/IC_DIP8.png{/t}" class="form-control" {if !$can_edit}disabled{/if}>
+                                </div>
+                                <div class="col-sm-3 pull-right">
+                                    <input data-show-caption="false" data-show-preview="false" data-show-upload="false" type="file" class="file" name="footprint_file" {if !$can_edit}disabled{/if}>
+                                </div>
 
-                    </div>
+                            </div>
 
-                    <div class="form-group">
-                        <div class="col-md-9 col-md-offset-3">
-                            <p class="help-block">{t}Hinweis: Sie können hier z.B. "DIP28" eintippen und übernehmen. Der Footprint wird dann unter "Footprints mit fehlerhaften Dateinamen" aufgelistet, wo Sie Vorschläge für Dateinamen bekommen und dann einfach übernehmen können.{/t}</p>
-                            <p class="help-block">{t}Geben sie hier eine URL ein, so wird das Bild heruntergeladen und auf dem Server gespeichert.{/t}</p>
-                            {if !empty($filename) && $filename_valid}
-                                <img class="" rel="popover" height="70" src="{$filename}">
+                            <div class="form-group">
+                                <div class="col-md-9 col-md-offset-3">
+                                    <p class="help-block">{t}Hinweis: Sie können hier z.B. "DIP28" eintippen und übernehmen. Der Footprint wird dann unter "Footprints mit fehlerhaften Dateinamen" aufgelistet, wo Sie Vorschläge für Dateinamen bekommen und dann einfach übernehmen können.{/t}</p>
+                                    <p class="help-block">{t}Geben sie hier eine URL ein, so wird das Bild heruntergeladen und auf dem Server gespeichert.{/t}</p>
+                                    {if !empty($filename) && $filename_valid}
+                                        <img class="" rel="popover" height="70" src="{$filename}">
+                                    {/if}
+                                </div>
+                            </div>
+
+
+                            {if $foot3d_active}
+                                <div class="form-group">
+                                    <label class="control-label col-md-3">{t}3D-Footprint:{/t}</label>
+                                    <div class="col-md-9">
+                                        <input type="text" name="filename_3d" value="{$filename_3d}" placeholder="{t}z.B. models/Housings_DIP/DIP-8_W7.62mm.x3d{/t}" class="form-control">
+                                        <p></p>
+                                        {if !empty($filename_3d) && $filename_3d_valid}
+                                            <x3d id="foot3d" class="img-thumbnail" height="150" width="500" >
+                                                <scene >
+                                                    <!-- <Viewpoint id="front" position="0 0 10" orientation="-0.01451 0.99989 0.00319 3.15833" description="camera"></Viewpoint> -->
+                                                    <transform>
+                                                        <inline url="{$filename_3d}"> </inline>
+                                                    </transform>
+                                                </scene>
+                                                <!-- <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#fullscreen"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button> -->
+                                            </x3d>
+                                        {/if}
+                                    </div>
+                                </div>
                             {/if}
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Kommentar:{/t}</label>
+                                <div class="col-md-9">
+                                    <textarea name="comment" class="form-control" rows="5">{if isset($comment)}{$comment}{/if}</textarea>
+                                </div>
+                            </div>
+
                         </div>
-                    </div>
 
+                        <div id="info" class="tab-pane fade">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}ID:{/t}</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{if isset($id)}{$id}{else}-{/if}</p>
+                                </div>
+                            </div>
 
-                    {if $foot3d_active}
-                        <div class="form-group">
-                            <label class="control-label col-md-3">{t}3D-Footprint:{/t}</label>
-                            <div class="col-md-9">
-                                <input type="text" name="filename_3d" value="{$filename_3d}" placeholder="{t}z.B. models/Housings_DIP/DIP-8_W7.62mm.x3d{/t}" class="form-control">
-                                <p></p>
-                                {if !empty($filename_3d) && $filename_3d_valid}
-                                    <x3d id="foot3d" class="img-thumbnail" height="150" width="500" >
-                                        <scene >
-                                            <!-- <Viewpoint id="front" position="0 0 10" orientation="-0.01451 0.99989 0.00319 3.15833" description="camera"></Viewpoint> -->
-                                            <transform>
-                                                <inline url="{$filename_3d}"> </inline>
-                                            </transform>
-                                        </scene>
-                                        <!-- <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#fullscreen"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button> -->
-                                    </x3d>
-                                {/if}
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Hinzugefügt:{/t}</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{if !empty($datetime_added)}{$datetime_added}{else}-{/if}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Letzte Änderung:{/t}</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{if !empty($last_modified)}{$last_modified}{else}-{/if}</p>
+                                </div>
                             </div>
                         </div>
-                    {/if}
+                    </div>
 
                     <div class="form-group">
                         <label class="col-md-9 col-md-offset-3">

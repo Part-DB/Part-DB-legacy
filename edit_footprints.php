@@ -60,6 +60,7 @@ $new_name                       = isset($_REQUEST['name'])                      
 $new_parent_id                  = isset($_REQUEST['parent_id'])                     ? (integer)$_REQUEST['parent_id']                       : 0;
 $new_filename                   = isset($_REQUEST['filename'])                      ? toUnixPath(trim((string)$_REQUEST['filename']))     : '';
 $new_3d_filename                = isset($_REQUEST['filename_3d'])                   ? toUnixPath(trim((string)$_REQUEST['filename_3d']))  : '';
+$new_comment                    = isset($_REQUEST['comment'])       ? (string)$_REQUEST['comment']      : "";
 
 if ((strlen($new_filename) > 0) && (! isPathabsoluteAndUnix($new_filename))) {
     $new_filename = BASE.'/'.$new_filename;
@@ -162,7 +163,8 @@ if (! $fatal_error) {
                     $new_name,
                     $new_parent_id,
                     $new_filename,
-                    $new_3d_filename
+                    $new_3d_filename,
+                    $new_comment
                 );
 
                 if (! $add_more) {
@@ -241,7 +243,8 @@ if (! $fatal_error) {
                 $selected_footprint->setAttributes(array(  'name'          => $new_name,
                     'parent_id'     => $new_parent_id,
                     'filename'      => $new_filename,
-                    'filename_3d'   => $new_3d_filename));
+                    'filename_3d'   => $new_3d_filename,
+                    "comment"       => $new_comment));
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -454,20 +457,26 @@ if (! $fatal_error) {
             $name = $selected_footprint->getName();
             $filename = $selected_footprint->getFilename();
             $filename_3d = $selected_footprint->get3dFilename();
+            $comment = $selected_footprint->getComment(false);
+            $html->setVariable('datetime_added', $selected_footprint->getDatetimeAdded(true));
+            $html->setVariable('last_modified', $selected_footprint->getLastModified(true));
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
             $filename = $new_filename;
             $filename_3d = $new_3d_filename;
+            $comment = $new_comment;
         } else {
             $parent_id = 0;
             $name = '';
             $filename = '';
             $filename_3d = '';
+            $comment = "";
         }
 
         $html->setVariable('name', $name, 'string');
         $html->setVariable('filename', str_replace(BASE.'/', '', $filename), 'string');
+        $html->setVariable('comment', $comment, "string");
 
         $html->setVariable('filename_3d', str_replace(BASE.'/', '', $filename_3d), 'string');
         $html->setVariable('foot3d_active', $config['foot3d']['active'], 'boolean');
