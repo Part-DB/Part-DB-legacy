@@ -86,6 +86,7 @@
                                 <div class="col-md-9">
                                     <textarea name="comment" class="form-control" rows="5"
                                               placeholder="{t}z.B. wichtige Links{/t}">{if isset($comment)}{$comment}{/if}</textarea>
+                                    <p class="help-block">{t}Hinweis: Hier kann BBCode verwendet werden um den Text besonders auszuzeichnen (z.B. [b]Fett[/b]).{/t}</p>
                                 </div>
                             </div>
                         </div>
