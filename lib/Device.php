@@ -551,7 +551,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @see DBElement::add()
      */
-    public static function add(&$database, &$current_user, &$log, $name, $parent_id)
+    public static function add(&$database, &$current_user, &$log, $name, $parent_id, $comment = "")
     {
         return parent::addByArray(
             $database,
@@ -561,7 +561,8 @@ class Device extends Base\PartsContainingDBElement
             array(  'name'                      => $name,
                 'parent_id'                 => $parent_id,
                 'order_quantity'            => 0,
-                'order_only_missing_parts'  => false)
+                'order_only_missing_parts'  => false,
+                "comment"                   => $comment)
         );
     }
 
