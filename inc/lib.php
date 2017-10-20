@@ -1505,7 +1505,7 @@ function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $act
     }
 }
 
-function build_custom_css_loop($selected = null)
+function build_custom_css_loop($selected = null, $include_default_theme = false)
 {
     global $config;
     if ($selected == null) {
@@ -1513,6 +1513,9 @@ function build_custom_css_loop($selected = null)
     }
 
     $loop = array();
+    if($include_default_theme) {
+        $loop[] = array("value" => "@@", "text" => _("Standardmäßiges Theme"), "selected" => ($selected == "@@"));
+    }
     $files = findAllFiles(BASE.'/templates/custom_css/', true, '.css');
 
     foreach ($files as $file) {

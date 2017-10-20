@@ -277,6 +277,10 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             global $config;
             return  $config['html']['custom_css'];
         } else {
+            //When set to @@, use no custom_css => default bootstrap theme
+            if ($this->db_data['config_theme'] == "@@") {
+                return "";
+            }
             return $this->db_data['config_theme'];
         }
     }

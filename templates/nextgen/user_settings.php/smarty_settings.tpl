@@ -58,7 +58,7 @@
                         <label class="control-label col-md-3" for="custom_css">{t}Theme:{/t}</label>
                         <div class="col-md-9">
                             <select class="form-control" name="custom_css">
-                                <option value="">{t}Standardmäßiges Theme{/t}</option>
+                                <option value="">{t}Benutze das serverweite Theme{/t}</option>
                                 {foreach $custom_css_loop as $css}
                                     <option value="{$css.value}" {if $css.selected}selected{/if}>{$css.text}</option>
                                 {/foreach}

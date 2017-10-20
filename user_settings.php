@@ -154,7 +154,7 @@ if (! $fatal_error) {
         $html->setVariable('avatar_url', $current_user->getAvatar(), "string");
 
         //Configuration settings
-        $html->setLoop('custom_css_loop', build_custom_css_loop($current_user->getTheme(true)));
+        $html->setLoop('custom_css_loop', build_custom_css_loop($current_user->getTheme(true), true));
         //Convert timezonelist, to a format, we can use
         $timezones_raw = DateTimeZone::listIdentifiers();
         $timezones = array();
