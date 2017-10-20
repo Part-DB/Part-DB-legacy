@@ -216,6 +216,8 @@ if (! $fatal_error) {
             $comment = $selected_group->getComment();
             //Permissions loop
             $perm_loop = $selected_group->getPermissionManager()->generatePermissionsLoop($perm_read_only);
+            $html->setVariable('datetime_added', $selected_group->getDatetimeAdded(true));
+            $html->setVariable('last_modified', $selected_group->getLastModified(true));
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
