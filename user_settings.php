@@ -130,9 +130,8 @@ if(!$fatal_error) {
                 $current_user->setDepartment($new_department);
             }
 
-            if (!empty($new_theme)) {
-                $current_user->setTheme($new_theme);
-            }
+            //Dont check if this value is set, because empty string is a valid value.
+            $current_user->setTheme($new_theme);
 
             break;
     }
