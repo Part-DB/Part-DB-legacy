@@ -255,6 +255,8 @@ if (! $fatal_error) {
             $group_id   = $selected_user->getGroup()->getID();
 
             $html->setVariable('is_current_user', $selected_user->isLoggedInUser());
+            $html->setVariable('datetime_added', $selected_user->getDatetimeAdded(true));
+            $html->setVariable('last_modified', $selected_user->getLastModified(true));
 
             //Permissions loop
             $perm_loop = $selected_user->getPermissionManager()->generatePermissionsLoop($perm_readonly);

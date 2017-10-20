@@ -58,6 +58,7 @@
                         <li class="active"><a class="link-anchor" data-toggle="tab" href="#home">{t}Allgemein{/t}</a></li>
                         <li><a data-toggle="tab" class="link-anchor" href="#permissions">{t}Berechtigungen{/t}</a></li>
                         <li><a data-toggle="tab" class="link-anchor" href="#password">{t}Passwort setzen{/t}</a></li>
+                        <li><a data-toggle="tab" class="link-anchor" href="#info">{t}Infos{/t}</a></li>
                     </ul>
 
                     <div class="tab-content">
@@ -72,13 +73,6 @@
                                     </div>
                                 </div>
                             {/if}
-
-                            <div class="form-group">
-                                <label class="control-label col-md-3">{t}ID:{/t}</label>
-                                <div class="col-md-9">
-                                    <p class="form-control-static">{if isset($id)}{$id}{else}-{/if}</p>
-                                </div>
-                            </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Benutzername*:{/t}</label>
@@ -174,6 +168,29 @@
                                 </div>
                             </div>
 
+                        </div>
+
+                        <div id="info" class="tab-pane fade">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}ID:{/t}</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{if isset($id)}{$id}{else}-{/if}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Hinzugefügt:{/t}</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{if !empty($datetime_added)}{$datetime_added}{else}-{/if}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Letzte Änderung:{/t}</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{if !empty($last_modified)}{$last_modified}{else}-{/if}</p>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="form-group">
