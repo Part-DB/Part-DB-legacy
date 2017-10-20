@@ -70,6 +70,8 @@ $new_default_comment        = isset($_REQUEST['default_comment'])  ? (string)$_R
 $new_partname_regex         = isset($_REQUEST['partname_regex'])   ? (string)$_REQUEST['partname_regex']    : '';
 $new_partname_hint          = isset($_REQUEST['partname_hint'])   ? (string)$_REQUEST['partname_hint']    : '';
 
+$new_comment                = isset($_REQUEST['comment'])       ? (string)$_REQUEST['comment']      : "";
+
 $action = 'default';
 if (isset($_REQUEST["add"])) {
     $action = 'add';
@@ -131,7 +133,8 @@ if (! $fatal_error) {
                     $new_disable_autodatasheets,
                     $new_disable_properties,
                     $new_default_description,
-                    $new_default_comment
+                    $new_default_comment,
+                    $new_comment
                 );
 
                 $new_category->setPartnameRegex($new_partname_regex);
@@ -208,7 +211,8 @@ if (! $fatal_error) {
                     'default_description'      => $new_default_description,
                     'default_comment'          => $new_default_comment,
                     'partname_regex'           => $new_partname_regex,
-                    'partname_hint'            => $new_partname_hint));
+                    'partname_hint'            => $new_partname_hint,
+                    "comment"                  => $new_comment));
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
             } catch (Exception $e) {
@@ -252,6 +256,10 @@ if (! $fatal_error) {
             $html->setVariable('partname_regex_parent', $partname_regex_parent, 'string');
             $html->setVariable('partname_hint_parent', $partname_hint_parent, 'string');
 
+            $comment = $selected_category->getComment(false);
+            $html->setVariable('datetime_added', $selected_category->getDatetimeAdded(true));
+            $html->setVariable('last_modified', $selected_category->getLastModified(true));
+
             //Disable fields
             $disable_footprints = $selected_category->getDisableFootprints(true);
             $disable_manufacturers = $selected_category->getDisableManufacturers(true);
@@ -278,6 +286,7 @@ if (! $fatal_error) {
             $default_comment = $new_default_comment;
             $partname_regex = $new_partname_regex;
             $partname_hint = $new_partname_hint;
+            $comment = $new_comment;
         } else {
             $parent_id = 0;
             $name = '';
@@ -289,6 +298,7 @@ if (! $fatal_error) {
             $default_comment = "";
             $partname_hint = "";
             $partname_regex = "";
+            $comment = "";
         }
 
         $html->setVariable('name', $name, 'string');
@@ -303,6 +313,7 @@ if (! $fatal_error) {
         $html->setVariable('partname_regex', $partname_regex, 'string');
         $html->setVariable('partname_hint', $partname_hint, 'string');
         $html->setVariable('partname_input_pattern', PartNameRegEx::getPattern(true), 'string');
+        $html->setVariable('comment', $comment, "string");
 
         $category_list = $root_category->buildHtmlTree($selected_id, true, false);
         $html->setVariable('category_list', $category_list, 'string');
