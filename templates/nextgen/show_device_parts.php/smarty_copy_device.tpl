@@ -5,10 +5,12 @@
     </script>
 {/if}
 
-
 <div class="panel panel-default">
-    <div class="panel-heading">{t}Baugruppe inklusive Bauteile kopieren{/t}</div>
-    <div class="panel-body">
+    <div class="panel-heading"><a data-toggle="collapse" class="link-collapse text-default" href="#panel-copy">
+            {t}Baugruppe inklusive Bauteile kopieren{/t}
+        </a>
+    </div>
+    <div class="panel-body panel-collapse collapse" id="panel-copy">
         <form method="post" class="form-horizontal" action="">
             <input type="hidden" name="device_id" value="{$device_id}">
                 <div class="form-group">
