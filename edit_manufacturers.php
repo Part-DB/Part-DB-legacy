@@ -65,6 +65,7 @@ $new_email_address    = isset($_REQUEST['email_address'])    ? (string)$_REQUEST
 $new_website          = isset($_REQUEST['website'])          ? (string)$_REQUEST['website']          : '';
 $new_auto_product_url = isset($_REQUEST['auto_product_url']) ? (string)$_REQUEST['auto_product_url'] : '';
 $add_more             = isset($_REQUEST['add_more']);
+$new_comment          = isset($_REQUEST['comment'])       ? (string)$_REQUEST['comment']      : "";
 
 $action = 'default';
 if (isset($_REQUEST["add"])) {
@@ -127,7 +128,8 @@ if (! $fatal_error) {
                     $new_fax_number,
                     $new_email_address,
                     $new_website,
-                    $new_auto_product_url
+                    $new_auto_product_url,
+                    $new_comment
                 );
 
                 if (! $add_more) {
@@ -195,7 +197,8 @@ if (! $fatal_error) {
                     'fax_number'       => $new_fax_number,
                     'email_address'    => $new_email_address,
                     'website'          => $new_website,
-                    'auto_product_url' => $new_auto_product_url));
+                    'auto_product_url' => $new_auto_product_url,
+                    "comment"          => $new_comment));
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -224,14 +227,20 @@ if (! $fatal_error) {
             $html->setVariable('email_address', $selected_manufacturer->getEmailAddress(), 'string');
             $html->setVariable('website', $selected_manufacturer->getWebsite(), 'string');
             $html->setVariable('auto_product_url', $selected_manufacturer->getAutoProductUrl(null), 'string');
+            $comment = $selected_manufacturer->getComment(false);
+            $html->setVariable('datetime_added', $selected_manufacturer->getDatetimeAdded(true));
+            $html->setVariable('last_modified', $selected_manufacturer->getLastModified(true));
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
+            $comment = $new_comment;
         } else {
             $parent_id = 0;
+            $comment = "";
         }
 
         $manufacturer_list = $root_manufacturer->buildHtmlTree($selected_id, true, false);
         $html->setVariable('manufacturer_list', $manufacturer_list, 'string');
+        $html->setVariable('comment', $comment, "string");
 
         $parent_manufacturer_list = $root_manufacturer->buildHtmlTree($parent_id, true, true);
         $html->setVariable('parent_manufacturer_list', $parent_manufacturer_list, 'string');
