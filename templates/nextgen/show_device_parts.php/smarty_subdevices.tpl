@@ -41,6 +41,6 @@
     </form>
     <div class="panel-body">
         <b>{t}Alle Angaben betreffen nur die jeweilige Baugruppe, deren evtl. vorhandenen Unterbaugruppen werden nicht berücksichtigt!{/t}</b>
-        <p>{t}Mit dem Radiobuttons lässen sich die Primäre Baugruppe auswählen. Diese wird standardmäßig verwendet, wenn man auf der Übersichtsseite eines Bauteils, das Bauteil einer Baugruppe hinzugefügt wird.{/t}</p>
+        <p>{t}Mit den Radiobuttons lassen sich die Primäre Baugruppe auswählen. Diese wird standardmäßig verwendet, wenn auf der Übersichtsseite eines Bauteils, das Bauteil einer Baugruppe hinzugefügt wird.{/t}</p>
     </div>
 </div>
