@@ -1862,9 +1862,9 @@ msgstr ""
 
 #: ..\..\templates\nextgen/show_device_parts.php/smarty_subdevices.tpl:44
 msgid ""
-"Mit dem Radiobuttons lässen sich die Primäre Baugruppe auswählen. Diese wird "
-"standardmäßig verwendet, wenn man auf der Übersichtsseite eines Bauteils, "
-"das Bauteil einer Baugruppe hinzugefügt wird."
+"Mit den Radiobuttons lassen sich die Primäre Baugruppe auswählen. Diese wird "
+"standardmäßig verwendet, wenn auf der Übersichtsseite eines Bauteils, das "
+"Bauteil einer Baugruppe hinzugefügt wird."
 msgstr ""
 
 #: ..\..\templates\nextgen/show_favorite_parts.php/smarty_main.tpl:11
