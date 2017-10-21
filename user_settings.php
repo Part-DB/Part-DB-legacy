@@ -116,6 +116,11 @@ if(!$fatal_error) {
             break;
 
         case 'apply':
+            if ($config['is_online_demo']) {
+                $messages[] = array('text' => _("Diese Funktion ist in der Onlinedemo deaktiviert!"), 'strong' => true, 'color' => 'red');
+                break;
+            }
+
             if (!empty($new_username)) {
                 $current_user->setName($new_username);
             }
