@@ -133,6 +133,9 @@ if(!$fatal_error) {
             //Dont check if this value is set, because empty string is a valid value.
             $current_user->setTheme($new_theme);
 
+            //Apply the settings, with reloading everything.
+            $html->setVariable('refresh_navigation_frame', true, 'boolean');
+
             break;
     }
 }

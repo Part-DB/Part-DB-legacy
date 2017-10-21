@@ -1,4 +1,11 @@
 {locale path="nextgen/locale" domain="partdb"}
+
+{if isset($refresh_navigation_frame)}
+    <script type="text/javascript">
+        location.reload();
+    </script>
+{/if}
+
 <div class="panel panel-primary">
     <div class="panel-heading"><i class="fa fa-cogs" aria-hidden="true"></i>
         {t}Benutzereinstellungen{/t}</div>
