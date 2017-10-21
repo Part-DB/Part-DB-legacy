@@ -572,6 +572,17 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
                     $arr['name'] = $new_values['name'];
                 }
             }
+
+            //A user can always change its own configuration.
+            if (isset($new_values['config_theme'])) {
+                $arr['config_theme'] = $new_values['config_theme'];
+            }
+            if (isset($new_values['config_timezone'])) {
+                $arr['config_timezone'] = $new_values['config_timezone'];
+            }
+            if (isset($new_values['config_language'])) {
+                $arr['config_language'] = $new_values['config_language'];
+            }
         }
 
         if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_USERNAME)) {
@@ -614,7 +625,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             }
         }
 
-        if (true) {
+        if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::CHANGE_USER_SETTINGS)) {
             if (isset($new_values['config_theme'])) {
                 $arr['config_theme'] = $new_values['config_theme'];
             }
