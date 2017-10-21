@@ -59,6 +59,7 @@
                         <li class="active"><a class="link-anchor" data-toggle="tab" href="#home">{t}Standard{/t}</a></li>
                         <li><a data-toggle="tab" class="link-anchor" href="#menu1">{t}Optionen{/t}</a></li>
                         <li><a data-toggle="tab" class="link-anchor" href="#menu2">{t}Erweitert{/t}</a></li>
+                        <li><a data-toggle="tab" class="link-anchor" href="#info">{t}Infos{/t}</a></li>
                     </ul>
 
                     <div class="tab-content">
@@ -66,13 +67,6 @@
                         <br>
 
                         <div id="home" class="tab-pane fade in active">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">{t}ID:{/t}</label>
-                                <div class="col-md-9">
-                                    <p class="form-control-static">{if isset($id)}{$id}{else}-{/if}</p>
-                                </div>
-                            </div>
-
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Name*:{/t}</label>
                                 <div class="col-md-9">
@@ -90,12 +84,19 @@
                                 </div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Kommentar:{/t}</label>
+                                <div class="col-md-9">
+                                    <textarea name="comment" class="form-control" rows="5"
+                                              placeholder="{t}z.B. nur für SMD Bauteile{/t}"
+                                    >{if isset($comment)}{$comment}{/if}</textarea>
+                                </div>
+                            </div>
+
                         </div>
 
                         <div id="menu2" class="tab-pane fade">
-
                             <br>
-
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Filter für Bauteilenamen (RegEx):{/t}</label>
                                 <div class="col-md-9">
@@ -191,7 +192,28 @@
                                 </div>
                             </div>
                         </div>
+                        <div id="info" class="tab-pane fade">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}ID:{/t}</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{if isset($id)}{$id}{else}-{/if}</p>
+                                </div>
+                            </div>
 
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Hinzugefügt:{/t}</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{if !empty($datetime_added)}{$datetime_added}{else}-{/if}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Letzte Änderung:{/t}</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{if !empty($last_modified)}{$last_modified}{else}-{/if}</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div class="form-group">

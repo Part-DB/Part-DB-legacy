@@ -60,20 +60,6 @@ function build_theme_loop()
     return $loop;
 }
 
-function build_custom_css_loop()
-{
-    global $config;
-    $loop = array();
-    $files = findAllFiles(BASE.'/templates/custom_css/', true, '.css');
-
-    foreach ($files as $file) {
-        $name = str_ireplace(BASE.'/templates/custom_css/', '', $file);
-        $loop[] = array('value' => $name, 'text' => $name, 'selected' => ($name == $config['html']['custom_css']));
-    }
-
-    return $loop;
-}
-
 /********************************************************************************
  *
  *   Evaluate $_REQUEST

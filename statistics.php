@@ -47,7 +47,7 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Statistik'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Statistik'));
 
 try {
     $database           = new Database();

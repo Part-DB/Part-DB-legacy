@@ -6,7 +6,22 @@
             {t}Aktionen{/t}</a>
     </div>
     <div class="panel-body panel-collapse collapse" id="panel-actions">
-        <form class="form-horizontal no-progbar" action="{$relative_path}edit_part_info.php" method="get">
+
+        <form class="form-horizontal no-progbar" method="post">
+            <input type="hidden" name="pid" value="{$pid}">
+            <div class="form-group">
+                <label class="control-label col-sm-2">{t}Favorit:{/t}</label>
+                <div class="col-sm-10">
+                    <button class="btn btn-primary" name="toggle_favorite" value="" type="submit" {if !$can_favorite}disabled{/if}
+                    >{if !$is_favorite}<i class="fa fa-star fa-fw" aria-hidden="true"></i> {t}Bauteil favorisieren{/t}
+                        {else}<i class="fa fa-star-o fa-fw" aria-hidden="true"></i> {t}Favorisierung aufheben{/t}{/if}</button>
+                </div>
+            </div>
+        </form>
+
+        <br>
+
+        <form class="form-horizontal no-progbar" action="{$relative_path}edit_part_info.php" method="post">
             <div class="form-group">
                 <label class="control-label col-sm-2">{t}Bauteil löschen:{/t}</label>
                 <input type="hidden" name="pid" value="{$pid}">
@@ -22,15 +37,14 @@
             </div>
         </form>
 
-        <p></p>
+        <br>
 
-
-        <form action="{$relative_path}edit_part_info.php" class="form-horizontal no-progbar" method="get">
+        <form action="{$relative_path}edit_part_info.php" class="form-horizontal no-progbar" method="post">
             <div class="form-group">
                 <label  class="control-label col-sm-2">{t}Weiteres Bauteil anlegen:{/t}</label>
                 <input type="hidden" name="pid" value="{$pid}">
                 <div class="col-sm-10">
-                    <button class="btn btn-primary" type="submit" name="add_one_more_part" {if !$can_create}disabled{/if}>
+                    <button class="btn btn-success" type="submit" name="add_one_more_part" {if !$can_create}disabled{/if}>
                         <i class="fa fa-plus-square" aria-hidden="true"></i> {t}Neues Bauteil erfassen{/t}</button>
                 </div>
             </div>

@@ -65,7 +65,7 @@ if (isset($_REQUEST['change_show_no_orderdetails'])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Nicht mehr erhältliche Teile');
+$html = new HTML($config['html']['theme'], $user_config['theme'], 'Nicht mehr erhältliche Teile');
 
 try {
     $database           = new Database();

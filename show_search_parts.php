@@ -90,7 +90,7 @@ if (isset($_REQUEST['hint'])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Suchresultate');
+$html = new HTML($config['html']['theme'], $user_config['theme'], 'Suchresultate');
 
 try {
     $database           = new Database();

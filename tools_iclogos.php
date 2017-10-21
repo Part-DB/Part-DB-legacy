@@ -39,7 +39,7 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Hersteller IC Logos'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Hersteller IC Logos'));
 
 try {
     $database           = new Database();

@@ -47,7 +47,7 @@ $fatal_error = false;
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Startseite'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Startseite'));
 
 try {
     $database           = new Database();

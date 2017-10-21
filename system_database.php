@@ -69,7 +69,7 @@ if (isset($_REQUEST["make_new_update"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Datenbank');
+$html = new HTML($config['html']['theme'], $user_config['theme'], 'Datenbank');
 
 try {
     $database = new Database();

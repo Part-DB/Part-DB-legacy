@@ -564,7 +564,8 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
         $disable_autodatasheets = false,
         $disable_properties = false,
         $default_description = "",
-        $default_comment = ""
+        $default_comment = "",
+        $comment = ""
     ) {
         return parent::addByArray(
             $database,
@@ -578,7 +579,8 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
                 'disable_autodatasheets'    => $disable_autodatasheets,
                 'disable_properties'        => $disable_properties,
                 'default_description'       => $default_description,
-                'default_comment'           => $default_comment)
+                'default_comment'           => $default_comment,
+                "comment"                   => $comment)
         );
     }
 
