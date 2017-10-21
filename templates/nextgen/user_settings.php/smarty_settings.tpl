@@ -46,7 +46,7 @@
                     <div class="form-group">
                         <label class="control-label col-md-3">{t}Email:{/t}</label>
                         <div class="col-md-9">
-                            <input type="text" class="form-control" value="{$email}"  name="email"
+                            <input type="email" class="form-control" value="{$email}"  name="email"
                                    placeholder="{t}z.B. m.muster@ecorp.com{/t}" {if !$can_infos}disabled{/if}>
                         </div>
                     </div>
