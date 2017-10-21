@@ -369,6 +369,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function getFavorite()
     {
+        if (!$this->current_user->canDo(PermissionManager::PARTS_NAME, PartAttributePermission::READ)) {
+            return false;
+        }
+
         return boolval($this->db_data['favorite']);
     }
 
