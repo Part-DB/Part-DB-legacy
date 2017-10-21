@@ -204,23 +204,22 @@ if (! $fatal_error) {
         $html->setVariable('name', $part->getName(), 'string');
         $html->setVariable('manufacturer_product_url', $part->getManufacturerProductUrl(), 'string');
         $html->setVariable('description', $part->getDescription(), 'string');
-        $html->setVariable('category_full_path', $part->getCategory()->getFullPath(), 'string');
+        $html->setLoop('category_path', $category->buildBreadcrumbLoop("show_category_parts.php", "cid", false, null, true));
         $html->setVariable('category_id', $part->getCategory()->getID(), 'string');
         $html->setVariable('instock', $part->getInstock(true), 'string');
         $html->setVariable('instock_unknown', $part->isInstockUnknown(), 'boolean');
         $html->setVariable('mininstock', $part->getMinInstock(), 'integer');
         $html->setVariable('visible', $part->getVisible(), 'boolean');
         $html->setVariable('comment', nl2br($part->getComment()), 'string');
-        $html->setVariable('footprint_full_path', (is_object($footprint) ? $footprint->getFullPath() : '-'), 'string');
+        $html->setLoop('footprint_path', (is_object($footprint) ? $footprint->buildBreadcrumbLoop("show_footprint_parts.php", "fid", false, null, true) : null));
         $html->setVariable('footprint_id', (is_object($footprint) ? $footprint->getID() : 0), 'integer');
         $html->setVariable('footprint_filename', (is_object($footprint) ? str_replace(BASE, BASE_RELATIVE, $footprint->getFilename()) : ''), 'string');
         $html->setVariable('footprint_valid', (is_object($footprint) ? $footprint->isFilenameValid() : false), 'boolean');
-        $html->setVariable('storelocation_full_path', (is_object($storelocation) ? $storelocation->getFullPath() : '-'), 'string');
+        $html->setLoop('storelocation_path', (is_object($storelocation) ? $storelocation->buildBreadcrumbLoop("show_location_parts.php", "lid", false, null, true) : null));
         $html->setVariable('storelocation_id', (is_object($storelocation) ? $storelocation->getID() : '0'), 'integer');
         $html->setVariable('storelocation_is_full', (is_object($storelocation) ? $storelocation->getIsFull() : false), 'boolean');
-        $html->setVariable('manufacturer_full_path', (is_object($manufacturer) ? $manufacturer->getFullPath() : '-'), 'string');
+        $html->setLoop('manufacturer_path', (is_object($manufacturer) ? $manufacturer->buildBreadcrumbLoop("show_manufacturer_parts.php", "mid", false, null, true) : null));
         $html->setVariable('manufacturer_id', (is_object($manufacturer) ? $manufacturer->getID() : 0), 'integer');
-        $html->setVariable('category_full_path', (is_object($category) ? $category->getFullPath() : '-'), 'string');
         $html->setVariable('auto_order_exists', ($part->getAutoOrder()), 'boolean');
         $html->setVariable('manual_order_exists', ($part->getManualOrder() && ($part->getInstock() >= $part->getMinInstock())), 'boolean');
 
