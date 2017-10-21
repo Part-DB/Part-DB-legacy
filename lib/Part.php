@@ -362,6 +362,21 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
+     * Get if this part is a favorite.
+     *
+     * @return bool * true if this part is a favorite
+     *     * false if this part is not a favorite.
+     */
+    public function getFavorite()
+    {
+        if (!$this->current_user->canDo(PermissionManager::PARTS_NAME, PartAttributePermission::READ)) {
+            return false;
+        }
+
+        return boolval($this->db_data['favorite']);
+    }
+
+    /**
      *  Get the selected order orderdetails of this part
      *
      * @return Orderdetails         the selected order orderdetails
@@ -495,12 +510,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
             return "???";
         }
-        $time_str = $this->db_data['last_modified'];
-        if ($formatted) {
-            $timestamp = strtotime($time_str);
-            return formatTimestamp($timestamp);
-        }
-        return $time_str;
+        return parent::getLastModified($formatted);
     }
 
     /**
@@ -514,12 +524,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
             return "???";
         }
-        $time_str = $this->db_data['datetime_added'];
-        if ($formatted) {
-            $timestamp = strtotime($time_str);
-            return formatTimestamp($timestamp);
-        }
-        return $time_str;
+        return parent::getDatetimeAdded(true);
     }
 
     /**
@@ -1198,6 +1203,16 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
+     * Set the favorite status for this part.
+     * @param $new_favorite_status bool The new favorite status, that should be applied on this part.
+     *      Set this to true, when the part should be a favorite.
+     */
+    public function setFavorite($new_favorite_status)
+    {
+        $this->setAttributes(array('favorite' => $new_favorite_status));
+    }
+
+    /**
      *  Set the ID of the master picture Attachement
      *
      * @param integer|NULL $new_master_picture_attachement_id       @li the ID of the Attachement object of the master picture
@@ -1285,6 +1300,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             }
         }
 
+        if ($this->current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE)) {
+            $arr['favorite'] = $new_values['favorite'];
+        }
+
         /* Exception, gives problem, with editing the name of the Part, via edit_part_info.php
         //Throw Exception, if nothing can be done!
         if (empty($arr)) {
@@ -1331,6 +1350,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $table_row['row_index']     = $row_index;
         $table_row['id']            = $this->getID();
         $table_row['row_fields']    = array();
+        $table_row['favorite']      = $this->getFavorite();
 
         foreach (explode(';', $config['table'][$table_type]['columns']) as $caption) {
             $row_field = array();
@@ -1672,9 +1692,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
-
-        // set "last_modified" to current datetime
-        $values['last_modified'] = date('Y-m-d H:i:s');
 
         // set the datetype of the boolean attributes
         settype($values['visible'], 'boolean');
@@ -2070,6 +2087,77 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             'LEFT JOIN pricedetails ON orderdetails.id=pricedetails.orderdetails_id '.
             'WHERE pricedetails.id IS NOT NULL) '.
             'ORDER BY parts.name ASC';
+
+
+        $query_data = $database->query($query);
+
+        return $query_data[0]['count'];
+    }
+
+    /**
+     *  Get all parts which are favorited.
+     *
+     * @param Database  &$database          reference to the database object
+     * @param User      &$current_user      reference to the user which is logged in
+     * @param Log       &$log               reference to the Log-object
+     *
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public static function getFavoriteParts(&$database, &$current_user, &$log, $limit = 50, $page = 1)
+    {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_FAVORITE_PARTS)) {
+            return array();
+        }
+
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt!'));
+        }
+
+        $parts = array();
+
+        $query =    'SELECT * from parts '.
+            'WHERE favorite = 1';
+
+        if ($limit > 0 && $page > 0) {
+            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+        }
+
+        $query_data = $database->query($query);
+
+        foreach ($query_data as $row) {
+            $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
+        }
+
+        return $parts;
+    }
+
+    /**
+     *  Get the count of all parts which are favorited.
+     *
+     * @param Database  &$database          reference to the database object
+     * @param User      &$current_user      reference to the user which is logged in
+     * @param Log       &$log               reference to the Log-object
+     *
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public static function getFavoritePartsCount(&$database, &$current_user, &$log)
+    {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_FAVORITE_PARTS)) {
+            return array();
+        }
+
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt!'));
+        }
+
+        $parts = array();
+
+        $query =    'SELECT count(id) AS count from parts '.
+            'WHERE favorite = 1';
 
 
         $query_data = $database->query($query);

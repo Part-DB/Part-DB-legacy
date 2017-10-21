@@ -1077,6 +1077,9 @@ function buildToolsTree($params)
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
         $show_nodes[] = treeviewNode(_("Teile mit unbekanntem Lagerbestand"), BASE_RELATIVE . "/show_unknown_instock_parts.php");
     }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_FAVORITE_PARTS)) {
+        $show_nodes[] = treeviewNode(_('Favorisierte Bauteile'), BASE_RELATIVE . "/show_favorite_parts.php");
+    }
 
     //Edit nodes
     $edit_nodes = array();
@@ -1410,13 +1413,26 @@ function parseTristateCheckbox($tristate_data) {
  */
 function formatTimestamp($timestamp) {
     global $config;
+    $language = $config['language'];
+    $timezone = $config['timezone'];
+
+    //Try to get the settings specific to the user.
+    try {
+        $current_user = User::getLoggedInUser();
+        $language = $current_user->getLanguage();
+        $timezone = $current_user->getTimezone();
+    } catch (Exception $ex) {
+        //Dont do anything
+    }
+
+
     //Check if user has intl extension installed.
     if (class_exists("\IntlDateFormatter")) {
         $formatter = $formatter = new \IntlDateFormatter(
-            $config['language'],
+            $language,
             IntlDateFormatter::MEDIUM,
             IntlDateFormatter::MEDIUM,
-            $config['timezone']);
+            $timezone);
 
         return $formatter->format($timestamp);
     } else {
@@ -1496,6 +1512,10 @@ function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $act
                     $part->setStorelocationID($target_id);
                     break;
             }
+        } elseif ($action=="favor") {
+            $part->setFavorite(true);
+        } elseif ($action=="defavor") {
+            $part->setFavorite(false);
         } elseif ($action == "") {
             throw new Exception(_("Bitte wählen sie eine Aktion aus."));
         } else {
@@ -1503,4 +1523,25 @@ function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $act
         }
 
     }
+}
+
+function build_custom_css_loop($selected = null, $include_default_theme = false)
+{
+    global $config;
+    if ($selected == null) {
+        $selected = $config['html']['custom_css'];
+    }
+
+    $loop = array();
+    if($include_default_theme) {
+        $loop[] = array("value" => "@@", "text" => _("Standardmäßiges Theme"), "selected" => ($selected == "@@"));
+    }
+    $files = findAllFiles(BASE.'/templates/custom_css/', true, '.css');
+
+    foreach ($files as $file) {
+        $name = str_ireplace(BASE.'/templates/custom_css/', '', $file);
+        $loop[] = array('value' => $name, 'text' => $name, 'selected' => ($name == $selected));
+    }
+
+    return $loop;
 }

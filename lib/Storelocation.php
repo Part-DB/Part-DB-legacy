@@ -193,7 +193,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      *
      * @see DBElement::add()
      */
-    public static function add(&$database, &$current_user, &$log, $name, $parent_id, $is_full = false)
+    public static function add(&$database, &$current_user, &$log, $name, $parent_id, $is_full = false, $comment = "")
     {
         return parent::addByArray(
             $database,
@@ -202,7 +202,8 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
             'storelocations',
             array(  'name'          => $name,
                 'parent_id'     => $parent_id,
-                'is_full'       => $is_full)
+                'is_full'       => $is_full,
+                "comment"       => $comment)
         );
     }
 

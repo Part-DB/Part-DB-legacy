@@ -47,6 +47,10 @@ $new_lastname       = isset($_REQUEST['lastname'])          ? $_REQUEST['lastnam
 $new_email          = isset($_REQUEST['email'])             ? $_REQUEST['email']                    : "";
 $new_department     = isset($_REQUEST['department'])        ? $_REQUEST['department']               : "";
 
+$new_theme          = isset($_REQUEST['custom_css'])        ? $_REQUEST['custom_css']               : "";
+$new_timezone       = isset($_REQUEST['timezone'])          ? $_REQUEST['timezone']                 : "";
+$new_language       = isset($_REQUEST['language'])          ? $_REQUEST['language']                 : "";
+
 $action = 'default';
 if (isset($_REQUEST["change_pw"])) {
     $action = 'change_pw';
@@ -63,7 +67,7 @@ if (isset($_REQUEST['apply_settings'])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Benutzereinstellungen'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Benutzereinstellungen'));
 
 try {
     $database           = new Database();
@@ -112,6 +116,11 @@ if(!$fatal_error) {
             break;
 
         case 'apply':
+            if ($config['is_online_demo']) {
+                $messages[] = array('text' => _("Diese Funktion ist in der Onlinedemo deaktiviert!"), 'strong' => true, 'color' => 'red');
+                break;
+            }
+
             if (!empty($new_username)) {
                 $current_user->setName($new_username);
             }
@@ -127,6 +136,14 @@ if(!$fatal_error) {
             if (!empty($new_department)) {
                 $current_user->setDepartment($new_department);
             }
+
+            //Dont check if this value is set, because empty string is a valid value.
+            $current_user->setTheme($new_theme);
+            $current_user->setLanguage($new_language);
+            $current_user->setTimezone($new_timezone);
+
+            //Apply the settings, with reloading everything.
+            $html->setVariable('refresh_navigation_frame', true, 'boolean');
 
             break;
     }
@@ -147,6 +164,17 @@ if (! $fatal_error) {
         $html->setVariable("department", $current_user->getDepartment(), "string");
         $html->setVariable("group", $current_user->getGroup()->getFullPath(), "string");
         $html->setVariable('avatar_url', $current_user->getAvatar(), "string");
+
+        //Configuration settings
+        $html->setLoop('custom_css_loop', build_custom_css_loop($current_user->getTheme(true), true));
+        //Convert timezonelist, to a format, we can use
+        $timezones_raw = DateTimeZone::listIdentifiers();
+        $timezones = array();
+        foreach ($timezones_raw as $timezone) {
+            $timezones[$timezone] = $timezone;
+        }
+        $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $current_user->getTimezone(true)));
+        $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $current_user->getLanguage(true)));
 
         $html->setVariable('can_username', $current_user->canDo(PermissionManager::SELF, SelfPermission::EDIT_USERNAME));
         $html->setVariable('can_infos', $current_user->canDo(PermissionManager::SELF, SelfPermission::EDIT_INFOS));

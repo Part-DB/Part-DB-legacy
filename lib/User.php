@@ -245,7 +245,8 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return String containing either just a URL or a complete image tag
      * @source https://gravatar.com/site/implement/images/php/
      */
-    public function getGravatar($s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array() ) {
+    public function getGravatar($s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array())
+    {
         $email = $this->getEmail();
         $url = 'https://www.gravatar.com/avatar/';
         $url .= md5(strtolower(trim($email)));
@@ -258,6 +259,70 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             $url .= ' />';
         }
         return $url;
+    }
+
+    /**
+     * Gets the theme configured for this user.
+     * @param bool $no_resolve_for_default When this is false, a empty value will be resolved to the system-wide default
+     *      theme. When set to true, an empty string will be returned.
+     * @return string The name of the configured theme.
+     */
+    public function getTheme($no_resolve_for_default = false)
+    {
+        if (!$this->isLoggedInUser()
+            && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            return "???";
+        }
+        if (empty($this->db_data['config_theme']) && !$no_resolve_for_default) {
+            global $config;
+            return  $config['html']['custom_css'];
+        } else {
+            //When set to @@, use no custom_css => default bootstrap theme
+            if ($this->db_data['config_theme'] == "@@") {
+                return "";
+            }
+            return $this->db_data['config_theme'];
+        }
+    }
+
+    /**
+     * Gets the timezone configured for this user.
+     * @param bool $no_resolve_for_default When this is false, a empty value will be resolved to the system-wide default
+     *      timezone. When set to true, an empty string will be returned.
+     * @return string The name of the configured timezone.
+     */
+    public function getTimezone($no_resolve_for_default = false)
+    {
+        if (!$this->isLoggedInUser()
+            && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            return "???";
+        }
+        if (empty($this->db_data['config_timezone']) && !$no_resolve_for_default) {
+            global $config;
+            return $config['timezone'];
+        } else {
+            return $this->db_data['config_timezone'];
+        }
+    }
+
+    /**
+     * Gets the language configured for this user.
+     * @param bool $no_resolve_for_default When this is false, a empty value will be resolved to the system-wide default
+     *      language. When set to true, an empty string will be returned.
+     * @return string The name of the configured language.
+     */
+    public function getLanguage($no_resolve_for_default = false)
+    {
+        if (!$this->isLoggedInUser()
+            && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            return "???";
+        }
+        if (empty($this->db_data['config_language']) && !$no_resolve_for_default) {
+            global $config;
+            return $config['language'];
+        } else {
+            return $this->db_data['config_language'];
+        }
     }
 
     /**
@@ -385,6 +450,33 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     }
 
     /**
+     * Set the configured theme for this User.
+     * @param $new_theme string The new configured theme. Set to empty string to use system-wide config.
+     */
+    public function setTheme($new_theme)
+    {
+        $this->setAttributes(array('config_theme' => $new_theme));
+    }
+
+    /**
+     * Set the configured language for this User.
+     * @param $new_language string The new configured language. Set to empty string to use system-wide config.
+     */
+    public function setLanguage($new_language)
+    {
+        $this->setAttributes(array('config_language' => $new_language));
+    }
+
+    /**
+     * Set the configured timezone for this User.
+     * @param $new_timezone string The new configured timezone. Set to empty string to use system-wide config.
+     */
+    public function setTimezone($new_timezone)
+    {
+        $this->setAttributes(array('config_timezone' => $new_timezone));
+    }
+
+    /**
      * Returns the full name in the format FIRSTNAME LASTNAME [(USERNAME)].
      * Example: Max Muster (m.muster)
      * @param bool $including_username Include the username in the full name.
@@ -454,7 +546,8 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         $arr = array();
 
         //Make exception for logged in user
-        if ($this->isLoggedInUser()) {
+        //Anonymous user can not change its own settings.
+        if ($this->isLoggedInUser() && $this->getID() != static::ID_ANONYMOUS) {
             if (isset($new_values['password'])) {
                 $arr['password'] = $new_values['password'];
             }
@@ -479,6 +572,17 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
                 if (isset($new_values['name'])) {
                     $arr['name'] = $new_values['name'];
                 }
+            }
+
+            //A user can always change its own configuration.
+            if (isset($new_values['config_theme'])) {
+                $arr['config_theme'] = $new_values['config_theme'];
+            }
+            if (isset($new_values['config_timezone'])) {
+                $arr['config_timezone'] = $new_values['config_timezone'];
+            }
+            if (isset($new_values['config_language'])) {
+                $arr['config_language'] = $new_values['config_language'];
             }
         }
 
@@ -519,6 +623,18 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
                 if (strpos($key, "perms_") !== false) {
                     $arr[$key] = $content;
                 }
+            }
+        }
+
+        if ($this->current_user->canDo(PermissionManager::USERS, UserPermission::CHANGE_USER_SETTINGS)) {
+            if (isset($new_values['config_theme'])) {
+                $arr['config_theme'] = $new_values['config_theme'];
+            }
+            if (isset($new_values['config_timezone'])) {
+                $arr['config_timezone'] = $new_values['config_timezone'];
+            }
+            if (isset($new_values['config_language'])) {
+                $arr['config_language'] = $new_values['config_language'];
             }
         }
 

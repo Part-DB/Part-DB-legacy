@@ -71,6 +71,11 @@ $new_password               = isset($_REQUEST['password_1'])    ? (string)$_REQU
 $new_password_2             = isset($_REQUEST['password_2'])    ? (string)$_REQUEST['password_2']   : "";
 $must_change_pw             = isset($_REQUEST['must_change_pw']);
 
+//Tab configuration
+$new_theme          = isset($_REQUEST['custom_css'])        ? $_REQUEST['custom_css']               : "";
+$new_timezone       = isset($_REQUEST['timezone'])          ? $_REQUEST['timezone']                 : "";
+$new_language       = isset($_REQUEST['language'])          ? $_REQUEST['language']                 : "";
+
 $action = 'default';
 if (isset($_REQUEST["add"])) {
     $action = 'add';
@@ -91,7 +96,7 @@ if (isset($_REQUEST["apply"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Benutzer'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Benutzer'));
 
 try {
     $database           = new Database();
@@ -130,6 +135,10 @@ if (! $fatal_error) {
 
                 $new_user = User::add($database, $current_user, $log, $new_name, $new_group_id, $data);
 
+                //Dont check if this value is set, because empty string is a valid value.
+                $new_user->setTheme($new_theme);
+                $new_user->setLanguage($new_language);
+                $new_user->setTimezone($new_timezone);
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
                 //Apply permissions
@@ -204,6 +213,11 @@ if (! $fatal_error) {
                     "group_id" => $new_group_id
                 ));
 
+                //Dont check if this value is set, because empty string is a valid value.
+                $selected_user->setTheme($new_theme);
+                $selected_user->setLanguage($new_language);
+                $selected_user->setTimezone($new_timezone);
+
                 //Apply permissions
                 $selected_user->getPermissionManager()->parsePermissionsFromRequest($_REQUEST);
 
@@ -255,6 +269,18 @@ if (! $fatal_error) {
             $group_id   = $selected_user->getGroup()->getID();
 
             $html->setVariable('is_current_user', $selected_user->isLoggedInUser());
+            $html->setVariable('datetime_added', $selected_user->getDatetimeAdded(true));
+            $html->setVariable('last_modified', $selected_user->getLastModified(true));
+            //Configuration settings
+            $html->setLoop('custom_css_loop', build_custom_css_loop($selected_user->getTheme(true), true));
+            //Convert timezonelist, to a format, we can use
+            $timezones_raw = DateTimeZone::listIdentifiers();
+            $timezones = array();
+            foreach ($timezones_raw as $timezone) {
+                $timezones[$timezone] = $timezone;
+            }
+            $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $selected_user->getTimezone(true)));
+            $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $selected_user->getLanguage(true)));
 
             //Permissions loop
             $perm_loop = $selected_user->getPermissionManager()->generatePermissionsLoop($perm_readonly);
@@ -282,6 +308,18 @@ if (! $fatal_error) {
             $no_password = false;
             $group_id = 0;
             $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop($perm_readonly);
+
+            //Configuration settings
+            $html->setLoop('custom_css_loop', build_custom_css_loop("", true));
+            //Convert timezonelist, to a format, we can use
+            $timezones_raw = DateTimeZone::listIdentifiers();
+            $timezones = array();
+            foreach ($timezones_raw as $timezone) {
+                $timezones[$timezone] = $timezone;
+            }
+            $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, ""));
+            $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], ""));
+
         }
 
         $html->setVariable('name', $name, 'string');
@@ -313,6 +351,7 @@ $html->setVariable('can_password', $current_user->canDo(PermissionManager::USERS
 $html->setVariable('can_infos', $current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_INFOS));
 $html->setVariable('can_group', $current_user->canDo(PermissionManager::USERS, UserPermission::CHANGE_GROUP));
 $html->setVariable('can_username', $current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_USERNAME));
+$html->setVariable('can_config', $current_user->canDo(PermissionManager::USERS, UserPermission::CHANGE_USER_SETTINGS));
 
 
 /********************************************************************************

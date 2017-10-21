@@ -81,7 +81,7 @@ for ($i=0; $i<$table_rowcount; $i++) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Teileansicht'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Teileansicht'));
 
 try {
     $database           = new Database();
@@ -235,6 +235,7 @@ if (! $fatal_error) {
     $html->setVariable('can_edit', $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
     $html->setVariable('can_delete', $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE));
     $html->setVariable('can_create', $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
+    $html->setVariable('can_favor', $current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE));
 }
 
 /********************************************************************************

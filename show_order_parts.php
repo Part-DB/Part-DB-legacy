@@ -78,7 +78,7 @@ if (isset($_REQUEST['export_download'])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Zu bestellende Preise');
+$html = new HTML($config['html']['theme'], $user_config['theme'], 'Zu bestellende Preise');
 
 try {
     $database           = new Database();

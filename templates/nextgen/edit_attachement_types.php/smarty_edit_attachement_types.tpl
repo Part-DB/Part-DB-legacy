@@ -1,7 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <i class="fa fa-file" aria-hidden="true"></i> 
+        <i class="fa fa-file" aria-hidden="true"></i>
         {t}Dateitypen für Dateianhänge{/t}
     </div>
     <div class="panel-body">
@@ -33,7 +33,7 @@
                     </optgroup>
                 </select>
             </div>
-               
+
             <div class="col-md-8 form-horizontal">
                 <fieldset>
                     <legend>
@@ -48,27 +48,64 @@
                         {/if}
                     </legend>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}ID:{/t}</label>
-                        <div class="col-md-9">
-                            <p class="form-control-static">{if isset($id)}{$id}{else}-{/if}</p>
-                        </div>
-                    </div>
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a class="link-anchor" data-toggle="tab" href="#home">{t}Standard{/t}</a></li>
+                        <li><a data-toggle="tab" class="link-anchor" href="#info">{t}Infos{/t}</a></li>
+                    </ul>
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}Name*:{/t}</label>
-                        <div class="col-md-9">
-                            <input class="form-control" type="text" name="name" value="{$name}" placeholder="{t}z.B. Bilder{/t}" {if !$can_edit}disabled{/if}>
-                            <p class="help-block">{t}Hinweis: Es empfiehlt sich, die Plural-Form zu verwenden.{/t}</p>
-                        </div>
-                    </div>
+                    <div class="tab-content">
 
-                    <div class="form-group">
-                        <label class="control-label col-md-3">{t}Übergeordneter Dateityp*:{/t}</label>
-                        <div class="col-md-9">
-                            <select class="form-control selectpicker" data-live-search="true" name="parent_id" size="1" {if !$can_move}disabled{/if}>
-                                {$parent_attachement_types_list nofilter}
-                            </select>
+                        <br>
+
+                        <div id="home" class="tab-pane fade in active">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Name*:{/t}</label>
+                                <div class="col-md-9">
+                                    <input class="form-control" type="text" name="name" value="{$name}" placeholder="{t}z.B. Bilder{/t}" {if !$can_edit}disabled{/if}>
+                                    <p class="help-block">{t}Hinweis: Es empfiehlt sich, die Plural-Form zu verwenden.{/t}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Übergeordneter Dateityp*:{/t}</label>
+                                <div class="col-md-9">
+                                    <select class="form-control selectpicker" data-live-search="true" name="parent_id" size="1" {if !$can_move}disabled{/if}>
+                                        {$parent_attachement_types_list nofilter}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Kommentar:{/t}</label>
+                                <div class="col-md-9">
+                                    <textarea name="comment" class="form-control" rows="5"
+                                    placeholder="{t}z.B. für Vorschaubilder{/t}">{if isset($comment)}{$comment}{/if}</textarea>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div id="info" class="tab-pane fade">
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}ID:{/t}</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{if isset($id)}{$id}{else}-{/if}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Hinzugefügt:{/t}</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{if !empty($datetime_added)}{$datetime_added}{else}-{/if}</p>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3">{t}Letzte Änderung:{/t}</label>
+                                <div class="col-md-9">
+                                    <p class="form-control-static">{if !empty($last_modified)}{$last_modified}{else}-{/if}</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 

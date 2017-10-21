@@ -280,7 +280,8 @@ class Supplier extends Base\Company implements ISearchable
         $fax_number = '',
         $email_address = '',
         $website = '',
-        $auto_product_url = ''
+        $auto_product_url = '',
+        $comment = ""
     ) {
         return parent::addByArray(
             $database,
@@ -294,7 +295,8 @@ class Supplier extends Base\Company implements ISearchable
                 'fax_number'        => $fax_number,
                 'email_address'     => $email_address,
                 'website'           => $website,
-                'auto_product_url'  => $auto_product_url)
+                'auto_product_url'  => $auto_product_url,
+                "comment"           => $comment)
         );
     }
 

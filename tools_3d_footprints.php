@@ -27,7 +27,7 @@ $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('3D Footprints'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('3D Footprints'));
 
 $dirs = findAllFiles(BASE.'/models/', true);
 
