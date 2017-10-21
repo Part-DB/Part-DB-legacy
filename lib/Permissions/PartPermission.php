@@ -35,6 +35,7 @@ class PartPermission extends BasePermission
     const NO_PRICE_PARTS = "no_price_parts";
     const OBSOLETE_PARTS = "obsolete_parts";
     const UNKNONW_INSTOCK_PARTS = "unknown_instock_parts";
+    const CHANGE_FAVORITE = "change_favorite";
 
     /**
      * Returns an array of all available operations for this Permission.
@@ -58,6 +59,7 @@ class PartPermission extends BasePermission
         $operations[] = static::buildOperationArray(16, static::NO_PRICE_PARTS, _("Teile ohne Preis auflisten"));
         $operations[] = static::buildOperationArray(18, static::OBSOLETE_PARTS, _("Obsolente Teile auflisten"));
         $operations[] = static::buildOperationArray(20, static::UNKNONW_INSTOCK_PARTS, _("Teile mit unbekanntem Lagerbestand auflisten"));
+        $operations[] = static::buildOperationArray(22, static::CHANGE_FAVORITE, _("Favoritenstatus ändern"));
 
         return $operations;
     }

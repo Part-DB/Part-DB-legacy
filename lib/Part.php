@@ -362,6 +362,17 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
+     * Get if this part is a favorite.
+     *
+     * @return bool * true if this part is a favorite
+     *     * false if this part is not a favorite.
+     */
+    public function getFavorite()
+    {
+        return boolval($this->db_data['favorite']);
+    }
+
+    /**
      *  Get the selected order orderdetails of this part
      *
      * @return Orderdetails         the selected order orderdetails
@@ -1188,6 +1199,16 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
+     * Set the favorite status for this part.
+     * @param $new_favorite_status bool The new favorite status, that should be applied on this part.
+     *      Set this to true, when the part should be a favorite.
+     */
+    public function setFavorite($new_favorite_status)
+    {
+        $this->setAttributes(array('favorite' => $new_favorite_status));
+    }
+
+    /**
      *  Set the ID of the master picture Attachement
      *
      * @param integer|NULL $new_master_picture_attachement_id       @li the ID of the Attachement object of the master picture
@@ -1273,6 +1294,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             if (isset($new_values['manual_order'])) {
                 $arr['manual_order'] = $new_values['manual_order'];
             }
+        }
+
+        if ($this->current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE)) {
+            $arr['favorite'] = $new_values['favorite'];
         }
 
         /* Exception, gives problem, with editing the name of the Part, via edit_part_info.php

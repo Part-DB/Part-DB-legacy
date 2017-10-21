@@ -88,6 +88,9 @@ if (isset($_REQUEST["remove_mark_to_order"])) {
 if(isset($_REQUEST['device_add'])) {
     $action = "device_add";
 }
+if (isset($_REQUEST['toggle_favorite'])) {
+    $action = "toggle_favorite";
+}
 
 /********************************************************************************
  *
@@ -174,6 +177,13 @@ if (! $fatal_error) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
             break;
+        case "toggle_favorite":
+            try {
+                $part->setFavorite(!$part->getFavorite());
+            } catch (Exception $e) {
+                $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+            }
+            break;
     }
 }
 
@@ -225,6 +235,8 @@ if (! $fatal_error) {
 
         $html->setVariable('last_modified', $part->getLastModified(), 'string');
         $html->setVariable('datetime_added', $part->getDatetimeAdded(), 'string');
+
+        $html->setVariable('is_favorite', $part->getFavorite(), 'bool');
 
         //Infos about 3d footprint view
         $html->setVariable('foot3d_show_stats', $config['foot3d']['show_info'], 'boolean');
