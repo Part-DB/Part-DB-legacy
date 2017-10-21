@@ -83,7 +83,7 @@
             {if !isset($t.print_header) || !$t.print_header}
 
                 {* the alternating background colors are created here *}
-                <tr>
+                <tr {if $t.favorite}class="success"{/if}>
                     {if isset($t.id)}
                         <input type="hidden" name="id_{$t.row_index}" value="{$t.id}">
                     {/if}

@@ -1346,6 +1346,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $table_row['row_index']     = $row_index;
         $table_row['id']            = $this->getID();
         $table_row['row_fields']    = array();
+        $table_row['favorite']      = $this->getFavorite();
 
         foreach (explode(';', $config['table'][$table_type]['columns']) as $caption) {
             $row_field = array();
