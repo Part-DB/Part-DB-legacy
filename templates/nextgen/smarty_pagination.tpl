@@ -12,8 +12,8 @@
                             <option value="">{t}Auswählen{/t}</option>
                             <option value="delete" {if !$can_delete}disabled{/if}>{t}Löschen{/t}</option>
                             <option value="move" {if !$can_edit}disabled{/if}>{t}Verschieben nach{/t}</option>
-                            <option value="favor" {if !$can_edit}disabled{/if}>{t}Bauteile favorisieren{/t}</option>
-                            <option value="defavor" {if !$can_edit}disabled{/if}>{t}Favorisierung aufheben{/t}</option>
+                            <option value="favor" {if !isset($can_favor) || !$can_favor}disabled{/if}>{t}Bauteile favorisieren{/t}</option>
+                            <option value="defavor" {if !isset($can_favor) || !$can_favor}disabled{/if}>{t}Favorisierung aufheben{/t}</option>
                         </select>
                     </div>
                     <div class="form-group">

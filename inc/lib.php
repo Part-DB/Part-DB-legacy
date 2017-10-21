@@ -1515,7 +1515,7 @@ function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $act
         } elseif ($action=="favor") {
             $part->setFavorite(true);
         } elseif ($action=="defavor") {
-          $part->setFavorite(false);
+            $part->setFavorite(false);
         } elseif ($action == "") {
             throw new Exception(_("Bitte wählen sie eine Aktion aus."));
         } else {
