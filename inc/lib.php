@@ -1077,6 +1077,9 @@ function buildToolsTree($params)
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
         $show_nodes[] = treeviewNode(_("Teile mit unbekanntem Lagerbestand"), BASE_RELATIVE . "/show_unknown_instock_parts.php");
     }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_FAVORITE_PARTS)) {
+        $show_nodes[] = treeviewNode(_('Favorisierte Bauteile'), BASE_RELATIVE . "/show_favorite_parts.php");
+    }
 
     //Edit nodes
     $edit_nodes = array();
