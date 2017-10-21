@@ -48,6 +48,8 @@ $new_email          = isset($_REQUEST['email'])             ? $_REQUEST['email']
 $new_department     = isset($_REQUEST['department'])        ? $_REQUEST['department']               : "";
 
 $new_theme          = isset($_REQUEST['custom_css'])        ? $_REQUEST['custom_css']               : "";
+$new_timezone       = isset($_REQUEST['timezone'])          ? $_REQUEST['timezone']                 : "";
+$new_language       = isset($_REQUEST['language'])          ? $_REQUEST['language']                 : "";
 
 $action = 'default';
 if (isset($_REQUEST["change_pw"])) {
@@ -132,6 +134,8 @@ if(!$fatal_error) {
 
             //Dont check if this value is set, because empty string is a valid value.
             $current_user->setTheme($new_theme);
+            $current_user->setLanguage($new_language);
+            $current_user->setTimezone($new_timezone);
 
             //Apply the settings, with reloading everything.
             $html->setVariable('refresh_navigation_frame', true, 'boolean');
@@ -164,8 +168,8 @@ if (! $fatal_error) {
         foreach ($timezones_raw as $timezone) {
             $timezones[$timezone] = $timezone;
         }
-        $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
-        $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
+        $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $current_user->getTimezone(true)));
+        $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $current_user->getLanguage(true)));
 
         $html->setVariable('can_username', $current_user->canDo(PermissionManager::SELF, SelfPermission::EDIT_USERNAME));
         $html->setVariable('can_infos', $current_user->canDo(PermissionManager::SELF, SelfPermission::EDIT_INFOS));

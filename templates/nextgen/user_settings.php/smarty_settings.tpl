@@ -77,6 +77,7 @@
                         <label class="control-label col-md-3" for="timezon">{t}Zeitzone:{/t}</label>
                         <div class="col-sm-9">
                             <select class="form-control selectpicker" data-live-search="true" name="timezone">
+                                <option value="">{t}Benutze die serverweite Zeitzone{/t}</option>
                                 {foreach $timezone_loop as $timezone}
                                     <option value="{$timezone.value}" {if $timezone.selected}selected{/if}>{$timezone.text}</option>
                                 {/foreach}
@@ -88,6 +89,7 @@
                         <label class="control-label col-md-3" for="language">{t}Sprache:{/t}</label>
                         <div class="col-md-9">
                             <select class="form-control" name="language">
+                                <option value="">{t}Benutze die serverweite Sprache{/t}</option>
                                 {foreach $language_loop as $lang}
                                     <option value="{$lang.value}" {if $lang.selected}selected{/if}>{$lang.text}</option>
                                 {/foreach}

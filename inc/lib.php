@@ -1410,13 +1410,26 @@ function parseTristateCheckbox($tristate_data) {
  */
 function formatTimestamp($timestamp) {
     global $config;
+    $language = $config['language'];
+    $timezone = $config['timezone'];
+
+    //Try to get the settings specific to the user.
+    try {
+        $current_user = User::getLoggedInUser();
+        $language = $current_user->getLanguage();
+        $timezone = $current_user->getTimezone();
+    } catch (Exception $ex) {
+        //Dont do anything
+    }
+
+
     //Check if user has intl extension installed.
     if (class_exists("\IntlDateFormatter")) {
         $formatter = $formatter = new \IntlDateFormatter(
-            $config['language'],
+            $language,
             IntlDateFormatter::MEDIUM,
             IntlDateFormatter::MEDIUM,
-            $config['timezone']);
+            $timezone);
 
         return $formatter->format($timestamp);
     } else {

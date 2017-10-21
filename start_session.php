@@ -354,5 +354,12 @@ if (class_exists("\Whoops\Run") && $config['debug']['enable'] &&
  **************************************************************************************/
 global $user_config;
 $user_config = array();
-$current_user = \PartDB\User::getLoggedInUser();
-$user_config['theme'] = $current_user->getTheme();
+try {
+    $current_user = \PartDB\User::getLoggedInUser();
+    $user_config['theme'] = $current_user->getTheme();
+    ownSetlocale(LC_ALL, $current_user->getLanguage());
+    date_default_timezone_set($config['timezone']);
+} catch (Exception $ex) {
+    //Ignore all errors.
+    //TODO: Log the errors
+}
