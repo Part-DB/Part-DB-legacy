@@ -1,4 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
+
+{include "../smarty_breadcrumb.tpl"}
+
 <div class="panel panel-primary">
     <div class="panel-heading">
         {t}Sonstiges{/t}
@@ -8,7 +11,7 @@
         <form action="" method="post" class="form-horizontal">
             <input type="hidden" name="cid" value="{$cid}">
             <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">
-            
+
             <div class="form-group">
                 <div class="col-md-10">
                     <button type="submit" class="btn btn-default {if $with_subcategories}active{/if}" name="subcat_button" >{t}Unterkategorien einblenden{/t}</button>
@@ -20,7 +23,7 @@
         <div style="float: right;">
             <form action="" method="post" class="no-progbar no-ajax">
                 <input type='hidden' name='cid'   value='{$cid}'>
-                <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">
+                <input type="hidden" name="subcat" value="{$with_subcategories}">
 
                 <div class="form-inline">
                     <label>{t}Exportieren:{/t}</label>
@@ -36,15 +39,24 @@
         </div>
 
         {if $can_create}
-        <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}">
-            {t}Neues Teil in dieser Kategorie{/t}
-        </a>
+            <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}">
+                {t}Neues Teil in dieser Kategorie{/t}
+            </a>
         {/if}
 
 
 
     </div>
 </div>
+
+<form method="post">
+    <input type="hidden" name="cid" value="{$cid}">
+    <input type="hidden" name="subcat" value="{$with_subcategories}">
+    <input type="hidden" name="page" value="1">
+
+    {include "../smarty_pagination.tpl"}
+</form>
+
 
 <div class="panel panel-default">
     <div class="panel-heading">
@@ -55,6 +67,17 @@
         <input type="hidden" name="cid" value="{$cid}">
         <input type="hidden" name="subcat" value="{if $with_subcategories}1{else}0{/if}">
         <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
-           {include file='../smarty_table.tpl'}
+        <input type="hidden" name="limit" value="{$limit}">
+        <input type="hidden" name="page" value="{$page}">
+
+        {include file='../smarty_table.tpl' table_selectable=true}
     </form>
 </div>
+
+<form method="post">
+    <input type="hidden" name="cid" value="{$cid}">
+    <input type="hidden" name="subcat" value="{$with_subcategories}">
+    <input type="hidden" name="page" value="1">
+
+    {include "../smarty_pagination.tpl" }
+</form>

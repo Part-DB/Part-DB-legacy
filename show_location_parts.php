@@ -21,10 +21,16 @@
 
 include_once('start_session.php');
 
+use PartDB\Category;
 use PartDB\Database;
+use PartDB\Footprint;
 use PartDB\HTML;
 use PartDB\Log;
+use PartDB\Manufacturer;
 use PartDB\Part;
+use PartDB\Permissions\PartAttributePermission;
+use PartDB\Permissions\PartPermission;
+use PartDB\Permissions\PermissionManager;
 use PartDB\Storelocation;
 use PartDB\User;
 
@@ -42,10 +48,18 @@ $location_id        = isset($_REQUEST['lid'])               ? (integer)$_REQUEST
 $with_sublocations = isset($_REQUEST['subloc'])            ? (boolean)$_REQUEST['subloc']          : true;
 $table_rowcount     = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
 
+$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+
+
 $action = 'default';
 if (isset($_REQUEST['subloc_button'])) {
     $action = 'change_subloc_state';
+} elseif (isset($_REQUEST["multi_action"])) {
+    $action = "multi_action";
 }
+
+
 $selected_part_id = 0;
 for ($i=0; $i<$table_rowcount; $i++) {
     $selected_part_id = isset($_REQUEST['id_'.$i]) ? (integer)$_REQUEST['id_'.$i] : 0;
@@ -131,13 +145,29 @@ if (! $fatal_error) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
             break;
+        case "multi_action":
+            try {
+                if (isset($_REQUEST['action']) && $_REQUEST['action'] == "delete") {
+                    $n = count(explode(",", $_REQUEST['selected_ids']));
+                    $messages[] = array('text' => sprintf(_('Sollen die %d gewählten Bauteile wirklich unwiederruflich gelöscht werden?'), $n),
+                        'strong' => true, 'color' => 'red');
+                    $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
+                    $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Alle Dateien dieses Bauteiles bleiben weiterhin erhalten.'));
+                    $messages[] = array('html' => '<input type="hidden" name="action" value="delete_confirmed">', 'no_linebreak' => true);
+                    $messages[] = array('html' => '<input type="hidden" name="selected_ids" value="' . $_REQUEST['selected_ids'] . '">');
+                    $messages[] = array('html' => '<input type="hidden" name="target" value="' . $_REQUEST['target'] . '">', 'no_linebreak' => true);
+                    $messages[] = array('html' => '<button class="btn btn-default" type="submit" value="">' . _('Nein, nicht löschen') . '</button>', 'no_linebreak' => true);
+                    $messages[] = array('html' => '<button class="btn btn-danger" type="submit" name="multi_action" value="">' . _('Ja, Bauteile löschen') . '</button>');
+                } else {
+                    parsePartsSelection($database, $current_user, $log, $_REQUEST['selected_ids'], $_REQUEST['action'], $_REQUEST['target']);
+                }
+            } catch (Exception $e) {
+                $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+            }
+            break;
     }
 }
 
-if (isset($reload_site) && $reload_site && (! $config['debug']['request_debugging_enable'])) {
-    // reload the site to avoid multiple actions by manual refreshing
-    header('Location: show_location_parts.php?lid='.$location_id.'&subloc='.$with_sublocations);
-}
 
 /********************************************************************************
  *
@@ -147,10 +177,16 @@ if (isset($reload_site) && $reload_site && (! $config['debug']['request_debuggin
 
 if (! $fatal_error) {
     try {
-        $parts = $location->getParts($with_sublocations, true);
+        $parts = $location->getParts($with_sublocations, true, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'location_parts');
         $html->setVariable('table_rowcount', count($parts), 'integer');
         $html->setLoop('table', $table_loop);
+
+        $html->setLoop("pagination", generatePagination("show_location_parts.php?lid=$location_id", $page, $limit, $location->getPartsCount($with_sublocations)));
+        $html->setVariable("page", $page);
+        $html->setVariable('limit', $limit);
+
+        $html->setLoop('breadcrumb', $location->buildBreadcrumbLoop("show_location_parts.php", "lid", true, _("Lagerorte")));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -180,6 +216,27 @@ if (! $fatal_error) {
     $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
     $html->setVariable('popup_width', $config['popup']['width'], 'integer');
     $html->setVariable('popup_height', $config['popup']['height'], 'integer');
+
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {
+        $root_category = new Category($database, $current_user, $log, 0);
+        $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, "", "c"));
+    }
+    if ($current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT)) {
+        $root_footprint = new Footprint($database, $current_user, $log, 0);
+        $html->setVariable('footprints_list', $root_footprint->buildHtmlTree(0, true, false, "", "f"));
+    }
+    if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
+        $root_manufacturer = new Manufacturer($database, $current_user, $log, 0);
+        $html->setVariable('manufacturers_list', $root_manufacturer->buildHtmlTree(0, true, false, "", "m"));
+    }
+    if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
+        $root_location = new Storelocation($database, $current_user, $log, 0);
+        $html->setVariable('storelocations_list', $root_location->buildHtmlTree(0, true, false, "", "s"));
+    }
+
+    $html->setVariable('can_edit', $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
+    $html->setVariable('can_delete', $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE));
+    $html->setVariable('can_create', $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
 }
 
 /********************************************************************************

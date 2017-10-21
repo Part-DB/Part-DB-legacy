@@ -132,6 +132,7 @@ $saved_redirect             = isset($_REQUEST['saved_redirect']);
 //Table settings
 $table_autosort             = isset($_REQUEST['table_autosort']);
 $default_subcat             = isset($_REQUEST['default_subcat']);
+$default_limit              = isset($_REQUEST['default_limit']) ? (int) $_REQUEST['default_limit']  : 50;
 
 //Search settings
 $livesearch_active          = isset($_REQUEST['livesearch_active']);
@@ -228,6 +229,7 @@ if (! $fatal_error) {
 
             $config['table']['autosort']                = $table_autosort;
             $config['table']['default_show_subcategories'] = $default_subcat;
+            $config['table']['default_limit']           = $default_limit;
 
             $config['attachements']['folder_structure'] = $attachements_structure;
             $config['attachements']['download_default'] = $attachements_download;
@@ -376,6 +378,7 @@ $html->setVariable('short_description', $config['appearance']['short_description
 //Table
 $html->setVariable('table_autosort', $config['table']['autosort'], 'boolean');
 $html->setVariable('default_subcat', $config['table']['default_show_subcategories'], 'boolean');
+$html->setVariable('default_limit', $config['table']['default_limit'], "int");
 
 //Attachements
 $html->setVariable("attachements_structure", $config['attachements']['folder_structure'], 'boolean');

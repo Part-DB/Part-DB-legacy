@@ -177,11 +177,6 @@ class AjaxUI {
         if(!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
             $('#progressbar').show(0);
-            formData.push({
-                name: "test",
-                value: "Test2435",
-                required: "false"
-            });
         }
         return true;
     }
@@ -546,6 +541,7 @@ function makeSortTable() {
             "ordering": true,
             "info":     false,
             "searching":   false,
+            "select":   $(".table-sortable").hasClass("table-selectable") ? {style: "os", selector: "td:not(.no-select)"} : false,
             "order": [],
             "columnDefs": [
                 {
@@ -554,9 +550,32 @@ function makeSortTable() {
                     targets: 'no-sort', orderable: false
                 }]
         });
+
         if($("#auto_sort").val() == true) {
             table.columns(".order-default").order('asc').draw();
         }
+
+        table
+            .on( 'select deselect', function ( e, dt, type, indexes ) {
+                let data = table.rows( { selected: true } );
+                let count = data.count();
+                let tmp = [];
+                //Show The select action bar only, if a element is selected.
+                if(count > 0) {
+                    $(".select_actions").show();
+                    $(".selected_n").text(count);
+                    //Build a string containing all parts, that should be modified
+                    for (let n of data[0]) {
+                        tmp.push($(data.row(n).node()).find("input").val());
+                    }
+                } else {
+                    $(".select_actions").hide();
+                }
+
+                //Combine all selected IDs into a string.
+                let str = tmp.join();
+                $("input[name='selected_ids']").val(str);
+            } );
 
     }
 }

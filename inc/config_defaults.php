@@ -162,6 +162,7 @@ $config['edit_parts']['saved_go_to_info']        = false;    //Jump to info page
 //Table settings
 $config['table']['autosort']                     = false;
 $config['table']['default_show_subcategories']   = true;    //Show the subcategories in show_category_parts on default.
+$config['table']['default_limit']                = 50;
 
 //Search settings
 $config['search']['livesearch']                  = true;

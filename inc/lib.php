@@ -1420,8 +1420,87 @@ function formatTimestamp($timestamp) {
 
         return $formatter->format($timestamp);
     } else {
-      //Failsafe, return as non localized string.
+        //Failsafe, return as non localized string.
         return date('Y-m-d H:i:s', $timestamp);
     }
+}
 
+function generatePagination($page_link ,$selected_page, $limit, $max_entries)
+{
+    $links = array();
+
+    //Back to first page
+    $links[] = array("label" => '<i class="fa fa-angle-double-left" aria-hidden="true"></i>',
+        "href" => $page_link . "&page=1&limit=$limit",
+        "disabled" => $selected_page == 1,
+        "hint" => _("Springe zur ersten Seite"));
+
+    $max_page = ceil($max_entries / $limit);
+    $max_page = $max_page > 0 ? $max_page : 1;
+
+    $min_number = ($selected_page - 1) < 1 ? 1 : $selected_page -1;
+    $max_number = ($selected_page + 2) > $max_page ? $max_page : $selected_page + 2;
+
+    for ($n=$min_number; $n <= $max_number; $n++) {
+        $links[] = array("label" => $n,
+            "href" => $page_link . "&page=" . ($n). "&limit=$limit",
+            "active" => $n == $selected_page);
+    }
+
+    //Jump to last page.
+    $links[] = array("label" => '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
+        "href" => $page_link . "&page=$max_page&limit=$limit",
+        "disabled" => $selected_page == $max_page,
+        "hint" => _("Springe zur letzten Seite"));
+
+    //Show all results
+    $links[] = array("label" => '<i class="fa fa-bars" aria-hidden="true"></i>',
+        "href" => $page_link . "&page=0",
+        "active" => $selected_page == 0,
+        "hint" => _("Zeige alle Bauteile"));
+
+    return array("lower_result" => $selected_page > 0 ? ($selected_page -1) * $limit + 1 : 1,
+        "upper_result" => ($selected_page * $limit +1) <= $max_entries && $selected_page > 0 ? $selected_page * $limit +1 : $max_entries,
+        "max_entries" => $max_entries,
+        "entries" => $links);
+}
+
+function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $action, $target)
+{
+    $ids = explode(",", $selection);
+    foreach ($ids as $id) {
+        $part = new Part($database, $current_user, $log, $id);
+        if ($action=="delete_confirmed") {
+            $part->delete();
+        } elseif ($action=="move") {
+            if ($target == "") {
+                throw new Exception(_("Bitte wählen sie ein Ziel zum Verschieben aus."));
+            }
+            $type = substr($target, 0, 1);
+            $target_id = intval(substr($target, 1));
+            //Check if target ID is valid.
+            if ($target_id < 1) {
+                throw new Exception(_("Ungültige ID"));
+            }
+            switch ($type) {
+                case "c": //Category
+                    $part->setCategoryID($target_id);
+                    break;
+                case "f": //Footptint
+                    $part->setFootprintID($target_id);
+                    break;
+                case "m": //Manufacturer
+                    $part->setManufacturerID($target_id);
+                    break;
+                case "s": //Storelocation
+                    $part->setStorelocationID($target_id);
+                    break;
+            }
+        } elseif ($action == "") {
+            throw new Exception(_("Bitte wählen sie eine Aktion aus."));
+        } else {
+            throw new Exception(_("Unbekannte Aktion"));
+        }
+
+    }
 }

@@ -2011,7 +2011,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getNoPriceParts(&$database, &$current_user, &$log)
+    public static function getNoPriceParts(&$database, &$current_user, &$log, $limit = 50, $page = 1)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
             return array();
@@ -2028,6 +2028,86 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             'LEFT JOIN pricedetails ON orderdetails.id=pricedetails.orderdetails_id '.
             'WHERE pricedetails.id IS NOT NULL) '.
             'ORDER BY parts.name ASC';
+
+        if ($limit > 0 && $page > 0) {
+            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+        }
+
+        $query_data = $database->query($query);
+
+        foreach ($query_data as $row) {
+            $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
+        }
+
+        return $parts;
+    }
+
+    /**
+     *  Get all parts which have no price
+     *
+     * @param Database  &$database          reference to the database object
+     * @param User      &$current_user      reference to the user which is logged in
+     * @param Log       &$log               reference to the Log-object
+     *
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public static function getNoPricePartsCount(&$database, &$current_user, &$log)
+    {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
+            return array();
+        }
+
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt!'));
+        }
+
+        $parts = array();
+
+        $query =    'SELECT count(id) AS count from parts '.
+            'WHERE id NOT IN (SELECT DISTINCT part_id FROM orderdetails '.
+            'LEFT JOIN pricedetails ON orderdetails.id=pricedetails.orderdetails_id '.
+            'WHERE pricedetails.id IS NOT NULL) '.
+            'ORDER BY parts.name ASC';
+
+
+        $query_data = $database->query($query);
+
+        return $query_data[0]['count'];
+    }
+
+
+    /**
+     *  Get all parts which have an unknown instock value.
+     *
+     * @param Database  &$database          reference to the database object
+     * @param User      &$current_user      reference to the user which is logged in
+     * @param Log       &$log               reference to the Log-object
+     *
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public static function getInstockUnknownParts(&$database, &$current_user, &$log, $limit = 50, $page = 1)
+    {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
+            return array();
+        }
+
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt!'));
+        }
+
+        $parts = array();
+
+        $query =    'SELECT * from parts '.
+            'WHERE instock = -2 '.
+            'ORDER BY parts.name ASC';
+
+        if ($limit > 0 && $page > 0) {
+            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+        }
 
         $query_data = $database->query($query);
 
@@ -2049,7 +2129,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getInstockUnknownParts(&$database, &$current_user, &$log)
+    public static function getInstockUnknownPartsCount(&$database, &$current_user, &$log)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
             return array();
@@ -2061,17 +2141,14 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         $parts = array();
 
-        $query =    'SELECT * from parts '.
+        $query =    'SELECT count(id) AS count from parts '.
             'WHERE instock = -2 '.
             'ORDER BY parts.name ASC';
 
+
         $query_data = $database->query($query);
 
-        foreach ($query_data as $row) {
-            $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
-        }
-
-        return $parts;
+        return $query_data[0]['count'];
     }
 
     /**
@@ -2086,7 +2163,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getObsoleteParts(&$database, &$current_user, &$log, $no_orderdetails_parts = false)
+    public static function getObsoleteParts(&$database, &$current_user, &$log, $no_orderdetails_parts = false, $limit = 50, $page = 1)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::OBSOLETE_PARTS)) {
             return array();
@@ -2120,6 +2197,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 'ORDER BY parts.name ASC';
         }
 
+        if ($limit > 0 && $page > 0) {
+            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+        }
+
         $query_data = $database->query($query);
 
         foreach ($query_data as $row) {
@@ -2127,6 +2208,57 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         return $parts;
+    }
+
+    /**
+     *  Get count of all obsolete parts
+     *
+     * @param Database  &$database              reference to the database object
+     * @param User      &$current_user          reference to the user which is logged in
+     * @param Log       &$log                   reference to the Log-object
+     * @param boolean   $no_orderdetails_parts  if true, parts without any orderdetails will be returned too
+     *
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public static function getObsoletePartsCount(&$database, &$current_user, &$log, $no_orderdetails_parts = false)
+    {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::OBSOLETE_PARTS)) {
+            return array();
+        }
+
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt!'));
+        }
+
+        $parts = array();
+
+        if ($no_orderdetails_parts) {
+            // show also parts which have no orderdetails
+            $query =    'SELECT count(parts.id) AS count from parts '.
+                'LEFT JOIN orderdetails ON orderdetails.part_id = parts.id '.
+                'WHERE parts.id IN (SELECT part_id FROM `orderdetails` '.
+                'WHERE part_id IN (SELECT part_id FROM `orderdetails` '.
+                'WHERE obsolete = true GROUP BY part_id) '.
+                'AND part_id NOT IN (SELECT part_id FROM `orderdetails` '.
+                'WHERE obsolete = false GROUP BY part_id)) '.
+                'OR orderdetails.id IS NULL '.
+                'ORDER BY parts.name ASC';
+        } else {
+            // don't show parts which have no orderdetails
+            $query =    'SELECT count(parts.id) AS count from parts '.
+                'WHERE parts.id IN (SELECT part_id FROM `orderdetails` '.
+                'WHERE part_id IN (SELECT part_id FROM `orderdetails` '.
+                'WHERE obsolete = true GROUP BY part_id) '.
+                'AND part_id NOT IN (SELECT part_id FROM `orderdetails` '.
+                'WHERE obsolete = false GROUP BY part_id)) '.
+                'ORDER BY parts.name ASC';
+        }
+
+        $query_data = $database->query($query);
+
+        return $query_data[0]['count'];
     }
 
     /**
@@ -2394,11 +2526,15 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getAllParts(&$database, &$current_user, &$log, $group_by = '')
+    public static function getAllParts(&$database, &$current_user, &$log, $group_by = '', $limit = 50, $page = 1)
     {
         $current_user->tryDo(PermissionManager::PARTS, PartPermission::ALL_PARTS);
 
         $query = 'SELECT * FROM parts';
+
+        if ($limit > 0 && $page > 0) {
+            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+        }
 
         $query_data = $database->query($query);
 

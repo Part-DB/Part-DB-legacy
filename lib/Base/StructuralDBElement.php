@@ -402,6 +402,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      * @param boolean   $recursive      if true, the tree will be recursive
      * @param boolean   $show_root      if true, the root node will be displayed
      * @param string    $root_name      if the root node is the very root element, you can set its name here
+     * @param string    $value_prefix   This string is used as a prefix before the id in the value part of the option.
      *
      * @return string       HTML string if success
      *
@@ -411,7 +412,8 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         $selected_id = null,
         $recursive = true,
         $show_root = true,
-        $root_name = '$$'
+        $root_name = '$$',
+        $value_prefix = ''
     ) {
         if ($root_name=='$$') {
             $root_name=_('Oberste Ebene');
@@ -425,7 +427,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
                 $root_name = htmlspecialchars($this->getName());
             }
 
-            $html[] = '<option value="'. $this->getID() . '">'. $root_name .'</option>';
+            $html[] = '<option value="'. $value_prefix . $this->getID() . '">'. $root_name .'</option>';
         } else {
             $root_level =  $this->getLevel() + 1;
         }
@@ -437,7 +439,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             $level = $element->getLevel() - $root_level;
             $selected = ($element->getID() == $selected_id) ? 'selected' : '';
 
-            $html[] = '<option '. $selected .' value="'. $element->getID() . '">';
+            $html[] = '<option '. $selected .' value="'. $value_prefix . $element->getID() . '">';
             for ($i = 0; $i < $level; $i++) {
                 $html[] = "&nbsp;&nbsp;&nbsp;";
             }
@@ -495,6 +497,54 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         return $tree;
     }
 
+    /**
+     * Creates a template loop for a Breadcrumb bar, representing the structural DB element.
+     * @param $page string The base page, to which the breadcrumb links should be directing to.
+     * @param $parameter string The parameter, which selects the ID of the StructuralDBElement.
+     * @param bool $show_root Show the root as its own breadcrumb.
+     * @param string $root_name The label which should be used for the root breadcrumb.
+     * @return array An Loop containing multiple arrays, which contains href and caption for the breadcrumb.
+     */
+    public function buildBreadcrumbLoop($page, $parameter, $show_root = false, $root_name = "$$", $element_is_link = false)
+    {
+        $breadcrumb = array();
+
+        if ($root_name=='$$') {
+            $root_name=_('Oberste Ebene');
+        }
+
+        if ($show_root) {
+            $breadcrumb[] = array("label" => $root_name,
+                "disabled" => true);
+        }
+
+        if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
+            return array("label" =>  "???",
+                "disabled" => true);
+        }
+
+        $tmp = array();
+
+        if ($element_is_link) {
+            $tmp[] = array("label" => static::getName(), 'href' => $page ."?". $parameter ."=".$this->getID(), "selected" => true);
+        } else {
+            $tmp[] = array("label" => static::getName(), "selected" => true);
+        }
+
+        $parent_id = static::getParentID();
+        $class = get_class($this);
+        while ($parent_id > 0) {
+            /** @var StructuralDBElement $element */
+            $element = new $class($this->database, $this->current_user, $this->log, $parent_id);
+            $parent_id = $element->getParentID();
+            $tmp[] = array("label" => $element->getName(), 'href' => $page ."?". $parameter ."=".$element->getID());
+        }
+        $tmp = array_reverse($tmp);
+
+        $breadcrumb = array_merge($breadcrumb, $tmp);
+
+        return $breadcrumb;
+    }
 
 
     /********************************************************************************

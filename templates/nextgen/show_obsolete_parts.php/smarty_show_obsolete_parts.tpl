@@ -10,7 +10,19 @@
     </div>
 </div>
 
+<form method="get">
+    <input type="hidden" name="page" value="1">
+
+    {include "../smarty_pagination.tpl"}
+</form>
+
 <div class="panel panel-default">
-    <div class="panel-heading"><b>{$table_rowcount}</b> {t}Nicht mehr erh&auml;ltliche Teile{/t}</div>
-        {include file="../smarty_table.tpl"}
+    <div class="panel-heading"><b>{$table_rowcount}</b> {t}Nicht mehr erhältliche Teile{/t}</div>
+        {include file="../smarty_table.tpl" table_selectable=true}
 </div>
+
+<form method="get">
+    <input type="hidden" name="page" value="1">
+
+    {include "../smarty_pagination.tpl"}
+</form>

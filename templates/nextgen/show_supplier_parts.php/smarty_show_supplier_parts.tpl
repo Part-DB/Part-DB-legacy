@@ -1,4 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
+
+{include "../smarty_breadcrumb.tpl"}
+
 <div class="panel panel-primary">
     <div class="panel-heading">
         {t}Sonstiges{/t}
@@ -16,6 +19,14 @@
     </div>
 </div>
 
+<form method="get">
+    <input type="hidden" name="sid" value="{$sid}">
+    <input type="hidden" name="subsup" value="{$with_subsuppliers}">
+    <input type="hidden" name="page" value="1">
+
+    {include "../smarty_pagination.tpl"}
+</form>
+
 <div class="panel panel-default">
     <div class="panel-heading">
         <i class="fa fa-truck fa-fw" aria-hidden="true"></i>&nbsp;
@@ -25,6 +36,16 @@
         <input type="hidden" name="lid" value="{$sid}">
         <input type="hidden" name="subloc" value="{if $with_subsuppliers}1{else}0{/if}">
         <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
-           {include file='../smarty_table.tpl'}
+        <input type="hidden" name="limit" value="{$limit}">
+        <input type="hidden" name="page" value="{$page}">
+           {include file='../smarty_table.tpl' table_selectable=true}
     </form>
 </div>
+
+<form method="get">
+    <input type="hidden" name="sid" value="{$sid}">
+    <input type="hidden" name="subsup" value="{$with_subsuppliers}">
+    <input type="hidden" name="page" value="1">
+
+    {include "../smarty_pagination.tpl"}
+</form>

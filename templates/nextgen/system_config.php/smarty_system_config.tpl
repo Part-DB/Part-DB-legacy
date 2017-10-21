@@ -261,6 +261,16 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="control-label col-md-2">{t}Standardmäßige Anzahl von Bauteilen pro Seite:{/t}</label>
+                            <div class="col-md-10">
+                                <input type="number" class="form-control" name="default_limit" min="0" step="1" value="{$default_limit}"/>
+                                <p class="help-block">
+                                    {t}Setze diesen Wert auf 0, um standardmäßig alle Bauteile anzuzeigen.{/t}
+                                </p>
+                            </div>
+                        </div>
+
                         <hr>
 
                         <div class="form-group">

@@ -797,7 +797,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public static function login(&$user, $password = "")
     {
-        if (!empty($password) && !$user->isPasswordValid($password)) { //If $password is set, and wrong.
+        if (empty($password) || !$user->isPasswordValid($password)) { //If $password is set, and wrong.
             return false;
         }
         //Open session, so we can edit $_SESSION var.
