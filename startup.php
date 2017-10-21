@@ -55,10 +55,15 @@ try {
     $system             = new System($database, $log);
     $current_user       = User::getLoggedInUser($database, $log);
 
-    if (['redirect_to_login'] && $current_user->getPermissionManager()->isEverythingForbidden(true)) {
-        //Redirect to login page, if user can not do anything.
-        $html->redirect("login.php", true);
+    try {
+        if ($config['user']['redirect_to_login'] && $current_user->getPermissionManager()->isEverythingForbidden(true)) {
+            //Redirect to login page, if user can not do anything.
+            $html->redirect("login.php", true);
+        }
+    } catch (Exception $ex) {
+        //Do nothing here.
     }
+
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -223,6 +228,11 @@ if (! $fatal_error) {
         && needChangeAdminPassword());
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+    }
+
+    //When we dont has an existing DB with user system, then ignore all error messages.
+    if ($database->getCurrentVersion() < 20) {
+       $messages = array();
     }
 }
 
