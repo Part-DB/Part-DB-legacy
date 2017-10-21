@@ -49,18 +49,15 @@
 
                     <div class="form-group">
                         <label class="col-sm-3 control-label">{t}Kategorie:{/t}</label>
-                        <div class="col-sm-9"><a href="show_category_parts.php?cid={$category_id}" class="form-control-link hidden-print-href">{$category_full_path}</a></div>
+                        <div class="col-sm-9">{* <a href="show_category_parts.php?cid={$category_id}" class="form-control-link hidden-print-href">{$category_full_path}</a>*}
+                            {include "../smarty_structural_link.tpl" link=$category_path}
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-3 control-label">{t}Lagerort:{/t}</label>
                         <div class="col-sm-9">
-                            {if $storelocation_id == 0}
-                                <p class="form-control-static">{$storelocation_full_path}{if $storelocation_is_full} [voll]{/if}</p>
-                            {else}
-                                <a class="form-control-link hidden-print-href" href="show_location_parts.php?lid={$storelocation_id}&subloc=0">{$storelocation_full_path}{if $storelocation_is_full} [voll]{/if}</a>
-                            {/if}
-
+                            {include "../smarty_structural_link.tpl" link=$storelocation_path}
                         </div>
                     </div>
 
@@ -68,11 +65,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">{t}Hersteller:{/t}</label>
                             <div class="col-sm-9">
-                                {if $manufacturer_id == 0}
-                                    <p class="form-control-static">{$manufacturer_full_path}</p>
-                                {else}
-                                    <a class="form-control-link  hidden-print-href" href="show_manufacturer_parts.php?mid={$manufacturer_id}&subman=0">{$manufacturer_full_path}</a>
-                                {/if}
+                                {include "../smarty_structural_link.tpl" link=$manufacturer_path}
                             </div>
                         </div>
                     {/if}
@@ -81,11 +74,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">{t}Footprint:{/t}</label>
                             <div class="col-sm-9">
-                                {if $footprint_id == 0}
-                                    <p class="form-control-static">{$footprint_full_path}</p>
-                                {else}
-                                    <a class="form-control-link hidden-print-href" href="show_footprint_parts.php?fid={$footprint_id}&subfoot=0">{$footprint_full_path}</a>
-                                {/if}
+                                {include "../smarty_structural_link.tpl" link=$footprint_path}
                             </div>
                         </div>
 
