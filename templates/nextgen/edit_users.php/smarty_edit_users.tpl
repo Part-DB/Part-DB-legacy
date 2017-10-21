@@ -58,6 +58,7 @@
                         <li class="active"><a class="link-anchor" data-toggle="tab" href="#home">{t}Allgemein{/t}</a></li>
                         <li><a data-toggle="tab" class="link-anchor" href="#permissions">{t}Berechtigungen{/t}</a></li>
                         <li><a data-toggle="tab" class="link-anchor" href="#password">{t}Passwort setzen{/t}</a></li>
+                        <li><a data-toggle="tab" class="link-anchor" href="#config">{t}Konfiguration{/t}</a></li>
                         <li><a data-toggle="tab" class="link-anchor" href="#info">{t}Infos{/t}</a></li>
                     </ul>
 
@@ -192,6 +193,46 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div id="config" class="tab-pane fade">
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="custom_css">{t}Theme:{/t}</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" name="custom_css" {if !$can_config}disabled{/if}>
+                                        <option value="">{t}Benutze das serverweite Theme{/t}</option>
+                                        {foreach $custom_css_loop as $css}
+                                            <option value="{$css.value}" {if $css.selected}selected{/if}>{$css.text}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="timezon">{t}Zeitzone:{/t}</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control selectpicker" data-live-search="true" name="timezone" {if !$can_config}disabled{/if}>
+                                        <option value="">{t}Benutze die serverweite Zeitzone{/t}</option>
+                                        {foreach $timezone_loop as $timezone}
+                                            <option value="{$timezone.value}" {if $timezone.selected}selected{/if}>{$timezone.text}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="control-label col-md-3" for="language">{t}Sprache:{/t}</label>
+                                <div class="col-md-9">
+                                    <select class="form-control" name="language" {if !$can_config}disabled{/if}>
+                                        <option value="">{t}Benutze die serverweite Sprache{/t}</option>
+                                        {foreach $language_loop as $lang}
+                                            <option value="{$lang.value}" {if $lang.selected}selected{/if}>{$lang.text}</option>
+                                        {/foreach}
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+
 
                         <div class="form-group">
                             <label class="col-md-9 col-md-offset-3">
