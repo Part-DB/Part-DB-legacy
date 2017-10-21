@@ -546,7 +546,8 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         $arr = array();
 
         //Make exception for logged in user
-        if ($this->isLoggedInUser()) {
+        //Anonymous user can not change its own settings.
+        if ($this->isLoggedInUser() && $this->getID() != static::ID_ANONYMOUS) {
             if (isset($new_values['password'])) {
                 $arr['password'] = $new_values['password'];
             }
