@@ -404,11 +404,14 @@ class Database
                         $this->pdo->rollback();
                     } catch (PDOException $e2) {
                     } // rollback last query, ignore exceptions
-                    debug('error', '$query="'.$query.'"', __FILE__, __LINE__, __METHOD__);
-                    debug('error', _('Fehlermeldung: "').$e->getMessage().'"', __FILE__, __LINE__, __METHOD__);
-                    $add_log(sprintf(_('Schritt: %s ...FEHLER!'), $query), true);
-                    $add_log(_('Fehlermeldung: ').$e->getMessage(), true);
-                    $error = true;
+                    //Ignore "Column already exists:" errors
+                    if (!strcontains($e->getMessage(), "Column already exists:")) {
+                        debug('error', '$query="' . $query . '"', __FILE__, __LINE__, __METHOD__);
+                        debug('error', _('Fehlermeldung: "') . $e->getMessage() . '"', __FILE__, __LINE__, __METHOD__);
+                        $add_log(sprintf(_('Schritt: %s ...FEHLER!'), $query), true);
+                        $add_log(_('Fehlermeldung: ') . $e->getMessage(), true);
+                        $error = true;
+                    }
                     break;
                 }
             }
