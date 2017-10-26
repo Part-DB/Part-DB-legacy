@@ -6,9 +6,14 @@
             {t}Kommentar{/t}
         </a>
     </div>
-    <div class="panel-body panel-collapse collapse in" id="panel-attachements">
-        <pre>{$comment nofilter}</pre>
-        <a href="{$relative_path}edit_devices.php?selected_id={$device_id}" class="btn btn-primary"><i class="fa fa-pencil" aria-hidden="true"></i>
-            {t}Bearbeiten{/t}</a>
+    <div class="panel-body panel-collapse collapse {if !empty($comment)}in{/if}" id="panel-attachements">
+        {if !empty($comment)}<pre>{$comment nofilter}</pre>{/if}
+        {if !empty($comment)}
+            <a href="{$relative_path}edit_devices.php?selected_id={$device_id}" class="btn btn-primary"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                {t}Bearbeiten{/t}</a>
+        {else}
+            <a href="{$relative_path}edit_devices.php?selected_id={$device_id}" class="btn btn-success"><i class="fa fa-plus-square fa-fw" aria-hidden="true"></i>
+                {t}Hinzufügen{/t}</a>
+        {/if}
     </div>
 </div>
