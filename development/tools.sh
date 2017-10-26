@@ -92,7 +92,7 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
     # $config['system']['version'] {spaces} = '0.3.0.RC1';  // examples: '0.2.2' or '0.2.2.RC2' (see class.SystemVersion.php)
     
     # get the Part-DB version, like "0.3.0.RC1"
-    VERSION=$(grep -E "config\['system'\]\['version'\]\s*=\s*'" config_defaults.php | cut -d\' -f6)
+    VERSION=$(grep -E "config\['system'\]\['version'\]\s*=\s*'" inc/config_defaults.php | cut -d\' -f6)
 	
 	
     
@@ -125,9 +125,11 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
 					-o  -name "*.phpproj*" \
                     -o  -name ".gitignore" \
 					-o  -name ".gitattributes" \
+					-o  -name ".codeclimate.yml" \
 					-o  -name ".travis.yml" \
 					-o 	-path "./models/*"	\
 					-o 	-path "./templates_c/*"	\
+					-o 	-path "./vendor/*"	\
 					-o 	-path "./development/templates_c/*"	\
 					-o 	-path "./nbproject*"	\
                     -o  -path "./development*" \
@@ -151,8 +153,6 @@ build_install_package () # create a *.tar.gz        TODO: this function is not r
     find part-db -type f -print0 | xargs -0 chmod 444
     find part-db/data -type d -print0 | xargs -0 chmod 755
     find part-db/data -type f -print0 | xargs -0 chmod 644
-    find part-db/documentation/dokuwiki/data -type d -print0 | xargs -0 chmod 755
-    find part-db/documentation/dokuwiki/data -type f -print0 | xargs -0 chmod 644
     
     # create *.tar.gz
 	if [ "$2" -eq "-dev"]
