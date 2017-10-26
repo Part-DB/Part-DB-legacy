@@ -611,7 +611,7 @@ if (! $fatal_error) {
         $html->setLoop('table', $device_parts_loop);
         $html->printTemplate('device_parts');
 
-        if (isset($comment) && !empty($comment)) {
+        if (isset($comment)) {
             $html->setVariable('comment', $comment);
             $html->printTemplate('comment');
         }
