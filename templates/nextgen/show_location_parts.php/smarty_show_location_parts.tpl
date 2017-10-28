@@ -8,7 +8,7 @@
             {t}Sonstiges{/t}
         </a>
     </div>
-    <div class="panel-body panel-collapse collapse" id="panel-other">
+    <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other">
         <form action="" method="post" class="form-horizontal no-progbar">
             <input type="hidden" name="lid" value="{$lid}">
             <input type="hidden" name="subloc" value="{if $with_sublocations}0{else}1{/if}">

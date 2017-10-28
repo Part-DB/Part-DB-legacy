@@ -103,6 +103,16 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label for="checkbox-container" class="control-label col-sm-2">{t}"Sonstiges" Panel:{/t}</label>
+                            <div class="checkbox-container col-sm-10">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="others_panel_collapse" {if $others_panel_collapse} checked{/if}>
+                                    <label>{t}"Sonstiges" Panel ist standardmäßig eingeklappt{/t}</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div id="features" class="tab-pane fade">

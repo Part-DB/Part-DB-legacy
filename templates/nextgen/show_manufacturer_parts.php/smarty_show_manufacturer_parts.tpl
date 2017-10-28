@@ -8,7 +8,7 @@
             {t}Sonstiges{/t}
         </a>
     </div>
-    <div class="panel-body panel-collapse collapse" id="panel-other">
+    <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other">
         <form action="" method="post" class="form-horizontal no-progbar">
             <input type="hidden" name="mid" value="{$mid}">
             <input type="hidden" name="subman" value="{if $with_submanufacturers}0{else}1{/if}">
