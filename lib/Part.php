@@ -1300,7 +1300,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             }
         }
 
-        if ($this->current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE)) {
+        if (isset($new_values['favorite']) && $this->current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE)) {
             $arr['favorite'] = $new_values['favorite'];
         }
 
