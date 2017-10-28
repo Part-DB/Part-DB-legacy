@@ -365,3 +365,7 @@ ul.structural_link li a:hover {
     color: #01447e;
     text-decoration: underline;
 }
+
+a.text-white {
+   color: #fff;
+}

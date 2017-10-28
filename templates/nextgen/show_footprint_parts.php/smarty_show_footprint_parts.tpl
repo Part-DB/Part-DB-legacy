@@ -4,9 +4,11 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading">
-        {t}Sonstiges{/t}
+        <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other">
+            {t}Sonstiges{/t}
+        </a>
     </div>
-    <div class="panel-body">
+    <div class="panel-body panel-collapse collapse" id="panel-other">
         <form action="" method="post" class="form-horizontal no-progbar">
             <input type="hidden" name="fid" value="{$fid}">
             <input type="hidden" name="subfoot" value="{if $with_subfoot}0{else}1{/if}">
