@@ -15,7 +15,7 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Barcode Typ:{/t}</label>
                     <div class="col-md-9">
-                        <select class="form-control" name="type">
+                        <select class="form-control" name="type" disabled>
                             <option value="2" {if isset($type) && $type=="2"}selected{/if}>{t}1D-Barcode (EAN8){/t}</option>
                             <option value="3" {if isset($type) && $type=="3"}selected{/if}>{t}QR-Code{/t}</option>
                             <option value="0" {if isset($type) && $type=="0"}selected{/if}>{t}kein Barcode{/t}</option>
@@ -25,8 +25,8 @@
 
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Größe:{/t}</label>
-                    <div class="col-md-9">
-                        <select class="form-control">
+                    <div class="col-md-9" >
+                        <select class="form-control" disabled>
 
                         </select>
                     </div>
@@ -35,7 +35,7 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Line Preset:{/t}</label>
                     <div class="col-md-9">
-                        <select class="form-control">
+                        <select class="form-control" disabled>
                             <optgroup label="{t}Presets{/t}">
                                 <option>{t}Preset A{/t}</option>
                                 <option>{t}Preset B{/t}</option>
