@@ -33,6 +33,7 @@
         <br>
         <table>
             <tr><td width="300"><strong>{t}Anzahl der Footprint Bilder:{/t}</strong></td><td>{$footprint_picture_count}</td></tr>
+            <tr><td width="300"><strong>{t}Anzahl der Footprint 3D Modelle:{/t}</strong></td><td>{$footprint_models_count}</td></tr>
             <tr><td width="300"><strong>{t}Anzahl der Hersteller Logos:{/t}</strong></td><td>{$iclogos_picture_count}</td></tr>
         </table>
     </div>
