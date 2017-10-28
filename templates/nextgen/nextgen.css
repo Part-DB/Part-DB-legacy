@@ -18,6 +18,11 @@ body {
     margin-left: 10px;
 }
 
+.radio-small {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
 .companypic {
     width: 17px;
     display: inline;
