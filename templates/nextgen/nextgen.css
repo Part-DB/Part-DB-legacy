@@ -163,6 +163,15 @@ table.dataTable tbody th, table.dataTable tbody td {
     align-items: center;
 }
 
+.vertical-align-table>tbody>tr>td,
+.vertical-align-table>tbody>tr>th,
+.vertical-align-table>tfoot>tr>td,
+.vertical-align-table>tfoot>tr>th,
+.vertical-align-table>thead>tr>td,
+.vertical-align-table>thead>tr>th {
+    vertical-align: middle;
+}
+
 .form-control-link {
     display: block;
     padding-top: 7px;
