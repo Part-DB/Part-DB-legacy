@@ -113,6 +113,16 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="form-group">
+                            <label for="checkbox-container" class="control-label col-sm-2">{t}"Sonstiges" Panel Position:{/t}</label>
+                            <div class="col-sm-10">
+                                <select name="others_panel_position" class="form-control">
+                                    <option value="top" {if $others_panel_position == "top"}selected{/if}>{t}Oben{/t}</option>
+                                    <option value="bottom" {if $others_panel_position == "bottom"}selected{/if}>{t}Unten{/t}</option>
+                                    <option value="both" {if $others_panel_position == "both"}selected{/if}>{t}Oben und Unten{/t}</option>
+                                </select>
+                            </div>
+                        </div>
                     </div>
 
                     <div id="features" class="tab-pane fade">

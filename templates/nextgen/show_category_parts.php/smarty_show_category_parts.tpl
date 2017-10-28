@@ -2,53 +2,51 @@
 
 {include "../smarty_breadcrumb.tpl"}
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other">
-            {t}Sonstiges{/t}
-        </a>
-    </div>
-    <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other">
-        <form action="" method="post" class="form-horizontal">
-            <input type="hidden" name="cid" value="{$cid}">
-            <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">
+{if $other_panel_position == "top" || $other_panel_position == "both"}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other">
+                {t}Sonstiges{/t}
+            </a>
+        </div>
+        <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other">
+            <form action="" method="post" class="form-horizontal">
+                <input type="hidden" name="cid" value="{$cid}">
+                <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">
 
-            <div class="form-group">
-                <div class="col-md-10">
-                    <button type="submit" class="btn btn-default {if $with_subcategories}active{/if}" name="subcat_button" >{t}Unterkategorien einblenden{/t}</button>
-                </div>
-            </div>
-        </form>
-
-
-        <div style="float: right;">
-            <form action="" method="post" class="no-progbar no-ajax">
-                <input type='hidden' name='cid'   value='{$cid}'>
-                <input type="hidden" name="subcat" value="{$with_subcategories}">
-
-                <div class="form-inline">
-                    <label>{t}Exportieren:{/t}</label>
-                    <select name="export_format" class="form-control">
-                        {foreach $export_formats as $format}
-                            <option value="{$format.value}" {if isset($format.selected)}selected{/if}>{$format.text}</option>
-                        {/foreach}
-                    </select>
-
-                    <button class="btn btn-primary" type="submit" name="export">{t}OK{/t}</button>
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <button type="submit" class="btn btn-default {if $with_subcategories}active{/if}" name="subcat_button" >{t}Unterkategorien einblenden{/t}</button>
+                    </div>
                 </div>
             </form>
+
+            <div style="float: right;">
+                <form action="" method="post" class="no-progbar no-ajax">
+                    <input type='hidden' name='cid'   value='{$cid}'>
+                    <input type="hidden" name="subcat" value="{$with_subcategories}">
+
+                    <div class="form-inline">
+                        <label>{t}Exportieren:{/t}</label>
+                        <select name="export_format" class="form-control">
+                            {foreach $export_formats as $format}
+                                <option value="{$format.value}" {if isset($format.selected)}selected{/if}>{$format.text}</option>
+                            {/foreach}
+                        </select>
+
+                        <button class="btn btn-primary" type="submit" name="export">{t}OK{/t}</button>
+                    </div>
+                </form>
+            </div>
+
+            {if $can_create}
+                <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}">
+                    {t}Neues Teil in dieser Kategorie{/t}
+                </a>
+            {/if}
         </div>
-
-        {if $can_create}
-            <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}">
-                {t}Neues Teil in dieser Kategorie{/t}
-            </a>
-        {/if}
-
-
-
     </div>
-</div>
+{/if}
 
 <form method="post">
     <input type="hidden" name="cid" value="{$cid}">
@@ -82,3 +80,49 @@
 
     {include "../smarty_pagination.tpl" }
 </form>
+
+{if $other_panel_position == "bottom" || $other_panel_position == "both"}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other2">
+                {t}Sonstiges{/t}
+            </a>
+        </div>
+        <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other2">
+            <form action="" method="post" class="form-horizontal">
+                <input type="hidden" name="cid" value="{$cid}">
+                <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">
+
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <button type="submit" class="btn btn-default {if $with_subcategories}active{/if}" name="subcat_button" >{t}Unterkategorien einblenden{/t}</button>
+                    </div>
+                </div>
+            </form>
+
+            <div style="float: right;">
+                <form action="" method="post" class="no-progbar no-ajax">
+                    <input type='hidden' name='cid'   value='{$cid}'>
+                    <input type="hidden" name="subcat" value="{$with_subcategories}">
+
+                    <div class="form-inline">
+                        <label>{t}Exportieren:{/t}</label>
+                        <select name="export_format" class="form-control">
+                            {foreach $export_formats as $format}
+                                <option value="{$format.value}" {if isset($format.selected)}selected{/if}>{$format.text}</option>
+                            {/foreach}
+                        </select>
+
+                        <button class="btn btn-primary" type="submit" name="export">{t}OK{/t}</button>
+                    </div>
+                </form>
+            </div>
+
+            {if $can_create}
+                <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}">
+                    {t}Neues Teil in dieser Kategorie{/t}
+                </a>
+            {/if}
+        </div>
+    </div>
+{/if}

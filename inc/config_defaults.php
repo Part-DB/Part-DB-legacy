@@ -148,6 +148,7 @@ $config['appearance']['use_old_datasheet_icons']    = false;
 $config['appearance']['short_description_length']   = 200;
 $config['appearance']['short_description']          = true;
 $config['other_panel']['collapsed']                 = false;
+$config['other_panel']['position']                  = "top";
 
 //part info settings
 $config['part_info']['hide_actions']                = false;    //Hide actions panel

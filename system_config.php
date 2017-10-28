@@ -99,6 +99,7 @@ $downloads_enable           = isset($_REQUEST['downloads_enable']);
 $use_old_datasheet_icons    = isset($_REQUEST['use_old_datasheet_icons']);
 $short_description          = isset($_REQUEST['short_description']);
 $others_panel_collapse      = isset($_REQUEST['others_panel_collapse']);
+$others_panel_postion       = isset($_REQUEST['others_panel_position']) ? (string)$_REQUEST['others_panel_position'] : "top";
 
 // section "3d footprints"
 $foot3d_active              = isset($_REQUEST['foot3d_active']);
@@ -203,6 +204,7 @@ if (! $fatal_error) {
             $config['appearance']['use_old_datasheet_icons'] = $use_old_datasheet_icons;
             $config['appearance']['short_description'] = $short_description;
             $config['other_panel']['collapsed']        = $others_panel_collapse;
+            $config['other_panel']['position']         = $others_panel_postion;
 
             $config['foot3d']['active']                 = $foot3d_active;
             $config['foot3d']['show_info']              = $foot3d_show_info;
@@ -363,6 +365,7 @@ $html->setVariable("saved_redirect", $config['edit_parts']['saved_go_to_info'], 
 // Appearance
 $html->setVariable('short_description', $config['appearance']['short_description'], 'boolean');
 $html->setVariable('others_panel_collapse', $config['other_panel']['collapsed'], "boolean");
+$html->setVariable('others_panel_position', $config['other_panel']['position'], "string");
 
 //Table
 $html->setVariable('table_autosort', $config['table']['autosort'], 'boolean');
