@@ -12,9 +12,7 @@
         </div>
         <div class="panel-body">
             <form class="form-horizontal" action="" method="post" class="no-progbar">
-                <p>{t}Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere Einstellungen kann man direkt in der "config.php" vornehmen. Mögliche Parameter entnehmen Sie bitte der "config_defaults.php" oder der Dokumentation.{/t}</p>
-
-                <hr>
+                <p class="help-block">{t}Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere Einstellungen kann man direkt in der "config.php" vornehmen. Mögliche Parameter entnehmen Sie bitte der "config_defaults.php" oder der Dokumentation.{/t}</p>
 
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#appearance" class="link-anchor">
@@ -86,6 +84,8 @@
                             </div>
                         </div>
 
+                        <hr>
+
                         <div class="form-group">
                             <label for="checkbox-container" class="control-label col-sm-2">{t}Detailinfos:{/t}</label>
                             <div class="checkbox-container col-sm-10">
@@ -103,6 +103,8 @@
                                 </div>
                             </div>
                         </div>
+
+                        <hr>
 
                         <div class="form-group">
                             <label for="checkbox-container" class="control-label col-sm-2">{t}"Sonstiges" Panel:{/t}</label>
@@ -200,7 +202,7 @@
 
                                 <br>
                                 <div>
-                                    * <i>{t}Durch das Aktivieren dieser Checkboxen ist Part-DB auch für Nicht-Elektronische Bauteile hervorragend geeignet.{/t}</i>
+                                    <p class="help-block">* {t}Durch das Aktivieren dieser Checkboxen ist Part-DB auch für Nicht-Elektronische Bauteile hervorragend geeignet.{/t}</p>
                                 </div>
 
                             </div>
@@ -385,6 +387,8 @@
                             </div>
                         </div>
 
+                        <hr>
+
                         <div class="form-group">
                             <label class="control-label col-sm-2">{t}Benutzer:{/t}</label>
                             <div class="col-sm-10">
@@ -404,9 +408,11 @@
 
                     </div>
 
-                    <div class="col-sm-offset-2">
-                        <button class="btn btn-success" type="submit" name="apply" {if !$can_edit}disabled{/if}>{t}Einstellungen übernehmen{/t}</button>
-                        <button class="btn btn-danger" type="submit" {if !$can_edit}disabled{/if}>{t}Änderungen verwerfen{/t}</button>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2">
+                            <button class="btn btn-success" type="submit" name="apply" {if !$can_edit}disabled{/if}>{t}Einstellungen übernehmen{/t}</button>
+                            <button class="btn btn-danger" type="submit" {if !$can_edit}disabled{/if}>{t}Änderungen verwerfen{/t}</button>
+                        </div>
                     </div>
             </form>
         </div>
@@ -443,8 +449,6 @@
                     </div>
                 </div>
 
-                <hr>
-
                 <div class="col-sm-offset-2">
                     <button type="submit" class="btn btn-success" name="change_admin_password" {if $is_online_demo}disabled{/if}>{t}Passwort ändern{/t}</button>
                 </div>
@@ -460,39 +464,37 @@
             <i class="fa fa-server" aria-hidden="true"></i>
             {t}Server{/t}
         </div>
-        <div class="panel-body">
-            <table width="" class="table table-condensed">
-                <thead>
-                <tr>
-                    <th>{t}Eigenschaft{/t}</th>
-                    <th>{t}Wert{/t}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td><b>{t}PHP-Version:{/t}</b></td>
-                    <td>{$php_version}</td>
-                </tr>
-                <tr>
-                    <td><b>{t}.htaccess funktioniert:{/t}</b></td>
-                    <td>{if $htaccess_works}<span class="text-success">{t}ja{/t}</span>{else}
-                            <span class="text-danger font-weight-bold">{t}nein{/t}</span>{/if}</td>
-                </tr>
-                <tr>
-                    <td><b>{t}Verbindung benutzt HTTPS:{/t}</b></td>
-                    <td>{if $using_https}<span class="text-success">{t}ja{/t}</span>{else}
-                            <span class="text-danger font-weight-bold">{t}nein{/t}</span>{/if}</td>
-                </tr>
-                <tr>
-                    <td><b>{t}Max. Input Vars:{/t}</b></td>
-                    <td>{$max_input_vars}</td>
-                </tr>
-                <tr>
-                    <td><b>{t}Maximale Dateigröße beim Upload:{/t}</b></td>
-                    <td>{$max_upload_filesize}B</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <table width="" class="table table-condensed">
+            <thead>
+            <tr>
+                <th>{t}Eigenschaft{/t}</th>
+                <th>{t}Wert{/t}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><b>{t}PHP-Version:{/t}</b></td>
+                <td>{$php_version}</td>
+            </tr>
+            <tr>
+                <td><b>{t}.htaccess funktioniert:{/t}</b></td>
+                <td>{if $htaccess_works}<span class="text-success">{t}ja{/t}</span>{else}
+                        <span class="text-danger font-weight-bold">{t}nein{/t}</span>{/if}</td>
+            </tr>
+            <tr>
+                <td><b>{t}Verbindung benutzt HTTPS:{/t}</b></td>
+                <td>{if $using_https}<span class="text-success">{t}ja{/t}</span>{else}
+                        <span class="text-danger font-weight-bold">{t}nein{/t}</span>{/if}</td>
+            </tr>
+            <tr>
+                <td><b>{t}Max. Input Vars:{/t}</b></td>
+                <td>{$max_input_vars}</td>
+            </tr>
+            <tr>
+                <td><b>{t}Maximale Dateigröße beim Upload:{/t}</b></td>
+                <td>{$max_upload_filesize}B</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 {/if}
