@@ -120,6 +120,7 @@
                                     <option value="top" {if $others_panel_position == "top"}selected{/if}>{t}Oben{/t}</option>
                                     <option value="bottom" {if $others_panel_position == "bottom"}selected{/if}>{t}Unten{/t}</option>
                                     <option value="both" {if $others_panel_position == "both"}selected{/if}>{t}Oben und Unten{/t}</option>
+                                    <option value="" {if $others_panel_position == ""}selected{/if}>{t}Nicht anzeigen{/t}</option>
                                 </select>
                             </div>
                         </div>
