@@ -36,7 +36,7 @@ include_once(BASE.'/updates/db_migration_functions.php');
  *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
  */
 
-define('LATEST_DB_VERSION', 21);  // <-- increment here
+define('LATEST_DB_VERSION', 22);  // <-- increment here
 
 /*
  * Get update steps
@@ -865,7 +865,6 @@ EOD;
             break;
 
         case 20:
-
             //Allow users to change some settings.
             $updateSteps[] = 'ALTER TABLE `users` ' .
                 "ADD `config_language` TINYTEXT NULL DEFAULT NULL after `group_id`, ".
@@ -917,6 +916,11 @@ EOD;
                           "ADD INDEX `favorite` (`favorite`);";
 
             break;
+
+        case 21:
+            $updateSteps[] = "ALTER TABLE `attachements` " .
+                "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
+        break;
 
         /*
         

@@ -2,22 +2,26 @@
 
 {include "../smarty_breadcrumb.tpl"}
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        {t}Sonstiges{/t}
-    </div>
-    <div class="panel-body">
-        <form action="" method="post" class="form-horizontal no-progbar">
-            <input type="hidden" name="mid" value="{$mid}">
-            <input type="hidden" name="subman" value="{if $with_submanufacturers}0{else}1{/if}">
-            <div class="form-group">
-                <div class="col-md-10">
-                    <button type="submit" class="btn btn-default {if $with_submanufacturers}active{/if}" name="subman_button" >{t}Unterhersteller einblenden{/t}</button>
+{if $other_panel_position == "top" || $other_panel_position == "both"}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other">
+                {t}Sonstiges{/t}
+            </a>
+        </div>
+        <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other">
+            <form action="" method="post" class="form-horizontal no-progbar">
+                <input type="hidden" name="mid" value="{$mid}">
+                <input type="hidden" name="subman" value="{if $with_submanufacturers}0{else}1{/if}">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <button type="submit" class="btn btn-default {if $with_submanufacturers}active{/if}" name="subman_button" >{t}Unterhersteller einblenden{/t}</button>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
+{/if}
 
 <form method="get">
     <input type="hidden" name="mid" value="{$mid}">
@@ -38,7 +42,7 @@
         <input type="hidden" name="table_rowcount" value="{$table_rowcount}">
         <input type="hidden" name="limit" value="{$limit}">
         <input type="hidden" name="page" value="{$page}">
-           {include file='../smarty_table.tpl' table_selectable=true}
+        {include file='../smarty_table.tpl' table_selectable=true}
     </form>
 </div>
 
@@ -49,3 +53,24 @@
 
     {include "../smarty_pagination.tpl"}
 </form>
+
+{if $other_panel_position == "bottom" || $other_panel_position == "both"}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other2">
+                {t}Sonstiges{/t}
+            </a>
+        </div>
+        <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other2">
+            <form action="" method="post" class="form-horizontal no-progbar">
+                <input type="hidden" name="mid" value="{$mid}">
+                <input type="hidden" name="subman" value="{if $with_submanufacturers}0{else}1{/if}">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <button type="submit" class="btn btn-default {if $with_submanufacturers}active{/if}" name="subman_button" >{t}Unterhersteller einblenden{/t}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{/if}

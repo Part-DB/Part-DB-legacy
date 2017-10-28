@@ -2,11 +2,14 @@
 
 {include "../smarty_breadcrumb.tpl"}
 
+{if $other_panel_position == "top" || $other_panel_position == "both"}
 <div class="panel panel-primary">
     <div class="panel-heading">
-        {t}Sonstiges{/t}
+        <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other">
+            {t}Sonstiges{/t}
+        </a>
     </div>
-    <div class="panel-body">
+    <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other">
         <form action="" method="post" class="form-horizontal no-progbar">
             <input type="hidden" name="sid" value="{$sid}">
             <input type="hidden" name="subsup" value="{if $with_subsuppliers}0{else}1{/if}">
@@ -18,6 +21,7 @@
         </form>
     </div>
 </div>
+{/if}
 
 <form method="get">
     <input type="hidden" name="sid" value="{$sid}">
@@ -49,3 +53,24 @@
 
     {include "../smarty_pagination.tpl"}
 </form>
+
+{if $other_panel_position == "bottom" || $other_panel_position == "both"}
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other2">
+                {t}Sonstiges{/t}
+            </a>
+        </div>
+        <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other2">
+            <form action="" method="post" class="form-horizontal no-progbar">
+                <input type="hidden" name="sid" value="{$sid}">
+                <input type="hidden" name="subsup" value="{if $with_subsuppliers}0{else}1{/if}">
+                <div class="form-group">
+                    <div class="col-md-10">
+                        <button type="submit" class="btn btn-default {if $with_subsuppliers}active{/if}" name="subsup_button">{t}Unterlieferanten einblenden{/t}</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+{/if}

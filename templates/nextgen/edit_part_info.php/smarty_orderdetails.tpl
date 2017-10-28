@@ -1,7 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default" >
     <div class="panel-heading">
-        <i class="fa fa-shopping-cart" aria-hidden="true"></i> 
+        <i class="fa fa-shopping-cart fa-fw" aria-hidden="true"></i>
         {t}Einkaufsinformationen{/t}
     </div>
     <form action="{$relative_path}edit_part_info.php" method="post" class="table-responsive no-progbar" id="orderdetails">

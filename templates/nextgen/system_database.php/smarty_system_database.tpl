@@ -10,39 +10,40 @@
 {if !$hide_status && $can_status}
     <div class="panel panel-default">
         <div class="panel-heading">
-            <i class="fa fa-info-circle" aria-hidden="true"></i>
+            <i class="fa fa-info-circle fa-fw" aria-hidden="true"></i>
             {t}Datenbank Status / Update{/t}
         </div>
-        <div class="panel-body">
-            <form action="" method="post" class="form-horizontal no-progbar">
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>Eigenschaft</th>
-                        <th>Wert</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>
-                            {t}Aktuelle Version:{/t}
-                        </td>
-                        <td>
-                            {$current_version}
-                        </td>
-                    </tr>
 
-                    <tr>
-                        <td>
-                            {t}Benötigte Version:{/t}
-                        </td>
-                        <td>
-                            {$latest_version}
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
+        <form action="" method="post" class="form-horizontal no-progbar">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th>Eigenschaft</th>
+                    <th>Wert</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>
+                        {t}Aktuelle Version:{/t}
+                    </td>
+                    <td>
+                        {$current_version}
+                    </td>
+                </tr>
 
+                <tr>
+                    <td>
+                        {t}Benötigte Version:{/t}
+                    </td>
+                    <td>
+                        {$latest_version}
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <div class="panel-body" style="padding-top: 0;">
                 {if isset($update_required) && $update_required}
                     <strong><span style="color: red; ">{t}Die Datenbank benötigt ein Update!{/t}</span></strong><br>
                     {if $last_update_failed}
@@ -65,16 +66,16 @@
                 {else}
                     <span style="color: darkgreen; ">{t}Die Datenbank ist auf dem neusten Stand.{/t}</span>
                 {/if}
+            </div>
+        </form>
 
-            </form>
-        </div>
     </div>
 {/if}
 
 {if $can_read_db_settings}
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <i class="fa fa-database" aria-hidden="true"></i>
+            <i class="fa fa-database fa-fw" aria-hidden="true"></i>
             {t}Datenbank-Einstellungen{/t}
         </div>
         <div class="panel-body">
@@ -145,7 +146,8 @@
                 <hr>
 
                 <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-9">
+                    <label class="col-sm-3 control-label">{t}Datenbankoptionen:{/t}</label>
+                    <div class="col-sm-9">
                         <div class="checkbox">
                             <input type="checkbox" name="automatic_updates_enabled"
                                     {if $automatic_updates_enabled} checked{/if} {if !$can_edit_db_settings}disabled{/if}>
@@ -155,7 +157,7 @@
                 </div>
 
                 <div class="form-group">
-                    <div class="col-sm-offset-3 col-sm-9">
+                    <div class="col-sm-9 col-sm-offset-3">
                         <button class="btn btn-success" type="submit" name="apply_auto_updates" {if !$can_edit_db_settings}disabled{/if}>
                             {t}Übernehmen{/t}</button>
                     </div>

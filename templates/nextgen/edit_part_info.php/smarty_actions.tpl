@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
-    <div class="panel-heading"><i class="fa fa-bolt" aria-hidden="true"></i>
+    <div class="panel-heading"><i class="fa fa-bolt fa-fw" aria-hidden="true"></i>
         {t}Aktionen{/t}
     </div>
     <div class="panel-body">    

@@ -2,7 +2,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">{t}Unterbaugruppen von{/t} "{$device_name}"</div>
     <form method="post" class="no-progbar">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover table-condensed vertical-align-table">
             <thead>
                 <tr class="">
                     <th>{t}Name{/t}</th>
@@ -39,7 +39,7 @@
             </tbody>
         </table>
     </form>
-    <div class="panel-body">
+    <div class="panel-body" style="padding-top: 0;">
         <b>{t}Alle Angaben betreffen nur die jeweilige Baugruppe, deren evtl. vorhandenen Unterbaugruppen werden nicht berücksichtigt!{/t}</b>
         <p>{t}Mit den Radiobuttons lassen sich die Primäre Baugruppe auswählen. Diese wird standardmäßig verwendet, wenn auf der Übersichtsseite eines Bauteils, das Bauteil einer Baugruppe hinzugefügt wird.{/t}</p>
     </div>

@@ -1,11 +1,11 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-primary">
-    <div class="panel-heading"><i class="fa fa-heartbeat" aria-hidden="true"></i> {t}Sonstiges{/t}</div>
+    <div class="panel-heading"><i class="fa fa-heartbeat fa-fw" aria-hidden="true"></i> {t}Sonstiges{/t}</div>
     <div class="panel-body">
         <form action="" method="post">
-            {t}Teile ohne Einkaufsinformationen:{/t}
+
             <input type="hidden" name="show_no_orderdetails_parts" value="{if $show_no_orderdetails_parts}0{else}1{/if}">
-            <button class="btn btn-default" type="submit" name="change_show_no_orderdetails">{if $show_no_orderdetails_parts}{t}ausblenden{/t}{else}{t}einblenden{/t}{/if}</button>
+            <button class="btn btn-default {if $show_no_orderdetails_parts}active{/if}" type="submit" name="change_show_no_orderdetails">{t}Teile ohne Einkaufsinformationen einblenden{/t}</button>
         </form>
     </div>
 </div>

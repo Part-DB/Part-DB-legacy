@@ -191,7 +191,9 @@ if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
                 }
             }
 
-            $rss_loop[] = array('title' => $entry->title, 'datetime' => $entry->updated, 'link' => $link);
+            $dto = DateTime::createFromFormat(DateTime::ATOM, $entry->updated);
+
+            $rss_loop[] = array('title' => $entry->title, 'datetime' => formatTimestamp($dto->getTimestamp()), 'link' => $link);
             $item_index++;
         }
     } catch (Exception $e) {

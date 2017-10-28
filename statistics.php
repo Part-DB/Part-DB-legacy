@@ -87,6 +87,7 @@ if (! $fatal_error) {
 
         $html->setVariable('footprint_picture_count', count(findAllFiles(BASE.'/img/footprints/', true)), 'integer');
         $html->setVariable('iclogos_picture_count', count(findAllFiles(BASE.'/img/iclogos/', true)), 'integer');
+        $html->setVariable('footprint_models_count', count(findAllFiles(BASE.'/models/', true)));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
