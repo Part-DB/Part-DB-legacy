@@ -479,6 +479,7 @@ let ajaxui : AjaxUI = AjaxUI.getInstance();
 $(function(event){
 
     ajaxui.addStartAction(addCollapsedClass);
+    ajaxui.addStartAction(fixSelectPaginationHeight);
     ajaxui.addStartAction(treeviewBtnInit);
     ajaxui.addStartAction(registerJumpToTop);
     ajaxui.addStartAction(fixCurrencyEdits);
@@ -487,9 +488,9 @@ $(function(event){
     ajaxui.addStartAction(rightClickSubmit);
     ajaxui.addStartAction(makeTriStateCheckbox);
     ajaxui.addStartAction(makeHighlight);
-
-
+    
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
+    ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
@@ -501,6 +502,7 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(rightClickSubmit);
     ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
     ajaxui.addAjaxCompleteAction(makeHighlight);
+
 
     ajaxui.start();
 });
@@ -694,6 +696,10 @@ function registerAutoRefresh() {
     {
         window.setTimeout(reloadPage, val);
     }
+}
+
+function fixSelectPaginationHeight() {
+    $('.pagination>li>select').css('height', parseInt($('.pagination').css("height")));
 }
 
 /**

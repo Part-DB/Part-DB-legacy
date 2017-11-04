@@ -2,11 +2,15 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <i class="fa fa-file" aria-hidden="true"></i>
+        <i class="fa fa-file fa-fw" aria-hidden="true"></i>
         {t}Dateianhänge{/t}
     </div>
     <div class="panel-body">
-        {foreach $attachements_loop as $attach}
+        {foreach from=$attachements_loop item=attach key=attach_n}
+            {if $attach_n > 0}
+                <hr>
+            {/if}
+
             <div class="row">
                 <form action="{$relative_path}edit_part_info.php" method="post" enctype="multipart/form-data" class="no-progbar" id="attachements">
                     <div class="col-sm-2">
@@ -101,7 +105,6 @@
                     </div>
                 </form>
             </div>
-            <hr>
         {/foreach}
     </div>
 </div>

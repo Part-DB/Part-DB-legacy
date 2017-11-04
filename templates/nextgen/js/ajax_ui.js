@@ -381,6 +381,7 @@ var ajaxui = AjaxUI.getInstance();
  */
 $(function (event) {
     ajaxui.addStartAction(addCollapsedClass);
+    ajaxui.addStartAction(fixSelectPaginationHeight);
     ajaxui.addStartAction(treeviewBtnInit);
     ajaxui.addStartAction(registerJumpToTop);
     ajaxui.addStartAction(fixCurrencyEdits);
@@ -390,6 +391,7 @@ $(function (event) {
     ajaxui.addStartAction(makeTriStateCheckbox);
     ajaxui.addStartAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
+    ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
@@ -573,6 +575,9 @@ function registerAutoRefresh() {
     if (val > 0) {
         window.setTimeout(reloadPage, val);
     }
+}
+function fixSelectPaginationHeight() {
+    $('.pagination>li>select').css('height', parseInt($('.pagination').css("height")));
 }
 /**
  * Close the #searchbar div, when a search was submitted on mobile view.

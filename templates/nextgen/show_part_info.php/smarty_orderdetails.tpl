@@ -86,7 +86,7 @@
     {else}
         <div class="panel-body panel-collapse collapse in" id="panel-orderdetails">
             <!-- This a have not to have link-anchor class -->
-            {t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}
+            <span class="help-block" style="display: inline;">{t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}</span>
             <a class="btn btn-default pull-right hidden-print"
                href="edit_part_info.php?pid={$pid}#orderdetails"
                {if !$can_orderdetails_create}disabled{/if}>

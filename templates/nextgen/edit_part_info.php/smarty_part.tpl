@@ -9,18 +9,17 @@
             $("#instock").val("0");
         }
     }
-    //checkInstockUnknown();
 </script>
 
 
 <div class="panel {if $is_new_part}panel-success{else}panel-default{/if}">
     <div class="panel-heading">
             {if !$is_new_part}
-                <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                <i class="fa fa-pencil-square-o fa-fw" aria-hidden="true"></i>
                 {t}Ändere Detailinfos von{/t} <b><a href="{$relative_path}show_part_info.php?pid={$pid}">{$name}</a></b>
                 
-                <div style="float: right; display: inline;">
-                    {t}ID:{/t} {$pid}
+                <div class="pull-right-md pull-right-lg pull-right-sm">
+                    <span>{t}ID:{/t} {$pid}</span>
                 </div>
             {else}
                 <i class="fa fa-plus-square" aria-hidden="true"></i>
