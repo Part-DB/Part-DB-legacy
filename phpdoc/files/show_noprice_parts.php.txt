@@ -36,13 +36,16 @@ use PartDB\User;
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
+$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+
 /********************************************************************************
  *
  *   Initialize Objects
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Teile ohne Preis');
+$html = new HTML($config['html']['theme'], $user_config['theme'], 'Teile ohne Preis');
 
 try {
     $database           = new Database();
@@ -63,10 +66,14 @@ try {
 
 if (! $fatal_error) {
     try {
-        $parts = Part::getNoPriceParts($database, $current_user, $log);
+        $parts = Part::getNoPriceParts($database, $current_user, $log, $limit, $page);
         $table_loop = Part::buildTemplateTableArray($parts, 'noprice_parts');
         $html->setLoop('table', $table_loop);
         $html->setVariable('table_rowcount', count($parts));
+
+        $html->setLoop("pagination", generatePagination("show_noprice_parts.php?", $page, $limit, Part::getNoPricePartsCount($database, $current_user, $log)));
+        $html->setVariable("page", $page);
+        $html->setVariable('limit', $limit);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

@@ -133,7 +133,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception("Das Element \"".$this->getName()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
+            throw new Exception(sprintf(_("Das Element \"%s\" konnte nicht gelöscht werden!"), $this->getName()) . "\n" . _("Grund: ").$e->getMessage());
         }
     }
 
@@ -158,12 +158,16 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      *                                              @li example: "id_manufacturer", "id_category", ...
      * @param boolean   $recursive                  if true, the parts of all subelements will be listed too
      * @param boolean   $hide_obsolete_and_zero     if true, obsolete parts with "instock == 0" will not be returned
+     * @param int       $limit                      Limit the number of results, to this value.
+     *                                              If set to 0, then the results are not limited.
+     * @param int       $page                       Show the results of the page with given number.
+     *                                              Use in combination with $limit.
      *
      * @return  Part[]   all parts as a one-dimensional array of Part objects
      *
      * @throws Exception if there was an error
      */
-    public function getTableParts($parts_rowname, $recursive = false, $hide_obsolete_and_zero = false)
+    protected function getTableParts($parts_rowname, $recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
     {
         $this->current_user->tryDo(static::getPermissionName(), PartContainingPermission::LIST_PARTS);
 
@@ -192,10 +196,13 @@ abstract class PartsContainingDBElement extends StructuralDBElement
                 $vals[] = $element->getID();
             }
 
-
-
             $query = $query.
                 ' ORDER BY name, description';
+
+            if ($limit > 0 && $page > 0) {
+                $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+            }
+
             //$query_data = $this->database->query($query);
             $query_data = $this->database->query($query, $vals);
 
@@ -219,7 +226,54 @@ abstract class PartsContainingDBElement extends StructuralDBElement
         return $parts;
     }
 
-    public abstract function getParts($recursive = false, $hide_obsolete_and_zero = false);
+    /**
+     *  Get all parts from this element
+     *
+     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
+     * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
+     * @param int       $limit                      Limit the number of results, to this value.
+     *                                              If set to 0, then the results are not limited.
+     * @param int       $page                       Show the results of the page with given number.
+     *                                              Use in combination with $limit.
+     *
+     * @return array        all parts as a one-dimensional array of Part-objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    abstract public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1);
+
+    /**
+     * Return the number of all parts in this PartsContainingDBElement
+     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
+     * @return int The number of parts of this PartContainingDBElement
+     */
+    abstract public function getPartsCount($recursive = false);
+
+    protected function getPartsCountInternal($recursive, $rowname)
+    {
+        $this->current_user->tryDo(static::getPermissionName(), PartContainingPermission::LIST_PARTS);
+
+        $subelements = array();
+
+        if ($recursive) {
+            $subelements = $this->getSubelements(true);
+        }
+
+        $query = 'SELECT count(id) AS count FROM parts WHERE '.$rowname.'=?';
+        $vals = array($this->getID());
+
+        foreach ($subelements as $element) {
+            $query = $query . " OR ".$rowname."=?";
+            $vals[] = $element->getID();
+        }
+
+        $query = $query.
+            ' ORDER BY name, description';
+
+        $query_data = $this->database->query($query, $vals);
+
+        return $query_data[0]['count'];
+    }
 
     /**
      * Compare function for "usort()"

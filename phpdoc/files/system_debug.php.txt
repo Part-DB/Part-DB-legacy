@@ -80,7 +80,7 @@ if ($config['debug']['enable'] && (count($errors) == 0) && (! isset($_REQUEST['s
 
 
 //Fill template with values
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], "Debugging");
+$html = new HTML($config['html']['theme'], $user_config['theme'], "Debugging");
 
 $html->setVariable("debug_enable", $config['debug']['enable'], "boolean");
 $html->setVariable("autorefresh", $autorefresh, "boolean");

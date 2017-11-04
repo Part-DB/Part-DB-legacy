@@ -376,14 +376,28 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      *
      * @param boolean $recursive                if true, the parts of all subcategories will be listed too
      * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
+     * @param int       $limit                      Limit the number of results, to this value.
+     *                                              If set to 0, then the results are not limited.
+     * @param int       $page                       Show the results of the page with given number.
+     *                                              Use in combination with $limit.
      *
      * @return array        all parts as a one-dimensional array of Part-objects, sorted by their names
      *
      * @throws Exception if there was an error
      */
-    public function getParts($recursive = false, $hide_obsolete_and_zero = false)
+    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
     {
-        return parent::getTableParts('id_category', $recursive, $hide_obsolete_and_zero);
+        return parent::getTableParts('id_category', $recursive, $hide_obsolete_and_zero, $limit, $page);
+    }
+
+    /**
+     * Return the number of all parts in this PartsContainingDBElement
+     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
+     * @return int The number of parts of this PartContainingDBElement
+     */
+    public function getPartsCount($recursive = false)
+    {
+        return parent::getPartsCountInternal($recursive, 'id_category');
     }
 
     /********************************************************************************
@@ -550,7 +564,8 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
         $disable_autodatasheets = false,
         $disable_properties = false,
         $default_description = "",
-        $default_comment = ""
+        $default_comment = "",
+        $comment = ""
     ) {
         return parent::addByArray(
             $database,
@@ -564,7 +579,8 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
                 'disable_autodatasheets'    => $disable_autodatasheets,
                 'disable_properties'        => $disable_properties,
                 'default_description'       => $default_description,
-                'default_comment'           => $default_comment)
+                'default_comment'           => $default_comment,
+                "comment"                   => $comment)
         );
     }
 

@@ -65,6 +65,7 @@ $new_email_address    = isset($_REQUEST['email_address'])    ? (string)$_REQUEST
 $new_website          = isset($_REQUEST['website'])          ? (string)$_REQUEST['website']          : '';
 $new_auto_product_url = isset($_REQUEST['auto_product_url']) ? (string)$_REQUEST['auto_product_url'] : '';
 $add_more             = isset($_REQUEST['add_more']);
+$new_comment                = isset($_REQUEST['comment'])       ? (string)$_REQUEST['comment']      : "";
 
 $action = 'default';
 if (isset($_REQUEST["add"])) {
@@ -86,7 +87,7 @@ if (isset($_REQUEST["apply"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Lieferanten'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Lieferanten'));
 
 try {
     $database           = new Database();
@@ -127,7 +128,8 @@ if (! $fatal_error) {
                     $new_fax_number,
                     $new_email_address,
                     $new_website,
-                    $new_auto_product_url
+                    $new_auto_product_url,
+                    $new_comment
                 );
 
                 if (! $add_more) {
@@ -195,7 +197,8 @@ if (! $fatal_error) {
                     'fax_number'       => $new_fax_number,
                     'email_address'    => $new_email_address,
                     'website'          => $new_website,
-                    'auto_product_url' => $new_auto_product_url));
+                    'auto_product_url' => $new_auto_product_url,
+                    "comment"          => $new_comment));
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: '.nl2br($e->getMessage())), 'color' => 'red');
@@ -224,14 +227,20 @@ if (! $fatal_error) {
             $html->setVariable('email_address', $selected_supplier->getEmailAddress(), 'string');
             $html->setVariable('website', $selected_supplier->getWebsite(), 'string');
             $html->setVariable('auto_product_url', $selected_supplier->getAutoProductUrl(null), 'string');
+            $comment = $selected_supplier->getComment(false);
+            $html->setVariable('datetime_added', $selected_supplier->getDatetimeAdded(true));
+            $html->setVariable('last_modified', $selected_supplier->getLastModified(true));
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
+            $comment = $new_comment;
         } else {
             $parent_id = 0;
+            $comment = "";
         }
 
         $supplier_list = $root_supplier->buildHtmlTree($selected_id, true, false);
         $html->setVariable('supplier_list', $supplier_list, 'string');
+        $html->setVariable('comment', $comment);
 
         $parent_supplier_list = $root_supplier->buildHtmlTree($parent_id, true, true);
         $html->setVariable('parent_supplier_list', $parent_supplier_list, 'string');

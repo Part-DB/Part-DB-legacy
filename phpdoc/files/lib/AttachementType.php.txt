@@ -137,7 +137,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      *
      * @see DBElement::add()
      */
-    public static function add(&$database, &$current_user, &$log, $name, $parent_id)
+    public static function add(&$database, &$current_user, &$log, $name, $parent_id, $comment = "")
     {
         return parent::addByArray(
             $database,
@@ -145,7 +145,8 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
             $log,
             'attachement_types',
             array(  'name'              => $name,
-                    'parent_id'         => $parent_id)
+                    'parent_id'         => $parent_id,
+                    "comment"   => $comment)
         );
     }
 

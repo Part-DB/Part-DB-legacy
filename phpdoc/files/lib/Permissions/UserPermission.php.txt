@@ -1,10 +1,23 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: janhb
- * Date: 20.09.2017
- * Time: 20:23
- */
+/*
+    Part-DB Version 0.4+ "nextgen"
+    Copyright (C) 2017 Jan Böhmer
+    https://github.com/jbtronics
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+*/
 
 namespace PartDB\Permissions;
 
@@ -21,6 +34,7 @@ class UserPermission extends BasePermission
     const DELETE = "delete";
     const EDIT_PERMISSIONS = "edit_permissions";
     const SET_PASSWORD   = "set_password";
+    const CHANGE_USER_SETTINGS = "change_user_settings";
 
     /**
      * Returns an array of all available operations for this Permission.
@@ -41,6 +55,7 @@ class UserPermission extends BasePermission
         $operations[] = static::buildOperationArray(10, static::EDIT_INFOS, _("Informationen ändern"));
         $operations[] = static::buildOperationArray(12, static::EDIT_PERMISSIONS, _("Berechtigungen ändern"));
         $operations[] = static::buildOperationArray(14, static::SET_PASSWORD, _("Password setzen"));
+        $operations[] = static::buildOperationArray(16, static::CHANGE_USER_SETTINGS, _("Benutzereinstellungen ändern"));
 
         return $operations;
     }

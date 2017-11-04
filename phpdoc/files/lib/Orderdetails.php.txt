@@ -147,7 +147,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception("Die Einkaufsinformationen konnten nicht gelöscht werden!\nGrund: " . $e->getMessage());
+            throw new Exception(_("Die Einkaufsinformationen konnten nicht gelöscht werden!\n") . _("Grund: ") . $e->getMessage());
         }
     }
 
@@ -318,7 +318,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
         }
 
         if ((! isset($correct_pricedetails)) || (! is_object($correct_pricedetails))) {
-            throw new Exception('Es sind keine Preisinformationen für die angegebene Bestellmenge vorhanden!');
+            throw new Exception(_('Es sind keine Preisinformationen für die angegebene Bestellmenge vorhanden!'));
         }
 
         if ($multiplier === null) {
@@ -401,7 +401,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
                 __LINE__,
                 __METHOD__
             );
-            throw new Exception('Das gewählte Bauteil existiert nicht!');
+            throw new Exception(_('Das gewählte Bauteil existiert nicht!'));
         }
 
         // check "id_supplier"
@@ -420,7 +420,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
                 __LINE__,
                 __METHOD__
             );
-            throw new Exception('Der gewählte Lieferant existiert nicht!');
+            throw new Exception(_('Der gewählte Lieferant existiert nicht!'));
         }
     }
 

@@ -203,7 +203,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * Returns the comment field of this group.
      * @return string The comment of this group.
      */
-    public function getComment()
+    public function getComment($parse_bbcode = true)
     {
         if (!$this->current_user->canDo(PermissionManager::GROUPS, GroupPermission::READ)) {
             return "???";

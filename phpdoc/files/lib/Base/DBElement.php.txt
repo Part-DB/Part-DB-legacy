@@ -118,7 +118,7 @@ abstract class DBElement
         $this->tablename = $tablename;
 
         if (((! is_int($id)) && (! ctype_digit($id)) && (! is_null($id))) || (($id == 0) && (! $allow_virtual_elements))) {
-            throw new Exception('$id ist keine gültige ID! $id="'.$id.'"');
+            throw new Exception(sprintf( '$id ist keine gültige ID! $id="%d"', $id));
         }
 
         // get all data of the database record with the ID "$id"
@@ -184,7 +184,7 @@ abstract class DBElement
     public function delete()
     {
         if ($this->getID() < 1) { // is this object a valid element from the database?
-            throw new Exception('Die ID ist kleiner als 1, das darf nicht vorkommen!');
+            throw new Exception(_('Die ID ist kleiner als 1, dies ist nicht erlaubt!'));
         }
 
         $this->database->deleteRecord($this->tablename, $this->getID());
@@ -244,12 +244,12 @@ abstract class DBElement
     public function setAttributes($new_values)
     {
         if ($this->getID() < 1) {
-            throw new Exception('Das ausgewählte Element existiert nicht in der Datenbank!');
+            throw new Exception(_('Das ausgewählte Element existiert nicht in der Datenbank!'));
         }
 
         if (! is_array($new_values)) {
-            debug('error', 'Ungültiger Inhalt von $new_values: "'.$new_values.'"', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$new_values ist kein Array!');
+            debug('error', sprintf(_('Ungültiger Inhalt von $new_values: "%s"', $new_values), __FILE__, __LINE__, __METHOD__));
+            throw new Exception(_('$new_values ist kein Array!'));
         }
 
         // We create an array of all database data.
@@ -320,13 +320,13 @@ abstract class DBElement
         // YOU HAVE TO IMPLEMENT THIS METHOD IN YOUR SUBCLASSES IF YOU WANT TO CHECK NEW VALUES !!
 
         if (! is_array($values)) {
-            debug('error', '$values ist kein Array: "'.$values.'"', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$values ist kein Array!');
+            debug('error', sprintf(_('$values ist kein Array: "%s"'), $values), __FILE__, __LINE__, __METHOD__);
+            throw new Exception(_('$values ist kein Array!'));
         }
 
         if ((! $is_new) && (! is_object($element))) {
             debug('error', '$element="'.$element.'"', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('$element ist kein Objekt!');
+            throw new Exception(_('$element ist kein Objekt!'));
         }
     }
 
@@ -373,7 +373,7 @@ abstract class DBElement
         }
 
         if (! $database->doesTableExist($tablename)) {
-            throw new Exception('Die Tabelle "'.$tablename.'" existiert nicht!');
+            throw new Exception(sprintf(_('Die Tabelle "%s" existiert nicht!'), $tablename));
         }
 
         // we check if the new data is valid
@@ -390,7 +390,7 @@ abstract class DBElement
         $id = $database->execute($query, $new_values);
 
         if ($id == null) {
-            throw new Exception('Der Datenbankeintrag konnte nicht angelegt werden.');
+            throw new Exception(_('Der Datenbankeintrag konnte nicht angelegt werden.'));
         }
 
         $class = get_called_class();

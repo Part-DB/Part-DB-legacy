@@ -123,8 +123,8 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
             $all_pricedetails = $orderdetails->getPricedetails();
 
             if (count($all_pricedetails) > 1) {
-                throw new Exception('Die ausgewählte Preisinformation kann erst gelöscht werden '.
-                    'wenn es sonst keine weiteren Preisinformationen gibt!');
+                throw new Exception(_('Die ausgewählte Preisinformation kann erst gelöscht werden '.
+                    'wenn es sonst keine weiteren Preisinformationen gibt!'));
             }
         }
 
@@ -286,8 +286,9 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *********************************************************************************/
 
     /**
-     * @copydoc DBElement::check_values_validity()
+     * @copydoc PartDB\DBElement::check_values_validity()
      * @param Pricedetails $element
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -312,7 +313,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
                 __LINE__,
                 __METHOD__
             );
-            throw new Exception('Die gewählten Einkaufsinformationen existieren nicht!');
+            throw new Exception(_('Die gewählten Einkaufsinformationen existieren nicht!'));
         }
 
         // check "price"
@@ -325,7 +326,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
                 __METHOD__
             );
 
-            throw new Exception('Der neue Preis ist ungültig!');
+            throw new Exception(_('Der neue Preis ist ungültig!'));
         }
 
         // check "price_related_quantity"
@@ -338,7 +339,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
                 __LINE__,
                 __METHOD__
             );
-            throw new Exception('Die Preisbezogene Menge ist ungültig!');
+            throw new Exception(_('Die Preisbezogene Menge ist ungültig!'));
         }
 
         // check "min_discount_quantity"
@@ -351,7 +352,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
                 __LINE__,
                 __METHOD__
             );
-            throw new Exception('Die Mengenrabatt-Menge ist ungültig!');
+            throw new Exception(_('Die Mengenrabatt-Menge ist ungültig!'));
         }
 
         // search for pricedetails with the same "min_discount_quantity"
@@ -366,22 +367,22 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
         if ($is_new) {
             // first pricedetails, but "min_discount_quantity" != 1 ?
             if ((count($all_pricedetails) == 0) && ($values['min_discount_quantity'] != 1)) {
-                throw new Exception('Die Mengenrabatt-Menge muss bei der ersten Preisangabe "1" sein!');
+                throw new Exception(_('Die Mengenrabatt-Menge muss bei der ersten Preisangabe "1" sein!'));
             }
 
             // is there already a pricedetails with the same "min_discount_quantity" ?
             if ($same_min_discount_quantity_count > 0) {
-                throw new Exception('Es existiert bereits eine Preisangabe für die selbe Mengenrabatt-Menge!');
+                throw new Exception(_('Es existiert bereits eine Preisangabe für die selbe Mengenrabatt-Menge!'));
             }
         } elseif ($values['min_discount_quantity'] != $element->getMinDiscountQuantity()) {
             // does the user try to change the "min_discount_quantity", but it is "1" ?
             if ($element->getMinDiscountQuantity() == 1) {
-                throw new Exception('Die Mengenrabatt-Menge beim Preis für ein Bauteil kann nicht verändert werden!');
+                throw new Exception(_('Die Mengenrabatt-Menge beim Preis für ein Bauteil kann nicht verändert werden!'));
             }
 
             // change the "min_discount_quantity" to a already existing value?
             if ($same_min_discount_quantity_count > 0) {
-                throw new Exception('Es existiert bereits eine Preisangabe mit der selben Mengenrabatt-Menge!');
+                throw new Exception(_('Es existiert bereits eine Preisangabe mit der selben Mengenrabatt-Menge!'));
             }
         }
     }

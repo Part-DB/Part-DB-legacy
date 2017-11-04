@@ -83,6 +83,38 @@ abstract class NamedDBElement extends DBElement
         return strip_tags($this->db_data['name']);
     }
 
+    /**
+     * Returns the last time when the element was modified.
+     * @param $formatted bool When true, the date gets formatted with the locale and timezone settings.
+     *          When false, the raw value from the DB is returned.
+     * @return string The time of the last edit.
+     */
+    public function getLastModified($formatted = true)
+    {
+        $time_str = $this->db_data['last_modified'];
+        if ($formatted) {
+            $timestamp = strtotime($time_str);
+            return formatTimestamp($timestamp);
+        }
+        return $time_str;
+    }
+
+    /**
+     * Returns the date/time when the element was created.
+     * @param $formatted bool When true, the date gets formatted with the locale and timezone settings.
+     *       When false, the raw value from the DB is returned.
+     * @return string The creation time of the part.
+     */
+    public function getDatetimeAdded($formatted = true)
+    {
+        $time_str = $this->db_data['datetime_added'];
+        if ($formatted) {
+            $timestamp = strtotime($time_str);
+            return formatTimestamp($timestamp);
+        }
+        return $time_str;
+    }
+
     /********************************************************************************
      *
      *   Setters
@@ -120,11 +152,14 @@ abstract class NamedDBElement extends DBElement
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
 
+        // set "last_modified" to current datetime
+        $values['last_modified'] = date('Y-m-d H:i:s');
+
         // we trim the name (spaces at the begin or at the end of a name are ugly, so we remove them)
         $values['name'] = trim($values['name']);
 
         if (empty($values['name'])) { // empty names are not allowed!
-            throw new Exception('Der neue Name ist leer, das ist nicht erlaubt!');
+            throw new Exception(_('Der neue Name ist leer, das ist nicht erlaubt!'));
         }
     }
 

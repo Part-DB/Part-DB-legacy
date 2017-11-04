@@ -116,8 +116,8 @@ class SystemVersion
             || ((! is_int($array[1])) && (! ctype_digit($array[1])))
             || ((! is_int($array[2])) && (! ctype_digit($array[2])))
             || ((! is_int($array[3])) && (! ctype_digit($array[3])))) {
-            debug('error', 'Fehlerhafte Version: "'.$version.'"', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('Es gab ein Fehler bei der Auswertung des Version-Strings!');
+            debug('error', sprintf(_('Fehlerhafte Version: "%s"', $version)), __FILE__, __LINE__, __METHOD__);
+            throw new Exception(_('Es gab ein Fehler bei der Auswertung des Version-Strings!'));
         }
 
         $this->major_version = $array[0];

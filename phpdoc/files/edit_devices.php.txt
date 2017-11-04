@@ -59,6 +59,7 @@ $selected_id                = isset($_REQUEST['selected_id'])   ? (integer)$_REQ
 $new_name                   = isset($_REQUEST['name'])          ? (string)$_REQUEST['name']         : '';
 $new_parent_id              = isset($_REQUEST['parent_id'])     ? (integer)$_REQUEST['parent_id']   : 0;
 $add_more                   = isset($_REQUEST['add_more']);
+$new_comment                = isset($_REQUEST['comment'])       ? (string)$_REQUEST['comment']      : "";
 
 $action = 'default';
 if (isset($_REQUEST["add"])) {
@@ -80,7 +81,7 @@ if (isset($_REQUEST["apply"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Baugruppen'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Baugruppen'));
 
 try {
     $database           = new Database();
@@ -110,7 +111,7 @@ if (! $fatal_error) {
     switch ($action) {
         case 'add':
             try {
-                $new_device = Device::add($database, $current_user, $log, $new_name, $new_parent_id);
+                $new_device = Device::add($database, $current_user, $log, $new_name, $new_parent_id, $new_comment);
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
 
@@ -174,7 +175,8 @@ if (! $fatal_error) {
                 }
 
                 $selected_device->setAttributes(array( 'name'                  => $new_name,
-                    'parent_id'             => $new_parent_id));
+                    'parent_id'             => $new_parent_id,
+                    "comment"               => $new_comment));
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
             } catch (Exception $e) {
@@ -198,16 +200,22 @@ if (! $fatal_error) {
         if (is_object($selected_device)) {
             $parent_id = $selected_device->getParentID();
             $html->setVariable('id', $selected_device->getID(), 'integer');
+            $comment = $selected_device->getComment(false);
+            $html->setVariable('datetime_added', $selected_device->getDatetimeAdded(true));
+            $html->setVariable('last_modified', $selected_device->getLastModified(true));
             $name = $selected_device->getName();
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
+            $comment = $new_comment;
         } else {
             $parent_id = 0;
             $name = '';
+            $comment = "";
         }
 
         $html->setVariable('name', $name, 'string');
+        $html->setVariable('comment', $comment);
 
         $device_list = $root_device->buildHtmlTree($selected_id, true, false);
         $html->setVariable('device_list', $device_list, 'string');

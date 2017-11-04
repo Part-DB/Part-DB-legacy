@@ -404,11 +404,14 @@ class Database
                         $this->pdo->rollback();
                     } catch (PDOException $e2) {
                     } // rollback last query, ignore exceptions
-                    debug('error', '$query="'.$query.'"', __FILE__, __LINE__, __METHOD__);
-                    debug('error', _('Fehlermeldung: "').$e->getMessage().'"', __FILE__, __LINE__, __METHOD__);
-                    $add_log(sprintf(_('Schritt: %s ...FEHLER!'), $query), true);
-                    $add_log(_('Fehlermeldung: ').$e->getMessage(), true);
-                    $error = true;
+                    //Ignore "Column already exists:" errors
+                    if (!strcontains($e->getMessage(), "Column already exists:")) {
+                        debug('error', '$query="' . $query . '"', __FILE__, __LINE__, __METHOD__);
+                        debug('error', _('Fehlermeldung: "') . $e->getMessage() . '"', __FILE__, __LINE__, __METHOD__);
+                        $add_log(sprintf(_('Schritt: %s ...FEHLER!'), $query), true);
+                        $add_log(_('Fehlermeldung: ') . $e->getMessage(), true);
+                        $error = true;
+                    }
                     break;
                 }
             }
@@ -873,7 +876,7 @@ class Database
             ' WHERE id=?', array($id), $fetch_style);
 
         if (count($query_data) == 0) {
-            throw new Exception('Es existiert kein Datensatz mit der ID "'.$id.'" in der Tabelle "'.$tablename.'"!');
+            throw new Exception(sprintf(_('Es existiert kein Datensatz mit der ID "%d" in der Tabelle "%s"!'), $id, $tablename));
         }
 
         return $query_data[0];

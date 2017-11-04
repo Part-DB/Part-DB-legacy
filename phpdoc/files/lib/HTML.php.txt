@@ -426,6 +426,8 @@ class HTML
         $tmpl->assign('manufacturers_disabled', $config['manufacturers']['disable']);
         $tmpl->assign('suppliers_disabled', $config['suppliers']['disable']);
 
+        $tmpl->assign('livesearch_active', $config['search']['livesearch']);
+
         //Only load X3D libraries if this is activated
         $tmpl->assign('foot3d_active', $config['foot3d']['active']);
 
