@@ -34,7 +34,8 @@
 
   "suggest": {
     "phpunit/phpunit": "Needed for unittests in development.",
-    "ext-intl": "Needed for localized datetime formatting."
+    "ext-intl": "Needed for localized datetime formatting.",
+    "ext-curl": "Needed for better downloads."
   },
 
   "repositories": [

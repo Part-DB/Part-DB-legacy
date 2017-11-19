@@ -21,7 +21,7 @@
 
         <br>
 
-        <form class="form-horizontal no-progbar" action="{$relative_path}edit_part_info.php" method="post">
+        <form class="form-horizontal no-progbar" action="{$relative_path}edit_part_info.php" method="get">
             <div class="form-group">
                 <label class="control-label col-sm-2">{t}Bauteil löschen:{/t}</label>
                 <input type="hidden" name="pid" value="{$pid}">

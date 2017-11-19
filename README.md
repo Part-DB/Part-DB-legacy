@@ -15,7 +15,7 @@ Part-DB ist eine webbasierte Datenbank zum Verwalten von Elektronischen Bauteile
 
  * Angabe von Lagerorten, Footprints, Kategorien, Lieferanten, Datenblattern, Preise, Bestellnummern, ...
  * Baugruppenverwaltung
- * Upload von Bauteil Bildern
+ * Upload von Bauteil Bildern und Dateianhängen
  * Automatische Anzeige von Footprintbildern
  * Statistik über das gesamte Lager
  * Auflistung von: "Zu bestellende Teile", "Teile ohne Preis" und "nicht mehr erhältliche Teile"
@@ -25,17 +25,19 @@ Part-DB ist eine webbasierte Datenbank zum Verwalten von Elektronischen Bauteile
  * Barcodegenerator und Scanfunktion für Barcodes
  * Verschiedene mitgelieferte Themes
  * 3D Footprints
- * Unterstützung von BBCode, in den Bauteilen
+ * Unterstützung von BBCode, in den Bauteilebeschreibungen und Kommentaren
  * Suche mittels regulärer Ausdrücke
  * Auflistung von Teilen in einem Lagerort, mit einem bestimmten Footprint oder einem bestimmten Hersteller
  * automatische Erzeugung einer Tabelle mit Bauteileigenschaften aus dem Beschreibungsfeld.
- * nutzt HTML5, mobile Ansicht
+ * nutzt HTML5, mobile Ansicht (responsive Design)
+ * Benutzersystem mit Unterstützung von Gruppen und feingranularem Berechtigungssystem
 
 ### Anforderungen
 
- * Webserver mit ca. 10MB Platz (ohne Footprints)
- * PHP >= 5.4.0, mit PDO und mbstring
- * MySQL/MariaDB Datenbank
+ * Webserver mit ca. 20MB Platz (ohne Footprints und 3D Modelle)
+ * PHP >= 5.4.0, mit PDO, mbstring und gettext (intl und curl empfohlen)
+ * MySQL/MariaDB Datenbank mit Speicherengine InnoDB
+ * Webbrowser mit Unterstützung von HTML5 und Javascript
 
 ### Lizenz
 Part-DB steht unter der [General Public License Version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.de.html).
