@@ -45,10 +45,10 @@
 
             <div class="panel-body" style="padding-top: 0;">
                 {if isset($update_required) && $update_required}
-                    <strong><span style="color: red; ">{t}Die Datenbank benötigt ein Update!{/t}</span></strong><br>
+                    <strong><span class="text-danger">{t}Die Datenbank benötigt ein Update!{/t}</span></strong><br>
                     {if $last_update_failed}
                         <br>
-                        <strong><span style="color: red; ">
+                        <strong><span class="text-danger">
                                         {t}ACHTUNG:{/t}<br>
                                 {t}Das letzte Update ist fehlgeschlagen. Sie können beliebig oft versuchen,
                                     das Update an der Stelle des letzten Abbruchs fortzusetzen.
@@ -64,7 +64,7 @@
                         <button class="btn btn-success" type="submit" name="make_update" {if !$can_update}disabled{/if}>{t}Jetzt Datenbank updaten{/t}</button>
                     {/if}
                 {else}
-                    <span style="color: darkgreen; ">{t}Die Datenbank ist auf dem neusten Stand.{/t}</span>
+                    <span class="text-success">{t}Die Datenbank ist auf dem neusten Stand.{/t}</span>
                 {/if}
             </div>
         </form>
