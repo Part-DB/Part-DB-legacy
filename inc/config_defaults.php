@@ -113,6 +113,7 @@ $config['popup']['height']                              = 800;
 // debug settings
 $config['debug']['enable']                              = false;
 $config['debug']['debugbar']                            = false;
+$config['debug']['debugbar_db']                         = false;  //Activate this option, if you want to show all DB requests in the DebugBar.
 $config['debug']['template_debugging_enable']           = false;
 $config['debug']['request_debugging_enable']            = false;
 

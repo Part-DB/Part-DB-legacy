@@ -23,6 +23,7 @@ namespace PartDB\Tools;
 
 use DebugBar\DataCollector\ConfigCollector;
 use DebugBar\DataCollector\PDO\PDOCollector;
+use DebugBar\DebugBarException;
 use DebugBar\StandardDebugBar;
 
 class PDBDebugBar
@@ -52,8 +53,16 @@ class PDBDebugBar
 
     public function registerPDO(&$pdo)
     {
-        if (!$this->debugbar->hasCollector("Database")) {
-            $this->debugbar->addCollector(new PDOCollector($pdo));
+        global $config;
+        //Check if database Debugging is active.
+        if ($config['debug']['debugbar_db']) {
+            try {
+                if (!$this->debugbar->hasCollector("Database")) {
+                    $this->debugbar->addCollector(new PDOCollector($pdo));
+                }
+            } catch (DebugBarException $ex) {
+                //Do nothing here. Ignore exception, caused of multiple addition of a collector.
+            }
         }
     }
 
