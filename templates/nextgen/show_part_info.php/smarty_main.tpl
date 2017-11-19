@@ -34,7 +34,7 @@
                         <label class="col-sm-3 control-label">{t}Beschreibung:{/t}</label>
                         <div class="col-sm-9">
                             <p class="form-control-static">
-                                {if isset($description)}{$description nofilter}{else}-{/if}
+                                {if isset($description) && !empty($description)}{$description nofilter}{else}-{/if}
                             </p>
                         </div>
                     </div>
