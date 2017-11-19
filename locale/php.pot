@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-10-28 17:54+0200\n"
+"POT-Creation-Date: 2017-11-19 14:54+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -608,19 +608,19 @@ msgstr ""
 msgid "Committer/Templates/Neue Funktionen"
 msgstr ""
 
-#: inc/config_defaults.php:134
+#: inc/config_defaults.php:135
 msgid "Part-DB Elektronische Bauteile-Datenbank"
 msgstr ""
 
-#: inc/config_defaults.php:268 inc/config_defaults.php:289
+#: inc/config_defaults.php:269 inc/config_defaults.php:290
 msgid "Standard 1 (mit den jeweils markierten Lieferanten)"
 msgstr ""
 
-#: inc/config_defaults.php:275 inc/config_defaults.php:294
+#: inc/config_defaults.php:276 inc/config_defaults.php:295
 msgid "Standard 2 (alle Teile mit allen Lieferanten)"
 msgstr ""
 
-#: inc/config_defaults.php:282
+#: inc/config_defaults.php:283
 msgid "Distrelec Online-Bestellung"
 msgstr ""
 
@@ -1945,10 +1945,6 @@ msgstr ""
 
 #: system_debug.php:51
 msgid "Die Log-Datei kann nicht gelesen werden!"
-msgstr ""
-
-#: tools_3d_footprints.php:30
-msgid "3D Footprints"
 msgstr ""
 
 #: tools_footprints.php:65
