@@ -27,6 +27,7 @@ img {
 
 .ring_red td:not(:empty) {
     background-color: red;
+    color: white;
 }
 
 .ring_orange td:not(:empty) {
