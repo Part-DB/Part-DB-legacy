@@ -12,212 +12,212 @@
             <form id="resistor4ring" name="resistor4ring">
                 <table class="table table-bordered table-condensed">
                     <thead>
-                        <tr>
-                            <th>{t}1. Ring{/t}</th>
-                            <th>{t}2. Ring{/t}</th>
-                            <th>{t}3. Ring{/t}</th>
-                            <th>{t}4. Ring{/t}</th>
-                        </tr>
+                    <tr>
+                        <th>{t}1. Ring{/t}</th>
+                        <th>{t}2. Ring{/t}</th>
+                        <th>{t}3. Ring{/t}</th>
+                        <th>{t}4. Ring{/t}</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr class="ring_none">
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="20" name="ring4" onclick="calculate4ring()"/>
-                        <label>{t}kein{/t}</label>
-                    </div></td>
-                        </tr>
-                        <tr class="ring_silver">
-                            <td></td>
-                            <td></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="-2" name="ring3" onclick="calculate4ring()"/>
-                        <label>{t}silber{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="10" name="ring4" onclick="calculate4ring()"/>
-                        <label>{t}silber{/t}</label>
-                    </div></td>
-                        </tr>
-                        <tr class="ring_gold">
-                            <td></td>
-                            <td></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="-1" name="ring3" onclick="calculate4ring()"/>
-                        <label>{t}gold{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="5" name="ring4" onclick="calculate4ring()"/>
-                        <label>{t}gold{/t}</label>
-                    </div></td>
-                        </tr>
-                        <tr class="ring_black">
-                            <td></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="0" name="ring2" onclick="calculate4ring()"/>
-                        <label>{t}schwarz{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="0" name="ring3" onclick="calculate4ring()"/>
-                        <label>{t}schwarz{/t}</label>
-                    </div></td>
-                            <td></td>
-                        </tr>
-                        <tr class="ring_brown">
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="1" name="ring1" onclick="calculate4ring()"/>
-                        <label>{t}braun{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="1" name="ring2" onclick="calculate4ring()"/>
-                        <label>{t}braun{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="1" name="ring3" onclick="calculate4ring()"/>
-                        <label>{t}braun{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="1" name="ring4" onclick="calculate4ring()"/>
-                        <label>{t}braun{/t}</label>
-                    </div></td>
-                        </tr>
-                        <tr class="ring_red">
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="2" name="ring1" onclick="calculate4ring()"/>
-                        <label>{t}rot{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="2" name="ring2" onclick="calculate4ring()"/>
-                        <label>{t}rot{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="2" name="ring3" onclick="calculate4ring()"/>
-                        <label>{t}rot{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="2" name="ring4" onclick="calculate4ring()"/>
-                        <label>{t}rot{/t}</label>
-                    </div></td>
-                        </tr>
-                        <tr class="ring_orange">
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="3" name="ring1" onclick="calculate4ring()"/>
-                        <label>{t}orange{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="3" name="ring2" onclick="calculate4ring()" />
-                        <label>{t}orange{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="3" name="ring3" onclick="calculate4ring()"/>
-                        <label>{t}orange{/t}</label>
-                    </div></td>
-                            <td></td>
-                        </tr>
-                        <tr class="ring_yellow">
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="4" name="ring1" onclick="calculate4ring()"/>
-                        <label>{t}gelb{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="4" name="ring2" onclick="calculate4ring()"/>
-                        <label>{t}gelb{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="4" name="ring3" onclick="calculate4ring()"/>
-                        <label>{t}gelb{/t}</label>
-                    </div></td>
-                            <td></td>
-                        </tr>
-                        <tr class="ring_green">
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="5" name="ring1" onclick="calculate4ring()"/>
-                        <label>{t}grün{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="5" name="ring2" onclick="calculate4ring()"/>
-                        <label>{t}grün{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="5" name="ring3" onclick="calculate4ring()"/>
-                        <label>{t}grün{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="0.5" name="ring4" onclick="calculate4ring()"/>
-                        <label>{t}grün{/t}</label>
-                    </div></td>
-                        </tr>
-                        <tr class="ring_blue">
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="6" name="ring1" onclick="calculate4ring()"/>
-                        <label>{t}blau{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="6" name="ring2" onclick="calculate4ring()"/>
-                        <label>{t}blau{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="6" name="ring3" onclick="calculate4ring()"/>
-                        <label>{t}blau{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="0.25" name="ring4" onclick="calculate4ring()"/>
-                        <label>{t}blau{/t}</label>
-                    </div></td>
-                        </tr>
-                        <tr class="ring_violet">
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="7" name="ring1" onclick="calculate4ring()"/>
-                        <label>{t}violett{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="7" name="ring2" onclick="calculate4ring()"/>
-                        <label>{t}violett{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="7" name="ring3" onclick="calculate4ring()"/>
-                        <label>{t}violett{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="0.1" name="ring4" onclick="calculate4ring()"/>
-                        <label>{t}violett{/t}</label>
-                    </div></td>
-                        </tr>
-                        <tr class="ring_gray">
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="8" name="ring1" onclick="calculate4ring()"/>
-                        <label>{t}grau{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="8" name="ring2" onclick="calculate4ring()"/>
-                        <label>{t}grau{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="8" name="ring3" onclick="calculate4ring()"/>
-                        <label>{t}grau{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="0.05" name="ring4" onclick="calculate4ring()"/>
-                        <label>{t}grau{/t}</label>
-                    </div></td>
-                        </tr>
-                        <tr class="ring_white">
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="9" name="ring1" onclick="calculate4ring()"/>
-                        <label>{t}weiß{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="9" name="ring2" onclick="calculate4ring()" />
-                        <label>{t}weiß{/t}</label>
-                    </div></td>
-                            <td><div class="radio radio-small">
-                        <input type="radio" value="9" name="ring3" onclick="calculate4ring()"/>
-                        <label>{t}weiß{/t}</label>
-                    </div></td>
-                            <td></td>
-                        </tr>
+                    <tr class="ring_none">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="20" name="ring4" onclick="calculate4ring()"/>
+                                <label>{t}kein{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_silver">
+                        <td></td>
+                        <td></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="-2" name="ring3" onclick="calculate4ring()"/>
+                                <label>{t}silber{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="10" name="ring4" onclick="calculate4ring()"/>
+                                <label>{t}silber{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_gold">
+                        <td></td>
+                        <td></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="-1" name="ring3" onclick="calculate4ring()"/>
+                                <label>{t}gold{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="5" name="ring4" onclick="calculate4ring()"/>
+                                <label>{t}gold{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_black">
+                        <td></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="0" name="ring2" onclick="calculate4ring()"/>
+                                <label>{t}schwarz{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="0" name="ring3" onclick="calculate4ring()"/>
+                                <label>{t}schwarz{/t}</label>
+                            </div></td>
+                        <td></td>
+                    </tr>
+                    <tr class="ring_brown">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="1" name="ring1" onclick="calculate4ring()"/>
+                                <label>{t}braun{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="1" name="ring2" onclick="calculate4ring()"/>
+                                <label>{t}braun{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="1" name="ring3" onclick="calculate4ring()"/>
+                                <label>{t}braun{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="1" name="ring4" onclick="calculate4ring()"/>
+                                <label>{t}braun{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_red">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="2" name="ring1" onclick="calculate4ring()"/>
+                                <label>{t}rot{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="2" name="ring2" onclick="calculate4ring()"/>
+                                <label>{t}rot{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="2" name="ring3" onclick="calculate4ring()"/>
+                                <label>{t}rot{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="2" name="ring4" onclick="calculate4ring()"/>
+                                <label>{t}rot{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_orange">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="3" name="ring1" onclick="calculate4ring()"/>
+                                <label>{t}orange{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="3" name="ring2" onclick="calculate4ring()" />
+                                <label>{t}orange{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="3" name="ring3" onclick="calculate4ring()"/>
+                                <label>{t}orange{/t}</label>
+                            </div></td>
+                        <td></td>
+                    </tr>
+                    <tr class="ring_yellow">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="4" name="ring1" onclick="calculate4ring()"/>
+                                <label>{t}gelb{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="4" name="ring2" onclick="calculate4ring()"/>
+                                <label>{t}gelb{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="4" name="ring3" onclick="calculate4ring()"/>
+                                <label>{t}gelb{/t}</label>
+                            </div></td>
+                        <td></td>
+                    </tr>
+                    <tr class="ring_green">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="5" name="ring1" onclick="calculate4ring()"/>
+                                <label>{t}grün{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="5" name="ring2" onclick="calculate4ring()"/>
+                                <label>{t}grün{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="5" name="ring3" onclick="calculate4ring()"/>
+                                <label>{t}grün{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="0.5" name="ring4" onclick="calculate4ring()"/>
+                                <label>{t}grün{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_blue">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="6" name="ring1" onclick="calculate4ring()"/>
+                                <label>{t}blau{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="6" name="ring2" onclick="calculate4ring()"/>
+                                <label>{t}blau{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="6" name="ring3" onclick="calculate4ring()"/>
+                                <label>{t}blau{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="0.25" name="ring4" onclick="calculate4ring()"/>
+                                <label>{t}blau{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_violet">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="7" name="ring1" onclick="calculate4ring()"/>
+                                <label>{t}violett{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="7" name="ring2" onclick="calculate4ring()"/>
+                                <label>{t}violett{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="7" name="ring3" onclick="calculate4ring()"/>
+                                <label>{t}violett{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="0.1" name="ring4" onclick="calculate4ring()"/>
+                                <label>{t}violett{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_gray">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="8" name="ring1" onclick="calculate4ring()"/>
+                                <label>{t}grau{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="8" name="ring2" onclick="calculate4ring()"/>
+                                <label>{t}grau{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="8" name="ring3" onclick="calculate4ring()"/>
+                                <label>{t}grau{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="0.05" name="ring4" onclick="calculate4ring()"/>
+                                <label>{t}grau{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_white">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="9" name="ring1" onclick="calculate4ring()"/>
+                                <label>{t}weiß{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="9" name="ring2" onclick="calculate4ring()" />
+                                <label>{t}weiß{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="9" name="ring3" onclick="calculate4ring()"/>
+                                <label>{t}weiß{/t}</label>
+                            </div></td>
+                        <td></td>
+                    </tr>
                     </tbody>
                 </table>
                 <div class="">
@@ -236,302 +236,305 @@
                     </div>
                 </div>
             </form>
-            </div>
-            <div class="col-md-6 col-sm-12">
-                    <form id="resistor6ring" name="resistor6ring">
-                        <table class="table table-bordered table-condensed" >
-                            <thead>
-                                <tr>
-                                    <th>{t}1. Ring{/t}</th>
-                                    <th>{t}2. Ring{/t}</th>
-                                    <th>{t}3. Ring{/t}</th>
-                                    <th>{t}4. Ring{/t}</th>
-                                    <th>{t}5. Ring{/t}</th>
-                                    <th>{t}6. Ring{/t}</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="ring_none">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="" name="ring6" onclick="calculate6ring()"/>
-                        <label>{t}kein{/t}</label>
-                    </div></td>
-                                </tr>
-                                <tr class="ring_silver">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="-2" name="ring4" onclick="calculate6ring()"/>
-                        <label>{t}silber{/t}</label>
-                    </div></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr class="ring_{t}gold{/t}">
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="-1" name="ring4" onclick="calculate6ring()"/>
-                        <label>{t}gold{/t}</label>
-                    </div></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                <tr class="ring_black">
-                                    <td></td>
-                                    <td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="0" name="ring3" onclick="calculate6ring()"/>
-                        <label>{t}schwarz{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="0" name="ring4" onclick="calculate6ring()"/>
-                        <label>{t}schwarz{/t}</label>
-                    </div></td>
-                                    <td></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="200" name="ring6" onclick="calculate6ring()"/>
-                        <label>{t}schwarz{/t}</label>
-                    </div></td>
-                                </tr>
-                                <tr class="ring_brown">
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="1" name="ring1" onclick="calculate6ring()"/>
-                        <label>{t}braun{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="1" name="ring2" onclick="calculate6ring()"/>
-                        <label>{t}braun{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="1" name="ring3" onclick="calculate6ring()"/>
-                        <label>{t}braun{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="1" name="ring4" onclick="calculate6ring()"/>
-                        <label>{t}braun{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="1" name="ring5" onclick="calculate6ring()"/>
-                        <label>{t}braun{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="100" name="ring6" onclick="calculate6ring()"/>
-                        <label>{t}braun{/t}</label>
-                    </div></td>
-                                </tr>
-                                <tr class="ring_red">
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="2" name="ring1" onclick="calculate6ring()"/>
-                        <label>{t}rot{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="2" name="ring2" onclick="calculate6ring()"/>
-                        <label>{t}rot{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="2" name="ring3" onclick="calculate6ring()"/>
-                        <label>{t}rot{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="2" name="ring4" onclick="calculate6ring()"/>
-                        <label>{t}rot{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="2" name="ring5" onclick="calculate6ring()"/>
-                        <label>{t}rot{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="50" name="ring6" onclick="calculate6ring()"/>
-                        <label>{t}rot{/t}</label>
-                    </div></td>
-                                </tr>
-                                <tr class="ring_orange">
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="3" name="ring1" onclick="calculate6ring()"/>
-                        <label>{t}orange{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="3" name="ring2" onclick="calculate6ring()"/>
-                        <label>{t}orange{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="3" name="ring3" onclick="calculate6ring()"/>
-                        <label>{t}orange{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="3" name="ring4" onclick="calculate6ring()"/>
-                        <label>{t}orange{/t}</label>
-                    </div></td>
-                                    <td></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="15" name="ring6" onclick="calculate6ring()"/>
-                        <label>{t}orange{/t}</label>
-                    </div></td>
-                                </tr>
-                                <tr class="ring_yellow">
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="4" name="ring1" onclick="calculate6ring()"/>
-                        <label>{t}gelb{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="4" name="ring2" onclick="calculate6ring()"/>
-                        <label>{t}gelb{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="4" name="ring3" onclick="calculate6ring()"/>
-                        <label>{t}gelb{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="4" name="ring4" onclick="calculate6ring()"/>
-                        <label>{t}gelb{/t}</label>
-                    </div></td>
-                                    <td></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="25" name="ring6" onclick="calculate6ring()"/>
-                        <label>{t}gelb{/t}</label>
-                    </div></td>
-                                </tr>
-                                <tr class="ring_green">
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="5" name="ring1" onclick="calculate6ring()"/>
-                        <label>{t}grün{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="5" name="ring2" onclick="calculate6ring()"/>
-                        <label>{t}grün{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="5" name="ring3" onclick="calculate6ring()"/>
-                        <label>{t}grün{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="5" name="ring4" onclick="calculate6ring()"/>
-                        <label>{t}grün{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="0.5" name="ring5" onclick="calculate6ring()"/>
-                        <label>{t}grün{/t}</label>
-                    </div></td>
-                                    <td></td>
-                                </tr>
-                                <tr class="ring_blue">
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="6" name="ring1" onclick="calculate6ring()"/>
-                        <label>{t}blau{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="6" name="ring2" onclick="calculate6ring()"/>
-                        <label>{t}blau{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="6" name="ring3" onclick="calculate6ring()"/>
-                        <label>{t}blau{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="6" name="ring4" onclick="calculate6ring()"/>
-                        <label>{t}blau{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="0.25" name="ring5" onclick="calculate6ring()"/>
-                        <label>{t}blau{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="10" name="ring6" onclick="calculate6ring()"/>
-                        <label>{t}blau{/t}</label>
-                    </div></td>
-                                </tr>
-                                <tr class="ring_violet">
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="7" name="ring1" onclick="calculate6ring()"/>
-                        <label>{t}violett{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="7" name="ring2" onclick="calculate6ring()"/>
-                        <label>{t}violett{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="7" name="ring3" onclick="calculate6ring()"/>
-                        <label>{t}violett{/t}</label>
-                    </div></td>
-                                    <td></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="0.1" name="ring5" onclick="calculate6ring()"/>
-                        <label>{t}violett{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="5" name="ring6" onclick="calculate6ring()"/>
-                        <label>{t}violett{/t}</label>
-                    </div></td>
-                                </tr>
-                                <tr class="ring_gray">
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="8" name="ring1" onclick="calculate6ring()"/>
-                        <label>{t}grau{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="8" name="ring2" onclick="calculate6ring()"/>
-                        <label>{t}grau{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="8" name="ring3" onclick="calculate6ring()"/>
-                        <label>{t}grau{/t}</label>
-                    </div></td>
-                                    <td></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="0.05" name="ring5" onclick="calculate6ring()"/>
-                        <label>{t}grau{/t}</label>
-                    </div></td>
-                                    <td></td>
-                                </tr>
-                                <tr class="ring_white">
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="9" name="ring1" onclick="calculate6ring()"/>
-                        <label>{t}weiß{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="9" name="ring2" onclick="calculate6ring()"/>
-                        <label>{t}weiß{/t}</label>
-                    </div></td>
-                                    <td><div class="radio radio-small">
-                        <input type="radio" value="9" name="ring3" onclick="calculate6ring()"/>
-                        <label>{t}weiß{/t}</label>
-                    </div></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <div class="">
-                           <div class="row"
-                            <div class="row">
-                                <label class="col-md-4">{t}Widerstand:{/t}</label>
-                                <p class="col-md-8"><span id="resistance6ring" class="value">100</span><span id="resistance_unit6ring" class="unit">{t}Ohm{/t}</span></p>
-                            </div>
-                            <div class="row">
-                                <label class="col-md-4">{t}Toleranz:{/t}</label>
-                                <p class="col-md-8"><span id="tolerance6ring" class="value">20</span><span id="tolerance_unit6ring" class="unit">%</span></p>
-                            </div>
-                            <div class="row">
-                                <label class="col-md-4">{t}Temperaturkoeffizient:{/t}</label>
-                                <p class="col-md-8"><span id="tempcoefficient6ring" class="value">20</span><span id="tempcoefficient_unit6ring" class="unit">&sdot; 10<sup>-6</sup> K<sup>-1</sup></span></p>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-9">
-                                    <button class="btn btn-default" type="button" onclick="reset6ring()">{t}Rücksetzten{/t}</button>
-                                </div>
-                            </div>
+        </div>
+        <div class="col-md-6 col-sm-12">
+            <form id="resistor6ring" name="resistor6ring">
+                <table class="table table-bordered table-condensed" >
+                    <thead>
+                    <tr>
+                        <th>{t}1. Ring{/t}</th>
+                        <th>{t}2. Ring{/t}</th>
+                        <th>{t}3. Ring{/t}</th>
+                        <th>{t}4. Ring{/t}</th>
+                        <th>{t}5. Ring{/t}</th>
+                        <th>{t}6. Ring{/t}</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr class="ring_none">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="" name="ring6" onclick="calculate6ring()"/>
+                                <label>{t}kein{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_silver">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="-2" name="ring4" onclick="calculate6ring()"/>
+                                <label>{t}silber{/t}</label>
+                            </div></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="ring_{t}gold{/t}">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="-1" name="ring4" onclick="calculate6ring()"/>
+                                <label>{t}gold{/t}</label>
+                            </div></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class="ring_black">
+                        <td></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="0" name="ring2" onclick="calculate6ring()"/>
+                                <label>{t}schwarz{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="0" name="ring3" onclick="calculate6ring()"/>
+                                <label>{t}schwarz{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="0" name="ring4" onclick="calculate6ring()"/>
+                                <label>{t}schwarz{/t}</label>
+                            </div></td>
+                        <td></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="200" name="ring6" onclick="calculate6ring()"/>
+                                <label>{t}schwarz{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_brown">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="1" name="ring1" onclick="calculate6ring()"/>
+                                <label>{t}braun{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="1" name="ring2" onclick="calculate6ring()"/>
+                                <label>{t}braun{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="1" name="ring3" onclick="calculate6ring()"/>
+                                <label>{t}braun{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="1" name="ring4" onclick="calculate6ring()"/>
+                                <label>{t}braun{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="1" name="ring5" onclick="calculate6ring()"/>
+                                <label>{t}braun{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="100" name="ring6" onclick="calculate6ring()"/>
+                                <label>{t}braun{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_red">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="2" name="ring1" onclick="calculate6ring()"/>
+                                <label>{t}rot{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="2" name="ring2" onclick="calculate6ring()"/>
+                                <label>{t}rot{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="2" name="ring3" onclick="calculate6ring()"/>
+                                <label>{t}rot{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="2" name="ring4" onclick="calculate6ring()"/>
+                                <label>{t}rot{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="2" name="ring5" onclick="calculate6ring()"/>
+                                <label>{t}rot{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="50" name="ring6" onclick="calculate6ring()"/>
+                                <label>{t}rot{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_orange">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="3" name="ring1" onclick="calculate6ring()"/>
+                                <label>{t}orange{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="3" name="ring2" onclick="calculate6ring()"/>
+                                <label>{t}orange{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="3" name="ring3" onclick="calculate6ring()"/>
+                                <label>{t}orange{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="3" name="ring4" onclick="calculate6ring()"/>
+                                <label>{t}orange{/t}</label>
+                            </div></td>
+                        <td></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="15" name="ring6" onclick="calculate6ring()"/>
+                                <label>{t}orange{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_yellow">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="4" name="ring1" onclick="calculate6ring()"/>
+                                <label>{t}gelb{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="4" name="ring2" onclick="calculate6ring()"/>
+                                <label>{t}gelb{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="4" name="ring3" onclick="calculate6ring()"/>
+                                <label>{t}gelb{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="4" name="ring4" onclick="calculate6ring()"/>
+                                <label>{t}gelb{/t}</label>
+                            </div></td>
+                        <td></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="25" name="ring6" onclick="calculate6ring()"/>
+                                <label>{t}gelb{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_green">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="5" name="ring1" onclick="calculate6ring()"/>
+                                <label>{t}grün{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="5" name="ring2" onclick="calculate6ring()"/>
+                                <label>{t}grün{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="5" name="ring3" onclick="calculate6ring()"/>
+                                <label>{t}grün{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="5" name="ring4" onclick="calculate6ring()"/>
+                                <label>{t}grün{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="0.5" name="ring5" onclick="calculate6ring()"/>
+                                <label>{t}grün{/t}</label>
+                            </div></td>
+                        <td></td>
+                    </tr>
+                    <tr class="ring_blue">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="6" name="ring1" onclick="calculate6ring()"/>
+                                <label>{t}blau{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="6" name="ring2" onclick="calculate6ring()"/>
+                                <label>{t}blau{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="6" name="ring3" onclick="calculate6ring()"/>
+                                <label>{t}blau{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="6" name="ring4" onclick="calculate6ring()"/>
+                                <label>{t}blau{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="0.25" name="ring5" onclick="calculate6ring()"/>
+                                <label>{t}blau{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="10" name="ring6" onclick="calculate6ring()"/>
+                                <label>{t}blau{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_violet">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="7" name="ring1" onclick="calculate6ring()"/>
+                                <label>{t}violett{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="7" name="ring2" onclick="calculate6ring()"/>
+                                <label>{t}violett{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="7" name="ring3" onclick="calculate6ring()"/>
+                                <label>{t}violett{/t}</label>
+                            </div></td>
+                        <td></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="0.1" name="ring5" onclick="calculate6ring()"/>
+                                <label>{t}violett{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="5" name="ring6" onclick="calculate6ring()"/>
+                                <label>{t}violett{/t}</label>
+                            </div></td>
+                    </tr>
+                    <tr class="ring_gray">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="8" name="ring1" onclick="calculate6ring()"/>
+                                <label>{t}grau{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="8" name="ring2" onclick="calculate6ring()"/>
+                                <label>{t}grau{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="8" name="ring3" onclick="calculate6ring()"/>
+                                <label>{t}grau{/t}</label>
+                            </div></td>
+                        <td></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="0.05" name="ring5" onclick="calculate6ring()"/>
+                                <label>{t}grau{/t}</label>
+                            </div></td>
+                        <td></td>
+                    </tr>
+                    <tr class="ring_white">
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="9" name="ring1" onclick="calculate6ring()"/>
+                                <label>{t}weiß{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="9" name="ring2" onclick="calculate6ring()"/>
+                                <label>{t}weiß{/t}</label>
+                            </div></td>
+                        <td><div class="radio radio-small">
+                                <input type="radio" value="9" name="ring3" onclick="calculate6ring()"/>
+                                <label>{t}weiß{/t}</label>
+                            </div></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="">
+                    <div class="row"
+                    <div class="row">
+                        <label class="col-md-4">{t}Widerstand:{/t}</label>
+                        <p class="col-md-8"><span id="resistance6ring" class="value">100</span><span id="resistance_unit6ring" class="unit">{t}Ohm{/t}</span></p>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">{t}Toleranz:{/t}</label>
+                        <p class="col-md-8"><span id="tolerance6ring" class="value">20</span><span id="tolerance_unit6ring" class="unit">%</span></p>
+                    </div>
+                    <div class="row">
+                        <label class="col-md-4">{t}Temperaturkoeffizient:{/t}</label>
+                        <p class="col-md-8"><span id="tempcoefficient6ring" class="value">20</span><span id="tempcoefficient_unit6ring" class="unit">&sdot; 10<sup>-6</sup> K<sup>-1</sup></span></p>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <button class="btn btn-default" type="button" onclick="reset6ring()">{t}Rücksetzten{/t}</button>
                         </div>
-                    </form>
+                    </div>
                 </div>
+            </form>
+        </div>
     </div>
 </div>
 
@@ -545,7 +548,7 @@
                     <div class="radio radio-inline">
                         <input type="radio" value="3" name="resistor_series" onclick="resistor_calculate()"/>
                         <label>E3</label>
-                        </div>
+                    </div>
                     <div class="radio radio-inline">
                         <input type="radio" value="6" name="resistor_series" onclick="resistor_calculate()" />
                         <label>E6</label>
@@ -592,11 +595,11 @@
 <div class="panel panel-default">
     <div class="panel-heading">{t}Widerstandsverhältnis{/t}</div>
     <div class="panel-body">
-       <div class="col-md-2">
+        <div class="col-md-2">
             <img src="{$relative_path}img/calculator/ratio.png" alt="{t}Spannungsteiler{/t}"/>
         </div>
         <div class="col-md-10">
-            <form id="ratio" name="ratio"> 
+            <form id="ratio" name="ratio">
                 <div class="form-group">
                     <label>{t}Widerstandsreihe:{/t}</label>
                     <div>
@@ -617,12 +620,12 @@
                             <label>E24</label>
                         </div>
                         <div class="radio radio-inline">
-                             <input type="radio" value="48"  name="ratio_series" onclick="ratio_calculate()" />
-                             <label>E48</label>
+                            <input type="radio" value="48"  name="ratio_series" onclick="ratio_calculate()" />
+                            <label>E48</label>
                         </div>
-                        <div class="radio radio-inline">    
-                             <input type="radio" value="96"  name="ratio_series" onclick="ratio_calculate()" />
-                             <label>E96</label>
+                        <div class="radio radio-inline">
+                            <input type="radio" value="96"  name="ratio_series" onclick="ratio_calculate()" />
+                            <label>E96</label>
                         </div>
                         <div class="radio radio-inline">
                             <input type="radio" value="192" name="ratio_series" onclick="ratio_calculate()" />
@@ -636,9 +639,9 @@
                     <div>
                         <div class="radio radio-inline">
                             <input type="radio" value="1" name="ratio_type" onclick="ratio_calculate()" />
-                            <label>{t}Verhältnis{/t}</label> 
-                            </div>&nbsp;
-                            <img src="{$relative_path}img/calculator/v1.png" alt="V=R1/R2"/>&nbsp;
+                            <label>{t}Verhältnis{/t}</label>
+                        </div>&nbsp;
+                        <img src="{$relative_path}img/calculator/v1.png" alt="V=R1/R2"/>&nbsp;
                         <div class="radio radio-inline">
                             <input type="radio" value="2" name="ratio_type" onclick="ratio_calculate()" />
                             <label>{t}Spannungsteiler{/t}</label>
@@ -647,8 +650,8 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>{t}Verhältnis:{/t}</label> 
-                    <input type="number" class="form-control" value="" name="ratio_value" size="10"/> 
+                    <label>{t}Verhältnis:{/t}</label>
+                    <input type="number" class="form-control" value="" name="ratio_value" size="10"/>
                     <div class="checkbox">
                         <input type="checkbox" name="ratio_reciprocal" onclick="ratio_calculate()"/>
                         <label>{t}Kehrwert{/t}</label>
