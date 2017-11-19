@@ -105,10 +105,10 @@
             This is free software, and you are welcome to redistribute it under certain conditions.
             Click <a href="{$relative_path}readme/gpl.txt" class="link-external" rel="noopener" target="_blank">here</a> for details.<br>
         </p>
-        <strong>{t}Projektseite:{/t}</strong> {t escape=false}Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a class="link-external" target="_blank" href="https://github.com/do9jhb/Part-DB/">GitHub Projektseite</a>{/t}<br>
-        <strong>{t}Hilfe{/t}</strong> {t escape=false}Hilfe und Tipps finden sie im <a class="link-external" href="https://github.com/jbtronics/Part-DB/wiki" target="_blank">Wiki</a> der GitHub Seite.{/t} <br>
-        <strong>Forum:</strong> {t escape=false}Für Fragen rund um die Part-DB gibt es einen Thread auf <a class="link-external" target="_blank" href="https://www.mikrocontroller.net/topic/438916">mikrocontroller.net</a>{/t}<br>
-        <strong>Wiki:</strong> {t escape=false}Weitere Informationen gibt es im <a class="link-external" target="_blank" href="https://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung">mikrocontroller.net Artikel</a>{/t}<br>
+        <strong>{t}Projektseite:{/t}</strong> {t escape=false link="https://github.com/do9jhb/Part-DB/"}Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a class="link-external" target="_blank" href="%1">GitHub Projektseite</a>{/t}<br>
+        <strong>{t}Hilfe{/t}</strong> {t escape=false link="https://github.com/jbtronics/Part-DB/wiki"}Hilfe und Tipps finden sie im <a class="link-external" href="%1" target="_blank">Wiki</a> der GitHub Seite.{/t} <br>
+        <strong>Forum:</strong> {t escape=false link="https://www.mikrocontroller.net/topic/438916"}Für Fragen rund um die Part-DB gibt es einen Thread auf <a class="link-external" target="_blank" href="https://www.mikrocontroller.net/topic/438916">mikrocontroller.net</a>{/t}<br>
+        <strong>Wiki:</strong> {t escape=false link="https://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung"}Weitere Informationen gibt es im <a class="link-external" target="_blank" href="%1">mikrocontroller.net Artikel</a>{/t}<br>
         <br>
         {t}Initiator:{/t} <strong>Christoph Lechner</strong> - <a class="link-external" rel="noopener" target="_blank" href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
         {t}Autor seit 2009:{/t} <strong>K. Jacobs</strong> - <a class="link-external" rel="noopener" target="_blank" href="http://www.grautier.com/">http://grautier.com</a><br>
