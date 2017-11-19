@@ -1,5 +1,17 @@
 # Part-DB changelog
 
+## Part-DB 0.4.1
+
+#### Bugfixes:
+* If the description is empty, an - is displayed on the overview page.
+* fixed problem with PHPDebugBar
+* reset_admin_pw. php now works correctly
+* added missing black radio button in the 2nd ring of the resistance calculator
+
+#### Other:
+* Links on microcontroller. net thread updated
+* composer. lock updated
+
 ## Part-DB 4.0.0.0
 
 ### New functions:
