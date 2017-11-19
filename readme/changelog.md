@@ -1,6 +1,18 @@
 # Part-DB Changelog
 
-## Part-DB 4.0.0
+## Part-DB 0.4.1
+
+### Bugfixes:
+* Bei einer leeren Beschreibung wird auf der Übersichtsseite ein - angezeigt
+* Problem mit PHPDebugBar gefixt
+* reset_admin_pw.php funktioniert jetzt korrekt
+* Fehlender schwarzer Radiobutton im 2. Ring beim Widerstandsrechner hinzugefügt
+
+### Sonstiges:
+* Links auf mikrocontroller.net Thread aktualisiert
+* composer.lock geupdated
+ 
+## Part-DB 0.4.0
 
 ### Neue Funktionen:
 * Neues (responsive) Design mit Bootstrap 3 und JQuery. Unterstützung von Mobilgeräten
