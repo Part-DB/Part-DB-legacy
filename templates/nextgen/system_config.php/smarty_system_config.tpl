@@ -12,9 +12,7 @@
         </div>
         <div class="panel-body">
             <form class="form-horizontal" action="" method="post" class="no-progbar">
-                <p>{t}Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere Einstellungen kann man direkt in der "config.php" vornehmen. Mögliche Parameter entnehmen Sie bitte der "config_defaults.php" oder der Dokumentation.{/t}</p>
-
-                <hr>
+                <p class="help-block">{t}Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere Einstellungen kann man direkt in der "config.php" vornehmen. Mögliche Parameter entnehmen Sie bitte der "config_defaults.php" oder der Dokumentation.{/t}</p>
 
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#appearance" class="link-anchor">
@@ -86,6 +84,8 @@
                             </div>
                         </div>
 
+                        <hr>
+
                         <div class="form-group">
                             <label for="checkbox-container" class="control-label col-sm-2">{t}Detailinfos:{/t}</label>
                             <div class="checkbox-container col-sm-10">
@@ -101,6 +101,29 @@
                                     <input type="checkbox" name="info_hide_empty_attachements" {if $info_hide_empty_attachements} checked{/if}>
                                     <label>{t}Verstecke "Dateianhänge" Panel, wenn keine Dateianhänge vorhanden sind.{/t}</label>
                                 </div>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="form-group">
+                            <label for="checkbox-container" class="control-label col-sm-2">{t}"Sonstiges" Panel:{/t}</label>
+                            <div class="checkbox-container col-sm-10">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="others_panel_collapse" {if $others_panel_collapse} checked{/if}>
+                                    <label>{t}"Sonstiges" Panel ist standardmäßig eingeklappt{/t}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="checkbox-container" class="control-label col-sm-2">{t}"Sonstiges" Panel Position:{/t}</label>
+                            <div class="col-sm-10">
+                                <select name="others_panel_position" class="form-control">
+                                    <option value="top" {if $others_panel_position == "top"}selected{/if}>{t}Oben{/t}</option>
+                                    <option value="bottom" {if $others_panel_position == "bottom"}selected{/if}>{t}Unten{/t}</option>
+                                    <option value="both" {if $others_panel_position == "both"}selected{/if}>{t}Oben und Unten{/t}</option>
+                                    <option value="" {if $others_panel_position == ""}selected{/if}>{t}Nicht anzeigen{/t}</option>
+                                </select>
                             </div>
                         </div>
                     </div>
@@ -179,7 +202,7 @@
 
                                 <br>
                                 <div>
-                                    * <i>{t}Durch das Aktivieren dieser Checkboxen ist Part-DB auch für Nicht-Elektronische Bauteile hervorragend geeignet.{/t}</i>
+                                    <p class="help-block">* {t}Durch das Aktivieren dieser Checkboxen ist Part-DB auch für Nicht-Elektronische Bauteile hervorragend geeignet.{/t}</p>
                                 </div>
 
                             </div>
@@ -258,6 +281,16 @@
                                     <input type="checkbox" name="default_subcat" {if $default_subcat} checked{/if}>
                                     <label for="default_subcat">{t}Zeige die beim Auflisten aller Teile einer Kategorie, die Unterkategorien standarmäßig.{/t}</label>
                                 </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-2">{t}Standardmäßige Anzahl von Bauteilen pro Seite:{/t}</label>
+                            <div class="col-md-10">
+                                <input type="number" class="form-control" name="default_limit" min="0" step="1" value="{$default_limit}"/>
+                                <p class="help-block">
+                                    {t}Setze diesen Wert auf 0, um standardmäßig alle Bauteile anzuzeigen.{/t}
+                                </p>
                             </div>
                         </div>
 
@@ -354,6 +387,8 @@
                             </div>
                         </div>
 
+                        <hr>
+
                         <div class="form-group">
                             <label class="control-label col-sm-2">{t}Benutzer:{/t}</label>
                             <div class="col-sm-10">
@@ -373,9 +408,11 @@
 
                     </div>
 
-                    <div class="col-sm-offset-2">
-                        <button class="btn btn-success" type="submit" name="apply" {if !$can_edit}disabled{/if}>{t}Einstellungen übernehmen{/t}</button>
-                        <button class="btn btn-danger" type="submit" {if !$can_edit}disabled{/if}>{t}Änderungen verwerfen{/t}</button>
+                    <div class="form-group">
+                        <div class="col-sm-offset-2">
+                            <button class="btn btn-success" type="submit" name="apply" {if !$can_edit}disabled{/if}>{t}Einstellungen übernehmen{/t}</button>
+                            <button class="btn btn-danger" type="submit" {if !$can_edit}disabled{/if}>{t}Änderungen verwerfen{/t}</button>
+                        </div>
                     </div>
             </form>
         </div>
@@ -412,8 +449,6 @@
                     </div>
                 </div>
 
-                <hr>
-
                 <div class="col-sm-offset-2">
                     <button type="submit" class="btn btn-success" name="change_admin_password" {if $is_online_demo}disabled{/if}>{t}Passwort ändern{/t}</button>
                 </div>
@@ -429,39 +464,37 @@
             <i class="fa fa-server" aria-hidden="true"></i>
             {t}Server{/t}
         </div>
-        <div class="panel-body">
-            <table width="" class="table table-condensed">
-                <thead>
-                <tr>
-                    <th>{t}Eigenschaft{/t}</th>
-                    <th>{t}Wert{/t}</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td><b>{t}PHP-Version:{/t}</b></td>
-                    <td>{$php_version}</td>
-                </tr>
-                <tr>
-                    <td><b>{t}.htaccess funktioniert:{/t}</b></td>
-                    <td>{if $htaccess_works}<span class="text-success">{t}ja{/t}</span>{else}
-                            <span class="text-danger font-weight-bold">{t}nein{/t}</span>{/if}</td>
-                </tr>
-                <tr>
-                    <td><b>{t}Verbindung benutzt HTTPS:{/t}</b></td>
-                    <td>{if $using_https}<span class="text-success">{t}ja{/t}</span>{else}
-                            <span class="text-danger font-weight-bold">{t}nein{/t}</span>{/if}</td>
-                </tr>
-                <tr>
-                    <td><b>{t}Max. Input Vars:{/t}</b></td>
-                    <td>{$max_input_vars}</td>
-                </tr>
-                <tr>
-                    <td><b>{t}Maximale Dateigröße beim Upload:{/t}</b></td>
-                    <td>{$max_upload_filesize}B</td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
+        <table width="" class="table table-condensed">
+            <thead>
+            <tr>
+                <th>{t}Eigenschaft{/t}</th>
+                <th>{t}Wert{/t}</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><b>{t}PHP-Version:{/t}</b></td>
+                <td>{$php_version}</td>
+            </tr>
+            <tr>
+                <td><b>{t}.htaccess funktioniert:{/t}</b></td>
+                <td>{if $htaccess_works}<span class="text-success">{t}ja{/t}</span>{else}
+                        <span class="text-danger font-weight-bold">{t}nein{/t}</span>{/if}</td>
+            </tr>
+            <tr>
+                <td><b>{t}Verbindung benutzt HTTPS:{/t}</b></td>
+                <td>{if $using_https}<span class="text-success">{t}ja{/t}</span>{else}
+                        <span class="text-danger font-weight-bold">{t}nein{/t}</span>{/if}</td>
+            </tr>
+            <tr>
+                <td><b>{t}Max. Input Vars:{/t}</b></td>
+                <td>{$max_input_vars}</td>
+            </tr>
+            <tr>
+                <td><b>{t}Maximale Dateigröße beim Upload:{/t}</b></td>
+                <td>{$max_upload_filesize}B</td>
+            </tr>
+            </tbody>
+        </table>
     </div>
 {/if}

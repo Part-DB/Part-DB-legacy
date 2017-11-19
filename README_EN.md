@@ -33,8 +33,8 @@ Part-DB is a web-based database for managing electronic components. Since access
 
 ### requirements
 
-* Web server with approx. 10MB space (without footprint images)
-* PHP >= 5.4.0, with PDO and mbstring
+* Web server with approx. 20MB space (without footprint images or 3D models)
+* PHP >= 5.4.0, with PDO, mbstring and gettext (intl and curl recommended)
 * MySQL/MariaDB database
 
 ### License

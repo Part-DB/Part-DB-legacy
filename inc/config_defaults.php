@@ -147,6 +147,8 @@ $config['foot3d']['show_info']                    = true;
 $config['appearance']['use_old_datasheet_icons']    = false;
 $config['appearance']['short_description_length']   = 200;
 $config['appearance']['short_description']          = true;
+$config['other_panel']['collapsed']                 = false;
+$config['other_panel']['position']                  = "top";
 
 //part info settings
 $config['part_info']['hide_actions']                = false;    //Hide actions panel
@@ -162,6 +164,7 @@ $config['edit_parts']['saved_go_to_info']        = false;    //Jump to info page
 //Table settings
 $config['table']['autosort']                     = false;
 $config['table']['default_show_subcategories']   = true;    //Show the subcategories in show_category_parts on default.
+$config['table']['default_limit']                = 50;
 
 //Search settings
 $config['search']['livesearch']                  = true;

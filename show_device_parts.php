@@ -149,7 +149,7 @@ if (isset($_REQUEST["attachement_delete"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Baugruppe');
+$html = new HTML($config['html']['theme'], $user_config['theme'], 'Baugruppe');
 
 try {
     $database           = new Database();
@@ -485,6 +485,8 @@ if (! $fatal_error && $device_id > 0) {
         // don't forget: $device_parts contains "DevicePart"-objects, not "Part"-objects!!
         $device_parts_loop = DevicePart::buildTemplateTableArray($device_parts, 'device_parts');
 
+        $comment = $device->getComment(true);
+
         $html->setVariable('device_parts_rowcount', count($device_parts), 'integer');
         $html->setVariable('sum_price', $device->getTotalPrice(true, false), 'string');
     } catch (Exception $e) {
@@ -608,6 +610,11 @@ if (! $fatal_error) {
 
         $html->setLoop('table', $device_parts_loop);
         $html->printTemplate('device_parts');
+
+        if (isset($comment)) {
+            $html->setVariable('comment', $comment);
+            $html->printTemplate('comment');
+        }
 
         $html->printTemplate('attachements');
 

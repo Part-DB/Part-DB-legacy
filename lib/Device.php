@@ -272,15 +272,20 @@ class Device extends Base\PartsContainingDBElement
      *
      * @param boolean $recursive        if true, the parts of all subelements will be listed too
      *
+     * @param int       $limit                      Limit the number of results, to this value.
+     *                                              If set to 0, then the results are not limited.
+     * @param int       $page                       Show the results of the page with given number.
+     *                                              Use in combination with $limit.
+     *
      * @return Part[]        all parts as a one-dimensional array of "DevicePart"-objects,
      *                      sorted by their names (only if "$recursive == false")
      *
      * @throws Exception if there was an error
      */
-    public function getParts($recursive = false, $hide_obsolet_and_zero = false)
+    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
     {
         $this->current_user->tryDo(static::getPermissionName(), PartContainingPermission::LIST_PARTS);
-        return $this->getPartsWithoutPermCheck($recursive, $hide_obsolet_and_zero);
+        return $this->getPartsWithoutPermCheck($recursive, $hide_obsolete_and_zero);
     }
 
     /**
@@ -290,7 +295,7 @@ class Device extends Base\PartsContainingDBElement
      * @param bool $hide_obsolet_and_zero
      * @return array|null
      */
-    protected function getPartsWithoutPermCheck($recursive = false, $hide_obsolet_and_zero = false) {
+    protected function getPartsWithoutPermCheck($recursive = false, $hide_obsolet_and_zero = false, $limit = 50, $page = 1) {
         if (! is_array($this->parts)) {
             $this->parts = array();
 
@@ -546,7 +551,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @see DBElement::add()
      */
-    public static function add(&$database, &$current_user, &$log, $name, $parent_id)
+    public static function add(&$database, &$current_user, &$log, $name, $parent_id, $comment = "")
     {
         return parent::addByArray(
             $database,
@@ -556,7 +561,8 @@ class Device extends Base\PartsContainingDBElement
             array(  'name'                      => $name,
                 'parent_id'                 => $parent_id,
                 'order_quantity'            => 0,
-                'order_only_missing_parts'  => false)
+                'order_only_missing_parts'  => false,
+                "comment"                   => $comment)
         );
     }
 

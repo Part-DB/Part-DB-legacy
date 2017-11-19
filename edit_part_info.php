@@ -203,7 +203,7 @@ if (isset($pricedetails_id)) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Bauteil bearbeiten'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Bauteil bearbeiten'));
 
 try {
     $database               = new Database();

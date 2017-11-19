@@ -72,14 +72,18 @@ class Supplier extends Base\Company implements ISearchable
     /**
      *  Get all parts from this element
      *
-     * @param boolean $recursive                if true, the parts of all sub-suppliers will be listed too
+     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
      * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
+     * @param int       $limit                      Limit the number of results, to this value.
+     *                                              If set to 0, then the results are not limited.
+     * @param int       $page                       Show the results of the page with given number.
+     *                                              Use in combination with $limit.
      *
-     * @return array        all parts in a one-dimensional array of Part objects
+     * @return array        all parts as a one-dimensional array of Part-objects, sorted by their names
      *
-     * @throws Exception    if there was an error
+     * @throws Exception if there was an error
      */
-    public function getParts($recursive = false, $hide_obsolete_and_zero = false)
+    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
     {
         if (! is_array($this->parts)) {
             $this->parts = array();
@@ -115,6 +119,34 @@ class Supplier extends Base\Company implements ISearchable
         }
 
         return $parts;
+    }
+
+    /**
+     * Return the number of all parts in this PartsContainingDBElement
+     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
+     * @return int The number of parts of this PartContainingDBElement
+     */
+    public function getPartsCount($recursive = false)
+    {
+        $count = 0;
+
+        $query =    'SELECT count(part_id) AS count FROM orderdetails '.
+            'LEFT JOIN parts ON parts.id=orderdetails.part_id '.
+            'WHERE id_supplier=? ';
+
+        $query_data = $this->database->query($query, array($this->getID()));
+
+        $count = $query_data[0]['count'];
+
+        if ($recursive) {
+            $sub_suppliers = $this->getSubelements(true);
+
+            foreach ($sub_suppliers as $sub_supplier) {
+                $count+= $sub_supplier->getPartsCount(true);
+            }
+        }
+
+        return $count;
     }
 
     /**
@@ -248,7 +280,8 @@ class Supplier extends Base\Company implements ISearchable
         $fax_number = '',
         $email_address = '',
         $website = '',
-        $auto_product_url = ''
+        $auto_product_url = '',
+        $comment = ""
     ) {
         return parent::addByArray(
             $database,
@@ -262,7 +295,8 @@ class Supplier extends Base\Company implements ISearchable
                 'fax_number'        => $fax_number,
                 'email_address'     => $email_address,
                 'website'           => $website,
-                'auto_product_url'  => $auto_product_url)
+                'auto_product_url'  => $auto_product_url,
+                "comment"           => $comment)
         );
     }
 

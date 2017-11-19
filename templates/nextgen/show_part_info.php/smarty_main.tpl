@@ -3,7 +3,11 @@
 <!--suppress Annotator -->
 <div class="panel panel-primary">
     <div class="panel-heading">
-        <i class="fa fa-info-circle fa-fw" aria-hidden="true"></i>
+        {if $is_favorite}
+            <i class="fa fa-star fa-fw" aria-hidden="true"></i>
+        {else}
+            <i class="fa fa-info-circle fa-fw" aria-hidden="true"></i>
+        {/if}
         {t}Detailinfo zu{/t} <b>"{$name}"</b>
         <div class="pull-right">
             {t}ID:{/t} {$pid}
@@ -49,18 +53,15 @@
 
                     <div class="form-group">
                         <label class="col-sm-3 control-label">{t}Kategorie:{/t}</label>
-                        <div class="col-sm-9"><a href="show_category_parts.php?cid={$category_id}" class="form-control-link hidden-print-href">{$category_full_path}</a></div>
+                        <div class="col-sm-9">{* <a href="show_category_parts.php?cid={$category_id}" class="form-control-link hidden-print-href">{$category_full_path}</a>*}
+                            {include "../smarty_structural_link.tpl" link=$category_path}
+                        </div>
                     </div>
 
                     <div class="form-group">
                         <label class="col-sm-3 control-label">{t}Lagerort:{/t}</label>
                         <div class="col-sm-9">
-                            {if $storelocation_id == 0}
-                                <p class="form-control-static">{$storelocation_full_path}{if $storelocation_is_full} [voll]{/if}</p>
-                            {else}
-                                <a class="form-control-link hidden-print-href" href="show_location_parts.php?lid={$storelocation_id}&subloc=0">{$storelocation_full_path}{if $storelocation_is_full} [voll]{/if}</a>
-                            {/if}
-
+                            {include "../smarty_structural_link.tpl" link=$storelocation_path}
                         </div>
                     </div>
 
@@ -68,11 +69,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">{t}Hersteller:{/t}</label>
                             <div class="col-sm-9">
-                                {if $manufacturer_id == 0}
-                                    <p class="form-control-static">{$manufacturer_full_path}</p>
-                                {else}
-                                    <a class="form-control-link  hidden-print-href" href="show_manufacturer_parts.php?mid={$manufacturer_id}&subman=0">{$manufacturer_full_path}</a>
-                                {/if}
+                                {include "../smarty_structural_link.tpl" link=$manufacturer_path}
                             </div>
                         </div>
                     {/if}
@@ -81,11 +78,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label">{t}Footprint:{/t}</label>
                             <div class="col-sm-9">
-                                {if $footprint_id == 0}
-                                    <p class="form-control-static">{$footprint_full_path}</p>
-                                {else}
-                                    <a class="form-control-link hidden-print-href" href="show_footprint_parts.php?fid={$footprint_id}&subfoot=0">{$footprint_full_path}</a>
-                                {/if}
+                                {include "../smarty_structural_link.tpl" link=$footprint_path}
                             </div>
                         </div>
 
@@ -123,12 +116,12 @@
                     </div>
 
                     {if $can_edit}
-                    <div class="form-group hidden-print">
-                        <div class="col-sm-9 col-sm-offset-3">
-                            <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}">
-                                <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {t}Angaben verändern{/t}</a>
+                        <div class="form-group hidden-print">
+                            <div class="col-sm-9 col-sm-offset-3">
+                                <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}">
+                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {t}Angaben verändern{/t}</a>
+                            </div>
                         </div>
-                    </div>
                     {/if}
                 </div>
 
@@ -170,33 +163,33 @@
                 <p></p>
 
                 {if $can_order_read && !$instock_unknown}
-                <form action="" method="post" class="hidden-print no-progbar">
-                    <input type="hidden" name="pid" value="{$pid}">
-                    <div class="row">
-                        <div class="col-md-12">
-                            {if $manual_order_exists}
-                                <label for="remove_mark_to_order">{t}Bauteil wurde manuell zum Bestellen vorgemerkt.{/t}</label>
-                                <button type="submit" class="btn btn-default"
-                                        name="remove_mark_to_order" {if !$can_order_read}disabled{/if}>
-                                    {t}Aufheben{/t}</button>
-                            {else}
-                                {if $auto_order_exists}
-                                    <i>{t}Das Bauteil wird unter "Zu bestellende Teile"aufgelistet, da der Bestand kleiner als der Mindestbestand ist.{/t}</i>
+                    <form action="" method="post" class="hidden-print no-progbar">
+                        <input type="hidden" name="pid" value="{$pid}">
+                        <div class="row">
+                            <div class="col-md-12">
+                                {if $manual_order_exists}
+                                    <label for="remove_mark_to_order">{t}Bauteil wurde manuell zum Bestellen vorgemerkt.{/t}</label>
+                                    <button type="submit" class="btn btn-default"
+                                            name="remove_mark_to_order" {if !$can_order_read}disabled{/if}>
+                                        {t}Aufheben{/t}</button>
                                 {else}
-                                    <label for="order_quantity">{t}Zum Bestellen vormerken:{/t}</label>
-                                    <div class="input-group">
-                                        <input type="number" min="0" max="999" class="form-control" value="1" name="order_quantity"
-                                               placeholder="Bestellmenge" {if !$can_order_edit}disabled{/if}><br>
-                                        <span class="input-group-btn">
+                                    {if $auto_order_exists}
+                                        <i>{t}Das Bauteil wird unter "Zu bestellende Teile"aufgelistet, da der Bestand kleiner als der Mindestbestand ist.{/t}</i>
+                                    {else}
+                                        <label for="order_quantity">{t}Zum Bestellen vormerken:{/t}</label>
+                                        <div class="input-group">
+                                            <input type="number" min="0" max="999" class="form-control" value="1" name="order_quantity"
+                                                   placeholder="Bestellmenge" {if !$can_order_edit}disabled{/if}><br>
+                                            <span class="input-group-btn">
                                                     <button type="submit" class="btn btn-default"
                                                             name="mark_to_order" {if !$can_order_edit}disabled{/if}>{t}Übernehmen{/t}</button>
                                                 </span>
-                                    </div>
+                                        </div>
+                                    {/if}
                                 {/if}
-                            {/if}
+                            </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
                 {/if}
 
                 <p></p>

@@ -9,12 +9,14 @@
                    {include "../smarty_table.tpl"}
                 </div>
 
+                <br>
+
                 <div class="form-group">
-                    <div class="col-md-12"><b>{t}Gesamtpreis:{/t} {$sum_price}</b></div>
+                    <div class="col-md-12"><b>{t}Gesamtpreis:{/t}</b> {$sum_price}</div>
                 </div>
                 
                 <div class="form-group">
-                    <div class="col-md-12"><i>{t}Teile mit der Stückzahl "0" werden beim Übernehmen aus dieser Baugruppe entfernt.{/t}</i></div>
+                    <div class="col-md-12"><p class="help-block">{t}Teile mit der Stückzahl "0" werden beim Übernehmen aus dieser Baugruppe entfernt.{/t}</p></div>
                 </div>
                    
                 <input type="hidden" name="device_parts_rowcount" value="{$device_parts_rowcount}">

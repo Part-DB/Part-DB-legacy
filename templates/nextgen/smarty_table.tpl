@@ -14,7 +14,8 @@
     Please Note: There are no empty lines between the {TMPL_IF}{/if} groups, because they would produce extremely large HTML output files (because of the loops)!
 *}  
    <div class="table-responsive">
-    <table class="table table-striped table-condensed table-compact table-hover table-sortable" cellspacing="0" width="100%">
+    <table class="table table-striped table-condensed table-compact table-hover
+    table-sortable {if isset($table_selectable) && $table_selectable}table-selectable{/if}" cellspacing="0" width="100%">
         <thead class="thead-default">
         {foreach $table as $t}
             {if isset($t.print_header) && $t.print_header}   
@@ -82,7 +83,7 @@
             {if !isset($t.print_header) || !$t.print_header}
 
                 {* the alternating background colors are created here *}
-                <tr>
+                <tr {if isset($t.favorite) && $t.favorite}class="success"{/if}>
                     {if isset($t.id)}
                         <input type="hidden" name="id_{$t.row_index}" value="{$t.id}">
                     {/if}
@@ -117,7 +118,7 @@
                     {if $row.caption == "name"}
                         {* name/comment with link *}
                         <td class="tdrow1{if $row.caption == "obsolete"} backred{/if}">
-                            <a  data-toggle="tooltip" title="{if $row.caption == "obsolete"}(nicht mehr erhätlich) {/if}{if isset($row.comment)}Kommentar: {$row.comment nofilter}{/if}"
+                            <a  data-toggle="tooltip" title="{if $row.caption == "obsolete"}(nicht mehr erhätlich) {/if}{if isset($row.comment) && !empty($row.comment)}{t}Kommentar:{/t} {$row.comment nofilter}{/if}"
                                 href="show_part_info.php?pid={$row.id}">
                                 {$row.name}
                             </a>
@@ -146,7 +147,7 @@
                     {if $row.caption == "name_description"}
                         {* name/comment/description *}
                         <td class="tdrow1{if $row.obsolete} backred{/if}">
-                            <a data-toggle="tooltip" title="{if $row.obsolete}(nicht mehr erhätlich) {/if}{if $row.comment}Kommentar: {$row.comment nofilter}{/if}"
+                            <a data-toggle="tooltip" title="{if $row.obsolete}(nicht mehr erhätlich) {/if}{if isset($row.comment) && !empty($row.comment)}{t}Kommentar:{/t} {$row.comment nofilter}{/if}"
                                 href="show_part_info.php?pid={$row.id}">
                                 {$row.name}{if isset($row.description)}&nbsp;{$row.description}{/if}
                             </a>
@@ -245,7 +246,7 @@
                     {/if}
                     {if $row.caption == "button_decrement"}
                         {* build the "-" button, only if more than 0 parts on stock *}
-                        <td class="tdrow6">
+                        <td class="tdrow6 no-select">
                             <button type="submit" class="btn btn-xs btn-default btn-outline" name="decrement_{$row.row_index}"
                                     {if $row.decrement_disabled}disabled="disabled"{/if}
                             ><i class="fa fa-minus" aria-hidden="true"></i></span></button>
@@ -253,14 +254,14 @@
                     {/if}
                     {if $row.caption == "button_increment"}
                         {* build the "+" button *}
-                        <td class="tdrow7">
+                        <td class="tdrow7 no-select">
                             <button type="submit" class="btn btn-xs btn-default btn-outline" name="increment_{$row.row_index}"
                                     {if $row.increment_disabled}disabled="disabled"{/if}
                             ><i class="fa fa-plus" aria-hidden="true"></i></span></button>
                         </td>
                     {/if}
                     {if $row.caption == "button_edit"}
-                        <td class="tdrow7">
+                        <td class="tdrow7 no-select">
                         {if !$row.edit_disabled} <a class="btn btn-xs btn-default btn-outline" href="{$relative_path}edit_part_info.php?pid={$row.id}"
                             {if $row.edit_disabled}disabled="disabled" {/if}><i class="fa fa-pencil" aria-hidden="true"></i></span></a> {/if}
                         </td>

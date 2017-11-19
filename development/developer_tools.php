@@ -135,7 +135,7 @@ if (isset($_REQUEST["delete_release_package"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Entwicklerwerkzeuge');
+$html = new HTML($config['html']['theme'], $user_config['theme'], 'Entwicklerwerkzeuge');
 
 try
 {

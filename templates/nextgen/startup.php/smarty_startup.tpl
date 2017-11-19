@@ -68,12 +68,12 @@
         </div>
         <div class="panel-body">
             {t escape=false 1=$missing_category 2=$missing_storeloc 3=$missing_footprint 4=$missing_supplier}Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>
-            <blockquote>%1 eine <a href="edit_categories.php">Kategorie</a> </blockquote>hinzufügt werden muss.<br><br>
-            Um das Potential der Suchfunktion zu nutzen, wird empfohlen
-            <blockquote>%2 einen <a href="edit_storelocations.php">Lagerort</a></blockquote>
-            <blockquote>%3 einen <a href="edit_footprints.php">{t}Footprint{/t}</a> </blockquote>
-            <blockquote>%4 und einen <a href="edit_suppliers.php">{t}Lieferanten{/t}</a> </blockquote>
-            anzugeben.{/t}
+                <blockquote>%1 eine <a href="edit_categories.php">Kategorie</a> </blockquote>hinzufügt werden muss.<br><br>
+                Um das Potential der Suchfunktion zu nutzen, wird empfohlen
+                <blockquote>%2 einen <a href="edit_storelocations.php">Lagerort</a></blockquote>
+                <blockquote>%3 einen <a href="edit_footprints.php">{t}Footprint{/t}</a> </blockquote>
+                <blockquote>%4 und einen <a href="edit_suppliers.php">{t}Lieferanten{/t}</a> </blockquote>
+                anzugeben.{/t}
         </div>
     </div>
 {/if}
@@ -113,16 +113,21 @@
         {t}Initiator:{/t} <strong>Christoph Lechner</strong> - <a class="link-external" rel="noopener" target="_blank" href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
         {t}Autor seit 2009:{/t} <strong>K. Jacobs</strong> - <a class="link-external" rel="noopener" target="_blank" href="http://www.grautier.com/">http://grautier.com</a><br>
         {t}Autor seit 2016:{/t} <strong>Jan Böhmer</strong> - <a class="link-external" rel="noopener" target="_blank" href="https://github.com/jbtronics">Github</a><br>
-        <br>
-        {t}Weitere Autoren:{/t}
-        <table class="table">
-            <tbody>
-            {foreach $authors as $author}
-                <tr><td><strong>{$author.name}</strong></td><td>{$author.role}</td></tr>
-            {/foreach}
-            </tbody>
-        </table>
     </div>
+
+    <table class="table">
+        <thead>
+        <tr>
+            <th>{t}Weitere Autoren:{/t}</th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {foreach $authors as $author}
+            <tr><td><strong>{$author.name}</strong></td><td>{$author.role}</td></tr>
+        {/foreach}
+        </tbody>
+    </table>
 </div>
 
 {if !empty($rss_feed_loop)}

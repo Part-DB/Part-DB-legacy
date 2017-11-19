@@ -90,20 +90,32 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
     }
 
     /**
-     * Get all parts which are located in this storelocation
+     *  Get all parts from this element
      *
-     * @param boolean $recursive                if true, the parts of all sub-storelocations will be listed too
+     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
      * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
+     * @param int       $limit                      Limit the number of results, to this value.
+     *                                              If set to 0, then the results are not limited.
+     * @param int       $page                       Show the results of the page with given number.
+     *                                              Use in combination with $limit.
      *
-     * @return array        all parts as a one-dimensional array of Part objects
+     * @return array        all parts as a one-dimensional array of Part-objects, sorted by their names
      *
-     * @throws Exception    if there was an error
-     *
-     * @see PartsContainingDBElement::getParts()
+     * @throws Exception if there was an error
      */
-    public function getParts($recursive = false, $hide_obsolete_and_zero = false)
+    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
     {
-        return parent::getTableParts('id_storelocation', $recursive, $hide_obsolete_and_zero);
+        return parent::getTableParts('id_storelocation', $recursive, $hide_obsolete_and_zero, $limit, $page);
+    }
+
+    /**
+     * Return the number of all parts in this PartsContainingDBElement
+     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
+     * @return int The number of parts of this PartContainingDBElement
+     */
+    public function getPartsCount($recursive = false)
+    {
+        return parent::getPartsCountInternal($recursive, 'id_storelocation');
     }
 
     /********************************************************************************
@@ -181,7 +193,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      *
      * @see DBElement::add()
      */
-    public static function add(&$database, &$current_user, &$log, $name, $parent_id, $is_full = false)
+    public static function add(&$database, &$current_user, &$log, $name, $parent_id, $is_full = false, $comment = "")
     {
         return parent::addByArray(
             $database,
@@ -190,7 +202,8 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
             'storelocations',
             array(  'name'          => $name,
                 'parent_id'     => $parent_id,
-                'is_full'       => $is_full)
+                'is_full'       => $is_full,
+                "comment"       => $comment)
         );
     }
 

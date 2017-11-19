@@ -34,6 +34,7 @@ class UserPermission extends BasePermission
     const DELETE = "delete";
     const EDIT_PERMISSIONS = "edit_permissions";
     const SET_PASSWORD   = "set_password";
+    const CHANGE_USER_SETTINGS = "change_user_settings";
 
     /**
      * Returns an array of all available operations for this Permission.
@@ -54,6 +55,7 @@ class UserPermission extends BasePermission
         $operations[] = static::buildOperationArray(10, static::EDIT_INFOS, _("Informationen ändern"));
         $operations[] = static::buildOperationArray(12, static::EDIT_PERMISSIONS, _("Berechtigungen ändern"));
         $operations[] = static::buildOperationArray(14, static::SET_PASSWORD, _("Password setzen"));
+        $operations[] = static::buildOperationArray(16, static::CHANGE_USER_SETTINGS, _("Benutzereinstellungen ändern"));
 
         return $operations;
     }

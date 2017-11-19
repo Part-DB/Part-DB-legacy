@@ -5,7 +5,7 @@ var BASE = "";
  *                                      AjaxUI Class
  * **************************************************************************************
  ****************************************************************************************/
-var AjaxUI = (function () {
+var AjaxUI = /** @class */ (function () {
     /**
      * Creates a new AjaxUI object.
      */
@@ -134,11 +134,6 @@ var AjaxUI = (function () {
         if (!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
             $('#progressbar').show(0);
-            formData.push({
-                name: "test",
-                value: "Test2435",
-                required: "false"
-            });
         }
         return true;
     };
@@ -386,6 +381,7 @@ var ajaxui = AjaxUI.getInstance();
  */
 $(function (event) {
     ajaxui.addStartAction(addCollapsedClass);
+    ajaxui.addStartAction(fixSelectPaginationHeight);
     ajaxui.addStartAction(treeviewBtnInit);
     ajaxui.addStartAction(registerJumpToTop);
     ajaxui.addStartAction(fixCurrencyEdits);
@@ -395,6 +391,7 @@ $(function (event) {
     ajaxui.addStartAction(makeTriStateCheckbox);
     ajaxui.addStartAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
+    ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
@@ -436,11 +433,12 @@ function registerHoverImages() {
 function makeSortTable() {
     'use strict';
     if (!$.fn.DataTable.isDataTable('.table-sortable')) {
-        var table = $('.table-sortable').DataTable({
+        var table_1 = $('.table-sortable').DataTable({
             "paging": false,
             "ordering": true,
             "info": false,
             "searching": false,
+            "select": $(".table-sortable").hasClass("table-selectable") ? { style: "os", selector: "td:not(.no-select)" } : false,
             "order": [],
             "columnDefs": [
                 {
@@ -451,8 +449,30 @@ function makeSortTable() {
             ]
         });
         if ($("#auto_sort").val() == true) {
-            table.columns(".order-default").order('asc').draw();
+            table_1.columns(".order-default").order('asc').draw();
         }
+        table_1
+            .on('select deselect', function (e, dt, type, indexes) {
+            var data = table_1.rows({ selected: true });
+            var count = data.count();
+            var tmp = [];
+            //Show The select action bar only, if a element is selected.
+            if (count > 0) {
+                $(".select_actions").show();
+                $(".selected_n").text(count);
+                //Build a string containing all parts, that should be modified
+                for (var _i = 0, _a = data[0]; _i < _a.length; _i++) {
+                    var n = _a[_i];
+                    tmp.push($(data.row(n).node()).find("input").val());
+                }
+            }
+            else {
+                $(".select_actions").hide();
+            }
+            //Combine all selected IDs into a string.
+            var str = tmp.join();
+            $("input[name='selected_ids']").val(str);
+        });
     }
 }
 /**
@@ -555,6 +575,9 @@ function registerAutoRefresh() {
     if (val > 0) {
         window.setTimeout(reloadPage, val);
     }
+}
+function fixSelectPaginationHeight() {
+    $('.pagination>li>select').css('height', parseInt($('.pagination').css("height")));
 }
 /**
  * Close the #searchbar div, when a search was submitted on mobile view.

@@ -18,6 +18,11 @@ body {
     margin-left: 10px;
 }
 
+.radio-small {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
 .companypic {
     width: 17px;
     display: inline;
@@ -163,6 +168,15 @@ table.dataTable tbody th, table.dataTable tbody td {
     align-items: center;
 }
 
+.vertical-align-table>tbody>tr>td,
+.vertical-align-table>tbody>tr>th,
+.vertical-align-table>tfoot>tr>td,
+.vertical-align-table>tfoot>tr>th,
+.vertical-align-table>thead>tr>td,
+.vertical-align-table>thead>tr>th {
+    vertical-align: middle;
+}
+
 .form-control-link {
     display: block;
     padding-top: 7px;
@@ -299,4 +313,118 @@ Bootstrap-Treeview override
     display: flex;
 }
 
+/** Select in pagination */
+.pagination>li>select
+{
+    position: relative;
+    float: left;
+    padding: 7px 5px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
 
+.pagination>li>button
+{
+    position: relative;
+    float: left;
+    padding: 6px 5px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+/* "Breadcrumb" like */
+
+/* Style the list */
+ul.structural_link {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 0;
+    list-style: none;
+    background-color: inherit;
+}
+
+/* Display list items side by side */
+ul.structural_link li {
+    display: inline;
+    font-size: inherit;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.structural_link li+li:before {
+    padding: 2px;
+    color: grey;
+    /*content: "/\00a0";*/
+    font-family: FontAwesome, sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    content: "\f178";
+}
+
+/* Add a color to all links inside the list */
+ul.structural_link li a {
+    color: #0275d8;
+    text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.structural_link li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+}
+
+a.text-white {
+   color: #fff;
+}
+
+@media (max-width: 767px) {
+    .pull-right-not-xs, .pull-left-not-xs{
+        float: none;
+    }
+    .pull-right-xs {
+        float: right;
+    }
+    .pull-left-xs {
+        float: left;
+    }
+}
+@media (min-width: 768px) and (max-width: 991px) {
+    .pull-right-not-sm, .pull-left-not-sm{
+        float: none;
+    }
+    .pull-right-sm {
+        float: right;
+    }
+    .pull-left-sm {
+        float: left;
+    }
+}
+@media (min-width: 992px) and (max-width: 1199px) {
+    .pull-right-not-md, .pull-left-not-md{
+        float: none;
+    }
+    .pull-right-md {
+        float: right;
+    }
+    .pull-left-md {
+        float: left;
+    }
+}
+@media (min-width: 1200px) {
+    .pull-right-not-lg, .pull-left-not-lg{
+        float: none;
+    }
+    .pull-right-lg {
+        float: right;
+    }
+    .pull-left-lg {
+        float: left;
+    }
+}

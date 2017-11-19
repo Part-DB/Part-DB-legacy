@@ -60,20 +60,6 @@ function build_theme_loop()
     return $loop;
 }
 
-function build_custom_css_loop()
-{
-    global $config;
-    $loop = array();
-    $files = findAllFiles(BASE.'/templates/custom_css/', true, '.css');
-
-    foreach ($files as $file) {
-        $name = str_ireplace(BASE.'/templates/custom_css/', '', $file);
-        $loop[] = array('value' => $name, 'text' => $name, 'selected' => ($name == $config['html']['custom_css']));
-    }
-
-    return $loop;
-}
-
 /********************************************************************************
  *
  *   Evaluate $_REQUEST
@@ -112,6 +98,8 @@ $downloads_enable           = isset($_REQUEST['downloads_enable']);
 // section "appearance"
 $use_old_datasheet_icons    = isset($_REQUEST['use_old_datasheet_icons']);
 $short_description          = isset($_REQUEST['short_description']);
+$others_panel_collapse      = isset($_REQUEST['others_panel_collapse']);
+$others_panel_postion       = isset($_REQUEST['others_panel_position']) ? (string)$_REQUEST['others_panel_position'] : "top";
 
 // section "3d footprints"
 $foot3d_active              = isset($_REQUEST['foot3d_active']);
@@ -132,6 +120,7 @@ $saved_redirect             = isset($_REQUEST['saved_redirect']);
 //Table settings
 $table_autosort             = isset($_REQUEST['table_autosort']);
 $default_subcat             = isset($_REQUEST['default_subcat']);
+$default_limit              = isset($_REQUEST['default_limit']) ? (int) $_REQUEST['default_limit']  : 50;
 
 //Search settings
 $livesearch_active          = isset($_REQUEST['livesearch_active']);
@@ -214,6 +203,8 @@ if (! $fatal_error) {
 
             $config['appearance']['use_old_datasheet_icons'] = $use_old_datasheet_icons;
             $config['appearance']['short_description'] = $short_description;
+            $config['other_panel']['collapsed']        = $others_panel_collapse;
+            $config['other_panel']['position']         = $others_panel_postion;
 
             $config['foot3d']['active']                 = $foot3d_active;
             $config['foot3d']['show_info']              = $foot3d_show_info;
@@ -228,6 +219,7 @@ if (! $fatal_error) {
 
             $config['table']['autosort']                = $table_autosort;
             $config['table']['default_show_subcategories'] = $default_subcat;
+            $config['table']['default_limit']           = $default_limit;
 
             $config['attachements']['folder_structure'] = $attachements_structure;
             $config['attachements']['download_default'] = $attachements_download;
@@ -372,10 +364,13 @@ $html->setVariable("saved_redirect", $config['edit_parts']['saved_go_to_info'], 
 
 // Appearance
 $html->setVariable('short_description', $config['appearance']['short_description'], 'boolean');
+$html->setVariable('others_panel_collapse', $config['other_panel']['collapsed'], "boolean");
+$html->setVariable('others_panel_position', $config['other_panel']['position'], "string");
 
 //Table
 $html->setVariable('table_autosort', $config['table']['autosort'], 'boolean');
 $html->setVariable('default_subcat', $config['table']['default_show_subcategories'], 'boolean');
+$html->setVariable('default_limit', $config['table']['default_limit'], "int");
 
 //Attachements
 $html->setVariable("attachements_structure", $config['attachements']['folder_structure'], 'boolean');

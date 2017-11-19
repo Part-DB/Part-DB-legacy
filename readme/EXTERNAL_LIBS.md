@@ -56,8 +56,17 @@ This software uses the following external libraries:
 * **BBCode Parser**: Copyright (c) 2013-2015 Joseph Landberg
     Licensed under MIT, see LICENSE.MIT for details.
     Website: https://github.com/golonka/BBCodeParser
+
+* **Bootstrap-Select**: Copyright 2013-2017 bootstrap-select
+    Licensed under MIT, see LICENSE.MIT for details.
+    Website: http://silviomoreto.github.io/bootstrap-select
+
+* **JQuery-Highlight**:  Copyright (c) 2009 Bartek Szopka
+    Licensed under MIT, see LICENSE.MIT for details.
+    Website: https://github.com/knownasilya/jquery-highlight
+
+* **JQuery-Tristate**: Copyright (c) 2013-2017 Martijn W. van der Lee
+    Licensed under MIT, see LICENSE.MIT for details.
+    Website: https://github.com/vanderlee/tristate
     
-* **vLib**:  Copyright (c) 2002-2008 Kelvin Jones, Claus van Beek, Stefan Deussen.
-    Licensed under LGPL, see LICENSE.txt in lib/vlib
-    
-    
+For further license infos about Composer libraties, see the LICENSE files in the vendor/ folder.

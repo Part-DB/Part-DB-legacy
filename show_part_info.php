@@ -88,6 +88,9 @@ if (isset($_REQUEST["remove_mark_to_order"])) {
 if(isset($_REQUEST['device_add'])) {
     $action = "device_add";
 }
+if (isset($_REQUEST['toggle_favorite'])) {
+    $action = "toggle_favorite";
+}
 
 /********************************************************************************
  *
@@ -95,7 +98,7 @@ if(isset($_REQUEST['device_add'])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Detailinfo'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Detailinfo'));
 
 
 try {
@@ -174,6 +177,13 @@ if (! $fatal_error) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
             break;
+        case "toggle_favorite":
+            try {
+                $part->setFavorite(!$part->getFavorite());
+            } catch (Exception $e) {
+                $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+            }
+            break;
     }
 }
 
@@ -204,28 +214,29 @@ if (! $fatal_error) {
         $html->setVariable('name', $part->getName(), 'string');
         $html->setVariable('manufacturer_product_url', $part->getManufacturerProductUrl(), 'string');
         $html->setVariable('description', $part->getDescription(), 'string');
-        $html->setVariable('category_full_path', $part->getCategory()->getFullPath(), 'string');
+        $html->setLoop('category_path', $category->buildBreadcrumbLoop("show_category_parts.php", "cid", false, null, true));
         $html->setVariable('category_id', $part->getCategory()->getID(), 'string');
         $html->setVariable('instock', $part->getInstock(true), 'string');
         $html->setVariable('instock_unknown', $part->isInstockUnknown(), 'boolean');
         $html->setVariable('mininstock', $part->getMinInstock(), 'integer');
         $html->setVariable('visible', $part->getVisible(), 'boolean');
         $html->setVariable('comment', nl2br($part->getComment()), 'string');
-        $html->setVariable('footprint_full_path', (is_object($footprint) ? $footprint->getFullPath() : '-'), 'string');
+        $html->setLoop('footprint_path', (is_object($footprint) ? $footprint->buildBreadcrumbLoop("show_footprint_parts.php", "fid", false, null, true) : null));
         $html->setVariable('footprint_id', (is_object($footprint) ? $footprint->getID() : 0), 'integer');
         $html->setVariable('footprint_filename', (is_object($footprint) ? str_replace(BASE, BASE_RELATIVE, $footprint->getFilename()) : ''), 'string');
         $html->setVariable('footprint_valid', (is_object($footprint) ? $footprint->isFilenameValid() : false), 'boolean');
-        $html->setVariable('storelocation_full_path', (is_object($storelocation) ? $storelocation->getFullPath() : '-'), 'string');
+        $html->setLoop('storelocation_path', (is_object($storelocation) ? $storelocation->buildBreadcrumbLoop("show_location_parts.php", "lid", false, null, true) : null));
         $html->setVariable('storelocation_id', (is_object($storelocation) ? $storelocation->getID() : '0'), 'integer');
         $html->setVariable('storelocation_is_full', (is_object($storelocation) ? $storelocation->getIsFull() : false), 'boolean');
-        $html->setVariable('manufacturer_full_path', (is_object($manufacturer) ? $manufacturer->getFullPath() : '-'), 'string');
+        $html->setLoop('manufacturer_path', (is_object($manufacturer) ? $manufacturer->buildBreadcrumbLoop("show_manufacturer_parts.php", "mid", false, null, true) : null));
         $html->setVariable('manufacturer_id', (is_object($manufacturer) ? $manufacturer->getID() : 0), 'integer');
-        $html->setVariable('category_full_path', (is_object($category) ? $category->getFullPath() : '-'), 'string');
         $html->setVariable('auto_order_exists', ($part->getAutoOrder()), 'boolean');
         $html->setVariable('manual_order_exists', ($part->getManualOrder() && ($part->getInstock() >= $part->getMinInstock())), 'boolean');
 
         $html->setVariable('last_modified', $part->getLastModified(), 'string');
         $html->setVariable('datetime_added', $part->getDatetimeAdded(), 'string');
+
+        $html->setVariable('is_favorite', $part->getFavorite(), 'bool');
 
         //Infos about 3d footprint view
         $html->setVariable('foot3d_show_stats', $config['foot3d']['show_info'], 'boolean');
@@ -324,6 +335,7 @@ $html->setVariable("can_create", $current_user->canDo(PermissionManager::PARTS, 
 $html->setVariable("can_move", $current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE), "bool");
 $html->setVariable("can_read", $current_user->canDo(PermissionManager::PARTS, PartPermission::READ), "bool");
 $html->setVariable("can_instock", $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT), "bool");
+$html->setVariable("can_favorite", $current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE));
 
 $html->setVariable('can_orderdetails_create', $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE), "bool");
 $html->setVariable('can_attachement_create', $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE), "bool");

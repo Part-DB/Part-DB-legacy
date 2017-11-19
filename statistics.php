@@ -47,7 +47,7 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Statistik'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Statistik'));
 
 try {
     $database           = new Database();
@@ -87,6 +87,7 @@ if (! $fatal_error) {
 
         $html->setVariable('footprint_picture_count', count(findAllFiles(BASE.'/img/footprints/', true)), 'integer');
         $html->setVariable('iclogos_picture_count', count(findAllFiles(BASE.'/img/iclogos/', true)), 'integer');
+        $html->setVariable('footprint_models_count', count(findAllFiles(BASE.'/models/', true)));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
