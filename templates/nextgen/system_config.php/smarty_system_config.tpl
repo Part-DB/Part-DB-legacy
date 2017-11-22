@@ -404,6 +404,14 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">{t}Maximale Sessiondauer (in Sekunden):{/t}</label>
+                            <div class="col-sm-10">
+                                <input type="number" min="0" step="1" name="max_sessiontime" class="form-control" value="{$gc_lifetime}" placeholder="5400">
+                                <p class="help-block">{t}Wenn der Wert auf 0 gesetzt ist, wird der Standardwert von PHP verwendet.{/t}</p>
+                            </div>
+                        </div>
+
                         <br>
 
                     </div>

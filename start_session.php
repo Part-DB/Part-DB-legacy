@@ -283,8 +283,13 @@ $config['html']['http_charset'] = 'utf-8'; ///< @todo remove this later; see con
  *
  *********************************************************************************/
 
+if (isset($config['user']['gc_maxlifetime']) && $config['user']['gc_maxlifetime'] > 0) {
+    @ini_set("session.gc_maxlifetime", $config['user']['gc_maxlifetime']);
+}
+
 session_name('Part-DB');
-session_start(['read_and_close'  => true]);
+session_start();
+session_write_close();
 
 /********************************************************************************
  *
