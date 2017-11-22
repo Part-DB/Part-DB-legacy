@@ -494,6 +494,14 @@
                 <td><b>{t}Maximale Dateigröße beim Upload:{/t}</b></td>
                 <td>{$max_upload_filesize}B</td>
             </tr>
+            <tr>
+                <td><b>{t}Maximale Zeit bis eine unbenutze Benutzersession geschlossen wird:{/t}</b></td>
+                <td>{$session_gc_maxlifetime}s</td>
+            </tr>
+            <tr>
+                <td><b>{t}Lebensdauer der Sessioncookies:{/t}</b></td>
+                <td>{$session_cookie_lifetime}s</td>
+            </tr>
             </tbody>
         </table>
     </div>
