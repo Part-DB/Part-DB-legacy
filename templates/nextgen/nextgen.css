@@ -32,6 +32,15 @@ body {
     filter: opacity(60%);
 }
 
+.companypic-bg {
+    width: 20px;
+    display: inline;
+}
+
+.companypic-bg:hover {
+    filter: opacity(60%);
+}
+
 .td .table-small {
     font-size: 12px;
 }
