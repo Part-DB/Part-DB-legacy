@@ -301,6 +301,22 @@ if (! $fatal_error) {
             $html->setLoop('attachement_types_loop', $attachement_types_loop);
         }
 
+        //Auto datasheets
+        $datasheet_loop = $config['auto_datasheets']['entries'];
+
+        foreach ($datasheet_loop as $key => $entry) {
+            $datasheet_loop[$key]['url'] = str_replace('%%PARTNAME%%', urlencode($part->getName()), $entry['url']);
+        }
+
+        if ($config['appearance']['use_old_datasheet_icons'] == true) {
+            foreach ($datasheet_loop as &$sheet) {
+                if (isset($sheet['old_image'])) {
+                    $sheet['image'] = $sheet['old_image'];
+                }
+            }
+        }
+        $html->setLoop("datasheet_loop", $datasheet_loop);
+
         //Devices
         $devices = $part->getDevices();
         $devices_loop = array();

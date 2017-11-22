@@ -179,6 +179,7 @@ $config['attachements']['show_name']            = false;    //Show the names of 
 //Global user settings
 $config['user']['avatars']['use_gravatar']      = false;     //Use Gravatar for Avatars
 $config['user']['redirect_to_login']            = true;      //Redirect to login page, if a user does not has any permission (only if he accessed start page).
+$config['user']['gc_maxlifetime']               = 5400;      //5400 sec = 90min
 
 /********************************************************************************
  *
