@@ -354,7 +354,7 @@ $html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
 $html->setVariable('using_https', isUsingHTTPS(), 'boolean');
 $html->setVariable('max_input_vars', ini_get('max_input_vars'), 'string');
 $html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
-$html->setVariable('session_cookie_lifetime', ini_get('session.cookie_lifetime'), 'string');
+$html->setVariable('session_cookie_lifetime', ini_get('session.cookie_lifetime') > 0 ? ini_get('session.cookie_lifetime') . "s" : _("Bis zum Schließen des Browsers"), 'string');
 $html->setVariable('session_gc_maxlifetime', ini_get('session.gc_maxlifetime'), 'string');
 
 //Part properties
