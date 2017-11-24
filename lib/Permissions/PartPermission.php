@@ -58,7 +58,7 @@ class PartPermission extends BasePermission
         $operations[] = static::buildOperationArray(12, static::ALL_PARTS, _("Alle Teile auflisten"));
         $operations[] = static::buildOperationArray(14, static::ORDER_PARTS, _("Zu bestellende Teile auflisten"));
         $operations[] = static::buildOperationArray(16, static::NO_PRICE_PARTS, _("Teile ohne Preis auflisten"));
-        $operations[] = static::buildOperationArray(18, static::OBSOLETE_PARTS, _("Obsolente Teile auflisten"));
+        $operations[] = static::buildOperationArray(18, static::OBSOLETE_PARTS, _("Obsolete Teile auflisten"));
         $operations[] = static::buildOperationArray(20, static::UNKNONW_INSTOCK_PARTS, _("Teile mit unbekanntem Lagerbestand auflisten"));
         $operations[] = static::buildOperationArray(22, static::CHANGE_FAVORITE, _("Favoritenstatus ändern"));
         $operations[] = static::buildOperationArray(24, static::SHOW_FAVORITE_PARTS, _("Favorisierte Bauteile auflisten"));
