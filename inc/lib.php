@@ -1066,7 +1066,7 @@ function buildToolsTree($params)
         $show_nodes[] = treeviewNode(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
     }
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::OBSOLETE_PARTS)) {
-        $show_nodes[] = treeviewNode(_("Obsolente Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
+        $show_nodes[] = treeviewNode(_("Obsolete Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
     }
     if ($current_user->canDo(PermissionManager::TOOLS, ToolsPermission::STATISTICS)) {
         $show_nodes[] = treeviewNode(_("Statistik"), BASE_RELATIVE . "/statistics.php");
