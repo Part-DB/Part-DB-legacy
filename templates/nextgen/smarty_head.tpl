@@ -133,6 +133,18 @@
                     </li>
                 </ul>
 
+
+                <noscript>
+                    <p class="navbar-text navbar-right" style="margin-right: 10px;">
+                    {if $loggedin}
+                    {t}Eingeloggt als{/t} <a href="{$relative_path}user_settings.php" class="navbar-link">{$firstname} {$lastname} ({$username})</a>
+                    <a href="{$relative_path}login.php?logout" class="navbar-link">{t}Logout{/t}</a>
+                    {else}
+                    <a href="{$relative_path}login.php" class="navbar-link">{t}Login{/t}</a>
+                    {/if}</p>
+                </noscript>
+
+
                 <!-- Navbar -->
                 <div class="collapse navbar-collapse navbar-right" id="searchbar">
 
