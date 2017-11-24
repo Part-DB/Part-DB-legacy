@@ -297,6 +297,8 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
                 return "";
             }
         }
+
+        return "";
     }
 
     /**

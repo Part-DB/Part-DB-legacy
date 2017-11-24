@@ -65,12 +65,12 @@ class GroupPermission extends StructuralPermission
 
     public function generateLoopRow($read_only = false, $inherit = false)
     {
-        if(!$read_only) {
+        if (!$read_only) {
             //User cannot change its own User permission, so make his permission read-only.
-            if($this->perm_holder instanceof User) {
+            if ($this->perm_holder instanceof User) {
                 $perm_holder = $this->perm_holder;
                 /** @var $perm_holder User */
-                if($perm_holder->isLoggedInUser()) {
+                if ($perm_holder->isLoggedInUser()) {
                     $read_only = true;
                 }
             }

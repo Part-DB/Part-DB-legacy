@@ -85,7 +85,7 @@ try {
  *   Execute actions
  *
  *********************************************************************************/
-if(true) { //Allow to save connection settings, even when a error happened.
+if (true) { //Allow to save connection settings, even when a error happened.
     switch ($action) {
         case 'apply_connection_settings':
             $config_old = $config;
@@ -203,7 +203,6 @@ if (! $fatal_error) {
             //Throw message.
             $current_user->tryDo(PermissionManager::DATABASE, DatabasePermission::SEE_STATUS);
         }
-
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
@@ -240,7 +239,9 @@ if (isset($_REQUEST["ajax"])) {
 $reload_link = ($fatal_error || isset($database_update_executed)) ? 'system_database.php' : '';
 $html->printHeader($messages, $reload_link);
 
-if (!$fatal_error || !isset($current_user)) // we don't hide the site content if no user could be created, so the db connection could be repaired.
+// we don't hide the site content if no user could be created, so the db connection could be repaired.
+if (!$fatal_error || !isset($current_user)) {
     $html->printTemplate('system_database');
+}
 
 $html->printFooter();

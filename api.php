@@ -407,8 +407,14 @@ $app->get("/1.0.0/tree/devices[/{root_id}]", function ($request, $response, $arg
     /** @var \Slim\Http\Response $response */
     try {
         $root_device = new Device($database, $current_user, $log, 0);
-        $tree = $root_device->buildBootstrapTree("show_device_parts.php", "device_id", true,
-            true, false, _("Übersicht"));
+        $tree = $root_device->buildBootstrapTree(
+            "show_device_parts.php",
+            "device_id",
+            true,
+            true,
+            false,
+            _("Übersicht")
+        );
         return $response->withJson($tree);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);

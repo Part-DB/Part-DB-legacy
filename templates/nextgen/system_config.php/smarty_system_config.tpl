@@ -45,19 +45,6 @@
                 <div class="tab-content">
                     <div id="appearance" class="tab-pane fade in active">
                         <br>
-
-                        {*
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="theme">{t}Theme:{/t}</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" name="theme">
-                                    {foreach $theme_loop as $theme}
-                                        <option value="{$theme.value}" {if $theme.selected}selected{/if}>{$theme.text}</option>
-                                    {/foreach}
-                                </select>
-                            </div>
-                        </div> *}
-
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="custom_css">{t}Theme:{/t}</label>
                             <div class="col-sm-10">
@@ -422,9 +409,9 @@
                             <button class="btn btn-danger" type="submit" {if !$can_edit}disabled{/if}>{t}Änderungen verwerfen{/t}</button>
                         </div>
                     </div>
+                </div>
             </form>
         </div>
-    </div>
     </div>
 {/if}
 
@@ -508,7 +495,7 @@
             </tr>
             <tr>
                 <td><b>{t}Lebensdauer der Sessioncookies:{/t}</b></td>
-                <td>{$session_cookie_lifetime}s</td>
+                <td>{$session_cookie_lifetime}</td>
             </tr>
             </tbody>
         </table>

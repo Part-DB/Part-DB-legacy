@@ -21,7 +21,6 @@
 
 namespace PartDB\Permissions;
 
-
 use PartDB\Exceptions\NotImplementedException;
 use PartDB\Interfaces\IHasPermissions;
 use Psr\Log\InvalidArgumentException;
@@ -148,7 +147,6 @@ abstract class BasePermission
                 } else {
                     $val = $this->perm_holder->getParentPermissionManager()->getPermissionValue($this->getName(), $op['name'], true);
                 }
-
             }
 
             $ops[] = array("name" => $op["name"],
@@ -290,7 +288,6 @@ abstract class BasePermission
                 } else {
                     $val = $this->perm_holder->getParentPermissionManager()->getPermissionValue($this->getName(), $op['name'], true);
                 }
-
             }
 
             //When one permission is ALLOW, then not everything is forbidden.
@@ -301,5 +298,4 @@ abstract class BasePermission
 
         return  true;
     }
-
 }

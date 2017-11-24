@@ -188,7 +188,7 @@ class Device extends Base\PartsContainingDBElement
         } catch (Exception $e) {
             $this->database->rollback(); // rollback transaction
 
-            throw new Exception(sprintf( _("Die Baugruppe \"%s\"konnte nicht kopiert werden!\n"), $this->getName()) . _("Grund: ").$e->getMessage());
+            throw new Exception(sprintf(_("Die Baugruppe \"%s\"konnte nicht kopiert werden!\n"), $this->getName()) . _("Grund: ").$e->getMessage());
         }
     }
 
@@ -295,7 +295,8 @@ class Device extends Base\PartsContainingDBElement
      * @param bool $hide_obsolet_and_zero
      * @return array|null
      */
-    protected function getPartsWithoutPermCheck($recursive = false, $hide_obsolet_and_zero = false, $limit = 50, $page = 1) {
+    protected function getPartsWithoutPermCheck($recursive = false, $hide_obsolet_and_zero = false, $limit = 50, $page = 1)
+    {
         if (! is_array($this->parts)) {
             $this->parts = array();
 

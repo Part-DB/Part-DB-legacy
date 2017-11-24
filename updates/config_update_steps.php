@@ -87,7 +87,7 @@ function update_users_config_php()
                 $config['startup']['custom_banner']         = $banner;
 
                 // check if the config.php is really from Part-DB 0.2.2
-                if ( ! isset($mysql_server)) {
+                if (! isset($mysql_server)) {
                     throw new Exception('Fehler beim Updaten der config.php: Unbekannte Version!');
                 }
 
