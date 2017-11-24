@@ -21,7 +21,6 @@
 
 namespace PartDB\Permissions;
 
-
 class DatabasePermission extends BasePermission
 {
     const SEE_STATUS    = "see_status";

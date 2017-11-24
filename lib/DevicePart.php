@@ -434,7 +434,6 @@ class DevicePart extends Base\DBElement
         $mountnames = '',
         $increase_if_exist = false
     ) {
-
         $current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE);
 
         $existing_devicepart = DevicePart::getDevicePart($database, $current_user, $log, $device_id, $part_id);

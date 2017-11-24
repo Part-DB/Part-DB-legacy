@@ -10,7 +10,6 @@ class SystemVersionTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()
     {
-
     }
 
     /**
@@ -19,7 +18,7 @@ class SystemVersionTest extends PHPUnit_Framework_TestCase
     public function test_stable()
     {
         $version = new SystemVersion("0.3.4");
-        $this->assertEquals($version->get_version_type(),"stable");
+        $this->assertEquals($version->get_version_type(), "stable");
     }
 
     /*
@@ -28,7 +27,7 @@ class SystemVersionTest extends PHPUnit_Framework_TestCase
     public function test_unstable()
     {
         $version = new SystemVersion("0.3.4.RC1");
-        $this->assertEquals($version->get_version_type(),"unstable");
+        $this->assertEquals($version->get_version_type(), "unstable");
     }
 
     /**
@@ -83,5 +82,4 @@ class SystemVersionTest extends PHPUnit_Framework_TestCase
         $ver2 = new SystemVersion("0.2.1");
         $this->assertTrue($ver2->is_newer_than($ver1));
     }
-
 }

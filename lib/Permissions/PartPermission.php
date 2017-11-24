@@ -21,7 +21,6 @@
 
 namespace PartDB\Permissions;
 
-
 class PartPermission extends BasePermission
 {
     const CREATE = "create";

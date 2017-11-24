@@ -54,7 +54,6 @@ use PartDB\Permissions\PermissionManager;
  */
 class Part extends Base\AttachementsContainingDBElement implements Interfaces\IAPIModel
 {
-
     const INSTOCK_UNKNOWN   = -2;
 
     /********************************************************************************
@@ -506,7 +505,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function getLastModified($formatted = true)
     {
-
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
             return "???";
         }
@@ -543,7 +541,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 $this->database,
                 $this->current_user,
                 $this->log,
-                0);
+                0
+            );
         }
 
         if (! is_object($this->category)) {
@@ -1556,12 +1555,16 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
                 case 'id':
                 case 'button_increment':
-                    $row_field['increment_disabled'] = ($this->getInstock() < 0) || !$this->current_user->canDo(PermissionManager::PARTS_INSTOCK,
-                            PartAttributePermission::EDIT);
+                    $row_field['increment_disabled'] = ($this->getInstock() < 0) || !$this->current_user->canDo(
+                        PermissionManager::PARTS_INSTOCK,
+                            PartAttributePermission::EDIT
+                    );
                     break;
                 case 'button_edit':
-                    $row_field['edit_disabled'] = !$this->current_user->canDo(PermissionManager::PARTS,
-                        PartPermission::EDIT);
+                    $row_field['edit_disabled'] = !$this->current_user->canDo(
+                        PermissionManager::PARTS,
+                        PartPermission::EDIT
+                    );
                     break;
                 case 'quantity_edit': // for DevicePart Objects
                 case 'mountnames_edit': // for DevicePart Objects
@@ -2047,7 +2050,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             'ORDER BY parts.name ASC';
 
         if ($limit > 0 && $page > 0) {
-            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
         }
 
         $query_data = $database->query($query);
@@ -2121,7 +2124,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             'WHERE favorite = 1';
 
         if ($limit > 0 && $page > 0) {
-            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
         }
 
         $query_data = $database->query($query);
@@ -2194,7 +2197,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             'ORDER BY parts.name ASC';
 
         if ($limit > 0 && $page > 0) {
-            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
         }
 
         $query_data = $database->query($query);
@@ -2286,7 +2289,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if ($limit > 0 && $page > 0) {
-            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
         }
 
         $query_data = $database->query($query);
@@ -2621,7 +2624,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $query = 'SELECT * FROM parts';
 
         if ($limit > 0 && $page > 0) {
-            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
         }
 
         $query_data = $database->query($query);
@@ -2688,7 +2691,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $comment = '',
         $visible = false
     ) {
-
         $current_user->tryDo(PermissionManager::PARTS, PartPermission::CREATE);
 
         return parent::addByArray(

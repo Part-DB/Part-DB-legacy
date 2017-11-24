@@ -21,10 +21,8 @@
 
 namespace PartDB\Permissions;
 
-
 class SelfPermission extends BasePermission
 {
-
     const EDIT_USERNAME  = "edit_username";
     const EDIT_INFOS     = "edit_infos";
     const SHOW_PERMISSIONS = "show_perms";
@@ -49,8 +47,6 @@ class SelfPermission extends BasePermission
 
     protected function modifyValueBeforeSetting($operation, $new_value, $data)
     {
-
         return $data;
     }
-
 }

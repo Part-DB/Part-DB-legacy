@@ -62,9 +62,9 @@ $export_format_id       = isset($_REQUEST['export_format'])     ? (integer)$_REQ
 $action = 'default';
 if (isset($_REQUEST['subcat_button'])) {
     $action = 'change_subcat_state';
-} elseif(isset($_REQUEST['export'])) {
+} elseif (isset($_REQUEST['export'])) {
     $action = 'export';
-} elseif(isset($_REQUEST["multi_action"])) {
+} elseif (isset($_REQUEST["multi_action"])) {
     $action = "multi_action";
 }
 

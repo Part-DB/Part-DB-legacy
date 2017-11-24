@@ -402,7 +402,7 @@ function isAdminPassword($password)
         return true;
     }
 
-    if(strcontains($config['admin']['password'], "$") === false) {
+    if (strcontains($config['admin']['password'], "$") === false) {
         //Old method
         return (hash('sha256', $salt.$password) === $config['admin']['password']);
     } else {
@@ -420,7 +420,7 @@ function isAdminPassword($password)
 function needChangeAdminPassword()
 {
     global $config;
-    if($config['admin']['password'] == "") {
+    if ($config['admin']['password'] == "") {
         return true;
     }
     //If Admin password uses the old hasing method using SHA256, we need to migrate.
@@ -1045,7 +1045,7 @@ function buildToolsTree($params)
     if ($current_user->canDo(PermissionManager::GROUPS, \PartDB\Permissions\GroupPermission::READ)) {
         $system_nodes[] = treeviewNode(_("Gruppen"), BASE_RELATIVE . "/edit_groups.php");
     }
-    if($current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::READ_CONFIG)
+    if ($current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::READ_CONFIG)
         || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::SERVER_INFO)
         || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::CHANGE_ADMIN_PW)) {
         $system_nodes[] = treeviewNode(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
@@ -1201,7 +1201,6 @@ function generateAttachementPath($base_dir, $element)
     }
 
     return $base_dir . "" . implode("/", $categories). "/";
-
 }
 
 /**
@@ -1210,7 +1209,7 @@ function generateAttachementPath($base_dir, $element)
  * @param bool $beautify boolean When true, the filename gets beautified, so test---file.pdf, becomes test-file.pdf
  * @return mixed|string
  */
-function filter_filename($filename, $beautify=true)
+function filter_filename($filename, $beautify = true)
 {
     // sanitize filename
     $filename = preg_replace(
@@ -1395,7 +1394,8 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg")
  * @param $tristate_data string The Request data of the Tristate input.
  * @return int 0, if checkbox was indetermined, 1 if checkbox was checked, 2 if checkbox, was not checked.
  */
-function parseTristateCheckbox($tristate_data) {
+function parseTristateCheckbox($tristate_data)
+{
     switch ($tristate_data) {
         case "true":
             return 1;
@@ -1411,7 +1411,8 @@ function parseTristateCheckbox($tristate_data) {
  * @param $timestamp int The timestamp which should be formatted.
  * @return string The formatted string.
  */
-function formatTimestamp($timestamp) {
+function formatTimestamp($timestamp)
+{
     global $config;
     $language = $config['language'];
     $timezone = $config['timezone'];
@@ -1432,7 +1433,8 @@ function formatTimestamp($timestamp) {
             $language,
             IntlDateFormatter::MEDIUM,
             IntlDateFormatter::MEDIUM,
-            $timezone);
+            $timezone
+        );
 
         return $formatter->format($timestamp);
     } else {
@@ -1441,7 +1443,7 @@ function formatTimestamp($timestamp) {
     }
 }
 
-function generatePagination($page_link ,$selected_page, $limit, $max_entries)
+function generatePagination($page_link, $selected_page, $limit, $max_entries)
 {
     $links = array();
 
@@ -1481,7 +1483,7 @@ function generatePagination($page_link ,$selected_page, $limit, $max_entries)
         "entries" => $links);
 }
 
-function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $action, $target)
+function parsePartsSelection(&$database, &$current_user, &$log, $selection, $action, $target)
 {
     $ids = explode(",", $selection);
     foreach ($ids as $id) {
@@ -1521,7 +1523,6 @@ function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $act
         } else {
             throw new Exception(_("Unbekannte Aktion"));
         }
-
     }
 }
 
@@ -1533,7 +1534,7 @@ function build_custom_css_loop($selected = null, $include_default_theme = false)
     }
 
     $loop = array();
-    if($include_default_theme) {
+    if ($include_default_theme) {
         $loop[] = array("value" => "@@", "text" => _("Standardmäßiges Theme"), "selected" => ($selected == "@@"));
     }
     $files = findAllFiles(BASE.'/templates/custom_css/', true, '.css');
