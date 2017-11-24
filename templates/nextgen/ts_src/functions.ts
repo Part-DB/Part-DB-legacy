@@ -94,7 +94,8 @@ function extractTitle(html : string) : string {
  * @param {string} url The URL which should be opened in a new Tab.
  */
 function openInNewTab(url : string) {
-    $("<a>").attr("href", url).attr("target", "_blank")[0].click();
+    //$("<a>").attr("href", url).attr("target", "_blank")[0].click();
+    window.open(url,'_newtab');
 }
 
 /**
