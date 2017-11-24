@@ -60,7 +60,7 @@ class Supplier extends Base\Company implements ISearchable
      */
     public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log,'suppliers', $id, $data);
+        parent::__construct($database, $current_user, $log, 'suppliers', $id, $data);
     }
 
     /********************************************************************************
@@ -316,5 +316,4 @@ class Supplier extends Base\Company implements ISearchable
     {
         return PermissionManager::SUPPLIERS;
     }
-
 }

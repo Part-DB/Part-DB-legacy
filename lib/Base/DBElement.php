@@ -118,7 +118,7 @@ abstract class DBElement
         $this->tablename = $tablename;
 
         if (((! is_int($id)) && (! ctype_digit($id)) && (! is_null($id))) || (($id == 0) && (! $allow_virtual_elements))) {
-            throw new Exception(sprintf( '$id ist keine gültige ID! $id="%d"', $id));
+            throw new Exception(sprintf('$id ist keine gültige ID! $id="%d"', $id));
         }
 
         // get all data of the database record with the ID "$id"

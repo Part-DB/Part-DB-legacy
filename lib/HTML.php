@@ -182,8 +182,7 @@ class HTML
      */
     public function redirect($url, $instant = false)
     {
-        if (!is_string($url))
-        {
+        if (!is_string($url)) {
             throw new \InvalidArgumentException(_('$url must be a valid a string'));
         }
 
@@ -406,8 +405,7 @@ class HTML
             $tmpl->assign('can_category', $user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ)
                     && $user->canDo(PermissionManager::CATEGORIES, PartContainingPermission::LIST_PARTS));
             $tmpl->assign('can_device', $user->canDo(PermissionManager::DEVICES, StructuralPermission::READ));
-        } catch (Exception $exception)
-        {
+        } catch (Exception $exception) {
             //TODO
         }
 
@@ -573,7 +571,7 @@ class HTML
         }
 
         $tmpl->assign("tracking_code", $config['tracking_code']);
-        $tmpl->assign('auto_sort', $config['table']['autosort'] );
+        $tmpl->assign('auto_sort', $config['table']['autosort']);
         $tmpl->assign("autorefresh", $this->meta['autorefresh']);
 
         if (PDBDebugBar::isActivated()) {

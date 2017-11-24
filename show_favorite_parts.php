@@ -67,8 +67,12 @@ if (! $fatal_error) {
         $html->setLoop('table', $table_loop);
         $html->setVariable('table_rowcount', count($parts));
 
-        $html->setLoop("pagination", generatePagination("show_favorite_parts.php?", $page, $limit,
-            Part::getFavoritePartsCount($database, $current_user, $log)));
+        $html->setLoop("pagination", generatePagination(
+            "show_favorite_parts.php?",
+            $page,
+            $limit,
+            Part::getFavoritePartsCount($database, $current_user, $log)
+        ));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
     } catch (Exception $e) {

@@ -8,7 +8,6 @@
  */
 class LibTest extends PHPUnit_Framework_TestCase
 {
-
     public function setUp()
     {
         include_once "lib/lib.php";
@@ -27,10 +26,6 @@ class LibTest extends PHPUnit_Framework_TestCase
 
     public function test_toUnixPath()
     {
-        $this->assertEquals(toUnixPath("\\test\\test.jpg"),"/test/test.jpg");
+        $this->assertEquals(toUnixPath("\\test\\test.jpg"), "/test/test.jpg");
     }
-
-
-
-
 }

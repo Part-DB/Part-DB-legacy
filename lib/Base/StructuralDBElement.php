@@ -274,7 +274,6 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      */
     public function getLastModified($formatted = true)
     {
-
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
             return "???";
         }

@@ -444,7 +444,6 @@ class Attachement extends Base\NamedDBElement
             } catch (UserNotAllowedException $ex) {
                 //Do nothing
             }
-
         } catch (Exception $e) {
             debug(
                 'warning',
@@ -525,7 +524,6 @@ class Attachement extends Base\NamedDBElement
         $name = '',
         $show_in_table = false
     ) {
-
         $current_user->tryDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE);
 
 

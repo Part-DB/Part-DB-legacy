@@ -63,7 +63,6 @@ try {
     } catch (Exception $ex) {
         //Do nothing here.
     }
-
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -225,16 +224,18 @@ if (! $fatal_error) {
         $html->setVariable('git_commit', getGitCommitHash(10), 'string');
         $html->setVariable('partdb_title', $config['partdb_title'], 'string');
         $html->setVariable('must_change_pw', $current_user->getNeedPasswordChange());
-        $html->setVariable('must_change_admin_pw',
+        $html->setVariable(
+            'must_change_admin_pw',
             $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::CHANGE_ADMIN_PW)
-        && needChangeAdminPassword());
+        && needChangeAdminPassword()
+        );
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     }
 
     //When we dont has an existing DB with user system, then ignore all error messages.
     if ($database->getCurrentVersion() < 20) {
-       $messages = array();
+        $messages = array();
     }
 }
 

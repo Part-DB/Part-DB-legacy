@@ -386,8 +386,8 @@ $html->setVariable('disable_suppliers', $config['suppliers']['disable'], 'boolea
 
 //Detail infos
 $html->setVariable('info_hide_actions', $config['part_info']['hide_actions'], 'boolean');
-$html->setVariable('info_hide_empty_orderdetails', $config['part_info']['hide_empty_orderdetails'] , 'boolean');
-$html->setVariable('info_hide_empty_attachements', $config['part_info']['hide_empty_attachements'] , 'boolean');
+$html->setVariable('info_hide_empty_orderdetails', $config['part_info']['hide_empty_orderdetails'], 'boolean');
+$html->setVariable('info_hide_empty_attachements', $config['part_info']['hide_empty_attachements'], 'boolean');
 
 //Misc
 $html->setVariable("downloads_enable", $config['allow_server_downloads'], 'boolean');

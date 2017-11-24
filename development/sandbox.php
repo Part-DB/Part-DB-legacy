@@ -77,8 +77,12 @@ $current_user       = new User($database, $current_user, $log, 1); // admin
 
 // a PDO object
 $options['PDO::MYSQL_ATTR_INIT_COMMAND'] = 'SET NAMES '.$config['db']['charset'];
-$pdo = new PDO('mysql:host='.$config['db']['host'].';dbname='.$config['db']['name'],
-    $config['db']['user'], $config['db']['password'], $options);
+$pdo = new PDO(
+    'mysql:host='.$config['db']['host'].';dbname='.$config['db']['name'],
+    $config['db']['user'],
+    $config['db']['password'],
+    $options
+);
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 
@@ -129,7 +133,7 @@ if (isset($footprint_milliseconds)) {print 'Zeit: '.$footprint_milliseconds.'ms<
 if (isset($footprint_error)) {print '<b><font style="color:red">Fehlermeldung: '.$footprint_error.'</font></b><br>';}
 print '</form></div></div>'; */
 
-if($config['debug']['enable'] == true) {
+if ($config['debug']['enable'] == true) {
     phpinfo();
 }
 

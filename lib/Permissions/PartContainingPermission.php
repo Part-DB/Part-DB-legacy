@@ -21,7 +21,6 @@
 
 namespace PartDB\Permissions;
 
-
 class PartContainingPermission extends StructuralPermission
 {
     const LIST_PARTS  = "list_parts";
@@ -61,6 +60,4 @@ class PartContainingPermission extends StructuralPermission
 
         return $data;
     }
-
-
 }

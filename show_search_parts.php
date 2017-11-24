@@ -263,8 +263,6 @@ if (! $fatal_error) {
                 $parts_table_loops[$category_full_path] = Part::buildTemplateTableArray($parts, 'search_parts');
             }
         }
-
-
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -278,7 +276,6 @@ if (! $fatal_error) {
  *********************************************************************************/
 
 if (! $fatal_error) {
-
     $html->setVariable('keyword', $keyword, 'string');
     $html->setVariable('hits_count', (isset($hits_count) ? $hits_count : 0), 'integer');
     $html->setVariable('search_name', $search_name, 'boolean');
@@ -331,8 +328,7 @@ if (! $fatal_error) {
     }
 }
 
-if($action == "hint")
-{
+if ($action == "hint") {
     $html->printTemplate('livesearch_hint');
 }
 

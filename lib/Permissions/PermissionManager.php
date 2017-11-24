@@ -21,7 +21,6 @@
 
 namespace PartDB\Permissions;
 
-
 use PartDB\Base\DBElement;
 use PartDB\Database;
 use PartDB\Interfaces\IHasPermissions;
@@ -120,7 +119,6 @@ class PermissionManager
                     $perm = $this->getPermission($permission);
                     //Set Value of the operation.
                     $perm->setValue($operation, parseTristateCheckbox($value));
-
                 } catch (\Exception $ex) {
                     //Ignore exceptions. Dont do anything.
                 }
@@ -272,6 +270,5 @@ class PermissionManager
         $tmp = null;
         $manager = new static($tmp);
         return $manager->generatePermissionsLoop($read_only);
-
     }
 }

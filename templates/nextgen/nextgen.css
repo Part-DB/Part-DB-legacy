@@ -117,9 +117,6 @@ table.dataTable tbody th, table.dataTable tbody td {
         right: 0;
         left: 0;
         background-color: inherit;
-        padding-left: 15px;
-        padding-right: 15px;
-        padding-top: 7px;
         margin-top: 0;
         z-index: 1000;
         width: inherit;
@@ -128,7 +125,7 @@ table.dataTable tbody th, table.dataTable tbody td {
         -webkit-overflow-scrolling: touch;
         max-height: 100%;
         opacity: 0.97;
-        padding-bottom: 50px;
+        padding: 7px 15px 50px;
     }
 
     .sidebar-container {

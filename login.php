@@ -42,7 +42,7 @@ if ($logout == true && User::isLoggedIn()) {
     $action = "logout";
 }
 
-if(User::isLoggedIn() && $logout == false) {
+if (User::isLoggedIn() && $logout == false) {
     $action = "redirect";
 }
 
@@ -52,7 +52,6 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $user               = User::getLoggedInUser($database, $log);
-
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -97,8 +96,7 @@ if (!$fatal_error) {
     $html->setVariable("ajax_request", true);
 }*/
 
-if (User::isLoggedIn())
-{
+if (User::isLoggedIn()) {
     $user = User::getLoggedInUser($database, $log);
     $html->setVariable("loggedin", true, "boolean");
 }

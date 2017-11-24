@@ -206,7 +206,6 @@ if (! $fatal_error) {
 $html->setVariable('add_more', $add_more, 'boolean');
 
 if (! $fatal_error) {
-
     $perm_read_only = !$current_user->canDo(PermissionManager::GROUPS, GroupPermission::EDIT_PERMISSIONS);
     try {
         if (is_object($selected_group)) {
@@ -228,7 +227,6 @@ if (! $fatal_error) {
             } else {
                 $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop($perm_read_only);
             }
-
         } else {
             $parent_id = 0;
             $name = '';
@@ -255,8 +253,7 @@ if (! $fatal_error) {
     $html->setVariable('can_delete', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::DELETE));
     $html->setVariable('can_edit', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::EDIT));
     $html->setVariable('can_move', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::MOVE));
-    $html->setVariable('can_permission',!$perm_read_only );
-
+    $html->setVariable('can_permission', !$perm_read_only);
 }
 
 /********************************************************************************
