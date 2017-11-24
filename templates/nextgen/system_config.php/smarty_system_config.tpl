@@ -508,7 +508,7 @@
             </tr>
             <tr>
                 <td><b>{t}Lebensdauer der Sessioncookies:{/t}</b></td>
-                <td>{$session_cookie_lifetime}s</td>
+                <td>{$session_cookie_lifetime}</td>
             </tr>
             </tbody>
         </table>
