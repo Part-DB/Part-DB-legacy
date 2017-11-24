@@ -238,6 +238,9 @@
                                 </li>
                             </ul>
                         </div>
+
+                        <noscript><b>{t}Bitte aktivieren sie Javascript, um alle Funktionen benutzen zu können.{/t}</b></noscript>
+
                     </nav>
                 </aside>
                 
