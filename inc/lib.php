@@ -1404,6 +1404,8 @@ function parseTristateCheckbox($tristate_data)
         case "indeterminate":
             return 0;
     }
+
+    throw new InvalidArgumentException(_("Der gegebene Wert konnte keinem Tristatewert zugeordnet werden!"));
 }
 
 /**
