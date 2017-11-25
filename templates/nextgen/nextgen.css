@@ -103,7 +103,6 @@ table.dataTable tbody th, table.dataTable tbody td {
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
         max-height: 100%;
-
         padding-bottom: 50px;
     }
 
@@ -126,6 +125,7 @@ table.dataTable tbody th, table.dataTable tbody td {
         max-height: 100%;
         opacity: 0.97;
         padding: 7px 15px 50px;
+        margin-top: -10px;
     }
 
     .sidebar-container {
