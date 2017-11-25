@@ -108,7 +108,8 @@
                         <span class="sr-only">{t}Toggle Navigation{/t}</span>
                         <span class="fa fa-user"></span>
                     </button>
-                    <a class="navbar-toggle link-anchor" href="zxing://scan/?ret={if isset($smarty.server.HTTPS)}https{else}http{/if}%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$relative_path|escape:'url'}show_part_info.php%3Fbarcode%3D%7BCODE%7D&SCAN_FORMATS=EAN_8">
+                    <a class="navbar-toggle link-anchor" style="color: black;"
+                        href="zxing://scan/?ret={if isset($smarty.server.HTTPS)}https{else}http{/if}%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$relative_path|escape:'url'}show_part_info.php%3Fbarcode%3D%7BCODE%7D&SCAN_FORMATS=EAN_8">
                         <i class="fa fa-barcode" aria-hidden="true"></i>
                         <span class="sr-only">{t}Scanne Barcode{/t}</span>
                     </a>
