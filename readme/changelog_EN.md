@@ -1,5 +1,25 @@
 # Part-DB changelog
 
+## Part-DB 0.4.2
+
+#### New functions:
+* Automatic data sheet links can now also be accessed via a button on the part overview page
+* You can now set how long an unused user session should remain open, 
+    without the user being logged out (default: 90min)
+* Show the lifetime of session cookies in server information
+
+#### Bugfixes:
+* german spelling error corrected ("obsolete" -> "obsolete")
+* open the help and open links in the new tab, now also works in Firefox
+* Minor visual problems fixed.
+
+#### Other:
+* Improved support of browsers with Javascript disabled
+
+### Internal improvements
+* Various PSR-2 violations corrected
+
+
 ## Part-DB 0.4.1
 
 #### Bugfixes:

@@ -1,5 +1,24 @@
 # Part-DB Changelog
 
+## Part-DB 0.4.2
+
+### Neue Funktionen:
+* Automatische Datenblattlinks können nun auch über einen Button auf der Bauteileübersichtsseite aufgerufen werden
+* Es ist nun einstellbar, wie lange eine unbenutzte Benutzersession, geöffnet bleiben soll, 
+    ohne dass der Nutzer ausgeloggt wird (Standard: 90min)
+* Zeige in Serverinformationen die Lebensdauer der Sessioncookies
+
+### Bugfixes:
+* Rechtschreibfehler korriegiert ("obsolent" -> "obsolet")
+* Aufruf der Hilfe und öffnen von Links im neuem Tab, funktioniert nun auch in Firefox
+* Kleinere visuelle Probleme behoben.
+
+### Sonstiges:
+* Verbesserung der Unterstützung von Browsern mit deaktiviertem Javascript
+
+### Interne Verbesserungen
+* Diverse PSR-2 Violations korrigiert
+
 ## Part-DB 0.4.1
 
 ### Bugfixes:
