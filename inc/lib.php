@@ -1018,6 +1018,7 @@ function buildToolsTree($params)
     $developer_mode = $config['developer_mode'];
     $db_backup_name = $config['db']['backup']['name'];
     $db_backup_url = $config['db']['backup']['url'];
+    $footprint_3d_active = $config['foot3d']['active'];
 
 
     //Tools nodes
@@ -1033,6 +1034,9 @@ function buildToolsTree($params)
     }
     if (!$disable_tools_footprints && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::FOOTPRINTS)) {
         $tools_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/tools_footprints.php");
+    }
+    if ($footprint_3d_active && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::FOOTPRINTS)) {
+        $tools_nodes[] = treeviewNode(_("3D Footprints"), BASE_RELATIVE . "/tools_3d_footprints.php");
     }
     if (!$disable_iclogos && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IC_LOGOS)) {
         $tools_nodes[] = treeviewNode(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");

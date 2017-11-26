@@ -330,6 +330,9 @@ var AjaxUI = /** @class */ (function () {
             var hash = url.substring(url.indexOf("#"));
             scrollToAnchor(hash);
         }
+        if (url.indexOf("api.php/1.0.0/3d_models") != -1) {
+            return;
+        }
         this.checkRedirect();
         //Execute the registered handlers.
         for (var _i = 0, _a = this.ajax_complete_listeners; _i < _a.length; _i++) {
@@ -390,6 +393,7 @@ $(function (event) {
     ajaxui.addStartAction(rightClickSubmit);
     ajaxui.addStartAction(makeTriStateCheckbox);
     ajaxui.addStartAction(makeHighlight);
+    ajaxui.addStartAction(viewer3d_models);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
@@ -403,6 +407,7 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(rightClickSubmit);
     ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
     ajaxui.addAjaxCompleteAction(makeHighlight);
+    ajaxui.addAjaxCompleteAction(viewer3d_models);
     ajaxui.start();
 });
 function makeTriStateCheckbox() {
@@ -624,6 +629,33 @@ function makeHighlight() {
             element: "span"
         });
     }
+}
+function viewer3d_models() {
+    if (!$("#models-picker").length)
+        return;
+    var dir = "";
+    function update() {
+        var name = $("#models-picker").val();
+        var path = "models/" + dir + "/" + name;
+        $("#foot3d-model").attr("url", path);
+        $("#path").text(path);
+    }
+    $("#models-picker").change(update);
+    function node_handler(event, data) {
+        dir = data.href;
+        $.getJSON('api.php/1.0.0/3d_models/files/' + dir, function (list) {
+            $("#models-picker").empty();
+            list.forEach(function (element) {
+                $("<option/>").val(element).text(element).appendTo("#models-picker");
+                $('#models-picker').selectpicker('refresh');
+                update();
+            });
+        });
+    }
+    $.getJSON('api.php/1.0.0/3d_models/dir_tree', function (tree) {
+        $("#tree-footprint").treeview({ data: tree, enableLinks: false, showIcon: false,
+            showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
+    });
 }
 //Need for proper body padding, with every navbar height
 $(window).resize(function () {
