@@ -636,7 +636,7 @@ function viewer3d_models() {
     var dir = "";
     function update() {
         var name = $("#models-picker").val();
-        var path = "models/" + dir + "/" + name;
+        var path = "models/" + dir + name;
         $("#foot3d-model").attr("url", path);
         $("#path").text(path);
     }
