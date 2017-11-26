@@ -178,7 +178,7 @@ if (isset($_REQUEST["ajax"])) {
 $html->printHeader($messages);
 
 if (! $fatal_error) {
-    $html->printTemplate('footprints');
+    $html->printTemplate('3d_footprints');
 }
 
 $html->printFooter();

@@ -409,7 +409,7 @@ function makeTriStateCheckbox() {
     $(".tristate").tristate({
         checked: "true",
         unchecked: "false",
-        indeterminate: "indeterminate"
+        indeterminate: "indeterminate",
     });
 }
 /**
