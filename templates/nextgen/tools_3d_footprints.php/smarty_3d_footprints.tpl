@@ -29,7 +29,7 @@
                         <inline url="" id="foot3d-model"> </inline>
                     </transform>
                 </scene>
-                <!-- <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#fullscreen"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button> -->
+                <button class="btn btn-sm btn-outline-secondary" data-toggle="modal" data-target="#fullscreen"><i class="fa fa-arrows-alt" aria-hidden="true"></i></button>
             </x3d>
 
             <br><br>
@@ -45,5 +45,31 @@
 
         </div>
 
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="fullscreen" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title" id="myModalLabel">{t}3D-Footprint{/t}</h4>
+            </div>
+            <div class="modal-body">
+                <div class="container-fluid">
+                    <x3d id="foot3d" class="img-thumbnail x3d-fullscreen">
+                        <scene>
+                            <transform>
+                                <inline id="foot3d-model2"> </inline>
+                            </transform>
+                        </scene>
+                    </x3d>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">{t}Schließen{/t}</button>
+            </div>
+        </div>
     </div>
 </div>
