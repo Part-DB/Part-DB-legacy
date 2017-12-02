@@ -17,7 +17,7 @@
 
         <div class="col-md-8">
             <select class="form-control selectpicker" data-live-search="true" id="models-picker">
-
+                {* This is filled dynamically by JQuery *}
             </select>
 
             <br><br>
