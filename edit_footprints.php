@@ -67,6 +67,9 @@ if ((strlen($new_filename) > 0) && (! isPathabsoluteAndUnix($new_filename))) {
 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
 if ((strlen($new_3d_filename) > 0) && (! isPathabsoluteAndUnix($new_3d_filename))) {
+    if (!strcontains($new_3d_filename, "models/")) {
+        $new_3d_filename = "models/" . $new_3d_filename;
+    }
     $new_3d_filename = BASE.'/'.$new_3d_filename;
 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
@@ -239,6 +242,8 @@ if (! $fatal_error) {
                         }
                     }
                 }
+
+
 
                 $selected_footprint->setAttributes(array(  'name'          => $new_name,
                     'parent_id'     => $new_parent_id,
