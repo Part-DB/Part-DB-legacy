@@ -52,6 +52,7 @@ var AjaxUI = /** @class */ (function () {
         this.tree_fill();
         this.registerForm();
         this.registerLinks();
+        this.getTypeaheadData();
         //Calls registered actions
         for (var _i = 0, _a = this.start_listeners; _i < _a.length; _i++) {
             var entry = _a[_i];
@@ -264,6 +265,27 @@ var AjaxUI = /** @class */ (function () {
     AjaxUI.prototype.updateTrees = function () {
         this.tree_fill();
     };
+    AjaxUI.prototype.getTypeaheadData = function () {
+        var _this = this;
+        $.getJSON("api.php/1.0.0/3d_models/files", function (data) {
+            _this.model_list = data;
+            _this.fillTypeahead();
+        });
+        $.getJSON("api.php/1.0.0/img_files/files", function (data) {
+            _this.img_list = data;
+            _this.fillTypeahead();
+        });
+    };
+    AjaxUI.prototype.fillTypeahead = function () {
+        if ($("#models-search").length && !$("#models-search").hasClass("initialized")) {
+            $("#models-search").addClass("initialized");
+            $("#models-search").typeahead({ source: this.model_list });
+        }
+        if ($("#img-search").length && !$("#img-search").hasClass("initialized")) {
+            $("#img-search").addClass("initialized");
+            $("#img-search").typeahead({ source: this.img_list });
+        }
+    };
     /**
      * Aborts all currently active XHR requests.
      */
@@ -325,10 +347,14 @@ var AjaxUI = /** @class */ (function () {
         this.registerForm();
         this.registerLinks();
         this.registerSubmitBtn();
+        this.fillTypeahead();
         var url = settings.url;
         if (url.indexOf("#") != -1) {
             var hash = url.substring(url.indexOf("#"));
             scrollToAnchor(hash);
+        }
+        if (url.indexOf("api.php/1.0.0/3d_models") != -1) {
+            return;
         }
         this.checkRedirect();
         //Execute the registered handlers.
@@ -390,6 +416,8 @@ $(function (event) {
     ajaxui.addStartAction(rightClickSubmit);
     ajaxui.addStartAction(makeTriStateCheckbox);
     ajaxui.addStartAction(makeHighlight);
+    ajaxui.addStartAction(viewer3d_models);
+    //ajaxui.addStartAction(makeTypeAhead);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
@@ -403,13 +431,24 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(rightClickSubmit);
     ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
     ajaxui.addAjaxCompleteAction(makeHighlight);
+    ajaxui.addAjaxCompleteAction(viewer3d_models);
+    //ajaxui.addAjaxCompleteAction(makeTypeAhead);
     ajaxui.start();
 });
+function makeTypeAhead() {
+    if ($("#models-search").length && !$("#models-search").hasClass("initialized")) {
+        $("#models-search").addClass("initialized");
+        $.getJSON("api.php/1.0.0/3d_models/files", function (data) {
+            //alert("Filled");
+            $("#models-search").typeahead({ source: data });
+        });
+    }
+}
 function makeTriStateCheckbox() {
     $(".tristate").tristate({
         checked: "true",
         unchecked: "false",
-        indeterminate: "indeterminate"
+        indeterminate: "indeterminate",
     });
 }
 /**
@@ -539,7 +578,12 @@ function treeviewBtnInit() {
  */
 function registerX3DOM() {
     if ($("x3d").length) {
-        x3dom.reload();
+        try {
+            x3dom.reload();
+        }
+        catch (e) {
+            //Ignore everything
+        }
     }
 }
 /**
@@ -624,6 +668,44 @@ function makeHighlight() {
             element: "span"
         });
     }
+}
+function viewer3d_models() {
+    if (!$("#models-picker").length)
+        return;
+    var dir = "";
+    function update() {
+        var name = $("#models-picker").val();
+        //dir = $("#tree-footprint").treeview("getSelected").data.href;
+        if (dir == "")
+            return;
+        var path = "models/" + dir + "/" + name;
+        $("#foot3d-model").attr("url", path);
+        $("#foot3d-model2").attr("url", path);
+        $("#path").text(path);
+    }
+    $("#models-picker").change(update);
+    function node_handler(event, data) {
+        dir = data.href;
+        $.getJSON('api.php/1.0.0/3d_models/files/' + dir, function (list) {
+            $("#models-picker").empty();
+            list.forEach(function (element) {
+                $("<option/>").val(element).text(element).appendTo("#models-picker");
+                $('#models-picker').selectpicker('refresh');
+                update();
+            });
+        });
+    }
+    $.getJSON('api.php/1.0.0/3d_models/dir_tree', function (tree) {
+        $("#tree-footprint").treeview({ data: tree, enableLinks: false, showIcon: false,
+            showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
+    });
+    $("#models-search-go").click(function () {
+        var name = $("#models-search").val();
+        var path = "models/" + name;
+        $("#foot3d-model").attr("url", path);
+        $("#foot3d-model2").attr("url", path);
+        $("#path").text(path);
+    });
 }
 //Need for proper body padding, with every navbar height
 $(window).resize(function () {
