@@ -101,7 +101,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3">{t}3D-Footprint:{/t}</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="filename_3d" value="{$filename_3d}" placeholder="{t}z.B. models/Housings_DIP/DIP-8_W7.62mm.x3d{/t}" class="form-control">
+                                        <input type="text" name="filename_3d" value="{$filename_3d}" placeholder="{t}z.B. models/Housings_DIP/DIP-8_W7.62mm.x3d{/t}" class="typeahead form-control" data-provide="typeahead" autocomplete="off" id="models-search">
                                         <p></p>
                                         {if !empty($filename_3d) && $filename_3d_valid}
                                             <x3d id="foot3d" class="img-thumbnail" height="150" width="500" >

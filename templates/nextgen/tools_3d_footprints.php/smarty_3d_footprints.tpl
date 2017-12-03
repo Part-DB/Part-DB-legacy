@@ -2,6 +2,11 @@
     <div class="panel-heading">{t}3D Footprints{/t}</div>
     <div class="panel-body">
         <div class="col-md-4" id="dir_select">
+
+            <input type="text" class="typeahead form-control" data-provide="typeahead" autocomplete="off" id="models-search">
+
+            <br>
+
                 <div class="dropdown">
                     <button class="btn-text dropdown-toggle" type="button" id="dropdownCat" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                         <div class="sidebar-title">{t}Verzeichnis{/t}

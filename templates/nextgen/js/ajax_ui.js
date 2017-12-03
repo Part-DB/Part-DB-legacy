@@ -52,6 +52,7 @@ var AjaxUI = /** @class */ (function () {
         this.tree_fill();
         this.registerForm();
         this.registerLinks();
+        this.getTypeaheadData();
         //Calls registered actions
         for (var _i = 0, _a = this.start_listeners; _i < _a.length; _i++) {
             var entry = _a[_i];
@@ -264,6 +265,18 @@ var AjaxUI = /** @class */ (function () {
     AjaxUI.prototype.updateTrees = function () {
         this.tree_fill();
     };
+    AjaxUI.prototype.getTypeaheadData = function () {
+        var _this = this;
+        $.getJSON("api.php/1.0.0/3d_models/files", function (data) {
+            _this.model_list = data;
+        });
+    };
+    AjaxUI.prototype.fillTypeahead = function () {
+        if ($("#models-search").length && !$("#models-search").hasClass("initialized")) {
+            $("#models-search").addClass("initialized");
+            $("#models-search").typeahead({ source: this.model_list });
+        }
+    };
     /**
      * Aborts all currently active XHR requests.
      */
@@ -325,6 +338,7 @@ var AjaxUI = /** @class */ (function () {
         this.registerForm();
         this.registerLinks();
         this.registerSubmitBtn();
+        this.fillTypeahead();
         var url = settings.url;
         if (url.indexOf("#") != -1) {
             var hash = url.substring(url.indexOf("#"));
@@ -394,6 +408,7 @@ $(function (event) {
     ajaxui.addStartAction(makeTriStateCheckbox);
     ajaxui.addStartAction(makeHighlight);
     ajaxui.addStartAction(viewer3d_models);
+    //ajaxui.addStartAction(makeTypeAhead);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
@@ -408,8 +423,18 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
     ajaxui.addAjaxCompleteAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(viewer3d_models);
+    //ajaxui.addAjaxCompleteAction(makeTypeAhead);
     ajaxui.start();
 });
+function makeTypeAhead() {
+    if ($("#models-search").length && !$("#models-search").hasClass("initialized")) {
+        $("#models-search").addClass("initialized");
+        $.getJSON("api.php/1.0.0/3d_models/files", function (data) {
+            //alert("Filled");
+            $("#models-search").typeahead({ source: data });
+        });
+    }
+}
 function makeTriStateCheckbox() {
     $(".tristate").tristate({
         checked: "true",
@@ -544,7 +569,12 @@ function treeviewBtnInit() {
  */
 function registerX3DOM() {
     if ($("x3d").length) {
-        x3dom.reload();
+        try {
+            x3dom.reload();
+        }
+        catch (e) {
+            //Ignore everything
+        }
     }
 }
 /**

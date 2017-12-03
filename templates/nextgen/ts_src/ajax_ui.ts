@@ -16,6 +16,8 @@ class AjaxUI {
 
     private _this = this;
 
+    private model_list;
+
     private ajax_complete_listeners : Array<() => void> = [];
     private start_listeners : Array<() => void> = [];
 
@@ -78,6 +80,8 @@ class AjaxUI {
         this.tree_fill();
         this.registerForm();
         this.registerLinks();
+
+        this.getTypeaheadData();
 
         //Calls registered actions
         for (let entry of this.start_listeners)
@@ -335,6 +339,21 @@ class AjaxUI {
         this.tree_fill();
     }
 
+    private getTypeaheadData()
+    {
+        var _this = this;
+        $.getJSON("api.php/1.0.0/3d_models/files", function(data){
+            _this.model_list = data;
+        });
+    }
+
+    private fillTypeahead() {
+        if($("#models-search").length && !$("#models-search").hasClass("initialized")) {
+            $("#models-search").addClass("initialized");
+                $("#models-search").typeahead({ source: this.model_list });
+        }
+    }
+
     /**
      * Aborts all currently active XHR requests.
      */
@@ -407,6 +426,8 @@ class AjaxUI {
         this.registerForm();
         this.registerLinks();
         this.registerSubmitBtn();
+
+        this.fillTypeahead();
 
         let url = settings.url;
 
@@ -494,7 +515,8 @@ $(function(event){
     ajaxui.addStartAction(makeTriStateCheckbox);
     ajaxui.addStartAction(makeHighlight);
     ajaxui.addStartAction(viewer3d_models);
-    
+    //ajaxui.addStartAction(makeTypeAhead);
+
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
@@ -509,9 +531,20 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
     ajaxui.addAjaxCompleteAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(viewer3d_models);
+    //ajaxui.addAjaxCompleteAction(makeTypeAhead);
 
     ajaxui.start();
 });
+
+function makeTypeAhead() {
+    if($("#models-search").length && !$("#models-search").hasClass("initialized")) {
+        $("#models-search").addClass("initialized");
+        $.getJSON("api.php/1.0.0/3d_models/files", function(data){
+            //alert("Filled");
+            $("#models-search").typeahead({ source:data });
+        });
+    }
+}
 
 function makeTriStateCheckbox() {
     $(".tristate").tristate( {
@@ -660,7 +693,12 @@ function treeviewBtnInit() {
  */
 function registerX3DOM() {
     if ($("x3d").length) {
-        x3dom.reload();
+        try {
+            x3dom.reload();
+        } catch(e) {
+            //Ignore everything
+        }
+
     }
 }
 

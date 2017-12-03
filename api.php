@@ -521,4 +521,19 @@ $app->get("/1.0.0/3d_models/files/{dir}[/]", function ($request, $response, $arg
     }
 });
 
+$app->get("/1.0.0/3d_models/files[/]", function ($request, $response, $args) {
+    /** @var \Slim\Http\Response $response */
+    $items = array();
+    try {
+        $files = findAllFiles(BASE . "/models/", true, ".x3d");
+        foreach ($files as &$file) {
+            $file = str_replace(BASE . "/models/", "", $file);
+        }
+
+        return $response->withJson($files);
+    } catch (Exception $ex) {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
 $app->run();
