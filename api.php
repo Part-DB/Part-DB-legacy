@@ -536,4 +536,19 @@ $app->get("/1.0.0/3d_models/files[/]", function ($request, $response, $args) {
     }
 });
 
+$app->get("/1.0.0/img_files/files[/]", function ($request, $response, $args) {
+    /** @var \Slim\Http\Response $response */
+    $items = array();
+    try {
+        $files = findAllFiles(BASE . "/img/footprints/", true);
+        foreach ($files as &$file) {
+            $file = str_replace(BASE . "/img/footprints/", "", $file);
+        }
+
+        return $response->withJson($files);
+    } catch (Exception $ex) {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
 $app->run();

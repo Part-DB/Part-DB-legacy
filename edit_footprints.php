@@ -63,6 +63,9 @@ $new_3d_filename                = isset($_REQUEST['filename_3d'])               
 $new_comment                    = isset($_REQUEST['comment'])       ? (string)$_REQUEST['comment']      : "";
 
 if ((strlen($new_filename) > 0) && (! isPathabsoluteAndUnix($new_filename))) {
+    if (!strcontains($new_filename, "img/footprints/")) {
+        $new_filename = "img/footprints/" . $new_filename;
+    }
     $new_filename = BASE.'/'.$new_filename;
 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 

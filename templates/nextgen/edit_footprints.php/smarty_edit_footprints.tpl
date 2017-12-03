@@ -78,7 +78,8 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Bild:{/t}</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="filename" value="{$filename}" placeholder="{t}z.B. img/footprints/Aktiv/ICs/DIP/IC_DIP8.png{/t}" class="form-control" {if !$can_edit}disabled{/if}>
+                                    <input type="text" name="filename" value="{$filename}" placeholder="{t}z.B. img/footprints/Aktiv/ICs/DIP/IC_DIP8.png{/t}" class="form-control" {if !$can_edit}disabled{/if}
+                                           class="typeahead form-control" data-provide="typeahead" autocomplete="off" id="img-search">
                                 </div>
                                 <div class="col-sm-3 pull-right">
                                     <input data-show-caption="false" data-show-preview="false" data-show-upload="false" type="file" class="file" name="footprint_file" {if !$can_edit}disabled{/if}>

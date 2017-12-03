@@ -17,6 +17,7 @@ class AjaxUI {
     private _this = this;
 
     private model_list;
+    private img_list;
 
     private ajax_complete_listeners : Array<() => void> = [];
     private start_listeners : Array<() => void> = [];
@@ -345,12 +346,21 @@ class AjaxUI {
         $.getJSON("api.php/1.0.0/3d_models/files", function(data){
             _this.model_list = data;
         });
+
+        $.getJSON("api.php/1.0.0/img_files/files", function(data){
+            _this.img_list = data;
+        });
     }
 
     private fillTypeahead() {
         if($("#models-search").length && !$("#models-search").hasClass("initialized")) {
             $("#models-search").addClass("initialized");
                 $("#models-search").typeahead({ source: this.model_list });
+        }
+
+        if($("#img-search").length && !$("#img-search").hasClass("initialized")) {
+            $("#img-search").addClass("initialized");
+            $("#img-search").typeahead({ source: this.img_list });
         }
     }
 
