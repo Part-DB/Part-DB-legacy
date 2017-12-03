@@ -46,7 +46,7 @@ try {
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log); // admin
 
-    $current_user->tryDo(\PartDB\Permissions\PermissionManager::TOOLS, \PartDB\Permissions\ToolsPermission::IMPORT);
+    $current_user->tryDo(\PartDB\Permissions\PermissionManager::TOOLS, \PartDB\Permissions\ToolsPermission::IC_LOGOS);
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
