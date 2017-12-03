@@ -84,7 +84,7 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Kommentar:{/t}</label>
                                 <div class="col-md-9">
-                                    <textarea name="comment" class="form-control" rows="5"
+                                    <textarea name="comment" class="form-control" rows="5" {if !$can_edit}disabled{/if}
                                               placeholder="{t}z.B. wichtige Links{/t}">{if isset($comment)}{$comment}{/if}</textarea>
                                     <p class="help-block">{t}Hinweis: Hier kann BBCode verwendet werden um den Text besonders auszuzeichnen (z.B. [b]Fett[/b]).{/t}</p>
                                 </div>
