@@ -840,6 +840,15 @@ function viewer3d_models() {
         $("#tree-footprint").treeview({ data: tree, enableLinks: false, showIcon: false
             ,showBorder: true, onNodeSelected: node_handler }).treeview('collapseAll', { silent: true });
     });
+
+    $("#models-search-go").click(function () {
+        var name = $("#models-search").val();
+        var path = "models/" + name;
+        $("#foot3d-model").attr("url", path);
+        $("#foot3d-model2").attr("url", path);
+
+        $("#path").text(path);
+    });
 }
 
 //Need for proper body padding, with every navbar height

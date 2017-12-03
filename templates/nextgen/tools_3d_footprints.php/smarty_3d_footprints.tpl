@@ -3,21 +3,26 @@
     <div class="panel-body">
         <div class="col-md-4" id="dir_select">
 
-            <input type="text" class="typeahead form-control" data-provide="typeahead" autocomplete="off" id="models-search">
+            <div class="input-group">
+                <input type="text" class="typeahead form-control" placeholder="{t}Suchen{/t}" data-provide="typeahead" autocomplete="off" id="models-search">
+                <span class="input-group-btn">
+                    <button class="btn btn-default" type="button" id="models-search-go">{t}Los{/t}</button>
+                </span>
+            </div>
 
             <br>
 
-                <div class="dropdown">
-                    <button class="btn-text dropdown-toggle" type="button" id="dropdownCat" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        <div class="sidebar-title">{t}Verzeichnis{/t}
-                            <span class="caret"></span></div>
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownCat">
-                        <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-categories">{t}Alle ausklappen{/t}</a></li>
-                        <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-categories">{t}Alle einklappen{/t}</a></li>
-                    </ul>
-                </div>
-                <div id="tree-footprint"></div>
+            <div class="dropdown">
+                <button class="btn-text dropdown-toggle" type="button" id="dropdownCat" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    <div class="sidebar-title">{t}Verzeichnis{/t}
+                        <span class="caret"></span></div>
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="dropdownCat">
+                    <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-categories">{t}Alle ausklappen{/t}</a></li>
+                    <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-categories">{t}Alle einklappen{/t}</a></li>
+                </ul>
+            </div>
+            <div id="tree-footprint"></div>
         </div>
 
         <div class="col-md-8">
