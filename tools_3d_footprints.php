@@ -40,21 +40,6 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 $action = 'default';
-if (isset($_REQUEST['show_all'])) {
-    $action = 'show_all';
-}
-if (isset($_REQUEST['show_active'])) {
-    $action = 'show_active';
-}
-if (isset($_REQUEST['show_passive'])) {
-    $action = 'show_passive';
-}
-if (isset($_REQUEST['show_electromechanic'])) {
-    $action = 'show_electromechanic';
-}
-if (isset($_REQUEST['show_others'])) {
-    $action = 'show_others';
-}
 
 /********************************************************************************
  *
@@ -70,6 +55,10 @@ try {
     $current_user       = User::getLoggedInUser($database, $log); // admin
 
     $current_user->tryDo(\PartDB\Permissions\PermissionManager::TOOLS, \PartDB\Permissions\ToolsPermission::FOOTPRINTS);
+
+    if (!$config['foot3d']['active']) {
+        throw new Exception(_("3D Footprints müssen aktiviert sein, um diese Funktion zu nutzen."));
+    }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -82,85 +71,7 @@ try {
  *********************************************************************************/
 
 if (! $fatal_error) {
-    switch ($action) {
-        case 'show_all':
-            $directories = array();
-            $directories[] = BASE.'/img/footprints/';
-            break;
 
-        case 'show_active':
-            $directories = array();
-            $directories[] = BASE.'/img/footprints/Aktiv/';
-            break;
-
-        case 'show_passive':
-            $directories = array();
-            $directories[] = BASE.'/img/footprints/Passiv/';
-            break;
-
-        case 'show_electromechanic':
-            $directories = array();
-            $directories[] = BASE.'/img/footprints/Elektromechanik/';
-            break;
-
-        case 'show_others':
-            $directories = findAllDirectories(BASE.'/img/footprints/');
-            if (array_search(BASE.'/img/footprints/Aktiv', $directories) !== false) {
-                unset($directories[array_search(BASE.'/img/footprints/Aktiv', $directories)]);
-            }
-            if (array_search(BASE.'/img/footprints/Passiv', $directories) !== false) {
-                unset($directories[array_search(BASE.'/img/footprints/Passiv', $directories)]);
-            }
-            if (array_search(BASE.'/img/footprints/Elektromechanik', $directories) !== false) {
-                unset($directories[array_search(BASE.'/img/footprints/Elektromechanik', $directories)]);
-            }
-            foreach ($directories as $key => $value) {
-                $directories[$key] = $value.'/';
-            }
-            break;
-
-        default:
-            if ($config['tools']['footprints']['autoload']) {
-                $directories = array(BASE.'/img/footprints/');
-            } else {
-                $directories = array();
-            }
-            break;
-    }
-}
-
-//Give action to Template, so we can mark the active button
-$html->setVariable("action", $action, "string");
-
-/********************************************************************************
- *
- *   Get Footprints and set all HTML variables
- *
- *********************************************************************************/
-
-if (!$fatal_error && count($directories) > 0) {
-    $categories_loop = array();
-    $categories = array();
-    foreach ($directories as $directory) {
-        $categories[] = rtrim($directory, "\\/");
-        $categories = array_merge($categories, findAllDirectories($directory, true));
-    }
-    sort($categories);
-    foreach ($categories as $category) {
-        $pictures_loop = array();
-        $pictures = findAllFiles($category.'/', false, '.png');
-        foreach ($pictures as $filename) {
-            $pictures_loop[] = array(   'title' => str_replace('.png', '', basename($filename)),
-                'filename' => str_replace(BASE, BASE_RELATIVE, $filename));
-        }
-
-        if (count($pictures_loop) > 0) {
-            $categories_loop[] = array( 'category_name' => str_replace(BASE, '', $category),
-                'pictures_loop' => $pictures_loop);
-        }
-    }
-
-    $html->setLoop('categories_loop', $categories_loop);
 }
 
 /********************************************************************************
