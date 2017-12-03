@@ -269,9 +269,11 @@ var AjaxUI = /** @class */ (function () {
         var _this = this;
         $.getJSON("api.php/1.0.0/3d_models/files", function (data) {
             _this.model_list = data;
+            _this.fillTypeahead();
         });
         $.getJSON("api.php/1.0.0/img_files/files", function (data) {
             _this.img_list = data;
+            _this.fillTypeahead();
         });
     };
     AjaxUI.prototype.fillTypeahead = function () {
@@ -673,6 +675,9 @@ function viewer3d_models() {
     var dir = "";
     function update() {
         var name = $("#models-picker").val();
+        //dir = $("#tree-footprint").treeview("getSelected").data.href;
+        if (dir == "")
+            return;
         var path = "models/" + dir + "/" + name;
         $("#foot3d-model").attr("url", path);
         $("#foot3d-model2").attr("url", path);
