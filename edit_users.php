@@ -284,7 +284,6 @@ if (! $fatal_error) {
 
             //Permissions loop
             $perm_loop = $selected_user->getPermissionManager()->generatePermissionsLoop($perm_readonly);
-
         } elseif ($action == 'add') {
             $name = $new_name;
             $first_name = $new_first_name;
@@ -319,18 +318,20 @@ if (! $fatal_error) {
             }
             $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, ""));
             $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], ""));
-
         }
 
         $html->setVariable('name', $name, 'string');
         $html->setVariable('first_name', $first_name, 'string');
-        $html->setVariable('last_name', $last_name,'string');
+        $html->setVariable('last_name', $last_name, 'string');
         $html->setVariable('email', $email, 'string');
         $html->setVariable('department', $department, 'string');
         $html->setVariable('no_password', $no_password, 'string');
 
-        $html->setVariable('group_list',
-            $root_group->buildHtmlTree($group_id, true, true, _("Keine Gruppe")), 'string');
+        $html->setVariable(
+            'group_list',
+            $root_group->buildHtmlTree($group_id, true, true, _("Keine Gruppe")),
+            'string'
+        );
 
         $user_list = User::buildHTMLList($database, $current_user, $log, $selected_id);
         $html->setVariable('user_list', $user_list, 'string');

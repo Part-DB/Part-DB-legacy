@@ -53,8 +53,7 @@ function get_db_update_steps($current_version)
 {
     $updateSteps = array();
 
-    switch($current_version)
-    {
+    switch ($current_version) {
         case 0:
             // there are no tables (empty database), so we will create them.
             // Please note: We will directly create the database version 13, not the first version!
@@ -260,7 +259,7 @@ function get_db_update_steps($current_version)
             break;
 
         case 1:
-            $updateSteps[] = NULL; // nothing to do (steps removed)
+            $updateSteps[] = null; // nothing to do (steps removed)
             break;
 
         case 2:
@@ -354,8 +353,7 @@ function get_db_update_steps($current_version)
             $charset_search_replace = array('Ã¤' => 'ä', 'Ã„' => 'Ä', 'Ã¶' => 'ö', 'Ã–' => 'Ö', 'Ã¼' => 'ü', 'Ãœ' => 'Ü',
                 'Â°' => '°', 'Âµ' => 'µ', 'â‚¬' => '€', 'â€°' => '‰', 'Ã¨' => 'è', 'Ãˆ' => 'È',
                 'Ã©' => 'é', 'Ã‰' => 'É', 'Ã' => 'à', 'Ã€' => 'À', 'Â£' => '£', 'Ã¸' => 'ø');
-            foreach ($charset_search_replace as $search => $replace)
-            {
+            foreach ($charset_search_replace as $search => $replace) {
                 $updateSteps[] = "UPDATE `categories` SET name = REPLACE(name, '".$search."', '".$replace."')";
                 $updateSteps[] = "UPDATE `datasheets` SET datasheeturl = REPLACE(datasheeturl, '".$search."', '".$replace."')";
                 $updateSteps[] = "UPDATE `devices` SET name = REPLACE(name, '".$search."', '".$replace."')";
@@ -923,10 +921,10 @@ EOD;
         break;
 
         /*
-        
+
         `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
                   `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\',
-        
+
                 Templates:
 
                   case 14:

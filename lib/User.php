@@ -892,7 +892,6 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
                 //When no user table exists, create a fake user, with all needed permission
                 return new User($database, $var, $log, 0, array("perms_system_database" => 21845));
             }
-
         } else { //A user is cached...
             //Check if the the cached user, is the one we want!
             if (static::$loggedin_user->getID() != $loggedin_ID) {
@@ -1031,6 +1030,4 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 
         return $username;
     }
-
-
 }

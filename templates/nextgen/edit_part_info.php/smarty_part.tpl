@@ -15,7 +15,7 @@
 <div class="panel {if $is_new_part}panel-success{else}panel-default{/if}">
     <div class="panel-heading">
             {if !$is_new_part}
-                <i class="fa fa-pencil-square-o fa-fw" aria-hidden="true"></i>
+                <i class="far fa-edit fa-fw" aria-hidden="true"></i>
                 {t}Ändere Detailinfos von{/t} <b><a href="{$relative_path}show_part_info.php?pid={$pid}">{$name}</a></b>
                 
                 <div class="pull-right-md pull-right-lg pull-right-sm">

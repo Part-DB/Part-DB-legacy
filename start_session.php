@@ -57,7 +57,7 @@ $old_media_exists = file_exists($BASE_tmp.'/media');
 $old_log_exists = file_exists($BASE_tmp.'/log');
 
 if (($old_config_exists) || ($old_backup_exists) || ($old_media_exists) || ($old_log_exists)) {
-    $messages = '<strong>Bitte verschieben Sie die folgenden Dateien und Ordner ins Verzeichnis "data": <br><br>';
+    $messages = '<strong>'. _('Bitte verschieben Sie die folgenden Dateien und Ordner ins Verzeichnis "data":') . '<br><br>';
 
     if ($old_config_exists) {
         $messages .= '"config.php" --> "data/config.php"<br>';
@@ -72,11 +72,11 @@ if (($old_config_exists) || ($old_backup_exists) || ($old_media_exists) || ($old
         $messages .= '"log/" --> "data/log/"<br>';
     }
 
-    $messages .=    '<br><span style="color: red;">WICHTIG:<br>Kopieren Sie jeweils nur den Inhalt der genannten Ordner, nicht den ganzen Ordner an sich!<br>'.
+    $messages .=    '<br>' . _('WICHTIG:<br>Kopieren Sie jeweils nur den Inhalt der genannten Ordner, nicht den ganzen Ordner an sich!<br>'.
         'Die Zielordner enthalten bereits (teilweise versteckte) Dateien, die auf keinen Fall &uuml;berschrieben werden d&uuml;rfen!<br>'.
-        'Kopieren Sie also nur den Inhalt dieser Ordner und l&ouml;schen Sie danach die alten, leeren Ordner im Hauptverzeichnis.</span></strong>';
+        'Kopieren Sie also nur den Inhalt dieser Ordner und l&ouml;schen Sie danach die alten, leeren Ordner im Hauptverzeichnis.') . '</span></strong>';
 
-    printMessagesWithoutTemplate('Part-DB', 'Update von Part-DB: Manuelle Eingriffe notwendig', $messages);
+    printMessagesWithoutTemplate(_('Part-DB'), _('Update von Part-DB: Manuelle Eingriffe notwendig'), $messages);
     exit;
 }
 
@@ -134,9 +134,9 @@ if (isset($config['DOCUMENT_ROOT'])) {
 } elseif (isset($_SERVER['PATH_TRANSLATED']) && isset($_SERVER['PHP_SELF'])) {
     define('DOCUMENT_ROOT', rtrim(str_replace('\\', '/', substr(str_replace('\\\\', '\\', $_SERVER['PATH_TRANSLATED']), 0, 0-strlen($_SERVER['PHP_SELF'])))));
 } else {
-    $messages = 'Die Konstante "DOCUMENT_ROOT" konnte auf Ihrem Server nicht ermittelt werden.<br>'.
-        'Bitte definieren Sie diese Konstante manuell in Ihrer Konfigurationsdatei "data/config.php".';
-    printMessagesWithoutTemplate('Part-DB', 'DOCUMENT_ROOT kann nicht ermittelt werden', $messages);
+    $messages = _('Die Konstante "DOCUMENT_ROOT" konnte auf Ihrem Server nicht ermittelt werden.<br>'.
+        'Bitte definieren Sie diese Konstante manuell in Ihrer Konfigurationsdatei "data/config.php".');
+    printMessagesWithoutTemplate(_('Part-DB'), _('DOCUMENT_ROOT kann nicht ermittelt werden'), $messages);
     exit;
 }
 
@@ -169,6 +169,18 @@ else {
 //print 'DIRECTORY_SEPARATOR = "'.DIRECTORY_SEPARATOR.'"<br>';
 //exit;
 
+
+mb_internal_encoding(/*$config['html']['http_charset']*/ 'UTF-8');
+mb_regex_encoding('UTF-8');
+date_default_timezone_set($config['timezone']);
+
+ownSetlocale(LC_ALL, $config['language']);
+
+//Set gettext locale for PHP
+$domain = "php";
+bindtextdomain($domain, BASE . '/locale');
+textdomain($domain);
+
 /********************************************************************************
  *
  *   make some checks
@@ -179,26 +191,25 @@ $messages = checkRequirements();
 if (count($messages) > 0) {
     printMessagesWithoutTemplate(
         'Part-DB',
-        'Mindestanforderungen von Part-DB nicht erfüllt!',
-        '<span style="color: red; "><strong>&bull;' .implode('<br>&bull;', $messages). '</strong></span><br><br>' .
-        'Nähere Informationen gibt es in der <a target="_blank" href="'.BASE_RELATIVE.
-        '/documentation/dokuwiki/doku.php?id=anforderungen">Dokumentation</a>.'
+        _('Mindestanforderungen von Part-DB nicht erfüllt!'),
+        '<span><strong>&bull;' .implode('<br>&bull;', $messages). '</strong></span><br><br>' .
+        sprintf(_('Nähere Informationen gibt es in der <a target="_blank" href="%s">Dokumentation</a>.'), _("https://github.com/jbtronics/Part-DB/wiki/Anforderungen"))
     );
     exit;
 }
 
 $messages = checkFilePermissions();
 if (count($messages) > 0) {
-    $message = '<strong><span style="color: red; ">';
+    $message = '<strong><span class="text-danger">';
     foreach ($messages as $msg) {
         $message .= '&bull;'.$msg.'<br>';
     }
-    $message .= '</font></strong><br><br>';
-    $message .= 'Nähere Informationen zu den Dateirechten gibt es in der <a target="_blank" href="' .
-        'https://github.com/jbtronics/Part-DB/wiki/Installation">Dokumentation</a>.<br><br>';
-    $message .= '<form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>';
+    $message .= '</span></strong><br><br>';
+    $message .= sprintf(_('Nähere Informationen gibt es in der <a target="_blank" href="%s">Dokumentation</a>.'), _("https://github.com/jbtronics/Part-DB/wiki/Installation"));
+    $message .= '<br><br>';
+    $message .= _('<form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>');
 
-    printMessagesWithoutTemplate('Part-DB', 'Anpassung der Rechte von Verzeichnissen und Dateien', $message);
+    printMessagesWithoutTemplate('Part-DB', _('Anpassung der Rechte von Verzeichnissen und Dateien'), $message);
     exit;
 
     // please note: the messages and the "exit;" here are very important, we mustn't continue the script!
@@ -209,29 +220,34 @@ $message = checkIfConfigIsValid();
 if (is_string($message)) {
     printMessagesWithoutTemplate(
         'Part-DB',
-        'Ihre config.php ist fehlerhaft!',
-        '<span style="color: red; "><strong>' .$message. '</strong></span><br><br>' .
-        'Nähere Informationen gibt es in der <a target="_blank" href="'.BASE_RELATIVE.
-        '/documentation/dokuwiki/doku.php?id=installation">Dokumentation</a>.<br><br>'.
-        '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>'
-    );
+        _('Ihre config.php ist fehlerhaft!'),
+        sprintf(_('Nähere Informationen gibt es in der <a target="_blank" href="%s">Dokumentation</a>.'), _("https://github.com/jbtronics/Part-DB/wiki/Installation")).
+        _('<form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>')
+        );
     exit;
 }
 
 $messages = checkComposerFolder();
 if (count($messages) > 0) {
-    $message = "<b>Part-DB benutzt den PHP Abhängikeitsmanager <a href='https://getcomposer.org/' target='_blank'>Composer</a>" .
+    $message = _("<b>Part-DB benutzt den PHP Abhängikeitsmanager <a href='https://getcomposer.org/' target='_blank'>Composer</a>" .
         " um benötigte Bibliotheken bereitzustellen.<br> Bevor sie Part-DB nutzen können müssen sie diese" .
         " Bibliotheken mit <code>php composer.phar install</code> im Hauptverzeichnis von Part-DB" .
         " installiert werden. <br> Sollten sie keine Möglichkeit haben, auf ihrem Server Konsolenbefehle" .
         " auszuführen, dann benutzen kopieren sie den vendor/ Ordner, aus einem mit composer eingerichteten ".
-        " Part-DB oder ein speziellen Release benutzen, der die Abhängikeiten mitliefert.</b><br><br>";
+        " Part-DB oder ein speziellen Release benutzen, der die Abhängikeiten mitliefert.</b><br>");
+
+    $message .= sprintf(_('Nähere Informationen gibt es in der <a target="_blank" href="%s">Dokumentation</a>.'), _("https://github.com/jbtronics/Part-DB/wiki/Installation"));
+    $message .= "<br><ul>";
+
     foreach ($messages as $msg) {
-        $message .= '&bull;'.$msg.'<br>';
+        $message .= '<li>'.$msg.'</li>';
     }
+
+    $message .= "</ul>";
+
     //$message .= 'Nähere Informationen zu den Dateirechten gibt es in der <a target="_blank" href="' .
     //    'https://github.com/jbtronics/Part-DB/wiki/Installation">Dokumentation</a>.<br><br>';
-    $message .= '<br><form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>';
+    $message .= _('<form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>');
 
     printMessagesWithoutTemplate('Part-DB', 'Benötigte Bibliotheken fehlen!', $message);
     exit;
@@ -253,25 +269,25 @@ if (($config['system']['current_config_version'] < $config['system']['latest_con
 
     try {
         $update_messages = update_users_config_php();
-        $message =  '<strong><span style="color: darkgreen; ">Ihre config.php wurde erfolgreich aktualisiert!</span></strong><br><br>' .
-            'Es kann sein, dass jetzt der Installationsassistent startet, '.
-            'um noch einige neue Einstellungen zu tätigen.<br><br>';
+        $message =  '<strong><span style="color: darkgreen; ">'._('Ihre config.php wurde erfolgreich aktualisiert!').'</span></strong><br><br>' .
+            _('Es kann sein, dass jetzt der Installationsassistent startet, '.
+            'um noch einige neue Einstellungen zu tätigen.') . '<br><br>';
 
         if (count($update_messages) > 0) {
             $message .= '<strong><span style="color: red; ">';
             foreach ($update_messages as $text) {
                 $message .= '&bull;'.$text.'<br>';
             }
-            $message .= '</font></strong><br>';
+            $message .= '</span></strong><br>';
         }
     } catch (Exception $e) {
-        $message =  '<strong><span style="color: red; ">Es gab ein Fehler bei der Aktualisierung ihrer config.php:<br><br>' .
+        $message =  '<strong><span class="text-danger">'._('Es gab ein Fehler bei der Aktualisierung ihrer config.php:').'<br><br>' .
             nl2br($e->getMessage()). '</span></strong><br><br>';
     }
 
-    $message .= '<form action="" method="post"><input type="submit" value="Seite neu laden"></form>';
+    $message .= _('<form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>');
 
-    printMessagesWithoutTemplate('Part-DB', 'Aktualisierung ihrer config.php', $message);
+    printMessagesWithoutTemplate('Part-DB', _('Aktualisierung ihrer config.php'), $message);
     exit;
 }
 
@@ -283,8 +299,13 @@ $config['html']['http_charset'] = 'utf-8'; ///< @todo remove this later; see con
  *
  *********************************************************************************/
 
+if (isset($config['user']['gc_maxlifetime']) && $config['user']['gc_maxlifetime'] > 0) {
+    @ini_set("session.gc_maxlifetime", $config['user']['gc_maxlifetime']);
+}
+
 session_name('Part-DB');
-session_start(['read_and_close'  => true]);
+session_start();
+session_write_close();
 
 /********************************************************************************
  *
@@ -305,22 +326,6 @@ if (($config['debug']['enable']) && (! $config['debug']['template_debugging_enab
 } else {
     @ini_set("display_errors", 0);
 }
-
-
-
-mb_internal_encoding(/*$config['html']['http_charset']*/ 'UTF-8');
-mb_regex_encoding('UTF-8');
-date_default_timezone_set($config['timezone']);
-
-//$lang = (isset($_SESSION["lang"])) ? $_SESSION["lang"] : $config['language'];
-
-ownSetlocale(LC_ALL, $config['language']);
-
-//Set gettext locale for PHP
-$domain = "php";
-bindtextdomain($domain, BASE . '/locale');
-textdomain($domain);
-
 
 /********************************************************************************
  *
@@ -344,9 +349,9 @@ require 'vendor/autoload.php';
 //Check if Klass exists, and debugging is enabled.
 if (class_exists("\Whoops\Run") && $config['debug']['enable'] &&
     (PHP_MAJOR_VERSION >= 7 || PHP_MINOR_VERSION >= 6)) {
-        $whoops = new \Whoops\Run;
-        $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
-        $whoops->register();
+    $whoops = new \Whoops\Run;
+    $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
+    $whoops->register();
 }
 
 /**************************************************************************************

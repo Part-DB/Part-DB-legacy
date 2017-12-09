@@ -21,8 +21,6 @@
 
 namespace PartDB\Exceptions;
 
-
 class NotImplementedException extends \RuntimeException
 {
-
 }

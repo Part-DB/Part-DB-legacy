@@ -21,7 +21,6 @@
 
 namespace PartDB\Permissions;
 
-
 class SystemPermission extends BasePermission
 {
     const USE_DEBUG  = "use_debug";

@@ -3,7 +3,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <a data-toggle="collapse" class="link-collapse text-default" href="#panel-attachements">
-            {t}Kommentar{/t}
+            <i class="fas fa-comment fa-fw"></i> {t}Kommentar{/t}
         </a>
     </div>
     <div class="panel-body panel-collapse collapse {if !empty($comment)}in{/if}" id="panel-attachements">

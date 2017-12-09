@@ -17,25 +17,25 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#appearance" class="link-anchor">
                         <span class="fa-stack">
-                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="far fa-square fa-stack-2x"></i>
                             <i class="fa fa-magic fa-stack-1x"></i>
                         </span>
                             {t}Aussehen{/t}</a></li>
                     <li><a data-toggle="tab" href="#features" class="link-anchor">
                          <span class="fa-stack">
-                            <i class="fa fa-square-o fa-stack-2x"></i>
-                            <i class="fa fa-sliders fa-stack-1x"></i>
+                            <i class="far fa-square fa-stack-2x"></i>
+                            <i class="fa fa-sliders-h fa-stack-1x"></i>
                         </span>
                             {t}Funktionen{/t}</a></li>
                     <li><a data-toggle="tab" href="#misc" class="link-anchor">
                         <span class="fa-stack">
-                            <i class="fa fa-square-o fa-stack-2x"></i>
-                            <i class="fa fa-gears fa-stack-1x"></i>
+                            <i class="far fa-square fa-stack-2x"></i>
+                            <i class="fa fa-cogs fa-stack-1x"></i>
                         </span>
                             {t}Sonstiges{/t}</a></li>
                     {if $developer_mode_available}<li><a data-toggle="tab" href="#dev" class="link-anchor">
                         <span class="fa-stack">
-                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="far fa-square fa-stack-2x"></i>
                             <i class="fa fa-code fa-stack-1x"></i>
                         </span>
                             {t}Entwickler{/t}
@@ -45,19 +45,6 @@
                 <div class="tab-content">
                     <div id="appearance" class="tab-pane fade in active">
                         <br>
-
-                        {*
-                        <div class="form-group">
-                            <label class="control-label col-sm-2" for="theme">{t}Theme:{/t}</label>
-                            <div class="col-sm-10">
-                                <select class="form-control" name="theme">
-                                    {foreach $theme_loop as $theme}
-                                        <option value="{$theme.value}" {if $theme.selected}selected{/if}>{$theme.text}</option>
-                                    {/foreach}
-                                </select>
-                            </div>
-                        </div> *}
-
                         <div class="form-group">
                             <label class="control-label col-sm-2" for="custom_css">{t}Theme:{/t}</label>
                             <div class="col-sm-10">
@@ -404,6 +391,14 @@
                             </div>
                         </div>
 
+                        <div class="form-group">
+                            <label class="control-label col-sm-2">{t}Maximale Sessiondauer (in Sekunden):{/t}</label>
+                            <div class="col-sm-10">
+                                <input type="number" min="0" step="1" name="max_sessiontime" class="form-control" value="{$gc_lifetime}" placeholder="5400">
+                                <p class="help-block">{t}Wenn der Wert auf 0 gesetzt ist, wird der Standardwert von PHP verwendet.{/t}</p>
+                            </div>
+                        </div>
+
                         <br>
 
                     </div>
@@ -414,9 +409,9 @@
                             <button class="btn btn-danger" type="submit" {if !$can_edit}disabled{/if}>{t}Änderungen verwerfen{/t}</button>
                         </div>
                     </div>
+                </div>
             </form>
         </div>
-    </div>
     </div>
 {/if}
 
@@ -493,6 +488,14 @@
             <tr>
                 <td><b>{t}Maximale Dateigröße beim Upload:{/t}</b></td>
                 <td>{$max_upload_filesize}B</td>
+            </tr>
+            <tr>
+                <td><b>{t}Maximale Zeit bis eine unbenutze Benutzersession geschlossen wird:{/t}</b></td>
+                <td>{$session_gc_maxlifetime}s</td>
+            </tr>
+            <tr>
+                <td><b>{t}Lebensdauer der Sessioncookies:{/t}</b></td>
+                <td>{$session_cookie_lifetime}</td>
             </tr>
             </tbody>
         </table>

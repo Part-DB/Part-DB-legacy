@@ -407,8 +407,14 @@ $app->get("/1.0.0/tree/devices[/{root_id}]", function ($request, $response, $arg
     /** @var \Slim\Http\Response $response */
     try {
         $root_device = new Device($database, $current_user, $log, 0);
-        $tree = $root_device->buildBootstrapTree("show_device_parts.php", "device_id", true,
-            true, false, _("Übersicht"));
+        $tree = $root_device->buildBootstrapTree(
+            "show_device_parts.php",
+            "device_id",
+            true,
+            true,
+            false,
+            _("Übersicht")
+        );
         return $response->withJson($tree);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -462,6 +468,84 @@ $app->get("/1.0.0/tree/tools[/]", function ($request, $response, $args) {
     try {
         $tree = buildToolsTree($args);
         return $response->withJson($tree);
+    } catch (Exception $ex) {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+/**
+ * Get the tree for tools
+ */
+$app->get("/1.0.0/3d_models/dir_tree[/]", function ($request, $response, $args) {
+    /** @var \Slim\Http\Response $response */
+
+    $dirs = array();
+
+    try {
+        $dirHandle = dir(BASE . "/models/");
+
+        // Verzeichnis Datei für Datei lesen
+        while (($f = $dirHandle->read()) != false) {
+            // Nur ausgeben, wenn nicht . oder ..
+            if ($f != "." && $f != "..") {
+                // Wenn es sich um ein Verzeichnis handelt
+                if (is_dir(BASE . "/models/".$f)) {
+                    $dirs[] = treeviewNode($f, $f);
+                }
+            }
+        }
+
+        $nodes = array();
+        $nodes[] = treeviewNode(_("Verzeichnisse"), "", $dirs);
+
+        return $response->withJson($nodes);
+    } catch (Exception $ex) {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+$app->get("/1.0.0/3d_models/files/{dir}[/]", function ($request, $response, $args) {
+    /** @var \Slim\Http\Response $response */
+    $items = array();
+    try {
+        $dir = $args["dir"];
+
+        $files = findAllFiles(BASE . "/models/" . $dir . "/", true, ".x3d");
+        foreach ($files as &$file) {
+            $file = str_replace(BASE . "/models/" . $dir . "/", "", $file);
+        }
+
+        return $response->withJson($files);
+    } catch (Exception $ex) {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+$app->get("/1.0.0/3d_models/files[/]", function ($request, $response, $args) {
+    /** @var \Slim\Http\Response $response */
+    $items = array();
+    try {
+        $files = findAllFiles(BASE . "/models/", true, ".x3d");
+        foreach ($files as &$file) {
+            $file = str_replace(BASE . "/models/", "", $file);
+        }
+
+        return $response->withJson($files);
+    } catch (Exception $ex) {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+$app->get("/1.0.0/img_files/files[/]", function ($request, $response, $args) {
+    /** @var \Slim\Http\Response $response */
+    $items = array();
+    try {
+        $files = findAllFiles(BASE . "/img/footprints/", true);
+        foreach ($files as &$file) {
+            $file = str_replace(BASE . "/img/footprints/", "", $file);
+        }
+
+        return $response->withJson($files);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
     }

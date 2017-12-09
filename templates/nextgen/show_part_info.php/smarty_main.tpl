@@ -119,7 +119,7 @@
                         <div class="form-group hidden-print">
                             <div class="col-sm-9 col-sm-offset-3">
                                 <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}">
-                                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> {t}Angaben verändern{/t}</a>
+                                    <i class="fa fa-edit fa-fw" aria-hidden="true"></i> {t}Angaben verändern{/t}</a>
                             </div>
                         </div>
                     {/if}
@@ -128,6 +128,7 @@
             </div>
 
             <div class="col-md-3">
+
                 <form action="" method="post" class="hidden-print no-progbar">
                     <input type="hidden" name="pid" value="{$pid}">
                     <div class="row">
@@ -217,13 +218,32 @@
 
                 <p></p>
 
-                <div class="form-group hidden-print">
+                <div class=" hidden-print">
                     <button type="button" class="btn btn-default btn-block" onclick="window.print();"><i class="fa fa-print fa-fw" aria-hidden="true"></i>
                         {t}Übersicht drucken{/t}
                     </button>
                 </div>
 
+                <p></p>
 
+                <div class=" hidden-print">
+                    <div class="dropdown">
+                        <button class="btn btn-default btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                            <i class="fa fa-file fa-fw" aria-hidden="true"></i> {t}Datenblattlinks{/t}
+                            <span class="caret"></span>
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                            {foreach $datasheet_loop as $sheet}
+                                <li>
+                                    <a class="link-datasheet datasheet" title="{$sheet.name}" href="{$sheet.url}" target="_blank">
+                                        <img class="companypic-bg" src="{$relative_path}{$sheet.image}" alt="{$sheet.name}">
+                                        &nbsp;{$sheet.name}
+                                    </a>
+                                </li>
+                            {/foreach}
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

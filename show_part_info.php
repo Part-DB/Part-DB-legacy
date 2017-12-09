@@ -85,7 +85,7 @@ if (isset($_REQUEST["mark_to_order"])) {
 if (isset($_REQUEST["remove_mark_to_order"])) {
     $action = 'remove_mark_to_order';
 }
-if(isset($_REQUEST['device_add'])) {
+if (isset($_REQUEST['device_add'])) {
     $action = "device_add";
 }
 if (isset($_REQUEST['toggle_favorite'])) {
@@ -172,7 +172,6 @@ if (! $fatal_error) {
                 } else {
                     throw new Exception(_("Ungültige Eingabedaten!"));
                 }
-
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -195,11 +194,10 @@ if (! $fatal_error) {
 
 if (! $fatal_error) {
     try {
-
         $properties = $part->getPropertiesLoop();
         $html->setLoop("properties_loop", $properties);
 
-// global settings
+        // global settings
         $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
         $html->setVariable('popup_width', $config['popup']['width'], 'integer');
         $html->setVariable('popup_height', $config['popup']['height'], 'integer');
@@ -301,6 +299,22 @@ if (! $fatal_error) {
             $html->setLoop('attachement_types_loop', $attachement_types_loop);
         }
 
+        //Auto datasheets
+        $datasheet_loop = $config['auto_datasheets']['entries'];
+
+        foreach ($datasheet_loop as $key => $entry) {
+            $datasheet_loop[$key]['url'] = str_replace('%%PARTNAME%%', urlencode($part->getName()), $entry['url']);
+        }
+
+        if ($config['appearance']['use_old_datasheet_icons'] == true) {
+            foreach ($datasheet_loop as &$sheet) {
+                if (isset($sheet['old_image'])) {
+                    $sheet['image'] = $sheet['old_image'];
+                }
+            }
+        }
+        $html->setLoop("datasheet_loop", $datasheet_loop);
+
         //Devices
         $devices = $part->getDevices();
         $devices_loop = array();
@@ -371,7 +385,7 @@ if (! $fatal_error) {
     }
 
     if ($current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ)
-            && !$config['devices']['disable']) {
+        && !$config['devices']['disable']) {
         $html->printTemplate('devices');
     }
 

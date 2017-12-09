@@ -570,7 +570,6 @@ if (! $fatal_error) {
         'download_file'             => $config['attachements']['download_default']);
 
     $html->setLoop('attachements_loop', $attachements_loop);
-
 }
 
 $html->setVariable("can_part_create", $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));

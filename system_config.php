@@ -139,6 +139,7 @@ $info_hide_empty_attachements   = isset($_REQUEST['info_hide_empty_attachements'
 //User settings
 $use_gravatar                   = isset($_REQUEST['gravatar_enable']);
 $login_redirect                 = isset($_REQUEST['login_redirect']);
+$max_sessiontime                = isset($_REQUEST['max_sessiontime']) ? $_REQUEST['max_sessiontime'] : -1;
 
 $action = 'default';
 if (isset($_REQUEST["apply"])) {
@@ -231,6 +232,9 @@ if (! $fatal_error) {
 
             $config['user']['avatars']['use_gravatar']          = $use_gravatar;
             $config['user']['redirect_to_login']                = $login_redirect;
+            if ($max_sessiontime >= 0) {
+                $config['user']['gc_maxlifetime'] = $max_sessiontime;
+            }
 
             if (! $config['is_online_demo']) {
                 // settings which should not be able to change in the online demo
@@ -350,6 +354,8 @@ $html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
 $html->setVariable('using_https', isUsingHTTPS(), 'boolean');
 $html->setVariable('max_input_vars', ini_get('max_input_vars'), 'string');
 $html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
+$html->setVariable('session_cookie_lifetime', ini_get('session.cookie_lifetime') > 0 ? ini_get('session.cookie_lifetime') . "s" : _("Bis zum Schließen des Browsers"), 'string');
+$html->setVariable('session_gc_maxlifetime', ini_get('session.gc_maxlifetime'), 'string');
 
 //Part properties
 $html->setVariable('properties_active', $config['properties']['active'], 'boolean');
@@ -380,8 +386,8 @@ $html->setVariable('disable_suppliers', $config['suppliers']['disable'], 'boolea
 
 //Detail infos
 $html->setVariable('info_hide_actions', $config['part_info']['hide_actions'], 'boolean');
-$html->setVariable('info_hide_empty_orderdetails', $config['part_info']['hide_empty_orderdetails'] , 'boolean');
-$html->setVariable('info_hide_empty_attachements', $config['part_info']['hide_empty_attachements'] , 'boolean');
+$html->setVariable('info_hide_empty_orderdetails', $config['part_info']['hide_empty_orderdetails'], 'boolean');
+$html->setVariable('info_hide_empty_attachements', $config['part_info']['hide_empty_attachements'], 'boolean');
 
 //Misc
 $html->setVariable("downloads_enable", $config['allow_server_downloads'], 'boolean');
@@ -389,6 +395,7 @@ $html->setVariable("downloads_enable", $config['allow_server_downloads'], 'boole
 //Users
 $html->setVariable('gravatar_enable', $config['user']['avatars']['use_gravatar'], 'boolean');
 $html->setVariable('login_redirect', $config['user']['redirect_to_login'], 'boolean');
+$html->setVariable('gc_lifetime', $config['user']['gc_maxlifetime'], 'int');
 
 //Search
 $html->setVariable('livesearch_active', $config['search']['livesearch']);

@@ -21,7 +21,6 @@
 
 namespace PartDB\Permissions;
 
-
 class PartAttributePermission extends BasePermission
 {
     const READ  = "read";
@@ -52,5 +51,4 @@ class PartAttributePermission extends BasePermission
 
         return $data;
     }
-
 }

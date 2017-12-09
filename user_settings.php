@@ -84,7 +84,7 @@ try {
  *
  *********************************************************************************/
 
-if(!$fatal_error) {
+if (!$fatal_error) {
     switch ($action) {
         case "change_pw":
             try {

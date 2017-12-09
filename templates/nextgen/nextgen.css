@@ -32,6 +32,15 @@ body {
     filter: opacity(60%);
 }
 
+.companypic-bg {
+    width: 20px;
+    display: inline;
+}
+
+.companypic-bg:hover {
+    filter: opacity(60%);
+}
+
 .td .table-small {
     font-size: 12px;
 }
@@ -93,7 +102,8 @@ table.dataTable tbody th, table.dataTable tbody td {
         overflow-x: hidden;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        max-height: 91%;
+        max-height: 100%;
+        padding-bottom: 50px;
     }
 
 
@@ -106,17 +116,16 @@ table.dataTable tbody th, table.dataTable tbody td {
         right: 0;
         left: 0;
         background-color: inherit;
-        padding-left: 15px;
-        padding-right: 15px;
-        padding-top: 7px;
         margin-top: 0;
         z-index: 1000;
         width: inherit;
         overflow-x: hidden;
         overflow-y: auto;
         -webkit-overflow-scrolling: touch;
-        max-height: 91%;
+        max-height: 100%;
         opacity: 0.97;
+        padding: 7px 15px 50px;
+        margin-top: -10px;
     }
 
     .sidebar-container {
@@ -202,8 +211,17 @@ table.dataTable tbody th, table.dataTable tbody td {
     width: 100%;
     position: relative;
 }
+
+@font-face {
+    font-family: 'FA5';
+    font-style: normal;
+    font-weight: 900;
+    src: url("../../webfonts/fa-solid-900.eot");
+    src: url("../../webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("../../webfonts/fa-solid-900.woff2") format("woff2"), url("../../webfonts/fa-solid-900.woff") format("woff"), url("../../webfonts/fa-solid-900.ttf") format("truetype"), url("../../webfonts/fa-solid-900.svg#fontawesome") format("svg");
+}
+
 .panel-heading a[data-toggle=collapse]:after {
-    font-family: "FontAwesome";
+    font-family: "FA5";
     content: "\f106";
     position: absolute;
     right: 20px;
@@ -229,8 +247,8 @@ table.dataTable tbody th, table.dataTable tbody td {
 
 /* Show symbol after exteral links */
 a[target="_blank"].link-external:after {
-    content: "\f08e ";
-    font-family: FontAwesome;
+    content: "\f35d ";
+    font-family: "FA5";
     margin-left: 3px;
     font-weight: normal;
     font-size: smaller;
@@ -362,10 +380,10 @@ ul.structural_link li+li:before {
     padding: 2px;
     color: grey;
     /*content: "/\00a0";*/
-    font-family: FontAwesome, sans-serif;
+    font-family: "FA5", sans-serif;
     font-style: normal;
     font-weight: normal;
-    content: "\f178";
+    content: "\f30b"; /* long-arrow-alt-right */
 }
 
 /* Add a color to all links inside the list */

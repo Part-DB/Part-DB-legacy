@@ -44,7 +44,7 @@ function exec_output_to_tmpl_loop($exec_output, $trim)
 {
     $output_loop = array();
     for ($i=0; $i<count($exec_output); $i++) {
-        if (($i <= 20) || ($i > count($exec_output) - 20) || ( ! $trim)) {
+        if (($i <= 20) || ($i > count($exec_output) - 20) || (! $trim)) {
             $output_loop[] = array('text' => $exec_output[$i]);
             if (($i == 20) && ($trim)) {
                 $output_loop[] = array('text' => '');
@@ -122,7 +122,7 @@ if (isset($_REQUEST["build_doxygen"])) {
 if (isset($_REQUEST["tab2spaces"])) {
     $action = 'tab2spaces';
 }
-if (isset($_REQUEST["build_release_package"]))  {
+if (isset($_REQUEST["build_release_package"])) {
     $action = 'build_release_package';
 }
 if (isset($_REQUEST["delete_release_package"])) {
@@ -137,15 +137,13 @@ if (isset($_REQUEST["delete_release_package"])) {
 
 $html = new HTML($config['html']['theme'], $user_config['theme'], 'Entwicklerwerkzeuge');
 
-try
-{
+try {
     $database           = new Database();
     $log                = new Log($database);
     //$system             = new System($database, $log);
     $current_user       = User::getLoggedInUser($database, $log);
     $current_user->tryDo(\PartDB\Permissions\PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::USE_DEBUG);
-}
-catch (Exception $e) {
+} catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
@@ -158,7 +156,7 @@ catch (Exception $e) {
 
 $release_package_filename = BASE.'/development/package_output/Part-DB_'.$config['system']['version'].'.tar.gz';
 
-if ( ! $fatal_error) {
+if (! $fatal_error) {
     switch ($action) {
         case 'build_doxygen':
             $doxygen_successful = build_doxygen($trim_exec_output, $doxygen_output_loop);
@@ -216,8 +214,7 @@ if (isset($release_packing_output_loop)) {
 
 $html->printHeader($messages);
 
-if ( ! $fatal_error)
-{
+if (! $fatal_error) {
     $html->printTemplate('developer_tools');
 }
 

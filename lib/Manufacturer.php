@@ -160,7 +160,6 @@ class Manufacturer extends Base\Company implements ISearchable
         $auto_product_url = '',
         $comment = ""
     ) {
-
         return parent::addByArray(
             $database,
             $current_user,

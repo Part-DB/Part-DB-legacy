@@ -107,14 +107,14 @@ class HTML
         settype($this->meta['autorefresh'], 'integer');
 
         // check passed parameters
-        if (($theme != 'standard') && (! is_readable(BASE.'/templates/'.$theme."/partdb.css"))) {
-            debug('warning', 'Template "'.$theme.'" coult not be found! '.
-                'Use "standard" template instead...', __FILE__, __LINE__, __METHOD__);
-            $theme = 'standard';
+        if (($theme != 'nextgen') && (! is_readable(BASE.'/templates/'.$theme."/info.json"))) {
+            debug('warning', 'Template "'.$theme.'" could not be found! '.
+                'Use "nextgen" template instead...', __FILE__, __LINE__, __METHOD__);
+            $theme = 'nextgen';
         }
         if ((! is_string($custom_css_file))
             || (($custom_css_file != '') && (! is_readable(BASE.'/templates/custom_css/'.$custom_css_file)))) {
-            debug('warning', 'Custom CSS file "'.$custom_css_file.'" coult not be found! '.
+            debug('warning', 'Custom CSS file "'.$custom_css_file.'" could not be found! '.
                 'Use standard instead...', __FILE__, __LINE__, __METHOD__);
             $custom_css_file = '';
         }
@@ -182,8 +182,7 @@ class HTML
      */
     public function redirect($url, $instant = false)
     {
-        if (!is_string($url))
-        {
+        if (!is_string($url)) {
             throw new \InvalidArgumentException(_('$url must be a valid a string'));
         }
 
@@ -406,8 +405,7 @@ class HTML
             $tmpl->assign('can_category', $user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ)
                     && $user->canDo(PermissionManager::CATEGORIES, PartContainingPermission::LIST_PARTS));
             $tmpl->assign('can_device', $user->canDo(PermissionManager::DEVICES, StructuralPermission::READ));
-        } catch (Exception $exception)
-        {
+        } catch (Exception $exception) {
             //TODO
         }
 
@@ -573,7 +571,7 @@ class HTML
         }
 
         $tmpl->assign("tracking_code", $config['tracking_code']);
-        $tmpl->assign('auto_sort', $config['table']['autosort'] );
+        $tmpl->assign('auto_sort', $config['table']['autosort']);
         $tmpl->assign("autorefresh", $this->meta['autorefresh']);
 
         if (PDBDebugBar::isActivated()) {

@@ -21,7 +21,6 @@
 
 namespace PartDB\Permissions;
 
-
 class ToolsPermission extends BasePermission
 {
     const IMPORT        = "import";

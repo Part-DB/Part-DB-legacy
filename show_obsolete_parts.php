@@ -130,8 +130,12 @@ if (! $fatal_error) {
         $html->setLoop('table', $table_loop);
         $html->setVariable("table_rowcount", count($parts), 'int');
 
-        $html->setLoop("pagination", generatePagination("show_obsolete_parts.php?show_no_orderdetails_parts=" .($show_no_orderdetails_parts ? '1' : '0'),
-            $page, $limit, Part::getObsoletePartsCount($database, $current_user, $log, $show_no_orderdetails_parts)));
+        $html->setLoop("pagination", generatePagination(
+            "show_obsolete_parts.php?show_no_orderdetails_parts=" .($show_no_orderdetails_parts ? '1' : '0'),
+            $page,
+            $limit,
+            Part::getObsoletePartsCount($database, $current_user, $log, $show_no_orderdetails_parts)
+        ));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
     } catch (Exception $e) {

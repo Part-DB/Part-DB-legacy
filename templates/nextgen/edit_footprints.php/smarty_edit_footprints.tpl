@@ -78,7 +78,8 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Bild:{/t}</label>
                                 <div class="col-md-6">
-                                    <input type="text" name="filename" value="{$filename}" placeholder="{t}z.B. img/footprints/Aktiv/ICs/DIP/IC_DIP8.png{/t}" class="form-control" {if !$can_edit}disabled{/if}>
+                                    <input type="text" name="filename" value="{$filename}" placeholder="{t}z.B. img/footprints/Aktiv/ICs/DIP/IC_DIP8.png{/t}" class="form-control" {if !$can_edit}disabled{/if}
+                                           class="typeahead form-control" data-provide="typeahead" autocomplete="off" id="img-search">
                                 </div>
                                 <div class="col-sm-3 pull-right">
                                     <input data-show-caption="false" data-show-preview="false" data-show-upload="false" type="file" class="file" name="footprint_file" {if !$can_edit}disabled{/if}>
@@ -101,7 +102,7 @@
                                 <div class="form-group">
                                     <label class="control-label col-md-3">{t}3D-Footprint:{/t}</label>
                                     <div class="col-md-9">
-                                        <input type="text" name="filename_3d" value="{$filename_3d}" placeholder="{t}z.B. models/Housings_DIP/DIP-8_W7.62mm.x3d{/t}" class="form-control" {if !$can_edit}disabled{/if}>
+                                        <input type="text" name="filename_3d" value="{$filename_3d}" placeholder="{t}z.B. models/Housings_DIP/DIP-8_W7.62mm.x3d{/t}" class="typeahead form-control" data-provide="typeahead" autocomplete="off" id="models-search" {if !$can_edit}disabled{/if}>
                                         <p></p>
                                         {if !empty($filename_3d) && $filename_3d_valid}
                                             <x3d id="foot3d" class="img-thumbnail" height="150" width="500" >

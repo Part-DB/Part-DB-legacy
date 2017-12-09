@@ -248,7 +248,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
         //For 3d models
 
         // trim $values['filename']
-        if(isset($values['filename_3d'])) {
+        if (isset($values['filename_3d'])) {
             $values['filename_3d'] = trim($values['filename_3d']);
 
             // check if "filename" is a valid (absolute and UNIX) filepath

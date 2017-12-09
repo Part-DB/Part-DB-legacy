@@ -21,7 +21,6 @@
 
 namespace PartDB\Permissions;
 
-
 class ConfigPermission extends BasePermission
 {
     const READ_CONFIG        = "read_config";
