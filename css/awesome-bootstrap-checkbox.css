@@ -1,3 +1,11 @@
+@font-face {
+  font-family: 'FA5';
+  font-style: normal;
+  font-weight: 900;
+  src: url("../webfonts/fa-solid-900.eot");
+  src: url("../webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("../webfonts/fa-solid-900.woff2") format("woff2"), url("../webfonts/fa-solid-900.woff") format("woff"), url("../webfonts/fa-solid-900.ttf") format("truetype"), url("../webfonts/fa-solid-900.svg#fontawesome") format("svg"); }
+
+
 .checkbox {
   padding-left: 20px;
 }
@@ -48,7 +56,7 @@
 }
 .checkbox input[type="checkbox"]:checked + label::after,
 .checkbox input[type="radio"]:checked + label::after {
-  font-family: "FontAwesome";
+  font-family: "FA5";
   content: "\f00c";
 }
 .checkbox input[type="checkbox"]:indeterminate + label::after,
@@ -304,7 +312,7 @@
 
 input[type="checkbox"].styled:checked + label:after,
 input[type="radio"].styled:checked + label:after {
-  font-family: 'FontAwesome';
+  font-family: 'FA5';
   content: "\f00c";
 }
 input[type="checkbox"] .styled:checked + label::before,
