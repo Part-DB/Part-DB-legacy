@@ -14,7 +14,7 @@
                 <div class="col-sm-10">
                     <button class="btn btn-primary" name="toggle_favorite" value="" type="submit" {if !$can_favorite}disabled{/if}
                     >{if !$is_favorite}<i class="fa fa-star fa-fw" aria-hidden="true"></i> {t}Bauteil favorisieren{/t}
-                        {else}<i class="fa fa-star-o fa-fw" aria-hidden="true"></i> {t}Favorisierung aufheben{/t}{/if}</button>
+                        {else}<i class="far fa-star fa-fw" aria-hidden="true"></i> {t}Favorisierung aufheben{/t}{/if}</button>
                 </div>
             </div>
         </form>
