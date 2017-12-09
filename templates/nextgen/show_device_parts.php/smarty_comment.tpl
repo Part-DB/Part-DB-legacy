@@ -2,11 +2,11 @@
 
 <div class="panel panel-default">
     <div class="panel-heading">
-        <a data-toggle="collapse" class="link-collapse text-default" href="#panel-attachements">
+        <a data-toggle="collapse" class="link-collapse text-default" href="#panel-comment">
             <i class="fas fa-comment fa-fw"></i> {t}Kommentar{/t}
         </a>
     </div>
-    <div class="panel-body panel-collapse collapse {if !empty($comment)}in{/if}" id="panel-attachements">
+    <div class="panel-body panel-collapse collapse {if !empty($comment)}in{/if}" id="panel-comment">
         {if !empty($comment)}<pre>{$comment nofilter}</pre>{/if}
         {if !empty($comment)}
             <a href="{$relative_path}edit_devices.php?selected_id={$device_id}" class="btn btn-primary {if !$can_attachement_edit}disabled{/if}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
