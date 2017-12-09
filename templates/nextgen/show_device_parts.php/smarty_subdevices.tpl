@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
-    <div class="panel-heading">{t}Unterbaugruppen von{/t} "{$device_name}"</div>
+    <div class="panel-heading"><i class="fas fa-archive fa-fw"></i> {t}Unterbaugruppen von{/t} "{$device_name}"</div>
     <form method="post" class="no-progbar">
         <table class="table table-striped table-hover table-condensed vertical-align-table">
             <thead>
