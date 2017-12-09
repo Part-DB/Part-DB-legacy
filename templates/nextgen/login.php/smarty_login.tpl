@@ -35,7 +35,7 @@
     </div>
 {else}
         <div class="panel panel-primary">
-            <div class="panel-heading"><h4><i class="fa fa-sign-in" aria-hidden="true"></i>
+            <div class="panel-heading"><h4><i class="fa fa-sign-in-alt" aria-hidden="true"></i>
                     {t}Login{/t}</h4></div>
             <div class="panel-body">
                 <form action="login.php" class="form-horizontal no-progbar" method="post">

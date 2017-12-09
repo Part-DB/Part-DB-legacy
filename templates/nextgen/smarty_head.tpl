@@ -128,7 +128,7 @@
                             <li role="separator" class="divider"></li>
                             <li><a href="{$relative_path}login.php?logout"><i class="fa fa-sign-out-alt fa-fw" aria-hidden="true"></i> {t}Logout{/t}</a></li>
                         {else}
-                            <li><a href="{$relative_path}login.php"><i class="fa fa-sign-in fa-fw" aria-hidden="true"></i> {t}Login{/t}</a></li>
+                            <li><a href="{$relative_path}login.php"><i class="fa fa-sign-in-alt fa-fw" aria-hidden="true"></i> {t}Login{/t}</a></li>
                         {/if}
                         </ul>
                     </li>
