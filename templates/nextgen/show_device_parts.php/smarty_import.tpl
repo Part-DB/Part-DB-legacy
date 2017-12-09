@@ -1,7 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="panel panel-default">
     <div class="panel-heading"><a data-toggle="collapse" class="link-collapse text-default" href="#panel-import">
-            {t}Bauteile importieren{/t}
+            <i class="fas fa-download fa-fw"></i> {t}Bauteile importieren{/t}
         </a>
     </div>
     <div class="panel-body panel-collapse collapse" id="panel-import">
