@@ -12,6 +12,7 @@
             <a href="{$relative_path}edit_devices.php?selected_id={$device_id}" class="btn btn-primary {if !$can_attachement_edit}disabled{/if}"><i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                 {t}Bearbeiten{/t}</a>
         {else}
+            <p class="help-block">{t}Bisher existiert noch kein Kommentar zu dieser Baugruppe.{/t}</p>
             <a href="{$relative_path}edit_devices.php?selected_id={$device_id}" class="btn btn-success {if !$can_attachement_edit}disabled{/if}"><i class="fa fa-plus-square fa-fw" aria-hidden="true"></i>
                 {t}Hinzufügen{/t}</a>
         {/if}
