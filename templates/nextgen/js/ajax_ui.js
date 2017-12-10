@@ -676,7 +676,7 @@ function makeHighlight() {
  */
 function makeTooltips() {
     //$('[data-toggle="tooltip"]').tooltip();
-    $('a[title]').tooltip("hide");
+    $('*').tooltip("hide");
     $('a[title]').tooltip({ container: "body" });
 }
 function viewer3d_models() {
