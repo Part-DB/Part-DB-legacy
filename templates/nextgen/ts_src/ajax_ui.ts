@@ -527,6 +527,7 @@ $(function(event){
     ajaxui.addStartAction(makeTriStateCheckbox);
     ajaxui.addStartAction(makeHighlight);
     ajaxui.addStartAction(viewer3d_models);
+    ajaxui.addStartAction(makeTooltips);
     //ajaxui.addStartAction(makeTypeAhead);
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
@@ -543,6 +544,7 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
     ajaxui.addAjaxCompleteAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(viewer3d_models);
+    ajaxui.addAjaxCompleteAction(makeTooltips);
     //ajaxui.addAjaxCompleteAction(makeTypeAhead);
 
     ajaxui.start();
@@ -807,6 +809,15 @@ function makeHighlight() {
             element: "span"
         });
     }
+}
+
+/**
+ * Use Bootstrap for tooltips.
+ */
+function makeTooltips() {
+    //$('[data-toggle="tooltip"]').tooltip();
+    $('a[title]').tooltip("hide");
+    $('a[title]').tooltip({container: "body"});
 }
 
 function viewer3d_models() {
