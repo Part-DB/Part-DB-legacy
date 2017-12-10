@@ -2,17 +2,35 @@
 
 {if isset($must_change_pw) && $must_change_pw}
     <div class="alert alert-danger">
-        <h4>{t}Password Änderung erforderlich!{/t}</h4>
-        <strong>{t}Aus Sicherheitsgründen müssen sie ihr Password ändern.{/t}</strong>
-        <p>{t escape=false}Besuchen sie hierzu in die <a href="user_settings.php">Benutzeinstellungen</a>.{/t}</p>
+        <div class="row vertical-align">
+            <div class="col-md-1">
+                <i class="fas fa-exclamation fa-5x " style="text-align: center; width: 1em;"></i>
+            </div>
+            <div class="col-md-11">
+                <p>
+                    <h4>{t}Password Änderung erforderlich!{/t}</h4>
+                    <strong>{t}Aus Sicherheitsgründen müssen sie ihr Password ändern.{/t}</strong>
+                    <p>{t escape=false}Besuchen sie hierzu in die <a href="user_settings.php">Benutzeinstellungen</a>.{/t}</p>
+                </p>
+            </div>
+        </div>
     </div>
 {/if}
 
 {if isset($must_change_admin_pw) && $must_change_admin_pw}
     <div class="alert alert-danger">
-        <h4>{t}Password Änderung erforderlich!{/t}</h4>
-        <strong>{t}Aus Sicherheitsgründen müssen sie das Admin Password ändern.{/t}</strong>
-        <p>{t escape=false}Besuchen sie hierzu in die <a href="system_config.php">Systemeinstellungen</a>.{/t}</p>
+        <div class="row vertical-align">
+            <div class="col-md-1">
+                <i class="fas fa-exclamation fa-5x " style="text-align: center; width: 1em;"></i>
+            </div>
+            <div class="col-md-11">
+                <p>
+                    <h4>{t}Password Änderung erforderlich!{/t}</h4>
+                    <strong>{t}Aus Sicherheitsgründen müssen sie das Admin Password ändern.{/t}</strong>
+                    <p>{t escape=false}Besuchen sie hierzu in die <a href="system_config.php">Systemeinstellungen</a>.{/t}</p>
+                </p>
+            </div>
+        </div>
     </div>
 {/if}
 
