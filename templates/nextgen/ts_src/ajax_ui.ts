@@ -520,6 +520,7 @@ $(function(event){
     ajaxui.addStartAction(fixSelectPaginationHeight);
     ajaxui.addStartAction(treeviewBtnInit);
     ajaxui.addStartAction(registerJumpToTop);
+    ajaxui.addStartAction(makeTooltips);
     ajaxui.addStartAction(fixCurrencyEdits);
     ajaxui.addStartAction(registerAutoRefresh);
     ajaxui.addStartAction(scrollUpForMsg);
@@ -527,7 +528,6 @@ $(function(event){
     ajaxui.addStartAction(makeTriStateCheckbox);
     ajaxui.addStartAction(makeHighlight);
     ajaxui.addStartAction(viewer3d_models);
-    ajaxui.addStartAction(makeTooltips);
     //ajaxui.addStartAction(makeTypeAhead);
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
@@ -535,6 +535,7 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(registerHoverImages);
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
+    ajaxui.addAjaxCompleteAction(makeTooltips);
     ajaxui.addAjaxCompleteAction(registerX3DOM);
     ajaxui.addAjaxCompleteAction(registerBootstrapSelect);
     ajaxui.addAjaxCompleteAction(fixCurrencyEdits);
@@ -544,7 +545,6 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(makeTriStateCheckbox);
     ajaxui.addAjaxCompleteAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(viewer3d_models);
-    ajaxui.addAjaxCompleteAction(makeTooltips);
     //ajaxui.addAjaxCompleteAction(makeTypeAhead);
 
     ajaxui.start();
@@ -816,7 +816,7 @@ function makeHighlight() {
  */
 function makeTooltips() {
     //$('[data-toggle="tooltip"]').tooltip();
-    $('a[title]').tooltip("hide");
+    $('*').tooltip("hide");
     $('a[title]').tooltip({container: "body"});
 }
 
