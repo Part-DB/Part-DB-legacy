@@ -2,7 +2,7 @@
 <div class="panel panel-primary">
     <div class="panel-heading">
         <a data-toggle="collapse" class="link-collapse text-white" href="#panel-header">
-            {t}Suchergebnis{/t}
+           <i class="fas fa-search fa-fw"></i> {t}Suchergebnis{/t}
         </a>
     </div>
     <div class="panel-body  panel-collapse collapse in" id="panel-header">

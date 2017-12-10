@@ -17,25 +17,25 @@
                 <ul class="nav nav-tabs">
                     <li class="active"><a data-toggle="tab" href="#appearance" class="link-anchor">
                         <span class="fa-stack">
-                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="far fa-square fa-stack-2x"></i>
                             <i class="fa fa-magic fa-stack-1x"></i>
                         </span>
                             {t}Aussehen{/t}</a></li>
                     <li><a data-toggle="tab" href="#features" class="link-anchor">
                          <span class="fa-stack">
-                            <i class="fa fa-square-o fa-stack-2x"></i>
-                            <i class="fa fa-sliders fa-stack-1x"></i>
+                            <i class="far fa-square fa-stack-2x"></i>
+                            <i class="fa fa-sliders-h fa-stack-1x"></i>
                         </span>
                             {t}Funktionen{/t}</a></li>
                     <li><a data-toggle="tab" href="#misc" class="link-anchor">
                         <span class="fa-stack">
-                            <i class="fa fa-square-o fa-stack-2x"></i>
-                            <i class="fa fa-gears fa-stack-1x"></i>
+                            <i class="far fa-square fa-stack-2x"></i>
+                            <i class="fa fa-cogs fa-stack-1x"></i>
                         </span>
                             {t}Sonstiges{/t}</a></li>
                     {if $developer_mode_available}<li><a data-toggle="tab" href="#dev" class="link-anchor">
                         <span class="fa-stack">
-                            <i class="fa fa-square-o fa-stack-2x"></i>
+                            <i class="far fa-square fa-stack-2x"></i>
                             <i class="fa fa-code fa-stack-1x"></i>
                         </span>
                             {t}Entwickler{/t}

@@ -35,21 +35,43 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 
 /********************************************************************************
  *
+ *   Evaluate $_REQUEST
+ *
+ *********************************************************************************/
+
+$action = 'default';
+
+/********************************************************************************
+ *
  *   Initialize Objects
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $user_config['theme'], _('Hersteller IC Logos'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Footprint-Bilder'));
 
 try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log); // admin
 
-    $current_user->tryDo(\PartDB\Permissions\PermissionManager::TOOLS, \PartDB\Permissions\ToolsPermission::IC_LOGOS);
+    $current_user->tryDo(\PartDB\Permissions\PermissionManager::TOOLS, \PartDB\Permissions\ToolsPermission::FOOTPRINTS);
+
+    if (!$config['foot3d']['active']) {
+        throw new Exception(_("3D Footprints müssen aktiviert sein, um diese Funktion zu nutzen."));
+    }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
+}
+
+/********************************************************************************
+ *
+ *   Execute actions
+ *
+ *********************************************************************************/
+
+if (! $fatal_error) {
+
 }
 
 /********************************************************************************
@@ -67,7 +89,7 @@ if (isset($_REQUEST["ajax"])) {
 $html->printHeader($messages);
 
 if (! $fatal_error) {
-    $html->printTemplate('iclogos');
+    $html->printTemplate('3d_footprints');
 }
 
 $html->printFooter();

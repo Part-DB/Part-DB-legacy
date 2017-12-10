@@ -263,7 +263,7 @@
                     {if $row.caption == "button_edit"}
                         <td class="tdrow7 no-select">
                         {if !$row.edit_disabled} <a class="btn btn-xs btn-default btn-outline" href="{$relative_path}edit_part_info.php?pid={$row.id}"
-                            {if $row.edit_disabled}disabled="disabled" {/if}><i class="fa fa-pencil" aria-hidden="true"></i></span></a> {/if}
+                            {if $row.edit_disabled}disabled="disabled" {/if}><i class="fa fa-pencil-alt" aria-hidden="true"></i></span></a> {/if}
                         </td>
                     {/if}
                     {if $row.caption == "order_options"}

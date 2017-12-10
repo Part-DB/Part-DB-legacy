@@ -3,7 +3,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">
         <a data-toggle="collapse" class="link-collapse text-default" href="#panel-attachements">
-        {t}Dateianhänge{/t}
+            <i class="fas fa-file fa-fw"></i> {t}Dateianhänge{/t}
         </a>
     </div>
     <div class="panel-body panel-collapse collapse in" id="panel-attachements">

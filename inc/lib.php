@@ -1018,6 +1018,7 @@ function buildToolsTree($params)
     $developer_mode = $config['developer_mode'];
     $db_backup_name = $config['db']['backup']['name'];
     $db_backup_url = $config['db']['backup']['url'];
+    $footprint_3d_active = $config['foot3d']['active'];
 
 
     //Tools nodes
@@ -1033,6 +1034,9 @@ function buildToolsTree($params)
     }
     if (!$disable_tools_footprints && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::FOOTPRINTS)) {
         $tools_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/tools_footprints.php");
+    }
+    if ($footprint_3d_active && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::FOOTPRINTS)) {
+        $tools_nodes[] = treeviewNode(_("3D Footprints"), BASE_RELATIVE . "/tools_3d_footprints.php");
     }
     if (!$disable_iclogos && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IC_LOGOS)) {
         $tools_nodes[] = treeviewNode(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");
@@ -1314,13 +1318,13 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg")
     $fa_class = "";
     switch ($ext) {
         case "pdf":
-            $fa_class = "fa-file-pdf-o";
+            $fa_class = "fa-file-pdf";
             break;
         case "txt":
         case "csv":
         case "md":
         case "rtf":
-            $fa_class = "fa-file-text-o";
+            $fa_class = "fa-file-alt";
             break;
         case "jpg":
         case "jpeg":
@@ -1329,41 +1333,41 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg")
         case "svg":
         case "tif":
         case "tiff":
-            $fa_class = "fa-file-image-o";
+            $fa_class = "fa-file-image";
             break;
         case "zip":
         case "rar":
         case "bz2":
         case "tar":
         case "7z":
-            $fa_class = "fa-file-archive-o";
+            $fa_class = "fa-file-archive";
             break;
         case "mp3":
         case "wav":
         case "aac":
         case "m4a":
         case "wma":
-            $fa_class = "fa-file-audio-o";
+            $fa_class = "fa-file-audio";
             break;
         case "mp4":
         case "mkv":
         case "wmv":
-            $fa_class = "fa-file-video-o";
+            $fa_class = "fa-file-video";
             break;
         case "ppt":
         case "pptx":
         case "odp":
-            $fa_class = "fa-file-powerpoint-o";
+            $fa_class = "fa-file-powerpoint";
             break;
         case "doc":
         case "docx":
         case "odt":
-            $fa_class = "fa-file-word-o";
+            $fa_class = "fa-file-word";
             break;
         case "xls":
         case "xlsx":
         case "ods":
-            $fa_class = "fa-file-excel-o";
+            $fa_class = "fa-file-excel";
             break;
         case "php":
         case "xml":
@@ -1371,11 +1375,11 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg")
         case "js":
         case "ts":
         case "htm":
-            $fa_class = "fa-file-code-o";
+            $fa_class = "fa-file-code";
             break;
 
         default: //Use generic file icon
-            $fa_class = "fa-file-o";
+            $fa_class = "fa-file";
             break;
     }
 
@@ -1386,7 +1390,7 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg")
     $fa_class = $fa_class . " " . $size;
 
     //Build HTML
-    return '<i class="fa ' . $fa_class . '" aria-hidden="true"></i>';
+    return '<i class="far ' . $fa_class . '" aria-hidden="true"></i>';
 }
 
 /**
