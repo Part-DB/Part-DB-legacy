@@ -553,9 +553,8 @@ $(function(event){
 });
 
 function makeGreekInput() {
-    if (this.greek_once===true) return;
 
-    $("input[type=text]").keydown(function (event : KeyboardEvent) {
+    $("input[type=text], textarea, input[type=search]").unbind("keydown").keydown(function (event : KeyboardEvent) {
        let greek = event.altKey;
 
        let greek_char : string = "";
@@ -607,7 +606,9 @@ function makeGreekInput() {
                case "5": //PI
                    greek_char = "\u03c0";
                    break;
-
+               case "q": //Copyright
+                   greek_char = "\u00A9";
+                   break;
            }
 
             if(greek_char=="") return;

@@ -440,9 +440,7 @@ $(function (event) {
     ajaxui.start();
 });
 function makeGreekInput() {
-    if (this.greek_once === true)
-        return;
-    $("input[type=text]").keydown(function (event) {
+    $("input[type=text], textarea, input[type=search]").unbind("keydown").keydown(function (event) {
         var greek = event.altKey;
         var greek_char = "";
         if (greek) {
@@ -492,6 +490,9 @@ function makeGreekInput() {
                     break;
                 case "5"://PI
                     greek_char = "\u03c0";
+                    break;
+                case "q"://Copyright
+                    greek_char = "\u00A9";
                     break;
             }
             if (greek_char == "")
