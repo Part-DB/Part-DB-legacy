@@ -1,4 +1,6 @@
 # Part-DB
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjbtronics%2FPart-DB.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjbtronics%2FPart-DB?ref=badge_shield)
+
 
 **This file is available in English, too: [README](README_EN.md)**
 
@@ -59,3 +61,6 @@ Installation auf _[en_US] English (United States)_ gestellt werden.
 
 Möchte man sich an der Übersetzung beteiligen (insbesondere bei anderen Sprachen als Englisch), 
 dann kann dies [hier](https://translate.zanata.org/iteration/view/part-db/0.4.0/) tun.
+
+## License
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fjbtronics%2FPart-DB.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fjbtronics%2FPart-DB?ref=badge_large)
