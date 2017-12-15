@@ -609,6 +609,9 @@ function makeGreekInput() {
                case "q": //Copyright
                    greek_char = "\u00A9";
                    break;
+               case "e": //Euro
+                   greek_char = "\u20AC";
+                   break;
            }
 
             if(greek_char=="") return;
