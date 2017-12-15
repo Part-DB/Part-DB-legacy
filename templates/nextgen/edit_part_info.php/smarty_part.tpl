@@ -61,7 +61,7 @@
                     </div>
                     {else}
                     <div class="col-md-10">
-                        <input type="text" id="description" class="form-control" name="description" placeholder="{t}z.B. NPN 45V 0,1A 0,5W{/t}"
+                        <input type="text" id="description" class="form-control greek-input" name="description" placeholder="{t}z.B. NPN 45V 0,1A 0,5W{/t}"
                                value="{$description nofilter}" onkeydown="if (event.keyCode == 13) { document.getElementById('btn_enter').click();}"
                                {if !$can_description}disabled{/if}>
                         <p class="help-block">{t}Hinweis: Hier kann BBCode verwendet werden um den Text besonders auszuzeichnen (z.B. [b]Fett[/b]).{/t}</p>
