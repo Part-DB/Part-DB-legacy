@@ -440,9 +440,7 @@ $(function (event) {
     ajaxui.start();
 });
 function makeGreekInput() {
-    if (this.greek_once === true)
-        return;
-    $("input[type=text], textarea, input[type=search]").keydown(function (event) {
+    $("input[type=text], textarea, input[type=search]").unbind("keydown").keydown(function (event) {
         var greek = event.altKey;
         var greek_char = "";
         if (greek) {

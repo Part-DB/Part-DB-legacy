@@ -553,9 +553,8 @@ $(function(event){
 });
 
 function makeGreekInput() {
-    if (this.greek_once===true) return;
 
-    $("input[type=text], textarea, input[type=search]").keydown(function (event : KeyboardEvent) {
+    $("input[type=text], textarea, input[type=search]").unbind("keydown").keydown(function (event : KeyboardEvent) {
        let greek = event.altKey;
 
        let greek_char : string = "";
