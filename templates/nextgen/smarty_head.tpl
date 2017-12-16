@@ -91,30 +91,30 @@
 
 <body>
 
-<header>
-    <nav class="navbar navbar-default navbar-fixed-top" id="main-navbar">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#sidebar">
-                    <span class="sr-only">{t}Toggle Sidebar{/t}</span>
-                    <span class="fa fa-bars"></span>
-                </button>
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#searchbar" aria-expanded="false">
-                    <span class="sr-only">{t}Toggle Navigation{/t}</span>
-                    <span class="fa fa-search"></span>
-                </button>
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#userbar" aria-expanded="false">
-                    <span class="sr-only">{t}Toggle Navigation{/t}</span>
-                    <span class="fa fa-user"></span>
-                </button>
-                <a class="navbar-toggle link-anchor" style="color: black;"
-                   href="zxing://scan/?ret={if isset($smarty.server.HTTPS)}https{else}http{/if}%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$relative_path|escape:'url'}show_part_info.php%3Fbarcode%3D%7BCODE%7D&SCAN_FORMATS=EAN_8">
-                    <i class="fa fa-barcode" aria-hidden="true"></i>
-                    <span class="sr-only">{t}Scanne Barcode{/t}</span>
-                </a>
-                <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> {if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</a>
-            </div>
+    <header>
+        <nav class="navbar navbar-default navbar-fixed-top" id="main-navbar">
+            <div class="container-fluid">
+             <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#sidebar">
+                        <span class="sr-only">{t}Toggle Sidebar{/t}</span>
+                        <span class="fa fa-bars"></span>
+                    </button>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#searchbar" aria-expanded="false">
+                        <span class="sr-only">{t}Toggle Navigation{/t}</span>
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#userbar" aria-expanded="false">
+                        <span class="sr-only">{t}Toggle Navigation{/t}</span>
+                        <span class="fa fa-user"></span>
+                    </button>
+                    <a class="navbar-toggle link-datasheet" style="color: black;"
+                        href="zxing://scan/?ret={if isset($smarty.server.HTTPS)}https{else}http{/if}%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$relative_path|escape:'url'}show_part_info.php%3Fbarcode%3D%7BCODE%7D&SCAN_FORMATS=EAN_8">
+                        <i class="fa fa-barcode" aria-hidden="true"></i>
+                        <span class="sr-only">{t}Scanne Barcode{/t}</span>
+                    </a>
+                    <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> {if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</a>
+                </div>
 
             <ul class="nav collapse navbar-collapse navbar-nav navbar-right" id="userbar">
                 <li class="dropdown">
