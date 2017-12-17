@@ -91,8 +91,8 @@ try {
 //try {
     switch ($action) {
         case "generate":
-                $html->setVariable("preview_src","show_part_label.php?" . $_SERVER["QUERY_STRING"] . "&view", "string");
-                $html->setVariable("download_link", "show_part_label.php?" . $_SERVER["QUERY_STRING"] . "&download", "string");
+                $html->setVariable("preview_src","show_part_label.php?" . http_build_query($_REQUEST) . "&view", "string");
+                $html->setVariable("download_link", "show_part_label.php?" . http_build_query($_REQUEST) . "&download", "string");
             break;
         case "view":
             /* @var BaseLabel $generator */

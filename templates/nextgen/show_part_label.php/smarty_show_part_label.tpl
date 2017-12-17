@@ -1,4 +1,4 @@
-<form method="get">
+<form method="post">
 
     <div class="panel panel-primary">
         <div class="panel-heading"><i class="fa fa-barcode" aria-hidden="true"></i>
