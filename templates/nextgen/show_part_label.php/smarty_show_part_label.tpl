@@ -5,10 +5,20 @@
             {t}Label erzeugen{/t}</div>
         <div class="panel-body">
             <div class="form-horizontal">
+
                 <div class="form-group">
-                    <label class="col-md-3 control-label">{t}Part-ID:{/t}</label>
+                    <label class="col-md-3 control-label">{t}Typ:{/t}</label>
                     <div class="col-md-9">
-                        <input class="form-control" min="1" name="pid" type="number" value="{if $pid!=0}{$pid}{/if}" required>
+                        <select class="form-control" name="generator">
+                            <option value="part">{t}Bauteil{/t}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">{t}ID:{/t}</label>
+                    <div class="col-md-9">
+                        <input class="form-control" min="1" name="id" type="number" value="{if $id>0}{$id}{/if}" required>
                     </div>
                 </div>
 
@@ -26,8 +36,10 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Größe:{/t}</label>
                     <div class="col-md-9" >
-                        <select class="form-control" disabled>
-
+                        <select class="form-control" name="size">
+                            {foreach $supported_sizes as $size}
+                                <option value="{$size}" {if $selected_size == $size}selected{/if}>{$size} mm</option>
+                            {/foreach}
                         </select>
                     </div>
                 </div>
@@ -35,15 +47,16 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Line Preset:{/t}</label>
                     <div class="col-md-9">
-                        <select class="form-control" disabled>
+                        <select class="form-control" name="preset">
                             <optgroup label="{t}Presets{/t}">
-                                <option>{t}Preset A{/t}</option>
-                                <option>{t}Preset B{/t}</option>
-                                <option>{t}Preset C{/t}</option>
+                                {foreach $available_presets as $preset}
+                                    <option value="{$preset.name}" {if $selected_preset == $preset.name}selected{/if}>{$preset.name}</option>
+                                {/foreach}
                             </optgroup>
+                            {*
                             <optgroup label="{t}Benutzerdefiniert{/t}">
                                 <option onchange="">{t}Benutzerdefiniert{/t}</option>
-                            </optgroup>
+                            </optgroup> *}
                         </select>
                     </div>
                 </div>
@@ -77,7 +90,10 @@
 <div class="panel panel-default">
     <div class="panel-heading">{t}Vorschau{/t}</div>
     <div class="">
-        <embed width="100%" height="200" type="application/pdf" src="{$preview_src}">
+        {* <embed width="100%" height="200" type="application/pdf" src="{$preview_src}"> *}
+        <object width="100%" height="200" type="application/pdf" data="{$preview_src}" id="pdf_content">
+            <p>{t}Ihr Browser unterstützt keine Vorschau von PDF-Dateien. Um die Datei anzusehen, laden Sie die Datei herunter{/t}</p>
+        </object>
     </div>
 </div>
 {/if}
