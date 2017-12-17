@@ -210,7 +210,10 @@
                 <p></p>
 
                 <form action="show_part_label.php" class="hidden-print">
-                    <input type="hidden" name="pid" value="{$pid}">
+                    <input type="hidden" name="id" value="{$pid}">
+                    <input type="hidden" name="generator" value="part">
+                    <input type="hidden" name="size" value="50x30">
+                    <input type="hidden" name="preset" value="Preset A">
                     <input type="hidden" name="label_generate">
                     <button type="submit" class="btn btn-default btn-block"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
                         {t}Barcode erzeugen{/t}</button>

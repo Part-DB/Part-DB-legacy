@@ -109,7 +109,7 @@ abstract class BaseLabel
                 'font' => 'helvetica',
                 'fontsize' => 8 );
 
-            $this->pdf->write1DBarcode($this->element->getBarcodeContent(), "EAN8", "", "", "", "", "", $style, 'N');
+            $this->pdf->write1DBarcode($this->element->getBarcodeContent(), "EAN8", "", "", "", 15, "", $style, 'N');
         }
 
         //Output the labels
@@ -142,7 +142,7 @@ abstract class BaseLabel
         $this->pdf->SetDefaultMonospacedFont('dejavusansmono');
 
         // set margins
-        $this->pdf->SetMargins(2, 1, 2);
+        $this->pdf->SetMargins(2, 2.5, 2);
 
         // set auto page breaks
         $this->pdf->SetAutoPageBreak(false, PDF_MARGIN_BOTTOM);
