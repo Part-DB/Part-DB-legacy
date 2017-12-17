@@ -264,8 +264,8 @@ msgid "Dateityp löschen"
 msgstr ""
 
 #: .\templates\nextgen/edit_categories.php/smarty_edit_categories.tpl:12
-#: .\templates\nextgen/smarty_head.tpl:208
-#: .\templates\nextgen/smarty_head.tpl:211
+#: .\templates\nextgen/smarty_head.tpl:209
+#: .\templates\nextgen/smarty_head.tpl:212
 #: .\templates\nextgen/smarty_pagination.tpl:23
 msgid "Kategorien"
 msgstr ""
@@ -394,7 +394,7 @@ msgid "Kategorie löschen"
 msgstr ""
 
 #: .\templates\nextgen/edit_devices.php/smarty_edit_devices.tpl:11
-#: .\templates\nextgen/smarty_head.tpl:226
+#: .\templates\nextgen/smarty_head.tpl:227
 msgid "Baugruppen"
 msgstr ""
 
@@ -542,7 +542,7 @@ msgstr ""
 
 #: .\templates\nextgen/edit_footprints.php/smarty_edit_footprints.tpl:194
 #: .\templates\nextgen/edit_footprints.php/smarty_edit_footprints.tpl:271
-#: .\templates\nextgen/smarty_head.tpl:180
+#: .\templates\nextgen/smarty_head.tpl:181
 #: .\templates\nextgen/smarty_pagination.tpl:28
 #: .\templates\nextgen/smarty_table.tpl:45
 #: .\templates\nextgen/smarty_table.tpl:46
@@ -657,7 +657,7 @@ msgid "Benutzer löschen"
 msgstr ""
 
 #: .\templates\nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:5
-#: .\templates\nextgen/smarty_head.tpl:177
+#: .\templates\nextgen/smarty_head.tpl:178
 #: .\templates\nextgen/smarty_pagination.tpl:38
 #: .\templates\nextgen/smarty_table.tpl:49
 #: .\templates\nextgen/smarty_table.tpl:50
@@ -858,7 +858,7 @@ msgstr ""
 #: .\templates\nextgen/edit_part_info.php/smarty_orderdetails.tpl:105
 #: .\templates\nextgen/show_device_parts.php/smarty_add_parts.tpl:36
 #: .\templates\nextgen/show_device_parts.php/smarty_attachements.tpl:82
-#: .\templates\nextgen/show_device_parts.php/smarty_comment.tpl:16
+#: .\templates\nextgen/show_device_parts.php/smarty_comment.tpl:17
 #: .\templates\nextgen/show_part_info.php/smarty_devices.tpl:43
 #: .\templates\nextgen/show_part_info.php/smarty_main.tpl:157
 msgid "Hinzufügen"
@@ -889,7 +889,7 @@ msgstr ""
 
 #: .\templates\nextgen/edit_part_info.php/smarty_orderdetails.tpl:12
 #: .\templates\nextgen/show_part_info.php/smarty_orderdetails.tpl:15
-#: .\templates\nextgen/smarty_head.tpl:174
+#: .\templates\nextgen/smarty_head.tpl:175
 #: .\templates\nextgen/smarty_table.tpl:55
 msgid "Lieferant"
 msgstr ""
@@ -914,7 +914,7 @@ msgid "Neu:"
 msgstr ""
 
 #: .\templates\nextgen/edit_part_info.php/smarty_orderdetails.tpl:32
-#: .\templates\nextgen/smarty_head.tpl:172
+#: .\templates\nextgen/smarty_head.tpl:173
 msgid "Bestellnr."
 msgstr ""
 
@@ -1344,7 +1344,7 @@ msgid "Part-DB Installation/Update"
 msgstr ""
 
 #: .\templates\nextgen/install.php/smarty_header.tpl:113
-#: .\templates\nextgen/smarty_head.tpl:312
+#: .\templates\nextgen/smarty_head.tpl:313
 msgid "Seite neu laden"
 msgstr ""
 
@@ -1574,15 +1574,15 @@ msgid "Erfolgreich eingeloggt."
 msgstr ""
 
 #: .\templates\nextgen/login.php/smarty_login.tpl:32
-#: .\templates\nextgen/smarty_head.tpl:128
-#: .\templates\nextgen/smarty_head.tpl:141
+#: .\templates\nextgen/smarty_head.tpl:129
+#: .\templates\nextgen/smarty_head.tpl:142
 msgid "Logout"
 msgstr ""
 
 #: .\templates\nextgen/login.php/smarty_login.tpl:39
 #: .\templates\nextgen/login.php/smarty_login.tpl:58
-#: .\templates\nextgen/smarty_head.tpl:130
-#: .\templates\nextgen/smarty_head.tpl:143
+#: .\templates\nextgen/smarty_head.tpl:131
+#: .\templates\nextgen/smarty_head.tpl:144
 msgid "Login"
 msgstr ""
 
@@ -1677,10 +1677,14 @@ msgid ""
 msgstr ""
 
 #: .\templates\nextgen/show_device_parts.php/smarty_comment.tpl:6
-#: .\templates\nextgen/smarty_head.tpl:169
+#: .\templates\nextgen/smarty_head.tpl:170
 #: .\templates\nextgen/smarty_table.tpl:32
 #: .\templates\nextgen/smarty_table.tpl:33
 msgid "Kommentar"
+msgstr ""
+
+#: .\templates\nextgen/show_device_parts.php/smarty_comment.tpl:15
+msgid "Bisher existiert noch kein Kommentar zu dieser Baugruppe."
 msgstr ""
 
 #: .\templates\nextgen/show_device_parts.php/smarty_copy_device.tpl:10
@@ -1846,7 +1850,7 @@ msgstr ""
 
 #: .\templates\nextgen/show_device_parts.php/smarty_subdevices.tpl:8
 #: .\templates\nextgen/show_order_parts.php/smarty_show_order_parts.tpl:110
-#: .\templates\nextgen/smarty_head.tpl:161
+#: .\templates\nextgen/smarty_head.tpl:162
 #: .\templates\nextgen/smarty_table.tpl:28
 #: .\templates\nextgen/smarty_table.tpl:29
 msgid "Name"
@@ -2217,89 +2221,89 @@ msgstr ""
 msgid "Toggle Navigation"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:113
+#: .\templates\nextgen/smarty_head.tpl:114
 msgid "Scanne Barcode"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:124
-#: .\templates\nextgen/smarty_head.tpl:140
+#: .\templates\nextgen/smarty_head.tpl:125
+#: .\templates\nextgen/smarty_head.tpl:141
 msgid "Eingeloggt als"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:125
+#: .\templates\nextgen/smarty_head.tpl:126
 #: .\templates\nextgen/user_settings.php/smarty_settings.tpl:11
 msgid "Benutzereinstellungen"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:126
+#: .\templates\nextgen/smarty_head.tpl:127
 #: .\templates\nextgen/user_info.php/smarty_main.tpl:3
 msgid "Benutzerinformationen"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:156
+#: .\templates\nextgen/smarty_head.tpl:157
 msgid "Suchoptionen"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:163
+#: .\templates\nextgen/smarty_head.tpl:164
 #: .\templates\nextgen/smarty_table.tpl:42
 #: .\templates\nextgen/smarty_table.tpl:43
 msgid "Kategorie"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:165
+#: .\templates\nextgen/smarty_head.tpl:166
 #: .\templates\nextgen/smarty_table.tpl:30
 #: .\templates\nextgen/smarty_table.tpl:31
 msgid "Beschreibung"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:167
+#: .\templates\nextgen/smarty_head.tpl:168
 #: .\templates\nextgen/smarty_pagination.tpl:33
 #: .\templates\nextgen/smarty_table.tpl:52
 #: .\templates\nextgen/smarty_table.tpl:53
 msgid "Lagerort"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:182
+#: .\templates\nextgen/smarty_head.tpl:183
 msgid "Deakt. Barcode"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:184
+#: .\templates\nextgen/smarty_head.tpl:185
 msgid "RegEx Matching"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:188
+#: .\templates\nextgen/smarty_head.tpl:189
 msgid "Suche"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:190
+#: .\templates\nextgen/smarty_head.tpl:191
 msgid "Los!"
-msgstr ""
-
-#: .\templates\nextgen/smarty_head.tpl:215
-#: .\templates\nextgen/smarty_head.tpl:230
-#: .\templates\nextgen/smarty_head.tpl:245
-msgid "Alle ausklappen"
 msgstr ""
 
 #: .\templates\nextgen/smarty_head.tpl:216
 #: .\templates\nextgen/smarty_head.tpl:231
 #: .\templates\nextgen/smarty_head.tpl:246
+msgid "Alle ausklappen"
+msgstr ""
+
+#: .\templates\nextgen/smarty_head.tpl:217
+#: .\templates\nextgen/smarty_head.tpl:232
+#: .\templates\nextgen/smarty_head.tpl:247
 msgid "Alle einklappen"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:241
+#: .\templates\nextgen/smarty_head.tpl:242
 msgid "Verwaltung"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:254
+#: .\templates\nextgen/smarty_head.tpl:255
 msgid "Bitte aktivieren sie Javascript, um alle Funktionen benutzen zu können."
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:265
+#: .\templates\nextgen/smarty_head.tpl:266
 msgid "Lade"
 msgstr ""
 
-#: .\templates\nextgen/smarty_head.tpl:268
+#: .\templates\nextgen/smarty_head.tpl:269
 msgid "Dies kann einen Moment dauern..."
 msgstr ""
 
