@@ -1,5 +1,17 @@
 # Part-DB changelog
 
+## Part-DB 0.4.3
+
+#### New functions:
+* A note is displayed in the Comment Panel if an assembly does not yet have a comment
+
+#### Bugfixes:
+* Button for scanning barcodes in Mobile View works again
+* File attachment panel on the assembly overview can now be collapsed again
+* Disable the comment fields for data structures if a user has no editing rights
+* For the IC-Logos tool the correct permission is checked (and no longer the IMPORT permission)
+
+
 ## Part-DB 0.4.2
 
 #### New functions:
