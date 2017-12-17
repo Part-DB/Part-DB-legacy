@@ -36,15 +36,20 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *   Evaluate $_REQUEST
  *
  *********************************************************************************/
-$element_id            = isset($_REQUEST['id'])               ? (integer)$_REQUEST['id']             : 0;
-$generator_type             = isset($_REQUEST['generator'])        ? (string)$_REQUEST['generator']       : "part";
+$element_id            = isset($_REQUEST['id'])                 ? (integer)$_REQUEST['id']             : 0;
+$generator_type        = isset($_REQUEST['generator'])          ? (string)$_REQUEST['generator']       : "part";
+$label_size            = isset($_REQUEST['size'])               ? (string)$_REQUEST['size']            : "";
+$label_preset          = isset($_REQUEST['preset'])             ? (string)$_REQUEST['preset']          : "";
 
 $action = 'default';
 if (isset($_REQUEST["label_generate"])) {
     $action = 'generate';
 }
-if (isset($_REQUEST["label_download"])) {
+if (isset($_REQUEST["download"])) {
     $action = 'download';
+}
+if (isset($_REQUEST["view"])) {
+    $action = "view";
 }
 
 
@@ -66,6 +71,9 @@ try {
         case "part":
             /* @var BaseLabel */
             $generator_class = "\PartDB\Label\PartLabel";
+            if ($element_id > 0) {
+                $element = new Part($database, $current_user, $log, $element_id);
+            }
     }
 
 } catch (Exception $e) {
@@ -80,15 +88,33 @@ try {
  *
  *********************************************************************************/
 
-switch ($action) {
-    case "generate":
-        $html->setVariable("preview_src", "generate_part_label.php?pid=" . $part_id, "string");
-        break;
+//try {
+    switch ($action) {
+        case "generate":
+                $html->setVariable("preview_src","show_part_label.php?" . $_SERVER["QUERY_STRING"] . "&view", "string");
+                $html->setVariable("download_link", "show_part_label.php?" . $_SERVER["QUERY_STRING"] . "&download", "string");
+            break;
+        case "view":
+            /* @var BaseLabel $generator */
+            if (isset($element)) {
+                $generator = new $generator_class($element, BaseLabel::TYPE_BARCODE, $label_size, $label_preset);
 
-    case "download":
-        $html->setVariable("preview_src", "generate_part_label.php?download&pid=" . $part_id, "string");
-        break;
-}
+                $generator->generate();
+            }
+            break;
+        case "download":
+            /* @var BaseLabel $generator */
+            if (isset($element)) {
+                $generator = new $generator_class($element, BaseLabel::TYPE_BARCODE, $label_size, $label_preset);
+
+                $generator->download();
+            }
+            break;
+    }
+/*} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+    $fatal_error = true;
+}*/
 
 /********************************************************************************
  *
@@ -99,7 +125,6 @@ switch ($action) {
 if (! $fatal_error) {
     try {
         $html->setVariable("pid", $part_id, "integer");
-        $html->setVariable("download_link", 'generate_part_label.php?pid='.$part_id.'&download', "string");
 
         //Show which label sizes are supported.
         $html->setLoop("supported_sizes", $generator_class::getSupportedSizes());

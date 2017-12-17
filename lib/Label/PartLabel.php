@@ -35,75 +35,14 @@ use TCPDF;
  */
 class PartLabel extends BaseLabel
 {
-
-    /********************************************************************************
-     *
-     *   Getters
-     *
-     *********************************************************************************/
-
-    /**
-     * Gets the current label type. Compare with PartLabel::TYPE_*
-     * @return int the current label type
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Summary of get_lines
-     * @return string[] the current lines
-     */
-    public function getLines()
-    {
-        return $this->lines;
-    }
-
-
-    /********************************************************************************
-     *
-     *   Setters
-     *
-     *********************************************************************************/
-
-    public function setType($new_type)
-    {
-        $this->type = $new_type;
-    }
-
-    public function setSize()
-    {
-    }
-
-    public function setLines($new_lines)
-    {
-        $tmp = array();
-        foreach ($new_lines as $line) {
-            $tmp[] = replacePlaceholderWithInfos($line, $this->part);
-        }
-        $this->lines = $tmp;
-    }
-
     /********************************************************************************
      *
      *   Basic Methods
      *
      *********************************************************************************/
 
-    private function buildBarcodeConfig()
-    {
-        if (true) { //case S
-            $c = array("size" => array(50,30),
-                "margins" => array(1,2,1),
-                "fontsize" => 8
-            );
 
-            return $c;
-        }
-        return "";
-    }
-
+    /*
     public function generateBarcode($download = false)
     {
         // create new PDF document
@@ -165,7 +104,7 @@ class PartLabel extends BaseLabel
             //Close and output PDF document
             $pdf->Output('label_'.$this->part->getID().'.pdf', 'I');
         }
-    }
+    } */
 
     /**
      * Returns all presets for lines

@@ -84,10 +84,10 @@ abstract class BaseLabel
         //Output the labels
 
         if ($download) {
-            $this->pdf->Output('label_'.$this->part->getID().'.pdf', 'D');
+            $this->pdf->Output('label_'.$this->element->getID().'.pdf', 'D');
         } else {
             //Close and output PDF document
-            $this->pdf->Output('label_'.$this->part->getID().'.pdf', 'I');
+            $this->pdf->Output('label_'.$this->element->getID().'.pdf', 'I');
         }
     }
 

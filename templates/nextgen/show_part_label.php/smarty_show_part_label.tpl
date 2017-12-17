@@ -1,4 +1,4 @@
-<form method="post">
+<form method="get">
 
     <div class="panel panel-primary">
         <div class="panel-heading"><i class="fa fa-barcode" aria-hidden="true"></i>
@@ -36,7 +36,7 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Größe:{/t}</label>
                     <div class="col-md-9" >
-                        <select class="form-control">
+                        <select class="form-control" name="size">
                             {foreach $supported_sizes as $size}
                                 <option value="{$size}">{$size} mm</option>
                             {/foreach}
@@ -47,7 +47,7 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Line Preset:{/t}</label>
                     <div class="col-md-9">
-                        <select class="form-control">
+                        <select class="form-control" name="preset">
                             <optgroup label="{t}Presets{/t}">
                                 {foreach $available_presets as $preset}
                                     <option value="{$preset.name}">{$preset.name}</option>
