@@ -5,10 +5,20 @@
             {t}Label erzeugen{/t}</div>
         <div class="panel-body">
             <div class="form-horizontal">
+
                 <div class="form-group">
-                    <label class="col-md-3 control-label">{t}Part-ID:{/t}</label>
+                    <label class="col-md-3 control-label">{t}Typ:{/t}</label>
                     <div class="col-md-9">
-                        <input class="form-control" min="1" name="pid" type="number" value="{if $pid!=0}{$pid}{/if}" required>
+                        <select class="form-control" name="generator">
+                            <option value="part">{t}Bauteil{/t}</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="col-md-3 control-label">{t}ID:{/t}</label>
+                    <div class="col-md-9">
+                        <input class="form-control" min="1" name="id" type="number" value="{if $pid!=0}{$pid}{/if}" required>
                     </div>
                 </div>
 
@@ -26,8 +36,10 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Größe:{/t}</label>
                     <div class="col-md-9" >
-                        <select class="form-control" disabled>
-
+                        <select class="form-control">
+                            {foreach $supported_sizes as $size}
+                                <option value="{$size}">{$size} mm</option>
+                            {/foreach}
                         </select>
                     </div>
                 </div>
@@ -35,15 +47,16 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}Line Preset:{/t}</label>
                     <div class="col-md-9">
-                        <select class="form-control" disabled>
+                        <select class="form-control">
                             <optgroup label="{t}Presets{/t}">
-                                <option>{t}Preset A{/t}</option>
-                                <option>{t}Preset B{/t}</option>
-                                <option>{t}Preset C{/t}</option>
+                                {foreach $available_presets as $preset}
+                                    <option value="{$preset.name}">{$preset.name}</option>
+                                {/foreach}
                             </optgroup>
+                            {*
                             <optgroup label="{t}Benutzerdefiniert{/t}">
                                 <option onchange="">{t}Benutzerdefiniert{/t}</option>
-                            </optgroup>
+                            </optgroup> *}
                         </select>
                     </div>
                 </div>
