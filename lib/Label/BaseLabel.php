@@ -80,7 +80,7 @@ abstract class BaseLabel
         return $lines;
     }
 
-    protected function generateBarcode($download = false)
+    protected function generateLabel($download = false)
     {
         // add a page
         $this->pdf->AddPage();
@@ -91,6 +91,25 @@ abstract class BaseLabel
         foreach ($lines as $line) {
             $this->pdf->Cell(0, 0, $line);
             $this->pdf->Ln();
+        }
+
+        if ($this->type == static::TYPE_BARCODE) {
+            $style = array(
+                'position' => 'C',
+                'align' => 'C',
+                'stretch' => false,
+                'fitwidth' => true,
+                'cellfitalign' => '',
+                'border' => false,
+                'hpadding' => 'auto',
+                'vpadding' => 'auto',
+                'fgcolor' => array(0,0,0),
+                'bgcolor' => false, //array(255,255,255),
+                'text' => true,
+                'font' => 'helvetica',
+                'fontsize' => 8 );
+
+            $this->pdf->write1DBarcode($this->element->getBarcodeContent(), "EAN8", "", "", "", "", "", $style, 'N');
         }
 
         //Output the labels
@@ -137,12 +156,12 @@ abstract class BaseLabel
      */
     public function generate()
     {
-        $this->generateBarcode();
+        $this->generateLabel();
     }
 
     public function download()
     {
-        $this->generateBarcode(true);
+        $this->generateLabel(true);
     }
 
     /******************************************************************************
