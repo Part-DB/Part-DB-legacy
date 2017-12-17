@@ -124,7 +124,9 @@ try {
 
 if (! $fatal_error) {
     try {
-        $html->setVariable("pid", $part_id, "integer");
+        $html->setVariable("id", $element_id, "integer");
+        $html->setVariable("selected_size", $label_size, "string");
+        $html->setVariable("selected_preset", $label_preset, "string");
 
         //Show which label sizes are supported.
         $html->setLoop("supported_sizes", $generator_class::getSupportedSizes());

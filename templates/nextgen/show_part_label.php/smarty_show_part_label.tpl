@@ -18,7 +18,7 @@
                 <div class="form-group">
                     <label class="col-md-3 control-label">{t}ID:{/t}</label>
                     <div class="col-md-9">
-                        <input class="form-control" min="1" name="id" type="number" value="{if $pid!=0}{$pid}{/if}" required>
+                        <input class="form-control" min="1" name="id" type="number" value="{if $id>0}{$id}{/if}" required>
                     </div>
                 </div>
 
@@ -38,7 +38,7 @@
                     <div class="col-md-9" >
                         <select class="form-control" name="size">
                             {foreach $supported_sizes as $size}
-                                <option value="{$size}">{$size} mm</option>
+                                <option value="{$size}" {if $selected_size == $size}selected{/if}>{$size} mm</option>
                             {/foreach}
                         </select>
                     </div>
@@ -50,7 +50,7 @@
                         <select class="form-control" name="preset">
                             <optgroup label="{t}Presets{/t}">
                                 {foreach $available_presets as $preset}
-                                    <option value="{$preset.name}">{$preset.name}</option>
+                                    <option value="{$preset.name}" {if $selected_preset == $preset.name}selected{/if}>{$preset.name}</option>
                                 {/foreach}
                             </optgroup>
                             {*
