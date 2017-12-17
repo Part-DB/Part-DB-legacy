@@ -84,7 +84,7 @@ abstract class BaseLabel
     {
         // add a page
         $this->pdf->AddPage();
-        $this->pdf->SetFont('dejavusansmono', '', 8);
+        $this->pdf->SetFont('dejavusansmono', 'b', 8);
 
         $lines = $this->generateLines();
 
