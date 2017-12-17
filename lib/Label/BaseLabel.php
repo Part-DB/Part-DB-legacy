@@ -11,6 +11,7 @@ namespace PartDB\Label;
 
 use PartDB\Base\NamedDBElement;
 use PartDB\Exceptions\NotImplementedException;
+use PartDB\Interfaces\ILabel;
 use TCPDF;
 
 abstract class BaseLabel
@@ -24,7 +25,7 @@ abstract class BaseLabel
     const SIZE_50x30 = "50x30";
     const SIZE_62x30 = "62x30";
 
-    /* @var NamedDBElement */
+    /* @var ILabel */
     protected $element;
     /* @var $string */
     protected $size;
@@ -43,8 +44,8 @@ abstract class BaseLabel
      */
     public function __construct($element, $type, $size, $preset)
     {
-        if(! $element instanceof NamedDBElement) {
-            throw new \InvalidArgumentException(_('$element ist kein gültiges NamedDBElement!'));
+        if(! $element instanceof ILabel) {
+            throw new \InvalidArgumentException(_('$element ist kein gültiges ILabel-Objekt!'));
         }
 
         if (!in_array($type, static::getSupportedTypes())) {
@@ -65,7 +66,18 @@ abstract class BaseLabel
 
     protected function generateLines()
     {
+        $lines = array();
+        foreach (static::getLinePresets() as $preset) {
+            if($preset["name"] == $this->preset) {
+                $lines = $preset["lines"];
+            }
+        }
 
+        foreach ($lines as &$line) {
+            $line = $this->element->replacePlaceholderWithInfos($line);
+        }
+
+        return $lines;
     }
 
     protected function generateBarcode($download = false)
