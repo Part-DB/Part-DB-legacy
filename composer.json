@@ -42,6 +42,10 @@
     {
       "type": "vcs",
       "url":  "git@github.com:jbtronics/Part-DB_tcpdf.git"
+    },
+    {
+      "type": "vcs",
+      "url":  "git@github.com:jbtronics/GolonkaBBCodeParser.git"
     }
   ],
 
