@@ -113,9 +113,25 @@ abstract class BaseLabel
             $this->pdf->Ln();
         }
 
+        //Parse Option for barcode position
+        $barcode_position = "C";
+        if (isset($this->options['barcode_alignment'])) {
+           switch ($this->options['barcode_alignment']) {
+               case "left":
+                   $barcode_position = "L";
+                   break;
+               case "center":
+                   $barcode_position = "C";
+                   break;
+               case "right":
+                   $barcode_position = "R";
+                   break;
+           }
+        }
+
         if ($this->type == static::TYPE_BARCODE) {
             $style = array(
-                'position' => 'C',
+                'position' => $barcode_position,
                 'align' => 'C',
                 'stretch' => false,
                 'fitwidth' => true,

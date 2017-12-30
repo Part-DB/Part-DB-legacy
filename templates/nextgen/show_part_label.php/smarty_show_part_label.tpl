@@ -80,10 +80,12 @@
         </div>
         <div class="panel-body panel-collapse collapse {if !empty($comment)}in{/if}" id="panel-advanced">
             <ul class="nav nav-pills">
-                <li role="presentation" class="active"><a href="#tab-text" class="link-anchor"><i class="fas fa-font"></i> {t}Text{/t}</a></li>
-                {*<li role="presentation"><a href="#">Profile</a></li> *}
+                <li role="presentation" class="active"><a href="#tab-text" data-toggle="tab" class="link-anchor"><i class="fas fa-font"></i> {t}Text{/t}</a></li>
+                <li role="presentation"><a href="#tab-barcode" data-toggle="tab" class="link-anchor"><i class="fas fa-barcode"></i> {t}Barcode{/t}</a></li>
                 {*<li role="presentation"><a href="#">Messages</a></li>*}
             </ul>
+
+            <br>
 
             <div class="tab-content">
 
@@ -119,6 +121,25 @@
                             </div>
                         </div>
 
+                    </div>
+                </div>
+
+                <div id="tab-barcode" class="tab-pane fade">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">{t}Barcode-Ausrichtung:{/t}</label>
+                            <div class="col-md-9">
+                                <div class="radio radio-inline">
+                                    <input type="radio" name="barcode_alignment" value="left" {if $barcode_alignment == "left"}checked{/if}><label>{t}Links{/t}</label>
+                                </div>
+                                <div class="radio radio-inline">
+                                    <input type="radio" name="barcode_alignment" value="center" {if $barcode_alignment == "center"}checked{/if}><label>{t}Zentrieren{/t}</label>
+                                </div>
+                                <div class="radio radio-inline">
+                                    <input type="radio" name="barcode_alignment" value="right" {if $barcode_alignment == "right"}checked{/if}><label>{t}Rechts{/t}</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
