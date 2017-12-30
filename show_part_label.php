@@ -111,6 +111,16 @@ try {
     $options['barcode_alignment'] = $barcode_alignment;
     $options['custom_rows'] = $custom_rows;
 
+    //If selected preset is not "custom", than show the preset lines in custom_rows
+    if ($label_preset != "custom") {
+        foreach ($generator_class::getLinePresets() as $preset) {
+            if($preset["name"] == $label_preset) {
+                $custom_rows = implode("\n", $preset["lines"]);
+            }
+        }
+    }
+
+
     switch ($action) {
         case "generate":
                 $html->setVariable("preview_src","show_part_label.php?" . http_build_query($_REQUEST) . "&view", "string");
