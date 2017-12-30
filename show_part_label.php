@@ -41,6 +41,11 @@ $generator_type        = isset($_REQUEST['generator'])          ? (string)$_REQU
 $label_size            = isset($_REQUEST['size'])               ? (string)$_REQUEST['size']            : "";
 $label_preset          = isset($_REQUEST['preset'])             ? (string)$_REQUEST['preset']          : "";
 
+//Advanced settings
+$text_bold             = isset($_REQUEST['text_bold']);
+$text_italic           = isset($_REQUEST['text_italic']);
+$text_underline        = isset($_REQUEST['text_underline']);
+
 $action = 'default';
 if (isset($_REQUEST["label_generate"])) {
     $action = 'generate';
@@ -88,7 +93,14 @@ try {
  *
  *********************************************************************************/
 
-//try {
+try {
+    //Build config array
+    $options = array();
+
+    $options['text_bold'] = $text_bold;
+    $options['text_italic'] = $text_italic;
+    $options['text_underline'] = $text_underline;
+
     switch ($action) {
         case "generate":
                 $html->setVariable("preview_src","show_part_label.php?" . http_build_query($_REQUEST) . "&view", "string");
@@ -97,7 +109,7 @@ try {
         case "view":
             /* @var BaseLabel $generator */
             if (isset($element)) {
-                $generator = new $generator_class($element, BaseLabel::TYPE_BARCODE, $label_size, $label_preset);
+                $generator = new $generator_class($element, BaseLabel::TYPE_BARCODE, $label_size, $label_preset, $options);
 
                 $generator->generate();
             }
@@ -105,16 +117,16 @@ try {
         case "download":
             /* @var BaseLabel $generator */
             if (isset($element)) {
-                $generator = new $generator_class($element, BaseLabel::TYPE_BARCODE, $label_size, $label_preset);
+                $generator = new $generator_class($element, BaseLabel::TYPE_BARCODE, $label_size, $label_preset, $options);
 
                 $generator->download();
             }
             break;
     }
-/*} catch (Exception $e) {
+} catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
-}*/
+}
 
 /********************************************************************************
  *
@@ -131,6 +143,11 @@ if (! $fatal_error) {
         //Show which label sizes are supported.
         $html->setLoop("supported_sizes", $generator_class::getSupportedSizes());
         $html->setLoop("available_presets", $generator_class::getLinePresets());
+
+        //Advanced settings
+        $html->setVariable("text_bold", $text_bold, "bool");
+        $html->setVariable("text_italic", $text_italic, "bool");
+        $html->setVariable("text_underline", $text_underline, "bool");
 
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');

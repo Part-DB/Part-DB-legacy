@@ -36,13 +36,16 @@ abstract class BaseLabel
     /* @var TCPDF */
     protected $pdf;
 
+    protected $options;
+
     /**
      * Creates a new BaseLabel object.
      * @param $element NamedDBElement The element from which the label data should be derived
      * @param $type int A type for the Label, use TYPE_ consts for that.
      * @param $size string The size the label should have, use SIZE_ consts.
+     * @param $options array An array containing various advanced options.
      */
-    public function __construct($element, $type, $size, $preset)
+    public function __construct($element, $type, $size, $preset, $options = null)
     {
         if(! $element instanceof ILabel) {
             throw new \InvalidArgumentException(_('$element ist kein gültiges ILabel-Objekt!'));
@@ -60,6 +63,8 @@ abstract class BaseLabel
         $this->size = $size;
         $this->type = $type;
         $this->preset = $preset;
+
+        $this->options = $options;
 
         static::createTCPDFConfig();
     }
@@ -84,7 +89,18 @@ abstract class BaseLabel
     {
         // add a page
         $this->pdf->AddPage();
-        $this->pdf->SetFont('dejavusansmono', 'b', 8);
+
+        $text_style = "";
+        if (isset($this->options['text_bold']) && $this->options['text_bold']) {
+           $text_style .= "b";
+        }
+        if (isset($this->options['text_italic']) && $this->options['text_italic']) {
+            $text_style .= "i";
+        }
+        if (isset($this->options['text_underline']) && $this->options['text_underline']) {
+            $text_style .= "u";
+        }
+        $this->pdf->SetFont('dejavusansmono', $text_style, 8);
 
         $lines = $this->generateLines();
 

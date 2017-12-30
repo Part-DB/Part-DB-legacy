@@ -1,5 +1,6 @@
-<form method="post">
+{locale path="nextgen/locale" domain="partdb"}
 
+<form method="post">
     <div class="panel panel-primary">
         <div class="panel-heading"><i class="fa fa-barcode" aria-hidden="true"></i>
             {t}Label erzeugen{/t}</div>
@@ -71,15 +72,41 @@
         </div>
     </div>
 
-    <div id="custom" class="panel panel-default" hidden>
-        <div class="panel-heading">{t}Benutzerdefinierter Text{/t}</div>
-        <div class="panel-body">
-            <div class="form-horizontal">
-                <div class="form-group">
-                    <label class="col-md-3 control-label">{t}Text:{/t}</label>
-                    <div class="col-md-9">
-                        <textarea class="form-control" rows="5" placeholder="z.B. %pid%"></textarea>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <a data-toggle="collapse" class="link-collapse text-default" href="#panel-advanced">
+                {t}Erweiterte Einstellungen{/t}
+            </a>
+        </div>
+        <div class="panel-body panel-collapse collapse {if !empty($comment)}in{/if}" id="panel-advanced">
+            <ul class="nav nav-pills">
+                <li role="presentation" class="active"><a href="#tab-text" class="link-anchor"><i class="fas fa-font"></i> {t}Text{/t}</a></li>
+                {*<li role="presentation"><a href="#">Profile</a></li> *}
+                {*<li role="presentation"><a href="#">Messages</a></li>*}
+            </ul>
+
+            <div class="tab-content">
+
+                <div id="tab-text" class="tab-pane fade in active">
+                    <div class="form-horizontal">
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">{t}Schriftstil:{/t}</label>
+                            <div class="col-md-9">
+                                <div class="checkbox checkbox-inline">
+                                    <input type="checkbox" name="text_bold" {if $text_bold}checked{/if}><label><b>{t}Fett{/t}</b></label>
+                                </div>
+                                <div class="checkbox checkbox-inline">
+                                    <input type="checkbox" name="text_italic" {if $text_italic}checked{/if}><label><i>{t}Kursiv{/t}</i></label>
+                                </div>
+                                <div class="checkbox checkbox-inline">
+                                    <input type="checkbox" name="text_underline" {if $text_underline}checked{/if}><label><u>{t}Unterstrichen{/t}</u></label>
+                                </div>
+                                <p class="help-block">{t}Beachten Sie dass sich diese Einstellung auf alle Textzeilen auswirkt!{/t}</p>
+                            </div>
+                        </div>
                     </div>
+
                 </div>
             </div>
         </div>
@@ -87,13 +114,13 @@
 </form>
 
 {if !empty($preview_src)}
-<div class="panel panel-default">
-    <div class="panel-heading">{t}Vorschau{/t}</div>
-    <div class="">
-        {* <embed width="100%" height="200" type="application/pdf" src="{$preview_src}"> *}
-        <object width="100%" height="200" type="application/pdf" data="{$preview_src}" id="pdf_content">
-            <p>{t}Ihr Browser unterstützt keine Vorschau von PDF-Dateien. Um die Datei anzusehen, laden Sie die Datei herunter{/t}</p>
-        </object>
+    <div class="panel panel-default">
+        <div class="panel-heading">{t}Vorschau{/t}</div>
+        <div class="">
+            {* <embed width="100%" height="200" type="application/pdf" src="{$preview_src}"> *}
+            <object width="100%" height="200" type="application/pdf" data="{$preview_src}" id="pdf_content">
+                <p>{t}Ihr Browser unterstützt keine Vorschau von PDF-Dateien. Um die Datei anzusehen, laden Sie die Datei herunter{/t}</p>
+            </object>
+        </div>
     </div>
-</div>
 {/if}
