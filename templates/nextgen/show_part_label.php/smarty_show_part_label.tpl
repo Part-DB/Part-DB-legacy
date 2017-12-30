@@ -123,7 +123,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">{t}Benutzerdefinierte Zeilen:{/t}</label>
                             <div class="col-md-9">
-                                <textarea lines="4" class="form-control" name="custom_rows">{$custom_rows}</textarea>
+                                <textarea rows="4" class="form-control" name="custom_rows">{$custom_rows}</textarea>
                             </div>
                         </div>
 
