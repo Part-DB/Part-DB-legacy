@@ -54,10 +54,9 @@
                                     <option value="{$preset.name}" {if $selected_preset == $preset.name}selected{/if}>{$preset.name}</option>
                                 {/foreach}
                             </optgroup>
-                            {*
                             <optgroup label="{t}Benutzerdefiniert{/t}">
-                                <option onchange="">{t}Benutzerdefiniert{/t}</option>
-                            </optgroup> *}
+                                <option value="custom" {if $selected_preset == "custom"}selected{/if}>{t}Benutzerdefiniert{/t}</option>
+                            </optgroup>
                         </select>
                     </div>
                 </div>
@@ -118,6 +117,13 @@
                                     <input type="checkbox" name="text_underline" {if $text_underline}checked{/if}><label><u>{t}Unterstrichen{/t}</u></label>
                                 </div>
                                 <p class="help-block">{t}Beachten Sie dass sich diese Einstellung auf alle Textzeilen auswirkt!{/t}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">{t}Benutzerdefinierte Zeilen:{/t}</label>
+                            <div class="col-md-9">
+                                <textarea lines="4" class="form-control" name="custom_rows">{$custom_rows}</textarea>
                             </div>
                         </div>
 

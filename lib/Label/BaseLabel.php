@@ -72,12 +72,17 @@ abstract class BaseLabel
     protected function generateLines()
     {
         $lines = array();
-        foreach (static::getLinePresets() as $preset) {
-            if($preset["name"] == $this->preset) {
-                $lines = $preset["lines"];
+        if($this->preset == "custom") {
+            if(isset($this->options["custom_rows"])) {
+                $lines = explode("\n", $this->options['custom_rows']);
+            }
+        } else {
+            foreach (static::getLinePresets() as $preset) {
+                if($preset["name"] == $this->preset) {
+                    $lines = $preset["lines"];
+                }
             }
         }
-
         foreach ($lines as &$line) {
             $line = $this->element->replacePlaceholderWithInfos($line);
         }

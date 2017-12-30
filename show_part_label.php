@@ -48,6 +48,7 @@ $text_underline        = isset($_REQUEST['text_underline']);
 
 $output_mode           = isset($_REQUEST['radio_output']) ? (string)$_REQUEST['radio_output'] : "html";
 $barcode_alignment     = isset($_REQUEST['barcode_alignment']) ? (string)$_REQUEST['barcode_alignment'] : "center";
+$custom_rows           = isset($_REQUEST['custom_rows']) ? (string)$_REQUEST['custom_rows'] : "";
 
 
 $action = 'default';
@@ -108,6 +109,7 @@ try {
         $options['force_text_output'] = true;
     }
     $options['barcode_alignment'] = $barcode_alignment;
+    $options['custom_rows'] = $custom_rows;
 
     switch ($action) {
         case "generate":
@@ -158,6 +160,7 @@ if (! $fatal_error) {
         $html->setVariable("text_underline", $text_underline, "bool");
         $html->setVariable("radio_output", $output_mode, "string");
         $html->setVariable('barcode_alignment', $barcode_alignment, "string");
+        $html->setVariable('custom_rows', $custom_rows, "string");
 
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
