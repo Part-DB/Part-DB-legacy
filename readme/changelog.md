@@ -1,5 +1,16 @@
 # Part-DB Changelog
 
+## Part-DB 0.4.3
+
+### Neue Funktionen:
+* Es wird ein Hinweis im Kommentarpanel angezeigt, wenn eine Baugruppe noch kein Kommentar hat
+
+### Bugfixes:
+* Button zum Scannen von Barcodes in der Mobile-Ansicht funktioniert wieder
+* Dateianhangspanel auf der Baugruppenübersicht kann nun wieder eingeklappt werden
+* Deaktiviere die Kommentarfelder für Datenstrukturen, wenn ein Benutzer keine Bearbeitungsrechte hat
+* Für die IC-Logos wird nun die richtige Berechtigung abgefragt (und nicht mehr die IMPORT-Permission)
+
 ## Part-DB 0.4.2
 
 ### Neue Funktionen:
