@@ -105,7 +105,11 @@ abstract class BaseLabel
         $lines = $this->generateLines();
 
         foreach ($lines as $line) {
-            $this->pdf->Cell(0, 0, $line);
+            if (isset($this->options['force_text_output']) && $this->options['force_text_output']) {
+                $this->pdf->Cell(0, 0, $line);
+            } else {
+                $this->pdf->writeHTMLCell(0, 0, "", "", $line);
+            }
             $this->pdf->Ln();
         }
 

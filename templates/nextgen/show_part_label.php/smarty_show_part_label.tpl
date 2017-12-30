@@ -91,6 +91,19 @@
                     <div class="form-horizontal">
 
                         <div class="form-group">
+                            <label class="col-md-3 control-label">{t}Ausgabemodus:{/t}</label>
+                            <div class="col-md-9">
+                                <div class="radio radio-inline">
+                                    <input type="radio" name="radio_output" value="html" {if $radio_output == "html"}checked{/if}><label>{t}HTML{/t}</label>
+                                </div>
+                                <div class="radio radio-inline">
+                                    <input type="radio" name="radio_output" value="text" {if $radio_output == "text"}checked{/if}><label>{t}Text{/t}</label>
+                                </div>
+                                <p class="help-block">{t}Wenn sie die Ausgabe auf Text umstellen, wird die ausgegebene PDF Datei kleiner, dafür werden evtl. vorhandene HTML Tags als Text dargestellt und nicht interpretiert!{/t}</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-3 control-label">{t}Schriftstil:{/t}</label>
                             <div class="col-md-9">
                                 <div class="checkbox checkbox-inline">
@@ -105,8 +118,8 @@
                                 <p class="help-block">{t}Beachten Sie dass sich diese Einstellung auf alle Textzeilen auswirkt!{/t}</p>
                             </div>
                         </div>
-                    </div>
 
+                    </div>
                 </div>
             </div>
         </div>

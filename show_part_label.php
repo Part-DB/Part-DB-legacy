@@ -46,6 +46,9 @@ $text_bold             = isset($_REQUEST['text_bold']);
 $text_italic           = isset($_REQUEST['text_italic']);
 $text_underline        = isset($_REQUEST['text_underline']);
 
+$output_mode           = isset($_REQUEST['radio_output']) ? (string)$_REQUEST['radio_output'] : "html";
+
+
 $action = 'default';
 if (isset($_REQUEST["label_generate"])) {
     $action = 'generate';
@@ -100,6 +103,9 @@ try {
     $options['text_bold'] = $text_bold;
     $options['text_italic'] = $text_italic;
     $options['text_underline'] = $text_underline;
+    if ($output_mode == "text") {
+        $options['force_text_output'] = true;
+    }
 
     switch ($action) {
         case "generate":
@@ -148,6 +154,7 @@ if (! $fatal_error) {
         $html->setVariable("text_bold", $text_bold, "bool");
         $html->setVariable("text_italic", $text_italic, "bool");
         $html->setVariable("text_underline", $text_underline, "bool");
+        $html->setVariable("radio_output", $output_mode, "string");
 
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
