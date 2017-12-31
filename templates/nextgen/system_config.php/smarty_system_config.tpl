@@ -127,6 +127,11 @@
                                 </div>
 
                                 <div class="checkbox">
+                                    <input type="checkbox" name="disable_search_warning" {if $disable_search_warning} checked{/if}>
+                                    <label for="disable_search_warning">{t}Hinweis auf fehlende Datenstrukturen (Lagerorte, Hersteller, etc.) auf Startseite ausblenden.{/t}</label>
+                                </div>
+
+                                <div class="checkbox">
                                     <input type="checkbox" name="disable_footprints" {if $disable_footprints} checked{/if}>
                                     <label for="disable_footprints">{t}Footprints global deaktivieren{/t} *</label>
                                 </div>
