@@ -78,6 +78,7 @@ $config['update']['type']                               = 'stable';
 // startup page settings
 $config['startup']['custom_banner']                     = '';
 $config['startup']['disable_update_list']               = false;
+$config['startup']['disable_search_warning']            = false;        //Use this, to disable the panel on startup.php, which asks to create at least one category, manufacturer, supplier, etc...
 
 // devices settings
 $config['devices']['disable']                           = false;

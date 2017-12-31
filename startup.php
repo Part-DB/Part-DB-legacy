@@ -108,7 +108,7 @@ if ((! $fatal_error) && (! $database->isUpdateRequired())) {
         $missing_footprint      = ((Footprint::     getCount($database) == 0) ? $bad : $good);
         $missing_supplier       = ((Supplier::      getCount($database) == 0) ? $bad : $good);
 
-        $display_warning        = (($missing_category == $bad) || ($missing_storelocation == $bad)
+        $display_warning        = !$config['startup']['disable_search_warning'] && (($missing_category == $bad) || ($missing_storelocation == $bad)
             || ($missing_footprint == $bad) || ($missing_supplier == $bad));
 
         $html->setVariable('missing_category', $missing_category);
@@ -232,6 +232,7 @@ if (! $fatal_error) {
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     }
+
 
     //When we dont has an existing DB with user system, then ignore all error messages.
     if ($database->getCurrentVersion() < 20) {
