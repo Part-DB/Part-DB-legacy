@@ -19,7 +19,7 @@ abstract class BaseLabel
     const TYPE_TEXT = 0;
     const TYPE_QR = 1;
     const TYPE_BARCODE = 2;
-    const TYPE_INFO = 3;
+    //const TYPE_INFO = 3;
 
     const SIZE_50X30 = "50x30";
     const SIZE_62X30 = "62x30";

@@ -40,6 +40,7 @@ $element_id            = isset($_REQUEST['id'])                 ? (integer)$_REQ
 $generator_type        = isset($_REQUEST['generator'])          ? (string)$_REQUEST['generator']       : "part";
 $label_size            = isset($_REQUEST['size'])               ? (string)$_REQUEST['size']            : "";
 $label_preset          = isset($_REQUEST['preset'])             ? (string)$_REQUEST['preset']          : "";
+$label_type            = isset($_REQUEST['type'])               ? (integer)$_REQUEST['type']           : 2;
 
 //Advanced settings
 $text_bold             = isset($_REQUEST['text_bold']);
@@ -130,7 +131,7 @@ try {
         case "view":
             /* @var BaseLabel $generator */
             if (isset($element)) {
-                $generator = new $generator_class($element, BaseLabel::TYPE_BARCODE, $label_size, $label_preset, $options);
+                $generator = new $generator_class($element, $label_type, $label_size, $label_preset, $options);
 
                 $generator->generate();
             }
@@ -138,7 +139,7 @@ try {
         case "download":
             /* @var BaseLabel $generator */
             if (isset($element)) {
-                $generator = new $generator_class($element, BaseLabel::TYPE_BARCODE, $label_size, $label_preset, $options);
+                $generator = new $generator_class($element, $label_type, $label_size, $label_preset, $options);
 
                 $generator->download();
             }
@@ -160,9 +161,11 @@ if (! $fatal_error) {
         $html->setVariable("id", $element_id, "integer");
         $html->setVariable("selected_size", $label_size, "string");
         $html->setVariable("selected_preset", $label_preset, "string");
+        $html->setVariable('type', $label_type, "integer");
 
         //Show which label sizes are supported.
         $html->setLoop("supported_sizes", $generator_class::getSupportedSizes());
+        $html->setLoop("supported_types", $generator_class::getSupportedTypes());
         $html->setLoop("available_presets", $generator_class::getLinePresets());
 
         //Advanced settings
