@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "9a32e53b80c6e80ea0e324ed693ac7d7",
+    "content-hash": "35dcd5757221f114e4f15ad0c8ed9e31",
     "packages": [
         {
             "name": "container-interop/container-interop",
@@ -39,16 +39,16 @@
         },
         {
             "name": "golonka/bbcodeparser",
-            "version": "v2.2.2",
+            "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/golonka/BBCodeParser.git",
-                "reference": "769c4ebe6207ffa20298b84b90eafca87ce2fb95"
+                "url": "https://github.com/jbtronics/GolonkaBBCodeParser.git",
+                "reference": "a19daa74565cdf8b63af4856efdf1e091691943d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/golonka/BBCodeParser/zipball/769c4ebe6207ffa20298b84b90eafca87ce2fb95",
-                "reference": "769c4ebe6207ffa20298b84b90eafca87ce2fb95",
+                "url": "https://api.github.com/repos/jbtronics/GolonkaBBCodeParser/zipball/a19daa74565cdf8b63af4856efdf1e091691943d",
+                "reference": "a19daa74565cdf8b63af4856efdf1e091691943d",
                 "shasum": ""
             },
             "require": {
@@ -64,7 +64,6 @@
                     "Golonka\\BBCode\\": "src/"
                 }
             },
-            "notification-url": "https://packagist.org/downloads/",
             "license": [
                 "MIT"
             ],
@@ -78,14 +77,18 @@
             "description": "Parse your BBCode easy with this library.",
             "homepage": "http://github.com/golonka/bbcodeparser",
             "keywords": [
-                "PSR-1",
-                "PSR-2",
-                "PSR-4",
                 "bbcode",
                 "laravel",
-                "parser"
+                "parser",
+                "psr-1",
+                "psr-2",
+                "psr-4"
             ],
-            "time": "2016-03-03T09:56:19+00:00"
+            "support": {
+                "source": "https://github.com/jbtronics/GolonkaBBCodeParser/tree/master",
+                "issues": "https://github.com/jbtronics/GolonkaBBCodeParser/issues"
+            },
+            "time": "2017-12-30T17:14:43+00:00"
         },
         {
             "name": "ircmaxell/password-compat",
@@ -866,16 +869,16 @@
         },
         {
             "name": "squizlabs/php_codesniffer",
-            "version": "3.2.0",
+            "version": "3.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "ba816f2e1bacc16278792c78b67c730dfff064a6"
+                "reference": "d7c00c3000ac0ce79c96fcbfef86b49a71158cd1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/ba816f2e1bacc16278792c78b67c730dfff064a6",
-                "reference": "ba816f2e1bacc16278792c78b67c730dfff064a6",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/d7c00c3000ac0ce79c96fcbfef86b49a71158cd1",
+                "reference": "d7c00c3000ac0ce79c96fcbfef86b49a71158cd1",
                 "shasum": ""
             },
             "require": {
@@ -913,12 +916,13 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2017-12-12T21:36:10+00:00"
+            "time": "2017-12-19T21:44:46+00:00"
         }
     ],
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
+        "golonka/bbcodeparser": 20,
         "tecnickcom/tcpdf": 20
     },
     "prefer-stable": false,
