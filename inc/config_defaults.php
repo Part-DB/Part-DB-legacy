@@ -233,7 +233,7 @@ $config['db_charsets']['utf8']                          = 'UTF-8 Unicode (utf8)'
 //$config['db_charsets']['macce']                         = 'Mac Central European (macce)';
 
 // languages (the key is used for "setlocale()", the value is only used for displaying)
-$config['languages']['POSIX']                           = '[POSIX] C-Standard';
+//$config['languages']['POSIX']                           = '[POSIX] C-Standard';  //Disabled, because it caused some bugs with Slim... Enable only when needed.
 $config['languages']['de_AT']                           = '[de_AT] Deutsch (Österreich)';
 $config['languages']['de_BE']                           = '[de_BE] Deutsch (Belgien)';
 $config['languages']['de_CH']                           = '[de_CH] Deutsch (Schweiz)';
