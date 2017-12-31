@@ -156,7 +156,7 @@ class PartLabel extends BaseLabel
      */
     public static function getSupportedSizes()
     {
-        return array(static::SIZE_50x30, static::SIZE_62x30);
+        return array(static::SIZE_50X30, static::SIZE_62X30);
     }
 
     /**

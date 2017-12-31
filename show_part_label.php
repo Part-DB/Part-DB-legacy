@@ -72,20 +72,18 @@ if (isset($_REQUEST["view"])) {
 $html = new HTML($config['html']['theme'], $user_config['theme'], _('Labels'));
 
 try {
-
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
 
     switch ($generator_type) {
         case "part":
-            /* @var BaseLabel */
+            /* @var $generator_class BaseLabel */
             $generator_class = "\PartDB\Label\PartLabel";
             if ($element_id > 0) {
                 $element = new Part($database, $current_user, $log, $element_id);
             }
     }
-
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -114,7 +112,7 @@ try {
     //If selected preset is not "custom", than show the preset lines in custom_rows
     if ($label_preset != "custom") {
         foreach ($generator_class::getLinePresets() as $preset) {
-            if($preset["name"] == $label_preset) {
+            if ($preset["name"] == $label_preset) {
                 $custom_rows = implode("\n", $preset["lines"]);
             }
         }
@@ -123,8 +121,8 @@ try {
 
     switch ($action) {
         case "generate":
-                $html->setVariable("preview_src","show_part_label.php?" . http_build_query($_REQUEST) . "&view", "string");
-                $html->setVariable("download_link", "show_part_label.php?" . http_build_query($_REQUEST) . "&download", "string");
+            $html->setVariable("preview_src", "show_part_label.php?" . http_build_query($_REQUEST) . "&view", "string");
+            $html->setVariable("download_link", "show_part_label.php?" . http_build_query($_REQUEST) . "&download", "string");
             break;
         case "view":
             /* @var BaseLabel $generator */
