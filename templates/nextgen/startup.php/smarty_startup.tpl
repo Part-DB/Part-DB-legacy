@@ -74,6 +74,9 @@
                 <blockquote>%3 einen <a href="edit_footprints.php">{t}Footprint{/t}</a> </blockquote>
                 <blockquote>%4 und einen <a href="edit_suppliers.php">{t}Lieferanten{/t}</a> </blockquote>
                 anzugeben.{/t}
+
+            <br>
+            {t escape=false}Diese Meldung kann in den <a href="system_config.php">Einstellungen</a> deaktiviert werden.{/t}
         </div>
     </div>
 {/if}
