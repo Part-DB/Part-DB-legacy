@@ -73,6 +73,7 @@ $custom_css                 = isset($_REQUEST['custom_css'])        ? (string)$_
 $timezone                   = isset($_REQUEST['timezone'])          ? (string)$_REQUEST['timezone']         : $config['timezone'];
 $language                   = isset($_REQUEST['language'])          ? (string)$_REQUEST['language']         : $config['language'];
 $disable_updatelist         = isset($_REQUEST['disable_updatelist']);
+$disable_search_warning         = isset($_REQUEST['disable_search_warning']);
 $disable_help               = isset($_REQUEST['disable_help']);
 $disable_config             = isset($_REQUEST['disable_config']);
 $enable_debug_link          = isset($_REQUEST['enable_debug_link']);
@@ -184,6 +185,7 @@ if (! $fatal_error) {
             $config['timezone']                         = $timezone;
             $config['language']                         = $language;
             $config['startup']['disable_update_list']   = $disable_updatelist;
+            $config['startup']['disable_search_warning'] = $disable_search_warning;
             $config['menu']['disable_help']             = $disable_help;
             $config['menu']['disable_labels']           = $disable_labels;
             $config['menu']['disable_calculator']       = $disable_calculator;
@@ -321,6 +323,7 @@ $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $confi
 
 // checkboxes
 $html->setVariable('disable_updatelist', $config['startup']['disable_update_list'], 'boolean');
+$html->setVariable('disable_search_warning', $config['startup']['disable_search_warning'], 'boolean');
 $html->setVariable('disable_help', $config['menu']['disable_help'], 'boolean');
 $html->setVariable('disable_config', $config['menu']['disable_config'], 'boolean');
 $html->setVariable('enable_debug_link', $config['menu']['enable_debug'], 'boolean');
