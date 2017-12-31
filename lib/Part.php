@@ -255,10 +255,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         //Manufacturer info
         $string = str_replace("%MANUFACT%", is_object($this->getManufacturer()) ? $this->getManufacturer()->getName() : "", $string);
+        $string = str_replace("%MANUFACT_FULL%", is_object($this->getManufacturer()) ? $this->getManufacturer()->getFullPath() : "", $string);
 
         //Order infos
         $all_orderdetails   = $this->getOrderdetails();
         $string = str_replace("%SUPPLIER%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getName() : "", $string);
+        $string = str_replace("%SUPPLIER_FULL%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getFullPath() : "", $string);
         $string = str_replace("%ORDER_NR%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplierPartNr() : "", $string);
 
         //Store location

@@ -86,6 +86,7 @@ abstract class BaseLabel
             }
         }
         foreach ($lines as &$line) {
+            $line = static::replacePlaceholderWithInfos($line);
             $line = $this->element->replacePlaceholderWithInfos($line);
         }
 
@@ -242,5 +243,27 @@ abstract class BaseLabel
     public static function getSupportedTypes()
     {
         throw new NotImplementedException(_("getSupportedTypes() ist nicht implementiert"));
+    }
+
+    /**
+     * Replaces placeholder in the format %PLACEHOLDER% with info.
+     *
+     * This provides some generic placeholders. Compare with replacePlaceholderWithInfos() of ILabel.
+     *
+     * @param $string string The string which contains the placeholder.
+     * @return string A string with the filled placeholders.
+     */
+    public static function replacePlaceholderWithInfos($string)
+    {
+        $user = \PartDB\User::getLoggedInUser();
+        global $config;
+
+        $string = str_replace("%USERNAME%", $user->getName(), $string);
+        $string = str_replace("%USERNAME_FULL%", $user->getFullName(), $string);
+
+        $string = str_replace("%DATETIME%", formatTimestamp(time()), $string);
+        $string = str_replace("%INSTALL_NAME%", $config['partdb_title'], $string);
+        
+        return $string;
     }
 }
