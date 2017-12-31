@@ -237,35 +237,35 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     function replacePlaceholderWithInfos($string)
     {
         //General infos
-        $string = str_replace("%id%", $this->getID(), $string);                        //part id
-        $string = str_replace("%name%", $this->getName(), $string);                    //Name of the part
-        $string = str_replace("%desc%", $this->getDescription(), $string);             //description of the part
-        $string = str_replace("%comment%", $this->getComment(), $string);              //comment of the part
-        $string = str_replace("%mininstock%", $this->getMinInstock(), $string);        //minimum in stock
-        $string = str_replace("%instock%", $this->getInstock(), $string);              //current in stock
-        $string = str_replace("%avgprice%", $this->getAveragePrice(), $string);       //average price
+        $string = str_replace("%ID%", $this->getID(), $string);                        //part id
+        $string = str_replace("%NAME%", $this->getName(), $string);                    //Name of the part
+        $string = str_replace("%DESC%", $this->getDescription(), $string);             //description of the part
+        $string = str_replace("%COMMENT%", $this->getComment(), $string);              //comment of the part
+        $string = str_replace("%MININSTOCK%", $this->getMinInstock(), $string);        //minimum in stock
+        $string = str_replace("%INSTOCK%", $this->getInstock(), $string);              //current in stock
+        $string = str_replace("%AVGPRICE%", $this->getAveragePrice(), $string);       //average price
 
         //Category infos
-        $string = str_replace("%cat%", is_object($this->getCategory()) ? $this->getCategory()->getName() : "", $string);
-        $string = str_replace("%cat_full%", is_object($this->getCategory()) ? $this->getCategory()->getFullPath() : "", $string);
+        $string = str_replace("%CAT%", is_object($this->getCategory()) ? $this->getCategory()->getName() : "", $string);
+        $string = str_replace("%CAT_FULL%", is_object($this->getCategory()) ? $this->getCategory()->getFullPath() : "", $string);
 
         //Footprint info
-        $string = str_replace("%foot%", is_object($this->getFootprint()) ? $this->getFootprint()->getName() : "", $string);
-        $string = str_replace("%foot_full%", is_object($this->getFootprint()) ? $this->getFootprint()->getFullPath() : "", $string);
+        $string = str_replace("%FOOT%", is_object($this->getFootprint()) ? $this->getFootprint()->getName() : "", $string);
+        $string = str_replace("%FOOT_FULL%", is_object($this->getFootprint()) ? $this->getFootprint()->getFullPath() : "", $string);
 
         //Manufacturer info
-        $string = str_replace("%manufact%", is_object($this->getManufacturer()) ? $this->getManufacturer()->getName() : "", $string);
+        $string = str_replace("%MANUFACT%", is_object($this->getManufacturer()) ? $this->getManufacturer()->getName() : "", $string);
 
         //Order infos
         $all_orderdetails   = $this->getOrderdetails();
-        $string = str_replace("%supplier%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getName() : "", $string);
-        $string = str_replace("%order_nr%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplierPartNr() : "", $string);
+        $string = str_replace("%SUPPLIER%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getName() : "", $string);
+        $string = str_replace("%ORDER_NR%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplierPartNr() : "", $string);
 
         //Store location
         /* @var Storelocation $storelocation */
         $storelocation      = $this->getStorelocation();
-        $string = str_replace("%storeloc%", is_object($storelocation) ? $storelocation->getName() : '', $string);
-        $string = str_replace("%storeloc_full%", is_object($storelocation) ? $storelocation->getFullPath() : '', $string);
+        $string = str_replace("%STORELOC%", is_object($storelocation) ? $storelocation->getName() : '', $string);
+        $string = str_replace("%STORELOC_FULL%", is_object($storelocation) ? $storelocation->getFullPath() : '', $string);
 
         //Remove single '-' without other infos
         if (trim($string) == "-") {
