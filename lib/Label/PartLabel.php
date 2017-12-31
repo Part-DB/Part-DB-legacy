@@ -116,7 +116,7 @@ class PartLabel extends BaseLabel
         //Preset A: format like label generator from F. Thiessen
         //Link: http://fthiessen.de/part-db-etiketten-drucken/
         $lines = array();
-        $lines[] = "<h4>%NAME% - %CAT%</h4>";
+        $lines[] = "<h3>%NAME% - %CAT%</h3>";
         $lines[] = "%STORELOC%";
         $lines[] = "%FOOT%";
         $lines[] = "%ORDER_NR% - %SUPPLIER%";
@@ -124,7 +124,7 @@ class PartLabel extends BaseLabel
 
         //Preset B: Like A, full storelocation path
         $lines = array();
-        $lines[] = "<h4>%NAME% - %CAT%</h4>";
+        $lines[] = "<h3>%NAME% - %CAT%</h3>";
         $lines[] = "%STORELOC_FULL%";
         $lines[] = "%FOOT%";
         $lines[] = "%ORDER_NR% - %SUPPLIER%";
@@ -132,7 +132,7 @@ class PartLabel extends BaseLabel
 
         //Presets C: Show description in second line, Order infos may be cutted...
         $lines = array();
-        $lines[] = "<h4>%NAME% - %CAT%</h4>";
+        $lines[] = "<h3>%NAME% - %CAT%</h3>";
         $lines[] = "%DESC%";
         $lines[] = "%STORELOC%";
         $lines[] = "%FOOT%";
@@ -165,6 +165,6 @@ class PartLabel extends BaseLabel
      */
     public static function getSupportedTypes()
     {
-        return array(static::TYPE_BARCODE);
+        return array(static::TYPE_BARCODE, static::TYPE_TEXT);
     }
 }
