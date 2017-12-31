@@ -23,7 +23,7 @@
     <link href="{$relative_path}css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Include Awsome Font -->
-    <link rel="stylesheet" href="{$relative_path}css/font-awesome.min.css">
+    <link rel="stylesheet" href="{$relative_path}css/fontawesome-all.min.css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -67,7 +67,7 @@
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
-                    <span class="navbar-brand"><i class="fa fa-microchip" aria-hidden="true"></i> Part-DB {$system_version} </span>
+                    <span class="navbar-brand"><i class="fas fa-microchip" aria-hidden="true"></i> Part-DB {$system_version} </span>
 
                 </div>
                 <div class="navbar-right">

@@ -52,7 +52,7 @@ use PartDB\Permissions\PermissionManager;
  *
  * @todo    The attribute "visible" is no longer required if there is a user management.
  */
-class Part extends Base\AttachementsContainingDBElement implements Interfaces\IAPIModel
+class Part extends Base\AttachementsContainingDBElement implements Interfaces\IAPIModel, Interfaces\ILabel
 {
     const INSTOCK_UNKNOWN   = -2;
 
@@ -215,6 +215,64 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             default:
                 throw new Exception(_("Label type unknown: ").$barcode_type);
         }
+    }
+
+    /**
+     * Replaces Placeholder strings like %id% or %name% with their corresponding Part properties.
+     * Note: If the given Part does not have a property, it will be replaced with "".
+     *
+     * %id%         : Part id
+     * %name%       : Name of the part
+     * %desc%       : Description of the part
+     * %comment%    : Comment to the part
+     * %mininstock% : The minium in stock value
+     * %instock%    : The current in stock value
+     * %avgprice%   : The average price of this part
+     * %cat%        : The name of the category the parts belongs to
+     * %cat_full%   : The full path of the parts category
+     *
+     * @param string $string The string on which contains the placeholders
+     * @return string the
+     */
+    function replacePlaceholderWithInfos($string)
+    {
+        //General infos
+        $string = str_replace("%id%", $this->getID(), $string);                        //part id
+        $string = str_replace("%name%", $this->getName(), $string);                    //Name of the part
+        $string = str_replace("%desc%", $this->getDescription(), $string);             //description of the part
+        $string = str_replace("%comment%", $this->getComment(), $string);              //comment of the part
+        $string = str_replace("%mininstock%", $this->getMinInstock(), $string);        //minimum in stock
+        $string = str_replace("%instock%", $this->getInstock(), $string);              //current in stock
+        $string = str_replace("%avgprice%", $this->getAveragePrice(), $string);       //average price
+
+        //Category infos
+        $string = str_replace("%cat%", is_object($this->getCategory()) ? $this->getCategory()->getName() : "", $string);
+        $string = str_replace("%cat_full%", is_object($this->getCategory()) ? $this->getCategory()->getFullPath() : "", $string);
+
+        //Footprint info
+        $string = str_replace("%foot%", is_object($this->getFootprint()) ? $this->getFootprint()->getName() : "", $string);
+        $string = str_replace("%foot_full%", is_object($this->getFootprint()) ? $this->getFootprint()->getFullPath() : "", $string);
+
+        //Manufacturer info
+        $string = str_replace("%manufact%", is_object($this->getManufacturer()) ? $this->getManufacturer()->getName() : "", $string);
+
+        //Order infos
+        $all_orderdetails   = $this->getOrderdetails();
+        $string = str_replace("%supplier%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getName() : "", $string);
+        $string = str_replace("%order_nr%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplierPartNr() : "", $string);
+
+        //Store location
+        /* @var Storelocation $storelocation */
+        $storelocation      = $this->getStorelocation();
+        $string = str_replace("%storeloc%", is_object($storelocation) ? $storelocation->getName() : '', $string);
+        $string = str_replace("%storeloc_full%", is_object($storelocation) ? $storelocation->getFullPath() : '', $string);
+
+        //Remove single '-' without other infos
+        if (trim($string) == "-") {
+            $string = "";
+        }
+
+        return $string;
     }
 
     /********************************************************************************

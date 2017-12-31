@@ -23,6 +23,7 @@ namespace PartDB\Label;
 
 /** @noinspection PhpIncludeInspection */
 
+use PartDB\Base\NamedDBElement;
 use PartDB\Part;
 use TCPDF;
 
@@ -32,131 +33,16 @@ use TCPDF;
  * @version 1.0
  * @author janhb
  */
-class PartLabel
+class PartLabel extends BaseLabel
 {
-
-    //Label type definitions
-    const TYPE_TEXT = 0;
-    const TYPE_QR = 1;
-    const TYPE_BARCODE = 2;
-    const TYPE_INFO = 3;
-
-    private $database;
-    private $current_user;
-    private $log;
-    private $pid;
-    private $type = 0;
-    /** @var  Part $part */
-    private $part;
-    private $footprint;
-    private $storelocation;
-    private $manufacturer;
-    private $category;
-    private $all_orderdetails;
-    private $lines;
-
-    private $size = "S";
-
-    /**
-     * Initializes a new Part-Label
-     * @param mixed $database
-     * @param mixed $current_user
-     * @param mixed $log
-     */
-    public function __construct($database, $current_user, $log, $pid = null)
-    {
-        $this->database = $database;
-        $this->current_user = $current_user;
-        $this->log = $log;
-        $this->lines = array();
-        if (isset($pid)) {
-            $this->setPid($pid);
-        }
-    }
-
-    /********************************************************************************
-     *
-     *   Getters
-     *
-     *********************************************************************************/
-
-    /**
-     * Gets the current label type. Compare with PartLabel::TYPE_*
-     * @return int the current label type
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * Summary of get_lines
-     * @return string[] the current lines
-     */
-    public function getLines()
-    {
-        return $this->lines;
-    }
-
-
-    /********************************************************************************
-     *
-     *   Setters
-     *
-     *********************************************************************************/
-
-    public function setType($new_type)
-    {
-        $this->type = $new_type;
-    }
-
-    /**
-     * Sets the part id of the label
-     * @param mixed $new_pid the id of the new part.
-     */
-    public function setPid($new_pid)
-    {
-        $this->pid = $new_pid;
-        $this->part               = new Part($this->database, $this->current_user, $this->log, $this->pid);
-        $this->footprint          = $this->part->getFootprint();
-        $this->storelocation      = $this->part->getStorelocation();
-        $this->manufacturer       = $this->part->getManufacturer();
-        $this->category           = $this->part->getCategory();
-        $this->all_orderdetails   = $this->part->getOrderdetails();
-    }
-
-    public function setSize()
-    {
-    }
-
-    public function setLines($new_lines)
-    {
-        $tmp = array();
-        foreach ($new_lines as $line) {
-            $tmp[] = replacePlaceholderWithInfos($line, $this->part);
-        }
-        $this->lines = $tmp;
-    }
-
     /********************************************************************************
      *
      *   Basic Methods
      *
      *********************************************************************************/
 
-    private function buildBarcodeConfig()
-    {
-        if (true) { //case S
-            $c = array("size" => array(50,30),
-                "margins" => array(1,2,1),
-                "fontsize" => 8
-            );
 
-            return $c;
-        }
-        return "";
-    }
-
+    /*
     public function generateBarcode($download = false)
     {
         // create new PDF document
@@ -218,40 +104,40 @@ class PartLabel
             //Close and output PDF document
             $pdf->Output('label_'.$this->part->getID().'.pdf', 'I');
         }
-    }
+    } */
 
     /**
      * Returns all presets for lines
      */
-    public function getLinePresets()
+    public static function getLinePresets()
     {
         $presets = array();
 
         //Preset A: format like label generator from F. Thiessen
         //Link: http://fthiessen.de/part-db-etiketten-drucken/
         $lines = array();
-        $lines[] = "%name% - %cat%";
+        $lines[] = "<b>%name%</b> - %cat%";
         $lines[] = "%storeloc%";
         $lines[] = "%foot%";
         $lines[] = "%order_nr% - %supplier%";
-        $presets[] = $lines;
+        $presets[] = array("name" => "Preset A", "lines" => $lines);
 
         //Preset B: Like A, full storelocation path
         $lines = array();
-        $lines[] = "%name% - %cat%";
+        $lines[] = "<b>%name%</b> - %cat%";
         $lines[] = "%storeloc_full%";
         $lines[] = "%foot%";
         $lines[] = "%order_nr% - %supplier%";
-        $presets[] = $lines;
+        $presets[] = array("name" => "Preset B", "lines" => $lines);
 
         //Presets C: Show description in second line, Order infos may be cutted...
         $lines = array();
-        $lines[] = "%name% - %cat%";
+        $lines[] = "<b>%name%</b> - %cat%";
         $lines[] = "%desc%";
         $lines[] = "%storeloc%";
         $lines[] = "%foot%";
         $lines[] = "%order_nr% - %supplier%";
-        $presets[] = $lines;
+        $presets[] = array("name" => "Preset C", "lines" => $lines);
 
         //Presets C: With labels
         $lines = array();
@@ -259,21 +145,26 @@ class PartLabel
         $lines[] = "LAGER   : %storeloc%";
         $lines[] = "GEHÄUSE : %foot%";
         $lines[] = "BEST-NR : %order_nr% - %supplier%";
-        $presets[] = $lines;
+        $presets[] = array("name" => "Preset D", "lines" => $lines);;
 
         return $presets;
     }
 
     /**
-     * Generates this label with the given settings
+     * Returns all label sizes, that are supported by this class.
+     * @return string[] A array containing all sizes that are supported by this class.
      */
-    public function generate()
+    public static function getSupportedSizes()
     {
-        $this->generateBarcode();
+        return array(static::SIZE_50x30, static::SIZE_62x30);
     }
 
-    public function download()
+    /**
+     * Returns all label types, that are supported by this class.
+     * @return int[] A array containing all sizes that are supported by this class.
+     */
+    public static function getSupportedTypes()
     {
-        $this->generateBarcode(true);
+        return array(static::TYPE_BARCODE);
     }
 }
