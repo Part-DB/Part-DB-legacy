@@ -18,7 +18,7 @@
     "ext-pdo": "*",
     "ext-pdo_mysql": "*",
     "ext-gettext": "*",
-    "golonka/bbcodeparser": "~v2.2.2",
+    "golonka/bbcodeparser": "dev-master",
     "smarty/smarty": "~3.1",
     "smarty-gettext/smarty-gettext": "~1.5.1",
     "tecnickcom/tcpdf": "dev-master",
