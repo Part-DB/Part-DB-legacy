@@ -41,6 +41,16 @@ $generator_type        = isset($_REQUEST['generator'])          ? (string)$_REQU
 $label_size            = isset($_REQUEST['size'])               ? (string)$_REQUEST['size']            : "";
 $label_preset          = isset($_REQUEST['preset'])             ? (string)$_REQUEST['preset']          : "";
 
+//Advanced settings
+$text_bold             = isset($_REQUEST['text_bold']);
+$text_italic           = isset($_REQUEST['text_italic']);
+$text_underline        = isset($_REQUEST['text_underline']);
+
+$output_mode           = isset($_REQUEST['radio_output']) ? (string)$_REQUEST['radio_output'] : "html";
+$barcode_alignment     = isset($_REQUEST['barcode_alignment']) ? (string)$_REQUEST['barcode_alignment'] : "center";
+$custom_rows           = isset($_REQUEST['custom_rows']) ? (string)$_REQUEST['custom_rows'] : "";
+
+
 $action = 'default';
 if (isset($_REQUEST["label_generate"])) {
     $action = 'generate';
@@ -88,7 +98,29 @@ try {
  *
  *********************************************************************************/
 
-//try {
+try {
+    //Build config array
+    $options = array();
+
+    $options['text_bold'] = $text_bold;
+    $options['text_italic'] = $text_italic;
+    $options['text_underline'] = $text_underline;
+    if ($output_mode == "text") {
+        $options['force_text_output'] = true;
+    }
+    $options['barcode_alignment'] = $barcode_alignment;
+    $options['custom_rows'] = $custom_rows;
+
+    //If selected preset is not "custom", than show the preset lines in custom_rows
+    if ($label_preset != "custom") {
+        foreach ($generator_class::getLinePresets() as $preset) {
+            if($preset["name"] == $label_preset) {
+                $custom_rows = implode("\n", $preset["lines"]);
+            }
+        }
+    }
+
+
     switch ($action) {
         case "generate":
                 $html->setVariable("preview_src","show_part_label.php?" . http_build_query($_REQUEST) . "&view", "string");
@@ -97,7 +129,7 @@ try {
         case "view":
             /* @var BaseLabel $generator */
             if (isset($element)) {
-                $generator = new $generator_class($element, BaseLabel::TYPE_BARCODE, $label_size, $label_preset);
+                $generator = new $generator_class($element, BaseLabel::TYPE_BARCODE, $label_size, $label_preset, $options);
 
                 $generator->generate();
             }
@@ -105,16 +137,16 @@ try {
         case "download":
             /* @var BaseLabel $generator */
             if (isset($element)) {
-                $generator = new $generator_class($element, BaseLabel::TYPE_BARCODE, $label_size, $label_preset);
+                $generator = new $generator_class($element, BaseLabel::TYPE_BARCODE, $label_size, $label_preset, $options);
 
                 $generator->download();
             }
             break;
     }
-/*} catch (Exception $e) {
+} catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
-}*/
+}
 
 /********************************************************************************
  *
@@ -131,6 +163,14 @@ if (! $fatal_error) {
         //Show which label sizes are supported.
         $html->setLoop("supported_sizes", $generator_class::getSupportedSizes());
         $html->setLoop("available_presets", $generator_class::getLinePresets());
+
+        //Advanced settings
+        $html->setVariable("text_bold", $text_bold, "bool");
+        $html->setVariable("text_italic", $text_italic, "bool");
+        $html->setVariable("text_underline", $text_underline, "bool");
+        $html->setVariable("radio_output", $output_mode, "string");
+        $html->setVariable('barcode_alignment', $barcode_alignment, "string");
+        $html->setVariable('custom_rows', $custom_rows, "string");
 
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
