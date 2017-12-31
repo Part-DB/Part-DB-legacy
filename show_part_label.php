@@ -45,6 +45,7 @@ $label_preset          = isset($_REQUEST['preset'])             ? (string)$_REQU
 $text_bold             = isset($_REQUEST['text_bold']);
 $text_italic           = isset($_REQUEST['text_italic']);
 $text_underline        = isset($_REQUEST['text_underline']);
+$text_size             = isset($_REQUEST['text_size']) ? (int) $_REQUEST['text_size']                  : 8;
 
 $output_mode           = isset($_REQUEST['radio_output']) ? (string)$_REQUEST['radio_output'] : "html";
 $barcode_alignment     = isset($_REQUEST['barcode_alignment']) ? (string)$_REQUEST['barcode_alignment'] : "center";
@@ -103,6 +104,8 @@ try {
     $options['text_bold'] = $text_bold;
     $options['text_italic'] = $text_italic;
     $options['text_underline'] = $text_underline;
+    $options['text_size'] = $text_size;
+
     if ($output_mode == "text") {
         $options['force_text_output'] = true;
     }
@@ -166,6 +169,7 @@ if (! $fatal_error) {
         $html->setVariable("text_bold", $text_bold, "bool");
         $html->setVariable("text_italic", $text_italic, "bool");
         $html->setVariable("text_underline", $text_underline, "bool");
+        $html->setVariable("text_size", $text_size, "int");
         $html->setVariable("radio_output", $output_mode, "string");
         $html->setVariable('barcode_alignment', $barcode_alignment, "string");
         $html->setVariable('custom_rows', $custom_rows, "string");

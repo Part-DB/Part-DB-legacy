@@ -108,7 +108,13 @@ abstract class BaseLabel
         if (isset($this->options['text_underline']) && $this->options['text_underline']) {
             $text_style .= "u";
         }
-        $this->pdf->SetFont('dejavusansmono', $text_style, 8);
+
+        $text_size = 8;
+        if (isset($this->options['text_size'])) {
+            $text_size = $this->options['text_size'];
+        }
+
+        $this->pdf->SetFont('dejavusansmono', $text_style, $text_size);
 
         $lines = $this->generateLines();
 

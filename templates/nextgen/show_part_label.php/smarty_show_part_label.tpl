@@ -121,6 +121,13 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-3 control-label">{t}Schriftgröße:{/t}</label>
+                            <div class="col-md-9">
+                                <input type="number" class="form-control" min="1" max="72" name="text_size" placeholder="8" value="{$text_size}" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-3 control-label">{t}Benutzerdefinierte Zeilen:{/t}</label>
                             <div class="col-md-9">
                                 <textarea rows="4" class="form-control" name="custom_rows">{$custom_rows}</textarea>
