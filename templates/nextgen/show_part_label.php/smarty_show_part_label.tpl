@@ -80,7 +80,7 @@
             </a>
         </div>
         <div class="panel-body panel-collapse collapse {if !empty($comment)}in{/if}" id="panel-advanced">
-            <ul class="nav nav-pills">
+            <ul class="nav nav-tabs">
                 <li role="presentation" class="active"><a href="#tab-text" data-toggle="tab" class="link-anchor"><i class="fas fa-font"></i> {t}Text{/t}</a></li>
                 <li role="presentation"><a href="#tab-barcode" data-toggle="tab" class="link-anchor"><i class="fas fa-barcode"></i> {t}Barcode{/t}</a></li>
                 {*<li role="presentation"><a href="#">Messages</a></li>*}

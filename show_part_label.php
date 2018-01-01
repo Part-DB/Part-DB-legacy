@@ -40,7 +40,7 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 // We save every setting in this array, so we can serialize and deserialize it later easily.
 $profile = array();
 
-$element_id            = isset($_REQUEST['id'])                 ? (integer)$_REQUEST['id']             : 0;
+$element_id                       = isset($_REQUEST['id'])                 ? (integer)$_REQUEST['id']             : 0;
 $profile['generator_type']        = isset($_REQUEST['generator'])          ? (string)$_REQUEST['generator']       : "part";
 $profile['label_size']            = isset($_REQUEST['size'])               ? (string)$_REQUEST['size']            : "";
 $profile['label_preset']          = isset($_REQUEST['preset'])             ? (string)$_REQUEST['preset']          : "";
