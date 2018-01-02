@@ -7,66 +7,94 @@
         <div class="panel-body">
             <div class="form-horizontal">
 
-                <div class="form-group">
-                    <label class="col-md-3 control-label">{t}Typ:{/t}</label>
-                    <div class="col-md-9">
-                        <select class="form-control" name="generator">
-                            <option value="part">{t}Bauteil{/t}</option>
-                        </select>
-                    </div>
-                </div>
+                <ul class="nav nav-tabs">
+                    <li role="presentation" class="active"><a href="#tab-settings" data-toggle="tab" class="link-anchor"><i class="fas fa-wrench"></i> {t}Einstellungen{/t}</a></li>
+                    <li role="presentation"><a href="#tab-profiles" data-toggle="tab" class="link-anchor"><i class="fas fa-bookmark"></i> {t}Profile{/t}</a></li>
+                    {*<li role="presentation"><a href="#">Messages</a></li>*}
+                </ul>
 
-                <div class="form-group">
-                    <label class="col-md-3 control-label">{t}ID:{/t}</label>
-                    <div class="col-md-9">
-                        <input class="form-control" min="1" name="id" type="number" value="{if $id>0}{$id}{/if}" required>
-                    </div>
-                </div>
+                <br>
 
-                <div class="form-group">
-                    <label class="col-md-3 control-label">{t}Barcode Typ:{/t}</label>
-                    <div class="col-md-9">
-                        <select class="form-control" name="type">
-                            {foreach $supported_types as $t}
-                                {if $t == 2}<option value="2" {if isset($type) && $type==2}selected{/if}>{t}1D-Barcode (EAN8){/t}</option>{/if}
-                                {if $t == 1}<option value="1" {if isset($type) && $type==1}selected{/if}>{t}QR-Code{/t}</option>{/if}
-                                {if $t == 0}<option value="0" {if isset($type) && $type==0}selected{/if}>{t}kein Barcode{/t}</option>{/if}
-                            {/foreach}
-                        </select>
-                    </div>
-                </div>
+                <div class="tab-content">
 
-                <div class="form-group">
-                    <label class="col-md-3 control-label">{t}Größe:{/t}</label>
-                    <div class="col-md-9" >
-                        <select class="form-control" name="size">
-                            {foreach $supported_sizes as $size}
-                                <option value="{$size}" {if $selected_size == $size}selected{/if}>{$size} mm</option>
-                            {/foreach}
-                        </select>
-                    </div>
-                </div>
+                    <div id="tab-settings" class="tab-pane fade in active">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">{t}Typ:{/t}</label>
+                            <div class="col-md-9">
+                                <select class="form-control" name="generator">
+                                    <option value="part">{t}Bauteil{/t}</option>
+                                </select>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <label class="col-md-3 control-label">{t}Line Preset:{/t}</label>
-                    <div class="col-md-9">
-                        <select class="form-control" name="preset">
-                            <optgroup label="{t}Presets{/t}">
-                                {foreach $available_presets as $preset}
-                                    <option value="{$preset.name}" {if $selected_preset == $preset.name}selected{/if}>{$preset.name}</option>
-                                {/foreach}
-                            </optgroup>
-                            <optgroup label="{t}Benutzerdefiniert{/t}">
-                                <option value="custom" {if $selected_preset == "custom"}selected{/if}>{t}Benutzerdefiniert{/t}</option>
-                            </optgroup>
-                        </select>
-                    </div>
-                </div>
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">{t}ID:{/t}</label>
+                            <div class="col-md-9">
+                                <input class="form-control" min="1" name="id" type="number" value="{if $id>0}{$id}{/if}" required>
+                            </div>
+                        </div>
 
-                <div class="form-group">
-                    <div class="col-md-offset-3 col-md-9">
-                        <button type="submit" class="btn btn-primary" name="label_generate">{t}Erzeuge Label{/t}</button>
-                        {if isset($download_link)}<a class="link-external" href="{$download_link}">{t}Download Label{/t}</a>{/if}
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">{t}Barcode Typ:{/t}</label>
+                            <div class="col-md-9">
+                                <select class="form-control" name="type">
+                                    {foreach $supported_types as $t}
+                                        {if $t == 2}<option value="2" {if isset($type) && $type==2}selected{/if}>{t}1D-Barcode (EAN8){/t}</option>{/if}
+                                        {if $t == 1}<option value="1" {if isset($type) && $type==1}selected{/if}>{t}QR-Code{/t}</option>{/if}
+                                        {if $t == 0}<option value="0" {if isset($type) && $type==0}selected{/if}>{t}kein Barcode{/t}</option>{/if}
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">{t}Größe:{/t}</label>
+                            <div class="col-md-9" >
+                                <select class="form-control" name="size">
+                                    {foreach $supported_sizes as $size}
+                                        <option value="{$size}" {if $selected_size == $size}selected{/if}>{$size} mm</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">{t}Line Preset:{/t}</label>
+                            <div class="col-md-9">
+                                <select class="form-control" name="preset">
+                                    <optgroup label="{t}Presets{/t}">
+                                        {foreach $available_presets as $preset}
+                                            <option value="{$preset.name}" {if $selected_preset == $preset.name}selected{/if}>{$preset.name}</option>
+                                        {/foreach}
+                                    </optgroup>
+                                    <optgroup label="{t}Benutzerdefiniert{/t}">
+                                        <option value="custom" {if $selected_preset == "custom"}selected{/if}>{t}Benutzerdefiniert{/t}</option>
+                                    </optgroup>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn btn-primary" name="label_generate">{t}Erzeuge Label{/t}</button>
+                                {if isset($download_link)}<a class="link-external" href="{$download_link}">{t}Download Label{/t}</a>{/if}
+                            </div>
+                        </div>
+                    </div>
+
+                    <div id="tab-profiles" class="tab-pane fade">
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">{t}Profilname:{/t}</label>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" name="save_name">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn btn-success" name="save_profile">{t}Speichere Profil{/t}</button>
+                            </div>
+                        </div>
+                        <hr>
                     </div>
                 </div>
             </div>

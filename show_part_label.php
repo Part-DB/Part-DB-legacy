@@ -41,7 +41,8 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 $profile = array();
 
 $element_id                       = isset($_REQUEST['id'])                 ? (integer)$_REQUEST['id']             : 0;
-$profile['generator_type']        = isset($_REQUEST['generator'])          ? (string)$_REQUEST['generator']       : "part";
+$generator_type                   = isset($_REQUEST['generator'])          ? (string)$_REQUEST['generator']       : "part";
+
 $profile['label_size']            = isset($_REQUEST['size'])               ? (string)$_REQUEST['size']            : "";
 $profile['label_preset']          = isset($_REQUEST['preset'])             ? (string)$_REQUEST['preset']          : "";
 $profile['label_type']            = isset($_REQUEST['type'])               ? (integer)$_REQUEST['type']           : 2;
@@ -69,6 +70,9 @@ if (isset($_REQUEST["download"])) {
 if (isset($_REQUEST["view"])) {
     $action = "view";
 }
+if(isset($_REQUEST['save_profile'])) {
+    $action = 'save_profile';
+}
 
 
 /********************************************************************************
@@ -84,7 +88,7 @@ try {
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
 
-    switch ($profile['generator_type']) {
+    switch ($generator_type) {
         case "part":
             /* @var $generator_class BaseLabel */
             $generator_class = "\PartDB\Label\PartLabel";
