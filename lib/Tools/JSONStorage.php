@@ -212,7 +212,7 @@ class JSONStorage
         if ($filter == "") {
             return $keys;
         } else {
-            return array_filter($this->database, function ($var) use ($filter) {
+            return array_filter($keys, function ($var) use ($filter) {
                 return strcontains($var, $filter);
             });
         }

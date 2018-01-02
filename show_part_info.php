@@ -337,6 +337,9 @@ if (! $fatal_error) {
         // global/category stuff
         $html->setVariable('disable_footprints', ($config['footprints']['disable'] || $category->getDisableFootprints(true)), 'boolean');
         $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
+
+        //Barcode stuff
+        $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("part"));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

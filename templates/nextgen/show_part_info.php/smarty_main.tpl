@@ -210,13 +210,38 @@
                 <p></p>
 
                 <form action="show_part_label.php" class="hidden-print">
-                    <input type="hidden" name="id" value="{$pid}">
-                    <input type="hidden" name="generator" value="part">
-                    <input type="hidden" name="size" value="50x30">
-                    <input type="hidden" name="preset" value="Preset A">
-                    <input type="hidden" name="label_generate">
-                    <button type="submit" class="btn btn-default btn-block"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
-                        {t}Barcode erzeugen{/t}</button>
+                    {if count($barcode_profiles) > 0}
+                        <input type="hidden" name="label_generate">
+                        <input type="hidden" name="id" value="{$pid}">
+
+                        <div class="btn-group btn-group-justified">
+                            <div class="btn-group" style="width: 85%;"><button type="submit" class="btn btn-default"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
+                                {t}Barcode erzeugen{/t}</button></div>
+                            <div class="btn-group" style="width: 15%;"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                 <span class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+
+                                <ul class="dropdown-menu dropdown-menu-right" id="label-dropdown">
+                                    {foreach $barcode_profiles as $profile}
+                                        <li><a href="#" class="link-anchor" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile}'));">{$profile}</a>
+                                            <button type="submit" name="profile" id="profile_btn_{$profile}" value="{$profile}" class="hidden">{$profile}</button></li>
+                                    {/foreach}
+                                </ul>
+                            </div>
+
+
+
+                        </div>
+                    {else}
+                        <input type="hidden" name="id" value="{$pid}">
+                        <input type="hidden" name="generator" value="part">
+                        <input type="hidden" name="size" value="50x30">
+                        <input type="hidden" name="preset" value="Preset A">
+                        <input type="hidden" name="label_generate">
+                        <button type="submit" class="btn btn-default btn-block"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
+                            {t}Barcode erzeugen{/t}</button>
+                    {/if}
                 </form>
 
                 <p></p>
