@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-<form method="post">
+<form method="post" class="no-progbar">
     <div class="panel panel-primary">
         <div class="panel-heading"><i class="fa fa-barcode" aria-hidden="true"></i>
             {t}Label erzeugen{/t}</div>
@@ -86,7 +86,8 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">{t}Profilname:{/t}</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="save_name">
+                                <input type="text" class="form-control" name="save_name" value="{$save_name}">
+                                <p class="help-block">{t}Wenn bereits ein Profil mit dem aktuellem Namen existiert, dann wird es überschrieben/bearbeitet!{/t}</p>
                             </div>
                         </div>
                         <div class="form-group">

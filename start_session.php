@@ -157,6 +157,11 @@ else {
     define('BASE_RELATIVE', str_replace(DOCUMENT_ROOT, '', BASE));
 }
 
+/**
+ * @const BASE_DATA The location of the data folder, where Part-DB can write data (without slash)
+ */
+define('BASE_DATA', BASE . "/data");
+
 /** @const BASE_RELATIVE Server-directory without slash at the end
 * Example (UNIX/Linux):    "/part-db"
 * Example (Windows):       "/part-db"

@@ -34,7 +34,7 @@ class JSONStorage
             throw new \InvalidArgumentException(_("$file_path ist kein gültiger Dateipfad!"));
         }*/
 
-        if (strcontains($file_path, ".json")) {
+        if (!strcontains($file_path, ".json")) {
             throw new \InvalidArgumentException(_("$file_path muss eine .json Datei sein!"));
         }
 
@@ -73,10 +73,10 @@ class JSONStorage
         if (is_file($this->file_path)) {
             //Read json file and update $this->database.
             $text = file_get_contents($this->file_path);
-            $data = json_decode($text);
+            $data = json_decode($text, true);
 
             //Do some simple checks to $data:
-            if (!is_array($data)) {
+            if (!(is_array($data) || is_object($data))) {
                 throw new \RuntimeException(_("Die JSON-Datei enthält fehlerhafte Daten!"));
             }
 

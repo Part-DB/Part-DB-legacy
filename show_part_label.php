@@ -26,6 +26,7 @@ use PartDB\HTML;
 use PartDB\Label\BaseLabel;
 use PartDB\Log;
 use PartDB\Part;
+use PartDB\Tools\JSONStorage;
 use PartDB\User;
 
 $messages = array();
@@ -42,21 +43,45 @@ $profile = array();
 
 $element_id                       = isset($_REQUEST['id'])                 ? (integer)$_REQUEST['id']             : 0;
 $generator_type                   = isset($_REQUEST['generator'])          ? (string)$_REQUEST['generator']       : "part";
+$profile_name                     = isset($_REQUEST['profile'])            ? (string)$_REQUEST['profile']         : "default";
 
-$profile['label_size']            = isset($_REQUEST['size'])               ? (string)$_REQUEST['size']            : "";
-$profile['label_preset']          = isset($_REQUEST['preset'])             ? (string)$_REQUEST['preset']          : "";
-$profile['label_type']            = isset($_REQUEST['type'])               ? (integer)$_REQUEST['type']           : 2;
+//Create JSON storage object, so we can load the profile the user has selected.
+$json_storage = new JSONStorage(BASE_DATA . "/label_profiles.json");
+
+//If Json storage default profile is empty, then create one.
+if (!$json_storage->itemExists($generator_type . "@" . $profile_name)) {
+    $profile = array("label_size" => "",
+        "label_preset" => "",
+        "label_type" => 2,
+        "text_bold" => false,
+        "text_italic" => false,
+        "text_underline" => false,
+        "text_size" => 8,
+        "output_mode" => "html",
+        "barcode_alignment" => "center",
+        "custom_rows" => "");
+
+    /*if ($profile_name == "default") {
+        $json_storage->addItem($generator_type . "@default", $profile);
+    }*/
+} else {
+    $profile = $json_storage->getItem($generator_type . "@" . $profile_name);
+}
+
+$profile['label_size']            = isset($_REQUEST['size'])               ? (string)$_REQUEST['size']            : $profile['label_size'];
+$profile['label_preset']          = isset($_REQUEST['preset'])             ? (string)$_REQUEST['preset']          : $profile['label_preset'];
+$profile['label_type']            = isset($_REQUEST['type'])               ? (integer)$_REQUEST['type']           : $profile['label_type'] ;
 
 
 //Advanced settings
-$profile['text_bold']             = isset($_REQUEST['text_bold']);
-$profile['text_italic']           = isset($_REQUEST['text_italic']);
-$profile['text_underline']        = isset($_REQUEST['text_underline']);
-$profile['text_size']             = isset($_REQUEST['text_size']) ? (int) $_REQUEST['text_size']                  : 8;
+$profile['text_bold']             = isset($_REQUEST['text_bold']) ? true :  $profile['text_bold'] ;
+$profile['text_italic']           = isset($_REQUEST['text_italic']) ? true : $profile['text_italic'];
+$profile['text_underline']        = isset($_REQUEST['text_underline']) ? true : $profile['text_underline'];
+$profile['text_size']             = isset($_REQUEST['text_size']) ? (int) $_REQUEST['text_size']                  : $profile['text_size']  ;
 
-$profile['output_mode']           = isset($_REQUEST['radio_output']) ? (string)$_REQUEST['radio_output'] : "html";
-$profile['barcode_alignment']     = isset($_REQUEST['barcode_alignment']) ? (string)$_REQUEST['barcode_alignment'] : "center";
-$profile['custom_rows']           = isset($_REQUEST['custom_rows']) ? (string)$_REQUEST['custom_rows'] : "";
+$profile['output_mode']           = isset($_REQUEST['radio_output']) ? (string)$_REQUEST['radio_output'] : $profile['output_mode'];
+$profile['barcode_alignment']     = isset($_REQUEST['barcode_alignment']) ? (string)$_REQUEST['barcode_alignment'] : $profile['barcode_alignment'];
+$profile['custom_rows']           = isset($_REQUEST['custom_rows']) ? (string)$_REQUEST['custom_rows'] : $profile['custom_rows'];
 
 
 
@@ -70,7 +95,7 @@ if (isset($_REQUEST["download"])) {
 if (isset($_REQUEST["view"])) {
     $action = "view";
 }
-if(isset($_REQUEST['save_profile'])) {
+if (isset($_REQUEST['save_profile'])) {
     $action = 'save_profile';
 }
 
@@ -154,10 +179,18 @@ try {
                 $generator->download();
             }
             break;
+        case "save_profile":
+            $new_name = $_REQUEST['save_name'];
+            if ($new_name == "") {
+                throw new Exception(_("Der Profilname darf nicht leer sein!"));
+            }
+            $json_storage->editItem($generator_type . "@" . $new_name, $profile, true, true);
+            $messages[] = array("text" => _("Das Profil wurde erfolgreich gespeichert!"), "strong" => true, "color" => "green");
+            break;
     }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
-    $fatal_error = true;
+    //$fatal_error = true;
 }
 
 /********************************************************************************
@@ -186,6 +219,9 @@ if (! $fatal_error) {
         $html->setVariable("radio_output", $profile['output_mode'], "string");
         $html->setVariable('barcode_alignment', $profile['barcode_alignment'], "string");
         $html->setVariable('custom_rows', $profile['custom_rows'], "string");
+
+        //Profile tabs
+        $html->setVariable("save_name", $profile_name != "default" ? $profile_name : "", "string");
 
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
