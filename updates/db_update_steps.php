@@ -925,6 +925,10 @@ EOD;
             $updateSteps[] = "ALTER TABLE `users` ADD `perms_labels` SMALLINT NOT NULL AFTER `perms_tools`;";
             $updateSteps[] = "ALTER TABLE `groups` ADD `perms_labels` SMALLINT NOT NULL AFTER `perms_tools`;";
 
+            //Allow users and admins full use of labels. readonly can not write/delete profiles.
+            $updateSteps[] = "UPDATE `groups` SET `perms_labels` = '85' WHERE `groups`.`id` = 1;";
+            $updateSteps[] = "UPDATE `groups` SET `perms_labels` = '165' WHERE `groups`.`id` = 2;";
+            $updateSteps[] = "UPDATE `groups` SET `perms_labels` = '85' WHERE `groups`.`id` = 3;";
             break;
 
 
