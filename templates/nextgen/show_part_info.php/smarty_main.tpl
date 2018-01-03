@@ -210,16 +210,17 @@
                 <p></p>
 
                 <form action="show_part_label.php" class="hidden-print">
+                    {if $can_generate_barcode}
                     {if count($barcode_profiles) > 0}
                         <input type="hidden" name="label_generate">
                         <input type="hidden" name="id" value="{$pid}">
 
                         <div class="btn-group btn-group-justified">
                             <div class="btn-group" style="width: 85%;"><button type="submit" class="btn btn-default"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
-                                {t}Barcode erzeugen{/t}</button></div>
+                                    {t}Barcode erzeugen{/t}</button></div>
                             <div class="btn-group" style="width: 15%;"><button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                 <span class="caret"></span>
-                                <span class="sr-only">Toggle Dropdown</span>
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
                                 </button>
 
                                 <ul class="dropdown-menu dropdown-menu-right" id="label-dropdown">
@@ -245,6 +246,7 @@
                 </form>
 
                 <p></p>
+                {/if}
 
                 <div class=" hidden-print">
                     <button type="button" class="btn btn-default btn-block" onclick="window.print();"><i class="fa fa-print fa-fw" aria-hidden="true"></i>
