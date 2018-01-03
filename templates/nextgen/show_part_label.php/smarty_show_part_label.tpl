@@ -97,7 +97,7 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-offset-3 col-md-9">
-                                <button type="submit" class="btn btn-success" name="save_profile">{t}Speichere Profil{/t}</button>
+                                <button type="submit" class="btn btn-success" name="save_profile"><i class="fas fa-save fa-fw"></i> {t}Speichere Profil{/t}</button>
                             </div>
                         </div>
                         <hr>
@@ -116,11 +116,10 @@
                         </div>
                         <div class="form-group">
                             <div class="col-md-offset-3 col-md-9">
-                                <button type="submit" class="btn btn-success" name="load_profile">{t}Load Profil{/t}</button>
+                                <button type="submit" class="btn btn-primary" name="load_profile" ><i class="fas fa-folder-open fa-fw"></i> {t}Lade Profil{/t}</button>
+                                <button type="submit" class="btn btn-danger" name="delete_profile"><i class="fas fa-trash"></i> {t}Lösche Profil{/t}</button>
                             </div>
                         </div>
-                        <hr>
-
                     </div>
                 </div>
             </div>

@@ -99,8 +99,14 @@ if (isset($_REQUEST["view"])) {
 if (isset($_REQUEST['save_profile'])) {
     $action = 'save_profile';
 }
-if (isset($_REQUEST['load_profile'])){
+if (isset($_REQUEST['load_profile'])) {
     $action = "load_profile";
+}
+if (isset($_REQUEST['delete_profile'])) {
+    $action = "delete_profile";
+}
+if (isset($_REQUEST['delete_confirmed'])) {
+   $action = "delete_confirmed";
 }
 
 
@@ -193,12 +199,30 @@ try {
             break;
         case "load_profile":
             if ($selected_profile == "") {
-                throw new Exception(_("Sie müssen ein Profil zum laden auswählen!"));
+                throw new Exception(_("Sie müssen ein Profil zum Laden auswählen!"));
             }
             $new_request = $_GET;
             $new_request['profile'] = $selected_profile;
             $html->redirect("show_part_label.php?" . http_build_query($new_request));
             break;
+        case "delete_profile":
+            if ($selected_profile == "") {
+                throw new Exception(_("Sie müssen ein Profil zum Löschen auswählen!"));
+            }
+
+            $messages[] = array('text' => sprintf(_('Soll das Profil "%s'.
+                '" wirklich unwiederruflich gelöscht werden?'), $selected_profile), 'strong' => true, 'color' => 'red');
+            $messages[] = array('html' => '<input type="hidden" name="generator" value="'.$generator_type.'">');
+            $messages[] = array('html' => '<input type="hidden" name="selected_profile" value="'.$selected_profile.'">');
+            $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
+            $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Profil löschen').'">');
+            break;
+        case "delete_confirmed":
+            if ($selected_profile == "") {
+                throw new Exception(_("Sie müssen ein Profil zum Löschen auswählen!"));
+            }
+            $messages[] = array("text" => _("Das Profil wurde erfolgreich gelöscht!"), "strong" => true, "color" => "green");
+            $json_storage->deleteItem($generator_type . "@" . $selected_profile);
     }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
