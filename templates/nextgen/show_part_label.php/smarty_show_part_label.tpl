@@ -83,6 +83,7 @@
                     </div>
 
                     <div id="tab-profiles" class="tab-pane fade">
+                        {* Save profile section *}
                         <div class="form-group">
                             <label class="col-md-3 control-label">{t}Profilname:{/t}</label>
                             <div class="col-md-9">
@@ -100,6 +101,26 @@
                             </div>
                         </div>
                         <hr>
+
+                        {* Load/Remove profile section *}
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">{t}Profilname:{/t}</label>
+                            <div class="col-md-9">
+                                <!-- <input type="text" class="form-control" name="save_name" value="{$save_name}" id="save-name">-->
+                                <select class="form-control selectpicker" data-live-search="true" name="selected_profile">
+                                    {foreach $profiles as $p}
+                                        <option value="{$p}" {if $p == $selected_profile}selected{/if}>{$p}</option>
+                                    {/foreach}
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-md-offset-3 col-md-9">
+                                <button type="submit" class="btn btn-success" name="load_profile">{t}Load Profil{/t}</button>
+                            </div>
+                        </div>
+                        <hr>
+
                     </div>
                 </div>
             </div>

@@ -1558,7 +1558,7 @@ function build_custom_css_loop($selected = null, $include_default_theme = false)
  * Generates a list of available profiles for the given generator.
  * @param $generator string The generator to which the profile belongs to.
  */
-function buildLabelProfilesDropdown($generator)
+function buildLabelProfilesDropdown($generator, $include_default = false)
 {
     $json_storage = new JSONStorage(BASE_DATA . "/label_profiles.json");
 
@@ -1566,7 +1566,7 @@ function buildLabelProfilesDropdown($generator)
 
     foreach ($data as $key => &$item) {
         $item = str_replace($generator . "@", "", $item);
-        if ($item == "default") {
+        if (!$include_default && $item == "default") {
             unset($data[$key]);
         }
     }

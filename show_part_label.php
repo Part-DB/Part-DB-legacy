@@ -43,7 +43,8 @@ $profile = array();
 
 $element_id                       = isset($_REQUEST['id'])                 ? (integer)$_REQUEST['id']             : 0;
 $generator_type                   = isset($_REQUEST['generator'])          ? (string)$_REQUEST['generator']       : "part";
-$profile_name                     = isset($_REQUEST['profile'])            ? (string)$_REQUEST['profile']         : "default";
+$profile_name                     = !empty($_REQUEST['profile'])            ? (string)$_REQUEST['profile']         : "default";
+$selected_profile                 = isset($_REQUEST['selected_profile'])   ? (string)$_REQUEST['selected_profile'] : "";
 
 //Create JSON storage object, so we can load the profile the user has selected.
 $json_storage = new JSONStorage(BASE_DATA . "/label_profiles.json");
@@ -97,6 +98,9 @@ if (isset($_REQUEST["view"])) {
 }
 if (isset($_REQUEST['save_profile'])) {
     $action = 'save_profile';
+}
+if (isset($_REQUEST['load_profile'])){
+    $action = "load_profile";
 }
 
 
@@ -187,6 +191,14 @@ try {
             $json_storage->editItem($generator_type . "@" . $new_name, $profile, true, true);
             $messages[] = array("text" => _("Das Profil wurde erfolgreich gespeichert!"), "strong" => true, "color" => "green");
             break;
+        case "load_profile":
+            if ($selected_profile == "") {
+                throw new Exception(_("Sie müssen ein Profil zum laden auswählen!"));
+            }
+            $new_request = $_GET;
+            $new_request['profile'] = $selected_profile;
+            $html->redirect("show_part_label.php?" . http_build_query($new_request));
+            break;
     }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -222,6 +234,8 @@ if (! $fatal_error) {
 
         //Profile tabs
         $html->setVariable("save_name", $profile_name != "default" ? $profile_name : "", "string");
+        $html->setVariable("selected_profile", $profile_name, "string");
+        $html->setLoop("profiles", buildLabelProfilesDropdown($generator_type, true));
 
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
