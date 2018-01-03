@@ -26,6 +26,8 @@ use PartDB\HTML;
 use PartDB\Label\BaseLabel;
 use PartDB\Log;
 use PartDB\Part;
+use PartDB\Permissions\LabelPermission;
+use PartDB\Permissions\PermissionManager;
 use PartDB\Tools\JSONStorage;
 use PartDB\User;
 
@@ -106,7 +108,7 @@ if (isset($_REQUEST['delete_profile'])) {
     $action = "delete_profile";
 }
 if (isset($_REQUEST['delete_confirmed'])) {
-   $action = "delete_confirmed";
+    $action = "delete_confirmed";
 }
 
 
@@ -122,6 +124,8 @@ try {
     $database           = new Database();
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
+
+    $current_user->tryDo(PermissionManager::LABELS, LabelPermission::CREATE_LABELS);
 
     switch ($generator_type) {
         case "part":
@@ -142,91 +146,95 @@ try {
  *   Execute Actions
  *
  *********************************************************************************/
+if (!$fatal_error) {
+    try {
+        //Build config array
+        $options = array();
 
-try {
-    //Build config array
-    $options = array();
+        $options['text_bold'] = $profile['text_bold'];
+        $options['text_italic'] = $profile['text_italic'];
+        $options['text_underline'] = $profile['text_underline'];
+        $options['text_size'] = $profile['text_size'];
 
-    $options['text_bold'] = $profile['text_bold'];
-    $options['text_italic'] = $profile['text_italic'];
-    $options['text_underline'] = $profile['text_underline'];
-    $options['text_size'] = $profile['text_size'];
+        if ($profile['output_mode'] == "text") {
+            $options['force_text_output'] = true;
+        }
+        $options['barcode_alignment'] = $profile['barcode_alignment'];
+        $options['custom_rows'] = $profile['custom_rows'];
 
-    if ($profile['output_mode'] == "text") {
-        $options['force_text_output'] = true;
-    }
-    $options['barcode_alignment'] = $profile['barcode_alignment'];
-    $options['custom_rows'] = $profile['custom_rows'];
-
-    //If selected preset is not "custom", than show the preset lines in custom_rows
-    if ($profile['label_preset'] != "custom") {
-        foreach ($generator_class::getLinePresets() as $preset) {
-            if ($preset["name"] == $preset['label_preset']) {
-                $custom_rows = implode("\n", $preset["lines"]);
+        //If selected preset is not "custom", than show the preset lines in custom_rows
+        if ($profile['label_preset'] != "custom") {
+            foreach ($generator_class::getLinePresets() as $preset) {
+                if ($preset["name"] == $preset['label_preset']) {
+                    $custom_rows = implode("\n", $preset["lines"]);
+                }
             }
         }
+
+
+        switch ($action) {
+            case "generate":
+                $html->setVariable("preview_src", "show_part_label.php?" . http_build_query($_REQUEST) . "&view", "string");
+                $html->setVariable("download_link", "show_part_label.php?" . http_build_query($_REQUEST) . "&download", "string");
+                break;
+            case "view":
+                /* @var BaseLabel $generator */
+                if (isset($element)) {
+                    $generator = new $generator_class($element, $profile['label_type'], $profile['label_size'], $profile['label_preset'], $options);
+
+                    $generator->generate();
+                }
+                break;
+            case "download":
+                /* @var BaseLabel $generator */
+                if (isset($element)) {
+                    $generator = new $generator_class($element, $profile['label_type'], $profile['label_size'], $profile['label_preset'], $options);
+
+                    $generator->download();
+                }
+                break;
+            case "save_profile":
+                $current_user->tryDo(PermissionManager::LABELS, LabelPermission::EDIT_PROFILES);
+                $new_name = $_REQUEST['save_name'];
+                if ($new_name == "") {
+                    throw new Exception(_("Der Profilname darf nicht leer sein!"));
+                }
+                $json_storage->editItem($generator_type . "@" . $new_name, $profile, true, true);
+                $messages[] = array("text" => _("Das Profil wurde erfolgreich gespeichert!"), "strong" => true, "color" => "green");
+                break;
+            case "load_profile":
+                if ($selected_profile == "") {
+                    throw new Exception(_("Sie müssen ein Profil zum Laden auswählen!"));
+                }
+                $new_request = $_GET;
+                $new_request['profile'] = $selected_profile;
+                $html->redirect("show_part_label.php?" . http_build_query($new_request));
+                break;
+            case "delete_profile":
+                $current_user->tryDo(PermissionManager::LABELS, LabelPermission::DELETE_PROFILES);
+                if ($selected_profile == "") {
+                    throw new Exception(_("Sie müssen ein Profil zum Löschen auswählen!"));
+                }
+
+                $messages[] = array('text' => sprintf(_('Soll das Profil "%s' .
+                    '" wirklich unwiederruflich gelöscht werden?'), $selected_profile), 'strong' => true, 'color' => 'red');
+                $messages[] = array('html' => '<input type="hidden" name="generator" value="' . $generator_type . '">');
+                $messages[] = array('html' => '<input type="hidden" name="selected_profile" value="' . $selected_profile . '">');
+                $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="' . _('Nein, nicht löschen') . '">', 'no_linebreak' => true);
+                $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="' . _('Ja, Profil löschen') . '">');
+                break;
+            case "delete_confirmed":
+                $current_user->tryDo(PermissionManager::LABELS, LabelPermission::DELETE_PROFILES);
+                if ($selected_profile == "") {
+                    throw new Exception(_("Sie müssen ein Profil zum Löschen auswählen!"));
+                }
+                $messages[] = array("text" => _("Das Profil wurde erfolgreich gelöscht!"), "strong" => true, "color" => "green");
+                $json_storage->deleteItem($generator_type . "@" . $selected_profile);
+        }
+    } catch (Exception $e) {
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+        //$fatal_error = true;
     }
-
-
-    switch ($action) {
-        case "generate":
-            $html->setVariable("preview_src", "show_part_label.php?" . http_build_query($_REQUEST) . "&view", "string");
-            $html->setVariable("download_link", "show_part_label.php?" . http_build_query($_REQUEST) . "&download", "string");
-            break;
-        case "view":
-            /* @var BaseLabel $generator */
-            if (isset($element)) {
-                $generator = new $generator_class($element, $profile['label_type'], $profile['label_size'], $profile['label_preset'], $options);
-
-                $generator->generate();
-            }
-            break;
-        case "download":
-            /* @var BaseLabel $generator */
-            if (isset($element)) {
-                $generator = new $generator_class($element, $profile['label_type'], $profile['label_size'], $profile['label_preset'], $options);
-
-                $generator->download();
-            }
-            break;
-        case "save_profile":
-            $new_name = $_REQUEST['save_name'];
-            if ($new_name == "") {
-                throw new Exception(_("Der Profilname darf nicht leer sein!"));
-            }
-            $json_storage->editItem($generator_type . "@" . $new_name, $profile, true, true);
-            $messages[] = array("text" => _("Das Profil wurde erfolgreich gespeichert!"), "strong" => true, "color" => "green");
-            break;
-        case "load_profile":
-            if ($selected_profile == "") {
-                throw new Exception(_("Sie müssen ein Profil zum Laden auswählen!"));
-            }
-            $new_request = $_GET;
-            $new_request['profile'] = $selected_profile;
-            $html->redirect("show_part_label.php?" . http_build_query($new_request));
-            break;
-        case "delete_profile":
-            if ($selected_profile == "") {
-                throw new Exception(_("Sie müssen ein Profil zum Löschen auswählen!"));
-            }
-
-            $messages[] = array('text' => sprintf(_('Soll das Profil "%s'.
-                '" wirklich unwiederruflich gelöscht werden?'), $selected_profile), 'strong' => true, 'color' => 'red');
-            $messages[] = array('html' => '<input type="hidden" name="generator" value="'.$generator_type.'">');
-            $messages[] = array('html' => '<input type="hidden" name="selected_profile" value="'.$selected_profile.'">');
-            $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
-            $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Profil löschen').'">');
-            break;
-        case "delete_confirmed":
-            if ($selected_profile == "") {
-                throw new Exception(_("Sie müssen ein Profil zum Löschen auswählen!"));
-            }
-            $messages[] = array("text" => _("Das Profil wurde erfolgreich gelöscht!"), "strong" => true, "color" => "green");
-            $json_storage->deleteItem($generator_type . "@" . $selected_profile);
-    }
-} catch (Exception $e) {
-    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
-    //$fatal_error = true;
 }
 
 /********************************************************************************
@@ -260,6 +268,11 @@ if (! $fatal_error) {
         $html->setVariable("save_name", $profile_name != "default" ? $profile_name : "", "string");
         $html->setVariable("selected_profile", $profile_name, "string");
         $html->setLoop("profiles", buildLabelProfilesDropdown($generator_type, true));
+
+        //Permission variables
+        $html->setVariable("can_save_profile", $current_user->canDo(PermissionManager::LABELS, LabelPermission::EDIT_PROFILES));
+        $html->setVariable("can_edit_option", $current_user->canDo(PermissionManager::LABELS, LabelPermission::EDIT_OPTIONS));
+        $html->setVariable("can_delete_profile", $current_user->canDo(PermissionManager::LABELS, LabelPermission::DELETE_PROFILES));
 
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
