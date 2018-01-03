@@ -187,6 +187,8 @@
                             <label class="col-md-3 control-label">{t}Benutzerdefinierte Zeilen:{/t}</label>
                             <div class="col-md-9">
                                 <textarea rows="4" class="form-control" name="custom_rows">{$custom_rows}</textarea>
+                                <p class="help-block">{t}Für die Formatierung können HTML-Tags verwendet werden.{/t}</p>
+                                <p class="help-block">{t escape=false}Sie können dynamische Daten wie Uhrzeit oder Bauteilname über Platzhalter der Form %PLATZHALTER% einfügen. Im <a target="_blank" class="link-external" rel="noopener" href="https://github.com/jbtronics/Part-DB/wiki/Labels">Wiki</a> finden Sie eine Übersicht aller möglichen Platzhalter.{/t}</p>
                             </div>
                         </div>
 
