@@ -1564,8 +1564,11 @@ function buildLabelProfilesDropdown($generator)
 
     $data =  $json_storage->getKeyList($generator . "@");
 
-    foreach ($data as &$item) {
+    foreach ($data as $key => &$item) {
         $item = str_replace($generator . "@", "", $item);
+        if ($item == "default") {
+            unset($data[$key]);
+        }
     }
 
     return $data;

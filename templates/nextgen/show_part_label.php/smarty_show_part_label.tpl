@@ -86,7 +86,11 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label">{t}Profilname:{/t}</label>
                             <div class="col-md-9">
-                                <input type="text" class="form-control" name="save_name" value="{$save_name}">
+                                <input type="text" class="form-control" name="save_name" value="{$save_name}" id="save-name">
+                                <div class="checkbox">
+                                    <input type="checkbox" name="save_name" value="default" onchange="$('#save-name').prop('disabled', $(this).prop('checked'));">
+                                    <label>{t}Standard für den aktuellen Generatortyp{/t}</label>
+                                </div>
                                 <p class="help-block">{t}Wenn bereits ein Profil mit dem aktuellem Namen existiert, dann wird es überschrieben/bearbeitet!{/t}</p>
                             </div>
                         </div>
