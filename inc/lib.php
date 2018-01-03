@@ -35,6 +35,7 @@ use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\StructuralPermission;
 use PartDB\Permissions\ToolsPermission;
+use PartDB\Tools\JSONStorage;
 use PartDB\User;
 
 /**
@@ -1551,4 +1552,24 @@ function build_custom_css_loop($selected = null, $include_default_theme = false)
     }
 
     return $loop;
+}
+
+/**
+ * Generates a list of available profiles for the given generator.
+ * @param $generator string The generator to which the profile belongs to.
+ */
+function buildLabelProfilesDropdown($generator, $include_default = false)
+{
+    $json_storage = new JSONStorage(BASE_DATA . "/label_profiles.json");
+
+    $data =  $json_storage->getKeyList($generator . "@");
+
+    foreach ($data as $key => &$item) {
+        $item = str_replace($generator . "@", "", $item);
+        if (!$include_default && $item == "default") {
+            unset($data[$key]);
+        }
+    }
+
+    return $data;
 }
