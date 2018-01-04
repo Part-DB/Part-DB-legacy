@@ -119,11 +119,27 @@ abstract class BaseLabel
 
         $lines = $this->generateLines();
 
+        //Parse Option for text alignment
+        $text_position = "L";
+        if (isset($this->options['text_alignment'])) {
+            switch ($this->options['text_alignment']) {
+                case "left":
+                    $text_position = "L";
+                    break;
+                case "center":
+                    $text_position = "C";
+                    break;
+                case "right":
+                    $text_position = "R";
+                    break;
+            }
+        }
+
         foreach ($lines as $line) {
             if (isset($this->options['force_text_output']) && $this->options['force_text_output']) {
-                $this->pdf->Cell(0, 0, $line);
+                $this->pdf->Cell(0, 0, $line, 0, 0, $text_position);
             } else {
-                $this->pdf->writeHTMLCell(0, 0, "", "", $line);
+                $this->pdf->writeHTMLCell(0, 0, "", "", $line, 0, 0, false, true, $text_position);
             }
             $this->pdf->Ln();
         }

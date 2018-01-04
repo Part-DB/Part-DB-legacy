@@ -64,7 +64,8 @@ if (!$json_storage->itemExists($generator_type . "@" . $profile_name)) {
         "barcode_alignment" => "center",
         "custom_rows" => "",
         "custom_height" => "",
-        "custom_width" => "");
+        "custom_width" => "",
+        "text_alignment" => "left");
 
     /*if ($profile_name == "default") {
         $json_storage->addItem($generator_type . "@default", $profile);
@@ -83,6 +84,7 @@ $profile['text_bold']             = isset($_REQUEST['text_bold']) ? true :  $pro
 $profile['text_italic']           = isset($_REQUEST['text_italic']) ? true : $profile['text_italic'];
 $profile['text_underline']        = isset($_REQUEST['text_underline']) ? true : $profile['text_underline'];
 $profile['text_size']             = isset($_REQUEST['text_size']) ? (int) $_REQUEST['text_size']                  : $profile['text_size']  ;
+$profile['text_alignment']        = isset($_REQUEST['text_alignment']) ? (string)$_REQUEST['text_alignment'] : $profile['text_alignment'];
 
 $profile['custom_width']          = isset($_REQUEST['custom_width']) ? (string) $_REQUEST['custom_width']         : $profile['custom_width']  ;
 $profile['custom_height']          = isset($_REQUEST['custom_height']) ? (string) $_REQUEST['custom_height']         : $profile['custom_height']  ;
@@ -162,6 +164,7 @@ if (!$fatal_error) {
         $options['text_size'] = $profile['text_size'];
         $options['custom_width'] = $profile['custom_width'];
         $options['custom_height'] = $profile['custom_height'];
+        $options['text_alignment'] = $profile['text_alignment'];
 
         if ($profile['output_mode'] == "text") {
             $options['force_text_output'] = true;
@@ -276,6 +279,7 @@ if (! $fatal_error) {
         $html->setVariable("text_size", $profile['text_size'], "int");
         $html->setVariable("radio_output", $profile['output_mode'], "string");
         $html->setVariable('barcode_alignment', $profile['barcode_alignment'], "string");
+        $html->setVariable("text_alignment", $profile['text_alignment'], "string");
         $html->setVariable('custom_rows', $profile['custom_rows'], "string");
 
         $html->setVariable("custom_width", $profile['custom_width'], "int");

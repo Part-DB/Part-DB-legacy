@@ -174,6 +174,21 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-3 control-label">{t}Text-Ausrichtung:{/t}</label>
+                            <div class="col-md-9">
+                                <div class="radio radio-inline">
+                                    <input type="radio" name="text_alignment" value="left" {if $text_alignment == "left"}checked{/if} {if !$can_edit_option}disabled{/if}><label>{t}Links{/t}</label>
+                                </div>
+                                <div class="radio radio-inline">
+                                    <input type="radio" name="text_alignment" value="center" {if $text_alignment == "center"}checked{/if} {if !$can_edit_option}disabled{/if}><label>{t}Zentrieren{/t}</label>
+                                </div>
+                                <div class="radio radio-inline">
+                                    <input type="radio" name="text_alignment" value="right" {if $text_alignment == "right"}checked{/if} {if !$can_edit_option}disabled{/if}><label>{t}Rechts{/t}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-3 control-label">{t}Schriftstil:{/t}</label>
                             <div class="col-md-9">
                                 <div class="checkbox checkbox-inline">
