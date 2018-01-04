@@ -160,6 +160,19 @@ abstract class BaseLabel
             }
         }
 
+        if ($this->options['logo_path'] != "") {
+            $path = BASE . "/" . $this->options['logo_path'];
+
+            if (isPathabsoluteAndUnix($path)) {
+                $this->pdf->setJPEGQuality(100);
+
+                $this->pdf->Image($path, "3", "", "10", "", "", "", "R", true, 300);
+            }
+
+        }
+
+
+
         if ($this->type == static::TYPE_BARCODE) {
             //Create barcode config.
             $style = array(
