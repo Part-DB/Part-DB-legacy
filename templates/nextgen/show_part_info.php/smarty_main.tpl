@@ -225,8 +225,8 @@
 
                                 <ul class="dropdown-menu dropdown-menu-right" id="label-dropdown">
                                     {foreach $barcode_profiles as $profile}
-                                        <li><a href="#" class="link-anchor" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile}'));">{$profile}</a>
-                                            <button type="submit" name="profile" id="profile_btn_{$profile}" value="{$profile}" class="hidden">{$profile}</button></li>
+                                        <li><a href="#" class="link-anchor" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
+                                            <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="hidden">{$profile}</button></li>
                                     {/foreach}
                                 </ul>
                             </div>
