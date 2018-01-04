@@ -160,13 +160,16 @@ abstract class BaseLabel
             }
         }
 
+        $y_pos = $this->pdf->GetY() + 1;
+
         if ($this->options['logo_path'] != "") {
             $path = BASE . "/" . $this->options['logo_path'];
 
             if (isPathabsoluteAndUnix($path)) {
                 $this->pdf->setJPEGQuality(100);
 
-                $this->pdf->Image($path, "3", "", "10", "", "", "", "R", true, 300);
+
+                $this->pdf->Image($path, "3", $this->pdf->GetY() + 1, "10", "", "", "", "R", true, 300);
             }
 
         }
