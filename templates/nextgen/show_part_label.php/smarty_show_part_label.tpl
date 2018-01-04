@@ -49,19 +49,33 @@
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">{t}Größe:{/t}</label>
-                            <div class="col-md-9" >
-                                <select class="form-control" name="size" {if !$can_edit_option}disabled{/if}>
+                            <div class="col-md-4" >
+                                <select class="form-control" name="size" id="size" {if !$can_edit_option}disabled{/if} onchange="updateCustomSizeStatus();">
+                                    <optgroup label="{t}Vorgaben{/t}">
                                     {foreach $supported_sizes as $size}
                                         <option value="{$size}" {if $selected_size == $size}selected{/if}>{$size} mm</option>
                                     {/foreach}
+                                    </optgroup>
+                                    <optgroup label="{t}Benutzerdefiniert{/t}">
+                                        <option value="custom" {if $selected_size == "custom"}selected{/if}>{t}Benutzerdefiniert{/t}</option>
+                                    </optgroup>
                                 </select>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="input-group">
+
+                                    <input type="number" min="0" class="form-control" placeholder="{t}Breite{/t}" name="custom_width" required {if !$can_edit_option}disabled{/if} value="{$custom_width}">
+                                    <span class="input-group-addon" id="basic-addon1">x</span>
+                                    <input type="number" min="0" class="form-control" placeholder="{t}Höhe{/t}" name="custom_height" required {if !$can_edit_option}disabled{/if} value="{$custom_height}">
+                                    <span class="input-group-addon">mm</span>
+                                </div>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-md-3 control-label" >{t}Line Preset:{/t}</label>
                             <div class="col-md-9">
-                                <select class="form-control" name="preset" {if !$can_edit_option}disabled{/if}>
+                                <select class="form-control" name="preset" id="preset" {if !$can_edit_option}disabled{/if} onchange="updateCustomRowStatus()">
                                     <optgroup label="{t}Presets{/t}">
                                         {foreach $available_presets as $preset}
                                             <option value="{$preset.name}" {if $selected_preset == $preset.name}selected{/if}>{$preset.name}</option>
@@ -160,6 +174,21 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="col-md-3 control-label">{t}Text-Ausrichtung:{/t}</label>
+                            <div class="col-md-9">
+                                <div class="radio radio-inline">
+                                    <input type="radio" name="text_alignment" value="left" {if $text_alignment == "left"}checked{/if} {if !$can_edit_option}disabled{/if}><label>{t}Links{/t}</label>
+                                </div>
+                                <div class="radio radio-inline">
+                                    <input type="radio" name="text_alignment" value="center" {if $text_alignment == "center"}checked{/if} {if !$can_edit_option}disabled{/if}><label>{t}Zentrieren{/t}</label>
+                                </div>
+                                <div class="radio radio-inline">
+                                    <input type="radio" name="text_alignment" value="right" {if $text_alignment == "right"}checked{/if} {if !$can_edit_option}disabled{/if}><label>{t}Rechts{/t}</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="col-md-3 control-label">{t}Schriftstil:{/t}</label>
                             <div class="col-md-9">
                                 <div class="checkbox checkbox-inline">
@@ -210,6 +239,18 @@
                                 </div>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <label class="col-md-3 control-label">{t}Pfad zu Logo:{/t}</label>
+                            <div class="col-md-6">
+                                <input name="logo_path" type="text" class="form-control" placeholder="{t}z.B. data/labels/logo.png{/t}" value="{$logo_path}"  {if !$can_edit_option}disabled{/if}>
+                                <p class="help-block">{t}Sie können hier einen Pfad zu einem Logo angeben. Dies wird in der unteren linken Ecke auf der Höhe des Barcodes angezeigt. Lassen Sie das Feld leer, um das Logo zu deaktivieren.{/t}</p>
+                                <p class="help-block">{t}Um diese Funktion nutzen zu können muss die Imagick oder GD Erweiterung in PHP aktiviert sein.{/t}</p>
+                            </div>
+                            <div class="col-sm-3 pull-right">
+                                <input data-show-caption="false" data-show-preview="false" data-show-upload="false" type="file" class="file" name="logo_file"  {if !$can_edit_option}disabled{/if}>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -243,4 +284,23 @@
         $('#panel-advanced').on('hidden.bs.collapse', function () {
             Cookies.set("labels_advanced_settings_open", false)
         });
+</script>
+
+<script>
+    function updateCustomRowStatus() {
+        var selectedPreset = $('#preset').find(":selected").val();
+        $("[name=custom_rows]").prop("disabled", selectedPreset != "custom");
+    }
+
+    updateCustomRowStatus();
+</script>
+
+<script>
+    function updateCustomSizeStatus() {
+        var selectedSize = $('#size').find(":selected").val();
+        $("[name=custom_height]").prop("disabled", selectedSize != "custom");
+        $("[name=custom_width]").prop("disabled", selectedSize != "custom");
+    }
+
+    updateCustomSizeStatus();
 </script>

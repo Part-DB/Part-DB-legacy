@@ -62,7 +62,11 @@ if (!$json_storage->itemExists($generator_type . "@" . $profile_name)) {
         "text_size" => 8,
         "output_mode" => "html",
         "barcode_alignment" => "center",
-        "custom_rows" => "");
+        "custom_rows" => "",
+        "custom_height" => "",
+        "custom_width" => "",
+        "text_alignment" => "left",
+        "logo_path" => "");
 
     /*if ($profile_name == "default") {
         $json_storage->addItem($generator_type . "@default", $profile);
@@ -81,6 +85,11 @@ $profile['text_bold']             = isset($_REQUEST['text_bold']) ? true :  $pro
 $profile['text_italic']           = isset($_REQUEST['text_italic']) ? true : $profile['text_italic'];
 $profile['text_underline']        = isset($_REQUEST['text_underline']) ? true : $profile['text_underline'];
 $profile['text_size']             = isset($_REQUEST['text_size']) ? (int) $_REQUEST['text_size']                  : $profile['text_size']  ;
+$profile['text_alignment']        = isset($_REQUEST['text_alignment']) ? (string)$_REQUEST['text_alignment'] : $profile['text_alignment'];
+$profile['logo_path']             = isset($_REQUEST['logo_path']) ? (string)$_REQUEST['logo_path'] : $profile['logo_path'];
+
+$profile['custom_width']          = isset($_REQUEST['custom_width']) ? (string) $_REQUEST['custom_width']         : $profile['custom_width']  ;
+$profile['custom_height']          = isset($_REQUEST['custom_height']) ? (string) $_REQUEST['custom_height']         : $profile['custom_height']  ;
 
 $profile['output_mode']           = isset($_REQUEST['radio_output']) ? (string)$_REQUEST['radio_output'] : $profile['output_mode'];
 $profile['barcode_alignment']     = isset($_REQUEST['barcode_alignment']) ? (string)$_REQUEST['barcode_alignment'] : $profile['barcode_alignment'];
@@ -148,6 +157,15 @@ try {
  *********************************************************************************/
 if (!$fatal_error) {
     try {
+
+        //Check if a file was uploaded, then move it to correct place and use it as logo.
+        $filepath = BASE . "/data/media/labels/";
+
+        if (isset($_FILES['logo_file']) && strlen($_FILES['logo_file']['name']) > 0) {
+            $uploaded_file = uploadFile($_FILES['logo_file'], $filepath);
+            $profile['logo_path'] =  str_replace(BASE . "/", "", $uploaded_file);
+        }
+
         //Build config array
         $options = array();
 
@@ -155,6 +173,10 @@ if (!$fatal_error) {
         $options['text_italic'] = $profile['text_italic'];
         $options['text_underline'] = $profile['text_underline'];
         $options['text_size'] = $profile['text_size'];
+        $options['custom_width'] = $profile['custom_width'];
+        $options['custom_height'] = $profile['custom_height'];
+        $options['text_alignment'] = $profile['text_alignment'];
+        $options['logo_path'] = $profile['logo_path'];
 
         if ($profile['output_mode'] == "text") {
             $options['force_text_output'] = true;
@@ -169,6 +191,13 @@ if (!$fatal_error) {
                     $profile['custom_rows'] = implode("\n", $preset["lines"]);
                 }
             }
+        }
+
+        //Show size preset in custom size inputs
+        if ($profile['label_size'] != "custom") {
+            $exploded = explode("x", $profile['label_size']);
+            $profile['custom_width'] = $exploded[0];
+            $profile['custom_height'] = $exploded[1];
         }
 
 
@@ -262,7 +291,12 @@ if (! $fatal_error) {
         $html->setVariable("text_size", $profile['text_size'], "int");
         $html->setVariable("radio_output", $profile['output_mode'], "string");
         $html->setVariable('barcode_alignment', $profile['barcode_alignment'], "string");
+        $html->setVariable("text_alignment", $profile['text_alignment'], "string");
         $html->setVariable('custom_rows', $profile['custom_rows'], "string");
+
+        $html->setVariable("custom_width", $profile['custom_width'], "int");
+        $html->setVariable("custom_height", $profile['custom_height'], "int");
+        $html->setVariable("logo_path", $profile['logo_path'], "string");
 
         //Profile tabs
         $html->setVariable("save_name", $profile_name != "default" ? $profile_name : "", "string");

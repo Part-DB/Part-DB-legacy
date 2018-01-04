@@ -23,6 +23,7 @@ abstract class BaseLabel
 
     const SIZE_50X30 = "50x30";
     const SIZE_62X30 = "62x30";
+    const SIZE_CUSTOM = "custom";
 
     const PRESET_CUSTOM = "custom";
 
@@ -57,7 +58,7 @@ abstract class BaseLabel
             throw new \InvalidArgumentException(_('Der gewählte Labeltyp wird von dem aktuellem Labelgenerator nicht unterstützt!'));
         }
 
-        if (!in_array($size, static::getSupportedSizes())) {
+        if ($size != "custom" &&  !in_array($size, static::getSupportedSizes())) {
             throw new \InvalidArgumentException(_('Die gewählte Labelgröße wird von dem aktuellem Labelgenerator nicht unterstützt!'));
         }
 
@@ -118,11 +119,27 @@ abstract class BaseLabel
 
         $lines = $this->generateLines();
 
+        //Parse Option for text alignment
+        $text_position = "L";
+        if (isset($this->options['text_alignment'])) {
+            switch ($this->options['text_alignment']) {
+                case "left":
+                    $text_position = "L";
+                    break;
+                case "center":
+                    $text_position = "C";
+                    break;
+                case "right":
+                    $text_position = "R";
+                    break;
+            }
+        }
+
         foreach ($lines as $line) {
             if (isset($this->options['force_text_output']) && $this->options['force_text_output']) {
-                $this->pdf->Cell(0, 0, $line);
+                $this->pdf->Cell(0, 0, $line, 0, 0, $text_position);
             } else {
-                $this->pdf->writeHTMLCell(0, 0, "", "", $line);
+                $this->pdf->writeHTMLCell(0, 0, "", "", $line, 0, 0, false, true, $text_position);
             }
             $this->pdf->Ln();
         }
@@ -142,6 +159,22 @@ abstract class BaseLabel
                     break;
             }
         }
+
+        $y_pos = $this->pdf->GetY() + 1;
+
+        if ($this->options['logo_path'] != "") {
+            $path = BASE . "/" . $this->options['logo_path'];
+
+            if (isPathabsoluteAndUnix($path)) {
+                $this->pdf->setJPEGQuality(100);
+
+
+                $this->pdf->Image($path, "3", $this->pdf->GetY() + 1, "10", "", "", "", "R", true, 300);
+            }
+
+        }
+
+
 
         if ($this->type == static::TYPE_BARCODE) {
             //Create barcode config.
@@ -176,7 +209,11 @@ abstract class BaseLabel
     protected function createTCPDFConfig()
     {
         // create new PDF document
-        $size = explode("x", $this->size);
+        if ($this->size == "custom") {
+            $size = array($this->options["custom_width"], $this->options["custom_height"]);
+        } else {
+            $size = explode("x", $this->size);
+        }
         $this->pdf = new TCPDF('L', 'mm', $size, true, 'UTF-8', false);
 
         // set document information
@@ -269,7 +306,7 @@ abstract class BaseLabel
 
         $string = str_replace("%DATETIME%", formatTimestamp(time()), $string);
         $string = str_replace("%INSTALL_NAME%", $config['partdb_title'], $string);
-        
+
         return $string;
     }
 }

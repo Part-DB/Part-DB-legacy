@@ -145,7 +145,7 @@ class PartLabel extends BaseLabel
         $lines[] = "LAGER   : %STORELOC%";
         $lines[] = "GEHÄUSE : %FOOT%";
         $lines[] = "BEST-NR : %ORDER_NR% - %SUPPLIER%";
-        $presets[] = array("name" => "Preset D", "lines" => $lines);;
+        $presets[] = array("name" => "Preset D", "lines" => $lines);
 
         return $presets;
     }
