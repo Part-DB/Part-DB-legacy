@@ -23,6 +23,7 @@ abstract class BaseLabel
 
     const SIZE_50X30 = "50x30";
     const SIZE_62X30 = "62x30";
+    const SIZE_CUSTOM = "custom";
 
     const PRESET_CUSTOM = "custom";
 
@@ -57,7 +58,7 @@ abstract class BaseLabel
             throw new \InvalidArgumentException(_('Der gewählte Labeltyp wird von dem aktuellem Labelgenerator nicht unterstützt!'));
         }
 
-        if (!in_array($size, static::getSupportedSizes())) {
+        if ($size != "custom" &&  !in_array($size, static::getSupportedSizes())) {
             throw new \InvalidArgumentException(_('Die gewählte Labelgröße wird von dem aktuellem Labelgenerator nicht unterstützt!'));
         }
 
@@ -176,7 +177,11 @@ abstract class BaseLabel
     protected function createTCPDFConfig()
     {
         // create new PDF document
-        $size = explode("x", $this->size);
+        if ($this->size == "custom") {
+            $size = array($this->options["custom_width"], $this->options["custom_height"]);
+        } else {
+            $size = explode("x", $this->size);
+        }
         $this->pdf = new TCPDF('L', 'mm', $size, true, 'UTF-8', false);
 
         // set document information
@@ -269,7 +274,7 @@ abstract class BaseLabel
 
         $string = str_replace("%DATETIME%", formatTimestamp(time()), $string);
         $string = str_replace("%INSTALL_NAME%", $config['partdb_title'], $string);
-        
+
         return $string;
     }
 }

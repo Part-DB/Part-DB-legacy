@@ -49,12 +49,26 @@
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">{t}Größe:{/t}</label>
-                            <div class="col-md-9" >
-                                <select class="form-control" name="size" {if !$can_edit_option}disabled{/if}>
+                            <div class="col-md-4" >
+                                <select class="form-control" name="size" id="size" {if !$can_edit_option}disabled{/if} onchange="updateCustomSizeStatus();">
+                                    <optgroup label="{t}Vorgaben{/t}">
                                     {foreach $supported_sizes as $size}
                                         <option value="{$size}" {if $selected_size == $size}selected{/if}>{$size} mm</option>
                                     {/foreach}
+                                    </optgroup>
+                                    <optgroup label="{t}Benutzerdefiniert{/t}">
+                                        <option value="custom" {if $selected_size == "custom"}selected{/if}>{t}Benutzerdefiniert{/t}</option>
+                                    </optgroup>
                                 </select>
+                            </div>
+                            <div class="col-md-5">
+                                <div class="input-group">
+
+                                    <input type="number" min="0" class="form-control" placeholder="{t}Breite{/t}" name="custom_width" required {if !$can_edit_option}disabled{/if} value="{$custom_width}">
+                                    <span class="input-group-addon" id="basic-addon1">x</span>
+                                    <input type="number" min="0" class="form-control" placeholder="{t}Höhe{/t}" name="custom_height" required {if !$can_edit_option}disabled{/if} value="{$custom_height}">
+                                    <span class="input-group-addon">mm</span>
+                                </div>
                             </div>
                         </div>
 
@@ -248,8 +262,18 @@
 <script>
     function updateCustomRowStatus() {
         var selectedPreset = $('#preset').find(":selected").val();
-        $("[name=custom_rows]").prop("disabled", selectedPreset != "custom")
+        $("[name=custom_rows]").prop("disabled", selectedPreset != "custom");
     }
 
     updateCustomRowStatus();
+</script>
+
+<script>
+    function updateCustomSizeStatus() {
+        var selectedSize = $('#size').find(":selected").val();
+        $("[name=custom_height]").prop("disabled", selectedSize != "custom");
+        $("[name=custom_width]").prop("disabled", selectedSize != "custom");
+    }
+
+    updateCustomSizeStatus();
 </script>
