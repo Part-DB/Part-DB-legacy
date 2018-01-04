@@ -165,8 +165,8 @@ if (!$fatal_error) {
         //If selected preset is not "custom", than show the preset lines in custom_rows
         if ($profile['label_preset'] != "custom") {
             foreach ($generator_class::getLinePresets() as $preset) {
-                if ($preset["name"] == $preset['label_preset']) {
-                    $custom_rows = implode("\n", $preset["lines"]);
+                if ($preset["name"] == $profile['label_preset']) {
+                    $profile['custom_rows'] = implode("\n", $preset["lines"]);
                 }
             }
         }
