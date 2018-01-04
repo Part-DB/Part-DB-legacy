@@ -61,7 +61,7 @@
                         <div class="form-group">
                             <label class="col-md-3 control-label" >{t}Line Preset:{/t}</label>
                             <div class="col-md-9">
-                                <select class="form-control" name="preset" {if !$can_edit_option}disabled{/if}>
+                                <select class="form-control" name="preset" id="preset" {if !$can_edit_option}disabled{/if} onchange="updateCustomRowStatus()">
                                     <optgroup label="{t}Presets{/t}">
                                         {foreach $available_presets as $preset}
                                             <option value="{$preset.name}" {if $selected_preset == $preset.name}selected{/if}>{$preset.name}</option>
@@ -243,4 +243,13 @@
         $('#panel-advanced').on('hidden.bs.collapse', function () {
             Cookies.set("labels_advanced_settings_open", false)
         });
+</script>
+
+<script>
+    function updateCustomRowStatus() {
+        var selectedPreset = $('#preset').find(":selected").val();
+        $("[name=custom_rows]").prop("disabled", selectedPreset != "custom")
+    }
+
+    updateCustomRowStatus();
 </script>
