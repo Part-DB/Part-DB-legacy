@@ -228,3 +228,19 @@
         </div>
     </div>
 {/if}
+
+
+<script>
+        var should_open = Cookies.get("labels_advanced_settings_open");
+        if (should_open == "true") {
+            $("#panel-advanced").addClass('in');
+        }
+
+        $('#panel-advanced').on('shown.bs.collapse', function () {
+            Cookies.set("labels_advanced_settings_open", true)
+        });
+
+        $('#panel-advanced').on('hidden.bs.collapse', function () {
+            Cookies.set("labels_advanced_settings_open", false)
+        });
+</script>

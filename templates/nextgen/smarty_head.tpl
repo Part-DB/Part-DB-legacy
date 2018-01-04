@@ -68,6 +68,9 @@
     <!-- This must be in head because we need its functions in <script> Tags, in smarty_permission.tpl -->
     <script src="{$relative_path}js/jquery.tristate.js"></script>
 
+    <!-- Javascript cookies -->
+    <!-- We need this in header, because we use the library in show_part_label.php template -->
+    <script src="{$relative_path}js/js.cookie-2.2.0.min.js"></script>
 
     {*
     {if isset($javascript_files)}
