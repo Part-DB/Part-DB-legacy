@@ -66,7 +66,8 @@ if (!$json_storage->itemExists($generator_type . "@" . $profile_name)) {
         "custom_height" => "",
         "custom_width" => "",
         "text_alignment" => "left",
-        "logo_path" => "");
+        "logo_path" => "",
+        "use_footprint_image" => false);
 
     /*if ($profile_name == "default") {
         $json_storage->addItem($generator_type . "@default", $profile);
@@ -94,6 +95,7 @@ $profile['custom_height']          = isset($_REQUEST['custom_height']) ? (string
 $profile['output_mode']           = isset($_REQUEST['radio_output']) ? (string)$_REQUEST['radio_output'] : $profile['output_mode'];
 $profile['barcode_alignment']     = isset($_REQUEST['barcode_alignment']) ? (string)$_REQUEST['barcode_alignment'] : $profile['barcode_alignment'];
 $profile['custom_rows']           = isset($_REQUEST['custom_rows']) ? (string)$_REQUEST['custom_rows'] : $profile['custom_rows'];
+$profile['use_footprint_image']  = isset($_REQUEST['use_footprint_image']) ? true :  $profile['use_footprint_image'] ;
 
 
 
@@ -157,7 +159,6 @@ try {
  *********************************************************************************/
 if (!$fatal_error) {
     try {
-
         //Check if a file was uploaded, then move it to correct place and use it as logo.
         $filepath = BASE . "/data/media/labels/";
 
@@ -177,6 +178,11 @@ if (!$fatal_error) {
         $options['custom_height'] = $profile['custom_height'];
         $options['text_alignment'] = $profile['text_alignment'];
         $options['logo_path'] = $profile['logo_path'];
+
+        //Override $options['logo_path'] if use_footprint_image option is set
+        if ($profile['use_footprint_image'] && $generator_type == "part") {
+            $options['logo_path'] = $element->getFootprint()->getFilename(false);
+        }
 
         if ($profile['output_mode'] == "text") {
             $options['force_text_output'] = true;
@@ -297,6 +303,7 @@ if (! $fatal_error) {
         $html->setVariable("custom_width", $profile['custom_width'], "int");
         $html->setVariable("custom_height", $profile['custom_height'], "int");
         $html->setVariable("logo_path", $profile['logo_path'], "string");
+        $html->setVariable('use_footprint_image', $profile['use_footprint_image'], "bool");
 
         //Profile tabs
         $html->setVariable("save_name", $profile_name != "default" ? $profile_name : "", "string");

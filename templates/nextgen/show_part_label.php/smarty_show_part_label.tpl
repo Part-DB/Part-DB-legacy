@@ -52,9 +52,9 @@
                             <div class="col-md-4" >
                                 <select class="form-control" name="size" id="size" {if !$can_edit_option}disabled{/if} onchange="updateCustomSizeStatus();">
                                     <optgroup label="{t}Vorgaben{/t}">
-                                    {foreach $supported_sizes as $size}
-                                        <option value="{$size}" {if $selected_size == $size}selected{/if}>{$size} mm</option>
-                                    {/foreach}
+                                        {foreach $supported_sizes as $size}
+                                            <option value="{$size}" {if $selected_size == $size}selected{/if}>{$size} mm</option>
+                                        {/foreach}
                                     </optgroup>
                                     <optgroup label="{t}Benutzerdefiniert{/t}">
                                         <option value="custom" {if $selected_size == "custom"}selected{/if}>{t}Benutzerdefiniert{/t}</option>
@@ -251,6 +251,15 @@
                                 <input data-show-caption="false" data-show-preview="false" data-show-upload="false" type="file" class="file" name="logo_file"  {if !$can_edit_option}disabled{/if}>
                             </div>
                         </div>
+
+                        <div class="form-group">
+                            <div class="col-md-9 col-md-offset-3">
+                                <div class="checkbox">
+                                    <input name="use_footprint_image" type="checkbox" {if $use_footprint_image}checked{/if} {if !$can_edit_option}disabled{/if}>
+                                    <label>{t}Benutze Footprintbild als Icon{/t}</label>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -264,7 +273,9 @@
         <div class="">
             {* <embed width="100%" height="200" type="application/pdf" src="{$preview_src}"> *}
             <object width="100%" height="200" type="application/pdf" data="{$preview_src}" id="pdf_content">
-                <p>{t}Ihr Browser unterstützt keine Vorschau von PDF-Dateien. Um die Datei anzusehen, laden Sie die Datei herunter{/t}</p>
+                <div class="container-fluid">
+                    <p>{t}Ihr Browser unterstützt keine Vorschau von PDF-Dateien. Um die Datei anzusehen, laden Sie die Datei herunter{/t}</p>
+                </div>
             </object>
         </div>
     </div>
@@ -272,18 +283,18 @@
 
 
 <script>
-        var should_open = Cookies.get("labels_advanced_settings_open");
-        if (should_open == "true") {
-            $("#panel-advanced").addClass('in');
-        }
+    var should_open = Cookies.get("labels_advanced_settings_open");
+    if (should_open == "true") {
+        $("#panel-advanced").addClass('in');
+    }
 
-        $('#panel-advanced').on('shown.bs.collapse', function () {
-            Cookies.set("labels_advanced_settings_open", true)
-        });
+    $('#panel-advanced').on('shown.bs.collapse', function () {
+        Cookies.set("labels_advanced_settings_open", true)
+    });
 
-        $('#panel-advanced').on('hidden.bs.collapse', function () {
-            Cookies.set("labels_advanced_settings_open", false)
-        });
+    $('#panel-advanced').on('hidden.bs.collapse', function () {
+        Cookies.set("labels_advanced_settings_open", false)
+    });
 </script>
 
 <script>
