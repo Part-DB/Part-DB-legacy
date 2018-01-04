@@ -273,7 +273,9 @@
         <div class="">
             {* <embed width="100%" height="200" type="application/pdf" src="{$preview_src}"> *}
             <object width="100%" height="200" type="application/pdf" data="{$preview_src}" id="pdf_content">
-                <p>{t}Ihr Browser unterstützt keine Vorschau von PDF-Dateien. Um die Datei anzusehen, laden Sie die Datei herunter{/t}</p>
+                <div class="container-fluid">
+                    <p>{t}Ihr Browser unterstützt keine Vorschau von PDF-Dateien. Um die Datei anzusehen, laden Sie die Datei herunter{/t}</p>
+                </div>
             </object>
         </div>
     </div>
