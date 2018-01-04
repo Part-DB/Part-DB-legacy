@@ -157,6 +157,15 @@ try {
  *********************************************************************************/
 if (!$fatal_error) {
     try {
+
+        //Check if a file was uploaded, then move it to correct place and use it as logo.
+        $filepath = BASE . "/data/media/labels/";
+
+        if (isset($_FILES['logo_file']) && strlen($_FILES['logo_file']['name']) > 0) {
+            $uploaded_file = uploadFile($_FILES['logo_file'], $filepath);
+            $profile['logo_path'] =  str_replace(BASE . "/", "", $uploaded_file);
+        }
+
         //Build config array
         $options = array();
 

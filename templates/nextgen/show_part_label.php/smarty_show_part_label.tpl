@@ -242,10 +242,13 @@
 
                         <div class="form-group">
                             <label class="col-md-3 control-label">{t}Pfad zu Logo:{/t}</label>
-                            <div class="col-md-9">
-                                <input name="logo_path" type="text" class="form-control" placeholder="{t}z.B. data/labels/logo.png{/t}" value="{$logo_path}">
+                            <div class="col-md-6">
+                                <input name="logo_path" type="text" class="form-control" placeholder="{t}z.B. data/labels/logo.png{/t}" value="{$logo_path}"  {if !$can_edit_option}disabled{/if}>
                                 <p class="help-block">{t}Sie können hier einen Pfad zu einem Logo angeben. Dies wird in der unteren linken Ecke auf der Höhe des Barcodes angezeigt. Lassen Sie das Feld leer, um das Logo zu deaktivieren.{/t}</p>
                                 <p class="help-block">{t}Um diese Funktion nutzen zu können muss die Imagick oder GD Erweiterung in PHP aktiviert sein.{/t}</p>
+                            </div>
+                            <div class="col-sm-3 pull-right">
+                                <input data-show-caption="false" data-show-preview="false" data-show-upload="false" type="file" class="file" name="logo_file"  {if !$can_edit_option}disabled{/if}>
                             </div>
                         </div>
                     </div>
