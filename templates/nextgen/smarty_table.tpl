@@ -364,7 +364,7 @@
                         <td class="tdrow1" nowrap valign="top">
                             {foreach $row.supplier_partnrs as $sup}
                                 <div style="display:inline-block; height:1.7em; line-height:1.7em;">
-                                    {if isset($sup.supplier_product_url)}
+                                    {if isset($sup.supplier_product_url) && !empty($sup.supplier_product_url)}
                                         <a class="link-external" target="_blank" rel="noopener" title="{$sup.supplier_product_url}" href="{$sup.supplier_product_url}">{$sup.supplier_partnr}</a>
                                     {else}
                                         {$sup.supplier_partnr}
