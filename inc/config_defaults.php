@@ -119,7 +119,8 @@ $config['debug']['template_debugging_enable']           = false;
 $config['debug']['request_debugging_enable']            = false;
 
 // admin settings
-$config['admin']['password']                            = null; // NULL means "not yet initialized" (important for "install.php")
+//$config['admin']['password']                            = null; // NULL means "not yet initialized" (important for "install.php")
+$config['admin']['tmp_password']                        = null;
 
 // installation complete steps (can also be used for updates, for example if a user input is needed for an update)
 // if at least one of them is 'false', the installer will be shown automatically

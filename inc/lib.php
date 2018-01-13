@@ -331,7 +331,8 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
 }
 
 /**
- * Set a new administrator password
+ * Set a password for the "admin" password that will be written into, the database, when DB will be created.
+ * This function should be only used in install.php !!
  *
  * @note    The password will be trimmed, salted, crypted with sha256 and stored in $config.
  *          Optionally, $config can be written in config.php.
@@ -348,20 +349,15 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
  * @throws Exception    if the new passworts are different
  * @throws Exception    if $config could not be saved in config.php
  */
-function setAdminPassword($old_password, $new_password_1, $new_password_2, $save_config = true)
+function setTempAdminPassword($new_password_1, $new_password_2, $save_config = true)
 {
     global $config;
 
     settype($old_password, 'string');
     settype($new_password_1, 'string');
     settype($new_password_2, 'string');
-    $old_password = trim($old_password);
     $new_password_1 = trim($new_password_1);
     $new_password_2 = trim($new_password_2);
-
-    if (! isAdminPassword($old_password)) {
-        throw new Exception(_('Das eingegebene Administratorpasswort ist nicht korrekt!'));
-    }
 
     if (mb_strlen($new_password_1) < 6) {
         throw new Exception(_('Das neue Passwort muss mindestens 6 Zeichen lang sein!'));
@@ -372,64 +368,10 @@ function setAdminPassword($old_password, $new_password_1, $new_password_2, $save
     }
 
     // all ok, save the new password
-    $config['admin']['password'] = password_hash($new_password_1, PASSWORD_DEFAULT);
+    $config['admin']['tmp_password'] = password_hash($new_password_1, PASSWORD_DEFAULT);
 
     if ($save_config) {
         saveConfig();
-    }
-}
-
-/**
- * Check if a string is the correct admin password
- *
- * @param $password string      The password (plain, not crypted) we want to check
- *                              (compare with the administrators password)
- *
- * @return boolean      * true if the password is correct
- * * false if the password is not correct
- */
-function isAdminPassword($password)
-{
-    global $config;
-    $salt = 'h>]gW3$*j&o;O"s;@&G)';
-
-    settype($password, 'string');
-    $password = trim($password);
-
-    // If the admin password is not set yet, we will always return true.
-    // This is needed for the first use of Part-DB.
-    // In this case, the installer will be shown to set an admin password.
-    if ((! $config['installation_complete']['admin_password']) && (! $config['admin']['password'])) {
-        return true;
-    }
-
-    if (strcontains($config['admin']['password'], "$") === false) {
-        //Old method
-        return (hash('sha256', $salt.$password) === $config['admin']['password']);
-    } else {
-        return password_verify($password, $config['admin']['password']);
-    }
-}
-
-/**
- * Check if the admin password needs a change.
- *
- * This could be, because Part-DB is using the legacy SHA256 hash, or PHP has an better Hashing algorithm.
- *
- * @return bool True, if the password has to be changed.
- */
-function needChangeAdminPassword()
-{
-    global $config;
-    if ($config['admin']['password'] == "") {
-        return true;
-    }
-    //If Admin password uses the old hasing method using SHA256, we need to migrate.
-    if (strcontains($config['admin']['password'], "$") === false) {
-        return true;
-    } else {
-        //Check if default password algo has changed.
-        return password_needs_rehash($config['admin']['password'], PASSWORD_DEFAULT);
     }
 }
 
