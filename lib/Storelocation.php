@@ -294,6 +294,13 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
         $string = str_replace("%COMMENT%", $this->getComment(), $string);              //comment of the storelocation
         $string = str_replace("%FULL_PATH%", $this->getFullPath(), $string);              //comment of the part
 
+        $parent = new Storelocation($this->database, $this->current_user, $this->log, $this->getParentID());
+        $string = str_replace("%PARENT_NAME%", $parent->getName(), $string);              //name of the parent storelocation
+        $string = str_replace("%PARENT_FULL_PATH%", $parent->getFullPath(), $string);              //fullpath of the parent storelocation
+
+        $string = str_replace("%IS_FULL%", $this->getIsFull() ? _("Ja") : _("Nein"), $string);
+        $string = str_replace("%PARTS_COUNT%", $this->getPartsCount(false), $string);
+
 
         //Remove single '-' without other infos
         if (trim($string) == "-") {
