@@ -22,7 +22,8 @@
                             <label class="col-md-3 control-label">{t}Typ:{/t}</label>
                             <div class="col-md-9">
                                 <select class="form-control" name="generator">
-                                    <option value="part">{t}Bauteil{/t}</option>
+                                    <option value="part" {if $generator == "part"}selected{/if}>{t}Bauteil{/t}</option>
+                                    <option value="location" {if $generator == "location"}selected{/if}>{t}Lagerort{/t}</option>
                                 </select>
                             </div>
                         </div>
