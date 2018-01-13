@@ -212,12 +212,22 @@
                                     <!-- <h4>{t}Kategorien{/t}</h4>-->
                                     <div class="dropdown">
                                         <button class="btn-text dropdown-toggle" type="button" id="dropdownCat" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <div class="sidebar-title">{t}Kategorien{/t}
+                                            <div class="sidebar-title" id="tree-categories-title">{t}Kategorien{/t}
                                                 <span class="caret"></span></div>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownCat">
+                                            <li class="dropdown-header">{t}Aktionen{/t}</li>
                                             <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-categories">{t}Alle ausklappen{/t}</a></li>
                                             <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-categories">{t}Alle einklappen{/t}</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li class="dropdown-header">{t}Datenquelle{/t}</li>
+                                            <li><a href="#" class="tree-btns" data-mode="categories" data-target="tree-categories">{t}Kategorien{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="locations" data-target="tree-categories">{t}Lagerorte{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="footprints" data-target="tree-categories">{t}Footprints{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="manufacturers" data-target="tree-categories">{t}Hersteller{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="suppliers" data-target="tree-categories">{t}Lieferanten{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="devices" data-target="tree-categories">{t}Baugruppen{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="tools" data-target="tree-categories">{t}Verwaltung{/t}</a></li>
                                         </ul>
                                     </div>
                                     <div id="tree-categories"></div>
@@ -227,12 +237,22 @@
                                 <li id="devices">
                                     <div class="dropdown">
                                         <button class="btn-text dropdown-toggle" type="button" id="dropdownDev" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <div class="sidebar-title">{t}Baugruppen{/t}
+                                            <div class="sidebar-title" id="tree-devices-title">{t}Baugruppen{/t}
                                                 <span class="caret"></span></div>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownDev">
+                                            <li class="dropdown-header">{t}Aktionen{/t}</li>
                                             <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-devices">{t}Alle ausklappen{/t}</a></li>
                                             <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-devices">{t}Alle einklappen{/t}</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li class="dropdown-header">{t}Datenquelle{/t}</li>
+                                            <li><a href="#" class="tree-btns" data-mode="categories" data-target="tree-devices">{t}Kategorien{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="locations" data-target="tree-devices">{t}Lagerorte{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="footprints" data-target="tree-devices">{t}Footprints{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="manufacturers" data-target="tree-devices">{t}Hersteller{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="suppliers" data-target="tree-devices">{t}Lieferanten{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="devices" data-target="tree-devices">{t}Baugruppen{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="tools" data-target="tree-devices">{t}Verwaltung{/t}</a></li>
                                         </ul>
                                     </div>
                                     <div id="tree-devices"></div>
@@ -242,12 +262,22 @@
                             <li id="tools">
                                 <div class="dropdown">
                                     <button class="btn-text dropdown-toggle" type="button" id="dropdownTools" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <div class="sidebar-title">{t}Verwaltung{/t}
+                                        <div class="sidebar-title" id="tree-tools-title">{t}Verwaltung{/t}
                                             <span class="caret"></span></div>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownTools">
+                                        <li class="dropdown-header">{t}Aktionen{/t}</li>
                                         <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-tools">{t}Alle ausklappen{/t}</a></li>
                                         <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-tools">{t}Alle einklappen{/t}</a></li>
+                                        <li role="separator" class="divider"></li>
+                                           <li class="dropdown-header">{t}Datenquelle{/t}</li>
+                                            <li><a href="#" class="tree-btns" data-mode="categories" data-target="tree-tools">{t}Kategorien{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="locations" data-target="tree-tools">{t}Lagerorte{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="footprints" data-target="tree-tools">{t}Footprints{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="manufacturers" data-target="tree-tools">{t}Hersteller{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="suppliers" data-target="tree-tools">{t}Lieferanten{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="devices" data-target="tree-tools">{t}Baugruppen{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="tools" data-target="tree-tools">{t}Verwaltung{/t}</a></li>
                                     </ul>
                                 </div>
                                 <div id="tree-tools"></div>
