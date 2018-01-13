@@ -41,6 +41,7 @@
                                 <select class="form-control" name="type" {if !$can_edit_option}disabled{/if}>
                                     {foreach $supported_types as $t}
                                         {if $t == 2}<option value="2" {if isset($type) && $type==2}selected{/if}>{t}1D-Barcode (EAN8){/t}</option>{/if}
+                                        {if $t == 3}<option value="3" {if isset($type) && $type==3}selected{/if}>{t}1D-Barcode (Code 39){/t}</option>{/if}
                                         {if $t == 1}<option value="1" {if isset($type) && $type==1}selected{/if}>{t}QR-Code{/t}</option>{/if}
                                         {if $t == 0}<option value="0" {if isset($type) && $type==0}selected{/if}>{t}kein Barcode{/t}</option>{/if}
                                     {/foreach}

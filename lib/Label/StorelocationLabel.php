@@ -75,6 +75,6 @@ class StorelocationLabel extends BaseLabel
      */
     public static function getSupportedTypes()
     {
-        return array(static::TYPE_BARCODE, static::TYPE_TEXT);
+        return array(static::TYPE_C39, static::TYPE_TEXT);
     }
 }

@@ -19,6 +19,7 @@ abstract class BaseLabel
     const TYPE_TEXT = 0;
     const TYPE_QR = 1;
     const TYPE_BARCODE = 2;
+    const TYPE_C39 = 3; //Code 128 Barcode
     //const TYPE_INFO = 3;
 
     const SIZE_50X30 = "50x30";
@@ -176,7 +177,8 @@ abstract class BaseLabel
 
 
 
-        if ($this->type == static::TYPE_BARCODE) {
+        if ($this->type == static::TYPE_BARCODE ||
+            $this->type == static::TYPE_C39) {
             //Create barcode config.
             $style = array(
                 'position' => $barcode_position,
@@ -193,7 +195,18 @@ abstract class BaseLabel
                 'font' => 'helvetica',
                 'fontsize' => 8 );
 
-            $this->pdf->write1DBarcode($this->element->getBarcodeContent(), "EAN8", "", "", "", 15, "", $style, 'N');
+            switch($this->type) {
+                case static::TYPE_BARCODE:
+                    $type = "EAN8";
+                    $width = "";
+                    break;
+                case static::TYPE_C39:
+                    $type = "C39";
+                    $width = "36";
+                    break;
+            }
+
+            $this->pdf->write1DBarcode($this->element->getBarcodeContent($type), $type, "", "", $width, 15, "", $style, 'N');
         }
 
         //Output the labels

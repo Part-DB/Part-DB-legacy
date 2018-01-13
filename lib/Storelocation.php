@@ -251,15 +251,15 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @return string
      * @throws Exception An Exception is thrown if you selected a unknown barcode type.
      */
-    public function getBarcodeContent($barcode_type = "EAN8")
+    public function getBarcodeContent($barcode_type = "C39")
     {
         switch ($barcode_type) {
-            case "EAN8":
+            case "C39":
                 $code = (string) $this->getID();
-                while (strlen($code) < 7) {
+                while (strlen($code) < 5) {
                     $code = '0' . $code;
                 }
-                return $code;
+                return '$L' . $code;
 
             case "QR":
                 return "Part-DB; Part: " . $this->getID();
