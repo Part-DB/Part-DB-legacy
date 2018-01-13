@@ -145,6 +145,14 @@ try {
             if ($element_id > 0) {
                 $element = new Part($database, $current_user, $log, $element_id);
             }
+            break;
+        case "location":
+            /* @var $generator_class BaseLabel */
+            $generator_class = "\PartDB\Label\StorelocationLabel";
+            if ($element_id > 0) {
+                $element = new \PartDB\Storelocation($database, $current_user, $log, $element_id);
+            }
+            break;
     }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -284,6 +292,7 @@ if (! $fatal_error) {
         $html->setVariable("selected_size", $profile['label_size'], "string");
         $html->setVariable("selected_preset", $profile['label_preset'], "string");
         $html->setVariable('type', $profile['label_type'], "integer");
+        $html->setVariable("generator", $generator_type, "string");
 
         //Show which label sizes are supported.
         $html->setLoop("supported_sizes", $generator_class::getSupportedSizes());

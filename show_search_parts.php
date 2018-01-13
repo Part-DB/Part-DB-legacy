@@ -119,6 +119,14 @@ try {
 
 if (! $fatal_error) {
     if (!$disable_pid_input) {
+        $matches = array();
+        if (preg_match('/^\$L(\d{5,})/', $keyword, $matches) == 1) {
+            if (count($matches) > 1) {
+                $lid = (integer) $matches[1];
+                header("Location: show_location_parts.php?lid=" . $lid);
+            }
+        }
+
         //Check if keyword is a pid from a barcode scanner or so
         //This is the case if the input only contains digits and is 8 or 9 chars long
         if (is_numeric($keyword) && (mb_strlen($keyword) == 7 || mb_strlen($keyword) == 8)) {

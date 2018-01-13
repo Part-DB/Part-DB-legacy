@@ -970,7 +970,7 @@ function buildToolsTree($params)
         $tools_nodes[] = treeviewNode(_("Import"), BASE_RELATIVE . "/tools_import.php");
     }
     if (!$disable_labels && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::LABELS)) {
-        $tools_nodes[] = treeviewNode(_("Labels"), BASE_RELATIVE . "/tools_labels.php");
+        $tools_nodes[] = treeviewNode(_("SMD Labels"), BASE_RELATIVE . "/tools_labels.php");
     }
     if (!$disable_calculator && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::CALCULATOR)) {
         $tools_nodes[] = treeviewNode(_("Widerstandsrechner"), BASE_RELATIVE . "/tools_calculator.php");
@@ -980,6 +980,9 @@ function buildToolsTree($params)
     }
     if ($footprint_3d_active && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::FOOTPRINTS)) {
         $tools_nodes[] = treeviewNode(_("3D Footprints"), BASE_RELATIVE . "/tools_3d_footprints.php");
+    }
+    if (!$disable_labels && $current_user->canDo(PermissionManager::LABELS, \PartDB\Permissions\LabelPermission::CREATE_LABELS)) {
+        $tools_nodes[] = treeviewNode(_("Labelgenerator"), BASE_RELATIVE . "/show_part_label.php");
     }
     if (!$disable_iclogos && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IC_LOGOS)) {
         $tools_nodes[] = treeviewNode(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");
