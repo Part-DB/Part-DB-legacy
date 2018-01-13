@@ -41,7 +41,8 @@ class ConfigPermission extends BasePermission
         $operations = array();
         $operations[] = static::buildOperationArray(0, static::READ_CONFIG, _("Konfiguration anzeigen"));
         $operations[] = static::buildOperationArray(2, static::EDIT_CONFIG, _("Konfiguration bearbeiten"));
-        $operations[] = static::buildOperationArray(4, static::CHANGE_ADMIN_PW, _("Administratorpassword ändern"));
+        //Dont use 4, this was for CHANGE_ADMIN_PW permission, that is not needed any more.
+        //$operations[] = static::buildOperationArray(4, static::CHANGE_ADMIN_PW, _("Administratorpassword ändern"));
         $operations[] = static::buildOperationArray(6, static::SERVER_INFO, _("Serverinformationen anzeigen"));
         return $operations;
     }
