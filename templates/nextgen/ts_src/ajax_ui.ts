@@ -309,10 +309,7 @@ class AjaxUI {
      */
     private tree_fill() {
         'use strict';
-
-        let node_handler = this.onNodeSelected;
-        let contextmenu_handler = this.onNodeContextmenu;
-
+        /*
         $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree : BootstrapTreeViewNodeData[]) {
             $("#tree-categories").treeview({data: tree, enableLinks: false, showIcon: false
                 ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
@@ -326,9 +323,30 @@ class AjaxUI {
         $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree :BootstrapTreeViewNodeData[]) {
             $('#tree-tools').treeview({data: tree, enableLinks: false, showIcon: false,
                 showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
-        });
+        });*/
+
+        this.initTree("#tree-categories", 'api.php/1.0.0/tree/categories');
+
+        this.initTree("#tree-devices", 'api.php/1.0.0/tree/devices');
+
+        this.initTree("#tree-tools", 'api.php/1.0.0/tree/tools');
 
         this.trees_filled = true;
+    }
+
+    /**
+     * Fill a treeview with data from the given url.
+     * @param tree The Jquery selector for the tree (e.g. "#tree-tools")
+     * @param url The url from where the data should be loaded
+     */
+    public initTree(tree, url) {
+        let node_handler = this.onNodeSelected;
+        let contextmenu_handler = this.onNodeContextmenu;
+
+        $.getJSON(BASE + url, function (data : BootstrapTreeViewNodeData[]) {
+            $(tree).treeview({data: data, enableLinks: false, showIcon: false
+                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
+        });
     }
 
 
@@ -767,13 +785,36 @@ function treeviewBtnInit() {
         $(this).parents("div.dropdown").removeClass('open');
         let mode = $(this).data("mode");
         let target = $(this).data("target");
+        let text = $(this).text() + " \n<span class='caret'></span>"; //Add caret or it will be removed, when written into title
 
-        if(mode==="collapse") {
+        if (mode==="collapse") {
             $('#' + target).treeview('collapseAll', { silent: true });
         }
         else if(mode==="expand") {
             $('#' + target).treeview('expandAll', { silent: true });
+        } else if(mode==="locations") {
+            ajaxui.initTree("#" + target, 'api.php/1.0.0/tree/locations');
+            $("#" + target + "-title").html(text);
+        } else if(mode==="categories") {
+            ajaxui.initTree("#" + target, 'api.php/1.0.0/tree/categories');
+            $("#" + target + "-title").html(text);
+        } else if(mode==="footprints") {
+            ajaxui.initTree("#" + target, 'api.php/1.0.0/tree/footprints');
+            $("#" + target + "-title").html(text);
+        } else if(mode==="manufacturers") {
+            ajaxui.initTree("#" + target, 'api.php/1.0.0/tree/manufacturers');
+            $("#" + target + "-title").html(text);
+        } else if(mode==="suppliers") {
+            ajaxui.initTree("#" + target, 'api.php/1.0.0/tree/suppliers');
+            $("#" + target + "-title").html(text);
+        } else if(mode=="tools") {
+            ajaxui.initTree("#" + target, 'api.php/1.0.0/tree/tools');
+            $("#" + target + "-title").html(text);
+        } else if(mode=="devices") {
+            ajaxui.initTree("#" + target, 'api.php/1.0.0/tree/devices');
+            $("#" + target + "-title").html(text);
         }
+
         return false;
     });
 }
