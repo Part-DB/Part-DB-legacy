@@ -217,6 +217,10 @@ if (! $fatal_error) {
     $html->setVariable('popup_width', $config['popup']['width'], 'integer');
     $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 
+    //Barcode stuff
+    $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("location"));
+
+
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {
         $root_category = new Category($database, $current_user, $log, 0);
         $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, "", "c"));
@@ -233,6 +237,8 @@ if (! $fatal_error) {
         $root_location = new Storelocation($database, $current_user, $log, 0);
         $html->setVariable('storelocations_list', $root_location->buildHtmlTree(0, true, false, "", "s"));
     }
+
+    $html->setVariable('can_generate_barcode', $current_user->canDo(PermissionManager::LABELS, \PartDB\Permissions\LabelPermission::CREATE_LABELS));
 
     $html->setVariable('can_edit', $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
     $html->setVariable('can_delete', $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE));
