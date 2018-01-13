@@ -224,11 +224,6 @@ if (! $fatal_error) {
         $html->setVariable('git_commit', getGitCommitHash(10), 'string');
         $html->setVariable('partdb_title', $config['partdb_title'], 'string');
         $html->setVariable('must_change_pw', $current_user->getNeedPasswordChange());
-        $html->setVariable(
-            'must_change_admin_pw',
-            $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::CHANGE_ADMIN_PW)
-        && needChangeAdminPassword()
-        );
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     }

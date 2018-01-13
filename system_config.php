@@ -109,11 +109,6 @@ $foot3d_show_info           = isset($_REQUEST['foot3d_show_info']);
 //section "part properites"
 $properties_active          = isset($_REQUEST['properties_active']);
 
-// section "change administrator password"
-$current_admin_password     = isset($_REQUEST['current_admin_password'])    ? (string)$_REQUEST['current_admin_password']   : '';
-$new_admin_password_1       = isset($_REQUEST['new_admin_password_1'])      ? (string)$_REQUEST['new_admin_password_1']     : '';
-$new_admin_password_2       = isset($_REQUEST['new_admin_password_2'])      ? (string)$_REQUEST['new_admin_password_2']     : '';
-
 //Edit parts
 $created_redirect           = isset($_REQUEST['created_redirect']);
 $saved_redirect             = isset($_REQUEST['saved_redirect']);
@@ -145,9 +140,6 @@ $max_sessiontime                = isset($_REQUEST['max_sessiontime']) ? $_REQUES
 $action = 'default';
 if (isset($_REQUEST["apply"])) {
     $action = 'apply';
-}
-if (isset($_REQUEST["change_admin_password"])) {
-    $action = 'change_admin_password';
 }
 
 /********************************************************************************
@@ -277,25 +269,6 @@ if (! $fatal_error) {
                 $messages[] = array('text' => _('Fehlermeldung: '.nl2br($e->getMessage())), 'color' => 'red');
             }
             break;
-
-        case 'change_admin_password':
-            try {
-                $current_user->tryDo(PermissionManager::CONFIG, ConfigPermission::CHANGE_ADMIN_PW);
-                if ($config['is_online_demo']) {
-                    throw new Exception(_('Diese Funktion steht in der Online-Demo nicht zur Verfügung!'));
-                }
-
-                // set_admin_password() throws an exception if the old or the new passwords are not valid
-                setAdminPassword($current_admin_password, $new_admin_password_1, $new_admin_password_2, false);
-
-                saveConfig();
-
-                $messages[] = array('text' => _('Das neue Administratorpasswort wurde erfolgreich gespeichert.'), 'strong' => true, 'color' => 'darkgreen');
-            } catch (Exception $e) {
-                $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
-                $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
-            }
-            break;
     }
 }
 
@@ -415,7 +388,6 @@ if (! ownSetlocale(LC_ALL, $config['language'])) {
 $html->setVariable('can_infos', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::SERVER_INFO));
 $html->setVariable('can_edit', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::EDIT_CONFIG));
 $html->setVariable('can_read', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::READ_CONFIG));
-$html->setVariable('can_password', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::CHANGE_ADMIN_PW));
 
 /********************************************************************************
  *

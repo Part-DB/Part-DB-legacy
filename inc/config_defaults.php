@@ -119,7 +119,8 @@ $config['debug']['template_debugging_enable']           = false;
 $config['debug']['request_debugging_enable']            = false;
 
 // admin settings
-$config['admin']['password']                            = null; // NULL means "not yet initialized" (important for "install.php")
+//$config['admin']['password']                            = null; // NULL means "not yet initialized" (important for "install.php")
+$config['admin']['tmp_password']                        = null;
 
 // installation complete steps (can also be used for updates, for example if a user input is needed for an update)
 // if at least one of them is 'false', the installer will be shown automatically
@@ -233,7 +234,7 @@ $config['db_charsets']['utf8']                          = 'UTF-8 Unicode (utf8)'
 //$config['db_charsets']['macce']                         = 'Mac Central European (macce)';
 
 // languages (the key is used for "setlocale()", the value is only used for displaying)
-$config['languages']['POSIX']                           = '[POSIX] C-Standard';
+//$config['languages']['POSIX']                           = '[POSIX] C-Standard';  //Disabled, because it caused some bugs with Slim... Enable only when needed.
 $config['languages']['de_AT']                           = '[de_AT] Deutsch (Österreich)';
 $config['languages']['de_BE']                           = '[de_BE] Deutsch (Belgien)';
 $config['languages']['de_CH']                           = '[de_CH] Deutsch (Schweiz)';

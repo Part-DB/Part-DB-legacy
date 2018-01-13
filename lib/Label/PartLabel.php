@@ -116,36 +116,36 @@ class PartLabel extends BaseLabel
         //Preset A: format like label generator from F. Thiessen
         //Link: http://fthiessen.de/part-db-etiketten-drucken/
         $lines = array();
-        $lines[] = "<b>%name%</b> - %cat%";
-        $lines[] = "%storeloc%";
-        $lines[] = "%foot%";
-        $lines[] = "%order_nr% - %supplier%";
+        $lines[] = "<h3>%NAME% - %CAT%</h3>";
+        $lines[] = "%STORELOC%";
+        $lines[] = "%FOOT%";
+        $lines[] = "%ORDER_NR% - %SUPPLIER%";
         $presets[] = array("name" => "Preset A", "lines" => $lines);
 
         //Preset B: Like A, full storelocation path
         $lines = array();
-        $lines[] = "<b>%name%</b> - %cat%";
-        $lines[] = "%storeloc_full%";
-        $lines[] = "%foot%";
-        $lines[] = "%order_nr% - %supplier%";
+        $lines[] = "<h3>%NAME% - %CAT%</h3>";
+        $lines[] = "%STORELOC_FULL%";
+        $lines[] = "%FOOT%";
+        $lines[] = "%ORDER_NR% - %SUPPLIER%";
         $presets[] = array("name" => "Preset B", "lines" => $lines);
 
         //Presets C: Show description in second line, Order infos may be cutted...
         $lines = array();
-        $lines[] = "<b>%name%</b> - %cat%";
-        $lines[] = "%desc%";
-        $lines[] = "%storeloc%";
-        $lines[] = "%foot%";
-        $lines[] = "%order_nr% - %supplier%";
+        $lines[] = "<h3>%NAME% - %CAT%</h3>";
+        $lines[] = "%DESC%";
+        $lines[] = "%STORELOC%";
+        $lines[] = "%FOOT%";
+        $lines[] = "%ORDER_NR% - %SUPPLIER%";
         $presets[] = array("name" => "Preset C", "lines" => $lines);
 
         //Presets C: With labels
         $lines = array();
-        $lines[] = "BAUTEIL : %name% - %cat%";
-        $lines[] = "LAGER   : %storeloc%";
-        $lines[] = "GEHÄUSE : %foot%";
-        $lines[] = "BEST-NR : %order_nr% - %supplier%";
-        $presets[] = array("name" => "Preset D", "lines" => $lines);;
+        $lines[] = "BAUTEIL : %NAME% - %CAT%";
+        $lines[] = "LAGER   : %STORELOC%";
+        $lines[] = "GEHÄUSE : %FOOT%";
+        $lines[] = "BEST-NR : %ORDER_NR% - %SUPPLIER%";
+        $presets[] = array("name" => "Preset D", "lines" => $lines);
 
         return $presets;
     }
@@ -156,7 +156,7 @@ class PartLabel extends BaseLabel
      */
     public static function getSupportedSizes()
     {
-        return array(static::SIZE_50x30, static::SIZE_62x30);
+        return array(static::SIZE_50X30, static::SIZE_62X30);
     }
 
     /**
@@ -165,6 +165,6 @@ class PartLabel extends BaseLabel
      */
     public static function getSupportedTypes()
     {
-        return array(static::TYPE_BARCODE);
+        return array(static::TYPE_BARCODE, static::TYPE_TEXT);
     }
 }

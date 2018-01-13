@@ -337,6 +337,9 @@ if (! $fatal_error) {
         // global/category stuff
         $html->setVariable('disable_footprints', ($config['footprints']['disable'] || $category->getDisableFootprints(true)), 'boolean');
         $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
+
+        //Barcode stuff
+        $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("part"));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -356,6 +359,7 @@ $html->setVariable('can_attachement_create', $current_user->canDo(PermissionMana
 $html->setVariable('can_order_edit', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT), "bool");
 $html->setVariable('can_order_read', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ), "bool");
 $html->setVariable('can_devicepart_create', $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
+$html->setVariable('can_generate_barcode', $current_user->canDo(PermissionManager::LABELS, \PartDB\Permissions\LabelPermission::CREATE_LABELS));
 
 /********************************************************************************
  *
