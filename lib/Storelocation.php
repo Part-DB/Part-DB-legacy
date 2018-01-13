@@ -37,7 +37,7 @@ use PartDB\Permissions\PermissionManager;
  * All elements of this class are stored in the database table "storelocations".
  * @author kami89
  */
-class Storelocation extends Base\PartsContainingDBElement implements Interfaces\IAPIModel, ISearchable
+class Storelocation extends Base\PartsContainingDBElement implements Interfaces\IAPIModel, ISearchable, Interfaces\ILabel
 {
     /********************************************************************************
      *
@@ -243,5 +243,70 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
     protected static function getPermissionName()
     {
         return PermissionManager::STORELOCATIONS;
+    }
+
+    /**
+     * Gets the content for a 1D/2D barcode for this part
+     * @param string $barcode_type the type of the barcode ("EAN8" or "QR")
+     * @return string
+     * @throws Exception An Exception is thrown if you selected a unknown barcode type.
+     */
+    public function getBarcodeContent($barcode_type = "C39")
+    {
+        switch ($barcode_type) {
+            case "C39":
+                $code = (string) $this->getID();
+                while (strlen($code) < 5) {
+                    $code = '0' . $code;
+                }
+                return '$L' . $code;
+
+            case "QR":
+                return "Part-DB; Part: " . $this->getID();
+
+            default:
+                throw new Exception(_("Label type unknown: ").$barcode_type);
+        }
+    }
+
+    /**
+     * Replaces Placeholder strings like %id% or %name% with their corresponding Part properties.
+     * Note: If the given Part does not have a property, it will be replaced with "".
+     *
+     * %id%         : Part id
+     * %name%       : Name of the part
+     * %desc%       : Description of the part
+     * %comment%    : Comment to the part
+     * %mininstock% : The minium in stock value
+     * %instock%    : The current in stock value
+     * %avgprice%   : The average price of this part
+     * %cat%        : The name of the category the parts belongs to
+     * %cat_full%   : The full path of the parts category
+     *
+     * @param string $string The string on which contains the placeholders
+     * @return string the
+     */
+    function replacePlaceholderWithInfos($string)
+    {
+        //General infos
+        $string = str_replace("%ID%", $this->getID(), $string);                        //part id
+        $string = str_replace("%NAME%", $this->getName(), $string);                    //Name of the part
+        $string = str_replace("%COMMENT%", $this->getComment(), $string);              //comment of the storelocation
+        $string = str_replace("%FULL_PATH%", $this->getFullPath(), $string);              //comment of the part
+
+        $parent = new Storelocation($this->database, $this->current_user, $this->log, $this->getParentID());
+        $string = str_replace("%PARENT_NAME%", ($this->getParentID() != 0) ? $parent->getName() : "", $string);              //name of the parent storelocation
+        $string = str_replace("%PARENT_FULL_PATH%", ($this->getParentID() != 0) ? $parent->getFullPath() : "", $string);              //fullpath of the parent storelocation
+
+        $string = str_replace("%IS_FULL%", $this->getIsFull() ? _("Ja") : _("Nein"), $string);
+        $string = str_replace("%PARTS_COUNT%", $this->getPartsCount(false), $string);
+
+
+        //Remove single '-' without other infos
+        if (trim($string) == "-") {
+            $string = "";
+        }
+
+        return $string;
     }
 }
