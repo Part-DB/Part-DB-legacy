@@ -420,44 +420,6 @@
     </div>
 {/if}
 
-{if $can_password}
-    <div class="panel panel-default">
-        <div class="panel-heading">
-            <i class="fa fa-lock" aria-hidden="true"></i>
-            {t}Administratorpasswort ändern{/t}
-        </div>
-        <div class="panel-body">
-            <form class="form-horizontal no-progbar" method="post">
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="current_admin_password">{t}Aktuelles Passwort:{/t}</label>
-                    <div class="col-sm-10">
-                        <input class="form-control" type="password" name="current_admin_password" {if $is_online_demo}disabled{/if} required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="new_admin_password_1" class="col-sm-2 control-label">{t}Neues Passwort:{/t}</label>
-                    <div class="col-sm-10">
-                        <input type="password"  class="form-control" name="new_admin_password_1" {if $is_online_demo}disabled{/if} required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label class="control-label col-sm-2" for="new_admin_password_2">{t}Neues Passwort (Wiederholung):{/t}</label>
-                    <div class="col-sm-10">
-                        <input type="password" class="form-control" name="new_admin_password_2" {if $is_online_demo}disabled{/if} required>
-                    </div>
-                </div>
-
-                <div class="col-sm-offset-2">
-                    <button type="submit" class="btn btn-success" name="change_admin_password" {if $is_online_demo}disabled{/if}>{t}Passwort ändern{/t}</button>
-                </div>
-
-            </form>
-        </div>
-    </div>
-{/if}
-
 {if !$is_online_demo && $can_infos}
     <div class="panel panel-default">
         <div class="panel-heading">
