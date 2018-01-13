@@ -20,6 +20,34 @@
                     </div>
                 </div>
             </form>
+
+            {if $can_generate_barcode}
+                <form action="show_part_label.php" method="get" class="form-horizontal">
+                    <div class="form-group">
+                        <input type="hidden" name="label_generate">
+                        <input type="hidden" name="generator" value="location">
+                        <input type="hidden" name="id" value="{$lid}">
+
+                        <div class="col-md-10">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
+                                    {t}Barcode erzeugen{/t}</button>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+
+                                <ul class="dropdown-menu dropdown-menu-right" id="label-dropdown">
+                                    {foreach $barcode_profiles as $profile}
+                                        <li><a href="#" class="link-anchor" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
+                                            <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="hidden">{$profile}</button></li>
+                                    {/foreach}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            {/if}
         </div>
     </div>
 {/if}
@@ -73,6 +101,35 @@
                     </div>
                 </div>
             </form>
+
+            {if $can_generate_barcode}
+                <form action="show_part_label.php" method="get" class="form-horizontal">
+                    <div class="form-group">
+                        <input type="hidden" name="label_generate">
+                        <input type="hidden" name="generator" value="location">
+                        <input type="hidden" name="id" value="{$lid}">
+
+                        <div class="col-md-10">
+                            <div class="btn-group">
+                                <button type="submit" class="btn btn-default"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
+                                    {t}Barcode erzeugen{/t}</button>
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <span class="caret"></span>
+                                    <span class="sr-only">Toggle Dropdown</span>
+                                </button>
+
+                                <ul class="dropdown-menu dropdown-menu-right" id="label-dropdown">
+                                    {foreach $barcode_profiles as $profile}
+                                        <li><a href="#" class="link-anchor" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
+                                            <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="hidden">{$profile}</button></li>
+                                    {/foreach}
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            {/if}
+
         </div>
     </div>
 {/if}
