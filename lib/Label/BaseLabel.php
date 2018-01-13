@@ -195,7 +195,7 @@ abstract class BaseLabel
                 'font' => 'helvetica',
                 'fontsize' => 8 );
 
-            switch($this->type) {
+            switch ($this->type) {
                 case static::TYPE_BARCODE:
                     $type = "EAN8";
                     $width = "";
