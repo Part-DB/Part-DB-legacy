@@ -46,7 +46,6 @@ $db_host                    = isset($_REQUEST['db_host'])        ? (string)$_REQ
 $db_name                    = isset($_REQUEST['db_name'])        ? (string)$_REQUEST['db_name']              : '';
 $db_user                    = isset($_REQUEST['db_user'])        ? (string)$_REQUEST['db_user']              : '';
 $db_password                = isset($_REQUEST['db_password'])    ? trim((string)$_REQUEST['db_password'])    : '';
-$admin_password             = isset($_REQUEST['admin_password']) ? trim((string)$_REQUEST['admin_password']) : '';
 $automatic_updates_enabled  = isset($_REQUEST['automatic_updates_enabled']);
 
 $action = 'default';
@@ -96,10 +95,6 @@ if (true) { //Allow to save connection settings, even when a error happened.
 
                 if ($config['is_online_demo']) {
                     break;
-                }
-
-                if (!isAdminPassword($admin_password)) {
-                    throw new Exception(_('Das Administratorpasswort ist falsch!'));
                 }
 
                 $config['db']['type'] = $db_type;

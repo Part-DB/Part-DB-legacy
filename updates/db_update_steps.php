@@ -833,7 +833,16 @@ EOD;
 
             //Create user admin and anonymous (admin PW is: "admin" (without quotes)).
 
-            $updateSteps[] = <<<'EOD'
+            global $config;
+
+            $admin_pw = "$2y$10$36AnqCBS.YnHlVdM4UQ0oOCV7BjU7NmE0qnAVEex65AyZw1cbcEjq";
+
+            if (isset($config['admin']['tmp_password']) && $config['admin']['tmp_password'] != "") {
+                //If a password was set during installation, then use the hash, that was created then.
+                $admin_pw = $config['admin']['tmp_password'];
+            }
+
+            $updateSteps[] = <<<EOD
             INSERT INTO `users`
             (`id`,`name`,`password`,`first_name`,`last_name`,`department`,
              `email`,
@@ -854,11 +863,16 @@ EOD;
              21840,21840,21840,21840,21840,21520,21520,21520,20480,21520,20480,
              20480,20480,20480,20480,21504,20480),
               (
-              2,'admin','$2y$10$36AnqCBS.YnHlVdM4UQ0oOCV7BjU7NmE0qnAVEex65AyZw1cbcEjq','','',
+              2,'admin', '$admin_pw','','',
               '','',1,1,21845,21845,21845,21,85,21,349525,21845,21845,21845,21845
               ,21845,21845,21845,21845,21845,21845,21845,21845,21845,21845,21845,
               21845,21845,21845,21845,21845,21845); 
 EOD;
+
+            //Remove admin hash from config.php
+            $config['admin']['tmp_password'] = null;
+            saveConfig();
+
             //Break is Important!
             break;
 

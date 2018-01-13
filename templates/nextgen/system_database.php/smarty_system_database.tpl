@@ -128,14 +128,6 @@
                 </div>
 
                 <div class="form-group">
-                    <label class="control-label col-sm-3">{t}Administratorpasswort:{/t}</label>
-                    <div class="col-sm-9">
-                        <input type="password" class="form-control" name="admin_password"
-                               value="" {if !$can_edit_db_settings}disabled{/if}>
-                    </div>
-                </div>
-
-                <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
                         <button type="submit" class="btn btn-primary" name="apply_connection_settings"
                                 {if $is_online_demo}disabled{/if} {if !$can_edit_db_settings}disabled{/if}>

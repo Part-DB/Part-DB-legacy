@@ -128,7 +128,7 @@ if (! $fatal_error) {
         case 'save_admin_password':
             try {
                 // set_admin_password() throws an exception if the new passwords are not valid
-                setAdminPassword(null, $adminpass_1, $adminpass_2, false);
+                setTempAdminPassword($adminpass_1, $adminpass_2, false);
 
                 $config['installation_complete']['admin_password'] = true; // admin password successful set
             } catch (Exception $e) {
