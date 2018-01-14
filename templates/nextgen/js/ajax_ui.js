@@ -258,9 +258,28 @@ var AjaxUI = /** @class */ (function () {
             $('#tree-tools').treeview({data: tree, enableLinks: false, showIcon: false,
                 showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
         });*/
+        /*
         this.initTree("#tree-categories", 'api.php/1.0.0/tree/categories');
+
         this.initTree("#tree-devices", 'api.php/1.0.0/tree/devices');
+
         this.initTree("#tree-tools", 'api.php/1.0.0/tree/tools');
+        */
+        var categories = Cookies.get("tree_datasource_tree-categories");
+        var devices = Cookies.get("tree_datasource_tree-devices");
+        var tools = Cookies.get("tree_datasource_tree-tools");
+        if (typeof categories == "undefined") {
+            categories = "categories";
+        }
+        if (typeof devices == "undefined") {
+            devices = "devices";
+        }
+        if (typeof tools == "undefined") {
+            tools = "tools";
+        }
+        this.treeLoadDataSource("tree-categories", categories);
+        this.treeLoadDataSource("tree-devices", devices);
+        this.treeLoadDataSource("tree-tools", tools);
         this.trees_filled = true;
     };
     /**
@@ -275,6 +294,40 @@ var AjaxUI = /** @class */ (function () {
             $(tree).treeview({ data: data, enableLinks: false, showIcon: false,
                 showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
         });
+    };
+    AjaxUI.prototype.treeLoadDataSource = function (target_id, datasource) {
+        var text = $(".tree-btns[data-mode='" + datasource + "']").html();
+        text = text + " \n<span class='caret'></span>"; //Add caret or it will be removed, when written into title
+        switch (datasource) {
+            case "categories":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/categories');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "locations":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/locations');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "footprints":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/footprints');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "manufacturers":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/manufacturers');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "suppliers":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/suppliers');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "tools":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/tools');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "devices":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/devices');
+                $("#" + target_id + "-title").html(text);
+                break;
+        }
     };
     /**
      * Update the treeviews.
@@ -661,33 +714,9 @@ function treeviewBtnInit() {
         else if (mode === "expand") {
             $('#' + target).treeview('expandAll', { silent: true });
         }
-        else if (mode === "locations") {
-            ajaxui.initTree("#" + target, 'api.php/1.0.0/tree/locations');
-            $("#" + target + "-title").html(text);
-        }
-        else if (mode === "categories") {
-            ajaxui.initTree("#" + target, 'api.php/1.0.0/tree/categories');
-            $("#" + target + "-title").html(text);
-        }
-        else if (mode === "footprints") {
-            ajaxui.initTree("#" + target, 'api.php/1.0.0/tree/footprints');
-            $("#" + target + "-title").html(text);
-        }
-        else if (mode === "manufacturers") {
-            ajaxui.initTree("#" + target, 'api.php/1.0.0/tree/manufacturers');
-            $("#" + target + "-title").html(text);
-        }
-        else if (mode === "suppliers") {
-            ajaxui.initTree("#" + target, 'api.php/1.0.0/tree/suppliers');
-            $("#" + target + "-title").html(text);
-        }
-        else if (mode == "tools") {
-            ajaxui.initTree("#" + target, 'api.php/1.0.0/tree/tools');
-            $("#" + target + "-title").html(text);
-        }
-        else if (mode == "devices") {
-            ajaxui.initTree("#" + target, 'api.php/1.0.0/tree/devices');
-            $("#" + target + "-title").html(text);
+        else {
+            Cookies.set("tree_datasource_" + target, mode);
+            ajaxui.treeLoadDataSource(target, mode);
         }
         return false;
     });
