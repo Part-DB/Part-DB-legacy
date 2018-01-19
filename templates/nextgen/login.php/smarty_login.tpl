@@ -38,7 +38,7 @@
             <div class="panel-heading"><h4><i class="fa fa-sign-in-alt" aria-hidden="true"></i>
                     {t}Login{/t}</h4></div>
             <div class="panel-body">
-                <form action="login.php" class="form-horizontal no-progbar" method="post">
+                <form class="form-horizontal no-progbar" method="post">
 
                     <div class="form-group">
                         <label class="control-label col-md-2">{t}Benutzername:{/t}</label>

@@ -507,6 +507,12 @@ class AjaxUI {
         let i = this.xhrPool.indexOf(xhr);   //  get index for current connection completed
         if (i > -1) this.xhrPool.splice(i, 1); //  removes from list by index
 
+        let url = settings.url;
+        //Ignore all API Ajax requests.
+        if (url.indexOf("api.php") != -1) {
+           return;
+        }
+
         //Hide progressbar and show Result
         $('#progressbar').hide(0);
         $('#content').fadeIn("fast");
@@ -517,7 +523,7 @@ class AjaxUI {
 
         this.fillTypeahead();
 
-        let url = settings.url;
+
 
         if(url.indexOf("#") != -1)
         {
@@ -543,6 +549,9 @@ class AjaxUI {
 
             //Push the cleaned (no ajax request) to history
             window.history.pushState(null, "", removeURLparam(settings.url, "ajax"));
+
+            //Update redirect param in login link:
+            $("#login-link").attr("href", "login.php?redirect=" + encodeURIComponent(url));
 
             //Set page title from response
             let input : string = xhr.responseText;

@@ -411,6 +411,11 @@ var AjaxUI = /** @class */ (function () {
         var i = this.xhrPool.indexOf(xhr); //  get index for current connection completed
         if (i > -1)
             this.xhrPool.splice(i, 1); //  removes from list by index
+        var url = settings.url;
+        //Ignore all API Ajax requests.
+        if (url.indexOf("api.php") != -1) {
+            return;
+        }
         //Hide progressbar and show Result
         $('#progressbar').hide(0);
         $('#content').fadeIn("fast");
@@ -418,7 +423,6 @@ var AjaxUI = /** @class */ (function () {
         this.registerLinks();
         this.registerSubmitBtn();
         this.fillTypeahead();
-        var url = settings.url;
         if (url.indexOf("#") != -1) {
             var hash = url.substring(url.indexOf("#"));
             scrollToAnchor(hash);
@@ -436,6 +440,8 @@ var AjaxUI = /** @class */ (function () {
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
             //Push the cleaned (no ajax request) to history
             window.history.pushState(null, "", removeURLparam(settings.url, "ajax"));
+            //Update redirect param in login link:
+            $("#login-link").attr("href", "login.php?redirect=" + encodeURIComponent(url));
             //Set page title from response
             var input = xhr.responseText;
             var title = extractTitle(input);

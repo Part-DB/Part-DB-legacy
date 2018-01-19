@@ -734,7 +734,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 
             //Only show, if the user is not logged in.
             if ($this->getID() == static::ID_ANONYMOUS) {
-                $str .= _('<br><br>Bitte loggen sie sich ein:') . ' <a href="login.php">' . _('Login'). '</a>';
+                $str .= _('<br><br>Bitte loggen sie sich ein:') . ' <a href="login.php?redirect=' . urlencode($_SERVER["REQUEST_URI"]) . '">' . _('Login'). '</a>';
             }
             throw new UserNotAllowedException($str);
         }
