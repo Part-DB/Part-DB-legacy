@@ -620,7 +620,9 @@ if (! $fatal_error) {
                 $part->delete($delete_files_from_hdd);
                 $part = null;
                 $messages[] = array('text' => _('Das Bauteil wurde erfolgreich gelöscht!'), 'strong' => true, 'color' => 'darkgreen');
-                $messages[] = array('html' => '<br><a class="btn btn-primary" href="startup.php">'._('Fenster schliessen').'</a>');
+                $close_url = !empty($_SESSION["part_delete_last_link"]) ? $_SESSION["part_delete_last_link"] : "startup.php";
+                $messages[] = array('html' => '<br><a class="btn btn-primary" href="' . $close_url .'">'._('Fenster schliessen').'</a>');
+                $messages[] = array('html' => '<a class="btn link" href="startup.php">'._('Startseite aufrufen').'</a>');
                 $fatal_error = true; // there is no error, but we cannot display the part infos because the part exists no longer :-)
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
