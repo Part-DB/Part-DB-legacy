@@ -30,6 +30,8 @@ $user_name = isset($_REQUEST['username']) ? $_REQUEST['username'] : "";
 $password = isset($_REQUEST['password']) ? $_REQUEST['password']: "";
 $logout   = isset($_REQUEST['logout']);
 
+$redirect_url = isset($_REQUEST['redirect']) ? $_REQUEST['redirect'] : "";
+
 $messages = array();
 $fatal_error = false;
 
@@ -79,8 +81,10 @@ if (!$fatal_error) {
             }
             break;
         case "redirect":
-            //Redirect to user settings, when user needs to change password.
-            if (User::getLoggedInUser()->getNeedPasswordChange()) {
+            if ($redirect_url != "") {
+                //We need to remove Part-DB/ part, because PHP_URI_REQUEST contains it...
+                $html->redirect(str_replace(BASE_RELATIVE . "/", "", $redirect_url));
+            } else if (User::getLoggedInUser()->getNeedPasswordChange()) { //Redirect to user settings, when user needs to change password.
                 $html->redirect("user_settings.php");
             } else { //Else redirect to start page.
                 $html->redirect("startup.php");
