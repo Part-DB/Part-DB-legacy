@@ -1630,6 +1630,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'mountnames_edit': // for DevicePart Objects
                     // nothing to do, only to avoid the Exception in the default-case
                     break;
+                case "last_modified":
+                    $row_field['last_modified'] = $this->getLastModified(true);
+                    break;
+                case "created":
+                    $row_field['created'] = $this->getDatetimeAdded(true);
+                    break;
 
                 default:
                     throw new Exception('Unbekannte Tabellenspalte: "'.$caption.'". Überprüfen Sie die Einstellungen '.
@@ -2295,6 +2301,83 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $query =    'SELECT count(id) AS count from parts '.
             'WHERE instock = -2 '.
             'ORDER BY parts.name ASC';
+
+
+        $query_data = $database->query($query);
+
+        return $query_data[0]['count'];
+    }
+
+    /**
+     *  Get all parts sorted by their last modified datetime.
+     *
+     * @param Database  &$database          reference to the database object
+     * @param User      &$current_user      reference to the user which is logged in
+     * @param Log       &$log               reference to the Log-object
+     * @param bool      $newest_first       When this is set to true, newest modified parts are first (DESC sorting).
+     *                                      Set to false for (ASC sorting)
+     *
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public static function getLastModifiedParts(&$database, &$current_user, &$log, $newest_first = true, $limit = 50, $page = 1)
+    {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
+            return array();
+        }
+
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt!'));
+        }
+
+        $sorting = $newest_first ? "DESC" : "ASC";
+
+        $parts = array();
+
+        $query =    'SELECT * from parts '.
+            'ORDER BY parts.last_modified ' . $sorting;
+
+        if ($limit > 0 && $page > 0) {
+            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+        }
+
+        $query_data = $database->query($query);
+
+        foreach ($query_data as $row) {
+            $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
+        }
+
+        return $parts;
+    }
+
+    /**
+     *  Get all parts which have an unknown instock value.
+     *
+     * @param Database  &$database          reference to the database object
+     * @param User      &$current_user      reference to the user which is logged in
+     * @param Log       &$log               reference to the Log-object
+     *
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public static function getLastModifiedPartsCount(&$database, &$current_user, &$log, $newest_first = true)
+    {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
+            return array();
+        }
+
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt!'));
+        }
+
+        $sorting = $newest_first ? "DESC" : "ASC";
+
+        $parts = array();
+
+        $query =    'SELECT count(id) AS count from parts '.
+            'ORDER BY parts.last_modified ' . $sorting;
 
 
         $query_data = $database->query($query);

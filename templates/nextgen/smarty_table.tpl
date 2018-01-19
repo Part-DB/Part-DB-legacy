@@ -68,6 +68,8 @@
                         {if $col.caption=="supplier_partnrs"}<th>{t escape=no}Bestell-<br>nummern{/t}</th>{/if}
                         {if $col.caption=="supplier_partnr_edit"}<th class="no-sort">{t escape=no}Bestell-<br>nummer{/t}</th>{/if} {*  only for import parts  *}
                         {if $col.caption=="attachements"}<th>{t}Dateianhänge{/t}</th>{/if}
+                        {if $col.caption=="last_modified"}<th>{t}Zuletzt bearbeitet{/t}</th>{/if}
+                        {if $col.caption=="created"}<th>{t}Erstellt{/t}</th>{/if}
                         {if $col.caption=="systemupdate_from_version"}<th class="no-sort">{t}Von Version{/t}</th>{/if}
                         {if $col.caption=="systemupdate_to_version" }<th class="no-sort">{t}Auf Version{/t}</th>{/if}
                         {if $col.caption=="systemupdate_release_date"}<th class="no-sort">{t}Veröffentlichung{/t}</th>{/if}
@@ -390,6 +392,14 @@
                             {/foreach}
                             <div></div>
                         </td>
+                    {/if}
+                    {if $row.caption == "last_modified"}
+                        {* description *}
+                        <td class="tdrow1">{$row.last_modified}</td>
+                    {/if}
+                    {if $row.caption == "created"}
+                        {* description *}
+                        <td class="tdrow1">{$row.created}</td>
                     {/if}
                     {if $row.caption == "systemupdate_from_version"}
                         {* only for systemupdates *}
