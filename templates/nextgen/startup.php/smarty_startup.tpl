@@ -7,11 +7,9 @@
                 <i class="fas fa-exclamation fa-5x " style="text-align: center; width: 1em;"></i>
             </div>
             <div class="col-md-11">
-                <p>
                     <h4>{t}Password Änderung erforderlich!{/t}</h4>
                     <strong>{t}Aus Sicherheitsgründen müssen sie ihr Password ändern.{/t}</strong>
                     <p>{t escape=false}Besuchen sie hierzu in die <a href="user_settings.php">Benutzeinstellungen</a>.{/t}</p>
-                </p>
             </div>
         </div>
     </div>

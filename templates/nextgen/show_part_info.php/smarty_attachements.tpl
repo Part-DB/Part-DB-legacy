@@ -13,7 +13,8 @@
                 {foreach $attach_type.attachements_loop as $attach}
                     {if $attach.is_picture}
                         <a target="_blank" rel="noopener" href="{$attach.filename}" class="link-datasheet"">
-                        <img src="{$attach.filename}" data-title="{$attach.attachement_name|escape}" class="img-attachement" rel="popover"></a>
+                            <img src="{$attach.filename}" data-title="{$attach.attachement_name|escape}" class="img-attachement" rel="popover">
+                        </a>
                     {else}
                         <a target="_blank" rel="noopener" href="{$attach.filename}" class="link-external">{$attach.attachement_name}</a><br>
                     {/if}

@@ -223,12 +223,16 @@ if (! $fatal_error) {
     }
 }
 
-$html->setVariable("can_delete", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::DELETE));
-$html->setVariable("can_edit", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::EDIT));
-$html->setVariable("can_create", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::CREATE));
-$html->setVariable("can_move", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::MOVE));
-$html->setVariable("can_read", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ));
-
+try {
+    $html->setVariable("can_delete", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::DELETE));
+    $html->setVariable("can_edit", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::EDIT));
+    $html->setVariable("can_create", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::CREATE));
+    $html->setVariable("can_move", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::MOVE));
+    $html->setVariable("can_read", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ));
+} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+    $fatal_error = true;
+}
 /********************************************************************************
  *
  *   Generate HTML Output

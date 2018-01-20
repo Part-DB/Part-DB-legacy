@@ -276,117 +276,121 @@ if (! $fatal_error) {
  *
  *********************************************************************************/
 
+try {
 // http charset / theme
-$html->setLoop('http_charset_loop', arrayToTemplateLoop($config['http_charsets'], $config['html']['http_charset']));
-$html->setLoop('theme_loop', build_theme_loop());
-$html->setLoop('custom_css_loop', build_custom_css_loop());
+    $html->setLoop('http_charset_loop', arrayToTemplateLoop($config['http_charsets'], $config['html']['http_charset']));
+    $html->setLoop('theme_loop', build_theme_loop());
+    $html->setLoop('custom_css_loop', build_custom_css_loop());
 
 // locale settings
 
 //Convert timezonelist, to a format, we can use
-$timezones_raw = DateTimeZone::listIdentifiers();
-$timezones = array();
-foreach ($timezones_raw as $timezone) {
-    $timezones[$timezone] = $timezone;
-}
-$html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
-$html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
+    $timezones_raw = DateTimeZone::listIdentifiers();
+    $timezones = array();
+    foreach ($timezones_raw as $timezone) {
+        $timezones[$timezone] = $timezone;
+    }
+    $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
+    $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
 
 // checkboxes
-$html->setVariable('disable_updatelist', $config['startup']['disable_update_list'], 'boolean');
-$html->setVariable('disable_search_warning', $config['startup']['disable_search_warning'], 'boolean');
-$html->setVariable('disable_help', $config['menu']['disable_help'], 'boolean');
-$html->setVariable('disable_config', $config['menu']['disable_config'], 'boolean');
-$html->setVariable('enable_debug_link', $config['menu']['enable_debug'], 'boolean');
-$html->setVariable('disable_devices', $config['devices']['disable'], 'boolean');
-$html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
-$html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
-$html->setVariable('disable_labels', $config['menu']['disable_labels'], 'boolean');
-$html->setVariable('disable_calculator', $config['menu']['disable_calculator'], 'boolean');
-$html->setVariable('disable_iclogos', $config['menu']['disable_iclogos'], 'boolean');
-$html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
-$html->setVariable('disable_tools_footprints', $config['menu']['disable_footprints'], 'boolean');
-$html->setVariable('tools_footprints_autoload', $config['tools']['footprints']['autoload'], 'boolean');
-$html->setVariable('developer_mode_available', file_exists(BASE.'/development'), 'boolean');
-$html->setVariable('enable_developer_mode', $config['developer_mode'], 'boolean');
-$html->setVariable('enable_dokuwiki_write_perms', file_exists(DOKUWIKI_PERMS_FILENAME), 'boolean');
-$html->setVariable('use_old_datasheet_icons', $config['appearance']['use_old_datasheet_icons'], 'boolean');
+    $html->setVariable('disable_updatelist', $config['startup']['disable_update_list'], 'boolean');
+    $html->setVariable('disable_search_warning', $config['startup']['disable_search_warning'], 'boolean');
+    $html->setVariable('disable_help', $config['menu']['disable_help'], 'boolean');
+    $html->setVariable('disable_config', $config['menu']['disable_config'], 'boolean');
+    $html->setVariable('enable_debug_link', $config['menu']['enable_debug'], 'boolean');
+    $html->setVariable('disable_devices', $config['devices']['disable'], 'boolean');
+    $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
+    $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+    $html->setVariable('disable_labels', $config['menu']['disable_labels'], 'boolean');
+    $html->setVariable('disable_calculator', $config['menu']['disable_calculator'], 'boolean');
+    $html->setVariable('disable_iclogos', $config['menu']['disable_iclogos'], 'boolean');
+    $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
+    $html->setVariable('disable_tools_footprints', $config['menu']['disable_footprints'], 'boolean');
+    $html->setVariable('tools_footprints_autoload', $config['tools']['footprints']['autoload'], 'boolean');
+    $html->setVariable('developer_mode_available', file_exists(BASE . '/development'), 'boolean');
+    $html->setVariable('enable_developer_mode', $config['developer_mode'], 'boolean');
+    $html->setVariable('enable_dokuwiki_write_perms', file_exists(DOKUWIKI_PERMS_FILENAME), 'boolean');
+    $html->setVariable('use_old_datasheet_icons', $config['appearance']['use_old_datasheet_icons'], 'boolean');
 
 // popup settings
-$html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-$html->setVariable('popup_width', $config['popup']['width'], 'integer');
-$html->setVariable('popup_height', $config['popup']['height'], 'integer');
+    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
+    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 
 // site properties
-$html->setVariable('page_title', $config['partdb_title'], 'string');
-$html->setVariable('startup_banner', $config['startup']['custom_banner'], 'string');
+    $html->setVariable('page_title', $config['partdb_title'], 'string');
+    $html->setVariable('startup_banner', $config['startup']['custom_banner'], 'string');
 
 // server
-$html->setVariable('php_version', phpversion(), 'string');
-$html->setVariable('htaccess_works', (getenv('htaccessWorking')=='true'), 'boolean');
-$html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
-$html->setVariable('using_https', isUsingHTTPS(), 'boolean');
-$html->setVariable('max_input_vars', ini_get('max_input_vars'), 'string');
-$html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
-$html->setVariable('session_cookie_lifetime', ini_get('session.cookie_lifetime') > 0 ? ini_get('session.cookie_lifetime') . "s" : _("Bis zum Schließen des Browsers"), 'string');
-$html->setVariable('session_gc_maxlifetime', ini_get('session.gc_maxlifetime'), 'string');
+    $html->setVariable('php_version', phpversion(), 'string');
+    $html->setVariable('htaccess_works', (getenv('htaccessWorking') == 'true'), 'boolean');
+    $html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
+    $html->setVariable('using_https', isUsingHTTPS(), 'boolean');
+    $html->setVariable('max_input_vars', ini_get('max_input_vars'), 'string');
+    $html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
+    $html->setVariable('session_cookie_lifetime', ini_get('session.cookie_lifetime') > 0 ? ini_get('session.cookie_lifetime') . "s" : _("Bis zum Schließen des Browsers"), 'string');
+    $html->setVariable('session_gc_maxlifetime', ini_get('session.gc_maxlifetime'), 'string');
 
 //Part properties
-$html->setVariable('properties_active', $config['properties']['active'], 'boolean');
+    $html->setVariable('properties_active', $config['properties']['active'], 'boolean');
 
 // 3d Footprints
-$html->setVariable('foot3d_active', $config['foot3d']['active'], 'boolean');
-$html->setVariable('foot3d_show_info', $config['foot3d']['show_info'], 'boolean');
+    $html->setVariable('foot3d_active', $config['foot3d']['active'], 'boolean');
+    $html->setVariable('foot3d_show_info', $config['foot3d']['show_info'], 'boolean');
 
 // Edit Dialog settings
-$html->setVariable("created_redirect", $config['edit_parts']['created_go_to_info'], "boolean");
-$html->setVariable("saved_redirect", $config['edit_parts']['saved_go_to_info'], "boolean");
+    $html->setVariable("created_redirect", $config['edit_parts']['created_go_to_info'], "boolean");
+    $html->setVariable("saved_redirect", $config['edit_parts']['saved_go_to_info'], "boolean");
 
 // Appearance
-$html->setVariable('short_description', $config['appearance']['short_description'], 'boolean');
-$html->setVariable('others_panel_collapse', $config['other_panel']['collapsed'], "boolean");
-$html->setVariable('others_panel_position', $config['other_panel']['position'], "string");
+    $html->setVariable('short_description', $config['appearance']['short_description'], 'boolean');
+    $html->setVariable('others_panel_collapse', $config['other_panel']['collapsed'], "boolean");
+    $html->setVariable('others_panel_position', $config['other_panel']['position'], "string");
 
 //Table
-$html->setVariable('table_autosort', $config['table']['autosort'], 'boolean');
-$html->setVariable('default_subcat', $config['table']['default_show_subcategories'], 'boolean');
-$html->setVariable('default_limit', $config['table']['default_limit'], "int");
+    $html->setVariable('table_autosort', $config['table']['autosort'], 'boolean');
+    $html->setVariable('default_subcat', $config['table']['default_show_subcategories'], 'boolean');
+    $html->setVariable('default_limit', $config['table']['default_limit'], "int");
 
 //Attachements
-$html->setVariable("attachements_structure", $config['attachements']['folder_structure'], 'boolean');
-$html->setVariable('attachements_download', $config['attachements']['download_default'], 'boolean');
-$html->setVariable('attachements_show_name', $config['attachements']['show_name'], 'boolean');
-$html->setVariable('disable_suppliers', $config['suppliers']['disable'], 'boolean');
+    $html->setVariable("attachements_structure", $config['attachements']['folder_structure'], 'boolean');
+    $html->setVariable('attachements_download', $config['attachements']['download_default'], 'boolean');
+    $html->setVariable('attachements_show_name', $config['attachements']['show_name'], 'boolean');
+    $html->setVariable('disable_suppliers', $config['suppliers']['disable'], 'boolean');
 
 //Detail infos
-$html->setVariable('info_hide_actions', $config['part_info']['hide_actions'], 'boolean');
-$html->setVariable('info_hide_empty_orderdetails', $config['part_info']['hide_empty_orderdetails'], 'boolean');
-$html->setVariable('info_hide_empty_attachements', $config['part_info']['hide_empty_attachements'], 'boolean');
+    $html->setVariable('info_hide_actions', $config['part_info']['hide_actions'], 'boolean');
+    $html->setVariable('info_hide_empty_orderdetails', $config['part_info']['hide_empty_orderdetails'], 'boolean');
+    $html->setVariable('info_hide_empty_attachements', $config['part_info']['hide_empty_attachements'], 'boolean');
 
 //Misc
-$html->setVariable("downloads_enable", $config['allow_server_downloads'], 'boolean');
+    $html->setVariable("downloads_enable", $config['allow_server_downloads'], 'boolean');
 
 //Users
-$html->setVariable('gravatar_enable', $config['user']['avatars']['use_gravatar'], 'boolean');
-$html->setVariable('login_redirect', $config['user']['redirect_to_login'], 'boolean');
-$html->setVariable('gc_lifetime', $config['user']['gc_maxlifetime'], 'int');
+    $html->setVariable('gravatar_enable', $config['user']['avatars']['use_gravatar'], 'boolean');
+    $html->setVariable('login_redirect', $config['user']['redirect_to_login'], 'boolean');
+    $html->setVariable('gc_lifetime', $config['user']['gc_maxlifetime'], 'int');
 
 //Search
-$html->setVariable('livesearch_active', $config['search']['livesearch']);
-$html->setVariable('search_highlighting', $config['search']['highlighting']);
+    $html->setVariable('livesearch_active', $config['search']['livesearch']);
+    $html->setVariable('search_highlighting', $config['search']['highlighting']);
 
 // check if the server supports the selected language and print a warning if not
-if (! ownSetlocale(LC_ALL, $config['language'])) {
-    $messages[] = array('text' => _('Achtung:'), 'strong' => true, 'color' => 'red');
-    $messages[] = array('text' => sprintf(_('Die gewählte Sprache "%s" wird vom Server nicht unterstützt!'), $config['language']), 'color' => 'red', );
-    $messages[] = array('text' => _('Bitte installieren Sie diese Sprache oder wählen Sie eine andere.'), 'color' => 'red', );
-}
+    if (!ownSetlocale(LC_ALL, $config['language'])) {
+        $messages[] = array('text' => _('Achtung:'), 'strong' => true, 'color' => 'red');
+        $messages[] = array('text' => sprintf(_('Die gewählte Sprache "%s" wird vom Server nicht unterstützt!'), $config['language']), 'color' => 'red',);
+        $messages[] = array('text' => _('Bitte installieren Sie diese Sprache oder wählen Sie eine andere.'), 'color' => 'red',);
+    }
 
 //Permission variables
-$html->setVariable('can_infos', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::SERVER_INFO));
-$html->setVariable('can_edit', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::EDIT_CONFIG));
-$html->setVariable('can_read', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::READ_CONFIG));
-
+    $html->setVariable('can_infos', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::SERVER_INFO));
+    $html->setVariable('can_edit', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::EDIT_CONFIG));
+    $html->setVariable('can_read', $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::READ_CONFIG));
+} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+    $fatal_error = true;
+}
 /********************************************************************************
  *
  *   Generate HTML Output

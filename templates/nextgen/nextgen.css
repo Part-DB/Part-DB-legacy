@@ -307,7 +307,7 @@ a[target="_blank"].link-external:after {
     word-break: break-all;
 
     /* Non standard for webkit */
-    /*noinspection W3CssValidation*/
+    /*noinspection W3CssValidation,CssInvalidPropertyValue,CssOverwrittenProperties*/
     word-break: break-word;
 
     /*noinspection W3CssValidation*/

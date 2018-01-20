@@ -102,7 +102,9 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      *   Basic Methods
      *
-     *********************************************************************************/
+     ********************************************************************************
+     * @throws Exception
+     */
 
     public function setAttributes($new_values)
     {
@@ -227,6 +229,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * Get the link to the website of the article on the suppliers website
      *
      * @return string           the link to the article
+     * @throws Exception
      */
     public function getSupplierProductUrl()
     {
@@ -379,6 +382,9 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
 
     /**
      * @copydoc DBElement::check_values_validity()
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -469,6 +475,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * Returns a Array representing the current object.
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
+     * @throws Exception
      */
     public function getAPIArray($verbose = false)
     {

@@ -293,6 +293,7 @@ class Device extends Base\PartsContainingDBElement
      * @param bool $recursive
      * @param bool $hide_obsolet_and_zero
      * @return array|null
+     * @throws Exception
      */
     protected function getPartsWithoutPermCheck($recursive = false, $hide_obsolet_and_zero = false, $limit = 50, $page = 1)
     {
@@ -440,6 +441,7 @@ class Device extends Base\PartsContainingDBElement
 
     /**
      * @copydoc DBElement::check_values_validity()
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {

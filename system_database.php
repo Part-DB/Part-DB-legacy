@@ -160,15 +160,19 @@ if (true) { //Allow to save connection settings, even when a error happened.
  *
  *********************************************************************************/
 
-$html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
-$html->setLoop('db_type_loop', arrayToTemplateLoop($config['db_types'], $config['db']['type']));
-$html->setLoop('db_charset_loop', arrayToTemplateLoop($config['db_charsets'], $config['db']['charset']));
-$html->setVariable('db_host', $config['db']['host'], 'string');
-$html->setVariable('db_name', $config['db']['name'], 'string');
-$html->setVariable('db_user', $config['db']['user'], 'string');
-$html->setVariable('automatic_updates_enabled', $config['db']['auto_update'], 'boolean');
-$html->setVariable('refresh_navigation_frame', (isset($database_update_executed) && $database_update_executed), 'boolean');
-
+try {
+    $html->setVariable('is_online_demo', $config['is_online_demo'], 'boolean');
+    $html->setLoop('db_type_loop', arrayToTemplateLoop($config['db_types'], $config['db']['type']));
+    $html->setLoop('db_charset_loop', arrayToTemplateLoop($config['db_charsets'], $config['db']['charset']));
+    $html->setVariable('db_host', $config['db']['host'], 'string');
+    $html->setVariable('db_name', $config['db']['name'], 'string');
+    $html->setVariable('db_user', $config['db']['user'], 'string');
+    $html->setVariable('automatic_updates_enabled', $config['db']['auto_update'], 'boolean');
+    $html->setVariable('refresh_navigation_frame', (isset($database_update_executed) && $database_update_executed), 'boolean');
+} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+    $fatal_error = true;
+}
 if (! $fatal_error) {
     try {
         $current = $database->getCurrentVersion();
@@ -205,17 +209,22 @@ if (! $fatal_error) {
     }
 }
 
-$html->setVariable('hide_status', $fatal_error, 'boolean');
-if (isset($current_user) && is_object($current_user)) {
-    $html->setVariable('can_status', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::SEE_STATUS));
-    $html->setVariable('can_read_db_settings', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::READ_DB_SETTINGS));
-    $html->setVariable('can_update', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::UPDATE_DB));
-    $html->setVariable('can_edit_db_settings', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::WRITE_DB_SETTINGS));
-} else { //In case no user could be created (DB Error), then allow everything.
-    $html->setVariable('can_status', true);
-    $html->setVariable('can_read_db_settings', true);
-    $html->setVariable('can_update', true);
-    $html->setVariable('can_edit_db_settings', true);
+try {
+    $html->setVariable('hide_status', $fatal_error, 'boolean');
+    if (isset($current_user) && is_object($current_user)) {
+        $html->setVariable('can_status', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::SEE_STATUS));
+        $html->setVariable('can_read_db_settings', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::READ_DB_SETTINGS));
+        $html->setVariable('can_update', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::UPDATE_DB));
+        $html->setVariable('can_edit_db_settings', $current_user->canDo(PermissionManager::DATABASE, DatabasePermission::WRITE_DB_SETTINGS));
+    } else { //In case no user could be created (DB Error), then allow everything.
+        $html->setVariable('can_status', true);
+        $html->setVariable('can_read_db_settings', true);
+        $html->setVariable('can_update', true);
+        $html->setVariable('can_edit_db_settings', true);
+    }
+}  catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+    $fatal_error = true;
 }
 
 

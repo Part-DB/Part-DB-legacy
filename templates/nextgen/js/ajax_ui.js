@@ -584,6 +584,7 @@ function makeGreekInput() {
     });
     this.greek_once = true;
 }
+// noinspection JSUnusedGlobalSymbols
 function makeTypeAhead() {
     if ($("#models-search").length && !$("#models-search").hasClass("initialized")) {
         $("#models-search").addClass("initialized");

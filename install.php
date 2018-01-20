@@ -190,41 +190,47 @@ try {
  *********************************************************************************/
 
 if (! $fatal_error) {
-    // global variables
-    $html->setVariable('system_version', $system_version->asString(false, true, true, false), 'string');
-    $html->setVariable('system_version_full', $system_version->asString(false, false, false, true), 'string');
+    try {
+        // global variables
+        $html->setVariable('system_version', $system_version->asString(false, true, true, false), 'string');
+        $html->setVariable('system_version_full', $system_version->asString(false, false, false, true), 'string');
 
-    if (! $config['installation_complete']['locales']) {
-        // step "set_locales"
-        $tmpl_site_to_show = 'set_locales';
-        //Convert timezonelist, to a format, we can use
-        $timezones_raw = DateTimeZone::listIdentifiers();
-        $timezones = array();
-        foreach ($timezones_raw as $timezone) {
-            $timezones[$timezone] = $timezone;
+        if (!$config['installation_complete']['locales']) {
+            // step "set_locales"
+            $tmpl_site_to_show = 'set_locales';
+            //Convert timezonelist, to a format, we can use
+            $timezones_raw = DateTimeZone::listIdentifiers();
+            $timezones = array();
+            foreach ($timezones_raw as $timezone) {
+                $timezones[$timezone] = $timezone;
+            }
+            $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
+            $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
+        } elseif (!$config['installation_complete']['admin_password']) {
+            $tmpl_site_to_show = 'set_admin_password';
+        } elseif (!$config['installation_complete']['database']) {
+            // step "set_db_settings"
+            $tmpl_site_to_show = 'set_db_settings';
+            $html->setLoop('db_type_loop', arrayToTemplateLoop($config['db_types'], $config['db']['type']));
+            $html->setLoop('db_charset_loop', arrayToTemplateLoop($config['db_charsets'], $config['db']['charset']));
+            $html->setVariable('db_host', $config['db']['host'], 'string');
+            $html->setVariable('db_name', $config['db']['name'], 'string');
+            $html->setVariable('db_user', $config['db']['user'], 'string');
+            $html->setVariable("space_fix", $config['db']['space_fix'], 'boolean');
+        } elseif (!$config['installation_complete']['db_backup_path']) {
+            // step "set_db_backup_path"
+            $tmpl_site_to_show = 'set_db_backup_path';
+            $html->setVariable('db_backup_name', $config['db']['backup']['name'], 'string');
+            $html->setVariable('db_backup_path', $config['db']['backup']['url'], 'string');
+        } else {
+            // installation/update complete
+            $tmpl_site_to_show = 'finish';
         }
-        $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
-        $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
-    } elseif (! $config['installation_complete']['admin_password']) {
-        $tmpl_site_to_show = 'set_admin_password';
-    } elseif (! $config['installation_complete']['database']) {
-        // step "set_db_settings"
-        $tmpl_site_to_show = 'set_db_settings';
-        $html->setLoop('db_type_loop', arrayToTemplateLoop($config['db_types'], $config['db']['type']));
-        $html->setLoop('db_charset_loop', arrayToTemplateLoop($config['db_charsets'], $config['db']['charset']));
-        $html->setVariable('db_host', $config['db']['host'], 'string');
-        $html->setVariable('db_name', $config['db']['name'], 'string');
-        $html->setVariable('db_user', $config['db']['user'], 'string');
-        $html->setVariable("space_fix", $config['db']['space_fix'], 'boolean');
-    } elseif (! $config['installation_complete']['db_backup_path']) {
-        // step "set_db_backup_path"
-        $tmpl_site_to_show = 'set_db_backup_path';
-        $html->setVariable('db_backup_name', $config['db']['backup']['name'], 'string');
-        $html->setVariable('db_backup_path', $config['db']['backup']['url'], 'string');
-    } else {
-        // installation/update complete
-        $tmpl_site_to_show = 'finish';
+    } catch (Exception $e) {
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+        $fatal_error = true;
     }
+}
 }
 
 /********************************************************************************

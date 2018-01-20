@@ -703,65 +703,6 @@ function isPathabsoluteAndUnix($path, $accept_protocols = true)
     }
 }
 
-
-/**
- * Replaces Placeholder strings like %id% or %name% with their corresponding Part properties.
- * Note: If the given Part does not have a property, it will be replaced with "".
- *
- * %id%         : Part id
- * %name%       : Name of the part
- * %desc%       : Description of the part
- * %comment%    : Comment to the part
- * %mininstock% : The minium in stock value
- * %instock%    : The current in stock value
- * %avgprice%   : The average price of this part
- * %cat%        : The name of the category the parts belongs to
- * %cat_full%   : The full path of the parts category
- *
- * @param string $string The string on which contains the placeholders
- * @param Part $part
- * @return string the
- */
-function replacePlaceholderWithInfos($string, $part)
-{
-    //General infos
-    $string = str_replace("%id%", $part->getID(), $string);                        //part id
-    $string = str_replace("%name%", $part->getName(), $string);                    //Name of the part
-    $string = str_replace("%desc%", $part->getDescription(), $string);             //description of the part
-    $string = str_replace("%comment%", $part->getComment(), $string);              //comment of the part
-    $string = str_replace("%mininstock%", $part->getMinInstock(), $string);        //minimum in stock
-    $string = str_replace("%instock%", $part->getInstock(), $string);              //current in stock
-    $string = str_replace("%avgprice%", $part->getAveragePrice(), $string);       //average price
-
-    //Category infos
-    $string = str_replace("%cat%", is_object($part->getCategory()) ? $part->getCategory()->getName() : "", $string);
-    $string = str_replace("%cat_full%", is_object($part->getCategory()) ? $part->getCategory()->getFullPath() : "", $string);
-
-    //Footprint info
-    $string = str_replace("%foot%", is_object($part->getFootprint()) ? $part->getFootprint()->getName() : "", $string);
-    $string = str_replace("%foot_full%", is_object($part->getFootprint()) ? $part->getFootprint()->getFullPath() : "", $string);
-
-    //Manufacturer info
-    $string = str_replace("%manufact%", is_object($part->getManufacturer()) ? $part->getManufacturer()->getName() : "", $string);
-
-    //Order infos
-    $all_orderdetails   = $part->getOrderdetails();
-    $string = str_replace("%supplier%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getName() : "", $string);
-    $string = str_replace("%order_nr%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplierPartNr() : "", $string);
-
-    //Store location
-    $storelocation      = $part->getStorelocation();
-    $string = str_replace("%storeloc%", is_object($storelocation) ? $storelocation->getName() : '', $string);
-    $string = str_replace("%storeloc_full%", is_object($storelocation) ? $storelocation->getFullPath() : '', $string);
-
-    //Remove single '-' without other infos
-    if (trim($string) == "-") {
-        $string = "";
-    }
-
-    return $string;
-}
-
 /**
  * Split a search string with search modifiers like "incategory:Category1" or "inname:Name2" into a array with
  * the modifier keywords in named elemets.

@@ -179,6 +179,7 @@ class HTML
      * @param $url string The URL to which should be redirected. Set to empty string, to disable redirect
      * @param $instant boolean True, if the page should be redirected with the call of redirect(). Not just when Footer
      * is printed. Note, if this option is activated, the code execution is stopped after this call.
+     * @throws Exception
      */
     public function redirect($url, $instant = false)
     {

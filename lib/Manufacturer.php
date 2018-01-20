@@ -177,9 +177,9 @@ class Manufacturer extends Base\Company implements ISearchable
     }
 
 
-
     /**
      * @copydoc NamedDBElement::search()
+     * @throws Exception
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {

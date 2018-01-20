@@ -148,6 +148,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
 
     /**
      * @copydoc DBElement::check_values_validity()
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -209,6 +210,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
 
     /**
      * @copydoc NamedDBElement::search()
+     * @throws Exception
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
@@ -219,6 +221,8 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * Returns a Array representing the current object.
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
+     * @throws Exception
+     * @throws Exception
      */
     public function getAPIArray($verbose = false)
     {
@@ -285,6 +289,9 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      *
      * @param string $string The string on which contains the placeholders
      * @return string the
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
      */
     public function replacePlaceholderWithInfos($string)
     {

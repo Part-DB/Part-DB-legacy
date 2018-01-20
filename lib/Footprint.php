@@ -226,6 +226,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
 
     /**
      * @copydoc DBElement::check_values_validity()
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -370,6 +371,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
 
     /**
      * @copydoc NamedDBElement::search()
+     * @throws Exception
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
@@ -380,6 +382,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * Returns a Array representing the current object.
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
+     * @throws Exception
      */
     public function getAPIArray($verbose = false)
     {

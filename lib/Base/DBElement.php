@@ -145,9 +145,10 @@ abstract class DBElement
      * @warning     You should implement this function in your subclass (including a call to this function here!),
      *              if your subclass has its own attributes (calculated or non-calculated)!
      *
-     * @param boolean $all      * if true, ALL attributes will be deleted (use it only for "destroying" the object).
+     * @param boolean $all * if true, ALL attributes will be deleted (use it only for "destroying" the object).
      * * if false, only the calculated data will be deleted.
      *                              This is needed if you change an attribute of the object.
+     * @throws Exception
      */
     public function resetAttributes($all = false)
     {

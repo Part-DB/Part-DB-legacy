@@ -72,12 +72,13 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     /**
      * Get the "disable footprints" attribute
      *
-     * @param boolean $including_parents        @li If true, this method will return a "true" if at least
+     * @param boolean $including_parents @li If true, this method will return a "true" if at least
      *                                              one parent category has set "disable_footprints == true"
-     *                                          @li If false, this method will only return that value
+     * @li If false, this method will only return that value
      *                                              which is stored in the database
      *
      * @return boolean          "disable footprints" attribute
+     * @throws Exception
      */
     public function getDisableFootprints($including_parents = false)
     {
@@ -102,12 +103,13 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     /**
      * Get the "disable manufacturers" attribute
      *
-     * @param boolean $including_parents        @li If true, this method will return a "true" if at least
+     * @param boolean $including_parents @li If true, this method will return a "true" if at least
      *                                              one parent category has set "disable_manufacturers == true"
-     *                                          @li If false, this method will only return that value
+     * @li If false, this method will only return that value
      *                                              which is stored in the database
      *
      * @return boolean          the "disable manufacturers" attribute
+     * @throws Exception
      */
     public function getDisableManufacturers($including_parents = false)
     {
@@ -132,12 +134,13 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     /**
      *  Get the "disable automatic datasheets" attribute
      *
-     * @param boolean $including_parents        @li If true, this method will return a "true" if at least
+     * @param boolean $including_parents @li If true, this method will return a "true" if at least
      *                                              one parent category has set "disable_autodatasheets == true"
-     *                                          @li If false, this method will only return that value
+     * @li If false, this method will only return that value
      *                                              which is stored in the database
      *
      * @return boolean          the "disable automatic datasheets" attribute
+     * @throws Exception
      */
     public function getDisableAutodatasheets($including_parents = false)
     {
@@ -162,12 +165,13 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     /**
      *  Get the "disable automatic properties" attribute
      *
-     * @param boolean $including_parents        @li If true, this method will return a "true" if at least
+     * @param boolean $including_parents @li If true, this method will return a "true" if at least
      *                                              one parent category has set "disable_properties == true"
-     *                                          @li If false, this method will only return that value
+     * @li If false, this method will only return that value
      *                                              which is stored in the database
      *
      * @return boolean          the "disable automatic properties" attribute
+     * @throws Exception
      */
     public function getDisableProperties($including_parents = false)
     {
@@ -192,12 +196,13 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     /**
      *  Get the "default description" attribute
      *
-     * @param boolean $including_parents        @li If true, this method will return the first non empty value from parents
+     * @param boolean $including_parents @li If true, this method will return the first non empty value from parents
      *                                              if this category has no own value
-     *                                          @li If false, this method will only return that value
+     * @li If false, this method will only return that value
      *                                              which is stored in the database
      *
      * @return string          the "default description" attribute
+     * @throws Exception
      */
     public function getDefaultDescription($including_parents = false, $show_escape = true)
     {
@@ -229,12 +234,13 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
     /**
      *  Get the "default comment" attribute
      *
-     * @param boolean $including_parents        @li If true, this method will return the first non empty value from parents
+     * @param boolean $including_parents @li If true, this method will return the first non empty value from parents
      *                                              if this category has no own value
-     *                                          @li If false, this method will only return that value
+     * @li If false, this method will only return that value
      *                                              which is stored in the database
      *
      * @return string          the "default comment" attribute
+     * @throws Exception
      */
     public function getDefaultComment($including_parents = false, $show_escape = true)
     {
@@ -265,10 +271,11 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * Get the Hint how to format the name of parts, which are part of this category.
      * @param bool $including_parents @li If true, this method will return the first non empty value from parents
      *                                              if this category has no own value
-     *                                 @li If false, this method will only return that value
+     * @li If false, this method will only return that value
      *                                              which is stored in the database
      * @param bool $show_escape If true, the escape code "@@" will be returned, otherwise it will be "" (empty string).
      * @return string  The partname_hint attribute
+     * @throws Exception
      */
     public function getPartnameHint($including_parents = false, $show_escape = true)
     {
@@ -305,10 +312,11 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * Get the Regular expression the name of parts, which are part of this category, must have.
      * @param bool $including_parents @li If true, this method will return the first non empty value from parents
      *                                              if this category has no own value
-     *                                 @li If false, this method will only return that value
+     * @li If false, this method will only return that value
      *                                              which is stored in the database
      * @param bool $show_escape If true, the escape code "@@" will be returned, otherwise it will be "" (empty string).
      * @return string  The partname_hint attribute
+     * @throws Exception
      */
     public function getPartnameRegexRaw($including_parents = false, $show_escape = true)
     {
@@ -352,6 +360,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * Gets a PartNameRegEx element
      * @param bool $including_parents
      * @return PartNameRegEx
+     * @throws Exception
      */
     public function getPartnameRegexObj($including_parents = true)
     {
@@ -504,6 +513,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
 
     /**
      * @copydoc DBElement::check_values_validity()
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -588,6 +598,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
 
     /**
      * @copydoc NamedDBElement::search()
+     * @throws Exception
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
@@ -598,6 +609,8 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * Returns a Array representing the current object.
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
+     * @throws Exception
+     * @throws Exception
      */
     public function getAPIArray($verbose = false)
     {

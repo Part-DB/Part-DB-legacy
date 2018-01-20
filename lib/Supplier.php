@@ -124,8 +124,9 @@ class Supplier extends Base\Company implements ISearchable
 
     /**
      * Return the number of all parts in this PartsContainingDBElement
-     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
+     * @param boolean $recursive if true, the parts of all subcategories will be listed too
      * @return int The number of parts of this PartContainingDBElement
+     * @throws Exception If an Error occured
      */
     public function getPartsCount($recursive = false)
     {
@@ -301,6 +302,7 @@ class Supplier extends Base\Company implements ISearchable
 
     /**
      * @copydoc NamedDBElement::search()
+     * @throws Exception
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {

@@ -94,7 +94,9 @@ class Attachement extends Base\NamedDBElement
      *
      *   Basic Methods
      *
-     *********************************************************************************/
+     ********************************************************************************
+     * @throws Exception
+     */
 
     public function setAttributes($new_values)
     {
@@ -376,6 +378,12 @@ class Attachement extends Base\NamedDBElement
 
     /**
      * @copydoc DBElement::check_values_validity()
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {

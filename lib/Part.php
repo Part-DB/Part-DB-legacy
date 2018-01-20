@@ -231,7 +231,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * %cat_full%   : The full path of the parts category
      *
      * @param string $string The string on which contains the placeholders
-     * @return string the
+     * @return string The string with the infos.
+     * @throws Exception When an error occured when getting the infos.
      */
     public function replacePlaceholderWithInfos($string)
     {
@@ -2335,6 +2336,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         $parts = array();
 
+        /** @noinspection SyntaxError */
         $query =    'SELECT * from parts '.
             'ORDER BY parts.last_modified ' . $sorting;
 
@@ -2377,6 +2379,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         $parts = array();
 
+        /** @noinspection SyntaxError */
         $query =    'SELECT count(id) AS count from parts '.
             'ORDER BY parts.last_modified ' . $sorting;
 
@@ -2413,6 +2416,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         $parts = array();
 
+        /** @noinspection SyntaxError */
         $query =    'SELECT * from parts '.
             'ORDER BY parts.datetime_added ' . $sorting;
 
@@ -2454,6 +2458,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         $parts = array();
 
+        /** @noinspection SyntaxError */
         $query =    'SELECT count(id) AS count from parts '.
             'ORDER BY parts.datetime_added ' . $sorting;
 

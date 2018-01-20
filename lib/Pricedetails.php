@@ -96,7 +96,9 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      *   Basic Methods
      *
-     *********************************************************************************/
+     ********************************************************************************
+     * @throws Exception
+     */
 
     public function setAttributes($new_values)
     {

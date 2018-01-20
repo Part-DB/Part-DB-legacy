@@ -176,6 +176,7 @@ function reset6ring()
     calculate6ring();
 }
 
+// noinspection JSUnusedGlobalSymbols
 /**************** Widerstandsauswahl ***************/
 function resistor_reset() 
 {
