@@ -16,25 +16,18 @@ function get_series(series)
     switch (series) {
         case 3 :
             return E3;
-            break;
         case 6 :
             return E6;
-            break;
         case 12 :
             return E12;
-            break;
         case 24 :
             return E24;
-            break;
         case 48 :
             return E48;
-            break;
         case 96 :
             return E96;
-            break;
         case 192 :
             return E192;
-            break;
     }
 }
 

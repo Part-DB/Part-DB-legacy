@@ -1016,7 +1016,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Normalize a username.
      * This process contains: trim trailing/leading whitespaces, replace whitespaces with chars, and remove all non ASCII chars.
      * @param $username string The username that should be normalized.
-     * @return static The normalized username.
+     * @return string The normalized username.
      */
     public static function normalizeUsername($username)
     {

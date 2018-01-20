@@ -655,6 +655,7 @@ if (! $fatal_error) {
             if (strpos($search_name, '__ID__=') === 0) {
                 $searched_element = new $classname($database, $current_user, $log, (int)str_replace('__ID__=', '', $search_name));
             } else {
+                /** @var \PartDB\Base\StructuralDBElement $classname */
                 $elements = $classname::search($database, $current_user, $log, $search_name);
 
                 if (count($elements) > 0) {

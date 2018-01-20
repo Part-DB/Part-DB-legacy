@@ -2596,7 +2596,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param boolean   $regex_search           if true, the search will use Regular Expressions to match
      *                                          the results.
      *
-     * @return array    all found parts as a one-dimensional array of Part objects,
+     * @return Part[]    all found parts as a one-dimensional array of Part objects,
      *                  sorted by their names (if "$group_by == ''")
      * @return array    @li all parts as a two-dimensional array, grouped by $group_by,
      *                      sorted by name (if "$group_by != ''")

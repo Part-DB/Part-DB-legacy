@@ -126,6 +126,7 @@ if (true) { //Allow to save connection settings, even when a error happened.
             }
             break;
 
+        /** @noinspection PhpMissingBreakStatementInspection */
         case 'make_new_update':
             // start the next update attempt from the beginning, not from the step of the last error
             $config['db']['update_error']['version'] = -1;

@@ -221,6 +221,7 @@ function getDebugLogElements($types = null)
     $elements = $dom->getElementsByTagName('log');
     $log_array = array();
     foreach ($elements as $element) {
+        /** @var DOMElement $element */
         $values = array();
         $values['message'] = $element->nodeValue;
         $values['datetime'] = $element->getAttribute('datetime');
