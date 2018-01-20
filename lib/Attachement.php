@@ -507,7 +507,7 @@ class Attachement extends Base\NamedDBElement
      * @warning         You have to supply the full path from filesystem root in $filename!!
      *                  For more details see Attachement::set_filename().
      *
-     * @return Attachement  the new attachement
+     * @return Attachement|Base\NamedDBElement
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

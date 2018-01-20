@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Base\Company;
 use PartDB\Interfaces\ISearchable;
 use PartDB\Permissions\PermissionManager;
 
@@ -128,8 +129,6 @@ class Supplier extends Base\Company implements ISearchable
      */
     public function getPartsCount($recursive = false)
     {
-        $count = 0;
-
         $query =    'SELECT count(part_id) AS count FROM orderdetails '.
             'LEFT JOIN parts ON parts.id=orderdetails.part_id '.
             'WHERE id_supplier=? ';
@@ -262,7 +261,7 @@ class Supplier extends Base\Company implements ISearchable
      * @param string    $website            the website of the new supplier (see Supplier::set_website())
      * @param string    $auto_product_url   the automatic link to the product website (see Company::set_auto_product_url())
      *
-     * @return Supplier     the new supplier
+     * @return Supplier|Company
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

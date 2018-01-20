@@ -82,7 +82,6 @@ class JSONStorage
 
             //Apply to $this->database.
             $this->database = $data;
-
         } else {
             //Create an empty structure
             $this->database = array();

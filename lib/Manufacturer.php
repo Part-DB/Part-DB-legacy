@@ -28,7 +28,6 @@ namespace PartDB;
 use Exception;
 use PartDB\Interfaces\ISearchable;
 use PartDB\Permissions\PermissionManager;
-use PartDB\Permissions\StructuralPermission;
 
 /**
  * @file Manufacturer.php
@@ -139,7 +138,7 @@ class Manufacturer extends Base\Company implements ISearchable
      * @param string    $website            the website of the new manufacturer (see Manufacturer::set_website())
      * @param string    $auto_product_url   the automatic link to the product website (see Company::set_auto_product_url())
      *
-     * @return Manufacturer     the new manufacturer
+     * @return Base\Company|Manufacturer
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

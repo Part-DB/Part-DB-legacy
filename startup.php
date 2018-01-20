@@ -28,8 +28,6 @@ use PartDB\Database;
 use PartDB\Footprint;
 use PartDB\HTML;
 use PartDB\Log;
-use PartDB\Permissions\ConfigPermission;
-use PartDB\Permissions\PermissionManager;
 use PartDB\Storelocation;
 use PartDB\Supplier;
 use PartDB\System;

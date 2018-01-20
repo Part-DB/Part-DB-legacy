@@ -32,8 +32,6 @@ use PartDB\Permissions\ConfigPermission;
 use PartDB\Permissions\PermissionManager;
 use PartDB\User;
 
-// this file enables write permissions in the DokuWiki
-define('DOKUWIKI_PERMS_FILENAME', BASE.'/data/ENABLE-DOKUWIKI-WRITE-PERMS.txt');
 
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content

@@ -27,7 +27,6 @@ namespace PartDB;
 
 use Exception;
 use Golonka\BBCode\BBCodeParser;
-use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\PartProperty\PartProperty;
 use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PartAttributePermission;
@@ -234,7 +233,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param string $string The string on which contains the placeholders
      * @return string the
      */
-    function replacePlaceholderWithInfos($string)
+    public function replacePlaceholderWithInfos($string)
     {
         //General infos
         $string = str_replace("%ID%", $this->getID(), $string);                        //part id
@@ -1039,6 +1038,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 return array();
             }
 
+            $name = array();
             $desc = array();
             $comm = array();
 
@@ -1617,7 +1617,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'button_increment':
                     $row_field['increment_disabled'] = ($this->getInstock() < 0) || !$this->current_user->canDo(
                         PermissionManager::PARTS_INSTOCK,
-                            PartAttributePermission::EDIT
+                        PartAttributePermission::EDIT
                     );
                     break;
                 case 'button_edit':
@@ -2889,7 +2889,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param string    $comment            the comment of the new part (see Part::set_comment())
      * @param boolean   $visible            the visible attribute of the new part (see Part::set_visible())
      *
-     * @return Part     the new part
+     * @return Base\AttachementsContainingDBElement|Part
      * @return Part     the new part
      *
      * @throws Exception    if (this combination of) values is not valid

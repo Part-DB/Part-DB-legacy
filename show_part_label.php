@@ -323,7 +323,6 @@ if (! $fatal_error) {
         $html->setVariable("can_save_profile", $current_user->canDo(PermissionManager::LABELS, LabelPermission::EDIT_PROFILES));
         $html->setVariable("can_edit_option", $current_user->canDo(PermissionManager::LABELS, LabelPermission::EDIT_OPTIONS));
         $html->setVariable("can_delete_profile", $current_user->canDo(PermissionManager::LABELS, LabelPermission::DELETE_PROFILES));
-
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

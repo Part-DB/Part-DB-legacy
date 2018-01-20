@@ -186,7 +186,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @param integer   $parent_id      the parent ID of the new storelocation (see Storelocation::set_parent_id())
      * @param boolean   $is_full        the "is_full" attribute of the new storelocation (see Storelocation::set_is_full())
      *
-     * @return Storelocation            the new storelocation
+     * @return Base\PartsContainingDBElement|Storelocation
      *
      * @throws Exception if (this combination of) values is not valid
      * @throws Exception if there was an error
@@ -286,7 +286,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @param string $string The string on which contains the placeholders
      * @return string the
      */
-    function replacePlaceholderWithInfos($string)
+    public function replacePlaceholderWithInfos($string)
     {
         //General infos
         $string = str_replace("%ID%", $this->getID(), $string);                        //part id

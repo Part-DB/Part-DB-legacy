@@ -21,13 +21,7 @@
 
 namespace PartDB\Permissions;
 
-use PartDB\Base\DBElement;
-use PartDB\Database;
 use PartDB\Interfaces\IHasPermissions;
-use PartDB\Part;
-use PartDB\Permissions\BasePermission;
-use PartDB\Permissions\StructuralPermission;
-use Symfony\Component\VarDumper\Cloner\Stub;
 
 class PermissionManager
 {

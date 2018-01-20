@@ -415,7 +415,7 @@ class DevicePart extends Base\DBElement
      *                                      @li if false, and there is already a DevicePart with the same
      *                                          part ID + device ID, this method will throw an exception.
      *
-     * @return DevicePart   the new device-part
+     * @return Base\DBElement|DevicePart
      * @return DevicePart   the existing device-part, if there is already a DevicePart with
      *                      the same part ID + device ID and "$increment_if_exist == true"
      *

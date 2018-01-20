@@ -548,7 +548,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @param string    $default_description        The default description of parts in the new category.
      * @param string    $default_comment            The default comment of parts in the new category.
      *
-     * @return Category     the new category
+     * @return Base\PartsContainingDBElement|Category
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

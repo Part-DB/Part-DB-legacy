@@ -30,7 +30,6 @@ use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Interfaces\IHasPermissions;
 use PartDB\Interfaces\ISearchable;
 use PartDB\Permissions\BasePermission;
-use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\SelfPermission;
 use PartDB\Permissions\UserPermission;
@@ -987,7 +986,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param $name string The username of the new user.
      * @param $group_id int The id of the group of the new user.
      * @param $data array Additional data that should be set. (See database colums for index names)
-     * @return static The newly added user.
+     * @return Base\NamedDBElement|User
      */
     public static function add(&$database, &$current_user, &$log, $name, $group_id, $data)
     {

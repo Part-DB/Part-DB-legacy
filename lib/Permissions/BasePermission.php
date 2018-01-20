@@ -23,7 +23,6 @@ namespace PartDB\Permissions;
 
 use PartDB\Exceptions\NotImplementedException;
 use PartDB\Interfaces\IHasPermissions;
-use Psr\Log\InvalidArgumentException;
 
 abstract class BasePermission
 {

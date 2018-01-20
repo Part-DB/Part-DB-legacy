@@ -36,7 +36,6 @@ use PartDB\Part;
 use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
-use PartDB\Permissions\StructuralPermission;
 use PartDB\Permissions\PartAttributePermission;
 use PartDB\Pricedetails;
 use PartDB\Storelocation;
@@ -861,7 +860,7 @@ if (! $fatal_error) {
         $html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
         $html->setVariable('downloads_enable', $config['allow_server_downloads'], "boolean");
 
-        $html->setVariable("back_link",  $_SESSION["part_delete_last_link"], "string");
+        $html->setVariable("back_link", $_SESSION["part_delete_last_link"], "string");
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;

@@ -8,7 +8,6 @@
 
 namespace PartDB\Label;
 
-
 /**
  * A class describing a Label for a storelocation (for example a 1D Label or an QR-Code)
  *

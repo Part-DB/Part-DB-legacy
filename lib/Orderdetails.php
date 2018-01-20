@@ -435,7 +435,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @param string    $supplierpartnr     the supplier-part-nr (see Orderdetails::set_supplierpartnr())
      * @param boolean   $obsolete           the obsolete attribute of the new orderdetails (see Orderdetails::set_obsolete())
      *
-     * @return Orderdetails     the new orderdetails object
+     * @return Base\DBElement|Orderdetails
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

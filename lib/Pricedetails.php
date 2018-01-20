@@ -404,7 +404,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @warning     The attribute "min_discount_quantity" must be "1" if there are no other
      *              pricedetails in the selected orderdetails yet!
      *
-     * @return Pricedetails     the new Pricedetails object
+     * @return Base\DBElement|Pricedetails
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

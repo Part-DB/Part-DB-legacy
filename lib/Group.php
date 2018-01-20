@@ -26,7 +26,6 @@
 namespace PartDB;
 
 use Exception;
-use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Permissions\GroupPermission;
 use PartDB\Permissions\PermissionManager;
 
@@ -324,7 +323,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * @param $log Log The database which should be used for requests.
      * @param $name string The username of the new user.
      * @param $parent_id int The id of the parental group of the new group.
-     * @return static The newly added group.
+     * @return Base\StructuralDBElement|Group
      */
     public static function add(&$database, &$current_user, &$log, $name, $parent_id)
     {

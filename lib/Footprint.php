@@ -346,7 +346,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @warning         You have to use the absolute path from filesystem root for $filename, as a UNIX path (only slashes)!!
      *                  More details: Footprint::set_filename()
      *
-     * @return Footprint    the new footprint
+     * @return Base\PartsContainingDBElement|Footprint
      *
      * @throws Exception if (this combination of) values is not valid
      * @throws Exception if there was an error

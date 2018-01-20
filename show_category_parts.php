@@ -114,7 +114,6 @@ try {
     session_start();
     $_SESSION["part_delete_last_link"] = $_SERVER['REQUEST_URI'];
     session_write_close();
-
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;

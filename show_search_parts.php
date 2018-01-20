@@ -272,6 +272,9 @@ if (! $fatal_error) {
         if ($groupby == "") {
             $parts_table_loops["Alle Kategorien"] = Part::buildTemplateTableArray($category_parts, 'search_parts_category');
         } else {
+            /**
+             * @var  $category_parts Part[][]
+             */
             foreach ($category_parts as $category_full_path => $parts) {
                 $parts_table_loops[$category_full_path] = Part::buildTemplateTableArray($parts, 'search_parts');
             }
