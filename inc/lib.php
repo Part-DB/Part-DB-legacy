@@ -1032,6 +1032,9 @@ function buildToolsTree($params)
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
         $show_nodes[] = treeviewNode(_('Zuletzt bearbeitete Bauteile'), BASE_RELATIVE . "/show_last_modified_parts.php");
     }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
+        $show_nodes[] = treeviewNode(_('Zuletzt hinzugefügte Bauteile'), BASE_RELATIVE . "/show_last_modified_parts.php?mode=last_created");
+    }
 
     //Edit nodes
     $edit_nodes = array();

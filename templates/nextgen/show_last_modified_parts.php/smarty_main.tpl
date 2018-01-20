@@ -8,7 +8,11 @@
 
 <div class="panel panel-primary">
     <div class="panel-heading"><i class="fas fa-clock fa-fw"></i>
-         {t}Zuletzt bearbeitete Bauteile{/t}</div>
+        {if $mode == "last_modified"}
+            {t}Zuletzt bearbeitete Bauteile{/t}
+        {else}
+            {t}Zuletzt hinzugefügte Bauteile{/t}
+        {/if}</div>
     {include file="../smarty_table.tpl"}
 </div>
 
