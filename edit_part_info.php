@@ -859,6 +859,8 @@ if (! $fatal_error) {
         $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
         $html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
         $html->setVariable('downloads_enable', $config['allow_server_downloads'], "boolean");
+
+        $html->setVariable("back_link",  $_SESSION["part_delete_last_link"], "string");
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
