@@ -944,6 +944,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param int $selected_id The ID of the currently selected user. This will the selected user in the list.
      *          Set to -1, when you dont want to have any selection.
      * @return string A string with HTML
+     * @throws Exception
      */
     public static function buildHTMLList(&$database, &$current_user, &$log, $selected_id = -1)
     {

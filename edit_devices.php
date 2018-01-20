@@ -197,7 +197,6 @@ if (! $fatal_error) {
 
 if (! $fatal_error) {
     try {
-
         $html->setVariable('add_more', $add_more, 'boolean');
 
         if (is_object($selected_device)) {

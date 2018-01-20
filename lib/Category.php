@@ -350,6 +350,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * Gets the regex of this Category.
      * @param bool $including_parents
      * @return string The regex.
+     * @throws Exception
      */
     public function getPartnameRegex($including_parents = true)
     {
@@ -373,6 +374,7 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @param $name string The name which should be checked.
      * @param bool $including_parents
      * @return bool True if the partname is valid.
+     * @throws Exception
      */
     public function checkPartname($name, $including_parents = true)
     {

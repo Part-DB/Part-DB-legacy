@@ -252,7 +252,8 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * If 100pcs costs 20$, you have to set the price to 20$ and the price related
      * quantity to 100. The single price (20$/100 = 0.2$) will be calculated automatically.
      *
-     * @param integer $new_price_related_quantity       the price related quantity
+     * @param integer $new_price_related_quantity the price related quantity
+     * @throws Exception
      */
     public function setPriceRelatedQuantity($new_price_related_quantity)
     {
@@ -274,7 +275,8 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * (Each of this examples would be an own Pricedetails-object.
      * So the orderdetails would have three Pricedetails for one supplier.)
      *
-     * @param integer $new_min_discount_quantity       the minimum discount quantity
+     * @param integer $new_min_discount_quantity the minimum discount quantity
+     * @throws Exception
      */
     public function setMinDiscountQuantity($new_min_discount_quantity)
     {

@@ -88,6 +88,9 @@ class HTML
      * @param string    $page_title         If you want, you can set the page title directly here.
      *                                      Otherwise, you can set it later with HTML::set_meta().
      *
+     * @param int       $autorefresh        If you want that the page refresh it self, set this value to the desired interval (in seconds).
+     *                                      Set to 0 to disable autorefreshing.
+     *
      * @throws Exception if there was an error
      */
     public function __construct($theme, $custom_css_file = '', $page_title = '', $autorefresh = 0)

@@ -259,6 +259,12 @@ class PermissionManager
      * Static functions
      *******************************************************/
 
+    /**
+     * Generates an Permission loop with all permissions set to their default values (currently all permissions set to prohibit).
+     * This is helpful, when a new user or group is created and we have to generate a placeholder permission dialog, so a user can choose what perms he want to set.
+     * @param bool $read_only Set to true when the placeholder loop should be read only.
+     * @return mixed The default loop.
+     */
     public static function defaultPermissionsLoop($read_only = false)
     {
         //Create a temp object for pass by reference.

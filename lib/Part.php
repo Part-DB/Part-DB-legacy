@@ -108,7 +108,21 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @copydoc DBElement::reset_attributes()
+     * Reset all attributes of this object (set them to NULL).
+     *
+     * Reasons why we need this method:
+     *      * If we change an attribute of the element, some calculated attributes are no longer valid.
+     *          So this method is called with $all=false to set all calculated attributes to NULL ("clear the cache")
+     *      * If this element is deleted by delete(), we need to clear ALL data from this element,
+     *          including non-calculated attributes. So this method will be called with $all=true.
+     *
+     * @warning     You should implement this function in your subclass (including a call to this function here!),
+     *              if your subclass has its own attributes (calculated or non-calculated)!
+     *
+     * @param boolean $all * if true, ALL attributes will be deleted (use it only for "destroying" the object).
+     * * if false, only the calculated data will be deleted.
+     *                              This is needed if you change an attribute of the object.
+     * @throws Exception
      */
     public function resetAttributes($all = false)
     {
@@ -390,7 +404,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *          If a part has no orderdetails, the part isn't marked as obsolete.
      *
      * @return boolean      @li true if this part is obsolete
-     *                      @li false if this part isn't obsolete
+     * @li false if this part isn't obsolete
+     * @throws Exception
      */
     public function getObsolete()
     {
@@ -440,6 +455,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @return Orderdetails         the selected order orderdetails
      * @return NULL                 if there is no order supplier selected
+     * @throws Exception
      */
     public function getOrderOrderdetails()
     {
@@ -481,10 +497,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      *  Get the minimum quantity which should be ordered
      *
-     * @param boolean $with_devices     @li if true, all parts from devices which are marked as "to order" will be included in the calculation
-     *                                  @li if false, only max(mininstock - instock, 0) will be returned
+     * @param boolean $with_devices @li if true, all parts from devices which are marked as "to order" will be included in the calculation
+     * @li if false, only max(mininstock - instock, 0) will be returned
      *
      * @return integer      the minimum order quantity
+     * @throws Exception
      */
     public function getMinOrderQuantity($with_devices = true)
     {
@@ -545,6 +562,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *  Get the link to the website of the article on the manufacturers website
      *
      * @return string           the link to the article
+     * @throws Exception
      */
     public function getManufacturerProductUrl()
     {
@@ -1026,9 +1044,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * Parses the selected fields and extract Properties of the part.
      * @param bool $use_description Use the description field for parsing
      * @param bool $use_comment Use the comment field for parsing
+     * @param bool $use_name Use the name field for parsing
      * @param bool $force_output Properties are parsed even if properties are disabled.
      * @return array A array of PartProperty objects.
      * @return array If Properties are disabled or nothing was detected, then an empty array is returned.
+     * @throws Exception
      */
     public function getProperties($use_description = true, $use_comment = true, $use_name = true, $force_output = false)
     {
@@ -1135,7 +1155,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      *  Set the count of parts which should be in stock at least
      *
-     * @param integer $new_instock       the new count of parts which should be in stock at least
+     * @param integer $new_mininstock       the new count of parts which should be in stock at least
      *
      * @throws Exception if the new mininstock is not valid
      * @throws Exception if there was an error
@@ -1719,6 +1739,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param $proposed_storelocation_id integer
      * @param $proposed_category_id integer
      * @return array|bool An array containing parts with similar name and storelocation and category
+     * @throws Exception
      */
     public static function checkForExistingPart(&$database, &$current_user, &$log, $proposed_name, $proposed_storelocation_id, $proposed_category_id)
     {
@@ -1754,9 +1775,36 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @copydoc DBElement::check_values_validity()
-     * @param $element Part
-     * @throws Exception
+     * Check if all values are valid for creating a new element / editing an existing element
+     *
+     * This function is called by creating a new DBElement (DBElement::add()),
+     * respectively a subclass of DBElement. Then the attribute $is_new is true!
+     *
+     * And if you set data fields with DBElement::set_attributes() (or a subclass of DBElement),
+     * the new data (one or more attributes) will be checked with this function
+     * (with $is_new = false and with the object as $element).
+     *
+     * Because we pass the values array by reference, you're able to adjust values in the array.
+     * For example, you can trim names of elements. So you don't have to throw an Exception if
+     * values are not 100% perfect, you simply can "repair" these uncritical attributes.
+     *
+     * @warning     You have to implement this function in your subclass to check all data!
+     *              You should always let to check the parent class all values, and after that,
+     *              you can check the values which are associated with your subclass of DBElement.
+     *
+     * @param Database      &$database          reference to the database object
+     * @param User          &$current_user      reference to the current user which is logged in
+     * @param Log           &$log               reference to the Log-object
+     * @param array         &$values            @li one-dimensional array of all keys and values (old and new!)
+     *                                          @li example: @code
+     *                                              array(['name'] => 'abcd', ['parent_id'] => 123, ...) @endcode
+     * @param boolean       $is_new             @li if true, this means we will create a new element.
+     *                                          @li if false, this means we will set attributes of an existing element
+     * @param static|NULL   &$element           if $is_new is 'false', we have to supply the element,
+     *                                          which will be edited, here.
+     *
+     * @throws Exception if the values are not valid / the combination of values is not valid
+     * @throws Exception if there was an error
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -2094,6 +2142,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+     *
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
@@ -2171,6 +2222,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+     *
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
@@ -2242,6 +2296,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
      *
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
@@ -2317,6 +2373,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param Log       &$log               reference to the Log-object
      * @param bool      $newest_first       When this is set to true, newest modified parts are first (DESC sorting).
      *                                      Set to false for (ASC sorting)
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
      *
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
@@ -2397,6 +2455,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param Log       &$log               reference to the Log-object
      * @param bool      $newest_first       When this is set to true, newest modified parts are first (DESC sorting).
      *                                      Set to false for (ASC sorting)
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+     *
      *
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
@@ -2440,6 +2501,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+     *
+     *
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
@@ -2475,6 +2540,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param User      &$current_user          reference to the user which is logged in
      * @param Log       &$log                   reference to the Log-object
      * @param boolean   $no_orderdetails_parts  if true, parts without any orderdetails will be returned too
+     *
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+     *
      *
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
@@ -2832,6 +2901,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *                                              two-dimensional array with the group names as top level.
      *                                          @li supported groups are: '' (none), 'categories'
      *
+     *  @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+     *
+     *
      * @return array    all found parts as a one-dimensional array of Part objects,
      *                  sorted by their names (if "$group_by == ''")
      * @return array    @li all parts as a two-dimensional array, grouped by $group_by,
@@ -2958,6 +3031,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * Returns a Array representing the current object.
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
+     * @throws Exception
      */
     public function getAPIArray($verbose = false)
     {

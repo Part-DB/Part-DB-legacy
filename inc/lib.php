@@ -337,7 +337,6 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
  * @note    The password will be trimmed, salted, crypted with sha256 and stored in $config.
  *          Optionally, $config can be written in config.php.
  *
- * @param string    $old_password       The current administrator password (plain, not crypted)
  * @param string    $new_password_1     The new administrator password (plain, not crypted) (first time)
  * @param string    $new_password_2     The new administrator password (plain, not crypted) (second time)
  * @param boolean   $save_config        If true, the config.php file will be overwritten.
@@ -843,6 +842,7 @@ function strcontains($haystack, $needle)
 /**
  * Converts an array of objects implementing the APIModel interface to an array of API objects
  * @param $array array The array of the APIModel objects.
+ * @param bool $verbose Show all available informations about the IAPIModel.
  * @return IAPIModel[] An array of API objects
  * @throws Exception
  */
@@ -865,6 +865,8 @@ function convertAPIModelArray($array, $verbose = false)
 /**
  * Try to call get_APIModel_array of $object. If $object is null, null is returned!
  * @param IAPIModel $object The object, of which the API info should be get.
+ * @param bool $verbose Show all available informations about the IAPIModel, when set to true.
+ *          Otherwise only most important informations are shown.
  * @return array An array describing the object.
  */
 function tryToGetAPIModelArray($object, $verbose = false)
@@ -880,6 +882,7 @@ function tryToGetAPIModelArray($object, $verbose = false)
  * Builds a TreeView for the Tools menu
  * @param $params
  * @return array
+ * @throws Exception
  */
 function buildToolsTree($params)
 {
@@ -1053,6 +1056,7 @@ function sie($test, $default_val = "")
  * Gets the name of the class of the given Object without the namespace.
  * @param $object mixed  The object, whose clasname should be get.
  * @return string The class name of $object.
+ * @throws ReflectionException
  */
 function getClassShort($object)
 {
@@ -1086,6 +1090,7 @@ function isUsingHTTPS()
  * @param $base_dir string The base path for the file path structure (with trailing slash)
  * @param $element \PartDB\Base\StructuralDBElement
  * @return string The generated path
+ * @throws Exception
  */
 function generateAttachementPath($base_dir, $element)
 {
@@ -1202,6 +1207,7 @@ function isURL($string, $path_required = true, $only_http = true)
  * @param $path string The path (including filename) for which the Icon should be generated.
  * @param $with_html bool When true a whole HTML tag is generated (e.g. <i class="fa fa-file" aria-hidden="true"></i>).
  *      When false, only the special fa-class is returned. (e.g. fa-file)
+ * @param $size string The size of the icon as an FA size class (e.g. fa-lg)
  * @return string The resulted HTML code or the fa-class.
  */
 function extToFAIcon($path, $with_html = true, $size = "fa-lg")
@@ -1448,6 +1454,8 @@ function build_custom_css_loop($selected = null, $include_default_theme = false)
 /**
  * Generates a list of available profiles for the given generator.
  * @param $generator string The generator to which the profile belongs to.
+ * @param $include_default bool If this is set to true, the default profile is included in the returned array.
+ * @return string[] An string array with the names of all profiles
  */
 function buildLabelProfilesDropdown($generator, $include_default = false)
 {

@@ -256,7 +256,7 @@ try {
     $html->setVariable("can_create", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::CREATE));
     $html->setVariable("can_move", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::MOVE));
     $html->setVariable("can_read", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::READ));
-}  catch (Exception $e) {
+} catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }

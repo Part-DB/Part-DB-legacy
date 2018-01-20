@@ -213,6 +213,8 @@ abstract class BasePermission
     public static function listOperations()
     {
         throw new NotImplementedException(_("listOperations() ist in nicht implementiert"));
+        /** @noinspection PhpUnreachableStatementInspection */
+        return array();
     }
 
     /**
@@ -260,10 +262,11 @@ abstract class BasePermission
     }
 
     /**
-     *
-     * @param $n
-     * @param $name
-     * @return array
+     * Creates an Array that contains all the info for a Operation.
+     * @param int $n The bit number, where the information should be saved.
+     * @param string $name The internal name, that identifies the Operation.
+     * @param string $description A name describing the function of the operation to user.
+     * @return array An Array containing all the data.
      */
     protected static function buildOperationArray($n, $name, $description)
     {

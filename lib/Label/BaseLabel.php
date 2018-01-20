@@ -309,6 +309,7 @@ abstract class BaseLabel
      *
      * @param $string string The string which contains the placeholder.
      * @return string A string with the filled placeholders.
+     * @throws \Exception
      */
     public static function replacePlaceholderWithInfos($string)
     {

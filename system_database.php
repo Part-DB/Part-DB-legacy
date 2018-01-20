@@ -222,7 +222,7 @@ try {
         $html->setVariable('can_update', true);
         $html->setVariable('can_edit_db_settings', true);
     }
-}  catch (Exception $e) {
+} catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }

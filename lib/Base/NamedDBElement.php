@@ -58,6 +58,7 @@ abstract class NamedDBElement extends DBElement
      *                                                  (the StructuralDBElement needs this for the root element)
      *                                              @li if false, $id == 0 is not allowed (throws an Exception)
      *
+     * @param array     $db_data                    If you have already data from the database, then use give it with this param, the part, wont make a database request.
      * @throws Exception    if there is no such element in the database
      * @throws Exception    if there was an error
      */
@@ -193,11 +194,12 @@ abstract class NamedDBElement extends DBElement
     }
 
     /**
-     * Search elements by name in the given table
+     * Search elements by name in the given table.
      *
      * @param Database  &$database              reference to the database object
      * @param User      &$current_user          reference to the user which is logged in
      * @param Log       &$log                   reference to the Log-object
+     * @param string    $tablename              The table in which should be searched.
      * @param string    $keyword                the search string
      * @param boolean   $exact_match            @li If true, only records which matches exactly will be returned
      *                                          @li If false, all similar records will be returned

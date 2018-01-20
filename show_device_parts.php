@@ -577,7 +577,7 @@ if (! $fatal_error) {
             'download_file' => $config['attachements']['download_default']);
 
         $html->setLoop('attachements_loop', $attachements_loop);
-    }catch (Exception $e) {
+    } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
     }

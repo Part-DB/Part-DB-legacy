@@ -55,6 +55,7 @@ class Supplier extends Base\Company implements ISearchable
      * @param User      &$current_user  reference to the current user which is logged in
      * @param Log       &$log           reference to the Log-object
      * @param integer   $id             ID of the supplier we want to get
+     * @param array     $data           An array of data that overrides the DB data temporary
      *
      * @throws Exception    if there is no such supplier in the database
      * @throws Exception    if there was an error
@@ -151,8 +152,6 @@ class Supplier extends Base\Company implements ISearchable
 
     /**
      *  Get all parts from this element
-     *
-     * @param boolean $recursive        if true, the parts of all sub-suppliers will be listed too
      *
      * @return array        all parts in a one-dimensional array of Part objects
      *
@@ -301,8 +300,19 @@ class Supplier extends Base\Company implements ISearchable
     }
 
     /**
-     * @copydoc NamedDBElement::search()
-     * @throws Exception
+     * Search elements by name.
+     *
+     * @param Database  &$database              reference to the database object
+     * @param User      &$current_user          reference to the user which is logged in
+     * @param Log       &$log                   reference to the Log-object
+     * @param string    $keyword                the search string
+     * @param boolean   $exact_match            @li If true, only records which matches exactly will be returned
+     *                                          @li If false, all similar records will be returned
+     *
+     * @return array    all found elements as a one-dimensional array of objects,
+     *                  sorted by their names
+     *
+     * @throws Exception if there was an error
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
