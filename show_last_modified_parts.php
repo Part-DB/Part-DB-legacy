@@ -35,6 +35,8 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 $page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
 $limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
 
+$mode               = isset($_REQUEST['mode'])              ? (string)$_REQUEST['mode']             : "last_modified";
+
 /********************************************************************************
  *
  *   Initialize Objects
@@ -69,7 +71,14 @@ if (! $fatal_error) {
     try {
         $latest_first = true;
 
-        $parts = Part::getLastModifiedParts($database, $current_user, $log, $latest_first, $limit, $page);
+        if ($mode == "last_modified") {
+            $parts = Part::getLastModifiedParts($database, $current_user, $log, $latest_first, $limit, $page);
+            $count = Part::getLastModifiedPartsCount($database, $current_user, $log, $latest_first);
+        } else {
+            $parts = Part::getLastAddedParts($database, $current_user, $log, $latest_first, $limit, $page);
+            $count = Part::getLastAddedPartsCount($database, $current_user, $log, $latest_first);
+        }
+
         $table_loop = Part::buildTemplateTableArray($parts, 'last_modified_parts');
         $html->setLoop('table', $table_loop);
         $html->setVariable('table_rowcount', count($parts));
@@ -78,7 +87,7 @@ if (! $fatal_error) {
             "show_last_modified_parts.php?",
             $page,
             $limit,
-            Part::getLastModifiedPartsCount($database, $current_user, $log, $latest_first)
+            $count
         ));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
@@ -100,6 +109,8 @@ if (! $fatal_error) {
     $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
     $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
     $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
+
+    $html->setVariable('mode', $mode, "string");
 
     $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
     $html->setVariable('popup_width', $config['popup']['width'], 'integer');
