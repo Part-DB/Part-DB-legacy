@@ -333,9 +333,9 @@
                                         <i class="{$alert_icon} fa-5x" style="text-align: center; width: 1em;"></i>
                                     </div>
                                     <div class="col-md-11">
-                                        <p>
-                                        {if !empty($messages_div_title)}<h4>{$messages_div_title}</h4>{/if}
-                                        <form action="" method="post" class="no-progbar">
+                                        <div>
+                                            {if !empty($messages_div_title)}<h4>{$messages_div_title}</h4>{/if}
+                                            <form action="" method="post" class="no-progbar">
                                             {foreach $messages as $msg}
                                                 {if isset($msg.text)}
                                                     {if isset($msg.strong) && $msg.strong}<strong>{/if}
@@ -356,8 +356,8 @@
                                                     <button class="btn btn-default">{t}Seite neu laden{/t}</button>
                                                 </a>
                                             {/if}
-                                        </form>
-                                        </p>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

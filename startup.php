@@ -28,8 +28,6 @@ use PartDB\Database;
 use PartDB\Footprint;
 use PartDB\HTML;
 use PartDB\Log;
-use PartDB\Permissions\ConfigPermission;
-use PartDB\Permissions\PermissionManager;
 use PartDB\Storelocation;
 use PartDB\Supplier;
 use PartDB\System;
@@ -74,21 +72,26 @@ try {
  *
  *********************************************************************************/
 
-if ((! $fatal_error) && ($database->isUpdateRequired())) {
-    if (($database->getCurrentVersion() < 13) && ($database->getLatestVersion() >= 13)) { // v12 to v13 was a huge update! disable auto-update temporary!
-        $config['db']['auto_update'] = false;
-        $html->setVariable('auto_disabled_autoupdate', true, 'boolean');
-    }
+try {
+    if ((!$fatal_error) && ($database->isUpdateRequired())) {
+        if (($database->getCurrentVersion() < 13) && ($database->getLatestVersion() >= 13)) { // v12 to v13 was a huge update! disable auto-update temporary!
+            $config['db']['auto_update'] = false;
+            $html->setVariable('auto_disabled_autoupdate', true, 'boolean');
+        }
 
-    $html->setVariable('database_update', true, 'boolean');
-    $html->setVariable('disabled_autoupdate', ! $config['db']['auto_update'], 'boolean');
-    $html->setVariable('db_version_current', $database->getCurrentVersion(), 'integer');
-    $html->setVariable('db_version_latest', $database->getLatestVersion(), 'integer');
+        $html->setVariable('database_update', true, 'boolean');
+        $html->setVariable('disabled_autoupdate', !$config['db']['auto_update'], 'boolean');
+        $html->setVariable('db_version_current', $database->getCurrentVersion(), 'integer');
+        $html->setVariable('db_version_latest', $database->getLatestVersion(), 'integer');
 
-    if ($config['db']['auto_update'] == true) {
-        $update_log = $database->update();
-        $html->setVariable('database_update_log', nl2br($update_log));
+        if ($config['db']['auto_update'] == true) {
+            $update_log = $database->update();
+            $html->setVariable('database_update_log', nl2br($update_log));
+        }
     }
+} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+    $fatal_error = true;
 }
 
 /********************************************************************************
@@ -177,6 +180,7 @@ if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
         //$rss_loop[] = array('title' => _('Part-DB Releases Atom-Feed'), 'datetime' => $xml->updated, 'link' => $feed_link);
 
         $item_index = 1;
+        /** @noinspection PhpUndefinedFieldInspection */
         foreach ($xml->entry as $entry) {
             if ($item_index >= $item_count) {
                 break;

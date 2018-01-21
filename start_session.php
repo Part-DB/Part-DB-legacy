@@ -228,7 +228,7 @@ if (is_string($message)) {
         _('Ihre config.php ist fehlerhaft!'),
         sprintf(_('Nähere Informationen gibt es in der <a target="_blank" href="%s">Dokumentation</a>.'), _("https://github.com/jbtronics/Part-DB/wiki/Installation")).
         _('<form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>')
-        );
+    );
     exit;
 }
 

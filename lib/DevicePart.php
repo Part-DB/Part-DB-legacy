@@ -210,6 +210,7 @@ class DevicePart extends Base\DBElement
 
     /**
      * @copydoc Part::build_template_table_row_array()
+     * @throws Exception
      */
     public function buildTemplateTableRowArray($table_type, $row_index, $additional_values = array())
     {
@@ -252,6 +253,7 @@ class DevicePart extends Base\DBElement
 
     /**
      * @copydoc Part::build_template_table_array()
+     * @throws Exception
      */
     public static function buildTemplateTableArray($parts, $table_type)
     {
@@ -266,6 +268,7 @@ class DevicePart extends Base\DBElement
 
     /**
      * @copydoc DBElement::check_values_validity()
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -415,7 +418,7 @@ class DevicePart extends Base\DBElement
      *                                      @li if false, and there is already a DevicePart with the same
      *                                          part ID + device ID, this method will throw an exception.
      *
-     * @return DevicePart   the new device-part
+     * @return Base\DBElement|DevicePart
      * @return DevicePart   the existing device-part, if there is already a DevicePart with
      *                      the same part ID + device ID and "$increment_if_exist == true"
      *

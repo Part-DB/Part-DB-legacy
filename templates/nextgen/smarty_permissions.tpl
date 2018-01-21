@@ -74,7 +74,7 @@
 
     <script>
         $("input.tristate-toggle-all").tristate({
-            change: function (state, value) {
+            change: function () {
                 var $this = $(this);
                 var target = $this.data('target');
                 var state = $this.tristate('state');

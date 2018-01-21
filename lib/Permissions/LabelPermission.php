@@ -8,7 +8,6 @@
 
 namespace PartDB\Permissions;
 
-
 class LabelPermission extends BasePermission
 {
     const CREATE_LABELS = "create_labels";

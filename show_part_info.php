@@ -345,21 +345,25 @@ if (! $fatal_error) {
         $fatal_error = true;
     }
 }
+try {
+    $html->setVariable("can_delete", $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE), "bool");
+    $html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT), "bool");
+    $html->setVariable("can_create", $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE), "bool");
+    $html->setVariable("can_move", $current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE), "bool");
+    $html->setVariable("can_read", $current_user->canDo(PermissionManager::PARTS, PartPermission::READ), "bool");
+    $html->setVariable("can_instock", $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT), "bool");
+    $html->setVariable("can_favorite", $current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE));
 
-$html->setVariable("can_delete", $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE), "bool");
-$html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT), "bool");
-$html->setVariable("can_create", $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE), "bool");
-$html->setVariable("can_move", $current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE), "bool");
-$html->setVariable("can_read", $current_user->canDo(PermissionManager::PARTS, PartPermission::READ), "bool");
-$html->setVariable("can_instock", $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT), "bool");
-$html->setVariable("can_favorite", $current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE));
-
-$html->setVariable('can_orderdetails_create', $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE), "bool");
-$html->setVariable('can_attachement_create', $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE), "bool");
-$html->setVariable('can_order_edit', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT), "bool");
-$html->setVariable('can_order_read', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ), "bool");
-$html->setVariable('can_devicepart_create', $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
-$html->setVariable('can_generate_barcode', $current_user->canDo(PermissionManager::LABELS, \PartDB\Permissions\LabelPermission::CREATE_LABELS));
+    $html->setVariable('can_orderdetails_create', $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE), "bool");
+    $html->setVariable('can_attachement_create', $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE), "bool");
+    $html->setVariable('can_order_edit', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT), "bool");
+    $html->setVariable('can_order_read', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ), "bool");
+    $html->setVariable('can_devicepart_create', $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
+    $html->setVariable('can_generate_barcode', $current_user->canDo(PermissionManager::LABELS, \PartDB\Permissions\LabelPermission::CREATE_LABELS));
+} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+    $fatal_error = true;
+}
 
 /********************************************************************************
  *

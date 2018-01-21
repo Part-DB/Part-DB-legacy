@@ -130,7 +130,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      * @param string    $name               the name of the new attachement type (see AttachementType::set_name())
      * @param integer   $parent_id          the parent ID of the new attachement type (see AttachementType::set_parent_id())
      *
-     * @return AttachementType      the new attachement type
+     * @return AttachementType|Base\StructuralDBElement
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error
@@ -154,6 +154,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      * Returns a Array representing the current object.
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
+     * @throws Exception
      */
     public function getAPIArray($verbose = false)
     {

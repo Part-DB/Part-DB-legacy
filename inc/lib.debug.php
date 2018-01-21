@@ -72,6 +72,7 @@ function debug($type, $text, $file = '', $line = '', $method = '', $silent = tru
 
 
     if ($config['debug']['debugbar']) {
+        /** @noinspection PhpUndefinedClassInspection */
         $level = Psr\Log\LogLevel::WARNING;
         $debugbar = PDBDebugBar::getInstance()->getDebugBar();
         $type = strtolower($type);
@@ -221,6 +222,7 @@ function getDebugLogElements($types = null)
     $elements = $dom->getElementsByTagName('log');
     $log_array = array();
     foreach ($elements as $element) {
+        /** @var DOMElement $element */
         $values = array();
         $values['message'] = $element->nodeValue;
         $values['datetime'] = $element->getAttribute('datetime');

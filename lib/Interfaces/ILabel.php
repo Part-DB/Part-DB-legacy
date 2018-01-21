@@ -8,7 +8,6 @@
 
 namespace PartDB\Interfaces;
 
-
 interface ILabel
 {
     public function getID();

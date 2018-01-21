@@ -94,7 +94,9 @@ class Attachement extends Base\NamedDBElement
      *
      *   Basic Methods
      *
-     *********************************************************************************/
+     ********************************************************************************
+     * @throws Exception
+     */
 
     public function setAttributes($new_values)
     {
@@ -376,6 +378,12 @@ class Attachement extends Base\NamedDBElement
 
     /**
      * @copydoc DBElement::check_values_validity()
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -507,7 +515,7 @@ class Attachement extends Base\NamedDBElement
      * @warning         You have to supply the full path from filesystem root in $filename!!
      *                  For more details see Attachement::set_filename().
      *
-     * @return Attachement  the new attachement
+     * @return Attachement|Base\NamedDBElement
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

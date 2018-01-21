@@ -11,6 +11,7 @@ namespace PartDB\Label;
 use PartDB\Base\NamedDBElement;
 use PartDB\Exceptions\NotImplementedException;
 use PartDB\Interfaces\ILabel;
+use PartDB\User;
 use TCPDF;
 
 abstract class BaseLabel
@@ -172,10 +173,7 @@ abstract class BaseLabel
 
                 $this->pdf->Image($path, "3", $this->pdf->GetY() + 1, "10", "", "", "", "R", true, 300);
             }
-
         }
-
-
 
         if ($this->type == static::TYPE_BARCODE ||
             $this->type == static::TYPE_C39) {
@@ -204,6 +202,9 @@ abstract class BaseLabel
                     $type = "C39";
                     $width = "36";
                     break;
+                default:
+                    $width = "";
+                    throw new \InvalidArgumentException(sprintf(_("Der Barcodetyp %s wird nicht unterstützt!"), $this->type));
             }
 
             $this->pdf->write1DBarcode($this->element->getBarcodeContent($type), $type, "", "", $width, 15, "", $style, 'N');
@@ -308,10 +309,11 @@ abstract class BaseLabel
      *
      * @param $string string The string which contains the placeholder.
      * @return string A string with the filled placeholders.
+     * @throws \Exception
      */
     public static function replacePlaceholderWithInfos($string)
     {
-        $user = \PartDB\User::getLoggedInUser();
+        $user = User::getLoggedInUser();
         global $config;
 
         $string = str_replace("%USERNAME%", $user->getName(), $string);

@@ -30,7 +30,6 @@ use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Interfaces\IHasPermissions;
 use PartDB\Interfaces\ISearchable;
 use PartDB\Permissions\BasePermission;
-use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\SelfPermission;
 use PartDB\Permissions\UserPermission;
@@ -691,6 +690,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     /**
      * Returns the PermissionManager of the (permission) parent of the current object.
      * @return PermissionManager|null The PermissionManager of the parent, or null if the current object has no parent.
+     * @throws Exception
      */
     public function &getParentPermissionManager()
     {
@@ -748,6 +748,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
 
     /**
      * @copydoc DBElement::check_values_validity()
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -874,6 +875,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param $database Database The Database which should be used for request.
      * @param $log Log The Log, which should be used.
      * @return User The user, which is currently logged in.
+     * @throws Exception
      */
     public static function getLoggedInUser(&$database = null, &$log = null)
     {
@@ -942,6 +944,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param int $selected_id The ID of the currently selected user. This will the selected user in the list.
      *          Set to -1, when you dont want to have any selection.
      * @return string A string with HTML
+     * @throws Exception
      */
     public static function buildHTMLList(&$database, &$current_user, &$log, $selected_id = -1)
     {
@@ -963,6 +966,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param User $current_user The user which should be used for requests.
      * @param Log $log The log which should be used for requests.
      * @return User[] Any array of all users in the database.
+     * @throws Exception
      */
     public static function getAllUsers(&$database, &$current_user, &$log)
     {
@@ -987,7 +991,8 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param $name string The username of the new user.
      * @param $group_id int The id of the group of the new user.
      * @param $data array Additional data that should be set. (See database colums for index names)
-     * @return static The newly added user.
+     * @return Base\NamedDBElement|User
+     * @throws Exception
      */
     public static function add(&$database, &$current_user, &$log, $name, $group_id, $data)
     {
@@ -1016,7 +1021,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Normalize a username.
      * This process contains: trim trailing/leading whitespaces, replace whitespaces with chars, and remove all non ASCII chars.
      * @param $username string The username that should be normalized.
-     * @return static The normalized username.
+     * @return string The normalized username.
      */
     public static function normalizeUsername($username)
     {

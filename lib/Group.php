@@ -26,7 +26,6 @@
 namespace PartDB;
 
 use Exception;
-use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Permissions\GroupPermission;
 use PartDB\Permissions\PermissionManager;
 
@@ -94,6 +93,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
     /**
      * Check if this Group is the group of the currently logged in user.
      * @return bool True, if this is the group of the current user.
+     * @throws Exception
      */
     public function isGroupOfCurrentUser()
     {
@@ -261,6 +261,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
     /**
      * Returns the PermissionManager of the (permission) parent of the current object.
      * @return PermissionManager|null The PermissionManager of the parent, or null if the current object has no parent.
+     * @throws Exception
      */
     public function &getParentPermissionManager()
     {
@@ -285,6 +286,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
 
     /**
      * @copydoc DBElement::check_values_validity()
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -324,7 +326,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * @param $log Log The database which should be used for requests.
      * @param $name string The username of the new user.
      * @param $parent_id int The id of the parental group of the new group.
-     * @return static The newly added group.
+     * @return Base\StructuralDBElement|Group
      */
     public static function add(&$database, &$current_user, &$log, $name, $parent_id)
     {

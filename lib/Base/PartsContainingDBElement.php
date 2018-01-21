@@ -30,7 +30,6 @@ use PartDB\Database;
 use PartDB\Log;
 use PartDB\Part;
 use PartDB\Permissions\PartContainingPermission;
-use PartDB\Permissions\StructuralPermission;
 use PartDB\User;
 
 /**

@@ -272,6 +272,9 @@ if (! $fatal_error) {
         if ($groupby == "") {
             $parts_table_loops["Alle Kategorien"] = Part::buildTemplateTableArray($category_parts, 'search_parts_category');
         } else {
+            /**
+             * @var  $category_parts Part[][]
+             */
             foreach ($category_parts as $category_full_path => $parts) {
                 $parts_table_loops[$category_full_path] = Part::buildTemplateTableArray($parts, 'search_parts');
             }
@@ -289,31 +292,36 @@ if (! $fatal_error) {
  *********************************************************************************/
 
 if (! $fatal_error) {
-    $html->setVariable('keyword', $keyword, 'string');
-    $html->setVariable('hits_count', (isset($hits_count) ? $hits_count : 0), 'integer');
-    $html->setVariable('search_name', $search_name, 'boolean');
-    $html->setVariable('search_category', $search_category, 'boolean');
-    $html->setVariable('search_description', $search_description, 'boolean');
-    $html->setVariable('search_comment', $search_comment, 'boolean');
-    $html->setVariable('search_supplier', $search_supplier, 'boolean');
-    $html->setVariable('search_supplierpartnr', $search_supplierpartnr, 'boolean');
-    $html->setVariable('search_storelocation', $search_storelocation, 'boolean');
-    $html->setVariable('search_footprint', $search_footprint, 'boolean');
-    $html->setVariable('search_manufacturer', $search_manufacturer, 'boolean');
+    try {
+        $html->setVariable('keyword', $keyword, 'string');
+        $html->setVariable('hits_count', (isset($hits_count) ? $hits_count : 0), 'integer');
+        $html->setVariable('search_name', $search_name, 'boolean');
+        $html->setVariable('search_category', $search_category, 'boolean');
+        $html->setVariable('search_description', $search_description, 'boolean');
+        $html->setVariable('search_comment', $search_comment, 'boolean');
+        $html->setVariable('search_supplier', $search_supplier, 'boolean');
+        $html->setVariable('search_supplierpartnr', $search_supplierpartnr, 'boolean');
+        $html->setVariable('search_storelocation', $search_storelocation, 'boolean');
+        $html->setVariable('search_footprint', $search_footprint, 'boolean');
+        $html->setVariable('search_manufacturer', $search_manufacturer, 'boolean');
 
-    // export formats
-    $html->setLoop('export_formats', buildExportFormatsLoop('searchparts'));
-    $html->setLoop('group_formats', Part::buildSearchGroupByLoop($groupby));
+        // export formats
+        $html->setLoop('export_formats', buildExportFormatsLoop('searchparts'));
+        $html->setLoop('group_formats', Part::buildSearchGroupByLoop($groupby));
 
-    // global stuff
-    $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
-    $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
-    $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
+        // global stuff
+        $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
+        $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+        $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
-    $html->setVariable('highlighting', $config['search']['highlighting'], 'boolean');
+        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
+        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
+        $html->setVariable('highlighting', $config['search']['highlighting'], 'boolean');
+    } catch (Exception $e) {
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $fatal_error = true;
+    }
 }
 
 /********************************************************************************
