@@ -14,7 +14,7 @@
                            {if !$can_part_instock}disabled{/if}>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label class="control-label col-md-3">{t}Teile abfassen oder einbuchen:{/t}</label>
                 <div class="col-md-9" class="btn-group" role="group">
@@ -24,24 +24,27 @@
                         {t}Einbuchen (+){/t}</button>
                 </div>
             </div>
-            
+
             <div class="form-group">
                 <label class="control-label col-md-3">{t}Zum Bestellen vormerken:{/t}</label>
                 <div class="col-md-9">
-                        {if isset($order_quantity)}
-                            <div class="form-control-static">{t 1=$order_quantity}Es sind %1 Stk. von dieser Baugruppe zum Bestellen vorgemerkt{/t}
+                    {if isset($order_quantity)}
+                        <div class="form-control-static">{t 1=$order_quantity}Es sind %1 Stk. von dieser Baugruppe zum Bestellen vorgemerkt{/t}
                             ({if isset($order_only_missing_parts)}{t}Nur fehlende Teile{/t}{else}{t}Alle Teile{/t}{/if}).</div>
-                            <button class="btn btn-default" type="submit" name="remove_order"
-                                    {if !$can_part_order}disabled{/if}>{t}Aufheben{/t}</button>
-                        {else}
-                            <button class="btn btn-default" type="submit" name="add_order" {if !$can_part_order}disabled{/if}>
-                                {t}Alle{/t}</button>
-                            <button class="btn btn-default" type="submit" name="add_order_only_missing" {if !$can_part_order}disabled{/if}>
-                                {t}Nur fehlende Teile{/t}</button>
-                        {/if}
+                        <button class="btn btn-default" type="submit" name="remove_order"
+                                {if !$can_part_order}disabled{/if}>{t}Aufheben{/t}</button>
+                    {else}
+                        <button class="btn btn-default" type="submit" name="add_order" {if !$can_part_order}disabled{/if}>
+                            {t}Alle{/t}</button>
+                        <button class="btn btn-default" type="submit" name="add_order_only_missing" {if !$can_part_order}disabled{/if}>
+                            {t}Nur fehlende Teile{/t}</button>
+                    {/if}
                 </div>
             </div>
-            
+
+        </form>
+        <form method="post" action="" id="export" class="form-horizontal no-ajax">
+            <input type="hidden" name="device_id" value="{$device_id}">
             <div class="form-group">
                 <label class="control-label col-md-3">{t}Exportieren:{/t}</label>
                 <div class="col-md-9">
@@ -63,9 +66,9 @@
             {if isset($export_result)}
                 <hr>
                 <div class="well">
-                <code>   
-                    {$export_result nofilter}
-                </code>    
+                    <code>
+                        {$export_result nofilter}
+                    </code>
                 </div>
             {/if}
         </form>
