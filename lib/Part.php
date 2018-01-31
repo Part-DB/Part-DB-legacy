@@ -27,7 +27,6 @@ namespace PartDB;
 
 use Exception;
 use Golonka\BBCode\BBCodeParser;
-use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\PartProperty\PartProperty;
 use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PartAttributePermission;
@@ -109,7 +108,21 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @copydoc DBElement::reset_attributes()
+     * Reset all attributes of this object (set them to NULL).
+     *
+     * Reasons why we need this method:
+     *      * If we change an attribute of the element, some calculated attributes are no longer valid.
+     *          So this method is called with $all=false to set all calculated attributes to NULL ("clear the cache")
+     *      * If this element is deleted by delete(), we need to clear ALL data from this element,
+     *          including non-calculated attributes. So this method will be called with $all=true.
+     *
+     * @warning     You should implement this function in your subclass (including a call to this function here!),
+     *              if your subclass has its own attributes (calculated or non-calculated)!
+     *
+     * @param boolean $all * if true, ALL attributes will be deleted (use it only for "destroying" the object).
+     * * if false, only the calculated data will be deleted.
+     *                              This is needed if you change an attribute of the object.
+     * @throws Exception
      */
     public function resetAttributes($all = false)
     {
@@ -232,40 +245,43 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * %cat_full%   : The full path of the parts category
      *
      * @param string $string The string on which contains the placeholders
-     * @return string the
+     * @return string The string with the infos.
+     * @throws Exception When an error occured when getting the infos.
      */
-    function replacePlaceholderWithInfos($string)
+    public function replacePlaceholderWithInfos($string)
     {
         //General infos
-        $string = str_replace("%id%", $this->getID(), $string);                        //part id
-        $string = str_replace("%name%", $this->getName(), $string);                    //Name of the part
-        $string = str_replace("%desc%", $this->getDescription(), $string);             //description of the part
-        $string = str_replace("%comment%", $this->getComment(), $string);              //comment of the part
-        $string = str_replace("%mininstock%", $this->getMinInstock(), $string);        //minimum in stock
-        $string = str_replace("%instock%", $this->getInstock(), $string);              //current in stock
-        $string = str_replace("%avgprice%", $this->getAveragePrice(), $string);       //average price
+        $string = str_replace("%ID%", $this->getID(), $string);                        //part id
+        $string = str_replace("%NAME%", $this->getName(), $string);                    //Name of the part
+        $string = str_replace("%DESC%", $this->getDescription(), $string);             //description of the part
+        $string = str_replace("%COMMENT%", $this->getComment(), $string);              //comment of the part
+        $string = str_replace("%MININSTOCK%", $this->getMinInstock(), $string);        //minimum in stock
+        $string = str_replace("%INSTOCK%", $this->getInstock(), $string);              //current in stock
+        $string = str_replace("%AVGPRICE%", $this->getAveragePrice(), $string);       //average price
 
         //Category infos
-        $string = str_replace("%cat%", is_object($this->getCategory()) ? $this->getCategory()->getName() : "", $string);
-        $string = str_replace("%cat_full%", is_object($this->getCategory()) ? $this->getCategory()->getFullPath() : "", $string);
+        $string = str_replace("%CAT%", is_object($this->getCategory()) ? $this->getCategory()->getName() : "", $string);
+        $string = str_replace("%CAT_FULL%", is_object($this->getCategory()) ? $this->getCategory()->getFullPath() : "", $string);
 
         //Footprint info
-        $string = str_replace("%foot%", is_object($this->getFootprint()) ? $this->getFootprint()->getName() : "", $string);
-        $string = str_replace("%foot_full%", is_object($this->getFootprint()) ? $this->getFootprint()->getFullPath() : "", $string);
+        $string = str_replace("%FOOT%", is_object($this->getFootprint()) ? $this->getFootprint()->getName() : "", $string);
+        $string = str_replace("%FOOT_FULL%", is_object($this->getFootprint()) ? $this->getFootprint()->getFullPath() : "", $string);
 
         //Manufacturer info
-        $string = str_replace("%manufact%", is_object($this->getManufacturer()) ? $this->getManufacturer()->getName() : "", $string);
+        $string = str_replace("%MANUFACT%", is_object($this->getManufacturer()) ? $this->getManufacturer()->getName() : "", $string);
+        $string = str_replace("%MANUFACT_FULL%", is_object($this->getManufacturer()) ? $this->getManufacturer()->getFullPath() : "", $string);
 
         //Order infos
         $all_orderdetails   = $this->getOrderdetails();
-        $string = str_replace("%supplier%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getName() : "", $string);
-        $string = str_replace("%order_nr%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplierPartNr() : "", $string);
+        $string = str_replace("%SUPPLIER%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getName() : "", $string);
+        $string = str_replace("%SUPPLIER_FULL%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getFullPath() : "", $string);
+        $string = str_replace("%ORDER_NR%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplierPartNr() : "", $string);
 
         //Store location
         /* @var Storelocation $storelocation */
         $storelocation      = $this->getStorelocation();
-        $string = str_replace("%storeloc%", is_object($storelocation) ? $storelocation->getName() : '', $string);
-        $string = str_replace("%storeloc_full%", is_object($storelocation) ? $storelocation->getFullPath() : '', $string);
+        $string = str_replace("%STORELOC%", is_object($storelocation) ? $storelocation->getName() : '', $string);
+        $string = str_replace("%STORELOC_FULL%", is_object($storelocation) ? $storelocation->getFullPath() : '', $string);
 
         //Remove single '-' without other infos
         if (trim($string) == "-") {
@@ -388,7 +404,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *          If a part has no orderdetails, the part isn't marked as obsolete.
      *
      * @return boolean      @li true if this part is obsolete
-     *                      @li false if this part isn't obsolete
+     * @li false if this part isn't obsolete
+     * @throws Exception
      */
     public function getObsolete()
     {
@@ -438,6 +455,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @return Orderdetails         the selected order orderdetails
      * @return NULL                 if there is no order supplier selected
+     * @throws Exception
      */
     public function getOrderOrderdetails()
     {
@@ -479,10 +497,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      *  Get the minimum quantity which should be ordered
      *
-     * @param boolean $with_devices     @li if true, all parts from devices which are marked as "to order" will be included in the calculation
-     *                                  @li if false, only max(mininstock - instock, 0) will be returned
+     * @param boolean $with_devices @li if true, all parts from devices which are marked as "to order" will be included in the calculation
+     * @li if false, only max(mininstock - instock, 0) will be returned
      *
      * @return integer      the minimum order quantity
+     * @throws Exception
      */
     public function getMinOrderQuantity($with_devices = true)
     {
@@ -543,6 +562,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *  Get the link to the website of the article on the manufacturers website
      *
      * @return string           the link to the article
+     * @throws Exception
      */
     public function getManufacturerProductUrl()
     {
@@ -1024,9 +1044,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * Parses the selected fields and extract Properties of the part.
      * @param bool $use_description Use the description field for parsing
      * @param bool $use_comment Use the comment field for parsing
+     * @param bool $use_name Use the name field for parsing
      * @param bool $force_output Properties are parsed even if properties are disabled.
      * @return array A array of PartProperty objects.
      * @return array If Properties are disabled or nothing was detected, then an empty array is returned.
+     * @throws Exception
      */
     public function getProperties($use_description = true, $use_comment = true, $use_name = true, $force_output = false)
     {
@@ -1037,6 +1059,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 return array();
             }
 
+            $name = array();
             $desc = array();
             $comm = array();
 
@@ -1132,7 +1155,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      *  Set the count of parts which should be in stock at least
      *
-     * @param integer $new_instock       the new count of parts which should be in stock at least
+     * @param integer $new_mininstock       the new count of parts which should be in stock at least
      *
      * @throws Exception if the new mininstock is not valid
      * @throws Exception if there was an error
@@ -1615,7 +1638,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'button_increment':
                     $row_field['increment_disabled'] = ($this->getInstock() < 0) || !$this->current_user->canDo(
                         PermissionManager::PARTS_INSTOCK,
-                            PartAttributePermission::EDIT
+                        PartAttributePermission::EDIT
                     );
                     break;
                 case 'button_edit':
@@ -1627,6 +1650,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'quantity_edit': // for DevicePart Objects
                 case 'mountnames_edit': // for DevicePart Objects
                     // nothing to do, only to avoid the Exception in the default-case
+                    break;
+                case "last_modified":
+                    $row_field['last_modified'] = $this->getLastModified(true);
+                    break;
+                case "created":
+                    $row_field['created'] = $this->getDatetimeAdded(true);
                     break;
 
                 default:
@@ -1710,6 +1739,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param $proposed_storelocation_id integer
      * @param $proposed_category_id integer
      * @return array|bool An array containing parts with similar name and storelocation and category
+     * @throws Exception
      */
     public static function checkForExistingPart(&$database, &$current_user, &$log, $proposed_name, $proposed_storelocation_id, $proposed_category_id)
     {
@@ -1745,9 +1775,36 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-     * @copydoc DBElement::check_values_validity()
-     * @param $element Part
-     * @throws Exception
+     * Check if all values are valid for creating a new element / editing an existing element
+     *
+     * This function is called by creating a new DBElement (DBElement::add()),
+     * respectively a subclass of DBElement. Then the attribute $is_new is true!
+     *
+     * And if you set data fields with DBElement::set_attributes() (or a subclass of DBElement),
+     * the new data (one or more attributes) will be checked with this function
+     * (with $is_new = false and with the object as $element).
+     *
+     * Because we pass the values array by reference, you're able to adjust values in the array.
+     * For example, you can trim names of elements. So you don't have to throw an Exception if
+     * values are not 100% perfect, you simply can "repair" these uncritical attributes.
+     *
+     * @warning     You have to implement this function in your subclass to check all data!
+     *              You should always let to check the parent class all values, and after that,
+     *              you can check the values which are associated with your subclass of DBElement.
+     *
+     * @param Database      &$database          reference to the database object
+     * @param User          &$current_user      reference to the current user which is logged in
+     * @param Log           &$log               reference to the Log-object
+     * @param array         &$values            @li one-dimensional array of all keys and values (old and new!)
+     *                                          @li example: @code
+     *                                              array(['name'] => 'abcd', ['parent_id'] => 123, ...) @endcode
+     * @param boolean       $is_new             @li if true, this means we will create a new element.
+     *                                          @li if false, this means we will set attributes of an existing element
+     * @param static|NULL   &$element           if $is_new is 'false', we have to supply the element,
+     *                                          which will be edited, here.
+     *
+     * @throws Exception if the values are not valid / the combination of values is not valid
+     * @throws Exception if there was an error
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -2085,6 +2142,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+     *
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
@@ -2162,6 +2222,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+     *
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
@@ -2233,6 +2296,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
      *
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
@@ -2301,12 +2366,184 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
+     *  Get all parts sorted by their last modified datetime.
+     *
+     * @param Database  &$database          reference to the database object
+     * @param User      &$current_user      reference to the user which is logged in
+     * @param Log       &$log               reference to the Log-object
+     * @param bool      $newest_first       When this is set to true, newest modified parts are first (DESC sorting).
+     *                                      Set to false for (ASC sorting)
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+     *
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public static function getLastModifiedParts(&$database, &$current_user, &$log, $newest_first = true, $limit = 50, $page = 1)
+    {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
+            return array();
+        }
+
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt!'));
+        }
+
+        $sorting = $newest_first ? "DESC" : "ASC";
+
+        $parts = array();
+
+        /** @noinspection SyntaxError */
+        $query =    'SELECT * from parts '.
+            'ORDER BY parts.last_modified ' . $sorting;
+
+        if ($limit > 0 && $page > 0) {
+            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+        }
+
+        $query_data = $database->query($query);
+
+        foreach ($query_data as $row) {
+            $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
+        }
+
+        return $parts;
+    }
+
+    /**
+     *  Get all parts sorted by their last modified datetime.
+     *
+     * @param Database  &$database          reference to the database object
+     * @param User      &$current_user      reference to the user which is logged in
+     * @param Log       &$log               reference to the Log-object
+     * @param bool      $newest_first       When this is set to true, newest modified parts are first (DESC sorting).
+     *
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public static function getLastModifiedPartsCount(&$database, &$current_user, &$log, $newest_first = true)
+    {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
+            return array();
+        }
+
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt!'));
+        }
+
+        $sorting = $newest_first ? "DESC" : "ASC";
+
+        $parts = array();
+
+        /** @noinspection SyntaxError */
+        $query =    'SELECT count(id) AS count from parts '.
+            'ORDER BY parts.last_modified ' . $sorting;
+
+
+        $query_data = $database->query($query);
+
+        return $query_data[0]['count'];
+    }
+
+    /**
+     *  Get all parts sorted by the datetime, when they were created.
+     *
+     * @param Database  &$database          reference to the database object
+     * @param User      &$current_user      reference to the user which is logged in
+     * @param Log       &$log               reference to the Log-object
+     * @param bool      $newest_first       When this is set to true, newest modified parts are first (DESC sorting).
+     *                                      Set to false for (ASC sorting)
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+     *
+     *
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public static function getLastAddedParts(&$database, &$current_user, &$log, $newest_first = true, $limit = 50, $page = 1)
+    {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
+            return array();
+        }
+
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt!'));
+        }
+
+        $sorting = $newest_first ? "DESC" : "ASC";
+
+        $parts = array();
+
+        /** @noinspection SyntaxError */
+        $query =    'SELECT * from parts '.
+            'ORDER BY parts.datetime_added ' . $sorting;
+
+        if ($limit > 0 && $page > 0) {
+            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+        }
+
+        $query_data = $database->query($query);
+
+        foreach ($query_data as $row) {
+            $parts[] = new Part($database, $current_user, $log, $row['id'], $row);
+        }
+
+        return $parts;
+    }
+
+    /**
+     *  Get all parts which have an unknown instock value.
+     *
+     * @param Database  &$database          reference to the database object
+     * @param User      &$current_user      reference to the user which is logged in
+     * @param Log       &$log               reference to the Log-object
+     *
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+     *
+     *
+     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public static function getLastAddedPartsCount(&$database, &$current_user, &$log, $newest_first = true)
+    {
+        if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
+            return array();
+        }
+
+        if (!$database instanceof Database) {
+            throw new Exception(_('$database ist kein Database-Objekt!'));
+        }
+
+        $sorting = $newest_first ? "DESC" : "ASC";
+
+        $parts = array();
+
+        /** @noinspection SyntaxError */
+        $query =    'SELECT count(id) AS count from parts '.
+            'ORDER BY parts.datetime_added ' . $sorting;
+
+
+        $query_data = $database->query($query);
+
+        return $query_data[0]['count'];
+    }
+
+    /**
      *  Get all obsolete parts
      *
      * @param Database  &$database              reference to the database object
      * @param User      &$current_user          reference to the user which is logged in
      * @param Log       &$log                   reference to the Log-object
      * @param boolean   $no_orderdetails_parts  if true, parts without any orderdetails will be returned too
+     *
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+     *
      *
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
@@ -2433,7 +2670,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param boolean   $regex_search           if true, the search will use Regular Expressions to match
      *                                          the results.
      *
-     * @return array    all found parts as a one-dimensional array of Part objects,
+     * @return Part[]    all found parts as a one-dimensional array of Part objects,
      *                  sorted by their names (if "$group_by == ''")
      * @return array    @li all parts as a two-dimensional array, grouped by $group_by,
      *                      sorted by name (if "$group_by != ''")
@@ -2664,6 +2901,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *                                              two-dimensional array with the group names as top level.
      *                                          @li supported groups are: '' (none), 'categories'
      *
+     *  @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+     *
+     *
      * @return array    all found parts as a one-dimensional array of Part objects,
      *                  sorted by their names (if "$group_by == ''")
      * @return array    @li all parts as a two-dimensional array, grouped by $group_by,
@@ -2726,7 +2967,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param string    $comment            the comment of the new part (see Part::set_comment())
      * @param boolean   $visible            the visible attribute of the new part (see Part::set_visible())
      *
-     * @return Part     the new part
+     * @return Base\AttachementsContainingDBElement|Part
      * @return Part     the new part
      *
      * @throws Exception    if (this combination of) values is not valid
@@ -2790,6 +3031,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * Returns a Array representing the current object.
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
+     * @throws Exception
      */
     public function getAPIArray($verbose = false)
     {

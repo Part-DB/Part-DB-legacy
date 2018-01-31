@@ -52,7 +52,7 @@ if (isset($_REQUEST["add"])) {
     }
 } elseif (isset($_REQUEST["enable"])) {
     try {
-        setDebugEnable(true, $_REQUEST['admin_password']);
+        setDebugEnable(true);
         header('Location: system_debug.php');
     } catch (Exception $exception) {
         $errors[] = $exception->getMessage();

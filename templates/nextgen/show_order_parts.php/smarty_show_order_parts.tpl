@@ -2,6 +2,7 @@
 <script language="JavaScript">
     function toggle_all_checkboxes(source, prefix)
     {
+        // noinspection JSUnusedAssignment
         for(var i=0, n={$table_rowcount};i<n;i++)
         {
             var elements = document.getElementsByName(prefix + i);

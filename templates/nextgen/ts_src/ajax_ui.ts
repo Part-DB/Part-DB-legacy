@@ -73,10 +73,10 @@ class AjaxUI {
 
         this.checkRedirect();
 
-       /* //Only load start page when on index.php (and no content is loaded already)!
-        if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
-            openLink("startup.php");
-        }*/
+        /* //Only load start page when on index.php (and no content is loaded already)!
+         if (page.indexOf(".php") === -1 || page.indexOf("index.php") !== -1) {
+             openLink("startup.php");
+         }*/
 
         this.tree_fill();
         this.registerForm();
@@ -160,9 +160,9 @@ class AjaxUI {
      */
     private form_beforeSerialize($form, options) {
         $form.find("input[type=checkbox].tristate").each(function(index)  {
-                let name = $(this).attr("name");
-                let value = $(this).val();
-                $form.append('<input type="hidden" name="' + name + '" value="' + value + '">');
+            let name = $(this).attr("name");
+            let value = $(this).val();
+            $form.append('<input type="hidden" name="' + name + '" value="' + value + '">');
         });
 
         $form.find("input[type=checkbox].tristate").remove();
@@ -252,7 +252,7 @@ class AjaxUI {
                 return true;
             }
         });
-        
+
         $("a.link-anchor").unbind("click").click(function (event) {
             event.preventDefault();
             scrollToAnchor($(this).prop("hash"));
@@ -309,10 +309,7 @@ class AjaxUI {
      */
     private tree_fill() {
         'use strict';
-
-        let node_handler = this.onNodeSelected;
-        let contextmenu_handler = this.onNodeContextmenu;
-
+        /*
         $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree : BootstrapTreeViewNodeData[]) {
             $("#tree-categories").treeview({data: tree, enableLinks: false, showIcon: false
                 ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
@@ -326,9 +323,88 @@ class AjaxUI {
         $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree :BootstrapTreeViewNodeData[]) {
             $('#tree-tools').treeview({data: tree, enableLinks: false, showIcon: false,
                 showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
-        });
+        });*/
+
+        /*
+        this.initTree("#tree-categories", 'api.php/1.0.0/tree/categories');
+
+        this.initTree("#tree-devices", 'api.php/1.0.0/tree/devices');
+
+        this.initTree("#tree-tools", 'api.php/1.0.0/tree/tools');
+        */
+
+        let categories =  Cookies.get("tree_datasource_tree-categories");
+        let devices =  Cookies.get("tree_datasource_tree-devices");
+        let tools =  Cookies.get("tree_datasource_tree-tools");
+
+        if(typeof categories == "undefined") {
+            categories = "categories";
+        }
+
+        if(typeof devices == "undefined") {
+            devices = "devices";
+        }
+
+        if(typeof tools == "undefined") {
+            tools = "tools";
+        }
+
+        this.treeLoadDataSource("tree-categories", categories);
+        this.treeLoadDataSource("tree-devices", devices);
+        this.treeLoadDataSource("tree-tools", tools);
 
         this.trees_filled = true;
+    }
+
+    /**
+     * Fill a treeview with data from the given url.
+     * @param tree The Jquery selector for the tree (e.g. "#tree-tools")
+     * @param url The url from where the data should be loaded
+     */
+    public initTree(tree, url) {
+        let node_handler = this.onNodeSelected;
+        let contextmenu_handler = this.onNodeContextmenu;
+
+        $.getJSON(BASE + url, function (data : BootstrapTreeViewNodeData[]) {
+            $(tree).treeview({data: data, enableLinks: false, showIcon: false
+                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
+        });
+    }
+
+    public treeLoadDataSource(target_id, datasource) {
+        let text : string = $(".tree-btns[data-mode='" + datasource + "']").html();
+        text = text + " \n<span class='caret'></span>"; //Add caret or it will be removed, when written into title
+
+        switch(datasource) {
+            case "categories":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/categories');
+                $( "#" + target_id + "-title").html(text);
+                break;
+            case "locations":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/locations');
+                $( "#" + target_id + "-title").html(text);
+                break;
+            case "footprints":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/footprints');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "manufacturers":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/manufacturers');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "suppliers":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/suppliers');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "tools":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/tools');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "devices":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/devices');
+                $("#" + target_id + "-title").html(text);
+                break;
+        }
     }
 
 
@@ -357,7 +433,7 @@ class AjaxUI {
     private fillTypeahead() {
         if($("#models-search").length && !$("#models-search").hasClass("initialized")) {
             $("#models-search").addClass("initialized");
-                $("#models-search").typeahead({ source: this.model_list });
+            $("#models-search").typeahead({ source: this.model_list });
         }
 
         if($("#img-search").length && !$("#img-search").hasClass("initialized")) {
@@ -431,6 +507,12 @@ class AjaxUI {
         let i = this.xhrPool.indexOf(xhr);   //  get index for current connection completed
         if (i > -1) this.xhrPool.splice(i, 1); //  removes from list by index
 
+        let url = settings.url;
+        //Ignore all API Ajax requests.
+        if (url.indexOf("api.php") != -1) {
+           return;
+        }
+
         //Hide progressbar and show Result
         $('#progressbar').hide(0);
         $('#content').fadeIn("fast");
@@ -441,7 +523,7 @@ class AjaxUI {
 
         this.fillTypeahead();
 
-        let url = settings.url;
+
 
         if(url.indexOf("#") != -1)
         {
@@ -467,6 +549,9 @@ class AjaxUI {
 
             //Push the cleaned (no ajax request) to history
             window.history.pushState(null, "", removeURLparam(settings.url, "ajax"));
+
+            //Update redirect param in login link:
+            $("#login-link").attr("href", "login.php?redirect=" + encodeURIComponent(url));
 
             //Set page title from response
             let input : string = xhr.responseText;
@@ -555,77 +640,78 @@ $(function(event){
 function makeGreekInput() {
 
     $("input[type=text], textarea, input[type=search]").unbind("keydown").keydown(function (event : KeyboardEvent) {
-       let greek = event.altKey;
+        let greek = event.altKey;
 
-       let greek_char : string = "";
-       if (greek){
-           switch(event.key) {
-               case "w": //Omega
-                   greek_char = '\u2126';
-                   break;
-               case "u":
-               case "m": //Micro
-                   greek_char = "\u00B5";
-                   break;
-               case "p": //Phi
-                   greek_char = "\u03C6";
-                   break;
-               case "a": //Alpha
-                   greek_char = "\u03B1";
-                   break;
-               case "b": //Beta
-                   greek_char = "\u03B2";
-                   break;
-               case "c": //Gamma
-                   greek_char = "\u03B3";
-                   break;
-               case "d": //Delta
-                   greek_char = "\u03B4";
-                   break;
-               case "l": //Pound
-                   greek_char = "\u00A3";
-                   break;
-               case "y": //Yen
-                   greek_char = "\u00A5";
-                   break;
-               case "o": //Yen
-                   greek_char = "\u00A4";
-                   break;
-               case "1": //Sum symbol
-                   greek_char = "\u2211";
-                   break;
-               case "2": //Integral
-                   greek_char = "\u222B";
-                   break;
-               case "3": //Less-than or equal
-                   greek_char = "\u2264";
-                   break;
-               case "4": //Greater than or equal
-                   greek_char = "\u2265";
-                   break;
-               case "5": //PI
-                   greek_char = "\u03c0";
-                   break;
-               case "q": //Copyright
-                   greek_char = "\u00A9";
-                   break;
-               case "e": //Euro
-                   greek_char = "\u20AC";
-                   break;
-           }
+        let greek_char : string = "";
+        if (greek){
+            switch(event.key) {
+                case "w": //Omega
+                    greek_char = '\u2126';
+                    break;
+                case "u":
+                case "m": //Micro
+                    greek_char = "\u00B5";
+                    break;
+                case "p": //Phi
+                    greek_char = "\u03C6";
+                    break;
+                case "a": //Alpha
+                    greek_char = "\u03B1";
+                    break;
+                case "b": //Beta
+                    greek_char = "\u03B2";
+                    break;
+                case "c": //Gamma
+                    greek_char = "\u03B3";
+                    break;
+                case "d": //Delta
+                    greek_char = "\u03B4";
+                    break;
+                case "l": //Pound
+                    greek_char = "\u00A3";
+                    break;
+                case "y": //Yen
+                    greek_char = "\u00A5";
+                    break;
+                case "o": //Yen
+                    greek_char = "\u00A4";
+                    break;
+                case "1": //Sum symbol
+                    greek_char = "\u2211";
+                    break;
+                case "2": //Integral
+                    greek_char = "\u222B";
+                    break;
+                case "3": //Less-than or equal
+                    greek_char = "\u2264";
+                    break;
+                case "4": //Greater than or equal
+                    greek_char = "\u2265";
+                    break;
+                case "5": //PI
+                    greek_char = "\u03c0";
+                    break;
+                case "q": //Copyright
+                    greek_char = "\u00A9";
+                    break;
+                case "e": //Euro
+                    greek_char = "\u20AC";
+                    break;
+            }
 
             if(greek_char=="") return;
 
-           let $txt = $(this);
-           let caretPos = $txt[0].selectionStart;
-           let textAreaTxt = $txt.val();
-           $txt.val(textAreaTxt.substring(0, caretPos) + greek_char + textAreaTxt.substring(caretPos) );
+            let $txt = $(this);
+            let caretPos = $txt[0].selectionStart;
+            let textAreaTxt = $txt.val();
+            $txt.val(textAreaTxt.substring(0, caretPos) + greek_char + textAreaTxt.substring(caretPos) );
 
-       }
+        }
     });
     this.greek_once = true;
 }
 
+// noinspection JSUnusedGlobalSymbols
 function makeTypeAhead() {
     if($("#models-search").length && !$("#models-search").hasClass("initialized")) {
         $("#models-search").addClass("initialized");
@@ -676,7 +762,7 @@ function makeSortTable() {
             "order": [],
             "columnDefs": [
                 {
-                "targets": [1], type: "natural-nohtml"
+                    "targets": [1], type: "natural-nohtml"
                 }, {
                     targets: 'no-sort', orderable: false
                 }]
@@ -767,13 +853,18 @@ function treeviewBtnInit() {
         $(this).parents("div.dropdown").removeClass('open');
         let mode = $(this).data("mode");
         let target = $(this).data("target");
+        let text = $(this).text() + " \n<span class='caret'></span>"; //Add caret or it will be removed, when written into title
 
-        if(mode==="collapse") {
+        if (mode==="collapse") {
             $('#' + target).treeview('collapseAll', { silent: true });
         }
         else if(mode==="expand") {
             $('#' + target).treeview('expandAll', { silent: true });
+        } else {
+            Cookies.set("tree_datasource_" + target, mode);
+            ajaxui.treeLoadDataSource(target, mode);
         }
+
         return false;
     });
 }
@@ -812,12 +903,12 @@ function addCollapsedClass() {
  */
 function fixCurrencyEdits() {
     let inputs = $('input[type=number]').each(function(index, element){
-       let e = $(element);
-       if(e.val() == "" && e.prop("defaultValue").indexOf(",") !== -1)
-       {
-           let newval: string = e.prop("defaultValue").replace(",", ".");
-           e.val(newval);
-       }
+        let e = $(element);
+        if(e.val() == "" && e.prop("defaultValue").indexOf(",") !== -1)
+        {
+            let newval: string = e.prop("defaultValue").replace(",", ".");
+            e.val(newval);
+        }
     });
 }
 

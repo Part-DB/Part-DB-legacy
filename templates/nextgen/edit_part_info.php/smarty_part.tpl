@@ -11,7 +11,6 @@
     }
 </script>
 
-
 <div class="panel {if $is_new_part}panel-success{else}panel-default{/if}">
     <div class="panel-heading">
             {if !$is_new_part}
@@ -212,6 +211,12 @@
                             <button type="button" name="apply_attributes" class="btn btn-success submit rightclick"
                                     id="btn_enter" {if !$can_edit}disabled{/if}>{t}Änderungen übernehmen{/t}</button>
                             <button type="button" class="btn btn-danger submit" {if !$can_edit}disabled{/if}>{t}Änderungen verwerfen{/t}</button>
+
+                            {if !empty($back_link)}
+                                <br><hr>
+                                <a class="btn btn-primary" href="{$back_link}"><i class="fas fa-fast-backward fa-fw"></i> {t}Rückkehr zur letzten Bauteileliste{/t}</a>
+                            {/if}
+
                         {/if}
                     </div>
                 </div>

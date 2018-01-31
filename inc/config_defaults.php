@@ -119,7 +119,8 @@ $config['debug']['template_debugging_enable']           = false;
 $config['debug']['request_debugging_enable']            = false;
 
 // admin settings
-$config['admin']['password']                            = null; // NULL means "not yet initialized" (important for "install.php")
+//$config['admin']['password']                            = null; // NULL means "not yet initialized" (important for "install.php")
+$config['admin']['tmp_password']                        = null;
 
 // installation complete steps (can also be used for updates, for example if a user input is needed for an update)
 // if at least one of them is 'false', the installer will be shown automatically
@@ -265,6 +266,7 @@ $config['table']['footprint_parts']['columns']          = 'hover_picture;name;de
 $config['table']['manufacturer_parts']['columns']       = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
 $config['table']['supplier_parts']['columns']           = 'hover_picture;name;description;category;instock_mininstock;storelocation;supplier_partnrs;single_prices;button_decrement;button_increment;button_edit';
 $config['table']['all_parts']['columns']                = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;button_edit';
+$config['table']['last_modified_parts']['columns']            = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;last_modified;created;button_edit';
 
 // export configurations for order parts*
 $config['export']['orderparts'][0]['format']            = 'CSV';

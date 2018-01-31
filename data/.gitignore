@@ -4,3 +4,4 @@ ENABLE-DOKUWIKI-WRITE-PERMS.txt
 *.bak
 updater/updater.json
 updater/*.zip
+label_profiles.json

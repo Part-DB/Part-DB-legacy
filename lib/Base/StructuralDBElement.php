@@ -32,8 +32,6 @@ use PartDB\Exceptions\NotImplementedException;
 use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Log;
 use PartDB\Part;
-use PartDB\Permissions\PartAttributePermission;
-use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\StructuralPermission;
 use PartDB\User;
 
@@ -208,6 +206,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     /**
      * Same like setAttributes(), but without check for permissions.
      * Needed if you want to override the permissions handling in child classes.
+     * @throws Exception
      */
     final protected function setAttributesNoCheck($new_values)
     {
@@ -618,7 +617,43 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *********************************************************************************/
 
     /**
-     * @copydoc DBElement::check_values_validity()
+     * Check if all values are valid for creating a new element / editing an existing element
+     *
+     * This function is called by creating a new DBElement (DBElement::add()),
+     * respectively a subclass of DBElement. Then the attribute $is_new is true!
+     *
+     * And if you set data fields with DBElement::set_attributes() (or a subclass of DBElement),
+     * the new data (one or more attributes) will be checked with this function
+     * (with $is_new = false and with the object as $element).
+     *
+     * Because we pass the values array by reference, you're able to adjust values in the array.
+     * For example, you can trim names of elements. So you don't have to throw an Exception if
+     * values are not 100% perfect, you simply can "repair" these uncritical attributes.
+     *
+     * @warning     You have to implement this function in your subclass to check all data!
+     *              You should always let to check the parent class all values, and after that,
+     *              you can check the values which are associated with your subclass of DBElement.
+     *
+     * @param Database &$database reference to the database object
+     * @param User &$current_user reference to the current user which is logged in
+     * @param Log &$log reference to the Log-object
+     * @param array &$values @li one-dimensional array of all keys and values (old and new!)
+     * @li example: @code
+     *                                              array(['name'] => 'abcd', ['parent_id'] => 123, ...) @endcode
+     * @param boolean $is_new @li if true, this means we will create a new element.
+     * @li if false, this means we will set attributes of an existing element
+     * @param static|NULL &$element if $is_new is 'false', we have to supply the element,
+     *                                          which will be edited, here.
+     *
+     * @throws Exception if the values are not valid / the combination of values is not valid
+     * @throws Exception if there was an error
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {

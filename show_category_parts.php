@@ -109,6 +109,11 @@ try {
     }
 
     $html->setTitle(_('Teileansicht') . ': ' . $category->getName());
+
+    //Remember what page user visited, so user can return there, when he deletes a part.
+    session_start();
+    $_SESSION["part_delete_last_link"] = $_SERVER['REQUEST_URI'];
+    session_write_close();
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -221,46 +226,49 @@ $php_endtime = microtime(true); // For Debug informations
  *
  *********************************************************************************/
 
-
-$html->setVariable('with_subcategories', $with_subcategories, 'boolean');
-
 if (! $fatal_error) {
-    $html->setVariable('cid', $category->getID(), 'integer');
-    $html->setVariable('category_name', $category->getName(), 'string');
-    $html->setVariable('disable_footprints', ($config['footprints']['disable'] || $category->getDisableFootprints(true)), 'boolean');
-    $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
-    $html->setVariable('disable_auto_datasheets', ($config['auto_datasheets']['disable'] || $category->getDisableAutodatasheets(true)), 'boolean');
+    try {
+        $html->setVariable('with_subcategories', $with_subcategories, 'boolean');
+        $html->setVariable('cid', $category->getID(), 'integer');
+        $html->setVariable('category_name', $category->getName(), 'string');
+        $html->setVariable('disable_footprints', ($config['footprints']['disable'] || $category->getDisableFootprints(true)), 'boolean');
+        $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
+        $html->setVariable('disable_auto_datasheets', ($config['auto_datasheets']['disable'] || $category->getDisableAutodatasheets(true)), 'boolean');
 
-    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
+        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
+        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 
-    $html->setLoop('export_formats', buildExportFormatsLoop('showparts'));
+        $html->setLoop('export_formats', buildExportFormatsLoop('showparts'));
 
-    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {
-        $root_category = new Category($database, $current_user, $log, 0);
-        $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, "", "c"));
+        if ($current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE)) {
+            $root_category = new Category($database, $current_user, $log, 0);
+            $html->setVariable('categories_list', $root_category->buildHtmlTree(0, true, false, "", "c"));
+        }
+        if ($current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT)) {
+            $root_footprint = new Footprint($database, $current_user, $log, 0);
+            $html->setVariable('footprints_list', $root_footprint->buildHtmlTree(0, true, false, "", "f"));
+        }
+        if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
+            $root_manufacturer = new Manufacturer($database, $current_user, $log, 0);
+            $html->setVariable('manufacturers_list', $root_manufacturer->buildHtmlTree(0, true, false, "", "m"));
+        }
+        if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
+            $root_location = new Storelocation($database, $current_user, $log, 0);
+            $html->setVariable('storelocations_list', $root_location->buildHtmlTree(0, true, false, "", "s"));
+        }
+
+        $html->setVariable('can_edit', $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
+        $html->setVariable('can_delete', $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE));
+        $html->setVariable('can_create', $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
+        $html->setVariable('can_favor', $current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE));
+
+        $html->setVariable("other_panel_collapse", $config['other_panel']['collapsed'], "boolean");
+        $html->setVariable("other_panel_position", $config['other_panel']['position'], "string");
+    } catch (Exception $e) {
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+        $fatal_error = true;
     }
-    if ($current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT)) {
-        $root_footprint = new Footprint($database, $current_user, $log, 0);
-        $html->setVariable('footprints_list', $root_footprint->buildHtmlTree(0, true, false, "", "f"));
-    }
-    if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
-        $root_manufacturer = new Manufacturer($database, $current_user, $log, 0);
-        $html->setVariable('manufacturers_list', $root_manufacturer->buildHtmlTree(0, true, false, "", "m"));
-    }
-    if ($current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
-        $root_location = new Storelocation($database, $current_user, $log, 0);
-        $html->setVariable('storelocations_list', $root_location->buildHtmlTree(0, true, false, "", "s"));
-    }
-
-    $html->setVariable('can_edit', $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
-    $html->setVariable('can_delete', $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE));
-    $html->setVariable('can_create', $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
-    $html->setVariable('can_favor', $current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE));
-
-    $html->setVariable("other_panel_collapse", $config['other_panel']['collapsed'], "boolean");
-    $html->setVariable("other_panel_position", $config['other_panel']['position'], "string");
 }
 
 /********************************************************************************

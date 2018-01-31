@@ -5,7 +5,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/jbtronics/Part-DB"
-  } ,
+  },
   "devDependencies": {
     "typescript": "^2.5.2",
     "@types/jquery": "^3.2.12",
@@ -15,5 +15,8 @@
     "@types/jquery.form": "^3.26.30",
     "@types/bootstrap-fileinput": "^0.0.6",
     "@types/datatables.net": "^1.10.6"
+  },
+  "dependencies": {
+    "@types/js-cookie": "^2.1.0"
   }
 }

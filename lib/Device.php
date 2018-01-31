@@ -28,7 +28,6 @@ namespace PartDB;
 use Exception;
 use PartDB\Permissions\PartContainingPermission;
 use PartDB\Permissions\PermissionManager;
-use PartDB\Permissions\StructuralPermission;
 
 /**
  * @file Device.php
@@ -294,6 +293,7 @@ class Device extends Base\PartsContainingDBElement
      * @param bool $recursive
      * @param bool $hide_obsolet_and_zero
      * @return array|null
+     * @throws Exception
      */
     protected function getPartsWithoutPermCheck($recursive = false, $hide_obsolet_and_zero = false, $limit = 50, $page = 1)
     {
@@ -441,6 +441,7 @@ class Device extends Base\PartsContainingDBElement
 
     /**
      * @copydoc DBElement::check_values_validity()
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -545,7 +546,7 @@ class Device extends Base\PartsContainingDBElement
      * @param string    $name                       the name of the new device (see Device::set_name())
      * @param integer   $parent_id                  the parent ID of the new device (see Device::set_parent_id())
      *
-     * @return Device       the new device
+     * @return Base\PartsContainingDBElement|Device
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error

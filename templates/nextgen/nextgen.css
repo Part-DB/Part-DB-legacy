@@ -101,6 +101,7 @@ table.dataTable tbody th, table.dataTable tbody td {
         width: inherit;
         overflow-x: hidden;
         overflow-y: auto;
+        /*noinspection W3CssValidation*/
         -webkit-overflow-scrolling: touch;
         max-height: 100%;
         padding-bottom: 50px;
@@ -109,6 +110,7 @@ table.dataTable tbody th, table.dataTable tbody td {
 
 }
 
+/*noinspection W3CssValidation*/
 @media  (max-width: 768px) {
     .fixed-sidebar {
         position: fixed;
@@ -116,11 +118,11 @@ table.dataTable tbody th, table.dataTable tbody td {
         right: 0;
         left: 0;
         background-color: inherit;
-        margin-top: 0;
         z-index: 1000;
         width: inherit;
         overflow-x: hidden;
         overflow-y: auto;
+        /*noinspection W3CssValidation*/
         -webkit-overflow-scrolling: touch;
         max-height: 100%;
         opacity: 0.97;
@@ -221,6 +223,7 @@ table.dataTable tbody th, table.dataTable tbody td {
 }
 
 .panel-heading a[data-toggle=collapse]:after {
+    /*noinspection CssNoGenericFontName*/
     font-family: "FA5";
     content: "\f106";
     position: absolute;
@@ -246,6 +249,7 @@ table.dataTable tbody th, table.dataTable tbody td {
 }
 
 /* Show symbol after exteral links */
+/*noinspection CssNoGenericFontName*/
 a[target="_blank"].link-external:after {
     content: "\f35d ";
     font-family: "FA5";
@@ -297,13 +301,18 @@ a[target="_blank"].link-external:after {
  Use this class if you has a <span> or <p> and you want to create automatic textbreaks in the text.
  */
 .text-break {
+    /*noinspection W3CssValidation,CssUnknownProperty*/
     -ms-word-break: break-all;
+    /*noinspection CssOverwrittenProperties*/
     word-break: break-all;
 
     /* Non standard for webkit */
+    /*noinspection W3CssValidation,CssInvalidPropertyValue,CssOverwrittenProperties*/
     word-break: break-word;
 
+    /*noinspection W3CssValidation*/
     -webkit-hyphens: auto;
+    /*noinspection W3CssValidation*/
     -moz-hyphens: auto;
     hyphens: auto;
 }
@@ -326,7 +335,6 @@ Bootstrap-Treeview override
  */
 /* Set display style to flexbox, so wraped text is aligned to */
 .list-group-item {
-    display: inherit;
     padding: 5px 10px;
     display: flex;
 }

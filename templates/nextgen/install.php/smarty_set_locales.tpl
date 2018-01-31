@@ -66,6 +66,7 @@
     </div>
 </div>
 
+{* Dont remove the following tags: They close the elements in the header!! *}
 </div>
 </body>
 </html>

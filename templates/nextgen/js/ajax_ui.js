@@ -243,21 +243,91 @@ var AjaxUI = /** @class */ (function () {
      */
     AjaxUI.prototype.tree_fill = function () {
         'use strict';
+        /*
+        $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree : BootstrapTreeViewNodeData[]) {
+            $("#tree-categories").treeview({data: tree, enableLinks: false, showIcon: false
+                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
+        });
+
+        $.getJSON(BASE + 'api.php/1.0.0/tree/devices', function (tree :BootstrapTreeViewNodeData[]) {
+            $('#tree-devices').treeview({data: tree, enableLinks: false, showIcon: false,
+                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
+        });
+
+        $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree :BootstrapTreeViewNodeData[]) {
+            $('#tree-tools').treeview({data: tree, enableLinks: false, showIcon: false,
+                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
+        });*/
+        /*
+        this.initTree("#tree-categories", 'api.php/1.0.0/tree/categories');
+
+        this.initTree("#tree-devices", 'api.php/1.0.0/tree/devices');
+
+        this.initTree("#tree-tools", 'api.php/1.0.0/tree/tools');
+        */
+        var categories = Cookies.get("tree_datasource_tree-categories");
+        var devices = Cookies.get("tree_datasource_tree-devices");
+        var tools = Cookies.get("tree_datasource_tree-tools");
+        if (typeof categories == "undefined") {
+            categories = "categories";
+        }
+        if (typeof devices == "undefined") {
+            devices = "devices";
+        }
+        if (typeof tools == "undefined") {
+            tools = "tools";
+        }
+        this.treeLoadDataSource("tree-categories", categories);
+        this.treeLoadDataSource("tree-devices", devices);
+        this.treeLoadDataSource("tree-tools", tools);
+        this.trees_filled = true;
+    };
+    /**
+     * Fill a treeview with data from the given url.
+     * @param tree The Jquery selector for the tree (e.g. "#tree-tools")
+     * @param url The url from where the data should be loaded
+     */
+    AjaxUI.prototype.initTree = function (tree, url) {
         var node_handler = this.onNodeSelected;
         var contextmenu_handler = this.onNodeContextmenu;
-        $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree) {
-            $("#tree-categories").treeview({ data: tree, enableLinks: false, showIcon: false,
+        $.getJSON(BASE + url, function (data) {
+            $(tree).treeview({ data: data, enableLinks: false, showIcon: false,
                 showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
         });
-        $.getJSON(BASE + 'api.php/1.0.0/tree/devices', function (tree) {
-            $('#tree-devices').treeview({ data: tree, enableLinks: false, showIcon: false,
-                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
-        });
-        $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree) {
-            $('#tree-tools').treeview({ data: tree, enableLinks: false, showIcon: false,
-                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
-        });
-        this.trees_filled = true;
+    };
+    AjaxUI.prototype.treeLoadDataSource = function (target_id, datasource) {
+        var text = $(".tree-btns[data-mode='" + datasource + "']").html();
+        text = text + " \n<span class='caret'></span>"; //Add caret or it will be removed, when written into title
+        switch (datasource) {
+            case "categories":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/categories');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "locations":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/locations');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "footprints":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/footprints');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "manufacturers":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/manufacturers');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "suppliers":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/suppliers');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "tools":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/tools');
+                $("#" + target_id + "-title").html(text);
+                break;
+            case "devices":
+                ajaxui.initTree("#" + target_id, 'api.php/1.0.0/tree/devices');
+                $("#" + target_id + "-title").html(text);
+                break;
+        }
     };
     /**
      * Update the treeviews.
@@ -341,6 +411,11 @@ var AjaxUI = /** @class */ (function () {
         var i = this.xhrPool.indexOf(xhr); //  get index for current connection completed
         if (i > -1)
             this.xhrPool.splice(i, 1); //  removes from list by index
+        var url = settings.url;
+        //Ignore all API Ajax requests.
+        if (url.indexOf("api.php") != -1) {
+            return;
+        }
         //Hide progressbar and show Result
         $('#progressbar').hide(0);
         $('#content').fadeIn("fast");
@@ -348,7 +423,6 @@ var AjaxUI = /** @class */ (function () {
         this.registerLinks();
         this.registerSubmitBtn();
         this.fillTypeahead();
-        var url = settings.url;
         if (url.indexOf("#") != -1) {
             var hash = url.substring(url.indexOf("#"));
             scrollToAnchor(hash);
@@ -366,6 +440,8 @@ var AjaxUI = /** @class */ (function () {
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
             //Push the cleaned (no ajax request) to history
             window.history.pushState(null, "", removeURLparam(settings.url, "ajax"));
+            //Update redirect param in login link:
+            $("#login-link").attr("href", "login.php?redirect=" + encodeURIComponent(url));
             //Set page title from response
             var input = xhr.responseText;
             var title = extractTitle(input);
@@ -508,6 +584,7 @@ function makeGreekInput() {
     });
     this.greek_once = true;
 }
+// noinspection JSUnusedGlobalSymbols
 function makeTypeAhead() {
     if ($("#models-search").length && !$("#models-search").hasClass("initialized")) {
         $("#models-search").addClass("initialized");
@@ -637,11 +714,16 @@ function treeviewBtnInit() {
         $(this).parents("div.dropdown").removeClass('open');
         var mode = $(this).data("mode");
         var target = $(this).data("target");
+        var text = $(this).text() + " \n<span class='caret'></span>"; //Add caret or it will be removed, when written into title
         if (mode === "collapse") {
             $('#' + target).treeview('collapseAll', { silent: true });
         }
         else if (mode === "expand") {
             $('#' + target).treeview('expandAll', { silent: true });
+        }
+        else {
+            Cookies.set("tree_datasource_" + target, mode);
+            ajaxui.treeLoadDataSource(target, mode);
         }
         return false;
     });

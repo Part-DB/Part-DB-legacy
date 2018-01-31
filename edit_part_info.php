@@ -36,7 +36,6 @@ use PartDB\Part;
 use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
-use PartDB\Permissions\StructuralPermission;
 use PartDB\Permissions\PartAttributePermission;
 use PartDB\Pricedetails;
 use PartDB\Storelocation;
@@ -620,7 +619,9 @@ if (! $fatal_error) {
                 $part->delete($delete_files_from_hdd);
                 $part = null;
                 $messages[] = array('text' => _('Das Bauteil wurde erfolgreich gelöscht!'), 'strong' => true, 'color' => 'darkgreen');
-                $messages[] = array('html' => '<br><a class="btn btn-primary" href="startup.php">'._('Fenster schliessen').'</a>');
+                $close_url = !empty($_SESSION["part_delete_last_link"]) ? $_SESSION["part_delete_last_link"] : "startup.php";
+                $messages[] = array('html' => '<br><a class="btn btn-primary" href="' . $close_url .'">'._('Fenster schliessen').'</a>');
+                $messages[] = array('html' => '<a class="btn link" href="startup.php">'._('Startseite aufrufen').'</a>');
                 $fatal_error = true; // there is no error, but we cannot display the part infos because the part exists no longer :-)
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -653,6 +654,7 @@ if (! $fatal_error) {
             if (strpos($search_name, '__ID__=') === 0) {
                 $searched_element = new $classname($database, $current_user, $log, (int)str_replace('__ID__=', '', $search_name));
             } else {
+                /** @var \PartDB\Interfaces\ISearchable $classname */
                 $elements = $classname::search($database, $current_user, $log, $search_name);
 
                 if (count($elements) > 0) {
@@ -857,38 +859,45 @@ if (! $fatal_error) {
         $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
         $html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
         $html->setVariable('downloads_enable', $config['allow_server_downloads'], "boolean");
+
+        $html->setVariable("back_link", $_SESSION["part_delete_last_link"], "string");
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
 
+try {
 //Set permissions
-$html->setVariable("can_delete", $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE));
-$html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
-$html->setVariable("can_create", $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
-$html->setVariable("can_move", $current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE));
-$html->setVariable("can_read", $current_user->canDo(PermissionManager::PARTS, PartPermission::READ));
-$html->setVariable("can_name", $current_user->canDo(PermissionManager::PARTS_NAME, PartAttributePermission::EDIT));
-$html->setVariable("can_description", $current_user->canDo(PermissionManager::PARTS_DESCRIPTION, PartAttributePermission::EDIT));
-$html->setVariable("can_comment", $current_user->canDo(PermissionManager::PARTS_COMMENT, PartAttributePermission::EDIT));
-$html->setVariable("can_instock", $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT));
-$html->setVariable("can_mininstock", $current_user->canDo(PermissionManager::PARTS_MININSTOCK, PartAttributePermission::EDIT));
-$html->setVariable("can_storelocation", $current_user->canDo(PermissionManager::PARTS_STORELOCATION, PartAttributePermission::EDIT));
-$html->setVariable("can_footprint", $current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT));
-$html->setVariable("can_manufacturer", $current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT));
+    $html->setVariable("can_delete", $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE));
+    $html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
+    $html->setVariable("can_create", $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));
+    $html->setVariable("can_move", $current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE));
+    $html->setVariable("can_read", $current_user->canDo(PermissionManager::PARTS, PartPermission::READ));
+    $html->setVariable("can_name", $current_user->canDo(PermissionManager::PARTS_NAME, PartAttributePermission::EDIT));
+    $html->setVariable("can_description", $current_user->canDo(PermissionManager::PARTS_DESCRIPTION, PartAttributePermission::EDIT));
+    $html->setVariable("can_comment", $current_user->canDo(PermissionManager::PARTS_COMMENT, PartAttributePermission::EDIT));
+    $html->setVariable("can_instock", $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT));
+    $html->setVariable("can_mininstock", $current_user->canDo(PermissionManager::PARTS_MININSTOCK, PartAttributePermission::EDIT));
+    $html->setVariable("can_storelocation", $current_user->canDo(PermissionManager::PARTS_STORELOCATION, PartAttributePermission::EDIT));
+    $html->setVariable("can_footprint", $current_user->canDo(PermissionManager::PARTS_FOOTPRINT, PartAttributePermission::EDIT));
+    $html->setVariable("can_manufacturer", $current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT));
 
-$html->setVariable("can_attachement_edit", $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::EDIT));
-$html->setVariable("can_attachement_delete", $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::DELETE));
-$html->setVariable("can_attachement_create", $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE));
+    $html->setVariable("can_attachement_edit", $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::EDIT));
+    $html->setVariable("can_attachement_delete", $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::DELETE));
+    $html->setVariable("can_attachement_create", $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE));
 
-$html->setVariable("can_orderdetails_edit", $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::EDIT));
-$html->setVariable("can_orderdetails_delete", $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::DELETE));
-$html->setVariable("can_orderdetails_create", $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE));
+    $html->setVariable("can_orderdetails_edit", $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::EDIT));
+    $html->setVariable("can_orderdetails_delete", $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::DELETE));
+    $html->setVariable("can_orderdetails_create", $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE));
 
-$html->setVariable("can_prices_edit", $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::EDIT));
-$html->setVariable("can_prices_delete", $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::DELETE));
-$html->setVariable("can_prices_create", $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::CREATE));
+    $html->setVariable("can_prices_edit", $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::EDIT));
+    $html->setVariable("can_prices_delete", $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::DELETE));
+    $html->setVariable("can_prices_create", $current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::CREATE));
+} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+    $fatal_error = true;
+}
 
 /********************************************************************************
  *

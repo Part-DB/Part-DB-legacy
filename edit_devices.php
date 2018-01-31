@@ -193,10 +193,12 @@ if (! $fatal_error) {
  *
  *********************************************************************************/
 
-$html->setVariable('add_more', $add_more, 'boolean');
+
 
 if (! $fatal_error) {
     try {
+        $html->setVariable('add_more', $add_more, 'boolean');
+
         if (is_object($selected_device)) {
             $parent_id = $selected_device->getParentID();
             $html->setVariable('id', $selected_device->getID(), 'integer');
@@ -228,11 +230,16 @@ if (! $fatal_error) {
     }
 }
 
-$html->setVariable("can_delete", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::DELETE));
-$html->setVariable("can_edit", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::EDIT));
-$html->setVariable("can_create", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::CREATE));
-$html->setVariable("can_move", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::MOVE));
-$html->setVariable("can_read", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::READ));
+try {
+    $html->setVariable("can_delete", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::DELETE));
+    $html->setVariable("can_edit", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::EDIT));
+    $html->setVariable("can_create", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::CREATE));
+    $html->setVariable("can_move", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::MOVE));
+    $html->setVariable("can_read", $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::READ));
+} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+    $fatal_error = true;
+}
 
 /********************************************************************************
  *

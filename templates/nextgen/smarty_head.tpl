@@ -68,6 +68,9 @@
     <!-- This must be in head because we need its functions in <script> Tags, in smarty_permission.tpl -->
     <script src="{$relative_path}js/jquery.tristate.js"></script>
 
+    <!-- Javascript cookies -->
+    <!-- We need this in header, because we use the library in show_part_label.php template -->
+    <script src="{$relative_path}js/js.cookie-2.2.0.min.js"></script>
 
     {*
     {if isset($javascript_files)}
@@ -109,7 +112,7 @@
                         <span class="fa fa-user"></span>
                     </button>
                     <a class="navbar-toggle link-datasheet" style="color: black;"
-                        href="zxing://scan/?ret={if isset($smarty.server.HTTPS)}https{else}http{/if}%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$relative_path|escape:'url'}show_part_info.php%3Fbarcode%3D%7BCODE%7D&SCAN_FORMATS=EAN_8">
+                        href="zxing://scan/?ret={if isset($smarty.server.HTTPS)}https{else}http{/if}%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$relative_path|escape:'url'}show_search_parts.php%3Fkeyword%3D%7BCODE%7D&SCAN_FORMATS=EAN_8,CODE_39">
                         <i class="fa fa-barcode" aria-hidden="true"></i>
                         <span class="sr-only">{t}Scanne Barcode{/t}</span>
                     </a>
@@ -128,7 +131,7 @@
                             <li role="separator" class="divider"></li>
                             <li><a href="{$relative_path}login.php?logout"><i class="fa fa-sign-out-alt fa-fw" aria-hidden="true"></i> {t}Logout{/t}</a></li>
                         {else}
-                            <li><a href="{$relative_path}login.php"><i class="fa fa-sign-in-alt fa-fw" aria-hidden="true"></i> {t}Login{/t}</a></li>
+                            <li><a href="{$relative_path}login.php?redirect={$smarty.server.REQUEST_URI|escape:"url"}" id="login-link"><i class="fa fa-sign-in-alt fa-fw" aria-hidden="true"></i> {t}Login{/t}</a></li>
                         {/if}
                     </ul>
                 </li>
@@ -209,12 +212,22 @@
                                     <!-- <h4>{t}Kategorien{/t}</h4>-->
                                     <div class="dropdown">
                                         <button class="btn-text dropdown-toggle" type="button" id="dropdownCat" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <div class="sidebar-title">{t}Kategorien{/t}
+                                            <div class="sidebar-title" id="tree-categories-title">{t}Kategorien{/t}
                                                 <span class="caret"></span></div>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownCat">
+                                            <li class="dropdown-header">{t}Aktionen{/t}</li>
                                             <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-categories">{t}Alle ausklappen{/t}</a></li>
                                             <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-categories">{t}Alle einklappen{/t}</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li class="dropdown-header">{t}Datenquelle{/t}</li>
+                                            <li><a href="#" class="tree-btns" data-mode="categories" data-target="tree-categories">{t}Kategorien{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="locations" data-target="tree-categories">{t}Lagerorte{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="footprints" data-target="tree-categories">{t}Footprints{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="manufacturers" data-target="tree-categories">{t}Hersteller{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="suppliers" data-target="tree-categories">{t}Lieferanten{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="devices" data-target="tree-categories">{t}Baugruppen{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="tools" data-target="tree-categories">{t}Verwaltung{/t}</a></li>
                                         </ul>
                                     </div>
                                     <div id="tree-categories"></div>
@@ -224,12 +237,22 @@
                                 <li id="devices">
                                     <div class="dropdown">
                                         <button class="btn-text dropdown-toggle" type="button" id="dropdownDev" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <div class="sidebar-title">{t}Baugruppen{/t}
+                                            <div class="sidebar-title" id="tree-devices-title">{t}Baugruppen{/t}
                                                 <span class="caret"></span></div>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownDev">
+                                            <li class="dropdown-header">{t}Aktionen{/t}</li>
                                             <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-devices">{t}Alle ausklappen{/t}</a></li>
                                             <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-devices">{t}Alle einklappen{/t}</a></li>
+                                            <li role="separator" class="divider"></li>
+                                            <li class="dropdown-header">{t}Datenquelle{/t}</li>
+                                            <li><a href="#" class="tree-btns" data-mode="categories" data-target="tree-devices">{t}Kategorien{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="locations" data-target="tree-devices">{t}Lagerorte{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="footprints" data-target="tree-devices">{t}Footprints{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="manufacturers" data-target="tree-devices">{t}Hersteller{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="suppliers" data-target="tree-devices">{t}Lieferanten{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="devices" data-target="tree-devices">{t}Baugruppen{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="tools" data-target="tree-devices">{t}Verwaltung{/t}</a></li>
                                         </ul>
                                     </div>
                                     <div id="tree-devices"></div>
@@ -239,12 +262,22 @@
                             <li id="tools">
                                 <div class="dropdown">
                                     <button class="btn-text dropdown-toggle" type="button" id="dropdownTools" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <div class="sidebar-title">{t}Verwaltung{/t}
+                                        <div class="sidebar-title" id="tree-tools-title">{t}Verwaltung{/t}
                                             <span class="caret"></span></div>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownTools">
+                                        <li class="dropdown-header">{t}Aktionen{/t}</li>
                                         <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-tools">{t}Alle ausklappen{/t}</a></li>
                                         <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-tools">{t}Alle einklappen{/t}</a></li>
+                                        <li role="separator" class="divider"></li>
+                                           <li class="dropdown-header">{t}Datenquelle{/t}</li>
+                                            <li><a href="#" class="tree-btns" data-mode="categories" data-target="tree-tools">{t}Kategorien{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="locations" data-target="tree-tools">{t}Lagerorte{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="footprints" data-target="tree-tools">{t}Footprints{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="manufacturers" data-target="tree-tools">{t}Hersteller{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="suppliers" data-target="tree-tools">{t}Lieferanten{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="devices" data-target="tree-tools">{t}Baugruppen{/t}</a></li>
+                                            <li><a href="#" class="tree-btns" data-mode="tools" data-target="tree-tools">{t}Verwaltung{/t}</a></li>
                                     </ul>
                                 </div>
                                 <div id="tree-tools"></div>
@@ -300,9 +333,9 @@
                                         <i class="{$alert_icon} fa-5x" style="text-align: center; width: 1em;"></i>
                                     </div>
                                     <div class="col-md-11">
-                                        <p>
-                                        {if !empty($messages_div_title)}<h4>{$messages_div_title}</h4>{/if}
-                                        <form action="" method="post" class="no-progbar">
+                                        <div>
+                                            {if !empty($messages_div_title)}<h4>{$messages_div_title}</h4>{/if}
+                                            <form action="" method="post" class="no-progbar">
                                             {foreach $messages as $msg}
                                                 {if isset($msg.text)}
                                                     {if isset($msg.strong) && $msg.strong}<strong>{/if}
@@ -323,8 +356,8 @@
                                                     <button class="btn btn-default">{t}Seite neu laden{/t}</button>
                                                 </a>
                                             {/if}
-                                        </form>
-                                        </p>
+                                            </form>
+                                        </div>
                                     </div>
                                 </div>
                             </div>

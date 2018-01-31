@@ -35,6 +35,7 @@ use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\StructuralPermission;
 use PartDB\Permissions\ToolsPermission;
+use PartDB\Tools\JSONStorage;
 use PartDB\User;
 
 /**
@@ -330,12 +331,12 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
 }
 
 /**
- * Set a new administrator password
+ * Set a password for the "admin" password that will be written into, the database, when DB will be created.
+ * This function should be only used in install.php !!
  *
  * @note    The password will be trimmed, salted, crypted with sha256 and stored in $config.
  *          Optionally, $config can be written in config.php.
  *
- * @param string    $old_password       The current administrator password (plain, not crypted)
  * @param string    $new_password_1     The new administrator password (plain, not crypted) (first time)
  * @param string    $new_password_2     The new administrator password (plain, not crypted) (second time)
  * @param boolean   $save_config        If true, the config.php file will be overwritten.
@@ -347,20 +348,15 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
  * @throws Exception    if the new passworts are different
  * @throws Exception    if $config could not be saved in config.php
  */
-function setAdminPassword($old_password, $new_password_1, $new_password_2, $save_config = true)
+function setTempAdminPassword($new_password_1, $new_password_2, $save_config = true)
 {
     global $config;
 
     settype($old_password, 'string');
     settype($new_password_1, 'string');
     settype($new_password_2, 'string');
-    $old_password = trim($old_password);
     $new_password_1 = trim($new_password_1);
     $new_password_2 = trim($new_password_2);
-
-    if (! isAdminPassword($old_password)) {
-        throw new Exception(_('Das eingegebene Administratorpasswort ist nicht korrekt!'));
-    }
 
     if (mb_strlen($new_password_1) < 6) {
         throw new Exception(_('Das neue Passwort muss mindestens 6 Zeichen lang sein!'));
@@ -371,64 +367,10 @@ function setAdminPassword($old_password, $new_password_1, $new_password_2, $save
     }
 
     // all ok, save the new password
-    $config['admin']['password'] = password_hash($new_password_1, PASSWORD_DEFAULT);
+    $config['admin']['tmp_password'] = password_hash($new_password_1, PASSWORD_DEFAULT);
 
     if ($save_config) {
         saveConfig();
-    }
-}
-
-/**
- * Check if a string is the correct admin password
- *
- * @param $password string      The password (plain, not crypted) we want to check
- *                              (compare with the administrators password)
- *
- * @return boolean      * true if the password is correct
- * * false if the password is not correct
- */
-function isAdminPassword($password)
-{
-    global $config;
-    $salt = 'h>]gW3$*j&o;O"s;@&G)';
-
-    settype($password, 'string');
-    $password = trim($password);
-
-    // If the admin password is not set yet, we will always return true.
-    // This is needed for the first use of Part-DB.
-    // In this case, the installer will be shown to set an admin password.
-    if ((! $config['installation_complete']['admin_password']) && (! $config['admin']['password'])) {
-        return true;
-    }
-
-    if (strcontains($config['admin']['password'], "$") === false) {
-        //Old method
-        return (hash('sha256', $salt.$password) === $config['admin']['password']);
-    } else {
-        return password_verify($password, $config['admin']['password']);
-    }
-}
-
-/**
- * Check if the admin password needs a change.
- *
- * This could be, because Part-DB is using the legacy SHA256 hash, or PHP has an better Hashing algorithm.
- *
- * @return bool True, if the password has to be changed.
- */
-function needChangeAdminPassword()
-{
-    global $config;
-    if ($config['admin']['password'] == "") {
-        return true;
-    }
-    //If Admin password uses the old hasing method using SHA256, we need to migrate.
-    if (strcontains($config['admin']['password'], "$") === false) {
-        return true;
-    } else {
-        //Check if default password algo has changed.
-        return password_needs_rehash($config['admin']['password'], PASSWORD_DEFAULT);
     }
 }
 
@@ -760,65 +702,6 @@ function isPathabsoluteAndUnix($path, $accept_protocols = true)
     }
 }
 
-
-/**
- * Replaces Placeholder strings like %id% or %name% with their corresponding Part properties.
- * Note: If the given Part does not have a property, it will be replaced with "".
- *
- * %id%         : Part id
- * %name%       : Name of the part
- * %desc%       : Description of the part
- * %comment%    : Comment to the part
- * %mininstock% : The minium in stock value
- * %instock%    : The current in stock value
- * %avgprice%   : The average price of this part
- * %cat%        : The name of the category the parts belongs to
- * %cat_full%   : The full path of the parts category
- *
- * @param string $string The string on which contains the placeholders
- * @param Part $part
- * @return string the
- */
-function replacePlaceholderWithInfos($string, $part)
-{
-    //General infos
-    $string = str_replace("%id%", $part->getID(), $string);                        //part id
-    $string = str_replace("%name%", $part->getName(), $string);                    //Name of the part
-    $string = str_replace("%desc%", $part->getDescription(), $string);             //description of the part
-    $string = str_replace("%comment%", $part->getComment(), $string);              //comment of the part
-    $string = str_replace("%mininstock%", $part->getMinInstock(), $string);        //minimum in stock
-    $string = str_replace("%instock%", $part->getInstock(), $string);              //current in stock
-    $string = str_replace("%avgprice%", $part->getAveragePrice(), $string);       //average price
-
-    //Category infos
-    $string = str_replace("%cat%", is_object($part->getCategory()) ? $part->getCategory()->getName() : "", $string);
-    $string = str_replace("%cat_full%", is_object($part->getCategory()) ? $part->getCategory()->getFullPath() : "", $string);
-
-    //Footprint info
-    $string = str_replace("%foot%", is_object($part->getFootprint()) ? $part->getFootprint()->getName() : "", $string);
-    $string = str_replace("%foot_full%", is_object($part->getFootprint()) ? $part->getFootprint()->getFullPath() : "", $string);
-
-    //Manufacturer info
-    $string = str_replace("%manufact%", is_object($part->getManufacturer()) ? $part->getManufacturer()->getName() : "", $string);
-
-    //Order infos
-    $all_orderdetails   = $part->getOrderdetails();
-    $string = str_replace("%supplier%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getName() : "", $string);
-    $string = str_replace("%order_nr%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplierPartNr() : "", $string);
-
-    //Store location
-    $storelocation      = $part->getStorelocation();
-    $string = str_replace("%storeloc%", is_object($storelocation) ? $storelocation->getName() : '', $string);
-    $string = str_replace("%storeloc_full%", is_object($storelocation) ? $storelocation->getFullPath() : '', $string);
-
-    //Remove single '-' without other infos
-    if (trim($string) == "-") {
-        $string = "";
-    }
-
-    return $string;
-}
-
 /**
  * Split a search string with search modifiers like "incategory:Category1" or "inname:Name2" into a array with
  * the modifier keywords in named elemets.
@@ -959,6 +842,7 @@ function strcontains($haystack, $needle)
 /**
  * Converts an array of objects implementing the APIModel interface to an array of API objects
  * @param $array array The array of the APIModel objects.
+ * @param bool $verbose Show all available informations about the IAPIModel.
  * @return IAPIModel[] An array of API objects
  * @throws Exception
  */
@@ -981,6 +865,8 @@ function convertAPIModelArray($array, $verbose = false)
 /**
  * Try to call get_APIModel_array of $object. If $object is null, null is returned!
  * @param IAPIModel $object The object, of which the API info should be get.
+ * @param bool $verbose Show all available informations about the IAPIModel, when set to true.
+ *          Otherwise only most important informations are shown.
  * @return array An array describing the object.
  */
 function tryToGetAPIModelArray($object, $verbose = false)
@@ -996,6 +882,7 @@ function tryToGetAPIModelArray($object, $verbose = false)
  * Builds a TreeView for the Tools menu
  * @param $params
  * @return array
+ * @throws Exception
  */
 function buildToolsTree($params)
 {
@@ -1027,7 +914,7 @@ function buildToolsTree($params)
         $tools_nodes[] = treeviewNode(_("Import"), BASE_RELATIVE . "/tools_import.php");
     }
     if (!$disable_labels && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::LABELS)) {
-        $tools_nodes[] = treeviewNode(_("Labels"), BASE_RELATIVE . "/tools_labels.php");
+        $tools_nodes[] = treeviewNode(_("SMD Labels"), BASE_RELATIVE . "/tools_labels.php");
     }
     if (!$disable_calculator && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::CALCULATOR)) {
         $tools_nodes[] = treeviewNode(_("Widerstandsrechner"), BASE_RELATIVE . "/tools_calculator.php");
@@ -1037,6 +924,9 @@ function buildToolsTree($params)
     }
     if ($footprint_3d_active && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::FOOTPRINTS)) {
         $tools_nodes[] = treeviewNode(_("3D Footprints"), BASE_RELATIVE . "/tools_3d_footprints.php");
+    }
+    if (!$disable_labels && $current_user->canDo(PermissionManager::LABELS, \PartDB\Permissions\LabelPermission::CREATE_LABELS)) {
+        $tools_nodes[] = treeviewNode(_("Labelgenerator"), BASE_RELATIVE . "/show_part_label.php");
     }
     if (!$disable_iclogos && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IC_LOGOS)) {
         $tools_nodes[] = treeviewNode(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");
@@ -1050,8 +940,7 @@ function buildToolsTree($params)
         $system_nodes[] = treeviewNode(_("Gruppen"), BASE_RELATIVE . "/edit_groups.php");
     }
     if ($current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::READ_CONFIG)
-        || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::SERVER_INFO)
-        || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::CHANGE_ADMIN_PW)) {
+        || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::SERVER_INFO)) {
         $system_nodes[] = treeviewNode(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
     }
     if ($current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::SEE_STATUS)
@@ -1083,6 +972,12 @@ function buildToolsTree($params)
     }
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_FAVORITE_PARTS)) {
         $show_nodes[] = treeviewNode(_('Favorisierte Bauteile'), BASE_RELATIVE . "/show_favorite_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
+        $show_nodes[] = treeviewNode(_('Zuletzt bearbeitete Bauteile'), BASE_RELATIVE . "/show_last_modified_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
+        $show_nodes[] = treeviewNode(_('Zuletzt hinzugefügte Bauteile'), BASE_RELATIVE . "/show_last_modified_parts.php?mode=last_created");
     }
 
     //Edit nodes
@@ -1161,6 +1056,7 @@ function sie($test, $default_val = "")
  * Gets the name of the class of the given Object without the namespace.
  * @param $object mixed  The object, whose clasname should be get.
  * @return string The class name of $object.
+ * @throws ReflectionException
  */
 function getClassShort($object)
 {
@@ -1194,6 +1090,7 @@ function isUsingHTTPS()
  * @param $base_dir string The base path for the file path structure (with trailing slash)
  * @param $element \PartDB\Base\StructuralDBElement
  * @return string The generated path
+ * @throws Exception
  */
 function generateAttachementPath($base_dir, $element)
 {
@@ -1310,6 +1207,7 @@ function isURL($string, $path_required = true, $only_http = true)
  * @param $path string The path (including filename) for which the Icon should be generated.
  * @param $with_html bool When true a whole HTML tag is generated (e.g. <i class="fa fa-file" aria-hidden="true"></i>).
  *      When false, only the special fa-class is returned. (e.g. fa-file)
+ * @param $size string The size of the icon as an FA size class (e.g. fa-lg)
  * @return string The resulted HTML code or the fa-class.
  */
 function extToFAIcon($path, $with_html = true, $size = "fa-lg")
@@ -1551,4 +1449,26 @@ function build_custom_css_loop($selected = null, $include_default_theme = false)
     }
 
     return $loop;
+}
+
+/**
+ * Generates a list of available profiles for the given generator.
+ * @param $generator string The generator to which the profile belongs to.
+ * @param $include_default bool If this is set to true, the default profile is included in the returned array.
+ * @return string[] An string array with the names of all profiles
+ */
+function buildLabelProfilesDropdown($generator, $include_default = false)
+{
+    $json_storage = new JSONStorage(BASE_DATA . "/label_profiles.json");
+
+    $data =  $json_storage->getKeyList($generator . "@");
+
+    foreach ($data as $key => &$item) {
+        $item = str_replace($generator . "@", "", $item);
+        if (!$include_default && $item == "default") {
+            unset($data[$key]);
+        }
+    }
+
+    return $data;
 }

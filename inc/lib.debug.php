@@ -72,6 +72,7 @@ function debug($type, $text, $file = '', $line = '', $method = '', $silent = tru
 
 
     if ($config['debug']['debugbar']) {
+        /** @noinspection PhpUndefinedClassInspection */
         $level = Psr\Log\LogLevel::WARNING;
         $debugbar = PDBDebugBar::getInstance()->getDebugBar();
         $type = strtolower($type);
@@ -221,6 +222,7 @@ function getDebugLogElements($types = null)
     $elements = $dom->getElementsByTagName('log');
     $log_array = array();
     foreach ($elements as $element) {
+        /** @var DOMElement $element */
         $values = array();
         $values['message'] = $element->nodeValue;
         $values['datetime'] = $element->getAttribute('datetime');
@@ -285,7 +287,7 @@ function getAllDebugTypes()
  *
  * @throws Exception if there was an error (maybe wrong password)
  */
-function setDebugEnable($new_enable, $admin_password = null)
+function setDebugEnable($new_enable)
 {
     global $config;
 
@@ -305,12 +307,6 @@ function setDebugEnable($new_enable, $admin_password = null)
         }
 
         return;
-    }
-
-    // to activate the debug log, we have to check the admin password.
-    // or, for online demos, it's allowed to activate debugging for everyone.
-    if ((! isAdminPassword($admin_password)) && (! $config['is_online_demo'])) {
-        throw new Exception('Das Passwort ist nicht korrekt!');
     }
 
     // create new debug log file if it does not exist already

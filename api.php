@@ -440,7 +440,7 @@ $app->get("/1.0.0/tree/footprints[/{root_id}]", function ($request, $response, $
 $app->get("/1.0.0/tree/locations[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     try {
-        $tree = generateTreeForClass("\PartDB\Storelocation", $database, $current_user, $log, $args, "show_location_parts.php", "fid");
+        $tree = generateTreeForClass("\PartDB\Storelocation", $database, $current_user, $log, $args, "show_location_parts.php", "lid");
         return $response->withJson($tree);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);
@@ -453,7 +453,20 @@ $app->get("/1.0.0/tree/locations[/{root_id}]", function ($request, $response, $a
 $app->get("/1.0.0/tree/manufacturers[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
     /** @var \Slim\Http\Response $response */
     try {
-        $tree = generateTreeForClass("\PartDB\Manufacturer", $database, $current_user, $log, $args, "show_manufacturer_parts.php", "fid");
+        $tree = generateTreeForClass("\PartDB\Manufacturer", $database, $current_user, $log, $args, "show_manufacturer_parts.php", "mid");
+        return $response->withJson($tree);
+    } catch (Exception $ex) {
+        return generateError($response, "", 500, $ex);
+    }
+});
+
+/**
+ * Get the tree for suppliers
+ */
+$app->get("/1.0.0/tree/suppliers[/{root_id}]", function ($request, $response, $args) use (&$database, &$log, &$current_user) {
+    /** @var \Slim\Http\Response $response */
+    try {
+        $tree = generateTreeForClass("\PartDB\Supplier", $database, $current_user, $log, $args, "show_supplier_parts.php", "sid");
         return $response->withJson($tree);
     } catch (Exception $ex) {
         return generateError($response, "", 500, $ex);

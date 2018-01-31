@@ -157,6 +157,11 @@ else {
     define('BASE_RELATIVE', str_replace(DOCUMENT_ROOT, '', BASE));
 }
 
+/**
+ * @const BASE_DATA The location of the data folder, where Part-DB can write data (without slash)
+ */
+define('BASE_DATA', BASE . "/data");
+
 /** @const BASE_RELATIVE Server-directory without slash at the end
 * Example (UNIX/Linux):    "/part-db"
 * Example (Windows):       "/part-db"
@@ -223,7 +228,7 @@ if (is_string($message)) {
         _('Ihre config.php ist fehlerhaft!'),
         sprintf(_('Nähere Informationen gibt es in der <a target="_blank" href="%s">Dokumentation</a>.'), _("https://github.com/jbtronics/Part-DB/wiki/Installation")).
         _('<form action="" method="post"><button class="btn btn-primary" type="submit" value="Seite neu laden">Seite neu laden</button></form>')
-        );
+    );
     exit;
 }
 

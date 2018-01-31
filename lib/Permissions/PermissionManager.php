@@ -21,13 +21,7 @@
 
 namespace PartDB\Permissions;
 
-use PartDB\Base\DBElement;
-use PartDB\Database;
 use PartDB\Interfaces\IHasPermissions;
-use PartDB\Part;
-use PartDB\Permissions\BasePermission;
-use PartDB\Permissions\StructuralPermission;
-use Symfony\Component\VarDumper\Cloner\Stub;
 
 class PermissionManager
 {
@@ -68,6 +62,7 @@ class PermissionManager
 
     const DEVICE_PARTS      = "devices_parts";
     const SELF              = "self";
+    const LABELS            = "labels";
 
 
     /**
@@ -253,8 +248,8 @@ class PermissionManager
         $misc_permissions = array();
         $misc_permissions[] = new SelfPermission($this->perm_holder, static::SELF, _("Eigenen Benutzer bearbeiten"));
         $misc_permissions[] = new ToolsPermission($this->perm_holder, static::TOOLS, _("Tools"));
-
         $misc_permissions[] = new DevicePartPermission($this->perm_holder, static::DEVICE_PARTS, _("Baugruppenbauteile"));
+        $misc_permissions[] = new LabelPermission($this->perm_holder, static::LABELS, _("Labels"));
         $this->permissions[] = new PermissionGroup(_("Verschiedenes"), $misc_permissions);
     }
 
@@ -264,6 +259,12 @@ class PermissionManager
      * Static functions
      *******************************************************/
 
+    /**
+     * Generates an Permission loop with all permissions set to their default values (currently all permissions set to prohibit).
+     * This is helpful, when a new user or group is created and we have to generate a placeholder permission dialog, so a user can choose what perms he want to set.
+     * @param bool $read_only Set to true when the placeholder loop should be read only.
+     * @return mixed The default loop.
+     */
     public static function defaultPermissionsLoop($read_only = false)
     {
         //Create a temp object for pass by reference.
