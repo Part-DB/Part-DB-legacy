@@ -64,7 +64,7 @@
                 <hr>
                 <div class="well">
                 <code>   
-                    {$export_result}
+                    {$export_result nofilter}
                 </code>    
                 </div>
             {/if}
