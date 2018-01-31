@@ -3,7 +3,7 @@
     <div class="panel-heading"><a data-toggle="collapse" class="link-collapse text-default" href="#panel-export">
             <i class="fas fa-bolt fa-fw"></i> {t}Teile abfassen/einbuchen/vormerken/exportieren{/t}
         </a></div>
-    <div class="panel-body panel-collapse collapse" id="panel-export">
+    <div class="panel-body panel-collapse collapse {if isset($export_result)}in{/if}" id="panel-export">
         <form method="post" action="" id="export" class="form-horizontal">
             <input type="hidden" name="device_id" value="{$device_id}">
             <div class="form-group">
