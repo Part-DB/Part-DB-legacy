@@ -1,5 +1,19 @@
 # Part-DB Changelog
 
+## Part-DB 0.4.4
+
+### Neue Funktionen:
+* Es ist möglich den Hinweisdialog auf fehlende Datenstrukturen, wie Hersteller oder Lieferanten in den Einstellungen zu deaktivieren.
+* Werden Bauteile einer Baugruppe exportiert und die Ausgabe angezeigt, dann bleibt das Panel offen.
+
+### Bugfixes:
+* Probleme mit fehlenden Composerabhängigkeiten behoben
+* POSIX locale entfernt, da dies zu Problemen führen konnte
+* Probleme mit Anzeige und Download von Bauteilen von Baugruppen behoben
+
+### Sonstiges:
+* Composer Abhängigkeiten aktualisiert
+
 ## Part-DB 0.4.3
 
 ### Neue Funktionen:
