@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\LogSystem\UserLoginEntry;
 
 /**
  * @file Log.php
@@ -43,6 +44,20 @@ use Exception;
  */
 class Log
 {
+
+    const TYPE_USERLOGIN = 1;
+
+    const TARGET_TYPE_USER = 1;
+
+    const LEVEL_EMERGENCY = 0;
+    const LEVEL_ALERT = 1;
+    const LEVEL_CRITICAL = 2;
+    const LEVEL_ERROR = 3;
+    const LEVEL_WARNING = 4;
+    const LEVEL_NOTICE = 5;
+    const LEVEL_INFO = 6;
+    const LEVEL_DEBUG = 7;
+
     /********************************************************************************
      *
      *   Attributes
@@ -72,5 +87,14 @@ class Log
         }
 
         $this->database = $database;
+    }
+
+    public function userLogsIn($user, $ip_adress = "")
+    {
+        try {
+            UserLoginEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $user, $ip_adress);
+        } catch (Exception $e) {
+
+        }
     }
 }

@@ -921,6 +921,10 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         @session_start();
         $_SESSION['user'] = $user->getID();
         session_write_close();
+
+        //Write the event to the log:
+        $user->log->userLogsIn($user, $_SERVER['REMOTE_ADDR']);
+
         return true;
     }
 
