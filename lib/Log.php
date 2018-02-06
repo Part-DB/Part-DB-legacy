@@ -27,6 +27,7 @@ namespace PartDB;
 
 use Exception;
 use PartDB\LogSystem\UserLoginEntry;
+use PartDB\LogSystem\UserLogoutEntry;
 
 /**
  * @file Log.php
@@ -46,6 +47,7 @@ class Log
 {
 
     const TYPE_USERLOGIN = 1;
+    const TYPE_USERLOGOUT = 2;
 
     const TARGET_TYPE_USER = 1;
 
@@ -89,10 +91,19 @@ class Log
         $this->database = $database;
     }
 
-    public function userLogsIn($user, $ip_adress = "")
+    public function userLogsIn($user, $ip_address = "")
     {
         try {
-            UserLoginEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $user, $ip_adress);
+            UserLoginEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $user, $ip_address);
+        } catch (Exception $e) {
+
+        }
+    }
+
+    public function userLogsOut($user)
+    {
+        try {
+            UserLogoutEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $user);
         } catch (Exception $e) {
 
         }

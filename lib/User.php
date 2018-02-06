@@ -934,9 +934,14 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public static function logout()
     {
+
+        //Write the event to the log:
+        self::getLoggedInUser()->log->userLogsOut(self::getLoggedInUser());
+
         @session_start();
         $_SESSION['user'] = static::ID_ANONYMOUS;
         session_write_close();
+
         return true;
     }
 
