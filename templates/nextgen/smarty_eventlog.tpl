@@ -11,15 +11,15 @@
     </thead>
     <tbody>
         {foreach $log as $entry}
-            {assign color "info"}
+
+            <tr class="
             {if $entry.level_id == 5}
-                {assign color "info"}
+                info
             {elseif $entry.level_id == 4}
-                {assign color "warning"}
+                warning
             {elseif $entry.level_id <= 3}
-                {assign color "danger"}
-            {/if}
-            <tr class="info">
+                danger
+            {/if}">
                 <td>{$entry.timestamp}</td>
                 <td>{$entry.level}</td>
                 <td>{$entry.type}</td>

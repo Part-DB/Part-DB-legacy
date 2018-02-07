@@ -736,6 +736,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             if ($this->getID() == static::ID_ANONYMOUS) {
                 $str .= _('<br><br>Bitte loggen sie sich ein:') . ' <a href="login.php?redirect=' . urlencode($_SERVER["REQUEST_URI"]) . '">' . _('Login'). '</a>';
             }
+
+            $this->log->userNotAllowed("$group_title->$perm_description: $op_description");
+
             throw new UserNotAllowedException($str);
         }
     }

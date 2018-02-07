@@ -29,6 +29,7 @@ use Exception;
 use PartDB\LogSystem\BaseEntry;
 use PartDB\LogSystem\UserLoginEntry;
 use PartDB\LogSystem\UserLogoutEntry;
+use PartDB\LogSystem\UserNotAllowedEntry;
 
 /**
  * @file Log.php
@@ -49,6 +50,7 @@ class Log
 
     const TYPE_USERLOGIN = 1;
     const TYPE_USERLOGOUT = 2;
+    const TYPE_USERNOTALLOWED = 3;
 
     const TARGET_TYPE_USER = 1;
 
@@ -110,6 +112,15 @@ class Log
         }
     }
 
+    public function userNotAllowed($permission_string)
+    {
+        try {
+            UserNotAllowedEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $permission_string);
+        } catch (Exception $e) {
+
+        }
+    }
+
     /**
      * Converts an type id (integer) to a localized string version.
      * @param $id int The id of the log type you want to have a localized string.
@@ -122,9 +133,11 @@ class Log
                 return _("Nutzer eingeloggt");
             case static::TYPE_USERLOGOUT:
                 return _("Nutzer ausgeloggt");
+            case static::TYPE_USERNOTALLOWED:
+                return _("Unerlaubter Zugriffsversuch");
+            default:
+                return _("Unbekannter Typ");
         }
-
-        throw new \InvalidArgumentException(_("Unbekannter Typ"));
     }
 
     /**
