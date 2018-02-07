@@ -59,7 +59,7 @@ class UserLoginEntry extends BaseEntry
             $current_user,
             $log,
             Log::TYPE_USERLOGIN,
-            Log::LEVEL_NOTICE,
+            Log::LEVEL_INFO,
             $user->getID(),
             Log::TARGET_TYPE_USER,
             $user->getID(),
