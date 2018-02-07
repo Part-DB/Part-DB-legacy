@@ -34,7 +34,7 @@ class ExceptionEntry extends BaseEntry
         parent::__construct($database, $current_user, $log, $id, $db_data);
 
         //Check if we have selcted the right type
-        if ($this->getTypeID() != Log::TYPE_USERNOTALLOWED) {
+        if ($this->getTypeID() != Log::TYPE_EXCEPTION) {
             throw new \RuntimeException(_("Falscher Logtyp!"));
         }
     }
@@ -67,4 +67,13 @@ class ExceptionEntry extends BaseEntry
         );
     }
 
+    public function getTargetText()
+    {
+        return "";
+    }
+
+    public function getTargetLink()
+    {
+        return "";
+    }
 }

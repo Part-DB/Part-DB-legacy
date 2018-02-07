@@ -29,7 +29,11 @@
                     {$entry.user}
                 {/if}
             </td>
-            <td></td>
+            <td>{if $entry.target_link != ""}
+                    <a href="{$entry.target_link}">{$entry.target_text}</a>
+                {else}
+                    {$entry.target_text}
+                {/if}</td>
             <td>{$entry.comment}</td>
         </tr>
     {/foreach}

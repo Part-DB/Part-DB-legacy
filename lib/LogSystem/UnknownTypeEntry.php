@@ -46,4 +46,21 @@ class UnknownTypeEntry extends BaseEntry
      * No Add function, because it is not possible/useful to add UnknownTypeEntries to the Log.
      *
      *******************************/
+    /**
+     * Returns the a text representation of the target
+     * @return string The text describing the target
+     */
+    public function getTargetText()
+    {
+       return _("Typ: ") . $this->getTargetType() . _(", ID: ") . $this->getTargetID();
+    }
+
+    /**
+     * Return a link to the target. Returns empty string if no link is available.
+     * @return string
+     */
+    public function getTargetLink()
+    {
+        return "";
+    }
 }

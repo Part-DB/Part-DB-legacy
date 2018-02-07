@@ -115,6 +115,36 @@ abstract class BaseEntry extends DBElement
     }
 
     /**
+     * Returns the type of the target.
+     * @return int A integer describing the type of the Target
+     */
+    protected function getTargetType()
+    {
+        return $this->db_data['target_type'];
+    }
+
+    /**
+     * Returns the id of the target
+     * @return int The id of the target
+     */
+    protected function getTargetID()
+    {
+        return $this->db_data['target_id'];
+    }
+
+    /**
+     * Returns the a text representation of the target
+     * @return string The text describing the target
+     */
+    abstract public function getTargetText();
+
+    /**
+     * Return a link to the target. Returns empty string if no link is available.
+     * @return string the link to the target.
+     */
+    abstract public function getTargetLink();
+
+    /**
      * Adds a new log entry to the database.
      * @param $database Database The database which should be used for requests.
      * @param $current_user User The database which should be used for requests.
@@ -131,13 +161,13 @@ abstract class BaseEntry extends DBElement
     protected static function addEntry(&$database, &$current_user, &$log, $type, $level, $user_id, $target_type, $target_id, $extra)
     {
         $data = array(
-          "type" => $type,
-          "id_user" => $user_id,
+            "type" => $type,
+            "id_user" => $user_id,
             "target_type" => $target_type,
             "target_id" => $target_id,
             "extra" => $extra,
             "level" => $level
         );
-       return static::addByArray($database, $current_user, $log, "log", $data);
+        return static::addByArray($database, $current_user, $log, "log", $data);
     }
 }

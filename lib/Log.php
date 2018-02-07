@@ -138,6 +138,8 @@ class Log
                 return _("Nutzer ausgeloggt");
             case static::TYPE_USERNOTALLOWED:
                 return _("Unerlaubter Zugriffsversuch");
+            case static::TYPE_EXCEPTION:
+                return _("Unbehandelte Exception");
             default:
                 return _("Unbekannter Typ");
         }
@@ -159,7 +161,9 @@ class Log
                 "user_id" => $entry->getUser()->getID(),
                 "comment" => $entry->getExtra(),
                 "level" => $entry->getLevel(),
-                "level_id" => $entry->getLevelID()
+                "level_id" => $entry->getLevelID(),
+                "target_text" => $entry->getTargetText(),
+                "target_link" => $entry->getTargetLink()
             );
 
             $rows[] = $data;
@@ -230,6 +234,8 @@ class Log
                 return $base_ns . "UserLogoutEntry";
             case static::TYPE_USERNOTALLOWED:
                 return $base_ns . "UserNotAllowedEntry";
+            case static::TYPE_EXCEPTION:
+                return $base_ns . "ExceptionEntry";
             default:
                 return $base_ns . "UnknownTypeEntry";
         }

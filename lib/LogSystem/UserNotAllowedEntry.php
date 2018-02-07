@@ -37,6 +37,10 @@ class UserNotAllowedEntry extends BaseEntry
         if ($this->getTypeID() != Log::TYPE_USERNOTALLOWED) {
             throw new \RuntimeException(_("Falscher Logtyp!"));
         }
+
+        if ($this->getTargetType() != Log::TARGET_TYPE_USER) {
+            throw new \RuntimeException(_("Falscher Targettyp!"));
+        }
     }
 
 
@@ -65,6 +69,29 @@ class UserNotAllowedEntry extends BaseEntry
             $current_user->getID(),
             $permission_string
         );
+    }
+
+    /**
+     * Returns the a text representation of the target
+     * @return string The text describing the target
+     */
+    public function getTargetText()
+    {
+        try {
+            $user = new User($this->database, $this->current_user, $this->log, $this->getTargetID());
+            return $user->getFullName();
+        } catch (Exception $ex) {
+            return "ERROR!";
+        }
+    }
+
+    /**
+     * Return a link to the target. Returns empty string if no link is available.
+     * @return string the link to the target.
+     */
+    public function getTargetLink()
+    {
+        return BASE_RELATIVE . "user_info?uid=" . $this->getTargetID();
     }
 
 }
