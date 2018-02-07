@@ -151,9 +151,11 @@ class Log
         /** @var BaseEntry $entry */
         foreach ($entries as $entry) {
             $data = array(
+                "id" => $entry->getID(),
                 "timestamp" => $entry->getTimestamp(true),
                 "type" => $this->typeIDToString($entry->getTypeID()),
                 "user" => $entry->getUser()->getFullName(true),
+                "user_id" => $entry->getUser()->getID(),
                 "comment" => $entry->getExtra(),
                 "level" => $entry->getLevel(),
                 "level_id" => $entry->getLevelID()

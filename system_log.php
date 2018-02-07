@@ -109,9 +109,7 @@ if (! $fatal_error) {
 
 if (! $fatal_error) {
     // global stuff
-    $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
-    $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
-    $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
+    $html->setVariable('can_show_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ), 'boolean');
 
     //$html->setVariable('mode', $mode, "string");
 
