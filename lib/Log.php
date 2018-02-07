@@ -27,6 +27,7 @@ namespace PartDB;
 
 use Exception;
 use PartDB\LogSystem\BaseEntry;
+use PartDB\LogSystem\UnknownTypeEntry;
 use PartDB\LogSystem\UserLoginEntry;
 use PartDB\LogSystem\UserLogoutEntry;
 use PartDB\LogSystem\UserNotAllowedEntry;
@@ -52,6 +53,7 @@ class Log
     const TYPE_USERLOGOUT = 2;
     const TYPE_USERNOTALLOWED = 3;
 
+    const TARGET_TYPE_NONE = 0;
     const TARGET_TYPE_USER = 1;
 
     const LEVEL_EMERGENCY = 0;
@@ -176,9 +178,7 @@ class Log
      */
     public function getAllEntries($newest_first = true, $limit = 50, $page = 1)
     {
-        $entries = array();
-
-            $query =    'SELECT * from log '.
+        $query =    'SELECT * from log '.
                 'ORDER BY log.datetime DESC';
 
         if ($limit > 0 && $page > 0) {
@@ -187,13 +187,49 @@ class Log
 
         $query_data = $this->database->query($query);
 
+
+        return $this->queryDataToEntryObjects($query_data);
+    }
+
+    /**
+     * This function takes the results of a database Query and returns an array of BaseEntry entries (or the correct child classes).
+     * @param $query_data array The results of the SQL query.
+     * @return BaseEntry[] The converted data as BaseEntry objects.
+     * @throws Exception If an Error happened.
+     */
+    protected function queryDataToEntryObjects($query_data)
+    {
+        $entries = array();
         $current_user = User::getLoggedInUser();
 
         foreach ($query_data as $row) {
-            $entries[] = new BaseEntry($this->database,$current_user , $this, $row['id'], $row);
+            $class = static::typeIDToClass($row['type']);
+            $entries[] = new $class($this->database, $current_user, $this, $row['id'], $row);
         }
 
         return $entries;
+    }
+
+
+    /**
+     * This function parses a id of a type and returns the name of the related class.
+     * @param $type_id int The id of the type.
+     * @return BaseEntry The classname for this type id.
+     */
+    protected static function typeIDToClass($type_id)
+    {
+        $base_ns = "PartDB\LogSystem\\";
+
+        switch ($type_id) {
+            case static::TYPE_USERLOGIN:
+                return $base_ns . "UserLoginEntry";
+            case static::TYPE_USERLOGOUT:
+                return $base_ns . "UserLogoutEntry";
+            case static::TYPE_USERNOTALLOWED:
+                return $base_ns . "UserNotAllowedEntry";
+            default:
+                return $base_ns . "UnknownTypeEntry";
+        }
     }
 
     /**

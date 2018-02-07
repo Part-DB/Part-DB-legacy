@@ -14,7 +14,7 @@ use PartDB\Database;
 use PartDB\Log;
 use PartDB\User;
 
-class BaseEntry extends DBElement
+abstract class BaseEntry extends DBElement
 {
     protected $user;
 
