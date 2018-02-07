@@ -47,7 +47,7 @@
                             <strong>{t}Neuen Benutzer hinzufügen:{/t}</strong>
                         {else}
                             {if isset($name)}
-                                <strong>{t}Benutzer bearbeiten:{/t}</strong> {$name}
+                                <strong>{t}Benutzer bearbeiten:{/t}</strong> <a href="{$relative_path}user_info.php?uid={$id}">{$name}</a>
                             {else}
                                 <strong>{t}Es ist kein Benutzer angewählt!{/t}</strong>
                             {/if}
