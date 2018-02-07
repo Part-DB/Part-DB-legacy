@@ -63,7 +63,7 @@ class ExceptionEntry extends BaseEntry
             $current_user->getID(),
             Log::TARGET_TYPE_NONE,
             0,
-            $exception->getMessage() . "[" . $exception->getFile() . "; " . $exception->getLine() .  "]"
+            $exception->getMessage() . " [" . $exception->getFile() . "; " . $exception->getLine() .  "]"
         );
     }
 
