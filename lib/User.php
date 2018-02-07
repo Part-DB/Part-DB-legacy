@@ -737,7 +737,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
                 $str .= _('<br><br>Bitte loggen sie sich ein:') . ' <a href="login.php?redirect=' . urlencode($_SERVER["REQUEST_URI"]) . '">' . _('Login'). '</a>';
             }
 
-            $this->log->userNotAllowed("$group_title->$perm_description: $op_description");
+            $this->log->userNotAllowed("$group_title->$perm_description: $op_description (" .  basename($_SERVER['PHP_SELF']) . ")");
 
             throw new UserNotAllowedException($str);
         }
