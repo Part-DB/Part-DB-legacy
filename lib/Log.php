@@ -48,10 +48,11 @@ use PartDB\LogSystem\UserNotAllowedEntry;
  */
 class Log
 {
-
+    //Dont change these definitions...
     const TYPE_USERLOGIN = 1;
     const TYPE_USERLOGOUT = 2;
     const TYPE_USERNOTALLOWED = 3;
+    const TYPE_EXCEPTION = 4;
 
     const TARGET_TYPE_NONE = 0;
     const TARGET_TYPE_USER = 1;
