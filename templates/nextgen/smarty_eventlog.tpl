@@ -1,4 +1,4 @@
-<table class="table table-hover table-bordered table-sortable table-condensed">
+<table class="table table-hover table-bordered table-sortable table-striped table-condensed">
     <thead>
         <tr>
             <th>{t}Zeitstempel{/t}</th>
