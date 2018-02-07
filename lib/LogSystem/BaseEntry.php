@@ -14,7 +14,7 @@ use PartDB\Database;
 use PartDB\Log;
 use PartDB\User;
 
-abstract class BaseEntry extends DBElement
+class BaseEntry extends DBElement
 {
     protected $user;
 
@@ -44,7 +44,7 @@ abstract class BaseEntry extends DBElement
     public function getUser()
     {
         if ($this->user == null) {
-            $this->user = new User($this->database, $this->current_user, $this->log, $this->db_data['user']);
+            $this->user = new User($this->database, $this->current_user, $this->log, $this->db_data['id_user']);
         }
 
         return $this->user;
@@ -56,14 +56,19 @@ abstract class BaseEntry extends DBElement
      *       When false, the raw value from the DB is returned (unix timestamp).
      * @return string The creation time of the part.
      */
-    public function getDatetimeAdded($formatted = true)
+    public function getTimestamp($formatted = true)
     {
-        $time_str = $this->db_data['datetime_added'];
+        $time_str = $this->db_data['datetime'];
         if ($formatted) {
             $timestamp = strtotime($time_str);
             return formatTimestamp($timestamp);
         }
         return $time_str;
+    }
+
+    public function getExtra()
+    {
+        return $this->db_data['extra'];
     }
 
     /**

@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\LogSystem\BaseEntry;
 use PartDB\LogSystem\UserLoginEntry;
 use PartDB\LogSystem\UserLogoutEntry;
 
@@ -107,5 +108,97 @@ class Log
         } catch (Exception $e) {
 
         }
+    }
+
+    /**
+     * Converts an type id (integer) to a localized string version.
+     * @param $id int The id of the log type you want to have a localized string.
+     * @return string The localized string.
+     */
+    public static function typeIDToString($id)
+    {
+        switch ($id) {
+            case static::TYPE_USERLOGIN:
+                return _("Nutzer eingeloggt");
+            case static::TYPE_USERLOGOUT:
+                return _("Nutzer ausgeloggt");
+        }
+
+        throw new \InvalidArgumentException(_("Unbekannter Typ"));
+    }
+
+    /**
+     * @param $entries BaseEntry[]
+     */
+    public function generateTemplateLoop($entries)
+    {
+        $rows = array();
+        /** @var BaseEntry $entry */
+        foreach ($entries as $entry) {
+            $data = array(
+                "timestamp" => $entry->getTimestamp(true),
+                "type" => $this->typeIDToString($entry->getTypeID()),
+                "user" => $entry->getUser()->getFullName(true),
+                "comment" => $entry->getExtra(),
+                "level" => $entry->getLevel(),
+                "level_id" => $entry->getLevelID()
+            );
+
+            $rows[] = $data;
+        }
+
+        return $rows;
+    }
+
+    /**
+     * Get all log entries.
+     *
+     * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
+     * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+     *
+     *
+     * @return BaseEntry[]    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public function getAllEntries($newest_first = true, $limit = 50, $page = 1)
+    {
+        $entries = array();
+
+            $query =    'SELECT * from log '.
+                'ORDER BY log.datetime DESC';
+
+        if ($limit > 0 && $page > 0) {
+            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+        }
+
+        $query_data = $this->database->query($query);
+
+        $current_user = User::getLoggedInUser();
+
+        foreach ($query_data as $row) {
+            $entries[] = new BaseEntry($this->database,$current_user , $this, $row['id'], $row);
+        }
+
+        return $entries;
+    }
+
+    /**
+     *  Get count of all log entries.
+     *
+     * @return BaseEntry[]    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public function getAllEntriesCount($newest_first = true)
+    {
+        $parts = array();
+
+        $query =    'SELECT count(id) AS count from log '.
+            'ORDER BY log.datetime DESC';
+
+        $query_data = $this->database->query($query);
+
+        return $query_data[0]['count'];
     }
 }
