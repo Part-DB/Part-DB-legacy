@@ -1,7 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 
 <div class="panel panel-primary">
-    <div class="panel-heading">{t}Optionen{/t}</div>
+    <div class="panel-heading">{t}Filter{/t}</div>
     <div class="panel-body">
         <form class="form-horizontal no-progbar" method="post">
             <div class="form-group">
@@ -27,6 +27,20 @@
                         <option value="-1">{t}Kein Filter{/t}</option>
                         <optgroup label="{t}Benutzer{/t}">
                             {$user_list nofilter}
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="col-md-2 control-label">{t}Typ:{/t}</label>
+                <div class="col-md-10">
+                    <select name="filter_type" class="form-control selectpicker" data-live-search="true">
+                        <option value="-1">{t}Kein Filter{/t}</option>
+                        <optgroup label="{t}Typ{/t}">
+                            {foreach $types_loop as $type}
+                                <option value="{$type.id}" {if $filter_type == {$type.id}}selected{/if}>{$type.text}</option>
+                            {/foreach}
                         </optgroup>
                     </select>
                 </div>

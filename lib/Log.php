@@ -145,6 +145,24 @@ class Log
         }
     }
 
+    public static function getLogTypesList()
+    {
+        $data = array();
+
+        $n = 1;
+        while (true) {
+            $text = static::typeIDToString($n);
+            //TODO: Thats a bit dirty... Find a better way to do this...
+            if (strcontains($text, _("Unbekannt"))) {
+                break;
+            }
+            $data[] = array("id" => $n, "text" => $text);
+            $n++;
+        }
+
+        return $data;
+    }
+
     /**
      * @param $entries BaseEntry[]
      */
@@ -183,7 +201,7 @@ class Log
      *
      * @throws Exception if there was an error
      */
-    public function getEntries($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1, $type = -1, $search_str = "", $limit = 50, $page = 1)
+    public function getEntries($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1, $type_id = -1, $search_str = "", $limit = 50, $page = 1)
     {
         $search_str = "%" . $search_str . "%";
 
@@ -198,6 +216,12 @@ class Log
         if ($user_id >= 0) {
             $query .= " AND (id_user = ?)";
             $data[] = $user_id;
+        }
+
+        //Filter for user
+        if ($type_id >= 0) {
+            $query .= " AND (type = ?)";
+            $data[] = $type_id;
         }
 
         if ($search_str != "") {
