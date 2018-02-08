@@ -36,6 +36,7 @@ $page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST
 $limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
 
 $mode               = isset($_REQUEST['mode'])              ? (string)$_REQUEST['mode']             : "last_modified";
+$min_level          = isset($_REQUEST['min_level'])         ? (int)$_REQUEST['min_level']           : Log::LEVEL_DEBUG;
 
 /********************************************************************************
  *
@@ -79,8 +80,8 @@ if (! $fatal_error) {
             $parts = Part::getLastAddedParts($database, $current_user, $log, $latest_first, $limit, $page);
             $count = Part::getLastAddedPartsCount($database, $current_user, $log, $latest_first);
         }*/
-        $entries = $log->getAllEntries();
-        $count = $log->getAllEntriesCount();
+        $entries = $log->getEntries(true, $min_level, -1, -1, "", $limit, $page);
+        $count = $log->getEntriesCount(true, $min_level, -1, -1, "");
 
         $table_loop = $log->generateTemplateLoop($entries);
         $html->setLoop('log', $table_loop);
@@ -108,6 +109,9 @@ if (! $fatal_error) {
 
 
 if (! $fatal_error) {
+
+    $html->setVariable('min_level', $min_level, "int");
+
     // global stuff
     $html->setVariable('can_show_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ), 'boolean');
 

@@ -183,19 +183,51 @@ class Log
      *
      * @throws Exception if there was an error
      */
-    public function getAllEntries($newest_first = true, $limit = 50, $page = 1)
+    public function getEntries($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1, $type = -1, $search_str = "", $limit = 50, $page = 1)
     {
-        $query =    'SELECT * from log '.
-                'ORDER BY log.datetime DESC';
+
+        $data = array();
+
+        $query =    'SELECT * from log ';
+
+        $query .= " WHERE level <= ?";
+        $data[] = $min_level;
+
+
+        $query .=   ' ORDER BY log.datetime DESC';
 
         if ($limit > 0 && $page > 0) {
             $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
         }
 
-        $query_data = $this->database->query($query);
+        $query_data = $this->database->query($query, $data);
 
 
         return $this->queryDataToEntryObjects($query_data);
+    }
+
+    /**
+     *  Get count of all log entries.
+     *
+     * @return BaseEntry[]    all parts as a one-dimensional array of Part objects, sorted by their names
+     *
+     * @throws Exception if there was an error
+     */
+    public function getEntriesCount($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1, $type = -1, $search_str = "")
+    {
+        $data = array();
+
+        $query =    'SELECT COUNT(id) AS count from log ';
+
+        $query .= "WHERE level <= ?";
+        $data[] = $min_level;
+
+
+        $query .=   ' ORDER BY log.datetime DESC';
+
+        $query_data = $this->database->query($query, $data);
+
+        return $query_data[0]['count'];
     }
 
     /**
@@ -241,22 +273,5 @@ class Log
         }
     }
 
-    /**
-     *  Get count of all log entries.
-     *
-     * @return BaseEntry[]    all parts as a one-dimensional array of Part objects, sorted by their names
-     *
-     * @throws Exception if there was an error
-     */
-    public function getAllEntriesCount($newest_first = true)
-    {
-        $parts = array();
 
-        $query =    'SELECT count(id) AS count from log '.
-            'ORDER BY log.datetime DESC';
-
-        $query_data = $this->database->query($query);
-
-        return $query_data[0]['count'];
-    }
 }

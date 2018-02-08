@@ -96,6 +96,8 @@ abstract class BaseEntry extends DBElement
     public function getLevel()
     {
         switch ($this->getLevelID()) {
+            case Log::LEVEL_EMERGENCY:
+                return "emergency";
             case Log::LEVEL_ALERT:
                 return "alert";
             case Log::LEVEL_CRITICAL:
