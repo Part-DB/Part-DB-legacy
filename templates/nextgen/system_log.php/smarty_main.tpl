@@ -1,7 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 
 <div class="panel panel-primary">
-    <div class="panel-heading">{t}Filter{/t}</div>
+    <div class="panel-heading"><i class="fas fa-filter fa-fw"></i> {t}Filter{/t}</div>
     <div class="panel-body">
         <form class="form-horizontal no-progbar" method="post">
             <div class="form-group">
