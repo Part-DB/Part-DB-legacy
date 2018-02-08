@@ -21,6 +21,18 @@
             </div>
 
             <div class="form-group">
+                <label class="col-md-2 control-label">{t}Benutzer:{/t}</label>
+                <div class="col-md-10">
+                    <select name="filter_user" class="form-control selectpicker" data-live-search="true">
+                        <option value="-1">{t}Kein Filter{/t}</option>
+                        <optgroup label="{t}Benutzer{/t}">
+                            {$user_list nofilter}
+                        </optgroup>
+                    </select>
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <button class="btn btn-primary">{t}Aktualisieren{/t}</button>
                 </div>

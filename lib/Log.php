@@ -193,6 +193,11 @@ class Log
         $query .= " WHERE level <= ?";
         $data[] = $min_level;
 
+        //Filter for user
+        if ($user_id >= 0) {
+            $query .= " AND (id_user = ?)";
+            $data[] = $user_id;
+        }
 
         $query .=   ' ORDER BY log.datetime DESC';
 
@@ -222,6 +227,11 @@ class Log
         $query .= "WHERE level <= ?";
         $data[] = $min_level;
 
+        //Filter for user
+        if ($user_id >= 0) {
+            $query .= " AND (id_user = ?)";
+            $data[] = $user_id;
+        }
 
         $query .=   ' ORDER BY log.datetime DESC';
 
