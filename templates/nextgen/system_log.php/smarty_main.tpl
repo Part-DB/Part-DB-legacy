@@ -33,6 +33,13 @@
             </div>
 
             <div class="form-group">
+                <label class="col-md-2 control-label">{t}Suche in Kommentaren:{/t}</label>
+                <div class="col-md-10">
+                    <input type="search" value="{$search}" name="search" class="form-control">
+                </div>
+            </div>
+
+            <div class="form-group">
                 <div class="col-md-offset-2 col-md-10">
                     <button class="btn btn-primary">{t}Aktualisieren{/t}</button>
                 </div>

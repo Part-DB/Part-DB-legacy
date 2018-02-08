@@ -38,6 +38,7 @@ $limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST
 $mode               = isset($_REQUEST['mode'])              ? (string)$_REQUEST['mode']             : "last_modified";
 $min_level          = isset($_REQUEST['min_level'])         ? (int)$_REQUEST['min_level']           : Log::LEVEL_DEBUG;
 $filter_user        = isset($_REQUEST['filter_user'])       ? (int)$_REQUEST['filter_user']         : -1;
+$search             = isset($_REQUEST['search'])            ? (string)$_REQUEST['search']           : "";
 
 /********************************************************************************
  *
@@ -81,8 +82,8 @@ if (! $fatal_error) {
             $parts = Part::getLastAddedParts($database, $current_user, $log, $latest_first, $limit, $page);
             $count = Part::getLastAddedPartsCount($database, $current_user, $log, $latest_first);
         }*/
-        $entries = $log->getEntries(true, $min_level, $filter_user, -1, "", $limit, $page);
-        $count = $log->getEntriesCount(true, $min_level, $filter_user, -1, "");
+        $entries = $log->getEntries(true, $min_level, $filter_user, -1, $search, $limit, $page);
+        $count = $log->getEntriesCount(true, $min_level, $filter_user, -1, $search);
 
         $table_loop = $log->generateTemplateLoop($entries);
         $html->setLoop('log', $table_loop);
@@ -114,6 +115,7 @@ if (! $fatal_error) {
     $html->setVariable('min_level', $min_level, "int");
     $user_list = User::buildHTMLList($database, $current_user, $log, $filter_user);
     $html->setVariable('user_list', $user_list, "string");
+    $html->setVariable('search', $search, "string");
 
 
     // global stuff

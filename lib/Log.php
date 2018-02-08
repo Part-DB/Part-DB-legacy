@@ -185,6 +185,7 @@ class Log
      */
     public function getEntries($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1, $type = -1, $search_str = "", $limit = 50, $page = 1)
     {
+        $search_str = "%" . $search_str . "%";
 
         $data = array();
 
@@ -197,6 +198,11 @@ class Log
         if ($user_id >= 0) {
             $query .= " AND (id_user = ?)";
             $data[] = $user_id;
+        }
+
+        if ($search_str != "") {
+            $query .= " AND (extra LIKE ?)";
+            $data[] = $search_str;
         }
 
         $query .=   ' ORDER BY log.datetime DESC';
@@ -220,6 +226,8 @@ class Log
      */
     public function getEntriesCount($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1, $type = -1, $search_str = "")
     {
+        $search_str = "%" . $search_str . "%";
+
         $data = array();
 
         $query =    'SELECT COUNT(id) AS count from log ';
@@ -231,6 +239,11 @@ class Log
         if ($user_id >= 0) {
             $query .= " AND (id_user = ?)";
             $data[] = $user_id;
+        }
+
+        if ($search_str != "") {
+            $query .= " AND (extra LIKE ?)";
+            $data[] = $search_str;
         }
 
         $query .=   ' ORDER BY log.datetime DESC';
