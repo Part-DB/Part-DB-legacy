@@ -1,8 +1,12 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-<div class="panel panel-primary">
-    <div class="panel-heading"><i class="fas fa-filter fa-fw"></i> {t}Filter{/t}</div>
-    <div class="panel-body">
+<div class="panel panel-default">
+    <div class="panel-heading">
+            <a data-toggle="collapse" class="link-collapse text-default" href="#panel-filter"><i class="fa fa-filter fa-fw" aria-hidden="true"></i>
+                {t}Filter{/t}
+            </a>
+        </div>
+    <div class="panel-collapse collapse panel-body" id="panel-filter">
         <form class="form-horizontal no-progbar" method="post">
             <div class="form-group">
                 <label class="col-md-2 control-label">{t}minimales Loglevel:{/t}</label>
