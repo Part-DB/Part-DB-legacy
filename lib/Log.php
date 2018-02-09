@@ -26,7 +26,9 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Base\NamedDBElement;
 use PartDB\LogSystem\BaseEntry;
+use PartDB\LogSystem\ElementDeletedEntry;
 use PartDB\LogSystem\UnknownTypeEntry;
 use PartDB\LogSystem\UserLoginEntry;
 use PartDB\LogSystem\UserLogoutEntry;
@@ -53,9 +55,21 @@ class Log
     const TYPE_USERLOGOUT = 2;
     const TYPE_USERNOTALLOWED = 3;
     const TYPE_EXCEPTION = 4;
+    const TYPE_ELEMENTDELETED = 5;
 
     const TARGET_TYPE_NONE = 0;
     const TARGET_TYPE_USER = 1;
+    const TARGET_TYPE_ATTACHEMENT = 2;
+    const TARGET_TYPE_ATTACHEMENTTYPE = 3;
+    const TARGET_TYPE_CATEGORY = 4;
+    const TARGET_TYPE_DEVICE = 5;
+    const TARGET_TYPE_DEVICEPART = 6;
+    const TARGET_TYPE_FOOTPRINT = 7;
+    const TARGET_TYPE_GROUP = 8;
+    const TARGET_TYPE_MANUFACTURER = 9;
+    const TARGET_TYPE_PART = 10;
+    const TARGET_TYPE_STORELOCATION = 11;
+    const TARGET_SUPPLIER = 12;
 
     const LEVEL_EMERGENCY = 0;
     const LEVEL_ALERT = 1;
@@ -124,6 +138,17 @@ class Log
         }
     }
 
+    public function elementDeleted(&$element)
+    {
+        try {
+            ElementDeletedEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $element);
+        } catch (Exception $e) {
+
+        }
+
+    }
+
+
     /**
      * Converts an type id (integer) to a localized string version.
      * @param $id int The id of the log type you want to have a localized string.
@@ -140,8 +165,80 @@ class Log
                 return _("Unerlaubter Zugriffsversuch");
             case static::TYPE_EXCEPTION:
                 return _("Unbehandelte Exception");
+            case static::TYPE_ELEMENTDELETED:
+                return _("Element gelöscht");
             default:
                 return _("Unbekannter Typ");
+        }
+    }
+
+    /**
+     * Determines the type of a target based on the class of an element.
+     * @param $element NamedDBElement The element that should be used to generate the target type id.
+     * @return int The id of the target type
+     * @throws \RuntimeException When no Targettype for this class was found.
+     */
+    public static function elementToTargetTypeID(&$element)
+    {
+        if ($element instanceof Attachement) {
+            return static::TARGET_TYPE_ATTACHEMENT;
+        } elseif ($element instanceof AttachementType) {
+            return static::TARGET_TYPE_ATTACHEMENTTYPE;
+        } elseif ($element instanceof User) {
+            return static::TARGET_TYPE_USER;
+        } elseif ($element instanceof Category) {
+            return static::TARGET_TYPE_CATEGORY;
+        } elseif ($element instanceof Device) {
+            return static::TARGET_TYPE_DEVICE;
+        } elseif ($element instanceof Footprint) {
+            return static::TARGET_TYPE_FOOTPRINT;
+        } elseif ($element instanceof Group) {
+            return static::TARGET_TYPE_GROUP;
+        } elseif ($element instanceof Manufacturer) {
+            return static::TARGET_TYPE_MANUFACTURER;
+        } elseif ($element instanceof Part) {
+            return static::TARGET_TYPE_PART;
+        } elseif ($element instanceof Storelocation) {
+            return static::TARGET_TYPE_STORELOCATION;
+        } elseif ($element instanceof  Supplier) {
+            return static::TARGET_SUPPLIER;
+        } else {
+            throw new \RuntimeException(_("Kein Target Typ für diese Klasse gefunden!"));
+        }
+    }
+
+    /**
+     * Returns a localized text representation of the target type with the given id.
+     * @param $target_id int The ID for that the text should be returned.
+     * @return string The text version for the target type.
+     */
+    public static function targetTypeIDToString($target_id)
+    {
+        switch ($target_id) {
+            case static::TARGET_TYPE_ATTACHEMENT:
+                return _("Anhang");
+            case static::TARGET_TYPE_ATTACHEMENTTYPE:
+                return _("Dateityp");
+            case static::TARGET_TYPE_USER:
+                return _("Benutzer");
+            case static::TARGET_TYPE_CATEGORY:
+                return _("Kategorie");
+            case static::TARGET_TYPE_DEVICE:
+                return _("Baugruppe");
+            case static::TARGET_TYPE_FOOTPRINT:
+                return _("Footprint");
+            case static::TARGET_TYPE_GROUP:
+                return _("Gruppe");
+            case static::TARGET_TYPE_MANUFACTURER:
+                return _("Hersteller");
+            case static::TARGET_TYPE_PART:
+                return _("Bauteil");
+            case static::TARGET_TYPE_STORELOCATION:
+                return _("Lagerort");
+            case static::SUPPLIER:
+                return _("Hersteller");
+            default:
+                return _("Unbekannter Target Typ");
         }
     }
 
@@ -315,6 +412,8 @@ class Log
                 return $base_ns . "UserNotAllowedEntry";
             case static::TYPE_EXCEPTION:
                 return $base_ns . "ExceptionEntry";
+            case static::TYPE_ELEMENTDELETED:
+                return $base_ns . "ElementDeletedEntry";
             default:
                 return $base_ns . "UnknownTypeEntry";
         }

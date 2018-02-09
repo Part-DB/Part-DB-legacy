@@ -52,7 +52,7 @@ class UnknownTypeEntry extends BaseEntry
      */
     public function getTargetText()
     {
-       return _("Typ: ") . $this->getTargetType() . _(", ID: ") . $this->getTargetID();
+        return _("Typ: ") . Log::targetTypeIDToString($this->getTargetType()) . _(", ID: ") .  $this->getTargetID();
     }
 
     /**
