@@ -64,12 +64,19 @@ class ElementDeletedEntry extends BaseEntry
         $name = $element->getName();
         $type_id = Log::elementToTargetTypeID($element);
 
+        if ($type_id == Log::TARGET_TYPE_USER || Log::TARGET_TYPE_GROUP) {
+            //When a user or group is edited, this needs more attention, so higher level.
+            $level = Log::LEVEL_NOTICE;
+        } else {
+            $level = Log::LEVEL_INFO;
+        }
+
         return static::addEntry(
             $database,
             $current_user,
             $log,
             Log::TYPE_ELEMENTDELETED,
-            Log::LEVEL_INFO,
+            $level,
             $current_user->getID(),
             $type_id,
             $element->getID(),
