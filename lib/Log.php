@@ -71,7 +71,7 @@ class Log
     const TARGET_TYPE_MANUFACTURER = 9;
     const TARGET_TYPE_PART = 10;
     const TARGET_TYPE_STORELOCATION = 11;
-    const TARGET_SUPPLIER = 12;
+    const TARGET_TYPE_SUPPLIER = 12;
 
     const LEVEL_EMERGENCY = 0;
     const LEVEL_ALERT = 1;
@@ -213,9 +213,48 @@ class Log
         } elseif ($element instanceof Storelocation) {
             return static::TARGET_TYPE_STORELOCATION;
         } elseif ($element instanceof  Supplier) {
-            return static::TARGET_SUPPLIER;
+            return static::TARGET_TYPE_SUPPLIER;
         } else {
             throw new \RuntimeException(_("Kein Target Typ für diese Klasse gefunden!"));
+        }
+    }
+
+    /**
+     * Returns the class name for a target type.
+     * @param $target_id int The id of the target type-
+     * @return NamedDBElement The full qualified class name.
+     */
+    public static function targetTypeIDToClass($target_id)
+    {
+        $base_ns = "PartDB\\";
+
+        switch ($target_id) {
+            case static::TARGET_TYPE_USER:
+                return $base_ns . "User";
+            case static::TARGET_TYPE_ATTACHEMENT:
+                return $base_ns . "Attachement";
+            case static::TARGET_TYPE_ATTACHEMENTTYPE:
+                return $base_ns . "AttachementType";
+            case static::TARGET_TYPE_CATEGORY:
+                return $base_ns . "Category";
+            case static::TARGET_TYPE_DEVICE:
+                return $base_ns . "Device";
+            case static::TARGET_TYPE_DEVICEPART:
+                return $base_ns . "DevicePart";
+            case static::TARGET_TYPE_FOOTPRINT:
+                return $base_ns . "Footprint";
+            case static::TARGET_TYPE_GROUP:
+                return $base_ns . "Group";
+            case static::TARGET_TYPE_MANUFACTURER:
+                return $base_ns . "Manufacturer";
+            case static::TARGET_TYPE_PART:
+                return $base_ns . "Part";
+            case static::TARGET_TYPE_STORELOCATION:
+                return $base_ns . "Storelocation";
+            case static::TARGET_TYPE_SUPPLIER:
+                return $base_ns . "Supplier";
+            default:
+                throw new \RuntimeException(_("Unbekannter Target Typ"));
         }
     }
 
@@ -247,7 +286,7 @@ class Log
                 return _("Bauteil");
             case static::TARGET_TYPE_STORELOCATION:
                 return _("Lagerort");
-            case static::SUPPLIER:
+            case static::TARGET_TYPE_SUPPLIER:
                 return _("Hersteller");
             default:
                 return _("Unbekannter Target Typ");

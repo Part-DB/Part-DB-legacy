@@ -17,6 +17,12 @@ use PartDB\User;
 
 class ElementCreatedEntry extends BaseEntry
 {
+
+    /**
+     * @var $element NamedDBElement
+     */
+    protected $element;
+
     /**
      * Constructor
      *
@@ -37,6 +43,13 @@ class ElementCreatedEntry extends BaseEntry
         //Check if we have selcted the right type
         if ($this->getTypeID() != Log::TYPE_ELEMENTCREATED) {
             throw new \RuntimeException(_("Falscher Logtyp!"));
+        }
+
+        try {
+            $class = Log::targetTypeIDToClass($this->getTargetType());
+            $this->element = new $class($database, $current_user, $log, $this->getTargetID());
+        } catch (Exception $ex) {
+
         }
     }
 
@@ -83,7 +96,8 @@ class ElementCreatedEntry extends BaseEntry
     public function getTargetText()
     {
         try {
-            return Log::targetTypeIDToString($this->getTargetType()) . ": " . $this->getTargetID();
+            $part_name = ($this->element != null) ? $this->element->getName() : $this->getTargetID();
+            return Log::targetTypeIDToString($this->getTargetType()) . ": " . $part_name;
         } catch (Exception $ex) {
             return "ERROR!";
         }
