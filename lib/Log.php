@@ -259,6 +259,59 @@ class Log
     }
 
     /**
+     * Returns a link to a info page for the target with the given type and id.
+     * @param $target_type int The type of the target.
+     * @param $target_id int The id of the target.
+     * @return string The URL to the info page
+     */
+    public static function generateLinkForTarget($target_type, $target_id)
+    {
+        $url = BASE_RELATIVE . "/";
+        switch ($target_type) {
+            case static::TARGET_TYPE_ATTACHEMENT:
+                //Attachements dont have a info page yet.
+                return "";
+            case static::TARGET_TYPE_ATTACHEMENTTYPE:
+                $url.= "edit_attachement_types.php?selected_id=";
+                break;
+            case static::TARGET_TYPE_CATEGORY:
+                $url.= "edit_categories.php?selected_id=";
+                break;
+            case static::TARGET_TYPE_DEVICE:
+                $url.= "edit_devices.php?selected_id=";
+                break;
+            case static::TARGET_TYPE_DEVICEPART:
+                //We dont have a real info page for that too...
+                return "";
+            case static::TARGET_TYPE_FOOTPRINT:
+                $url .= "edit_footprints.php?selected_id=";
+                break;
+            case static::TARGET_TYPE_GROUP:
+                $url .= "edit_groups.php?selected_id=";
+                break;
+            case static::TARGET_TYPE_MANUFACTURER:
+                $url .= "edit_manufacturer?selected_id=";
+                break;
+            case static::TARGET_TYPE_PART:
+                $url .= "show_part_info.php?pid=";
+                break;
+            case static::TARGET_TYPE_STORELOCATION:
+                $url .= "edit_storelocations.php?selected_id=";
+                break;
+            case static::TARGET_TYPE_SUPPLIER:
+                $url .= "edit_suppliers.php?selected_id=";
+                break;
+            case static::TARGET_TYPE_USER:
+                $url .= "edit_users.php?selected_id=";
+                break;
+            default:
+                return "";
+        }
+
+        return $url . $target_id;
+    }
+
+    /**
      * Returns a localized text representation of the target type with the given id.
      * @param $target_id int The ID for that the text should be returned.
      * @return string The text version for the target type.

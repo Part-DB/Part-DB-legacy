@@ -110,6 +110,6 @@ class ElementCreatedEntry extends BaseEntry
     public function getTargetLink()
     {
         //We can not link to a part, that dont exists any more...
-        return "";
+        return Log::generateLinkForTarget($this->getTargetType(), $this->getTargetID());
     }
 }
