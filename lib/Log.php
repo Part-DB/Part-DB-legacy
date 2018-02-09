@@ -28,6 +28,7 @@ namespace PartDB;
 use Exception;
 use PartDB\Base\NamedDBElement;
 use PartDB\LogSystem\BaseEntry;
+use PartDB\LogSystem\ElementCreatedEntry;
 use PartDB\LogSystem\ElementDeletedEntry;
 use PartDB\LogSystem\UnknownTypeEntry;
 use PartDB\LogSystem\UserLoginEntry;
@@ -56,6 +57,7 @@ class Log
     const TYPE_USERNOTALLOWED = 3;
     const TYPE_EXCEPTION = 4;
     const TYPE_ELEMENTDELETED = 5;
+    const TYPE_ELEMENTCREATED = 6;
 
     const TARGET_TYPE_NONE = 0;
     const TARGET_TYPE_USER = 1;
@@ -145,7 +147,15 @@ class Log
         } catch (Exception $e) {
 
         }
+    }
 
+    public function elementCreated(&$element)
+    {
+        try {
+            ElementCreatedEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $element);
+        } catch (Exception $e) {
+
+        }
     }
 
 
@@ -167,6 +177,8 @@ class Log
                 return _("Unbehandelte Exception");
             case static::TYPE_ELEMENTDELETED:
                 return _("Element gelöscht");
+            case static::TYPE_ELEMENTCREATED:
+                return _("Element angelegt");
             default:
                 return _("Unbekannter Typ");
         }
@@ -414,6 +426,8 @@ class Log
                 return $base_ns . "ExceptionEntry";
             case static::TYPE_ELEMENTDELETED:
                 return $base_ns . "ElementDeletedEntry";
+            case static::TYPE_ELEMENTCREATED:
+                return $base_ns . "ElementCreatedEntry";
             default:
                 return $base_ns . "UnknownTypeEntry";
         }
