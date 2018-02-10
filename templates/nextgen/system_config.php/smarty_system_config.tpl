@@ -273,6 +273,10 @@
                                     <input type="checkbox" name="default_subcat" {if $default_subcat} checked{/if}>
                                     <label for="default_subcat">{t}Zeige die beim Auflisten aller Teile einer Kategorie, die Unterkategorien standarmäßig.{/t}</label>
                                 </div>
+                                <div class="checkbox">
+                                    <input type="checkbox" name="show_full_paths" {if $show_full_paths} checked{/if}>
+                                    <label for="default_subcat">{t}Zeige vollständige Pfade in Tabellen an.{/t}</label>
+                                </div>
                             </div>
                         </div>
 

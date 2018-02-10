@@ -1431,6 +1431,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $table_row['id']            = $this->getID();
         $table_row['row_fields']    = array();
         $table_row['favorite']      = $this->getFavorite();
+        $table_row["show_full_paths"] = $config['table']['full_paths'];
 
         foreach (explode(';', $config['table'][$table_type]['columns']) as $caption) {
             $row_field = array();
@@ -1470,6 +1471,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                     $row_field['category_name'] = $category->getName();
                     $row_field['category_path'] = $category->getFullPath();
                     $row_field['category_id'] = $category->getID();
+                    $row_field['category_loop'] = $category->buildBreadcrumbLoop("show_category_parts.php", "cid", false, null, true);
                     break;
 
                 case 'footprint':
@@ -1478,6 +1480,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                         $row_field['footprint_name'] = $footprint->getName();
                         $row_field['footprint_path'] = $footprint->getFullPath();
                         $row_field['footprint_id'] = $footprint->getID();
+                        $row_field['footprint_loop'] = $footprint->buildBreadcrumbLoop("show_footprint_parts.php", "fid", false, null, true);
                     }
                     break;
 
@@ -1487,6 +1490,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                         $row_field['manufacturer_name'] = $manufacturer->getName();
                         $row_field['manufacturer_path'] = $manufacturer->getFullPath();
                         $row_field['manufacturer_id'] = $manufacturer->getID();
+                        $row_field['manufacturer_loop'] = $manufacturer->buildBreadcrumbLoop("show_manufacturer_parts.php", "mid", false, null, true);
+
                     }
                     break;
 
@@ -1496,6 +1501,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                         $row_field['storelocation_name'] = $storelocation->getName();
                         $row_field['storelocation_path'] = $storelocation->getFullPath();
                         $row_field['storelocation_id'] = $storelocation->getID();
+                        $row_field['storelocation_loop'] = $storelocation->buildBreadcrumbLoop("show_location_parts.php", "lid", false, null, true);
+
                     }
                     break;
 
