@@ -226,7 +226,7 @@
                     {/if}
                     {if $row.caption == "storelocation"}
                         {* storelocation *}
-                        <td class="tdrow1" id="location">
+                        <td class="tdrow1">
                             {if isset($row.storelocation_path)}
                             <a href="show_location_parts.php?lid={$row.storelocation_id}&subloc=0" title="{$row.storelocation_path}">{$row.storelocation_name}</a>
                             {/if}
