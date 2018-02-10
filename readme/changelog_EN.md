@@ -1,5 +1,19 @@
 # Part-DB changelog
 
+## Part-DB 0.4.4.4
+
+#### New functions:
+* It is possible to disable the hint dialog for missing data structures, such as manufacturer or supplier in the settings.
+* If components of an assembly are exported and the output is displayed, the panel remains open.
+
+#### Bugfixes:
+* Problems with missing composer dependencies fixed
+* POSIX locale removed as this could cause problems
+* Problems with displaying and downloading components of assemblies fixed
+
+#### Other:
+* Composer dependencies updated
+
 ## Part-DB 0.4.3
 
 #### New functions:
