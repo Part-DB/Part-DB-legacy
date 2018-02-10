@@ -353,15 +353,16 @@ if (! $fatal_error) {
                     $new_attributes['id_manufacturer'] = $new_manufacturer_id;
                 }
 
-                $part->setAttributes($new_attributes);
-
                 if (Part::isValidName($new_name, $part->getCategory())) {
-                    $part->setName($new_name);
+                    $new_attributes['name'] = $new_name;
+                    $part->setAttributes($new_attributes);
                     global $config;
                     if ($config['edit_parts']['saved_go_to_info'] xor $rightclicked) {
                         $html->redirect("show_part_info.php?pid=" . $part->getID(), true);
                     }
                 } else {
+                    $part->setAttributes($new_attributes);
+
                     $parname_hint = $part->getCategory()->getPartnameHint(true, false);
                     if (empty($parname_hint)) {
                         $messages[] = array('text' => sprintf(_('Der Name "%s" entspricht nicht den Vorgaben!'), $new_name),
