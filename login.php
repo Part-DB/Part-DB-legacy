@@ -48,7 +48,7 @@ if (User::isLoggedIn() && $logout == false) {
     $action = "redirect";
 }
 
-$html = new HTML($config['html']['theme'], $user_config['theme'], _('Login'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], $config['partdb_title'] . " - " . _('Login'));
 
 try {
     $database           = new Database();

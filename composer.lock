@@ -612,16 +612,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.6.0",
+            "version": "v1.7.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296"
+                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
-                "reference": "2ec8b39c38cb16674bbf3fea2b6ce5bf117e1296",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/78be803ce01e55d3491c1397cf1c64beb9c1b63b",
+                "reference": "78be803ce01e55d3491c1397cf1c64beb9c1b63b",
                 "shasum": ""
             },
             "require": {
@@ -633,7 +633,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.6-dev"
+                    "dev-master": "1.7-dev"
                 }
             },
             "autoload": {
@@ -667,7 +667,7 @@
                 "portable",
                 "shim"
             ],
-            "time": "2017-10-11T12:05:26+00:00"
+            "time": "2018-01-30T19:27:44+00:00"
         },
         {
             "name": "symfony/var-dumper",
@@ -743,12 +743,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/jbtronics/Part-DB_tcpdf.git",
+                "url": "https://github.com/Part-DB/Part-DB_tcpdf.git",
                 "reference": "ca4f9b86c93d0ddb77c94fdbd5beab5601ae45be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/jbtronics/Part-DB_tcpdf/zipball/ca4f9b86c93d0ddb77c94fdbd5beab5601ae45be",
+                "url": "https://api.github.com/repos/Part-DB/Part-DB_tcpdf/zipball/ca4f9b86c93d0ddb77c94fdbd5beab5601ae45be",
                 "reference": "ca4f9b86c93d0ddb77c94fdbd5beab5601ae45be",
                 "shasum": ""
             },
