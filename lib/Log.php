@@ -30,6 +30,7 @@ use PartDB\Base\NamedDBElement;
 use PartDB\LogSystem\BaseEntry;
 use PartDB\LogSystem\ElementCreatedEntry;
 use PartDB\LogSystem\ElementDeletedEntry;
+use PartDB\LogSystem\ElementEditedEntry;
 use PartDB\LogSystem\UnknownTypeEntry;
 use PartDB\LogSystem\UserLoginEntry;
 use PartDB\LogSystem\UserLogoutEntry;
@@ -58,6 +59,7 @@ class Log
     const TYPE_EXCEPTION = 4;
     const TYPE_ELEMENTDELETED = 5;
     const TYPE_ELEMENTCREATED = 6;
+    const TYPE_ELEMENTEDITED = 7;
 
     const TARGET_TYPE_NONE = 0;
     const TARGET_TYPE_USER = 1;
@@ -158,6 +160,15 @@ class Log
         }
     }
 
+    public function elementEdited(&$element, $data_array)
+    {
+        try {
+            ElementEditedEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $element, $data_array);
+        } catch (Exception $e) {
+
+        }
+    }
+
 
     /**
      * Converts an type id (integer) to a localized string version.
@@ -179,6 +190,8 @@ class Log
                 return _("Element gelöscht");
             case static::TYPE_ELEMENTCREATED:
                 return _("Element angelegt");
+            case static::TYPE_ELEMENTEDITED:
+                return _("Element bearbeitet");
             default:
                 return _("Unbekannter Typ");
         }
@@ -520,6 +533,8 @@ class Log
                 return $base_ns . "ElementDeletedEntry";
             case static::TYPE_ELEMENTCREATED:
                 return $base_ns . "ElementCreatedEntry";
+            case static::TYPE_ELEMENTEDITED:
+                return $base_ns . "ElementEditedEntry";
             default:
                 return $base_ns . "UnknownTypeEntry";
         }
