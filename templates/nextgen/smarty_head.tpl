@@ -51,7 +51,7 @@
     <link href="{$relative_path}templates/{$theme}/nextgen.css" rel="stylesheet">
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{$relative_path}js/jquery-3.2.1.min.js"></script>
+    <script src="{$relative_path}js/jquery-3.3.1.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{$relative_path}js/bootstrap.min.js"></script>
 
@@ -60,8 +60,8 @@
 
     <!-- 3d footprint viewer -->
     {if isset($foot3d_active) && $foot3d_active}
-        <script src="https://www.x3dom.org/release/x3dom.js" async></script>
-        <link rel="stylesheet" href="https://www.x3dom.org/release/x3dom.css">
+        <script src="{$relative_path}js/x3dom.js" async></script>
+        <link rel="stylesheet" href="{$relative_path}css/x3dom.css">
     {/if}
 
     <!-- JQuery Tristate -->
