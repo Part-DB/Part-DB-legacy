@@ -129,7 +129,7 @@ abstract class BaseEntry extends DBElement
      * Returns the id of the target
      * @return int The id of the target
      */
-    protected function getTargetID()
+    public function getTargetID()
     {
         return $this->db_data['target_id'];
     }

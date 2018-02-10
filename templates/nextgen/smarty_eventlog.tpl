@@ -30,7 +30,7 @@
                 {/if}
             </td>
             <td>{if $entry.target_link != ""}
-                    <a href="{$entry.target_link}">{$entry.target_text}</a>
+                    <a href="{$entry.target_link}" title="{t}ID: {/t}{$entry.target_id}">{$entry.target_text}</a>
                 {else}
                     {$entry.target_text}
                 {/if}</td>

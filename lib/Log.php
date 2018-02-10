@@ -395,7 +395,8 @@ class Log
                 "level" => $entry->getLevel(),
                 "level_id" => $entry->getLevelID(),
                 "target_text" => $entry->getTargetText(),
-                "target_link" => $entry->getTargetLink()
+                "target_link" => $entry->getTargetLink(),
+                "target_id" => $entry->getTargetID()
             );
 
             $rows[] = $data;
