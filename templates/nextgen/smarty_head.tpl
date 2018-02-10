@@ -60,8 +60,8 @@
 
     <!-- 3d footprint viewer -->
     {if isset($foot3d_active) && $foot3d_active}
-        <script src="https://www.x3dom.org/release/x3dom.js" async></script>
-        <link rel="stylesheet" href="https://www.x3dom.org/release/x3dom.css">
+        <script src="{$relative_path}js/x3dom.js" async></script>
+        <link rel="stylesheet" href="{$relative_path}css/x3dom.css">
     {/if}
 
     <!-- JQuery Tristate -->
