@@ -60,6 +60,7 @@ class Log
     const TYPE_ELEMENTDELETED = 5;
     const TYPE_ELEMENTCREATED = 6;
     const TYPE_ELEMENTEDITED = 7;
+    const TYPE_CONFIGCHANGED = 8;
 
     const TARGET_TYPE_NONE = 0;
     const TARGET_TYPE_USER = 1;
@@ -192,6 +193,8 @@ class Log
                 return _("Element angelegt");
             case static::TYPE_ELEMENTEDITED:
                 return _("Element bearbeitet");
+            case static::TYPE_CONFIGCHANGED:
+                return _("Systemeinstellungen geändert");
             default:
                 return _("Unbekannter Typ");
         }
@@ -565,6 +568,8 @@ class Log
                 return $base_ns . "ElementCreatedEntry";
             case static::TYPE_ELEMENTEDITED:
                 return $base_ns . "ElementEditedEntry";
+            case static::TYPE_CONFIGCHANGED:
+                return $base_ns . "ConfigChangedEntry";
             default:
                 return $base_ns . "UnknownTypeEntry";
         }
