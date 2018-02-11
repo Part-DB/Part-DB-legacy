@@ -40,6 +40,8 @@ $min_level          = isset($_REQUEST['min_level'])         ? (int)$_REQUEST['mi
 $filter_user        = isset($_REQUEST['filter_user'])       ? (int)$_REQUEST['filter_user']         : -1;
 $search             = isset($_REQUEST['search'])            ? (string)$_REQUEST['search']           : "";
 $filter_type        = isset($_REQUEST['filter_type'])       ? (int)$_REQUEST['filter_type']         : -1;
+$target_type        = isset($_REQUEST['target_type'])       ? (int)$_REQUEST['target_type']         : -1;
+$target_id          = isset($_REQUEST['target_id'])         ? (int)$_REQUEST['target_id']           : -1;
 
 /********************************************************************************
  *
@@ -83,8 +85,8 @@ if (! $fatal_error) {
             $parts = Part::getLastAddedParts($database, $current_user, $log, $latest_first, $limit, $page);
             $count = Part::getLastAddedPartsCount($database, $current_user, $log, $latest_first);
         }*/
-        $entries = $log->getEntries(true, $min_level, $filter_user, $filter_type, $search, $limit, $page);
-        $count = $log->getEntriesCount(true, $min_level, $filter_user, $filter_type, $search);
+        $entries = $log->getEntries(true, $min_level, $filter_user, $filter_type, $search, $target_type, $target_id, $limit, $page);
+        $count = $log->getEntriesCount(true, $min_level, $filter_user, $filter_type, $search, $target_type, $target_id);
 
         $table_loop = $log->generateTemplateLoop($entries);
         $html->setLoop('log', $table_loop);
@@ -120,6 +122,9 @@ if (! $fatal_error) {
 
     $html->setLoop('types_loop', Log::getLogTypesList());
     $html->setVariable('filter_type', $filter_type);
+
+    $html->setVariable("target_type", $target_type);
+    $html->setVariable('target_id', $target_id);
 
 
     // global stuff

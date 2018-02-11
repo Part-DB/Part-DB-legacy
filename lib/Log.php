@@ -416,7 +416,7 @@ class Log
      *
      * @throws Exception if there was an error
      */
-    public function getEntries($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1, $type_id = -1, $search_str = "", $limit = 50, $page = 1)
+    public function getEntries($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1, $type_id = -1, $search_str = "", $target_type = -1, $target_id = -1, $limit = 50, $page = 1)
     {
         $search_str = "%" . $search_str . "%";
 
@@ -433,8 +433,8 @@ class Log
             $data[] = $user_id;
         }
 
-        //Filter for user
-        if ($type_id >= 0) {
+        //Filter for type
+        if ($type_id > 0) {
             $query .= " AND (type = ?)";
             $data[] = $type_id;
         }
@@ -442,6 +442,18 @@ class Log
         if ($search_str != "") {
             $query .= " AND (extra LIKE ?)";
             $data[] = $search_str;
+        }
+
+        //Filter for target_type
+        if ($target_type > 0) {
+            $query .= " AND (target_type = ?)";
+            $data[] = $target_type;
+        }
+
+        //Filter for target_type
+        if ($target_id > 0) {
+            $query .= " AND (target_id = ?)";
+            $data[] = $target_id;
         }
 
         $query .=   ' ORDER BY log.datetime DESC';
@@ -463,10 +475,8 @@ class Log
      *
      * @throws Exception if there was an error
      */
-    public function getEntriesCount($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1, $type = -1, $search_str = "")
+    public function getEntriesCount($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1, $type = -1, $search_str = "", $target_type = -1, $target_id = -1)
     {
-        $search_str = "%" . $search_str . "%";
-
         $data = array();
 
         $query =    'SELECT COUNT(id) AS count from log ';
@@ -481,8 +491,27 @@ class Log
         }
 
         if ($search_str != "") {
+            $search_str = "%" . $search_str . "%";
             $query .= " AND (extra LIKE ?)";
             $data[] = $search_str;
+        }
+
+        //Filter for type
+        if ($target_id > 0) {
+            $query .= " AND (type = ?)";
+            $data[] = $target_id;
+        }
+
+        //Filter for target_type
+        if ($target_type >= 0) {
+            $query .= " AND (target_type = ?)";
+            $data[] = $target_type;
+        }
+
+        //Filter for target_type
+        if ($target_id > 0) {
+            $query .= " AND (target_id = ?)";
+            $data[] = $target_id;
         }
 
         $query .=   ' ORDER BY log.datetime DESC';
