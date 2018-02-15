@@ -118,7 +118,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
         try {
             $transaction_id = $this->database->beginTransaction(); // start transaction
 
-            $parts = $this->getParts('id_category');
+            $parts = $this->getParts();
 
             if (count($parts) > 0) {
                 throw new Exception('Das Element enthält noch '.count($parts).' Bauteile!');
