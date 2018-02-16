@@ -24,6 +24,7 @@ namespace PartDB\Permissions;
 class SystemPermission extends BasePermission
 {
     const USE_DEBUG  = "use_debug";
+    const SHOW_LOGS  = "show_logs";
 
     /**
      * Returns an array of all available operations for this Permission.
@@ -37,6 +38,7 @@ class SystemPermission extends BasePermission
          */
         $operations = array();
         $operations[] = static::buildOperationArray(0, static::USE_DEBUG, _("Debugtools benutzen"));
+        $operations[] = static::buildOperationArray(2, static::SHOW_LOGS, _("Logs anzeigen"));
         return $operations;
     }
 }

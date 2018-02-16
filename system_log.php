@@ -56,7 +56,7 @@ try {
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
 
-    //$current_user->tryDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS);
+    $current_user->tryDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::SHOW_LOGS);
 
     //Remember what page user visited, so user can return there, when he deletes a part.
     session_start();
