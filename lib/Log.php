@@ -459,7 +459,9 @@ class Log
             $data[] = $target_id;
         }
 
-        $query .=   ' ORDER BY log.datetime DESC';
+        $sorting = ($newest_first) ? "DESC" : "ASC";
+
+        $query .=   ' ORDER BY log.datetime ' . $sorting;
 
         if ($limit > 0 && $page > 0) {
             $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
