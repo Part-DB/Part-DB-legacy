@@ -93,6 +93,7 @@ class Log
 
     /** @var Database the Database object for the database access of the logs */
     private $database = null;
+    protected $current_user = null;
 
     /********************************************************************************
      *
@@ -114,6 +115,7 @@ class Log
         }
 
         $this->database = $database;
+        $this->current_user = User::getLoggedInUser($this->database, $this);
     }
 
     public function userLogsIn($user, $ip_address = "")
@@ -170,6 +172,68 @@ class Log
         }
     }
 
+
+    /**
+     * Returns the user that last modified the given element.
+     * @param $database Database The Database element that should be used for query.
+     * @param $current_user User The User that should be used for query
+     * @param $log Log The Log that should be used for query.
+     * @param $element NamedDBElement The element for which the user should be looked up.
+     * @return null|User Return the User if an entry was found in the log. Returns null otherwise.
+     * @throws Exception
+     */
+    public static function getLastModifiedUserForElement(&$database, &$current_user, &$log, &$element)
+    {
+        $data = array();
+
+        $target_id = $element->getID();
+        $target_type = static::elementToTargetTypeID($element);
+
+        $query = "SELECT id_user FROM `log` WHERE (type = 6 OR type = 7)";  // Choose element created or element edited entry types.
+        $query .= " AND target_id = ?";
+        $data[] = $target_id;
+        $query .= " AND target_type = ?";
+        $data[] = $target_type;
+        $query .= " ORDER BY log.datetime DESC";
+
+        $results = $database->query($query, $data);
+        if (count($results) > 0) {
+            return new User($database, $current_user, $log, $results[0]['id_user']);
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Returns the user that created the given element.
+     * @param $database Database The Database element that should be used for query.
+     * @param $current_user User The User that should be used for query
+     * @param $log Log The Log that should be used for query.
+     * @param $element NamedDBElement The element for which the user should be looked up.
+     * @return null|User Return the User if an entry was found in the log. Returns null otherwise.
+     * @throws Exception
+     */
+    public static function getCreationUserForElement(&$database, &$current_user, &$log, &$element)
+    {
+        $data = array();
+
+        $target_id = $element->getID();
+        $target_type = static::elementToTargetTypeID($element);
+
+        $query = "SELECT id_user FROM `log` WHERE (type = 6)";  // Choose element created or element edited entry types.
+        $query .= " AND target_id = ?";
+        $data[] = $target_id;
+        $query .= " AND target_type = ?";
+        $data[] = $target_type;
+        $query .= " ORDER BY log.datetime DESC";
+
+        $results = $database->query($query, $data);
+        if (count($results) > 0) {
+            return new User($database, $current_user, $log, $results[0]['id_user']);
+        } else {
+            return null;
+        }
+    }
 
     /**
      * Converts an type id (integer) to a localized string version.
@@ -535,11 +599,11 @@ class Log
     protected function queryDataToEntryObjects($query_data)
     {
         $entries = array();
-        $current_user = User::getLoggedInUser();
+
 
         foreach ($query_data as $row) {
             $class = static::typeIDToClass($row['type']);
-            $entries[] = new $class($this->database, $current_user, $this, $row['id'], $row);
+            $entries[] = new $class($this->database, $this->current_user, $this, $row['id'], $row);
         }
 
         return $entries;

@@ -234,6 +234,16 @@ if (! $fatal_error) {
             $comment = $selected_storelocation->getComment(false);
             $html->setVariable('datetime_added', $selected_storelocation->getDatetimeAdded(true));
             $html->setVariable('last_modified', $selected_storelocation->getLastModified(true));
+            $last_modified_user = $selected_storelocation->getLastModifiedUser();
+            $creation_user = $selected_storelocation->getCreationUser();
+            if ($last_modified_user != null) {
+                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
+                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
+            }
+            if ($creation_user != null) {
+                $html->setVariable('creation_user', $creation_user->getFullName(true), "string");
+                $html->setVariable('creation_user_id', $creation_user->getID(), "int");
+            }
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
@@ -267,6 +277,7 @@ try {
     $html->setVariable("can_create", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::CREATE));
     $html->setVariable("can_move", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::MOVE));
     $html->setVariable("can_read", $current_user->canDo(PermissionManager::STORELOCATIONS, StructuralPermission::READ));
+    $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;

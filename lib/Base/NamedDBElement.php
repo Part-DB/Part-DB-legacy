@@ -130,6 +130,26 @@ abstract class NamedDBElement extends DBElement
         return $time_str;
     }
 
+    /**
+     * Returns the user that edited this element the last time.
+     * @return null|User Returns the user if an entry in the Log was found with the info. Null otherwise.
+     * @throws Exception
+     */
+    public function getLastModifiedUser()
+    {
+        return Log::getLastModifiedUserForElement($this->database, $this->current_user, $this->log, $this);
+    }
+
+    /**
+     * Returns the user that created this user.
+     * @return null|User Returns the user if an entry in the Log was found with the info. Null otherwise.
+     * @throws Exception
+     */
+    public function getCreationUser()
+    {
+        return Log::getCreationUserForElement($this->database, $this->current_user, $this->log, $this);
+    }
+
     /********************************************************************************
      *
      *   Setters
