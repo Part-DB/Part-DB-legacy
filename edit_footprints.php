@@ -468,8 +468,8 @@ if (! $fatal_error) {
             $comment = $selected_footprint->getComment(false);
             $html->setVariable('datetime_added', $selected_footprint->getDatetimeAdded(true));
             $html->setVariable('last_modified', $selected_footprint->getLastModified(true));
-            $last_modified_user = $selected_storelocation->getLastModifiedUser();
-            $creation_user = $selected_storelocation->getCreationUser();
+            $last_modified_user = $selected_footprint->getLastModifiedUser();
+            $creation_user = $selected_footprint->getCreationUser();
             if ($last_modified_user != null) {
                 $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
                 $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
