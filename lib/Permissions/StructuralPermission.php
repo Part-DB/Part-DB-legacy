@@ -33,6 +33,7 @@ class StructuralPermission extends BasePermission
     const EDIT  = "edit";
     const MOVE  = "move";
     const DELETE = "delete";
+    const SHOW_USERS = "show_users";
 
 
 
@@ -52,6 +53,7 @@ class StructuralPermission extends BasePermission
         $operations[] = static::buildOperationArray(4, static::CREATE, _("Anlegen"));
         $operations[] = static::buildOperationArray(6, static::MOVE, _("Verschieben"));
         $operations[] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
+        $operations[] = static::buildOperationArray(10, static::SHOW_USERS, _("Letzten bearbeitenden Nutzer anzeigen"));
 
         return $operations;
     }

@@ -42,6 +42,7 @@ class PartContainingPermission extends StructuralPermission
         $operations[] = static::buildOperationArray(6, static::MOVE, _("Verschieben"));
         $operations[] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
         $operations[] = static::buildOperationArray(10, static::LIST_PARTS, _("Teile Auflisten"));
+        $operations[] = static::buildOperationArray(12, static::SHOW_USERS, _("Letzten bearbeitenden Nutzer anzeigen"));
 
         return $operations;
     }
