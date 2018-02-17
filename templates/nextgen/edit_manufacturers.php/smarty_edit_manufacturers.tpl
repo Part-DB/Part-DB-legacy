@@ -152,14 +152,32 @@
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Hinzugefügt:{/t}</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static">{if !empty($datetime_added)}{$datetime_added}{else}-{/if}</p>
+                                    <p class="form-control-static">
+                                        {if !empty($datetime_added)}{$datetime_added}{else}-{/if}
+                                        {if !empty($last_modified_user)} {t}durch{/t}
+                                            {if $creation_user}
+                                                <a href="{$relative_path}user_info.php?uid={$creation_user_id}">{$creation_user}</a>
+                                            {else}
+                                                {$creation_user}
+                                            {/if}
+                                        {/if}
+                                    </p>
                                 </div>
                             </div>
 
                             <div class="form-group">
                                 <label class="control-label col-md-3">{t}Letzte Änderung:{/t}</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static">{if !empty($last_modified)}{$last_modified}{else}-{/if}</p>
+                                    <p class="form-control-static">
+                                        {if !empty($last_modified)}{$last_modified}{else}-{/if}
+                                        {if !empty($last_modified_user)} {t}durch{/t}
+                                            {if $can_visit_user}
+                                                <a href="{$relative_path}user_info.php?uid={$last_modified_user_id}">{$last_modified_user}</a>
+                                            {else}
+                                                {$last_modified_user}
+                                            {/if}
+                                        {/if}
+                                    </p>
                                 </div>
                             </div>
                         </div>
