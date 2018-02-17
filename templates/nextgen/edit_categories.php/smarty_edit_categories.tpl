@@ -205,8 +205,8 @@
                                 <div class="col-md-9">
                                     <p class="form-control-static">
                                         {if !empty($datetime_added)}{$datetime_added}{else}-{/if}
-                                        {if !empty($last_modified_user)} {t}durch{/t}
-                                            {if $creation_user}
+                                        {if !empty($creation_user)} {t}durch{/t}
+                                            {if $can_visit_user}
                                                 <a href="{$relative_path}user_info.php?uid={$creation_user_id}">{$creation_user}</a>
                                             {else}
                                                 {$creation_user}
