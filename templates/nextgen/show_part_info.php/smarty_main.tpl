@@ -197,14 +197,30 @@
 
                 <div class="form-group">
                     <label>{t}Hinzugefügt:{/t}</label>
-                    <p>{$datetime_added}</p>
+                    <p>{$datetime_added}
+                        {if !empty($creation_user)} {t}durch{/t}
+                            {if $can_visit_user}
+                                <a href="{$relative_path}user_info.php?uid={$creation_user_id}">{$creation_user}</a>
+                            {else}
+                                {$creation_user}
+                            {/if}
+                        {/if}
+                    </p>
                 </div>
 
                 <p></p>
 
                 <div class="form-group">
                     <label>{t}Letzte Änderung:{/t}</label>
-                    <p>{$last_modified}</p>
+                    <p>{$last_modified}
+                        {if !empty($last_modified_user)} {t}durch{/t}
+                            {if $can_visit_user}
+                                <a href="{$relative_path}user_info.php?uid={$last_modified_user_id}">{$last_modified_user}</a>
+                            {else}
+                                {$last_modified_user}
+                            {/if}
+                        {/if}
+                    </p>
                 </div>
 
                 <p></p>

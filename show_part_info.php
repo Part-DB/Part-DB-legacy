@@ -233,6 +233,16 @@ if (! $fatal_error) {
 
         $html->setVariable('last_modified', $part->getLastModified(), 'string');
         $html->setVariable('datetime_added', $part->getDatetimeAdded(), 'string');
+        $last_modified_user = $part->getLastModifiedUser();
+        $creation_user = $part->getCreationUser();
+        if ($last_modified_user != null) {
+            $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
+            $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
+        }
+        if ($creation_user != null) {
+            $html->setVariable('creation_user', $creation_user->getFullName(true), "string");
+            $html->setVariable('creation_user_id', $creation_user->getID(), "int");
+        }
 
         $html->setVariable('is_favorite', $part->getFavorite(), 'bool');
 
@@ -360,6 +370,8 @@ try {
     $html->setVariable('can_order_read', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ), "bool");
     $html->setVariable('can_devicepart_create', $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
     $html->setVariable('can_generate_barcode', $current_user->canDo(PermissionManager::LABELS, \PartDB\Permissions\LabelPermission::CREATE_LABELS));
+
+    $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
