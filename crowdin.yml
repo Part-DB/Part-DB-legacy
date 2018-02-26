@@ -1,0 +1,5 @@
+files:
+  - source: locale/php.pot
+    translation: /locale/%two_letters_code%/LC_MESSAGES/%file_name%.po
+  - source: /templates/nextgen/locale/partdb.pot
+    translation: /templates/nextgen/locale/%two_letters_code%/LC_MESSAGES/partdb.po
