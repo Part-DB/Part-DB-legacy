@@ -239,7 +239,7 @@ if (! $fatal_error) {
             try {
                 $current_user->tryDo(PermissionManager::CONFIG, ConfigPermission::EDIT_CONFIG);
                 saveConfig();
-                \PartDB\LogSystem\ConfigChangedElement::add($database, $current_user, $log);
+                \PartDB\LogSystem\ConfigChangedEntry::add($database, $current_user, $log);
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
                 //header('Location: system_config.php'); // Reload the page that we can see if the new settings are stored successfully --> does not work correctly?!
             } catch (Exception $e) {
