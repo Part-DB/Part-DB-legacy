@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: part-db\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-02-26 12:00+0100\n"
-"PO-Revision-Date: 2018-02-26 13:11-0500\n"
+"PO-Revision-Date: 2018-02-26 14:14-0500\n"
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -22,7 +22,7 @@ msgstr "Overview"
 
 #: api.php:512
 msgid "Verzeichnisse"
-msgstr ""
+msgstr "Directories"
 
 #: development/sandbox.php:59
 #, php-format
@@ -208,7 +208,7 @@ msgstr "Could not remove device!"
 #: lib/Permissions/PermissionManager.php:232
 #: lib/Permissions/ToolsPermission.php:47 show_footprint_parts.php:193
 msgid "Footprints"
-msgstr ""
+msgstr "Footprints"
 
 #: edit_footprints.php:160 edit_footprints.php:244 edit_part_info.php:501
 #: edit_part_info.php:541 show_device_parts.php:384 show_device_parts.php:420
@@ -421,7 +421,7 @@ msgstr "Close window"
 
 #: edit_part_info.php:624
 msgid "Startseite aufrufen"
-msgstr ""
+msgstr "Go to Homepage"
 
 #: edit_storelocations.php:88 inc/lib.php:989
 #: lib/Permissions/PermissionManager.php:231 show_location_parts.php:193
@@ -545,7 +545,7 @@ msgstr "No group"
 
 #: inc/authors.php:28 inc/authors.php:29
 msgid "Committer/Bugfix"
-msgstr ""
+msgstr "Commiter/Bugfix"
 
 #: inc/authors.php:30 inc/authors.php:32
 msgid "Committer/Bugfix/Neue Funktionen"
@@ -557,7 +557,7 @@ msgstr "Reichelt/Pollin Pricessearch script"
 
 #: inc/authors.php:33
 msgid "EAGLE3D / Bauteile Renderscript (eagle3d.py)"
-msgstr ""
+msgstr "EAGLE3D / Part Renderscript (eagle3d.py)"
 
 #: inc/authors.php:34
 msgid "Committer/Klassen/Neue Funktionen/Neue Footprints"
@@ -614,7 +614,7 @@ msgstr "The maximum possible file size for uploads has been exceeded (\"upload_m
 
 #: inc/lib.php:309
 msgid "https://github.com/Part-DB/Part-DB/wiki/Anforderungen"
-msgstr ""
+msgstr "https://github.com/Part-DB/Part-DB/wiki/EN%3A-Requirements"
 
 #: inc/lib.php:309 inc/lib.php:1032
 msgid "Hilfe"
@@ -692,11 +692,11 @@ msgstr "$url is not a valid URL"
 
 #: inc/lib.php:914 lib/Permissions/ToolsPermission.php:44
 msgid "Import"
-msgstr ""
+msgstr "Import"
 
 #: inc/lib.php:917
 msgid "SMD Labels"
-msgstr ""
+msgstr "SMD Labels"
 
 #: inc/lib.php:920 lib/Permissions/ToolsPermission.php:46
 #: tools_calculator.php:42
@@ -705,15 +705,15 @@ msgstr "Resistor calculator"
 
 #: inc/lib.php:926
 msgid "3D Footprints"
-msgstr ""
+msgstr "3D Footprints"
 
 #: inc/lib.php:929
 msgid "Labelgenerator"
-msgstr ""
+msgstr "Label generator"
 
 #: inc/lib.php:932 lib/Permissions/ToolsPermission.php:48
 msgid "IC-Logos"
-msgstr ""
+msgstr "IC-Logos"
 
 #: inc/lib.php:940 lib/Permissions/PermissionManager.php:242
 msgid "Gruppen"
@@ -758,11 +758,11 @@ msgstr "Favorited parts"
 
 #: inc/lib.php:977 show_last_modified_parts.php:46
 msgid "Zuletzt bearbeitete Bauteile"
-msgstr ""
+msgstr "Last edited parts"
 
 #: inc/lib.php:980
 msgid "Zuletzt hinzugefügte Bauteile"
-msgstr ""
+msgstr "Last added parts"
 
 #: inc/lib.php:1009
 msgid "Werkzeuge"
@@ -770,7 +770,7 @@ msgstr "Tools"
 
 #: inc/lib.php:1010
 msgid "Debugging"
-msgstr ""
+msgstr "Debugging"
 
 #: inc/lib.php:1011
 msgid "Sandkasten"
@@ -782,7 +782,7 @@ msgstr "Source-Documentation"
 
 #: inc/lib.php:1017 lib/Permissions/PermissionManager.php:250
 msgid "Tools"
-msgstr ""
+msgstr "Tools"
 
 #: inc/lib.php:1020 lib/Permissions/CPartAttributePermission.php:48
 #: lib/Permissions/DevicePartPermission.php:44
@@ -800,7 +800,7 @@ msgstr "Show"
 
 #: inc/lib.php:1026 lib/Permissions/PermissionManager.php:246
 msgid "System"
-msgstr ""
+msgstr "System"
 
 #: inc/lib.php:1029
 msgid "Entwickler-Werkzeuge"
@@ -902,7 +902,7 @@ msgstr ", Row"
 
 #: install.php:94
 msgid "Part-DB Installation/Update"
-msgstr ""
+msgstr "Part-DB installation/update"
 
 #: install.php:118
 #, php-format
@@ -1319,32 +1319,32 @@ msgstr "$url must be a valid string"
 
 #: lib/Label/BaseLabel.php:56
 msgid "$element ist kein gültiges ILabel-Objekt!"
-msgstr ""
+msgstr "$element is not a valid ILabel-Object!"
 
 #: lib/Label/BaseLabel.php:60
 msgid "Der gewählte Labeltyp wird von dem aktuellem Labelgenerator nicht unterstützt!"
-msgstr ""
+msgstr "The selected label type is not supported by the current label generator!"
 
 #: lib/Label/BaseLabel.php:64
 msgid "Die gewählte Labelgröße wird von dem aktuellem Labelgenerator nicht unterstützt!"
-msgstr ""
+msgstr "The selected label size is not supported by the current label generator!"
 
 #: lib/Label/BaseLabel.php:207
 #, php-format
 msgid "Der Barcodetyp %s wird nicht unterstützt!"
-msgstr ""
+msgstr "The barcode type %s is not supported!"
 
 #: lib/Label/BaseLabel.php:284
 msgid "getLinePresets() ist nicht implementiert"
-msgstr ""
+msgstr "getLinePresets() is not implemented"
 
 #: lib/Label/BaseLabel.php:293
 msgid "getSupportedSizes() ist nicht implementiert"
-msgstr ""
+msgstr "getSupportedSizes() is not implemented"
 
 #: lib/Label/BaseLabel.php:302
 msgid "getSupportedTypes() ist nicht implementiert"
-msgstr ""
+msgstr "getSupportedTypes() is not implemented"
 
 #: lib/Log.php:71
 msgid "$database ist kein Database-Objekt"
@@ -1532,19 +1532,19 @@ msgstr "Change permissions"
 
 #: lib/Permissions/LabelPermission.php:29
 msgid "Labels erzeugen"
-msgstr ""
+msgstr "Generate labels"
 
 #: lib/Permissions/LabelPermission.php:30
 msgid "Labels anpassen"
-msgstr ""
+msgstr "Customize labels"
 
 #: lib/Permissions/LabelPermission.php:31
 msgid "Profile löschen"
-msgstr ""
+msgstr "Delete profiles"
 
 #: lib/Permissions/LabelPermission.php:32
 msgid "Profile anlegen/bearbeiten"
-msgstr ""
+msgstr "Create profiles / edit"
 
 #: lib/Permissions/PartContainingPermission.php:44
 msgid "Teile Auflisten"
@@ -1584,7 +1584,7 @@ msgstr "List favorited parts"
 
 #: lib/Permissions/PartPermission.php:65
 msgid "Zuletzt bearbeitete/hinzugefügte Bauteile auflisten"
-msgstr ""
+msgstr "Last edited/added components list"
 
 #: lib/Permissions/PermissionManager.php:167
 #: lib/Permissions/PermissionManager.php:186
@@ -1597,7 +1597,7 @@ msgstr "General"
 
 #: lib/Permissions/PermissionManager.php:215
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: lib/Permissions/PermissionManager.php:216
 msgid "Beschreibung"
@@ -1621,7 +1621,7 @@ msgstr "Storelocation"
 
 #: lib/Permissions/PermissionManager.php:222
 msgid "Footprint"
-msgstr ""
+msgstr "Footprint"
 
 #: lib/Permissions/PermissionManager.php:223
 msgid "Dateianhänge"
@@ -1664,7 +1664,7 @@ msgstr "Device parts"
 #: lib/Permissions/ToolsPermission.php:45 show_part_label.php:132
 #: tools_labels.php:42
 msgid "Labels"
-msgstr ""
+msgstr "Labels"
 
 #: lib/Permissions/SelfPermission.php:41 lib/Permissions/UserPermission.php:54
 msgid "Informationen ändern"
@@ -1736,11 +1736,11 @@ msgstr "There is already a price quote with the same quantity discount!"
 
 #: lib/Storelocation.php:308
 msgid "Ja"
-msgstr ""
+msgstr "Yes"
 
 #: lib/Storelocation.php:308
 msgid "Nein"
-msgstr ""
+msgstr "No"
 
 #: lib/System.php:81
 msgid "$log ist kein Log-Objekt!"
@@ -1748,22 +1748,22 @@ msgstr "$log is not a log object!"
 
 #: lib/Tools/JSONStorage.php:60
 msgid "Interner Datenbankfehler!"
-msgstr ""
+msgstr "Internal database error!"
 
 #: lib/Tools/JSONStorage.php:80
 msgid "Die JSON-Datei enthält fehlerhafte Daten!"
-msgstr ""
+msgstr "The JSON file contains incorrect data!"
 
 #: lib/Tools/JSONStorage.php:121 lib/Tools/JSONStorage.php:175
 #: lib/Tools/JSONStorage.php:194
 #, php-format
 msgid "Kein Item mit Schlüssel %s vorhanden!"
-msgstr ""
+msgstr "No item with key %s available!"
 
 #: lib/Tools/JSONStorage.php:139 lib/Tools/JSONStorage.php:158
 #, php-format
 msgid "Es existiert bereits ein Item mit dem Schlüssel %s!"
-msgstr ""
+msgstr "There already exists an item with the key %s!"
 
 #: lib/Tools/SystemVersion.php:119
 #, php-format
@@ -1801,7 +1801,7 @@ msgstr "<br><br>Please log in:"
 
 #: lib/User.php:737 login.php:51
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: lib/User.php:764
 msgid "Ungültige \"group_id\": \""
@@ -1871,7 +1871,7 @@ msgstr "No valid storelocation id was submitted."
 
 #: show_part_info.php:70
 msgid "Label input is not valid!"
-msgstr ""
+msgstr "Label input is not valid!"
 
 #: show_part_info.php:101 show_part_info.php:207
 msgid "Detailinfo"
@@ -1883,32 +1883,32 @@ msgstr "Invalid input data!"
 
 #: show_part_label.php:243
 msgid "Der Profilname darf nicht leer sein!"
-msgstr ""
+msgstr "The profile name cannot be empty!"
 
 #: show_part_label.php:246
 msgid "Das Profil wurde erfolgreich gespeichert!"
-msgstr ""
+msgstr "The profile was saved successfully!"
 
 #: show_part_label.php:250
 msgid "Sie müssen ein Profil zum Laden auswählen!"
-msgstr ""
+msgstr "You must select a profile to load!"
 
 #: show_part_label.php:259 show_part_label.php:272
 msgid "Sie müssen ein Profil zum Löschen auswählen!"
-msgstr ""
+msgstr "You must select a profile to delete!"
 
 #: show_part_label.php:262
 #, php-format
 msgid "Soll das Profil \"%s\" wirklich unwiederruflich gelöscht werden?"
-msgstr ""
+msgstr "Really remove the profile \"%s\" permanently?"
 
 #: show_part_label.php:267
 msgid "Ja, Profil löschen"
-msgstr ""
+msgstr "Yes, delete profile"
 
 #: show_part_label.php:274
 msgid "Das Profil wurde erfolgreich gelöscht!"
-msgstr ""
+msgstr "The profile was deleted successfully!"
 
 #: show_search_parts.php:107
 msgid "Suchresultate"
@@ -1944,7 +1944,7 @@ msgstr "IMPORTANT: <br>Copy only the contents of the named folders, not the whol
 
 #: start_session.php:79 start_session.php:139
 msgid "Part-DB"
-msgstr ""
+msgstr "Part-DB"
 
 #: start_session.php:79
 msgid "Update von Part-DB: Manuelle Eingriffe notwendig"
@@ -2048,7 +2048,7 @@ msgstr "Footprints-Images"
 
 #: tools_3d_footprints.php:60
 msgid "3D Footprints müssen aktiviert sein, um diese Funktion zu nutzen."
-msgstr ""
+msgstr "3D footprints must be enabled to use this feature."
 
 #: tools_iclogos.php:42
 msgid "Hersteller IC Logos"
