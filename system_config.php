@@ -71,7 +71,7 @@ $custom_css                 = isset($_REQUEST['custom_css'])        ? (string)$_
 $timezone                   = isset($_REQUEST['timezone'])          ? (string)$_REQUEST['timezone']         : $config['timezone'];
 $language                   = isset($_REQUEST['language'])          ? (string)$_REQUEST['language']         : $config['language'];
 $disable_updatelist         = isset($_REQUEST['disable_updatelist']);
-$disable_search_warning         = isset($_REQUEST['disable_search_warning']);
+$disable_search_warning     = isset($_REQUEST['disable_search_warning']);
 $disable_help               = isset($_REQUEST['disable_help']);
 $disable_config             = isset($_REQUEST['disable_config']);
 $enable_debug_link          = isset($_REQUEST['enable_debug_link']);
@@ -86,7 +86,6 @@ $disable_tools_footprints   = isset($_REQUEST['disable_tools_footprints']);
 $disable_suppliers          = isset($_REQUEST['disable_suppliers']);
 $tools_footprints_autoload  = isset($_REQUEST['tools_footprints_autoload']);
 $enable_developer_mode      = isset($_REQUEST['enable_developer_mode']);
-$enable_dokuwiki_write_perms= isset($_REQUEST['enable_dokuwiki_write_perms']);
 $use_modal_popup            = isset($_REQUEST['use_modal_popup']);
 $popup_width                = isset($_REQUEST['popup_width'])       ? (integer)$_REQUEST['popup_width']     : $config['popup']['width'];
 $popup_height               = isset($_REQUEST['popup_height'])      ? (integer)$_REQUEST['popup_height']    : $config['popup']['height'];
@@ -235,27 +234,6 @@ if (! $fatal_error) {
                 $config['menu']['disable_config']       = $disable_config;
                 $config['partdb_title']                   = $page_title;
                 $config['startup']['custom_banner']     = $startup_banner;
-            } else {
-                // this is an online demo!
-                $enable_dokuwiki_write_perms = false; // the DokuWiki must be in read-only mode in the online demo!!
-            }
-
-            // change DokuWiki write permissions
-            if (($enable_dokuwiki_write_perms) && (! file_exists(DOKUWIKI_PERMS_FILENAME))) {
-                // enable write permissions
-                $filehandle = fopen(DOKUWIKI_PERMS_FILENAME, 'w');
-                if (! $filehandle) {
-                    $messages[] = array('text' => 'Die Datei "'.DOKUWIKI_PERMS_FILENAME.'" kann nicht gelöscht werden! '.
-                        _('Überprüfen Sie, ob Sie die nötigen Schreibrechte besitzen.'), 'strong' => true, 'color' => 'red');
-                } else {
-                    fclose($filehandle);
-                }
-            } elseif ((! $enable_dokuwiki_write_perms) && (file_exists(DOKUWIKI_PERMS_FILENAME))) {
-                // disable write permissions
-                if (! unlink(DOKUWIKI_PERMS_FILENAME)) {
-                    $messages[] = array('text' => 'Die Datei "'.DOKUWIKI_PERMS_FILENAME.'" kann nicht gelöscht werden! '.
-                        _('Überprüfen Sie, ob Sie die nötigen Schreibrechte besitzen.'), 'strong' => true, 'color' => 'red');
-                }
             }
 
             try {
@@ -313,7 +291,6 @@ try {
     $html->setVariable('tools_footprints_autoload', $config['tools']['footprints']['autoload'], 'boolean');
     $html->setVariable('developer_mode_available', file_exists(BASE . '/development'), 'boolean');
     $html->setVariable('enable_developer_mode', $config['developer_mode'], 'boolean');
-    $html->setVariable('enable_dokuwiki_write_perms', file_exists(DOKUWIKI_PERMS_FILENAME), 'boolean');
     $html->setVariable('use_old_datasheet_icons', $config['appearance']['use_old_datasheet_icons'], 'boolean');
 
 // popup settings

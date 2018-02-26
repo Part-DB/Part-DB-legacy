@@ -306,7 +306,7 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
             break;
         case UPLOAD_ERR_INI_SIZE:
             throw new Exception(_('Die maximal mögliche Dateigrösse für Uploads wurde überschritten ("upload_max_filesize" in "php.ini")! ').
-                '<a target="_blank" href="'.BASE_RELATIVE.'/documentation/dokuwiki/doku.php?id=anforderungen">'._("Hilfe").'</a>');
+                '<a target="_blank" href="'._("https://github.com/Part-DB/Part-DB/wiki/Anforderungen").'>'._("Hilfe").'</a>');
         case UPLOAD_ERR_FORM_SIZE:
             throw new Exception(_('Die maximal mögliche Dateigrösse für Uploads wurde überschritten!'));
         case UPLOAD_ERR_PARTIAL:
