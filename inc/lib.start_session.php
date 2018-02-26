@@ -195,12 +195,6 @@ function checkFilePermissions()
         '/data/backup/'                         => 'erwx',
         '/data/log/'                            => 'erwx',
         '/data/media/'                          => 'erwx');
-    // DokuWiki/data
-    //'/documentation/dokuwiki/data/'         => 'erwx',
-    //'/documentation/dokuwiki/data/cache/'   => 'erwx',
-    //'/documentation/dokuwiki/data/meta/'    => 'erwx',
-    //'/documentation/dokuwiki/data/pages/'   => 'erwx',
-    //'/documentation/dokuwiki/data/tmp/'     => 'erwx');
 
     foreach ($permissions as $filename => $needed_perms) {
         $whole_filename = BASE.$filename;
