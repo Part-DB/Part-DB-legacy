@@ -56,4 +56,4 @@ Part-DB is also available in German: For this purpose, the setting Language must
 Installation on _[de_DE] Deutsch (Deutschland)_. 
 
 If you want to participate in the translation (especially for languages other than English), 
-then this can be done [here](https://translate.zanata.org/iteration/view/part-db/0.4.0/).
+then this can be done [here](https://crowdin.com/project/part-db).
