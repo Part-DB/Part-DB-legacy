@@ -622,6 +622,31 @@ function registerHoverImages() {
  */
 function makeSortTable() {
     'use strict';
+    //Override datatables button style, so buttons are XS.
+    $.extend(true, $.fn.DataTable.Buttons.defaults, {
+        dom: {
+            container: {
+                className: 'dt-buttons btn-group pull-right'
+            },
+            button: {
+                className: 'btn btn-default btn-xs'
+            },
+            collection: {
+                tag: 'ul',
+                className: 'dt-button-collection dropdown-menu',
+                button: {
+                    tag: 'li',
+                    className: 'dt-button',
+                    active: 'active',
+                    disabled: 'disabled'
+                },
+                buttonLiner: {
+                    tag: 'a',
+                    className: ''
+                }
+            }
+        }
+    });
     if (!$.fn.DataTable.isDataTable('.table-sortable')) {
         var table_1 = $('.table-sortable').DataTable({
             "paging": false,
@@ -630,6 +655,9 @@ function makeSortTable() {
             "searching": false,
             "select": $(".table-sortable").hasClass("table-selectable") ? { style: "os", selector: "td:not(.no-select)" } : false,
             "order": [],
+            "buttons": [
+                'copy', 'excel', 'csv', 'pdf', 'print'
+            ],
             "columnDefs": [
                 {
                     "targets": [1], type: "natural-nohtml"
@@ -663,6 +691,8 @@ function makeSortTable() {
             var str = tmp.join();
             $("input[name='selected_ids']").val(str);
         });
+        var my_panel_header = $(table_1.table(null).container().closest(".panel")).find(".panel-heading");
+        table_1.buttons(0, null).containers().appendTo(my_panel_header);
     }
 }
 /**
@@ -832,6 +862,7 @@ function makeTooltips() {
     //$('[data-toggle="tooltip"]').tooltip();
     $('*').tooltip("hide");
     $('a[title]').tooltip({ container: "body" });
+    $('button[title]').tooltip({ container: "body" });
 }
 function viewer3d_models() {
     if (!$("#models-picker").length)

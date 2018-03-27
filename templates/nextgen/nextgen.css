@@ -240,6 +240,10 @@ table.dataTable tbody th, table.dataTable tbody td {
     content: "\f107";
 }
 
+.panel-heading {
+    overflow: hidden;
+}
+
 .table-center{
     text-align: center;
 }
