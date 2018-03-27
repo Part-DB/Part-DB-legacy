@@ -659,27 +659,42 @@ function makeSortTable() {
                 {
                     extend: 'copyHtml5',
                     text: '<i class="fas fa-copy fa-fw"></i>',
-                    titleAttr: 'Copy'
+                    titleAttr: 'Copy',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
                 },
                 {
                     extend: 'excelHtml5',
                     text: '<i class="fas fa-file-excel fa-fw"></i>',
-                    titleAttr: 'Excel'
+                    titleAttr: 'Excel',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
                 },
                 {
                     extend: 'csvHtml5',
                     text: '<i class="fas fa-file-alt fa-fw"></i>',
-                    titleAttr: 'CSV'
+                    titleAttr: 'CSV',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
                 },
                 {
                     extend: 'pdfHtml5',
                     text: '<i class="fas fa-file-pdf fa-fw"></i>',
-                    titleAttr: 'PDF'
+                    titleAttr: 'PDF',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
                 },
                 {
                     extend: 'print',
                     text: '<i class="fas fa-print fa-fw"></i>',
-                    titleAttr: 'Print'
+                    titleAttr: 'Print',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
                 },
             ],
             "columnDefs": [
