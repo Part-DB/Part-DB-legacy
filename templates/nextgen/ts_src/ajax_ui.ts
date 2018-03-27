@@ -788,7 +788,31 @@ function makeSortTable() {
             "select":   $(".table-sortable").hasClass("table-selectable") ? {style: "os", selector: "td:not(.no-select)"} : false,
             "order": [],
             "buttons": [
-                'copy', 'excel', 'csv', 'pdf', 'print'
+                {
+                    extend:    'copyHtml5',
+                    text:      '<i class="fas fa-copy fa-fw"></i>',
+                    titleAttr: 'Copy'
+                },
+                {
+                    extend:    'excelHtml5',
+                    text:      '<i class="fas fa-file-excel fa-fw"></i>',
+                    titleAttr: 'Excel'
+                },
+                {
+                    extend:    'csvHtml5',
+                    text:      '<i class="fas fa-file-alt fa-fw"></i>',
+                    titleAttr: 'CSV'
+                },
+                {
+                    extend:    'pdfHtml5',
+                    text:      '<i class="fas fa-file-pdf fa-fw"></i>',
+                    titleAttr: 'PDF'
+                },
+                {
+                    extend:    'print',
+                    text:      '<i class="fas fa-print fa-fw"></i>',
+                    titleAttr: 'Print'
+                },
             ],
             "columnDefs": [
                 {
