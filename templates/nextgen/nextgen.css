@@ -244,6 +244,11 @@ table.dataTable tbody th, table.dataTable tbody td {
     overflow: hidden;
 }
 
+#export-title,
+#export-messageTop{
+    display: none;
+}
+
 .table-center{
     text-align: center;
 }
