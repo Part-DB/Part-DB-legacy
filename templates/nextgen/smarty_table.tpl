@@ -22,7 +22,7 @@
                 <tr class="trcat">
                     {foreach $t.columns as $col}
                         {if $col.caption=="row"}<th>{t}Nr.{/t}</th>{/if}
-                        {if $col.caption=="hover_picture"}<th class="no-sort"></th>{/if}
+                        {if $col.caption=="hover_picture"}<th class="no-sort no-export"></th>{/if}
                         {if $col.caption=="id"}<th class="idclass">{t}ID{/t}</th>{/if}
                         {if $col.caption=="row_index"}<th class="idclass">{t}Nr.{/t}</th>{/if} {*  only for import parts  *}
                         {if $col.caption=="name"}<th class="order-default">{t}Name{/t}</th>{/if}
