@@ -150,7 +150,7 @@ if (isset($_REQUEST["attachement_delete"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $user_config['theme'], 'Baugruppe');
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Baugruppe'));
 
 try {
     $database           = new Database();
@@ -165,6 +165,8 @@ try {
     //Check for Device parts read permission, when on Device detail page.
     if ($device_id > 0) {
         $current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ);
+
+        $html->setTitle(_("Baugruppe"). ": " . $device->getName());
     }
 
     if ($attachement_id > 0) {
