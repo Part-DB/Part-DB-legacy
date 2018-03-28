@@ -2,6 +2,9 @@
 
 {include "../smarty_breadcrumb.tpl"}
 
+<span id="export-title">{t}Bauteile im Lagerort{/t}: {$location_name}</span>
+<span id="export-messageTop">{t}Vollständiger Pfad{/t}: {$location_fullpath}</span>
+
 {if $other_panel_position == "top" || $other_panel_position == "both"}
     <div class="panel panel-primary">
         <div class="panel-heading">

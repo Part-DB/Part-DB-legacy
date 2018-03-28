@@ -1,16 +1,16 @@
-/*! Select for DataTables 1.2.3
- * 2015-2017 SpryMedia Ltd - datatables.net/license/mit
+/*! Select for DataTables 1.2.5
+ * 2015-2018 SpryMedia Ltd - datatables.net/license/mit
  */
 
 /**
  * @summary     Select for DataTables
  * @description A collection of API methods, events and buttons for DataTables
  *   that provides selection options of the items in a DataTable
- * @version     1.2.3
+ * @version     1.2.5
  * @file        dataTables.select.js
  * @author      SpryMedia Ltd (www.sprymedia.co.uk)
  * @contact     datatables.net/forums
- * @copyright   Copyright 2015-2017 SpryMedia Ltd.
+ * @copyright   Copyright 2015-2018 SpryMedia Ltd.
  *
  * This source file is free software, available under the following license:
  *   MIT license - http://datatables.net/license/mit
@@ -54,7 +54,7 @@ var DataTable = $.fn.dataTable;
 // Version information for debugger
 DataTable.select = {};
 
-DataTable.select.version = '1.2.3';
+DataTable.select.version = '1.2.5';
 
 DataTable.select.init = function ( dt ) {
 	var ctx = dt.settings()[0];
@@ -348,8 +348,16 @@ function enableMouseSelection ( dt )
 
 			// If text was selected (click and drag), then we shouldn't change
 			// the row's selected state
-			if ( window.getSelection && $.trim( window.getSelection().toString() ) ) {
-				return;
+			if ( window.getSelection ) {
+				var selection = window.getSelection();
+
+				// If the element that contains the selection is not in the table, we can ignore it
+				// This can happen if the developer selects text from the click event
+				if ( ! selection.anchorNode || $(selection.anchorNode).closest('table')[0] === dt.table().node() ) {
+					if ( $.trim(selection.toString()) !== '' ) {
+						return;
+					}
+				}
 			}
 
 			var ctx = dt.settings()[0];
@@ -722,7 +730,7 @@ $.each( [
 		var data;
 		var out = [];
 
-		if ( selected === undefined ) {
+		if ( selected !== true && selected !== false ) {
 			return indexes;
 		}
 
@@ -1025,12 +1033,29 @@ function namespacedEvents ( config ) {
 	return 'draw.dt.DT'+unique+' select.dt.DT'+unique+' deselect.dt.DT'+unique;
 }
 
+function enabled ( dt, config ) {
+	if ( $.inArray( 'rows', config.limitTo ) !== -1 && dt.rows( { selected: true } ).any() ) {
+		return true;
+	}
+
+	if ( $.inArray( 'columns', config.limitTo ) !== -1 && dt.columns( { selected: true } ).any() ) {
+		return true;
+	}
+
+	if ( $.inArray( 'cells', config.limitTo ) !== -1 && dt.cells( { selected: true } ).any() ) {
+		return true;
+	}
+
+	return false;
+}
+
 var _buttonNamespace = 0;
 
 $.extend( DataTable.ext.buttons, {
 	selected: {
 		text: i18n( 'selected', 'Selected' ),
 		className: 'buttons-selected',
+		limitTo: [ 'rows', 'columns', 'cells' ],
 		init: function ( dt, node, config ) {
 			var that = this;
 			config._eventNamespace = '.select'+(_buttonNamespace++);
@@ -1038,11 +1063,7 @@ $.extend( DataTable.ext.buttons, {
 			// .DT namespace listeners are removed by DataTables automatically
 			// on table destroy
 			dt.on( namespacedEvents(config), function () {
-				var enable = that.rows( { selected: true } ).any() ||
-				             that.columns( { selected: true } ).any() ||
-				             that.cells( { selected: true } ).any();
-
-				that.enable( enable );
+				that.enable( enabled(dt, config) );
 			} );
 
 			this.disable();
