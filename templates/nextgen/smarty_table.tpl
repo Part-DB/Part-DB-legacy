@@ -169,6 +169,7 @@
                             {* order quantity edit (only for order parts)  *}
                             <td class="tdrow1">
                                 <input type="number" min="0" max="99999" class="form-control input-sm" name="order_quantity_{$row.row_index}" value="{$row.order_quantity}">
+                                <span class="export-helper" data-target=""></span>
                                 <p class="help-block">(mind. {$row.min_order_quantity})</p>
                             </td>
                         {/if}
@@ -307,12 +308,14 @@
                                     <input type="text" class="form-control input-sm" style="width:45px;" name="quantity_{$row.row_index}"
                                            value="{if isset($row.quantity)}{$row.quantity}{else}0{/if}"
                                            {if isset($can_part_edit) && isset($can_part_delete) && !$can_part_edit && !$can_part_delete}disabled{/if}>
+                                    <span class="export-helper" data-target=""></span>
                                     <div class="input-group-btn">
                                         <button class="btn btn-default btn-sm" type="button" onClick="elements['quantity_{$row.row_index}'].value=0"
                                                 {if isset($can_part_delete) && !$can_part_delete}disabled{/if}>
                                             <i class="fa fa-times" aria-hidden="true"></i></button>
                                     </div>
                                 </div>
+
                             </td>
                         {/if}
                         {if $row.caption == "mountnames_edit"}
@@ -321,6 +324,7 @@
                                 <input type="text" size="8" class="form-control input-sm" name="mountnames_{$row.row_index}"
                                        value="{if isset($row.mountnames)}{$row.mountnames}{/if}"
                                        {if isset($can_part_edit) && !$can_part_edit}disabled{/if}>
+                                <span class="export-helper" data-target=""></span>
                             </td>
                         {/if}
                         {if $row.caption == "suppliers"}

@@ -249,6 +249,10 @@ table.dataTable tbody th, table.dataTable tbody td {
     display: none;
 }
 
+.export-helper {
+    display: none;
+}
+
 .table-center{
     text-align: center;
 }

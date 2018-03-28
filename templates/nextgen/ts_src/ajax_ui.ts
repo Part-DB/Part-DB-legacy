@@ -753,6 +753,13 @@ function registerHoverImages() {
 function makeSortTable() {
     'use strict';
 
+    //Register export helpers
+    $(".export-helper").each(function(index : int) {
+        let input = $(this).siblings("input");
+        let that = this;
+        $(this).text(input.val().toString());
+    });
+
     //Override datatables button style, so buttons are XS.
     $.extend( true, $.fn.DataTable.Buttons.defaults, {
         dom: {
@@ -892,10 +899,9 @@ function makeSortTable() {
                 $("input[name='selected_ids']").val(str);
             } );
 
-        let my_panel_header = $(table.table(null).container().closest(".panel")).find(".panel-heading");
+            let my_panel_header = $(table.table(null).container()).closest(".panel").find(".panel-heading");
 
-        table.buttons(0, null).containers().appendTo(my_panel_header)
-
+            table.buttons(0, null).containers().appendTo(my_panel_header);
     }
 }
 
