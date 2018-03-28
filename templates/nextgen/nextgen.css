@@ -244,6 +244,12 @@ table .input-group-btn:last-child>.btn, table .input-group-btn:last-child>.btn-g
     z-index: 0;
 }
 
+@media  only screen and (max-width: 1000px){
+    .fixedHeader-floating {
+        display: none;
+    }
+}
+
 .panel-heading a[data-toggle=collapse].collapsed:after
 {
     content: "\f107";
