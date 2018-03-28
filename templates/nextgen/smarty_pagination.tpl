@@ -1,4 +1,4 @@
-<div class="row">
+<div class="row hidden-print">
     <div class="col-md-6">
         {if isset($can_delete) && isset($can_edit)}
             <div class="select_actions" style="display: none;">

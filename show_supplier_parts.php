@@ -212,6 +212,7 @@ $html->setVariable('with_subsuppliers', $with_subsuppliers, 'boolean');
 if (! $fatal_error) {
     $html->setVariable('sid', $supplier->getID(), 'integer');
     $html->setVariable('supplier_name', $supplier->getName(), 'string');
+    $html->setVariable('supplier_fullpath', $supplier->getFullPath(" / "), 'string');
     $html->setVariable('disable_footprints', ($config['footprints']['disable']), 'boolean');
     $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable']), 'boolean');
     $html->setVariable('disable_auto_datasheets', ($config['auto_datasheets']['disable']), 'boolean');
