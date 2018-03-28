@@ -58,7 +58,7 @@
                         {if $col.caption=="button_decrement"}<th class="text-center no-sort no-export">-</th>{/if}
                         {if $col.caption=="button_increment"}<th class="text-center no-sort no-export">+</th>{/if}
                         {if $col.caption=="button_edit"}<th class="text-center no-sort"></th>{/if}
-                        {if $col.caption=="order_options"}<th class="no-sort">{t}Optionen{/t}</th>{/if} {*  only for order parts  *}
+                        {if $col.caption=="order_options"}<th class="no-sort no-export">{t}Optionen{/t}</th>{/if} {*  only for order parts  *}
                         {if $col.caption=="quantity_edit"}<th class="no-sort">{t}Anzahl{/t}</th>{/if} {*  only for device parts  *}
                         {if $col.caption=="mountnames_edit"}<th class="no-sort">{t escape=no}Bestückungs-<br>daten{/t}</th>{/if} {*  only for device parts  *}
                         {if $col.caption=="price_edit"}<th>{t}Preis{/t}</th>{/if} {*  only for import parts  *}
@@ -168,7 +168,7 @@
                         {if $row.caption == "order_quantity_edit"}
                             {* order quantity edit (only for order parts)  *}
                             <td class="tdrow1">
-                                <input type="number" min="0" max="99999" class="form-control input-sm" name="order_quantity_{$row.row_index}" value="{$row.order_quantity}" >
+                                <input type="number" min="0" max="99999" class="form-control input-sm" name="order_quantity_{$row.row_index}" value="{$row.order_quantity}">
                                 <p class="help-block">(mind. {$row.min_order_quantity})</p>
                             </td>
                         {/if}
