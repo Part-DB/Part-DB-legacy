@@ -240,6 +240,19 @@ table.dataTable tbody th, table.dataTable tbody td {
     content: "\f107";
 }
 
+.panel-heading {
+    overflow: hidden;
+}
+
+#export-title,
+#export-messageTop{
+    display: none;
+}
+
+.export-helper {
+    display: none;
+}
+
 .table-center{
     text-align: center;
 }

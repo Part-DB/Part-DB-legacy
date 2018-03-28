@@ -210,6 +210,7 @@ $html->setVariable('with_submanufacturers', $with_submanufacturers, 'boolean');
 if (! $fatal_error) {
     $html->setVariable('mid', $manufacturer->getID(), 'integer');
     $html->setVariable('manufacturer_name', $manufacturer->getName(), 'string');
+    $html->setVariable('manufacturer_fullpath', $manufacturer->getFullPath(" / "), "string");
     $html->setVariable('disable_footprints', ($config['footprints']['disable']), 'boolean');
     $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable']), 'boolean');
     $html->setVariable('disable_auto_datasheets', ($config['auto_datasheets']['disable']), 'boolean');

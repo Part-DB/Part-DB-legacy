@@ -1,5 +1,8 @@
 {locale path="nextgen/locale" domain="partdb"}
 
+<span id="export-title">{t}Bauteile vom Lieferanten{/t}: {$supplier_name}</span>
+<span id="export-messageTop">{t}Vollständiger Pfad{/t}: {$supplier_fullpath}</span>
+
 {include "../smarty_breadcrumb.tpl"}
 
 {if $other_panel_position == "top" || $other_panel_position == "both"}

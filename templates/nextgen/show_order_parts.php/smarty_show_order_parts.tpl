@@ -161,7 +161,7 @@
 <div class="panel panel-default">
     <div class="panel-heading">{t}Bauteile Export{/t}</div>
     <div class="panel-body">
-        <form method="post" action="" class="form-horizontal no-progbar">
+        <form method="post" action="" class="form-horizontal no-progbar no-ajax">
             <div class="form-group">
                 <label class="control-label col-md-3">{t}Format:{/t}</label>
                 <div class="col-md-9"> 
@@ -181,9 +181,7 @@
         </form>
         {if isset($export_result) && !empty($export_result)}
         <hr>
-        <code>
-            {$export_result}
-        </code>
+        <textarea disabled class="form-control" rows="10">{$export_result}</textarea>
         {/if}
     </div>
 </div>

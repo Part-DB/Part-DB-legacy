@@ -11,7 +11,7 @@
             <table class="table table-striped table-hover table-sortable">
                 <thead>
                 <tr>
-                    <th class="no-sort"></th>
+                    <th class="no-sort no-export"></th>
                     <th>{t}Eigenschaft{/t}</th>
                     <th>{t}Wert{/t}</th>
 

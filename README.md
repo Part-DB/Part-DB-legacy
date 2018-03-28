@@ -58,4 +58,4 @@ Part-DB ist auch in Englisch verfügbar: Hierfür muss die Einstellung Sprache i
 Installation auf _[en_US] English (United States)_ gestellt werden. 
 
 Möchte man sich an der Übersetzung beteiligen (insbesondere bei anderen Sprachen als Englisch), 
-dann kann dies [hier](https://translate.zanata.org/iteration/view/part-db/0.4.0/) tun.
+dann kann dies [hier](https://crowdin.com/project/part-db) tun.
