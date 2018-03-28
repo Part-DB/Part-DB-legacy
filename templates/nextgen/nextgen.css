@@ -235,6 +235,15 @@ table.dataTable tbody th, table.dataTable tbody td {
     margin-top: -10px;
 }
 
+/* We need to override the z index, or the elements will overlap the fixed header from datatables. */
+table .input-group .form-control {
+    z-index: 0;
+}
+
+table .input-group-btn:last-child>.btn, table .input-group-btn:last-child>.btn-group {
+    z-index: 0;
+}
+
 .panel-heading a[data-toggle=collapse].collapsed:after
 {
     content: "\f107";
