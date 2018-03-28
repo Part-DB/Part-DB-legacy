@@ -305,16 +305,19 @@ if (! $fatal_error) {
     // export formats
     $html->setLoop('export_formats', buildExportFormatsLoop('orderparts', $export_format_id));
 
-    if (isset($export_string)) {
-        $html->setVariable('export_result', str_replace("\n", '<br>', str_replace("\n  ", '<br>&nbsp;&nbsp;',   // yes, this is quite ugly,
-            str_replace("\n    ", '<br>&nbsp;&nbsp;&nbsp;&nbsp;',               // but the result is pretty ;-)
-                htmlspecialchars($export_string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')))), 'string');
-    }
+        /*
+        if (isset($export_string)) {
+            $html->setVariable('export_result', str_replace("\n", '<br>', str_replace("\n  ", '<br>&nbsp;&nbsp;',   // yes, this is quite ugly,
+                str_replace("\n    ", '<br>&nbsp;&nbsp;&nbsp;&nbsp;',               // but the result is pretty ;-)
+                    htmlspecialchars($export_string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')))), 'string');
+        }*/
 
-    // global stuff
-    $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
-    $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
-    $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
+        $html->setVariable('export_result', "$export_string");
+
+        // global stuff
+        $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
+        $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+        $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
     $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
     $html->setVariable('popup_width', $config['popup']['width'], 'integer');
