@@ -1363,6 +1363,11 @@ function generatePagination($page_link, $selected_page, $limit, $max_entries)
     $min_number = ($selected_page - 1) < 1 ? 1 : $selected_page -1;
     $max_number = ($selected_page + 2) > $max_page ? $max_page : $selected_page + 2;
 
+    if ($selected_page == 0) {
+        $min_number = 1;
+        $max_number = 1;
+    }
+
     for ($n=$min_number; $n <= $max_number; $n++) {
         $links[] = array("label" => $n,
             "href" => $page_link . "&page=" . ($n). "&limit=$limit",
