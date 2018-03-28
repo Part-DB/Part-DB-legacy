@@ -813,7 +813,7 @@ function makeSortTable() {
             "searching":   false,
             "select":   $(".table-sortable").hasClass("table-selectable") ? {style: "os", selector: "td:not(.no-select)"} : false,
             "order": [],
-            "buttons": [
+            "buttons": $(".table-sortable").hasClass("table-export") ? [
                 {
                     extend:    'copyHtml5',
                     text:      '<i class="fas fa-copy fa-fw"></i>',
@@ -864,7 +864,7 @@ function makeSortTable() {
                     messageTop: exportMessageTop,
                     title: exportTitle
                 },
-            ],
+            ] : null,
             "columnDefs": [
                 {
                     "targets": [1], type: "natural-nohtml"

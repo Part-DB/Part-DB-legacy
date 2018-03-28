@@ -14,7 +14,7 @@
     Please Note: There are no empty lines between the {TMPL_IF}{/if} groups, because they would produce extremely large HTML output files (because of the loops)!
 *}
 <div class="table-responsive">
-    <table class="table table-striped table-condensed table-compact table-hover
+    <table class="table table-striped table-condensed table-compact table-hover table-export
     table-sortable {if isset($table_selectable) && $table_selectable}table-selectable{/if}" cellspacing="0" width="100%">
         <thead class="thead-default">
         {foreach $table as $t}
