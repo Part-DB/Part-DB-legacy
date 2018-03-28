@@ -211,6 +211,7 @@ $html->setVariable('with_subfoot', $with_subfoot, 'boolean');
 if (! $fatal_error) {
     $html->setVariable('fid', $footprint->getID(), 'integer');
     $html->setVariable('footprint_name', $footprint->getName(), 'string');
+    $html->setVariable('footprint_fullpath', $footprint->getFullPath(" / "), 'string');
 
     $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
     $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
