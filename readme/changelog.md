@@ -1,5 +1,14 @@
 # Part-DB Changelog
 
+## Part-DB 0.4.5
+### Bugfixes
+* Problem, dass Kategorien nicht gelöscht werden konnte, wenn ein Subelement Bauteile enthält
+ behoben.
+* Der Download von exportierten Bestelllisten funktioniert nun.
+
+### Sonstiges
+* Composer Abhängigkeiten aktualisiert.
+
 ## Part-DB 0.4.4
 
 ### Neue Funktionen:
