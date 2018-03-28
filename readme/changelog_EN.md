@@ -1,6 +1,15 @@
 # Part-DB changelog
 
-## Part-DB 0.4.4.4
+## Part DB 0.4.5
+### Bugfixes
+* Problem that categories could not be deleted if a sub-element contains components
+ fixed.
+* The download of exported order lists now works.
+
+### Miscellaneous
+* Composer dependencies updated.
+
+## Part-DB 0.4.4
 
 #### New functions:
 * It is possible to disable the hint dialog for missing data structures, such as manufacturer or supplier in the settings.
