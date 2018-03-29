@@ -978,9 +978,8 @@ function makeTooltips() {
     return __awaiter(this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             //$('[data-toggle="tooltip"]').tooltip();
-            $('*').tooltip("hide");
-            $('a[title]').tooltip({ container: "body" });
-            $('button[title]').tooltip({ container: "body" });
+            $('a[title]').tooltip("hide").tooltip({ container: "body" });
+            $('button[title]').tooltip("hide").tooltip({ container: "body" });
             return [2 /*return*/];
         });
     });

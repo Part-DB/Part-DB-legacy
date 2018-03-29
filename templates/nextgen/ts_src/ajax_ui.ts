@@ -1091,9 +1091,8 @@ function makeHighlight() {
  */
 async function makeTooltips() {
     //$('[data-toggle="tooltip"]').tooltip();
-    $('*').tooltip("hide");
-    $('a[title]').tooltip({container: "body"});
-    $('button[title]').tooltip({container: "body"});
+    $('a[title]').tooltip("hide").tooltip({container: "body"});
+    $('button[title]').tooltip("hide").tooltip({container: "body"});
 }
 
 function viewer3d_models() {
