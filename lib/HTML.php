@@ -460,6 +460,8 @@ class HTML
             $tmpl->assign('messages', $messages);
             $tmpl->assign('messages_div_title', $messages_div_title);
             $tmpl->assign('reload_link', $reload_link);
+
+            $tmpl->assign("debugging_activated", $config['debug']['enable']);
         }
 
         $tmpl->display($smarty_head);
@@ -513,6 +515,8 @@ class HTML
         }
 
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
+
+        $tmpl->assign("debugging_activated", $config['debug']['enable']);
 
         foreach ($this->variables as $key => $value) {
             //debug('temp', $key.' => '.$value);
@@ -584,6 +588,8 @@ class HTML
         }
 
         $tmpl->assign("redirect_url", $this->redirect_url);
+
+        $tmpl->assign("debugging_activated", $config['debug']['enable']);
 
         //Remove white space from Output
         $tmpl->loadFilter('output', 'trimwhitespace');
