@@ -1,97 +1,13 @@
+/************************************
+* Basic layout (Navbar, sidebar, etc.)
+*************************************/
+
+/* Add padding for fixed header bar */
 body {
     overflow-x: hidden;
     position: relative;
     padding-top: 70px;
 }
-
-@media print {
-    body {
-        padding-top: 0;
-    }
-}
-
-.dropdown-menu-radio {
-    padding-left: 10px;
-}
-
-.drop-radio {
-    margin-left: 10px;
-}
-
-.radio-small {
-    margin-bottom: 0;
-    margin-top: 0;
-}
-
-.companypic {
-    width: 17px;
-    display: inline;
-}
-
-.companypic:hover {
-    filter: opacity(60%);
-}
-
-.companypic-bg {
-    width: 20px;
-    display: inline;
-}
-
-.companypic-bg:hover {
-    filter: opacity(60%);
-}
-
-.td .table-small {
-    font-size: 12px;
-}
-
-.hoverpic {
-    min-width: 10px;
-    max-width: 30px;
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-}
-
-.treeview {
-    font-size: 12px;
-}
-
-.form-group-sm {
-    margin-bottom: 5px;
-}
-
-.table-compact>tbody>tr>td,
-.table-compact>tbody>tr>th,
-.table-compact>tfoot>tr>td,
-.table-compact>tfoot>tr>th,
-.table-compact>thead>tr>td,
-.table-compact>thead>tr>th {
-    padding: 3px;
-}
-
-table.dataTable tbody th, table.dataTable tbody td {
-    padding: 3px;
-}
-
-.thumbnail-sm {
-    height: 100px;
-}
-
-.auto-size-select {
-    height: inherit;
-}
-
-/* Back to top button  */
-.back-to-top {
-    cursor: pointer;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display:none;
-    z-index: 1030;
-}
-
 
 @media  (min-width: 768px) {
     .fixed-sidebar {
@@ -139,8 +55,8 @@ table.dataTable tbody th, table.dataTable tbody td {
     }
 }
 
+/* Hide scrollbar */
 .fixed-sidebar::-webkit-scrollbar {display:none;}
-
 
 @media (min-width: 768px) {
     .sidebar-collapse.collapse {
@@ -151,17 +67,16 @@ table.dataTable tbody th, table.dataTable tbody td {
     }
 }
 
-.x3d-fullscreen {
-    /*height: auto;*/
-    width: 100%;
+/* Back to top button  */
+.back-to-top {
+    cursor: pointer;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    display:none;
+    z-index: 1030;
 }
 
-.btn-text {
-    color: inherit;
-    padding: 0;
-    border: hidden;
-    background-color: transparent;
-}
 
 .sidebar-title {
     margin-top: 0;
@@ -170,9 +85,11 @@ table.dataTable tbody th, table.dataTable tbody td {
     line-height: 1.1;
 }
 
-.container-progress {
-    padding-top: 25%;
-}
+
+
+/**********************************
+* Helper classes
+ *********************************/
 
 .vertical-align {
     display: flex;
@@ -188,86 +105,6 @@ table.dataTable tbody th, table.dataTable tbody td {
     vertical-align: middle;
 }
 
-.form-control-link {
-    display: block;
-    padding-top: 7px;
-    padding-bottom: 7px;
-}
-
-@media print {
-    a.hidden-print-href[href]:after {
-        content: none !important;
-    }
-}
-
-/*
-    Fance Collapse
- */
-
-.fancy-collapse-panel .panel-default > .panel-heading {
-    padding: 0;
-}
-
-.panel-heading a[data-toggle=collapse] {
-    display: inline-block;
-    width: 100%;
-    position: relative;
-}
-
-@font-face {
-    font-family: 'FA5';
-    font-style: normal;
-    font-weight: 900;
-    src: url("../../webfonts/fa-solid-900.eot");
-    src: url("../../webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("../../webfonts/fa-solid-900.woff2") format("woff2"), url("../../webfonts/fa-solid-900.woff") format("woff"), url("../../webfonts/fa-solid-900.ttf") format("truetype"), url("../../webfonts/fa-solid-900.svg#fontawesome") format("svg");
-}
-
-.panel-heading a[data-toggle=collapse]:after {
-    /*noinspection CssNoGenericFontName*/
-    font-family: "FA5";
-    content: "\f106";
-    position: absolute;
-    right: 20px;
-    font-size: 20px;
-    font-weight: 400;
-    top: 50%;
-    line-height: 1;
-    margin-top: -10px;
-}
-
-/* We need to override the z index, or the elements will overlap the fixed header from datatables. */
-table .input-group .form-control {
-    z-index: 0;
-}
-
-table .input-group-btn:last-child>.btn, table .input-group-btn:last-child>.btn-group {
-    z-index: 0;
-}
-
-@media  only screen and (max-width: 1000px){
-    .fixedHeader-floating {
-        display: none;
-    }
-}
-
-.panel-heading a[data-toggle=collapse].collapsed:after
-{
-    content: "\f107";
-}
-
-.panel-heading {
-    overflow: hidden;
-}
-
-#export-title,
-#export-messageTop{
-    display: none;
-}
-
-.export-helper {
-    display: none;
-}
-
 .table-center{
     text-align: center;
 }
@@ -276,17 +113,43 @@ table .input-group-btn:last-child>.btn, table .input-group-btn:last-child>.btn-g
     font-weight:bold;
 }
 
-/* Show symbol after exteral links */
-/*noinspection CssNoGenericFontName*/
-a[target="_blank"].link-external:after {
-    content: "\f35d ";
-    font-family: "FA5";
-    margin-left: 3px;
-    font-weight: normal;
-    font-size: smaller;
-    font-style: normal;
-    display: inline-block;
-    text-decoration: inherit;
+/**
+ Use this class if you has a <span> or <p> and you want to create automatic textbreaks in the text.
+ */
+.text-break {
+    /*noinspection W3CssValidation,CssUnknownProperty*/
+    -ms-word-break: break-all;
+    /*noinspection CssOverwrittenProperties*/
+    word-break: break-all;
+
+    /* Non standard for webkit */
+    /*noinspection W3CssValidation,CssInvalidPropertyValue,CssOverwrittenProperties*/
+    word-break: break-word;
+
+    /*noinspection W3CssValidation*/
+    -webkit-hyphens: auto;
+    /*noinspection W3CssValidation*/
+    -moz-hyphens: auto;
+    hyphens: auto;
+}
+
+.auto-size-select {
+    height: inherit;
+}
+
+/****************************************
+* Bootstrap extensions
+*****************************************/
+
+.form-group-sm {
+    margin-bottom: 5px;
+}
+
+/* Use this if you want to use a link inside a form-group */
+.form-control-link {
+    display: block;
+    padding-top: 7px;
+    padding-bottom: 7px;
 }
 
 /** Button outline defintions */
@@ -325,118 +188,15 @@ a[target="_blank"].link-external:after {
     color: #fff;
 }
 
-/**
- Use this class if you has a <span> or <p> and you want to create automatic textbreaks in the text.
- */
-.text-break {
-    /*noinspection W3CssValidation,CssUnknownProperty*/
-    -ms-word-break: break-all;
-    /*noinspection CssOverwrittenProperties*/
-    word-break: break-all;
-
-    /* Non standard for webkit */
-    /*noinspection W3CssValidation,CssInvalidPropertyValue,CssOverwrittenProperties*/
-    word-break: break-word;
-
-    /*noinspection W3CssValidation*/
-    -webkit-hyphens: auto;
-    /*noinspection W3CssValidation*/
-    -moz-hyphens: auto;
-    hyphens: auto;
+/* A text-only button without border */
+.btn-text {
+    color: inherit;
+    padding: 0;
+    border: hidden;
+    background-color: transparent;
 }
 
-img.img-attachement {
-    max-width: 25%;
-    margin: 10px;
-}
-
-a.link-collapse {
-    color: #333;
-}
-
-span.highlight {
-    background-color: yellow;
-}
-
-/**
-Bootstrap-Treeview override
- */
-/* Set display style to flexbox, so wraped text is aligned to */
-.list-group-item {
-    padding: 5px 10px;
-    display: flex;
-}
-
-/** Select in pagination */
-.pagination>li>select
-{
-    position: relative;
-    float: left;
-    padding: 7px 5px;
-    margin-left: -1px;
-    line-height: 1.42857143;
-    color: #337ab7;
-    text-decoration: none;
-    background-color: #fff;
-    border: 1px solid #ddd;
-}
-
-.pagination>li>button
-{
-    position: relative;
-    float: left;
-    padding: 6px 5px;
-    margin-left: -1px;
-    line-height: 1.42857143;
-    color: #337ab7;
-    text-decoration: none;
-    background-color: #fff;
-    border: 1px solid #ddd;
-}
-
-/* "Breadcrumb" like */
-
-/* Style the list */
-ul.structural_link {
-    padding-top: 7px;
-    padding-bottom: 7px;
-    padding-left: 0;
-    list-style: none;
-    background-color: inherit;
-}
-
-/* Display list items side by side */
-ul.structural_link li {
-    display: inline;
-    font-size: inherit;
-}
-
-/* Add a slash symbol (/) before/behind each list item */
-ul.structural_link li+li:before {
-    padding: 2px;
-    color: grey;
-    /*content: "/\00a0";*/
-    font-family: "FA5", sans-serif;
-    font-style: normal;
-    font-weight: normal;
-    content: "\f30b"; /* long-arrow-alt-right */
-}
-
-/* Add a color to all links inside the list */
-ul.structural_link li a {
-    color: #0275d8;
-    text-decoration: none;
-}
-
-/* Add a color on mouse-over */
-ul.structural_link li a:hover {
-    color: #01447e;
-    text-decoration: underline;
-}
-
-a.text-white {
-   color: #fff;
-}
+/* Size sensitive pull-* helpers */
 
 @media (max-width: 767px) {
     .pull-right-not-xs, .pull-left-not-xs{
@@ -480,5 +240,305 @@ a.text-white {
     }
     .pull-left-lg {
         float: left;
+    }
+}
+
+/****************************************
+* Picture classes
+*****************************************/
+
+.companypic {
+    width: 17px;
+    display: inline;
+}
+
+.companypic:hover {
+    filter: opacity(60%);
+}
+
+.companypic-bg {
+    width: 20px;
+    display: inline;
+}
+
+.companypic-bg:hover {
+    filter: opacity(60%);
+}
+
+.hoverpic {
+    min-width: 10px;
+    max-width: 30px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.thumbnail-sm {
+    height: 100px;
+}
+
+img.img-attachement {
+    max-width: 25%;
+    margin: 10px;
+}
+
+/****************************************
+* Tables
+****************************************/
+
+.td .table-small {
+    font-size: 12px;
+}
+
+.table-compact>tbody>tr>td,
+.table-compact>tbody>tr>th,
+.table-compact>tfoot>tr>td,
+.table-compact>tfoot>tr>th,
+.table-compact>thead>tr>td,
+.table-compact>thead>tr>th {
+    padding: 3px;
+}
+
+table.dataTable tbody th, table.dataTable tbody td {
+    padding: 3px;
+}
+
+/* We need to override the z index, or the elements will overlap the fixed header from datatables. */
+table .input-group .form-control {
+    z-index: 0;
+}
+
+table .input-group-btn:last-child>.btn, table .input-group-btn:last-child>.btn-group {
+    z-index: 0;
+}
+
+/* Hide datatables fixedHeaders on small devices */
+@media  only screen and (max-width: 1000px){
+    .fixedHeader-floating {
+        display: none;
+    }
+}
+/***************************************
+* Dropdown with radio buttons
+***************************************/
+
+.container-progress {
+    padding-top: 25%;
+}
+
+.dropdown-menu-radio {
+    padding-left: 10px;
+}
+
+.drop-radio {
+    margin-left: 10px;
+}
+
+/*************************************
+* Smaller radio buttons
+**************************************/
+
+.radio-small {
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+/************************************
+ X3DOM
+*************************************/
+
+.x3d-fullscreen {
+    /*height: auto;*/
+    width: 100%;
+}
+
+/*******************************
+* Collapsable panel definitions.
+********************************/
+
+.fancy-collapse-panel .panel-default > .panel-heading {
+    padding: 0;
+}
+
+.panel-heading a[data-toggle=collapse] {
+    display: inline-block;
+    width: 100%;
+    position: relative;
+}
+
+@font-face {
+    font-family: 'FA5';
+    font-style: normal;
+    font-weight: 900;
+    src: url("../../webfonts/fa-solid-900.eot");
+    src: url("../../webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("../../webfonts/fa-solid-900.woff2") format("woff2"), url("../../webfonts/fa-solid-900.woff") format("woff"), url("../../webfonts/fa-solid-900.ttf") format("truetype"), url("../../webfonts/fa-solid-900.svg#fontawesome") format("svg");
+}
+
+.panel-heading a[data-toggle=collapse]:after {
+    /*noinspection CssNoGenericFontName*/
+    font-family: "FA5";
+    content: "\f106";
+    position: absolute;
+    right: 20px;
+    font-size: 20px;
+    font-weight: 400;
+    top: 50%;
+    line-height: 1;
+    margin-top: -10px;
+}
+
+.panel-heading a[data-toggle=collapse].collapsed:after
+{
+    content: "\f107";
+}
+
+.panel-heading {
+    overflow: hidden;
+}
+
+a.link-collapse {
+    color: #333;
+}
+
+/******************************************************
+Classes for Datatables export
+*******************************************************/
+
+#export-title,
+#export-messageTop{
+    display: none;
+}
+
+.export-helper {
+    display: none;
+}
+
+/**************************************************
+* Link styles
+***************************************************/
+
+/* Show symbol after exteral links */
+/*noinspection CssNoGenericFontName*/
+a[target="_blank"].link-external:after {
+    content: "\f35d ";
+    font-family: "FA5";
+    margin-left: 3px;
+    font-weight: normal;
+    font-size: smaller;
+    font-style: normal;
+    display: inline-block;
+    text-decoration: inherit;
+}
+
+a.text-white {
+    color: #fff;
+}
+
+/****************************************************
+* Search highlighting
+*****************************************************/
+
+span.highlight {
+    background-color: yellow;
+}
+
+/******************************
+* Bootstrap treeview overrides
+*******************************/
+/* Set display style to flexbox, so wraped text is aligned to */
+.list-group-item {
+    padding: 5px 10px;
+    display: flex;
+}
+
+.treeview {
+    font-size: 12px;
+}
+
+/*****************************
+* Pagination bar
+*****************************/
+
+/** Select in pagination */
+.pagination>li>select
+{
+    position: relative;
+    float: left;
+    padding: 7px 5px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+.pagination>li>button
+{
+    position: relative;
+    float: left;
+    padding: 6px 5px;
+    margin-left: -1px;
+    line-height: 1.42857143;
+    color: #337ab7;
+    text-decoration: none;
+    background-color: #fff;
+    border: 1px solid #ddd;
+}
+
+/******************************
+* Breadcrumb like structural links
+********************************/
+
+/* Style the list */
+ul.structural_link {
+    padding-top: 7px;
+    padding-bottom: 7px;
+    padding-left: 0;
+    list-style: none;
+    background-color: inherit;
+}
+
+/* Display list items side by side */
+ul.structural_link li {
+    display: inline;
+    font-size: inherit;
+}
+
+/* Add a slash symbol (/) before/behind each list item */
+ul.structural_link li+li:before {
+    padding: 2px;
+    color: grey;
+    /*content: "/\00a0";*/
+    font-family: "FA5", sans-serif;
+    font-style: normal;
+    font-weight: normal;
+    content: "\f30b"; /* long-arrow-alt-right */
+}
+
+/* Add a color to all links inside the list */
+ul.structural_link li a {
+    color: #0275d8;
+    text-decoration: none;
+}
+
+/* Add a color on mouse-over */
+ul.structural_link li a:hover {
+    color: #01447e;
+    text-decoration: underline;
+}
+
+/*****************************
+* Print styles
+*****************************/
+@media print {
+    body {
+        padding-top: 0;
+    }
+}
+
+@media print {
+    a.hidden-print-href[href]:after {
+        content: none !important;
     }
 }
