@@ -535,6 +535,10 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
+    ajaxui.addAjaxCompleteAction(function () {
+        //Cleanup old floating headers
+        $(".fixedHeader-floating").remove();
+    });
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
     ajaxui.addAjaxCompleteAction(makeTooltips);
@@ -657,8 +661,6 @@ function registerHoverImages() {
  */
 function makeSortTable() {
     'use strict';
-    //Cleanup old floating headers
-    $(".fixedHeader-floating").remove();
     //Register export helpers
     $(".export-helper").each(function (index) {
         var input = $(this).siblings("input");
