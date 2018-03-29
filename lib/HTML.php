@@ -447,6 +447,8 @@ class HTML
             $tmpl->assign("debugbar_head", $renderer->renderHead());
         }
 
+        $tmpl->assign("debugging_activated", $config['debug']['enable']);
+
         // messages
         if ((is_array($messages) && (count($messages) > 0)) || ($config['debug']['request_debugging_enable'])) {
             if ($config['debug']['request_debugging_enable']) {
@@ -460,8 +462,6 @@ class HTML
             $tmpl->assign('messages', $messages);
             $tmpl->assign('messages_div_title', $messages_div_title);
             $tmpl->assign('reload_link', $reload_link);
-
-            $tmpl->assign("debugging_activated", $config['debug']['enable']);
         }
 
         $tmpl->display($smarty_head);

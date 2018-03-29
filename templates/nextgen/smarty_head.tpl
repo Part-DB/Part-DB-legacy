@@ -41,14 +41,26 @@
     <![endif]-->
 
 
+    {if $debugging_activated}
     <!-- Checkboxes -->
     <link href="{$relative_path}css/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
+    <!-- Include Part-DB Theme -->
+    <link href="{$relative_path}templates/{$theme}/nextgen.css" rel="stylesheet">
+
+    {else}
+    <!-- Checkboxes -->
+    <link href="{$relative_path}css/awesome-bootstrap-checkbox.min.css" rel="stylesheet">
+
+    <!-- Include Part-DB Theme -->
+    <link href="{$relative_path}templates/{$theme}/nextgen.min.css" rel="stylesheet">
+    {/if}
+
 
     <!-- Fileinput -->
     <link href="{$relative_path}css/fileinput.min.css" media="all" rel="stylesheet"/>
 
-    <!-- Include Part-DB Theme -->
-    <link href="{$relative_path}templates/{$theme}/nextgen.css" rel="stylesheet">
+
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="{$relative_path}js/jquery-3.3.1.min.js"></script>
