@@ -981,7 +981,7 @@ function treeviewBtnInit() {
 /**
  * Activates the X3Dom library on all x3d elements.
  */
-function registerX3DOM() {
+async function registerX3DOM() {
     if ($("x3d").length) {
         try {
             x3dom.reload();
@@ -995,8 +995,8 @@ function registerX3DOM() {
 /**
  * Activates the Bootstrap-selectpicker.
  */
-function registerBootstrapSelect() {
-    $(".selectpicker").selectpicker();
+async function registerBootstrapSelect() {
+        $(".selectpicker").selectpicker();
 }
 
 /**
@@ -1090,7 +1090,7 @@ function makeHighlight() {
 /**
  * Use Bootstrap for tooltips.
  */
-function makeTooltips() {
+async function makeTooltips() {
     //$('[data-toggle="tooltip"]').tooltip();
     $('*').tooltip("hide");
     $('a[title]').tooltip({container: "body"});
