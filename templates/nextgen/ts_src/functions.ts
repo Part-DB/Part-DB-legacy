@@ -134,6 +134,7 @@ function getBasePath() : string
     return String($("#basepath").val());
 }
 
+
 /**
  * Reloads the current Page.
  */
