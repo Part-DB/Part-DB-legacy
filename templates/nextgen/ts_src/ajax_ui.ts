@@ -753,6 +753,9 @@ function registerHoverImages() {
 function makeSortTable() {
     'use strict';
 
+    //Cleanup old floating headers
+    $(".fixedHeader-floating").remove();
+
     //Register export helpers
     $(".export-helper").each(function(index : int) {
         let input = $(this).siblings("input");
