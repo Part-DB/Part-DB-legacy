@@ -1146,12 +1146,13 @@ function viewer3d_models() {
 
 //Need for proper body padding, with every navbar height
 $(window).resize(function () {
-    $('body').css('padding-top', parseInt($('#main-navbar').css("height"))+10);
-    $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
+    let height : number = $('#main-navbar').height() + 10;
+    $('body').css('padding-top', height);
+    $('#fixed-sidebar').css('top', height);
 });
 
 $(window).on('load', function () {
-    $('body').css('padding-top', parseInt($('#main-navbar').css("height"))+10);
-
-    $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
+    let height : number = $('#main-navbar').height() + 10;
+    $('body').css('padding-top', height);
+    $('#fixed-sidebar').css('top', height);
 });
