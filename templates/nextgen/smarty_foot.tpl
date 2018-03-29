@@ -50,25 +50,25 @@
     <link rel="stylesheet" type="text/css" href="{$relative_path}datatables/datatables.min.css"/>
     <script type="text/javascript" src="{$relative_path}datatables/datatables.min.js"></script>
     <!-- Datatables plugin for natural sorting -->
-    <script type="text/javascript" src="{$relative_path}datatables/natural.js"></script>
+    <script type="text/javascript" src="{$relative_path}datatables/natural.min.js"></script>
 
 
 
     <!-- Treeview -->
-    <script src="{$relative_path}js/bootstrap-treeview.js" async></script>
+    <script src="{$relative_path}js/bootstrap-treeview.min.js" async></script>
 
     <!-- FileInput -->
     <script src="{$relative_path}js/fileinput.min.js" async></script>
 
     <!-- JQuery Highlight -->
-    <script src="{$relative_path}js/jquery.highlight.js" async></script>
+    <script src="{$relative_path}js/jquery.highlight.min.js" async></script>
 
     <!-- Functions -->
     <script src="{$relative_path}templates/nextgen/js/functions.js" async></script>
     <script src="{$relative_path}templates/nextgen/js/ajax_ui.js" async></script>
 
     <!-- Calculator scripts -->
-    <script type="text/javascript" src="{$relative_path}javascript/calculator.js"></script>
+    <script type="text/javascript" src="{$relative_path}javascript/calculator.min.js"></script>
 
     <!-- jQuery Form lib -->
     <script src="{$relative_path}js/jquery.form.min.js"></script>

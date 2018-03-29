@@ -2,7 +2,17 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a3a867e3-e7b6-424f-b4ec-798594e78f65" name="Default" comment="">
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/bootstrap-treeview.min.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/jquery.highlight.min.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/js/jquery.tristate.min.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/nextgen/js/ajax_ui.min.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/templates/nextgen/js/functions.min.js" />
       <change beforePath="$PROJECT_DIR$/.gitignore" afterPath="$PROJECT_DIR$/.gitignore" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Generated_files.xml" afterPath="$PROJECT_DIR$/.idea/libraries/Generated_files.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/javascript/calculator.js" afterPath="$PROJECT_DIR$/javascript/calculator.js" />
+      <change beforePath="$PROJECT_DIR$/templates/nextgen/smarty_foot.tpl" afterPath="$PROJECT_DIR$/templates/nextgen/smarty_foot.tpl" />
+      <change beforePath="$PROJECT_DIR$/templates/nextgen/smarty_head.tpl" afterPath="$PROJECT_DIR$/templates/nextgen/smarty_head.tpl" />
       <change beforePath="$PROJECT_DIR$/templates/nextgen/ts_src/ajax_ui.ts" afterPath="$PROJECT_DIR$/templates/nextgen/ts_src/ajax_ui.ts" />
       <change beforePath="$PROJECT_DIR$/templates/nextgen/ts_src/functions.ts" afterPath="$PROJECT_DIR$/templates/nextgen/ts_src/functions.ts" />
     </list>
@@ -31,6 +41,36 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="smarty_head.tpl" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/templates/nextgen/smarty_head.tpl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="17">
+              <caret line="79" column="12" lean-forward="true" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="12" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="smarty_foot.tpl" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/templates/nextgen/smarty_foot.tpl">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="575">
+              <caret line="70" column="81" lean-forward="false" selection-start-line="70" selection-start-column="81" selection-end-line="70" selection-end-column="81" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="calculator.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/javascript/calculator.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="85">
+              <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="nextgen.css" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/templates/nextgen/nextgen.css">
           <provider selected="true" editor-type-id="text-editor">
@@ -46,16 +86,6 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="666">
               <caret line="136" column="0" lean-forward="false" selection-start-line="136" selection-start-column="0" selection-end-line="136" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="octopart.js.ts" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/templates/nextgen/ts_src/octopart.js.ts">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="527">
-              <caret line="31" column="1" lean-forward="false" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
               <folding />
             </state>
           </provider>
@@ -109,9 +139,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl" />
-        <option value="$PROJECT_DIR$/templates/nextgen/edit_categories.php/smarty_edit_categories.tpl" />
-        <option value="$PROJECT_DIR$/templates/nextgen/edit_devices.php/smarty_edit_devices.tpl" />
         <option value="$PROJECT_DIR$/templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl" />
         <option value="$PROJECT_DIR$/templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl" />
         <option value="$PROJECT_DIR$/templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl" />
@@ -153,13 +180,16 @@
         <option value="$PROJECT_DIR$/inc/config_defaults.php" />
         <option value="$PROJECT_DIR$/lib/Tools/SystemVersion.php" />
         <option value="$PROJECT_DIR$/package.json" />
-        <option value="$PROJECT_DIR$/templates/nextgen/smarty_head.tpl" />
         <option value="$PROJECT_DIR$/inc/lib.php" />
         <option value="$PROJECT_DIR$/templates/nextgen/nextgen.css" />
         <option value="$PROJECT_DIR$/templates/nextgen/js/ajax_ui.js" />
         <option value="$PROJECT_DIR$/templates/nextgen/ts_src/ajax_ui.ts" />
         <option value="$PROJECT_DIR$/templates/nextgen/ts_src/functions.ts" />
         <option value="$PROJECT_DIR$/templates/nextgen/ts_src/octopart.js.ts" />
+        <option value="$PROJECT_DIR$/js/bootstrap-treeview.js" />
+        <option value="$PROJECT_DIR$/javascript/calculator.js" />
+        <option value="$PROJECT_DIR$/templates/nextgen/smarty_foot.tpl" />
+        <option value="$PROJECT_DIR$/templates/nextgen/smarty_head.tpl" />
       </list>
     </option>
   </component>
@@ -235,6 +265,16 @@
             <path>
               <item name="Part-DB" type="b2602c69:ProjectViewProjectNode" />
               <item name="Part-DB" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="javascript" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="Part-DB" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Part-DB" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="Part-DB" type="b2602c69:ProjectViewProjectNode" />
+              <item name="Part-DB" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="templates" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
@@ -249,14 +289,6 @@
               <item name="templates" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="nextgen" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-            </path>
-            <path>
-              <item name="Part-DB" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Part-DB" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="templates" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="nextgen" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="js" type="2a2b976b:PhpTreeStructureProvider$1" />
-              <item name="ajax_ui.js" type="620a8d5e:NestingTreeNode" />
             </path>
             <path>
               <item name="Part-DB" type="b2602c69:ProjectViewProjectNode" />
@@ -327,12 +359,12 @@
       <workItem from="1522072419184" duration="626000" />
       <workItem from="1522074486110" duration="3578000" />
       <workItem from="1522084917293" duration="11940000" />
-      <workItem from="1522248436771" duration="7965000" />
+      <workItem from="1522248436771" duration="8616000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="64197000" />
+    <option name="totallyTimeSpent" value="64848000" />
   </component>
   <component name="TodoView" selected-index="2">
     <todo-panel id="selected-file">
@@ -345,6 +377,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="0" width="1934" height="1047" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.40327868" sideWeight="0.50213444" order="7" side_tool="true" content_ui="tabs" />
@@ -352,7 +385,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32900432" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29348987" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.29348987" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32896176" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -415,48 +448,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/templates/nextgen/show_part_info.php/smarty_main.tpl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="207" column="22" lean-forward="false" selection-start-line="207" selection-start-column="22" selection-end-line="207" selection-end-column="22" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/edit_manufacturers.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="484">
-          <caret line="257" column="119" lean-forward="false" selection-start-line="257" selection-start-column="100" selection-end-line="257" selection-end-column="119" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="201">
-          <caret line="162" column="38" lean-forward="false" selection-start-line="162" selection-start-column="38" selection-end-line="162" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/readme/apache2-part-db.conf">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/system_config.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="236" column="13" lean-forward="false" selection-start-line="236" selection-start-column="13" selection-end-line="236" selection-end-column="13" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/nextgen/developer_tools.php/smarty_developer_tools.tpl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="17">
-          <caret line="20" column="19" lean-forward="false" selection-start-line="20" selection-start-column="19" selection-end-line="20" selection-end-column="19" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/inc/lib.start_session.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="830">
@@ -481,13 +472,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/nextgen/smarty_table_export.tpl" />
     <entry file="file://$PROJECT_DIR$/templates/nextgen/smarty_table_export.tpl" />
-    <entry file="file://$PROJECT_DIR$/templates/nextgen/smarty_foot.tpl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="830">
-          <caret line="58" column="0" lean-forward="true" selection-start-line="58" selection-start-column="0" selection-end-line="58" selection-end-column="0" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/show_device_parts.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="136">
@@ -734,14 +718,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/nextgen/smarty_head.tpl">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="108">
-          <caret line="97" column="73" lean-forward="false" selection-start-line="97" selection-start-column="73" selection-end-line="97" selection-end-column="73" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/inc/lib.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="40">
@@ -755,16 +731,6 @@
         <state relative-caret-position="306">
           <caret line="201" column="45" lean-forward="false" selection-start-line="201" selection-start-column="45" selection-end-line="201" selection-end-column="45" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/templates/nextgen/ts_src/ajax_ui.ts">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="397">
-          <caret line="989" column="9" lean-forward="false" selection-start-line="989" selection-start-column="9" selection-end-line="989" selection-end-column="9" />
-          <folding>
-            <marker date="1522319787365" expanded="true" signature="38774:38776" ph="{...}" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -792,6 +758,35 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/templates/nextgen/ts_src/ajax_ui.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="397">
+          <caret line="989" column="9" lean-forward="false" selection-start-line="989" selection-start-column="9" selection-end-line="989" selection-end-column="9" />
+          <folding>
+            <marker date="1522319787365" expanded="true" signature="38774:38776" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/bootstrap-treeview.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="408">
+          <caret line="24" column="0" lean-forward="false" selection-start-line="24" selection-start-column="0" selection-end-line="24" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+            <marker date="1518115320965" expanded="true" signature="19093:19107" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/nextgen/ts_src/octopart.js.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="527">
+          <caret line="31" column="1" lean-forward="false" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/templates/nextgen/ts_src/functions.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="666">
@@ -800,10 +795,62 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/nextgen/ts_src/octopart.js.ts">
+    <entry file="file://$PROJECT_DIR$/js/i18n/defaults-de_DE.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="527">
-          <caret line="31" column="1" lean-forward="false" selection-start-line="31" selection-start-column="1" selection-end-line="31" selection-end-column="1" />
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datatables/natural.min.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/datatables/natural.min.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/javascript/calculator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="0" lean-forward="false" selection-start-line="5" selection-start-column="0" selection-end-line="5" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/x3dom.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/nextgen/smarty_head.tpl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="17">
+          <caret line="79" column="12" lean-forward="true" selection-start-line="79" selection-start-column="12" selection-end-line="79" selection-end-column="12" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/nextgen/smarty_foot.tpl">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="575">
+          <caret line="70" column="81" lean-forward="false" selection-start-line="70" selection-start-column="81" selection-end-line="70" selection-end-column="81" />
           <folding />
         </state>
       </provider>

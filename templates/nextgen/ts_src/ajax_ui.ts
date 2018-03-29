@@ -988,7 +988,6 @@ async function registerX3DOM() {
         } catch(e) {
             //Ignore everything
         }
-
     }
 }
 

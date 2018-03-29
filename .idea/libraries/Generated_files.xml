@@ -2,11 +2,21 @@
   <library name="Generated files" type="javaScript">
     <properties>
       <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/datatables/natural.min.min.js" />
+        <item url="file://$PROJECT_DIR$/javascript/calculator.min.js" />
+        <item url="file://$PROJECT_DIR$/js/bootstrap-treeview.min.min.js" />
+        <item url="file://$PROJECT_DIR$/js/jquery.highlight.min.min.js" />
+        <item url="file://$PROJECT_DIR$/js/jquery.tristate.min.min.js" />
         <item url="file://$PROJECT_DIR$/templates/nextgen/js/ajax_ui.min.js" />
         <item url="file://$PROJECT_DIR$/templates/nextgen/js/functions.min.js" />
       </sourceFilesUrls>
     </properties>
     <CLASSES>
+      <root url="file://$PROJECT_DIR$/datatables/natural.min.min.js" />
+      <root url="file://$PROJECT_DIR$/js/bootstrap-treeview.min.min.js" />
+      <root url="file://$PROJECT_DIR$/js/jquery.highlight.min.min.js" />
+      <root url="file://$PROJECT_DIR$/js/jquery.tristate.min.min.js" />
+      <root url="file://$PROJECT_DIR$/javascript/calculator.min.js" />
       <root url="file://$PROJECT_DIR$/templates/nextgen/js/ajax_ui.min.js" />
       <root url="file://$PROJECT_DIR$/templates/nextgen/js/functions.min.js" />
     </CLASSES>
