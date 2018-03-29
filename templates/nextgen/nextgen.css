@@ -49,8 +49,6 @@ body {
     .sidebar-container {
         margin-top: 0;
         padding-top: 5px;
-
-
         background-color: #F8F8F8;
     }
 }
@@ -285,21 +283,15 @@ img.img-attachement {
 /****************************************
 * Tables
 ****************************************/
-
-.td .table-small {
-    font-size: 12px;
-}
-
 .table-compact>tbody>tr>td,
 .table-compact>tbody>tr>th,
 .table-compact>tfoot>tr>td,
 .table-compact>tfoot>tr>th,
 .table-compact>thead>tr>td,
-.table-compact>thead>tr>th {
-    padding: 3px;
-}
-
-table.dataTable tbody th, table.dataTable tbody td {
+.table-compact>thead>tr>th,
+table.dataTable>tbody>tr>th,
+table.dataTable>tbody>tr>td
+{
     padding: 3px;
 }
 
@@ -405,11 +397,8 @@ Classes for Datatables export
 *******************************************************/
 
 #export-title,
-#export-messageTop{
-    display: none;
-}
-
-.export-helper {
+#export-messageTop,
+.export-helper{
     display: none;
 }
 
@@ -535,9 +524,7 @@ ul.structural_link li a:hover {
     body {
         padding-top: 0;
     }
-}
 
-@media print {
     a.hidden-print-href[href]:after {
         content: none !important;
     }
