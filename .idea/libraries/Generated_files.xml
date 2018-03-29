@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Generated files" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$PROJECT_DIR$/templates/nextgen/js/ajax_ui.min.js" />
+        <item url="file://$PROJECT_DIR$/templates/nextgen/js/functions.min.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/templates/nextgen/js/ajax_ui.min.js" />
+      <root url="file://$PROJECT_DIR$/templates/nextgen/js/functions.min.js" />
+    </CLASSES>
+    <SOURCES />
+  </library>
+</component>

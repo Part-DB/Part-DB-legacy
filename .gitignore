@@ -170,8 +170,8 @@ templates_c/
 development/templates_c/
 
 #PHPStorm
-.idea/
-.idea/*
+#.idea/
+#.idea/*
 
 #Models
 models/*
