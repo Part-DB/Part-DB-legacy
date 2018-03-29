@@ -181,6 +181,7 @@ class AjaxUI {
         'use strict';
         if(!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
+            this.beforeAjaxSubmit();
             $('#progressbar').show(0);
         }
         return true;
@@ -247,6 +248,7 @@ class AjaxUI {
                 let href : string = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
                 _this.abortAllAjax();
 
+                _this.beforeAjaxSubmit();
                 $('#content').hide(0).load(href + " #content-data");
                 $('#progressbar').show(0);
                 return true;
@@ -452,11 +454,20 @@ class AjaxUI {
             jqXHR.abort();  //  aborts connection
             _this.xhrPool.splice(i, 1); //  removes from list by index
         });
+
     }
 
     /********************************************************************************************
      * Common ajax functions
      ********************************************************************************************/
+
+    /**
+     * Called before a new ajax submit is started. Use this to cleanup, the old page.
+     */
+    private beforeAjaxSubmit()
+    {
+        $(".table-sortable").DataTable().fixedHeader.disable();
+    }
 
     /**
      * Called when an error occurs on loading ajax. Outputs the message to the console.
