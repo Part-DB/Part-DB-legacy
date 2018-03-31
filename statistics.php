@@ -37,6 +37,7 @@ use PartDB\Part;
 use PartDB\Storelocation;
 use PartDB\Supplier;
 use PartDB\User;
+use PartDB\Tools\StatisticsHelpers;
 
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
@@ -58,6 +59,23 @@ try {
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
+}
+
+
+/*******************************************************************************
+ * Set graph statistics
+ *******************************************************************************/
+
+if (! $fatal_error) {
+    try {
+        $helper = new StatisticsHelpers($database, $current_user, $log);
+        $array = $helper->getMostUsedCategories();
+        $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Kategorie"));
+        $html->setVariable('graph_categories', $str);
+    } catch (Exception $e) {
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $fatal_error = true;
+    }
 }
 
 /********************************************************************************
