@@ -3,6 +3,7 @@ function round(val, prec)
     return Math.floor(val*Math.pow(10, prec))/Math.pow(10, prec);
 }
 
+
 var E3 = [1.0, 2.2, 4.7];
 var E6 = [1.0, 1.5, 2.2, 3.3, 4.7, 6.8];
 var E12 = [1.0, 1.2, 1.5, 1.8, 2.2, 2.7, 3.3, 3.9, 4.7, 5.6, 6.8, 8.2];

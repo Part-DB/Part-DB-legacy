@@ -172,6 +172,7 @@ development/templates_c/
 #PHPStorm
 .idea/
 .idea/*
+.idea/workspace.xml
 
 #Models
 models/*
