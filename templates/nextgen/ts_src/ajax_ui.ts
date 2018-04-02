@@ -603,15 +603,11 @@ $(function(event){
     ajaxui.addStartAction(makeHighlight);
     ajaxui.addStartAction(viewer3d_models);
     ajaxui.addStartAction(makeGreekInput);
-    //ajaxui.addStartAction(makeTypeAhead);
+    ajaxui.addStartAction(makeCharts);
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
-    /*ajaxui.addAjaxCompleteAction(function () {
-        //Cleanup old floating headers
-        $(".fixedHeader-floating").remove();
-    });*/
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
     ajaxui.addAjaxCompleteAction(makeTooltips);
@@ -625,10 +621,34 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(viewer3d_models);
     ajaxui.addAjaxCompleteAction(makeGreekInput);
+    ajaxui.addAjaxCompleteAction(makeCharts);
+
     //ajaxui.addAjaxCompleteAction(makeTypeAhead);
 
     ajaxui.start();
 });
+
+function makeCharts() {
+    $(".chart").each(function(index, element) {
+        let data : any = $(element).data("data");
+        let type : string = $(element).data("type");
+
+        let ctx = (<HTMLCanvasElement> element).getContext("2d");
+        let myChart = new Chart(ctx, {
+            type: type,
+            data: data,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    });
+}
 
 function makeGreekInput() {
 
@@ -898,12 +918,12 @@ function makeSortTable() {
                 $("input[name='selected_ids']").val(str);
             } );
 
-            for(let n = 0; n < table.context.length; n++) {
-                let my_panel_header = $(table.table(n).container()).closest(".panel").find(".panel-heading");
+        for(let n = 0; n < table.context.length; n++) {
+            let my_panel_header = $(table.table(n).container()).closest(".panel").find(".panel-heading");
 
-                table.table(n).buttons().container().appendTo(my_panel_header);
-                //table.buttons(n, null).containers().appendTo(my_panel_header);
-            }
+            table.table(n).buttons().container().appendTo(my_panel_header);
+            //table.buttons(n, null).containers().appendTo(my_panel_header);
+        }
     }
 }
 
@@ -996,7 +1016,7 @@ async function registerX3DOM() {
  * Activates the Bootstrap-selectpicker.
  */
 async function registerBootstrapSelect() {
-        $(".selectpicker").selectpicker();
+    $(".selectpicker").selectpicker();
 }
 
 /**
