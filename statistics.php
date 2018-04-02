@@ -88,6 +88,11 @@ if (! $fatal_error) {
         $array = $helper->getMostUsedManufacturers();
         $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Hersteller"), StatisticsHelpers::COLOR_LIGHT_BLUE);
         $html->setVariable('graph_manufacturer', $str);
+
+        //Parts with most instock parts
+        $array = $helper->getPartsWithMostInstock();
+        $str = StatisticsHelpers::arrayToChartJSData($array, _("Vorhandene Bauteile"), StatisticsHelpers::COLOR_RED);
+        $html->setVariable('graph_instock_parts', $str);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;

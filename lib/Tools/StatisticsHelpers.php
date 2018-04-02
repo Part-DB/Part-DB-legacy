@@ -46,8 +46,7 @@ class StatisticsHelpers
      */
     public function getMostUsedCategories($limit = 25)
     {
-        if(!is_int($limit))
-        {
+        if(!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
@@ -60,8 +59,7 @@ class StatisticsHelpers
 
     public function getMostUsedLocations($limit = 25)
     {
-        if(!is_int($limit))
-        {
+        if(!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
@@ -74,8 +72,7 @@ class StatisticsHelpers
 
     public function getMostUsedFootprints($limit = 25)
     {
-        if(!is_int($limit))
-        {
+        if(!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
@@ -88,13 +85,20 @@ class StatisticsHelpers
 
     public function getMostUsedManufacturers($limit = 25)
     {
-        if(!is_int($limit))
-        {
+        if(!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
         $query = "SELECT manufacturers.name AS name, COUNT(parts.id_manufacturer) AS count FROM manufacturers, parts"
             ." WHERE manufacturers.id = parts.id_manufacturer GROUP BY parts.id_manufacturer ORDER BY count DESC LIMIT $limit";
+        $values = array();
+
+        return $this->database->query($query, $values);
+    }
+
+    public function getPartsWithMostInstock($limit = 25)
+    {
+        $query = "SELECT parts.name AS name, parts.instock AS count FROM parts ORDER BY count DESC LIMIT $limit";
         $values = array();
 
         return $this->database->query($query, $values);
