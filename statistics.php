@@ -83,6 +83,11 @@ if (! $fatal_error) {
         $array = $helper->getMostUsedFootprints();
         $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Footprint"), StatisticsHelpers::COLOR_RED);
         $html->setVariable('graph_footprints', $str);
+
+        //Most used manufacturer
+        $array = $helper->getMostUsedManufacturers();
+        $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Hersteller"), StatisticsHelpers::COLOR_LIGHT_BLUE);
+        $html->setVariable('graph_manufacturer', $str);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;

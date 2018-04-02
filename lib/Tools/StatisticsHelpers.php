@@ -86,6 +86,20 @@ class StatisticsHelpers
         return $this->database->query($query, $values);
     }
 
+    public function getMostUsedManufacturers($limit = 25)
+    {
+        if(!is_int($limit))
+        {
+            throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
+        }
+
+        $query = "SELECT manufacturers.name AS name, COUNT(parts.id_manufacturer) AS count FROM manufacturers, parts"
+            ." WHERE manufacturers.id = parts.id_manufacturer GROUP BY parts.id_manufacturer ORDER BY count DESC LIMIT $limit";
+        $values = array();
+
+        return $this->database->query($query, $values);
+    }
+
     public static function arrayToChartJSData($array, $label, $bg_color = self::COLOR_BLUE)
     {
         //Split array in name and count section

@@ -11,6 +11,7 @@
             <li><a href="#graph_categories" data-toggle="tab" class="link-anchor">{t}Meistbenutzte Kategorien{/t}</a></li>
             <li><a href="#graph_locations" data-toggle="tab" class="link-anchor">{t}Meistbenutzte Lagerorte{/t}</a></li>
             <li><a href="#graph_footprints" data-toggle="tab" class="link-anchor">{t}Meistbenutzte Footprints{/t}</a></li>
+            <li><a href="#graph_manufacturers" data-toggle="tab" class="link-anchor">{t}Meistbenutzte Hersteller{/t}</a></li>
         </ul>
 
         <br>
@@ -125,27 +126,10 @@
             <div id="graph_footprints" class="tab-pane fade">
                 <canvas class="chart" data-type="bar" data-data='{$graph_footprints}' width="100" height="50"></canvas>
             </div>
+
+            <div id="graph_manufacturers" class="tab-pane fade">
+                <canvas class="chart" data-type="bar" data-data='{$graph_manufacturer}' width="100" height="50"></canvas>
+            </div>
         </div>
     </div>
 </div>
-
-{*
-    <script src="{$relative_path}js/Chart.min.js"></script>
-
-    <script>
-        var ctx = document.getElementById("myChart").getContext('2d');
-        var myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {$graph_categories nofilter},
-            options: {
-                scales: {
-                    yAxes: [{
-                        ticks: {
-                            beginAtZero:true
-                        }
-                    }]
-                }
-            }
-        });
-    </script>
-*}
