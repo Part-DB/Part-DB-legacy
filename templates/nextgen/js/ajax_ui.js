@@ -809,8 +809,11 @@ function makeSortTable() {
             var str = tmp.join();
             $("input[name='selected_ids']").val(str);
         });
-        var my_panel_header = $(table_1.table(null).container()).closest(".panel").find(".panel-heading");
-        table_1.buttons(0, null).containers().appendTo(my_panel_header);
+        for (var n = 0; n < table_1.context.length; n++) {
+            var my_panel_header = $(table_1.table(n).container()).closest(".panel").find(".panel-heading");
+            table_1.table(n).buttons().container().appendTo(my_panel_header);
+            //table.buttons(n, null).containers().appendTo(my_panel_header);
+        }
     }
 }
 /**

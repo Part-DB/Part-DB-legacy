@@ -917,9 +917,12 @@ function makeSortTable() {
                 $("input[name='selected_ids']").val(str);
             } );
 
-            let my_panel_header = $(table.table(null).container()).closest(".panel").find(".panel-heading");
+            for(let n = 0; n < table.context.length; n++) {
+                let my_panel_header = $(table.table(n).container()).closest(".panel").find(".panel-heading");
 
-            table.buttons(0, null).containers().appendTo(my_panel_header);
+                table.table(n).buttons().container().appendTo(my_panel_header);
+                //table.buttons(n, null).containers().appendTo(my_panel_header);
+            }
     }
 }
 
