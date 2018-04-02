@@ -113,12 +113,13 @@
             </div>
 
             <div id="graph_categories" class="tab-pane fade">
-                <canvas id="myChart" width="100" height="50"></canvas>
+                <canvas class="chart" data-type="bar" data-data='{$graph_categories}' width="100" height="50"></canvas>
             </div>
         </div>
     </div>
 </div>
 
+{*
     <script src="{$relative_path}js/Chart.min.js"></script>
 
     <script>
@@ -137,3 +138,4 @@
             }
         });
     </script>
+*}
