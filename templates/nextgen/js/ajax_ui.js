@@ -169,7 +169,7 @@ var AjaxUI = /** @class */ (function () {
         'use strict';
         if (!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
-            this.beforeAjaxSubmit();
+            AjaxUI.getInstance().beforeAjaxSubmit();
             $('#progressbar').show(0);
         }
         return true;
@@ -410,7 +410,7 @@ var AjaxUI = /** @class */ (function () {
      * Called before a new ajax submit is started. Use this to cleanup, the old page.
      */
     AjaxUI.prototype.beforeAjaxSubmit = function () {
-        $(".table-sortable").DataTable().fixedHeader.disable();
+        //$(".table-sortable").DataTable().fixedHeader.disable();
     };
     /**
      * Called when an error occurs on loading ajax. Outputs the message to the console.
