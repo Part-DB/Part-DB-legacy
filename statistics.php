@@ -81,12 +81,12 @@ if (! $fatal_error) {
 
         //Most used footprints
         $array = $helper->getMostUsedFootprints();
-        $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Footprint"), StatisticsHelpers::COLOR_RED);
+        $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Footprint"), StatisticsHelpers::COLOR_LIGHT_BLUE);
         $html->setVariable('graph_footprints', $str);
 
         //Most used manufacturer
         $array = $helper->getMostUsedManufacturers();
-        $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Hersteller"), StatisticsHelpers::COLOR_LIGHT_BLUE);
+        $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Hersteller"), StatisticsHelpers::COLOR_ORANGE);
         $html->setVariable('graph_manufacturer', $str);
 
         //Parts with most instock parts

@@ -24,6 +24,7 @@ class StatisticsHelpers
     const COLOR_RED = "rgba(217,83,79, 0.4)";
     const COLOR_LIGHT_BLUE = "rgba(91,192,222, 0.4)";
     const COLOR_GREEN = "rgba(92,184,92, 0.4)";
+    const COLOR_ORANGE = "rgba(240, 173, 78, 0.4)";
 
     /**
      * Creates an StatisticsHelper object, using the following objects for Database Access.
