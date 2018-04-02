@@ -280,28 +280,6 @@ var AjaxUI = /** @class */ (function () {
      */
     AjaxUI.prototype.tree_fill = function () {
         'use strict';
-        /*
-        $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree : BootstrapTreeViewNodeData[]) {
-            $("#tree-categories").treeview({data: tree, enableLinks: false, showIcon: false
-                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
-        });
-
-        $.getJSON(BASE + 'api.php/1.0.0/tree/devices', function (tree :BootstrapTreeViewNodeData[]) {
-            $('#tree-devices').treeview({data: tree, enableLinks: false, showIcon: false,
-                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
-        });
-
-        $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree :BootstrapTreeViewNodeData[]) {
-            $('#tree-tools').treeview({data: tree, enableLinks: false, showIcon: false,
-                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
-        });*/
-        /*
-        this.initTree("#tree-categories", 'api.php/1.0.0/tree/categories');
-
-        this.initTree("#tree-devices", 'api.php/1.0.0/tree/devices');
-
-        this.initTree("#tree-tools", 'api.php/1.0.0/tree/tools');
-        */
         var categories = Cookies.get("tree_datasource_tree-categories");
         var devices = Cookies.get("tree_datasource_tree-devices");
         var tools = Cookies.get("tree_datasource_tree-tools");
@@ -543,10 +521,10 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
-    ajaxui.addAjaxCompleteAction(function () {
+    /*ajaxui.addAjaxCompleteAction(function () {
         //Cleanup old floating headers
         $(".fixedHeader-floating").remove();
-    });
+    });*/
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
     ajaxui.addAjaxCompleteAction(makeTooltips);
@@ -669,6 +647,9 @@ function registerHoverImages() {
  */
 function makeSortTable() {
     'use strict';
+    //Remove old datatables
+    var table = $($.fn.dataTable.tables()).DataTable();
+    table.fixedHeader.adjust();
     //Register export helpers
     $(".export-helper").each(function (index) {
         var input = $(this).siblings("input");
