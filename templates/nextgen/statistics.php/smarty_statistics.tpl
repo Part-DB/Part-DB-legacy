@@ -9,6 +9,8 @@
         <ul class="nav nav-tabs">
             <li class="active"><a href="#home" data-toggle="tab" class="link-anchor">{t}Übersicht{/t}</a></li>
             <li><a href="#graph_categories" data-toggle="tab" class="link-anchor">{t}Meistbenutzte Kategorien{/t}</a></li>
+            <li><a href="#graph_locations" data-toggle="tab" class="link-anchor">{t}Meistbenutzte Lagerorte{/t}</a></li>
+            <li><a href="#graph_footprints" data-toggle="tab" class="link-anchor">{t}Meistbenutzte Footprints{/t}</a></li>
         </ul>
 
         <br>
@@ -114,6 +116,14 @@
 
             <div id="graph_categories" class="tab-pane fade">
                 <canvas class="chart" data-type="bar" data-data='{$graph_categories}' width="100" height="50"></canvas>
+            </div>
+
+            <div id="graph_locations" class="tab-pane fade">
+                <canvas class="chart" data-type="bar" data-data='{$graph_locations}' width="100" height="50"></canvas>
+            </div>
+
+            <div id="graph_footprints" class="tab-pane fade">
+                <canvas class="chart" data-type="bar" data-data='{$graph_footprints}' width="100" height="50"></canvas>
             </div>
         </div>
     </div>

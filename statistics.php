@@ -69,9 +69,20 @@ try {
 if (! $fatal_error) {
     try {
         $helper = new StatisticsHelpers($database, $current_user, $log);
+        //Most used categories
         $array = $helper->getMostUsedCategories();
-        $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Kategorie"));
+        $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Kategorie"), StatisticsHelpers::COLOR_BLUE);
         $html->setVariable('graph_categories', $str);
+
+        //Most used storelocations
+        $array = $helper->getMostUsedLocations();
+        $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile im Lagerort"), StatisticsHelpers::COLOR_GREEN);
+        $html->setVariable('graph_locations', $str);
+
+        //Most used footprints
+        $array = $helper->getMostUsedFootprints();
+        $str = StatisticsHelpers::arrayToChartJSData($array, _("Bauteile mit Footprint"), StatisticsHelpers::COLOR_RED);
+        $html->setVariable('graph_footprints', $str);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
