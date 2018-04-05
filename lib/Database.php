@@ -105,22 +105,44 @@ class Database
         try {
             switch ($config['db']['type']) {
                 case 'mysql': // MySQL
-                    if ($config['db']['space_fix'] == false) {
+                    //Split hostname in adress and port
+                    $host = parse_url($config['db']['host'], PHP_URL_HOST);
+                    $port = parse_url($config['db']['host'], PHP_URL_PORT);
+
+                    if($host == null || $port == null)
+                    {
+                        $host = $config['db']['host'];
+                        $port = "3306";
+                    }
+
+                    //If a unix socket is given in $dbo
+                    if (isPathabsoluteAndUnix($config['db']['host'], false)) {
                         $this->pdo = new PDO(
-                            'mysql:host='.$config['db']['host'].';dbname='.$config['db']['name'].';charset=utf8',
+                            'mysql:unix_socket='.$config['db']['host'].';dbname='.$config['db']['name'].';charset=utf8',
                             $config['db']['user'],
                             $config['db']['password'],
                             array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
                                 PDO::ATTR_PERSISTENT            => false)
                         );
-                    } else { //Include space between mysql and host in dsn string.
-                        $this->pdo = new PDO(
-                            'mysql: host='.$config['db']['host'].';dbname='.$config['db']['name'].';charset=utf8',
-                            $config['db']['user'],
-                            $config['db']['password'],
-                            array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
-                                PDO::ATTR_PERSISTENT            => false)
-                        );
+                    } else {
+                        //Check if a space fix is activated.
+                        if ($config['db']['space_fix'] == false) {
+                            $this->pdo = new PDO(
+                                'mysql:host='.$host.';port='.$port.';dbname='.$config['db']['name'].';charset=utf8',
+                                $config['db']['user'],
+                                $config['db']['password'],
+                                array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
+                                    PDO::ATTR_PERSISTENT            => false)
+                            );
+                        } else { //Include space between mysql and host in dsn string.
+                            $this->pdo = new PDO(
+                                'mysql: host='.$host.';port='.$port.';dbname='.$config['db']['name'].';charset=utf8',
+                                $config['db']['user'],
+                                $config['db']['password'],
+                                array(PDO::MYSQL_ATTR_INIT_COMMAND    => 'SET NAMES utf8',
+                                    PDO::ATTR_PERSISTENT            => false)
+                            );
+                        }
                     }
 
                     break;
