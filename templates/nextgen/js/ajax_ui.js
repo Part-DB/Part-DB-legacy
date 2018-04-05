@@ -169,7 +169,7 @@ var AjaxUI = /** @class */ (function () {
         'use strict';
         if (!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
-            this.beforeAjaxSubmit();
+            AjaxUI.getInstance().beforeAjaxSubmit();
             $('#progressbar').show(0);
         }
         return true;
@@ -280,28 +280,6 @@ var AjaxUI = /** @class */ (function () {
      */
     AjaxUI.prototype.tree_fill = function () {
         'use strict';
-        /*
-        $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree : BootstrapTreeViewNodeData[]) {
-            $("#tree-categories").treeview({data: tree, enableLinks: false, showIcon: false
-                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
-        });
-
-        $.getJSON(BASE + 'api.php/1.0.0/tree/devices', function (tree :BootstrapTreeViewNodeData[]) {
-            $('#tree-devices').treeview({data: tree, enableLinks: false, showIcon: false,
-                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
-        });
-
-        $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree :BootstrapTreeViewNodeData[]) {
-            $('#tree-tools').treeview({data: tree, enableLinks: false, showIcon: false,
-                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
-        });*/
-        /*
-        this.initTree("#tree-categories", 'api.php/1.0.0/tree/categories');
-
-        this.initTree("#tree-devices", 'api.php/1.0.0/tree/devices');
-
-        this.initTree("#tree-tools", 'api.php/1.0.0/tree/tools');
-        */
         var categories = Cookies.get("tree_datasource_tree-categories");
         var devices = Cookies.get("tree_datasource_tree-devices");
         var tools = Cookies.get("tree_datasource_tree-tools");
@@ -410,7 +388,7 @@ var AjaxUI = /** @class */ (function () {
      * Called before a new ajax submit is started. Use this to cleanup, the old page.
      */
     AjaxUI.prototype.beforeAjaxSubmit = function () {
-        $(".table-sortable").DataTable().fixedHeader.disable();
+        //$(".table-sortable").DataTable().fixedHeader.disable();
     };
     /**
      * Called when an error occurs on loading ajax. Outputs the message to the console.
@@ -539,14 +517,10 @@ $(function (event) {
     ajaxui.addStartAction(makeHighlight);
     ajaxui.addStartAction(viewer3d_models);
     ajaxui.addStartAction(makeGreekInput);
-    //ajaxui.addStartAction(makeTypeAhead);
+    ajaxui.addStartAction(makeCharts);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
-    ajaxui.addAjaxCompleteAction(function () {
-        //Cleanup old floating headers
-        $(".fixedHeader-floating").remove();
-    });
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
     ajaxui.addAjaxCompleteAction(makeTooltips);
@@ -560,9 +534,30 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(viewer3d_models);
     ajaxui.addAjaxCompleteAction(makeGreekInput);
+    ajaxui.addAjaxCompleteAction(makeCharts);
     //ajaxui.addAjaxCompleteAction(makeTypeAhead);
     ajaxui.start();
 });
+function makeCharts() {
+    $(".chart").each(function (index, element) {
+        var data = $(element).data("data");
+        var type = $(element).data("type");
+        var ctx = element.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: type,
+            data: data,
+            options: {
+                scales: {
+                    yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                }
+            }
+        });
+    });
+}
 function makeGreekInput() {
     $("input[type=text], textarea, input[type=search]").unbind("keydown").keydown(function (event) {
         var greek = event.altKey;
@@ -669,6 +664,9 @@ function registerHoverImages() {
  */
 function makeSortTable() {
     'use strict';
+    //Remove old datatables
+    var table = $($.fn.dataTable.tables()).DataTable();
+    table.fixedHeader.adjust();
     //Register export helpers
     $(".export-helper").each(function (index) {
         var input = $(this).siblings("input");
@@ -809,8 +807,11 @@ function makeSortTable() {
             var str = tmp.join();
             $("input[name='selected_ids']").val(str);
         });
-        var my_panel_header = $(table_1.table(null).container()).closest(".panel").find(".panel-heading");
-        table_1.buttons(0, null).containers().appendTo(my_panel_header);
+        for (var n = 0; n < table_1.context.length; n++) {
+            var my_panel_header = $(table_1.table(n).container()).closest(".panel").find(".panel-heading");
+            table_1.table(n).buttons().container().appendTo(my_panel_header);
+            //table.buttons(n, null).containers().appendTo(my_panel_header);
+        }
     }
 }
 /**

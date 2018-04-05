@@ -181,7 +181,7 @@ class AjaxUI {
         'use strict';
         if(!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
-            this.beforeAjaxSubmit();
+            AjaxUI.getInstance().beforeAjaxSubmit();
             $('#progressbar').show(0);
         }
         return true;
@@ -311,29 +311,6 @@ class AjaxUI {
      */
     private tree_fill() {
         'use strict';
-        /*
-        $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree : BootstrapTreeViewNodeData[]) {
-            $("#tree-categories").treeview({data: tree, enableLinks: false, showIcon: false
-                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
-        });
-
-        $.getJSON(BASE + 'api.php/1.0.0/tree/devices', function (tree :BootstrapTreeViewNodeData[]) {
-            $('#tree-devices').treeview({data: tree, enableLinks: false, showIcon: false,
-                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
-        });
-
-        $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree :BootstrapTreeViewNodeData[]) {
-            $('#tree-tools').treeview({data: tree, enableLinks: false, showIcon: false,
-                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
-        });*/
-
-        /*
-        this.initTree("#tree-categories", 'api.php/1.0.0/tree/categories');
-
-        this.initTree("#tree-devices", 'api.php/1.0.0/tree/devices');
-
-        this.initTree("#tree-tools", 'api.php/1.0.0/tree/tools');
-        */
 
         let categories =  Cookies.get("tree_datasource_tree-categories");
         let devices =  Cookies.get("tree_datasource_tree-devices");
@@ -466,7 +443,7 @@ class AjaxUI {
      */
     private beforeAjaxSubmit()
     {
-        $(".table-sortable").DataTable().fixedHeader.disable();
+        //$(".table-sortable").DataTable().fixedHeader.disable();
     }
 
     /**
@@ -626,15 +603,11 @@ $(function(event){
     ajaxui.addStartAction(makeHighlight);
     ajaxui.addStartAction(viewer3d_models);
     ajaxui.addStartAction(makeGreekInput);
-    //ajaxui.addStartAction(makeTypeAhead);
+    ajaxui.addStartAction(makeCharts);
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
-    ajaxui.addAjaxCompleteAction(function () {
-        //Cleanup old floating headers
-        $(".fixedHeader-floating").remove();
-    });
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
     ajaxui.addAjaxCompleteAction(makeTooltips);
@@ -648,10 +621,34 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(viewer3d_models);
     ajaxui.addAjaxCompleteAction(makeGreekInput);
+    ajaxui.addAjaxCompleteAction(makeCharts);
+
     //ajaxui.addAjaxCompleteAction(makeTypeAhead);
 
     ajaxui.start();
 });
+
+function makeCharts() {
+    $(".chart").each(function(index, element) {
+        let data : any = $(element).data("data");
+        let type : string = $(element).data("type");
+
+        let ctx = (<HTMLCanvasElement> element).getContext("2d");
+        let myChart = new Chart(ctx, {
+            type: type,
+            data: data,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    });
+}
 
 function makeGreekInput() {
 
@@ -767,6 +764,10 @@ function registerHoverImages() {
  */
 function makeSortTable() {
     'use strict';
+
+    //Remove old datatables
+    let table = $($.fn.dataTable.tables()).DataTable();
+    table.fixedHeader.adjust()
 
 
 
@@ -917,9 +918,12 @@ function makeSortTable() {
                 $("input[name='selected_ids']").val(str);
             } );
 
-            let my_panel_header = $(table.table(null).container()).closest(".panel").find(".panel-heading");
+        for(let n = 0; n < table.context.length; n++) {
+            let my_panel_header = $(table.table(n).container()).closest(".panel").find(".panel-heading");
 
-            table.buttons(0, null).containers().appendTo(my_panel_header);
+            table.table(n).buttons().container().appendTo(my_panel_header);
+            //table.buttons(n, null).containers().appendTo(my_panel_header);
+        }
     }
 }
 
@@ -1012,7 +1016,7 @@ async function registerX3DOM() {
  * Activates the Bootstrap-selectpicker.
  */
 async function registerBootstrapSelect() {
-        $(".selectpicker").selectpicker();
+    $(".selectpicker").selectpicker();
 }
 
 /**
