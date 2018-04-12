@@ -48,7 +48,11 @@ if (User::isLoggedIn() && $logout == false) {
     $action = "redirect";
 }
 
+<<<<<<< HEAD
 $html = new HTML($config['html']['theme'], $user_config['theme'], $config['partdb_title'] . " - " . _('Login'));
+=======
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Login'));
+>>>>>>> gh-pages
 
 try {
     $database           = new Database();

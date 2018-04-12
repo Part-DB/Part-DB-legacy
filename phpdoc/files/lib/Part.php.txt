@@ -53,6 +53,10 @@ use PartDB\Permissions\PermissionManager;
  */
 class Part extends Base\AttachementsContainingDBElement implements Interfaces\IAPIModel, Interfaces\ILabel
 {
+<<<<<<< HEAD
+=======
+
+>>>>>>> gh-pages
     const INSTOCK_UNKNOWN   = -2;
 
     /********************************************************************************
@@ -583,6 +587,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function getLastModified($formatted = true)
     {
+
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
             return "???";
         }
@@ -1431,7 +1436,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $table_row['id']            = $this->getID();
         $table_row['row_fields']    = array();
         $table_row['favorite']      = $this->getFavorite();
+<<<<<<< HEAD
         $table_row["show_full_paths"] = $config['table']['full_paths'];
+=======
+>>>>>>> gh-pages
 
         foreach (explode(';', $config['table'][$table_type]['columns']) as $caption) {
             $row_field = array();
@@ -1643,6 +1651,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
                 case 'id':
                 case 'button_increment':
+<<<<<<< HEAD
                     $row_field['increment_disabled'] = ($this->getInstock() < 0) || !$this->current_user->canDo(
                         PermissionManager::PARTS_INSTOCK,
                         PartAttributePermission::EDIT
@@ -1653,6 +1662,14 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                         PermissionManager::PARTS,
                         PartPermission::EDIT
                     );
+=======
+                    $row_field['increment_disabled'] = ($this->getInstock() < 0) || !$this->current_user->canDo(PermissionManager::PARTS_INSTOCK,
+                            PartAttributePermission::EDIT);
+                    break;
+                case 'button_edit':
+                    $row_field['edit_disabled'] = !$this->current_user->canDo(PermissionManager::PARTS,
+                        PartPermission::EDIT);
+>>>>>>> gh-pages
                     break;
                 case 'quantity_edit': // for DevicePart Objects
                 case 'mountnames_edit': // for DevicePart Objects
@@ -1782,6 +1799,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
+<<<<<<< HEAD
      * Check if all values are valid for creating a new element / editing an existing element
      *
      * This function is called by creating a new DBElement (DBElement::add()),
@@ -1812,6 +1830,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if the values are not valid / the combination of values is not valid
      * @throws Exception if there was an error
+=======
+     * @copydoc DBElement::check_values_validity()
+     * @param $element Part
+     * @throws Exception
+>>>>>>> gh-pages
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -2175,7 +2198,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             'ORDER BY parts.name ASC';
 
         if ($limit > 0 && $page > 0) {
+<<<<<<< HEAD
             $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+=======
+            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+>>>>>>> gh-pages
         }
 
         $query_data = $database->query($query);
@@ -2229,9 +2256,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
+<<<<<<< HEAD
      * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
      * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
      *
+=======
+>>>>>>> gh-pages
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
@@ -2252,7 +2282,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             'WHERE favorite = 1';
 
         if ($limit > 0 && $page > 0) {
+<<<<<<< HEAD
             $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+=======
+            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+>>>>>>> gh-pages
         }
 
         $query_data = $database->query($query);
@@ -2303,8 +2337,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
+<<<<<<< HEAD
      * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
      * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
+=======
+>>>>>>> gh-pages
      *
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
@@ -2327,6 +2364,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             'ORDER BY parts.name ASC';
 
         if ($limit > 0 && $page > 0) {
+<<<<<<< HEAD
             $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
         }
 
@@ -2407,6 +2445,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         if ($limit > 0 && $page > 0) {
             $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+=======
+            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+>>>>>>> gh-pages
         }
 
         $query_data = $database->query($query);
@@ -2419,6 +2460,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
+<<<<<<< HEAD
      *  Get all parts sorted by their last modified datetime.
      *
      * @param Database  &$database          reference to the database object
@@ -2502,21 +2544,30 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
+=======
+>>>>>>> gh-pages
      *  Get all parts which have an unknown instock value.
      *
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
+<<<<<<< HEAD
      * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
      * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
      *
      *
+=======
+>>>>>>> gh-pages
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
      */
+<<<<<<< HEAD
     public static function getLastAddedPartsCount(&$database, &$current_user, &$log, $newest_first = true)
+=======
+    public static function getInstockUnknownPartsCount(&$database, &$current_user, &$log)
+>>>>>>> gh-pages
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
             return array();
@@ -2526,6 +2577,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
+<<<<<<< HEAD
         $sorting = $newest_first ? "DESC" : "ASC";
 
         $parts = array();
@@ -2533,6 +2585,13 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         /** @noinspection SyntaxError */
         $query =    'SELECT count(id) AS count from parts '.
             'ORDER BY parts.datetime_added ' . $sorting;
+=======
+        $parts = array();
+
+        $query =    'SELECT count(id) AS count from parts '.
+            'WHERE instock = -2 '.
+            'ORDER BY parts.name ASC';
+>>>>>>> gh-pages
 
 
         $query_data = $database->query($query);
@@ -2591,7 +2650,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if ($limit > 0 && $page > 0) {
+<<<<<<< HEAD
             $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+=======
+            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+>>>>>>> gh-pages
         }
 
         $query_data = $database->query($query);
@@ -2930,7 +2993,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $query = 'SELECT * FROM parts';
 
         if ($limit > 0 && $page > 0) {
+<<<<<<< HEAD
             $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+=======
+            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
+>>>>>>> gh-pages
         }
 
         $query_data = $database->query($query);

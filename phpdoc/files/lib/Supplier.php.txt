@@ -125,12 +125,22 @@ class Supplier extends Base\Company implements ISearchable
 
     /**
      * Return the number of all parts in this PartsContainingDBElement
+<<<<<<< HEAD
      * @param boolean $recursive if true, the parts of all subcategories will be listed too
      * @return int The number of parts of this PartContainingDBElement
      * @throws Exception If an Error occured
      */
     public function getPartsCount($recursive = false)
     {
+=======
+     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
+     * @return int The number of parts of this PartContainingDBElement
+     */
+    public function getPartsCount($recursive = false)
+    {
+        $count = 0;
+
+>>>>>>> gh-pages
         $query =    'SELECT count(part_id) AS count FROM orderdetails '.
             'LEFT JOIN parts ON parts.id=orderdetails.part_id '.
             'WHERE id_supplier=? ';

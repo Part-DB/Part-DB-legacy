@@ -114,7 +114,10 @@ $saved_redirect             = isset($_REQUEST['saved_redirect']);
 $table_autosort             = isset($_REQUEST['table_autosort']);
 $default_subcat             = isset($_REQUEST['default_subcat']);
 $default_limit              = isset($_REQUEST['default_limit']) ? (int) $_REQUEST['default_limit']  : 50;
+<<<<<<< HEAD
 $show_full_paths            = isset($_REQUEST['show_full_paths']);
+=======
+>>>>>>> gh-pages
 
 //Search settings
 $livesearch_active          = isset($_REQUEST['livesearch_active']);
@@ -133,7 +136,10 @@ $info_hide_empty_attachements   = isset($_REQUEST['info_hide_empty_attachements'
 //User settings
 $use_gravatar                   = isset($_REQUEST['gravatar_enable']);
 $login_redirect                 = isset($_REQUEST['login_redirect']);
+<<<<<<< HEAD
 $max_sessiontime                = isset($_REQUEST['max_sessiontime']) ? $_REQUEST['max_sessiontime'] : -1;
+=======
+>>>>>>> gh-pages
 
 $action = 'default';
 if (isset($_REQUEST["apply"])) {
@@ -213,7 +219,10 @@ if (! $fatal_error) {
             $config['table']['autosort']                = $table_autosort;
             $config['table']['default_show_subcategories'] = $default_subcat;
             $config['table']['default_limit']           = $default_limit;
+<<<<<<< HEAD
             $config['table']['full_paths']         = $show_full_paths;
+=======
+>>>>>>> gh-pages
 
             $config['attachements']['folder_structure'] = $attachements_structure;
             $config['attachements']['download_default'] = $attachements_download;
@@ -225,9 +234,12 @@ if (! $fatal_error) {
 
             $config['user']['avatars']['use_gravatar']          = $use_gravatar;
             $config['user']['redirect_to_login']                = $login_redirect;
+<<<<<<< HEAD
             if ($max_sessiontime >= 0) {
                 $config['user']['gc_maxlifetime'] = $max_sessiontime;
             }
+=======
+>>>>>>> gh-pages
 
             if (! $config['is_online_demo']) {
                 // settings which should not be able to change in the online demo
@@ -265,6 +277,7 @@ try {
 // locale settings
 
 //Convert timezonelist, to a format, we can use
+<<<<<<< HEAD
     $timezones_raw = DateTimeZone::listIdentifiers();
     $timezones = array();
     foreach ($timezones_raw as $timezone) {
@@ -272,6 +285,15 @@ try {
     }
     $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
     $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
+=======
+$timezones_raw = DateTimeZone::listIdentifiers();
+$timezones = array();
+foreach ($timezones_raw as $timezone) {
+    $timezones[$timezone] = $timezone;
+}
+$html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $config['timezone']));
+$html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $config['language']));
+>>>>>>> gh-pages
 
 // checkboxes
     $html->setVariable('disable_updatelist', $config['startup']['disable_update_list'], 'boolean');
@@ -323,6 +345,7 @@ try {
     $html->setVariable("saved_redirect", $config['edit_parts']['saved_go_to_info'], "boolean");
 
 // Appearance
+<<<<<<< HEAD
     $html->setVariable('short_description', $config['appearance']['short_description'], 'boolean');
     $html->setVariable('others_panel_collapse', $config['other_panel']['collapsed'], "boolean");
     $html->setVariable('others_panel_position', $config['other_panel']['position'], "string");
@@ -333,6 +356,16 @@ try {
     $html->setVariable('default_limit', $config['table']['default_limit'], "int");
     $html->setVariable('show_full_paths', $config['table']['full_paths'], "boolean");
 
+=======
+$html->setVariable('short_description', $config['appearance']['short_description'], 'boolean');
+$html->setVariable('others_panel_collapse', $config['other_panel']['collapsed'], "boolean");
+$html->setVariable('others_panel_position', $config['other_panel']['position'], "string");
+
+//Table
+$html->setVariable('table_autosort', $config['table']['autosort'], 'boolean');
+$html->setVariable('default_subcat', $config['table']['default_show_subcategories'], 'boolean');
+$html->setVariable('default_limit', $config['table']['default_limit'], "int");
+>>>>>>> gh-pages
 
 //Attachements
     $html->setVariable("attachements_structure", $config['attachements']['folder_structure'], 'boolean');
@@ -346,6 +379,7 @@ try {
     $html->setVariable('info_hide_empty_attachements', $config['part_info']['hide_empty_attachements'], 'boolean');
 
 //Misc
+<<<<<<< HEAD
     $html->setVariable("downloads_enable", $config['allow_server_downloads'], 'boolean');
 
 //Users
@@ -356,6 +390,17 @@ try {
 //Search
     $html->setVariable('livesearch_active', $config['search']['livesearch']);
     $html->setVariable('search_highlighting', $config['search']['highlighting']);
+=======
+$html->setVariable("downloads_enable", $config['allow_server_downloads'], 'boolean');
+
+//Users
+$html->setVariable('gravatar_enable', $config['user']['avatars']['use_gravatar'], 'boolean');
+$html->setVariable('login_redirect', $config['user']['redirect_to_login'], 'boolean');
+
+//Search
+$html->setVariable('livesearch_active', $config['search']['livesearch']);
+$html->setVariable('search_highlighting', $config['search']['highlighting']);
+>>>>>>> gh-pages
 
 // check if the server supports the selected language and print a warning if not
     if (!ownSetlocale(LC_ALL, $config['language'])) {

@@ -168,7 +168,10 @@ $config['edit_parts']['saved_go_to_info']        = false;    //Jump to info page
 $config['table']['autosort']                     = false;
 $config['table']['default_show_subcategories']   = true;    //Show the subcategories in show_category_parts on default.
 $config['table']['default_limit']                = 50;
+<<<<<<< HEAD
 $config['table']['full_paths']                   = false;
+=======
+>>>>>>> gh-pages
 
 //Search settings
 $config['search']['livesearch']                  = true;
@@ -182,7 +185,10 @@ $config['attachements']['show_name']            = false;    //Show the names of 
 //Global user settings
 $config['user']['avatars']['use_gravatar']      = false;     //Use Gravatar for Avatars
 $config['user']['redirect_to_login']            = true;      //Redirect to login page, if a user does not has any permission (only if he accessed start page).
+<<<<<<< HEAD
 $config['user']['gc_maxlifetime']               = 5400;      //5400 sec = 90min
+=======
+>>>>>>> gh-pages
 
 /********************************************************************************
  *
@@ -267,7 +273,10 @@ $config['table']['footprint_parts']['columns']          = 'hover_picture;name;de
 $config['table']['manufacturer_parts']['columns']       = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
 $config['table']['supplier_parts']['columns']           = 'hover_picture;name;description;category;instock_mininstock;storelocation;supplier_partnrs;single_prices;button_decrement;button_increment;button_edit';
 $config['table']['all_parts']['columns']                = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;button_edit';
+<<<<<<< HEAD
 $config['table']['last_modified_parts']['columns']            = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;last_modified;created;button_edit';
+=======
+>>>>>>> gh-pages
 
 // export configurations for order parts*
 $config['export']['orderparts'][0]['format']            = 'CSV';

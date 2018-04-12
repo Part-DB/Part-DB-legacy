@@ -36,7 +36,11 @@ include_once(BASE.'/updates/db_migration_functions.php');
  *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
  */
 
+<<<<<<< HEAD
 define('LATEST_DB_VERSION', 23);  // <-- increment here
+=======
+define('LATEST_DB_VERSION', 22);  // <-- increment here
+>>>>>>> gh-pages
 
 /*
  * Get update steps
@@ -868,11 +872,14 @@ EOD;
               ,21845,21845,21845,21845,21845,21845,21845,21845,21845,21845,21845,
               21845,21845,21845,21845,21845,21845); 
 EOD;
+<<<<<<< HEAD
 
             //Remove admin hash from config.php
             $config['admin']['tmp_password'] = null;
             saveConfig();
 
+=======
+>>>>>>> gh-pages
             //Break is Important!
             break;
 
@@ -934,6 +941,7 @@ EOD;
                 "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
         break;
 
+<<<<<<< HEAD
         case 22:
             //Create permission tables for labels
             $updateSteps[] = "ALTER TABLE `users` ADD `perms_labels` SMALLINT NOT NULL AFTER `perms_tools`;";
@@ -951,6 +959,13 @@ EOD;
         `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
                   `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\',
 
+=======
+        /*
+        
+        `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                  `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\',
+        
+>>>>>>> gh-pages
                 Templates:
 
                   case 14:

@@ -318,6 +318,10 @@ if (! $fatal_error) {
             }
             $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, ""));
             $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], ""));
+<<<<<<< HEAD
+=======
+
+>>>>>>> gh-pages
         }
 
         $html->setVariable('name', $name, 'string');
@@ -327,11 +331,16 @@ if (! $fatal_error) {
         $html->setVariable('department', $department, 'string');
         $html->setVariable('no_password', $no_password, 'string');
 
+<<<<<<< HEAD
         $html->setVariable(
             'group_list',
             $root_group->buildHtmlTree($group_id, true, true, _("Keine Gruppe")),
             'string'
         );
+=======
+        $html->setVariable('group_list',
+            $root_group->buildHtmlTree($group_id, true, true, _("Keine Gruppe")), 'string');
+>>>>>>> gh-pages
 
         $user_list = User::buildHTMLList($database, $current_user, $log, $selected_id);
         $html->setVariable('user_list', $user_list, 'string');

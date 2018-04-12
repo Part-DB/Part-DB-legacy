@@ -101,11 +101,14 @@ try {
     }
 
     $html->setTitle(_('Teileansicht') . ': ' . $supplier->getName());
+<<<<<<< HEAD
 
     //Remember what page user visited, so user can return there, when he deletes a part.
     session_start();
     $_SESSION["part_delete_last_link"] = $_SERVER['REQUEST_URI'];
     session_write_close();
+=======
+>>>>>>> gh-pages
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -212,7 +215,10 @@ $html->setVariable('with_subsuppliers', $with_subsuppliers, 'boolean');
 if (! $fatal_error) {
     $html->setVariable('sid', $supplier->getID(), 'integer');
     $html->setVariable('supplier_name', $supplier->getName(), 'string');
+<<<<<<< HEAD
     $html->setVariable('supplier_fullpath', $supplier->getFullPath(" / "), 'string');
+=======
+>>>>>>> gh-pages
     $html->setVariable('disable_footprints', ($config['footprints']['disable']), 'boolean');
     $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable']), 'boolean');
     $html->setVariable('disable_auto_datasheets', ($config['auto_datasheets']['disable']), 'boolean');

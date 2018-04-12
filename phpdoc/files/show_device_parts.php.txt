@@ -150,7 +150,11 @@ if (isset($_REQUEST["attachement_delete"])) {
  *
  *********************************************************************************/
 
+<<<<<<< HEAD
 $html = new HTML($config['html']['theme'], $user_config['theme'], _('Baugruppe'));
+=======
+$html = new HTML($config['html']['theme'], $user_config['theme'], 'Baugruppe');
+>>>>>>> gh-pages
 
 try {
     $database           = new Database();
@@ -165,8 +169,17 @@ try {
     //Check for Device parts read permission, when on Device detail page.
     if ($device_id > 0) {
         $current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ);
+<<<<<<< HEAD
 
         $html->setTitle(_("Baugruppe"). ": " . $device->getName());
+=======
+    }
+
+    if ($attachement_id > 0) {
+        $attachement = new Attachement($database, $current_user, $log, $attachement_id);
+    } else {
+        $attachement = null;
+>>>>>>> gh-pages
     }
 
     if ($attachement_id > 0) {
@@ -545,6 +558,7 @@ if (! $fatal_error) {
         $html->setVariable('import_separator', $import_separator, 'string');
         //$html->set_variable('import_data_is_valid',     (isset($import_data_is_valid) && ($import_data_is_valid)), 'boolean');
 
+<<<<<<< HEAD
         $attachements_loop = array();
         $all_attachements = $device->getAttachements();
         $row_odd = true;
@@ -583,6 +597,50 @@ if (! $fatal_error) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
     }
+=======
+    // import stuff
+    $html->setVariable('import_rowcount', (isset($import_data) ? count($import_data) : 0), 'integer');
+    $html->setVariable('import_file_content', $import_file_content, 'string');
+    $html->setVariable('import_format', $import_format, 'string');
+    $html->setVariable('import_separator', $import_separator, 'string');
+    //$html->set_variable('import_data_is_valid',     (isset($import_data_is_valid) && ($import_data_is_valid)), 'boolean');
+
+    $attachements_loop = array();
+    $all_attachements = $device->getAttachements();
+    $row_odd = true;
+    foreach ($all_attachements as $attachement) {
+        /** @var  $attachement Attachement */
+        $attachement_types_list = $root_attachement_type->buildHtmlTree($attachement->getType()->getID(), true, false);
+        $attachements_loop[] = array(   'row_odd'                   => $row_odd,
+            'id'                        => $attachement->getID(),
+            'attachement_types_list'    => $attachement_types_list,
+            'name'                      => $attachement->getName(),
+            'show_in_table'             => $attachement->getShowInTable(),
+            'is_picture'                => $attachement->isPicture(),
+            'filename'                  => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
+            'filename_base_relative'    => str_replace(BASE.'/', '', $attachement->getFilename()),
+            'picture_filename'          => ($attachement->isPicture() ? str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()) : ''),
+            'download_file'             => $config['attachements']['download_default'] && isURL($attachement->getFilename()));
+        $row_odd = ! $row_odd;
+    }
+
+    // add one additional row -> with this row you can add more files
+    $attachement_types_list = $root_attachement_type->buildHtmlTree(0, true, false);
+    $attachements_loop[] = array(   'row_odd'                   => $row_odd,
+        'id'                        => 'new',
+        'attachement_types_list'    => $attachement_types_list,
+        'name'                      => '',
+        'is_picture'                => true,
+        'show_in_table'             => false,
+        'is_master_picture'         => false,
+        'filename'                  => '',
+        'filename_base_relative'    => '',
+        'picture_filename'          => '',
+        'download_file'             => $config['attachements']['download_default']);
+
+    $html->setLoop('attachements_loop', $attachements_loop);
+
+>>>>>>> gh-pages
 }
 
 try {
@@ -602,6 +660,9 @@ try {
     $fatal_error = true;
 }
 
+$html->setVariable('can_attachement_edit', $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::EDIT));
+$html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
+$html->setVariable('downloads_enable', $config['allow_server_downloads'], "boolean");
 /********************************************************************************
  *
  *   Generate HTML Output

@@ -129,6 +129,7 @@ if (isset($_REQUEST['delete_confirmed'])) {
  *
  *********************************************************************************/
 
+<<<<<<< HEAD
 $html = new HTML($config['html']['theme'], $user_config['theme'], _('Labels'));
 
 try {
@@ -158,6 +159,9 @@ try {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
+=======
+$html = new HTML($config['html']['theme'], $user_config['theme'], 'Label');
+>>>>>>> gh-pages
 
 
 /********************************************************************************

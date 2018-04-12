@@ -290,6 +290,10 @@ abstract class BasePermission
                 } else {
                     $val = $this->perm_holder->getParentPermissionManager()->getPermissionValue($this->getName(), $op['name'], true);
                 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> gh-pages
             }
 
             //When one permission is ALLOW, then not everything is forbidden.
@@ -300,5 +304,9 @@ abstract class BasePermission
 
         return  true;
     }
+<<<<<<< HEAD
+=======
+
+>>>>>>> gh-pages
 }
 

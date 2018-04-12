@@ -54,7 +54,11 @@ $limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST
 
 $action = 'default';
 
+<<<<<<< HEAD
 if (isset($_REQUEST["multi_action"])) {
+=======
+if(isset($_REQUEST["multi_action"])) {
+>>>>>>> gh-pages
     $action = "multi_action";
 }
 

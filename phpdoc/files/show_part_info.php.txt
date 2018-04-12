@@ -85,7 +85,11 @@ if (isset($_REQUEST["mark_to_order"])) {
 if (isset($_REQUEST["remove_mark_to_order"])) {
     $action = 'remove_mark_to_order';
 }
+<<<<<<< HEAD
 if (isset($_REQUEST['device_add'])) {
+=======
+if(isset($_REQUEST['device_add'])) {
+>>>>>>> gh-pages
     $action = "device_add";
 }
 if (isset($_REQUEST['toggle_favorite'])) {
@@ -172,6 +176,10 @@ if (! $fatal_error) {
                 } else {
                     throw new Exception(_("Ungültige Eingabedaten!"));
                 }
+<<<<<<< HEAD
+=======
+
+>>>>>>> gh-pages
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -299,6 +307,7 @@ if (! $fatal_error) {
             $html->setLoop('attachement_types_loop', $attachement_types_loop);
         }
 
+<<<<<<< HEAD
         //Auto datasheets
         $datasheet_loop = $config['auto_datasheets']['entries'];
 
@@ -315,6 +324,8 @@ if (! $fatal_error) {
         }
         $html->setLoop("datasheet_loop", $datasheet_loop);
 
+=======
+>>>>>>> gh-pages
         //Devices
         $devices = $part->getDevices();
         $devices_loop = array();
@@ -345,6 +356,7 @@ if (! $fatal_error) {
         $fatal_error = true;
     }
 }
+<<<<<<< HEAD
 try {
     $html->setVariable("can_delete", $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE), "bool");
     $html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT), "bool");
@@ -364,6 +376,22 @@ try {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
+=======
+
+$html->setVariable("can_delete", $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE), "bool");
+$html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT), "bool");
+$html->setVariable("can_create", $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE), "bool");
+$html->setVariable("can_move", $current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE), "bool");
+$html->setVariable("can_read", $current_user->canDo(PermissionManager::PARTS, PartPermission::READ), "bool");
+$html->setVariable("can_instock", $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT), "bool");
+$html->setVariable("can_favorite", $current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE));
+
+$html->setVariable('can_orderdetails_create', $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE), "bool");
+$html->setVariable('can_attachement_create', $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE), "bool");
+$html->setVariable('can_order_edit', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT), "bool");
+$html->setVariable('can_order_read', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ), "bool");
+$html->setVariable('can_devicepart_create', $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
+>>>>>>> gh-pages
 
 /********************************************************************************
  *
@@ -393,7 +421,11 @@ if (! $fatal_error) {
     }
 
     if ($current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ)
+<<<<<<< HEAD
         && !$config['devices']['disable']) {
+=======
+            && !$config['devices']['disable']) {
+>>>>>>> gh-pages
         $html->printTemplate('devices');
     }
 
