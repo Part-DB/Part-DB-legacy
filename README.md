@@ -22,7 +22,7 @@ Part-DB ist eine webbasierte Datenbank zum Verwalten von Elektronischen Bauteile
  * Liste von Hersteller-Logos
  * Informationen zu SMD-Beschriftungen von Widerstände, Kondensatoren und Spulen
  * Widerstandsrechner
- * Barcodegenerator und Scanfunktion für Barcodes
+ * Barcodegenerator für Bauteile und Lagerorte und Scanfunktion für Barcodes
  * Verschiedene mitgelieferte Themes
  * 3D Footprints
  * Unterstützung von BBCode, in den Bauteilebeschreibungen und Kommentaren
@@ -31,6 +31,7 @@ Part-DB ist eine webbasierte Datenbank zum Verwalten von Elektronischen Bauteile
  * automatische Erzeugung einer Tabelle mit Bauteileigenschaften aus dem Beschreibungsfeld.
  * nutzt HTML5, mobile Ansicht (responsive Design)
  * Benutzersystem mit Unterstützung von Gruppen und feingranularem Berechtigungssystem
+ * Statistikfunktion mit Graphenfunktion
 
 ### Anforderungen
 

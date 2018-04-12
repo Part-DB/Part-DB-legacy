@@ -22,7 +22,7 @@ Part-DB is a web-based database for managing electronic components. Since access
 * List of manufacturer logos
 * Information on SMD marking of resistors, capacitors and coils
 * Resistance calculator
-* Barcode generator and scan function for barcodes
+* Barcode generator for Part and storelocations and scan function for barcodes
 * Various included themes
 * 3D Footprints
 * Support of BBCode, in the part's description and comment
@@ -30,6 +30,8 @@ Part-DB is a web-based database for managing electronic components. Since access
 * List of all parts in a storage location, with a specific footprint or manufacturer
 * Automatic generation of a table with part properties from the description field.
 * uses HTML5, mobile view
+* User system with fine permission system
+* Statistics system with graphes
 
 ### requirements
 
