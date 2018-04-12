@@ -88,6 +88,9 @@ class HTML
      * @param string    $page_title         If you want, you can set the page title directly here.
      *                                      Otherwise, you can set it later with HTML::set_meta().
      *
+     * @param int       $autorefresh        If you want that the page refresh it self, set this value to the desired interval (in seconds).
+     *                                      Set to 0 to disable autorefreshing.
+     *
      * @throws Exception if there was an error
      */
     public function __construct($theme, $custom_css_file = '', $page_title = '', $autorefresh = 0)
@@ -107,14 +110,14 @@ class HTML
         settype($this->meta['autorefresh'], 'integer');
 
         // check passed parameters
-        if (($theme != 'standard') && (! is_readable(BASE.'/templates/'.$theme."/partdb.css"))) {
-            debug('warning', 'Template "'.$theme.'" coult not be found! '.
-                'Use "standard" template instead...', __FILE__, __LINE__, __METHOD__);
-            $theme = 'standard';
+        if (($theme != 'nextgen') && (! is_readable(BASE.'/templates/'.$theme."/info.json"))) {
+            debug('warning', 'Template "'.$theme.'" could not be found! '.
+                'Use "nextgen" template instead...', __FILE__, __LINE__, __METHOD__);
+            $theme = 'nextgen';
         }
         if ((! is_string($custom_css_file))
             || (($custom_css_file != '') && (! is_readable(BASE.'/templates/custom_css/'.$custom_css_file)))) {
-            debug('warning', 'Custom CSS file "'.$custom_css_file.'" coult not be found! '.
+            debug('warning', 'Custom CSS file "'.$custom_css_file.'" could not be found! '.
                 'Use standard instead...', __FILE__, __LINE__, __METHOD__);
             $custom_css_file = '';
         }
@@ -179,11 +182,11 @@ class HTML
      * @param $url string The URL to which should be redirected. Set to empty string, to disable redirect
      * @param $instant boolean True, if the page should be redirected with the call of redirect(). Not just when Footer
      * is printed. Note, if this option is activated, the code execution is stopped after this call.
+     * @throws Exception
      */
     public function redirect($url, $instant = false)
     {
-        if (!is_string($url))
-        {
+        if (!is_string($url)) {
             throw new \InvalidArgumentException(_('$url must be a valid a string'));
         }
 
@@ -406,8 +409,7 @@ class HTML
             $tmpl->assign('can_category', $user->canDo(PermissionManager::CATEGORIES, StructuralPermission::READ)
                     && $user->canDo(PermissionManager::CATEGORIES, PartContainingPermission::LIST_PARTS));
             $tmpl->assign('can_device', $user->canDo(PermissionManager::DEVICES, StructuralPermission::READ));
-        } catch (Exception $exception)
-        {
+        } catch (Exception $exception) {
             //TODO
         }
 
@@ -426,6 +428,8 @@ class HTML
         $tmpl->assign('manufacturers_disabled', $config['manufacturers']['disable']);
         $tmpl->assign('suppliers_disabled', $config['suppliers']['disable']);
 
+        $tmpl->assign('livesearch_active', $config['search']['livesearch']);
+
         //Only load X3D libraries if this is activated
         $tmpl->assign('foot3d_active', $config['foot3d']['active']);
 
@@ -442,6 +446,8 @@ class HTML
             $renderer = PDBDebugBar::getInstance()->getRenderer();
             $tmpl->assign("debugbar_head", $renderer->renderHead());
         }
+
+        $tmpl->assign("debugging_activated", $config['debug']['enable']);
 
         // messages
         if ((is_array($messages) && (count($messages) > 0)) || ($config['debug']['request_debugging_enable'])) {
@@ -510,6 +516,8 @@ class HTML
 
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
 
+        $tmpl->assign("debugging_activated", $config['debug']['enable']);
+
         foreach ($this->variables as $key => $value) {
             //debug('temp', $key.' => '.$value);
             $tmpl->assign($key, $value);
@@ -571,7 +579,7 @@ class HTML
         }
 
         $tmpl->assign("tracking_code", $config['tracking_code']);
-        $tmpl->assign('auto_sort', $config['table']['autosort'] );
+        $tmpl->assign('auto_sort', $config['table']['autosort']);
         $tmpl->assign("autorefresh", $this->meta['autorefresh']);
 
         if (PDBDebugBar::isActivated()) {
@@ -580,6 +588,8 @@ class HTML
         }
 
         $tmpl->assign("redirect_url", $this->redirect_url);
+
+        $tmpl->assign("debugging_activated", $config['debug']['enable']);
 
         //Remove white space from Output
         $tmpl->loadFilter('output', 'trimwhitespace');

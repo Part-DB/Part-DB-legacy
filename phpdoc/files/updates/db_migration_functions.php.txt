@@ -1717,3 +1717,4 @@ function footprint_migration_11(&$updateSteps)
     $updateSteps[] = "UPDATE footprints SET name='YAMAICHI-FPS' WHERE name='KARTENSLOT_SD';";
     $updateSteps[] = "UPDATE footprints SET name='' WHERE name='';";
 }
+

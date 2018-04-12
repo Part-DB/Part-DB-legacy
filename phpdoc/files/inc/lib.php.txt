@@ -35,6 +35,7 @@ use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\StructuralPermission;
 use PartDB\Permissions\ToolsPermission;
+use PartDB\Tools\JSONStorage;
 use PartDB\User;
 
 /**
@@ -135,7 +136,7 @@ function findAllFiles($directory, $recursive = false, $search_string = '')
     $files = array();
 
     if ((! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || (! isPathabsoluteAndUnix($directory, false))) {
-        throw new Exception('"'.$directory.'" ist kein gültiges Verzeichnis!');
+        throw new Exception(sprintf(_('"%s" ist kein gültiges Verzeichnis!'), $directory));
     }
 
     $dirfiles = scandir($directory);
@@ -169,7 +170,7 @@ function findAllDirectories($directory, $recursive = false)
     $directories = array();
 
     if ((! is_dir($directory)) || (mb_substr($directory, -1, 1) != '/') || (! isPathabsoluteAndUnix($directory, false))) {
-        throw new Exception('"'.$directory.'" ist kein gültiges Verzeichnis!');
+        throw new Exception(sprintf(_('"%s" ist kein gültiges Verzeichnis!'), $directory));
     }
 
     $dirfiles = scandir($directory);
@@ -274,7 +275,7 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
     $destination = $destination_directory.$destination_filename;
 
     if ((mb_substr($destination_directory, -1, 1) != '/') || (! isPathabsoluteAndUnix($destination_directory, false))) {
-        throw new Exception('"'.$destination_directory.'" ist kein gültiges Verzeichnis!');
+        throw new Exception(sprintf(_('"%s" ist kein gültiges Verzeichnis!'), $destination_directory));
     }
 
     try {
@@ -304,38 +305,38 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
             // all OK, upload was successfully
             break;
         case UPLOAD_ERR_INI_SIZE:
-            throw new Exception('Die maximal mögliche Dateigrösse für Uploads wurde überschritten ("upload_max_filesize" in "php.ini")! '.
-                '<a target="_blank" href="'.BASE_RELATIVE.'/documentation/dokuwiki/doku.php?id=anforderungen">Hilfe</a>');
+            throw new Exception(_('Die maximal mögliche Dateigrösse für Uploads wurde überschritten ("upload_max_filesize" in "php.ini")! ').
+                '<a target="_blank" href="'._("https://github.com/Part-DB/Part-DB/wiki/Anforderungen").'>'._("Hilfe").'</a>');
         case UPLOAD_ERR_FORM_SIZE:
-            throw new Exception('Die maximal mögliche Dateigrösse für Uploads wurde überschritten!');
+            throw new Exception(_('Die maximal mögliche Dateigrösse für Uploads wurde überschritten!'));
         case UPLOAD_ERR_PARTIAL:
-            throw new Exception('Die Datei wurde nur teilweise hochgeladen!');
+            throw new Exception(_('Die Datei wurde nur teilweise hochgeladen!'));
         case UPLOAD_ERR_NO_FILE:
-            throw new Exception('Es wurde keine Datei hochgeladen!');
+            throw new Exception(_('Es wurde keine Datei hochgeladen!'));
         case UPLOAD_ERR_NO_TMP_DIR:
-            throw new Exception('Es gibt keinen temporären Ordner für hochgeladene Dateien!');
+            throw new Exception(_('Es gibt keinen temporären Ordner für hochgeladene Dateien!'));
         case UPLOAD_ERR_CANT_WRITE:
-            throw new Exception('Das Speichern der Datei auf die Festplatte ist fehlgeschlagen!');
+            throw new Exception(_('Das Speichern der Datei auf die Festplatte ist fehlgeschlagen!'));
         case UPLOAD_ERR_EXTENSION:
-            throw new Exception('Eine PHP Erweiterung hat den Upload der Datei gestoppt!');
+            throw new Exception(_('Eine PHP Erweiterung hat den Upload der Datei gestoppt!'));
         default:
-            throw new Exception('Beim Hochladen der Datei trat ein unbekannter Fehler auf!');
+            throw new Exception(_('Beim Hochladen der Datei trat ein unbekannter Fehler auf!'));
     }
 
     if (! move_uploaded_file($file_array['tmp_name'], $destination)) {
-        throw new Exception('Beim Hochladen der Datei trat ein unbekannter Fehler auf!');
+        throw new Exception(_('Beim Hochladen der Datei trat ein unbekannter Fehler auf!'));
     }
 
     return $destination;
 }
 
 /**
- * Set a new administrator password
+ * Set a password for the "admin" password that will be written into, the database, when DB will be created.
+ * This function should be only used in install.php !!
  *
  * @note    The password will be trimmed, salted, crypted with sha256 and stored in $config.
  *          Optionally, $config can be written in config.php.
  *
- * @param string    $old_password       The current administrator password (plain, not crypted)
  * @param string    $new_password_1     The new administrator password (plain, not crypted) (first time)
  * @param string    $new_password_2     The new administrator password (plain, not crypted) (second time)
  * @param boolean   $save_config        If true, the config.php file will be overwritten.
@@ -347,63 +348,30 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
  * @throws Exception    if the new passworts are different
  * @throws Exception    if $config could not be saved in config.php
  */
-function setAdminPassword($old_password, $new_password_1, $new_password_2, $save_config = true)
+function setTempAdminPassword($new_password_1, $new_password_2, $save_config = true)
 {
     global $config;
-    $salt = 'h>]gW3$*j&o;O"s;@&G)';
 
     settype($old_password, 'string');
     settype($new_password_1, 'string');
     settype($new_password_2, 'string');
-    $old_password = trim($old_password);
     $new_password_1 = trim($new_password_1);
     $new_password_2 = trim($new_password_2);
 
-    if (! isAdminPassword($old_password)) {
-        throw new Exception('Das eingegebene Administratorpasswort ist nicht korrekt!');
-    }
-
-    if (mb_strlen($new_password_1) < 4) {
-        throw new Exception('Das neue Passwort muss mindestens 4 Zeichen lang sein!');
+    if (mb_strlen($new_password_1) < 6) {
+        throw new Exception(_('Das neue Passwort muss mindestens 6 Zeichen lang sein!'));
     }
 
     if ($new_password_1 !== $new_password_2) {
-        throw new Exception('Die neuen Passwörter stimmen nicht überein!');
+        throw new Exception(_('Die neuen Passwörter stimmen nicht überein!'));
     }
 
     // all ok, save the new password
-    $config['admin']['password'] = hash('sha256', $salt.$new_password_1);
+    $config['admin']['tmp_password'] = password_hash($new_password_1, PASSWORD_DEFAULT);
 
     if ($save_config) {
         saveConfig();
     }
-}
-
-/**
- * Check if a string is the correct admin password
- *
- * @param $passwort string      The password (plain, not crypted) we want to check
- *                              (compare with the administrators password)
- *
- * @return boolean      * true if the password is correct
- * * false if the password is not correct
- */
-function isAdminPassword($password)
-{
-    global $config;
-    $salt = 'h>]gW3$*j&o;O"s;@&G)';
-
-    settype($password, 'string');
-    $password = trim($password);
-
-    // If the admin password is not set yet, we will always return true.
-    // This is needed for the first use of Part-DB.
-    // In this case, the installer will be shown to set an admin password.
-    if ((! $config['installation_complete']['admin_password']) && (! $config['admin']['password'])) {
-        return true;
-    }
-
-    return (hash('sha256', $salt.$password) === $config['admin']['password']);
 }
 
 /**
@@ -414,7 +382,7 @@ function isAdminPassword($password)
 function saveConfig()
 {
     if ((file_exists(BASE.'/data/config.php')) && (! is_writeable(BASE.'/data/config.php'))) {
-        throw new Exception('Es sind nicht genügend Rechte vorhanden um die Datei "config.php" zu beschreiben!');
+        throw new Exception(_('Es sind nicht genügend Rechte vorhanden um die Datei "config.php" zu beschreiben!'));
     }
 
     global $config;
@@ -433,15 +401,15 @@ function saveConfig()
     $content .= "\n";
 
     if (! ($fp = fopen(BASE.'/data/config.php', 'wb'))) {
-        throw new Exception('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.');
+        throw new Exception(_('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.'));
     }
 
     if (! fwrite($fp, $content)) {
-        throw new Exception('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.');
+        throw new Exception(_('Die Datei "config.php" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind.'));
     }
 
     if (! fclose($fp)) {
-        throw new Exception('Es gab ein Fehler beim Abschliessen der Schreibvorgangs bei der Datei "config.php".');
+        throw new Exception(_('Es gab ein Fehler beim Abschliessen der Schreibvorgangs bei der Datei "config.php".'));
     }
 }
 
@@ -543,9 +511,9 @@ function floatToMoneyString($number, $language = '')
 function curlGetData($url)
 {
     if (! extension_loaded('curl')) {
-        throw new Exception('"curl" scheint auf ihrem System nicht installiert zu sein! '.
+        throw new Exception(_('"curl" scheint auf ihrem System nicht installiert zu sein! '.
             "\nBitte installieren Sie das entsprechende Modul, ".
-            'oder es werden gewisse Funktionen nicht zur Verfügung stehen.');
+            'oder es werden gewisse Funktionen nicht zur Verfügung stehen.'));
     }
 
     $ch = curl_init();
@@ -734,65 +702,6 @@ function isPathabsoluteAndUnix($path, $accept_protocols = true)
     }
 }
 
-
-/**
- * Replaces Placeholder strings like %id% or %name% with their corresponding Part properties.
- * Note: If the given Part does not have a property, it will be replaced with "".
- *
- * %id%         : Part id
- * %name%       : Name of the part
- * %desc%       : Description of the part
- * %comment%    : Comment to the part
- * %mininstock% : The minium in stock value
- * %instock%    : The current in stock value
- * %avgprice%   : The average price of this part
- * %cat%        : The name of the category the parts belongs to
- * %cat_full%   : The full path of the parts category
- *
- * @param string $string The string on which contains the placeholders
- * @param Part $part
- * @return string the
- */
-function replacePlaceholderWithInfos($string, $part)
-{
-    //General infos
-    $string = str_replace("%id%", $part->getID(), $string);                        //part id
-    $string = str_replace("%name%", $part->getName(), $string);                    //Name of the part
-    $string = str_replace("%desc%", $part->getDescription(), $string);             //description of the part
-    $string = str_replace("%comment%", $part->getComment(), $string);              //comment of the part
-    $string = str_replace("%mininstock%", $part->getMinInstock(), $string);        //minimum in stock
-    $string = str_replace("%instock%", $part->getInstock(), $string);              //current in stock
-    $string = str_replace("%avgprice%", $part->getAveragePrice(), $string);       //average price
-
-    //Category infos
-    $string = str_replace("%cat%", is_object($part->getCategory()) ? $part->getCategory()->getName() : "", $string);
-    $string = str_replace("%cat_full%", is_object($part->getCategory()) ? $part->getCategory()->getFullPath() : "", $string);
-
-    //Footprint info
-    $string = str_replace("%foot%", is_object($part->getFootprint()) ? $part->getFootprint()->getName() : "", $string);
-    $string = str_replace("%foot_full%", is_object($part->getFootprint()) ? $part->getFootprint()->getFullPath() : "", $string);
-
-    //Manufacturer info
-    $string = str_replace("%manufact%", is_object($part->getManufacturer()) ? $part->getManufacturer()->getName() : "", $string);
-
-    //Order infos
-    $all_orderdetails   = $part->getOrderdetails();
-    $string = str_replace("%supplier%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplier()->getName() : "", $string);
-    $string = str_replace("%order_nr%", (count($all_orderdetails) > 0) ? $all_orderdetails[0]->getSupplierPartNr() : "", $string);
-
-    //Store location
-    $storelocation      = $part->getStorelocation();
-    $string = str_replace("%storeloc%", is_object($storelocation) ? $storelocation->getName() : '', $string);
-    $string = str_replace("%storeloc_full%", is_object($storelocation) ? $storelocation->getFullPath() : '', $string);
-
-    //Remove single '-' without other infos
-    if (trim($string) == "-") {
-        $string = "";
-    }
-
-    return $string;
-}
-
 /**
  * Split a search string with search modifiers like "incategory:Category1" or "inname:Name2" into a array with
  * the modifier keywords in named elemets.
@@ -933,6 +842,7 @@ function strcontains($haystack, $needle)
 /**
  * Converts an array of objects implementing the APIModel interface to an array of API objects
  * @param $array array The array of the APIModel objects.
+ * @param bool $verbose Show all available informations about the IAPIModel.
  * @return IAPIModel[] An array of API objects
  * @throws Exception
  */
@@ -955,6 +865,8 @@ function convertAPIModelArray($array, $verbose = false)
 /**
  * Try to call get_APIModel_array of $object. If $object is null, null is returned!
  * @param IAPIModel $object The object, of which the API info should be get.
+ * @param bool $verbose Show all available informations about the IAPIModel, when set to true.
+ *          Otherwise only most important informations are shown.
  * @return array An array describing the object.
  */
 function tryToGetAPIModelArray($object, $verbose = false)
@@ -970,6 +882,7 @@ function tryToGetAPIModelArray($object, $verbose = false)
  * Builds a TreeView for the Tools menu
  * @param $params
  * @return array
+ * @throws Exception
  */
 function buildToolsTree($params)
 {
@@ -992,6 +905,7 @@ function buildToolsTree($params)
     $developer_mode = $config['developer_mode'];
     $db_backup_name = $config['db']['backup']['name'];
     $db_backup_url = $config['db']['backup']['url'];
+    $footprint_3d_active = $config['foot3d']['active'];
 
 
     //Tools nodes
@@ -1000,13 +914,19 @@ function buildToolsTree($params)
         $tools_nodes[] = treeviewNode(_("Import"), BASE_RELATIVE . "/tools_import.php");
     }
     if (!$disable_labels && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::LABELS)) {
-        $tools_nodes[] = treeviewNode(_("Labels"), BASE_RELATIVE . "/tools_labels.php");
+        $tools_nodes[] = treeviewNode(_("SMD Labels"), BASE_RELATIVE . "/tools_labels.php");
     }
     if (!$disable_calculator && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::CALCULATOR)) {
         $tools_nodes[] = treeviewNode(_("Widerstandsrechner"), BASE_RELATIVE . "/tools_calculator.php");
     }
     if (!$disable_tools_footprints && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::FOOTPRINTS)) {
         $tools_nodes[] = treeviewNode(_("Footprints"), BASE_RELATIVE . "/tools_footprints.php");
+    }
+    if ($footprint_3d_active && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::FOOTPRINTS)) {
+        $tools_nodes[] = treeviewNode(_("3D Footprints"), BASE_RELATIVE . "/tools_3d_footprints.php");
+    }
+    if (!$disable_labels && $current_user->canDo(PermissionManager::LABELS, \PartDB\Permissions\LabelPermission::CREATE_LABELS)) {
+        $tools_nodes[] = treeviewNode(_("Labelgenerator"), BASE_RELATIVE . "/show_part_label.php");
     }
     if (!$disable_iclogos && $current_user->canDo(PermissionManager::TOOLS, ToolsPermission::IC_LOGOS)) {
         $tools_nodes[] = treeviewNode(_("IC-Logos"), BASE_RELATIVE . "/tools_iclogos.php");
@@ -1019,9 +939,8 @@ function buildToolsTree($params)
     if ($current_user->canDo(PermissionManager::GROUPS, \PartDB\Permissions\GroupPermission::READ)) {
         $system_nodes[] = treeviewNode(_("Gruppen"), BASE_RELATIVE . "/edit_groups.php");
     }
-    if($current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::READ_CONFIG)
-        || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::SERVER_INFO)
-        || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::CHANGE_ADMIN_PW)) {
+    if ($current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::READ_CONFIG)
+        || $current_user->canDo(PermissionManager::CONFIG, \PartDB\Permissions\ConfigPermission::SERVER_INFO)) {
         $system_nodes[] = treeviewNode(_("Konfiguration"), BASE_RELATIVE . "/system_config.php");
     }
     if ($current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::SEE_STATUS)
@@ -1040,13 +959,25 @@ function buildToolsTree($params)
         $show_nodes[] = treeviewNode(_("Teile ohne Preis"), BASE_RELATIVE . "/show_noprice_parts.php");
     }
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::OBSOLETE_PARTS)) {
-        $show_nodes[] = treeviewNode(_("Obsolente Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
+        $show_nodes[] = treeviewNode(_("Obsolete Bauteile"), BASE_RELATIVE . "/show_obsolete_parts.php");
     }
     if ($current_user->canDo(PermissionManager::TOOLS, ToolsPermission::STATISTICS)) {
         $show_nodes[] = treeviewNode(_("Statistik"), BASE_RELATIVE . "/statistics.php");
     }
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::ALL_PARTS)) {
         $show_nodes[] = treeviewNode(_("Alle Teile"), BASE_RELATIVE . "/show_all_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
+        $show_nodes[] = treeviewNode(_("Teile mit unbekanntem Lagerbestand"), BASE_RELATIVE . "/show_unknown_instock_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_FAVORITE_PARTS)) {
+        $show_nodes[] = treeviewNode(_('Favorisierte Bauteile'), BASE_RELATIVE . "/show_favorite_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
+        $show_nodes[] = treeviewNode(_('Zuletzt bearbeitete Bauteile'), BASE_RELATIVE . "/show_last_modified_parts.php");
+    }
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
+        $show_nodes[] = treeviewNode(_('Zuletzt hinzugefügte Bauteile'), BASE_RELATIVE . "/show_last_modified_parts.php?mode=last_created");
     }
 
     //Edit nodes
@@ -1125,6 +1056,7 @@ function sie($test, $default_val = "")
  * Gets the name of the class of the given Object without the namespace.
  * @param $object mixed  The object, whose clasname should be get.
  * @return string The class name of $object.
+ * @throws ReflectionException
  */
 function getClassShort($object)
 {
@@ -1156,20 +1088,20 @@ function isUsingHTTPS()
 /**
  * Generates a path, based on category structure of a part.
  * @param $base_dir string The base path for the file path structure (with trailing slash)
- * @param $category \PartDB\Category
+ * @param $element \PartDB\Base\StructuralDBElement
  * @return string The generated path
+ * @throws Exception
  */
-function generateAttachementPath($base_dir, $category)
+function generateAttachementPath($base_dir, $element)
 {
     //Split full path into different categories
-    $categories = explode("@@", $category->getFullPath("@@"));
+    $categories = explode("@@", $element->getFullPath("@@"));
     //Sanatize each category path
     foreach ($categories as &$category) {
         $category = filter_filename($category, true);
     }
 
     return $base_dir . "" . implode("/", $categories). "/";
-
 }
 
 /**
@@ -1178,7 +1110,7 @@ function generateAttachementPath($base_dir, $category)
  * @param bool $beautify boolean When true, the filename gets beautified, so test---file.pdf, becomes test-file.pdf
  * @return mixed|string
  */
-function filter_filename($filename, $beautify=true)
+function filter_filename($filename, $beautify = true)
 {
     // sanitize filename
     $filename = preg_replace(
@@ -1259,7 +1191,7 @@ function isURL($string, $path_required = true, $only_http = true)
 {
     if ($only_http) {   //Check if scheme is HTTPS or HTTP
         $scheme = parse_url($string, PHP_URL_SCHEME);
-        if ($scheme !== "http" || $scheme !== "https") {
+        if ($scheme !== "http" && $scheme !== "https") {
             return false;   //All other schemes are not valid.
         }
     }
@@ -1275,6 +1207,7 @@ function isURL($string, $path_required = true, $only_http = true)
  * @param $path string The path (including filename) for which the Icon should be generated.
  * @param $with_html bool When true a whole HTML tag is generated (e.g. <i class="fa fa-file" aria-hidden="true"></i>).
  *      When false, only the special fa-class is returned. (e.g. fa-file)
+ * @param $size string The size of the icon as an FA size class (e.g. fa-lg)
  * @return string The resulted HTML code or the fa-class.
  */
 function extToFAIcon($path, $with_html = true, $size = "fa-lg")
@@ -1283,13 +1216,13 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg")
     $fa_class = "";
     switch ($ext) {
         case "pdf":
-            $fa_class = "fa-file-pdf-o";
+            $fa_class = "fa-file-pdf";
             break;
         case "txt":
         case "csv":
         case "md":
         case "rtf":
-            $fa_class = "fa-file-text-o";
+            $fa_class = "fa-file-alt";
             break;
         case "jpg":
         case "jpeg":
@@ -1298,41 +1231,41 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg")
         case "svg":
         case "tif":
         case "tiff":
-            $fa_class = "fa-file-image-o";
+            $fa_class = "fa-file-image";
             break;
         case "zip":
         case "rar":
         case "bz2":
         case "tar":
         case "7z":
-            $fa_class = "fa-file-archive-o";
+            $fa_class = "fa-file-archive";
             break;
         case "mp3":
         case "wav":
         case "aac":
         case "m4a":
         case "wma":
-            $fa_class = "fa-file-audio-o";
+            $fa_class = "fa-file-audio";
             break;
         case "mp4":
         case "mkv":
         case "wmv":
-            $fa_class = "fa-file-video-o";
+            $fa_class = "fa-file-video";
             break;
         case "ppt":
         case "pptx":
         case "odp":
-            $fa_class = "fa-file-powerpoint-o";
+            $fa_class = "fa-file-powerpoint";
             break;
         case "doc":
         case "docx":
         case "odt":
-            $fa_class = "fa-file-word-o";
+            $fa_class = "fa-file-word";
             break;
         case "xls":
         case "xlsx":
         case "ods":
-            $fa_class = "fa-file-excel-o";
+            $fa_class = "fa-file-excel";
             break;
         case "php":
         case "xml":
@@ -1340,11 +1273,11 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg")
         case "js":
         case "ts":
         case "htm":
-            $fa_class = "fa-file-code-o";
+            $fa_class = "fa-file-code";
             break;
 
         default: //Use generic file icon
-            $fa_class = "fa-file-o";
+            $fa_class = "fa-file";
             break;
     }
 
@@ -1355,7 +1288,7 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg")
     $fa_class = $fa_class . " " . $size;
 
     //Build HTML
-    return '<i class="fa ' . $fa_class . '" aria-hidden="true"></i>';
+    return '<i class="far ' . $fa_class . '" aria-hidden="true"></i>';
 }
 
 /**
@@ -1363,7 +1296,8 @@ function extToFAIcon($path, $with_html = true, $size = "fa-lg")
  * @param $tristate_data string The Request data of the Tristate input.
  * @return int 0, if checkbox was indetermined, 1 if checkbox was checked, 2 if checkbox, was not checked.
  */
-function parseTristateCheckbox($tristate_data) {
+function parseTristateCheckbox($tristate_data)
+{
     switch ($tristate_data) {
         case "true":
             return 1;
@@ -1372,4 +1306,175 @@ function parseTristateCheckbox($tristate_data) {
         case "indeterminate":
             return 0;
     }
+
+    throw new InvalidArgumentException(_("Der gegebene Wert konnte keinem Tristatewert zugeordnet werden!"));
 }
+
+/**
+ * Format the current timestamp regarding to the locale settings.
+ * @param $timestamp int The timestamp which should be formatted.
+ * @return string The formatted string.
+ */
+function formatTimestamp($timestamp)
+{
+    global $config;
+    $language = $config['language'];
+    $timezone = $config['timezone'];
+
+    //Try to get the settings specific to the user.
+    try {
+        $current_user = User::getLoggedInUser();
+        $language = $current_user->getLanguage();
+        $timezone = $current_user->getTimezone();
+    } catch (Exception $ex) {
+        //Dont do anything
+    }
+
+
+    //Check if user has intl extension installed.
+    if (class_exists("\IntlDateFormatter")) {
+        $formatter = $formatter = new \IntlDateFormatter(
+            $language,
+            IntlDateFormatter::MEDIUM,
+            IntlDateFormatter::MEDIUM,
+            $timezone
+        );
+
+        return $formatter->format($timestamp);
+    } else {
+        //Failsafe, return as non localized string.
+        return date('Y-m-d H:i:s', $timestamp);
+    }
+}
+
+function generatePagination($page_link, $selected_page, $limit, $max_entries)
+{
+    $links = array();
+
+    //Back to first page
+    $links[] = array("label" => '<i class="fa fa-angle-double-left" aria-hidden="true"></i>',
+        "href" => $page_link . "&page=1&limit=$limit",
+        "disabled" => $selected_page == 1,
+        "hint" => _("Springe zur ersten Seite"));
+
+    $max_page = ceil($max_entries / $limit);
+    $max_page = $max_page > 0 ? $max_page : 1;
+
+    $min_number = ($selected_page - 1) < 1 ? 1 : $selected_page -1;
+    $max_number = ($selected_page + 2) > $max_page ? $max_page : $selected_page + 2;
+
+    if ($selected_page == 0) {
+        $min_number = 1;
+        $max_number = 1;
+    }
+
+    for ($n=$min_number; $n <= $max_number; $n++) {
+        $links[] = array("label" => $n,
+            "href" => $page_link . "&page=" . ($n). "&limit=$limit",
+            "active" => $n == $selected_page);
+    }
+
+    //Jump to last page.
+    $links[] = array("label" => '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
+        "href" => $page_link . "&page=$max_page&limit=$limit",
+        "disabled" => $selected_page == $max_page,
+        "hint" => _("Springe zur letzten Seite"));
+
+    //Show all results
+    $links[] = array("label" => '<i class="fa fa-bars" aria-hidden="true"></i>',
+        "href" => $page_link . "&page=0",
+        "active" => $selected_page == 0,
+        "hint" => _("Zeige alle Bauteile"));
+
+    return array("lower_result" => $selected_page > 0 ? ($selected_page -1) * $limit + 1 : 1,
+        "upper_result" => ($selected_page * $limit +1) <= $max_entries && $selected_page > 0 ? $selected_page * $limit +1 : $max_entries,
+        "max_entries" => $max_entries,
+        "entries" => $links);
+}
+
+function parsePartsSelection(&$database, &$current_user, &$log, $selection, $action, $target)
+{
+    $ids = explode(",", $selection);
+    foreach ($ids as $id) {
+        $part = new Part($database, $current_user, $log, $id);
+        if ($action=="delete_confirmed") {
+            $part->delete();
+        } elseif ($action=="move") {
+            if ($target == "") {
+                throw new Exception(_("Bitte wählen sie ein Ziel zum Verschieben aus."));
+            }
+            $type = substr($target, 0, 1);
+            $target_id = intval(substr($target, 1));
+            //Check if target ID is valid.
+            if ($target_id < 1) {
+                throw new Exception(_("Ungültige ID"));
+            }
+            switch ($type) {
+                case "c": //Category
+                    $part->setCategoryID($target_id);
+                    break;
+                case "f": //Footptint
+                    $part->setFootprintID($target_id);
+                    break;
+                case "m": //Manufacturer
+                    $part->setManufacturerID($target_id);
+                    break;
+                case "s": //Storelocation
+                    $part->setStorelocationID($target_id);
+                    break;
+            }
+        } elseif ($action=="favor") {
+            $part->setFavorite(true);
+        } elseif ($action=="defavor") {
+            $part->setFavorite(false);
+        } elseif ($action == "") {
+            throw new Exception(_("Bitte wählen sie eine Aktion aus."));
+        } else {
+            throw new Exception(_("Unbekannte Aktion"));
+        }
+    }
+}
+
+function build_custom_css_loop($selected = null, $include_default_theme = false)
+{
+    global $config;
+    if ($selected == null) {
+        $selected = $config['html']['custom_css'];
+    }
+
+    $loop = array();
+    if ($include_default_theme) {
+        $loop[] = array("value" => "@@", "text" => _("Standardmäßiges Theme"), "selected" => ($selected == "@@"));
+    }
+    $files = findAllFiles(BASE.'/templates/custom_css/', true, '.css');
+
+    foreach ($files as $file) {
+        $name = str_ireplace(BASE.'/templates/custom_css/', '', $file);
+        $loop[] = array('value' => $name, 'text' => $name, 'selected' => ($name == $selected));
+    }
+
+    return $loop;
+}
+
+/**
+ * Generates a list of available profiles for the given generator.
+ * @param $generator string The generator to which the profile belongs to.
+ * @param $include_default bool If this is set to true, the default profile is included in the returned array.
+ * @return string[] An string array with the names of all profiles
+ */
+function buildLabelProfilesDropdown($generator, $include_default = false)
+{
+    $json_storage = new JSONStorage(BASE_DATA . "/label_profiles.json");
+
+    $data =  $json_storage->getKeyList($generator . "@");
+
+    foreach ($data as $key => &$item) {
+        $item = str_replace($generator . "@", "", $item);
+        if (!$include_default && $item == "default") {
+            unset($data[$key]);
+        }
+    }
+
+    return $data;
+}
+

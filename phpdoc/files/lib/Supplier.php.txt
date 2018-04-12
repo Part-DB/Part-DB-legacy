@@ -26,6 +26,7 @@
 namespace PartDB;
 
 use Exception;
+use PartDB\Base\Company;
 use PartDB\Interfaces\ISearchable;
 use PartDB\Permissions\PermissionManager;
 
@@ -54,13 +55,14 @@ class Supplier extends Base\Company implements ISearchable
      * @param User      &$current_user  reference to the current user which is logged in
      * @param Log       &$log           reference to the Log-object
      * @param integer   $id             ID of the supplier we want to get
+     * @param array     $data           An array of data that overrides the DB data temporary
      *
      * @throws Exception    if there is no such supplier in the database
      * @throws Exception    if there was an error
      */
     public function __construct(&$database, &$current_user, &$log, $id, $data = null)
     {
-        parent::__construct($database, $current_user, $log,'suppliers', $id, $data);
+        parent::__construct($database, $current_user, $log, 'suppliers', $id, $data);
     }
 
     /********************************************************************************
@@ -72,14 +74,18 @@ class Supplier extends Base\Company implements ISearchable
     /**
      *  Get all parts from this element
      *
-     * @param boolean $recursive                if true, the parts of all sub-suppliers will be listed too
+     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
      * @param boolean $hide_obsolete_and_zero   if true, obsolete parts with "instock == 0" will not be returned
+     * @param int       $limit                      Limit the number of results, to this value.
+     *                                              If set to 0, then the results are not limited.
+     * @param int       $page                       Show the results of the page with given number.
+     *                                              Use in combination with $limit.
      *
-     * @return array        all parts in a one-dimensional array of Part objects
+     * @return array        all parts as a one-dimensional array of Part-objects, sorted by their names
      *
-     * @throws Exception    if there was an error
+     * @throws Exception if there was an error
      */
-    public function getParts($recursive = false, $hide_obsolete_and_zero = false)
+    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
     {
         if (! is_array($this->parts)) {
             $this->parts = array();
@@ -118,9 +124,34 @@ class Supplier extends Base\Company implements ISearchable
     }
 
     /**
+     * Return the number of all parts in this PartsContainingDBElement
+     * @param boolean $recursive if true, the parts of all subcategories will be listed too
+     * @return int The number of parts of this PartContainingDBElement
+     * @throws Exception If an Error occured
+     */
+    public function getPartsCount($recursive = false)
+    {
+        $query =    'SELECT count(part_id) AS count FROM orderdetails '.
+            'LEFT JOIN parts ON parts.id=orderdetails.part_id '.
+            'WHERE id_supplier=? ';
+
+        $query_data = $this->database->query($query, array($this->getID()));
+
+        $count = $query_data[0]['count'];
+
+        if ($recursive) {
+            $sub_suppliers = $this->getSubelements(true);
+
+            foreach ($sub_suppliers as $sub_supplier) {
+                $count+= $sub_supplier->getPartsCount(true);
+            }
+        }
+
+        return $count;
+    }
+
+    /**
      *  Get all parts from this element
-     *
-     * @param boolean $recursive        if true, the parts of all sub-suppliers will be listed too
      *
      * @return array        all parts in a one-dimensional array of Part objects
      *
@@ -162,7 +193,7 @@ class Supplier extends Base\Company implements ISearchable
     public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         return $database->getCountOfRecords('suppliers');
@@ -189,7 +220,7 @@ class Supplier extends Base\Company implements ISearchable
     public static function getOrderSuppliers(&$database, &$current_user, &$log)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         $suppliers = array();
@@ -230,7 +261,7 @@ class Supplier extends Base\Company implements ISearchable
      * @param string    $website            the website of the new supplier (see Supplier::set_website())
      * @param string    $auto_product_url   the automatic link to the product website (see Company::set_auto_product_url())
      *
-     * @return Supplier     the new supplier
+     * @return Supplier|Company
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error
@@ -248,7 +279,8 @@ class Supplier extends Base\Company implements ISearchable
         $fax_number = '',
         $email_address = '',
         $website = '',
-        $auto_product_url = ''
+        $auto_product_url = '',
+        $comment = ""
     ) {
         return parent::addByArray(
             $database,
@@ -262,12 +294,25 @@ class Supplier extends Base\Company implements ISearchable
                 'fax_number'        => $fax_number,
                 'email_address'     => $email_address,
                 'website'           => $website,
-                'auto_product_url'  => $auto_product_url)
+                'auto_product_url'  => $auto_product_url,
+                "comment"           => $comment)
         );
     }
 
     /**
-     * @copydoc NamedDBElement::search()
+     * Search elements by name.
+     *
+     * @param Database  &$database              reference to the database object
+     * @param User      &$current_user          reference to the user which is logged in
+     * @param Log       &$log                   reference to the Log-object
+     * @param string    $keyword                the search string
+     * @param boolean   $exact_match            @li If true, only records which matches exactly will be returned
+     *                                          @li If false, all similar records will be returned
+     *
+     * @return array    all found elements as a one-dimensional array of objects,
+     *                  sorted by their names
+     *
+     * @throws Exception if there was an error
      */
     public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
     {
@@ -282,6 +327,5 @@ class Supplier extends Base\Company implements ISearchable
     {
         return PermissionManager::SUPPLIERS;
     }
-
 }
 

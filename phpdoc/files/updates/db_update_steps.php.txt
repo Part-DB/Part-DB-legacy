@@ -36,7 +36,7 @@ include_once(BASE.'/updates/db_migration_functions.php');
  *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
  */
 
-define('LATEST_DB_VERSION', 20);  // <-- increment here
+define('LATEST_DB_VERSION', 23);  // <-- increment here
 
 /*
  * Get update steps
@@ -53,8 +53,7 @@ function get_db_update_steps($current_version)
 {
     $updateSteps = array();
 
-    switch($current_version)
-    {
+    switch ($current_version) {
         case 0:
             // there are no tables (empty database), so we will create them.
             // Please note: We will directly create the database version 13, not the first version!
@@ -260,7 +259,7 @@ function get_db_update_steps($current_version)
             break;
 
         case 1:
-            $updateSteps[] = NULL; // nothing to do (steps removed)
+            $updateSteps[] = null; // nothing to do (steps removed)
             break;
 
         case 2:
@@ -354,8 +353,7 @@ function get_db_update_steps($current_version)
             $charset_search_replace = array('Ã¤' => 'ä', 'Ã„' => 'Ä', 'Ã¶' => 'ö', 'Ã–' => 'Ö', 'Ã¼' => 'ü', 'Ãœ' => 'Ü',
                 'Â°' => '°', 'Âµ' => 'µ', 'â‚¬' => '€', 'â€°' => '‰', 'Ã¨' => 'è', 'Ãˆ' => 'È',
                 'Ã©' => 'é', 'Ã‰' => 'É', 'Ã' => 'à', 'Ã€' => 'À', 'Â£' => '£', 'Ã¸' => 'ø');
-            foreach ($charset_search_replace as $search => $replace)
-            {
+            foreach ($charset_search_replace as $search => $replace) {
                 $updateSteps[] = "UPDATE `categories` SET name = REPLACE(name, '".$search."', '".$replace."')";
                 $updateSteps[] = "UPDATE `datasheets` SET datasheeturl = REPLACE(datasheeturl, '".$search."', '".$replace."')";
                 $updateSteps[] = "UPDATE `devices` SET name = REPLACE(name, '".$search."', '".$replace."')";
@@ -835,7 +833,16 @@ EOD;
 
             //Create user admin and anonymous (admin PW is: "admin" (without quotes)).
 
-            $updateSteps[] = <<<'EOD'
+            global $config;
+
+            $admin_pw = "$2y$10$36AnqCBS.YnHlVdM4UQ0oOCV7BjU7NmE0qnAVEex65AyZw1cbcEjq";
+
+            if (isset($config['admin']['tmp_password']) && $config['admin']['tmp_password'] != "") {
+                //If a password was set during installation, then use the hash, that was created then.
+                $admin_pw = $config['admin']['tmp_password'];
+            }
+
+            $updateSteps[] = <<<EOD
             INSERT INTO `users`
             (`id`,`name`,`password`,`first_name`,`last_name`,`department`,
              `email`,
@@ -856,16 +863,94 @@ EOD;
              21840,21840,21840,21840,21840,21520,21520,21520,20480,21520,20480,
              20480,20480,20480,20480,21504,20480),
               (
-              2,'admin','$2y$10$36AnqCBS.YnHlVdM4UQ0oOCV7BjU7NmE0qnAVEex65AyZw1cbcEjq','','',
+              2,'admin', '$admin_pw','','',
               '','',1,1,21845,21845,21845,21,85,21,349525,21845,21845,21845,21845
               ,21845,21845,21845,21845,21845,21845,21845,21845,21845,21845,21845,
               21845,21845,21845,21845,21845,21845); 
 EOD;
 
+            //Remove admin hash from config.php
+            $config['admin']['tmp_password'] = null;
+            saveConfig();
+
             //Break is Important!
             break;
 
-        /*
+        case 20:
+            //Allow users to change some settings.
+            $updateSteps[] = 'ALTER TABLE `users` ' .
+                "ADD `config_language` TINYTEXT NULL DEFAULT NULL after `group_id`, ".
+                'ADD `config_timezone` TINYTEXT NULL DEFAULT NULL after `config_language`, '.
+                'ADD `config_theme` TINYTEXT NULL DEFAULT NULL after `config_timezone`, '.
+                'ADD `config_currency` TINYTEXT NULL DEFAULT NULL after `config_theme`, '.
+                "ADD `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, " .
+                'ADD `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\';';
+
+            $updateSteps[] = 'ALTER TABLE `groups` ' .
+                "ADD `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, " .
+                'ADD `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\';';
+
+            //Add comment and create/last modified timestamps.
+
+            $updateSteps[] = "ALTER TABLE `devices` " .
+                'ADD `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\', ' .
+                'ADD `comment` TEXT NULL DEFAULT NULL AFTER `last_modified`;';
+
+            $updateSteps[] = 'ALTER TABLE `attachement_types` ' .
+                'ADD `comment` TEXT NULL DEFAULT NULL, ' .
+                'ADD `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, ' .
+                'ADD `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\';';
+
+            $updateSteps[] = 'ALTER TABLE `categories` ' .
+                'ADD `comment` TEXT NULL DEFAULT NULL, ' .
+                'ADD `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, ' .
+                'ADD `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\';';
+
+            $updateSteps[] = "ALTER TABLE `footprints` " .
+                "ADD `comment` TEXT NULL DEFAULT NULL, " .
+                "ADD `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, " .
+                "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
+            
+            $updateSteps[] = "ALTER TABLE `manufacturers` " .
+                "ADD `comment` TEXT NULL DEFAULT NULL, " .
+                "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
+            
+            $updateSteps[] = "ALTER TABLE `storelocations` " .
+                "ADD `comment` TEXT NULL DEFAULT NULL, " .
+                "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
+            
+            $updateSteps[] = "ALTER TABLE `suppliers` " .
+                "ADD `comment` TEXT NULL DEFAULT NULL, " .
+                "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
+            
+            //Allow to favorite a part
+            $updateSteps[] = "ALTER TABLE `parts` ADD `favorite` BOOLEAN NOT NULL DEFAULT FALSE AFTER `last_modified`, ".
+                          "ADD INDEX `favorite` (`favorite`);";
+
+            break;
+
+        case 21:
+            $updateSteps[] = "ALTER TABLE `attachements` " .
+                "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
+        break;
+
+        case 22:
+            //Create permission tables for labels
+            $updateSteps[] = "ALTER TABLE `users` ADD `perms_labels` SMALLINT NOT NULL AFTER `perms_tools`;";
+            $updateSteps[] = "ALTER TABLE `groups` ADD `perms_labels` SMALLINT NOT NULL AFTER `perms_tools`;";
+
+            //Allow users and admins full use of labels. readonly can not write/delete profiles.
+            $updateSteps[] = "UPDATE `groups` SET `perms_labels` = '85' WHERE `groups`.`id` = 1;";
+            $updateSteps[] = "UPDATE `groups` SET `perms_labels` = '165' WHERE `groups`.`id` = 2;";
+            $updateSteps[] = "UPDATE `groups` SET `perms_labels` = '85' WHERE `groups`.`id` = 3;";
+            break;
+
+
+            /*
+
+        `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                  `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\',
+
                 Templates:
 
                   case 14:

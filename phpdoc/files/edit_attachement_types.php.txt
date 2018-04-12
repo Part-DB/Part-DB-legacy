@@ -59,6 +59,7 @@ $selected_id                = isset($_REQUEST['selected_id'])   ? (integer)$_REQ
 $new_name                   = isset($_REQUEST['name'])          ? (string)$_REQUEST['name']         : '';
 $new_parent_id              = isset($_REQUEST['parent_id'])     ? (integer)$_REQUEST['parent_id']   : 0;
 $add_more                   = isset($_REQUEST['add_more']);
+$new_comment                = isset($_REQUEST['comment'])       ? (string)$_REQUEST['comment']      : "";
 
 $action = 'default';
 if (isset($_REQUEST["add"])) {
@@ -80,7 +81,7 @@ if (isset($_REQUEST["apply"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Dateitypen'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Dateitypen'));
 
 try {
     $database               = new Database();
@@ -171,7 +172,8 @@ if (! $fatal_error) {
                 }
 
                 $selected_attachement_type->setAttributes(array(   'name'      => $new_name,
-                    'parent_id' => $new_parent_id));
+                    'parent_id' => $new_parent_id,
+                    "comment" => $new_comment));
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Die neuen Werte konnten nicht gespeichert werden!'), 'strong' => true, 'color' => 'red');
                 $messages[] = array('text' => _('Fehlermeldung: ').nl2br($e->getMessage()), 'color' => 'red');
@@ -194,18 +196,24 @@ if (! $fatal_error) {
             $parent_id = $selected_attachement_type->getParentID();
             $html->setVariable('id', $selected_attachement_type->getID(), 'integer');
             $name = $selected_attachement_type->getName();
+            $comment = $selected_attachement_type->getComment(false);
+            $html->setVariable('datetime_added', $selected_attachement_type->getDatetimeAdded(true));
+            $html->setVariable('last_modified', $selected_attachement_type->getLastModified(true));
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
+            $comment = $new_comment;
         } else {
             $parent_id = 0;
             $name = '';
+            $comment = "";
         }
 
         $html->setVariable('name', $name, 'string');
 
         $attachement_types_list = $root_attachement_type->buildHtmlTree($selected_id, true, false);
         $html->setVariable('attachement_types_list', $attachement_types_list, 'string');
+        $html->setVariable("comment", $comment, "string");
 
         $parent_attachement_types_list = $root_attachement_type->buildHtmlTree($parent_id, true, true);
         $html->setVariable('parent_attachement_types_list', $parent_attachement_types_list, 'string');
@@ -215,12 +223,16 @@ if (! $fatal_error) {
     }
 }
 
-$html->setVariable("can_delete", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::DELETE));
-$html->setVariable("can_edit", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::EDIT));
-$html->setVariable("can_create", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::CREATE));
-$html->setVariable("can_move", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::MOVE));
-$html->setVariable("can_read", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ));
-
+try {
+    $html->setVariable("can_delete", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::DELETE));
+    $html->setVariable("can_edit", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::EDIT));
+    $html->setVariable("can_create", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::CREATE));
+    $html->setVariable("can_move", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::MOVE));
+    $html->setVariable("can_read", $current_user->canDo(PermissionManager::ATTACHEMENT_TYPES, StructuralPermission::READ));
+} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+    $fatal_error = true;
+}
 /********************************************************************************
  *
  *   Generate HTML Output

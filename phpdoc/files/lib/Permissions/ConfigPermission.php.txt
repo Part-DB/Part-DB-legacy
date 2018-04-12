@@ -1,13 +1,25 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: janhb
- * Date: 21.09.2017
- * Time: 13:14
- */
+/*
+    Part-DB Version 0.4+ "nextgen"
+    Copyright (C) 2017 Jan Böhmer
+    https://github.com/jbtronics
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU General Public License
+    as published by the Free Software Foundation; either version 2
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, write to the Free Software
+    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
+*/
 
 namespace PartDB\Permissions;
-
 
 class ConfigPermission extends BasePermission
 {
@@ -29,7 +41,8 @@ class ConfigPermission extends BasePermission
         $operations = array();
         $operations[] = static::buildOperationArray(0, static::READ_CONFIG, _("Konfiguration anzeigen"));
         $operations[] = static::buildOperationArray(2, static::EDIT_CONFIG, _("Konfiguration bearbeiten"));
-        $operations[] = static::buildOperationArray(4, static::CHANGE_ADMIN_PW, _("Administratorpassword ändern"));
+        //Dont use 4, this was for CHANGE_ADMIN_PW permission, that is not needed any more.
+        //$operations[] = static::buildOperationArray(4, static::CHANGE_ADMIN_PW, _("Administratorpassword ändern"));
         $operations[] = static::buildOperationArray(6, static::SERVER_INFO, _("Serverinformationen anzeigen"));
         return $operations;
     }
@@ -46,3 +59,4 @@ class ConfigPermission extends BasePermission
         return $data;
     }
 }
+

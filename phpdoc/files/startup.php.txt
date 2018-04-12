@@ -45,13 +45,22 @@ $fatal_error = false;
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Startseite'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Startseite'));
 
 try {
     $database           = new Database();
     $log                = new Log($database);
     $system             = new System($database, $log);
     $current_user       = User::getLoggedInUser($database, $log);
+
+    try {
+        if ($config['user']['redirect_to_login'] && $current_user->getPermissionManager()->isEverythingForbidden(true)) {
+            //Redirect to login page, if user can not do anything.
+            $html->redirect("login.php", true);
+        }
+    } catch (Exception $ex) {
+        //Do nothing here.
+    }
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -63,21 +72,26 @@ try {
  *
  *********************************************************************************/
 
-if ((! $fatal_error) && ($database->isUpdateRequired())) {
-    if (($database->getCurrentVersion() < 13) && ($database->getLatestVersion() >= 13)) { // v12 to v13 was a huge update! disable auto-update temporary!
-        $config['db']['auto_update'] = false;
-        $html->setVariable('auto_disabled_autoupdate', true, 'boolean');
-    }
+try {
+    if ((!$fatal_error) && ($database->isUpdateRequired())) {
+        if (($database->getCurrentVersion() < 13) && ($database->getLatestVersion() >= 13)) { // v12 to v13 was a huge update! disable auto-update temporary!
+            $config['db']['auto_update'] = false;
+            $html->setVariable('auto_disabled_autoupdate', true, 'boolean');
+        }
 
-    $html->setVariable('database_update', true, 'boolean');
-    $html->setVariable('disabled_autoupdate', ! $config['db']['auto_update'], 'boolean');
-    $html->setVariable('db_version_current', $database->getCurrentVersion(), 'integer');
-    $html->setVariable('db_version_latest', $database->getLatestVersion(), 'integer');
+        $html->setVariable('database_update', true, 'boolean');
+        $html->setVariable('disabled_autoupdate', !$config['db']['auto_update'], 'boolean');
+        $html->setVariable('db_version_current', $database->getCurrentVersion(), 'integer');
+        $html->setVariable('db_version_latest', $database->getLatestVersion(), 'integer');
 
-    if ($config['db']['auto_update'] == true) {
-        $update_log = $database->update();
-        $html->setVariable('database_update_log', nl2br($update_log));
+        if ($config['db']['auto_update'] == true) {
+            $update_log = $database->update();
+            $html->setVariable('database_update_log', nl2br($update_log));
+        }
     }
+} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+    $fatal_error = true;
 }
 
 /********************************************************************************
@@ -97,7 +111,7 @@ if ((! $fatal_error) && (! $database->isUpdateRequired())) {
         $missing_footprint      = ((Footprint::     getCount($database) == 0) ? $bad : $good);
         $missing_supplier       = ((Supplier::      getCount($database) == 0) ? $bad : $good);
 
-        $display_warning        = (($missing_category == $bad) || ($missing_storelocation == $bad)
+        $display_warning        = !$config['startup']['disable_search_warning'] && (($missing_category == $bad) || ($missing_storelocation == $bad)
             || ($missing_footprint == $bad) || ($missing_supplier == $bad));
 
         $html->setVariable('missing_category', $missing_category);
@@ -166,6 +180,7 @@ if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
         //$rss_loop[] = array('title' => _('Part-DB Releases Atom-Feed'), 'datetime' => $xml->updated, 'link' => $feed_link);
 
         $item_index = 1;
+        /** @noinspection PhpUndefinedFieldInspection */
         foreach ($xml->entry as $entry) {
             if ($item_index >= $item_count) {
                 break;
@@ -179,7 +194,9 @@ if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
                 }
             }
 
-            $rss_loop[] = array('title' => $entry->title, 'datetime' => $entry->updated, 'link' => $link);
+            $dto = DateTime::createFromFormat(DateTime::ATOM, $entry->updated);
+
+            $rss_loop[] = array('title' => $entry->title, 'datetime' => formatTimestamp($dto->getTimestamp()), 'link' => $link);
             $item_index++;
         }
     } catch (Exception $e) {
@@ -199,6 +216,7 @@ $html->setLoop('authors', $authors);
 
 if (! $fatal_error) {
     $bbcode = new \Golonka\BBCode\BBCodeParser();
+    $bbcode->setParser('brLinebreak', "/\[br\]/s", "<br/>", "");
     $str = $bbcode->parse(htmlspecialchars($config['startup']['custom_banner']));
     $html->setVariable('banner', $str, 'string');
 
@@ -212,6 +230,12 @@ if (! $fatal_error) {
         $html->setVariable('must_change_pw', $current_user->getNeedPasswordChange());
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+    }
+
+
+    //When we dont has an existing DB with user system, then ignore all error messages.
+    if ($database->getCurrentVersion() < 20) {
+        $messages = array();
     }
 }
 

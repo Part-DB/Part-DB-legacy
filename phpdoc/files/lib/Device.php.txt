@@ -28,7 +28,6 @@ namespace PartDB;
 use Exception;
 use PartDB\Permissions\PartContainingPermission;
 use PartDB\Permissions\PermissionManager;
-use PartDB\Permissions\StructuralPermission;
 
 /**
  * @file Device.php
@@ -134,7 +133,7 @@ class Device extends Base\PartsContainingDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception("Die Baugruppe \"".$this->getName()."\" konnte nicht gelöscht werden!\nGrund: ".$e->getMessage());
+            throw new Exception(sprintf(_('Die Baugruppe "%s" konnte nicht gelöscht werden!\n'), $this->getName()) . _("Grund: ").$e->getMessage());
         }
     }
 
@@ -155,7 +154,7 @@ class Device extends Base\PartsContainingDBElement
                 $parent_device = new Device($this->database, $this->current_user, $this->log, $parent_id);
 
                 if (($parent_device->getID() == $this->getID()) || ($parent_device->isChildOf($this))) {
-                    throw new Exception('Eine Baugruppe kann nicht in sich selber kopiert werden!');
+                    throw new Exception(_('Eine Baugruppe kann nicht in sich selber kopiert werden!'));
                 }
             }
 
@@ -188,7 +187,7 @@ class Device extends Base\PartsContainingDBElement
         } catch (Exception $e) {
             $this->database->rollback(); // rollback transaction
 
-            throw new Exception("Die Baugruppe \"".$this->getName()."\"konnte nicht kopiert werden!\nGrund: ".$e->getMessage());
+            throw new Exception(sprintf(_("Die Baugruppe \"%s\"konnte nicht kopiert werden!\n"), $this->getName()) . _("Grund: ").$e->getMessage());
         }
     }
 
@@ -216,7 +215,7 @@ class Device extends Base\PartsContainingDBElement
             foreach ($device_parts as $part) {
                 /** @var DevicePart $part */
                 if (($part->getMountQuantity() * $book_multiplier) > $part->getPart()->getInstock()) {
-                    throw new Exception('Es sind nicht von allen Bauteilen genügend an Lager');
+                    throw new Exception(_('Es sind nicht von allen Bauteilen genügend an Lager'));
                 }
             }
 
@@ -233,7 +232,7 @@ class Device extends Base\PartsContainingDBElement
             // restore the settings from BEFORE the transaction
             $this->resetAttributes();
 
-            throw new Exception("Die Teile konnten nicht abgefasst werden!\nGrund: ".$e->getMessage());
+            throw new Exception(_("Die Teile konnten nicht abgefasst werden!\n") . _("Grund: ").$e->getMessage());
         }
     }
 
@@ -272,15 +271,20 @@ class Device extends Base\PartsContainingDBElement
      *
      * @param boolean $recursive        if true, the parts of all subelements will be listed too
      *
+     * @param int       $limit                      Limit the number of results, to this value.
+     *                                              If set to 0, then the results are not limited.
+     * @param int       $page                       Show the results of the page with given number.
+     *                                              Use in combination with $limit.
+     *
      * @return Part[]        all parts as a one-dimensional array of "DevicePart"-objects,
      *                      sorted by their names (only if "$recursive == false")
      *
      * @throws Exception if there was an error
      */
-    public function getParts($recursive = false, $hide_obsolet_and_zero = false)
+    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
     {
         $this->current_user->tryDo(static::getPermissionName(), PartContainingPermission::LIST_PARTS);
-        return $this->getPartsWithoutPermCheck($recursive, $hide_obsolet_and_zero);
+        return $this->getPartsWithoutPermCheck($recursive, $hide_obsolete_and_zero);
     }
 
     /**
@@ -289,8 +293,10 @@ class Device extends Base\PartsContainingDBElement
      * @param bool $recursive
      * @param bool $hide_obsolet_and_zero
      * @return array|null
+     * @throws Exception
      */
-    protected function getPartsWithoutPermCheck($recursive = false, $hide_obsolet_and_zero = false) {
+    protected function getPartsWithoutPermCheck($recursive = false, $hide_obsolet_and_zero = false, $limit = 50, $page = 1)
+    {
         if (! is_array($this->parts)) {
             $this->parts = array();
 
@@ -435,6 +441,7 @@ class Device extends Base\PartsContainingDBElement
 
     /**
      * @copydoc DBElement::check_values_validity()
+     * @throws Exception
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -448,7 +455,7 @@ class Device extends Base\PartsContainingDBElement
         if (((! is_int($values['order_quantity'])) && (! ctype_digit($values['order_quantity'])))
             || ($values['order_quantity'] < 0)) {
             debug('error', 'order_quantity = "'.$values['order_quantity'].'"', __FILE__, __LINE__, __METHOD__);
-            throw new Exception('Die Bestellmenge ist ungültig!');
+            throw new Exception(_('Die Bestellmenge ist ungültig!'));
         }
     }
 
@@ -466,7 +473,7 @@ class Device extends Base\PartsContainingDBElement
     public static function getOrderDevices(&$database, &$current_user, &$log)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         $devices = array();
@@ -496,10 +503,37 @@ class Device extends Base\PartsContainingDBElement
     public static function getCount(&$database)
     {
         if (!$database instanceof Database) {
-            throw new Exception('$database ist kein Database-Objekt!');
+            throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
         return $database->getCountOfRecords('devices');
+    }
+
+    /**
+     * Gets the primary device of this session. When a device is primary, it is preselected, when the user want to add a part to an device.
+     * @return null|int Null, if none or no valid value is set for a primary device. Int, the device id of the primary device.
+     */
+    public static function getPrimaryDevice()
+    {
+        if (!isset($_SESSION['primary_device'])) {
+            return null;
+        }
+        if ($_SESSION['primary_device'] > 0) {
+            return $_SESSION['primary_device'];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * Sets the primary device.
+     * @param $primary_device_id int The id of the new primary device.
+     */
+    public static function setPrimaryDevice($primary_device_id)
+    {
+        @session_start();
+        $_SESSION['primary_device'] = $primary_device_id;
+        session_write_close();
     }
 
     /**
@@ -512,14 +546,14 @@ class Device extends Base\PartsContainingDBElement
      * @param string    $name                       the name of the new device (see Device::set_name())
      * @param integer   $parent_id                  the parent ID of the new device (see Device::set_parent_id())
      *
-     * @return Device       the new device
+     * @return Base\PartsContainingDBElement|Device
      *
      * @throws Exception    if (this combination of) values is not valid
      * @throws Exception    if there was an error
      *
      * @see DBElement::add()
      */
-    public static function add(&$database, &$current_user, &$log, $name, $parent_id)
+    public static function add(&$database, &$current_user, &$log, $name, $parent_id, $comment = "")
     {
         return parent::addByArray(
             $database,
@@ -529,7 +563,8 @@ class Device extends Base\PartsContainingDBElement
             array(  'name'                      => $name,
                 'parent_id'                 => $parent_id,
                 'order_quantity'            => 0,
-                'order_only_missing_parts'  => false)
+                'order_only_missing_parts'  => false,
+                "comment"                   => $comment)
         );
     }
 

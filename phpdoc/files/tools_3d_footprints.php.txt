@@ -21,33 +21,75 @@
     You should have received a copy of the GNU General Public License
     along with this program; if not, write to the Free Software
     Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA
-
-    $Id$
-
-    Changelog (sorted by date):
-        [DATE]      [NICKNAME]          [CHANGES]
-        2012-??-??  weinbauer73         - changed to templates
-        2012-09-13  kami89              - changed to OOP
 */
 
 include_once('start_session.php');
 
+use PartDB\Database;
 use PartDB\HTML;
+use PartDB\Log;
+use PartDB\User;
 
 $messages = array();
 $fatal_error = false; // if a fatal error occurs, only the $messages will be printed, but not the site content
 
+/********************************************************************************
+ *
+ *   Evaluate $_REQUEST
+ *
+ *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('3D Footprints'));
+$action = 'default';
 
-$dirs = findAllFiles(BASE.'/models/', true);
+/********************************************************************************
+ *
+ *   Initialize Objects
+ *
+ *********************************************************************************/
 
-$html->setLoop("directories", $dir);
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Footprint-Bilder'));
+
+try {
+    $database           = new Database();
+    $log                = new Log($database);
+    $current_user       = User::getLoggedInUser($database, $log); // admin
+
+    $current_user->tryDo(\PartDB\Permissions\PermissionManager::TOOLS, \PartDB\Permissions\ToolsPermission::FOOTPRINTS);
+
+    if (!$config['foot3d']['active']) {
+        throw new Exception(_("3D Footprints müssen aktiviert sein, um diese Funktion zu nutzen."));
+    }
+} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+    $fatal_error = true;
+}
+
+/********************************************************************************
+ *
+ *   Execute actions
+ *
+ *********************************************************************************/
+
+if (! $fatal_error) {
+
+}
+
+/********************************************************************************
+ *
+ *   Generate HTML Output
+ *
+ *********************************************************************************/
+
+
+//If a ajax version is requested, say this the template engine.
+if (isset($_REQUEST["ajax"])) {
+    $html->setVariable("ajax_request", true);
+}
 
 $html->printHeader($messages);
 
 if (! $fatal_error) {
-    $html->printTemplate('footprints3d');
+    $html->printTemplate('3d_footprints');
 }
 
 $html->printFooter();

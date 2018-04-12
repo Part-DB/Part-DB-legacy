@@ -71,7 +71,7 @@ if (isset($_REQUEST["import_data"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Teile importieren'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Teile importieren'));
 
 try {
     $database           = new Database();
@@ -174,33 +174,38 @@ if (! $fatal_error) {
 
 
 if (! $fatal_error) {
-    // global settings
-    $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
-    $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
-    $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
-
-    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
-
-    // import stuff
-    $html->setVariable('file_format', $file_format, 'string');
-    $html->setVariable('separator', $separator, 'string');
-
-    $csv_file_example = file_get_contents(BASE.'/documentation/examples/import_parts/import_parts.csv');
-    $html->setVariable('csv_file_example', $csv_file_example, 'string');
-
-    $xml_file_example = file_get_contents(BASE.'/documentation/examples/import_parts/import_parts.xml');
-    $html->setVariable('xml_file_example', $xml_file_example, 'string');
-
-    $html->setVariable('file_content', $file_content, 'string');
-
     try {
-        if (isset($new_parts)) {
-            $new_parts_loop = Part::buildTemplateTableArray($new_parts, 'imported_parts');
+        // global settings
+        $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
+        $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+        $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
+
+        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
+        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
+
+        // import stuff
+        $html->setVariable('file_format', $file_format, 'string');
+        $html->setVariable('separator', $separator, 'string');
+
+        $csv_file_example = file_get_contents(BASE . '/documentation/examples/import_parts/import_parts.csv');
+        $html->setVariable('csv_file_example', $csv_file_example, 'string');
+
+        $xml_file_example = file_get_contents(BASE . '/documentation/examples/import_parts/import_parts.xml');
+        $html->setVariable('xml_file_example', $xml_file_example, 'string');
+
+        $html->setVariable('file_content', $file_content, 'string');
+
+        try {
+            if (isset($new_parts)) {
+                $new_parts_loop = Part::buildTemplateTableArray($new_parts, 'imported_parts');
+            }
+        } catch (Exception $e) {
+            $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         }
     } catch (Exception $e) {
-        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $fatal_error = true;
     }
 }
 

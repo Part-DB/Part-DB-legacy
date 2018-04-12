@@ -30,8 +30,6 @@ use PartDB\Attachement;
 use PartDB\AttachementType;
 use PartDB\Database;
 use PartDB\Log;
-use PartDB\Permissions\CPartAttributePermission;
-use PartDB\Permissions\PermissionManager;
 use PartDB\User;
 
 /**
@@ -74,6 +72,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      * @param User      &$current_user              reference to the current user which is logged in
      * @param Log       &$log                       reference to the Log-object
      * @param integer   $id                         ID of the element we want to get
+     * @param string    $tablename                  The name of the DB table, where the data for this object is stored.
      * @param boolean   $allow_virtual_elements     @li if true, it's allowed to set $id to zero
      *                                                  (the StructuralDBElement needs this for the root element)
      *                                              @li if false, $id == 0 is not allowed (throws an Exception)
@@ -87,7 +86,21 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
     }
 
     /**
-     * @copydoc DBElement::reset_attributes()
+     * Reset all attributes of this object (set them to NULL).
+     *
+     * Reasons why we need this method:
+     *      * If we change an attribute of the element, some calculated attributes are no longer valid.
+     *          So this method is called with $all=false to set all calculated attributes to NULL ("clear the cache")
+     *      * If this element is deleted by delete(), we need to clear ALL data from this element,
+     *          including non-calculated attributes. So this method will be called with $all=true.
+     *
+     * @warning     You should implement this function in your subclass (including a call to this function here!),
+     *              if your subclass has its own attributes (calculated or non-calculated)!
+     *
+     * @param boolean $all * if true, ALL attributes will be deleted (use it only for "destroying" the object).
+     * * if false, only the calculated data will be deleted.
+     *                              This is needed if you change an attribute of the object.
+     * @throws Exception
      */
     public function resetAttributes($all = false)
     {

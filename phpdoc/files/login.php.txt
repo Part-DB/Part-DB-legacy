@@ -1,12 +1,8 @@
 <?php
 /*
-    part-db version 0.1
-    Copyright (C) 2005 Christoph Lechner
-    http://www.cl-projects.de/
-
-    part-db version 0.2+
-    Copyright (C) 2009 K. Jacobs and others (see authors.php)
-    http://code.google.com/p/part-db/
+    Part-DB Version 0.4+ "nextgen"
+    Copyright (C) 2017 Jan Böhmer
+    https://github.com/jbtronics
 
     This program is free software; you can redistribute it and/or
     modify it under the terms of the GNU General Public License
@@ -34,6 +30,8 @@ $user_name = isset($_REQUEST['username']) ? $_REQUEST['username'] : "";
 $password = isset($_REQUEST['password']) ? $_REQUEST['password']: "";
 $logout   = isset($_REQUEST['logout']);
 
+$redirect_url = isset($_REQUEST['redirect']) ? $_REQUEST['redirect'] : "";
+
 $messages = array();
 $fatal_error = false;
 
@@ -46,17 +44,16 @@ if ($logout == true && User::isLoggedIn()) {
     $action = "logout";
 }
 
-if(User::isLoggedIn() && $logout == false) {
+if (User::isLoggedIn() && $logout == false) {
     $action = "redirect";
 }
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Login'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], $config['partdb_title'] . " - " . _('Login'));
 
 try {
     $database           = new Database();
     $log                = new Log($database);
     $user               = User::getLoggedInUser($database, $log);
-
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -71,16 +68,23 @@ if (!$fatal_error) {
             $html->setVariable('loggedout', true);
             break;
         case "login":
-            $user               = User::getUserByName($database, $log, $user_name);
-            $pw_valid           = User::login($user, $password);
+            try {
+                $user               = User::getUserByName($database, $log, $user_name);
+                $pw_valid           = User::login($user, $password);
+            } catch (Exception $ex) {
+                $pw_valid = false;
+            }
+
             $html->setVariable("pw_valid", $pw_valid, "boolean");
             if (User::isLoggedIn()) {
                 $html->setVariable("refresh_navigation_frame", true, "boolean");
             }
             break;
         case "redirect":
-            //Redirect to user settings, when user needs to change password.
-            if (User::getLoggedInUser()->getNeedPasswordChange()) {
+            if ($redirect_url != "") {
+                //We need to remove Part-DB/ part, because PHP_URI_REQUEST contains it...
+                $html->redirect(str_replace(BASE_RELATIVE . "/", "", $redirect_url));
+            } else if (User::getLoggedInUser()->getNeedPasswordChange()) { //Redirect to user settings, when user needs to change password.
                 $html->redirect("user_settings.php");
             } else { //Else redirect to start page.
                 $html->redirect("startup.php");
@@ -96,8 +100,7 @@ if (!$fatal_error) {
     $html->setVariable("ajax_request", true);
 }*/
 
-if (User::isLoggedIn())
-{
+if (User::isLoggedIn()) {
     $user = User::getLoggedInUser($database, $log);
     $html->setVariable("loggedin", true, "boolean");
 }
@@ -116,3 +119,4 @@ if (! $fatal_error) {
 }
 
 $html->printFooter();
+

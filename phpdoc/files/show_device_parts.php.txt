@@ -26,8 +26,10 @@
 include_once('start_session.php');
 /** @noinspection PhpIncludeInspection */
 include_once(BASE.'/inc/lib.export.php');
+/** @noinspection PhpIncludeInspection */
 include_once(BASE.'/inc/lib.import.php');
 
+use PartDB\Attachement;
 use PartDB\Database;
 use PartDB\Device;
 use PartDB\DevicePart;
@@ -73,6 +75,14 @@ $import_rowcount          = isset($_REQUEST['import_rowcount'])         ? (integ
 $copy_new_name            = isset($_REQUEST['copy_new_name'])           ? (string)$_REQUEST['copy_new_name']            : '';
 $copy_new_parent_id       = isset($_REQUEST['copy_new_parent_id'])      ? (integer)$_REQUEST['copy_new_parent_id']      : 0;
 $copy_recursive           = isset($_REQUEST['copy_recursive']);
+
+// section: attachements
+$new_show_in_table          = isset($_REQUEST['show_in_table']);
+$attachement_id             = isset($_REQUEST['attachement_id'])            ? (integer)$_REQUEST['attachement_id']           : 0;
+$new_attachement_type_id    = isset($_REQUEST['attachement_type_id'])       ? (integer)$_REQUEST['attachement_type_id']      : 0;
+$new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
+$new_filename               = isset($_REQUEST['attachement_filename'])      ? toUnixPath(trim((string)$_REQUEST['attachement_filename'])) : '';
+$download_file              = isset($_REQUEST['download_file']);
 
 
 $action = 'default';
@@ -120,6 +130,19 @@ if (isset($_REQUEST['check_import_data'])) {
 if (isset($_REQUEST['import_data'])) {
     $action = 'import';
 }
+if (isset($_REQUEST['primary_device'])) {
+    $action = "primary_device";
+}
+
+if (isset($_REQUEST["attachement_add"])) {
+    $action = 'attachement_add';
+}
+if (isset($_REQUEST["attachement_apply"])) {
+    $action = 'attachement_apply';
+}
+if (isset($_REQUEST["attachement_delete"])) {
+    $action = 'attachement_delete';
+}
 
 /********************************************************************************
  *
@@ -127,7 +150,7 @@ if (isset($_REQUEST['import_data'])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], 'Baugruppe');
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Baugruppe'));
 
 try {
     $database           = new Database();
@@ -137,10 +160,25 @@ try {
     $device             = new Device($database, $current_user, $log, $device_id);
     $subdevices         = $device->getSubelements(false);
 
+    $root_attachement_type   = new \PartDB\AttachementType($database, $current_user, $log, 0);
+
     //Check for Device parts read permission, when on Device detail page.
-    if ($device_id > 0){
-       $current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ);
+    if ($device_id > 0) {
+        $current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ);
+
+        $html->setTitle(_("Baugruppe"). ": " . $device->getName());
     }
+
+    if ($attachement_id > 0) {
+        $attachement = new Attachement($database, $current_user, $log, $attachement_id);
+    } else {
+        $attachement = null;
+    }
+
+    //Remember what page user visited, so user can return there, when he deletes a part.
+    session_start();
+    $_SESSION["part_delete_last_link"] = $_SERVER['REQUEST_URI'];
+    session_write_close();
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -165,12 +203,12 @@ if (! $fatal_error) {
                     '',
                     true,
                     true,
+                    true,
+                    true,
+                    true,
+                    true,
                     false,
-                    false,
-                    false,
-                    false,
-                    false,
-                    false
+                    true
                 );
 
                 $searched_parts_loop = Part::buildTemplateTableArray($searched_parts, 'searched_device_parts');
@@ -323,6 +361,87 @@ if (! $fatal_error) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
             break;
+        case 'primary_device':
+            $id = (int) $_REQUEST['primary_device'];
+            if ($id > 0) {
+                Device::setPrimaryDevice($id);
+            }
+            break;
+        case 'attachement_add':
+            try {
+                if (empty($new_filename) && (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) == 0)) {
+                    throw new Exception(_('Sie müssen entweder ein Dateiname angeben, oder eine Datei zum Hochladen wählen!'));
+                }
+
+                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/devices/", $device) : BASE.'/data/media/';
+
+                if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
+                    $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
+                } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
+                    if (isURL($new_filename) && $download_file) {
+                        $downloaded_file_name =  downloadFile($new_filename, $filepath);
+                        if ($downloaded_file_name !== "") {
+                            $new_filename = $downloaded_file_name;
+                        } else {
+                            $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
+                        }
+                    }
+                }
+
+                $new_attachement = Attachement::add(
+                    $database,
+                    $current_user,
+                    $log,
+                    $device,
+                    $new_attachement_type_id,
+                    $new_filename,
+                    $new_name,
+                    $new_show_in_table
+                );
+            } catch (Exception $e) {
+                $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+            }
+            break;
+
+        case 'attachement_apply':
+            try {
+                if (! is_object($attachement)) {
+                    throw new Exception(_('Es ist kein Dateianhang ausgewählt!'));
+                }
+
+                $filepath = $config['attachements']['folder_structure'] ? generateAttachementPath(BASE."/data/media/devices/", $device) : BASE.'/data/media/';
+
+                if (isset($_FILES['attachement_file']) && strlen($_FILES['attachement_file']['name']) > 0) {
+                    $new_filename = uploadFile($_FILES['attachement_file'], $filepath);
+                } else { //If no file was uploaded, check if the download Flag was set and the filename is a valid URL.
+                    if (isURL($new_filename) && $download_file) {
+                        $downloaded_file_name =  downloadFile($new_filename, $filepath);
+                        if ($downloaded_file_name !== "") {
+                            $new_filename = $downloaded_file_name;
+                        } else {
+                            $messages[] = array('text' => _("Die Datei konnte nicht heruntergeladen werden!"), 'strong' => true, 'color' => 'red');
+                        }
+                    }
+                }
+
+                $attachement->setAttributes(array( 'type_id'           => $new_attachement_type_id,
+                    'name'              => $new_name,
+                    'filename'          => $new_filename));
+            } catch (Exception $e) {
+                $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+            }
+            break;
+
+        case 'attachement_delete':
+            try {
+                if (! is_object($attachement)) {
+                    throw new Exception(_('Es ist kein Dateianhang ausgewählt!'));
+                }
+                $attachement->delete(true); // the file will be deleted only if there are no other attachements with the same filename
+            } catch (Exception $e) {
+                $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+            }
+            break;
     }
 }
 
@@ -348,7 +467,8 @@ if (! $fatal_error) {
                 'name'                  => $subdevice->getName(),
                 'parts_count'           => $subdevice->getPartsCount(),
                 'parts_sum_count'       => $subdevice->getPartsSumCount(),
-                'sum_price'             => $subdevice->getTotalPrice(true, false)
+                'sum_price'             => $subdevice->getTotalPrice(true, false),
+                'is_primary'            => $subdevice->getID() == Device::getPrimaryDevice()
             );
 
             $row_odd = ! $row_odd;
@@ -373,6 +493,8 @@ if (! $fatal_error && $device_id > 0) {
         // don't forget: $device_parts contains "DevicePart"-objects, not "Part"-objects!!
         $device_parts_loop = DevicePart::buildTemplateTableArray($device_parts, 'device_parts');
 
+        $comment = $device->getComment(true);
+
         $html->setVariable('device_parts_rowcount', count($device_parts), 'integer');
         $html->setVariable('sum_price', $device->getTotalPrice(true, false), 'string');
     } catch (Exception $e) {
@@ -388,48 +510,97 @@ if (! $fatal_error && $device_id > 0) {
  *********************************************************************************/
 if (! $fatal_error) {
     // global stuff
-    $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
-    $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
-    $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
+    try {
+        $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
+        $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
+        $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
 
-    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
+        $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
+        $html->setVariable('popup_width', $config['popup']['width'], 'integer');
+        $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 
-    // device stuff
-    $html->setVariable('device_id', $device->getID(), 'integer');
-    $html->setVariable('device_name', $device->getName(), 'string');
+        // device stuff
+        $html->setVariable('device_id', $device->getID(), 'integer');
+        $html->setVariable('device_name', $device->getName(), 'string');
 
-    $parent_device_list = $root_device->buildHtmlTree($device->getParentID(), true, true);
-    $html->setVariable('parent_device_list', $parent_device_list, 'string');
+        $parent_device_list = $root_device->buildHtmlTree($device->getParentID(), true, true);
+        $html->setVariable('parent_device_list', $parent_device_list, 'string');
 
-    // export stuff
-    $html->setVariable('export_multiplier', $export_multiplier_original, 'integer');
-    $html->setVariable('order_quantity', $device->getOrderQuantity(), 'integer');
-    $html->setVariable('order_only_missing_parts', $device->getOrderOnlyMissingParts(), 'boolean');
-    $html->setVariable('export_only_missing', $export_only_missing, 'boolean');
-    $html->setLoop('export_formats', buildExportFormatsLoop('deviceparts', $export_format_id));
-    if (isset($export_string)) {
-        $html->setVariable('export_result', str_replace("\n", '<br>', str_replace("\n  ", '<br>&nbsp;&nbsp;',   // yes, this is quite ugly,
-            str_replace("\n    ", '<br>&nbsp;&nbsp;&nbsp;&nbsp;',               // but the result is pretty ;-)
-                htmlspecialchars($export_string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')))), 'string');
+        // export stuff
+        $html->setVariable('export_multiplier', $export_multiplier_original, 'integer');
+        $html->setVariable('order_quantity', $device->getOrderQuantity(), 'integer');
+        $html->setVariable('order_only_missing_parts', $device->getOrderOnlyMissingParts(), 'boolean');
+        $html->setVariable('export_only_missing', $export_only_missing, 'boolean');
+        $html->setLoop('export_formats', buildExportFormatsLoop('deviceparts', $export_format_id));
+        if (isset($export_string)) {
+            $html->setVariable('export_result', str_replace("\n", '<br>', str_replace("\n  ", '<br>&nbsp;&nbsp;',   // yes, this is quite ugly,
+                str_replace("\n    ", '<br>&nbsp;&nbsp;&nbsp;&nbsp;',               // but the result is pretty ;-)
+                    htmlspecialchars($export_string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')))), 'string');
+        }
+
+        // import stuff
+        $html->setVariable('import_rowcount', (isset($import_data) ? count($import_data) : 0), 'integer');
+        $html->setVariable('import_file_content', $import_file_content, 'string');
+        $html->setVariable('import_format', $import_format, 'string');
+        $html->setVariable('import_separator', $import_separator, 'string');
+        //$html->set_variable('import_data_is_valid',     (isset($import_data_is_valid) && ($import_data_is_valid)), 'boolean');
+
+        $attachements_loop = array();
+        $all_attachements = $device->getAttachements();
+        $row_odd = true;
+        foreach ($all_attachements as $attachement) {
+            /** @var  $attachement Attachement */
+            $attachement_types_list = $root_attachement_type->buildHtmlTree($attachement->getType()->getID(), true, false);
+            $attachements_loop[] = array('row_odd' => $row_odd,
+                'id' => $attachement->getID(),
+                'attachement_types_list' => $attachement_types_list,
+                'name' => $attachement->getName(),
+                'show_in_table' => $attachement->getShowInTable(),
+                'is_picture' => $attachement->isPicture(),
+                'filename' => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
+                'filename_base_relative' => str_replace(BASE . '/', '', $attachement->getFilename()),
+                'picture_filename' => ($attachement->isPicture() ? str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()) : ''),
+                'download_file' => $config['attachements']['download_default'] && isURL($attachement->getFilename()));
+            $row_odd = !$row_odd;
+        }
+
+        // add one additional row -> with this row you can add more files
+        $attachement_types_list = $root_attachement_type->buildHtmlTree(0, true, false);
+        $attachements_loop[] = array('row_odd' => $row_odd,
+            'id' => 'new',
+            'attachement_types_list' => $attachement_types_list,
+            'name' => '',
+            'is_picture' => true,
+            'show_in_table' => false,
+            'is_master_picture' => false,
+            'filename' => '',
+            'filename_base_relative' => '',
+            'picture_filename' => '',
+            'download_file' => $config['attachements']['download_default']);
+
+        $html->setLoop('attachements_loop', $attachements_loop);
+    } catch (Exception $e) {
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+        $fatal_error = true;
     }
-
-    // import stuff
-    $html->setVariable('import_rowcount', (isset($import_data) ? count($import_data) : 0), 'integer');
-    $html->setVariable('import_file_content', $import_file_content, 'string');
-    $html->setVariable('import_format', $import_format, 'string');
-    $html->setVariable('import_separator', $import_separator, 'string');
-    //$html->set_variable('import_data_is_valid',     (isset($import_data_is_valid) && ($import_data_is_valid)), 'boolean');
 }
 
-$html->setVariable("can_part_create", $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
-$html->setVariable("can_part_edit", $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::EDIT));
-$html->setVariable("can_part_delete", $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::DELETE));
+try {
+    $html->setVariable("can_part_create", $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
+    $html->setVariable("can_part_edit", $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::EDIT));
+    $html->setVariable("can_part_delete", $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::DELETE));
 
-$html->setVariable('can_part_instock', $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT));
-$html->setVariable('can_part_order', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT));
-$html->setVariable('can_devices_add', $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::CREATE));
+    $html->setVariable('can_part_instock', $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT));
+    $html->setVariable('can_part_order', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT));
+    $html->setVariable('can_devices_add', $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::CREATE));
+
+    $html->setVariable('can_attachement_edit', $current_user->canDo(PermissionManager::DEVICES, StructuralPermission::EDIT));
+    $html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
+    $html->setVariable('downloads_enable', $config['allow_server_downloads'], "boolean");
+} catch (Exception $e) {
+    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+    $fatal_error = true;
+}
 
 /********************************************************************************
  *
@@ -457,6 +628,13 @@ if (! $fatal_error) {
 
         $html->setLoop('table', $device_parts_loop);
         $html->printTemplate('device_parts');
+
+        if (isset($comment)) {
+            $html->setVariable('comment', $comment);
+            $html->printTemplate('comment');
+        }
+
+        $html->printTemplate('attachements');
 
         $html->printTemplate('export');
 

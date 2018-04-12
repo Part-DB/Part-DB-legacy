@@ -82,7 +82,7 @@ if (isset($_REQUEST["apply"])) {
  *
  *********************************************************************************/
 
-$html = new HTML($config['html']['theme'], $config['html']['custom_css'], _('Benutzergruppen'));
+$html = new HTML($config['html']['theme'], $user_config['theme'], _('Benutzergruppen'));
 
 try {
     $database           = new Database();
@@ -206,7 +206,6 @@ if (! $fatal_error) {
 $html->setVariable('add_more', $add_more, 'boolean');
 
 if (! $fatal_error) {
-
     $perm_read_only = !$current_user->canDo(PermissionManager::GROUPS, GroupPermission::EDIT_PERMISSIONS);
     try {
         if (is_object($selected_group)) {
@@ -216,6 +215,8 @@ if (! $fatal_error) {
             $comment = $selected_group->getComment();
             //Permissions loop
             $perm_loop = $selected_group->getPermissionManager()->generatePermissionsLoop($perm_read_only);
+            $html->setVariable('datetime_added', $selected_group->getDatetimeAdded(true));
+            $html->setVariable('last_modified', $selected_group->getLastModified(true));
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
@@ -226,7 +227,6 @@ if (! $fatal_error) {
             } else {
                 $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop($perm_read_only);
             }
-
         } else {
             $parent_id = 0;
             $name = '';
@@ -253,8 +253,7 @@ if (! $fatal_error) {
     $html->setVariable('can_delete', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::DELETE));
     $html->setVariable('can_edit', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::EDIT));
     $html->setVariable('can_move', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::MOVE));
-    $html->setVariable('can_permission',!$perm_read_only );
-
+    $html->setVariable('can_permission', !$perm_read_only);
 }
 
 /********************************************************************************
