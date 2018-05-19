@@ -28,9 +28,9 @@
             <div class="form-group">
                 <label class="control-label col-md-3">{t}Zum Bestellen vormerken:{/t}</label>
                 <div class="col-md-9">
-                    {if isset($order_quantity)}
+                    {if isset($order_quantity) && $order_quantity > 0}
                         <div class="form-control-static">{t 1=$order_quantity}Es sind %1 Stk. von dieser Baugruppe zum Bestellen vorgemerkt{/t}
-                            ({if isset($order_only_missing_parts)}{t}Nur fehlende Teile{/t}{else}{t}Alle Teile{/t}{/if}).</div>
+                            ({if isset($order_only_missing_parts) && $order_only_missing_parts}{t}Nur fehlende Teile{/t}{else}{t}Alle Teile{/t}{/if}).</div>
                         <button class="btn btn-default" type="submit" name="remove_order"
                                 {if !$can_part_order}disabled{/if}>{t}Aufheben{/t}</button>
                     {else}
