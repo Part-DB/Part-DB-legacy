@@ -209,7 +209,7 @@ $manual_config = array();   // ...this too...
 
 // system version: this must be increased for every release(-candidate)!
 // IMPORTANT: please note that (for example) "0.3.0" is a HIGHER (!) version than "0.3.0.RC5".
-$config['system']['version']                            = '0.4.5';  // examples: '0.2.2' or '0.2.2.RC2' (see SystemVersion.php)
+$config['system']['version']                            = '0.4.6';  // examples: '0.2.2' or '0.2.2.RC2' (see SystemVersion.php)
 
 // the version of the latest config style. Increase this for one if we need an update for the user's config.php (see also updates/config_update_steps.php)
 $config['system']['latest_config_version']              = 2; // only increase for one!
