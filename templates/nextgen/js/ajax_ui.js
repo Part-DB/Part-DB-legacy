@@ -517,14 +517,10 @@ $(function (event) {
     ajaxui.addStartAction(makeHighlight);
     ajaxui.addStartAction(viewer3d_models);
     ajaxui.addStartAction(makeGreekInput);
-    //ajaxui.addStartAction(makeTypeAhead);
+    ajaxui.addStartAction(makeCharts);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
-    /*ajaxui.addAjaxCompleteAction(function () {
-        //Cleanup old floating headers
-        $(".fixedHeader-floating").remove();
-    });*/
     ajaxui.addAjaxCompleteAction(makeSortTable);
     ajaxui.addAjaxCompleteAction(makeFileInput);
     ajaxui.addAjaxCompleteAction(makeTooltips);
@@ -538,9 +534,30 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(viewer3d_models);
     ajaxui.addAjaxCompleteAction(makeGreekInput);
+    ajaxui.addAjaxCompleteAction(makeCharts);
     //ajaxui.addAjaxCompleteAction(makeTypeAhead);
     ajaxui.start();
 });
+function makeCharts() {
+    $(".chart").each(function (index, element) {
+        var data = $(element).data("data");
+        var type = $(element).data("type");
+        var ctx = element.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: type,
+            data: data,
+            options: {
+                scales: {
+                    yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                }
+            }
+        });
+    });
+}
 function makeGreekInput() {
     $("input[type=text], textarea, input[type=search]").unbind("keydown").keydown(function (event) {
         var greek = event.altKey;
