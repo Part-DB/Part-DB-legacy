@@ -1074,7 +1074,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 $desc = PartProperty::parseDescription($this->getDescription());
             }
             if ($use_comment === true) {
-                $comm = PartProperty::parseDescription($this->getComment());
+                $comm = PartProperty::parseDescription($this->getComment(false));
             }
 
             $arr = array_merge($name, $desc, $comm);
