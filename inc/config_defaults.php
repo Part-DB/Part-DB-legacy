@@ -185,6 +185,13 @@ $config['user']['avatars']['use_gravatar']      = false;     //Use Gravatar for 
 $config['user']['redirect_to_login']            = true;      //Redirect to login page, if a user does not has any permission (only if he accessed start page).
 $config['user']['gc_maxlifetime']               = 5400;      //5400 sec = 90min
 
+//Cookie consent info
+$config['cookie_consent']['enable']             = false;     //Set to true to activate cookie consent dialog
+$config['cookie_consent']['message']            = "This website uses cookies to ensure you get the best experience on our website.";
+$config['cookie_consent']['link_text']          = "Learn more";
+$config['cookie_consent']['button_text']        = "Got it!";
+$config['cookie_consent']['link_href']          = "https://cookiesandyou.com/";
+
 /********************************************************************************
  *
  *   Below, there are attributes which we don't want to save in the user's "config.php".
