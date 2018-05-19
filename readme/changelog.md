@@ -1,5 +1,16 @@
 # Part-DB Changelog
 
+## Part-DB 0.4.6
+### Bugfixes
+* Problem, mit fehlender Markierung von Bauteilen in den Bauteiletabellen, behoben
+* Login funktioniert nun auch korrekt, wenn die loginseite mit "?logout" Option aufgerufen wird
+* Vorbestellfunktion von Baugruppenbauteilen funktioniert nun korrekt
+* Links auf der Startseite und Bauteilekommentaren funktionieren nun
+* Zeilenumbrüche in Bauteilekommentaren werden nun korrekt als Trenner von Bauteileeigenschaften interpretiert
+
+### Sonstiges
+* Composer Abhängigkeiten aktualisiert
+
 ## Part-DB 0.4.5
 ### Bugfixes
 * Problem, dass Kategorien nicht gelöscht werden konnte, wenn ein Subelement Bauteile enthält
