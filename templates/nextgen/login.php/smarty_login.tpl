@@ -1,7 +1,7 @@
 {if isset($refresh_navigation_frame) && $refresh_navigation_frame}
     <script type="text/javascript">
-        //location.href = location.href.replace("?logout", "");
-        location.reload();
+        location.href = location.href.replace("?logout", "");
+        //location.reload();
     </script>
 {/if}
 

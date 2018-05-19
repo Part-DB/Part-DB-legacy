@@ -38,7 +38,7 @@ if (!User::isLoggedIn() && $user_name != "") {
     $action = "login";
 }
 
-if ($logout == true && User::isLoggedIn()) {
+if ($logout == true && User::isLoggedIn() && $user_name == "") {
     $action = "logout";
 }
 
