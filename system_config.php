@@ -115,6 +115,7 @@ $table_autosort             = isset($_REQUEST['table_autosort']);
 $default_subcat             = isset($_REQUEST['default_subcat']);
 $default_limit              = isset($_REQUEST['default_limit']) ? (int) $_REQUEST['default_limit']  : 50;
 $show_full_paths            = isset($_REQUEST['show_full_paths']);
+$instock_warning_full_row   = isset($_REQUEST['instock_warning_full_row']);
 
 //Search settings
 $livesearch_active          = isset($_REQUEST['livesearch_active']);
@@ -214,6 +215,7 @@ if (! $fatal_error) {
             $config['table']['default_show_subcategories'] = $default_subcat;
             $config['table']['default_limit']           = $default_limit;
             $config['table']['full_paths']         = $show_full_paths;
+            $config['table']['instock_warning_full_row_color'] = $instock_warning_full_row;
 
             $config['attachements']['folder_structure'] = $attachements_structure;
             $config['attachements']['download_default'] = $attachements_download;
@@ -332,6 +334,7 @@ try {
     $html->setVariable('default_subcat', $config['table']['default_show_subcategories'], 'boolean');
     $html->setVariable('default_limit', $config['table']['default_limit'], "int");
     $html->setVariable('show_full_paths', $config['table']['full_paths'], "boolean");
+    $html->setVariable("instock_warning_full_row" ,$config['table']['instock_warning_full_row_color'], "boolean");
 
 
 //Attachements

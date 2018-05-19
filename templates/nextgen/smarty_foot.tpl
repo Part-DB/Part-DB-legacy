@@ -52,6 +52,30 @@
     <!-- Datatables plugin for natural sorting -->
     <script type="text/javascript" src="{$relative_path}datatables/natural.min.js"></script>
 
+    {* Cookie Consent dialog*}
+    {if $cookie_consent_active}
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+    <script>
+        window.addEventListener("load", function(){
+            window.cookieconsent.initialise({
+                "palette": {
+                    "popup": {
+                        "background": "#383b75"
+                    },
+                    "button": {
+                        "background": "#f1d600"
+                    }
+                },
+                "content": {
+                    "message": "{$cookie_consent_config.message}",
+                    "dismiss": "{$cookie_consent_config.button_text}",
+                    "link": "{$cookie_consent_config.link_text}",
+                    "href": "{$cookie_consent_config.link_href}"
+                }
+            })});
+    </script>
+    {/if}
 
 
     <!-- Treeview -->

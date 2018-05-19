@@ -1432,6 +1432,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $table_row['row_fields']    = array();
         $table_row['favorite']      = $this->getFavorite();
         $table_row["show_full_paths"] = $config['table']['full_paths'];
+        $table_row["instock_warning_full_row"] = $config['table']['instock_warning_full_row_color'] && ($this->getAutoOrder());
 
         foreach (explode(';', $config['table'][$table_type]['columns']) as $caption) {
             $row_field = array();
@@ -1463,7 +1464,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'instock_edit_buttons':
                     $row_field['instock']               = $this->getInstock(true);
                     $row_field['mininstock']            = $this->getMinInstock();
-                    $row_field['not_enought_instock']   = ($this->getAutoOrder());
+                    $row_field['not_enough_instock']   = ($this->getAutoOrder());
                     break;
 
                 case 'category':
