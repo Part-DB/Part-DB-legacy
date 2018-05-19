@@ -169,6 +169,7 @@ $config['table']['autosort']                     = false;
 $config['table']['default_show_subcategories']   = true;    //Show the subcategories in show_category_parts on default.
 $config['table']['default_limit']                = 50;
 $config['table']['full_paths']                   = false;
+$config['table']['instock_warning_full_row_color'] = false;  //Color the whole line red, if a less instock than mininstock
 
 //Search settings
 $config['search']['livesearch']                  = true;

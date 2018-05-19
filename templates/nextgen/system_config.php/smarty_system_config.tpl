@@ -277,6 +277,10 @@
                                     <input type="checkbox" name="show_full_paths" {if $show_full_paths} checked{/if}>
                                     <label for="default_subcat">{t}Zeige vollständige Pfade in Tabellen an.{/t}</label>
                                 </div>
+                                <div class="checkbox">
+                                    <input type="checkbox" name="instock_warning_full_row" {if $instock_warning_full_row} checked{/if}>
+                                    <label>{t}Markiere die gesamte Zeile, falls ein Teil zum Autobestellen vorgemerkt ist.{/t}</label>
+                                </div>
                             </div>
                         </div>
 

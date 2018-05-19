@@ -85,7 +85,8 @@
             {if !isset($t.print_header) || !$t.print_header}
 
                 {* the alternating background colors are created here *}
-                <tr {if isset($t.favorite) && $t.favorite}class="success"{/if}>
+                <tr {if isset($t.favorite) && $t.favorite}class="success"{/if}
+                        {if $t.instock_warning_full_row}class="danger"{/if}>
                     {if isset($t.id)}
                         <input type="hidden" name="id_{$t.row_index}" value="{$t.id}">
                     {/if}
@@ -157,7 +158,7 @@
                         {/if}
                         {if $row.caption == "instock"}
                             {* instock *}
-                            <td class="tdrow2 {if $row.not_enought_instock} bg-danger{/if}">
+                            <td class="tdrow2 {if $row.not_enough_instock} bg-danger{/if}">
                                 <div data-toggle="tooltip" title="min. Bestand: {$row.mininstock}">{$row.instock}</div>
                             </td>
                         {/if}
@@ -185,7 +186,7 @@
                         {/if}
                         {if $row.caption == "instock_mininstock"}
                             {* instock/mininstock *}
-                            <td class="tdrow2 {if $row.not_enought_instock} bg-danger{/if}">
+                            <td class="tdrow2 {if $row.not_enough_instock} bg-danger{/if}">
                                 {$row.instock}/{$row.mininstock}
                             </td>
                         {/if}
