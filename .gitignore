@@ -185,3 +185,5 @@ node_modules/*
 vendor/*
 
 *.cache
+
+*.min.min.*
