@@ -391,6 +391,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $val = htmlspecialchars($this->db_data['comment']);
         if ($parse_bbcode) {
             $bbcode = new BBCodeParser;
+            $bbcode->setParser('brLinebreak', "/\[br\]/s", "<br/>", "");
+            $bbcode->setParser('namedlink', '/\[url\=(.*?)\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$2</a>', '$2');
+            $bbcode->setParser('link', '/\[url\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$1</a>', '$1');
+
             $val = $bbcode->parse($val);
         }
 
@@ -1070,7 +1074,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 $desc = PartProperty::parseDescription($this->getDescription());
             }
             if ($use_comment === true) {
-                $comm = PartProperty::parseDescription($this->getComment());
+                $comm = PartProperty::parseDescription($this->getComment(false));
             }
 
             $arr = array_merge($name, $desc, $comm);

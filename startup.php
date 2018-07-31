@@ -217,6 +217,8 @@ $html->setLoop('authors', $authors);
 if (! $fatal_error) {
     $bbcode = new \Golonka\BBCode\BBCodeParser();
     $bbcode->setParser('brLinebreak', "/\[br\]/s", "<br/>", "");
+    $bbcode->setParser('namedlink', '/\[url\=(.*?)\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$2</a>', '$2');
+    $bbcode->setParser('link', '/\[url\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$1</a>', '$1');
     $str = $bbcode->parse(htmlspecialchars($config['startup']['custom_banner']));
     $html->setVariable('banner', $str, 'string');
 
