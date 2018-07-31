@@ -1,6 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-<!--suppress Annotator -->
+<!--suppress ALL -->
+
 <div class="panel panel-primary">
     <div class="panel-heading"><i class="fa fa-database" aria-hidden="true"></i>&nbsp
         {t}Installation/Update: Datenbank konfigurieren{/t}</div>
