@@ -15,7 +15,7 @@ services:
     volumes:
       - partdb-database:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: foobar
+      MYSQL_ROOT_PASSWORD: changeme
       MYSQL_DATABASE: partdb
     restart: always
 
