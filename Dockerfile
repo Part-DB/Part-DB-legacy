@@ -1,7 +1,7 @@
 FROM php:7-apache
 
 RUN apt-get update && apt-get install -y git unzip locales curl pkg-config
-RUN docker-php-ext-install mysqli pdo_mysql gettext curl intl mbstring libcurl4-gnutls-dev
+RUN docker-php-ext-install mysqli pdo_mysql gettext curl intl mbstring libcurl4-openssl-dev
 
 WORKDIR /var/www/html
 COPY . .
