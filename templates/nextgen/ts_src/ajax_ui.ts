@@ -1110,7 +1110,7 @@ function makeHighlight() {
 /**
  * Use Bootstrap for tooltips.
  */
-async function makeTooltips() {
+ function makeTooltips() {
     //$('[data-toggle="tooltip"]').tooltip();
     //$('a[title]').tooltip("hide").tooltip({container: "body"});
     $('body').tooltip('destroy');

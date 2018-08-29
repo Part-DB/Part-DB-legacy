@@ -989,15 +989,11 @@ function makeHighlight() {
  * Use Bootstrap for tooltips.
  */
 function makeTooltips() {
-    return __awaiter(this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            //$('[data-toggle="tooltip"]').tooltip();
-            //$('a[title]').tooltip("hide").tooltip({container: "body"});
-            $('body').tooltip('destroy');
-            $("body").tooltip({ selector: '[title]', container: "body" });
-            return [2 /*return*/];
-        });
-    });
+    //$('[data-toggle="tooltip"]').tooltip();
+    //$('a[title]').tooltip("hide").tooltip({container: "body"});
+    $('body').tooltip('destroy');
+    $("body").tooltip({ selector: '[title]', container: "body" });
+    //$('button[title]').tooltip("hide").tooltip({container: "body"});
 }
 function viewer3d_models() {
     if (!$("#models-picker").length)
