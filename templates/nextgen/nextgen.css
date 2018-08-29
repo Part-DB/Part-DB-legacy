@@ -114,6 +114,11 @@ body {
     font-weight:bold;
 }
 
+.table-no-margin {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
 /**
  Use this class if you has a <span> or <p> and you want to create automatic textbreaks in the text.
  */
