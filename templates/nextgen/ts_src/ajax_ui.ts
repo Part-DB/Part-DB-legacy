@@ -953,7 +953,7 @@ function registerJumpToTop() {
             scrollTop: 0
         }, 800);
         return false;
-    }).tooltip('show');
+    }).tooltip();
 }
 
 /**
@@ -1109,11 +1109,12 @@ function makeHighlight() {
 
 /**
  * Use Bootstrap for tooltips.
+ * Function need to be not async, otherwise not every tooltip gets removed, when page is loaded.
  */
  function makeTooltips() {
     //$('[data-toggle="tooltip"]').tooltip();
     //$('a[title]').tooltip("hide").tooltip({container: "body"});
-    $('body').tooltip('destroy');
+    $('body').tooltip('dispose');
     $("body").tooltip({ selector: '[title]', container: "body" });
     //$('button[title]').tooltip("hide").tooltip({container: "body"});
 }
