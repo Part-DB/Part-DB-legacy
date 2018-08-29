@@ -149,7 +149,7 @@ if ((! $fatal_error) && (! $database->isUpdateRequired())) {
  *********************************************************************************/
 
 if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
-    $feed_link = 'https://github.com/do9jhb/Part-DB/releases.atom';
+    $feed_link = 'https://github.com/Part-DB/Part-DB/releases.atom';
     $item_count = 4;
 
     try {
@@ -190,7 +190,7 @@ if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
             foreach ($entry->link as $link_entry) {
                 $attributes = $link_entry->attributes();
                 if (isset($attributes['rel']) && ($attributes['rel'] == 'alternate') && isset($attributes['href'])) {
-                    $link = 'https://github.com'.$attributes['href'];
+                    $link = $attributes['href'];
                 }
             }
 
