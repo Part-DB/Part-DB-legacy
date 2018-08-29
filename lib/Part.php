@@ -32,6 +32,7 @@ use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PartAttributePermission;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
+use PartDB\Tools\BBCodeParsingLevel;
 
 /**
  * @file Part.php
@@ -308,11 +309,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      * Get the description
      *
-     * @param boolean $parse_bbcode Should BBCode converted to HTML, before returning
+     * @param boolean|int $bbcode_parse_level Should BBCode converted to HTML, before returning
      * @param int $short_output If this is bigger than 0, than the description will be shortened to this length.
      * @return string       the description
      */
-    public function getDescription($parse_bbcode = true, $short_output = 0)
+    public function getDescription($bbcode_parse_level = BBCodeParsingLevel::PARSE, $short_output = 0)
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_DESCRIPTION, PartAttributePermission::READ)) {
             return "???";
@@ -326,9 +327,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             $val = '<span class="text-muted">' . $val . '</span class="text-muted">';
         }
 
-        if ($parse_bbcode) {
+        if ($bbcode_parse_level === BBCodeParsingLevel::PARSE) {
             $bbcode = new BBCodeParser;
             $val = $bbcode->only("bold", "italic", "underline", "linethrough")->parse($val);
+        } elseif ($bbcode_parse_level === BBCodeParsingLevel::STRIP) {
+            $bbcode = new BBCodeParser;
+            $val = $bbcode->stripBBCodeTags($val);
         }
 
         return $val;
@@ -379,23 +383,26 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      *  Get the comment
      *
-     * @param boolean $parse_bbcode Should BBCode converted to HTML, before returning
+     * @param boolean|int $bbcode_parsing_level Should BBCode converted to HTML, before returning
      * @return string       the comment
      */
-    public function getComment($parse_bbcode = true)
+    public function getComment($bbcode_parsing_level = BBCodeParsingLevel::PARSE)
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_COMMENT, PartAttributePermission::READ)) {
             return "???";
         }
 
         $val = htmlspecialchars($this->db_data['comment']);
-        if ($parse_bbcode) {
+        if ($bbcode_parsing_level === BBCodeParsingLevel::PARSE) {
             $bbcode = new BBCodeParser;
             $bbcode->setParser('brLinebreak', "/\[br\]/s", "<br/>", "");
             $bbcode->setParser('namedlink', '/\[url\=(.*?)\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$2</a>', '$2');
             $bbcode->setParser('link', '/\[url\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$1</a>', '$1');
-
             $val = $bbcode->parse($val);
+        } elseif($bbcode_parsing_level === BBCodeParsingLevel::STRIP) {
+                $bbcode = new BBCodeParser();
+                $val = str_replace("\n", " ", $val);
+               $val = $bbcode->stripBBCodeTags($val);
         }
 
         return $val;
@@ -1458,7 +1465,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'comment':
                 case 'name_description':
                     $row_field['obsolete']          = $this->getObsolete();
-                    $row_field['comment']           = $this->getComment();
+                    $row_field['comment']           = $this->getComment(BBCodeParsingLevel::STRIP);
                     $row_field['description']       = $this->getDescription(true, $max_length);
                     break;
 
