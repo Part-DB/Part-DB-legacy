@@ -1,5 +1,5 @@
 <div class="row hidden-print">
-    <div class="col-md-6">
+    <div class="col">
         {if isset($can_delete) && isset($can_edit)}
             <div class="select_actions" style="display: none;">
                 <input type="hidden" name="selected_ids" value="">
@@ -46,18 +46,18 @@
             </div>
         {/if}
     </div>
-    <div class="col-md-6">
-        <nav aria-label="Page navigation" class="pull-right">
-            <ul class="pagination" style="margin-top: 0; margin-bottom: 5px;">
-                <li class="disabled"><a class="no-progbar">{$pagination.lower_result}-{$pagination.upper_result}/{$pagination.max_entries}</a></li>
+    <div class="col">
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-end mt-2 mb-2" style="margin-top: 0; margin-bottom: 5px;">
+                <li class="page-item disabled"><a class="no-progbar page-link">{$pagination.lower_result}-{$pagination.upper_result}/{$pagination.max_entries}</a></li>
                 {foreach $pagination.entries as $page}
-                    <li {if isset($page.disabled) && $page.disabled}class="disabled" {/if}
-                            {if isset($page.active) && $page.active}class="active"{/if}>
+                    <li  {if isset($page.disabled) && $page.disabled}class="page-item disabled" {/if}
+                            {if isset($page.active) && $page.active}class="page-item active"{/if} class="page-item">
                         <a {if !isset($page.disabled) || !$page.disabled}href="{$page.href}{/if}"
-                           {if isset($page.hint)}title="{$page.hint}" {/if}
+                           {if isset($page.hint)}title="{$page.hint}" {/if} class="page-link {if isset($page.disabled) && $page.disabled}disabled {/if}"
                         >{$page.label nofilter}</a></li>
                 {/foreach}
-                <li class="disabled"><select name="limit" onchange="submitForm(this.form);">
+                <li class="disabled page-item"><select name="limit" onchange="submitForm(this.form);">
                         <option value="25" {if $limit == 25}selected{/if}>25</option>
                         <option value="50" {if $limit == 50}selected{/if}>50</option>
                         <option value="100" {if $limit == 100}selected{/if}>100</option>

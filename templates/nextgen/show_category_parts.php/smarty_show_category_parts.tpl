@@ -65,8 +65,8 @@
 </form>
 
 
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="card bg-light">
+    <div class="card-header">
         <i class="fa fa-tag" aria-hidden="true"></i>&nbsp;
         <b>{$table_rowcount}</b> {t}Teile in der Kategorie{/t} <b>"{$category_name}"</b>
     </div>
