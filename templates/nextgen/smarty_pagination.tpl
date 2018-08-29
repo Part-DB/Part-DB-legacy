@@ -4,10 +4,10 @@
             <div class="select_actions" style="display: none;">
                 <input type="hidden" name="selected_ids" value="">
                 <div class="form-inline">
-                    <div class="form-group">
-                        <span class="label label-primary"><span class="selected_n">10</span> {t}Bauteile:{/t}</span>
+                    <div class="form-group mr-2">
+                        <span class="badge badge-primary"><span class="selected_n">10</span> {t}Bauteile:{/t}</span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group mr-2">
                         <select name="action" style="width: 110px;" class="form-control">
                             <option value="">{t}Auswählen{/t}</option>
                             <option value="delete" {if !$can_delete}disabled{/if}>{t}Löschen{/t}</option>
@@ -17,7 +17,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <select name="target" style="width: 110px;" class="selectpicker" data-live-search="true" {if !$can_edit}disabled{/if}>
+                        <select name="target" style="width: 110px;" class="selectpicker mr-2" data-live-search="true" {if !$can_edit}disabled{/if}>
                             <option>{t}Auswählen{/t}</option>
                             {if isset($categories_list)}
                                 <optgroup label="{t}Kategorien{/t}">
