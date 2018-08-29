@@ -401,7 +401,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             $val = $bbcode->parse($val);
         } elseif($bbcode_parsing_level === BBCodeParsingLevel::STRIP) {
                 $bbcode = new BBCodeParser();
-                $bbcode->stripBBCodeTags($val);
+                $val = str_replace("\n", " ", $val);
+               $val = $bbcode->stripBBCodeTags($val);
         }
 
         return $val;
