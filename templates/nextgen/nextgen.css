@@ -7,6 +7,9 @@ body {
     overflow-x: hidden;
     position: relative;
     padding-top: 70px;
+    /* Use font size like in BS3 */
+    font-size: 14px;
+    line-heigt: 1.428;
 }
 
 @media  (min-width: 768px) {
