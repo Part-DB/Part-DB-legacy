@@ -190,7 +190,7 @@ if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
             foreach ($entry->link as $link_entry) {
                 $attributes = $link_entry->attributes();
                 if (isset($attributes['rel']) && ($attributes['rel'] == 'alternate') && isset($attributes['href'])) {
-                    $link = 'https://github.com'.$attributes['href'];
+                    $link = $attributes['href'];
                 }
             }
 
