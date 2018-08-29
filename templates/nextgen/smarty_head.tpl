@@ -107,6 +107,108 @@
 <body>
 
     <header>
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top py-0">
+            <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> {if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            {*
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Link</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Dropdown
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" href="#">Action</a>
+                        <a class="dropdown-item" href="#">Another action</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                    </li>
+            <li class="nav-item">
+                <a class="nav-link disabled" href="#">Disabled</a>
+            </li>
+            </ul> *}
+                <div class="form-inline my-2 my-lg-0 ml-auto" id="searchbar">
+                {*
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> *}
+
+                    {if isset($can_search) && $can_search}
+                    <!-- Searchbar -->
+                    <form action="{$relative_path}show_search_parts.php" method="get">
+                    <div class="dropdown d-inline-block">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                {t}Suchoptionen{/t}
+                                <span class="caret"></span>
+                            </button>
+                            <ul class="dropdown-menu" aria-labelledby="SearchOptions">
+                                <li class="checkbox"><input type="checkbox" name="search_name" value="true" checked>
+                                    <label for="search_name">{t}Name{/t}</label></li>
+                                <li class="checkbox"><input type="checkbox" class="styled" name="search_category" value="true" checked>
+                                    <label for="search_category">{t}Kategorie{/t}</label></li>
+                                <li class="checkbox"><input type="checkbox" name="search_description" value="true" checked>
+                                    <label for="search_description"></label>{t}Beschreibung{/t}</li>
+                                <li class="checkbox"><input type="checkbox" name="search_storelocation" value="true" checked>
+                                    <label for="search_storelocation">{t}Lagerort{/t}</label></li>
+                                <li class="checkbox"><input type="checkbox" name="search_comment" value="true" checked>
+                                    <label for="search_comment">{t}Kommentar{/t}</label></li>
+                                {if !$suppliers_disabled}
+                                    <li class="checkbox"><input type="checkbox" name="search_supplierpartnr" value="true" checked>
+                                        <label for="search_supplierpartnr">{t}Bestellnr.{/t}</label></li>
+                                    <li class="checkbox"><input type="checkbox" name="search_supplier" value="true">
+                                        <label for="search_supplier">{t}Lieferant{/t}</label></li> {/if}
+                                {if !$manufacturers_disabled}
+                                    <li class="checkbox"><input type="checkbox" name="search_manufacturer" value="true">
+                                    <label for="search_manufacturer">{t}Hersteller{/t}</label></li>{/if}
+                                {if !$footprints_disabled}
+                                    <li class="checkbox"><input type="checkbox" name="search_footprint" value="true">
+                                    <label for="search_footprint">{t}Footprint{/t}</label></li>{/if}
+                                <li class="checkbox"><input type="checkbox" name="disable_pid_input" value="false">
+                                    <label for="disable_pid_input">{t}Deakt. Barcode{/t}</label></li>
+                                <li class="checkbox"><input type="checkbox" name="regex" value="true">
+                                    <label for="regex">{t}RegEx Matching{/t}</label></li>
+                            </ul>
+                            </div>
+                        <input type="search" class="form-control mr-sm-2" placeholder="{t}Suche{/t}" name="keyword"
+                               {if $livesearch_active}onkeyup="livesearch(event, this, 2);"{/if}>
+                        <button type="submit" id="search-submit" class="btn btn-outline-success my-2">{t}Los!{/t}</button>
+                    </form>
+                {/if}
+                </div>
+
+                <ul class="navbar-nav ml-3">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="dropdown-toggle link-anchor nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        {if $loggedin}<i class="fa fa-user" aria-hidden="true"></i>{else}<i class="far fa-user" aria-hidden="true"></i>{/if} <span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-right" id="login-menu">
+                        {if $loggedin}
+                            <a class="dropdown-item disabled" href="#" >{t}Eingeloggt als{/t} {$firstname} {$lastname} ({$username})</a>
+                            <a class="dropdown-item" href="user_settings.php"><i class="fa fa-cogs fa-fw" aria-hidden="true"></i> {t}Benutzereinstellungen{/t}</a>
+                            <a class="dropdown-item" href="user_info.php"><i class="fa fa-info-circle fa-fw" aria-hidden="true"></i> {t}Benutzerinformationen{/t}</a>
+                            <li role="separator" class="divider"></li>
+                            <a class="dropdown-item"  href="{$relative_path}login.php?logout"><i class="fa fa-sign-out-alt fa-fw" aria-hidden="true"></i> {t}Logout{/t}</a>
+                        {else}
+                            <a class="dropdown-item" href="{$relative_path}login.php?redirect={$smarty.server.REQUEST_URI|escape:"url"}" id="login-link"><i class="fa fa-sign-in-alt fa-fw" aria-hidden="true"></i> {t}Login{/t}</a>
+                        {/if}
+                    </ul>
+                    </li>
+                </ul>
+            </div>
+          </nav>
+
+
+        {*
         <nav class="navbar navbar-default navbar-fixed-top fh-fixedHeader" id="main-navbar">
             <div class="container-fluid">
              <!-- Brand and toggle get grouped for better mobile display -->
@@ -209,6 +311,7 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
+    *}
 </header>
 
 <main>
