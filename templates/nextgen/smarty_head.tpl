@@ -69,7 +69,7 @@
     <script src="{$relative_path}js/bootstrap.min.js"></script>
 
     <!-- Bootstrap select -->
-    <link rel="stylesheet" href="{$relative_path}css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="{$relative_path}vendor/snapappointments/bootstrap-select/dist/css/bootstrap-select.min.css">
 
     <!-- 3d footprint viewer -->
     {if isset($foot3d_active) && $foot3d_active}

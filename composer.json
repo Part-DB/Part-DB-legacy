@@ -24,7 +24,8 @@
     "tecnickcom/tcpdf": "dev-master",
     "slim/slim": "3.*",
     "maximebf/debugbar": "1.*",
-    "ircmaxell/password-compat": "1.*"
+    "ircmaxell/password-compat": "1.*",
+    "snapappointments/bootstrap-select": "1.*"
   },
 
   "require-dev": {
