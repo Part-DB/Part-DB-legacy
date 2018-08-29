@@ -133,7 +133,7 @@
                         {/if}
                         {if $row.caption == "description"}
                             {* description *}
-                            <td class="tdrow1{if $row.obsolete} bg-danger{/if}">{$row.description nofilter}</td>
+                            <td class="tdrow1{if $row.obsolete} not-enough-instock{/if}">{$row.description nofilter}</td>
                         {/if}
                         {if $row.caption == "description_edit"}
                             {* description edit *}
@@ -149,7 +149,7 @@
                         {/if}
                         {if $row.caption == "name_description"}
                             {* name/comment/description *}
-                            <td class="tdrow1{if $row.obsolete} bg-danger{/if}">
+                            <td class="tdrow1{if $row.obsolete} not-enough-instock{/if}">
                                 <a data-toggle="tooltip" title="{if $row.obsolete}(nicht mehr erhätlich) {/if}{if isset($row.comment) && !empty($row.comment)}{t}Kommentar:{/t} {$row.comment nofilter}{/if}"
                                    href="show_part_info.php?pid={$row.id}">
                                     {$row.name}{if isset($row.description)}&nbsp;{$row.description}{/if}
@@ -158,7 +158,7 @@
                         {/if}
                         {if $row.caption == "instock"}
                             {* instock *}
-                            <td class="tdrow2 {if $row.not_enough_instock} bg-danger{/if}">
+                            <td class="tdrow2 {if $row.not_enough_instock} not-enough-instock{/if}">
                                 <div data-toggle="tooltip" title="min. Bestand: {$row.mininstock}">{$row.instock}</div>
                             </td>
                         {/if}
@@ -186,7 +186,7 @@
                         {/if}
                         {if $row.caption == "instock_mininstock"}
                             {* instock/mininstock *}
-                            <td class="tdrow2 {if $row.not_enough_instock} bg-danger{/if}">
+                            <td class="tdrow2 {if $row.not_enough_instock} not-enough-instock{/if}">
                                 {$row.instock}/{$row.mininstock}
                             </td>
                         {/if}

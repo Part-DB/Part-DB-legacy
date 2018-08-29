@@ -223,6 +223,10 @@ btn-xs
     padding: .1rem .3rem;
 }
 
+.not-enough-instock {
+    background-color: rgba(220, 53, 69, 0.4);
+}
+
 /****************************************
 * Picture classes
 *****************************************/
