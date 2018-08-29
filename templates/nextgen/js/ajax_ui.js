@@ -1017,7 +1017,7 @@ function viewer3d_models() {
         $.getJSON('api.php/1.0.0/3d_models/files/' + dir, function (list) {
             $("#models-picker").empty();
             list.forEach(function (element) {
-                $("<option/>").val(element).text(element).appendTo("#models-picker");
+                $("<option><option/>").val(element).text(element).appendTo("#models-picker");
                 $('#models-picker').selectpicker('refresh');
                 update();
             });

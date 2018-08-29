@@ -176,6 +176,7 @@ development/templates_c/
 
 #Models
 models/*
+!models/.keep
 
 #Ignore Node Modules
 node_modules/
@@ -185,3 +186,5 @@ node_modules/*
 vendor/*
 
 *.cache
+
+*.min.min.*

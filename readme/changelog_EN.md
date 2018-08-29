@@ -1,6 +1,17 @@
 # Part-DB changelog
 
-## Part DB 0.4.5
+## Part-DB 0.4.6
+### Bugfixes
+* Problem with missing part markings in part tables fixed
+* Login now also works correctly when calling the login page with the "?logout' option
+* Pre-order function for module components now works correctly
+* Links on the start page and component comments now work
+* Line breaks in part comments are now correctly interpreted as part property separators.
+
+### Miscellaneous
+* Composer dependencies updated
+
+## Part-DB 0.4.5
 ### Bugfixes
 * Problem that categories could not be deleted if a sub-element contains components
  fixed.

@@ -1,0 +1,24 @@
+version: '3'
+services:
+  partdb:
+    build: .
+    ports:
+      - "80:80"
+    depends_on:
+      - database
+    volumes:
+      - partdb-data:/var/www/html/data
+    restart: always
+
+  database:
+    image: mariadb:latest
+    volumes:
+      - partdb-database:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: changeme
+      MYSQL_DATABASE: partdb
+    restart: always
+
+volumes:
+  partdb-database:
+  partdb-data:
