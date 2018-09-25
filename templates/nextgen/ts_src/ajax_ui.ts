@@ -1114,7 +1114,7 @@ function makeHighlight() {
     //$('[data-toggle="tooltip"]').tooltip();
     //$('a[title]').tooltip("hide").tooltip({container: "body"});
     $('body').tooltip('destroy');
-    $("body").tooltip({ selector: '[title]', container: "body" });
+    $("body").tooltip({ selector: '[title]', container: "body", trigger: "hover"});
     //$('button[title]').tooltip("hide").tooltip({container: "body"});
 }
 
