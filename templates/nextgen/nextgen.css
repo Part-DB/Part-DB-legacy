@@ -338,7 +338,7 @@ table .input-group-btn:last-child>.btn, table .input-group-btn:last-child>.btn-g
     padding: 0;
 }
 
-.panel-heading a[data-toggle=collapse] {
+.card-header a[data-toggle=collapse] {
     display: inline-block;
     width: 100%;
     position: relative;
@@ -352,7 +352,7 @@ table .input-group-btn:last-child>.btn, table .input-group-btn:last-child>.btn-g
     src: url("../../webfonts/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("../../webfonts/fa-solid-900.woff2") format("woff2"), url("../../webfonts/fa-solid-900.woff") format("woff"), url("../../webfonts/fa-solid-900.ttf") format("truetype"), url("../../webfonts/fa-solid-900.svg#fontawesome") format("svg");
 }
 
-.panel-heading a[data-toggle=collapse]:after {
+.card-header a[data-toggle=collapse]:after {
     /*noinspection CssNoGenericFontName*/
     font-family: "FA5";
     content: "\f106";
@@ -365,12 +365,12 @@ table .input-group-btn:last-child>.btn, table .input-group-btn:last-child>.btn-g
     margin-top: -10px;
 }
 
-.panel-heading a[data-toggle=collapse].collapsed:after
+.card-header a[data-toggle=collapse].collapsed:after
 {
     content: "\f107";
 }
 
-.panel-heading {
+.card-header {
     overflow: hidden;
 }
 
