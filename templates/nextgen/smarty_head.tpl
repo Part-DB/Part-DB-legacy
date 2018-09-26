@@ -184,7 +184,7 @@
                             </div>
                         <input type="search" class="form-control mr-sm-2" placeholder="{t}Suche{/t}" name="keyword"
                                {if $livesearch_active}onkeyup="livesearch(event, this, 2);"{/if}>
-                        <button type="submit" id="search-submit" class="btn btn-outline-success my-2">{t}Los!{/t}</button>
+                        <button type="submit" id="search-submit" class="btn btn-outline-secondary my-2">{t}Los!{/t}</button>
                     </form>
                 {/if}
                 </div>
