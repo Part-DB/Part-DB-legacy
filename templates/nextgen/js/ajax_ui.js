@@ -679,10 +679,10 @@ function makeSortTable() {
     $.extend(true, $.fn.DataTable.Buttons.defaults, {
         dom: {
             container: {
-                className: 'dt-buttons btn-group pull-right'
+                className: 'dt-buttons btn-group float-right'
             },
             button: {
-                className: 'btn btn-default btn-xs'
+                className: 'btn btn-light btn-xs border'
             },
             collection: {
                 tag: 'ul',
@@ -810,7 +810,7 @@ function makeSortTable() {
             $("input[name='selected_ids']").val(str);
         });
         for (var n = 0; n < table_1.context.length; n++) {
-            var my_panel_header = $(table_1.table(n).container()).closest(".panel").find(".panel-heading");
+            var my_panel_header = $(table_1.table(n).container()).closest(".card").find(".card-header");
             table_1.table(n).buttons().container().appendTo(my_panel_header);
             //table.buttons(n, null).containers().appendTo(my_panel_header);
         }

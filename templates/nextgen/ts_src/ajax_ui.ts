@@ -783,10 +783,10 @@ function makeSortTable() {
     $.extend( true, $.fn.DataTable.Buttons.defaults, {
         dom: {
             container: {
-                className: 'dt-buttons btn-group pull-right'
+                className: 'dt-buttons btn-group float-right'
             },
             button: {
-                className: 'btn btn-default btn-xs'
+                className: 'btn btn-light btn-xs border'
             },
             collection: {
                 tag: 'ul',
@@ -920,7 +920,7 @@ function makeSortTable() {
             } );
 
         for(let n = 0; n < table.context.length; n++) {
-            let my_panel_header = $(table.table(n).container()).closest(".panel").find(".panel-heading");
+            let my_panel_header = $(table.table(n).container()).closest(".card").find(".card-header");
 
             table.table(n).buttons().container().appendTo(my_panel_header);
             //table.buttons(n, null).containers().appendTo(my_panel_header);
