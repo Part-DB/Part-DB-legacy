@@ -6,8 +6,8 @@
     {include "../smarty_pagination.tpl"}
 </form>
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
+<div class="card border-primary">
+    <div class="card-header bg-primary text-white">
         <b>{$table_rowcount}</b> {t}Teile mit unbekanntem Lagerbestand{/t}</div>
     {include file="../smarty_table.tpl"}
 </div>

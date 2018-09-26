@@ -6,9 +6,9 @@
 {/if}
 
 {if isset($loggedout)}
-    <div class="panel panel-success">
-        <div class="panel-heading">{t}Erfolg{/t}</div>
-        <div class="panel-body">
+    <div class="card border-success">
+        <div class="card-header bg-success text-white">{t}Erfolg{/t}</div>
+        <div class="card-body">
             <p>{t}Erfolgreich ausgeloggt.{/t}</p>
             {* We need this because $refresh_navigation_frame does not work and I dont know why... *}
             <img src onerror='location.href = location.href.replace("?logout", "");'>
@@ -24,9 +24,9 @@
 {/if}
 
 {if isset($loggedin) && $loggedin}
-    <div class="panel panel-success">
-        <div class="panel-heading">{t}Erfolg{/t}</div>
-        <div class="panel-body">
+    <div class="card border-success">
+        <div class="card-header bg-success text-white">{t}Erfolg{/t}</div>
+        <div class="card-body">
             <p>{t}Erfolgreich eingeloggt.{/t}</p>
             <form action="login.php" method="post" class="no-progbar">
                 <button class="btn btn-primary" type="submit" name="logout">{t}Logout{/t}</button>
@@ -34,26 +34,26 @@
         </div>
     </div>
 {else}
-        <div class="panel panel-primary">
-            <div class="panel-heading"><h4><i class="fa fa-sign-in-alt" aria-hidden="true"></i>
+        <div class="card border-primary">
+            <div class="card-header text-white bg-primary"><h4><i class="fa fa-sign-in-alt" aria-hidden="true"></i>
                     {t}Login{/t}</h4></div>
-            <div class="panel-body">
+            <div class="card-body">
                 <form class="form-horizontal no-progbar" method="post">
 
-                    <div class="form-group">
-                        <label class="control-label col-md-2">{t}Benutzername:{/t}</label>
-                        <div class="col-md-10">
+                    <div class="form-group row">
+                        <label class="col-form-label col-2">{t}Benutzername:{/t}</label>
+                        <div class="col-10">
                             <input type="text" class="form-control" placeholder="{t}Nutzername{/t}" name="username" value="{$username}">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-md-2">{t}Password:{/t}</label>
-                        <div class="col-md-10">
+                    <div class="form-group row">
+                        <label class="col-form-label col-2">{t}Password:{/t}</label>
+                        <div class="col-10">
                             <input type="password" class="form-control" placeholder="{t}Password{/t}" name="password">
                         </div>
                     </div>
 
-                    <div class="form-group">
+                    <div class="form-group row">
                         <div class="col-md-10 col-md-offset-2">
                             <button type="submit" class="btn btn-primary">{t}Login{/t}</button>
                         </div>

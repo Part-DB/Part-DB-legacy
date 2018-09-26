@@ -1,18 +1,18 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-<div class="panel panel-primary">
-    <div class="panel-heading"><i class="fas fa-chart-bar" aria-hidden="true"></i>
+<div class="card border-primary">
+    <div class="card-header bg-primary text-white"><i class="fas fa-chart-bar" aria-hidden="true"></i>
         {t}Statistik{/t}
     </div>
-    <div class="panel-body table-responsive form-horizontal">
+    <div class="card-body table-responsive form-horizontal">
 
         <ul class="nav nav-tabs">
-            <li class="active"><a href="#home" data-toggle="tab" class="link-anchor">{t}Übersicht{/t}</a></li>
-            <li><a href="#graph_instock" data-toggle="tab" class="link-anchor">{t}Am meisten vorhandene Bauteile{/t}</a></li>
-            <li><a href="#graph_categories" data-toggle="tab" class="link-anchor">{t}Meistbenutzte Kategorien{/t}</a></li>
-            <li><a href="#graph_locations" data-toggle="tab" class="link-anchor">{t}Meistbenutzte Lagerorte{/t}</a></li>
-            <li><a href="#graph_footprints" data-toggle="tab" class="link-anchor">{t}Meistbenutzte Footprints{/t}</a></li>
-            <li><a href="#graph_manufacturers" data-toggle="tab" class="link-anchor">{t}Meistbenutzte Hersteller{/t}</a></li>
+            <li class="nav-item active"><a href="#home" data-toggle="tab" class="link-anchor nav-link">{t}Übersicht{/t}</a></li>
+            <li class="nav-item"><a href="#graph_instock" data-toggle="tab" class="link-anchor nav-link">{t}Am meisten vorhandene Bauteile{/t}</a></li>
+            <li class="nav-item"><a href="#graph_categories" data-toggle="tab" class="link-anchor nav-link">{t}Meistbenutzte Kategorien{/t}</a></li>
+            <li class="nav-item"><a href="#graph_locations" data-toggle="tab" class="link-anchor nav-link">{t}Meistbenutzte Lagerorte{/t}</a></li>
+            <li class="nav-item"><a href="#graph_footprints" data-toggle="tab" class="link-anchor nav-link">{t}Meistbenutzte Footprints{/t}</a></li>
+            <li class="nav-item"><a href="#graph_manufacturers" data-toggle="tab" class="link-anchor nav-link">{t}Meistbenutzte Hersteller{/t}</a></li>
         </ul>
 
         <br>
