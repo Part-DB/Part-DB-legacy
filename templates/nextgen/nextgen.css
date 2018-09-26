@@ -538,3 +538,10 @@ ul.structural_link li a:hover {
         content: none !important;
     }
 }
+
+/*****************************
+BS 4 overrides
+ ****************************/
+.col-form-label {
+    font-weight: bold;
+}
