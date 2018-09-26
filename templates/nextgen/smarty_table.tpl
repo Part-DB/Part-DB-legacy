@@ -101,11 +101,11 @@
                             <td class="tdrow0">
                                 {if $row.caption =="hover_picture"}
                                     <p>
-                                        <img class="img-responsive hoverpic" rel="popover" src="{$row.small_picture}" alt="{$row.picture_name}">
+                                        <img class="img-fluid hoverpic" rel="popover" src="{$row.small_picture}" alt="{$row.picture_name}">
                                     </p>
                                 {else}
                                     {if $row.small_picture}
-                                        <img class="img-responsive hoverpic" rel="popover" src="{$row.small_picture}" alt="">
+                                        <img class="img-fluid hoverpic" rel="popover" src="{$row.small_picture}" alt="">
                                     {/if}
                                 {/if}
                             </td>

@@ -755,7 +755,7 @@ function registerHoverImages() {
         placement: 'auto',
         container: 'body',
         content: function () {
-            return '<img class="img-responsive" src="' + this.src + '" />';
+            return '<img class="img-fluid" src="' + this.src + '" />';
         }
     });
 }
