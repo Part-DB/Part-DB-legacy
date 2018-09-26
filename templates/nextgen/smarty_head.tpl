@@ -352,7 +352,7 @@
                             {if !$devices_disabled && isset($can_device) && $can_device}
                                 <li id="devices">
                                     <div class="dropdown">
-                                        <button class="btn-text dropdown-toggle mb-2" type="button" id="dropdownDev" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <button class="btn-text dropdown-toggle mb-2 mt-2" type="button" id="dropdownDev" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                             <span class="sidebar-title" id="tree-devices-title">{t}Baugruppen{/t}</span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownDev">
@@ -376,7 +376,7 @@
 
                             <li id="tools">
                                 <div class="dropdown">
-                                    <button class="btn-text dropdown-toggle mb-2" type="button" id="dropdownTools" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                    <button class="btn-text dropdown-toggle mb-2 mt-2" type="button" id="dropdownTools" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                         <span class="sidebar-title" id="tree-tools-title">{t}Verwaltung{/t}</span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownTools">
