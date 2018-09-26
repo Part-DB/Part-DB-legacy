@@ -67,7 +67,6 @@
     <!-- Popper.js (needed for BS4 tooltips) -->
     <script src="{$relative_path}js/popper/popper.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
-    <script src="{$relative_path}js/popper.min.js"></script>
     <script src="{$relative_path}js/bootstrap.min.js"></script>
 
     <!-- Bootstrap select -->
