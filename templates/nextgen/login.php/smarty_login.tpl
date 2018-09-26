@@ -40,21 +40,21 @@
             <div class="card-body">
                 <form class="form-horizontal no-progbar" method="post">
 
-                    <div class="form-group">
-                        <label class="control-label col-2">{t}Benutzername:{/t}</label>
+                    <div class="form-group row">
+                        <label class="col-form-label col-2">{t}Benutzername:{/t}</label>
                         <div class="col-10">
                             <input type="text" class="form-control" placeholder="{t}Nutzername{/t}" name="username" value="{$username}">
                         </div>
                     </div>
-                    <div class="form-group">
-                        <label class="control-label col-2">{t}Password:{/t}</label>
+                    <div class="form-group row">
+                        <label class="col-form-label col-2">{t}Password:{/t}</label>
                         <div class="col-10">
                             <input type="password" class="form-control" placeholder="{t}Password{/t}" name="password">
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <div class="col-10 col-offset-2">
+                    <div class="form-group row">
+                        <div class="col-md-10 col-md-offset-2">
                             <button type="submit" class="btn btn-primary">{t}Login{/t}</button>
                         </div>
                     </div>

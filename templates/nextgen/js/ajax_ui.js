@@ -990,7 +990,7 @@ function makeHighlight() {
 function makeTooltips() {
     //$('[data-toggle="tooltip"]').tooltip();
     //$('a[title]').tooltip("hide").tooltip({container: "body"});
-    $('body').tooltip('destroy');
+    $('body').tooltip('dispose');
     $("body").tooltip({ selector: '[title]', container: "body", trigger: "hover" });
     //$('button[title]').tooltip("hide").tooltip({container: "body"});
 }
