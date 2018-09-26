@@ -268,7 +268,7 @@
                         {if $row.caption == "button_decrement"}
                             {* build the "-" button, only if more than 0 parts on stock *}
                             <td class="tdrow6 no-select">
-                                <button type="submit" class="btn btn-xs btn-default" name="decrement_{$row.row_index}"
+                                <button type="submit" class="btn btn-xs btn-outline-dark" name="decrement_{$row.row_index}"
                                         {if $row.decrement_disabled}disabled="disabled"{/if}
                                 ><i class="fa fa-minus" aria-hidden="true"></i></span></button>
                             </td>
@@ -276,14 +276,14 @@
                         {if $row.caption == "button_increment"}
                             {* build the "+" button *}
                             <td class="tdrow7 no-select">
-                                <button type="submit" class="btn btn-xs btn-default" name="increment_{$row.row_index}"
+                                <button type="submit" class="btn btn-xs btn-outline-dark" name="increment_{$row.row_index}"
                                         {if $row.increment_disabled}disabled="disabled"{/if}
                                 ><i class="fa fa-plus" aria-hidden="true"></i></span></button>
                             </td>
                         {/if}
                         {if $row.caption == "button_edit"}
                             <td class="tdrow7 no-select">
-                                {if !$row.edit_disabled} <a class="btn btn-xs btn-default" href="{$relative_path}edit_part_info.php?pid={$row.id}"
+                                {if !$row.edit_disabled} <a class="btn btn-xs btn-outline-dark" href="{$relative_path}edit_part_info.php?pid={$row.id}"
                                                             {if $row.edit_disabled}disabled="disabled" {/if}><i class="fa fa-pencil-alt" aria-hidden="true"></i></span></a> {/if}
                             </td>
                         {/if}

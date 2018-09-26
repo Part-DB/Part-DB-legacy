@@ -238,7 +238,10 @@ btn-xs
  */
 
 .btn-xs {
-    padding: .1rem .3rem;
+    /*padding: .1rem .3rem; */
+    padding: 1px 5px;
+    font-size: 12px;
+    line-height: 1.5
 }
 
 .not-enough-instock {
