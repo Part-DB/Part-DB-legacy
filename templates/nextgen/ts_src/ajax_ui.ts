@@ -1054,7 +1054,7 @@ function registerAutoRefresh() {
 }
 
 function fixSelectPaginationHeight() {
-    $('.pagination>li>select').css('height', parseInt($('.pagination').css("height")));
+    $('.pagination>li>select').css('height', parseInt($('.pagination').css("height")) - 2);
 }
 
 /**
