@@ -7,7 +7,7 @@
     <div class="card-body table-responsive form-horizontal">
 
         <ul class="nav nav-tabs">
-            <li class="nav-item active"><a href="#home" data-toggle="tab" class="link-anchor nav-link">{t}Übersicht{/t}</a></li>
+            <li class="nav-item"><a href="#home" data-toggle="tab" class="link-anchor nav-link active">{t}Übersicht{/t}</a></li>
             <li class="nav-item"><a href="#graph_instock" data-toggle="tab" class="link-anchor nav-link">{t}Am meisten vorhandene Bauteile{/t}</a></li>
             <li class="nav-item"><a href="#graph_categories" data-toggle="tab" class="link-anchor nav-link">{t}Meistbenutzte Kategorien{/t}</a></li>
             <li class="nav-item"><a href="#graph_locations" data-toggle="tab" class="link-anchor nav-link">{t}Meistbenutzte Lagerorte{/t}</a></li>
@@ -19,16 +19,16 @@
 
         <div class="tab-content">
 
-            <div id="home" class="tab-pane fade in active">
+            <div id="home" class="tab-pane fade show active">
                 <div class="form-horizontal">
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="col-md-4 control-label">{t}Mit Preis erfasste Bauteile:{/t}</label>
+                    <div class="form-group row" style="margin-bottom: 0;">
+                        <label class="col-md-4 col-form-label">{t}Mit Preis erfasste Bauteile:{/t}</label>
                         <div class="col-md-8">
                             <p class="form-control-static">{$parts_count_with_prices}</p>
                         </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="col-md-4 control-label">{t}Wert aller mit Preis erfassten Bauteile:{/t}</label>
+                    <div class="form-group row" style="margin-bottom: 0;">
+                        <label class="col-md-4 col-form-label">{t}Wert aller mit Preis erfassten Bauteile:{/t}</label>
                         <div class="col-md-8">
                             <p class="form-control-static">{$parts_count_sum_value}</p>
                         </div>
@@ -36,14 +36,14 @@
 
                     <br>
 
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="col-md-4 control-label">{t}Anzahl der verschiedenen Bauteile:{/t}</label>
+                    <div class="form-group row" style="margin-bottom: 0;">
+                        <label class="col-md-4 col-form-label">{t}Anzahl der verschiedenen Bauteile:{/t}</label>
                         <div class="col-md-8">
                             <p class="form-control-static">{$parts_count}</p>
                         </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="col-md-4 control-label">{t}Anzahl der vorhandenen Bauteile:{/t}</label>
+                    <div class="form-group row" style="margin-bottom: 0;">
+                        <label class="col-md-4 col-form-label">{t}Anzahl der vorhandenen Bauteile:{/t}</label>
                         <div class="col-md-8">
                             <p class="form-control-static">{$parts_count_sum_instock}</p>
                         </div>
@@ -51,64 +51,64 @@
 
                     <br>
 
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="col-md-4 control-label">{t}Anzahl der Kategorien:{/t}</label>
+                    <div class="form-group row" style="margin-bottom: 0;">
+                        <label class="col-md-4 col-form-label">{t}Anzahl der Kategorien:{/t}</label>
                         <div class="col-md-8">
                             <p class="form-control-static">{$categories_count}</p>
                         </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="col-md-4 control-label">{t}Anzahl der Footprints:{/t}</label>
+                    <div class="form-group row" style="margin-bottom: 0;">
+                        <label class="col-md-4 col-form-label">{t}Anzahl der Footprints:{/t}</label>
                         <div class="col-md-8">
                             <p class="form-control-static">{$footprint_count}</p>
                         </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="col-md-4 control-label">{t}Anzahl der Lagerorte:{/t}</label>
+                    <div class="form-group row" style="margin-bottom: 0;">
+                        <label class="col-md-4 col-form-label">{t}Anzahl der Lagerorte:{/t}</label>
                         <div class="col-md-8">
                             <p class="form-control-static">{$location_count}</p>
                         </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="col-md-4 control-label">{t}Anzahl der Lieferanten:{/t}</label>
+                    <div class="form-group row" style="margin-bottom: 0;">
+                        <label class="col-md-4 col-form-label">{t}Anzahl der Lieferanten:{/t}</label>
                         <div class="col-md-8">
                             <p class="form-control-static">{$suppliers_count}</p>
                         </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="col-md-4 control-label">{t}Anzahl der Hersteller:{/t}</label>
+                    <div class="form-group row" style="margin-bottom: 0;">
+                        <label class="col-md-4 col-form-label">{t}Anzahl der Hersteller:{/t}</label>
                         <div class="col-md-8">
                             <p class="form-control-static">{$manufacturers_count}</p>
                         </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="col-md-4 control-label">{t}Anzahl der Baugruppen:{/t}</label>
+                    <div class="form-group row" style="margin-bottom: 0;">
+                        <label class="col-md-4 col-form-label">{t}Anzahl der Baugruppen:{/t}</label>
                         <div class="col-md-8">
                             <p class="form-control-static">{$devices_count}</p>
                         </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="col-md-4 control-label">{t}Anzahl der Dateianhänge:{/t}</label>
+                    <div class="form-group row" style="margin-bottom: 0;">
+                        <label class="col-md-4 col-form-label">{t}Anzahl der Dateianhänge:{/t}</label>
                         <div class="col-md-8">
                             <p class="form-control-static">{$attachements_count}</p>
                         </div>
                     </div>
 
                     <br>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="col-md-4 control-label">{t}Anzahl der Footprint Bilder:{/t}</label>
+                    <div class="form-group row" style="margin-bottom: 0;">
+                        <label class="col-md-4 col-form-label">{t}Anzahl der Footprint Bilder:{/t}</label>
                         <div class="col-md-8">
                             <p class="form-control-static">{$footprint_picture_count}</p>
                         </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="col-md-4 control-label">{t}Anzahl der Footprint 3D Modelle:{/t}</label>
+                    <div class="form-group row" style="margin-bottom: 0;">
+                        <label class="col-md-4 col-form-label">{t}Anzahl der Footprint 3D Modelle:{/t}</label>
                         <div class="col-md-8">
                             <p class="form-control-static">{$footprint_models_count}</p>
                         </div>
                     </div>
-                    <div class="form-group" style="margin-bottom: 0;">
-                        <label class="col-md-4 control-label">{t}Anzahl der Hersteller Logos:{/t}</label>
+                    <div class="form-group row" style="margin-bottom: 0;">
+                        <label class="col-md-4 col-form-label">{t}Anzahl der Hersteller Logos:{/t}</label>
                         <div class="col-md-8">
                             <p class="form-control-static">{$iclogos_picture_count}</p>
                         </div>
