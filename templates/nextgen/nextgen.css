@@ -14,17 +14,35 @@ body {
 
 @media  (min-width: 768px) {
     .fixed-sidebar {
+        /*
         position: fixed;
         left: 15px;
         z-index: 1000;
-        width: inherit;
+        /* display: flex;
+        width: inherit; '/
         overflow-x: hidden;
         overflow-y: auto;
         /*noinspection W3CssValidation*/
-        -webkit-overflow-scrolling: touch;
+       /* -webkit-overflow-scrolling: touch;
         max-height: 100%;
-        padding-bottom: 50px;
-    }
+        padding-bottom: 50px; */
+
+
+        position: fixed;
+        top: 51px;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        /* padding: 20px; */
+        padding-left: 15px;
+        padding-top: 15px;
+        padding-right: 0;
+        overflow-x: hidden;
+        overflow-y: auto;
+
+        /*noinspection W3CssValidation*/
+        -webkit-overflow-scrolling: touch;
+ }
 
 
 }
@@ -432,7 +450,7 @@ span.highlight {
 }
 
 .fa-treeview {
-    line-height: 1.5;
+    line-height: 1.428;
 }
 
 /*****************************

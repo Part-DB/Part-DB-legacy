@@ -320,9 +320,7 @@
     <div class="container-fluid">
 
         <div class="row">
-            <aside class="hidden-print col-sm-3 col-md-2 sidebar-collapse collapse sidebar-container" id="sidebar">
-                <nav {* class="fixed-sidebar" *} id="fixed-sidebar">
-                    <div class="">
+                <nav  {* class="fixed-sidebar"  *} class="fixed-sidebar col-sm-3 col-md-2 d-xs-none" id="fixed-sidebar">
                         <ul class="nav flex-column">
                             {if isset($can_category) && $can_category}
                                 <li id="categories">
@@ -397,14 +395,13 @@
                                 <div id="tree-tools"></div>
                             </li>
                         </ul>
-                    </div>
+
 
                     <noscript><b>{t}Bitte aktivieren sie Javascript, um alle Funktionen benutzen zu können.{/t}</b></noscript>
 
                 </nav>
-            </aside>
 
-            <div class="col-sm-9 col-md-10" id="main">
+            <div class="col-sm-9 col-md-10 offset-sm-3 offset-md-2 pl-0" id="main">
 
                 <div class="container-fluid container-progress" id="progressbar" style="display: none;">
                     <div class="progress mb-3">
