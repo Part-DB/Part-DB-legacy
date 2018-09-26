@@ -44,7 +44,7 @@
 
 
 <div class="jumbotron">
-    <h1 class="display-4">{if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</h1>
+    <h1 class="display-3">{if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</h1>
     {if isset($system_version_full)}
         <h4>{t}Version:{/t} {$system_version_full}{if !empty($git_branch)}, Git: {$git_branch}{if isset($git_commit)}/{$git_commit}{/if}{/if}</h4>
     {/if}
