@@ -548,4 +548,13 @@ BS 4 overrides
  ****************************/
 .col-form-label {
     font-weight: bold;
+    text-align: right;
+}
+
+label {
+    font-weight: bold;
+}
+
+.form-group {
+    margin-bottom: 0.2rem;
 }

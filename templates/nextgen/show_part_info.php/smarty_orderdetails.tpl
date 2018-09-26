@@ -1,13 +1,13 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="card mt-3">
+    <div class="card-header">
         <a data-toggle="collapse" class="link-collapse text-default" href="#panel-orderdetails"><i class="fa fa-shopping-cart fa-fw" aria-hidden="true"></i>
             {t}Einkaufsinformationen{/t}
         </a>
     </div>
     {if isset($orderdetails) && $orderdetails}
-        <div class="panel-collapse collapse in" id="panel-orderdetails">
+        <div class="card-collapse collapse in" id="panel-orderdetails">
             <div class="table-responsive " >
                 <table class="table table-striped table-header">
                     <thead>
@@ -84,10 +84,10 @@
         </div>
 
     {else}
-        <div class="panel-body panel-collapse collapse in" id="panel-orderdetails">
+        <div class="card-body card-collapse collapse in" id="panel-orderdetails">
             <!-- This a have not to have link-anchor class -->
-            <span class="help-block" style="display: inline;">{t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}</span>
-            <a class="btn btn-default pull-right hidden-print"
+            <span class="form-text text-muted" style="display: inline;">{t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}</span>
+            <a class="btn btn-secondary float-right hidden-print"
                href="edit_part_info.php?pid={$pid}#orderdetails"
                {if !$can_orderdetails_create}disabled{/if}>
                 {t}Einkaufsinformationen hinzufügen{/t}</a>
