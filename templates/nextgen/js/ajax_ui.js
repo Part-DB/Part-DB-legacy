@@ -721,7 +721,7 @@ function makeSortTable() {
             "paging": false,
             "ordering": true,
             "info": false,
-            "fixedHeader": true,
+            "fixedHeader": { header: true, headerOffset: $("#navbar").height() },
             "searching": false,
             "select": $(".table-sortable").hasClass("table-selectable") ? { style: "os", selector: "td:not(.no-select)" } : false,
             "order": [],

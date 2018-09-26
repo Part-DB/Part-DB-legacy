@@ -110,7 +110,7 @@
 
     <header>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm fixed-top py-0">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm fixed-top py-0" id="navbar">
             <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> {if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
