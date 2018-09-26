@@ -323,7 +323,7 @@
             <aside class="hidden-print col-sm-3 col-md-2 sidebar-collapse collapse sidebar-container" id="sidebar">
                 <nav {* class="fixed-sidebar" *} id="fixed-sidebar">
                     <div class="">
-                        <ul class="nav navmenu-nav">
+                        <ul class="nav flex-column">
                             {if isset($can_category) && $can_category}
                                 <li id="categories">
                                     <!-- <h4>{t}Kategorien{/t}</h4>-->

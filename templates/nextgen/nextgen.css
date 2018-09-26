@@ -421,6 +421,7 @@ span.highlight {
 * Bootstrap treeview overrides
 *******************************/
 /* Set display style to flexbox, so wraped text is aligned to */
+
 .list-group-item {
     padding: 5px 10px;
     display: flex;
@@ -428,6 +429,10 @@ span.highlight {
 
 .treeview {
     font-size: 12px;
+}
+
+.fa-treeview {
+    line-height: 1.5;
 }
 
 /*****************************

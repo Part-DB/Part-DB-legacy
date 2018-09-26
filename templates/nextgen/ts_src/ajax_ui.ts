@@ -346,7 +346,8 @@ class AjaxUI {
 
         $.getJSON(BASE + url, function (data : BootstrapTreeViewNodeData[]) {
             $(tree).treeview({data: data, enableLinks: false, showIcon: false
-                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
+                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler,
+                expandIcon: "fas fa-plus fa-fw fa-treeview", collapseIcon: "fas fa-minus fa-fw fa-treeview"}).treeview('collapseAll', { silent: true });
         });
     }
 
