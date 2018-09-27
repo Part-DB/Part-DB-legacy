@@ -1,15 +1,15 @@
 {locale path="nextgen/locale" domain="partdb"}
 
 <form method="post" class="no-progbar">
-    <div class="panel panel-primary">
-        <div class="panel-heading"><i class="fa fa-barcode" aria-hidden="true"></i>
+    <div class="card border-primary">
+        <div class="card-header bg-primary text-white"><i class="fa fa-barcode" aria-hidden="true"></i>
             {t}Label erzeugen{/t}</div>
-        <div class="panel-body">
+        <div class="card-body">
             <div class="form-horizontal">
 
                 <ul class="nav nav-tabs">
-                    <li role="presentation" class="active"><a href="#tab-settings" data-toggle="tab" class="link-anchor"><i class="fas fa-wrench"></i> {t}Einstellungen{/t}</a></li>
-                    <li role="presentation"><a href="#tab-profiles" data-toggle="tab" class="link-anchor"><i class="fas fa-bookmark"></i> {t}Profile{/t}</a></li>
+                    <li role="presentation" class="active nav-item"><a href="#tab-settings" data-toggle="tab" class="link-anchor nav-link active"><i class="fas fa-wrench"></i> {t}Einstellungen{/t}</a></li>
+                    <li role="presentation" class="nav-item"><a href="#tab-profiles" data-toggle="tab" class="link-anchor nav-link"><i class="fas fa-bookmark"></i> {t}Profile{/t}</a></li>
                     {*<li role="presentation"><a href="#">Messages</a></li>*}
                 </ul>
 
@@ -17,10 +17,10 @@
 
                 <div class="tab-content">
 
-                    <div id="tab-settings" class="tab-pane fade in active">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">{t}Typ:{/t}</label>
-                            <div class="col-md-9">
+                    <div id="tab-settings" class="tab-pane fade show active">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">{t}Typ:{/t}</label>
+                            <div class="col-md-10">
                                 <select class="form-control" name="generator">
                                     <option value="part" {if $generator == "part"}selected{/if}>{t}Bauteil{/t}</option>
                                     <option value="location" {if $generator == "location"}selected{/if}>{t}Lagerort{/t}</option>
@@ -28,16 +28,16 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">{t}ID:{/t}</label>
-                            <div class="col-md-9">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">{t}ID:{/t}</label>
+                            <div class="col-md-10">
                                 <input class="form-control" min="1" name="id" type="number" value="{if $id>0}{$id}{/if}" required>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">{t}Barcode Typ:{/t}</label>
-                            <div class="col-md-9">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">{t}Barcode Typ:{/t}</label>
+                            <div class="col-md-10">
                                 <select class="form-control" name="type" {if !$can_edit_option}disabled{/if}>
                                     {foreach $supported_types as $t}
                                         {if $t == 2}<option value="2" {if isset($type) && $type==2}selected{/if}>{t}1D-Barcode (EAN8){/t}</option>{/if}
@@ -49,9 +49,9 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">{t}Größe:{/t}</label>
-                            <div class="col-md-4" >
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label">{t}Größe:{/t}</label>
+                            <div class="col-md-5" >
                                 <select class="form-control" name="size" id="size" {if !$can_edit_option}disabled{/if} onchange="updateCustomSizeStatus();">
                                     <optgroup label="{t}Vorgaben{/t}">
                                         {foreach $supported_sizes as $size}
@@ -67,16 +67,16 @@
                                 <div class="input-group">
 
                                     <input type="number" min="0" class="form-control" placeholder="{t}Breite{/t}" name="custom_width" required {if !$can_edit_option}disabled{/if} value="{$custom_width}">
-                                    <span class="input-group-addon" id="basic-addon1">x</span>
+                                    <div class="input-group-append"> <span class="input-group-text" id="basic-addon1">x</span></div>
                                     <input type="number" min="0" class="form-control" placeholder="{t}Höhe{/t}" name="custom_height" required {if !$can_edit_option}disabled{/if} value="{$custom_height}">
-                                    <span class="input-group-addon">mm</span>
+                                    <div class="input-group-append"> <span class="input-group-text" id="basic-addon2">mm</span></div>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label" >{t}Line Preset:{/t}</label>
-                            <div class="col-md-9">
+                        <div class="form-group row">
+                            <label class="col-md-2 col-form-label" >{t}Line Preset:{/t}</label>
+                            <div class="col-md-10">
                                 <select class="form-control" name="preset" id="preset" {if !$can_edit_option}disabled{/if} onchange="updateCustomRowStatus()">
                                     <optgroup label="{t}Presets{/t}">
                                         {foreach $available_presets as $preset}
@@ -90,8 +90,8 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <div class="col-md-offset-3 col-md-9">
+                        <div class="form-group row">
+                            <div class="offset-md-2 col-md-10">
                                 <button type="submit" class="btn btn-primary" name="label_generate">{t}Erzeuge Label{/t}</button>
                                 {if isset($download_link)}<a class="link-external" href="{$download_link}">{t}Download Label{/t}</a>{/if}
                             </div>
@@ -142,16 +142,16 @@
         </div>
     </div>
 
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card mt-3">
+        <div class="card-header">
             <a data-toggle="collapse" class="link-collapse text-default" href="#panel-advanced">
                 {t}Erweiterte Einstellungen{/t}
             </a>
         </div>
-        <div class="panel-body panel-collapse collapse {if !empty($comment)}in{/if}" id="panel-advanced">
+        <div class="card-body card-collapse collapse {if !empty($comment)}in{/if}" id="panel-advanced">
             <ul class="nav nav-tabs">
-                <li role="presentation" class="active"><a href="#tab-text" data-toggle="tab" class="link-anchor"><i class="fas fa-font"></i> {t}Text{/t}</a></li>
-                <li role="presentation"><a href="#tab-barcode" data-toggle="tab" class="link-anchor"><i class="fas fa-barcode"></i> {t}Barcode{/t}</a></li>
+                <li role="presentation" class="active nav-item"><a href="#tab-text" data-toggle="tab" class="link-anchor nav-link"><i class="fas fa-font"></i> {t}Text{/t}</a></li>
+                <li role="presentation" class="nav-item"><a href="#tab-barcode" data-toggle="tab" class="link-anchor nav-link"><i class="fas fa-barcode"></i> {t}Barcode{/t}</a></li>
                 {*<li role="presentation"><a href="#">Messages</a></li>*}
             </ul>
 
@@ -159,66 +159,66 @@
 
             <div class="tab-content">
 
-                <div id="tab-text" class="tab-pane fade in active">
+                <div id="tab-text" class="tab-pane fade in active show">
                     <div class="form-horizontal">
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">{t}Ausgabemodus:{/t}</label>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">{t}Ausgabemodus:{/t}</label>
                             <div class="col-md-9">
-                                <div class="radio radio-inline">
-                                    <input type="radio" name="radio_output" value="html" {if $radio_output == "html"}checked{/if} {if !$can_edit_option}disabled{/if} ><label>{t}HTML{/t}</label>
+                                <div class="form-check form-check-inline abc-radio">
+                                    <input class="form-check-input" type="radio" name="radio_output" value="html" {if $radio_output == "html"}checked{/if} {if !$can_edit_option}disabled{/if} ><label class="form-check-label">{t}HTML{/t}</label>
                                 </div>
-                                <div class="radio radio-inline">
-                                    <input type="radio" name="radio_output" value="text" {if $radio_output == "text"}checked{/if} {if !$can_edit_option}disabled{/if}><label>{t}Text{/t}</label>
+                                <div class="form-check form-check-inline abc-radio">
+                                    <input class="form-check-input" type="radio" name="radio_output" value="text" {if $radio_output == "text"}checked{/if} {if !$can_edit_option}disabled{/if}><label class="form-check-label">{t}Text{/t}</label>
                                 </div>
-                                <p class="help-block">{t}Wenn sie die Ausgabe auf Text umstellen, wird die ausgegebene PDF Datei evtl. kleiner, dafür werden evtl. vorhandene HTML Tags als Text dargestellt und nicht interpretiert!{/t}</p>
+                                <p class="text-muted form-text">{t}Wenn sie die Ausgabe auf Text umstellen, wird die ausgegebene PDF Datei evtl. kleiner, dafür werden evtl. vorhandene HTML Tags als Text dargestellt und nicht interpretiert!{/t}</p>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">{t}Text-Ausrichtung:{/t}</label>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">{t}Text-Ausrichtung:{/t}</label>
                             <div class="col-md-9">
-                                <div class="radio radio-inline">
-                                    <input type="radio" name="text_alignment" value="left" {if $text_alignment == "left"}checked{/if} {if !$can_edit_option}disabled{/if}><label>{t}Links{/t}</label>
+                                <div class="form-check form-check-inline abc-radio">
+                                    <input class="form-check-input" type="radio" name="text_alignment" value="left" {if $text_alignment == "left"}checked{/if} {if !$can_edit_option}disabled{/if}><label class="form-check-label">{t}Links{/t}</label>
                                 </div>
-                                <div class="radio radio-inline">
-                                    <input type="radio" name="text_alignment" value="center" {if $text_alignment == "center"}checked{/if} {if !$can_edit_option}disabled{/if}><label>{t}Zentrieren{/t}</label>
+                                <div class="form-check form-check-inline abc-radio">
+                                    <input class="form-check-input" type="radio" name="text_alignment" value="center" {if $text_alignment == "center"}checked{/if} {if !$can_edit_option}disabled{/if}><label class="form-check-label">{t}Zentrieren{/t}</label>
                                 </div>
-                                <div class="radio radio-inline">
-                                    <input type="radio" name="text_alignment" value="right" {if $text_alignment == "right"}checked{/if} {if !$can_edit_option}disabled{/if}><label>{t}Rechts{/t}</label>
+                                <div class="form-check form-check-inline abc-radio">
+                                    <input class="form-check-input" type="radio" name="text_alignment" value="right" {if $text_alignment == "right"}checked{/if} {if !$can_edit_option}disabled{/if}><label class="form-check-label">{t}Rechts{/t}</label>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">{t}Schriftstil:{/t}</label>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">{t}Schriftstil:{/t}</label>
                             <div class="col-md-9">
-                                <div class="checkbox checkbox-inline">
-                                    <input type="checkbox" name="text_bold" {if $text_bold}checked{/if} {if !$can_edit_option}disabled{/if}><label><b>{t}Fett{/t}</b></label>
+                                <div class="form-check form-check-inline abc-radio">
+                                    <input class="form-check-input" type="checkbox" name="text_bold" {if $text_bold}checked{/if} {if !$can_edit_option}disabled{/if}><label class="form-check-label"><b>{t}Fett{/t}</b></label>
                                 </div>
-                                <div class="checkbox checkbox-inline">
-                                    <input type="checkbox" name="text_italic" {if $text_italic}checked{/if} {if !$can_edit_option}disabled{/if}><label><i>{t}Kursiv{/t}</i></label>
+                                <div class="form-check form-check-inline abc-radio">
+                                    <input class="form-check-input" type="checkbox" name="text_italic" {if $text_italic}checked{/if} {if !$can_edit_option}disabled{/if}><label class="form-check-label"><i>{t}Kursiv{/t}</i></label>
                                 </div>
-                                <div class="checkbox checkbox-inline">
-                                    <input type="checkbox" name="text_underline" {if $text_underline}checked{/if} {if !$can_edit_option}disabled{/if}><label><u>{t}Unterstrichen{/t}</u></label>
+                                <div class="form-check form-check-inline abc-radio">
+                                    <input class="form-check-input" type="checkbox" name="text_underline" {if $text_underline}checked{/if} {if !$can_edit_option}disabled{/if}><label class="form-check-label"><u>{t}Unterstrichen{/t}</u></label>
                                 </div>
-                                <p class="help-block">{t}Beachten Sie dass sich diese Einstellung auf alle Textzeilen auswirkt!{/t}</p>
+                                <p class="text-muted form-text">{t}Beachten Sie dass sich diese Einstellung auf alle Textzeilen auswirkt!{/t}</p>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">{t}Schriftgröße:{/t}</label>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">{t}Schriftgröße:{/t}</label>
                             <div class="col-md-9">
                                 <input type="number" class="form-control" min="1" max="72" name="text_size" placeholder="8" value="{$text_size}" required {if !$can_edit_option}disabled{/if}>
                             </div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">{t}Benutzerdefinierte Zeilen:{/t}</label>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">{t}Benutzerdefinierte Zeilen:{/t}</label>
                             <div class="col-md-9">
                                 <textarea rows="4" class="form-control" name="custom_rows" {if !$can_edit_option}disabled{/if}>{$custom_rows}</textarea>
-                                <p class="help-block">{t}Für die Formatierung können HTML-Tags verwendet werden.{/t}</p>
-                                <p class="help-block">{t escape=false}Sie können dynamische Daten wie Uhrzeit oder Bauteilname über Platzhalter der Form %PLATZHALTER% einfügen. Im <a target="_blank" class="link-external" rel="noopener" href="https://github.com/jbtronics/Part-DB/wiki/Labels">Wiki</a> finden Sie eine Übersicht aller möglichen Platzhalter.{/t}</p>
+                                <p class="form-text text-muted">{t}Für die Formatierung können HTML-Tags verwendet werden.{/t}</p>
+                                <p class="form-text text-muted">{t escape=false}Sie können dynamische Daten wie Uhrzeit oder Bauteilname über Platzhalter der Form %PLATZHALTER% einfügen. Im <a target="_blank" class="link-external" rel="noopener" href="https://github.com/jbtronics/Part-DB/wiki/Labels">Wiki</a> finden Sie eine Übersicht aller möglichen Platzhalter.{/t}</p>
                             </div>
                         </div>
 
@@ -227,22 +227,22 @@
 
                 <div id="tab-barcode" class="tab-pane fade">
                     <div class="form-horizontal">
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">{t}Barcode-Ausrichtung:{/t}</label>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">{t}Barcode-Ausrichtung:{/t}</label>
                             <div class="col-md-9">
-                                <div class="radio radio-inline">
-                                    <input type="radio" name="barcode_alignment" value="left" {if $barcode_alignment == "left"}checked{/if} {if !$can_edit_option}disabled{/if}><label>{t}Links{/t}</label>
+                                <div class="form-check form-check-inline abc-radio">
+                                    <input class="form-check-input" type="radio" name="barcode_alignment" value="left" {if $barcode_alignment == "left"}checked{/if} {if !$can_edit_option}disabled{/if}><label class="form-check-label">{t}Links{/t}</label>
                                 </div>
-                                <div class="radio radio-inline">
-                                    <input type="radio" name="barcode_alignment" value="center" {if $barcode_alignment == "center"}checked{/if} {if !$can_edit_option}disabled{/if}><label>{t}Zentrieren{/t}</label>
+                                <div class="form-check form-check-inline abc-radio">
+                                    <input class="form-check-input" type="radio" name="barcode_alignment" value="center" {if $barcode_alignment == "center"}checked{/if} {if !$can_edit_option}disabled{/if}><label class="form-check-label">{t}Zentrieren{/t}</label>
                                 </div>
-                                <div class="radio radio-inline">
-                                    <input type="radio" name="barcode_alignment" value="right" {if $barcode_alignment == "right"}checked{/if} {if !$can_edit_option}disabled{/if}><label>{t}Rechts{/t}</label>
+                                <div class="form-check form-check-inline abc-radio">
+                                    <input class="form-check-input" type="radio" name="barcode_alignment" value="right" {if $barcode_alignment == "right"}checked{/if} {if !$can_edit_option}disabled{/if}><label class="form-check-label">{t}Rechts{/t}</label>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <label class="col-md-3 control-label">{t}Pfad zu Logo:{/t}</label>
                             <div class="col-md-6">
                                 <input name="logo_path" type="text" class="form-control" placeholder="{t}z.B. data/labels/logo.png{/t}" value="{$logo_path}"  {if !$can_edit_option}disabled{/if}>
@@ -254,7 +254,7 @@
                             </div>
                         </div>
 
-                        <div class="form-group">
+                        <div class="form-group row">
                             <div class="col-md-9 col-md-offset-3">
                                 <div class="checkbox">
                                     <input name="use_footprint_image" type="checkbox" {if $use_footprint_image}checked{/if} {if !$can_edit_option}disabled{/if}>
