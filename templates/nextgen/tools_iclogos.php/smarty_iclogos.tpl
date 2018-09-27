@@ -1,16 +1,16 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         {t}Hersteller IC Logos{/t}
     </div>
-    <div class="panel-body">
+    <div class="card-body">
                     <ul class="pagination">
-                        <li><a class="link-anchor" href="#A">A</a></li> <li><a class="link-anchor" href="#B">B</a></li> <li><a class="link-anchor" href="#C">C</a></li> <li><a class="link-anchor" href="#D">D</a></li> <li><a class="link-anchor" href="#E">E</a></li> <li><a class="link-anchor" href="#F">F</a></li>
-                        <li><a class="link-anchor" href="#G">G</a></li> <li><a class="link-anchor" href="#H">H</a></li> <li><a class="link-anchor" href="#I">I</a></li> <li><a class="link-anchor" href="#J">J</a></li> <li><a class="link-anchor" href="#K">K</a></li> <li><a  class="link-anchor" href="#L">L</a></li>
-                        <li><a class="link-anchor" href="#M">M</a></li> <li><a class="link-anchor" href="#N">N</a></li> <li><a class="link-anchor" href="#O">O</a></li> <li><a class="link-anchor" href="#P">P</a></li> <li><a class="link-anchor" href="#Q">Q</a></li> <li><a class="link-anchor" href="#R">R</a></li>
-                        <li><a class="link-anchor" href="#S">S</a></li> <li><a class="link-anchor" href="#T">T</a></li> <li><a class="link-anchor" href="#U">U</a></li> <li><a class="link-anchor" href="#V">V</a></li> <li><a  class="link-anchor" href="#W">W</a></li> <li><a class="link-anchor" href="#X">X</a></li>
-                        <li><a class="link-anchor" href="#Y">Y</a></li> <li><a class="link-anchor" href="#Z">Z</a></li>
+                        <li class="page-item"><a class="link-anchor page-link" href="#A">A</a></li> <li class="page-item"><a class="link-anchor page-link" href="#B">B</a></li> <li class="page-item"><a class="link-anchor page-link" href="#C">C</a></li> <li class="page-item"><a class="link-anchor page-link" href="#D">D</a></li> <li class="page-item"><a class="link-anchor page-link" href="#E">E</a></li> <li class="page-item"><a class="link-anchor page-link" href="#F">F</a></li>
+                        <li class="page-item"><a class="link-anchor page-link" href="#G">G</a></li> <li class="page-item"><a class="link-anchor page-link" href="#H">H</a></li> <li class="page-item"><a class="link-anchor page-link" href="#I">I</a></li> <li class="page-item"><a class="link-anchor page-link" href="#J">J</a></li> <li class="page-item"><a class="link-anchor page-link" href="#K">K</a></li> <li class="page-item"><a  class="link-anchor page-link" href="#L">L</a></li>
+                        <li class="page-item"><a class="link-anchor page-link" href="#M">M</a></li> <li class="page-item"><a class="link-anchor page-link" href="#N">N</a></li> <li class="page-item"><a class="link-anchor page-link" href="#O">O</a></li> <li class="page-item"><a class="link-anchor page-link" href="#P">P</a></li> <li class="page-item"><a class="link-anchor page-link" href="#Q">Q</a></li> <li class="page-item"><a class="link-anchor page-link" href="#R">R</a></li>
+                        <li class="page-item"><a class="link-anchor page-link" href="#S">S</a></li> <li class="page-item"><a class="link-anchor page-link" href="#T">T</a></li> <li class="page-item"><a class="link-anchor page-link" href="#U">U</a></li> <li class="page-item"><a class="link-anchor page-link" href="#V">V</a></li> <li class="page-item"><a  class="link-anchor page-link" href="#W">W</a></li> <li class="page-item"><a class="link-anchor page-link" href="#X">X</a></li>
+                        <li class="page-item"><a class="link-anchor page-link" href="#Y">Y</a></li> <li class="page-item"><a class="link-anchor page-link" href="#Z">Z</a></li>
                       </ul>
     </div>
         <table class="table table-striped table-hover">
