@@ -551,7 +551,7 @@ BS 4 overrides
     text-align: right;
 }
 
-label {
+.text-bold {
     font-weight: bold;
 }
 
@@ -565,4 +565,10 @@ label {
     font-family: "FA5", "Font Awesome 5 Pro", "Font Awesome 5 Free";
     content: "\f00c";
     font-weight: 900;
+}
+
+.form-check-dropdown {
+    display: flex;
+    width: auto;
+    padding-left: 10%;
 }

@@ -154,33 +154,33 @@
                                 {t}Suchoptionen{/t}
                                 <span class="caret"></span>
                             </button>
-                            <ul class="dropdown-menu" aria-labelledby="SearchOptions">
-                                <li class="form-check abc-checkbox"><input type="checkbox" class="form-check-input" name="search_name" value="true" checked>
-                                    <label for="search_name" class="form-check-label">{t}Name{/t}</label></li>
-                                <li class="checkbox"><input type="checkbox" class="styled" name="search_category" value="true" checked>
-                                    <label for="search_category">{t}Kategorie{/t}</label></li>
-                                <li class="checkbox"><input type="checkbox" name="search_description" value="true" checked>
-                                    <label for="search_description"></label>{t}Beschreibung{/t}</li>
-                                <li class="checkbox"><input type="checkbox" name="search_storelocation" value="true" checked>
-                                    <label for="search_storelocation">{t}Lagerort{/t}</label></li>
-                                <li class="checkbox"><input type="checkbox" name="search_comment" value="true" checked>
-                                    <label for="search_comment">{t}Kommentar{/t}</label></li>
+                            <div class="dropdown-menu" aria-labelledby="SearchOptions">
+                                <div class="abc-checkbox form-check-dropdown"><input type="checkbox" class="form-check-input" name="search_name" value="true" checked>
+                                    <label for="search_name" class="form-check-label">{t}Name{/t}</label></div>
+                                <div class="abc-checkbox form-check-dropdown"><input type="checkbox" class="form-check-input" name="search_category" value="true" checked>
+                                    <label for="search_category" class="form-check-label">{t}Kategorie{/t}</label></div>
+                                <div class="abc-checkbox form-check-dropdown"><input type="checkbox" class="form-check-input" name="search_description" value="true" checked>
+                                    <label for="search_description" class="form-check-label"></label>{t}Beschreibung{/t}</div>
+                                <div class="abc-checkbox form-check-dropdown"><input type="checkbox" class="form-check-input" name="search_storelocation" value="true" checked>
+                                    <label for="search_storelocation" class="form-check-label">{t}Lagerort{/t}</label></div>
+                                <div class="form-check-dropdown abc-checkbox" class="form-check-label"><input type="checkbox" class="form-check-input" name="search_comment" value="true" checked>
+                                    <label for="search_comment">{t}Kommentar{/t}</label></div>
                                 {if !$suppliers_disabled}
-                                    <li class="checkbox"><input type="checkbox" name="search_supplierpartnr" value="true" checked>
-                                        <label for="search_supplierpartnr">{t}Bestellnr.{/t}</label></li>
-                                    <li class="checkbox"><input type="checkbox" name="search_supplier" value="true">
-                                        <label for="search_supplier">{t}Lieferant{/t}</label></li> {/if}
+                                    <div class="form-check-dropdown abc-checkbox"><input type="checkbox" class="form-check-input" name="search_supplierpartnr" value="true" checked>
+                                        <label for="search_supplierpartnr" class="form-check-label">{t}Bestellnr.{/t}</label></div>
+                                    <li class="form-check-dropdown abc-checkbox"><input type="checkbox" class="form-check-input" name="search_supplier" value="true">
+                                        <label for="search_supplier" class="form-check-label">{t}Lieferant{/t}</label></li> {/if}
                                 {if !$manufacturers_disabled}
-                                    <li class="checkbox"><input type="checkbox" name="search_manufacturer" value="true">
-                                    <label for="search_manufacturer">{t}Hersteller{/t}</label></li>{/if}
+                                    <div class="form-check-dropdown abc-checkbox"><input type="checkbox"  class="form-check-input" name="search_manufacturer" value="true">
+                                    <label for="search_manufacturer" class="form-check-label">{t}Hersteller{/t}</label></div>{/if}
                                 {if !$footprints_disabled}
-                                    <li class="checkbox"><input type="checkbox" name="search_footprint" value="true">
-                                    <label for="search_footprint">{t}Footprint{/t}</label></li>{/if}
-                                <li class="checkbox"><input type="checkbox" name="disable_pid_input" value="false">
-                                    <label for="disable_pid_input">{t}Deakt. Barcode{/t}</label></li>
-                                <li class="checkbox"><input type="checkbox" name="regex" value="true">
-                                    <label for="regex">{t}RegEx Matching{/t}</label></li>
-                            </ul>
+                                    <div class="form-check-dropdown abc-checkbox"><input type="checkbox" class="form-check-input" name="search_footprint" value="true">
+                                    <label for="search_footprint" class="form-check-label">{t}Footprint{/t}</label></div>{/if}
+                                <div class="form-check-dropdown abc-checkbox"><input type="checkbox" class="form-check-input" name="disable_pid_input" value="false">
+                                    <label for="disable_pid_input" class="form-check-label">{t}Deakt. Barcode{/t}</label></div>
+                                <div class="form-check-dropdown abc-checkbox"><input type="checkbox" class="form-check-input" name="regex" value="true">
+                                    <label for="regex" class="form-check-label">{t}RegEx Matching{/t}</label></div>
+                            </div>
                             </div>
                         <input type="search" class="form-control mr-sm-2" placeholder="{t}Suche{/t}" name="keyword"
                                {if $livesearch_active}onkeyup="livesearch(event, this, 2);"{/if}>
