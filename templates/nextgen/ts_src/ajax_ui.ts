@@ -981,7 +981,9 @@ function rightClickSubmit()
 function treeviewBtnInit() {
     $(".tree-btns").click(function (event) {
         event.preventDefault();
-        $(this).parents("div.dropdown").removeClass('open');
+        $(this).parents("div.dropdown").removeClass('show');
+        //$(this).closest(".dropdown-menu").removeClass('show');
+        $(".dropdown-menu.show").removeClass("show");
         let mode = $(this).data("mode");
         let target = $(this).data("target");
         let text = $(this).text() + " \n<span class='caret'></span>"; //Add caret or it will be removed, when written into title
