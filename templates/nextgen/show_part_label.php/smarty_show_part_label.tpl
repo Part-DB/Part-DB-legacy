@@ -100,27 +100,27 @@
 
                     <div id="tab-profiles" class="tab-pane fade">
                         {* Save profile section *}
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">{t}Profilname:{/t}</label>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">{t}Profilname:{/t}</label>
                             <div class="col-md-9">
                                 <input type="text" class="form-control" name="save_name" value="{$save_name}" id="save-name" {if !$can_save_profile}disabled{/if}>
-                                <div class="checkbox">
-                                    <input type="checkbox" name="save_name" value="default" onchange="$('#save-name').prop('disabled', $(this).prop('checked'));" {if !$can_save_profile}disabled{/if}>
-                                    <label>{t}Standard für den aktuellen Generatortyp{/t}</label>
+                                <div class="abc-checkbox form-check-inline form-check mt-2">
+                                    <input type="checkbox" class="form-check-input" name="save_name" value="default" onchange="$('#save-name').prop('disabled', $(this).prop('checked'));" {if !$can_save_profile}disabled{/if}>
+                                    <label class="form-check-label">{t}Standard für den aktuellen Generatortyp{/t}</label>
                                 </div>
-                                <p class="help-block">{t}Wenn bereits ein Profil mit dem aktuellem Namen existiert, dann wird es überschrieben/bearbeitet!{/t}</p>
+                                <p class="form-text text-muted">{t}Wenn bereits ein Profil mit dem aktuellem Namen existiert, dann wird es überschrieben/bearbeitet!{/t}</p>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-3 col-md-9">
+                        <div class="form-group row">
+                            <div class="offset-md-3 col-md-9">
                                 <button type="submit" class="btn btn-success" name="save_profile" {if !$can_save_profile}disabled{/if}><i class="fas fa-save fa-fw"></i> {t}Speichere Profil{/t}</button>
                             </div>
                         </div>
                         <hr>
 
                         {* Load/Remove profile section *}
-                        <div class="form-group">
-                            <label class="col-md-3 control-label">{t}Profilname:{/t}</label>
+                        <div class="form-group row">
+                            <label class="col-md-3 col-form-label">{t}Profilname:{/t}</label>
                             <div class="col-md-9">
                                 <!-- <input type="text" class="form-control" name="save_name" value="{$save_name}" id="save-name">-->
                                 <select class="form-control selectpicker" data-live-search="true" name="selected_profile">
@@ -130,8 +130,8 @@
                                 </select>
                             </div>
                         </div>
-                        <div class="form-group">
-                            <div class="col-md-offset-3 col-md-9">
+                        <div class="form-group row">
+                            <div class="offset-md-3 col-md-9">
                                 <button type="submit" class="btn btn-primary" name="load_profile" ><i class="fas fa-folder-open fa-fw"></i> {t}Lade Profil{/t}</button>
                                 <button type="submit" class="btn btn-danger" name="delete_profile" {if !$can_delete_profile}disabled{/if}><i class="fas fa-trash"></i> {t}Lösche Profil{/t}</button>
                             </div>
@@ -150,7 +150,7 @@
         </div>
         <div class="card-body card-collapse collapse {if !empty($comment)}in{/if}" id="panel-advanced">
             <ul class="nav nav-tabs">
-                <li role="presentation" class="active nav-item"><a href="#tab-text" data-toggle="tab" class="link-anchor nav-link"><i class="fas fa-font"></i> {t}Text{/t}</a></li>
+                <li role="presentation" class="active nav-item"><a href="#tab-text" data-toggle="tab" class="link-anchor nav-link active"><i class="fas fa-font"></i> {t}Text{/t}</a></li>
                 <li role="presentation" class="nav-item"><a href="#tab-barcode" data-toggle="tab" class="link-anchor nav-link"><i class="fas fa-barcode"></i> {t}Barcode{/t}</a></li>
                 {*<li role="presentation"><a href="#">Messages</a></li>*}
             </ul>
@@ -243,11 +243,11 @@
                         </div>
 
                         <div class="form-group row">
-                            <label class="col-md-3 control-label">{t}Pfad zu Logo:{/t}</label>
+                            <label class="col-md-3 col-form-label">{t}Pfad zu Logo:{/t}</label>
                             <div class="col-md-6">
                                 <input name="logo_path" type="text" class="form-control" placeholder="{t}z.B. data/labels/logo.png{/t}" value="{$logo_path}"  {if !$can_edit_option}disabled{/if}>
-                                <p class="help-block">{t}Sie können hier einen Pfad zu einem Logo angeben. Dies wird in der unteren linken Ecke auf der Höhe des Barcodes angezeigt. Lassen Sie das Feld leer, um das Logo zu deaktivieren.{/t}</p>
-                                <p class="help-block">{t}Um diese Funktion nutzen zu können muss die Imagick oder GD Erweiterung in PHP aktiviert sein.{/t}</p>
+                                <p class="form-text text-muted">{t}Sie können hier einen Pfad zu einem Logo angeben. Dies wird in der unteren linken Ecke auf der Höhe des Barcodes angezeigt. Lassen Sie das Feld leer, um das Logo zu deaktivieren.{/t}</p>
+                                <p class="form-text text-muted">{t}Um diese Funktion nutzen zu können muss die Imagick oder GD Erweiterung in PHP aktiviert sein.{/t}</p>
                             </div>
                             <div class="col-sm-3 pull-right">
                                 <input data-show-caption="false" data-show-preview="false" data-show-upload="false" type="file" class="file" name="logo_file"  {if !$can_edit_option}disabled{/if}>
@@ -255,10 +255,10 @@
                         </div>
 
                         <div class="form-group row">
-                            <div class="col-md-9 col-md-offset-3">
-                                <div class="checkbox">
-                                    <input name="use_footprint_image" type="checkbox" {if $use_footprint_image}checked{/if} {if !$can_edit_option}disabled{/if}>
-                                    <label>{t}Benutze Footprintbild als Icon{/t}</label>
+                            <div class="col-md-9 offset-md-3">
+                                <div class="form-check abc-checkbox form-check-inline">
+                                    <input class="form-check-input" name="use_footprint_image" type="checkbox" {if $use_footprint_image}checked{/if} {if !$can_edit_option}disabled{/if}>
+                                    <label class="form-check-label">{t}Benutze Footprintbild als Icon{/t}</label>
                                 </div>
                             </div>
                         </div>
@@ -270,8 +270,8 @@
 </form>
 
 {if !empty($preview_src)}
-    <div class="panel panel-default">
-        <div class="panel-heading">{t}Vorschau{/t}</div>
+    <div class="card mt-3">
+        <div class="card-header">{t}Vorschau{/t}</div>
         <div class="">
             {* <embed width="100%" height="200" type="application/pdf" src="{$preview_src}"> *}
             <object width="100%" height="200" type="application/pdf" data="{$preview_src}" id="pdf_content">
