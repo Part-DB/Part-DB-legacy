@@ -5,7 +5,7 @@
         <form action="" method="post">
 
             <input type="hidden" name="show_no_orderdetails_parts" value="{if $show_no_orderdetails_parts}0{else}1{/if}">
-            <button class="btn btn-default {if $show_no_orderdetails_parts}active{/if}" type="submit" name="change_show_no_orderdetails">{t}Teile ohne Einkaufsinformationen einblenden{/t}</button>
+            <button class="btn btn-outline-secondary {if $show_no_orderdetails_parts}active{/if}" type="submit" name="change_show_no_orderdetails">{t}Teile ohne Einkaufsinformationen einblenden{/t}</button>
         </form>
     </div>
 </div>
