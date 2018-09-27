@@ -559,6 +559,12 @@ BS 4 overrides
     margin-bottom: 0.4rem;
 }
 
+.dropdown-item,
+.dropdown-header,
+.dropdown-divider {
+    padding: .1rem 1.5rem;
+}
+
 /* Font Awesome 5 with Checkbox support */
 .abc-checkbox input[type="checkbox"]:checked+label::after,
 .abc-checkbox input[type="radio"]:checked+label::after {
