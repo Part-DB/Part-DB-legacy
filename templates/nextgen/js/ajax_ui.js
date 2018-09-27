@@ -915,7 +915,7 @@ function registerBootstrapSelect() {
  * Add collapsed class to a before a collapse panel body, so the icon is correct.
  */
 function addCollapsedClass() {
-    $('div.collapse.panel-collapse').siblings("div.panel-heading")
+    $('div.collapse.card-collapse').siblings("div.card-header")
         .children('a[data-toggle="collapse"]').addClass("collapsed");
 }
 /**
