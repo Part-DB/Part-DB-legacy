@@ -164,7 +164,7 @@
                                 <div class="abc-checkbox form-check-dropdown"><input type="checkbox" class="form-check-input" name="search_storelocation" value="true" checked>
                                     <label for="search_storelocation" class="form-check-label">{t}Lagerort{/t}</label></div>
                                 <div class="form-check-dropdown abc-checkbox" class="form-check-label"><input type="checkbox" class="form-check-input" name="search_comment" value="true" checked>
-                                    <label for="search_comment">{t}Kommentar{/t}</label></div>
+                                    <label for="search_comment" class="form-check-label">{t}Kommentar{/t}</label></div>
                                 {if !$suppliers_disabled}
                                     <div class="form-check-dropdown abc-checkbox"><input type="checkbox" class="form-check-input" name="search_supplierpartnr" value="true" checked>
                                         <label for="search_supplierpartnr" class="form-check-label">{t}Bestellnr.{/t}</label></div>

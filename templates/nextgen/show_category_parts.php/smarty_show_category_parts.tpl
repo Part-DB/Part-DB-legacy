@@ -17,7 +17,7 @@
                 <input type="hidden" name="cid" value="{$cid}">
                 <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">
 
-                <div class="form-group">
+                <div class="form-group row">
                     <div class="col mr-auto">
                         <button type="submit" class="btn btn-default {if $with_subcategories}active{/if}" name="subcat_button" >{t}Unterkategorien einblenden{/t}</button>
                     </div>
@@ -27,7 +27,7 @@
             <div class="row">
 
                 {if $can_create}
-                    <div class="form-inline col">
+                    <div class="form-inline col-8">
                         <div class="form-group">
                             <div class="col-md-12"></div>
                             <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}">
@@ -37,21 +37,21 @@
                     </div>
                 {/if}
 
-                <div class="form-inline col" style="">
-                    <form action="" method="post" class="no-progbar no-ajax">
+                <div class="form-inline col-4 float-right" style="">
+                    <form action="" method="post" class="no-progbar no-ajax align-self-end">
                         <input type='hidden' name='cid'   value='{$cid}'>
                         <input type="hidden" name="subcat" value="{$with_subcategories}">
 
                         <div class="form-group">
-                            <label>{t}Exportieren:{/t}</label>
-                            <select name="export_format" class="form-control">
+                            <label class="mr-2">{t}Exportieren:{/t}</label>
+                            <select name="export_format" class="form-control mr-2">
                                 {foreach $export_formats as $format}
                                     <option value="{$format.value}" {if isset($format.selected)}selected{/if}>{$format.text}</option>
                                 {/foreach}
                             </select>
-                        </div>
 
-                        <button class="btn btn-primary" type="submit" name="export">{t}OK{/t}</button>
+                            <button class="btn btn-primary" type="submit" name="export">{t}OK{/t}</button>
+                        </div>
                     </form>
                 </div>
 

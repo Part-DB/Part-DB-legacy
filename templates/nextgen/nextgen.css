@@ -551,7 +551,7 @@ BS 4 overrides
     text-align: right;
 }
 
-.text-bold {
+label:not(.form-check-label) {
     font-weight: bold;
 }
 
