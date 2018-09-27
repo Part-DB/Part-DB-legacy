@@ -290,14 +290,14 @@
                         {if $row.caption == "order_options"}
                             {* build the order options (e.g. the "to stock" checkbox) (only for order parts) *}
                             <td class="tdrow1" class="form-control" nowrap>
-                                <div class="checkbox checkbox-inline">
-                                    <input type="checkbox" name="tostock_{$row.row_index}">
-                                    <label>{t}Einbuchen{/t}</label>
+                                <div class="form-check abc-checkbox form-check-dropdown">
+                                    <input type="checkbox" class="form-check-input" id name="tostock_{$row.row_index}">
+                                    <label class="form-check-label" for>{t}Einbuchen{/t}</label>
                                 </div>
                                 {if $row.enable_remove}
-                                    <div class="checkbox checkbox-inline">
-                                        <input type="checkbox" name="remove_{$row.row_index}">
-                                        <label>{t}Aus Liste löschen{/t}</label>
+                                    <div class="form-check abc-checkbox form-check-dropdown">
+                                        <input class="form-check-input" type="checkbox" name="remove_{$row.row_index}">
+                                        <label class="form-check-label">{t}Aus Liste löschen{/t}</label>
                                     </div>
                                 {/if}
                             </td>
@@ -346,9 +346,9 @@
                             {* supplier-radiobuttons (only for order parts) *}
                             <td class="tdrow1" nowrap valign="top">
                                 {foreach $row.suppliers_radiobuttons as $radio}
-                                    <div class="radio radio-inline">
-                                        <input type="radio" name="orderdetails_{$radio.row_index}" value="{$radio.orderdetails_id}" {if $radio.selected}checked{/if}>
-                                        <label>{$radio.supplier_name}</label>
+                                    <div class="form-check abc-radio form-check-dropdown">
+                                        <input type="radio" class="form-check-input" name="orderdetails_{$radio.row_index}" value="{$radio.orderdetails_id}" {if $radio.selected}checked{/if}>
+                                        <label class="form-check-label">{$radio.supplier_name}</label>
                                     </div>
                                 {/foreach}
                             </td>
