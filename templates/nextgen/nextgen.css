@@ -558,3 +558,11 @@ label {
 .form-group {
     margin-bottom: 0.4rem;
 }
+
+/* Font Awesome 5 with Checkbox support */
+.abc-checkbox input[type="checkbox"]:checked+label::after,
+.abc-checkbox input[type="radio"]:checked+label::after {
+    font-family: "FA5", "Font Awesome 5 Pro", "Font Awesome 5 Free";
+    content: "\f00c";
+    font-weight: 900;
+}

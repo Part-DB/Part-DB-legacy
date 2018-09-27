@@ -155,8 +155,8 @@
                                 <span class="caret"></span>
                             </button>
                             <ul class="dropdown-menu" aria-labelledby="SearchOptions">
-                                <li class="checkbox"><input type="checkbox" name="search_name" value="true" checked>
-                                    <label for="search_name">{t}Name{/t}</label></li>
+                                <li class="form-check abc-checkbox"><input type="checkbox" class="form-check-input" name="search_name" value="true" checked>
+                                    <label for="search_name" class="form-check-label">{t}Name{/t}</label></li>
                                 <li class="checkbox"><input type="checkbox" class="styled" name="search_category" value="true" checked>
                                     <label for="search_category">{t}Kategorie{/t}</label></li>
                                 <li class="checkbox"><input type="checkbox" name="search_description" value="true" checked>
