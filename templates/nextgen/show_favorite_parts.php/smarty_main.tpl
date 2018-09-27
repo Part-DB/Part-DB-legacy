@@ -6,8 +6,8 @@
     {include "../smarty_pagination.tpl"}
 </form>
 
-<div class="panel panel-primary">
-    <div class="panel-heading"><i class="fa fa-star fa-fw" aria-hidden="true"></i>
+<div class="card border-primary">
+    <div class="card-header bg-primary text-white"><i class="fa fa-star fa-fw" aria-hidden="true"></i>
          {t}Favorisierte Bauteile{/t}</div>
     {include file="../smarty_table.tpl"}
 </div>
