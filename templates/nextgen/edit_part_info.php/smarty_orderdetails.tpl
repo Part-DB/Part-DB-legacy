@@ -37,10 +37,10 @@
                         </td>
 
                         <td>
-                           <div class="checkbox">
-                                <input type="checkbox" name="obsolete_{$detail.orderdetails_id}" class="styled" {if $detail.obsolete}checked{/if}
+                           <div class="form-check form-check-dropdown abc-checkbox mb-2 pl-2">
+                                <input class="form-check-input" type="checkbox" name="obsolete_{$detail.orderdetails_id}" class="styled" {if $detail.obsolete}checked{/if}
                                         {if !($can_orderdetails_edit || ($can_orderdetails_create && $detail.orderdetails_id == "new"))}disabled{/if}>
-                                <label for="obsolete">{t}Obsolet{/t}</label>
+                                <label class="form-check-label" for="obsolete">{t}Obsolet{/t}</label>
                             </div>
                             {if $detail.orderdetails_id=="new"}
                                 <button class="btn btn-success" type="submit" name="orderdetails_add" value="{$detail.orderdetails_id}"

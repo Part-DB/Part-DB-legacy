@@ -77,7 +77,7 @@
                                {if !$can_instock || $instock_unknown}disabled{/if}>
                     </div>
                     <div class="col-md-2">
-                        <div class="form-check abc-checkbox">
+                        <div class="form-check abc-checkbox form-check-inline form-control-plaintext">
                             <input type="checkbox" class="form-check-input" name="instock_unknown" id="instock_unknown" onchange="checkInstockUnknown();"
                                    {if $instock_unknown}checked{/if} {if !$can_instock}disabled{/if}>
                             <label class="form-check-label">{t}Unbekannt{/t}</label>

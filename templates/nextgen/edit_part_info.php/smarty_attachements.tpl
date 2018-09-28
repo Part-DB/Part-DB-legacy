@@ -45,17 +45,17 @@
                             </select>
                         </div>
                         <div class="col-sm-4 form-group">
-                            <div class="checkbox">
-                                <input type="checkbox" class="styled" name="show_in_table" {if $attach.show_in_table} checked{/if}
+                            <div class="form-check form-check-dropdown pl-2 abc-checkbox">
+                                <input type="checkbox" class="form-check-input" name="show_in_table" {if $attach.show_in_table} checked{/if}
                                         {if !($can_attachement_edit || ($can_attachement_create && $attach.id == "new"))}disabled{/if}>
-                                <label for="show_in_table">{t}In Tabelle anzeigen{/t}</label>
+                                <label class="form-check-label" for="show_in_table">{t}In Tabelle anzeigen{/t}</label>
                             </div>
 
                             {if $attach.is_picture}
-                                <div class="checkbox">
-                                    <input type="checkbox" class="styled" name="is_master_picture" {if $attach.is_master_picture}checked{/if}
+                                <div class="form-check form-check-dropdown pl-2 abc-checkbox">
+                                    <input type="checkbox" class="form-check-input" name="is_master_picture" {if $attach.is_master_picture}checked{/if}
                                             {if !($can_attachement_edit || ($can_attachement_create && $attach.id == "new"))}disabled{/if}>
-                                    <label for="is_master_picture">{t}Als Hauptbild verwenden{/t}</label>
+                                    <label class="form-check-label" for="is_master_picture">{t}Als Hauptbild verwenden{/t}</label>
                                 </div>
                             {/if}
                         </div>

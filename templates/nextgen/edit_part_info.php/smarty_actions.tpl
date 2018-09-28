@@ -1,5 +1,5 @@
 {locale path="nextgen/locale" domain="partdb"}
-<div class="card">
+<div class="card mt-3">
     <div class="card-header"><i class="fa fa-bolt fa-fw" aria-hidden="true"></i>
         {t}Aktionen{/t}
     </div>
@@ -12,9 +12,9 @@
                     <button type="submit" class="btn btn-danger" name="delete_part" {if !$can_delete}disabled{/if}>
                         <i class="fa fa-trash" aria-hidden="true"></i> {t}Lösche Teil!{/t}
                     </button>
-                    <div class="checkbox checkbox-danger mt-2">
-                        <input type="checkbox" class="styled" id="delete_files_from_hdd" name="delete_files_from_hdd" {if !$can_delete}disabled{/if}>
-                        <label for="delete_files_from_hdd" class="text-danger">{t}Dateien dieses Bauteiles, die von keinem anderen Bauteil verwendet werden, auch von der Festplatte löschen{/t}</label>
+                    <div class="form-check form-check-dropdown abc-checkbox abc-checkbox-danger mt-2 pl-2">
+                        <input type="checkbox" class="styled form-check-input" id="delete_files_from_hdd" name="delete_files_from_hdd" {if !$can_delete}disabled{/if}>
+                        <label for="delete_files_from_hdd" class="text-danger form-check-label">{t}Dateien dieses Bauteiles, die von keinem anderen Bauteil verwendet werden, auch von der Festplatte löschen{/t}</label>
                     </div>
                 </div>
             </div>
