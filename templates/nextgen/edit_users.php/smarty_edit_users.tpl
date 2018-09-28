@@ -137,34 +137,34 @@
 
                         <div id="password" class="tab-pane fade">
 
-                            <div class="form-group">
-                                <div class="col-md-12">
-                                    <p class="help-block">{t}Füllen sie die folgenden Felder aus, um dem Nutzer ein neues Password zu setzen!{/t}</p>
+                            <div class="form-group row">
+                                <div class="col-md-9 offset-md-3">
+                                    <p class="form-text text-muted">{t}Füllen sie die folgenden Felder aus, um dem Nutzer ein neues Password zu setzen!{/t}</p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3">{t}Neues Password:{/t}</label>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">{t}Neues Password:{/t}</label>
                                 <div class="col-md-9">
                                     <input type="password" class="form-control" name="password_1" value=""
                                            placeholder="{t}Neues Password{/t}" {if !$can_password}disabled{/if}>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3">{t}Password Bestätigung:{/t}</label>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">{t}Password Bestätigung:{/t}</label>
                                 <div class="col-md-9">
                                     <input type="password" class="form-control" name="password_2" value=""
                                            placeholder="{t}Password Bestätigung{/t}" {if !$can_password}disabled{/if}>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <div class="col-md-9 col-md-offset-3">
-                                    <div class="checkbox">
-                                        <input type="checkbox" class="styled"
+                            <div class="form-group row">
+                                <div class="col-md-9 offset-md-3">
+                                    <div class="form-check abc-checkbox form-check-inline">
+                                        <input type="checkbox" class="form-check-input"
                                                name="must_change_pw" {if !$can_password}disabled{/if} checked>
-                                        <label>{t}Benutzer muss Passwort nach Login ändern{/t}</label>
+                                        <label class="form-check-label">{t}Benutzer muss Passwort nach Login ändern{/t}</label>
                                     </div>
                                 </div>
                             </div>
@@ -172,31 +172,31 @@
                         </div>
 
                         <div id="info" class="tab-pane fade">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">{t}ID:{/t}</label>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">{t}ID:{/t}</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static">{if isset($id)}{$id}{else}-{/if}</p>
+                                    <p class="form-control-plaintext">{if isset($id)}{$id}{else}-{/if}</p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3">{t}Hinzugefügt:{/t}</label>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">{t}Hinzugefügt:{/t}</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static">{if !empty($datetime_added)}{$datetime_added}{else}-{/if}</p>
+                                    <p class="form-control-plaintext">{if !empty($datetime_added)}{$datetime_added}{else}-{/if}</p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3">{t}Letzte Änderung:{/t}</label>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">{t}Letzte Änderung:{/t}</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static">{if !empty($last_modified)}{$last_modified}{else}-{/if}</p>
+                                    <p class="form-control-plaintext">{if !empty($last_modified)}{$last_modified}{else}-{/if}</p>
                                 </div>
                             </div>
                         </div>
 
                         <div id="config" class="tab-pane fade">
-                            <div class="form-group">
-                                <label class="control-label col-md-3" for="custom_css">{t}Theme:{/t}</label>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3" for="custom_css">{t}Theme:{/t}</label>
                                 <div class="col-md-9">
                                     <select class="form-control" name="custom_css" {if !$can_config}disabled{/if}>
                                         <option value="">{t}Benutze das serverweite Theme{/t}</option>
@@ -207,8 +207,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3" for="timezon">{t}Zeitzone:{/t}</label>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3" for="timezon">{t}Zeitzone:{/t}</label>
                                 <div class="col-sm-9">
                                     <select class="form-control selectpicker" data-live-search="true" name="timezone" {if !$can_config}disabled{/if}>
                                         <option value="">{t}Benutze die serverweite Zeitzone{/t}</option>
@@ -219,8 +219,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3" for="language">{t}Sprache:{/t}</label>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3" for="language">{t}Sprache:{/t}</label>
                                 <div class="col-md-9">
                                     <select class="form-control" name="language" {if !$can_config}disabled{/if}>
                                         <option value="">{t}Benutze die serverweite Sprache{/t}</option>
@@ -235,7 +235,7 @@
 
 
                         <div class="form-group">
-                            <label class="col-md-9 col-md-offset-3">
+                            <label class="col-md-9 offset-md-3">
                                 <i>* = {t}Pflichtfelder{/t}</i>
                             </label>
                         </div>
