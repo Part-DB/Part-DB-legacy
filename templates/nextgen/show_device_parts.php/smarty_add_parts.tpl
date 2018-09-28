@@ -1,16 +1,16 @@
 {locale path="nextgen/locale" domain="partdb"}
-<div class="panel panel-primary">
-    <div class="panel-heading"><i class="fas fa-search fa-fw"></i> {t}Teile per Name zuordnen{/t}</div>
-    <div class="panel-body">
+<div class="card border-primary">
+    <div class="card-header bg-primary text-white"><i class="fas fa-search fa-fw"></i> {t}Teile per Name zuordnen{/t}</div>
+    <div class="card-body">
         <form method="post" class="form-horizontal" action="">
-           <div class="form-group">
-                <label class="control-label col-md-2">{t}Suchwort:{/t}</label>
+           <div class="form-group row">
+                <label class="col-form-label col-md-2">{t}Suchwort:{/t}</label>
                 <div class="col-md-10">
                    <div class="input-group">
                         <input type="text" class="form-control" name="new_part_name" placeholder="{t}Suchwort:{/t}"
                             {if !$can_part_create}disabled{/if}>
-                        <span class="input-group-btn">
-                            <button class="btn btn-default" type="submit" name="show_searched_parts" {if !$can_part_create}disabled{/if}>
+                        <span class="input-group-append">
+                            <button class="btn btn-outline-secondary" type="submit" name="show_searched_parts" {if !$can_part_create}disabled{/if}>
                                     {t}Teile auflisten{/t}</button >
                         </span>
                     </div>

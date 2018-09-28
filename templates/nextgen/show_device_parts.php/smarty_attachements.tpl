@@ -1,15 +1,15 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="card mt-3">
+    <div class="card-header">
         <a data-toggle="collapse" class="link-collapse text-default" href="#panel-attachements">
             <i class="fas fa-file fa-fw"></i> {t}Dateianhänge{/t}
         </a>
     </div>
-    <div class="panel-body panel-collapse collapse in" id="panel-attachements">
+    <div class="card-body card-collapse collapse in" id="panel-attachements">
         {foreach $attachements_loop as $attach}
-            <div class="row">
-                <form action="{$relative_path}show_device_parts.php" method="post" enctype="multipart/form-data" class="no-progbar" id="attachements">
+            <div class="">
+                <form action="{$relative_path}show_device_parts.php" method="post" enctype="multipart/form-data" class="no-progbar row" id="attachements">
                     <div class="col-sm-2">
                         {if $attach.id == "new"}
                             <b>{t}Neue Datei hinzufügen:{/t}</b>

@@ -304,13 +304,13 @@
                         {/if}
                         {if $row.caption == "quantity_edit"}
                             {* quantity for DevicePart elements *}
-                            <td class="tdrow1" nowrap>
+                            <td class="tdrow1" nowrap style="width: 5rem;">
                                 <div class="input-group">
                                     <input type="text" class="form-control input-sm" style="width:45px;" name="quantity_{$row.row_index}"
                                            value="{if isset($row.quantity)}{$row.quantity}{else}0{/if}"
                                            {if isset($can_part_edit) && isset($can_part_delete) && !$can_part_edit && !$can_part_delete}disabled{/if}>
                                     <span class="export-helper" data-target=""></span>
-                                    <div class="input-group-btn">
+                                    <div class="input-group-append">
                                         <button class="btn btn-default btn-sm" type="button" onClick="elements['quantity_{$row.row_index}'].value=0"
                                                 {if isset($can_part_delete) && !$can_part_delete}disabled{/if}>
                                             <i class="fa fa-times" aria-hidden="true"></i></button>
