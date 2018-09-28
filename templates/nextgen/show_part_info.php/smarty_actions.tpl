@@ -30,9 +30,9 @@
                         <i class="fa fa-trash" aria-hidden="true"></i> {t}Lösche Teil!{/t}
                     </button>
                     <br>
-                    <div class="checkbox checkbox-danger mt-2">
-                        <input type="checkbox" class="styled" id="delete_files_from_hdd" name="delete_files_from_hdd" {if !$can_delete}disabled{/if}>
-                        <label for="delete_files_from_hdd" class="text-danger">{t}Dateien dieses Bauteiles, die von keinem anderen Bauteil verwendet werden, auch von der Festplatte löschen{/t}</label>
+                    <div class="form-check form-check-dropdown abc-checkbox-danger abc-checkbox mt-2 pl-2">
+                        <input class="form-check-input" type="checkbox" class="styled" id="delete_files_from_hdd" name="delete_files_from_hdd" {if !$can_delete}disabled{/if}>
+                        <label class="form-check-label text-danger" for="delete_files_from_hdd">{t}Dateien dieses Bauteiles, die von keinem anderen Bauteil verwendet werden, auch von der Festplatte löschen{/t}</label>
                     </div>
                 </div>
             </div>
