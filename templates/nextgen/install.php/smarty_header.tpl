@@ -63,7 +63,7 @@
 <body>
 
     <header>
-        <nav class="navbar navbar-default navbar-fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm fixed-top">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -110,7 +110,7 @@
                 {if !empty($reload_link)}
                     <a href="{$reload_link}">
                         <br>
-                        <button class="btn btn-default">{t}Seite neu laden{/t}</button>
+                        <button class="btn btn-secondary">{t}Seite neu laden{/t}</button>
                     </a>
                 {/if}
             </form>
