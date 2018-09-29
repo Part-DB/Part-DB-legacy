@@ -6,7 +6,7 @@
 {/if}
 
 {if isset($loggedout)}
-    <div class="card border-success">
+    <div class="card border-success mb-3">
         <div class="card-header bg-success text-white">{t}Erfolg{/t}</div>
         <div class="card-body">
             <p>{t}Erfolgreich ausgeloggt.{/t}</p>
@@ -24,7 +24,7 @@
 {/if}
 
 {if isset($loggedin) && $loggedin}
-    <div class="card border-success">
+    <div class="card border-success mb-3">
         <div class="card-header bg-success text-white">{t}Erfolg{/t}</div>
         <div class="card-body">
             <p>{t}Erfolgreich eingeloggt.{/t}</p>
