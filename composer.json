@@ -25,7 +25,12 @@
     "slim/slim": "3.*",
     "maximebf/debugbar": "1.*",
     "ircmaxell/password-compat": "1.*",
-    "snapappointments/bootstrap-select": "1.*"
+    "snapappointments/bootstrap-select": "1.*",
+    "components/jquery": "3.3.*",
+    "kartik-v/bootstrap-fileinput": "4.*",
+    "jquery-form/form": "4.*"
+
+
   },
 
   "require-dev": {

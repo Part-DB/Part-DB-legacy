@@ -58,12 +58,12 @@
 
 
     <!-- Fileinput -->
-    <link href="{$relative_path}css/fileinput.min.css" media="all" rel="stylesheet"/>
+    <link href="{$relative_path}vendor/kartik-v/bootstrap-fileinput/css/fileinput.min.css" media="all" rel="stylesheet"/>
 
 
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{$relative_path}js/jquery-3.3.1.min.js"></script>
+    <script src="{$relative_path}vendor/components/jquery/jquery.min.js"></script>
     <!-- Popper.js (needed for BS4 tooltips) -->
     <script src="{$relative_path}js/popper/popper.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->

@@ -86,7 +86,8 @@
     <script src="{$relative_path}js/Chart.min.js" async></script>
 
     <!-- FileInput -->
-    <script src="{$relative_path}js/fileinput.min.js" async></script>
+    <script src="{$relative_path}vendor/kartik-v/bootstrap-fileinput/js/fileinput.js" async></script>
+    <script src="{$relative_path}vendor/kartik-v/bootstrap-fileinput/themes/fas/theme.min.js"></script>
 
     <!-- JQuery Highlight -->
     <script src="{$relative_path}js/jquery.highlight.min.js" async></script>
@@ -104,7 +105,7 @@
     <script type="text/javascript" src="{$relative_path}javascript/calculator.min.js"></script>
 
     <!-- jQuery Form lib -->
-    <script src="{$relative_path}js/jquery.form.min.js"></script>
+    <script src="{$relative_path}vendor/jquery-form/form/dist/jquery.form.min.js"></script>
 
     <!-- Bootstrap-select -->
     <script src="{$relative_path}vendor/snapappointments/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
