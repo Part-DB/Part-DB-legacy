@@ -87,7 +87,7 @@
 
     <!-- FileInput -->
     <script src="{$relative_path}vendor/kartik-v/bootstrap-fileinput/js/fileinput.js" async></script>
-    <script src="{$relative_path}vendor/kartik-v/bootstrap-fileinput/themes/fas/theme.min.js"></script>
+    {* <script src="{$relative_path}vendor/kartik-v/bootstrap-fileinput/themes/fas/theme.min.js"></script> *}
 
     <!-- JQuery Highlight -->
     <script src="{$relative_path}js/jquery.highlight.min.js" async></script>
