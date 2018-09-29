@@ -288,7 +288,7 @@ class AjaxUI {
 
         $(this).treeview('toggleNodeExpanded',data.nodeId);
 
-        $("#sidebar").removeClass("in");
+        $("#sidebar-container").removeClass("show");
     }
 
     /**
@@ -1063,7 +1063,7 @@ function fixSelectPaginationHeight() {
  * Close the #searchbar div, when a search was submitted on mobile view.
  */
 $("#search-submit").click(function (event) {
-    $("#searchbar").removeClass("in");
+    $("#searchbar").removeClass("show");
 });
 
 /**
