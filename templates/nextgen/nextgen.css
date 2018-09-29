@@ -29,13 +29,13 @@ body {
 
 
         position: fixed;
-        top: 51px;
+        top: 60px;
         bottom: 0;
         left: 0;
         z-index: 1000;
         /* padding: 20px; */
         padding-left: 15px;
-        padding-top: 15px;
+        /* padding-top: 15px; */
         padding-right: 0;
         overflow-x: hidden;
         overflow-y: auto;
