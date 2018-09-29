@@ -6,7 +6,7 @@
             {t}Dateianhänge{/t}
         </a>
     </div>
-    <div class="card-body card-collapse collapse in" id="panel-attachements">
+    <div class="card-body card-collapse collapse show" id="panel-attachements">
         {if isset($attachement_types_loop)}
             {foreach $attachement_types_loop as $attach_type}
                 <b>{$attach_type.attachement_type}:</b><br>

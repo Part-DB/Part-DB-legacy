@@ -12,7 +12,7 @@
                 {t}Sonstiges{/t}
             </a>
         </div>
-        <div class="card-body collapse {if !$other_panel_collapse}in{/if}" id="panel-other">
+        <div class="card-body collapse {if !$other_panel_collapse}show{/if}" id="panel-other">
             <form action="" method="post" class="form-horizontal">
                 <input type="hidden" name="cid" value="{$cid}">
                 <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">
@@ -100,7 +100,7 @@
                 {t}Sonstiges{/t}
             </a>
         </div>
-        <div class="card-body collapse {if !$other_panel_collapse}in{/if}" id="panel-other">
+        <div class="card-body collapse {if !$other_panel_collapse}show{/if}" id="panel-other">
             <form action="" method="post" class="form-horizontal">
                 <input type="hidden" name="cid" value="{$cid}">
                 <input type="hidden" name="subcat" value="{if $with_subcategories}0{else}1{/if}">

@@ -5,7 +5,7 @@
            <i class="fas fa-search fa-fw"></i> {t}Suchergebnis{/t}
         </a>
     </div>
-    <div class="card-body  card-collapse collapse in" id="panel-header">
+    <div class="card-body  card-collapse collapse show" id="panel-header">
         {if $highlighting}<input type="hidden" value="{$keyword}" id="highlight">{/if}
 
         <div class="row">

@@ -320,7 +320,7 @@
     <div class="container-fluid">
 
         <div class="row">
-                <nav  {* class="fixed-sidebar"  *} class="fixed-sidebar col-sm-3 col-md-2 d-xs-none" id="fixed-sidebar">
+                <nav  {* class="fixed-sidebar"  *} class="fixed-sidebar col-sm-3 col-md-2 d-xs-none d-print-none" id="fixed-sidebar">
                         <ul class="nav flex-column">
                             {if isset($can_category) && $can_category}
                                 <li id="categories">

@@ -148,7 +148,7 @@
                 {t}Erweiterte Einstellungen{/t}
             </a>
         </div>
-        <div class="card-body card-collapse collapse {if !empty($comment)}in{/if}" id="panel-advanced">
+        <div class="card-body card-collapse collapse {if !empty($comment)}show{/if}" id="panel-advanced">
             <ul class="nav nav-tabs">
                 <li role="presentation" class="active nav-item"><a href="#tab-text" data-toggle="tab" class="link-anchor nav-link active"><i class="fas fa-font"></i> {t}Text{/t}</a></li>
                 <li role="presentation" class="nav-item"><a href="#tab-barcode" data-toggle="tab" class="link-anchor nav-link"><i class="fas fa-barcode"></i> {t}Barcode{/t}</a></li>

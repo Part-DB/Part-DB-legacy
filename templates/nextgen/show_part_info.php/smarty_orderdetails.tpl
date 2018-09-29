@@ -7,7 +7,7 @@
         </a>
     </div>
     {if isset($orderdetails) && $orderdetails}
-        <div class="card-collapse collapse in" id="panel-orderdetails">
+        <div class="card-collapse collapse show" id="panel-orderdetails">
             <div class="table-responsive " >
                 <table class="table table-striped table-header">
                     <thead>
@@ -84,7 +84,7 @@
         </div>
 
     {else}
-        <div class="card-body card-collapse collapse in" id="panel-orderdetails">
+        <div class="card-body card-collapse collapse show" id="panel-orderdetails">
             <!-- This a have not to have link-anchor class -->
             <span class="form-text text-muted" style="display: inline;">{t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}</span>
             <a class="btn btn-secondary float-right hidden-print"

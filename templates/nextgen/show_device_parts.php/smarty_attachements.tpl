@@ -6,7 +6,7 @@
             <i class="fas fa-file fa-fw"></i> {t}Dateianhänge{/t}
         </a>
     </div>
-    <div class="card-body card-collapse collapse in" id="panel-attachements">
+    <div class="card-body card-collapse collapse show" id="panel-attachements">
         {foreach $attachements_loop as $attach}
             <div class="">
                 <form action="{$relative_path}show_device_parts.php" method="post" enctype="multipart/form-data" class="no-progbar row" id="attachements">

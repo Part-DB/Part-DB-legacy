@@ -6,7 +6,7 @@
             <i class="fas fa-comment fa-fw"></i> {t}Kommentar{/t}
         </a>
     </div>
-    <div class="card-body card-collapse collapse {if !empty($comment)}in{/if}" id="panel-comment">
+    <div class="card-body card-collapse collapse {if !empty($comment)}show{/if}" id="panel-comment">
         {if !empty($comment)}<pre>{$comment nofilter}</pre>{/if}
         {if !empty($comment)}
             <a href="{$relative_path}edit_devices.php?selected_id={$device_id}" class="btn btn-primary {if !$can_attachement_edit}disabled{/if}"><i class="fas fa-pencil-alt fa-fw" aria-hidden="true"></i>

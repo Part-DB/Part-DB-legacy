@@ -12,7 +12,7 @@
                 {t}Sonstiges{/t}
             </a>
         </div>
-        <div class="card-body card-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other">
+        <div class="card-body card-collapse collapse {if !$other_panel_collapse}show{/if}" id="panel-other">
             <form action="" method="post" class="form-horizontal no-progbar">
                 <input type="hidden" name="mid" value="{$mid}">
                 <input type="hidden" name="subman" value="{if $with_submanufacturers}0{else}1{/if}">
@@ -64,7 +64,7 @@
                 {t}Sonstiges{/t}
             </a>
         </div>
-        <div class="card-body card-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other">
+        <div class="card-body card-collapse collapse {if !$other_panel_collapse}show{/if}" id="panel-other">
             <form action="" method="post" class="form-horizontal no-progbar">
                 <input type="hidden" name="mid" value="{$mid}">
                 <input type="hidden" name="subman" value="{if $with_submanufacturers}0{else}1{/if}">

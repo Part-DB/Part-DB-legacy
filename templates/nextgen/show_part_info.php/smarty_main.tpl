@@ -23,7 +23,7 @@
                         <label class="col-sm-3 col-form-label">{t}Name:{/t}</label>
                         <div class="col-sm-9">
                             {if !empty($manufacturer_product_url)}
-                                <a class="form-control-link  hidden-print-href" title="{$manufacturer_product_url}" href="{$manufacturer_product_url}">{$name}</a>
+                                <a class="form-control-link  d-print-none-href" title="{$manufacturer_product_url}" href="{$manufacturer_product_url}">{$name}</a>
                             {else}
                                 <p class="form-control-plaintext">{$name}</p>
                             {/if}
@@ -53,7 +53,7 @@
 
                     <div class="form-group row">
                         <label class="col-sm-3 col-form-label">{t}Kategorie:{/t}</label>
-                        <div class="col-sm-9">{* <a href="show_category_parts.php?cid={$category_id}" class="form-control-link hidden-print-href">{$category_full_path}</a>*}
+                        <div class="col-sm-9">{* <a href="show_category_parts.php?cid={$category_id}" class="form-control-link d-print-none-href">{$category_full_path}</a>*}
                             {include "../smarty_structural_link.tpl" link=$category_path}
                         </div>
                     </div>
@@ -116,7 +116,7 @@
                     </div>
 
                     {if $can_edit}
-                        <div class="form-group hidden-print row mt-2">
+                        <div class="form-group d-print-none row mt-2">
                             <div class="col-sm-9 offset-sm-3">
                                 <a class="btn btn-primary" href="edit_part_info.php?pid={$pid}">
                                     <i class="fa fa-edit fa-fw" aria-hidden="true"></i> {t}Angaben verändern{/t}</a>
@@ -129,7 +129,7 @@
 
             <div class="col-md-3">
 
-                <form action="" method="post" class="hidden-print no-progbar">
+                <form action="" method="post" class="d-print-none no-progbar">
                     <input type="hidden" name="pid" value="{$pid}">
                     <div class="row">
                         <div class="col-md-12">
@@ -146,7 +146,7 @@
 
                 <p></p>
 
-                <form action="" method="post" class="hidden-print no-progbar">
+                <form action="" method="post" class="d-print-none no-progbar">
                     <input type="hidden" name="pid" value="{$pid}">
                     <div class="row">
                         <div class="col-md-12">
@@ -164,7 +164,7 @@
                 <p></p>
 
                 {if $can_order_read && !$instock_unknown}
-                    <form action="" method="post" class="hidden-print no-progbar">
+                    <form action="" method="post" class="d-print-none no-progbar">
                         <input type="hidden" name="pid" value="{$pid}">
                         <div class="row">
                             <div class="col-md-12">
@@ -209,7 +209,7 @@
 
                 <p></p>
 
-                <form action="show_part_label.php" class="hidden-print">
+                <form action="show_part_label.php" class="d-print-none">
                     {if $can_generate_barcode}
                     {if count($barcode_profiles) > 0}
                         <input type="hidden" name="label_generate">
@@ -248,7 +248,7 @@
                 <p></p>
                 {/if}
 
-                <div class=" hidden-print">
+                <div class=" d-print-none">
                     <button type="button" class="btn btn-secondary btn-block" onclick="window.print();"><i class="fa fa-print fa-fw" aria-hidden="true"></i>
                         {t}Übersicht drucken{/t}
                     </button>
@@ -256,7 +256,7 @@
 
                 <p></p>
 
-                <div class=" hidden-print">
+                <div class=" d-print-none">
                     <div class="dropdown">
                         <button class="btn btn-secondary btn-block dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                             <i class="fa fa-file fa-fw" aria-hidden="true"></i> {t}Datenblattlinks{/t}

@@ -7,7 +7,7 @@
             {t}Bauteileeigenschaften{/t}
             </a>
         </div>
-        <div class="table-responsive card-collape collapse in" id="panel-properties">
+        <div class="table-responsive card-collape collapse show" id="panel-properties">
             <table class="table table-striped table-hover table-sortable">
                 <thead>
                 <tr>
