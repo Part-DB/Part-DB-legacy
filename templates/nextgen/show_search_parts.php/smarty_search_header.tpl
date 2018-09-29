@@ -14,7 +14,7 @@
             </div>
 
             <div class="col-md-6">
-                <div class="float-lg-right float-md-right float-sm-right">
+                <div class="float-lg-right float-md-right">
                     <form action="" method="post" class="no-progbar no-ajax form-inline">
                         <input type='hidden' name='keyword'     value='{$keyword}'>
                         {if isset($search_name)}                <input type='hidden' name='search_name'>{/if}
@@ -27,16 +27,17 @@
                         {if isset($search_footprint)}           <input type='hidden' name='search_footprint'>{/if}
                         {if isset($search_manufacturer)}        <input type='hidden' name='search_manufacturer'>{/if}
 
-                        <div class="form-group">
+                        <div class="form-inline">
                             <label class="mr-2">{t}Exportieren:{/t}</label>
                             <select name="export_format" class="form-control mr-2">
                                 {foreach $export_formats as $format}
                                     <option value="{$format.value}" {if isset($format.selected)}selected{/if}>{$format.text}</option>
                                 {/foreach}
                             </select>
+                            <button class="btn btn-primary mt-2 mt-md-0" type="submit" name="export">{t}OK{/t}</button>
                         </div>
 
-                        <button class="btn btn-primary" type="submit" name="export">{t}OK{/t}</button>
+
                     </form>
                 </div>
             </div>
@@ -59,7 +60,7 @@
                         {if isset($search_footprint)}           <input type='hidden' name='search_footprint'>{/if}
                         {if isset($search_manufacturer)}        <input type='hidden' name='search_manufacturer'>{/if}
 
-                        <div class="form-group">
+                        <div class="form-inline">
                             <label class="mr-2">{t}Gruppiere nach:{/t}</label>
                             <select name="groupby" class="form-control mr-2">
                                 {foreach $group_formats as $format}
@@ -67,7 +68,7 @@
                                 {/foreach}
                             </select>
 
-                            <button class="btn btn-primary" type="submit" name="group">{t}OK{/t}</button>
+                            <button class="btn btn-primary mt-0 mt-md-2" type="submit" name="group">{t}OK{/t}</button>
                         </div>
 
 
