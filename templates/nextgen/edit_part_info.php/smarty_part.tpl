@@ -105,7 +105,7 @@
                              {$category_list nofilter}
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 mt-md-0 mt-2">
                         <div class="input-group">
                             <input type="text" class="form-control" name="search_category_name" id="search_category_name"
                                    placeholder="{t}Suchen / Hinzufügen{/t}" class="cleardefault"
@@ -128,7 +128,7 @@
                             {$storelocation_list nofilter}
                         </select>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-3 mt-md-0 mt-2">
                         <div class="input-group">
                             <input type="text" name="search_storelocation_name" class="form-control" placeholder="{t}Suchen / Hinzufügen{/t}"
                                    class="cleardefault" onkeydown="if (event.keyCode == 13) { document.getElementById('search_storelocation').click();} "
@@ -151,7 +151,7 @@
                                 {$manufacturer_list nofilter}
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 mt-md-0 mt-2">
                            <div class="input-group">
                                 <input type="text" class="form-control selectpicker" data-live-search="true"
                                        name="search_manufacturer_name" placeholder="{t}Suchen / Hinzufügen{/t}"
@@ -177,7 +177,7 @@
                                 {$footprint_list nofilter}
                             </select>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-3 mt-md-0 mt-2">
                            <div class="input-group">
                                 <input type="text" name="search_footprint_name" placeholder="{t}Suchen / Hinzufügen{/t}" class="form-control"
                                        onkeydown="if (event.keyCode == 13) { document.getElementById('search_footprint').click();} "
