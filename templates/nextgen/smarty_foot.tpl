@@ -83,7 +83,7 @@
     <script src="{$relative_path}js/bootstrap-treeview.min.js" async></script>
 
     <!-- Chart JS -->
-    <script src="{$relative_path}js/Chart.min.js" async></script>
+    <script src="{$relative_path}vendor/nnnick/chartjs/dist/Chart.bundle.min.js" async></script>
 
     <!-- FileInput -->
     <script src="{$relative_path}vendor/kartik-v/bootstrap-fileinput/js/fileinput.js" async></script>
