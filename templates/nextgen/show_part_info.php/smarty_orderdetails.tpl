@@ -30,7 +30,7 @@
 
                             <td class="tdrow1{if $order.obsolete} backred{/if}">
                                 {if isset($order.supplier_product_url) && !empty($order.supplier_product_url)}
-                                    <a title="{$order.supplier_product_url}" rel="noopener" target="_blank" class="hidden-print-href link-external" href="{$order.supplier_product_url}">{$order.supplierpartnr}</a>
+                                    <a title="{$order.supplier_product_url}" rel="noopener" target="_blank" class="d-print-none-href link-external" href="{$order.supplier_product_url}">{$order.supplierpartnr}</a>
                                 {else}
                                     {$order.supplierpartnr}
                                 {/if}
@@ -87,7 +87,7 @@
         <div class="card-body card-collapse collapse show" id="panel-orderdetails">
             <!-- This a have not to have link-anchor class -->
             <span class="form-text text-muted" style="display: inline;">{t}Dieses Bauteil hat keine Einkaufsinformationen.{/t}</span>
-            <a class="btn btn-secondary float-right hidden-print"
+            <a class="btn btn-secondary float-right d-print-none"
                href="edit_part_info.php?pid={$pid}#orderdetails"
                {if !$can_orderdetails_create}disabled{/if}>
                 {t}Einkaufsinformationen hinzufügen{/t}</a>

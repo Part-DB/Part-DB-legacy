@@ -23,7 +23,7 @@
             {/foreach}
         {else}
             <span class="form-text text-muted" style="display: inline;">{t}Dieses Bauteil besitzt keine Dateianhänge.{/t}</span>
-            <a class="btn btn-secondary float-right hidden-print" class=" hidden-print-href"
+            <a class="btn btn-secondary float-right d-print-none" class=" d-print-none-href"
                href="edit_part_info.php?pid={$pid}#attachements"
                {if !$can_orderdetails_create}disabled{/if}>
                 {t}Dateianhänge hinzufügen{/t}</a>

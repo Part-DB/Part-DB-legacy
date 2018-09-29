@@ -1,4 +1,4 @@
-<div class="row hidden-print mt-2">
+<div class="row d-print-none mt-2">
     <div class="col">
         {if isset($can_delete) && isset($can_edit)}
             <div class="select_actions" style="display: none;">

@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-<div class="card hidden-print mt-3">
+<div class="card d-print-none mt-3">
     <div class="card-header">
         <a data-toggle="collapse" class="link-collapse text-default" href="#panel-actions"><i class="fa fa-bolt fa-fw" aria-hidden="true"></i>
             {t}Aktionen{/t}</a>
