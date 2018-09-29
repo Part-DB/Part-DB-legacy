@@ -605,6 +605,7 @@ $(function(event){
     ajaxui.addStartAction(viewer3d_models);
     ajaxui.addStartAction(makeGreekInput);
     ajaxui.addStartAction(makeCharts);
+    ajaxui.addStartAction(setBootstrapSelectStyle);
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
@@ -628,6 +629,11 @@ $(function(event){
 
     ajaxui.start();
 });
+
+function setBootstrapSelectStyle() {
+    //Set a style for the Bootstrap-select which looks more like the BS3 ones, and the form-controls
+    $.fn.selectpicker.Constructor.DEFAULTS.style = "bg-white border";
+}
 
 function makeCharts() {
     $(".chart").each(function(index, element) {
