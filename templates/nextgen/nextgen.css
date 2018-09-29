@@ -23,9 +23,9 @@ body {
         overflow-x: hidden;
         overflow-y: auto;
         /*noinspection W3CssValidation*/
-       /* -webkit-overflow-scrolling: touch;
-        max-height: 100%;
-        padding-bottom: 50px; */
+        /* -webkit-overflow-scrolling: touch;
+         max-height: 100%;
+         padding-bottom: 50px; */
 
 
         position: fixed;
@@ -42,7 +42,7 @@ body {
 
         /*noinspection W3CssValidation*/
         -webkit-overflow-scrolling: touch;
- }
+    }
 
 
 }
@@ -546,9 +546,11 @@ ul.structural_link li a:hover {
 /*****************************
 BS 4 overrides
  ****************************/
-.col-form-label {
-    font-weight: bold;
-    text-align: right;
+@media (min-width: 576px) {
+    .col-form-label {
+        font-weight: bold;
+        text-align: right;
+    }
 }
 
 label:not(.form-check-label) {
