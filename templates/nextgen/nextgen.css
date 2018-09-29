@@ -546,7 +546,7 @@ ul.structural_link li a:hover {
 /*****************************
 BS 4 overrides
  ****************************/
-@media (min-width: 576px) {
+@media (min-width: 768px) {
     .col-form-label {
         font-weight: bold;
         text-align: right;
