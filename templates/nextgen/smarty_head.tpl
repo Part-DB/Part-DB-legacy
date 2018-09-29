@@ -111,10 +111,20 @@
     <header>
 
         <nav class="navbar navbar-expand-md navbar-light bg-light border-bottom shadow-sm fixed-top py-0" id="navbar">
-            <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> {if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
+
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#sidebar-container">
+                        <span class="sr-only">{t}Toggle Sidebar{/t}</span>
+                        <!-- <span class="navbar-toggler-icon"></span> -->
+                        <i class="fas fa-sitemap fa-lg"></i>
             </button>
+
+            <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> {if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <!-- <span class="navbar-toggler-icon"></span> -->
+                        <i class="fas fa-bars  fa-lg"></i>
+            </button>
+
 
 
             <div class="collapse navbar-collapse" id="navbarContent">
@@ -303,7 +313,8 @@
     <div class="container-fluid">
 
         <div class="row">
-                <nav  {* class="fixed-sidebar"  *} class="fixed-sidebar col-md-3 col-lg-2 d-none d-md-block" id="fixed-sidebar">
+                <div class="collapse d-md-block bg-light" id="sidebar-container">
+                    <nav  {* class="fixed-sidebar"  *} class="fixed-sidebar col-md-3 col-lg-2 " id="fixed-sidebar">
                         <ul class="nav flex-column">
                             {if isset($can_category) && $can_category}
                                 <li id="categories">
@@ -383,6 +394,7 @@
                     <noscript><b>{t}Bitte aktivieren sie Javascript, um alle Funktionen benutzen zu können.{/t}</b></noscript>
 
                 </nav>
+                </div>
 
             <div class="col-md-9 col-lg-10 offset-md-3 offset-lg-2 pl-0" id="main">
 
