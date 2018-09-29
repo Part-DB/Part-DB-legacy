@@ -110,7 +110,7 @@
 
     <header>
 
-        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm fixed-top py-0" id="navbar">
+        <nav class="navbar navbar-expand-md navbar-light bg-light border-bottom shadow-sm fixed-top py-0" id="navbar">
             <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> {if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -147,9 +147,9 @@
                     <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> *}
 
                     {if isset($can_search) && $can_search}
-                    <!-- Searchbar -->
-                    <form action="{$relative_path}show_search_parts.php" method="get">
-                    <div class="dropdown d-inline-block">
+                        <!-- Searchbar -->
+                        <form action="{$relative_path}show_search_parts.php" method="get">
+                    <div class="dropdown d-inline">
                             <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
                                 {t}Suchoptionen{/t}
                                 <span class="caret"></span>
@@ -186,8 +186,14 @@
                                {if $livesearch_active}onkeyup="livesearch(event, this, 2);"{/if}>
                         <button type="submit" id="search-submit" class="btn btn-outline-secondary my-2">{t}Los!{/t}</button>
                     </form>
-                {/if}
+                    {/if}
                 </div>
+
+                <a class="d-block d-md-none  nav-link link-datasheet" style="color: black;"
+                        href="zxing://scan/?ret={if isset($smarty.server.HTTPS)}https{else}http{/if}%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$relative_path|escape:'url'}show_search_parts.php%3Fkeyword%3D%7BCODE%7D&SCAN_FORMATS=EAN_8,CODE_39">
+                        <i class="fa fa-barcode fa-fw fa-lg" aria-hidden="true"></i>
+                        <span class="ml-2 text-muted">{t}Scanne Barcode{/t}</span>
+                    </a>
 
                 <ul class="navbar-nav ml-3">
                     <li class="nav-item dropdown">
@@ -320,7 +326,7 @@
     <div class="container-fluid">
 
         <div class="row">
-                <nav  {* class="fixed-sidebar"  *} class="fixed-sidebar col-sm-3 col-md-2 d-xs-none d-print-none" id="fixed-sidebar">
+                <nav  {* class="fixed-sidebar"  *} class="fixed-sidebar col-md-3 col-lg-2 d-none d-md-block" id="fixed-sidebar">
                         <ul class="nav flex-column">
                             {if isset($can_category) && $can_category}
                                 <li id="categories">
@@ -401,7 +407,7 @@
 
                 </nav>
 
-            <div class="col-sm-9 col-md-10 offset-sm-3 offset-md-2 pl-0" id="main">
+            <div class="col-md-9 col-lg-10 offset-md-3 offset-lg-2 pl-0" id="main">
 
                 <div class="container-fluid container-progress" id="progressbar" style="display: none;">
                     <div class="progress mb-3">
