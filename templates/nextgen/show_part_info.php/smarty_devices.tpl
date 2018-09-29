@@ -1,12 +1,12 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="card mt-3">
+    <div class="card-header">
         <a data-toggle="collapse" class="link-collapse text-default" href="#panel-devices"><i class="fa fa-briefcase fa-fw" aria-hidden="true"></i>
             {t}Baugruppen mit diesem Bauteil{/t}
         </a>
     </div>
-    <div class="panel-collapse collapse" id="panel-devices">
+    <div class="card-collapse collapse" id="panel-devices">
         <form method="post">
             <input type="hidden" name="pid" value="{$pid}">
             <table class="table table-striped table-hover">
@@ -33,7 +33,7 @@
                     {/foreach}
                 {/if}
                 <tr>
-                    <td><span class="label label-primary">{t}Neu:{/t}</span></td>
+                    <td><span class="badge badge-primary">{t}Neu:{/t}</span></td>
                     <td><select class="form-control selectpicker" data-live-search="true" name="device_id_new" {if !$can_devicepart_create}disabled{/if}>
                             {$devices_list nofilter}
                         </select>

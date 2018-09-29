@@ -44,7 +44,7 @@
     <!-- Back to top button -->
     <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button"
        title="Zum Seitenbeginn" data-toggle="tooltip" data-placement="left">
-        <span class="glyphicon glyphicon-chevron-up"></span>
+        <i class="fas fa-angle-up fa-fw"></i>
     </a>
 
     <!-- Datatables -->
@@ -83,10 +83,11 @@
     <script src="{$relative_path}js/bootstrap-treeview.min.js" async></script>
 
     <!-- Chart JS -->
-    <script src="{$relative_path}js/Chart.min.js" async></script>
+    <script src="{$relative_path}vendor/nnnick/chartjs/dist/Chart.bundle.min.js" async></script>
 
     <!-- FileInput -->
-    <script src="{$relative_path}js/fileinput.min.js" async></script>
+    <script src="{$relative_path}vendor/kartik-v/bootstrap-fileinput/js/fileinput.js" async></script>
+    {* <script src="{$relative_path}vendor/kartik-v/bootstrap-fileinput/themes/fas/theme.min.js"></script> *}
 
     <!-- JQuery Highlight -->
     <script src="{$relative_path}js/jquery.highlight.min.js" async></script>
@@ -104,11 +105,11 @@
     <script type="text/javascript" src="{$relative_path}javascript/calculator.min.js"></script>
 
     <!-- jQuery Form lib -->
-    <script src="{$relative_path}js/jquery.form.min.js"></script>
+    <script src="{$relative_path}vendor/jquery-form/form/dist/jquery.form.min.js"></script>
 
     <!-- Bootstrap-select -->
-    <script src="{$relative_path}js/bootstrap-select.min.js"></script>
-    <script src="{$relative_path}js/i18n/defaults-de_DE.js"></script>
+    <script src="{$relative_path}vendor/snapappointments/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="{$relative_path}vendor/snapappointments/bootstrap-select/dist/js/i18n/defaults-de_DE.js"></script>
 
     <!-- Bootstrap typeahead -->
     <script src="{$relative_path}js/bootstrap3-typeahead.min.js"></script>

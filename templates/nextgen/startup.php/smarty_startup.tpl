@@ -17,14 +17,14 @@
 
 {if isset($database_update) && $database_update}
     {if $database_update}
-        <div class="panel panel-danger">
-            <div class="panel-heading">
+        <div class="card border-danger mt-3">
+            <div class="card-header bg-danger text-white">
                 <h3>
                     <i class="fa fa-database" aria-hidden="true"></i>
                     {t}Datenbankupdate{/t}
                 </h3>
             </div>
-            <div class="panel-body">
+            <div class="card-body">
                 <b>{t 1=$db_version_current 2=$db_version_latest}Datenbank-Version %1 benötigt ein Update auf Version %2.{/t}</b><br><br>
                 {if isset($disabled_autoupdate)}
                     {if isset($auto_disabled_autoupdate)}
@@ -44,16 +44,16 @@
 
 
 <div class="jumbotron">
-    <h1>{if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</h1>
+    <h1 class="display-3">{if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</h1>
     {if isset($system_version_full)}
-        <h3>{t}Version:{/t} {$system_version_full}{if !empty($git_branch)}, Git: {$git_branch}{if isset($git_commit)}/{$git_commit}{/if}{/if}</h3>
+        <h4>{t}Version:{/t} {$system_version_full}{if !empty($git_branch)}, Git: {$git_branch}{if isset($git_commit)}/{$git_commit}{/if}{/if}</h4>
     {/if}
-    <h4><i>"NextGen"</i></h4>
+    <h5><i>"NextGen"</i></h5>
 
     {if !empty($banner)}
         <hr>
         <div>
-            <h4>{$banner nofilter}</h4>
+            <h5>{$banner nofilter}</h5>
         </div>
     {/if}
 </div>
@@ -61,11 +61,11 @@
 
 
 {if isset($display_warning) && $display_warning}
-    <div class="panel panel-danger">
-        <div class="panel-heading">
+    <div class="card border-danger mt-3">
+        <div class="card-header bg-danger text-white">
             {t}Achtung!{/t}
         </div>
-        <div class="panel-body">
+        <div class="card-body">
             {t escape=false 1=$missing_category 2=$missing_storeloc 3=$missing_footprint 4=$missing_supplier}Bitte beachten Sie, dass vor der Verwendung der Datenbank mindestens<br>
                 <blockquote>%1 eine <a href="edit_categories.php">Kategorie</a> </blockquote>hinzufügt werden muss.<br><br>
                 Um das Potential der Suchfunktion zu nutzen, wird empfohlen
@@ -81,11 +81,11 @@
 {/if}
 
 {if isset($broken_filename_footprints) && $broken_filename_footprints}
-    <div class="panel panel-danger">
-        <div class="panel-heading">
+    <div class="card border-danger mt-3">
+        <div class="card-header bg-danger text-white">
             <h2 class="red">{t}Achtung!{/t}</h2>
         </div>
-        <div class="panel-body">
+        <div class="card-body">
         <span style="color: red; ">{t}In Ihrer Datenbank gibt es Footprints, die einen fehlerhaften Dateinamen hinterlegt haben.
                 Dies kann durch ein Datenbankupdate, ein Update von Part-DB, oder durch nicht mehr existierende Dateien ausgelöst worden sein.{/t}
             <br>
@@ -97,11 +97,11 @@
 
 
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
-        <h3><i class="fa fa-book fa-fw" aria-hidden="true"></i>&nbsp{t}Lizenz{/t}</h3>
+<div class="card border-primary mt-3">
+    <div class="card-header bg-primary text-white">
+        <h4><i class="fa fa-book fa-fw" aria-hidden="true"></i>&nbsp{t}Lizenz{/t}</h4>
     </div>
-    <div class="panel-body">
+    <div class="card-body">
         <p>Part-DB, Copyright &copy; 2005 of <strong>Christoph Lechner</strong>. <br> Part-DB is published under the <strong>GPL</strong>, so it comes with <strong>ABSOLUTELY NO WARRANTY</strong>,
             click <a href="{$relative_path}readme/gpl.txt" class="link-external" rel="noopener" target="_blank">here</a> for details.
             This is free software, and you are welcome to redistribute it under certain conditions.
@@ -133,8 +133,8 @@
 </div>
 
 {if !empty($rss_feed_loop)}
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card boder-dark mt-3">
+        <div class="card-header bg-light">
             <h4><i class="fa fa-rss fa-fw" aria-hidden="true"></i>&nbsp{t}Updates{/t}</h4>
         </div>
         <div class="table-responsive">

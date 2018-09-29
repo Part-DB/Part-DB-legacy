@@ -36,19 +36,19 @@
     <link href="{$relative_path}css/awesome-bootstrap-checkbox.css" rel="stylesheet">
 
     <!-- Fileinput -->
-    <link href="{$relative_path}css/fileinput.min.css" media="all" rel="stylesheet"/>
+    <link href="{$relative_path}vendor/kartik-v/bootstrap-fileinput/css/fileinput.min.css" media="all" rel="stylesheet"/>
 
     <!-- Include Part-DB Theme -->
     <link href="{$relative_path}templates/nextgen/nextgen.css" rel="stylesheet">
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{$relative_path}js/jquery-3.3.1.min.js"></script>
+    <script src="{$relative_path}vendor/components/jquery/jquery.min.js"></script>
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{$relative_path}js/bootstrap.min.js"></script>
 
     <!-- jQuery Form lib -->
-    <script src="{$relative_path}js/jquery.form.min.js"></script>
+    <script src="{$relative_path}vendor/jquery-form/form/dist/jquery.form.min.js"></script>
 
     <!-- Bootstrap select -->
     <link rel="stylesheet" href="{$relative_path}css/bootstrap-select.min.css">
@@ -63,7 +63,7 @@
 <body>
 
     <header>
-        <nav class="navbar navbar-default navbar-fixed-top">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom shadow-sm fixed-top">
             <div class="container-fluid">
                 <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -110,7 +110,7 @@
                 {if !empty($reload_link)}
                     <a href="{$reload_link}">
                         <br>
-                        <button class="btn btn-default">{t}Seite neu laden{/t}</button>
+                        <button class="btn btn-secondary">{t}Seite neu laden{/t}</button>
                     </a>
                 {/if}
             </form>

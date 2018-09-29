@@ -1,13 +1,13 @@
 {locale path="nextgen/locale" domain="partdb"}
 
 {if !empty($properties_loop)}
-    <div class="panel panel-default">
-        <div class="panel-heading">
+    <div class="card mt-3">
+        <div class="card-header">
             <a data-toggle="collapse" class="link-collapse text-default" href="#panel-properties"><i class="fa fa-table fa-fw" aria-hidden="true"></i>
             {t}Bauteileeigenschaften{/t}
             </a>
         </div>
-        <div class="table-responsive panel-collape collapse in" id="panel-properties">
+        <div class="table-responsive card-collape collapse show" id="panel-properties">
             <table class="table table-striped table-hover table-sortable">
                 <thead>
                 <tr>

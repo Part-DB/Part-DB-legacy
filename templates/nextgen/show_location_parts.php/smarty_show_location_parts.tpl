@@ -6,36 +6,36 @@
 <span id="export-messageTop">{t}Vollständiger Pfad{/t}: {$location_fullpath}</span>
 
 {if $other_panel_position == "top" || $other_panel_position == "both"}
-    <div class="panel panel-primary">
-        <div class="panel-heading">
+    <div class="card border-primary">
+        <div class="card-header bg-primary text-white">
             <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other">
                 {t}Sonstiges{/t}
             </a>
         </div>
-        <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other">
+        <div class="card-body card-collapse collapse {if !$other_panel_collapse}show{/if}" id="panel-other">
             <form action="" method="post" class="form-horizontal no-progbar">
                 <input type="hidden" name="lid" value="{$lid}">
                 <input type="hidden" name="subloc" value="{if $with_sublocations}0{else}1{/if}">
 
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <button type="submit" class="btn btn-default {if $with_sublocations}active{/if}" name="subloc_button" >{t}Unterlagerorte einblenden{/t}</button>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-outline-secondary {if $with_sublocations}active{/if}" name="subloc_button" >{t}Unterlagerorte einblenden{/t}</button>
                     </div>
                 </div>
             </form>
 
             {if $can_generate_barcode}
                 <form action="show_part_label.php" method="get" class="form-horizontal">
-                    <div class="form-group">
+                    <div class="form-group row">
                         <input type="hidden" name="label_generate">
                         <input type="hidden" name="generator" value="location">
                         <input type="hidden" name="id" value="{$lid}">
 
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             <div class="btn-group">
-                                <button type="submit" class="btn btn-default"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
+                                <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
                                     {t}Barcode erzeugen{/t}</button>
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="caret"></span>
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
@@ -63,8 +63,8 @@
     {include "../smarty_pagination.tpl"}
 </form>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         <i class="fa fa-cube" aria-hidden="true"></i>&nbsp;
         <b>{$table_rowcount}</b> {t}Teile im Lagerort{/t} "<b>{$location_name}</b>"
     </div>
@@ -87,36 +87,36 @@
 </form>
 
 {if $other_panel_position == "bottom" || $other_panel_position == "both"}
-    <div class="panel panel-primary">
-        <div class="panel-heading">
+    <div class="card border-primary">
+        <div class="card-header bg-primary text-white">
             <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other">
                 {t}Sonstiges{/t}
             </a>
         </div>
-        <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other">
+        <div class="card-body card-collapse collapse {if !$other_panel_collapse}show{/if}" id="panel-other">
             <form action="" method="post" class="form-horizontal no-progbar">
                 <input type="hidden" name="lid" value="{$lid}">
                 <input type="hidden" name="subloc" value="{if $with_sublocations}0{else}1{/if}">
 
-                <div class="form-group">
-                    <div class="col-md-10">
-                        <button type="submit" class="btn btn-default {if $with_sublocations}active{/if}" name="subloc_button" >{t}Unterlagerorte einblenden{/t}</button>
+                <div class="form-group row">
+                    <div class="col-md-12">
+                        <button type="submit" class="btn btn-outline-secondary {if $with_sublocations}active{/if}" name="subloc_button" >{t}Unterlagerorte einblenden{/t}</button>
                     </div>
                 </div>
             </form>
 
             {if $can_generate_barcode}
                 <form action="show_part_label.php" method="get" class="form-horizontal">
-                    <div class="form-group">
+                    <div class="form-group row">
                         <input type="hidden" name="label_generate">
                         <input type="hidden" name="generator" value="location">
                         <input type="hidden" name="id" value="{$lid}">
 
-                        <div class="col-md-10">
+                        <div class="col-md-12">
                             <div class="btn-group">
-                                <button type="submit" class="btn btn-default"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
+                                <button type="submit" class="btn btn-outline-secondary"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
                                     {t}Barcode erzeugen{/t}</button>
-                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <button type="button" class="btn btn-outline-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="caret"></span>
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
@@ -132,7 +132,6 @@
                     </div>
                 </form>
             {/if}
-
         </div>
     </div>
 {/if}

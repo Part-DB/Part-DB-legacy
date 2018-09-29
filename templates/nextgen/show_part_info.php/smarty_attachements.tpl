@@ -1,12 +1,12 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="card mt-3">
+    <div class="card-header">
         <a data-toggle="collapse" class="link-collapse text-default" href="#panel-attachements"><i class="fa fa-file fa-fw" aria-hidden="true"></i>
             {t}Dateianhänge{/t}
         </a>
     </div>
-    <div class="panel-body panel-collapse collapse in" id="panel-attachements">
+    <div class="card-body card-collapse collapse show" id="panel-attachements">
         {if isset($attachement_types_loop)}
             {foreach $attachement_types_loop as $attach_type}
                 <b>{$attach_type.attachement_type}:</b><br>
@@ -22,8 +22,8 @@
                 <br><br>
             {/foreach}
         {else}
-            <span class="help-block" style="display: inline;">{t}Dieses Bauteil besitzt keine Dateianhänge.{/t}</span>
-            <a class="btn btn-default pull-right hidden-print" class=" hidden-print-href"
+            <span class="form-text text-muted" style="display: inline;">{t}Dieses Bauteil besitzt keine Dateianhänge.{/t}</span>
+            <a class="btn btn-secondary float-right d-print-none" class=" d-print-none-href"
                href="edit_part_info.php?pid={$pid}#attachements"
                {if !$can_orderdetails_create}disabled{/if}>
                 {t}Dateianhänge hinzufügen{/t}</a>

@@ -288,7 +288,7 @@ class AjaxUI {
 
         $(this).treeview('toggleNodeExpanded',data.nodeId);
 
-        $("#sidebar").removeClass("in");
+        $("#sidebar-container").removeClass("show");
     }
 
     /**
@@ -346,7 +346,8 @@ class AjaxUI {
 
         $.getJSON(BASE + url, function (data : BootstrapTreeViewNodeData[]) {
             $(tree).treeview({data: data, enableLinks: false, showIcon: false
-                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
+                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler,
+                expandIcon: "fas fa-plus fa-fw fa-treeview", collapseIcon: "fas fa-minus fa-fw fa-treeview"}).treeview('collapseAll', { silent: true });
         });
     }
 
@@ -604,6 +605,7 @@ $(function(event){
     ajaxui.addStartAction(viewer3d_models);
     ajaxui.addStartAction(makeGreekInput);
     ajaxui.addStartAction(makeCharts);
+    ajaxui.addStartAction(setBootstrapSelectStyle);
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
@@ -627,6 +629,11 @@ $(function(event){
 
     ajaxui.start();
 });
+
+function setBootstrapSelectStyle() {
+    //Set a style for the Bootstrap-select which looks more like the BS3 ones, and the form-controls
+    $.fn.selectpicker.Constructor.DEFAULTS.style = "bg-white border";
+}
 
 function makeCharts() {
     $(".chart").each(function(index, element) {
@@ -754,7 +761,7 @@ function registerHoverImages() {
         placement: 'auto',
         container: 'body',
         content: function () {
-            return '<img class="img-responsive" src="' + this.src + '" />';
+            return '<img class="img-fluid" src="' + this.src + '" />';
         }
     });
 }
@@ -782,10 +789,10 @@ function makeSortTable() {
     $.extend( true, $.fn.DataTable.Buttons.defaults, {
         dom: {
             container: {
-                className: 'dt-buttons btn-group pull-right'
+                className: 'dt-buttons btn-group float-right'
             },
             button: {
-                className: 'btn btn-default btn-xs'
+                className: 'btn btn-light btn-xs border'
             },
             collection: {
                 tag: 'ul',
@@ -828,7 +835,8 @@ function makeSortTable() {
             "paging":   false,
             "ordering": true,
             "info":     false,
-            "fixedHeader": true,
+            "fixedHeader": { header: $(window).width() >= 768, //Only enable fixedHeaders on devices with big screen. Fixes scrolling issues on smartphones.
+                    headerOffset: $("#navbar").height()},
             "searching":   false,
             "select":   $(".table-sortable").hasClass("table-selectable") ? {style: "os", selector: "td:not(.no-select)"} : false,
             "order": [],
@@ -919,7 +927,7 @@ function makeSortTable() {
             } );
 
         for(let n = 0; n < table.context.length; n++) {
-            let my_panel_header = $(table.table(n).container()).closest(".panel").find(".panel-heading");
+            let my_panel_header = $(table.table(n).container()).closest(".card").find(".card-header");
 
             table.table(n).buttons().container().appendTo(my_panel_header);
             //table.buttons(n, null).containers().appendTo(my_panel_header);
@@ -953,7 +961,7 @@ function registerJumpToTop() {
             scrollTop: 0
         }, 800);
         return false;
-    }).tooltip('show');
+    }).tooltip();
 }
 
 /**
@@ -980,7 +988,9 @@ function rightClickSubmit()
 function treeviewBtnInit() {
     $(".tree-btns").click(function (event) {
         event.preventDefault();
-        $(this).parents("div.dropdown").removeClass('open');
+        $(this).parents("div.dropdown").removeClass('show');
+        //$(this).closest(".dropdown-menu").removeClass('show');
+        $(".dropdown-menu.show").removeClass("show");
         let mode = $(this).data("mode");
         let target = $(this).data("target");
         let text = $(this).text() + " \n<span class='caret'></span>"; //Add caret or it will be removed, when written into title
@@ -1023,7 +1033,7 @@ async function registerBootstrapSelect() {
  * Add collapsed class to a before a collapse panel body, so the icon is correct.
  */
 function addCollapsedClass() {
-    $('div.collapse.panel-collapse').siblings("div.panel-heading")
+    $('div.collapse.card-collapse').siblings("div.card-header")
         .children('a[data-toggle="collapse"]').addClass("collapsed");
 }
 
@@ -1053,14 +1063,14 @@ function registerAutoRefresh() {
 }
 
 function fixSelectPaginationHeight() {
-    $('.pagination>li>select').css('height', parseInt($('.pagination').css("height")));
+    $('.pagination>li>select').css('height', parseInt($('.pagination').css("height")) - 2);
 }
 
 /**
  * Close the #searchbar div, when a search was submitted on mobile view.
  */
 $("#search-submit").click(function (event) {
-    $("#searchbar").removeClass("in");
+    $("#searchbar").removeClass("show");
 });
 
 /**
@@ -1109,12 +1119,13 @@ function makeHighlight() {
 
 /**
  * Use Bootstrap for tooltips.
+ * Function need to be not async, otherwise not every tooltip gets removed, when page is loaded.
  */
  function makeTooltips() {
     //$('[data-toggle="tooltip"]').tooltip();
     //$('a[title]').tooltip("hide").tooltip({container: "body"});
-    $('body').tooltip('destroy');
-    $("body").tooltip({ selector: '[title]', container: "body", trigger: "hover"});
+    $('body').tooltip('dispose');
+    $("body").tooltip({ selector: '[title]', container: "body" });
     //$('button[title]').tooltip("hide").tooltip({container: "body"});
 }
 
@@ -1166,13 +1177,13 @@ function viewer3d_models() {
 
 //Need for proper body padding, with every navbar height
 $(window).resize(function () {
-    let height : number = $('#main-navbar').height() + 10;
+    let height : number = $('#navbar').height() + 10;
     $('body').css('padding-top', height);
     $('#fixed-sidebar').css('top', height);
 });
 
 $(window).on('load', function () {
-    let height : number = $('#main-navbar').height() + 10;
+    let height : number = $('#navbar').height() + 10;
     $('body').css('padding-top', height);
     $('#fixed-sidebar').css('top', height);
 });

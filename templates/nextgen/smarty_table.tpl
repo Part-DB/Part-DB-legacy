@@ -14,7 +14,7 @@
     Please Note: There are no empty lines between the {TMPL_IF}{/if} groups, because they would produce extremely large HTML output files (because of the loops)!
 *}
 <div class="table-responsive">
-    <table class="table table-striped table-condensed table-compact table-hover table-export
+    <table class="table table-striped table-condensed table-compact table-hover table-export table-no-margin
     table-sortable {if isset($table_selectable) && $table_selectable}table-selectable{/if}" cellspacing="0" width="100%">
         <thead class="thead-default">
         {foreach $table as $t}
@@ -101,11 +101,11 @@
                             <td class="tdrow0">
                                 {if $row.caption =="hover_picture"}
                                     <p>
-                                        <img class="img-responsive hoverpic" rel="popover" src="{$row.small_picture}" alt="{$row.picture_name}">
+                                        <img class="img-fluid hoverpic" rel="popover" src="{$row.small_picture}" alt="{$row.picture_name}">
                                     </p>
                                 {else}
                                     {if $row.small_picture}
-                                        <img class="img-responsive hoverpic" rel="popover" src="{$row.small_picture}" alt="">
+                                        <img class="img-fluid hoverpic" rel="popover" src="{$row.small_picture}" alt="">
                                     {/if}
                                 {/if}
                             </td>
@@ -133,7 +133,7 @@
                         {/if}
                         {if $row.caption == "description"}
                             {* description *}
-                            <td class="tdrow1{if $row.obsolete} bg-danger{/if}">{$row.description nofilter}</td>
+                            <td class="tdrow1{if $row.obsolete} not-enough-instock{/if}">{$row.description nofilter}</td>
                         {/if}
                         {if $row.caption == "description_edit"}
                             {* description edit *}
@@ -149,7 +149,7 @@
                         {/if}
                         {if $row.caption == "name_description"}
                             {* name/comment/description *}
-                            <td class="tdrow1{if $row.obsolete} bg-danger{/if}">
+                            <td class="tdrow1{if $row.obsolete} not-enough-instock{/if}">
                                 <a data-toggle="tooltip" title="{if $row.obsolete}(nicht mehr erhätlich) {/if}{if isset($row.comment) && !empty($row.comment)}{t}Kommentar:{/t} {$row.comment nofilter}{/if}"
                                    href="show_part_info.php?pid={$row.id}">
                                     {$row.name}{if isset($row.description)}&nbsp;{$row.description}{/if}
@@ -158,7 +158,7 @@
                         {/if}
                         {if $row.caption == "instock"}
                             {* instock *}
-                            <td class="tdrow2 {if $row.not_enough_instock} bg-danger{/if}">
+                            <td class="tdrow2 {if $row.not_enough_instock} not-enough-instock{/if}">
                                 <div data-toggle="tooltip" title="min. Bestand: {$row.mininstock}">{$row.instock}</div>
                             </td>
                         {/if}
@@ -186,7 +186,7 @@
                         {/if}
                         {if $row.caption == "instock_mininstock"}
                             {* instock/mininstock *}
-                            <td class="tdrow2 {if $row.not_enough_instock} bg-danger{/if}">
+                            <td class="tdrow2 {if $row.not_enough_instock} not-enough-instock{/if}">
                                 {$row.instock}/{$row.mininstock}
                             </td>
                         {/if}
@@ -268,7 +268,7 @@
                         {if $row.caption == "button_decrement"}
                             {* build the "-" button, only if more than 0 parts on stock *}
                             <td class="tdrow6 no-select">
-                                <button type="submit" class="btn btn-xs btn-default btn-outline" name="decrement_{$row.row_index}"
+                                <button type="submit" class="btn btn-xs btn-outline-dark" name="decrement_{$row.row_index}"
                                         {if $row.decrement_disabled}disabled="disabled"{/if}
                                 ><i class="fa fa-minus" aria-hidden="true"></i></span></button>
                             </td>
@@ -276,41 +276,41 @@
                         {if $row.caption == "button_increment"}
                             {* build the "+" button *}
                             <td class="tdrow7 no-select">
-                                <button type="submit" class="btn btn-xs btn-default btn-outline" name="increment_{$row.row_index}"
+                                <button type="submit" class="btn btn-xs btn-outline-dark" name="increment_{$row.row_index}"
                                         {if $row.increment_disabled}disabled="disabled"{/if}
                                 ><i class="fa fa-plus" aria-hidden="true"></i></span></button>
                             </td>
                         {/if}
                         {if $row.caption == "button_edit"}
                             <td class="tdrow7 no-select">
-                                {if !$row.edit_disabled} <a class="btn btn-xs btn-default btn-outline" href="{$relative_path}edit_part_info.php?pid={$row.id}"
+                                {if !$row.edit_disabled} <a class="btn btn-xs btn-outline-dark" href="{$relative_path}edit_part_info.php?pid={$row.id}"
                                                             {if $row.edit_disabled}disabled="disabled" {/if}><i class="fa fa-pencil-alt" aria-hidden="true"></i></span></a> {/if}
                             </td>
                         {/if}
                         {if $row.caption == "order_options"}
                             {* build the order options (e.g. the "to stock" checkbox) (only for order parts) *}
                             <td class="tdrow1" class="form-control" nowrap>
-                                <div class="checkbox checkbox-inline">
-                                    <input type="checkbox" name="tostock_{$row.row_index}">
-                                    <label>{t}Einbuchen{/t}</label>
+                                <div class="form-check abc-checkbox form-check-dropdown">
+                                    <input type="checkbox" class="form-check-input" id name="tostock_{$row.row_index}">
+                                    <label class="form-check-label" for>{t}Einbuchen{/t}</label>
                                 </div>
                                 {if $row.enable_remove}
-                                    <div class="checkbox checkbox-inline">
-                                        <input type="checkbox" name="remove_{$row.row_index}">
-                                        <label>{t}Aus Liste löschen{/t}</label>
+                                    <div class="form-check abc-checkbox form-check-dropdown">
+                                        <input class="form-check-input" type="checkbox" name="remove_{$row.row_index}">
+                                        <label class="form-check-label">{t}Aus Liste löschen{/t}</label>
                                     </div>
                                 {/if}
                             </td>
                         {/if}
                         {if $row.caption == "quantity_edit"}
                             {* quantity for DevicePart elements *}
-                            <td class="tdrow1" nowrap>
+                            <td class="tdrow1" nowrap style="width: 5rem;">
                                 <div class="input-group">
                                     <input type="text" class="form-control input-sm" style="width:45px;" name="quantity_{$row.row_index}"
                                            value="{if isset($row.quantity)}{$row.quantity}{else}0{/if}"
                                            {if isset($can_part_edit) && isset($can_part_delete) && !$can_part_edit && !$can_part_delete}disabled{/if}>
                                     <span class="export-helper" data-target=""></span>
-                                    <div class="input-group-btn">
+                                    <div class="input-group-append">
                                         <button class="btn btn-default btn-sm" type="button" onClick="elements['quantity_{$row.row_index}'].value=0"
                                                 {if isset($can_part_delete) && !$can_part_delete}disabled{/if}>
                                             <i class="fa fa-times" aria-hidden="true"></i></button>
@@ -346,9 +346,9 @@
                             {* supplier-radiobuttons (only for order parts) *}
                             <td class="tdrow1" nowrap valign="top">
                                 {foreach $row.suppliers_radiobuttons as $radio}
-                                    <div class="radio radio-inline">
-                                        <input type="radio" name="orderdetails_{$radio.row_index}" value="{$radio.orderdetails_id}" {if $radio.selected}checked{/if}>
-                                        <label>{$radio.supplier_name}</label>
+                                    <div class="form-check abc-radio form-check-dropdown">
+                                        <input type="radio" class="form-check-input" name="orderdetails_{$radio.row_index}" value="{$radio.orderdetails_id}" {if $radio.selected}checked{/if}>
+                                        <label class="form-check-label">{$radio.supplier_name}</label>
                                     </div>
                                 {/foreach}
                             </td>

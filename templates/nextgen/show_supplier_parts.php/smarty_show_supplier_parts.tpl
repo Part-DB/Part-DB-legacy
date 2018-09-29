@@ -6,19 +6,19 @@
 {include "../smarty_breadcrumb.tpl"}
 
 {if $other_panel_position == "top" || $other_panel_position == "both"}
-<div class="panel panel-primary">
-    <div class="panel-heading">
+<div class="card border-primary">
+    <div class="card-header bg-primary text-white">
         <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other">
             {t}Sonstiges{/t}
         </a>
     </div>
-    <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other">
+    <div class="card-body card-collapse collapse {if !$other_panel_collapse}show{/if}" id="panel-other">
         <form action="" method="post" class="form-horizontal no-progbar">
             <input type="hidden" name="sid" value="{$sid}">
             <input type="hidden" name="subsup" value="{if $with_subsuppliers}0{else}1{/if}">
-            <div class="form-group">
+            <div class="form-group row">
                 <div class="col-md-10">
-                    <button type="submit" class="btn btn-default {if $with_subsuppliers}active{/if}" name="subsup_button">{t}Unterlieferanten einblenden{/t}</button>
+                    <button type="submit" class="btn btn-outline-secondary {if $with_subsuppliers}active{/if}" name="subsup_button">{t}Unterlieferanten einblenden{/t}</button>
                 </div>
             </div>
         </form>
@@ -34,8 +34,8 @@
     {include "../smarty_pagination.tpl"}
 </form>
 
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         <i class="fa fa-truck fa-fw" aria-hidden="true"></i>&nbsp;
         <b>{$table_rowcount}</b> {t}Teile mit Lieferant{/t} "<b>{$supplier_name}</b>"
     </div>
@@ -58,19 +58,19 @@
 </form>
 
 {if $other_panel_position == "bottom" || $other_panel_position == "both"}
-    <div class="panel panel-primary">
-        <div class="panel-heading">
-            <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other2">
+    <div class="card border-primary">
+        <div class="card-header bg-primary text-white">
+            <a data-toggle="collapse" class="link-collapse text-white" href="#panel-other">
                 {t}Sonstiges{/t}
             </a>
         </div>
-        <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other2">
+        <div class="card-body card-collapse collapse {if !$other_panel_collapse}show{/if}" id="panel-other">
             <form action="" method="post" class="form-horizontal no-progbar">
                 <input type="hidden" name="sid" value="{$sid}">
                 <input type="hidden" name="subsup" value="{if $with_subsuppliers}0{else}1{/if}">
-                <div class="form-group">
+                <div class="form-group row">
                     <div class="col-md-10">
-                        <button type="submit" class="btn btn-default {if $with_subsuppliers}active{/if}" name="subsup_button">{t}Unterlieferanten einblenden{/t}</button>
+                        <button type="submit" class="btn btn-outline-secondary {if $with_subsuppliers}active{/if}" name="subsup_button">{t}Unterlieferanten einblenden{/t}</button>
                     </div>
                 </div>
             </form>

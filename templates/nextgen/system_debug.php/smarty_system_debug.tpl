@@ -1,20 +1,20 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-<div class="panel panel-primary">
-    <div class="panel-heading">Debug-Konsole</div>
-    <div class="panel-body">
+<div class="card border-primary">
+    <div class="card-header bg-primary text-white">Debug-Konsole</div>
+    <div class="card-body">
         <form action="" method="post" class="form-horizontal no-progbar">
             {if $debug_enable}
-                <div class="form-group"><label class="control-label text-success col-md-2">Debugging ist aktiviert:</label>
+                <div class="form-group row"><label class="control-label text-success col-md-2">Debugging ist aktiviert:</label>
                     <div class="col-md-2">
                         <button class="btn btn-primary" type="submit" name="disable">Deaktivieren</button>
 
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-default" type="submit" name="disable_and_delete">Deaktivieren und Log-Datei löschen</button>
+                        <button class="btn btn-secondary" type="submit" name="disable_and_delete">Deaktivieren und Log-Datei löschen</button>
                     </div>
                 </div>
-                <div class="form-group">
+                <div class="form-group row">
                     <label class="control-label col-md-2">Testeintrag erzeugen:</label>
                     <div class="col-md-4">
                         <select name="new_type" class="form-control">
@@ -27,24 +27,24 @@
                     <div class="col-md-4"><input type="text" class="form-control" name="new_text" class="form-control" value="Testeintrag" placeholder="Wert"></div>
                     <div class="col-md-2"><button class="btn btn-primary" type="submit" name="add">Hinzuf&uuml;gen</button></div>
                 </div>
-                <div class="form-group">
-                    <div class="col-md-2 col-md-offset-2">
-                        <button type="submit" class="btn btn-default" name="clear">Log leeren</button>
+                <div class="form-group row">
+                    <div class="col-md-2 offset-md-2">
+                        <button type="submit" class="btn btn-secondary" name="clear">Log leeren</button>
                     </div>
                     <div class="col-md-2">
-                        <button type="submit" name="download" class="btn btn-default">Log als XML-Datei herunterladen</button>
+                        <button type="submit" name="download" class="btn btn-secondary">Log als XML-Datei herunterladen</button>
                     </div>
                 </div>
                 <hr>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-2">
-                        <button type="button" class="btn btn-default" onclick="reloadPage();">Aktualisieren</button>
+                <div class="form-group row">
+                    <div class="offset-md-2 col-md-2">
+                        <button type="button" class="btn btn-secondary" onclick="reloadPage();">Aktualisieren</button>
                     </div>
                 </div>
             {else}
                 <h4><span class="text-danger">Debugging ist deaktiviert</span></h4>
                 <br>
-                <div class="form-group">
+                <div class="form-group row">
                     <div class="col-md-12">
                         <button class="btn btn-primary" type="submit" name="enable">Aktivieren</button>
                     </div>
@@ -65,9 +65,9 @@
 {/if}
 
 {if $debug_enable}
-    <div class="panel panel-default">
-        <div class="panel-heading">Debug-Log</div>
-        <div class="panel-body">
+    <div class="card">
+        <div class="card-header">Debug-Log</div>
+        <div class="card-body">
             Folgende Log-Typen werden hervorgehoben:
             "<span class="text-success">success</span>",
             "<span class="text-warning">warning</span>",
