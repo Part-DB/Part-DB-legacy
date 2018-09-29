@@ -14,9 +14,7 @@
                     <tr class="trcat">
                         <th>{t}Lieferant{/t}</th>
                         <th>{t}Bestellnummer{/t}</th>
-                        <th>{t}Ab Bestellmenge{/t}</th>
-                        <th>{t}Preis{/t}</th>
-                        <th>{t}Einzelpreis{/t}</th>
+                        <th></th>
                     </tr>
                     </thead>
 
@@ -36,37 +34,26 @@
                                 {/if}
                             </td>
 
-                            <td class="tdrow2{if $order.obsolete} backred{/if}">
-                                <table border="0" cellspacing="0" cellpadding="0" width="100%">
+                            <td>
+                                <table class="table table-striped table-hover table-bordered table-sm">
+                                    <thead>
+                                        <tr>
+                                            <th>{t}Ab Bestellmenge{/t}</th>
+                                            <th>{t}Preis{/t}</th>
+                                            <th>{t}Einzelpreis{/t}</th>
+                                        </tr>
+                                    </thead>
                                     {foreach $order.pricedetails as $price}
                                         <tr>
                                             <td class="tdrow2">
                                                 {$price.min_discount_quantity}
                                             </td>
-                                        </tr>
-                                    {/foreach}
-                                </table>
-                            </td>
-
-                            <td class="tdrow1{if $order.obsolete} backred{/if}">
-                                <table border="0" cellspacing="0" cellpadding="0" width="100%">
-                                    {foreach $order.pricedetails as $price}
-                                        <tr>
-                                            <td class="tdrow2">
-                                                {$price.price} / {$price.price_related_quantity}Stk.
-                                            </td>
-                                        </tr>
-                                    {/foreach}
-                                </table>
-                            </td>
-
-                            <td class="tdrow2{if $order.obsolete} backred{/if}">
-                                <table>
-                                    {foreach $order.pricedetails as $price}
-                                        <tr>
-                                            <td class="tdrow2">
-                                                {$price.single_price}
-                                            </td>
+                                        <td class="tdrow2">
+                                            {$price.price} / {$price.price_related_quantity}Stk.
+                                        </td>
+                                        <td class="tdrow2">
+                                            {$price.single_price}
+                                        </td>
                                         </tr>
                                     {/foreach}
                                 </table>
@@ -77,7 +64,7 @@
                 </table>
             </div>
             {if isset($average_price)}
-                <div class="panel-body" style="padding-top: 0;">
+                <div class="card-body" style="padding-top: 0;">
                     <b>{t}Durchschnittspreis für 1 Stk.:{/t} {$average_price}</b>
                 </div>
             {/if}
