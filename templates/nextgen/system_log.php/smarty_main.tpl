@@ -1,15 +1,15 @@
 {locale path="nextgen/locale" domain="partdb"}
 
-<div class="panel panel-default">
-    <div class="panel-heading">
+<div class="card">
+    <div class="card-header">
         <a data-toggle="collapse" class="link-collapse text-default" href="#panel-filter"><i class="fa fa-filter fa-fw" aria-hidden="true"></i>
             {t}Filter{/t}
         </a>
     </div>
-    <div class="panel-collapse collapse panel-body" id="panel-filter">
+    <div class="card-collapse collapse card-body" id="panel-filter">
         <form class="form-horizontal no-progbar" method="post">
-            <div class="form-group">
-                <label class="col-md-2 control-label">{t}minimales Loglevel:{/t}</label>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">{t}minimales Loglevel:{/t}</label>
                 <div class="col-md-10">
                     <select name="min_level" class="form-control selectpicker" data-live-search="true">
                         <option value="0" {if $min_level == 0}selected{/if}>Emergency</option>
@@ -24,8 +24,8 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-md-2 control-label">{t}Benutzer:{/t}</label>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">{t}Benutzer:{/t}</label>
                 <div class="col-md-10">
                     <select name="filter_user" class="form-control selectpicker" data-live-search="true">
                         <option value="-1">{t}Kein Filter{/t}</option>
@@ -36,8 +36,8 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-md-2 control-label">{t}Typ:{/t}</label>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">{t}Typ:{/t}</label>
                 <div class="col-md-10">
                     <select name="filter_type" class="form-control selectpicker" data-live-search="true">
                         <option value="-1">{t}Kein Filter{/t}</option>
@@ -50,15 +50,15 @@
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-md-2 control-label">{t}Suche in Kommentaren:{/t}</label>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">{t}Suche in Kommentaren:{/t}</label>
                 <div class="col-md-10">
                     <input type="search" value="{$search}" name="search" class="form-control">
                 </div>
             </div>
 
-            <div class="form-group">
-                <label class="col-md-2 control-label">{t}Zieltyp:{/t}</label>
+            <div class="form-group row">
+                <label class="col-md-2 col-form-label">{t}Zieltyp:{/t}</label>
                 <div class="col-md-4">
                     <select name="target_type" class="form-control selectpicker" data-live-search="true">
                         <option value="-1">{t}Kein Filter{/t}</option>
@@ -78,14 +78,14 @@
                         </optgroup>
                     </select>
                 </div>
-                <label class="col-md-2 control-label">{t}Ziel ID:{/t}</label>
+                <label class="col-md-2 col-form-label">{t}Ziel ID:{/t}</label>
                 <div class="col-md-4">
                     <input type="number" class="form-control" name="target_id" value="{if $target_id >0}{$target_id}{/if}" min="0">
                 </div>
             </div>
 
-            <div class="form-group">
-                <div class="col-md-offset-2 col-md-10">
+            <div class="form-group row">
+                <div class="offset-md-2 col-md-10">
                     <button class="btn btn-primary">{t}Aktualisieren{/t}</button>
                 </div>
             </div>
@@ -99,8 +99,8 @@
     {include "../smarty_pagination.tpl"}
 </form>
 
-<div class="panel panel-primary">
-    <div class="panel-heading"><i class="fas fa-crosshairs fa-fw"></i>
+<div class="card border-primary">
+    <div class="card-header bg-primary text-white"><i class="fas fa-crosshairs fa-fw"></i>
         {t}Eventlog{/t}
     </div>
     {include file="../smarty_eventlog.tpl"}
