@@ -240,8 +240,7 @@ class AjaxUI {
         'use strict';
         var _this = this;
 
-        $("a").not(".link-anchor").not(".link-collapse").not(".link-external").not(".tree-btns")
-            .not(".back-to-top").not(".link-datasheet").unbind("click").click(function (event) {
+        $("a").not(".link-anchor, .link-collapse, .link-external, .tree-btns, .back-to-top, .link-datasheet").unbind("click").click(function (event) {
             event.preventDefault();
             let a = $(this);
             if(a.attr("href") != null) {
@@ -836,7 +835,7 @@ function makeSortTable() {
             "ordering": true,
             "info":     false,
             "fixedHeader": { header: $(window).width() >= 768, //Only enable fixedHeaders on devices with big screen. Fixes scrolling issues on smartphones.
-                    headerOffset: $("#navbar").height()},
+                headerOffset: $("#navbar").height()},
             "searching":   false,
             "select":   $(".table-sortable").hasClass("table-selectable") ? {style: "os", selector: "td:not(.no-select)"} : false,
             "order": [],
@@ -1121,7 +1120,7 @@ function makeHighlight() {
  * Use Bootstrap for tooltips.
  * Function need to be not async, otherwise not every tooltip gets removed, when page is loaded.
  */
- function makeTooltips() {
+function makeTooltips() {
     //$('[data-toggle="tooltip"]').tooltip();
     //$('a[title]').tooltip("hide").tooltip({container: "body"});
     $('body').tooltip('dispose');
