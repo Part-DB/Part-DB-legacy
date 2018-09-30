@@ -41,20 +41,20 @@
                 <form class="form-horizontal no-progbar" method="post">
 
                     <div class="form-group row">
-                        <label class="col-form-label col-2">{t}Benutzername:{/t}</label>
-                        <div class="col-10">
-                            <input type="text" class="form-control" placeholder="{t}Nutzername{/t}" name="username" value="{$username}">
+                        <label class="col-form-label col-md-3 col-lg-2">{t}Benutzername:{/t}</label>
+                        <div class="col-md-9 col-lg-10">
+                            <input type="text" class="form-control" placeholder="{t}Nutzername{/t}" name="username" value="{$username}" autocomplete="username">
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-form-label col-2">{t}Password:{/t}</label>
-                        <div class="col-10">
-                            <input type="password" class="form-control" placeholder="{t}Password{/t}" name="password">
+                        <label class="col-form-label col-md-3 col-lg-2">{t}Password:{/t}</label>
+                        <div class="col-md-9 col-lg-10">
+                            <input type="password" class="form-control" placeholder="{t}Password{/t}" name="password" autocomplete="current-password">
                         </div>
                     </div>
 
                     <div class="form-group row">
-                        <div class="col-md-10 offset-md-2">
+                        <div class="col-md-9 offset-md-3 col-lg-10 offset-lg-2">
                             <button type="submit" class="btn btn-primary">{t}Login{/t}</button>
                         </div>
                     </div>

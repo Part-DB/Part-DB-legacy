@@ -1,5 +1,5 @@
 <div class="row d-print-none mt-2">
-    <div class="col">
+    <div class="col-md">
         {if isset($can_delete) && isset($can_edit)}
             <div class="select_actions" style="display: none;">
                 <input type="hidden" name="selected_ids" value="">
@@ -46,7 +46,7 @@
             </div>
         {/if}
     </div>
-    <div class="col">
+    <div class="col-md">
         <nav aria-label="Page navigation">
             <ul class="pagination justify-content-end mt-2 mb-2" style="margin-top: 0; margin-bottom: 5px;">
                 <li class="page-item disabled"><a class="no-progbar page-link">{$pagination.lower_result}-{$pagination.upper_result}/{$pagination.max_entries}</a></li>
