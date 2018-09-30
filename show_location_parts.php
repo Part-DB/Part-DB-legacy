@@ -211,6 +211,7 @@ $html->setVariable('with_sublocations', $with_sublocations, 'boolean');
 if (! $fatal_error) {
     $html->setVariable('lid', $location->getID(), 'integer');
     $html->setVariable('location_name', $location->getName(), 'string');
+    $html->setVariable('location_fullpath', $location->getFullPath(" / "), "string");
 
     $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
     $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');

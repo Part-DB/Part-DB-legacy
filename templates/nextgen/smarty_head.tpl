@@ -41,22 +41,36 @@
     <![endif]-->
 
 
+    {if $debugging_activated}
     <!-- Checkboxes -->
     <link href="{$relative_path}css/awesome-bootstrap-checkbox.css" rel="stylesheet">
-
-    <!-- Fileinput -->
-    <link href="{$relative_path}css/fileinput.min.css" media="all" rel="stylesheet"/>
 
     <!-- Include Part-DB Theme -->
     <link href="{$relative_path}templates/{$theme}/nextgen.css" rel="stylesheet">
 
+    {else}
+    <!-- Checkboxes -->
+    <link href="{$relative_path}css/awesome-bootstrap-checkbox.min.css" rel="stylesheet">
+
+    <!-- Include Part-DB Theme -->
+    <link href="{$relative_path}templates/{$theme}/nextgen.min.css" rel="stylesheet">
+    {/if}
+
+
+    <!-- Fileinput -->
+    <link href="{$relative_path}vendor/kartik-v/bootstrap-fileinput/css/fileinput.min.css" media="all" rel="stylesheet"/>
+
+
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="{$relative_path}js/jquery-3.3.1.min.js"></script>
+    <script src="{$relative_path}vendor/components/jquery/jquery.min.js"></script>
+    <!-- Popper.js (needed for BS4 tooltips) -->
+    <script src="{$relative_path}js/popper/popper.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="{$relative_path}js/bootstrap.min.js"></script>
 
     <!-- Bootstrap select -->
-    <link rel="stylesheet" href="{$relative_path}css/bootstrap-select.min.css">
+    <link rel="stylesheet" href="{$relative_path}vendor/snapappointments/bootstrap-select/dist/css/bootstrap-select.min.css">
 
     <!-- 3d footprint viewer -->
     {if isset($foot3d_active) && $foot3d_active}
@@ -66,7 +80,7 @@
 
     <!-- JQuery Tristate -->
     <!-- This must be in head because we need its functions in <script> Tags, in smarty_permission.tpl -->
-    <script src="{$relative_path}js/jquery.tristate.js"></script>
+    <script src="{$relative_path}js/jquery.tristate.min.js"></script>
 
     <!-- Javascript cookies -->
     <!-- We need this in header, because we use the library in show_part_label.php template -->
@@ -95,7 +109,102 @@
 <body>
 
     <header>
-        <nav class="navbar navbar-default navbar-fixed-top" id="main-navbar">
+
+        <nav class="navbar navbar-expand-md navbar-light bg-light border-bottom shadow-sm fixed-top py-0" id="navbar">
+
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#sidebar-container">
+                        <span class="sr-only">{t}Toggle Sidebar{/t}</span>
+                        <!-- <span class="navbar-toggler-icon"></span> -->
+                        <i class="fas fa-sitemap fa-lg"></i>
+            </button>
+
+            <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> {if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</a>
+
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                <!-- <span class="navbar-toggler-icon"></span> -->
+                        <i class="fas fa-bars  fa-lg"></i>
+            </button>
+
+
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <div class="form-inline my-2 my-lg-0 ml-auto" id="searchbar">
+                {*
+                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button> *}
+
+                    {if isset($can_search) && $can_search}
+                        <!-- Searchbar -->
+                        <form action="{$relative_path}show_search_parts.php" method="get">
+                    <div class="dropdown d-inline">
+                            <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                {t}Suchoptionen{/t}
+                                <span class="caret"></span>
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="SearchOptions">
+                                <div class="abc-checkbox form-check-dropdown"><input type="checkbox" class="form-check-input" name="search_name" value="true" checked>
+                                    <label for="search_name" class="form-check-label">{t}Name{/t}</label></div>
+                                <div class="abc-checkbox form-check-dropdown"><input type="checkbox" class="form-check-input" name="search_category" value="true" checked>
+                                    <label for="search_category" class="form-check-label">{t}Kategorie{/t}</label></div>
+                                <div class="abc-checkbox form-check-dropdown"><input type="checkbox" class="form-check-input" name="search_description" value="true" checked>
+                                    <label for="search_description" class="form-check-label"></label>{t}Beschreibung{/t}</div>
+                                <div class="abc-checkbox form-check-dropdown"><input type="checkbox" class="form-check-input" name="search_storelocation" value="true" checked>
+                                    <label for="search_storelocation" class="form-check-label">{t}Lagerort{/t}</label></div>
+                                <div class="form-check-dropdown abc-checkbox" class="form-check-label"><input type="checkbox" class="form-check-input" name="search_comment" value="true" checked>
+                                    <label for="search_comment" class="form-check-label">{t}Kommentar{/t}</label></div>
+                                {if !$suppliers_disabled}
+                                    <div class="form-check-dropdown abc-checkbox"><input type="checkbox" class="form-check-input" name="search_supplierpartnr" value="true" checked>
+                                        <label for="search_supplierpartnr" class="form-check-label">{t}Bestellnr.{/t}</label></div>
+                                    <li class="form-check-dropdown abc-checkbox"><input type="checkbox" class="form-check-input" name="search_supplier" value="true">
+                                        <label for="search_supplier" class="form-check-label">{t}Lieferant{/t}</label></li> {/if}
+                                {if !$manufacturers_disabled}
+                                    <div class="form-check-dropdown abc-checkbox"><input type="checkbox"  class="form-check-input" name="search_manufacturer" value="true">
+                                    <label for="search_manufacturer" class="form-check-label">{t}Hersteller{/t}</label></div>{/if}
+                                {if !$footprints_disabled}
+                                    <div class="form-check-dropdown abc-checkbox"><input type="checkbox" class="form-check-input" name="search_footprint" value="true">
+                                    <label for="search_footprint" class="form-check-label">{t}Footprint{/t}</label></div>{/if}
+                                <div class="form-check-dropdown abc-checkbox"><input type="checkbox" class="form-check-input" name="disable_pid_input" value="false">
+                                    <label for="disable_pid_input" class="form-check-label">{t}Deakt. Barcode{/t}</label></div>
+                                <div class="form-check-dropdown abc-checkbox"><input type="checkbox" class="form-check-input" name="regex" value="true">
+                                    <label for="regex" class="form-check-label">{t}RegEx Matching{/t}</label></div>
+                            </div>
+                            </div>
+                        <input type="search" class="form-control mr-sm-2" placeholder="{t}Suche{/t}" name="keyword"
+                               {if $livesearch_active}onkeyup="livesearch(event, this, 2);"{/if}>
+                        <button type="submit" id="search-submit" class="btn btn-outline-secondary my-2">{t}Los!{/t}</button>
+                    </form>
+                    {/if}
+                </div>
+
+                <a class="d-block d-md-none  nav-link link-datasheet" style="color: black;"
+                        href="zxing://scan/?ret={if isset($smarty.server.HTTPS)}https{else}http{/if}%3A%2F%2F{$smarty.server.HTTP_HOST|escape:'url'}{$relative_path|escape:'url'}show_search_parts.php%3Fkeyword%3D%7BCODE%7D&SCAN_FORMATS=EAN_8,CODE_39">
+                        <i class="fa fa-barcode fa-fw fa-lg" aria-hidden="true"></i>
+                        <span class="ml-2 text-muted">{t}Scanne Barcode{/t}</span>
+                    </a>
+
+                <ul class="navbar-nav ml-3">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="dropdown-toggle link-anchor nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        {if $loggedin}<i class="fa fa-user" aria-hidden="true"></i>{else}<i class="far fa-user" aria-hidden="true"></i>{/if} <span class="caret"></span></a>
+                    <ul class="dropdown-menu dropdown-menu-right" id="login-menu">
+                        {if $loggedin}
+                            <a class="dropdown-item disabled" href="#" >{t}Eingeloggt als{/t} {$firstname} {$lastname} ({$username})</a>
+                            <a class="dropdown-item" href="user_settings.php"><i class="fa fa-cogs fa-fw" aria-hidden="true"></i> {t}Benutzereinstellungen{/t}</a>
+                            <a class="dropdown-item" href="user_info.php"><i class="fa fa-info-circle fa-fw" aria-hidden="true"></i> {t}Benutzerinformationen{/t}</a>
+                            <li role="separator" class="dropdown-divider"></li>
+                            <a class="dropdown-item"  href="{$relative_path}login.php?logout"><i class="fa fa-sign-out-alt fa-fw" aria-hidden="true"></i> {t}Logout{/t}</a>
+                        {else}
+                            <a class="dropdown-item" href="{$relative_path}login.php?redirect={$smarty.server.REQUEST_URI|escape:"url"}" id="login-link"><i class="fa fa-sign-in-alt fa-fw" aria-hidden="true"></i> {t}Login{/t}</a>
+                        {/if}
+                    </ul>
+                    </li>
+                </ul>
+            </div>
+          </nav>
+
+
+        {*
+        <nav class="navbar navbar-default navbar-fixed-top fh-fixedHeader" id="main-navbar">
             <div class="container-fluid">
              <!-- Brand and toggle get grouped for better mobile display -->
                 <div class="navbar-header">
@@ -128,7 +237,7 @@
                             <li class="disabled"><a href="#" >{t}Eingeloggt als{/t} {$firstname} {$lastname} ({$username})</a></li>
                             <li><a href="user_settings.php"><i class="fa fa-cogs fa-fw" aria-hidden="true"></i> {t}Benutzereinstellungen{/t}</a></li>
                             <li><a href="user_info.php"><i class="fa fa-info-circle fa-fw" aria-hidden="true"></i> {t}Benutzerinformationen{/t}</a></li>
-                            <li role="separator" class="divider"></li>
+                            <li role="separator" class="dropdown-divider"></li>
                             <li><a href="{$relative_path}login.php?logout"><i class="fa fa-sign-out-alt fa-fw" aria-hidden="true"></i> {t}Logout{/t}</a></li>
                         {else}
                             <li><a href="{$relative_path}login.php?redirect={$smarty.server.REQUEST_URI|escape:"url"}" id="login-link"><i class="fa fa-sign-in-alt fa-fw" aria-hidden="true"></i> {t}Login{/t}</a></li>
@@ -197,37 +306,36 @@
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
     </nav>
+    *}
 </header>
 
 <main>
     <div class="container-fluid">
 
         <div class="row">
-            <aside class="hidden-print col-sm-3 col-md-2 sidebar-collapse collapse sidebar-container" id="sidebar">
-                <nav class="fixed-sidebar" id="fixed-sidebar">
-                    <div class="">
-                        <ul class="nav navmenu-nav">
+                <div class="collapse d-md-block bg-light" id="sidebar-container">
+                    <nav  {* class="fixed-sidebar"  *} class="fixed-sidebar col-md-3 col-lg-2 " id="fixed-sidebar">
+                        <ul class="nav flex-column">
                             {if isset($can_category) && $can_category}
                                 <li id="categories">
                                     <!-- <h4>{t}Kategorien{/t}</h4>-->
                                     <div class="dropdown">
-                                        <button class="btn-text dropdown-toggle" type="button" id="dropdownCat" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <div class="sidebar-title" id="tree-categories-title">{t}Kategorien{/t}
-                                                <span class="caret"></span></div>
+                                        <button class="btn-text dropdown-toggle mb-2" type="button" id="dropdownCat" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                           <span class="sidebar-title" id="tree-categories-title">{t}Kategorien{/t}</span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownCat">
                                             <li class="dropdown-header">{t}Aktionen{/t}</li>
-                                            <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-categories">{t}Alle ausklappen{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-categories">{t}Alle einklappen{/t}</a></li>
-                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="expand" data-target="tree-categories">{t}Alle ausklappen{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="collapse" data-target="tree-categories">{t}Alle einklappen{/t}</a></li>
+                                            <li role="separator" class="dropdown-divider"></li>
                                             <li class="dropdown-header">{t}Datenquelle{/t}</li>
-                                            <li><a href="#" class="tree-btns" data-mode="categories" data-target="tree-categories">{t}Kategorien{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="locations" data-target="tree-categories">{t}Lagerorte{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="footprints" data-target="tree-categories">{t}Footprints{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="manufacturers" data-target="tree-categories">{t}Hersteller{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="suppliers" data-target="tree-categories">{t}Lieferanten{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="devices" data-target="tree-categories">{t}Baugruppen{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="tools" data-target="tree-categories">{t}Verwaltung{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="categories" data-target="tree-categories">{t}Kategorien{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="locations" data-target="tree-categories">{t}Lagerorte{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="footprints" data-target="tree-categories">{t}Footprints{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="manufacturers" data-target="tree-categories">{t}Hersteller{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="suppliers" data-target="tree-categories">{t}Lieferanten{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="devices" data-target="tree-categories">{t}Baugruppen{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="tools" data-target="tree-categories">{t}Verwaltung{/t}</a></li>
                                         </ul>
                                     </div>
                                     <div id="tree-categories"></div>
@@ -236,23 +344,22 @@
                             {if !$devices_disabled && isset($can_device) && $can_device}
                                 <li id="devices">
                                     <div class="dropdown">
-                                        <button class="btn-text dropdown-toggle" type="button" id="dropdownDev" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                            <div class="sidebar-title" id="tree-devices-title">{t}Baugruppen{/t}
-                                                <span class="caret"></span></div>
+                                        <button class="btn-text dropdown-toggle mb-2 mt-2" type="button" id="dropdownDev" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                            <span class="sidebar-title" id="tree-devices-title">{t}Baugruppen{/t}</span>
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="dropdownDev">
                                             <li class="dropdown-header">{t}Aktionen{/t}</li>
-                                            <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-devices">{t}Alle ausklappen{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-devices">{t}Alle einklappen{/t}</a></li>
-                                            <li role="separator" class="divider"></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="expand" data-target="tree-devices">{t}Alle ausklappen{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="collapse" data-target="tree-devices">{t}Alle einklappen{/t}</a></li>
+                                            <li role="separator" class="dropdown-divider"></li>
                                             <li class="dropdown-header">{t}Datenquelle{/t}</li>
-                                            <li><a href="#" class="tree-btns" data-mode="categories" data-target="tree-devices">{t}Kategorien{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="locations" data-target="tree-devices">{t}Lagerorte{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="footprints" data-target="tree-devices">{t}Footprints{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="manufacturers" data-target="tree-devices">{t}Hersteller{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="suppliers" data-target="tree-devices">{t}Lieferanten{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="devices" data-target="tree-devices">{t}Baugruppen{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="tools" data-target="tree-devices">{t}Verwaltung{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="categories" data-target="tree-devices">{t}Kategorien{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="locations" data-target="tree-devices">{t}Lagerorte{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="footprints" data-target="tree-devices">{t}Footprints{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="manufacturers" data-target="tree-devices">{t}Hersteller{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="suppliers" data-target="tree-devices">{t}Lieferanten{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="devices" data-target="tree-devices">{t}Baugruppen{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="tools" data-target="tree-devices">{t}Verwaltung{/t}</a></li>
                                         </ul>
                                     </div>
                                     <div id="tree-devices"></div>
@@ -261,40 +368,39 @@
 
                             <li id="tools">
                                 <div class="dropdown">
-                                    <button class="btn-text dropdown-toggle" type="button" id="dropdownTools" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                                        <div class="sidebar-title" id="tree-tools-title">{t}Verwaltung{/t}
-                                            <span class="caret"></span></div>
+                                    <button class="btn-text dropdown-toggle mb-2 mt-2" type="button" id="dropdownTools" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                                        <span class="sidebar-title" id="tree-tools-title">{t}Verwaltung{/t}</span>
                                     </button>
                                     <ul class="dropdown-menu" aria-labelledby="dropdownTools">
                                         <li class="dropdown-header">{t}Aktionen{/t}</li>
-                                        <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-tools">{t}Alle ausklappen{/t}</a></li>
-                                        <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-tools">{t}Alle einklappen{/t}</a></li>
-                                        <li role="separator" class="divider"></li>
+                                        <li><a href="#" class="tree-btns dropdown-item" data-mode="expand" data-target="tree-tools">{t}Alle ausklappen{/t}</a></li>
+                                        <li><a href="#" class="tree-btns dropdown-item" data-mode="collapse" data-target="tree-tools">{t}Alle einklappen{/t}</a></li>
+                                        <li role="separator" class="dropdown-divider"></li>
                                            <li class="dropdown-header">{t}Datenquelle{/t}</li>
-                                            <li><a href="#" class="tree-btns" data-mode="categories" data-target="tree-tools">{t}Kategorien{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="locations" data-target="tree-tools">{t}Lagerorte{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="footprints" data-target="tree-tools">{t}Footprints{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="manufacturers" data-target="tree-tools">{t}Hersteller{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="suppliers" data-target="tree-tools">{t}Lieferanten{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="devices" data-target="tree-tools">{t}Baugruppen{/t}</a></li>
-                                            <li><a href="#" class="tree-btns" data-mode="tools" data-target="tree-tools">{t}Verwaltung{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="categories" data-target="tree-tools">{t}Kategorien{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="locations" data-target="tree-tools">{t}Lagerorte{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="footprints" data-target="tree-tools">{t}Footprints{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="manufacturers" data-target="tree-tools">{t}Hersteller{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="suppliers" data-target="tree-tools">{t}Lieferanten{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="devices" data-target="tree-tools">{t}Baugruppen{/t}</a></li>
+                                            <li><a href="#" class="tree-btns dropdown-item" data-mode="tools" data-target="tree-tools">{t}Verwaltung{/t}</a></li>
                                     </ul>
                                 </div>
                                 <div id="tree-tools"></div>
                             </li>
                         </ul>
-                    </div>
+
 
                     <noscript><b>{t}Bitte aktivieren sie Javascript, um alle Funktionen benutzen zu können.{/t}</b></noscript>
 
                 </nav>
-            </aside>
+                </div>
 
-            <div class="col-sm-9 col-md-10" id="main">
+            <div class="col-md-9 col-lg-10 offset-md-3 offset-lg-2 pl-0" id="main">
 
-                <div class="container-fluid container-progress" id="progressbar" hidden>
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuenow="100" aria-valuemin="0"
+                <div class="container-fluid container-progress" id="progressbar" style="display: none;">
+                    <div class="progress mb-3">
+                        <div class="progress-bar progress-bar-striped active progress-bar-animated" role="progressbar" aria-valuenow="100" aria-valuemin="0"
                              aria-valuemax="100" style="width: 100%;">
                             <span>{t}Lade{/t}</span>
                         </div>

@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
-<div class="panel panel-default" >
-    <div class="panel-heading">
+<div class="card mt-3" >
+    <div class="card-header">
         <i class="fa fa-shopping-cart fa-fw" aria-hidden="true"></i>
         {t}Einkaufsinformationen{/t}
     </div>
@@ -20,7 +20,7 @@
                 {foreach $orderdetails as $detail}
                     <tr>
                         <td>
-                            {if $detail.orderdetails_id =="new"}<span class="label label-primary">{t}Neu:{/t}</span>{/if}
+                            {if $detail.orderdetails_id =="new"}<span class="badge badge-primary">{t}Neu:{/t}</span>{/if}
                         </td>
 
                         <td>
@@ -37,10 +37,10 @@
                         </td>
 
                         <td>
-                           <div class="checkbox">
-                                <input type="checkbox" name="obsolete_{$detail.orderdetails_id}" class="styled" {if $detail.obsolete}checked{/if}
+                           <div class="form-check form-check-dropdown abc-checkbox mb-2 pl-2">
+                                <input class="form-check-input" type="checkbox" name="obsolete_{$detail.orderdetails_id}" class="styled" {if $detail.obsolete}checked{/if}
                                         {if !($can_orderdetails_edit || ($can_orderdetails_create && $detail.orderdetails_id == "new"))}disabled{/if}>
-                                <label for="obsolete">{t}Obsolet{/t}</label>
+                                <label class="form-check-label" for="obsolete">{t}Obsolet{/t}</label>
                             </div>
                             {if $detail.orderdetails_id=="new"}
                                 <button class="btn btn-success" type="submit" name="orderdetails_add" value="{$detail.orderdetails_id}"
@@ -70,7 +70,7 @@
                                         <!--the alternating background colors are created here-->
                                         <tr >
                                             <td>
-                                                {if $price.pricedetails_id == "new"}<span class="label label-default">{t}Neu:{/t}</span>{/if}
+                                                {if $price.pricedetails_id == "new"}<span class="badge badge-secondary">{t}Neu:{/t}</span>{/if}
                                             </td>
 
                                             <td>
@@ -85,12 +85,16 @@
                                                            name="price_{if $price.pricedetails_id == "new"}{$detail.orderdetails_id}_{/if}{$price.pricedetails_id}"
                                                            value="{$price.price}"
                                                            {if !($can_prices_edit || ($can_prices_create && $price.pricedetails_id == "new"))}disabled{/if}>
-                                                    <span class="input-group-addon">{t}pro{/t}</span>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">{t}pro{/t}</span>
+                                                    </div>
                                                     <input type="number" min="0" class="form-control"
                                                            name="price_related_quantity_{if $price.pricedetails_id == "new"}{$detail.orderdetails_id}_{/if}{$price.pricedetails_id}"
                                                            value="{$price.price_related_quantity}"
                                                            {if !($can_prices_edit || ($can_prices_create && $price.pricedetails_id == "new"))}disabled{/if}>
-                                                    <span class="input-group-addon">{t}Stk.{/t}</span>
+                                                    <div class="input-group-append">
+                                                        <span class="input-group-text">{t}Stk.{/t}</span>
+                                                    </div>
                                                 </div>
 
                                             </td>
@@ -100,15 +104,15 @@
                                                 <!-- <input type="hidden" name="$price.pricedetails_id" value="{$price.pricedetails_id}"> -->
                                                 <!-- <input type="hidden" name="$detail.orderdetails_id" value="{$detail.orderdetails_id}"> -->
                                                 {if $price.pricedetails_id == "new"}
-                                                    <button type="submit" class="btn btn-default" name="pricedetails_add"
+                                                    <button type="submit" class="btn btn-secondary" name="pricedetails_add"
                                                             {if !$can_prices_create}disabled{/if}
                                                             value="{$detail.orderdetails_id}">{t}Hinzufügen{/t}</button>
                                                 {else}
-                                                    <button class="btn btn-default" type="submit" name="pricedetails_apply"
+                                                    <button class="btn btn-secondary" type="submit" name="pricedetails_apply"
                                                             {if !$can_prices_edit}disabled{/if}
                                                             value="{$price.pricedetails_id}">{t}Übernehmen{/t}</button>
                                                     <p></p>
-                                                    <button class="btn btn-default" type="submit" name="pricedetails_delete"
+                                                    <button class="btn btn-secondary" type="submit" name="pricedetails_delete"
                                                             {if !$can_prices_delete}disabled{/if}
                                                             value="{$price.pricedetails_id}">{t}Löschen{/t}</button>
                                                 {/if}

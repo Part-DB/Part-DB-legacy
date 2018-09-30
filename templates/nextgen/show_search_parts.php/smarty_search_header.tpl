@@ -1,11 +1,11 @@
 {locale path="nextgen/locale" domain="partdb"}
-<div class="panel panel-primary">
-    <div class="panel-heading">
+<div class="card border-primary">
+    <div class="card-header bg-primary text-white">
         <a data-toggle="collapse" class="link-collapse text-white" href="#panel-header">
            <i class="fas fa-search fa-fw"></i> {t}Suchergebnis{/t}
         </a>
     </div>
-    <div class="panel-body  panel-collapse collapse in" id="panel-header">
+    <div class="card-body  card-collapse collapse show" id="panel-header">
         {if $highlighting}<input type="hidden" value="{$keyword}" id="highlight">{/if}
 
         <div class="row">
@@ -14,7 +14,7 @@
             </div>
 
             <div class="col-md-6">
-                <div class="pull-right-lg pull-right-md pull-right-sm">
+                <div class="float-lg-right float-md-right">
                     <form action="" method="post" class="no-progbar no-ajax form-inline">
                         <input type='hidden' name='keyword'     value='{$keyword}'>
                         {if isset($search_name)}                <input type='hidden' name='search_name'>{/if}
@@ -27,16 +27,17 @@
                         {if isset($search_footprint)}           <input type='hidden' name='search_footprint'>{/if}
                         {if isset($search_manufacturer)}        <input type='hidden' name='search_manufacturer'>{/if}
 
-                        <div class="form-group">
-                            <label>{t}Exportieren:{/t}</label>
-                            <select name="export_format" class="form-control">
+                        <div class="form-inline">
+                            <label class="mr-2">{t}Exportieren:{/t}</label>
+                            <select name="export_format" class="form-control mr-2">
                                 {foreach $export_formats as $format}
                                     <option value="{$format.value}" {if isset($format.selected)}selected{/if}>{$format.text}</option>
                                 {/foreach}
                             </select>
+                            <button class="btn btn-primary mt-2 mt-md-0" type="submit" name="export">{t}OK{/t}</button>
                         </div>
 
-                        <button class="btn btn-primary" type="submit" name="export">{t}OK{/t}</button>
+
                     </form>
                 </div>
             </div>
@@ -59,16 +60,18 @@
                         {if isset($search_footprint)}           <input type='hidden' name='search_footprint'>{/if}
                         {if isset($search_manufacturer)}        <input type='hidden' name='search_manufacturer'>{/if}
 
-                        <div class="form-group">
-                            <label class="">{t}Gruppiere nach:{/t}</label>
-                            <select name="groupby" class="form-control">
+                        <div class="form-inline">
+                            <label class="mr-2">{t}Gruppiere nach:{/t}</label>
+                            <select name="groupby" class="form-control mr-2">
                                 {foreach $group_formats as $format}
                                     <option value="{$format.value}" {if isset($format.selected) && $format.selected === true}selected{/if}>{$format.text}</option>
                                 {/foreach}
                             </select>
+
+                            <button class="btn btn-primary mt-0 mt-md-2" type="submit" name="group">{t}OK{/t}</button>
                         </div>
 
-                        <button class="btn btn-primary" type="submit" name="group">{t}OK{/t}</button>
+
                     </form>
                 </div>
 

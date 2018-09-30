@@ -181,6 +181,7 @@ class AjaxUI {
         'use strict';
         if(!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
+            AjaxUI.getInstance().beforeAjaxSubmit();
             $('#progressbar').show(0);
         }
         return true;
@@ -239,14 +240,14 @@ class AjaxUI {
         'use strict';
         var _this = this;
 
-        $("a").not(".link-anchor").not(".link-collapse").not(".link-external").not(".tree-btns")
-            .not(".back-to-top").not(".link-datasheet").unbind("click").click(function (event) {
+        $("a").not(".link-anchor, .link-collapse, .link-external, .tree-btns, .back-to-top, .link-datasheet").unbind("click").click(function (event) {
             event.preventDefault();
             let a = $(this);
             if(a.attr("href") != null) {
                 let href : string = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
                 _this.abortAllAjax();
 
+                _this.beforeAjaxSubmit();
                 $('#content').hide(0).load(href + " #content-data");
                 $('#progressbar').show(0);
                 return true;
@@ -286,7 +287,7 @@ class AjaxUI {
 
         $(this).treeview('toggleNodeExpanded',data.nodeId);
 
-        $("#sidebar").removeClass("in");
+        $("#sidebar-container").removeClass("show");
     }
 
     /**
@@ -309,29 +310,6 @@ class AjaxUI {
      */
     private tree_fill() {
         'use strict';
-        /*
-        $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree : BootstrapTreeViewNodeData[]) {
-            $("#tree-categories").treeview({data: tree, enableLinks: false, showIcon: false
-                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
-        });
-
-        $.getJSON(BASE + 'api.php/1.0.0/tree/devices', function (tree :BootstrapTreeViewNodeData[]) {
-            $('#tree-devices').treeview({data: tree, enableLinks: false, showIcon: false,
-                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
-        });
-
-        $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree :BootstrapTreeViewNodeData[]) {
-            $('#tree-tools').treeview({data: tree, enableLinks: false, showIcon: false,
-                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
-        });*/
-
-        /*
-        this.initTree("#tree-categories", 'api.php/1.0.0/tree/categories');
-
-        this.initTree("#tree-devices", 'api.php/1.0.0/tree/devices');
-
-        this.initTree("#tree-tools", 'api.php/1.0.0/tree/tools');
-        */
 
         let categories =  Cookies.get("tree_datasource_tree-categories");
         let devices =  Cookies.get("tree_datasource_tree-devices");
@@ -367,7 +345,8 @@ class AjaxUI {
 
         $.getJSON(BASE + url, function (data : BootstrapTreeViewNodeData[]) {
             $(tree).treeview({data: data, enableLinks: false, showIcon: false
-                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
+                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler,
+                expandIcon: "fas fa-plus fa-fw fa-treeview", collapseIcon: "fas fa-minus fa-fw fa-treeview"}).treeview('collapseAll', { silent: true });
         });
     }
 
@@ -452,11 +431,20 @@ class AjaxUI {
             jqXHR.abort();  //  aborts connection
             _this.xhrPool.splice(i, 1); //  removes from list by index
         });
+
     }
 
     /********************************************************************************************
      * Common ajax functions
      ********************************************************************************************/
+
+    /**
+     * Called before a new ajax submit is started. Use this to cleanup, the old page.
+     */
+    private beforeAjaxSubmit()
+    {
+        //$(".table-sortable").DataTable().fixedHeader.disable();
+    }
 
     /**
      * Called when an error occurs on loading ajax. Outputs the message to the console.
@@ -510,7 +498,7 @@ class AjaxUI {
         let url = settings.url;
         //Ignore all API Ajax requests.
         if (url.indexOf("api.php") != -1) {
-           return;
+            return;
         }
 
         //Hide progressbar and show Result
@@ -615,7 +603,8 @@ $(function(event){
     ajaxui.addStartAction(makeHighlight);
     ajaxui.addStartAction(viewer3d_models);
     ajaxui.addStartAction(makeGreekInput);
-    //ajaxui.addStartAction(makeTypeAhead);
+    ajaxui.addStartAction(makeCharts);
+    ajaxui.addStartAction(setBootstrapSelectStyle);
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
@@ -633,10 +622,39 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(viewer3d_models);
     ajaxui.addAjaxCompleteAction(makeGreekInput);
+    ajaxui.addAjaxCompleteAction(makeCharts);
+
     //ajaxui.addAjaxCompleteAction(makeTypeAhead);
 
     ajaxui.start();
 });
+
+function setBootstrapSelectStyle() {
+    //Set a style for the Bootstrap-select which looks more like the BS3 ones, and the form-controls
+    $.fn.selectpicker.Constructor.DEFAULTS.style = "bg-white border";
+}
+
+function makeCharts() {
+    $(".chart").each(function(index, element) {
+        let data : any = $(element).data("data");
+        let type : string = $(element).data("type");
+
+        let ctx = (<HTMLCanvasElement> element).getContext("2d");
+        let myChart = new Chart(ctx, {
+            type: type,
+            data: data,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
+        });
+    });
+}
 
 function makeGreekInput() {
 
@@ -742,7 +760,7 @@ function registerHoverImages() {
         placement: 'auto',
         container: 'body',
         content: function () {
-            return '<img class="img-responsive" src="' + this.src + '" />';
+            return '<img class="img-fluid" src="' + this.src + '" />';
         }
     });
 }
@@ -753,14 +771,126 @@ function registerHoverImages() {
 function makeSortTable() {
     'use strict';
 
+    //Remove old datatables
+    let table = $($.fn.dataTable.tables()).DataTable();
+    table.fixedHeader.adjust();
+
+
+
+    //Register export helpers
+    $(".export-helper").each(function(index : int) {
+        let input = $(this).siblings("input");
+        let that = this;
+        $(this).text(input.val().toString());
+    });
+
+    //Override datatables button style, so buttons are XS.
+    $.extend( true, $.fn.DataTable.Buttons.defaults, {
+        dom: {
+            container: {
+                className: 'dt-buttons btn-group float-right'
+            },
+            button: {
+                className: 'btn btn-light btn-xs border'
+            },
+            collection: {
+                tag: 'ul',
+                className: 'dt-button-collection dropdown-menu',
+                button: {
+                    tag: 'li',
+                    className: 'dt-button',
+                    active: 'active',
+                    disabled: 'disabled'
+                },
+                buttonLiner: {
+                    tag: 'a',
+                    className: ''
+                }
+            }
+        }
+    } );
+
+    //The string that should appear in the footer.
+    let exportFooter = function() {
+        return "Generated by Part-DB on " + new Date().toLocaleString();
+    };
+
+    let exportTitle = function () {
+        if($("#export-title").length) {
+            return $("#export-title").text();
+        }
+        return "*"; //Show default title
+    };
+
+    let exportMessageTop = function () {
+        if($("#export-messageTop").length) {
+            return $("#export-messageTop").text();
+        }
+        return "*"; //Show default title
+    };
+
     if (!$.fn.DataTable.isDataTable('.table-sortable')) {
         let table = $('.table-sortable').DataTable({
             "paging":   false,
             "ordering": true,
             "info":     false,
+            "fixedHeader": { header: $(window).width() >= 768, //Only enable fixedHeaders on devices with big screen. Fixes scrolling issues on smartphones.
+                headerOffset: $("#navbar").height()},
             "searching":   false,
             "select":   $(".table-sortable").hasClass("table-selectable") ? {style: "os", selector: "td:not(.no-select)"} : false,
             "order": [],
+            "buttons": $(".table-sortable").hasClass("table-export") ? [
+                {
+                    extend:    'copyHtml5',
+                    text:      '<i class="fas fa-copy fa-fw"></i>',
+                    titleAttr: 'Copy',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
+                },
+                {
+                    extend:    'excelHtml5',
+                    text:      '<i class="fas fa-file-excel fa-fw"></i>',
+                    titleAttr: 'Excel',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    },
+                    messageBottom: exportFooter,
+                    messageTop: exportMessageTop,
+                    title: exportTitle
+
+                },
+                {
+                    extend:    'csvHtml5',
+                    text:      '<i class="fas fa-file-alt fa-fw"></i>',
+                    titleAttr: 'CSV',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
+                },
+                {
+                    extend:    'pdfHtml5',
+                    text:      '<i class="fas fa-file-pdf fa-fw"></i>',
+                    titleAttr: 'PDF',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    },
+                    messageBottom: exportFooter,
+                    messageTop: exportMessageTop,
+                    title: exportTitle
+                },
+                {
+                    extend:    'print',
+                    text:      '<i class="fas fa-print fa-fw"></i>',
+                    titleAttr: 'Print',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    },
+                    messageBottom: exportFooter,
+                    messageTop: exportMessageTop,
+                    title: exportTitle
+                },
+            ] : null,
             "columnDefs": [
                 {
                     "targets": [1], type: "natural-nohtml"
@@ -795,6 +925,12 @@ function makeSortTable() {
                 $("input[name='selected_ids']").val(str);
             } );
 
+        for(let n = 0; n < table.context.length; n++) {
+            let my_panel_header = $(table.table(n).container()).closest(".card").find(".card-header");
+
+            table.table(n).buttons().container().appendTo(my_panel_header);
+            //table.buttons(n, null).containers().appendTo(my_panel_header);
+        }
     }
 }
 
@@ -824,7 +960,7 @@ function registerJumpToTop() {
             scrollTop: 0
         }, 800);
         return false;
-    }).tooltip('show');
+    }).tooltip();
 }
 
 /**
@@ -851,7 +987,9 @@ function rightClickSubmit()
 function treeviewBtnInit() {
     $(".tree-btns").click(function (event) {
         event.preventDefault();
-        $(this).parents("div.dropdown").removeClass('open');
+        $(this).parents("div.dropdown").removeClass('show');
+        //$(this).closest(".dropdown-menu").removeClass('show');
+        $(".dropdown-menu.show").removeClass("show");
         let mode = $(this).data("mode");
         let target = $(this).data("target");
         let text = $(this).text() + " \n<span class='caret'></span>"; //Add caret or it will be removed, when written into title
@@ -873,21 +1011,20 @@ function treeviewBtnInit() {
 /**
  * Activates the X3Dom library on all x3d elements.
  */
-function registerX3DOM() {
+async function registerX3DOM() {
     if ($("x3d").length) {
         try {
             x3dom.reload();
         } catch(e) {
             //Ignore everything
         }
-
     }
 }
 
 /**
  * Activates the Bootstrap-selectpicker.
  */
-function registerBootstrapSelect() {
+async function registerBootstrapSelect() {
     $(".selectpicker").selectpicker();
 }
 
@@ -895,7 +1032,7 @@ function registerBootstrapSelect() {
  * Add collapsed class to a before a collapse panel body, so the icon is correct.
  */
 function addCollapsedClass() {
-    $('div.collapse.panel-collapse').siblings("div.panel-heading")
+    $('div.collapse.card-collapse').siblings("div.card-header")
         .children('a[data-toggle="collapse"]').addClass("collapsed");
 }
 
@@ -925,14 +1062,14 @@ function registerAutoRefresh() {
 }
 
 function fixSelectPaginationHeight() {
-    $('.pagination>li>select').css('height', parseInt($('.pagination').css("height")));
+    $('.pagination>li>select').css('height', parseInt($('.pagination').css("height")) - 2);
 }
 
 /**
  * Close the #searchbar div, when a search was submitted on mobile view.
  */
 $("#search-submit").click(function (event) {
-    $("#searchbar").removeClass("in");
+    $("#searchbar").removeClass("show");
 });
 
 /**
@@ -981,11 +1118,14 @@ function makeHighlight() {
 
 /**
  * Use Bootstrap for tooltips.
+ * Function need to be not async, otherwise not every tooltip gets removed, when page is loaded.
  */
 function makeTooltips() {
     //$('[data-toggle="tooltip"]').tooltip();
-    $('*').tooltip("hide");
-    $('a[title]').tooltip({container: "body"});
+    //$('a[title]').tooltip("hide").tooltip({container: "body"});
+    $('body').tooltip('dispose');
+    $("body").tooltip({ selector: '[title]', container: "body" });
+    //$('button[title]').tooltip("hide").tooltip({container: "body"});
 }
 
 function viewer3d_models() {
@@ -1011,7 +1151,7 @@ function viewer3d_models() {
         $.getJSON('api.php/1.0.0/3d_models/files/' + dir, function (list) {
             $("#models-picker").empty();
             list.forEach( function (element) {
-                $("<option/>").val(element).text(element).appendTo("#models-picker");
+                $("<option><option/>").val(element).text(element).appendTo("#models-picker");
                 $('#models-picker').selectpicker('refresh');
 
                 update();
@@ -1036,12 +1176,13 @@ function viewer3d_models() {
 
 //Need for proper body padding, with every navbar height
 $(window).resize(function () {
-    $('body').css('padding-top', parseInt($('#main-navbar').css("height"))+10);
-    $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
+    let height : number = $('#navbar').height() + 10;
+    $('body').css('padding-top', height);
+    $('#fixed-sidebar').css('top', height);
 });
 
 $(window).on('load', function () {
-    $('body').css('padding-top', parseInt($('#main-navbar').css("height"))+10);
-
-    $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
+    let height : number = $('#navbar').height() + 10;
+    $('body').css('padding-top', height);
+    $('#fixed-sidebar').css('top', height);
 });

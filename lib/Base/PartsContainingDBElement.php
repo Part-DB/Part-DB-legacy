@@ -209,7 +209,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
                 $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
 
-            usort($this->parts, '\PartDB\Base\PartsContainingDBElement::usort_compare');
+            //usort($this->parts, '\PartDB\Base\PartsContainingDBElement::usort_compare');
         }
 
         $parts = $this->parts;

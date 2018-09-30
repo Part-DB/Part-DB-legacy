@@ -1,61 +1,63 @@
 # Part-DB
 
-**This file is available in English, too: [README](README_EN.md)**
+**[Hier](README_DE.md) gibt es eine deutsche Version dieser README**
 
-**Achtung: Nach dem Update auf die aktuelle Version, muss im Part-DB Homeverzeichniss der Befehl
-`php composer.phar install` ausgeführt werden, damit Part-DB funktioniert!
-Sollte dies nicht möglich sein, dann muss der Ordner `vendor/` aus einem mit composer eingerichtetem
-Part-DB kopiert werden.**
+**Attention: After upgrading to the current version, the command
+`php composer.phar install` must be run to make Part-DB work!
+If this is not possible, the folder `vendor/'
+Part-DB must be copied from a working Part-DB install with composer.**
 
-### Beschreibung
 
-Part-DB ist eine webbasierte Datenbank zum Verwalten von Elektronischen Bauteilen. Da der Zugriff über den Webbrowser erfolgt, muss Part-DB auf einem Webserver installiert werden. Danach kann die Software mit jedem gängigen Browser und Betriebssystem ohne Installation von Zusatzsoftware benutzt werden.
 
-### Funktionen
+### Description
 
- * Angabe von Lagerorten, Footprints, Kategorien, Lieferanten, Datenblattern, Preise, Bestellnummern, ...
- * Baugruppenverwaltung
- * Upload von Bauteil Bildern und Dateianhängen
- * Automatische Anzeige von Footprintbildern
- * Statistik über das gesamte Lager
- * Auflistung von: "Zu bestellende Teile", "Teile ohne Preis" und "nicht mehr erhältliche Teile"
- * Liste von Hersteller-Logos
- * Informationen zu SMD-Beschriftungen von Widerstände, Kondensatoren und Spulen
- * Widerstandsrechner
- * Barcodegenerator und Scanfunktion für Barcodes
- * Verschiedene mitgelieferte Themes
- * 3D Footprints
- * Unterstützung von BBCode, in den Bauteilebeschreibungen und Kommentaren
- * Suche mittels regulärer Ausdrücke
- * Auflistung von Teilen in einem Lagerort, mit einem bestimmten Footprint oder einem bestimmten Hersteller
- * automatische Erzeugung einer Tabelle mit Bauteileigenschaften aus dem Beschreibungsfeld.
- * nutzt HTML5, mobile Ansicht (responsive Design)
- * Benutzersystem mit Unterstützung von Gruppen und feingranularem Berechtigungssystem
+Part-DB is a web-based database for managing electronic components. Since access is via the Web browser, you must install Part-DB on a Web server. Afterwards, the software can be used with any standard browser and operating system without the need to install any additional software.
 
-### Anforderungen
+### Functions
 
- * Webserver mit ca. 20MB Platz (ohne Footprints und 3D Modelle)
- * PHP >= 5.4.0, mit PDO, mbstring und gettext (intl und curl empfohlen)
- * MySQL/MariaDB Datenbank mit Speicherengine InnoDB
- * Webbrowser mit Unterstützung von HTML5 und Javascript
+* Indication of storage locations, footprints, categories, suppliers, data sheets, prices, order numbers,...
+* Assembly management
+* Upload of component images
+* Automatic display of footprint images
+* Statistics on the entire warehouse
+* Parts to be ordered, parts without price and parts no longer available.
+* List of manufacturer logos
+* Information on SMD marking of resistors, capacitors and coils
+* Resistance calculator
+* Barcode generator for Part and storelocations and scan function for barcodes
+* Various included themes
+* 3D Footprints
+* Support of BBCode, in the part's description and comment
+* Search by regular expressions
+* List of all parts in a storage location, with a specific footprint or manufacturer
+* Automatic generation of a table with part properties from the description field.
+* uses HTML5, mobile view
+* User system with fine permission system
+* Statistics system with graphes
 
-### Lizenz
-Part-DB steht unter der [General Public License Version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.de.html).
-Zusätzlich verwendet Part-DB einige Bibliotheken, die andere Lizenzen verwenden. 
-Genaue infos hierzu liefert [EXTERNAL_LIBS](readme/EXTERNAL_LIBS.md)
+### requirements
 
-### Installationsanleitung & Dokumentation
+* Web server with approx. 20MB space (without footprint images or 3D models)
+* PHP >= 5.4.0, with PDO, mbstring and gettext (intl and curl recommended)
+* MySQL/MariaDB database
 
-Die gesamte Dokumentation inkl. Installationsanleitung gibts hier:
+### License
+Part-DB is available under the [General Public License Version 2](https://www.gnu.org/licenses/old-licenses/gpl-2.0.de.html).
+In addition, Part-DB uses some libraries that use other licenses. 
+For detailed information see [EXTERNAL_LIBS](readme/EXTERNAL_LIBS.md)s
+
+### Installation instructions & documentation
+
+All documentation including installation instructions can be found here:
 <https://github.com/do9jhb/Part-DB/wiki>
 
-### Online-Demo zum Ausprobieren
+### Online demo
 
-Eine Test-Datenbank ist unter <http://part-db.bplaced.net/> zu finden.
+A test database can be found at <http://part-db.bplaced.net/part-en>.
 
-### Übersetung
-Part-DB ist auch in Englisch verfügbar: Hierfür muss die Einstellung Sprache in den Einstellungen oder während der 
-Installation auf _[en_US] English (United States)_ gestellt werden. 
+### Translation
+Part-DB is also available in German: For this purpose, the setting Language must be selected in the settings or during the 
+Installation on _[de_DE] Deutsch (Deutschland)_. 
 
-Möchte man sich an der Übersetzung beteiligen (insbesondere bei anderen Sprachen als Englisch), 
-dann kann dies [hier](https://translate.zanata.org/iteration/view/part-db/0.4.0/) tun.
+If you want to participate in the translation (especially for languages other than English), 
+then this can be done [here](https://crowdin.com/project/part-db).

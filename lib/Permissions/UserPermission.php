@@ -35,28 +35,33 @@ class UserPermission extends BasePermission
     const SET_PASSWORD   = "set_password";
     const CHANGE_USER_SETTINGS = "change_user_settings";
 
+    static protected $operation_cache = null;
+
     /**
      * Returns an array of all available operations for this Permission.
      * @return array All availabel operations.
      */
     public static function listOperations()
     {
-        /**
-         * Dont change these definitions, because it would break compatibility with older database.
-         * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
-         */
-        $operations = array();
-        $operations[] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
-        $operations[] = static::buildOperationArray(4, static::CREATE, _("Anlegen"));
-        $operations[] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
-        $operations[] = static::buildOperationArray(2, static::EDIT_USERNAME, _("Nutzernamen ändern"));
-        $operations[] = static::buildOperationArray(6, static::CHANGE_GROUP, _("Gruppe ändern"));
-        $operations[] = static::buildOperationArray(10, static::EDIT_INFOS, _("Informationen ändern"));
-        $operations[] = static::buildOperationArray(12, static::EDIT_PERMISSIONS, _("Berechtigungen ändern"));
-        $operations[] = static::buildOperationArray(14, static::SET_PASSWORD, _("Password setzen"));
-        $operations[] = static::buildOperationArray(16, static::CHANGE_USER_SETTINGS, _("Benutzereinstellungen ändern"));
+        if(!isset(static::$operation_cache)) {
+            /**
+             * Dont change these definitions, because it would break compatibility with older database.
+             * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
+             */
+            $operations = array();
+            $operations[static::READ] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
+            $operations[static::CREATE] = static::buildOperationArray(4, static::CREATE, _("Anlegen"));
+            $operations[static::DELETE] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
+            $operations[static::EDIT_USERNAME] = static::buildOperationArray(2, static::EDIT_USERNAME, _("Nutzernamen ändern"));
+            $operations[static::CHANGE_GROUP] = static::buildOperationArray(6, static::CHANGE_GROUP, _("Gruppe ändern"));
+            $operations[static::EDIT_INFOS] = static::buildOperationArray(10, static::EDIT_INFOS, _("Informationen ändern"));
+            $operations[static::EDIT_PERMISSIONS] = static::buildOperationArray(12, static::EDIT_PERMISSIONS, _("Berechtigungen ändern"));
+            $operations[static::SET_PASSWORD] = static::buildOperationArray(14, static::SET_PASSWORD, _("Password setzen"));
+            $operations[static::CHANGE_USER_SETTINGS] = static::buildOperationArray(16, static::CHANGE_USER_SETTINGS, _("Benutzereinstellungen ändern"));
 
-        return $operations;
+            static::$operation_cache = $operations;
+        }
+        return static::$operation_cache;
     }
 
     protected function modifyValueBeforeSetting($operation, $new_value, $data)

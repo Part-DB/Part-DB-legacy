@@ -1,21 +1,21 @@
 {locale path="nextgen/locale" domain="partdb"}
-<div class="panel panel-default">
-    <div class="panel-heading"><a data-toggle="collapse" class="link-collapse text-default" href="#panel-import">
+<div class="card mt-3">
+    <div class="card-header"><a data-toggle="collapse" class="link-collapse text-default" href="#panel-import">
             <i class="fas fa-download fa-fw"></i> {t}Bauteile importieren{/t}
         </a>
     </div>
-    <div class="panel-body panel-collapse collapse" id="panel-import">
+    <div class="card-body card-collapse collapse" id="panel-import">
         <form method="post" action="" class="form-horizontal">
-          <div class="form-group">
+          <div class="form-group row">
             <div class="col-md-6">
                 <label>{t}CSV-Beispiel:{/t}</label>
-                <pre>
+                <pre class="bg-light">
 #{t}Bauteile-ID;Anzahl;Bestückungsdaten{/t}
 100;1;
 10;4;R5,R6,R7,R8
                 </pre>
                 <b>oder:</b>
-                <pre>
+                <pre class="bg-light">
 #{t}Bauteil-Name;Anzahl;Bestückungsdaten{/t}
 Resistor_SMD_10M_5;4;R5,R6,R7,R8
 ATMEGA328_SMD;1;
@@ -24,7 +24,7 @@ ATMEGA328_SMD;1;
 
             <div class="col-md-6">
                 <label>{t}XML-Beispiel:{/t}</label>
-                <pre>
+                <pre class="bg-light">
 &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot;?&gt;
 &lt;deviceparts&gt;
   &lt;devicepart&gt;
@@ -42,14 +42,14 @@ ATMEGA328_SMD;1;
             </div>
         </div>
                     
-        <div class="form-group">
-            <label class="col-md-12">{t}Import Text:{/t}</label>
-            <div class="col-md-12">
+        <div class="form-group row">
+            <label class="col-md-3 col-form-label">{t}Import Text:{/t}</label>
+            <div class="col-md-9">
                 <textarea class="form-control"  name="import_file_content" rows="10" cols="80" {if !$can_part_create}disabled{/if}>{$import_file_content}</textarea>
             </div>
         </div>
-        <div class="form-group">
-            <label class="control-label col-md-3">{t}Export-Format:{/t}</label>
+        <div class="form-group row">
+            <label class="col-form-label col-md-3">{t}Export-Format:{/t}</label>
             <div class="col-md-9">
                 <input type="hidden" name="device_id" value="{$device_id}">
                 <select class="form-control" name="import_format" {if !$can_part_create}disabled{/if}>
@@ -59,15 +59,15 @@ ATMEGA328_SMD;1;
             </div>
         </div>
         
-        <div class="form-group">
-            <label class="control-label col-md-3">{t}Trennzeichen für CSV:{/t}</label>
+        <div class="form-group row">
+            <label class="col-form-label col-md-3">{t}Trennzeichen für CSV:{/t}</label>
             <div class="col-md-9">      
                 <input class="form-control" type="text" name="import_separator" value="{$import_separator}" size="5" {if !$can_part_create}disabled{/if}>
             </div> 
         </div>
         
-        <div class="form-group">
-            <div class="col-md-9 col-md-offset-3">
+        <div class="form-group row">
+            <div class="col-md-9 offset-md-3">
                 <button type="submit" class="btn btn-success" name="import_readtext" {if !$can_part_create}disabled{/if}>{t}Daten zum Überprüfen hochladen{/t}</button>
             </div>
         </div>

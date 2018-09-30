@@ -172,9 +172,11 @@ development/templates_c/
 #PHPStorm
 .idea/
 .idea/*
+.idea/workspace.xml
 
 #Models
 models/*
+!models/.keep
 
 #Ignore Node Modules
 node_modules/
@@ -184,3 +186,5 @@ node_modules/*
 vendor/*
 
 *.cache
+
+*.min.min.*

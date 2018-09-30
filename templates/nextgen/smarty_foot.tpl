@@ -1,5 +1,6 @@
 {if isset($messages)}
-    <!--suppress ALL, Annotator -->
+    <!--suppress ALL -->
+
     <div class="panel panel-default">
         <form action="" method="post" class="panel-body">
             {foreach $messages as $msg}
@@ -43,39 +44,72 @@
     <!-- Back to top button -->
     <a id="back-to-top" href="#" class="btn btn-primary back-to-top" role="button"
        title="Zum Seitenbeginn" data-toggle="tooltip" data-placement="left">
-        <span class="glyphicon glyphicon-chevron-up"></span>
+        <i class="fas fa-angle-up fa-fw"></i>
     </a>
 
     <!-- Datatables -->
     <link rel="stylesheet" type="text/css" href="{$relative_path}datatables/datatables.min.css"/>
     <script type="text/javascript" src="{$relative_path}datatables/datatables.min.js"></script>
     <!-- Datatables plugin for natural sorting -->
-    <script type="text/javascript" src="{$relative_path}datatables/natural.js"></script>
+    <script type="text/javascript" src="{$relative_path}datatables/natural.min.js"></script>
 
+    {* Cookie Consent dialog*}
+    {if $cookie_consent_active}
+    <link rel="stylesheet" type="text/css" href="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.css" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/cookieconsent2/3.0.3/cookieconsent.min.js"></script>
+    <script>
+        window.addEventListener("load", function(){
+            window.cookieconsent.initialise({
+                "palette": {
+                    "popup": {
+                        "background": "#383b75"
+                    },
+                    "button": {
+                        "background": "#f1d600"
+                    }
+                },
+                "content": {
+                    "message": "{$cookie_consent_config.message}",
+                    "dismiss": "{$cookie_consent_config.button_text}",
+                    "link": "{$cookie_consent_config.link_text}",
+                    "href": "{$cookie_consent_config.link_href}"
+                }
+            })});
+    </script>
+    {/if}
 
 
     <!-- Treeview -->
-    <script src="{$relative_path}js/bootstrap-treeview.js" async></script>
+    <script src="{$relative_path}js/bootstrap-treeview.min.js" async></script>
+
+    <!-- Chart JS -->
+    <script src="{$relative_path}vendor/nnnick/chartjs/dist/Chart.bundle.min.js" async></script>
 
     <!-- FileInput -->
-    <script src="{$relative_path}js/fileinput.min.js" async></script>
+    <script src="{$relative_path}vendor/kartik-v/bootstrap-fileinput/js/fileinput.js" async></script>
+    {* <script src="{$relative_path}vendor/kartik-v/bootstrap-fileinput/themes/fas/theme.min.js"></script> *}
 
     <!-- JQuery Highlight -->
-    <script src="{$relative_path}js/jquery.highlight.js" async></script>
+    <script src="{$relative_path}js/jquery.highlight.min.js" async></script>
 
     <!-- Functions -->
-    <script src="{$relative_path}templates/nextgen/js/functions.js" async></script>
-    <script src="{$relative_path}templates/nextgen/js/ajax_ui.js" async></script>
+    {if $debugging_activated}
+        <script src="{$relative_path}templates/nextgen/js/functions.js" async></script>
+        <script src="{$relative_path}templates/nextgen/js/ajax_ui.js" async></script>
+    {else} {* Use minified scripts *}
+        <script src="{$relative_path}templates/nextgen/js/functions.min.js" async></script>
+        <script src="{$relative_path}templates/nextgen/js/ajax_ui.min.js" async></script>
+    {/if}
 
     <!-- Calculator scripts -->
-    <script type="text/javascript" src="{$relative_path}javascript/calculator.js"></script>
+    <script type="text/javascript" src="{$relative_path}javascript/calculator.min.js"></script>
 
     <!-- jQuery Form lib -->
-    <script src="{$relative_path}js/jquery.form.min.js"></script>
+    <script src="{$relative_path}vendor/jquery-form/form/dist/jquery.form.min.js"></script>
 
     <!-- Bootstrap-select -->
-    <script src="{$relative_path}js/bootstrap-select.min.js"></script>
-    <script src="{$relative_path}js/i18n/defaults-de_DE.js"></script>
+    <script src="{$relative_path}vendor/snapappointments/bootstrap-select/dist/js/bootstrap-select.min.js"></script>
+    <script src="{$relative_path}vendor/snapappointments/bootstrap-select/dist/js/i18n/defaults-de_DE.js"></script>
 
     <!-- Bootstrap typeahead -->
     <script src="{$relative_path}js/bootstrap3-typeahead.min.js"></script>

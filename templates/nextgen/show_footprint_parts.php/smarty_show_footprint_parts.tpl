@@ -1,5 +1,8 @@
 {locale path="nextgen/locale" domain="partdb"}
 
+<span id="export-title">{t}Bauteile mit Footprint{/t}: {$footprint_name}</span>
+<span id="export-messageTop">{t}Vollständiger Pfad{/t}: {$footprint_fullpath}</span>
+
 {include "../smarty_breadcrumb.tpl"}
 
 {if $other_panel_position == "top" || $other_panel_position == "both"}
@@ -9,7 +12,7 @@
                 {t}Sonstiges{/t}
             </a>
         </div>
-        <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other">
+        <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}show{/if}" id="panel-other">
             <form action="" method="post" class="form-horizontal no-progbar">
                 <input type="hidden" name="fid" value="{$fid}">
                 <input type="hidden" name="subfoot" value="{if $with_subfoot}0{else}1{/if}">
@@ -62,7 +65,7 @@
                 {t}Sonstiges{/t}
             </a>
         </div>
-        <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}in{/if}" id="panel-other2">
+        <div class="panel-body panel-collapse collapse {if !$other_panel_collapse}show{/if}" id="panel-other2">
             <form action="" method="post" class="form-horizontal no-progbar">
                 <input type="hidden" name="fid" value="{$fid}">
                 <input type="hidden" name="subfoot" value="{if $with_subfoot}0{else}1{/if}">

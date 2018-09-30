@@ -1,12 +1,12 @@
-<div class="panel panel-primary">
-    <div class="panel-heading">{t}3D Footprints{/t}</div>
-    <div class="panel-body">
+<div class="card border-primary">
+    <div class="card-header bg-primary text-white">{t}3D Footprints{/t}</div>
+    <div class="card-body row">
         <div class="col-md-4" id="dir_select">
 
             <div class="input-group">
                 <input type="text" class="typeahead form-control" placeholder="{t}Suchen{/t}" data-provide="typeahead" autocomplete="off" id="models-search">
-                <span class="input-group-btn">
-                    <button class="btn btn-default" type="button" id="models-search-go">{t}Los{/t}</button>
+                <span class="input-group-append">
+                    <button class="btn btn-outline-secondary" type="button" id="models-search-go">{t}Los{/t}</button>
                 </span>
             </div>
 
@@ -14,12 +14,11 @@
 
             <div class="dropdown">
                 <button class="btn-text dropdown-toggle" type="button" id="dropdownCat" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                    <div class="sidebar-title">{t}Verzeichnis{/t}
-                        <span class="caret"></span></div>
+                    <span class="sidebar-title mb-2">{t}Verzeichnis{/t}</span>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownCat">
-                    <li><a href="#" class="tree-btns" data-mode="expand" data-target="tree-categories">{t}Alle ausklappen{/t}</a></li>
-                    <li><a href="#" class="tree-btns" data-mode="collapse" data-target="tree-categories">{t}Alle einklappen{/t}</a></li>
+                    <li class=""><a href="#" class="tree-btns dropdown-item" data-mode="expand" data-target="tree-categories">{t}Alle ausklappen{/t}</a></li>
+                    <li class=""><a href="#" class="tree-btns dropdown-item" data-mode="collapse" data-target="tree-categories">{t}Alle einklappen{/t}</a></li>
                 </ul>
             </div>
             <div id="tree-footprint"></div>
@@ -63,8 +62,10 @@
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 <h4 class="modal-title" id="myModalLabel">{t}3D-Footprint{/t}</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="container-fluid">

@@ -231,6 +231,7 @@ if (! $fatal_error) {
         $html->setVariable('with_subcategories', $with_subcategories, 'boolean');
         $html->setVariable('cid', $category->getID(), 'integer');
         $html->setVariable('category_name', $category->getName(), 'string');
+        $html->setVariable('category_fullpath', $category->getFullPath(" / "), 'string');
         $html->setVariable('disable_footprints', ($config['footprints']['disable'] || $category->getDisableFootprints(true)), 'boolean');
         $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable'] || $category->getDisableManufacturers(true)), 'boolean');
         $html->setVariable('disable_auto_datasheets', ($config['auto_datasheets']['disable'] || $category->getDisableAutodatasheets(true)), 'boolean');

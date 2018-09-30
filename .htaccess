@@ -25,7 +25,7 @@
     Header set X-Robots-Tag "none"
     Header set X-Download-Options "noopen"
     Header set X-Permitted-Cross-Domain-Policies "none"
-    Header set X-Frame-Options "DENY"
+    Header set X-Frame-Options "SAMEORIGIN"
     <IfModule mod_env.c>
         SetEnv modHeadersAvailable true
     </IfModule>

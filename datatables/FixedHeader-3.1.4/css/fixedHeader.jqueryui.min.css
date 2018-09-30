@@ -1,0 +1,1 @@
+table.fixedHeader-floating{position:fixed!important;background-color:#fff}table.fixedHeader-locked{position:absolute!important;background-color:#fff}@media print{table.fixedHeader-floating{display:none}}

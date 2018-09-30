@@ -1,4 +1,39 @@
 //import {addURLparam, openInNewTab, openLink, scrollUpForMsg} from "./functions";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 var BASE = "";
 /****************************************************************************************
  * **************************************************************************************
@@ -134,6 +169,7 @@ var AjaxUI = /** @class */ (function () {
         'use strict';
         if (!$(jqForm).hasClass("no-progbar")) {
             $('#content').hide(0);
+            AjaxUI.getInstance().beforeAjaxSubmit();
             $('#progressbar').show(0);
         }
         return true;
@@ -184,13 +220,13 @@ var AjaxUI = /** @class */ (function () {
     AjaxUI.prototype.registerLinks = function () {
         'use strict';
         var _this = this;
-        $("a").not(".link-anchor").not(".link-collapse").not(".link-external").not(".tree-btns")
-            .not(".back-to-top").not(".link-datasheet").unbind("click").click(function (event) {
+        $("a").not(".link-anchor, .link-collapse, .link-external, .tree-btns, .back-to-top, .link-datasheet").unbind("click").click(function (event) {
             event.preventDefault();
             var a = $(this);
             if (a.attr("href") != null) {
                 var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
                 _this.abortAllAjax();
+                _this.beforeAjaxSubmit();
                 $('#content').hide(0).load(href + " #content-data");
                 $('#progressbar').show(0);
                 return true;
@@ -213,7 +249,8 @@ var AjaxUI = /** @class */ (function () {
      */
     AjaxUI.prototype.onNodeSelected = function (event, data) {
         'use strict';
-        if (data.href.indexOf("github.com") !== -1 || data.href.indexOf("phpdoc") !== -1) {
+        if (data.href.indexOf("github.com") !== -1 || data.href.indexOf("phpdoc") !== -1) //If the href points to github, then open it in new tab. TODO: Find better solution to detect external links.
+         {
             openInNewTab(data.href);
             $(this).treeview('toggleNodeSelected', data.nodeId);
         }
@@ -223,7 +260,7 @@ var AjaxUI = /** @class */ (function () {
             $('#progressbar').show();
         }
         $(this).treeview('toggleNodeExpanded', data.nodeId);
-        $("#sidebar").removeClass("in");
+        $("#sidebar-container").removeClass("show");
     };
     /**
      * Called whenever a node from the TreeView is clicked.
@@ -243,28 +280,6 @@ var AjaxUI = /** @class */ (function () {
      */
     AjaxUI.prototype.tree_fill = function () {
         'use strict';
-        /*
-        $.getJSON(BASE + 'api.php/1.0.0/tree/categories', function (tree : BootstrapTreeViewNodeData[]) {
-            $("#tree-categories").treeview({data: tree, enableLinks: false, showIcon: false
-                ,showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
-        });
-
-        $.getJSON(BASE + 'api.php/1.0.0/tree/devices', function (tree :BootstrapTreeViewNodeData[]) {
-            $('#tree-devices').treeview({data: tree, enableLinks: false, showIcon: false,
-                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
-        });
-
-        $.getJSON(BASE + 'api.php/1.0.0/tree/tools', function (tree :BootstrapTreeViewNodeData[]) {
-            $('#tree-tools').treeview({data: tree, enableLinks: false, showIcon: false,
-                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler}).treeview('collapseAll', { silent: true });
-        });*/
-        /*
-        this.initTree("#tree-categories", 'api.php/1.0.0/tree/categories');
-
-        this.initTree("#tree-devices", 'api.php/1.0.0/tree/devices');
-
-        this.initTree("#tree-tools", 'api.php/1.0.0/tree/tools');
-        */
         var categories = Cookies.get("tree_datasource_tree-categories");
         var devices = Cookies.get("tree_datasource_tree-devices");
         var tools = Cookies.get("tree_datasource_tree-tools");
@@ -292,7 +307,8 @@ var AjaxUI = /** @class */ (function () {
         var contextmenu_handler = this.onNodeContextmenu;
         $.getJSON(BASE + url, function (data) {
             $(tree).treeview({ data: data, enableLinks: false, showIcon: false,
-                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler }).treeview('collapseAll', { silent: true });
+                showBorder: true, onNodeSelected: node_handler, onNodeContextmenu: contextmenu_handler,
+                expandIcon: "fas fa-plus fa-fw fa-treeview", collapseIcon: "fas fa-minus fa-fw fa-treeview" }).treeview('collapseAll', { silent: true });
         });
     };
     AjaxUI.prototype.treeLoadDataSource = function (target_id, datasource) {
@@ -369,6 +385,12 @@ var AjaxUI = /** @class */ (function () {
     /********************************************************************************************
      * Common ajax functions
      ********************************************************************************************/
+    /**
+     * Called before a new ajax submit is started. Use this to cleanup, the old page.
+     */
+    AjaxUI.prototype.beforeAjaxSubmit = function () {
+        //$(".table-sortable").DataTable().fixedHeader.disable();
+    };
     /**
      * Called when an error occurs on loading ajax. Outputs the message to the console.
      */
@@ -496,7 +518,8 @@ $(function (event) {
     ajaxui.addStartAction(makeHighlight);
     ajaxui.addStartAction(viewer3d_models);
     ajaxui.addStartAction(makeGreekInput);
-    //ajaxui.addStartAction(makeTypeAhead);
+    ajaxui.addStartAction(makeCharts);
+    ajaxui.addStartAction(setBootstrapSelectStyle);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
@@ -513,65 +536,90 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(makeHighlight);
     ajaxui.addAjaxCompleteAction(viewer3d_models);
     ajaxui.addAjaxCompleteAction(makeGreekInput);
+    ajaxui.addAjaxCompleteAction(makeCharts);
     //ajaxui.addAjaxCompleteAction(makeTypeAhead);
     ajaxui.start();
 });
+function setBootstrapSelectStyle() {
+    //Set a style for the Bootstrap-select which looks more like the BS3 ones, and the form-controls
+    $.fn.selectpicker.Constructor.DEFAULTS.style = "bg-white border";
+}
+function makeCharts() {
+    $(".chart").each(function (index, element) {
+        var data = $(element).data("data");
+        var type = $(element).data("type");
+        var ctx = element.getContext("2d");
+        var myChart = new Chart(ctx, {
+            type: type,
+            data: data,
+            options: {
+                scales: {
+                    yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }]
+                }
+            }
+        });
+    });
+}
 function makeGreekInput() {
     $("input[type=text], textarea, input[type=search]").unbind("keydown").keydown(function (event) {
         var greek = event.altKey;
         var greek_char = "";
         if (greek) {
             switch (event.key) {
-                case "w"://Omega
+                case "w": //Omega
                     greek_char = '\u2126';
                     break;
                 case "u":
-                case "m"://Micro
+                case "m": //Micro
                     greek_char = "\u00B5";
                     break;
-                case "p"://Phi
+                case "p": //Phi
                     greek_char = "\u03C6";
                     break;
-                case "a"://Alpha
+                case "a": //Alpha
                     greek_char = "\u03B1";
                     break;
-                case "b"://Beta
+                case "b": //Beta
                     greek_char = "\u03B2";
                     break;
-                case "c"://Gamma
+                case "c": //Gamma
                     greek_char = "\u03B3";
                     break;
-                case "d"://Delta
+                case "d": //Delta
                     greek_char = "\u03B4";
                     break;
-                case "l"://Pound
+                case "l": //Pound
                     greek_char = "\u00A3";
                     break;
-                case "y"://Yen
+                case "y": //Yen
                     greek_char = "\u00A5";
                     break;
-                case "o"://Yen
+                case "o": //Yen
                     greek_char = "\u00A4";
                     break;
-                case "1"://Sum symbol
+                case "1": //Sum symbol
                     greek_char = "\u2211";
                     break;
-                case "2"://Integral
+                case "2": //Integral
                     greek_char = "\u222B";
                     break;
-                case "3"://Less-than or equal
+                case "3": //Less-than or equal
                     greek_char = "\u2264";
                     break;
-                case "4"://Greater than or equal
+                case "4": //Greater than or equal
                     greek_char = "\u2265";
                     break;
-                case "5"://PI
+                case "5": //PI
                     greek_char = "\u03c0";
                     break;
-                case "q"://Copyright
+                case "q": //Copyright
                     greek_char = "\u00A9";
                     break;
-                case "e"://Euro
+                case "e": //Euro
                     greek_char = "\u20AC";
                     break;
             }
@@ -613,7 +661,7 @@ function registerHoverImages() {
         placement: 'auto',
         container: 'body',
         content: function () {
-            return '<img class="img-responsive" src="' + this.src + '" />';
+            return '<img class="img-fluid" src="' + this.src + '" />';
         }
     });
 }
@@ -622,14 +670,117 @@ function registerHoverImages() {
  */
 function makeSortTable() {
     'use strict';
+    //Remove old datatables
+    var table = $($.fn.dataTable.tables()).DataTable();
+    table.fixedHeader.adjust();
+    //Register export helpers
+    $(".export-helper").each(function (index) {
+        var input = $(this).siblings("input");
+        var that = this;
+        $(this).text(input.val().toString());
+    });
+    //Override datatables button style, so buttons are XS.
+    $.extend(true, $.fn.DataTable.Buttons.defaults, {
+        dom: {
+            container: {
+                className: 'dt-buttons btn-group float-right'
+            },
+            button: {
+                className: 'btn btn-light btn-xs border'
+            },
+            collection: {
+                tag: 'ul',
+                className: 'dt-button-collection dropdown-menu',
+                button: {
+                    tag: 'li',
+                    className: 'dt-button',
+                    active: 'active',
+                    disabled: 'disabled'
+                },
+                buttonLiner: {
+                    tag: 'a',
+                    className: ''
+                }
+            }
+        }
+    });
+    //The string that should appear in the footer.
+    var exportFooter = function () {
+        return "Generated by Part-DB on " + new Date().toLocaleString();
+    };
+    var exportTitle = function () {
+        if ($("#export-title").length) {
+            return $("#export-title").text();
+        }
+        return "*"; //Show default title
+    };
+    var exportMessageTop = function () {
+        if ($("#export-messageTop").length) {
+            return $("#export-messageTop").text();
+        }
+        return "*"; //Show default title
+    };
     if (!$.fn.DataTable.isDataTable('.table-sortable')) {
         var table_1 = $('.table-sortable').DataTable({
             "paging": false,
             "ordering": true,
             "info": false,
+            "fixedHeader": { header: $(window).width() >= 768,
+                headerOffset: $("#navbar").height() },
             "searching": false,
             "select": $(".table-sortable").hasClass("table-selectable") ? { style: "os", selector: "td:not(.no-select)" } : false,
             "order": [],
+            "buttons": $(".table-sortable").hasClass("table-export") ? [
+                {
+                    extend: 'copyHtml5',
+                    text: '<i class="fas fa-copy fa-fw"></i>',
+                    titleAttr: 'Copy',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    text: '<i class="fas fa-file-excel fa-fw"></i>',
+                    titleAttr: 'Excel',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    },
+                    messageBottom: exportFooter,
+                    messageTop: exportMessageTop,
+                    title: exportTitle
+                },
+                {
+                    extend: 'csvHtml5',
+                    text: '<i class="fas fa-file-alt fa-fw"></i>',
+                    titleAttr: 'CSV',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    text: '<i class="fas fa-file-pdf fa-fw"></i>',
+                    titleAttr: 'PDF',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    },
+                    messageBottom: exportFooter,
+                    messageTop: exportMessageTop,
+                    title: exportTitle
+                },
+                {
+                    extend: 'print',
+                    text: '<i class="fas fa-print fa-fw"></i>',
+                    titleAttr: 'Print',
+                    exportOptions: {
+                        columns: ':not(.no-export)'
+                    },
+                    messageBottom: exportFooter,
+                    messageTop: exportMessageTop,
+                    title: exportTitle
+                },
+            ] : null,
             "columnDefs": [
                 {
                     "targets": [1], type: "natural-nohtml"
@@ -663,6 +814,11 @@ function makeSortTable() {
             var str = tmp.join();
             $("input[name='selected_ids']").val(str);
         });
+        for (var n = 0; n < table_1.context.length; n++) {
+            var my_panel_header = $(table_1.table(n).container()).closest(".card").find(".card-header");
+            table_1.table(n).buttons().container().appendTo(my_panel_header);
+            //table.buttons(n, null).containers().appendTo(my_panel_header);
+        }
     }
 }
 /**
@@ -691,7 +847,7 @@ function registerJumpToTop() {
             scrollTop: 0
         }, 800);
         return false;
-    }).tooltip('show');
+    }).tooltip();
 }
 /**
  * This function add a hidden input element, if a button with the class ".rightclick" is rightclicked.
@@ -712,7 +868,9 @@ function rightClickSubmit() {
 function treeviewBtnInit() {
     $(".tree-btns").click(function (event) {
         event.preventDefault();
-        $(this).parents("div.dropdown").removeClass('open');
+        $(this).parents("div.dropdown").removeClass('show');
+        //$(this).closest(".dropdown-menu").removeClass('show');
+        $(".dropdown-menu.show").removeClass("show");
         var mode = $(this).data("mode");
         var target = $(this).data("target");
         var text = $(this).text() + " \n<span class='caret'></span>"; //Add caret or it will be removed, when written into title
@@ -733,26 +891,36 @@ function treeviewBtnInit() {
  * Activates the X3Dom library on all x3d elements.
  */
 function registerX3DOM() {
-    if ($("x3d").length) {
-        try {
-            x3dom.reload();
-        }
-        catch (e) {
-            //Ignore everything
-        }
-    }
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            if ($("x3d").length) {
+                try {
+                    x3dom.reload();
+                }
+                catch (e) {
+                    //Ignore everything
+                }
+            }
+            return [2 /*return*/];
+        });
+    });
 }
 /**
  * Activates the Bootstrap-selectpicker.
  */
 function registerBootstrapSelect() {
-    $(".selectpicker").selectpicker();
+    return __awaiter(this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            $(".selectpicker").selectpicker();
+            return [2 /*return*/];
+        });
+    });
 }
 /**
  * Add collapsed class to a before a collapse panel body, so the icon is correct.
  */
 function addCollapsedClass() {
-    $('div.collapse.panel-collapse').siblings("div.panel-heading")
+    $('div.collapse.card-collapse').siblings("div.card-header")
         .children('a[data-toggle="collapse"]').addClass("collapsed");
 }
 /**
@@ -777,13 +945,13 @@ function registerAutoRefresh() {
     }
 }
 function fixSelectPaginationHeight() {
-    $('.pagination>li>select').css('height', parseInt($('.pagination').css("height")));
+    $('.pagination>li>select').css('height', parseInt($('.pagination').css("height")) - 2);
 }
 /**
  * Close the #searchbar div, when a search was submitted on mobile view.
  */
 $("#search-submit").click(function (event) {
-    $("#searchbar").removeClass("in");
+    $("#searchbar").removeClass("show");
 });
 /**
  * Implements the livesearch for the searchbar.
@@ -827,11 +995,14 @@ function makeHighlight() {
 }
 /**
  * Use Bootstrap for tooltips.
+ * Function need to be not async, otherwise not every tooltip gets removed, when page is loaded.
  */
 function makeTooltips() {
     //$('[data-toggle="tooltip"]').tooltip();
-    $('*').tooltip("hide");
-    $('a[title]').tooltip({ container: "body" });
+    //$('a[title]').tooltip("hide").tooltip({container: "body"});
+    $('body').tooltip('dispose');
+    $("body").tooltip({ selector: '[title]', container: "body" });
+    //$('button[title]').tooltip("hide").tooltip({container: "body"});
 }
 function viewer3d_models() {
     if (!$("#models-picker").length)
@@ -853,7 +1024,7 @@ function viewer3d_models() {
         $.getJSON('api.php/1.0.0/3d_models/files/' + dir, function (list) {
             $("#models-picker").empty();
             list.forEach(function (element) {
-                $("<option/>").val(element).text(element).appendTo("#models-picker");
+                $("<option><option/>").val(element).text(element).appendTo("#models-picker");
                 $('#models-picker').selectpicker('refresh');
                 update();
             });
@@ -873,10 +1044,12 @@ function viewer3d_models() {
 }
 //Need for proper body padding, with every navbar height
 $(window).resize(function () {
-    $('body').css('padding-top', parseInt($('#main-navbar').css("height")) + 10);
-    $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
+    var height = $('#navbar').height() + 10;
+    $('body').css('padding-top', height);
+    $('#fixed-sidebar').css('top', height);
 });
 $(window).on('load', function () {
-    $('body').css('padding-top', parseInt($('#main-navbar').css("height")) + 10);
-    $('#fixed-sidebar').css('top', parseInt($('#main-navbar').height()) + 10);
+    var height = $('#navbar').height() + 10;
+    $('body').css('padding-top', height);
+    $('#fixed-sidebar').css('top', height);
 });

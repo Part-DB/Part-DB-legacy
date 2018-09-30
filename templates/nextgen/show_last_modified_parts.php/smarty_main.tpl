@@ -6,8 +6,8 @@
     {include "../smarty_pagination.tpl"}
 </form>
 
-<div class="panel panel-primary">
-    <div class="panel-heading"><i class="fas fa-clock fa-fw"></i>
+<div class="card border-primary">
+    <div class="card-header bg-primary text-white"><i class="fas fa-clock fa-fw"></i>
         {if $mode == "last_modified"}
             {t}Zuletzt bearbeitete Bauteile{/t}
         {else}

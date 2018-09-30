@@ -1,6 +1,6 @@
-<div class="panel panel-default">
-    <div class="panel-heading">SMD-Widerstände</div>
-    <div class="panel-body">
+<div class="card">
+    <div class="card-header">SMD-Widerstände</div>
+    <div class="card-body">
         <div class="row">
             <div class="col-md-3">
                 <b>{t}3-stellig{/t}</b><p>{t}Die ersten beiden Stellen sind der Wert, die letzte Stelle ist der Exponent z.B.{/t}</p>
@@ -8,19 +8,19 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/100.png" class="labelbild" alt="">
-                    <div class="caption"><h4 class="table-center">10 Ohm</h4></div>
+                    <div class="caption"><h4 class="">10 Ohm</h4></div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/101.png" class="labelbild" alt="">
-                    <div class="caption"><h4 class="table-center">100 Ohm</h4></div>
+                    <div class="caption"><h4 class="">100 Ohm</h4></div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/102.png" class="labelbild" alt="">
-                    <div class="caption"><h4 class="table-center">1 kOhm</h4></div>
+                    <div class="caption"><h4 class="">1 kOhm</h4></div>
                 </div>
             </div>
         </div>
@@ -32,19 +32,19 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/1001.png" class="labelbild" alt="">
-                    <div class="caption"><h4 class="table-center">1 kOhm</h4></div>
+                    <div class="caption"><h4 class="">1 kOhm</h4></div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/1002.png" class="labelbild" alt="">
-                    <div class="caption"><h4 class="table-center">10 kOhm</h4></div>
+                    <div class="caption"><h4 class="">10 kOhm</h4></div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/1003.png" class="labelbild" alt="">
-                    <div class="caption"><h4 class="table-center">100 kOhm</h4></div>
+                    <div class="caption"><h4 class="">100 kOhm</h4></div>
                 </div>
             </div>
         </div>
@@ -56,19 +56,19 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/R10.png"  class="labelbild" alt="">
-                    <div class="caption"><h4 class="table-center">0,10 Ohm</h4></div>
+                    <div class="caption"><h4 class="">0,10 Ohm</h4></div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/10R2.png" class="labelbild" alt="">
-                    <div class="caption"><h4 class="table-center">10,2 Ohm</h4></div>
+                    <div class="caption"><h4 class="">10,2 Ohm</h4></div>
                 </div>
             </div>
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/100R.png" class="labelbild" alt="">
-                    <div class="caption"><h4 class="table-center">100 Ohm</h4></div>
+                    <div class="caption"><h4 class="">100 Ohm</h4></div>
                 </div>
             </div>
         </div>
@@ -76,9 +76,9 @@
 </div>
 
 
-<div class="panel panel-default">
-    <div class="panel-heading">{t}SMD-Kondensatoren{/t}</div>
-    <div class="panel-body">
+<div class="card mt-3">
+    <div class="card-header">{t}SMD-Kondensatoren{/t}</div>
+    <div class="card-body">
         <div class="row">
             <div class="col-md-5">
                 <b>{t}Tantal{/t}</b><p>{t}Die ersten beiden Stellen sind der Wert in pF, die letzte der Exponent. Die untere Zahl ist die Spannungsfestigkeit in Volt.{/t}</p>
@@ -86,7 +86,7 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/246-20.png" class="labelbild" alt="">
-                    <div class="caption"><h4 class="table-center">24µF/20V</h4></div>
+                    <div class="caption"><h4 class="">24µF/20V</h4></div>
                 </div>
             </div>
         </div>
@@ -98,7 +98,7 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/3F3.png" class="labelbild" alt="">
-                    <div class="caption"><h4 class="table-center">3,3µF/25V</h4></div>
+                    <div class="caption"><h4 class="r">3,3µF/25V</h4></div>
                 </div>
             </div>
         </div>
@@ -110,7 +110,7 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/220.png" class="labelbild" alt="">
-                    <div class="caption"><h4 class="table-center">220µF/16V</h4></div>
+                    <div class="caption"><h4 class="">220µF/16V</h4></div>
                 </div>
             </div>
         </div>
@@ -119,9 +119,9 @@
 </div>
 
 
-<div class="panel panel-default">
-    <div class="panel-heading">{t}SMD-Spulen{/t}</div>
-    <div class="panel-body">
+<div class="card mt-3">
+    <div class="card-header">{t}SMD-Spulen{/t}</div>
+    <div class="card-body">
         <div class="row">
             <div class="col-md-5">
                 <b>{t}DO23-Spule{/t}</b>
@@ -131,7 +131,7 @@
             <div class="col-md-3">
                 <div class="thumbnail">
                     <img src="{$relative_path}img/labels/221K.png" class="labelbild" alt="">
-                    <div class="caption"><h4 class="table-center">221µH/5%</h4></div>
+                    <div class="caption"><h4 class="">221µH/5%</h4></div>
                 </div>
             </div> 
         </div>

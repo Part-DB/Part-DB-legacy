@@ -169,6 +169,7 @@ $config['table']['autosort']                     = false;
 $config['table']['default_show_subcategories']   = true;    //Show the subcategories in show_category_parts on default.
 $config['table']['default_limit']                = 50;
 $config['table']['full_paths']                   = false;
+$config['table']['instock_warning_full_row_color'] = false;  //Color the whole line red, if a less instock than mininstock
 
 //Search settings
 $config['search']['livesearch']                  = true;
@@ -183,6 +184,13 @@ $config['attachements']['show_name']            = false;    //Show the names of 
 $config['user']['avatars']['use_gravatar']      = false;     //Use Gravatar for Avatars
 $config['user']['redirect_to_login']            = true;      //Redirect to login page, if a user does not has any permission (only if he accessed start page).
 $config['user']['gc_maxlifetime']               = 5400;      //5400 sec = 90min
+
+//Cookie consent info
+$config['cookie_consent']['enable']             = false;     //Set to true to activate cookie consent dialog
+$config['cookie_consent']['message']            = "This website uses cookies to ensure you get the best experience on our website.";
+$config['cookie_consent']['link_text']          = "Learn more";
+$config['cookie_consent']['button_text']        = "Got it!";
+$config['cookie_consent']['link_href']          = "https://cookiesandyou.com/";
 
 /********************************************************************************
  *
@@ -211,7 +219,7 @@ $manual_config = array();   // ...this too...
 
 // system version: this must be increased for every release(-candidate)!
 // IMPORTANT: please note that (for example) "0.3.0" is a HIGHER (!) version than "0.3.0.RC5".
-$config['system']['version']                            = '0.5.0.RC1';  // examples: '0.2.2' or '0.2.2.RC2' (see SystemVersion.php)
+$config['system']['version']                            = '0.5.0.dev';  // examples: '0.2.2' or '0.2.2.RC2' (see SystemVersion.php)
 
 // the version of the latest config style. Increase this for one if we need an update for the user's config.php (see also updates/config_update_steps.php)
 $config['system']['latest_config_version']              = 2; // only increase for one!

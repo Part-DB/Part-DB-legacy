@@ -447,6 +447,8 @@ class HTML
             $tmpl->assign("debugbar_head", $renderer->renderHead());
         }
 
+        $tmpl->assign("debugging_activated", $config['debug']['enable']);
+
         // messages
         if ((is_array($messages) && (count($messages) > 0)) || ($config['debug']['request_debugging_enable'])) {
             if ($config['debug']['request_debugging_enable']) {
@@ -513,6 +515,8 @@ class HTML
         }
 
         $tmpl->assign('relative_path', BASE_RELATIVE.'/'); // constant from start_session.php
+
+        $tmpl->assign("debugging_activated", $config['debug']['enable']);
 
         foreach ($this->variables as $key => $value) {
             //debug('temp', $key.' => '.$value);
@@ -584,6 +588,14 @@ class HTML
         }
 
         $tmpl->assign("redirect_url", $this->redirect_url);
+
+        $tmpl->assign("cookie_consent_active", $config['cookie_consent']['enable']);
+        if($config['cookie_consent']['enable'])
+        {
+            $tmpl->assign("cookie_consent_config", $config['cookie_consent']);
+        }
+
+        $tmpl->assign("debugging_activated", $config['debug']['enable']);
 
         //Remove white space from Output
         $tmpl->loadFilter('output', 'trimwhitespace');

@@ -1,10 +1,10 @@
 {locale path="nextgen/locale" domain="partdb"}
-<div class="panel panel-primary">
-    <div class="panel-heading">
+<div class="card border-primary">
+    <div class="card-header bg-primary text-white">
         <i class="fa fa-file" aria-hidden="true"></i>
         {t}Dateitypen für Dateianhänge{/t}
     </div>
-    <div class="panel-body">
+    <div class="card-body">
         <form action="" method="post" class="row no-progbar">
             <div class="col-md-4">
 
@@ -49,25 +49,25 @@
                     </legend>
 
                     <ul class="nav nav-tabs">
-                        <li class="active"><a class="link-anchor" data-toggle="tab" href="#home">{t}Standard{/t}</a></li>
-                        <li><a data-toggle="tab" class="link-anchor" href="#info">{t}Infos{/t}</a></li>
+                        <li class="nav-item"><a class="link-anchor active nav-link" data-toggle="tab" href="#home">{t}Standard{/t}</a></li>
+                        <li class="nav-item"><a data-toggle="tab" class="link-anchor nav-link" href="#info">{t}Infos{/t}</a></li>
                     </ul>
 
                     <div class="tab-content">
 
                         <br>
 
-                        <div id="home" class="tab-pane fade in active">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">{t}Name*:{/t}</label>
+                        <div id="home" class="tab-pane fade show active">
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">{t}Name*:{/t}</label>
                                 <div class="col-md-9">
                                     <input class="form-control" type="text" name="name" value="{$name}" placeholder="{t}z.B. Bilder{/t}" {if !$can_edit}disabled{/if}>
-                                    <p class="help-block">{t}Hinweis: Es empfiehlt sich, die Plural-Form zu verwenden.{/t}</p>
+                                    <p class="form-text text-muted">{t}Hinweis: Es empfiehlt sich, die Plural-Form zu verwenden.{/t}</p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3">{t}Übergeordneter Dateityp*:{/t}</label>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">{t}Übergeordneter Dateityp*:{/t}</label>
                                 <div class="col-md-9">
                                     <select class="form-control selectpicker" data-live-search="true" name="parent_id" size="1" {if !$can_move}disabled{/if}>
                                         {$parent_attachement_types_list nofilter}
@@ -75,8 +75,8 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3">{t}Kommentar:{/t}</label>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">{t}Kommentar:{/t}</label>
                                 <div class="col-md-9">
                                     <textarea name="comment" class="form-control" rows="5" {if !$can_edit}disabled{/if}
                                               placeholder="{t}z.B. für Vorschaubilder{/t}">{if isset($comment)}{$comment}{/if}</textarea>
@@ -86,17 +86,17 @@
                         </div>
 
                         <div id="info" class="tab-pane fade">
-                            <div class="form-group">
-                                <label class="control-label col-md-3">{t}ID:{/t}</label>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">{t}ID:{/t}</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static">{if isset($id)}{$id}{else}-{/if}</p>
+                                    <p class="form-control-plaintext">{if isset($id)}{$id}{else}-{/if}</p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3">{t}Hinzugefügt:{/t}</label>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">{t}Hinzugefügt:{/t}</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static">
+                                    <p class="form-control-plaintext">
                                         {if !empty($datetime_added)}{$datetime_added}{else}-{/if}
                                         {if !empty($creation_user)} {t}durch{/t}
                                             {if $can_visit_user}
@@ -109,10 +109,10 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
-                                <label class="control-label col-md-3">{t}Letzte Änderung:{/t}</label>
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">{t}Letzte Änderung:{/t}</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static">
+                                    <p class="form-control-plaintext">
                                         {if !empty($last_modified)}{$last_modified}{else}-{/if}
                                         {if !empty($last_modified_user)} {t}durch{/t}
                                             {if $can_visit_user}
@@ -128,18 +128,18 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="col-md-9 col-md-offset-3">
+                        <label class="col-md-9 offset-md-3">
                             <i>{t}* = Pflichtfelder{/t}</i>
                         </label>
                     </div>
 
                     <div class="form-group">
-                        <div class="col-md-9 col-md-offset-3">
+                        <div class="col-md-9 offset-md-3">
                             {if !isset($id) || $id == 0 }
                                 <button class="btn btn-success" type="submit" name="add" {if !$can_create}disabled{/if}>{t}Neuen Dateityp anlegen{/t}</button>
-                                <div class="checkbox">
-                                    <input type="checkbox" name="add_more" {if $add_more}checked{/if} {if !$can_create}disabled{/if}>
-                                    <label>{t}Weitere Dateitypen anlegen{/t}</label>
+                                <div class="form-check-dropdown form-check abc-checkbox pl-2 mt-2">
+                                    <input class="form-check-input" type="checkbox" name="add_more" {if $add_more}checked{/if} {if !$can_create}disabled{/if}>
+                                    <label class="form-check-label">{t}Weitere Dateitypen anlegen{/t}</label>
                                 </div>
                             {else}
                                 <button class="btn btn-success" type="submit" name="apply" {if !$can_edit && !$can_move}disabled{/if}>{t}Änderungen übernehmen{/t}</button>

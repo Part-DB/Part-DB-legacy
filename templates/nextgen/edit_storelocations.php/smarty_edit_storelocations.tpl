@@ -16,12 +16,12 @@
     }
 </script>
 
-<div class="panel panel-primary">
-    <div class="panel-heading">
+<div class="card border-primary">
+    <div class="card-header bg-primary text-white">
         <i class="fa fa-cube" aria-hidden="true"></i>&nbsp;
         {t}Lagerorte{/t}
     </div>
-    <div class="panel-body">
+    <div class="card-body">
         <form action="" method="post" name="edit" class="row no-progbar">
             <div class="col-md-4">
 
@@ -66,14 +66,14 @@
                     </legend>
 
                     <ul class="nav nav-tabs">
-                        <li class="active"><a class="link-anchor" data-toggle="tab" href="#home">{t}Standard{/t}</a></li>
-                        <li><a data-toggle="tab" class="link-anchor" href="#info">{t}Infos{/t}</a></li>
+                        <li class="nav-item"><a class="link-anchor nav-link active" data-toggle="tab" href="#home">{t}Standard{/t}</a></li>
+                        <li class="nav-item"><a data-toggle="tab" class="link-anchor nav-link" href="#info">{t}Infos{/t}</a></li>
                     </ul>
 
                     <div class="tab-content">
                         <br>
-                        <div id="home" class="tab-pane fade in active">
-                            <div class="form-group">
+                        <div id="home" class="tab-pane fade show active">
+                            <div class="form-group row">
                                 <label class="control-label col-md-3">{t}Name*:{/t}</label>
                                 <div class="col-md-9">
                                     <input class="form-control" placeholder="{t}z.B. Aktive Bauteile I{/t}"
@@ -82,26 +82,26 @@
                             </div>
 
                             {if !isset($id) || $id == 0}
-                                <div class="form-group">
+                                <div class="form-group row">
                                     <label class="control-label col-md-3">{t}Serie:{/t}</label>
                                     <div class="col-md-9">
-                                        <div class="checkbox">
-                                            <input type="checkbox" name="series" {if isset($series)}checked{/if}
+                                        <div class="abc-checkbox form-check form-check-dropdown pl-2 mt-2">
+                                            <input class="form-check-input" type="checkbox" name="series" {if isset($series)}checked{/if}
                                                    onclick="switch_series()" {if !$can_edit}disabled{/if}>
-                                            <label>{t}Serie erzeugen{/t}</label>
+                                            <label class="form-check-label">{t}Serie erzeugen{/t}</label>
                                         </div>
                                     </div>
 
                                 </div>
 
-                                <div class="form-group">
-                                    <div class="col-md-9 col-md-offset-3">
-                                        <label class="col-md-1 control-label">{t}von{/t}</label>
-                                        <div class="col-md-5">
+                                <div class="form-group row">
+                                    <div class="col-md-9 offset-md-3 row">
+                                        <p class="col-md-2 form-control-plaintext">{t}von{/t}</p>
+                                        <div class="col-md-4">
                                             <input type="number" class="form-control" min="0"  name="series_from" value="{if isset($series_from)}{$series_from}{else}1{/if}" disabled>
                                         </div>
-                                        <label class="col-md-1 control-label">{t}bis{/t}</label>
-                                        <div class="col-md-5">
+                                        <p class="col-md-2 form-control-plaintext">{t}bis{/t}</p>
+                                        <div class="col-md-4">
                                             <input type="number" class="form-control" min="1" name="series_to" value="{if isset($series_to)}{$series_to}{else}3{/if}" disabled>
                                         </div>
                                     </div>
@@ -110,7 +110,7 @@
 
                             {/if}
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="control-label col-md-3">{t}Übergeordneter Lagerort*:{/t}</label>
                                 <div class="col-md-9">
                                     <select name="parent_id" class="form-control selectpicker" data-live-search="true" size="1" {if !$can_move}disabled{/if}>
@@ -119,17 +119,17 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="control-label col-md-3">{t}Voll:{/t}</label>
                                 <div class="col-md-9">
-                                    <div class="checkbox">
-                                        <input type="checkbox" name="is_full" {if $is_full}checked{/if} {if !$can_edit}disabled{/if}>
-                                        <label>{t}Diesen Lagerort als "voll" markieren{/t}</label>
+                                    <div class="abc-checkbox form-check form-check-dropdown pl-2 mt-2">
+                                        <input class="form-check-input" type="checkbox" name="is_full" {if $is_full}checked{/if} {if !$can_edit}disabled{/if}>
+                                        <label class="form-check-label">{t}Diesen Lagerort als "voll" markieren{/t}</label>
                                     </div>
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="control-label col-md-3">{t}Kommentar:{/t}</label>
                                 <div class="col-md-9">
                                     <textarea name="comment" class="form-control" rows="5" {if !$can_edit}disabled{/if}
@@ -139,17 +139,17 @@
                         </div>
 
                         <div id="info" class="tab-pane fade">
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="control-label col-md-3">{t}ID:{/t}</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static">{if isset($id)}{$id}{else}-{/if}</p>
+                                    <p class="form-control-plaintext">{if isset($id)}{$id}{else}-{/if}</p>
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="control-label col-md-3">{t}Hinzugefügt:{/t}</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static">
+                                    <p class="form-control-plaintext">
                                         {if !empty($datetime_added)}{$datetime_added}{else}-{/if}
                                         {if !empty($creation_user)} {t}durch{/t}
                                             {if $can_visit_user}
@@ -162,10 +162,10 @@
                                 </div>
                             </div>
 
-                            <div class="form-group">
+                            <div class="form-group row">
                                 <label class="control-label col-md-3">{t}Letzte Änderung:{/t}</label>
                                 <div class="col-md-9">
-                                    <p class="form-control-static">
+                                    <p class="form-control-plaintext">
                                         {if !empty($last_modified)}{$last_modified}{else}-{/if}
                                         {if !empty($last_modified_user)} {t}durch{/t}
                                             {if $can_visit_user}
@@ -180,17 +180,17 @@
                         </div>
                     </div>
 
-                    <div class="form-group">
-                        <label class="col-md-9 col-md-offset-3">
+                    <div class="form-group row">
+                        <label class="col-md-9 offset-md-3">
                             <i>{t}* = Pflichtfelder{/t}</i>
                         </label>
                     </div>
 
-                    <div class="form-group">
-                        <div class="col-md-9 col-md-offset-3">
+                    <div class="form-group row">
+                        <div class="col-md-9 offset-md-3">
                             {if !isset($id) || $id == 0}
                                 <button type="submit" class="btn btn-success" name="add" {if !$can_create}disabled{/if}>{t}Neuen Lagerort anlegen{/t}</button>
-                                <div class="checkbox">
+                                <div class="form-check-dropdown form-check abc-checkbox pl-2 mt-2">
                                     <input type="checkbox" name="add_more" {if $add_more}checked{/if} {if !$can_create}disabled{/if}>
                                     <label>{t}Weitere Lagerorte anlegen{/t}</label>
                                 </div>

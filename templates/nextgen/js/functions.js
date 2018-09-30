@@ -24,7 +24,8 @@ function addURLparam(url, param) {
     if (url.indexOf('?') >= 0) {
         url = url + "&" + param;
     }
-    else {
+    else //Else use a ?
+     {
         url = url + "?" + param;
     }
     return url + hash;

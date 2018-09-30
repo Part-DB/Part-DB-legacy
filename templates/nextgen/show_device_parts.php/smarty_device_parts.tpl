@@ -1,7 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
-<div class="panel panel-default">
-    <div class="panel-heading"><b>{if isset($device_parts_rowcount)}{$device_parts_rowcount}{else}0{/if}</b> {t}Zugeordnete Teile zu{/t} "<b>{$device_name}</b>"</div>
-    <div class="panel-body">
+<div class="card mt-3">
+    <div class="card-header"><b>{if isset($device_parts_rowcount)}{$device_parts_rowcount}{else}0{/if}</b> {t}Zugeordnete Teile zu{/t} "<b>{$device_name}</b>"</div>
+    <div class="card-body">
         {if isset($device_parts_rowcount)}
             <form method="post" class="form-horizontal" action="" id="table">
                 <input type="hidden" name="device_id" value="{$device_id}">
@@ -20,7 +20,7 @@
                 </div>
                    
                 <input type="hidden" name="device_parts_rowcount" value="{$device_parts_rowcount}">
-                <div class="form-group">
+                <div class="form-group row">
                     <div class="col-md-12">
                         <button class="btn btn-success" type="submit" name="device_parts_apply"
                         {if !$can_part_edit && !$can_part_delete}disabled{/if}>
