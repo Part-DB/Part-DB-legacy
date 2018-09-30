@@ -7,19 +7,19 @@
             <div class="form-group row">
                 <label class="col-form-label col-md-2">{t}Altes Passwort:{/t}</label>
                 <div class="col-md-10">
-                    <input class="form-control" type="password" name="pw_old" required>
+                    <input class="form-control" type="password" name="pw_old" autocomplete="current-password" required>
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-form-label col-md-2">{t}Neues Passwort:{/t}</label>
                 <div class="col-md-10">
-                    <input class="form-control" type="password" name="pw_1" required>
+                    <input class="form-control" type="password" name="pw_1" required autocomplete="new-password">
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-form-label col-md-2">{t}Passwort Bestätigung:{/t}</label>
                 <div class="col-md-10">
-                    <input class="form-control" type="password" name="pw_2" required>
+                    <input class="form-control" type="password" name="pw_2" required autocomplete="new-password">
                 </div>
             </div>
             <div class="form-group row">
