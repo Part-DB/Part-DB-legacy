@@ -27,7 +27,7 @@
             <div class="row">
 
                 {if $can_create}
-                    <div class="form-inline col-8">
+                    <div class="form-inline col-md-7 col-lg-8">
                         <div class="form-group">
                             <div class="col-md-12"></div>
                             <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}">
@@ -37,12 +37,12 @@
                     </div>
                 {/if}
 
-                <div class="form-inline col-4 float-right" style="">
+                <div class="form-inline col-md-5 float-right col-lg-4" style="">
                     <form action="" method="post" class="no-progbar no-ajax align-self-end">
                         <input type='hidden' name='cid'   value='{$cid}'>
                         <input type="hidden" name="subcat" value="{$with_subcategories}">
 
-                        <div class="form-group">
+                        <div class="form-inline mt-2 mt-md-0">
                             <label class="mr-2">{t}Exportieren:{/t}</label>
                             <select name="export_format" class="form-control mr-2">
                                 {foreach $export_formats as $format}
@@ -50,7 +50,7 @@
                                 {/foreach}
                             </select>
 
-                            <button class="btn btn-primary" type="submit" name="export">{t}OK{/t}</button>
+                            <button class="btn btn-primary mt-2 mt-md-0" type="submit" name="export">{t}OK{/t}</button>
                         </div>
                     </form>
                 </div>
@@ -115,7 +115,7 @@
             <div class="row">
 
                 {if $can_create}
-                    <div class="form-inline col-8">
+                    <div class="form-inline col-md-7 col-lg-8">
                         <div class="form-group">
                             <div class="col-md-12"></div>
                             <a class="btn btn-primary" href="edit_part_info.php?category_id={$cid}">
@@ -125,12 +125,12 @@
                     </div>
                 {/if}
 
-                <div class="form-inline col-4 float-right" style="">
+                <div class="form-inline col-md-5 float-right col-lg-4" style="">
                     <form action="" method="post" class="no-progbar no-ajax align-self-end">
                         <input type='hidden' name='cid'   value='{$cid}'>
                         <input type="hidden" name="subcat" value="{$with_subcategories}">
 
-                        <div class="form-group">
+                        <div class="form-inline mt-2 mt-md-0">
                             <label class="mr-2">{t}Exportieren:{/t}</label>
                             <select name="export_format" class="form-control mr-2">
                                 {foreach $export_formats as $format}
@@ -138,7 +138,7 @@
                                 {/foreach}
                             </select>
 
-                            <button class="btn btn-primary" type="submit" name="export">{t}OK{/t}</button>
+                            <button class="btn btn-primary mt-2 mt-md-0" type="submit" name="export">{t}OK{/t}</button>
                         </div>
                     </form>
                 </div>
