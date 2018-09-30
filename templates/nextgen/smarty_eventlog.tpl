@@ -14,11 +14,11 @@
 
         <tr class="
             {if $entry.level_id == 5}
-                info
+                table-info
             {elseif $entry.level_id == 4}
-                warning
+                table-warning
             {elseif $entry.level_id <= 3}
-                danger
+                table-danger
             {/if}">
             <td>{$entry.timestamp}</td>
             <td>{$entry.level}</td>

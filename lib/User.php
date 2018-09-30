@@ -926,10 +926,11 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         session_write_close();
 
         //Write the event to the log:
-        $user->log->userLogsIn($user, $_SERVER['REMOTE_ADDR']);
+        $user->log->userLogsIn($user, getConnectionIPAddress());
 
         return true;
     }
+
 
     /**
      * Log out the current user and set logged in to anonymous.
