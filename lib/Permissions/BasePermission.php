@@ -171,7 +171,7 @@ abstract class BasePermission
      */
     protected static function opToBitN($op)
     {
-        $op = mb_strtolower($op);
+        //$op = mb_strtolower($op);
 
         $operations = static::listOperations();
 
@@ -199,7 +199,7 @@ abstract class BasePermission
      */
     public static function opToDescription($op)
     {
-        $op = mb_strtolower($op);
+        //$op = mb_strtolower($op);
 
         $operations = static::listOperations();
 
