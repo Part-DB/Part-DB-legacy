@@ -41,12 +41,12 @@ class GroupPermission extends StructuralPermission
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
-            $operations[] = static::buildOperationArray(2, static::EDIT, _("Bearbeiten"));
-            $operations[] = static::buildOperationArray(4, static::CREATE, _("Anlegen"));
-            $operations[] = static::buildOperationArray(6, static::MOVE, _("Verschieben"));
-            $operations[] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
-            $operations[] = static::buildOperationArray(10, static::EDIT_PERMISSIONS, _("Berechtigungen ändern"));
+            $operations[static::READ] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
+            $operations[static::EDIT] = static::buildOperationArray(2, static::EDIT, _("Bearbeiten"));
+            $operations[static::CREATE] = static::buildOperationArray(4, static::CREATE, _("Anlegen"));
+            $operations[static::MOVE] = static::buildOperationArray(6, static::MOVE, _("Verschieben"));
+            $operations[static::DELETE] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
+            $operations[static::EDIT_PERMISSIONS] = static::buildOperationArray(10, static::EDIT_PERMISSIONS, _("Berechtigungen ändern"));
 
             static::$operation_cache = $operations;
         }

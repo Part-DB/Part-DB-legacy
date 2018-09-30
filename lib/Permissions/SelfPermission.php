@@ -41,13 +41,13 @@ class SelfPermission extends BasePermission
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[] = static::buildOperationArray(0, static::EDIT_INFOS, _("Informationen ändern"));
-            $operations[] = static::buildOperationArray(2, static::EDIT_USERNAME, _("Benutzername ändern"));
-            $operations[] = static::buildOperationArray(4, static::SHOW_PERMISSIONS, _("Berechtigungen auflisten"));
+            $operations[static::EDIT_INFOS] = static::buildOperationArray(0, static::EDIT_INFOS, _("Informationen ändern"));
+            $operations[static::EDIT_USERNAME] = static::buildOperationArray(2, static::EDIT_USERNAME, _("Benutzername ändern"));
+            $operations[static::SHOW_PERMISSIONS] = static::buildOperationArray(4, static::SHOW_PERMISSIONS, _("Berechtigungen auflisten"));
 
             static::$operation_cache = $operations;
         }
-        return $operations;
+        return static::$operation_cache;
     }
 
     protected function modifyValueBeforeSetting($operation, $new_value, $data)

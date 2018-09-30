@@ -42,10 +42,10 @@ class DatabasePermission extends BasePermission
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[] = static::buildOperationArray(0, static::SEE_STATUS, _("Status anzeigen"));
-            $operations[] = static::buildOperationArray(2, static::UPDATE_DB, _("Datenbank aktualisieren"));
-            $operations[] = static::buildOperationArray(4, static::READ_DB_SETTINGS, _("Datenbankeinstellungen anzeigen"));
-            $operations[] = static::buildOperationArray(2, static::WRITE_DB_SETTINGS, _("Datenbankeinstellungen ändern"));
+            $operations[static::SEE_STATUS] = static::buildOperationArray(0, static::SEE_STATUS, _("Status anzeigen"));
+            $operations[static::UPDATE_DB] = static::buildOperationArray(2, static::UPDATE_DB, _("Datenbank aktualisieren"));
+            $operations[static::READ_DB_SETTINGS] = static::buildOperationArray(4, static::READ_DB_SETTINGS, _("Datenbankeinstellungen anzeigen"));
+            $operations[static::WRITE_DB_SETTINGS] = static::buildOperationArray(2, static::WRITE_DB_SETTINGS, _("Datenbankeinstellungen ändern"));
 
             static::$operation_cache = $operations;
         }

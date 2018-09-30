@@ -29,10 +29,10 @@ class LabelPermission extends BasePermission
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[] = static::buildOperationArray(0, static::CREATE_LABELS, _("Labels erzeugen"));
-            $operations[] = static::buildOperationArray(2, static::EDIT_OPTIONS, _("Labels anpassen"));
-            $operations[] = static::buildOperationArray(4, static::DELETE_PROFILES, _("Profile löschen"));
-            $operations[] = static::buildOperationArray(6, static::EDIT_PROFILES, _("Profile anlegen/bearbeiten"));
+            $operations[static::CREATE_LABELS] = static::buildOperationArray(0, static::CREATE_LABELS, _("Labels erzeugen"));
+            $operations[static::EDIT_OPTIONS] = static::buildOperationArray(2, static::EDIT_OPTIONS, _("Labels anpassen"));
+            $operations[static::DELETE_PROFILES] = static::buildOperationArray(4, static::DELETE_PROFILES, _("Profile löschen"));
+            $operations[static::EDIT_PROFILES] = static::buildOperationArray(6, static::EDIT_PROFILES, _("Profile anlegen/bearbeiten"));
 
             static::$operation_cache = $operations;
         }

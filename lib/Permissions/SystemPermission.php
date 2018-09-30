@@ -39,7 +39,7 @@ class SystemPermission extends BasePermission
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[] = static::buildOperationArray(0, static::USE_DEBUG, _("Debugtools benutzen"));
+            $operations[static::USE_DEBUG] = static::buildOperationArray(0, static::USE_DEBUG, _("Debugtools benutzen"));
 
             static::$operation_cache = $operations;
         }

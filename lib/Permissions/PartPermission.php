@@ -52,20 +52,20 @@ class PartPermission extends BasePermission
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
-            $operations[] = static::buildOperationArray(2, static::EDIT, _("Bearbeiten"));
-            $operations[] = static::buildOperationArray(4, static::CREATE, _("Anlegen"));
-            $operations[] = static::buildOperationArray(6, static::MOVE, _("Verschieben"));
-            $operations[] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
-            $operations[] = static::buildOperationArray(10, static::SEARCH, _("Suchen"));
-            $operations[] = static::buildOperationArray(12, static::ALL_PARTS, _("Alle Teile auflisten"));
-            $operations[] = static::buildOperationArray(14, static::ORDER_PARTS, _("Zu bestellende Teile auflisten"));
-            $operations[] = static::buildOperationArray(16, static::NO_PRICE_PARTS, _("Teile ohne Preis auflisten"));
-            $operations[] = static::buildOperationArray(18, static::OBSOLETE_PARTS, _("Obsolete Teile auflisten"));
-            $operations[] = static::buildOperationArray(20, static::UNKNONW_INSTOCK_PARTS, _("Teile mit unbekanntem Lagerbestand auflisten"));
-            $operations[] = static::buildOperationArray(22, static::CHANGE_FAVORITE, _("Favoritenstatus ändern"));
-            $operations[] = static::buildOperationArray(24, static::SHOW_FAVORITE_PARTS, _("Favorisierte Bauteile auflisten"));
-            $operations[] = static::buildOperationArray(26, static::SHOW_LAST_EDIT_PARTS, _("Zuletzt bearbeitete/hinzugefügte Bauteile auflisten"));
+            $operations[static::READ] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
+            $operations[static::EDIT] = static::buildOperationArray(2, static::EDIT, _("Bearbeiten"));
+            $operations[static::CREATE] = static::buildOperationArray(4, static::CREATE, _("Anlegen"));
+            $operations[static::MOVE] = static::buildOperationArray(6, static::MOVE, _("Verschieben"));
+            $operations[static::DELETE] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
+            $operations[static::SEARCH] = static::buildOperationArray(10, static::SEARCH, _("Suchen"));
+            $operations[static::ALL_PARTS] = static::buildOperationArray(12, static::ALL_PARTS, _("Alle Teile auflisten"));
+            $operations[static::ORDER_PARTS] = static::buildOperationArray(14, static::ORDER_PARTS, _("Zu bestellende Teile auflisten"));
+            $operations[static::NO_PRICE_PARTS] = static::buildOperationArray(16, static::NO_PRICE_PARTS, _("Teile ohne Preis auflisten"));
+            $operations[static::OBSOLETE_PARTS] = static::buildOperationArray(18, static::OBSOLETE_PARTS, _("Obsolete Teile auflisten"));
+            $operations[static::UNKNONW_INSTOCK_PARTS] = static::buildOperationArray(20, static::UNKNONW_INSTOCK_PARTS, _("Teile mit unbekanntem Lagerbestand auflisten"));
+            $operations[static::CHANGE_FAVORITE] = static::buildOperationArray(22, static::CHANGE_FAVORITE, _("Favoritenstatus ändern"));
+            $operations[static::SHOW_FAVORITE_PARTS] = static::buildOperationArray(24, static::SHOW_FAVORITE_PARTS, _("Favorisierte Bauteile auflisten"));
+            $operations[static::SHOW_LAST_EDIT_PARTS] = static::buildOperationArray(26, static::SHOW_LAST_EDIT_PARTS, _("Zuletzt bearbeitete/hinzugefügte Bauteile auflisten"));
 
             static::$operation_cache = $operations;
         }

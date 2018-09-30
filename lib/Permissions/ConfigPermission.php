@@ -42,11 +42,11 @@ class ConfigPermission extends BasePermission
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[] = static::buildOperationArray(0, static::READ_CONFIG, _("Konfiguration anzeigen"));
-            $operations[] = static::buildOperationArray(2, static::EDIT_CONFIG, _("Konfiguration bearbeiten"));
+            $operations[static::READ_CONFIG] = static::buildOperationArray(0, static::READ_CONFIG, _("Konfiguration anzeigen"));
+            $operations[static::EDIT_CONFIG] = static::buildOperationArray(2, static::EDIT_CONFIG, _("Konfiguration bearbeiten"));
             //Dont use 4, this was for CHANGE_ADMIN_PW permission, that is not needed any more.
             //$operations[] = static::buildOperationArray(4, static::CHANGE_ADMIN_PW, _("Administratorpassword ändern"));
-            $operations[] = static::buildOperationArray(6, static::SERVER_INFO, _("Serverinformationen anzeigen"));
+            $operations[static::SERVER_INFO] = static::buildOperationArray(6, static::SERVER_INFO, _("Serverinformationen anzeigen"));
 
             static::$operation_cache = $operations;
         }

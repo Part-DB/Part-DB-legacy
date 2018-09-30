@@ -46,10 +46,10 @@ class CPartAttributePermission extends BasePermission
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
              */
             $operations = array();
-            $operations[] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
-            $operations[] = static::buildOperationArray(2, static::EDIT, _("Bearbeiten"));
-            $operations[] = static::buildOperationArray(6, static::CREATE, _("Anlegen"));
-            $operations[] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
+            $operations[static::READ] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
+            $operations[static::EDIT] = static::buildOperationArray(2, static::EDIT, _("Bearbeiten"));
+            $operations[static::CREATE] = static::buildOperationArray(6, static::CREATE, _("Anlegen"));
+            $operations[static::DELETE] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
 
             static::$operation_cache = $operations;
         }

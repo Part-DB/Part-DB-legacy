@@ -175,13 +175,20 @@ abstract class BasePermission
 
         $operations = static::listOperations();
 
+        /*
         foreach ($operations as $operation) {
             if ($operation["name"] == $op) {
                 return $operation["n"];
             }
+        } */
+
+        if (!is_int($operations[$op]["n"])) {
+            throw new \InvalidArgumentException(_('$op ist keine gültige Operation!'));
         }
 
-        throw new \InvalidArgumentException(_('$op ist keine gültige Operation!'));
+        return $operations[$op]["n"];
+
+
     }
 
     /**
@@ -196,13 +203,18 @@ abstract class BasePermission
 
         $operations = static::listOperations();
 
+        /*
         foreach ($operations as $operation) {
             if ($operation["name"] == $op) {
                 return $operation["description"];
             }
+        } */
+
+        if (!isset($operations[$op]["description"])) {
+            throw new \InvalidArgumentException(_('$op ist keine gültige Operation!'));
         }
 
-        throw new \InvalidArgumentException(_('$op ist keine gültige Operation!'));
+        return $operations[$op]["description"];
     }
 
     /**
