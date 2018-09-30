@@ -220,8 +220,7 @@ var AjaxUI = /** @class */ (function () {
     AjaxUI.prototype.registerLinks = function () {
         'use strict';
         var _this = this;
-        $("a").not(".link-anchor").not(".link-collapse").not(".link-external").not(".tree-btns")
-            .not(".back-to-top").not(".link-datasheet").unbind("click").click(function (event) {
+        $("a").not(".link-anchor, .link-collapse, .link-external, .tree-btns, .back-to-top, .link-datasheet").unbind("click").click(function (event) {
             event.preventDefault();
             var a = $(this);
             if (a.attr("href") != null) {
