@@ -65,6 +65,9 @@ class PermissionManager
     const LABELS            = "labels";
 
 
+
+    protected $permission_value_cache = array();
+
     /**
      * PermissionManager constructor.
      * @param $perm_holder IHasPermissions A object which has permissions properties and which should be used for read/write.
@@ -77,6 +80,24 @@ class PermissionManager
         $this->permissions = array();
 
         $this->fillPermissionsArray();
+    }
+
+    /**
+     * Invalidates the cached value the given permission. Is called, when a permission is changed via BasePermission::setValue.
+     * @param $perm_name string The name of the permission
+     * @param $perm_op string The name of the permission operation.
+     */
+    public function invalidatePermissionValueCache($perm_name, $perm_op) {
+        $key = $perm_name . "/" . $perm_op;
+
+        unset($this->permission_value_cache[$key]);
+    }
+
+    /**
+     * Invalidates the complete permission value cache.
+     */
+    public function invalidatePermissionValueCacheAll() {
+        $this->permission_value_cache = array();
     }
 
     /**
@@ -131,6 +152,11 @@ class PermissionManager
      */
     public function getPermissionValue($perm_name, $perm_op, $inheritance = true)
     {
+        $key = $perm_name . "/" . $perm_op;
+        if(isset($this->permission_value_cache[$key]) && $inheritance) {
+            return $this->permission_value_cache[$key];
+        }
+
         $perm = $this->getPermission($perm_name);
         $val = $perm->getValue($perm_op);
         if ($inheritance == false) { //When no inheritance is needed, simply return the value.
@@ -144,7 +170,9 @@ class PermissionManager
                 //Repeat the request for the parent.
                 return $parent->getPermissionValue($perm_name, $perm_op, true);
             }
-            return $val;
+            $this->permission_value_cache[$key] = $val;
+
+            return $this->permission_value_cache[$key];
         }
     }
 
