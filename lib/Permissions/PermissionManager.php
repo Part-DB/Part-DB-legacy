@@ -159,12 +159,12 @@ class PermissionManager
 
         $perm = $this->getPermission($perm_name);
         $val = $perm->getValue($perm_op);
-        if ($inheritance == false) { //When no inheritance is needed, simply return the value.
+        if ($inheritance === false) { //When no inheritance is needed, simply return the value.
             return $val;
         } else {
-            if ($val == BasePermission::INHERIT) {
+            if ($val === BasePermission::INHERIT) {
                 $parent = $this->perm_holder->getParentPermissionManager(); //Get the parent permission manager.
-                if ($parent == null) { //When no parent exists, than return current value.
+                if ($parent === null) { //When no parent exists, than return current value.
                     return $val;
                 }
                 //Repeat the request for the parent.

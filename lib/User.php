@@ -650,7 +650,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
         /*
         return $this->getID() == $this->current_user->getID(); */
-        return $this->db_data['id'] == $this->current_user->db_data['id'];
+        return $this->db_data['id'] === $this->current_user->db_data['id'];
     }
 
     /*******************************************************************************
@@ -695,7 +695,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     public function &getParentPermissionManager()
     {
         $parent = $this->getGroup();
-        if ($parent->getID() == 0) {
+        if ($parent->getID() === 0) {
             //When group is root, then this user doesnt has a parent perm manager.
             $tmp = null;
             return $tmp;
