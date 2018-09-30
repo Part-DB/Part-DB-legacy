@@ -216,22 +216,18 @@
                         <input type="hidden" name="id" value="{$pid}">
 
                         <div class="btn-group btn-group-justified">
-                            <div class="btn-group" style="width: 85%;"><button type="submit" class="btn btn-secondary"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
-                                    {t}Barcode erzeugen{/t}</button></div>
-                            <div class="btn-group" style="width: 15%;"><button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="caret"></span>
+                            <button type="submit" class="btn btn-secondary"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
+                                    {t}Barcode erzeugen{/t}</button>
+                            <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <span class="sr-only">Toggle Dropdown</span>
                                 </button>
 
                                 <ul class="dropdown-menu dropdown-menu-right" id="label-dropdown">
                                     {foreach $barcode_profiles as $profile}
-                                        <li><a href="#" class="link-anchor" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
-                                            <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="hidden">{$profile}</button></li>
+                                        <a href="#" class="link-anchor dropdown-item" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
+                                            <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="d-none">{$profile}</button>
                                     {/foreach}
                                 </ul>
-                            </div>
-
-
 
                         </div>
                     {else}
