@@ -648,7 +648,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public function isLoggedInUser()
     {
-        return $this->getID() == $this->current_user->getID();
+        /*
+        return $this->getID() == $this->current_user->getID(); */
+        return $this->db_data['id'] == $this->current_user->db_data['id'];
     }
 
     /*******************************************************************************
