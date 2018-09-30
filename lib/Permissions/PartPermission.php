@@ -38,33 +38,39 @@ class PartPermission extends BasePermission
     const SHOW_FAVORITE_PARTS = "show_favorite_parts";
     const SHOW_LAST_EDIT_PARTS = "show_last_edit_parts";
 
+    static protected $operation_cache = null;
+
     /**
      * Returns an array of all available operations for this Permission.
      * @return array All availabel operations.
      */
     public static function listOperations()
     {
-        /**
-         * Dont change these definitions, because it would break compatibility with older database.
-         * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
-         */
-        $operations = array();
-        $operations[] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
-        $operations[] = static::buildOperationArray(2, static::EDIT, _("Bearbeiten"));
-        $operations[] = static::buildOperationArray(4, static::CREATE, _("Anlegen"));
-        $operations[] = static::buildOperationArray(6, static::MOVE, _("Verschieben"));
-        $operations[] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
-        $operations[] = static::buildOperationArray(10, static::SEARCH, _("Suchen"));
-        $operations[] = static::buildOperationArray(12, static::ALL_PARTS, _("Alle Teile auflisten"));
-        $operations[] = static::buildOperationArray(14, static::ORDER_PARTS, _("Zu bestellende Teile auflisten"));
-        $operations[] = static::buildOperationArray(16, static::NO_PRICE_PARTS, _("Teile ohne Preis auflisten"));
-        $operations[] = static::buildOperationArray(18, static::OBSOLETE_PARTS, _("Obsolete Teile auflisten"));
-        $operations[] = static::buildOperationArray(20, static::UNKNONW_INSTOCK_PARTS, _("Teile mit unbekanntem Lagerbestand auflisten"));
-        $operations[] = static::buildOperationArray(22, static::CHANGE_FAVORITE, _("Favoritenstatus ändern"));
-        $operations[] = static::buildOperationArray(24, static::SHOW_FAVORITE_PARTS, _("Favorisierte Bauteile auflisten"));
-        $operations[] = static::buildOperationArray(26, static::SHOW_LAST_EDIT_PARTS, _("Zuletzt bearbeitete/hinzugefügte Bauteile auflisten"));
+        if(!isset(static::$operation_cache)) {
+            /**
+             * Dont change these definitions, because it would break compatibility with older database.
+             * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
+             */
+            $operations = array();
+            $operations[] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
+            $operations[] = static::buildOperationArray(2, static::EDIT, _("Bearbeiten"));
+            $operations[] = static::buildOperationArray(4, static::CREATE, _("Anlegen"));
+            $operations[] = static::buildOperationArray(6, static::MOVE, _("Verschieben"));
+            $operations[] = static::buildOperationArray(8, static::DELETE, _("Löschen"));
+            $operations[] = static::buildOperationArray(10, static::SEARCH, _("Suchen"));
+            $operations[] = static::buildOperationArray(12, static::ALL_PARTS, _("Alle Teile auflisten"));
+            $operations[] = static::buildOperationArray(14, static::ORDER_PARTS, _("Zu bestellende Teile auflisten"));
+            $operations[] = static::buildOperationArray(16, static::NO_PRICE_PARTS, _("Teile ohne Preis auflisten"));
+            $operations[] = static::buildOperationArray(18, static::OBSOLETE_PARTS, _("Obsolete Teile auflisten"));
+            $operations[] = static::buildOperationArray(20, static::UNKNONW_INSTOCK_PARTS, _("Teile mit unbekanntem Lagerbestand auflisten"));
+            $operations[] = static::buildOperationArray(22, static::CHANGE_FAVORITE, _("Favoritenstatus ändern"));
+            $operations[] = static::buildOperationArray(24, static::SHOW_FAVORITE_PARTS, _("Favorisierte Bauteile auflisten"));
+            $operations[] = static::buildOperationArray(26, static::SHOW_LAST_EDIT_PARTS, _("Zuletzt bearbeitete/hinzugefügte Bauteile auflisten"));
 
-        return $operations;
+            static::$operation_cache = $operations;
+        }
+
+        return static::$operation_cache;
     }
 
     protected function modifyValueBeforeSetting($operation, $new_value, $data)

@@ -27,21 +27,26 @@ class SelfPermission extends BasePermission
     const EDIT_INFOS     = "edit_infos";
     const SHOW_PERMISSIONS = "show_perms";
 
+    static protected $operation_cache = null;
+
     /**
      * Returns an array of all available operations for this Permission.
      * @return array All availabel operations.
      */
     public static function listOperations()
     {
-        /**
-         * Dont change these definitions, because it would break compatibility with older database.
-         * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
-         */
-        $operations = array();
-        $operations[] = static::buildOperationArray(0, static::EDIT_INFOS, _("Informationen ändern"));
-        $operations[] = static::buildOperationArray(2, static::EDIT_USERNAME, _("Benutzername ändern"));
-        $operations[] = static::buildOperationArray(4, static::SHOW_PERMISSIONS, _("Berechtigungen auflisten"));
+        if(!isset(static::$operation_cache)) {
+            /**
+             * Dont change these definitions, because it would break compatibility with older database.
+             * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
+             */
+            $operations = array();
+            $operations[] = static::buildOperationArray(0, static::EDIT_INFOS, _("Informationen ändern"));
+            $operations[] = static::buildOperationArray(2, static::EDIT_USERNAME, _("Benutzername ändern"));
+            $operations[] = static::buildOperationArray(4, static::SHOW_PERMISSIONS, _("Berechtigungen auflisten"));
 
+            static::$operation_cache = $operations;
+        }
         return $operations;
     }
 

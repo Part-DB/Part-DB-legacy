@@ -28,22 +28,28 @@ class DatabasePermission extends BasePermission
     const READ_DB_SETTINGS = "read_db_settings";
     const WRITE_DB_SETTINGS = "write_db_settings";
 
+    static protected $operation_cache = null;
+
     /**
      * Returns an array of all available operations for this Permission.
      * @return array All availabel operations.
      */
     public static function listOperations()
     {
-        /**
-         * Dont change these definitions, because it would break compatibility with older database.
-         * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
-         */
-        $operations = array();
-        $operations[] = static::buildOperationArray(0, static::SEE_STATUS, _("Status anzeigen"));
-        $operations[] = static::buildOperationArray(2, static::UPDATE_DB, _("Datenbank aktualisieren"));
-        $operations[] = static::buildOperationArray(4, static::READ_DB_SETTINGS, _("Datenbankeinstellungen anzeigen"));
-        $operations[] = static::buildOperationArray(2, static::WRITE_DB_SETTINGS, _("Datenbankeinstellungen ändern"));
-        return $operations;
+        if(!isset(static::$operation_cache)) {
+            /**
+             * Dont change these definitions, because it would break compatibility with older database.
+             * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
+             */
+            $operations = array();
+            $operations[] = static::buildOperationArray(0, static::SEE_STATUS, _("Status anzeigen"));
+            $operations[] = static::buildOperationArray(2, static::UPDATE_DB, _("Datenbank aktualisieren"));
+            $operations[] = static::buildOperationArray(4, static::READ_DB_SETTINGS, _("Datenbankeinstellungen anzeigen"));
+            $operations[] = static::buildOperationArray(2, static::WRITE_DB_SETTINGS, _("Datenbankeinstellungen ändern"));
+
+            static::$operation_cache = $operations;
+        }
+        return static::$operation_cache;
     }
 
     protected function modifyValueBeforeSetting($operation, $new_value, $data)
