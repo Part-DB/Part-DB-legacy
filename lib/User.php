@@ -324,6 +324,11 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         }
     }
 
+    public function getDefaultInstockChangeComment()
+    {
+        return "[CHANGEME] Default";
+    }
+
     /**
      * Checks if a given password, is valid for this account.
      * @param $password string The password which should be checked.

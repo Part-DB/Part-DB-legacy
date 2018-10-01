@@ -129,7 +129,8 @@ if (! $fatal_error) {
     switch ($action) {
         case 'dec': // remove some parts
             try {
-                $part->setInstock($part->getInstock() - abs($n_less));
+                //$part->setInstock($part->getInstock() - abs($n_less));
+                $part->withdrawalParts($n_less);
 
                 // reload the site without $_REQUEST['action'] to avoid multiple actions by manual refreshing
                 header('Location: show_part_info.php?pid='.$part_id);
@@ -140,7 +141,8 @@ if (! $fatal_error) {
 
         case 'inc': // add some parts
             try {
-                $part->setInstock($part->getInstock() + abs($n_more));
+                //$part->setInstock($part->getInstock() + abs($n_more));
+                $part->addParts($n_more);
 
                 // reload the site without $_REQUEST['action'] to avoid multiple actions by manual refreshing
                 header('Location: show_part_info.php?pid='.$part_id);

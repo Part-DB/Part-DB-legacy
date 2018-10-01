@@ -27,6 +27,7 @@ namespace PartDB;
 
 use Exception;
 use Golonka\BBCode\BBCodeParser;
+use PartDB\LogSystem\InstockChangedEntry;
 use PartDB\PartProperty\PartProperty;
 use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PartAttributePermission;
@@ -229,6 +230,27 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             default:
                 throw new Exception(_("Label type unknown: ").$barcode_type);
         }
+    }
+
+    /**
+     * Calculates the price for an Instock change.
+     * @param $old_instock int The old instock value.
+     * @param $new_instock int The new instock value after withdrawl.
+     * @return float|int The Price for the instock change. Negative values means withdrewal.
+     * @throws Exception
+     */
+    public function calculateInstockChangePrice($old_instock, $new_instock)
+    {
+        if(!is_int($old_instock) || !is_int($new_instock)) {
+            throw new \RuntimeException(_('$old_instock und $new_instock müssen vom Typ int sein!'));
+        }
+        if ($old_instock < 0 || $new_instock < 0) {
+            throw new \RuntimeException(_('$old_instock und $new_instock müssen positiv sein!'));
+        }
+
+        $difference = $new_instock - $old_instock;
+
+        return $difference * $this->getAveragePrice();
     }
 
     /**
@@ -1176,6 +1198,51 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function setInstock($new_instock)
     {
+        $this->setAttributes(array('instock' => $new_instock));
+    }
+
+    /**
+     * Withdrawal the given number of parts.
+     * @param $count int The number of parts which should be withdrawan.
+     * @param $comment string A comment that should be associated with the withdrawal.
+     * @throws Exception if there was an error
+     */
+    public function withdrawalParts($count, $comment = null)
+    {
+        if($count <= 0) {
+            throw new Exception(_("Zahl der entnommenen Bauteile muss größer 0 sein!"));
+        }
+        if($count > $this->getInstock()) {
+            throw new Exception(_("Es können nicht mehr Bauteile entnommen werden, als vorhanden sind!"));
+        }
+
+        $old_instock = (int) $this->getInstock();
+        $new_instock = $old_instock - $count;
+
+        InstockChangedEntry::add($this->database, $this->current_user, $this->log,
+            $this, $old_instock, $new_instock, $comment);
+
+        $this->setAttributes(array('instock' => $new_instock));
+    }
+
+    /**
+     * Add the given number of parts.
+     * @param $count int The number of parts which should be withdrawan.
+     * @param $comment string A comment that should be associated with the withdrawal.
+     * @throws Exception if there was an error
+     */
+    public function addParts($count, $comment = null)
+    {
+        if($count <= 0) {
+            throw new Exception(_("Zahl der entnommenen Bauteile muss größer 0 sein!"));
+        }
+
+        $old_instock = (int) $this->getInstock();
+        $new_instock = $old_instock + $count;
+
+        InstockChangedEntry::add($this->database, $this->current_user, $this->log,
+            $this, $old_instock, $new_instock, $comment);
+
         $this->setAttributes(array('instock' => $new_instock));
     }
 

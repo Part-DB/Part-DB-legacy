@@ -61,6 +61,7 @@ class Log
     const TYPE_ELEMENTCREATED = 6;
     const TYPE_ELEMENTEDITED = 7;
     const TYPE_CONFIGCHANGED = 8;
+    const TYPE_INSTOCKCHANGE = 9;
 
     const TARGET_TYPE_NONE = 0;
     const TARGET_TYPE_USER = 1;
@@ -259,6 +260,8 @@ class Log
                 return _("Element bearbeitet");
             case static::TYPE_CONFIGCHANGED:
                 return _("Systemeinstellungen geändert");
+            case static::TYPE_INSTOCKCHANGE:
+                return _("Bauteile Entnahme/Zugabe");
             default:
                 return _("Unbekannter Typ");
         }
@@ -636,6 +639,8 @@ class Log
                 return $base_ns . "ElementEditedEntry";
             case static::TYPE_CONFIGCHANGED:
                 return $base_ns . "ConfigChangedEntry";
+            case static::TYPE_INSTOCKCHANGE:
+                return $base_ns . "InstockChangedEntry";
             default:
                 return $base_ns . "UnknownTypeEntry";
         }
