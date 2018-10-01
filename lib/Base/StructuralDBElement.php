@@ -30,6 +30,7 @@ use Golonka\BBCode\BBCodeParser;
 use PartDB\Database;
 use PartDB\Exceptions\NotImplementedException;
 use PartDB\Exceptions\UserNotAllowedException;
+use PartDB\Group;
 use PartDB\Log;
 use PartDB\Part;
 use PartDB\Permissions\PermissionManager;
@@ -322,6 +323,12 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      */
     public function getCreationUser()
     {
+        //Group does not have the permission for which we check below, so simply return it...
+        if ($this instanceof Group) {
+            return parent::getCreationUser();
+        }
+
+
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::SHOW_USERS)) {
             return null;
         }
@@ -335,6 +342,11 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      */
     public function getLastModifiedUser()
     {
+        //Group does not have the permission for which we check below, so simply return it...
+        if ($this instanceof Group) {
+            return parent::getLastModifiedUser();
+        }
+
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::SHOW_USERS)) {
             return null;
         }

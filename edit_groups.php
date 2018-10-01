@@ -217,6 +217,17 @@ if (! $fatal_error) {
             $perm_loop = $selected_group->getPermissionManager()->generatePermissionsLoop($perm_read_only);
             $html->setVariable('datetime_added', $selected_group->getDatetimeAdded(true));
             $html->setVariable('last_modified', $selected_group->getLastModified(true));
+
+            $last_modified_user = $selected_group->getLastModifiedUser();
+            $creation_user = $selected_group->getCreationUser();
+            if ($last_modified_user != null) {
+                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
+                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
+            }
+            if ($creation_user != null) {
+                $html->setVariable('creation_user', $creation_user->getFullName(true), "string");
+                $html->setVariable('creation_user_id', $creation_user->getID(), "int");
+            }
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
@@ -254,6 +265,8 @@ if (! $fatal_error) {
     $html->setVariable('can_edit', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::EDIT));
     $html->setVariable('can_move', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::MOVE));
     $html->setVariable('can_permission', !$perm_read_only);
+    $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
+
 }
 
 /********************************************************************************
