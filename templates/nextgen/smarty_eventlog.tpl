@@ -1,4 +1,5 @@
-<table class="table table-hover table-bordered table-sortable table-striped table-condensed table-selectable">
+<table class="table table-hover table-bordered table-sortable table-striped table-condensed
+    {if isset($log_delete) && $log_delete} table-selectable{/if} ">
     <thead>
     <tr>
         <th>{t}Zeitstempel{/t}</th>

@@ -27,6 +27,8 @@ use PartDB\Log;
 use PartDB\Part;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\SystemPermission;
+use PartDB\Permissions\UserPermission;
 use PartDB\User;
 
 $messages = array();
@@ -67,11 +69,6 @@ try {
     $current_user       = User::getLoggedInUser($database, $log);
 
     $current_user->tryDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::SHOW_LOGS);
-
-    //Remember what page user visited, so user can return there, when he deletes a part.
-    session_start();
-    $_SESSION["part_delete_last_link"] = $_SERVER['REQUEST_URI'];
-    session_write_close();
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -169,13 +166,10 @@ if (! $fatal_error) {
 
 
     // global stuff
-    $html->setVariable('can_show_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ), 'boolean');
+    $html->setVariable('can_show_user', $current_user->canDo(PermissionManager::USERS, UserPermission::READ), 'boolean');
+    $html->setVariable('can_delete_entries', $current_user->canDo(PermissionManager::SYSTEM, SystemPermission::DELETE_LOGS), 'bool');
 
     //$html->setVariable('mode', $mode, "string");
-
-    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
 }
 
 /********************************************************************************

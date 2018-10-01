@@ -96,18 +96,18 @@
 <form method="post" class="no-progbar">
     <input type="hidden" name="page" value="1">
 
-    {include "../smarty_pagination.tpl" log_delete=true}
+    {include "../smarty_pagination.tpl" log_delete=$can_delete_entries}
 </form>
 
 <div class="card border-primary">
     <div class="card-header bg-primary text-white"><i class="fas fa-crosshairs fa-fw"></i>
         {t}Eventlog{/t}
     </div>
-    {include file="../smarty_eventlog.tpl"}
+    {include file="../smarty_eventlog.tpl" log_delete=$can_delete_entries}
 </div>
 
-<form method="post">
+<form method="post" class="no-progbar">
     <input type="hidden" name="page" value="1">
 
-    {include "../smarty_pagination.tpl" log_delete=true}
+    {include "../smarty_pagination.tpl" log_delete=$can_delete_entries}
 </form>
