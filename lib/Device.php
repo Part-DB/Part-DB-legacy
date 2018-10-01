@@ -219,10 +219,17 @@ class Device extends Base\PartsContainingDBElement
                 }
             }
 
+            $comment = sprintf(_("Baugruppe: %s"), $this->getName());
+
             // OK there are enough parts in stock, we will book them
             foreach ($device_parts as $part) {
                 /** @var DevicePart $part  */
-                $part->getPart()->setInstock($part->getPart()->getInstock() - ($part->getMountQuantity() * $book_multiplier));
+                //$part->getPart()->setInstock($part->getPart()->getInstock() - ($part->getMountQuantity() * $book_multiplier));
+                if($book_multiplier > 0) {
+                    $part->getPart()->withdrawalParts(($part->getMountQuantity() * abs($book_multiplier)), $comment);
+                } else {
+                    $part->getPart()->addParts(($part->getMountQuantity() * abs($book_multiplier)), $comment);
+                }
             }
 
             $this->database->commit($transaction_id); // commit transaction
