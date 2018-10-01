@@ -324,7 +324,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         }
     }
 
-    public function getDefaultInstockChangeComment()
+    public function getDefaultInstockChangeComment($withdrawal = true)
     {
         return "[CHANGEME] Default";
     }

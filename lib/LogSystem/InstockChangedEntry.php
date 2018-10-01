@@ -230,7 +230,7 @@ class InstockChangedEntry extends BaseEntry
         }
 
         if($comment === null) {
-            $comment = $current_user->getDefaultInstockChangeComment();
+            $comment = $current_user->getDefaultInstockChangeComment($new_instock < $old_instock);
         }
 
         $extra_array = array();

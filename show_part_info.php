@@ -253,6 +253,10 @@ if (! $fatal_error) {
             $html->setVariable('creation_user_id', $creation_user->getID(), "int");
         }
 
+        //Default withdrawal/Add comment
+        $html->setVariable('default_instock_change_comment_w', $current_user->getDefaultInstockChangeComment(true));
+        $html->setVariable('default_instock_change_comment_a', $current_user->getDefaultInstockChangeComment(false));
+
         $html->setVariable('is_favorite', $part->getFavorite(), 'bool');
 
         //Infos about 3d footprint view

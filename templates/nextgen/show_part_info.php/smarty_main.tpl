@@ -144,7 +144,7 @@
                                             <div class="px-4 py-3">
                                                 <div class="form-group">
                                                     <label>{t}Kommentar/Zweck:{/t}</label>
-                                                    <input type="text" class="form-control" name="instock_change_comment">
+                                                    <input type="text" class="form-control" name="instock_change_comment" placeholder="{$default_instock_change_comment_w}">
                                                 </div>
                                             </div>
                                         </div>
@@ -161,7 +161,7 @@
                     <input type="hidden" name="pid" value="{$pid}">
                     <div class="row">
                         <div class="col-md-12">
-                            <label for="n_more">{t}Teile hinzufügen{/t}</label>
+                            <label for="n_more">{t}Teile hinzufügen{/t}:</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" name="n_more" min="0" max="999" value="1" {if !$can_instock || $instock_unknown}disabled{/if}>
                                 <div class="input-group-append">
@@ -172,7 +172,7 @@
                                             <div class="px-4 py-3">
                                                 <div class="form-group">
                                                     <label>{t}Kommentar/Zweck:{/t}</label>
-                                                    <input type="text" class="form-control" name="instock_change_comment">
+                                                    <input type="text" class="form-control" name="instock_change_comment" placeholder="{$default_instock_change_comment_a}">
                                                 </div>
                                             </div>
                                         </div>
