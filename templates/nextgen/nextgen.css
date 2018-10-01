@@ -580,3 +580,8 @@ label:not(.form-check-label) {
     width: auto;
     padding-left: 10%;
 }
+
+.btn-group-append {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0
+}

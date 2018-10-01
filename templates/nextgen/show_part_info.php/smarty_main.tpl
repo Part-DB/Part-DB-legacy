@@ -136,9 +136,20 @@
                             <label for="n_less">{t}Teile entnehmen:{/t}</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" name="n_less" min="0" max="999" value="1" placeholder="Anzahl" {if !$can_instock || $instock_unknown}disabled{/if}>
-                                <span class="input-group-append">
-                                            <button type="submit" class="btn btn-outline-secondary" name="dec" {if !$can_instock || $instock_unknown}disabled{/if}>{t}Entnehmen{/t}</button>
-                                        </span>
+                                <div class="input-group-append">
+                                    <div class="btn-group">
+                                        <button type="submit" class="btn btn-outline-secondary btn-group-append" name="dec" {if !$can_instock || $instock_unknown}disabled{/if}>{t}Entnehmen{/t}</button>
+                                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
+                                        <div class="dropdown-menu">
+                                            <div class="px-4 py-3">
+                                                <div class="form-group">
+                                                    <label>{t}Kommentar/Zweck:{/t}</label>
+                                                    <input type="text" class="form-control" name="instock_change_comment">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -153,12 +164,21 @@
                             <label for="n_more">{t}Teile hinzufügen{/t}</label>
                             <div class="input-group">
                                 <input type="number" class="form-control" name="n_more" min="0" max="999" value="1" {if !$can_instock || $instock_unknown}disabled{/if}>
-                                <span class="input-group-append">
-                                            <button type="submit" class="btn  btn-outline-secondary" name="inc" {if !$can_instock || $instock_unknown}disabled{/if}>{t}Hinzufügen{/t}</button>
-                                        </span>
+                                <div class="input-group-append">
+                                    <div class="btn-group">
+                                        <button type="submit" class="btn  btn-outline-secondary btn-group-append" name="inc" {if !$can_instock || $instock_unknown}disabled{/if}>{t}Hinzufügen{/t}</button>
+                                        <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
+                                        <div class="dropdown-menu">
+                                            <div class="px-4 py-3">
+                                                <div class="form-group">
+                                                    <label>{t}Kommentar/Zweck:{/t}</label>
+                                                    <input type="text" class="form-control" name="instock_change_comment">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                    </div>
                 </form>
 
                 <p></p>
@@ -233,17 +253,17 @@
 
                         <div class="btn-group btn-group-justified">
                             <button type="submit" class="btn btn-secondary"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
-                                    {t}Barcode erzeugen{/t}</button>
+                                {t}Barcode erzeugen{/t}</button>
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span class="sr-only">Toggle Dropdown</span>
-                                </button>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
 
-                                <ul class="dropdown-menu dropdown-menu-right" id="label-dropdown">
-                                    {foreach $barcode_profiles as $profile}
-                                        <a href="#" class="link-anchor dropdown-item" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
-                                            <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="d-none">{$profile}</button>
-                                    {/foreach}
-                                </ul>
+                            <ul class="dropdown-menu dropdown-menu-right" id="label-dropdown">
+                                {foreach $barcode_profiles as $profile}
+                                    <a href="#" class="link-anchor dropdown-item" onclick="submitFormSubmitBtn($(this).closest('form'), $('#profile_btn_{$profile|replace:" ":"_"}'));">{$profile}</a>
+                                    <button type="submit" name="profile" id="profile_btn_{$profile|replace:" ":"_"}" value="{$profile}" class="d-none">{$profile}</button>
+                                {/foreach}
+                            </ul>
 
                         </div>
                     {else}

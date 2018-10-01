@@ -51,6 +51,7 @@ $part_id            = isset($_REQUEST['pid'])               ? (integer)$_REQUEST
 $n_less             = isset($_REQUEST['n_less'])            ? (integer)$_REQUEST['n_less']          : 0;
 $n_more             = isset($_REQUEST['n_more'])            ? (integer)$_REQUEST['n_more']          : 0;
 $order_quantity     = isset($_REQUEST['order_quantity'])    ? (integer)$_REQUEST['order_quantity']  : 0;
+$instock_change_comment = isset($_REQUEST['instock_change_comment']) ? (string)$_REQUEST['instock_change_comment'] : "";
 
 //When adding to a device
 $device_id          = isset($_REQUEST['device_id_new'])     ? (integer)$_REQUEST['device_id_new']   : 0;
@@ -126,11 +127,17 @@ try {
  *********************************************************************************/
 
 if (! $fatal_error) {
+
+    //If no comment was set, than use the default one from the user profile.
+    if($instock_change_comment == "") {
+        $instock_change_comment = null;
+    }
+
     switch ($action) {
         case 'dec': // remove some parts
             try {
                 //$part->setInstock($part->getInstock() - abs($n_less));
-                $part->withdrawalParts($n_less);
+                $part->withdrawalParts($n_less, $instock_change_comment);
 
                 // reload the site without $_REQUEST['action'] to avoid multiple actions by manual refreshing
                 header('Location: show_part_info.php?pid='.$part_id);
@@ -142,7 +149,7 @@ if (! $fatal_error) {
         case 'inc': // add some parts
             try {
                 //$part->setInstock($part->getInstock() + abs($n_more));
-                $part->addParts($n_more);
+                $part->addParts($n_more, $instock_change_comment);
 
                 // reload the site without $_REQUEST['action'] to avoid multiple actions by manual refreshing
                 header('Location: show_part_info.php?pid='.$part_id);
