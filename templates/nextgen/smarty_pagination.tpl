@@ -45,27 +45,41 @@
                 </div>
             </div>
         {/if}
-    </div>
-    <div class="col-md">
-        <nav aria-label="Page navigation">
-            <ul class="pagination justify-content-end mt-2 mb-2" style="margin-top: 0; margin-bottom: 5px;">
-                <li class="page-item disabled"><a class="no-progbar page-link">{$pagination.lower_result}-{$pagination.upper_result}/{$pagination.max_entries}</a></li>
-                {foreach $pagination.entries as $page}
-                    <li  {if isset($page.disabled) && $page.disabled}class="page-item disabled" {/if}
-                            {if isset($page.active) && $page.active}class="page-item active"{/if} class="page-item">
-                        <a {if !isset($page.disabled) || !$page.disabled}href="{$page.href}{/if}"
-                           {if isset($page.hint)}title="{$page.hint}" {/if} class="page-link {if isset($page.disabled) && $page.disabled}disabled {/if}"
-                        >{$page.label nofilter}</a></li>
-                {/foreach}
-                <li class="disabled page-item"><select name="limit" onchange="submitForm(this.form);">
-                        <option value="25" {if $limit == 25}selected{/if}>25</option>
-                        <option value="50" {if $limit == 50}selected{/if}>50</option>
-                        <option value="100" {if $limit == 100}selected{/if}>100</option>
-                        <option value="150" {if $limit == 150}selected{/if}>125</option>
-                        <option value="200" {if $limit == 200}selected{/if}>200</option>
-                        <option value="250" {if $limit == 250}selected{/if}>250</option>
-                    </select></li>
-            </ul>
-        </nav>
-    </div>
+
+        {if isset($log_delete) && $log_delete}
+        <div class="select_actions" style="display: none;">
+            <div class="form-inline">
+                <input type="hidden" name="selected_ids" value="">
+                <div class="form-group mr-2">
+                    <span class="badge badge-primary"><span class="selected_n">10</span> {t}Einträge:{/t}</span>
+                </div>
+                <div class="form-group">
+                    <button type="submit" name="delete_entries" class="btn btn-danger">Löschen</button>
+                </div>
+            </div>
+        </div>
+        {/if}
+</div>
+<div class="col-md">
+    <nav aria-label="Page navigation">
+        <ul class="pagination justify-content-end mt-2 mb-2" style="margin-top: 0; margin-bottom: 5px;">
+            <li class="page-item disabled"><a class="no-progbar page-link">{$pagination.lower_result}-{$pagination.upper_result}/{$pagination.max_entries}</a></li>
+            {foreach $pagination.entries as $page}
+                <li  {if isset($page.disabled) && $page.disabled}class="page-item disabled" {/if}
+                        {if isset($page.active) && $page.active}class="page-item active"{/if} class="page-item">
+                    <a {if !isset($page.disabled) || !$page.disabled}href="{$page.href}{/if}"
+                       {if isset($page.hint)}title="{$page.hint}" {/if} class="page-link {if isset($page.disabled) && $page.disabled}disabled {/if}"
+                    >{$page.label nofilter}</a></li>
+            {/foreach}
+            <li class="disabled page-item"><select name="limit" onchange="submitForm(this.form);">
+                    <option value="25" {if $limit == 25}selected{/if}>25</option>
+                    <option value="50" {if $limit == 50}selected{/if}>50</option>
+                    <option value="100" {if $limit == 100}selected{/if}>100</option>
+                    <option value="150" {if $limit == 150}selected{/if}>125</option>
+                    <option value="200" {if $limit == 200}selected{/if}>200</option>
+                    <option value="250" {if $limit == 250}selected{/if}>250</option>
+                </select></li>
+        </ul>
+    </nav>
+</div>
 </div>

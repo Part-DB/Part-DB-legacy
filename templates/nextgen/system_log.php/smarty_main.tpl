@@ -93,10 +93,10 @@
     </div>
 </div>
 
-<form method="get">
+<form method="post" class="no-progbar">
     <input type="hidden" name="page" value="1">
 
-    {include "../smarty_pagination.tpl"}
+    {include "../smarty_pagination.tpl" log_delete=true}
 </form>
 
 <div class="card border-primary">
@@ -106,8 +106,8 @@
     {include file="../smarty_eventlog.tpl"}
 </div>
 
-<form method="get">
+<form method="post">
     <input type="hidden" name="page" value="1">
 
-    {include "../smarty_pagination.tpl"}
+    {include "../smarty_pagination.tpl" log_delete=true}
 </form>

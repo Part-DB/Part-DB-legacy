@@ -25,6 +25,7 @@ class SystemPermission extends BasePermission
 {
     const USE_DEBUG  = "use_debug";
     const SHOW_LOGS  = "show_logs";
+    const DELETE_LOGS = "delete_logs";
 
     static protected $operation_cache = null;
 
@@ -42,6 +43,7 @@ class SystemPermission extends BasePermission
             $operations = array();
             $operations[static::USE_DEBUG] = static::buildOperationArray(0, static::USE_DEBUG, _("Debugtools benutzen"));
             $operations[static::SHOW_LOGS] = static::buildOperationArray(2, static::SHOW_LOGS, _("Logs anzeigen"));
+            $operations[static::DELETE_LOGS] = static::buildOperationArray(4, static::DELETE_LOGS, _("Logeinträge löschen"));
 
             static::$operation_cache = $operations;
         }

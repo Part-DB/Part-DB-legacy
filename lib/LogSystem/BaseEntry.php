@@ -12,6 +12,8 @@ use Exception;
 use PartDB\Base\DBElement;
 use PartDB\Database;
 use PartDB\Log;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\SystemPermission;
 use PartDB\User;
 
 abstract class BaseEntry extends DBElement
@@ -146,6 +148,13 @@ abstract class BaseEntry extends DBElement
      */
     abstract public function getTargetLink();
 
+    public function delete()
+    {
+        $this->current_user->tryDo(PermissionManager::SYSTEM, SystemPermission::DELETE_LOGS);
+
+        parent::delete();
+    }
+
     /**
      * Adds a new log entry to the database.
      * @param $database Database The database which should be used for requests.
@@ -172,4 +181,5 @@ abstract class BaseEntry extends DBElement
         );
         return static::addByArray($database, $current_user, $log, "log", $data);
     }
+
 }

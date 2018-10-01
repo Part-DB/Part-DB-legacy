@@ -1,4 +1,4 @@
-<table class="table table-hover table-bordered table-sortable table-striped table-condensed">
+<table class="table table-hover table-bordered table-sortable table-striped table-condensed table-selectable">
     <thead>
     <tr>
         <th>{t}Zeitstempel{/t}</th>
@@ -20,6 +20,11 @@
             {elseif $entry.level_id <= 3}
                 table-danger
             {/if}">
+
+            {if isset($entry.id)}
+                <input type="hidden" name="id_{$entry.row_index}" value="{$entry.id}">
+            {/if}
+
             <td>{$entry.timestamp}</td>
             <td>{$entry.level}</td>
             <td>{$entry.type}</td>

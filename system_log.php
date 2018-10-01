@@ -43,6 +43,16 @@ $filter_type        = isset($_REQUEST['filter_type'])       ? (int)$_REQUEST['fi
 $target_type        = isset($_REQUEST['target_type'])       ? (int)$_REQUEST['target_type']         : -1;
 $target_id          = isset($_REQUEST['target_id'])         ? (int)$_REQUEST['target_id']           : -1;
 
+$selected_ids        = isset($_POST['selected_ids'])   ? $_POST['selected_ids'] : 0;
+
+$action = 'default';
+if (isset($_POST["delete_entries"]) && $selected_ids != 0) {
+    $action = 'delete_entries';
+}
+if (isset($_POST["delete_entries_confirmed"]) && $selected_ids != 0) {
+    $action = 'delete_entries_confirmed';
+}
+
 /********************************************************************************
  *
  *   Initialize Objects
@@ -65,6 +75,37 @@ try {
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
+}
+
+
+if(!$fatal_error) {
+    try {
+        switch($action) {
+            case "delete_entries":
+                $n = count(explode(",", $_REQUEST['selected_ids']));
+                $messages[] = array('text' => sprintf(_('Sollen die %d gewählten Logeinträge wirklich unwiederruflich gelöscht werden?'), $n),
+                    'strong' => true, 'color' => 'red');
+                $messages[] = array('text' => _('<br>Hinweise:'), 'strong' => true);
+                $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Durch das Löschen von Einträgen kann die Historie verfälscht werden..'));
+                $messages[] = array('html' => '<input type="hidden" name="selected_ids" value="' . $selected_ids . '">');
+                $messages[] = array('html' => '<button class="btn btn-secondary" type="submit" name="abort" value="">' . _('Nein, nicht löschen') . '</button>', 'no_linebreak' => true);
+                $messages[] = array('html' => '<button class="btn btn-danger" type="submit" name="delete_entries_confirmed" value="">' . _('Ja, Einträge löschen') . '</button>');
+
+                break;
+            case "delete_entries_confirmed":
+                try {
+                    $log->deleteSelected($selected_ids);
+                } catch (Exception $e) {
+                    $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+                }
+                break;
+        }
+
+
+    } catch (Exception $e) {
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
+        $fatal_error = true;
+    }
 }
 
 /********************************************************************************

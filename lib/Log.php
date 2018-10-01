@@ -452,9 +452,12 @@ class Log
      */
     public function generateTemplateLoop($entries)
     {
+        $row_index = 0;
+
         $rows = array();
         /** @var BaseEntry $entry */
         foreach ($entries as $entry) {
+
             $data = array(
                 "id" => $entry->getID(),
                 "timestamp" => $entry->getTimestamp(true),
@@ -466,10 +469,12 @@ class Log
                 "level_id" => $entry->getLevelID(),
                 "target_text" => $entry->getTargetText(),
                 "target_link" => $entry->getTargetLink(),
-                "target_id" => $entry->getTargetID()
+                "target_id" => $entry->getTargetID(),
+                "row_index" => $row_index
             );
 
             $rows[] = $data;
+            $row_index++;
         }
 
         return $rows;
@@ -610,6 +615,17 @@ class Log
         }
 
         return $entries;
+    }
+
+    public function deleteSelected($select_string)
+    {
+        $ids = explode(",", $select_string);
+
+        foreach ($ids as $id) {
+            //We dont now for sure which ids the entries have, but UnknownTypeEntry should work always.
+            $entry = new UnknownTypeEntry($this->database, $this->current_user, $this, $id);
+            $entry->delete();
+        }
     }
 
 
