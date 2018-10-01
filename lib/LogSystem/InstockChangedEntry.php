@@ -94,7 +94,7 @@ class InstockChangedEntry extends BaseEntry
         }
 
         return $this->getTypeString(). "; Alter Wert: " . $this->getOldInstock() .
-            "; Neuer Wert: ". $this->getNewInstock() . " (" . $difference . ") " .
+            "; Neuer Wert: ". $this->getNewInstock() . " (" . $difference . ")" .
             "; Preis: " . $this->getPriceMoneyString(true) .
             "; Kommentar: " . $this->getComment();
     }
