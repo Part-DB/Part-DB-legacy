@@ -271,6 +271,18 @@ if (! $fatal_error) {
             $html->setVariable('is_current_user', $selected_user->isLoggedInUser());
             $html->setVariable('datetime_added', $selected_user->getDatetimeAdded(true));
             $html->setVariable('last_modified', $selected_user->getLastModified(true));
+            $last_modified_user = $selected_user->getLastModifiedUser();
+            $creation_user = $selected_user->getCreationUser();
+            if ($last_modified_user != null) {
+                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
+                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
+            }
+            if ($creation_user != null) {
+                $html->setVariable('creation_user', $creation_user->getFullName(true), "string");
+                $html->setVariable('creation_user_id', $creation_user->getID(), "int");
+            }
+
+
             //Configuration settings
             $html->setLoop('custom_css_loop', build_custom_css_loop($selected_user->getTheme(true), true));
             //Convert timezonelist, to a format, we can use
@@ -353,6 +365,8 @@ $html->setVariable('can_infos', $current_user->canDo(PermissionManager::USERS, U
 $html->setVariable('can_group', $current_user->canDo(PermissionManager::USERS, UserPermission::CHANGE_GROUP));
 $html->setVariable('can_username', $current_user->canDo(PermissionManager::USERS, UserPermission::EDIT_USERNAME));
 $html->setVariable('can_config', $current_user->canDo(PermissionManager::USERS, UserPermission::CHANGE_USER_SETTINGS));
+
+$html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
 
 
 /********************************************************************************
