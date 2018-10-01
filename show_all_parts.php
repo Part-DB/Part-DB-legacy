@@ -111,7 +111,7 @@ if (! $fatal_error) {
                     throw new Exception('Es wurde keine gültige Bauteil-ID übermittelt!');
                 }
 
-                $part->withdrawalParts(1)
+                $part->withdrawalParts(1);
 
                 $reload_site = true;
             } catch (Exception $e) {
