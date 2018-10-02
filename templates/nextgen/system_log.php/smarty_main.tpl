@@ -27,7 +27,8 @@
             <div class="form-group row">
                 <label class="col-md-2 col-form-label">{t}Benutzer:{/t}</label>
                 <div class="col-md-10">
-                    <select name="filter_user" class="form-control selectpicker" data-live-search="true">
+                    <select name="filter_user" class="form-control selectpicker" data-live-search="true"
+                            {if !$can_show_user || !$can_change_user}disabled{/if}>
                         <option value="-1">{t}Kein Filter{/t}</option>
                         <optgroup label="{t}Benutzer{/t}">
                             {$user_list nofilter}

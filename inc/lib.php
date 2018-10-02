@@ -949,7 +949,8 @@ function buildToolsTree($params)
         || $current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::READ_DB_SETTINGS)) {
         $system_nodes[] = treeviewNode(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
     }
-    if ($current_user->canDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::SHOW_LOGS)) {
+    if ($current_user->canDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::SHOW_LOGS)
+            || $current_user->canDo(PermissionManager::SELF, \PartDB\Permissions\SelfPermission::SHOW_LOGS)) {
         $system_nodes[] = treeviewNode(_("Eventlog"), BASE_RELATIVE . "/system_log.php");
     }
 

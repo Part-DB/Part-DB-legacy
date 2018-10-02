@@ -70,7 +70,15 @@ try {
     $log                = new Log($database);
     $current_user       = User::getLoggedInUser($database, $log);
 
-    $current_user->tryDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::SHOW_LOGS);
+    //Only check for global permission if user cannot view its own log
+    if(!$current_user->canDo(PermissionManager::SELF, \PartDB\Permissions\SelfPermission::SHOW_LOGS)) {
+        $current_user->tryDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::SHOW_LOGS);
+    } else {
+        $current_user->tryDo(PermissionManager::SELF, \PartDB\Permissions\SelfPermission::SHOW_LOGS);
+        //Restrict log view to your own entries
+        $filter_user = $current_user->getID();
+    }
+
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -174,6 +182,7 @@ if (! $fatal_error) {
 
     // global stuff
     $html->setVariable('can_show_user', $current_user->canDo(PermissionManager::USERS, UserPermission::READ), 'boolean');
+    $html->setVariable('can_change_user', $current_user->canDo(PermissionManager::SYSTEM, SystemPermission::SHOW_LOGS));
     $html->setVariable('can_delete_entries', $current_user->canDo(PermissionManager::SYSTEM, SystemPermission::DELETE_LOGS), 'bool');
 
     //$html->setVariable('mode', $mode, "string");
