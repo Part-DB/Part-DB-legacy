@@ -76,7 +76,7 @@ abstract class BasePermission
     public function setValue($operation, $new_value)
     {
         //Invalidate the cached value.
-        $this->perm_holder->getParentPermissionManager()->invalidatePermissionValueCache($this->perm_name, $operation);
+        $this->perm_holder->getPermissionManager()->invalidatePermissionValueCache($this->perm_name, $operation);
 
         $n = static::opToBitN($operation);
         $old_value = $this->perm_holder->getPermissionRaw($this->perm_name);

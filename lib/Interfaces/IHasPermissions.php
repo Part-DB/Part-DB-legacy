@@ -44,4 +44,10 @@ interface IHasPermissions
      * @return PermissionManager|null The PermissionManager of the parent, or null if the current object has no parent.
      */
     public function &getParentPermissionManager();
+
+    /**
+     * Returns the PermissionManager of the current object.
+     * @return PermissionManager The Permission manager of the current object.
+     */
+    public function &getPermissionManager();
 }
