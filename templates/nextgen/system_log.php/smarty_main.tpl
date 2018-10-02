@@ -98,7 +98,9 @@
                 <div class="col-md-4">
                     <div class="input-group">
                         <input type="text" class="form-control datetimepicker-input datetime" data-default-date="{$datetime_max}" name="datetime_max" id="datetimepicker_to" data-toggle="datetimepicker" data-target="#datetimepicker_to"/>
-                        <button type="button" class="btn btn-outline-secondary" onclick="$('#datetimepicker_to').val('');"><i class="fas fa-times"></i></button>
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-secondary" onclick="$('#datetimepicker_to').val('');"><i class="fas fa-times"></i></button>
+                        </div>
                     </div>
                 </div>
             </div>
