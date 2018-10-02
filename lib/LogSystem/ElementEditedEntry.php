@@ -67,8 +67,21 @@ class ElementEditedEntry extends BaseEntry
      */
     public static function add(&$database, &$current_user, &$log, &$element, $data_array = null)
     {
+        static $type_id, $element_id, $user_id, $last_log = 0;
+
+        //Only use timeout when nothing has changed since the last time.
+        if($element_id == $element->getID()
+            && $type_id == Log::elementToTargetTypeID($element)
+            && $user_id == $current_user->getID()
+            && time() - $last_log < 2) //2 seconds timeout
+        {
+            $last_log = time();
+            return null;
+        }
 
         $type_id = Log::elementToTargetTypeID($element);
+        $element_id = $element->getID();
+        $user_id = $current_user->getID();
 
         if ($type_id == Log::TARGET_TYPE_USER || $type_id == Log::TARGET_TYPE_GROUP) {
             //When a user or group is edited, this needs more attention, so higher level.
