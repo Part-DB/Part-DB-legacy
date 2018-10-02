@@ -44,6 +44,8 @@ $search             = isset($_REQUEST['search'])            ? (string)$_REQUEST[
 $filter_type        = isset($_REQUEST['filter_type'])       ? (int)$_REQUEST['filter_type']         : -1;
 $target_type        = isset($_REQUEST['target_type'])       ? (int)$_REQUEST['target_type']         : -1;
 $target_id          = isset($_REQUEST['target_id'])         ? (int)$_REQUEST['target_id']           : -1;
+$datetime_min       = isset($_REQUEST['datetime_min'])      ? (string)$_REQUEST['datetime_min']     : "";
+$datetime_max       = isset($_REQUEST['datetime_max'])      ? (string)$_REQUEST['datetime_max']     : "";
 
 $selected_ids        = isset($_POST['selected_ids'])   ? $_POST['selected_ids'] : 0;
 
@@ -123,8 +125,10 @@ if (! $fatal_error) {
             $parts = Part::getLastAddedParts($database, $current_user, $log, $latest_first, $limit, $page);
             $count = Part::getLastAddedPartsCount($database, $current_user, $log, $latest_first);
         }*/
-        $entries = $log->getEntries(true, $min_level, $filter_user, $filter_type, $search, $target_type, $target_id, $limit, $page);
-        $count = $log->getEntriesCount(true, $min_level, $filter_user, $filter_type, $search, $target_type, $target_id);
+        $entries = $log->getEntries(true, $min_level, $filter_user, $filter_type, $search, $target_type,
+            $target_id, $datetime_min, $datetime_max, $limit, $page);
+        $count = $log->getEntriesCount(true, $min_level, $filter_user, $filter_type, $search, $target_type,
+            $target_id, $datetime_min, $datetime_max);
 
         $table_loop = $log->generateTemplateLoop($entries);
         $html->setLoop('log', $table_loop);
@@ -164,6 +168,9 @@ if (! $fatal_error) {
     $html->setVariable("target_type", $target_type);
     $html->setVariable('target_id', $target_id);
 
+
+    $html->setVariable('datetime_min', $datetime_min);
+    $html->setVariable('datetime_max', $datetime_max);
 
     // global stuff
     $html->setVariable('can_show_user', $current_user->canDo(PermissionManager::USERS, UserPermission::READ), 'boolean');

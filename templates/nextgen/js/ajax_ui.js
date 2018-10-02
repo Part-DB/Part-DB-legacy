@@ -14,8 +14,8 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     function step(op) {
         if (f) throw new TypeError("Generator is already executing.");
         while (_) try {
-            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
-            if (y = 0, t) op = [op[0] & 2, t.value];
+            if (f = 1, y && (t = y[op[0] & 2 ? "return" : op[0] ? "throw" : "next"]) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [0, t.value];
             switch (op[0]) {
                 case 0: case 1: t = op; break;
                 case 4: _.label++; return { value: op[1], done: false };
@@ -224,7 +224,7 @@ var AjaxUI = /** @class */ (function () {
             event.preventDefault();
             var a = $(this);
             if (a.attr("href") != null) {
-                var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
+                var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, soft request only the content
                 _this.abortAllAjax();
                 _this.beforeAjaxSubmit();
                 $('#content').hide(0).load(href + " #content-data");
@@ -249,8 +249,7 @@ var AjaxUI = /** @class */ (function () {
      */
     AjaxUI.prototype.onNodeSelected = function (event, data) {
         'use strict';
-        if (data.href.indexOf("github.com") !== -1 || data.href.indexOf("phpdoc") !== -1) //If the href points to github, then open it in new tab. TODO: Find better solution to detect external links.
-         {
+        if (data.href.indexOf("github.com") !== -1 || data.href.indexOf("phpdoc") !== -1) {
             openInNewTab(data.href);
             $(this).treeview('toggleNodeSelected', data.nodeId);
         }
@@ -520,6 +519,7 @@ $(function (event) {
     ajaxui.addStartAction(makeGreekInput);
     ajaxui.addStartAction(makeCharts);
     ajaxui.addStartAction(setBootstrapSelectStyle);
+    ajaxui.addStartAction(makeDateTimePickers);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
@@ -537,9 +537,33 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(viewer3d_models);
     ajaxui.addAjaxCompleteAction(makeGreekInput);
     ajaxui.addAjaxCompleteAction(makeCharts);
+    ajaxui.addAjaxCompleteAction(makeDateTimePickers);
     //ajaxui.addAjaxCompleteAction(makeTypeAhead);
     ajaxui.start();
 });
+function makeDateTimePickers() {
+    $('.datetime').each(function () {
+        $(this).datetimepicker({
+            useCurrent: false,
+            icons: {
+                time: "fas fa-clock fa-lg",
+                clear: 'fas fa-trash-alt fa-lg',
+                today: "fa fa-calendar-check fa-lg"
+            },
+            format: "YYYY-MM-DD hh:mm:ss",
+            buttons: {
+                showToday: true
+            },
+            defaultDate: $(this).data("default-date")
+        });
+    });
+    $("#datetimepicker_from").on("change.datetimepicker", function (e) {
+        $('#datetimepicker_to').datetimepicker('minDate', e.date);
+    });
+    $("#datetimepicker_to").on("change.datetimepicker", function (e) {
+        $('#datetimepicker_from').datetimepicker('maxDate', e.date);
+    });
+}
 function setBootstrapSelectStyle() {
     //Set a style for the Bootstrap-select which looks more like the BS3 ones, and the form-controls
     $.fn.selectpicker.Constructor.DEFAULTS.style = "bg-white border";
@@ -570,56 +594,56 @@ function makeGreekInput() {
         var greek_char = "";
         if (greek) {
             switch (event.key) {
-                case "w": //Omega
+                case "w"://Omega
                     greek_char = '\u2126';
                     break;
                 case "u":
-                case "m": //Micro
+                case "m"://Micro
                     greek_char = "\u00B5";
                     break;
-                case "p": //Phi
+                case "p"://Phi
                     greek_char = "\u03C6";
                     break;
-                case "a": //Alpha
+                case "a"://Alpha
                     greek_char = "\u03B1";
                     break;
-                case "b": //Beta
+                case "b"://Beta
                     greek_char = "\u03B2";
                     break;
-                case "c": //Gamma
+                case "c"://Gamma
                     greek_char = "\u03B3";
                     break;
-                case "d": //Delta
+                case "d"://Delta
                     greek_char = "\u03B4";
                     break;
-                case "l": //Pound
+                case "l"://Pound
                     greek_char = "\u00A3";
                     break;
-                case "y": //Yen
+                case "y"://Yen
                     greek_char = "\u00A5";
                     break;
-                case "o": //Yen
+                case "o"://Yen
                     greek_char = "\u00A4";
                     break;
-                case "1": //Sum symbol
+                case "1"://Sum symbol
                     greek_char = "\u2211";
                     break;
-                case "2": //Integral
+                case "2"://Integral
                     greek_char = "\u222B";
                     break;
-                case "3": //Less-than or equal
+                case "3"://Less-than or equal
                     greek_char = "\u2264";
                     break;
-                case "4": //Greater than or equal
+                case "4"://Greater than or equal
                     greek_char = "\u2265";
                     break;
-                case "5": //PI
+                case "5"://PI
                     greek_char = "\u03c0";
                     break;
-                case "q": //Copyright
+                case "q"://Copyright
                     greek_char = "\u00A9";
                     break;
-                case "e": //Euro
+                case "e"://Euro
                     greek_char = "\u20AC";
                     break;
             }

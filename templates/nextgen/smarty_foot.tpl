@@ -92,6 +92,10 @@
     <!-- JQuery Highlight -->
     <script src="{$relative_path}js/jquery.highlight.min.js" async></script>
 
+    <script src="{$relative_path}js/tempusdominus/moment-with-locales.min.js"></script>
+    <script src="{$relative_path}js/tempusdominus/tempusdominus-bootstrap-4.min.js"></script>
+    <link rel="stylesheet" href="js/tempusdominus/tempusdominus-bootstrap-4.min.css"/>
+
     <!-- Functions -->
     {if $debugging_activated}
         <script src="{$relative_path}templates/nextgen/js/functions.js" async></script>

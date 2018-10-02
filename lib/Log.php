@@ -491,7 +491,8 @@ class Log
      *
      * @throws Exception if there was an error
      */
-    public function getEntries($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1, $type_id = -1, $search_str = "", $target_type = -1, $target_id = -1, $limit = 50, $page = 1)
+    public function getEntries($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1, $type_id = -1, $search_str = "",
+                               $target_type = -1, $target_id = -1, $min_date = "", $max_date = "",  $limit = 50, $page = 1)
     {
         $search_str = "%" . $search_str . "%";
 
@@ -531,6 +532,16 @@ class Log
             $data[] = $target_id;
         }
 
+        //Filter for dates
+        if ($max_date != "") {
+            $query .= " AND (datetime <= ?)";
+            $data[] = $max_date;
+        }
+        if($min_date != "") {
+            $query .= " AND (datetime >= ?)";
+            $data[] = $min_date;
+        }
+
         $sorting = ($newest_first) ? "DESC" : "ASC";
 
         $query .=   ' ORDER BY log.datetime ' . $sorting;
@@ -552,7 +563,8 @@ class Log
      *
      * @throws Exception if there was an error
      */
-    public function getEntriesCount($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1, $type = -1, $search_str = "", $target_type = -1, $target_id = -1)
+    public function getEntriesCount($newest_first = true, $min_level = self::LEVEL_DEBUG, $user_id = -1,
+                                    $type_id = -1, $search_str = "", $target_type = -1, $min_date = "", $max_date = "", $target_id = -1)
     {
         $data = array();
 
@@ -567,20 +579,19 @@ class Log
             $data[] = $user_id;
         }
 
+        //Filter for type
+        if ($type_id > 0) {
+            $query .= " AND (type = ?)";
+            $data[] = $type_id;
+        }
+
         if ($search_str != "") {
-            $search_str = "%" . $search_str . "%";
             $query .= " AND (extra LIKE ?)";
             $data[] = $search_str;
         }
 
-        //Filter for type
-        if ($target_id > 0) {
-            $query .= " AND (type = ?)";
-            $data[] = $target_id;
-        }
-
         //Filter for target_type
-        if ($target_type >= 0) {
+        if ($target_type > 0) {
             $query .= " AND (target_type = ?)";
             $data[] = $target_type;
         }
@@ -589,6 +600,16 @@ class Log
         if ($target_id > 0) {
             $query .= " AND (target_id = ?)";
             $data[] = $target_id;
+        }
+
+        //Filter for dates
+        if ($max_date != "") {
+            $query .= " AND (datetime <= ?)";
+            $data[] = $max_date;
+        }
+        if($min_date != "") {
+            $query .= " AND (datetime >= ?)";
+            $data[] = $min_date;
         }
 
         $query .=   ' ORDER BY log.datetime DESC';

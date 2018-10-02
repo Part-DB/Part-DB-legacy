@@ -48,7 +48,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url":  "git@github.com:jbtronics/Part-DB_tcpdf.git"
+      "url":  "git@github.com:Part-DB/Part-DB_tcpdf.git"
     },
     {
       "type": "vcs",

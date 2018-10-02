@@ -85,6 +85,25 @@
             </div>
 
             <div class="form-group row">
+                <label class="col-md-2 col-form-label">{t}Zeitraum:{/t}</label>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control datetimepicker-input datetime" data-default-date="{$datetime_min}" name="datetime_min" id="datetimepicker_from" data-toggle="datetimepicker" data-target="#datetimepicker_from"/>
+                        <div class="input-group-append">
+                            <button type="button" class="btn btn-outline-secondary" onclick="$('#datetimepicker_from').val('');"><i class="fas fa-times"></i></button>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-form-label col-md-2">{t}bis{/t}</div>
+                <div class="col-md-4">
+                    <div class="input-group">
+                        <input type="text" class="form-control datetimepicker-input datetime" data-default-date="{$datetime_max}" name="datetime_max" id="datetimepicker_to" data-toggle="datetimepicker" data-target="#datetimepicker_to"/>
+                        <button type="button" class="btn btn-outline-secondary" onclick="$('#datetimepicker_to').val('');"><i class="fas fa-times"></i></button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group row">
                 <div class="offset-md-2 col-md-10">
                     <button class="btn btn-primary">{t}Aktualisieren{/t}</button>
                 </div>

@@ -244,7 +244,7 @@ class AjaxUI {
             event.preventDefault();
             let a = $(this);
             if(a.attr("href") != null) {
-                let href : string = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
+                let href : string = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, soft request only the content
                 _this.abortAllAjax();
 
                 _this.beforeAjaxSubmit();
@@ -605,6 +605,7 @@ $(function(event){
     ajaxui.addStartAction(makeGreekInput);
     ajaxui.addStartAction(makeCharts);
     ajaxui.addStartAction(setBootstrapSelectStyle);
+    ajaxui.addStartAction(makeDateTimePickers);
 
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
@@ -623,11 +624,38 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(viewer3d_models);
     ajaxui.addAjaxCompleteAction(makeGreekInput);
     ajaxui.addAjaxCompleteAction(makeCharts);
+    ajaxui.addAjaxCompleteAction(makeDateTimePickers);
 
     //ajaxui.addAjaxCompleteAction(makeTypeAhead);
 
     ajaxui.start();
 });
+
+function makeDateTimePickers() {
+    $('.datetime').each(function() {
+        $(this).datetimepicker({
+            useCurrent: false,
+            icons: {
+                time: "fas fa-clock fa-lg",
+                clear: 'fas fa-trash-alt fa-lg',
+                today: "fa fa-calendar-check fa-lg"
+            },
+            format: "YYYY-MM-DD hh:mm:ss",
+            buttons: {
+                showToday: true
+            },
+            defaultDate: $(this).data("default-date")
+        });
+    });
+
+
+    $("#datetimepicker_from").on("change.datetimepicker", function (e) {
+        $('#datetimepicker_to').datetimepicker('minDate', e.date);
+    });
+    $("#datetimepicker_to").on("change.datetimepicker", function (e) {
+        $('#datetimepicker_from').datetimepicker('maxDate', e.date);
+    });
+}
 
 function setBootstrapSelectStyle() {
     //Set a style for the Bootstrap-select which looks more like the BS3 ones, and the form-controls
