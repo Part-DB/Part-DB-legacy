@@ -248,6 +248,29 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <hr>
+
+                            <div class="form-group row">
+                                <p class="form-text text-muted col-md-9 offset-md-3">{t}Diese Texte werden automatisch bei allen Bauteilentnahmen/zugaben angezeigt, bei denen nichts anderes angegeben wird.{/t}</p>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">{t}Standardtext Entnahme:{/t}</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="default_comment_withdrawal" {if !$can_config}disabled{/if} class="form-control" value="{$default_comment_withdrawal}"
+                                           placeholder="{t}z.B. Projekt ABC{/t}"/>
+                                </div>
+                            </div>
+
+                            <div class="form-group row">
+                                <label class="col-form-label col-md-3">{t}Standardtext Zugabe:{/t}</label>
+                                <div class="col-md-9">
+                                    <input type="text" name="default_comment_addition" {if !$can_config}disabled{/if} class="form-control" value="{$default_comment_addition}"
+                                           placeholder="{t}z.B. Projekt ABC{/t}"/>
+                                </div>
+                            </div>
+
                         </div>
 
 

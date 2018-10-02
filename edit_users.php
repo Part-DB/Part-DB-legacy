@@ -75,6 +75,9 @@ $must_change_pw             = isset($_REQUEST['must_change_pw']);
 $new_theme          = isset($_REQUEST['custom_css'])        ? $_REQUEST['custom_css']               : "";
 $new_timezone       = isset($_REQUEST['timezone'])          ? $_REQUEST['timezone']                 : "";
 $new_language       = isset($_REQUEST['language'])          ? $_REQUEST['language']                 : "";
+$new_comment_withdrawal = isset($_POST['default_comment_withdrawal']) ? $_POST['default_comment_withdrawal'] : null;
+$new_comment_addition = isset($_POST['default_comment_addition']) ? $_POST['default_comment_addition'] : null;
+
 
 $action = 'default';
 if (isset($_REQUEST["add"])) {
@@ -139,6 +142,7 @@ if (! $fatal_error) {
                 $new_user->setTheme($new_theme);
                 $new_user->setLanguage($new_language);
                 $new_user->setTimezone($new_timezone);
+                $new_user->setDefaultInstockChangeComment($new_comment_withdrawal, $new_comment_addition);
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
                 //Apply permissions
@@ -218,6 +222,8 @@ if (! $fatal_error) {
                 $selected_user->setLanguage($new_language);
                 $selected_user->setTimezone($new_timezone);
 
+                $selected_user->setDefaultInstockChangeComment($new_comment_withdrawal, $new_comment_addition);
+
                 //Apply permissions
                 $selected_user->getPermissionManager()->parsePermissionsFromRequest($_REQUEST);
 
@@ -294,6 +300,9 @@ if (! $fatal_error) {
             $html->setLoop('timezone_loop', arrayToTemplateLoop($timezones, $selected_user->getTimezone(true)));
             $html->setLoop('language_loop', arrayToTemplateLoop($config['languages'], $selected_user->getLanguage(true)));
 
+            $comment_addition = $selected_user->getDefaultInstockChangeComment(false);
+            $comment_withdrawal = $selected_user->getDefaultInstockChangeComment(true);
+
             //Permissions loop
             $perm_loop = $selected_user->getPermissionManager()->generatePermissionsLoop($perm_readonly);
         } elseif ($action == 'add') {
@@ -303,6 +312,8 @@ if (! $fatal_error) {
             $email = $new_email;
             $department = $new_department;
             $no_password = false;
+            $comment_addition = $new_comment_addition;
+            $comment_withdrawal = $new_comment_withdrawal;
             //Permissions loop
             if (isset($new_user)) {
                 $perm_loop = $new_user->getPermissionManager()->generatePermissionsLoop($perm_readonly);
@@ -319,6 +330,9 @@ if (! $fatal_error) {
             $no_password = false;
             $group_id = 0;
             $perm_loop = \PartDB\Permissions\PermissionManager::defaultPermissionsLoop($perm_readonly);
+
+            $comment_addition = "";
+            $comment_withdrawal = "";
 
             //Configuration settings
             $html->setLoop('custom_css_loop', build_custom_css_loop("", true));
@@ -338,6 +352,10 @@ if (! $fatal_error) {
         $html->setVariable('email', $email, 'string');
         $html->setVariable('department', $department, 'string');
         $html->setVariable('no_password', $no_password, 'string');
+
+        $html->setVariable('default_comment_addition', $comment_addition, "string");
+        $html->setVariable('default_comment_withdrawal', $comment_withdrawal, "string");
+
 
         $html->setVariable(
             'group_list',

@@ -36,7 +36,7 @@ include_once(BASE.'/updates/db_migration_functions.php');
  *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
  */
 
-define('LATEST_DB_VERSION', 24);  // <-- increment here
+define('LATEST_DB_VERSION', 25);  // <-- increment here
 
 /*
  * Get update steps
@@ -957,6 +957,14 @@ EOD;
                 " `extra` MEDIUMTEXT NOT NULL ,".
                 " PRIMARY KEY (`id`),".
                 " INDEX (`id_user`)) ENGINE = InnoDB;";
+
+            break;
+
+        case 24:
+            $updateSteps[] = "ALTER TABLE `users`".
+                " ADD `config_image_path` TEXT NOT NULL AFTER `config_currency`,".
+                " ADD `config_instock_comment_w` TEXT NOT NULL AFTER `config_image_path`,".
+                " ADD `config_instock_comment_a` TEXT NOT NULL AFTER `config_instock_comment_w`;" ;
 
             break;
 
