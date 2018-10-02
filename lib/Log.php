@@ -62,6 +62,7 @@ class Log
     const TYPE_ELEMENTEDITED = 7;
     const TYPE_CONFIGCHANGED = 8;
     const TYPE_INSTOCKCHANGE = 9;
+    const TYPE_DATABASEUPDATE = 10;
 
     const TARGET_TYPE_NONE = 0;
     const TARGET_TYPE_USER = 1;
@@ -262,6 +263,8 @@ class Log
                 return _("Systemeinstellungen geändert");
             case static::TYPE_INSTOCKCHANGE:
                 return _("Bauteile Entnahme/Zugabe");
+            case static::TYPE_DATABASEUPDATE:
+                return _("Datenbank Update");
             default:
                 return _("Unbekannter Typ");
         }
@@ -678,6 +681,8 @@ class Log
                 return $base_ns . "ConfigChangedEntry";
             case static::TYPE_INSTOCKCHANGE:
                 return $base_ns . "InstockChangedEntry";
+            case static::TYPE_DATABASEUPDATE:
+                return $base_ns . "DatabaseUpdatedEntry";
             default:
                 return $base_ns . "UnknownTypeEntry";
         }

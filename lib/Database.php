@@ -28,6 +28,7 @@ namespace PartDB;
 /** @noinspection PhpIncludeInspection */
 use DebugBar\DataCollector\PDO\TraceablePDO;
 use Exception;
+use PartDB\LogSystem\DatabaseUpdatedEntry;
 use PartDB\Tools\PDBDebugBar;
 use PDO;
 use PDOException;
@@ -522,6 +523,14 @@ class Database
         } else {
             debug('success', _('Das Update wurde erfolgreich durchgeführt.'));
             $add_log(_('Das Update wurde erfolgreich durchgeführt.'));
+        }
+
+        //Try to create an DatabaseUpdateEntry Log entry
+        try {
+            $l = new Log($this);
+            DatabaseUpdatedEntry::add($this, User::getLoggedInUser(),$l, $current, $latest, !$error);
+        } catch (Exception $ex) {
+            //When an error happen, the DB log table was not created yet. There is nothing we can do here, so do nothing.
         }
 
         return $log;
