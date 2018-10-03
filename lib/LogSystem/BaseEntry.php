@@ -166,11 +166,18 @@ abstract class BaseEntry extends DBElement
      * @param $target_type int The type of the target.
      * @param $target_id int The id of the target.
      * @param $extra string An string containing some additional informations.
-     * @return BaseEntry The newly created BaseEntry.
+     * @return BaseEntry|null The newly created BaseEntry, or null if nothing was created (e.g. when logging is disabled)
      * @throws Exception
      */
     protected static function addEntry(&$database, &$current_user, &$log, $type, $level, $user_id, $target_type, $target_id, $extra)
     {
+        global $config;
+        //Check if the current Entry has an sufficent priority level
+        //Zero is the highest possible priority, so -1 disables logging completly.
+        if($level > $config['logging_system']['min_level']) {
+            return null;
+        }
+
         $data = array(
             "type" => $type,
             "id_user" => $user_id,

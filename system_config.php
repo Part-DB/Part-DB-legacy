@@ -136,6 +136,9 @@ $use_gravatar                   = isset($_REQUEST['gravatar_enable']);
 $login_redirect                 = isset($_REQUEST['login_redirect']);
 $max_sessiontime                = isset($_REQUEST['max_sessiontime']) ? $_REQUEST['max_sessiontime'] : -1;
 
+//Logging system settings
+$min_log_level                  = isset($_REQUEST['min_log_level']) ? (int)$_REQUEST['min_log_level'] : 7;
+
 $action = 'default';
 if (isset($_REQUEST["apply"])) {
     $action = 'apply';
@@ -227,6 +230,10 @@ if (! $fatal_error) {
 
             $config['user']['avatars']['use_gravatar']          = $use_gravatar;
             $config['user']['redirect_to_login']                = $login_redirect;
+
+            $config['logging_system']['min_level']              = $min_log_level;
+
+
             if ($max_sessiontime >= 0) {
                 $config['user']['gc_maxlifetime'] = $max_sessiontime;
             }
@@ -356,6 +363,9 @@ try {
     $html->setVariable('gravatar_enable', $config['user']['avatars']['use_gravatar'], 'boolean');
     $html->setVariable('login_redirect', $config['user']['redirect_to_login'], 'boolean');
     $html->setVariable('gc_lifetime', $config['user']['gc_maxlifetime'], 'int');
+
+    //Logging system
+    $html->setVariable('min_log_level', $config['logging_system']['min_level'], "int");
 
 //Search
     $html->setVariable('livesearch_active', $config['search']['livesearch']);

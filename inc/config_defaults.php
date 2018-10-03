@@ -194,6 +194,7 @@ $config['cookie_consent']['link_href']          = "https://cookiesandyou.com/";
 
 $config['logging_system']['ip_anonymize_mask_ipv4']  = "255.255.255.0";  //The mask that should be used to anonymize ip addresses. Set to "" to log the complete IP address (this is not GPDR compliant)
 $config['logging_system']['ip_anonymize_mask_ipv6']  = "ffff:ffff:ffff:ffff:0000:0000:0000:0000";
+$config['logging_system']['min_level']               = 7;           //Set the minimum level of events which should be logged. 7 = DEBUG, all things are logged, Set to -1 to disable logging completly.
 
 /********************************************************************************
  *

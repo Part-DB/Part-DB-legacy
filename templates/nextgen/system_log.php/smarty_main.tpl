@@ -9,7 +9,7 @@
     <div class="card-collapse collapse card-body" id="panel-filter">
         <form class="form-horizontal no-progbar" method="post">
             <div class="form-group row">
-                <label class="col-md-2 col-form-label">{t}minimales Loglevel:{/t}</label>
+                <label class="col-md-2 col-form-label">{t}Minimales Loglevel:{/t}</label>
                 <div class="col-md-10">
                     <select name="min_level" class="form-control selectpicker" data-live-search="true">
                         <option value="0" {if $min_level == 0}selected{/if}>Emergency</option>
