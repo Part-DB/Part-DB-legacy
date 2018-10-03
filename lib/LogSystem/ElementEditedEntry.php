@@ -65,7 +65,7 @@ class ElementEditedEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(&$database, &$current_user, &$log, &$element, $data_array = null)
+    public static function add(&$database, &$current_user, &$log, &$element, $old_values = null, $new_values = null)
     {
         static $type_id, $element_id, $user_id, $last_log = 0;
 
@@ -85,11 +85,27 @@ class ElementEditedEntry extends BaseEntry
 
         //When a part change only changes the instock value, then dont create a own entry, because an Instock Change entry was already created.
         if($element_id = LOG::TARGET_TYPE_PART
-            && count($data_array) == 1
-            && isset($data_array['instock']))
+            && count($new_values) == 1
+            && isset($new_values['instock']))
         {
             return null;
         }
+
+        //Check if there is a change in the new db_data.
+        $difference = false;
+        foreach($new_values as $key => $value) {
+            if (isset($old_values[$key])) {
+                if($old_values[$key] != $value) { //Dont use strict compare here!!
+                    $difference = true;
+                    break;  //We need only one difference
+                }
+            }
+        }
+        //Nothing was changed, so we dont need to create an entry.
+        if(!$difference) {
+            return null;
+        }
+
 
         if ($type_id == Log::TARGET_TYPE_USER || $type_id == Log::TARGET_TYPE_GROUP) {
             //When a user or group is edited, this needs more attention, so higher level.
