@@ -83,6 +83,14 @@ class ElementEditedEntry extends BaseEntry
         $element_id = $element->getID();
         $user_id = $current_user->getID();
 
+        //When a part change only changes the instock value, then dont create a own entry, because an Instock Change entry was already created.
+        if($element_id = LOG::TARGET_TYPE_PART
+            && count($data_array) == 1
+            && isset($data_array['instock']))
+        {
+            return null;
+        }
+
         if ($type_id == Log::TARGET_TYPE_USER || $type_id == Log::TARGET_TYPE_GROUP) {
             //When a user or group is edited, this needs more attention, so higher level.
             $level = Log::LEVEL_NOTICE;
