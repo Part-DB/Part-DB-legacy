@@ -1196,9 +1196,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the new instock is not valid
      * @throws Exception if there was an error
      */
-    public function setInstock($new_instock)
+    public function setInstock($new_instock, $comment = null)
     {
+        $old_instock = $this->getInstock();
         $this->setAttributes(array('instock' => $new_instock));
+        InstockChangedEntry::add($this->database, $this->current_user, $this->log,
+            $this, $old_instock, $new_instock , $comment);
     }
 
     /**
