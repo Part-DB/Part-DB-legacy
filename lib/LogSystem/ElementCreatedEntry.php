@@ -13,6 +13,7 @@ use PartDB\Base\DBElement;
 use PartDB\Base\NamedDBElement;
 use PartDB\Database;
 use PartDB\Log;
+use PartDB\Part;
 use PartDB\User;
 
 class ElementCreatedEntry extends BaseEntry
@@ -22,6 +23,8 @@ class ElementCreatedEntry extends BaseEntry
      * @var $element NamedDBElement
      */
     protected $element;
+
+    protected $creation_instock = null;
 
     /**
      * Constructor
@@ -51,8 +54,30 @@ class ElementCreatedEntry extends BaseEntry
         } catch (Exception $ex) {
 
         }
+
+        $arr = $this->deserializeExtra();
+        if (isset($arr['i'])) {
+            $this->creation_instock = $arr['i'];
+        }
     }
 
+    /**
+     * Checks if this Entry has an instock at creation value.
+     * @return bool true if this entry has this value.
+     */
+    protected function hasCreationInstockValue()
+    {
+        return $this->creation_instock != null;
+    }
+
+    /**
+     * Returns the instock the part created via this entry has, when it was created.
+     * @return int|null Null, if no instock value is existing, otherwise the value.
+     */
+    protected function getCreationInstockValue()
+    {
+        return $this->creation_instock;
+    }
 
     /**
      * Adds a new log entry to the database.
@@ -76,6 +101,12 @@ class ElementCreatedEntry extends BaseEntry
             $level = Log::LEVEL_INFO;
         }
 
+        $arr = array();
+        if($element instanceof Part) {
+            /** @var Part */
+            $arr['i'] = $element->getInstock();
+        }
+
         return static::addEntry(
             $database,
             $current_user,
@@ -85,7 +116,7 @@ class ElementCreatedEntry extends BaseEntry
             $current_user->getID(),
             $type_id,
             $element->getID(),
-            ""
+            $arr
         );
     }
 
@@ -120,6 +151,10 @@ class ElementCreatedEntry extends BaseEntry
      */
     public function getExtra($html = false)
     {
-        return "";
+        if($this->hasCreationInstockValue()) {
+            return _("Anzahl: ") . $this->getCreationInstockValue();
+        }
+
+            return "";
     }
 }
