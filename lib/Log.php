@@ -129,10 +129,10 @@ class Log
         }
     }
 
-    public function userLogsOut($user)
+    public function userLogsOut($user, $ip_address = "")
     {
         try {
-            UserLogoutEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $user);
+            UserLogoutEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $user, $ip_address);
         } catch (Exception $e) {
 
         }

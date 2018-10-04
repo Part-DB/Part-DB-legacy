@@ -58,6 +58,8 @@ class UserNotAllowedEntry extends BaseEntry
      */
     public static function add(&$database, &$current_user, &$log, $permission_string)
     {
+        $arr = array("p" => $permission_string);
+
         return static::addEntry(
             $database,
             $current_user,
@@ -67,7 +69,7 @@ class UserNotAllowedEntry extends BaseEntry
             $current_user->getID(),
             Log::TARGET_TYPE_USER,
             $current_user->getID(),
-            $permission_string
+            $arr
         );
     }
 
@@ -94,4 +96,13 @@ class UserNotAllowedEntry extends BaseEntry
         return BASE_RELATIVE . "user_info?uid=" . $this->getTargetID();
     }
 
+    /**
+     * Returns some extra information which is shown in the extra coloumn, of the log
+     * @param $html bool Set this to true, to get an HTML formatted version of the extra.
+     * @return string The extra information
+     */
+    public function getExtra($html = false)
+    {
+        return $this->deserializeExtra()["p"];
+    }
 }

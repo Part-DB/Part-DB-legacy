@@ -150,4 +150,14 @@ class ElementEditedEntry extends BaseEntry
         //We can not link to a part, that dont exists any more...
         return Log::generateLinkForTarget($this->getTargetType(), $this->getTargetID());
     }
+
+    /**
+     * Returns some extra information which is shown in the extra coloumn, of the log
+     * @param $html bool Set this to true, to get an HTML formatted version of the extra.
+     * @return string The extra information
+     */
+    public function getExtra($html = false)
+    {
+        return "";
+    }
 }

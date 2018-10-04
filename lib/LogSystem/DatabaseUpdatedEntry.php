@@ -27,8 +27,7 @@ class DatabaseUpdatedEntry extends BaseEntry
 
         //Fill our extra values.
 
-        $extra_string = parent::getExtra();
-        $extra_array = static::deserializeExtra($extra_string);
+        $extra_array = $this->deserializeExtra();
 
         $this->old_version = $extra_array['o'];
         $this->new_version = $extra_array['n'];
@@ -71,7 +70,7 @@ class DatabaseUpdatedEntry extends BaseEntry
         }
     }
 
-    public function getExtra()
+    public function getExtra($html = false)
     {
         return $this->getSuccessString() . _("; Alte Version: ") . $this->getOldVersion() . _("; Neue Version: ") . $this->getNewVersion();
     }
@@ -94,25 +93,7 @@ class DatabaseUpdatedEntry extends BaseEntry
         return "";
     }
 
-    /**
-     * This function converts the given $extra array to a form, that can be written into the extra field.
-     * @param $extra
-     * @return false|string
-     */
-    protected static function serializeExtra($extra)
-    {
-        return json_encode($extra);
-    }
 
-    /**
-     * This function converts the string from the extra field, to an array/object.
-     * @param $string
-     * @return mixed
-     */
-    protected static function deserializeExtra($string)
-    {
-        return json_decode($string, true);
-    }
 
     /**
      * Adds a new log entry to the database.
@@ -146,7 +127,7 @@ class DatabaseUpdatedEntry extends BaseEntry
             $current_user->getID(),
             0,
             0,
-            static::serializeExtra($extra_array)
+            $extra_array
         );
     }
 

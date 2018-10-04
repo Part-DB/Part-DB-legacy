@@ -44,14 +44,13 @@ class InstockChangedEntry extends BaseEntry
         try {
             $class = Log::targetTypeIDToClass($this->getTargetType());
             $this->element = new $class($database, $current_user, $log, $this->getTargetID());
-        } catch (Exception $ex) {
+        } catch (\Exception $ex) {
 
         }
 
         //Fill our extra values.
 
-        $extra_string = parent::getExtra();
-        $extra_array = static::deserializeExtra($extra_string);
+        $extra_array = $this->deserializeExtra();
 
         $this->old_instock = $extra_array['o'];
         $this->new_instock = $extra_array['n'];
@@ -86,7 +85,7 @@ class InstockChangedEntry extends BaseEntry
         return $this->comment;
     }
 
-    public function getExtra()
+    public function getExtra($html = false)
     {
         $difference = $this->getDifference();
         if($difference > 0 ) {
@@ -179,25 +178,6 @@ class InstockChangedEntry extends BaseEntry
         return Log::generateLinkForTarget($this->getTargetType(), $this->getTargetID());
     }
 
-    /**
-     * This function converts the given $extra array to a form, that can be written into the extra field.
-     * @param $extra
-     * @return false|string
-     */
-    protected static function serializeExtra($extra)
-    {
-        return json_encode($extra);
-    }
-
-    /**
-     * This function converts the string from the extra field, to an array/object.
-     * @param $string
-     * @return mixed
-     */
-    protected static function deserializeExtra($string)
-    {
-        return json_decode($string, true);
-    }
 
     /**
      * Adds a new log entry to the database.
@@ -253,7 +233,7 @@ class InstockChangedEntry extends BaseEntry
             $current_user->getID(),
             $type_id,
             $part->getID(),
-            static::serializeExtra($extra_array)
+            $extra_array
         );
     }
 

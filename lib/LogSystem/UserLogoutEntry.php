@@ -16,6 +16,8 @@ use PartDB\User;
 
 class UserLogoutEntry extends BaseEntry
 {
+    protected $ip_address;
+
     /**
      * Constructor
      *
@@ -37,6 +39,9 @@ class UserLogoutEntry extends BaseEntry
         if ($this->getTypeID() != Log::TYPE_USERLOGOUT) {
             throw new \RuntimeException(_("Falscher Logtyp!"));
         }
+
+        $arr = $this->deserializeExtra();
+        $this->ip_address = $arr["i"];
     }
 
 
@@ -54,6 +59,8 @@ class UserLogoutEntry extends BaseEntry
      */
     public static function add(&$database, &$current_user, &$log, $user, $ip_address = "")
     {
+        $arr = array("i" => $ip_address);
+
         return static::addEntry(
             $database,
             $current_user,
@@ -63,7 +70,7 @@ class UserLogoutEntry extends BaseEntry
             $user->getID(),
             Log::TARGET_TYPE_USER,
             $user->getID(),
-            $ip_address
+            $arr
         );
     }
 
@@ -90,4 +97,13 @@ class UserLogoutEntry extends BaseEntry
         return BASE_RELATIVE . "user_info?uid=" . $this->getTargetID();
     }
 
+    /**
+     * Returns some extra information which is shown in the extra coloumn, of the log
+     * @param $html bool Set this to true, to get an HTML formatted version of the extra.
+     * @return string The extra information
+     */
+    public function getExtra($html = false)
+    {
+        return _("Von IP: ") . $this->ip_address;
+    }
 }

@@ -975,7 +975,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     {
 
         //Write the event to the log:
-        self::getLoggedInUser()->log->userLogsOut(self::getLoggedInUser());
+        self::getLoggedInUser()->log->userLogsOut(self::getLoggedInUser(), getConnectionIPAddress());
 
         @session_start();
         $_SESSION['user'] = static::ID_ANONYMOUS;

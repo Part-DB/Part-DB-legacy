@@ -63,4 +63,14 @@ class UnknownTypeEntry extends BaseEntry
     {
         return "";
     }
+
+    /**
+     * Returns some extra information which is shown in the extra coloumn, of the log
+     * @param $html bool Set this to true, to get an HTML formatted version of the extra.
+     * @return string The extra information
+     */
+    public function getExtra($html = false)
+    {
+        return $this->db_data["extra"];
+    }
 }

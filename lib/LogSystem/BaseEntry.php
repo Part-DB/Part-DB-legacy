@@ -68,7 +68,8 @@ abstract class BaseEntry extends DBElement
         return $time_str;
     }
 
-    public function getExtra()
+
+    public function getExtraRaw()
     {
         return $this->db_data['extra'];
     }
@@ -148,11 +149,38 @@ abstract class BaseEntry extends DBElement
      */
     abstract public function getTargetLink();
 
+    /**
+     * Returns some extra information which is shown in the extra coloumn, of the log
+     * @param $html bool Set this to true, to get an HTML formatted version of the extra.
+     * @return string The extra information
+     */
+    abstract public function getExtra($html = false);
+
     public function delete()
     {
         $this->current_user->tryDo(PermissionManager::SYSTEM, SystemPermission::DELETE_LOGS);
 
         parent::delete();
+    }
+
+    /**
+     * This function converts the given $extra array to a form, that can be written into the extra field.
+     * @param $extra
+     * @return false|string
+     */
+    protected static function serializeExtra($extra)
+    {
+        return json_encode($extra);
+    }
+
+    /**
+     * This function converts the string from the extra field, to an array/object.
+     * @param bool $assoc_array When set to true, the data is returned as an array, otherwise as an object.
+     * @return array|object|null Returns the deserialized array/object, null if it could not be deserialized.
+     */
+    protected function deserializeExtra($assoc_array = true)
+    {
+        return json_decode($this->db_data['extra'], $assoc_array);
     }
 
     /**
@@ -165,11 +193,11 @@ abstract class BaseEntry extends DBElement
      * @param $user_id int The id of the user, that causes this entry.
      * @param $target_type int The type of the target.
      * @param $target_id int The id of the target.
-     * @param $extra string An string containing some additional informations.
+     * @param $extra_obj mixed|array|object An object containing some additional informations.
      * @return BaseEntry|null The newly created BaseEntry, or null if nothing was created (e.g. when logging is disabled)
      * @throws Exception
      */
-    protected static function addEntry(&$database, &$current_user, &$log, $type, $level, $user_id, $target_type, $target_id, $extra)
+    protected static function addEntry(&$database, &$current_user, &$log, $type, $level, $user_id, $target_type, $target_id, $extra_obj)
     {
         global $config;
         //Check if the current Entry has an sufficent priority level
@@ -183,7 +211,7 @@ abstract class BaseEntry extends DBElement
             "id_user" => $user_id,
             "target_type" => $target_type,
             "target_id" => $target_id,
-            "extra" => $extra,
+            "extra" => static::serializeExtra($extra_obj),
             "level" => $level
         );
         return static::addByArray($database, $current_user, $log, "log", $data);

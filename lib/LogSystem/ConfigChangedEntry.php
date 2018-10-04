@@ -82,4 +82,12 @@ class ConfigChangedEntry extends BaseEntry
     {
         return "";
     }
+
+    /**
+     * @return string
+     */
+    public function getExtra($html = false)
+    {
+        return "";
+    }
 }
