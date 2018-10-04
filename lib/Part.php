@@ -1403,7 +1403,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $this->setAttributes(array('id_master_picture_attachement' => $new_master_picture_attachement_id));
     }
 
-    public function setAttributes($new_values)
+    public function setAttributes($new_values, $edit_message = null)
     {
         //Override this function, so we can check if user has the needed permissions.
         $arr = array();
@@ -1489,7 +1489,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         //Only apply attributes, if $arr contains values.
         if (!empty($arr)) {
-            parent::setAttributes($arr);
+            parent::setAttributes($arr, $edit_message);
         }
     }
 

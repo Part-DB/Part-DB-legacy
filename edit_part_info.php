@@ -77,7 +77,7 @@ $new_footprint_id           = isset($_REQUEST['footprint_id'])              ? (i
 $new_visible                = isset($_REQUEST['visible']);
 $new_comment                = isset($_REQUEST['comment'])                   ? (string)$_REQUEST['comment']                   : '';
 
-$change_comment             = isset($_REQUEST['change_comment'])    ? (string)$_REQUEST['change_comment']   : "";
+$change_comment             = isset($_REQUEST['change_comment'])    ? (string)$_REQUEST['change_comment']   : null;
 
 // search/add
 $search_category_name       = isset($_REQUEST['search_category_name'])      ? (string)$_REQUEST['search_category_name']      : '';
@@ -350,7 +350,7 @@ if (! $fatal_error) {
                     'visible'           => $new_visible,
                     'comment'           => $new_comment);
 
-                $part->setInstock($new_instock, $change_comment == '' ?  _("Bauteil bearbeitet") : $change_comment);
+                $part->setInstock($new_instock, $change_comment == null ?  _("Bauteil bearbeitet") : $change_comment);
 
                 // do not overwrite (remove!) the footprint or manufacturer if they are disabled (global or in the part's category)
                 if (isset($_REQUEST['footprint_id'])) {
@@ -362,13 +362,13 @@ if (! $fatal_error) {
 
                 if (Part::isValidName($new_name, $part->getCategory())) {
                     $new_attributes['name'] = $new_name;
-                    $part->setAttributes($new_attributes);
+                    $part->setAttributes($new_attributes, $change_comment);
                     global $config;
                     if ($config['edit_parts']['saved_go_to_info'] xor $rightclicked) {
                         $html->redirect("show_part_info.php?pid=" . $part->getID(), true);
                     }
                 } else {
-                    $part->setAttributes($new_attributes);
+                    $part->setAttributes($new_attributes, $change_comment);
 
                     $parname_hint = $part->getCategory()->getPartnameHint(true, false);
                     if (empty($parname_hint)) {

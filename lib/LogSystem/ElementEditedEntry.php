@@ -18,6 +18,8 @@ use PartDB\User;
 class ElementEditedEntry extends BaseEntry
 {
 
+    protected $message = "";
+
     /**
      * @var $element NamedDBElement
      */
@@ -51,8 +53,21 @@ class ElementEditedEntry extends BaseEntry
         } catch (Exception $ex) {
 
         }
+
+        $arr = $this->deserializeExtra();
+        if(isset($arr['m'])) {
+            $this->message = $arr['m'];
+        }
     }
 
+    /**
+     * Returns a message describing this Change.
+     * @return string
+     */
+    public function getMessage()
+    {
+        return $this->message;
+    }
 
     /**
      * Adds a new log entry to the database.
@@ -65,7 +80,7 @@ class ElementEditedEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(&$database, &$current_user, &$log, &$element, $old_values = null, $new_values = null)
+    public static function add(&$database, &$current_user, &$log, &$element, $old_values = null, $new_values = null, $edit_message = null)
     {
         static $type_id, $element_id, $user_id, $last_log = 0;
 
@@ -114,6 +129,8 @@ class ElementEditedEntry extends BaseEntry
             $level = Log::LEVEL_INFO;
         }
 
+        $arr = array("m" => $edit_message);
+
         return static::addEntry(
             $database,
             $current_user,
@@ -123,7 +140,7 @@ class ElementEditedEntry extends BaseEntry
             $current_user->getID(),
             $type_id,
             $element->getID(),
-            ""
+            $arr
         );
     }
 
@@ -158,6 +175,6 @@ class ElementEditedEntry extends BaseEntry
      */
     public function getExtra($html = false)
     {
-        return "";
+        return $this->getMessage();
     }
 }
