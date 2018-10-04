@@ -1001,7 +1001,8 @@ function makeTooltips() {
     //$('[data-toggle="tooltip"]').tooltip();
     //$('a[title]').tooltip("hide").tooltip({container: "body"});
     $('body').tooltip('dispose');
-    $("body").tooltip({ selector: '[title]', container: "body" });
+    $(".tooltip").remove();
+    $("body").tooltip({ selector: 'a[title]', container: "body" });
     //$('button[title]').tooltip("hide").tooltip({container: "body"});
 }
 function viewer3d_models() {
