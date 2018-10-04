@@ -65,7 +65,7 @@ class ElementCreatedEntry extends BaseEntry
      * Checks if this Entry has an instock at creation value.
      * @return bool true if this entry has this value.
      */
-    protected function hasCreationInstockValue()
+    public function hasCreationInstockValue()
     {
         return $this->creation_instock != null;
     }
@@ -74,7 +74,7 @@ class ElementCreatedEntry extends BaseEntry
      * Returns the instock the part created via this entry has, when it was created.
      * @return int|null Null, if no instock value is existing, otherwise the value.
      */
-    protected function getCreationInstockValue()
+    public function getCreationInstockValue()
     {
         return $this->creation_instock;
     }

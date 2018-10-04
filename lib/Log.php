@@ -31,6 +31,7 @@ use PartDB\LogSystem\BaseEntry;
 use PartDB\LogSystem\ElementCreatedEntry;
 use PartDB\LogSystem\ElementDeletedEntry;
 use PartDB\LogSystem\ElementEditedEntry;
+use PartDB\LogSystem\InstockChangedEntry;
 use PartDB\LogSystem\UnknownTypeEntry;
 use PartDB\LogSystem\UserLoginEntry;
 use PartDB\LogSystem\UserLogoutEntry;
@@ -236,6 +237,62 @@ class Log
             return null;
         }
     }
+
+    public static function getHistoryForPart(&$database, &$current_user, &$log, &$part)
+    {
+        if(!$part instanceof Part) {
+            throw new \RuntimeException(_("getInstockHistoryForPart() funktioniert nur für Bauteile!"));
+        }
+
+        $part_id = $part->getID();
+
+        $query = "SELECT * FROM `log` WHERE";
+        $query .= " target_id = ?";
+        $data[] = $part_id; //Only parts with the given ID
+        $query .= " AND target_type = ?";
+        $data[] = Log::TARGET_TYPE_PART;    //Only parts as a target
+        $query .= " AND (type = 5"; //ElementDeleted
+        $query .= " OR type = 6"; //ElementCreated
+        $query .= " OR type = 7";  //ElementEdited
+        $query .= " OR type = 9)";  //InstockChanged
+
+        $query .= " ORDER BY log.datetime ASC";
+
+        $results = $database->query($query, $data);
+
+        $entries = $log->queryDataToEntryObjects($results);
+
+        $return_data = array();
+        foreach($entries as $entry) {
+            $tmp = array();
+            //Basic info
+            $tmp['timestamp'] = $entry->getTimestamp(false);
+            $tmp['timestamp_formatted'] = $entry->getTimestamp(true);
+            $tmp['user_name'] = $entry->getUser()->getFullName(true);
+            $tmp['user_id'] = $entry->getUser()->getID();
+            $tmp['type_id'] = $entry->getTypeID();
+            $tmp['type_text'] = static::typeIDToString($entry->getTypeID());
+
+            if($entry instanceof ElementCreatedEntry) {
+                /** @var ElementCreatedEntry $entry*/
+                $tmp['instock'] = $entry->hasCreationInstockValue() ? $entry->getCreationInstockValue() : 0;
+            } elseif($entry instanceof ElementEditedEntry) {
+                /** @var ElementEditedEntry $entry */
+                $tmp['message'] = $entry->getMessage();
+            } elseif($entry instanceof InstockChangedEntry) {
+                /** @var InstockChangedEntry $entry */
+                $tmp['instock'] = $entry->getNewInstock();
+                $tmp['old_instock'] = $entry->getOldInstock();
+                $tmp['message'] = $entry->getComment();
+                $tmp['price'] = $entry->getPrice(true);
+                $tmp['price'] = $entry->getPriceMoneyString(true);
+            }
+            $return_data[] = $tmp;
+        }
+
+        return $return_data;
+    }
+
 
     /**
      * Converts an type id (integer) to a localized string version.

@@ -363,6 +363,8 @@ if (! $fatal_error) {
 
         //Barcode stuff
         $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("part"));
+
+        $html->setLoop("history", Log::getHistoryForPart($database, $current_user, $log, $part));
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -416,6 +418,8 @@ if (! $fatal_error) {
         && $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::READ)) {
         $html->printTemplate('attachements');
     }
+
+    $html->printTemplate('history');
 
     if ($current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ)
         && !$config['devices']['disable']) {
