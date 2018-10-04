@@ -1198,7 +1198,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function setInstock($new_instock, $comment = null)
     {
-        $old_instock = $this->getInstock();
+        $old_instock = (int) $this->getInstock();
         $this->setAttributes(array('instock' => $new_instock));
         InstockChangedEntry::add($this->database, $this->current_user, $this->log,
             $this, $old_instock, $new_instock , $comment);

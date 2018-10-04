@@ -226,7 +226,8 @@ class InstockChangedEntry extends BaseEntry
         }
 
         if ($new_instock == $old_instock) {
-            throw new \RuntimeException(_('Die Anzahl der vorhanden Teile muss sich ändern um ein InstockChangedEntry erzeugen zu können!'));
+            return null; //We dont need to create an entry here.
+            //throw new \RuntimeException(_('Die Anzahl der vorhanden Teile muss sich ändern um ein InstockChangedEntry erzeugen zu können!'));
         }
 
         if($comment === null) {
