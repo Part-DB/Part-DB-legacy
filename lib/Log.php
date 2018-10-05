@@ -248,7 +248,7 @@ class Log
      * @return array
      * @throws Exception
      */
-    public static function getHistoryForPart(&$database, &$current_user, &$log, &$part)
+    public static function getHistoryForPart(&$database, &$current_user, &$log, &$part, $limit = 50, $page = 1)
     {
         if(!$part instanceof Part) {
             throw new \RuntimeException(_("getInstockHistoryForPart() funktioniert nur für Bauteile!"));
@@ -267,6 +267,10 @@ class Log
         $query .= " OR type = 9)";  //InstockChanged
 
         $query .= " ORDER BY log.datetime DESC";
+
+        if ($limit > 0 && $page > 0) {
+            $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
+        }
 
         $results = $database->query($query, $data);
 
@@ -306,6 +310,30 @@ class Log
         }
 
         return $return_data;
+    }
+
+    public static function getHistoryForPartCount(&$database, &$current_user, &$log, &$part)
+    {
+        if(!$part instanceof Part) {
+            throw new \RuntimeException(_("getInstockHistoryForPart() funktioniert nur für Bauteile!"));
+        }
+
+        $part_id = $part->getID();
+
+        $query = "SELECT count(id) AS `count` FROM `log` WHERE";
+        $query .= " target_id = ?";
+        $data[] = $part_id; //Only parts with the given ID
+        $query .= " AND target_type = ?";
+        $data[] = Log::TARGET_TYPE_PART;    //Only parts as a target
+        $query .= " AND (type = 5"; //ElementDeleted
+        $query .= " OR type = 6"; //ElementCreated
+        $query .= " OR type = 7";  //ElementEdited
+        $query .= " OR type = 9)";  //InstockChanged
+
+        $query .= " ORDER BY log.datetime DESC";
+
+        $results = $database->query($query, $data);
+        return $results[0]['count'];
     }
 
 

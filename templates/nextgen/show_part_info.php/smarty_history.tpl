@@ -6,6 +6,14 @@
             {t}Historie{/t}</a>
     </div>
     <div class="card-collapse collapse" id="panel-history">
+        <div class="card-body p-0">
+            <form method="get">
+                <input type="hidden" name="lid" value="{$lid}">
+                <input type="hidden" name="page" value="1">
+
+                {include "../smarty_pagination.tpl"}
+            </form>
+        </div>
         {include "../smarty_history.tpl" history=$history}
     </div>
 </div>

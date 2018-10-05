@@ -58,6 +58,11 @@ $device_id          = isset($_REQUEST['device_id_new'])     ? (integer)$_REQUEST
 $device_qty         = isset($_REQUEST['device_quantity_new']) ? (integer)$_REQUEST['device_quantity_new'] : 0;
 $device_name        = isset($_REQUEST['device_name_new'])   ? (string)$_REQUEST['device_name_new'] : "";
 
+//Pagination for history
+$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+
+
 //Parse Label scan
 if (isset($_REQUEST['barcode'])) {
     $barcode = $_REQUEST['barcode'];
@@ -364,7 +369,11 @@ if (! $fatal_error) {
         //Barcode stuff
         $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("part"));
 
-        $html->setLoop("history", Log::getHistoryForPart($database, $current_user, $log, $part));
+        $html->setLoop("history", Log::getHistoryForPart($database, $current_user, $log, $part, $limit, $page));
+        $count = Log::getHistoryForPartCount($database, $current_user, $log, $part);
+        $html->setLoop("pagination", generatePagination("show_location_parts.php?pid=$part_id", $page, $limit, $count));
+        $html->setVariable("page", $page);
+        $html->setVariable('limit', $limit);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
