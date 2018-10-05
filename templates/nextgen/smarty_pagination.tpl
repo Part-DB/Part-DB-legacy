@@ -71,7 +71,7 @@
                        {if isset($page.hint)}title="{$page.hint}" {/if} class="page-link {if isset($page.disabled) && $page.disabled}disabled {/if}"
                     >{$page.label nofilter}</a></li>
             {/foreach}
-            <li class="disabled page-item"><select name="limit" onchange="submitForm(this.form);">
+            <li class="disabled page-item"><select name="limit" onchange="submitForm(this.form);" style="height: 35px;">
                     <option value="25" {if $limit == 25}selected{/if}>25</option>
                     <option value="50" {if $limit == 50}selected{/if}>50</option>
                     <option value="100" {if $limit == 100}selected{/if}>100</option>

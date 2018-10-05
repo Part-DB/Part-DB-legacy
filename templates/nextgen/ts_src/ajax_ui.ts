@@ -1090,7 +1090,9 @@ function registerAutoRefresh() {
 }
 
 function fixSelectPaginationHeight() {
-    $('.pagination>li>select').css('height', parseInt($('.pagination').css("height")) - 2);
+    if(parseInt($('.page-item').css("height")) != 0) {
+        $('.pagination>li>select').css('height', parseInt($('.page-item').css("height")));
+    }
 }
 
 /**
