@@ -266,7 +266,7 @@ class Log
         $query .= " OR type = 7";  //ElementEdited
         $query .= " OR type = 9)";  //InstockChanged
 
-        $query .= " ORDER BY log.datetime ASC";
+        $query .= " ORDER BY log.datetime DESC";
 
         $results = $database->query($query, $data);
 
