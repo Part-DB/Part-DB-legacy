@@ -282,10 +282,11 @@ class Log
             } elseif($entry instanceof InstockChangedEntry) {
                 /** @var InstockChangedEntry $entry */
                 $tmp['instock'] = $entry->getNewInstock();
+                $tmp['difference'] = $entry->getDifference() < 0 ? $entry->getDifference() : "+". $entry->getDifference() ;
                 $tmp['old_instock'] = $entry->getOldInstock();
                 $tmp['message'] = $entry->getComment();
                 $tmp['price'] = $entry->getPrice(true);
-                $tmp['price'] = $entry->getPriceMoneyString(true);
+                $tmp['price_string'] = $entry->getPriceMoneyString(true);
             }
             $return_data[] = $tmp;
         }
@@ -744,6 +745,4 @@ class Log
                 return $base_ns . "UnknownTypeEntry";
         }
     }
-
-
 }

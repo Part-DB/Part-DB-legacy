@@ -16,8 +16,14 @@
             <td>{$entry.type_text}</td>
             <td>{$entry.user_name}</td>
             <td>{if isset($entry.message)}{$entry.message}{/if}</td>
-            <td>{if isset($entry.instock)}{$entry.instock}{/if}</td>
-            <td>{if isset($entry.price)}{$entry.price}{/if}</td>
+            <td>
+                {if isset($entry.instock)}{$entry.instock}
+                    {if isset($entry.difference)}
+                        <span class="{if $entry.difference > 0}text-success{else}text-danger{/if}">({$entry.difference})</span>
+                    {/if}
+                {/if}
+            </td>
+            <td>{if isset($entry.price_string)}{$entry.price_string}{/if}</td>
         </tr>
     {/foreach}
     </tbody>
