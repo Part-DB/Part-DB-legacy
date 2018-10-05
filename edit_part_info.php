@@ -805,7 +805,6 @@ if (! $fatal_error) {
                 if (empty($new_comment)) {
                     $new_comment = $cat->getDefaultComment(true, false);
                 }
-                $new_comment = $cat->getDefaultComment(true, false);
             }
 
             $html->setVariable('name', $new_name, 'string');
