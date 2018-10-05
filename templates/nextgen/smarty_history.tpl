@@ -14,7 +14,7 @@
         <tr>
             <td>{$entry.timestamp_formatted}</td>
             <td>{$entry.type_text}</td>
-            <td>{$entry.user_name}</td>
+            <td>{if isset($entry.user_link)}<a href="{$entry.user_link}">{$entry.user_name}</a>{else}{$entry.user_name}{/if}</td>
             <td>{if isset($entry.message)}{$entry.message}{/if}</td>
             <td>
                 {if isset($entry.instock)}{$entry.instock}

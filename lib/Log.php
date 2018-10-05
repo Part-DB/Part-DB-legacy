@@ -36,6 +36,8 @@ use PartDB\LogSystem\UnknownTypeEntry;
 use PartDB\LogSystem\UserLoginEntry;
 use PartDB\LogSystem\UserLogoutEntry;
 use PartDB\LogSystem\UserNotAllowedEntry;
+use PartDB\Permissions\PermissionManager;
+use PartDB\Permissions\UserPermission;
 
 /**
  * @file Log.php
@@ -238,6 +240,14 @@ class Log
         }
     }
 
+    /**
+     * @param $database Database
+     * @param $current_user User
+     * @param $log Log
+     * @param $part Part
+     * @return array
+     * @throws Exception
+     */
     public static function getHistoryForPart(&$database, &$current_user, &$log, &$part)
     {
         if(!$part instanceof Part) {
@@ -264,12 +274,16 @@ class Log
 
         $return_data = array();
         foreach($entries as $entry) {
+            /** @var BaseEntry $entry */
             $tmp = array();
             //Basic info
             $tmp['timestamp'] = $entry->getTimestamp(false);
             $tmp['timestamp_formatted'] = $entry->getTimestamp(true);
             $tmp['user_name'] = $entry->getUser()->getFullName(true);
             $tmp['user_id'] = $entry->getUser()->getID();
+            if($current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+                $tmp['user_link'] = "user_info.php?uid=" . $tmp['user_id'];
+            }
             $tmp['type_id'] = $entry->getTypeID();
             $tmp['type_text'] = static::typeIDToString($entry->getTypeID());
 
