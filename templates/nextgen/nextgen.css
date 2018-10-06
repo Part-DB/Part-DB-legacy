@@ -580,3 +580,7 @@ label:not(.form-check-label) {
     width: auto;
     padding-left: 10%;
 }
+
+.tooltip {
+    pointer-events: none;
+}
