@@ -1465,7 +1465,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'comment':
                 case 'name_description':
                     $row_field['obsolete']          = $this->getObsolete();
-                    $row_field['comment']           = $this->getComment(BBCodeParsingLevel::STRIP);
+                    $row_field['comment']           = mb_substr($this->getComment(BBCodeParsingLevel::STRIP), 0, 250);
                     $row_field['description']       = $this->getDescription(true, $max_length);
                     break;
 
