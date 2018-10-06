@@ -2747,7 +2747,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         if (substr($keyword, 0, 1) === '\\' &&  substr($keyword, -1) === '\\'
         || substr($keyword, 0, 1) === '/' &&  substr($keyword, -1) === '/') {
             $regex_search = true;
-            $keyword = substr($keyword, 1, -1); //Remove the backslashes
+            $keyword = mb_substr($keyword, 1, -1); //Remove the backslashes
         }
 
         if (strlen($keyword) == 0) {
