@@ -171,7 +171,7 @@ if (! $fatal_error) {
                     $messages[] = array('text' => '&nbsp;&nbsp;&bull; '._('Es gibt keine Bauteile in dieser Kategorie.'));
                     $messages[] = array('text' => '&nbsp;&nbsp;&bull; '._('Beinhaltet diese Kategorie noch Unterkategorien, dann werden diese eine Ebene nach oben verschoben.'));
                     $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_category->getID().'">');
-                    $messages[] = array('html' => '<input class="btn btn-default" type="submit" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
+                    $messages[] = array('html' => '<input class="btn btn-secondary" type="submit" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
                     $messages[] = array('html' => '<input class="btn btn-danger" type="submit" name="delete_confirmed" value="'._('Ja, Kategorie löschen').'">');
                 }
             } catch (Exception $e) {

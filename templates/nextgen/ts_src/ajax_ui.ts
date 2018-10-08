@@ -588,7 +588,7 @@ let ajaxui : AjaxUI = AjaxUI.getInstance();
  * Register the events which has to be run in AjaxUI and start the execution.
  */
 $(function(event){
-    
+
     ajaxui.addStartAction(addCollapsedClass);
     ajaxui.addStartAction(fixSelectPaginationHeight);
     ajaxui.addStartAction(treeviewBtnInit);

@@ -180,7 +180,7 @@ if (! $fatal_error) {
                 $messages[] = array('text' => sprintf(_('Soll der Benutzer "%s'.
                     '" wirklich unwiederruflich gelöscht werden?'), $selected_user->getFullName(true)), 'strong' => true, 'color' => 'red');
                 $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_user->getID().'">');
-                $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._("Nein, nicht löschen").'">', 'no_linebreak' => true);
+                $messages[] = array('html' => '<input type="submit" class="btn btn-secondary" name="" value="'._("Nein, nicht löschen").'">', 'no_linebreak' => true);
                 $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Nutzer löschen').'">');
             } catch (Exception $e) {
                 $messages[] = array('text' => _('Es trat ein Fehler auf!'), 'strong' => true, 'color' => 'red');
