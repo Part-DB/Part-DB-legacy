@@ -966,6 +966,9 @@ EOD;
                 " ADD `config_instock_comment_w` TEXT NOT NULL AFTER `config_image_path`,".
                 " ADD `config_instock_comment_a` TEXT NOT NULL AFTER `config_instock_comment_w`;" ;
 
+            $updateSteps[] = "ALTER TABLE `users` CHANGE `perms_parts` `perms_parts` BIGINT(11) NOT NULL;";
+            $updateSteps[] = "ALTER TABLE `groups` CHANGE `perms_parts` `perms_parts` BIGINT(11) NOT NULL;";
+
             break;
 
             /*

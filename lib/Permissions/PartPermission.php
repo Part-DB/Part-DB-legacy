@@ -50,7 +50,7 @@ class PartPermission extends BasePermission
         if(!isset(static::$operation_cache)) {
             /**
              * Dont change these definitions, because it would break compatibility with older database.
-             * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
+             * However you can add other definitions, the return value can get high as 62, as the DB uses a 32bit integer.
              */
             $operations = array();
             $operations[static::READ] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
