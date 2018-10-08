@@ -369,10 +369,12 @@ if (! $fatal_error) {
         //Barcode stuff
         $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("part"));
 
-        $history = Log::getHistoryForPart($database, $current_user, $log, $part, $limit, $page);
-        $html->setVariable("graph_history", Log::historyToGraph($history));
-        $html->setLoop("history", $history);
-        $count = Log::getHistoryForPartCount($database, $current_user, $log, $part);
+        if($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
+            $history = Log::getHistoryForPart($database, $current_user, $log, $part, $limit, $page);
+            $html->setVariable("graph_history", Log::historyToGraph($history));
+            $html->setLoop("history", $history);
+            $count = Log::getHistoryForPartCount($database, $current_user, $log, $part);
+        }
         $html->setLoop("pagination", generatePagination("show_location_parts.php?pid=$part_id", $page, $limit, $count));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
@@ -430,7 +432,9 @@ if (! $fatal_error) {
         $html->printTemplate('attachements');
     }
 
-    $html->printTemplate('history');
+    if($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
+        $html->printTemplate('history');
+    }
 
     if ($current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ)
         && !$config['devices']['disable']) {

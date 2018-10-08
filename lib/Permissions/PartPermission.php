@@ -38,6 +38,7 @@ class PartPermission extends BasePermission
     const SHOW_FAVORITE_PARTS = "show_favorite_parts";
     const SHOW_LAST_EDIT_PARTS = "show_last_edit_parts";
     const SHOW_USERS = "show_users";
+    const SHOW_HISTORY = "show_history";
 
     static protected $operation_cache = null;
 
@@ -68,7 +69,7 @@ class PartPermission extends BasePermission
             $operations[static::SHOW_FAVORITE_PARTS] = static::buildOperationArray(24, static::SHOW_FAVORITE_PARTS, _("Favorisierte Bauteile auflisten"));
             $operations[static::SHOW_LAST_EDIT_PARTS] = static::buildOperationArray(26, static::SHOW_LAST_EDIT_PARTS, _("Zuletzt bearbeitete/hinzugefügte Bauteile auflisten"));
             $operations[static::SHOW_USERS] = static::buildOperationArray(28, static::SHOW_USERS, _("Letzten bearbeitenden Nutzer anzeigen"));
-
+            $operations[static::SHOW_HISTORY] = static::buildOperationArray(30, static::SHOW_HISTORY, _("Historie anzeigen"));
 
             static::$operation_cache = $operations;
         }
