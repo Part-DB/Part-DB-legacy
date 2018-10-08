@@ -331,7 +331,7 @@ class Log
             $tmp["user_name"] = $entry["user_name"];
 
             if(isset($entry["difference"])) {
-                $tmp["difference"] = _("Veränderung: ") . $entry["difference"];
+                $tmp["difference"] = _("Veränderung: ") . $entry["difference"] . "; " . _("Preis: ") . $entry["price_string"];
             }
             if(!empty($entry["message"])) {
                 $tmp["message"] = _("Kommentar: ") . mb_substr($entry["message"], 0, 100);
