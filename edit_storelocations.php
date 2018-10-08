@@ -169,7 +169,7 @@ if (! $fatal_error) {
                         $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Bauteile an diesem Lagerort.'));
                         $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet dieser Lagerort noch Unterlagerorte, dann werden diese eine Ebene nach oben verschoben.'));
                         $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_storelocation->getID().'">');
-                        $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
+                        $messages[] = array('html' => '<input type="submit" class="btn btn-secondary" name="" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
                         $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="'._('Ja, Lagerort löschen').'">');
                     }
                 } catch (Exception $e) {

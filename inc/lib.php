@@ -816,7 +816,7 @@ function generateInputHidden($name, $value = "")
     return '<input type="hidden" name="' . $name . '" value="' . $value . '">';
 }
 
-function generateButton($name, $text, $theme = "btn-default", $val = "")
+function generateButton($name, $text, $theme = "btn-secondary", $val = "")
 {
     return "<button type='submit' class='btn $theme' name='$name' value='$val'>$text</button>";
 }

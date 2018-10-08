@@ -310,7 +310,7 @@ if (! $fatal_error) {
                         $messages[] = array('html' => generateButtonRed("create_name_save", _('Ja, Name speichern')));
                     } else {
                         $messages[] = array('html' => _('Dies kann nicht ignoriert werden, da das Enforcement-Flag für diese Kategorie gesetzt ist!<br>'));
-                        $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="" >'._('Ok, Name überarbeiten').'</button>', 'no_linebreak' => true);
+                        $messages[] = array('html' => '<button class="btn btn-secondary" type="submit" name="" >'._('Ok, Name überarbeiten').'</button>', 'no_linebreak' => true);
                     }
 
                     $messages[] = array('html' => generateInputHidden("name", $new_name), 'no_linebreak' => true);
@@ -386,10 +386,10 @@ if (! $fatal_error) {
                     $messages[] = array('html' => _('Der Name muss folgendem Format entsprechen: ') . "<b>" . $part->getCategory()->getPartnameRegex(true) . "</b>");
                     if ($part->getCategory()->getPartnameRegexObj()->isEnforced()) {
                         $messages[] = array('html' => _('Dies kann nicht ignoriert werden, da das Enforcement-Flag für diese Kategorie gesetzt ist!<br>'));
-                        $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="name_edit" >'._('Ok, Name überarbeiten').'</button>', 'no_linebreak' => true);
+                        $messages[] = array('html' => '<button class="btn btn-secondary" type="submit" name="name_edit" >'._('Ok, Name überarbeiten').'</button>', 'no_linebreak' => true);
                     } else {
                         $messages[] = array('html' => _('Möchten sie wirklich fortfahren?<br>'));
-                        $messages[] = array('html' => '<button class="btn btn-default" type="submit" name="name_edit" >'._('Nein, Name überarbeiten').'</button>', 'no_linebreak' => true);
+                        $messages[] = array('html' => '<button class="btn btn-secondary" type="submit" name="name_edit" >'._('Nein, Name überarbeiten').'</button>', 'no_linebreak' => true);
                         $messages[] = array('html' => '<button class="btn btn-danger" type="submit" name="apply_name_save">'._('Ja, Name speichern').'</button>', 'no_linebreak' => true);
                     }
                     $messages[] = array('html' => '<input type="hidden" name="pid" value="'.$part_id.'">', 'no_linebreak' => true);
@@ -615,7 +615,7 @@ if (! $fatal_error) {
                 if ($delete_files_from_hdd) {
                     $messages[] = array('html' => '<input type="hidden" name="delete_files_from_hdd">');
                 }
-                $messages[] = array('html' => '<input class="btn btn-default" type="submit" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
+                $messages[] = array('html' => '<input class="btn btn-secondary" type="submit" value="'._('Nein, nicht löschen').'">', 'no_linebreak' => true);
                 $messages[] = array('html' => '<input class="btn btn-danger" type="submit" name="delete_part_confirmed" value="'._('Ja, Bauteil löschen').'">');
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');

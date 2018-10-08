@@ -142,7 +142,7 @@ if (! $fatal_error) {
                     $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Dateianhänge mit diesem Dateityp.'));
                     $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet diese Dateityp noch Unterdateitypen, dann werden diese eine Ebene nach oben verschoben.'));
                     $messages[] = array('html' => '<input type="hidden" name="selected_id" value="'.$selected_attachement_type->getID().'">');
-                    $messages[] = array('html' => '<input class="btn btn-default" type="submit" value="'._("Nein, nicht löschen").'">', 'no_linebreak' => true);
+                    $messages[] = array('html' => '<input class="btn btn-secondary" type="submit" value="'._("Nein, nicht löschen").'">', 'no_linebreak' => true);
                     $messages[] = array('html' => '<input class="btn btn-danger" type="submit" name="delete_confirmed" value="'._("Ja, Dateityp löschen"). '">');
                 }
             } catch (Exception $e) {

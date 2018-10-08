@@ -263,7 +263,7 @@ if (!$fatal_error) {
                     '" wirklich unwiederruflich gelöscht werden?'), $selected_profile), 'strong' => true, 'color' => 'red');
                 $messages[] = array('html' => '<input type="hidden" name="generator" value="' . $generator_type . '">');
                 $messages[] = array('html' => '<input type="hidden" name="selected_profile" value="' . $selected_profile . '">');
-                $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="' . _('Nein, nicht löschen') . '">', 'no_linebreak' => true);
+                $messages[] = array('html' => '<input type="submit" class="btn btn-secondary" name="" value="' . _('Nein, nicht löschen') . '">', 'no_linebreak' => true);
                 $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="' . _('Ja, Profil löschen') . '">');
                 break;
             case "delete_confirmed":
