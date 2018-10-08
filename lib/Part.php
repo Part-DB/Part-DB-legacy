@@ -1551,7 +1551,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'comment':
                 case 'name_description':
                     $row_field['obsolete']          = $this->getObsolete();
-                    $row_field['comment']           = $this->getComment(BBCodeParsingLevel::STRIP);
+                    $row_field['comment']           = mb_substr($this->getComment(BBCodeParsingLevel::STRIP), 0, 250);
                     $row_field['description']       = $this->getDescription(true, $max_length);
                     break;
 
@@ -2833,7 +2833,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         if (substr($keyword, 0, 1) === '\\' &&  substr($keyword, -1) === '\\'
         || substr($keyword, 0, 1) === '/' &&  substr($keyword, -1) === '/') {
             $regex_search = true;
-            $keyword = substr($keyword, 1, -1); //Remove the backslashes
+            $keyword = mb_substr($keyword, 1, -1); //Remove the backslashes
         }
 
         if (strlen($keyword) == 0) {

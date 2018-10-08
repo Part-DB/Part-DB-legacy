@@ -588,7 +588,7 @@ let ajaxui : AjaxUI = AjaxUI.getInstance();
  * Register the events which has to be run in AjaxUI and start the execution.
  */
 $(function(event){
-
+    
     ajaxui.addStartAction(addCollapsedClass);
     ajaxui.addStartAction(fixSelectPaginationHeight);
     ajaxui.addStartAction(treeviewBtnInit);
@@ -1207,8 +1207,9 @@ function makeTooltips() {
     //$(".tooltip").remove();
     //$("body").tooltip({ selector: 'a[title]', container: "body" });
     //$('button[title]').tooltip("hide").tooltip({container: "body"});
-    $('a[title]').tooltip("hide").tooltip({container: "body"});
-    $('button[title]').tooltip("hide").tooltip({container: "body"});
+    $(".tooltip").remove();
+    $('a[title]').tooltip("hide").tooltip({container: "body", placement: "auto", boundary: 'window'});
+    $('button[title]').tooltip("hide").tooltip({container: "body", placement: "auto", boundary: 'window'});
 }
 
 function viewer3d_models() {

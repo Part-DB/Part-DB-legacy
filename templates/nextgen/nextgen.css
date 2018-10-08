@@ -585,3 +585,7 @@ label:not(.form-check-label) {
     border-top-left-radius: 0;
     border-bottom-left-radius: 0
 }
+
+.tooltip {
+    pointer-events: none;
+}

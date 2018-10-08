@@ -1079,8 +1079,9 @@ function makeTooltips() {
     //$(".tooltip").remove();
     //$("body").tooltip({ selector: 'a[title]', container: "body" });
     //$('button[title]').tooltip("hide").tooltip({container: "body"});
-    $('a[title]').tooltip("hide").tooltip({ container: "body" });
-    $('button[title]').tooltip("hide").tooltip({ container: "body" });
+    $(".tooltip").remove();
+    $('a[title]').tooltip("hide").tooltip({ container: "body", placement: "auto", boundary: 'window' });
+    $('button[title]').tooltip("hide").tooltip({ container: "body", placement: "auto", boundary: 'window' });
 }
 function viewer3d_models() {
     if (!$("#models-picker").length)
