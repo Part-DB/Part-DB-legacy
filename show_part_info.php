@@ -369,6 +369,10 @@ if (! $fatal_error) {
         //Barcode stuff
         $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("part"));
 
+        $history = Log::getHistoryForPart($database, $current_user, $log,$part);
+        $h = Log::historyToGraph($history);
+        $html->setVariable("graph_history", Log::historyToGraph($history));
+
         $html->setLoop("history", Log::getHistoryForPart($database, $current_user, $log, $part, $limit, $page));
         $count = Log::getHistoryForPartCount($database, $current_user, $log, $part);
         $html->setLoop("pagination", generatePagination("show_location_parts.php?pid=$part_id", $page, $limit, $count));

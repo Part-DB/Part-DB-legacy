@@ -604,6 +604,7 @@ $(function(event){
     ajaxui.addStartAction(viewer3d_models);
     ajaxui.addStartAction(makeGreekInput);
     ajaxui.addStartAction(makeCharts);
+    ajaxui.addStartAction(makeHistoryCharts);
     ajaxui.addStartAction(setBootstrapSelectStyle);
     ajaxui.addStartAction(makeDateTimePickers);
 
@@ -624,6 +625,7 @@ $(function(event){
     ajaxui.addAjaxCompleteAction(viewer3d_models);
     ajaxui.addAjaxCompleteAction(makeGreekInput);
     ajaxui.addAjaxCompleteAction(makeCharts);
+    ajaxui.addAjaxCompleteAction(makeHistoryCharts);
     ajaxui.addAjaxCompleteAction(makeDateTimePickers);
 
     //ajaxui.addAjaxCompleteAction(makeTypeAhead);
@@ -678,6 +680,54 @@ function makeCharts() {
                             beginAtZero: true
                         }
                     }]
+                }
+            }
+        });
+    });
+}
+
+function makeHistoryCharts() {
+    $(".historychart").each(function(index, element) {
+        let data : any = $(element).data("data");
+        let type : string = $(element).data("type");
+
+        //let ctx = (<HTMLCanvasElement> element).getContext("2d");
+        let ctx = element;
+        let myChart = new Chart(ctx, {
+            type: type,
+            data: data,
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }],
+                    xAxes: [{
+                        type: "time",
+                        distribution: "series",
+                        bounds: "auto",
+                        time: {
+                            minUnit: "day"
+                        }
+                    }]
+                },
+                tooltips: {
+                    callbacks: {
+                        afterTitle: function(tooltipItems, data) {
+                            return data.datasets[tooltipItems[0].datasetIndex].data[tooltipItems[0].index].type;
+                        },
+                        afterLabel: function(tooltipItem, data) {
+                            return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].difference;
+                        },
+                        footer: function(tooltipItems, data) {
+                            return data.datasets[tooltipItems[0].datasetIndex].data[tooltipItems[0].index].message;
+                        },
+                        afterFooter: function(tooltipItems, data) {
+                            return data.datasets[tooltipItems[0].datasetIndex].data[tooltipItems[0].index].user_name;
+                        },
+                    },
+                    footerFontStyle: 'normal'
                 }
             }
         });

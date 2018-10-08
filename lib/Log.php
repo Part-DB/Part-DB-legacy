@@ -38,6 +38,7 @@ use PartDB\LogSystem\UserLogoutEntry;
 use PartDB\LogSystem\UserNotAllowedEntry;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\UserPermission;
+use PartDB\Tools\StatisticsHelpers;
 
 /**
  * @file Log.php
@@ -310,6 +311,38 @@ class Log
         }
 
         return $return_data;
+    }
+
+    public static function historyToGraph($history_entries)
+    {
+        $dataset = array("label" => _("Vorhandene Bauteile"));
+        $dataset["backgroundColor"] = StatisticsHelpers::COLOR_BLUE;
+        $dataset["steppedLine"] = "after";
+        $data = array();
+        $instock = 0;
+        foreach ($history_entries as $entry) {
+            if(isset($entry['instock'])) {
+                $instock = $entry['instock'];
+            }
+            $tmp = array('t' => $entry["timestamp"],
+                'y' => $instock,);
+
+            $tmp["type"] = $entry["type_text"];
+            $tmp["user_name"] = $entry["user_name"];
+
+            if(isset($entry["difference"])) {
+                $tmp["difference"] = _("Veränderung: ") . $entry["difference"];
+            }
+            if(!empty($entry["message"])) {
+                $tmp["message"] = _("Kommentar: ") . mb_substr($entry["message"], 0, 100);
+            }
+
+            $data[] = $tmp;
+        }
+        $dataset["data"] = $data;
+
+        return json_encode(array("datasets" => array($dataset)));
+        //return "[{x: 10, y: 20}, {x: 15, y: 10}]";
     }
 
     public static function getHistoryForPartCount(&$database, &$current_user, &$log, &$part)
