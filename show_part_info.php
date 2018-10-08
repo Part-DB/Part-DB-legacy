@@ -60,7 +60,7 @@ $device_name        = isset($_REQUEST['device_name_new'])   ? (string)$_REQUEST[
 
 //Pagination for history
 $page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
-$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : $config['table']['default_limit'];
+$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : 10;
 
 
 //Parse Label scan
@@ -369,11 +369,9 @@ if (! $fatal_error) {
         //Barcode stuff
         $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("part"));
 
-        $history = Log::getHistoryForPart($database, $current_user, $log,$part);
-        $h = Log::historyToGraph($history);
+        $history = Log::getHistoryForPart($database, $current_user, $log, $part, $limit, $page);
         $html->setVariable("graph_history", Log::historyToGraph($history));
-
-        $html->setLoop("history", Log::getHistoryForPart($database, $current_user, $log, $part, $limit, $page));
+        $html->setLoop("history", $history);
         $count = Log::getHistoryForPartCount($database, $current_user, $log, $part);
         $html->setLoop("pagination", generatePagination("show_location_parts.php?pid=$part_id", $page, $limit, $count));
         $html->setVariable("page", $page);
