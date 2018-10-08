@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "4322fa40b4a231027d07de846ae3c8fa",
+    "content-hash": "606d550ef64cd95ea5308cd7d7ca0807",
     "packages": [
         {
             "name": "components/jquery",
@@ -949,16 +949,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v3.4.16",
+            "version": "v3.4.17",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "e57a24dc13accad1d5f90d232c5564910c5eb7b0"
+                "reference": "ff8ac19e97e5c7c3979236b584719a1190f84181"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/e57a24dc13accad1d5f90d232c5564910c5eb7b0",
-                "reference": "e57a24dc13accad1d5f90d232c5564910c5eb7b0",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/ff8ac19e97e5c7c3979236b584719a1190f84181",
+                "reference": "ff8ac19e97e5c7c3979236b584719a1190f84181",
                 "shasum": ""
             },
             "require": {
@@ -1014,7 +1014,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2018-09-18T08:05:59+00:00"
+            "time": "2018-10-02T16:33:53+00:00"
         },
         {
             "name": "tecnickcom/tcpdf",
