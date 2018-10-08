@@ -82,8 +82,12 @@
     <!-- Treeview -->
     <script src="{$relative_path}js/bootstrap-treeview.min.js" async></script>
 
+
+    <!-- Moment JS -->
+    <script src="{$relative_path}js/tempusdominus/moment-with-locales.min.js"></script>
+
     <!-- Chart JS -->
-    <script src="{$relative_path}vendor/nnnick/chartjs/dist/Chart.bundle.min.js"></script>
+    <script src="{$relative_path}vendor/nnnick/chartjs/dist/Chart.min.js"></script>
 
     <!-- FileInput -->
     <script src="{$relative_path}vendor/kartik-v/bootstrap-fileinput/js/fileinput.js" async></script>
@@ -92,7 +96,7 @@
     <!-- JQuery Highlight -->
     <script src="{$relative_path}js/jquery.highlight.min.js" async></script>
 
-    <script src="{$relative_path}js/tempusdominus/moment-with-locales.min.js"></script>
+
     <script src="{$relative_path}js/tempusdominus/tempusdominus-bootstrap-4.min.js"></script>
     <link rel="stylesheet" href="js/tempusdominus/tempusdominus-bootstrap-4.min.css"/>
 
