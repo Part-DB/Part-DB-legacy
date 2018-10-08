@@ -208,8 +208,20 @@
                             {if !$can_create}disabled{/if}>{t}Bauteil erstellen{/t}</button>
                         {else}
                             <input type="hidden" name="pid" value="{$pid}">
-                            <button type="button" name="apply_attributes" class="btn btn-success submit rightclick"
-                                    id="btn_enter" {if !$can_edit}disabled{/if}>{t}Änderungen übernehmen{/t}</button>
+                            <div class="btn-group">
+                                <button type="submit" name="apply_attributes" class="btn btn-success submit rightclick"
+                                        id="btn_enter" {if !$can_edit}disabled{/if}>{t}Änderungen übernehmen{/t}</button>
+                                <button type="button" class="btn btn-success dropdown-toggle dropdown-toggle-split" data-toggle="dropdown"></button>
+                                <div class="dropdown-menu">
+                                    <div class="px-4 py-3">
+                                        <div class="form-group">
+                                            <label>{t}Kommentar/Zweck:{/t}</label>
+                                            <input type="text" class="form-control" name="change_comment" placeholder="{$default_change_comment}">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                             <button type="button" class="btn btn-danger submit" {if !$can_edit}disabled{/if}>{t}Änderungen verwerfen{/t}</button>
 
                             {if !empty($back_link)}

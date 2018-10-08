@@ -1,7 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 
 {if isset($must_change_pw) && $must_change_pw}
-    <div class="alert alert-danger">
+    <div class="alert alert-danger mb-3">
         <div class="row vertical-align">
             <div class="col-md-1">
                 <i class="fas fa-exclamation fa-5x " style="text-align: center; width: 1em;"></i>
@@ -17,7 +17,7 @@
 
 {if isset($database_update) && $database_update}
     {if $database_update}
-        <div class="card border-danger mt-3">
+        <div class="card border-danger mb-3">
             <div class="card-header bg-danger text-white">
                 <h3>
                     <i class="fa fa-database" aria-hidden="true"></i>

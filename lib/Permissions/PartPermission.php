@@ -37,6 +37,8 @@ class PartPermission extends BasePermission
     const CHANGE_FAVORITE = "change_favorite";
     const SHOW_FAVORITE_PARTS = "show_favorite_parts";
     const SHOW_LAST_EDIT_PARTS = "show_last_edit_parts";
+    const SHOW_USERS = "show_users";
+    const SHOW_HISTORY = "show_history";
 
     static protected $operation_cache = null;
 
@@ -49,7 +51,7 @@ class PartPermission extends BasePermission
         if(!isset(static::$operation_cache)) {
             /**
              * Dont change these definitions, because it would break compatibility with older database.
-             * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.
+             * However you can add other definitions, the return value can get high as 62, as the DB uses a 32bit integer.
              */
             $operations = array();
             $operations[static::READ] = static::buildOperationArray(0, static::READ, _("Anzeigen"));
@@ -66,6 +68,8 @@ class PartPermission extends BasePermission
             $operations[static::CHANGE_FAVORITE] = static::buildOperationArray(22, static::CHANGE_FAVORITE, _("Favoritenstatus ändern"));
             $operations[static::SHOW_FAVORITE_PARTS] = static::buildOperationArray(24, static::SHOW_FAVORITE_PARTS, _("Favorisierte Bauteile auflisten"));
             $operations[static::SHOW_LAST_EDIT_PARTS] = static::buildOperationArray(26, static::SHOW_LAST_EDIT_PARTS, _("Zuletzt bearbeitete/hinzugefügte Bauteile auflisten"));
+            $operations[static::SHOW_USERS] = static::buildOperationArray(28, static::SHOW_USERS, _("Letzten bearbeitenden Nutzer anzeigen"));
+            $operations[static::SHOW_HISTORY] = static::buildOperationArray(30, static::SHOW_HISTORY, _("Historie anzeigen"));
 
             static::$operation_cache = $operations;
         }

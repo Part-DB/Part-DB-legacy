@@ -38,6 +38,8 @@ use PartDB\Permissions\ToolsPermission;
 use PartDB\Tools\JSONStorage;
 use PartDB\User;
 
+use geertw\IpAnonymizer\IpAnonymizer;
+
 /**
  * check if a given number is odd
  *
@@ -947,6 +949,10 @@ function buildToolsTree($params)
         || $current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::READ_DB_SETTINGS)) {
         $system_nodes[] = treeviewNode(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
     }
+    if ($current_user->canDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::SHOW_LOGS)
+            || $current_user->canDo(PermissionManager::SELF, \PartDB\Permissions\SelfPermission::SHOW_LOGS)) {
+        $system_nodes[] = treeviewNode(_("Eventlog"), BASE_RELATIVE . "/system_log.php");
+    }
 
 
 
@@ -1476,4 +1482,45 @@ function buildLabelProfilesDropdown($generator, $include_default = false)
     }
 
     return $data;
+}
+
+/**
+ * Return the IP Address the current user is accessing the DB.
+ * IP Addresses gets anonymized based on the ip_anonymize_mask settings.
+ * @param bool|string $mask_override_ipv4 Overrides the anonymization mask for IPv4 addresses.
+ *          Use false to use values from config.php. Set to "" to disable anonymization completly.
+ * @param bool|string $mask_override_ipv6 Overrides the anonymization mask for IPv6 addresses.
+ * @return string The anonymized IP Address
+ */
+function getConnectionIPAddress($mask_override_ipv4 = false, $mask_override_ipv6 = false)
+{
+    global $config;
+
+    $raw_ip = $_SERVER['REMOTE_ADDR'];
+
+    //Determine mask for IPv4
+    if ($mask_override_ipv4 === false) {
+       $mask_ipv4 = $config['logging_system']['ip_anonymize_mask_ipv4'];
+    } else {
+        $mask_ipv4 = $mask_override_ipv4;
+    }
+
+    //Determine mask for IPv6
+    if ($mask_override_ipv6 === false) {
+        $mask_ipv6 = $config['logging_system']['ip_anonymize_mask_ipv6'];
+    } else {
+        $mask_ipv6 = $mask_override_ipv6;
+    }
+
+    if($mask_ipv4 === "") {
+        //Return IP address without any anonymization
+        return $raw_ip;
+    }
+
+    $ipAnonymizer = new IpAnonymizer();
+    //Set masks
+    $ipAnonymizer->ipv4NetMask = $mask_ipv4;
+    $ipAnonymizer->ipv6NetMask = $mask_ipv6;
+
+    return $ipAnonymizer->anonymize($raw_ip);
 }

@@ -412,6 +412,24 @@
                             </div>
                         </div>
 
+                        <hr>
+                        <div class="form-group row">
+                            <label class="col-form-label col-md-3">{t}Minimales Loglevel:{/t}</label>
+                            <div class="col-md-9">
+                                <select name="min_log_level" class="form-control selectpicker" data-live-search="true">
+                                    <option value="-1" {if $min_log_level == -1}selected{/if}>{t}Logging deaktiviert{/t}</option>
+                                    <option value="0" {if $min_log_level == 0}selected{/if}>Emergency</option>
+                                    <option value="1" {if $min_log_level == 1}selected{/if}>Alert</option>
+                                    <option value="2" {if $min_log_level == 2}selected{/if}>Critical</option>
+                                    <option value="3" {if $min_log_level == 3}selected{/if}>Error</option>
+                                    <option value="4" {if $min_log_level == 4}selected{/if}>Warning</option>
+                                    <option value="5" {if $min_log_level == 5}selected{/if}>Notice</option>
+                                    <option value="6" {if $min_log_level == 6}selected{/if}>Info</option>
+                                    <option value="7" {if $min_log_level == 7}selected{/if}>Debug</option>
+                                </select>
+                            </div>
+                        </div>
+
                         <br>
 
                     </div>

@@ -29,6 +29,10 @@
  * @author kami89
  */
 
+use PartDB\Database;
+use PartDB\Log;
+use PartDB\User;
+
 /**
  * Print out nice formatted messages in Part-DB design without using templates
  *
@@ -277,6 +281,17 @@ function checkIfConfigIsValid()
  */
 function exception_handler($e)
 {
+    //Try to log the exception to the database
+    try {
+        $database           = new Database();
+        $log                = new Log($database);
+        $current_user       = User::getLoggedInUser($database, $log);
+
+        \PartDB\LogSystem\ExceptionEntry::add($database, $current_user, $log, $e);
+    } catch (Exception $ex) {
+        //If that not possible, then do nothing...
+    }
+
     printMessagesWithoutTemplate(
         _('Part-DB: Schwerwiegender Fehler!'),
         null,

@@ -51,11 +51,17 @@ $part_id            = isset($_REQUEST['pid'])               ? (integer)$_REQUEST
 $n_less             = isset($_REQUEST['n_less'])            ? (integer)$_REQUEST['n_less']          : 0;
 $n_more             = isset($_REQUEST['n_more'])            ? (integer)$_REQUEST['n_more']          : 0;
 $order_quantity     = isset($_REQUEST['order_quantity'])    ? (integer)$_REQUEST['order_quantity']  : 0;
+$instock_change_comment = isset($_REQUEST['instock_change_comment']) ? (string)$_REQUEST['instock_change_comment'] : "";
 
 //When adding to a device
 $device_id          = isset($_REQUEST['device_id_new'])     ? (integer)$_REQUEST['device_id_new']   : 0;
 $device_qty         = isset($_REQUEST['device_quantity_new']) ? (integer)$_REQUEST['device_quantity_new'] : 0;
 $device_name        = isset($_REQUEST['device_name_new'])   ? (string)$_REQUEST['device_name_new'] : "";
+
+//Pagination for history
+$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : 10;
+
 
 //Parse Label scan
 if (isset($_REQUEST['barcode'])) {
@@ -126,10 +132,17 @@ try {
  *********************************************************************************/
 
 if (! $fatal_error) {
+
+    //If no comment was set, than use the default one from the user profile.
+    if($instock_change_comment == "") {
+        $instock_change_comment = null;
+    }
+
     switch ($action) {
         case 'dec': // remove some parts
             try {
-                $part->setInstock($part->getInstock() - abs($n_less));
+                //$part->setInstock($part->getInstock() - abs($n_less));
+                $part->withdrawalParts($n_less, $instock_change_comment);
 
                 // reload the site without $_REQUEST['action'] to avoid multiple actions by manual refreshing
                 header('Location: show_part_info.php?pid='.$part_id);
@@ -140,7 +153,8 @@ if (! $fatal_error) {
 
         case 'inc': // add some parts
             try {
-                $part->setInstock($part->getInstock() + abs($n_more));
+                //$part->setInstock($part->getInstock() + abs($n_more));
+                $part->addParts($n_more, $instock_change_comment);
 
                 // reload the site without $_REQUEST['action'] to avoid multiple actions by manual refreshing
                 header('Location: show_part_info.php?pid='.$part_id);
@@ -233,6 +247,20 @@ if (! $fatal_error) {
 
         $html->setVariable('last_modified', $part->getLastModified(), 'string');
         $html->setVariable('datetime_added', $part->getDatetimeAdded(), 'string');
+        $last_modified_user = $part->getLastModifiedUser();
+        $creation_user = $part->getCreationUser();
+        if ($last_modified_user != null) {
+            $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
+            $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
+        }
+        if ($creation_user != null) {
+            $html->setVariable('creation_user', $creation_user->getFullName(true), "string");
+            $html->setVariable('creation_user_id', $creation_user->getID(), "int");
+        }
+
+        //Default withdrawal/Add comment
+        $html->setVariable('default_instock_change_comment_w', $current_user->getDefaultInstockChangeComment(true));
+        $html->setVariable('default_instock_change_comment_a', $current_user->getDefaultInstockChangeComment(false));
 
         $html->setVariable('is_favorite', $part->getFavorite(), 'bool');
 
@@ -340,6 +368,16 @@ if (! $fatal_error) {
 
         //Barcode stuff
         $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("part"));
+
+        if($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
+            $history = Log::getHistoryForPart($database, $current_user, $log, $part, $limit, $page);
+            $html->setVariable("graph_history", Log::historyToGraph($history));
+            $html->setLoop("history", $history);
+            $count = Log::getHistoryForPartCount($database, $current_user, $log, $part);
+        }
+        $html->setLoop("pagination", generatePagination("show_location_parts.php?pid=$part_id", $page, $limit, $count));
+        $html->setVariable("page", $page);
+        $html->setVariable('limit', $limit);
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -360,6 +398,8 @@ try {
     $html->setVariable('can_order_read', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ), "bool");
     $html->setVariable('can_devicepart_create', $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
     $html->setVariable('can_generate_barcode', $current_user->canDo(PermissionManager::LABELS, \PartDB\Permissions\LabelPermission::CREATE_LABELS));
+
+    $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -390,6 +430,10 @@ if (! $fatal_error) {
     if (!($config['part_info']['hide_empty_attachements'] && isset($attachements_empty))
         && $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::READ)) {
         $html->printTemplate('attachements');
+    }
+
+    if($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
+        $html->printTemplate('history');
     }
 
     if ($current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ)

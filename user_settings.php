@@ -37,11 +37,11 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *   Evaluate $_REQUEST
  *
  *********************************************************************************/
-$pw_old             = isset($_REQUEST['pw_old'])            ? $_REQUEST['pw_old']                   : "";
-$pw_1               = isset($_REQUEST['pw_1'])              ? $_REQUEST['pw_1']                   : "";
-$pw_2               = isset($_REQUEST['pw_2'])              ? $_REQUEST['pw_2']                   : "";
+$pw_old             = isset($_POST['pw_old'])            ? $_POST['pw_old']                   : "";
+$pw_1               = isset($_POST['pw_1'])              ? $_POST['pw_1']                   : "";
+$pw_2               = isset($_POST['pw_2'])              ? $_POST['pw_2']                   : "";
 
-$new_username       = isset($_REQUEST['username'])          ? $_REQUEST['username']                 : "";
+$new_username       = isset($_POST['username'])          ? $_POST['username']                 : "";
 $new_firstname      = isset($_REQUEST['firstname'])         ? $_REQUEST['firstname']                : "";
 $new_lastname       = isset($_REQUEST['lastname'])          ? $_REQUEST['lastname']                 : "";
 $new_email          = isset($_REQUEST['email'])             ? $_REQUEST['email']                    : "";
@@ -50,6 +50,9 @@ $new_department     = isset($_REQUEST['department'])        ? $_REQUEST['departm
 $new_theme          = isset($_REQUEST['custom_css'])        ? $_REQUEST['custom_css']               : "";
 $new_timezone       = isset($_REQUEST['timezone'])          ? $_REQUEST['timezone']                 : "";
 $new_language       = isset($_REQUEST['language'])          ? $_REQUEST['language']                 : "";
+
+$new_comment_withdrawal = isset($_POST['default_comment_withdrawal']) ? $_POST['default_comment_withdrawal'] : null;
+$new_comment_addition = isset($_POST['default_comment_addition']) ? $_POST['default_comment_addition'] : null;
 
 $action = 'default';
 if (isset($_REQUEST["change_pw"])) {
@@ -137,6 +140,8 @@ if (!$fatal_error) {
                 $current_user->setDepartment($new_department);
             }
 
+            $current_user->setDefaultInstockChangeComment($new_comment_withdrawal, $new_comment_addition);
+
             //Dont check if this value is set, because empty string is a valid value.
             $current_user->setTheme($new_theme);
             $current_user->setLanguage($new_language);
@@ -164,6 +169,9 @@ if (! $fatal_error) {
         $html->setVariable("department", $current_user->getDepartment(), "string");
         $html->setVariable("group", $current_user->getGroup()->getFullPath(), "string");
         $html->setVariable('avatar_url', $current_user->getAvatar(), "string");
+
+        $html->setVariable('default_comment_addition', $current_user->getDefaultInstockChangeComment(false), "string");
+        $html->setVariable('default_comment_withdrawal', $current_user->getDefaultInstockChangeComment(true), "string");
 
         //Configuration settings
         $html->setLoop('custom_css_loop', build_custom_css_loop($current_user->getTheme(true), true));

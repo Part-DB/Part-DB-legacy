@@ -18,6 +18,7 @@
     "ext-pdo": "*",
     "ext-pdo_mysql": "*",
     "ext-gettext": "*",
+    "ext-json": "*",
     "golonka/bbcodeparser": "dev-master",
     "smarty/smarty": "~3.1",
     "smarty-gettext/smarty-gettext": "~1.5.1",
@@ -29,7 +30,8 @@
     "components/jquery": "3.3.*",
     "kartik-v/bootstrap-fileinput": "4.*",
     "jquery-form/form": "4.*",
-    "nnnick/chartjs": "2.7"
+    "nnnick/chartjs": "2.7.*",
+    "geertw/ip-anonymizer" : "1.*"
   },
 
   "require-dev": {
@@ -46,7 +48,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url":  "git@github.com:jbtronics/Part-DB_tcpdf.git"
+      "url":  "git@github.com:Part-DB/Part-DB_tcpdf.git"
     },
     {
       "type": "vcs",

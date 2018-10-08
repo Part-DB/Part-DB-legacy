@@ -224,7 +224,7 @@ var AjaxUI = /** @class */ (function () {
             event.preventDefault();
             var a = $(this);
             if (a.attr("href") != null) {
-                var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, so request only the content
+                var href = addURLparam(a.attr("href"), "ajax"); //We dont need the full version of the page, soft request only the content
                 _this.abortAllAjax();
                 _this.beforeAjaxSubmit();
                 $('#content').hide(0).load(href + " #content-data");
@@ -519,7 +519,9 @@ $(function (event) {
     ajaxui.addStartAction(viewer3d_models);
     ajaxui.addStartAction(makeGreekInput);
     ajaxui.addStartAction(makeCharts);
+    ajaxui.addStartAction(makeHistoryCharts);
     ajaxui.addStartAction(setBootstrapSelectStyle);
+    ajaxui.addStartAction(makeDateTimePickers);
     ajaxui.addAjaxCompleteAction(addCollapsedClass);
     ajaxui.addAjaxCompleteAction(fixSelectPaginationHeight);
     ajaxui.addAjaxCompleteAction(registerHoverImages);
@@ -537,9 +539,34 @@ $(function (event) {
     ajaxui.addAjaxCompleteAction(viewer3d_models);
     ajaxui.addAjaxCompleteAction(makeGreekInput);
     ajaxui.addAjaxCompleteAction(makeCharts);
+    ajaxui.addAjaxCompleteAction(makeHistoryCharts);
+    ajaxui.addAjaxCompleteAction(makeDateTimePickers);
     //ajaxui.addAjaxCompleteAction(makeTypeAhead);
     ajaxui.start();
 });
+function makeDateTimePickers() {
+    $('.datetime').each(function () {
+        $(this).datetimepicker({
+            useCurrent: false,
+            icons: {
+                time: "fas fa-clock fa-lg",
+                clear: 'fas fa-trash-alt fa-lg',
+                today: "fa fa-calendar-check fa-lg"
+            },
+            format: "YYYY-MM-DD hh:mm:ss",
+            buttons: {
+                showToday: true
+            },
+            defaultDate: $(this).data("default-date")
+        });
+    });
+    $("#datetimepicker_from").on("change.datetimepicker", function (e) {
+        $('#datetimepicker_to').datetimepicker('minDate', e.date);
+    });
+    $("#datetimepicker_to").on("change.datetimepicker", function (e) {
+        $('#datetimepicker_from').datetimepicker('maxDate', e.date);
+    });
+}
 function setBootstrapSelectStyle() {
     //Set a style for the Bootstrap-select which looks more like the BS3 ones, and the form-controls
     $.fn.selectpicker.Constructor.DEFAULTS.style = "bg-white border";
@@ -559,6 +586,52 @@ function makeCharts() {
                                 beginAtZero: true
                             }
                         }]
+                }
+            }
+        });
+    });
+}
+function makeHistoryCharts() {
+    $(".historychart").each(function (index, element) {
+        var data = $(element).data("data");
+        var type = $(element).data("type");
+        //let ctx = (<HTMLCanvasElement> element).getContext("2d");
+        var ctx = element;
+        var myChart = new Chart(ctx, {
+            type: type,
+            data: data,
+            options: {
+                scales: {
+                    yAxes: [{
+                            ticks: {
+                                beginAtZero: true
+                            }
+                        }],
+                    xAxes: [{
+                            type: "time",
+                            distribution: "series",
+                            bounds: "auto",
+                            time: {
+                                minUnit: "day"
+                            }
+                        }]
+                },
+                tooltips: {
+                    callbacks: {
+                        afterTitle: function (tooltipItems, data) {
+                            return data.datasets[tooltipItems[0].datasetIndex].data[tooltipItems[0].index].type;
+                        },
+                        afterLabel: function (tooltipItem, data) {
+                            return data.datasets[tooltipItem.datasetIndex].data[tooltipItem.index].difference;
+                        },
+                        footer: function (tooltipItems, data) {
+                            return data.datasets[tooltipItems[0].datasetIndex].data[tooltipItems[0].index].message;
+                        },
+                        afterFooter: function (tooltipItems, data) {
+                            return data.datasets[tooltipItems[0].datasetIndex].data[tooltipItems[0].index].user_name;
+                        },
+                    },
+                    footerFontStyle: 'normal'
                 }
             }
         });
@@ -945,7 +1018,9 @@ function registerAutoRefresh() {
     }
 }
 function fixSelectPaginationHeight() {
-    $('.pagination>li>select').css('height', parseInt($('.pagination').css("height")) - 2);
+    if (parseInt($('.page-item').css("height")) != 0) {
+        $('.pagination>li>select').css('height', parseInt($('.page-item').css("height")));
+    }
 }
 /**
  * Close the #searchbar div, when a search was submitted on mobile view.

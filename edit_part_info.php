@@ -77,6 +77,8 @@ $new_footprint_id           = isset($_REQUEST['footprint_id'])              ? (i
 $new_visible                = isset($_REQUEST['visible']);
 $new_comment                = isset($_REQUEST['comment'])                   ? (string)$_REQUEST['comment']                   : '';
 
+$change_comment             = isset($_REQUEST['change_comment'])    ? (string)$_REQUEST['change_comment']   : null;
+
 // search/add
 $search_category_name       = isset($_REQUEST['search_category_name'])      ? (string)$_REQUEST['search_category_name']      : '';
 $search_footprint_name      = isset($_REQUEST['search_footprint_name'])     ? (string)$_REQUEST['search_footprint_name']     : '';
@@ -240,6 +242,9 @@ try {
     } else {
         $attachement = null;
     }
+
+    //Default text for instock changes via this page.
+    $default_instock_comment = _("Bauteil bearbeitet");
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -338,12 +343,14 @@ if (! $fatal_error) {
             try {
                 $new_attributes = array(
                     'description'       => $new_description,
-                    'instock'           => $new_instock,
+                    //'instock'           => $new_instock, //We set this later via setInstock() to create the needed InstockChangeEntry
                     'mininstock'        => $new_mininstock,
                     'id_category'       => $new_category_id,
                     'id_storelocation'  => $new_storelocation_id,
                     'visible'           => $new_visible,
                     'comment'           => $new_comment);
+
+                $part->setInstock($new_instock, $change_comment == null ?  _("Bauteil bearbeitet") : $change_comment);
 
                 // do not overwrite (remove!) the footprint or manufacturer if they are disabled (global or in the part's category)
                 if (isset($_REQUEST['footprint_id'])) {
@@ -353,15 +360,16 @@ if (! $fatal_error) {
                     $new_attributes['id_manufacturer'] = $new_manufacturer_id;
                 }
 
-                $part->setAttributes($new_attributes);
-
                 if (Part::isValidName($new_name, $part->getCategory())) {
-                    $part->setName($new_name);
+                    $new_attributes['name'] = $new_name;
+                    $part->setAttributes($new_attributes, $change_comment);
                     global $config;
                     if ($config['edit_parts']['saved_go_to_info'] xor $rightclicked) {
                         $html->redirect("show_part_info.php?pid=" . $part->getID(), true);
                     }
                 } else {
+                    $part->setAttributes($new_attributes, $change_comment);
+
                     $parname_hint = $part->getCategory()->getPartnameHint(true, false);
                     if (empty($parname_hint)) {
                         $messages[] = array('text' => sprintf(_('Der Name "%s" entspricht nicht den Vorgaben!'), $new_name),
@@ -701,6 +709,8 @@ if (! $fatal_error) {
             $html->setVariable('visible', $part->getVisible(), 'boolean');
             $html->setVariable('comment', $part->getComment(false), 'string');
             $html->setVariable('format_hint', $part->getCategory()->getPartnameHint(true, false), 'string');
+
+            $html->setVariable('default_change_comment', $default_instock_comment, "string");
 
             // dropdown lists -> get IDs
             $category_id        = (is_object($part->getCategory())         ?   $part->getCategory()->getID()      : 0);

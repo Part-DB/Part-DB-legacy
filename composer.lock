@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "77c861caae4ade2b784e200855807c16",
+    "content-hash": "4322fa40b4a231027d07de846ae3c8fa",
     "packages": [
         {
             "name": "components/jquery",
@@ -78,6 +78,39 @@
             "description": "Promoting the interoperability of container objects (DIC, SL, etc.)",
             "homepage": "https://github.com/container-interop/container-interop",
             "time": "2017-02-14T19:40:03+00:00"
+        },
+        {
+            "name": "geertw/ip-anonymizer",
+            "version": "v1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/geertw/php-ip-anonymizer.git",
+                "reference": "6610b85b119de3bb505fd9a484bac67066e4a62f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/geertw/php-ip-anonymizer/zipball/6610b85b119de3bb505fd9a484bac67066e4a62f",
+                "reference": "6610b85b119de3bb505fd9a484bac67066e4a62f",
+                "shasum": ""
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "geertw\\IpAnonymizer\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Geert Wirken",
+                    "email": "geert@gwirken.nl"
+                }
+            ],
+            "description": "IPv4 and IPv6 address anonymizer",
+            "time": "2017-06-24T13:15:14+00:00"
         },
         {
             "name": "golonka/bbcodeparser",
@@ -392,16 +425,16 @@
         },
         {
             "name": "nnnick/chartjs",
-            "version": "v2.7.0",
+            "version": "v2.7.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chartjs/Chart.js.git",
-                "reference": "3043a58605d08c7e16ceb548596fae8efc666350"
+                "reference": "98f104cdd03617f1300b417b3d60c23d4e3e3403"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chartjs/Chart.js/zipball/3043a58605d08c7e16ceb548596fae8efc666350",
-                "reference": "3043a58605d08c7e16ceb548596fae8efc666350",
+                "url": "https://api.github.com/repos/chartjs/Chart.js/zipball/98f104cdd03617f1300b417b3d60c23d4e3e3403",
+                "reference": "98f104cdd03617f1300b417b3d60c23d4e3e3403",
                 "shasum": ""
             },
             "require": {
@@ -429,7 +462,7 @@
                 "JS",
                 "chart"
             ],
-            "time": "2017-09-10T17:31:25+00:00"
+            "time": "2018-03-01T21:45:21+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -916,16 +949,16 @@
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v3.4.15",
+            "version": "v3.4.16",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
-                "reference": "f62a394bd3de96f2f5e8f4c7d685035897fb3cb3"
+                "reference": "e57a24dc13accad1d5f90d232c5564910c5eb7b0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/f62a394bd3de96f2f5e8f4c7d685035897fb3cb3",
-                "reference": "f62a394bd3de96f2f5e8f4c7d685035897fb3cb3",
+                "url": "https://api.github.com/repos/symfony/var-dumper/zipball/e57a24dc13accad1d5f90d232c5564910c5eb7b0",
+                "reference": "e57a24dc13accad1d5f90d232c5564910c5eb7b0",
                 "shasum": ""
             },
             "require": {
@@ -981,7 +1014,7 @@
                 "debug",
                 "dump"
             ],
-            "time": "2018-07-26T11:19:56+00:00"
+            "time": "2018-09-18T08:05:59+00:00"
         },
         {
             "name": "tecnickcom/tcpdf",
@@ -1177,7 +1210,8 @@
         "ext-mbstring": "*",
         "ext-pdo": "*",
         "ext-pdo_mysql": "*",
-        "ext-gettext": "*"
+        "ext-gettext": "*",
+        "ext-json": "*"
     },
     "platform-dev": []
 }

@@ -324,6 +324,19 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         }
     }
 
+    public function getDefaultInstockChangeComment($withdrawal = true)
+    {
+        if (!$this->isLoggedInUser()
+            && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            return "???";
+        }
+        if($withdrawal) {
+            return $this->db_data['config_instock_comment_w'];
+        } else {
+            return $this->db_data['config_instock_comment_a'];
+        }
+    }
+
     /**
      * Checks if a given password, is valid for this account.
      * @param $password string The password which should be checked.
@@ -476,6 +489,22 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     }
 
     /**
+     * Sets the default message for instock changes (withdrawal or addition)
+     * @param $withdrawal_message string The withdrawal message. Set to null, to not change it.
+     * @param $addition_message string The addition message. Set to null, to not change it.
+     */
+    public function setDefaultInstockChangeComment($withdrawal_message = null, $addition_message = null)
+    {
+        if (is_string($withdrawal_message)) {
+           $this->setAttributes(array('config_instock_comment_w' => $withdrawal_message));
+        }
+
+        if(is_string($addition_message)) {
+            $this->setAttributes(array('config_instock_comment_a' => $addition_message));
+        }
+    }
+
+    /**
      * Returns the full name in the format FIRSTNAME LASTNAME [(USERNAME)].
      * Example: Max Muster (m.muster)
      * @param bool $including_username Include the username in the full name.
@@ -582,6 +611,12 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             }
             if (isset($new_values['config_language'])) {
                 $arr['config_language'] = $new_values['config_language'];
+            }
+            if (isset($new_values['config_instock_comment_w'])) {
+                $arr['config_instock_comment_w'] = $new_values['config_instock_comment_w'];
+            }
+            if (isset($new_values['config_instock_comment_a'])) {
+                $arr['config_instock_comment_a'] = $new_values['config_instock_comment_a'];
             }
         }
 
@@ -736,6 +771,9 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             if ($this->getID() == static::ID_ANONYMOUS) {
                 $str .= _('<br><br>Bitte loggen sie sich ein:') . ' <a href="login.php?redirect=' . urlencode($_SERVER["REQUEST_URI"]) . '">' . _('Login'). '</a>';
             }
+
+            $this->log->userNotAllowed("$group_title->$perm_description: $op_description (" .  basename($_SERVER['PHP_SELF']) . ")");
+
             throw new UserNotAllowedException($str);
         }
     }
@@ -921,8 +959,13 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         @session_start();
         $_SESSION['user'] = $user->getID();
         session_write_close();
+
+        //Write the event to the log:
+        $user->log->userLogsIn($user, getConnectionIPAddress());
+
         return true;
     }
+
 
     /**
      * Log out the current user and set logged in to anonymous.
@@ -930,9 +973,14 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      */
     public static function logout()
     {
+
+        //Write the event to the log:
+        self::getLoggedInUser()->log->userLogsOut(self::getLoggedInUser(), getConnectionIPAddress());
+
         @session_start();
         $_SESSION['user'] = static::ID_ANONYMOUS;
         session_write_close();
+
         return true;
     }
 

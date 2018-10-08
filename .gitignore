@@ -188,3 +188,4 @@ vendor/*
 *.cache
 
 *.min.min.*
+composer_2\.phar

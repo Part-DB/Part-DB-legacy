@@ -128,7 +128,7 @@ if (! $fatal_error) {
                     throw new Exception('Es wurde keine gültige Bauteil-ID übermittelt!');
                 }
 
-                $part->setInstock($part->getInstock() - 1);
+                $part->withdrawalParts(1);
 
                 $reload_site = true;
             } catch (Exception $e) {
@@ -142,7 +142,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es wurde keine gültige Bauteil-ID übermittelt!'));
                 }
 
-                $part->setInstock($part->getInstock() + 1);
+                $part->addParts(1);
 
                 $reload_site = true;
             } catch (Exception $e) {
