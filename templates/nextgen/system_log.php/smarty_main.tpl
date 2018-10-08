@@ -89,7 +89,7 @@
                 <label class="col-md-2 col-form-label">{t}Zeitraum:{/t}</label>
                 <div class="col-md-4">
                     <div class="input-group">
-                        <input type="text" class="form-control datetimepicker-input datetime" data-default-date="{$datetime_min}" name="datetime_min" id="datetimepicker_from" data-toggle="datetimepicker" data-target="#datetimepicker_from"/>
+                        <input type="text" class="form-control datetimepicker-input datetime" autocomplete="off" data-default-date="{$datetime_min}" name="datetime_min" id="datetimepicker_from" data-toggle="datetimepicker" data-target="#datetimepicker_from"/>
                         <div class="input-group-append">
                             <button type="button" class="btn btn-outline-secondary" onclick="$('#datetimepicker_from').val('');"><i class="fas fa-times"></i></button>
                         </div>
@@ -98,7 +98,7 @@
                 <div class="col-form-label col-md-2">{t}bis{/t}</div>
                 <div class="col-md-4">
                     <div class="input-group">
-                        <input type="text" class="form-control datetimepicker-input datetime" data-default-date="{$datetime_max}" name="datetime_max" id="datetimepicker_to" data-toggle="datetimepicker" data-target="#datetimepicker_to"/>
+                        <input type="text" class="form-control datetimepicker-input datetime" autocomplete="off" data-default-date="{$datetime_max}" name="datetime_max" id="datetimepicker_to" data-toggle="datetimepicker" data-target="#datetimepicker_to"/>
                         <div class="input-group-append">
                             <button type="button" class="btn btn-outline-secondary" onclick="$('#datetimepicker_to').val('');"><i class="fas fa-times"></i></button>
                         </div>
