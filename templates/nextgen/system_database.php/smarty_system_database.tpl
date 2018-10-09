@@ -18,8 +18,8 @@
             <table class="table">
                 <thead>
                 <tr>
-                    <th>Eigenschaft</th>
-                    <th>Wert</th>
+                    <th>{t}Eigenschaft{/t}</th>
+                    <th>{t}Wert{/t}</th>
                 </tr>
                 </thead>
                 <tbody>
