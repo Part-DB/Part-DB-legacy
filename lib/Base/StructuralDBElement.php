@@ -182,7 +182,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         }
     }
 
-    public function setAttributes($new_values)
+    public function setAttributes($new_values, $edit_message = null)
     {
         $arr = array();
 
@@ -202,7 +202,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
             throw new UserNotAllowedException(_("Der aktuelle Benutzer darf die gewünschte Operation nicht durchführen!"));
         }
 
-        parent::setAttributes($arr);
+        parent::setAttributes($arr, $edit_message);
     }
 
     /**
@@ -210,9 +210,9 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      * Needed if you want to override the permissions handling in child classes.
      * @throws Exception
      */
-    final protected function setAttributesNoCheck($new_values)
+    final protected function setAttributesNoCheck($new_values, $edit_message = null)
     {
-        parent::setAttributes($new_values);
+        parent::setAttributes($new_values, $edit_message);
     }
 
     /**

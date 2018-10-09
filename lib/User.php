@@ -557,7 +557,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         $this->setAttributes(array('need_pw_change' => $new_val));
     }
 
-    public function setAttributes($new_values)
+    public function setAttributes($new_values, $edit_message = null)
     {
         //Normalize username
         if (isset($new_values['name'])) {
@@ -673,7 +673,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         }
 
         if (!empty($arr)) {
-            parent::setAttributes($arr);
+            parent::setAttributes($arr, $edit_message);
         }
     }
 

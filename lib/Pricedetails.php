@@ -100,10 +100,10 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @throws Exception
      */
 
-    public function setAttributes($new_values)
+    public function setAttributes($new_values, $edit_message = null)
     {
         $this->current_user->tryDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::EDIT);
-        parent::setAttributes($new_values);
+        parent::setAttributes($new_values, $edit_message);
     }
 
     /**

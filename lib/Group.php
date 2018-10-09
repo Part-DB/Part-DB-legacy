@@ -100,7 +100,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
         return $this->getID() == $this->current_user->getGroup()->getID();
     }
 
-    public function setAttributes($new_values)
+    public function setAttributes($new_values, $edit_message = null)
     {
         $arr = array();
 
@@ -128,7 +128,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
 
         //Perms are only set, if no error happened before, so dont throw an exception!!
         if (!empty($arr)) {
-            parent::setAttributesNoCheck($arr);
+            parent::setAttributesNoCheck($arr, $edit_message = null);
         }
     }
 
