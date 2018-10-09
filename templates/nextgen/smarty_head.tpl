@@ -459,7 +459,7 @@
                                             {if !empty($reload_link)}
                                                 <a href="{$reload_link}">
                                                     <br>
-                                                    <button class="btn btn-default">{t}Seite neu laden{/t}</button>
+                                                    <button class="btn btn-secondary">{t}Seite neu laden{/t}</button>
                                                 </a>
                                             {/if}
                                             </form>
