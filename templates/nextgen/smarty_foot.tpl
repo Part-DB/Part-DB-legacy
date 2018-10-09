@@ -1,8 +1,8 @@
 {if isset($messages)}
     <!--suppress ALL -->
 
-    <div class="panel panel-default">
-        <form action="" method="post" class="panel-body">
+    <div class="card">
+        <form action="" method="post" class="card-body">
             {foreach $messages as $msg}
                 {if isset($msg.text)}
                     {if isset($msg.strong)}<strong>{/if}

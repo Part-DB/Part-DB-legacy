@@ -98,10 +98,10 @@ class Attachement extends Base\NamedDBElement
      * @throws Exception
      */
 
-    public function setAttributes($new_values)
+    public function setAttributes($new_values, $edit_message = null)
     {
         $this->current_user->tryDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::EDIT);
-        parent::setAttributes($new_values);
+        parent::setAttributes($new_values, $edit_message);
     }
 
     /**
