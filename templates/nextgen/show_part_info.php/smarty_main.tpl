@@ -253,8 +253,8 @@
                         <input type="hidden" name="label_generate">
                         <input type="hidden" name="id" value="{$pid}">
 
-                        <div class="btn-group btn-group-justified">
-                            <button type="submit" class="btn btn-secondary"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
+                        <div class="btn-group">
+                            <button type="submit" class="btn btn-secondary btn-block"><i class="fa fa-barcode fa-fw" aria-hidden="true"></i>
                                 {t}Barcode erzeugen{/t}</button>
                             <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <span class="sr-only">Toggle Dropdown</span>
