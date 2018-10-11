@@ -109,11 +109,10 @@ class ElementEditedEntry extends BaseEntry
         //Check if there is a change in the new db_data.
         $difference = false;
         foreach($new_values as $key => $value) {
-            if (isset($old_values[$key])) {
-                if($old_values[$key] != $value) { //Dont use strict compare here!!
-                    $difference = true;
-                    break;  //We need only one difference
-                }
+            //Dont check for existance of $old_values[$key] here. this would prevent logging of setting of former null values.
+            if($old_values[$key] != $value) { //Dont use strict compare here!!
+                $difference = true;
+                break;  //We need only one difference
             }
         }
         //Nothing was changed, so we dont need to create an entry.
