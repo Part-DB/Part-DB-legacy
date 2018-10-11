@@ -369,6 +369,7 @@ if (! $fatal_error) {
         //Barcode stuff
         $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("part"));
 
+        $count = 0;
         if($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
             $history = Log::getHistoryForPart($database, $current_user, $log, $part, $limit, $page);
             $html->setVariable("graph_history", Log::historyToGraph($history));
@@ -378,6 +379,7 @@ if (! $fatal_error) {
         $html->setLoop("pagination", generatePagination("show_location_parts.php?pid=$part_id", $page, $limit, $count));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
+
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
