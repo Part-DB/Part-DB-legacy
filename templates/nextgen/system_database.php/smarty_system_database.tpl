@@ -57,8 +57,8 @@
                                     Sie haben deshalb die folgenden zwei Möglichkeiten:{/t}
                                     </span></strong>
                         <br>
-                        <button type="submit" class="btn btn-outline-secondary" name="make_update" {if !$can_update}disabled{/if}>{t}Letztes, fehlgeschlagenes Update fortsetzen{/t}</button>
-                        <button type="submit" class="btn btn-outline-secondary" name="make_new_update" {if !$can_update}disabled{/if}>{t}Neuer Update-Versuch beginnen (von Vorne){/t}</button>
+                        <button type="submit" class="btn btn-secondary" name="make_update" {if !$can_update}disabled{/if}>{t}Letztes, fehlgeschlagenes Update fortsetzen{/t}</button>
+                        <button type="submit" class="btn btn-secondary ml-2" name="make_new_update" {if !$can_update}disabled{/if}>{t}Neuer Update-Versuch beginnen (von Vorne){/t}</button>
                     {else}
                         <br>
                         <button class="btn btn-success" type="submit" name="make_update" {if !$can_update}disabled{/if}>{t}Jetzt Datenbank updaten{/t}</button>
