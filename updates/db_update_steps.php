@@ -947,7 +947,7 @@ EOD;
 
         case 23:
             //Create tables for logging system.
-            $updateSteps[] = "CREATE TABLE `part-db`.`log` ".
+            $updateSteps[] = "CREATE TABLE `log` ".
                 "( `id` INT NOT NULL AUTO_INCREMENT , `datetime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ,".
                 " `id_user` INT NOT NULL ,".
                 " `level` TINYINT NOT NULL ,".
