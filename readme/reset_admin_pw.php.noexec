@@ -16,11 +16,13 @@ include_once "start_session.php";
 
 $database           = new Database();
 $log                = new Log($database);
-$current_user       = new User($database, $current_user, $log, User::ID_ADMIN); // admin
+$n = null;
+$current_user       = new User($database, $n, $log, User::ID_ADMIN); // admin
 
 $current_user->setPassword("admin", true, false);
 
 $messages = sprintf(_("Das Passwort für den Administrator (Benutzername: %s)  wurde erfolgreich zurückgesetzt. <br> Es lautet nun: <b>admin</b>"), $current_user->getName());
 $messages .= _("<br><br> <b>Ändern sie sofort das Passwort des Benutzers und löschen sie danach diese Datei</b>");
+
 
 printMessagesWithoutTemplate(_("Erfolg"), _("Erfolg"),  $messages, "panel-success");
