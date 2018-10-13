@@ -26,8 +26,8 @@ use PartDB\HTML;
 use PartDB\Log;
 use PartDB\User;
 
-$user_name = isset($_REQUEST['username']) ? $_REQUEST['username'] : "";
-$password = isset($_REQUEST['password']) ? $_REQUEST['password']: "";
+$user_name = isset($_POST['username']) ? $_POST['username'] : "";
+$password = isset($_POST['password']) ? $_POST['password']: "";
 $logout   = isset($_REQUEST['logout']);
 
 $redirect_url = isset($_REQUEST['redirect']) ? $_REQUEST['redirect'] : "";
