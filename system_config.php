@@ -60,87 +60,87 @@ function build_theme_loop()
 
 /********************************************************************************
  *
- *   Evaluate $_REQUEST
+ *   Evaluate $_POST
  *
  *********************************************************************************/
 
 // section "system settings"
-$http_charset               = isset($_REQUEST['http_charset'])      ? (string)$_REQUEST['http_charset']     : 'utf-8';
-$theme                      = isset($_REQUEST['theme'])             ? (string)$_REQUEST['theme']            : $config['html']['theme'];
-$custom_css                 = isset($_REQUEST['custom_css'])        ? (string)$_REQUEST['custom_css']       : $config['html']['custom_css'];
-$timezone                   = isset($_REQUEST['timezone'])          ? (string)$_REQUEST['timezone']         : $config['timezone'];
-$language                   = isset($_REQUEST['language'])          ? (string)$_REQUEST['language']         : $config['language'];
-$disable_updatelist         = isset($_REQUEST['disable_updatelist']);
-$disable_search_warning     = isset($_REQUEST['disable_search_warning']);
-$disable_help               = isset($_REQUEST['disable_help']);
-$disable_config             = isset($_REQUEST['disable_config']);
-$enable_debug_link          = isset($_REQUEST['enable_debug_link']);
-$disable_devices            = isset($_REQUEST['disable_devices']);
-$disable_footprints         = isset($_REQUEST['disable_footprints']);
-$disable_manufacturers      = isset($_REQUEST['disable_manufacturers']);
-$disable_labels             = isset($_REQUEST['disable_labels']);
-$disable_calculator         = isset($_REQUEST['disable_calculator']);
-$disable_iclogos            = isset($_REQUEST['disable_iclogos']);
-$disable_auto_datasheets    = isset($_REQUEST['disable_auto_datasheets']);
-$disable_tools_footprints   = isset($_REQUEST['disable_tools_footprints']);
-$disable_suppliers          = isset($_REQUEST['disable_suppliers']);
-$tools_footprints_autoload  = isset($_REQUEST['tools_footprints_autoload']);
-$enable_developer_mode      = isset($_REQUEST['enable_developer_mode']);
-$use_modal_popup            = isset($_REQUEST['use_modal_popup']);
-$popup_width                = isset($_REQUEST['popup_width'])       ? (integer)$_REQUEST['popup_width']     : $config['popup']['width'];
-$popup_height               = isset($_REQUEST['popup_height'])      ? (integer)$_REQUEST['popup_height']    : $config['popup']['height'];
-$page_title                 = isset($_REQUEST['page_title'])        ? (string)$_REQUEST['page_title']       : $config['page_title'];
-$startup_banner             = isset($_REQUEST['startup_banner'])    ? (string)$_REQUEST['startup_banner']   : $config['startup']['custom_banner'];
-$downloads_enable           = isset($_REQUEST['downloads_enable']);
+$http_charset               = isset($_POST['http_charset'])      ? (string)$_POST['http_charset']     : 'utf-8';
+$theme                      = isset($_POST['theme'])             ? (string)$_POST['theme']            : $config['html']['theme'];
+$custom_css                 = isset($_POST['custom_css'])        ? (string)$_POST['custom_css']       : $config['html']['custom_css'];
+$timezone                   = isset($_POST['timezone'])          ? (string)$_POST['timezone']         : $config['timezone'];
+$language                   = isset($_POST['language'])          ? (string)$_POST['language']         : $config['language'];
+$disable_updatelist         = isset($_POST['disable_updatelist']);
+$disable_search_warning     = isset($_POST['disable_search_warning']);
+$disable_help               = isset($_POST['disable_help']);
+$disable_config             = isset($_POST['disable_config']);
+$enable_debug_link          = isset($_POST['enable_debug_link']);
+$disable_devices            = isset($_POST['disable_devices']);
+$disable_footprints         = isset($_POST['disable_footprints']);
+$disable_manufacturers      = isset($_POST['disable_manufacturers']);
+$disable_labels             = isset($_POST['disable_labels']);
+$disable_calculator         = isset($_POST['disable_calculator']);
+$disable_iclogos            = isset($_POST['disable_iclogos']);
+$disable_auto_datasheets    = isset($_POST['disable_auto_datasheets']);
+$disable_tools_footprints   = isset($_POST['disable_tools_footprints']);
+$disable_suppliers          = isset($_POST['disable_suppliers']);
+$tools_footprints_autoload  = isset($_POST['tools_footprints_autoload']);
+$enable_developer_mode      = isset($_POST['enable_developer_mode']);
+$use_modal_popup            = isset($_POST['use_modal_popup']);
+$popup_width                = isset($_POST['popup_width'])       ? (integer)$_POST['popup_width']     : $config['popup']['width'];
+$popup_height               = isset($_POST['popup_height'])      ? (integer)$_POST['popup_height']    : $config['popup']['height'];
+$page_title                 = isset($_POST['page_title'])        ? (string)$_POST['page_title']       : $config['page_title'];
+$startup_banner             = isset($_POST['startup_banner'])    ? (string)$_POST['startup_banner']   : $config['startup']['custom_banner'];
+$downloads_enable           = isset($_POST['downloads_enable']);
 
 // section "appearance"
-$use_old_datasheet_icons    = isset($_REQUEST['use_old_datasheet_icons']);
-$short_description          = isset($_REQUEST['short_description']);
-$others_panel_collapse      = isset($_REQUEST['others_panel_collapse']);
-$others_panel_postion       = isset($_REQUEST['others_panel_position']) ? (string)$_REQUEST['others_panel_position'] : "top";
+$use_old_datasheet_icons    = isset($_POST['use_old_datasheet_icons']);
+$short_description          = isset($_POST['short_description']);
+$others_panel_collapse      = isset($_POST['others_panel_collapse']);
+$others_panel_postion       = isset($_POST['others_panel_position']) ? (string)$_POST['others_panel_position'] : "top";
 
 // section "3d footprints"
-$foot3d_active              = isset($_REQUEST['foot3d_active']);
-$foot3d_show_info           = isset($_REQUEST['foot3d_show_info']);
+$foot3d_active              = isset($_POST['foot3d_active']);
+$foot3d_show_info           = isset($_POST['foot3d_show_info']);
 
 //section "part properites"
-$properties_active          = isset($_REQUEST['properties_active']);
+$properties_active          = isset($_POST['properties_active']);
 
 //Edit parts
-$created_redirect           = isset($_REQUEST['created_redirect']);
-$saved_redirect             = isset($_REQUEST['saved_redirect']);
+$created_redirect           = isset($_POST['created_redirect']);
+$saved_redirect             = isset($_POST['saved_redirect']);
 
 //Table settings
-$table_autosort             = isset($_REQUEST['table_autosort']);
-$default_subcat             = isset($_REQUEST['default_subcat']);
-$default_limit              = isset($_REQUEST['default_limit']) ? (int) $_REQUEST['default_limit']  : 50;
-$show_full_paths            = isset($_REQUEST['show_full_paths']);
-$instock_warning_full_row   = isset($_REQUEST['instock_warning_full_row']);
+$table_autosort             = isset($_POST['table_autosort']);
+$default_subcat             = isset($_POST['default_subcat']);
+$default_limit              = isset($_POST['default_limit']) ? (int) $_POST['default_limit']  : 50;
+$show_full_paths            = isset($_POST['show_full_paths']);
+$instock_warning_full_row   = isset($_POST['instock_warning_full_row']);
 
 //Search settings
-$livesearch_active          = isset($_REQUEST['livesearch_active']);
-$search_highlighting        = isset($_REQUEST['search_highlighting']);
+$livesearch_active          = isset($_POST['livesearch_active']);
+$search_highlighting        = isset($_POST['search_highlighting']);
 
 //Attachement settings
-$attachements_structure     = isset($_REQUEST['attachements_structure']);
-$attachements_download      = isset($_REQUEST['attachements_download']);
-$attachements_show_name     = isset($_REQUEST['attachements_show_name']);
+$attachements_structure     = isset($_POST['attachements_structure']);
+$attachements_download      = isset($_POST['attachements_download']);
+$attachements_show_name     = isset($_POST['attachements_show_name']);
 
 //Detailinfo settings
-$info_hide_actions              = isset($_REQUEST['info_hide_actions']);
-$info_hide_empty_orderdetails   = isset($_REQUEST['info_hide_empty_orderdetails']);
-$info_hide_empty_attachements   = isset($_REQUEST['info_hide_empty_attachements']);
+$info_hide_actions              = isset($_POST['info_hide_actions']);
+$info_hide_empty_orderdetails   = isset($_POST['info_hide_empty_orderdetails']);
+$info_hide_empty_attachements   = isset($_POST['info_hide_empty_attachements']);
 
 //User settings
-$use_gravatar                   = isset($_REQUEST['gravatar_enable']);
-$login_redirect                 = isset($_REQUEST['login_redirect']);
-$max_sessiontime                = isset($_REQUEST['max_sessiontime']) ? $_REQUEST['max_sessiontime'] : -1;
+$use_gravatar                   = isset($_POST['gravatar_enable']);
+$login_redirect                 = isset($_POST['login_redirect']);
+$max_sessiontime                = isset($_POST['max_sessiontime']) ? $_POST['max_sessiontime'] : -1;
 
 //Logging system settings
-$min_log_level                  = isset($_REQUEST['min_log_level']) ? (int)$_REQUEST['min_log_level'] : 7;
+$min_log_level                  = isset($_POST['min_log_level']) ? (int)$_POST['min_log_level'] : 7;
 
 $action = 'default';
-if (isset($_REQUEST["apply"])) {
+if (isset($_POST["apply"])) {
     $action = 'apply';
 }
 

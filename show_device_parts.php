@@ -55,92 +55,92 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
 $device_id                = isset($_REQUEST['device_id'])               ? (integer)$_REQUEST['device_id']               : 0;
 
 // sections "search parts" and "parts table"
-$new_part_name            = isset($_REQUEST['new_part_name'])           ? (string)$_REQUEST['new_part_name']            : '';
-$searched_parts_rowcount  = isset($_REQUEST['searched_parts_rowcount']) ? (integer)$_REQUEST['searched_parts_rowcount'] : 0;
-$device_parts_rowcount    = isset($_REQUEST['device_parts_rowcount'])   ? (integer)$_REQUEST['device_parts_rowcount']   : 0;
+$new_part_name            = isset($_POST['new_part_name'])           ? (string)$_POST['new_part_name']            : '';
+$searched_parts_rowcount  = isset($_POST['searched_parts_rowcount']) ? (integer)$_POST['searched_parts_rowcount'] : 0;
+$device_parts_rowcount    = isset($_POST['device_parts_rowcount'])   ? (integer)$_POST['device_parts_rowcount']   : 0;
 
 // section "export"
-$export_multiplier        = isset($_REQUEST['export_multiplier'])       ? abs((integer)$_REQUEST['export_multiplier'])  : 0;
+$export_multiplier        = isset($_POST['export_multiplier'])       ? abs((integer)$_POST['export_multiplier'])  : 0;
 $export_multiplier_original = $export_multiplier; // for HTML->set_variable(), because $export_multiplier will be edited in this script
-$export_format_id         = isset($_REQUEST['export_format'])           ? (integer)$_REQUEST['export_format']           : 0;
-$export_only_missing      = isset($_REQUEST['only_missing_material']);
+$export_format_id         = isset($_POST['export_format'])           ? (integer)$_POST['export_format']           : 0;
+$export_only_missing      = isset($_POST['only_missing_material']);
 
 // section "import"
-$import_file_content      = isset($_REQUEST['import_file_content'])     ? (string)$_REQUEST['import_file_content']      : '';
-$import_format            = isset($_REQUEST['import_format'])           ? (string)$_REQUEST['import_format']            : 'CSV';
-$import_separator         = isset($_REQUEST['import_separator'])        ? trim((string)$_REQUEST['import_separator'])   : ';';
-$import_rowcount          = isset($_REQUEST['import_rowcount'])         ? (integer)$_REQUEST['import_rowcount']         : 0;
+$import_file_content      = isset($_POST['import_file_content'])     ? (string)$_POST['import_file_content']      : '';
+$import_format            = isset($_POST['import_format'])           ? (string)$_POST['import_format']            : 'CSV';
+$import_separator         = isset($_POST['import_separator'])        ? trim((string)$_POST['import_separator'])   : ';';
+$import_rowcount          = isset($_POST['import_rowcount'])         ? (integer)$_POST['import_rowcount']         : 0;
 
 // section "copy device"
-$copy_new_name            = isset($_REQUEST['copy_new_name'])           ? (string)$_REQUEST['copy_new_name']            : '';
-$copy_new_parent_id       = isset($_REQUEST['copy_new_parent_id'])      ? (integer)$_REQUEST['copy_new_parent_id']      : 0;
-$copy_recursive           = isset($_REQUEST['copy_recursive']);
+$copy_new_name            = isset($_POST['copy_new_name'])           ? (string)$_POST['copy_new_name']            : '';
+$copy_new_parent_id       = isset($_POST['copy_new_parent_id'])      ? (integer)$_POST['copy_new_parent_id']      : 0;
+$copy_recursive           = isset($_POST['copy_recursive']);
 
 // section: attachements
-$new_show_in_table          = isset($_REQUEST['show_in_table']);
-$attachement_id             = isset($_REQUEST['attachement_id'])            ? (integer)$_REQUEST['attachement_id']           : 0;
-$new_attachement_type_id    = isset($_REQUEST['attachement_type_id'])       ? (integer)$_REQUEST['attachement_type_id']      : 0;
-$new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
-$new_filename               = isset($_REQUEST['attachement_filename'])      ? toUnixPath(trim((string)$_REQUEST['attachement_filename'])) : '';
-$download_file              = isset($_REQUEST['download_file']);
+$new_show_in_table          = isset($_POST['show_in_table']);
+$attachement_id             = isset($_POST['attachement_id'])            ? (integer)$_POST['attachement_id']           : 0;
+$new_attachement_type_id    = isset($_POST['attachement_type_id'])       ? (integer)$_POST['attachement_type_id']      : 0;
+$new_name                   = isset($_POST['name'])                      ? (string)$_POST['name']                      : '';
+$new_filename               = isset($_POST['attachement_filename'])      ? toUnixPath(trim((string)$_POST['attachement_filename'])) : '';
+$download_file              = isset($_POST['download_file']);
 
 
 $action = 'default';
-if (isset($_REQUEST['show_searched_parts'])) {
+if (isset($_POST['show_searched_parts'])) {
     $action = 'show_searched_parts';
 }
-if (isset($_REQUEST['assign_by_selected'])) {
+if (isset($_POST['assign_by_selected'])) {
     $action = 'assign_by_selected';
 }
-if (isset($_REQUEST['device_parts_apply'])) {
+if (isset($_POST['device_parts_apply'])) {
     $action = 'device_parts_apply';
 }
-if (isset($_REQUEST['book_parts'])) {
+if (isset($_POST['book_parts'])) {
     $action = 'book_parts';
 }
-if (isset($_REQUEST['book_parts_in'])) {
+if (isset($_POST['book_parts_in'])) {
     $action = 'book_parts';
     $export_multiplier *= -1;
 }
-if (isset($_REQUEST['add_order'])) {
+if (isset($_POST['add_order'])) {
     $action = 'add_order';
 }
-if (isset($_REQUEST['add_order_only_missing'])) {
+if (isset($_POST['add_order_only_missing'])) {
     $action = 'add_order';
 }
-if (isset($_REQUEST['remove_order'])) {
+if (isset($_POST['remove_order'])) {
     $action = 'add_order';
     $export_multiplier = 0;
 }
-if (isset($_REQUEST['copy_device'])) {
+if (isset($_POST['copy_device'])) {
     $action = 'copy_device';
 }
-if (isset($_REQUEST['export_show'])) {
+if (isset($_POST['export_show'])) {
     $action = 'export';
 }
-if (isset($_REQUEST['export_download'])) {
+if (isset($_POST['export_download'])) {
     $action = 'export';
 }
-if (isset($_REQUEST['import_readtext'])) {
+if (isset($_POST['import_readtext'])) {
     $action = 'import_readtext';
 }
-if (isset($_REQUEST['check_import_data'])) {
+if (isset($_POST['check_import_data'])) {
     $action = 'import';
 }
-if (isset($_REQUEST['import_data'])) {
+if (isset($_POST['import_data'])) {
     $action = 'import';
 }
-if (isset($_REQUEST['primary_device'])) {
+if (isset($_POST['primary_device'])) {
     $action = "primary_device";
 }
 
-if (isset($_REQUEST["attachement_add"])) {
+if (isset($_POST["attachement_add"])) {
     $action = 'attachement_add';
 }
-if (isset($_REQUEST["attachement_apply"])) {
+if (isset($_POST["attachement_apply"])) {
     $action = 'attachement_apply';
 }
-if (isset($_REQUEST["attachement_delete"])) {
+if (isset($_POST["attachement_delete"])) {
     $action = 'attachement_delete';
 }
 
@@ -221,9 +221,9 @@ if (! $fatal_error) {
 
         case 'assign_by_selected': // add some parts (which were listed by part search) to this device
             for ($i=0; $i<$searched_parts_rowcount; $i++) {
-                $part_id    = isset($_REQUEST['id_'.$i])           ? (integer)$_REQUEST['id_'.$i]              : 0;
-                $quantity   = isset($_REQUEST['quantity_'.$i])     ? abs((integer)$_REQUEST['quantity_'.$i])   : 0;
-                $mountname  = isset($_REQUEST['mountnames_'.$i])   ? trim((string)$_REQUEST['mountnames_'.$i]) : '';
+                $part_id    = isset($_POST['id_'.$i])           ? (integer)$_POST['id_'.$i]              : 0;
+                $quantity   = isset($_POST['quantity_'.$i])     ? abs((integer)$_POST['quantity_'.$i])   : 0;
+                $mountname  = isset($_POST['mountnames_'.$i])   ? trim((string)$_POST['mountnames_'.$i]) : '';
 
                 if ($quantity > 0) {
                     try {
@@ -251,9 +251,9 @@ if (! $fatal_error) {
 
         case 'device_parts_apply': // apply new quantities and new mountnames, or remove parts from this device
             for ($i=0; $i<$device_parts_rowcount; $i++) {
-                $part_id    = isset($_REQUEST['id_'.$i])           ? (integer)$_REQUEST['id_'.$i]              : 0;
-                $quantity   = isset($_REQUEST['quantity_'.$i])     ? abs((integer)$_REQUEST['quantity_'.$i])   : 0;
-                $mountname  = isset($_REQUEST['mountnames_'.$i])   ? trim((string)$_REQUEST['mountnames_'.$i]) : '';
+                $part_id    = isset($_POST['id_'.$i])           ? (integer)$_POST['id_'.$i]              : 0;
+                $quantity   = isset($_POST['quantity_'.$i])     ? abs((integer)$_POST['quantity_'.$i])   : 0;
+                $mountname  = isset($_POST['mountnames_'.$i])   ? trim((string)$_POST['mountnames_'.$i]) : '';
 
                 try {
                     $device_part = new DevicePart($database, $current_user, $log, $part_id);
@@ -285,7 +285,7 @@ if (! $fatal_error) {
         case 'add_order': // mark this device as "to order" (then the parts of this device will be shown in "parts to order")
             try {
                 $device->setOrderQuantity($export_multiplier);
-                $device->setOrderOnlyMissingParts(isset($_REQUEST['add_order_only_missing']));
+                $device->setOrderOnlyMissingParts(isset($_POST['add_order_only_missing']));
                 $reload_site = true;
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -318,7 +318,7 @@ if (! $fatal_error) {
                     }
                 }
 
-                $download = isset($_REQUEST['export_download']);
+                $download = isset($_POST['export_download']);
                 $export_string = exportParts(
                     $device_parts,
                     'deviceparts',
@@ -343,7 +343,7 @@ if (! $fatal_error) {
             break;
 
         case 'import':
-            $only_check_data = isset($_REQUEST['check_import_data']);
+            $only_check_data = isset($_POST['check_import_data']);
             try {
                 $import_data = extractImportDataFromRequest($import_rowcount);
                 $import_loop = buildDevicepartsImportTemplateLoop($database, $current_user, $log, $import_data);
@@ -362,7 +362,7 @@ if (! $fatal_error) {
             }
             break;
         case 'primary_device':
-            $id = (int) $_REQUEST['primary_device'];
+            $id = (int) $_POST['primary_device'];
             if ($id > 0) {
                 Device::setPrimaryDevice($id);
             }

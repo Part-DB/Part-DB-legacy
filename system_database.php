@@ -40,25 +40,25 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-$db_type                    = isset($_REQUEST['db_type'])        ? (string)$_REQUEST['db_type']              : 'mysql';
-$db_charset                 = isset($_REQUEST['db_charset'])     ? (string)$_REQUEST['db_charset']           : 'utf8';
-$db_host                    = isset($_REQUEST['db_host'])        ? (string)$_REQUEST['db_host']              : 'localhost';
-$db_name                    = isset($_REQUEST['db_name'])        ? (string)$_REQUEST['db_name']              : '';
-$db_user                    = isset($_REQUEST['db_user'])        ? (string)$_REQUEST['db_user']              : '';
-$db_password                = isset($_REQUEST['db_password'])    ? trim((string)$_REQUEST['db_password'])    : '';
-$automatic_updates_enabled  = isset($_REQUEST['automatic_updates_enabled']);
+$db_type                    = isset($_POST['db_type'])        ? (string)$_POST['db_type']              : 'mysql';
+$db_charset                 = isset($_POST['db_charset'])     ? (string)$_POST['db_charset']           : 'utf8';
+$db_host                    = isset($_POST['db_host'])        ? (string)$_POST['db_host']              : 'localhost';
+$db_name                    = isset($_POST['db_name'])        ? (string)$_POST['db_name']              : '';
+$db_user                    = isset($_POST['db_user'])        ? (string)$_POST['db_user']              : '';
+$db_password                = isset($_POST['db_password'])    ? trim((string)$_POST['db_password'])    : '';
+$automatic_updates_enabled  = isset($_POST['automatic_updates_enabled']);
 
 $action = 'default';
-if (isset($_REQUEST["apply_connection_settings"])) {
+if (isset($_POST["apply_connection_settings"])) {
     $action = 'apply_connection_settings';
 }
-if (isset($_REQUEST["apply_auto_updates"])) {
+if (isset($_POST["apply_auto_updates"])) {
     $action = 'apply_auto_updates';
 }
-if (isset($_REQUEST["make_update"])) {
+if (isset($_POST["make_update"])) {
     $action = 'make_update';
 }
-if (isset($_REQUEST["make_new_update"])) {
+if (isset($_POST["make_new_update"])) {
     $action = 'make_new_update';
 }
 

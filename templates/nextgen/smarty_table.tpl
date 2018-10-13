@@ -226,10 +226,12 @@
                             {if $row.caption == "manufacturer"}
                                 {* manufacturer *}
                                 <td class="tdrow1">
-                                    {if $t.show_full_paths == true}
-                                        {include "./smarty_structural_link.tpl" link=$row.manufacturer_loop}
-                                    {else}
-                                        <a href="show_manufacturer_parts.php?mid={$row.manufacturer_id}&subman=0" title="{$row.manufacturer_path}">{$row.manufacturer_name}</a>
+                                    {if isset($row.manufacturer_id)}
+                                        {if $t.show_full_paths == true}
+                                            {include "./smarty_structural_link.tpl" link=$row.manufacturer_loop}
+                                        {else}
+                                            <a href="show_manufacturer_parts.php?mid={$row.manufacturer_id}&subman=0" title="{$row.manufacturer_path}">{$row.manufacturer_name}</a>
+                                        {/if}
                                     {/if}
                                 </td>
                             {/if}

@@ -56,11 +56,11 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 $selected_id                    = isset($_REQUEST['selected_id'])                   ? (integer)$_REQUEST['selected_id']                     : 0;
-$new_name                       = isset($_REQUEST['name'])                          ? trim((string)$_REQUEST['name'])                       : '';
-$new_parent_id                  = isset($_REQUEST['parent_id'])                     ? (integer)$_REQUEST['parent_id']                       : 0;
-$new_filename                   = isset($_REQUEST['filename'])                      ? toUnixPath(trim((string)$_REQUEST['filename']))     : '';
-$new_3d_filename                = isset($_REQUEST['filename_3d'])                   ? toUnixPath(trim((string)$_REQUEST['filename_3d']))  : '';
-$new_comment                    = isset($_REQUEST['comment'])       ? (string)$_REQUEST['comment']      : "";
+$new_name                       = isset($_POST['name'])                          ? trim((string)$_POST['name'])                       : '';
+$new_parent_id                  = isset($_POST['parent_id'])                     ? (integer)$_POST['parent_id']                       : 0;
+$new_filename                   = isset($_POST['filename'])                      ? toUnixPath(trim((string)$_POST['filename']))     : '';
+$new_3d_filename                = isset($_POST['filename_3d'])                   ? toUnixPath(trim((string)$_POST['filename_3d']))  : '';
+$new_comment                    = isset($_POST['comment'])       ? (string)$_POST['comment']      : "";
 
 if ((strlen($new_filename) > 0) && (! isPathabsoluteAndUnix($new_filename))) {
     if (!strcontains($new_filename, "img/footprints/")) {
@@ -76,37 +76,37 @@ if ((strlen($new_3d_filename) > 0) && (! isPathabsoluteAndUnix($new_3d_filename)
     $new_3d_filename = BASE.'/'.$new_3d_filename;
 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
-$add_more                       = isset($_REQUEST['add_more']);
+$add_more                       = isset($_POST['add_more']);
 
-$broken_footprints_count        = isset($_REQUEST['broken_footprints_count'])       ? (integer)$_REQUEST['broken_footprints_count']     : 0;
-$save_all_proposed_filenames    = isset($_REQUEST["save_all_proposed_filenames"]);
+$broken_footprints_count        = isset($_POST['broken_footprints_count'])       ? (integer)$_POST['broken_footprints_count']     : 0;
+$save_all_proposed_filenames    = isset($_POST["save_all_proposed_filenames"]);
 
-$broken_3d_footprints_count     = isset($_REQUEST['broken_3d_footprints_count'])       ? (integer)$_REQUEST['broken_3d_footprints_count']     : 0;
-$save_all_proposed_3d_filenames = isset($_REQUEST["save_all_proposed_3d_filenames"]);
+$broken_3d_footprints_count     = isset($_POST['broken_3d_footprints_count'])       ? (integer)$_POST['broken_3d_footprints_count']     : 0;
+$save_all_proposed_3d_filenames = isset($_POST["save_all_proposed_3d_filenames"]);
 
 $action = 'default';
-if (isset($_REQUEST["add"])) {
+if (isset($_POST["add"])) {
     $action = 'add';
 }
-if (isset($_REQUEST["delete"])) {
+if (isset($_POST["delete"])) {
     $action = 'delete';
 }
-if (isset($_REQUEST["delete_confirmed"])) {
+if (isset($_POST["delete_confirmed"])) {
     $action = 'delete_confirmed';
 }
-if (isset($_REQUEST["apply"])) {
+if (isset($_POST["apply"])) {
     $action = 'apply';
 }
-if (isset($_REQUEST["save_proposed_filenames"])) {
+if (isset($_POST["save_proposed_filenames"])) {
     $action = 'save_proposed_filenames';
 }
-if (isset($_REQUEST["save_all_proposed_filenames"])) {
+if (isset($_POST["save_all_proposed_filenames"])) {
     $action = 'save_proposed_filenames';
 }
-if (isset($_REQUEST["save_proposed_3d_filenames"])) {
+if (isset($_POST["save_proposed_3d_filenames"])) {
     $action = 'save_proposed_3d_filenames';
 }
-if (isset($_REQUEST["save_all_proposed_3d_filenames"])) {
+if (isset($_POST["save_all_proposed_3d_filenames"])) {
     $action = 'save_proposed_3d_filenames';
 }
 
@@ -262,9 +262,9 @@ if (! $fatal_error) {
         case 'save_proposed_filenames':
             $errors = array();
             for ($i=0; $i < $broken_footprints_count; $i++) {
-                $spf_footprint_id   = isset($_REQUEST['broken_footprint_id_'.$i])  ? $_REQUEST['broken_footprint_id_'.$i] : -1; // -1 will produce an error
-                $spf_new_filename   = isset($_REQUEST['proposed_filename_'.$i])    ? toUnixPath($_REQUEST['proposed_filename_'.$i])   : null;
-                $spf_checked        = isset($_REQUEST['filename_checkbox_'.$i])     || $save_all_proposed_filenames;
+                $spf_footprint_id   = isset($_POST['broken_footprint_id_'.$i])  ? $_POST['broken_footprint_id_'.$i] : -1; // -1 will produce an error
+                $spf_new_filename   = isset($_POST['proposed_filename_'.$i])    ? toUnixPath($_POST['proposed_filename_'.$i])   : null;
+                $spf_checked        = isset($_POST['filename_checkbox_'.$i])     || $save_all_proposed_filenames;
 
                 if ((strlen($spf_new_filename) > 0) && (! isPathabsoluteAndUnix($spf_new_filename))) {
                     $spf_new_filename = BASE.'/'.$spf_new_filename;
@@ -289,9 +289,9 @@ if (! $fatal_error) {
         case 'save_proposed_3d_filenames':
             $errors = array();
             for ($i=0; $i < $broken_3d_footprints_count; $i++) {
-                $spf_footprint_id   = isset($_REQUEST['broken_3d_footprint_id_'.$i])  ? $_REQUEST['broken_3d_footprint_id_'.$i] : -1; // -1 will produce an error
-                $spf_new_filename   = isset($_REQUEST['proposed_3d_filename_'.$i])    ? toUnixPath($_REQUEST['proposed_3d_filename_'.$i])   : null;
-                $spf_checked        = isset($_REQUEST['filename_3d_checkbox_'.$i])     || $save_all_proposed_3d_filenames;
+                $spf_footprint_id   = isset($_POST['broken_3d_footprint_id_'.$i])  ? $_POST['broken_3d_footprint_id_'.$i] : -1; // -1 will produce an error
+                $spf_new_filename   = isset($_POST['proposed_3d_filename_'.$i])    ? toUnixPath($_POST['proposed_3d_filename_'.$i])   : null;
+                $spf_checked        = isset($_POST['filename_3d_checkbox_'.$i])     || $save_all_proposed_3d_filenames;
 
                 if ((strlen($spf_new_filename) > 0) && (! isPathabsoluteAndUnix($spf_new_filename))) {
                     $spf_new_filename = BASE.'/'.$spf_new_filename;

@@ -57,32 +57,32 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 $selected_id                = isset($_REQUEST['selected_id'])   ? (integer)$_REQUEST['selected_id'] : 0;
-$new_name                   = isset($_REQUEST['name'])          ? (string)$_REQUEST['name']         : '';
-$new_parent_id              = isset($_REQUEST['parent_id'])     ? (integer)$_REQUEST['parent_id']   : 0;
-$new_disable_footprints     = isset($_REQUEST['disable_footprints']);
-$new_disable_manufacturers  = isset($_REQUEST['disable_manufacturers']);
-$new_disable_autodatasheets = isset($_REQUEST['disable_autodatasheets']);
-$new_disable_properties     = isset($_REQUEST['disable_properties']);
-$add_more                   = isset($_REQUEST['add_more']);
-$new_default_description    = isset($_REQUEST['default_description'])  ? (string)$_REQUEST['default_description']  : '';
-$new_default_comment        = isset($_REQUEST['default_comment'])  ? (string)$_REQUEST['default_comment']  : '';
+$new_name                   = isset($_POST['name'])          ? (string)$_POST['name']         : '';
+$new_parent_id              = isset($_POST['parent_id'])     ? (integer)$_POST['parent_id']   : 0;
+$new_disable_footprints     = isset($_POST['disable_footprints']);
+$new_disable_manufacturers  = isset($_POST['disable_manufacturers']);
+$new_disable_autodatasheets = isset($_POST['disable_autodatasheets']);
+$new_disable_properties     = isset($_POST['disable_properties']);
+$add_more                   = isset($_POST['add_more']);
+$new_default_description    = isset($_POST['default_description'])  ? (string)$_POST['default_description']  : '';
+$new_default_comment        = isset($_POST['default_comment'])  ? (string)$_POST['default_comment']  : '';
 
-$new_partname_regex         = isset($_REQUEST['partname_regex'])   ? (string)$_REQUEST['partname_regex']    : '';
-$new_partname_hint          = isset($_REQUEST['partname_hint'])   ? (string)$_REQUEST['partname_hint']    : '';
+$new_partname_regex         = isset($_POST['partname_regex'])   ? (string)$_POST['partname_regex']    : '';
+$new_partname_hint          = isset($_POST['partname_hint'])   ? (string)$_POST['partname_hint']    : '';
 
-$new_comment                = isset($_REQUEST['comment'])       ? (string)$_REQUEST['comment']      : "";
+$new_comment                = isset($_POST['comment'])       ? (string)$_POST['comment']      : "";
 
 $action = 'default';
-if (isset($_REQUEST["add"])) {
+if (isset($_POST["add"])) {
     $action = 'add';
 }
-if (isset($_REQUEST["delete"])) {
+if (isset($_POST["delete"])) {
     $action = 'delete';
 }
-if (isset($_REQUEST["delete_confirmed"])) {
+if (isset($_POST["delete_confirmed"])) {
     $action = 'delete_confirmed';
 }
-if (isset($_REQUEST["apply"])) {
+if (isset($_POST["apply"])) {
     $action = 'apply';
 }
 

@@ -65,96 +65,96 @@ $add_one_more_part          = isset($_REQUEST['add_one_more_part']);
 
 // section: part attributes
 $part_id                    = isset($_REQUEST['pid'])                       ? (integer)$_REQUEST['pid']                      : -1;
-$new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
-$new_description            = isset($_REQUEST['description'])               ? (string)$_REQUEST['description']               : '';
-$new_manufacturer_id        = isset($_REQUEST['manufacturer_id'])           ? (integer)$_REQUEST['manufacturer_id']          : 0;
-$new_instock                = isset($_REQUEST['instock'])                   ? (integer)$_REQUEST['instock']                  : 0;
-$new_instock                = isset($_REQUEST['instock_unknown'])           ? (integer) Part::INSTOCK_UNKNOWN                : $new_instock;
-$new_mininstock             = isset($_REQUEST['mininstock'])                ? (integer)$_REQUEST['mininstock']               : 0;
-$new_category_id            = isset($_REQUEST['category_id'])               ? (integer)$_REQUEST['category_id']              : 0;
-$new_storelocation_id       = isset($_REQUEST['storelocation_id'])          ? (integer)$_REQUEST['storelocation_id']         : 0;
-$new_footprint_id           = isset($_REQUEST['footprint_id'])              ? (integer)$_REQUEST['footprint_id']             : 0;
-$new_visible                = isset($_REQUEST['visible']);
-$new_comment                = isset($_REQUEST['comment'])                   ? (string)$_REQUEST['comment']                   : '';
+$new_name                   = isset($_POST['name'])                      ? (string)$_POST['name']                      : '';
+$new_description            = isset($_POST['description'])               ? (string)$_POST['description']               : '';
+$new_manufacturer_id        = isset($_POST['manufacturer_id'])           ? (integer)$_POST['manufacturer_id']          : 0;
+$new_instock                = isset($_POST['instock'])                   ? (integer)$_POST['instock']                  : 0;
+$new_instock                = isset($_POST['instock_unknown'])           ? (integer) Part::INSTOCK_UNKNOWN                : $new_instock;
+$new_mininstock             = isset($_POST['mininstock'])                ? (integer)$_POST['mininstock']               : 0;
+$new_category_id            = isset($_POST['category_id'])               ? (integer)$_POST['category_id']              : 0;
+$new_storelocation_id       = isset($_POST['storelocation_id'])          ? (integer)$_POST['storelocation_id']         : 0;
+$new_footprint_id           = isset($_POST['footprint_id'])              ? (integer)$_POST['footprint_id']             : 0;
+$new_visible                = isset($_POST['visible']);
+$new_comment                = isset($_POST['comment'])                   ? (string)$_POST['comment']                   : '';
 
-$change_comment             = isset($_REQUEST['change_comment'])    ? (string)$_REQUEST['change_comment']   : null;
+$change_comment             = isset($_POST['change_comment'])    ? (string)$_POST['change_comment']   : null;
 
 // search/add
-$search_category_name       = isset($_REQUEST['search_category_name'])      ? (string)$_REQUEST['search_category_name']      : '';
-$search_footprint_name      = isset($_REQUEST['search_footprint_name'])     ? (string)$_REQUEST['search_footprint_name']     : '';
-$search_storelocation_name  = isset($_REQUEST['search_storelocation_name']) ? (string)$_REQUEST['search_storelocation_name'] : '';
-$search_manufacturer_name   = isset($_REQUEST['search_manufacturer_name'])  ? (string)$_REQUEST['search_manufacturer_name']  : '';
+$search_category_name       = isset($_POST['search_category_name'])      ? (string)$_POST['search_category_name']      : '';
+$search_footprint_name      = isset($_POST['search_footprint_name'])     ? (string)$_POST['search_footprint_name']     : '';
+$search_storelocation_name  = isset($_POST['search_storelocation_name']) ? (string)$_POST['search_storelocation_name'] : '';
+$search_manufacturer_name   = isset($_POST['search_manufacturer_name'])  ? (string)$_POST['search_manufacturer_name']  : '';
 
 // section: attachements
-$new_show_in_table          = isset($_REQUEST['show_in_table']);
-$new_is_master_picture      = isset($_REQUEST['is_master_picture']);
-$attachement_id             = isset($_REQUEST['attachement_id'])            ? (integer)$_REQUEST['attachement_id']           : 0;
-$new_attachement_type_id    = isset($_REQUEST['attachement_type_id'])       ? (integer)$_REQUEST['attachement_type_id']      : 0;
-$new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
-$new_filename               = isset($_REQUEST['attachement_filename'])      ? toUnixPath(trim((string)$_REQUEST['attachement_filename'])) : '';
-$download_file              = isset($_REQUEST['download_file']);
+$new_show_in_table          = isset($_POST['show_in_table']);
+$new_is_master_picture      = isset($_POST['is_master_picture']);
+$attachement_id             = isset($_POST['attachement_id'])            ? (integer)$_POST['attachement_id']           : 0;
+$new_attachement_type_id    = isset($_POST['attachement_type_id'])       ? (integer)$_POST['attachement_type_id']      : 0;
+$new_name                   = isset($_POST['name'])                      ? (string)$_POST['name']                      : '';
+$new_filename               = isset($_POST['attachement_filename'])      ? toUnixPath(trim((string)$_POST['attachement_filename'])) : '';
+$download_file              = isset($_POST['download_file']);
 
-$partname_invalid           = isset($_REQUEST['name_edit'])                 ? true                                           : false;
+$partname_invalid           = isset($_POST['name_edit'])                 ? true                                           : false;
 
-$rightclicked               = isset($_REQUEST['rightclicked']);
+$rightclicked               = isset($_POST['rightclicked']);
 
 if ((strlen($new_filename) > 0) && (! isPathabsoluteAndUnix($new_filename))) {
     $new_filename = BASE.'/'.$new_filename;
 } // switch from relative path (like "img/foo.png") to absolute path (like "/var/www/part-db/img/foo.png")
 
 // section: delete part
-$delete_files_from_hdd      = isset($_REQUEST['delete_files_from_hdd']);
+$delete_files_from_hdd      = isset($_POST['delete_files_from_hdd']);
 
 $action = 'default';
-if (isset($_REQUEST['create_new_part'])) {
+if (isset($_POST['create_new_part'])) {
     $action = 'create_new_part';
 }
 
-if (isset($_REQUEST["apply_attributes"])) {
+if (isset($_POST["apply_attributes"])) {
     $action = 'apply_attributes';
 }
 
-if (isset($_REQUEST["orderdetails_add"])) {
+if (isset($_POST["orderdetails_add"])) {
     $action = 'orderdetails_add';
-    $orderdetails_id = $_REQUEST["orderdetails_add"];
+    $orderdetails_id = $_POST["orderdetails_add"];
 }
-if (isset($_REQUEST["orderdetails_apply"])) {
+if (isset($_POST["orderdetails_apply"])) {
     $action = 'orderdetails_apply';
-    $orderdetails_id = $_REQUEST["orderdetails_apply"];
+    $orderdetails_id = $_POST["orderdetails_apply"];
 }
-if (isset($_REQUEST["orderdetails_delete"])) {
+if (isset($_POST["orderdetails_delete"])) {
     $action = 'orderdetails_delete';
-    $orderdetails_id = $_REQUEST["orderdetails_delete"];
+    $orderdetails_id = $_POST["orderdetails_delete"];
 }
 
-if (isset($_REQUEST["pricedetails_add"])) {
+if (isset($_POST["pricedetails_add"])) {
     $action = 'pricedetails_add';
     $pricedetails_id = "new";
-    $orderdetails_id = $_REQUEST["pricedetails_add"];
+    $orderdetails_id = $_POST["pricedetails_add"];
 }
-if (isset($_REQUEST["pricedetails_apply"])) {
+if (isset($_POST["pricedetails_apply"])) {
     $action = 'pricedetails_apply';
-    $pricedetails_id = $_REQUEST["pricedetails_apply"];
+    $pricedetails_id = $_POST["pricedetails_apply"];
 }
-if (isset($_REQUEST["pricedetails_delete"])) {
+if (isset($_POST["pricedetails_delete"])) {
     $action = 'pricedetails_delete';
-    $pricedetails_id = $_REQUEST["pricedetails_delete"];
+    $pricedetails_id = $_POST["pricedetails_delete"];
 }
 
-if (isset($_REQUEST["attachement_add"])) {
+if (isset($_POST["attachement_add"])) {
     $action = 'attachement_add';
 }
-if (isset($_REQUEST["attachement_apply"])) {
+if (isset($_POST["attachement_apply"])) {
     $action = 'attachement_apply';
 }
-if (isset($_REQUEST["attachement_delete"])) {
+if (isset($_POST["attachement_delete"])) {
     $action = 'attachement_delete';
 }
 
-if (isset($_REQUEST["delete_part"])) {
+if (isset($_POST["delete_part"])) {
     $action = 'delete_part';
 }
-if (isset($_REQUEST["delete_part_confirmed"])) {
+if (isset($_POST["delete_part_confirmed"])) {
     $action = 'delete_part_confirmed';
 }
 
@@ -171,30 +171,30 @@ if (isset($_REQUEST["search_manufacturer"])) {
     $action = 'search_manufacturer';
 }
 
-if (isset($_REQUEST["apply_name_save"])) {
+if (isset($_POST["apply_name_save"])) {
     $action = 'apply_name_confirmed';
 }
-if (isset($_REQUEST["create_name_save"])) {
+if (isset($_POST["create_name_save"])) {
     $action = 'create_new_part';
 }
 
 
 // section: orderdetails
 if (isset($orderdetails_id)) {
-    $new_supplier_id = isset($_REQUEST['supplier_id_'.$orderdetails_id]) ? (integer)$_REQUEST['supplier_id_'.$orderdetails_id] : 0;
-    $new_supplierpartnr = isset($_REQUEST['supplierpartnr_'.$orderdetails_id]) ? (string)$_REQUEST['supplierpartnr_'.$orderdetails_id] : '';
-    $new_obsolete = isset($_REQUEST['obsolete_'.$orderdetails_id]);
+    $new_supplier_id = isset($_POST['supplier_id_'.$orderdetails_id]) ? (integer)$_POST['supplier_id_'.$orderdetails_id] : 0;
+    $new_supplierpartnr = isset($_POST['supplierpartnr_'.$orderdetails_id]) ? (string)$_POST['supplierpartnr_'.$orderdetails_id] : '';
+    $new_obsolete = isset($_POST['obsolete_'.$orderdetails_id]);
 }
 // section: pricedetails
 if (isset($pricedetails_id)) {
     if (isset($orderdetails_id)) {
-        $new_price = isset($_REQUEST['price_' . $orderdetails_id . "_" . $pricedetails_id]) ? (float)str_replace(',', '.', $_REQUEST['price_' . $orderdetails_id . "_" . $pricedetails_id]) : 0;
-        $new_min_discount_quantity = isset($_REQUEST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id]) ? (integer)$_REQUEST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id] : 1;
-        $new_price_related_quantity = isset($_REQUEST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id]) ? (integer)$_REQUEST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id] : 1;
+        $new_price = isset($_POST['price_' . $orderdetails_id . "_" . $pricedetails_id]) ? (float)str_replace(',', '.', $_POST['price_' . $orderdetails_id . "_" . $pricedetails_id]) : 0;
+        $new_min_discount_quantity = isset($_POST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id]) ? (integer)$_POST['min_discount_quantity_' . $orderdetails_id . "_" .  $pricedetails_id] : 1;
+        $new_price_related_quantity = isset($_POST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id]) ? (integer)$_POST['price_related_quantity_' . $orderdetails_id . "_" . $pricedetails_id] : 1;
     } else {
-        $new_price = isset($_REQUEST['price_' . $pricedetails_id]) ? (float)str_replace(',', '.', $_REQUEST['price_'  . $pricedetails_id]) : 0;
-        $new_min_discount_quantity = isset($_REQUEST['min_discount_quantity_' .  $pricedetails_id]) ? (integer)$_REQUEST['min_discount_quantity_'  .  $pricedetails_id] : 1;
-        $new_price_related_quantity = isset($_REQUEST['price_related_quantity_'  . $pricedetails_id]) ? (integer)$_REQUEST['price_related_quantity_' . $pricedetails_id] : 1;
+        $new_price = isset($_POST['price_' . $pricedetails_id]) ? (float)str_replace(',', '.', $_POST['price_'  . $pricedetails_id]) : 0;
+        $new_min_discount_quantity = isset($_POST['min_discount_quantity_' .  $pricedetails_id]) ? (integer)$_POST['min_discount_quantity_'  .  $pricedetails_id] : 1;
+        $new_price_related_quantity = isset($_POST['price_related_quantity_'  . $pricedetails_id]) ? (integer)$_POST['price_related_quantity_' . $pricedetails_id] : 1;
     }
 }
 
@@ -264,7 +264,7 @@ if (! $fatal_error) {
             try {
                 $category = new Category($database, $current_user, $log, $new_category_id);
 
-                if (Part::isValidName($new_name, $category) || isset($_REQUEST['create_name_save'])) {
+                if (Part::isValidName($new_name, $category) || isset($_POST['create_name_save'])) {
                     $part = Part::add(
                         $database,
                         $current_user,
@@ -353,10 +353,10 @@ if (! $fatal_error) {
                 $part->setInstock($new_instock, $change_comment == null ?  _("Bauteil bearbeitet") : $change_comment);
 
                 // do not overwrite (remove!) the footprint or manufacturer if they are disabled (global or in the part's category)
-                if (isset($_REQUEST['footprint_id'])) {
+                if (isset($_POST['footprint_id'])) {
                     $new_attributes['id_footprint']    = $new_footprint_id;
                 }
-                if (isset($_REQUEST['manufacturer_id'])) {
+                if (isset($_POST['manufacturer_id'])) {
                     $new_attributes['id_manufacturer'] = $new_manufacturer_id;
                 }
 
@@ -479,7 +479,7 @@ if (! $fatal_error) {
 
         case 'pricedetails_delete':
             try {
-                $pricedetails = new Pricedetails($database, $current_user, $log, $_REQUEST['pricedetails_delete']);
+                $pricedetails = new Pricedetails($database, $current_user, $log, $_POST['pricedetails_delete']);
                 if (! is_object($pricedetails)) {
                     throw new Exception(_('Es ist keine Preisinformation ausgewählt!'));
                 }
