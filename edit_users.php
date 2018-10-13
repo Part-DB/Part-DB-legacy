@@ -56,40 +56,40 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 $selected_id                = isset($_REQUEST['selected_id'])   ? (integer)$_REQUEST['selected_id'] : -1;
-$new_name                   = isset($_REQUEST['name'])          ? (string)$_REQUEST['name']         : '';
-$add_more                   = isset($_REQUEST['add_more']);
+$new_name                   = isset($_POST['name'])          ? (string)$_POST['name']         : '';
+$add_more                   = isset($_POST['add_more']);
 
 //Tab standard
-$new_first_name             = isset($_REQUEST['first_name'])    ? (string)$_REQUEST['first_name']   : "";
-$new_last_name              = isset($_REQUEST['last_name'])     ? (string)$_REQUEST['last_name']    : "";
-$new_email                  = isset($_REQUEST['email'])         ? (string)$_REQUEST['email']        : "";
-$new_department             = isset($_REQUEST['department'])    ? (string)$_REQUEST['department']   : "";
-$new_group_id               = isset($_REQUEST['group_id'])      ? (int)$_REQUEST['group_id']        : 0;
+$new_first_name             = isset($_POST['first_name'])    ? (string)$_POST['first_name']   : "";
+$new_last_name              = isset($_POST['last_name'])     ? (string)$_POST['last_name']    : "";
+$new_email                  = isset($_POST['email'])         ? (string)$_POST['email']        : "";
+$new_department             = isset($_POST['department'])    ? (string)$_POST['department']   : "";
+$new_group_id               = isset($_POST['group_id'])      ? (int)$_POST['group_id']        : 0;
 
 //Tab "set password"
-$new_password               = isset($_REQUEST['password_1'])    ? (string)$_REQUEST['password_1']   : "";
-$new_password_2             = isset($_REQUEST['password_2'])    ? (string)$_REQUEST['password_2']   : "";
-$must_change_pw             = isset($_REQUEST['must_change_pw']);
+$new_password               = isset($_POST['password_1'])    ? (string)$_POST['password_1']   : "";
+$new_password_2             = isset($_POST['password_2'])    ? (string)$_POST['password_2']   : "";
+$must_change_pw             = isset($_POST['must_change_pw']);
 
 //Tab configuration
-$new_theme          = isset($_REQUEST['custom_css'])        ? $_REQUEST['custom_css']               : "";
-$new_timezone       = isset($_REQUEST['timezone'])          ? $_REQUEST['timezone']                 : "";
-$new_language       = isset($_REQUEST['language'])          ? $_REQUEST['language']                 : "";
+$new_theme          = isset($_POST['custom_css'])        ? $_POST['custom_css']               : "";
+$new_timezone       = isset($_POST['timezone'])          ? $_POST['timezone']                 : "";
+$new_language       = isset($_POST['language'])          ? $_POST['language']                 : "";
 $new_comment_withdrawal = isset($_POST['default_comment_withdrawal']) ? $_POST['default_comment_withdrawal'] : null;
 $new_comment_addition = isset($_POST['default_comment_addition']) ? $_POST['default_comment_addition'] : null;
 
 
 $action = 'default';
-if (isset($_REQUEST["add"])) {
+if (isset($_POST["add"])) {
     $action = 'add';
 }
-if (isset($_REQUEST["delete"])) {
+if (isset($_POST["delete"])) {
     $action = 'delete';
 }
-if (isset($_REQUEST["delete_confirmed"])) {
+if (isset($_POST["delete_confirmed"])) {
     $action = 'delete_confirmed';
 }
-if (isset($_REQUEST["apply"])) {
+if (isset($_POST["apply"])) {
     $action = 'apply';
 }
 
@@ -146,7 +146,7 @@ if (! $fatal_error) {
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
                 //Apply permissions
-                $new_user->getPermissionManager()->parsePermissionsFromRequest($_REQUEST);
+                $new_user->getPermissionManager()->parsePermissionsFromRequest($_POST);
 
                 //When user wants to set a new password
                 if ($new_password !== "") {
@@ -225,7 +225,7 @@ if (! $fatal_error) {
                 $selected_user->setDefaultInstockChangeComment($new_comment_withdrawal, $new_comment_addition);
 
                 //Apply permissions
-                $selected_user->getPermissionManager()->parsePermissionsFromRequest($_REQUEST);
+                $selected_user->getPermissionManager()->parsePermissionsFromRequest($_POST);
 
                 //When user wants to set a new password
                 if ($new_password !== "") {

@@ -57,22 +57,22 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 $selected_id                = isset($_REQUEST['selected_id'])   ? (integer)$_REQUEST['selected_id'] : 0;
-$new_name                   = isset($_REQUEST['name'])          ? (string)$_REQUEST['name']         : '';
-$new_parent_id              = isset($_REQUEST['parent_id'])     ? (integer)$_REQUEST['parent_id']   : 0;
-$new_comment                = isset($_REQUEST['comment'])       ? (string)$_REQUEST['comment']      : "";
-$add_more                   = isset($_REQUEST['add_more']);
+$new_name                   = isset($_POST['name'])          ? (string)$_POST['name']         : '';
+$new_parent_id              = isset($_POST['parent_id'])     ? (integer)$_POST['parent_id']   : 0;
+$new_comment                = isset($_POST['comment'])       ? (string)$_POST['comment']      : "";
+$add_more                   = isset($_POST['add_more']);
 
 $action = 'default';
-if (isset($_REQUEST["add"])) {
+if (isset($_POST["add"])) {
     $action = 'add';
 }
-if (isset($_REQUEST["delete"])) {
+if (isset($_POST["delete"])) {
     $action = 'delete';
 }
-if (isset($_REQUEST["delete_confirmed"])) {
+if (isset($_POST["delete_confirmed"])) {
     $action = 'delete_confirmed';
 }
-if (isset($_REQUEST["apply"])) {
+if (isset($_POST["apply"])) {
     $action = 'apply';
 }
 
@@ -118,7 +118,7 @@ if (! $fatal_error) {
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
 
                 //Apply permissions
-                $new_group->getPermissionManager()->parsePermissionsFromRequest($_REQUEST);
+                $new_group->getPermissionManager()->parsePermissionsFromRequest($_POST);
 
                 if (! $add_more) {
                     $selected_group = $new_group;
@@ -186,7 +186,7 @@ if (! $fatal_error) {
                     'comment'               => $new_comment));
 
                 //Apply permissions
-                $selected_group->getPermissionManager()->parsePermissionsFromRequest($_REQUEST);
+                $selected_group->getPermissionManager()->parsePermissionsFromRequest($_POST);
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
             } catch (Exception $e) {

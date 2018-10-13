@@ -56,28 +56,28 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 $selected_id          = isset($_REQUEST['selected_id'])      ? (integer)$_REQUEST['selected_id']     : 0;
-$new_name             = isset($_REQUEST['name'])             ? (string)$_REQUEST['name']             : '';
-$new_parent_id        = isset($_REQUEST['parent_id'])        ? (integer)$_REQUEST['parent_id']       : 0;
-$new_address          = isset($_REQUEST['address'])          ? (string)$_REQUEST['address']          : '';
-$new_phone_number     = isset($_REQUEST['phone_number'])     ? (string)$_REQUEST['phone_number']     : '';
-$new_fax_number       = isset($_REQUEST['fax_number'])       ? (string)$_REQUEST['fax_number']       : '';
-$new_email_address    = isset($_REQUEST['email_address'])    ? (string)$_REQUEST['email_address']    : '';
-$new_website          = isset($_REQUEST['website'])          ? (string)$_REQUEST['website']          : '';
-$new_auto_product_url = isset($_REQUEST['auto_product_url']) ? (string)$_REQUEST['auto_product_url'] : '';
-$add_more             = isset($_REQUEST['add_more']);
-$new_comment                = isset($_REQUEST['comment'])       ? (string)$_REQUEST['comment']      : "";
+$new_name             = isset($_POST['name'])             ? (string)$_POST['name']             : '';
+$new_parent_id        = isset($_POST['parent_id'])        ? (integer)$_POST['parent_id']       : 0;
+$new_address          = isset($_POST['address'])          ? (string)$_POST['address']          : '';
+$new_phone_number     = isset($_POST['phone_number'])     ? (string)$_POST['phone_number']     : '';
+$new_fax_number       = isset($_POST['fax_number'])       ? (string)$_POST['fax_number']       : '';
+$new_email_address    = isset($_POST['email_address'])    ? (string)$_POST['email_address']    : '';
+$new_website          = isset($_POST['website'])          ? (string)$_POST['website']          : '';
+$new_auto_product_url = isset($_POST['auto_product_url']) ? (string)$_POST['auto_product_url'] : '';
+$add_more             = isset($_POST['add_more']);
+$new_comment                = isset($_POST['comment'])       ? (string)$_POST['comment']      : "";
 
 $action = 'default';
-if (isset($_REQUEST["add"])) {
+if (isset($_POST["add"])) {
     $action = 'add';
 }
-if (isset($_REQUEST["delete"])) {
+if (isset($_POST["delete"])) {
     $action = 'delete';
 }
-if (isset($_REQUEST["delete_confirmed"])) {
+if (isset($_POST["delete_confirmed"])) {
     $action = 'delete_confirmed';
 }
-if (isset($_REQUEST["apply"])) {
+if (isset($_POST["apply"])) {
     $action = 'apply';
 }
 
