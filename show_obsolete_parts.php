@@ -55,7 +55,7 @@ $limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST
 $action = 'default';
 if (isset($_REQUEST['change_show_no_orderdetails'])) {
     $action = 'change_show_no_orderdetails';
-} elseif (isset($_REQUEST["multi_action"])) {
+} elseif (isset($_POST["multi_action"])) {
     $action = "multi_action";
 }
 

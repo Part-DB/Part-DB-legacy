@@ -48,15 +48,15 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 $part_id            = isset($_REQUEST['pid'])               ? (integer)$_REQUEST['pid']             : 0;
-$n_less             = isset($_REQUEST['n_less'])            ? (integer)$_REQUEST['n_less']          : 0;
-$n_more             = isset($_REQUEST['n_more'])            ? (integer)$_REQUEST['n_more']          : 0;
-$order_quantity     = isset($_REQUEST['order_quantity'])    ? (integer)$_REQUEST['order_quantity']  : 0;
-$instock_change_comment = isset($_REQUEST['instock_change_comment']) ? (string)$_REQUEST['instock_change_comment'] : "";
+$n_less             = isset($_POST['n_less'])            ? (integer)$_POST['n_less']          : 0;
+$n_more             = isset($_POST['n_more'])            ? (integer)$_POST['n_more']          : 0;
+$order_quantity     = isset($_POST['order_quantity'])    ? (integer)$_POST['order_quantity']  : 0;
+$instock_change_comment = isset($_POST['instock_change_comment']) ? (string)$_POST['instock_change_comment'] : "";
 
 //When adding to a device
-$device_id          = isset($_REQUEST['device_id_new'])     ? (integer)$_REQUEST['device_id_new']   : 0;
-$device_qty         = isset($_REQUEST['device_quantity_new']) ? (integer)$_REQUEST['device_quantity_new'] : 0;
-$device_name        = isset($_REQUEST['device_name_new'])   ? (string)$_REQUEST['device_name_new'] : "";
+$device_id          = isset($_POST['device_id_new'])     ? (integer)$_POST['device_id_new']   : 0;
+$device_qty         = isset($_POST['device_quantity_new']) ? (integer)$_POST['device_quantity_new'] : 0;
+$device_name        = isset($_POST['device_name_new'])   ? (string)$_POST['device_name_new'] : "";
 
 //Pagination for history
 $page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
@@ -79,22 +79,22 @@ if (isset($_REQUEST['barcode'])) {
 }
 
 $action = 'default';
-if (isset($_REQUEST["dec"])) {
+if (isset($_POST["dec"])) {
     $action = 'dec';
 }
-if (isset($_REQUEST["inc"])) {
+if (isset($_POST["inc"])) {
     $action = 'inc';
 }
-if (isset($_REQUEST["mark_to_order"])) {
+if (isset($_POST["mark_to_order"])) {
     $action = 'mark_to_order';
 }
-if (isset($_REQUEST["remove_mark_to_order"])) {
+if (isset($_POST["remove_mark_to_order"])) {
     $action = 'remove_mark_to_order';
 }
-if (isset($_REQUEST['device_add'])) {
+if (isset($_POST['device_add'])) {
     $action = "device_add";
 }
-if (isset($_REQUEST['toggle_favorite'])) {
+if (isset($_POST['toggle_favorite'])) {
     $action = "toggle_favorite";
 }
 

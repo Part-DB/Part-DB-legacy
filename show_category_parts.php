@@ -64,20 +64,20 @@ if (isset($_REQUEST['subcat_button'])) {
     $action = 'change_subcat_state';
 } elseif (isset($_REQUEST['export'])) {
     $action = 'export';
-} elseif (isset($_REQUEST["multi_action"])) {
+} elseif (isset($_POST["multi_action"])) {
     $action = "multi_action";
 }
 
 $selected_part_id = 0;
 for ($i=0; $i<$table_rowcount; $i++) {
-    $selected_part_id = isset($_REQUEST['id_'.$i]) ? (integer)$_REQUEST['id_'.$i] : 0;
+    $selected_part_id = isset($_POST['id_'.$i]) ? (integer)$_POST['id_'.$i] : 0;
 
-    if (isset($_REQUEST['decrement_'.$i])) {
+    if (isset($_POST['decrement_'.$i])) {
         $action = 'decrement';
         break;
     }
 
-    if (isset($_REQUEST['increment_'.$i])) {
+    if (isset($_POST['increment_'.$i])) {
         $action = 'increment';
         break;
     }

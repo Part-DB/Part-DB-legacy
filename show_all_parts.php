@@ -54,7 +54,7 @@ $limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST
 
 $action = 'default';
 
-if (isset($_REQUEST["multi_action"])) {
+if (isset($_POST["multi_action"])) {
     $action = "multi_action";
 }
 

@@ -56,19 +56,19 @@ $device_id                  = isset($_REQUEST['device_id'])             ? (integ
 $export_format_id           = isset($_REQUEST['export_format'])         ? $_REQUEST['export_format']                    : 0;
 
 $action = 'default';
-if (isset($_REQUEST['apply_changes'])) {
+if (isset($_POST['apply_changes'])) {
     $action = 'apply_changes';
 }
-if (isset($_REQUEST['autoset_quantities'])) {
+if (isset($_POST['autoset_quantities'])) {
     $action = 'autoset_quantities';
 }
-if (isset($_REQUEST['remove_device'])) {
+if (isset($_POST['remove_device'])) {
     $action = 'remove_device';
 }
-if (isset($_REQUEST['export_show'])) {
+if (isset($_POST['export_show'])) {
     $action = 'export';
 }
-if (isset($_REQUEST['export_download'])) {
+if (isset($_POST['export_download'])) {
     $action = 'export';
 }
 
