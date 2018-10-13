@@ -408,7 +408,7 @@
                     <h4>{t}Dies kann einen Moment dauern...{/t}</h4>
                 </div>
 
-                <div class="container-fluid" id="content">
+                <div class="container-fluid mr-0 pr-0" id="content">
 
                     {else} {* Print tile in ajax requests, or we cant set the tab title *}
                     <title>{$page_title}</title>
