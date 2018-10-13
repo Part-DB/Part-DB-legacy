@@ -638,8 +638,9 @@ if (! $fatal_error) {
 
         $html->printTemplate('export');
 
-        $html->setLoop('table', (isset($import_loop) ? $import_loop : array()));
-        $html->printTemplate('import');
+        //Import deviceparts does not work at all! To fix this we need a reworked import/export system... [TODO]
+        //$html->setLoop('table', (isset($import_loop) ? $import_loop : array()));
+        //$html->printTemplate('import');
 
         $html->printTemplate('copy_device');
     }
