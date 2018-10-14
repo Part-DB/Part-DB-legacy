@@ -53,6 +53,8 @@
             <div class="card-body" style="padding-top: 0;">
                 {if isset($update_required) && $update_required}
                     <strong><span class="text-danger">{t}Die Datenbank benötigt ein Update!{/t}</span></strong><br>
+
+                    <strong>{t}Achtung:{/t} </strong><span>{t}Prüfen sie nach dem Update, ob die Berechtigungen der Benutzer und Gruppen noch korrekt sind!{/t}</span><br>
                     {if $last_update_failed}
                         <br>
                         <strong><span class="text-danger">
