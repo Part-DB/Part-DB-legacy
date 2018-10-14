@@ -7,7 +7,7 @@
     <div class="card-body row">
         <div class="col-md-6 col-sm-12">
             <form id="resistor4ring" name="resistor4ring">
-                <table class="table table-bordered table-condensed">
+                <table class="table table-bordered table-sm">
                     <thead>
                     <tr>
                         <th>{t}1. Ring{/t}</th>
@@ -236,7 +236,7 @@
         </div>
         <div class="col-md-6 col-sm-12">
             <form id="resistor6ring" name="resistor6ring">
-                <table class="table table-bordered table-condensed" >
+                <table class="table table-bordered table-sm" >
                     <thead>
                     <tr>
                         <th>{t}1. Ring{/t}</th>
