@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: part-db\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-08 19:33+0200\n"
-"PO-Revision-Date: 2018-10-08 22:02\n"
+"POT-Creation-Date: 2018-10-14 17:28+0200\n"
+"PO-Revision-Date: 2018-10-14 15:34\n"
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -112,7 +112,7 @@ msgstr "The filetype can not be removed!"
 msgid "Die neuen Werte konnten nicht gespeichert werden!"
 msgstr "The new values could not be saved!"
 
-#: edit_categories.php:95 inc/lib.php:1001 lib/Part.php:2993
+#: edit_categories.php:95 inc/lib.php:1001 lib/Part.php:2992
 #: lib/Permissions/PermissionManager.php:259 show_category_parts.php:206
 msgid "Kategorien"
 msgstr "Categories"
@@ -330,7 +330,7 @@ msgstr "Edit Part"
 
 #: edit_part_info.php:247 edit_part_info.php:353
 msgid "Bauteil bearbeitet"
-msgstr ""
+msgstr "Part edited"
 
 #: edit_part_info.php:293 edit_part_info.php:375
 #, php-format
@@ -1269,6 +1269,10 @@ msgstr "There is no record with the ID \"%d\" in the table \"%s\"!"
 msgid "$values ist kein gültiges Array!"
 msgstr "$values is not a valid array!"
 
+#: lib/Database.php:961
+msgid "Datenbankgröße kann nur für MySQL Datenbanken ermittelt werden!"
+msgstr ""
+
 #: lib/Device.php:136
 #, php-format
 msgid "Die Baugruppe \"%s\" konnte nicht gelöscht werden!\\n"
@@ -1290,7 +1294,7 @@ msgstr "There are not enough of all components in stock"
 #: lib/Device.php:222
 #, php-format
 msgid "Baugruppe: %s"
-msgstr ""
+msgstr "Device: %s"
 
 #: lib/Device.php:242
 msgid "Die Teile konnten nicht abgefasst werden!\n"
@@ -1367,91 +1371,91 @@ msgstr "$database is not a database object"
 
 #: lib/Log.php:255 lib/Log.php:351
 msgid "getInstockHistoryForPart() funktioniert nur für Bauteile!"
-msgstr ""
+msgstr "getInstockHistoryForPart() only works on Parts!"
 
 #: lib/Log.php:318 statistics.php:94
 msgid "Vorhandene Bauteile"
-msgstr ""
+msgstr "Existing parts"
 
 #: lib/Log.php:334
 msgid "Veränderung: "
-msgstr ""
+msgstr "Difference: "
 
 #: lib/Log.php:334
 msgid "Preis: "
-msgstr ""
+msgstr "Price: "
 
 #: lib/Log.php:337
 msgid "Kommentar: "
-msgstr ""
+msgstr "Comment: "
 
 #: lib/Log.php:382
 msgid "Nutzer eingeloggt"
-msgstr ""
+msgstr "User logged in"
 
 #: lib/Log.php:384
 msgid "Nutzer ausgeloggt"
-msgstr ""
+msgstr "User logged out"
 
 #: lib/Log.php:386
 msgid "Unerlaubter Zugriffsversuch"
-msgstr ""
+msgstr "Unauthorized access attempt"
 
 #: lib/Log.php:388
 msgid "Unbehandelte Exception"
-msgstr ""
+msgstr "Unhandled exception"
 
 #: lib/Log.php:390
 msgid "Element gelöscht"
-msgstr ""
+msgstr "Item deleted"
 
 #: lib/Log.php:392
 msgid "Element angelegt"
-msgstr ""
+msgstr "Item created"
 
 #: lib/Log.php:394
 msgid "Element bearbeitet"
-msgstr ""
+msgstr "Item edited"
 
 #: lib/Log.php:396
 msgid "Systemeinstellungen geändert"
-msgstr ""
+msgstr "System settings modified"
 
 #: lib/Log.php:398
 msgid "Bauteile Entnahme/Zugabe"
-msgstr ""
+msgstr "Parts Withdrawal/Addition"
 
 #: lib/Log.php:400
 msgid "Datenbank Update"
-msgstr ""
+msgstr "Database update"
 
 #: lib/Log.php:402
 msgid "Unbekannter Typ"
-msgstr ""
+msgstr "Unknown type"
 
 #: lib/Log.php:437
 msgid "Kein Target Typ für diese Klasse gefunden!"
-msgstr ""
+msgstr "Not target type found for this class!"
 
 #: lib/Log.php:476 lib/Log.php:564
 msgid "Unbekannter Target Typ"
-msgstr ""
+msgstr "Unknown target type"
 
 #: lib/Log.php:542
 msgid "Anhang"
-msgstr ""
+msgstr "Attachment"
 
 #: lib/Log.php:544
 msgid "Dateityp"
-msgstr ""
+msgstr "Filetype"
 
 #: lib/Log.php:548
 msgid "Kategorie"
-msgstr ""
+msgstr "Category"
 
 #: lib/Log.php:550 show_device_parts.php:153 show_device_parts.php:169
 msgid "Baugruppe"
-msgstr ""
+msgstr "Device"
 
 #: lib/Log.php:552 lib/Permissions/PermissionManager.php:248
 msgid "Footprint"
@@ -1459,11 +1463,11 @@ msgstr ""
 
 #: lib/Log.php:554
 msgid "Gruppe"
-msgstr ""
+msgstr "Group"
 
 #: lib/Log.php:558
 msgid "Bauteil"
-msgstr ""
+msgstr "Part"
 
 #: lib/Log.php:560 lib/Permissions/PermissionManager.php:246
 msgid "Lagerort"
@@ -1471,11 +1475,11 @@ msgstr "Storelocation"
 
 #: lib/Log.php:576
 msgid "Unbekannt"
-msgstr ""
+msgstr "Unknown"
 
 #: lib/LogSystem/BaseEntry.php:119
 msgid "Die verwendetete Level-ID wird nicht unterstützt!"
-msgstr ""
+msgstr "The used level ID is not supported!"
 
 #: lib/LogSystem/ConfigChangedEntry.php:38
 #: lib/LogSystem/ElementCreatedEntry.php:48
@@ -1485,55 +1489,55 @@ msgstr ""
 #: lib/LogSystem/UserLogoutEntry.php:40
 #: lib/LogSystem/UserNotAllowedEntry.php:38
 msgid "Falscher Logtyp!"
-msgstr ""
+msgstr "Wrong log type!"
 
 #: lib/LogSystem/DatabaseUpdatedEntry.php:67
 msgid "Erfolgreich"
-msgstr ""
+msgstr "Successful"
 
 #: lib/LogSystem/DatabaseUpdatedEntry.php:69
 msgid "Fehlgeschlagen"
-msgstr ""
+msgstr "Failed"
 
 #: lib/LogSystem/DatabaseUpdatedEntry.php:75
 msgid "; Alte Version: "
-msgstr ""
+msgstr "; Old version: "
 
 #: lib/LogSystem/DatabaseUpdatedEntry.php:75
 msgid "; Neue Version: "
-msgstr ""
+msgstr "; New version: "
 
 #: lib/LogSystem/ElementCreatedEntry.php:155
 msgid "Anzahl: "
-msgstr ""
+msgstr "Amount: "
 
 #: lib/LogSystem/ElementDeletedEntry.php:61
 msgid "Alter Name: "
-msgstr ""
+msgstr "Old Name: "
 
 #: lib/LogSystem/InstockChangedEntry.php:156
 msgid "Entnahme"
-msgstr ""
+msgstr "Withdrawal"
 
 #: lib/LogSystem/InstockChangedEntry.php:158
 msgid "Zugabe"
-msgstr ""
+msgstr "Addition"
 
 #: lib/LogSystem/InstockChangedEntry.php:197
 msgid "$element muss vom Typ Part sein!"
-msgstr ""
+msgstr "$element must be of type part!"
 
 #: lib/LogSystem/InstockChangedEntry.php:201
 msgid "$old_instock und $new_instock müssen vom Typ int sein"
-msgstr ""
+msgstr "$old_instock and $new_instock must be of type int"
 
 #: lib/LogSystem/InstockChangedEntry.php:205
 msgid "Instock Werte müssen positiv sein!"
-msgstr ""
+msgstr "Instock values must be positive!"
 
 #: lib/LogSystem/UnknownTypeEntry.php:55
 msgid "Typ: "
-msgstr ""
+msgstr "Type: "
 
 #: lib/LogSystem/UnknownTypeEntry.php:55
 msgid ", ID: "
@@ -1541,11 +1545,11 @@ msgstr ""
 
 #: lib/LogSystem/UserLoginEntry.php:44 lib/LogSystem/UserNotAllowedEntry.php:42
 msgid "Falscher Targettyp!"
-msgstr ""
+msgstr "Wrong target type!"
 
 #: lib/LogSystem/UserLoginEntry.php:54 lib/LogSystem/UserLogoutEntry.php:107
 msgid "Von IP: "
-msgstr ""
+msgstr "From IP: "
 
 #: lib/Orderdetails.php:152
 msgid "Die Einkaufsinformationen konnten nicht gelöscht werden!\n"
@@ -1579,11 +1583,11 @@ msgstr "Label type unknown:"
 
 #: lib/Part.php:245
 msgid "$old_instock und $new_instock müssen vom Typ int sein!"
-msgstr ""
+msgstr "$old_instock and $new_instock must be of type int!"
 
 #: lib/Part.php:248
 msgid "$old_instock und $new_instock müssen positiv sein!"
-msgstr ""
+msgstr "$old_instock and $new_instock must be positive!"
 
 #: lib/Part.php:376
 msgid "[Unbekannt]"
@@ -1591,11 +1595,11 @@ msgstr "[Unknown]"
 
 #: lib/Part.php:1216 lib/Part.php:1240
 msgid "Zahl der entnommenen Bauteile muss größer 0 sein!"
-msgstr ""
+msgstr "Number of removed components must be greater than 0!"
 
 #: lib/Part.php:1219
 msgid "Es können nicht mehr Bauteile entnommen werden, als vorhanden sind!"
-msgstr ""
+msgstr "No more parts can be withdrawn, than there are instock!"
 
 #: lib/Part.php:1637
 msgid "Noch nicht bestellen"
@@ -1646,7 +1650,7 @@ msgstr "The selected manufacturer does not exist!"
 msgid "Die gewählte Datei existiert nicht!"
 msgstr "The selected file does not exist!"
 
-#: lib/Part.php:2992
+#: lib/Part.php:2991
 msgid "Keine"
 msgstr "None"
 
@@ -1767,7 +1771,7 @@ msgstr "List parts"
 #: lib/Permissions/PartPermission.php:71
 #: lib/Permissions/StructuralPermission.php:57
 msgid "Letzten bearbeitenden Nutzer anzeigen"
-msgstr ""
+msgstr "View last editing user"
 
 #: lib/Permissions/PartPermission.php:62
 msgid "Suchen"
@@ -1807,7 +1811,7 @@ msgstr "Last edited/added components list"
 
 #: lib/Permissions/PartPermission.php:72
 msgid "Historie anzeigen"
-msgstr ""
+msgstr "View History"
 
 #: lib/Permissions/PermissionManager.php:193
 #: lib/Permissions/PermissionManager.php:212
@@ -1895,7 +1899,7 @@ msgstr "List permissions"
 
 #: lib/Permissions/SelfPermission.php:48
 msgid "Eigene Aktionen im Log anzeigen"
-msgstr ""
+msgstr "View own actions in log"
 
 #: lib/Permissions/SystemPermission.php:44
 msgid "Debugtools benutzen"
@@ -1903,11 +1907,11 @@ msgstr "Use debugtools"
 
 #: lib/Permissions/SystemPermission.php:45
 msgid "Logs anzeigen"
-msgstr ""
+msgstr "View log"
 
 #: lib/Permissions/SystemPermission.php:46
 msgid "Logeinträge löschen"
-msgstr ""
+msgstr "Delete log entries"
 
 #: lib/Permissions/UserPermission.php:55
 msgid "Nutzernamen ändern"
@@ -1995,7 +1999,7 @@ msgstr "There already exists an item with the key %s!"
 #: lib/Tools/StatisticsHelpers.php:51 lib/Tools/StatisticsHelpers.php:64
 #: lib/Tools/StatisticsHelpers.php:77 lib/Tools/StatisticsHelpers.php:90
 msgid "$limit muss eine Integerzahl sein!)"
-msgstr ""
+msgstr "$limit must be an integer!)"
 
 #: lib/Tools/SystemVersion.php:125
 #, php-format
@@ -2243,19 +2247,19 @@ msgstr "Updating your config.php"
 
 #: statistics.php:74
 msgid "Bauteile mit Kategorie"
-msgstr ""
+msgstr "Parts with category"
 
 #: statistics.php:79
 msgid "Bauteile im Lagerort"
-msgstr ""
+msgstr "Parts in storelocation"
 
 #: statistics.php:84
 msgid "Bauteile mit Footprint"
-msgstr ""
+msgstr "Parts with fooprint"
 
 #: statistics.php:89
 msgid "Bauteile mit Hersteller"
-msgstr ""
+msgstr "Parts with manufacturer"
 
 #: system_config.php:321
 msgid "Bis zum Schließen des Browsers"
@@ -2297,15 +2301,15 @@ msgstr ""
 #: system_log.php:93
 #, php-format
 msgid "Sollen die %d gewählten Logeinträge wirklich unwiederruflich gelöscht werden?"
-msgstr ""
+msgstr "Should the %d selected log entries really be deleted irrevocably?"
 
 #: system_log.php:96
 msgid "&nbsp;&nbsp;&bull; Durch das Löschen von Einträgen kann die Historie verfälscht werden.."
-msgstr ""
+msgstr "&nbsp;&nbsp;&bull; by deleting entries the history can be distorted.."
 
 #: system_log.php:99
 msgid "Ja, Einträge löschen"
-msgstr ""
+msgstr "Yes, delete items"
 
 #: tools_3d_footprints.php:50 tools_footprints.php:65
 msgid "Footprint-Bilder"
