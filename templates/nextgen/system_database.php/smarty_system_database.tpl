@@ -15,7 +15,7 @@
         </div>
 
         <form action="" method="post" class="form-horizontal no-progbar">
-            <table class="table">
+            <table class="table table-sm">
                 <thead>
                 <tr>
                     <th>{t}Eigenschaft{/t}</th>
@@ -40,6 +40,13 @@
                         {$latest_version}
                     </td>
                 </tr>
+
+                {if isset($db_size)}
+                <tr>
+                    <td>{t}Datenbank Größe{/t}</td>
+                    <td>{$db_size} MB</td>
+                </tr>
+                {/if}
                 </tbody>
             </table>
 

@@ -952,4 +952,25 @@ class Database
 
         $this->execute($query, $values);
     }
+
+    public function getDatabaseSize()
+    {
+        global $config;
+
+        if ($config['db']['type'] != "mysql") {
+            throw new \Exception(_("Datenbankgröße kann nur für MySQL Datenbanken ermittelt werden!"));
+        }
+
+        $query = 'SELECT '
+            . ' ROUND(SUM(data_length + index_length) / 1024 / 1024, 3) AS `size`'
+            . ' FROM information_schema.TABLES'
+            . ' WHERE table_schema = "part-db"'
+            . ' GROUP BY table_schema; ';
+
+        $values[] = $config['db']['name'];
+
+        $data = $this->query($query, $values);
+
+        return (float) $data[0]["size"];
+    }
 }

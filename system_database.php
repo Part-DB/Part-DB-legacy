@@ -209,6 +209,15 @@ if (! $fatal_error) {
     }
 }
 
+if(!$fatal_error) {
+    try {
+        $size = $database->getDatabaseSize();
+        $html->setVariable("db_size", $size);
+    } catch (Exception $e) {
+        $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
+    }
+}
+
 try {
     $html->setVariable('hide_status', $fatal_error, 'boolean');
     if (isset($current_user) && is_object($current_user)) {
