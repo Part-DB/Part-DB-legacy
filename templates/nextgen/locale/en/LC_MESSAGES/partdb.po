@@ -5,12 +5,12 @@ msgstr ""
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: part-db\n"
 "X-Crowdin-Language: en\n"
-"X-Crowdin-File: /nextgen/templates/nextgen/locale/partdb.pot\n"
+"X-Crowdin-File: /master/templates/nextgen/locale/partdb.pot\n"
 "Project-Id-Version: part-db\n"
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
-"PO-Revision-Date: 2018-10-08 22:01\n"
+"PO-Revision-Date: 2018-10-14 15:38\n"
 
 #: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:5
 msgid "Tabs durch Leerzeichen ersetzen / Backup-Dateien löschen"
@@ -889,7 +889,7 @@ msgstr "Add"
 #: templates/nextgen/show_device_parts.php/smarty_attachements.tpl:84
 #: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:31
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:208
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:154
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:163
 msgid "Übernehmen"
 msgstr "Apply"
 
@@ -1281,6 +1281,7 @@ msgstr "e.g. Development"
 #: templates/nextgen/install.php/smarty_set_db_settings.tpl:14
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:385
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:399
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:57
 msgid "Achtung:"
 msgstr "Warning:"
 
@@ -1391,7 +1392,11 @@ msgstr "Congratulations, the Installation or the Update of Part-DB is almost com
 msgid "Sie können sich nun mit dem Nutzernamen \"admin\" und dem eben festgelegten Password einloggen."
 msgstr "You can login now with the user name \"admin\" and the newly set password."
 
-#: templates/nextgen/install.php/smarty_finish.tpl:10
+#: templates/nextgen/install.php/smarty_finish.tpl:9
+msgid "Prüfen sie unter System->Benutzer bzw. System->Gruppen ob die Berechtigungen die von die gewünschten Werte haben"
+msgstr "Check under system-> user or system group-> if the permissions have the desired values"
+
+#: templates/nextgen/install.php/smarty_finish.tpl:11
 msgid "Fertigstellen"
 msgstr "Complete"
 
@@ -1486,12 +1491,12 @@ msgid "Benutzen Sie eine bereits vorhandene Datenbank weiter, sollten Sie jetzt 
 msgstr "If you continue to use an existing database, you should now create a backup of it!"
 
 #: templates/nextgen/install.php/smarty_set_db_settings.tpl:23
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:84
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:93
 msgid "Datenbanktyp:"
 msgstr "Database type:"
 
 #: templates/nextgen/install.php/smarty_set_db_settings.tpl:33
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:96
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:105
 msgid "Host:"
 msgstr "Host:"
 
@@ -1500,7 +1505,7 @@ msgid "z.B. localhost"
 msgstr "e.g. localhost"
 
 #: templates/nextgen/install.php/smarty_set_db_settings.tpl:40
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:105
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:114
 msgid "Datenbankname:"
 msgstr "Databasename:"
 
@@ -1511,13 +1516,13 @@ msgstr "e.g. part-db"
 
 #: templates/nextgen/install.php/smarty_set_db_settings.tpl:46
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:393
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:113
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:122
 #: templates/nextgen/system_log.php/smarty_main.tpl:28
 msgid "Benutzer:"
 msgstr "User:"
 
 #: templates/nextgen/install.php/smarty_set_db_settings.tpl:53
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:122
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:131
 msgid "Datenbankpasswort:"
 msgstr "Databasepassword:"
 
@@ -1997,7 +2002,7 @@ msgid "Alle an/abwählen:"
 msgstr "Check/Uncheck all:"
 
 #: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:74
-#: templates/nextgen/smarty_table.tpl:295
+#: templates/nextgen/smarty_table.tpl:297
 msgid "Einbuchen"
 msgstr "Add Stock"
 
@@ -2180,12 +2185,14 @@ msgstr "Part properties"
 
 #: templates/nextgen/show_part_info.php/smarty_properties.tpl:15
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:458
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:21
 msgid "Eigenschaft"
 msgstr "Property"
 
 #: templates/nextgen/show_part_info.php/smarty_properties.tpl:16
 #: templates/nextgen/smarty_permissions.tpl:39
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:459
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:22
 msgid "Wert"
 msgstr "Value"
 
@@ -2712,7 +2719,7 @@ msgstr "Release"
 msgid "Changelog"
 msgstr "changelog"
 
-#: templates/nextgen/smarty_table.tpl:300
+#: templates/nextgen/smarty_table.tpl:302
 msgid "Aus Liste löschen"
 msgstr "Remove from list"
 
@@ -3211,7 +3218,7 @@ msgid "Logging deaktiviert"
 msgstr "Logging disabled"
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:439
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:134
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:143
 msgid "Einstellungen übernehmen"
 msgstr "Apply settings"
 
@@ -3269,15 +3276,23 @@ msgstr "Current version:"
 msgid "Benötigte Version:"
 msgstr "Needed version:"
 
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:48
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:46
+msgid "Datenbank Größe"
+msgstr "Database size"
+
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:55
 msgid "Die Datenbank benötigt ein Update!"
 msgstr "The database needs an update!"
 
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:52
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:57
+msgid "Prüfen sie nach dem Update, ob die Berechtigungen der Benutzer und Gruppen noch korrekt sind!"
+msgstr "After the update, check that the permissions of the user and group are still correct!"
+
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:61
 msgid "ACHTUNG:"
 msgstr "WARNING:"
 
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:53
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:62
 msgid "Das letzte Update ist fehlgeschlagen. Sie können beliebig oft versuchen,\n"
 "                                    das Update an der Stelle des letzten Abbruchs fortzusetzen.\n"
 "                                    Falls Sie zwischenzeitlich aber eine neue Datenbank geladen haben\n"
@@ -3289,31 +3304,31 @@ msgstr "The last update failed. You can try as often as you like,\n"
 "                                    (e. g. a backup), the update must be restarted from the beginning. <br>\n"
 "                                    You therefore have the following two options:"
 
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:60
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:69
 msgid "Letztes, fehlgeschlagenes Update fortsetzen"
 msgstr "Continue the last failed update"
 
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:61
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:70
 msgid "Neuer Update-Versuch beginnen (von Vorne)"
 msgstr "Start new Update attempt"
 
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:64
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:73
 msgid "Jetzt Datenbank updaten"
 msgstr "Update database now"
 
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:67
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:76
 msgid "Die Datenbank ist auf dem neusten Stand."
 msgstr "The database has the newest version."
 
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:79
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:88
 msgid "Datenbank-Einstellungen"
 msgstr "Database settings"
 
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:141
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:150
 msgid "Datenbankoptionen:"
 msgstr "Database options:"
 
-#: templates/nextgen/system_database.php/smarty_system_database.tpl:146
+#: templates/nextgen/system_database.php/smarty_system_database.tpl:155
 msgid "Automatische Updates aktivieren"
 msgstr "Activate automatic updates:"
 

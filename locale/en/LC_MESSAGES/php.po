@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: part-db\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-08 19:33+0200\n"
-"PO-Revision-Date: 2018-10-08 22:01\n"
+"POT-Creation-Date: 2018-10-14 17:28+0200\n"
+"PO-Revision-Date: 2018-10-14 15:37\n"
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -14,7 +14,7 @@ msgstr ""
 "X-Generator: crowdin.com\n"
 "X-Crowdin-Project: part-db\n"
 "X-Crowdin-Language: en\n"
-"X-Crowdin-File: /nextgen/locale/php.pot\n"
+"X-Crowdin-File: /master/locale/php.pot\n"
 
 #: api.php:416
 msgid "Übersicht"
@@ -112,7 +112,7 @@ msgstr "The filetype can not be removed!"
 msgid "Die neuen Werte konnten nicht gespeichert werden!"
 msgstr "The new values could not be saved!"
 
-#: edit_categories.php:95 inc/lib.php:1001 lib/Part.php:2993
+#: edit_categories.php:95 inc/lib.php:1001 lib/Part.php:2992
 #: lib/Permissions/PermissionManager.php:259 show_category_parts.php:206
 msgid "Kategorien"
 msgstr "Categories"
@@ -710,7 +710,7 @@ msgstr "Resistor calculator"
 
 #: inc/lib.php:928
 msgid "3D Footprints"
-msgstr "3D Footprints"
+msgstr "3D footprints"
 
 #: inc/lib.php:931
 msgid "Labelgenerator"
@@ -1269,6 +1269,10 @@ msgstr "There is no record with the ID \"%d\" in the table \"%s\"!"
 msgid "$values ist kein gültiges Array!"
 msgstr "$values is not a valid array!"
 
+#: lib/Database.php:961
+msgid "Datenbankgröße kann nur für MySQL Datenbanken ermittelt werden!"
+msgstr "Database size can only be determined for MySQL databases!"
+
 #: lib/Device.php:136
 #, php-format
 msgid "Die Baugruppe \"%s\" konnte nicht gelöscht werden!\\n"
@@ -1646,7 +1650,7 @@ msgstr "The selected manufacturer does not exist!"
 msgid "Die gewählte Datei existiert nicht!"
 msgstr "The selected file does not exist!"
 
-#: lib/Part.php:2992
+#: lib/Part.php:2991
 msgid "Keine"
 msgstr "None"
 
