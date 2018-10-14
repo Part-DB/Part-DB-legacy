@@ -1,5 +1,33 @@
 # Part-DB Changelog
 
+## Part-DB 0.5.0
+### Neue Funktionen
+* Viewer für die vorhanden 3D-Footprints hinzugefügt
+* Bootstrap Tooltips werden für title-Attribute benutzt
+* Einfügen von Sonderzeichen in Textfelder über Alt-Tastenkombinationen möglich
+* Verbesserter Labelgenerator mit frei definierbaren Inhalt und Formatierung
+* Unterstützung von Labeln für Lagerorte
+* Datenquelle von TreeViews in der Seitenleiste kann über Dropdown-Menu gewählt werden (z.B. Lagerorte oder Footprints)
+* Nach dem Login wird der Nutzer zu der Website zurückgeleitet, auf der er vor dem Login war
+* Nach dem Löschen eines Bauteils wird der Benutzer auf die zuletzt besuchte Bauteileliste zurückgeleitet
+* Button im Bauteilebearbeitendialog hinzugefügt, um zur letztbesuchten Bauteileliste zurückzukehren
+* Möglichkeit sich die zuletzt bearbeiten und zuletzt angelegten Bauteile anzeigen lassen zu können
+* Eventlog System, um Veränderungen an der Datenbank zu protokollieren
+* Möglichkeit den zuletzt bearbeitenden Benutzer anzeigen zu lassen
+* Graphen in Statistik, für die meistbenutzten Kategorien, Footprints, etc.
+* Möglichkeit ein Unix-Socket für Datenbankzugriff benutzen zu können
+* Möglichkeit Port für Datenbankzugriff festlegen zu können
+* Möglichkeit einen Cookie-Consent Dialog anzeigen zu lassen
+
+
+### Verschiedenes
+* Verbesserte Performance des Berechtigungssystem
+* Verbesserte Sicherheit gegen CSFR-Attacken
+* Fontawesome 5 statt Fontawesome 4
+* Mehr Abhängigkeiten werden jetzt über Composer gemanagt
+* Javascript und CSS-Dateien werden verkleinert ausgeliefert
+
+
 ## Part-DB 0.4.6
 ### Bugfixes
 * Problem, mit fehlender Markierung von Bauteilen in den Bauteiletabellen, behoben
