@@ -42,7 +42,13 @@
   "suggest": {
     "phpunit/phpunit": "Needed for unittests in development.",
     "ext-intl": "Needed for localized datetime formatting.",
-    "ext-curl": "Needed for better downloads."
+    "ext-curl": "Needed for better downloads.",
+    "ext-libxml": "Needed for XML import/export",
+    "ext-dom": "Needed for import/export",
+    "ext-fileinfo": "Needed for mime type determination",
+    "ext-iconv": "Needed for money string localization",
+    "ext-simplexml": "Needed for Update panels"
+
   },
 
   "repositories": [

@@ -393,10 +393,10 @@ class DevicePart extends Base\DBElement
         parent::delete();
     }
 
-    public function setAttributes($new_values, $edit_message = null)
+    public function setAttributes($new_values)
     {
         $this->current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::EDIT);
-        parent::setAttributes($new_values, $edit_message);
+        parent::setAttributes($new_values);
     }
 
 
