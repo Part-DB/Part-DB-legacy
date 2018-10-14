@@ -816,18 +816,17 @@ function get_db_update_steps($current_version)
                 `perms_storelocations`,`perms_footprints`,`perms_categories`,
                 `perms_suppliers`,`perms_manufacturers`,`perms_attachement_types`,
                 `perms_tools`)
-                VALUES (1,'admins',NULL,
-                'Users of this group can do everything: Read, Write and Administrative actions.'
-                ,1,1365,21845,21,85,21,349525,5,5,5,5,5,5,5,5,5,325,325,325,1365,
-                325,1365,1365,1365,1365,1365,341,1365),
-              (2,'readonly',NULL,
-              'Users of this group can only read informations, use tools, and don\'t have access to administrative tools.'
-              ,2,2730,43690,25,170,42,349865,9,9,9,9,9,9,9,9,9,649,649,649,1705,
-              649,1705,1705,1705,1705,1705,681,1366),
-              (3,'users',NULL,
-              'Users of this group, can edit part informations, create new ones, etc. but are not allowed to use administrative tools. (But can read current configuration, and see Server status)'
-              ,2,2730,43690,25,105,41,349525,5,5,5,5,5,5,5,5,5,325,325,325,1365,
-              325,1365,1365,1365,1365,1365,341,1365); 
+                VALUES (1, 'admins', NULL, 'Users of this group can do everything: Read, Write and Administrative actions.',
+                    21, 1365, 87381, 85, 85, 21, 1431655765, 5, 5, 5, 5, 5, 5, 5, 5, 5, 325, 325, 325, 5461, 325, 5461, 5461,
+                    5461, 5461, 5461, 1365, 1365),
+                (2, 'readonly', NULL, 
+                   'Users of this group can only read informations, use tools, and don\'t have access to administrative tools.', 
+                    42, 2730, 174762, 154, 170, 42, -1516939607, 9, 9, 9, 9, 9, 9, 9, 9, 9, 649, 649, 649, 1705, 649, 1705, 1705,
+                    1705, 1705, 1705, 681, 1366),
+                (3, 'users', NULL,
+                    'Users of this group, can edit part informations, create new ones, etc. but are not allowed to use administrative tools. (But can read current configuration, and see Server status)',
+                    42, 2730, 109226, 89, 105, 41, 1431655765, 5, 5, 5, 5, 5, 5, 5, 5, 5, 325, 325, 325, 5461, 325, 5461, 5461, 5461,
+                    5461, 5461, 1365, 1365); 
 EOD;
 
 

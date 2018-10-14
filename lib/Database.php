@@ -964,7 +964,7 @@ class Database
         $query = 'SELECT '
             . ' ROUND(SUM(data_length + index_length) / 1024 / 1024, 3) AS `size`'
             . ' FROM information_schema.TABLES'
-            . ' WHERE table_schema = "part-db"'
+            . ' WHERE table_schema = ?'
             . ' GROUP BY table_schema; ';
 
         $values[] = $config['db']['name'];

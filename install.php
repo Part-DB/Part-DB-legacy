@@ -153,6 +153,7 @@ if (! $fatal_error) {
                 $database = new Database(); // test the connection --> Exception if it doesn't work
 
                 $config['installation_complete']['database'] = true; // database settings successful set
+                $config['installation_complete']['db_backup_path'] = true; //Workaround, because we removed the dialog for this
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -217,12 +218,12 @@ if (! $fatal_error) {
             $html->setVariable('db_name', $config['db']['name'], 'string');
             $html->setVariable('db_user', $config['db']['user'], 'string');
             $html->setVariable("space_fix", $config['db']['space_fix'], 'boolean');
-        } elseif (!$config['installation_complete']['db_backup_path']) {
+        } /* elseif (!$config['installation_complete']['db_backup_path']) {
             // step "set_db_backup_path"
             $tmpl_site_to_show = 'set_db_backup_path';
             $html->setVariable('db_backup_name', $config['db']['backup']['name'], 'string');
             $html->setVariable('db_backup_path', $config['db']['backup']['url'], 'string');
-        } else {
+        }*/ else {
             // installation/update complete
             $tmpl_site_to_show = 'finish';
         }
