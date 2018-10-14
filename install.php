@@ -153,6 +153,7 @@ if (! $fatal_error) {
                 $database = new Database(); // test the connection --> Exception if it doesn't work
 
                 $config['installation_complete']['database'] = true; // database settings successful set
+                $config['installation_complete']['db_backup_path'] = true; //Workaround, because we removed the dialog for this
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
