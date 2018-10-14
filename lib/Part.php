@@ -2807,7 +2807,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         $keyword = trim($keyword);
 
-        $current_user->tryDo(PermissionManager::PARTS, PartPermission::SEARCH);#
+        $current_user->tryDo(PermissionManager::PARTS, PartPermission::SEARCH);
 
         //Let the user only search properties, for which he has access
         $part_name = $part_name
@@ -2866,6 +2866,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
 
         $query = 'SELECT parts.* FROM parts';
+
+        $query .= ' LEFT JOIN categories ON parts.id_category=categories.id';
         if ($footprint_name) {
             $query .= ' LEFT JOIN footprints ON parts.id_footprint=footprints.id';
         }
@@ -2874,9 +2876,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
         if ($manufacturer_name) {
             $query .= ' LEFT JOIN manufacturers  ON parts.id_manufacturer=manufacturers.id';
-        }
-        if ($category_name) {
-            $query .= ' LEFT JOIN categories ON parts.id_category=categories.id';
         }
         if ($supplierpartnr || $supplier_name) {
             $query .= ' LEFT JOIN orderdetails ON parts.id=orderdetails.part_id';
