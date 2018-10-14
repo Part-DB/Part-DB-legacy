@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: part-db\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-08 19:33+0200\n"
-"PO-Revision-Date: 2018-10-08 22:03\n"
+"POT-Creation-Date: 2018-10-14 17:28+0200\n"
+"PO-Revision-Date: 2018-10-14 15:34\n"
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
@@ -112,7 +112,7 @@ msgstr ""
 msgid "Die neuen Werte konnten nicht gespeichert werden!"
 msgstr ""
 
-#: edit_categories.php:95 inc/lib.php:1001 lib/Part.php:2993
+#: edit_categories.php:95 inc/lib.php:1001 lib/Part.php:2992
 #: lib/Permissions/PermissionManager.php:259 show_category_parts.php:206
 msgid "Kategorien"
 msgstr ""
@@ -1262,6 +1262,10 @@ msgstr ""
 msgid "$values ist kein gültiges Array!"
 msgstr ""
 
+#: lib/Database.php:961
+msgid "Datenbankgröße kann nur für MySQL Datenbanken ermittelt werden!"
+msgstr ""
+
 #: lib/Device.php:136
 #, php-format
 msgid "Die Baugruppe \"%s\" konnte nicht gelöscht werden!\\n"
@@ -1639,7 +1643,7 @@ msgstr ""
 msgid "Die gewählte Datei existiert nicht!"
 msgstr ""
 
-#: lib/Part.php:2992
+#: lib/Part.php:2991
 msgid "Keine"
 msgstr ""
 
