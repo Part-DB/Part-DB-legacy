@@ -69,4 +69,24 @@ This software uses the following external libraries:
     Licensed under MIT, see LICENSE.MIT for details.
     Website: https://github.com/vanderlee/tristate
     
+* **JS.Cookie**: Copyright (c) 2018 Copyright 2018 Klaus Hartl, Fagner Brack, GitHub Contributors
+    Licensed under MIT, see LICENSE.MIT for details.
+    Website: https://github.com/js-cookie/js-cookie
+    
+* **TempusDominus**: Copyright 2016-2018 Jonathan Peterson
+    Licensed under MIT, see LICENSE.MIT for details.
+    Website: https://tempusdominus.github.io/bootstrap-4/
+    
+* **Bootstrap-Typeahead**: Copyright 2014 Bass Jobsen @bassjobsen
+    Licensed under Apache2, see LICENSE.APACHE for details.
+    Website: https://github.com/bassjobsen/Bootstrap-3-Typeahead
+    
+* **Popper.JS**: Copyright (c) 2016 Federico Zivolo and contributors
+    Licensed under MIT, see LICENSE.MIT for details.
+    Website: https://popper.js.org/
+    
+
+    
+    
+    
 For further license infos about Composer libraties, see the LICENSE files in the vendor/ folder.
