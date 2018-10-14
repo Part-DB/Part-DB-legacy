@@ -10,7 +10,7 @@ msgstr ""
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
-"PO-Revision-Date: 2018-10-14 15:34\n"
+"PO-Revision-Date: 2018-10-14 15:42\n"
 
 #: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:5
 msgid "Tabs durch Leerzeichen ersetzen / Backup-Dateien löschen"
@@ -48,11 +48,11 @@ msgstr "Make release package"
 #: templates/nextgen/install.php/smarty_header.tpl:74
 #: templates/nextgen/startup.php/smarty_startup.tpl:49
 msgid "Version:"
-msgstr ""
+msgstr "Version:"
 
 #: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:45
 msgid "Download"
-msgstr ""
+msgstr "Download"
 
 #: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:47
 msgid "Checkliste"
@@ -154,7 +154,7 @@ msgstr "Default"
 #: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:53
 #: templates/nextgen/edit_users.php/smarty_edit_users.tpl:62
 msgid "Infos"
-msgstr ""
+msgstr "Infos"
 
 #: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:62
 #: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:71
@@ -164,7 +164,7 @@ msgstr ""
 #: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:77
 #: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:63
 msgid "Name*:"
-msgstr ""
+msgstr "Name*:"
 
 #: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:64
 msgid "z.B. Bilder"
@@ -210,7 +210,7 @@ msgstr "e.g. for preview pictures"
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:13
 #: templates/nextgen/show_part_label.php/smarty_show_part_label.tpl:32
 msgid "ID:"
-msgstr ""
+msgstr "ID:"
 
 #: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:97
 #: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:204
@@ -484,7 +484,7 @@ msgstr "Remove device"
 #: templates/nextgen/smarty_head.tpl:334 templates/nextgen/smarty_head.tpl:358
 #: templates/nextgen/smarty_head.tpl:382
 msgid "Footprints"
-msgstr ""
+msgstr "Footprints"
 
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:20
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:31
@@ -568,7 +568,7 @@ msgstr "The filenames of the following parts could not be assiged to an image. P
 #: templates/nextgen/startup.php/smarty_startup.tpl:73
 #: templates/nextgen/system_log.php/smarty_main.tpl:73
 msgid "Footprint"
-msgstr ""
+msgstr "Footprint"
 
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:214
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:293
@@ -841,7 +841,7 @@ msgstr "Add new file:"
 #: templates/nextgen/show_device_parts.php/smarty_attachements.tpl:35
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:23
 msgid "Name:"
-msgstr ""
+msgstr "Name:"
 
 #: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:41
 #: templates/nextgen/show_device_parts.php/smarty_attachements.tpl:40
@@ -1027,7 +1027,7 @@ msgstr "Search / Add"
 #: templates/nextgen/edit_part_info.php/smarty_part.tpl:162
 #: templates/nextgen/edit_part_info.php/smarty_part.tpl:186
 msgid "OK!"
-msgstr ""
+msgstr "OK!"
 
 #: templates/nextgen/edit_part_info.php/smarty_part.tpl:123
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:62
@@ -1042,7 +1042,7 @@ msgstr "Manufacturers:"
 #: templates/nextgen/edit_part_info.php/smarty_part.tpl:172
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:79
 msgid "Footprint:"
-msgstr ""
+msgstr "Footprint:"
 
 #: templates/nextgen/edit_part_info.php/smarty_part.tpl:208
 msgid "Bauteil erstellen"
@@ -1317,7 +1317,7 @@ msgstr "User must change password after login"
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:49
 #: templates/nextgen/user_settings.php/smarty_settings.tpl:65
 msgid "Theme:"
-msgstr ""
+msgstr "Theme:"
 
 #: templates/nextgen/edit_users.php/smarty_edit_users.tpl:220
 #: templates/nextgen/user_settings.php/smarty_settings.tpl:68
@@ -1394,7 +1394,7 @@ msgstr "You can login now with the user name \"admin\" and the newly set passwor
 
 #: templates/nextgen/install.php/smarty_finish.tpl:9
 msgid "Prüfen sie unter System->Benutzer bzw. System->Gruppen ob die Berechtigungen die von die gewünschten Werte haben"
-msgstr ""
+msgstr "Check under system-> user or system group-> if the permissions have the desired values"
 
 #: templates/nextgen/install.php/smarty_finish.tpl:11
 msgid "Fertigstellen"
@@ -1498,7 +1498,7 @@ msgstr "Database type:"
 #: templates/nextgen/install.php/smarty_set_db_settings.tpl:33
 #: templates/nextgen/system_database.php/smarty_system_database.tpl:105
 msgid "Host:"
-msgstr ""
+msgstr "Host:"
 
 #: templates/nextgen/install.php/smarty_set_db_settings.tpl:35
 msgid "z.B. localhost"
@@ -1553,7 +1553,7 @@ msgstr "Downloads, bugreports, to-do-list etc. can be found on the <a target=\"_
 
 #: templates/nextgen/install.php/smarty_set_locales.tpl:12
 msgid "Forum:"
-msgstr ""
+msgstr "Forum:"
 
 #: templates/nextgen/install.php/smarty_set_locales.tpl:12
 msgid "Für Fragen rund um die Part-DB gibt es einen Thread auf <a target=\"_blank\" href=\"https://www.mikrocontroller.net/topic/305023\">mikrocontroller.net</a>"
@@ -1561,7 +1561,7 @@ msgstr "For questions about the Part-DB there is a thread on <a target=\"_blank\
 
 #: templates/nextgen/install.php/smarty_set_locales.tpl:13
 msgid "Wiki:"
-msgstr ""
+msgstr "Wiki:"
 
 #: templates/nextgen/install.php/smarty_set_locales.tpl:13
 msgid "Weitere Informationen gibt es im <a target=\"_blank\" href=\"http://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung\">mikrocontroller.net Artikel"
@@ -1608,14 +1608,14 @@ msgstr "Successfully logged in."
 #: templates/nextgen/smarty_head.tpl:195 templates/nextgen/smarty_head.tpl:241
 #: templates/nextgen/smarty_head.tpl:254
 msgid "Logout"
-msgstr ""
+msgstr "Logout"
 
 #: templates/nextgen/login.php/smarty_login.tpl:39
 #: templates/nextgen/login.php/smarty_login.tpl:58
 #: templates/nextgen/smarty_head.tpl:197 templates/nextgen/smarty_head.tpl:243
 #: templates/nextgen/smarty_head.tpl:256
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: templates/nextgen/login.php/smarty_login.tpl:44
 #: templates/nextgen/user_info.php/smarty_main.tpl:44
@@ -1629,7 +1629,7 @@ msgstr "Username"
 
 #: templates/nextgen/login.php/smarty_login.tpl:50
 msgid "Password:"
-msgstr ""
+msgstr "Password:"
 
 #: templates/nextgen/login.php/smarty_login.tpl:52
 msgid "Password"
@@ -1688,7 +1688,7 @@ msgstr "Export:"
 #: templates/nextgen/show_search_parts.php/smarty_search_header.tpl:37
 #: templates/nextgen/show_search_parts.php/smarty_search_header.tpl:71
 msgid "OK"
-msgstr ""
+msgstr "OK"
 
 #: templates/nextgen/show_category_parts.php/smarty_show_category_parts.tpl:75
 msgid "Teile in der Kategorie"
@@ -1859,11 +1859,11 @@ msgstr "Export-format:"
 
 #: templates/nextgen/show_device_parts.php/smarty_import.tpl:56
 msgid "CSV"
-msgstr ""
+msgstr "CSV"
 
 #: templates/nextgen/show_device_parts.php/smarty_import.tpl:57
 msgid "XML"
-msgstr ""
+msgstr "XML"
 
 #: templates/nextgen/show_device_parts.php/smarty_import.tpl:63
 #: templates/nextgen/tools_import.php/smarty_upload.tpl:29
@@ -1892,7 +1892,7 @@ msgstr "Subdevice of"
 #: templates/nextgen/smarty_head.tpl:146 templates/nextgen/smarty_head.tpl:274
 #: templates/nextgen/smarty_table.tpl:28 templates/nextgen/smarty_table.tpl:29
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: templates/nextgen/show_device_parts.php/smarty_subdevices.tpl:9
 #: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:116
@@ -2062,7 +2062,7 @@ msgstr "Parts export"
 
 #: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:169
 msgid "Format:"
-msgstr ""
+msgstr "Format:"
 
 #: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:180
 msgid "Anzeige"
@@ -2115,7 +2115,7 @@ msgstr "Table"
 
 #: templates/nextgen/show_part_info.php/smarty_history.tpl:14
 msgid "Graph"
-msgstr ""
+msgstr "Graph"
 
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:11
 msgid "Detailinfo zu"
@@ -2276,7 +2276,7 @@ msgstr "Line preset:"
 
 #: templates/nextgen/show_part_label.php/smarty_show_part_label.tpl:81
 msgid "Presets"
-msgstr ""
+msgstr "Presets"
 
 #: templates/nextgen/show_part_label.php/smarty_show_part_label.tpl:95
 msgid "Erzeuge Label"
@@ -2322,7 +2322,7 @@ msgstr "Plain text"
 
 #: templates/nextgen/show_part_label.php/smarty_show_part_label.tpl:154
 msgid "Barcode"
-msgstr ""
+msgstr "Barcode"
 
 #: templates/nextgen/show_part_label.php/smarty_show_part_label.tpl:166
 msgid "Ausgabemodus:"
@@ -2330,7 +2330,7 @@ msgstr "Output mode:"
 
 #: templates/nextgen/show_part_label.php/smarty_show_part_label.tpl:169
 msgid "HTML"
-msgstr ""
+msgstr "HTML"
 
 #: templates/nextgen/show_part_label.php/smarty_show_part_label.tpl:174
 msgid "Wenn sie die Ausgabe auf Text umstellen, wird die ausgegebene PDF Datei evtl. kleiner, dafür werden evtl. vorhandene HTML Tags als Text dargestellt und nicht interpretiert!"
@@ -2467,7 +2467,7 @@ msgstr "Timestamp"
 
 #: templates/nextgen/smarty_eventlog.tpl:6
 msgid "Level"
-msgstr ""
+msgstr "Level"
 
 #: templates/nextgen/smarty_eventlog.tpl:7
 #: templates/nextgen/smarty_history.tpl:5
@@ -2480,11 +2480,11 @@ msgstr "Target"
 
 #: templates/nextgen/smarty_eventlog.tpl:39
 msgid "ID: "
-msgstr ""
+msgstr "ID: "
 
 #: templates/nextgen/smarty_head.tpl:116 templates/nextgen/smarty_head.tpl:212
 msgid "Toggle Sidebar"
-msgstr ""
+msgstr "Toggle Sidebar"
 
 #: templates/nextgen/smarty_head.tpl:141 templates/nextgen/smarty_head.tpl:269
 msgid "Suchoptionen"
@@ -2633,7 +2633,7 @@ msgstr "No."
 
 #: templates/nextgen/smarty_table.tpl:26
 msgid "ID"
-msgstr ""
+msgstr "ID"
 
 #: templates/nextgen/smarty_table.tpl:34
 msgid "Name / Beschreibung"
@@ -2802,7 +2802,7 @@ msgstr "Further information is available in <a class=\"link-external\" target=\"
 
 #: templates/nextgen/startup.php/smarty_startup.tpl:115
 msgid "Initiator:"
-msgstr ""
+msgstr "Initiator:"
 
 #: templates/nextgen/startup.php/smarty_startup.tpl:116
 msgid "Autor seit 2009:"
@@ -2818,11 +2818,11 @@ msgstr "More developers:"
 
 #: templates/nextgen/startup.php/smarty_startup.tpl:138
 msgid "Updates"
-msgstr ""
+msgstr "Updates"
 
 #: templates/nextgen/startup.php/smarty_startup.tpl:144
 msgid "Version"
-msgstr ""
+msgstr "Version"
 
 #: templates/nextgen/startup.php/smarty_startup.tpl:145
 msgid "Veröffentlichungsdatum"
@@ -2830,7 +2830,7 @@ msgstr "Release date"
 
 #: templates/nextgen/startup.php/smarty_startup.tpl:146
 msgid "Link"
-msgstr ""
+msgstr "Link"
 
 #: templates/nextgen/statistics.php/smarty_statistics.tpl:5
 msgid "Statistik"
@@ -2954,7 +2954,7 @@ msgstr "Limits the length of part descriptions in the overview tables"
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:77
 msgid "Detailinfos:"
-msgstr ""
+msgstr "Detailinfos:"
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:81
 msgid "Verstecke \"Aktionen\" Dialog in den Detailinfos"
@@ -3224,7 +3224,7 @@ msgstr "Apply settings"
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:453
 msgid "Server"
-msgstr ""
+msgstr "Server"
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:464
 msgid "PHP-Version:"
@@ -3278,7 +3278,7 @@ msgstr "Needed version:"
 
 #: templates/nextgen/system_database.php/smarty_system_database.tpl:46
 msgid "Datenbank Größe"
-msgstr ""
+msgstr "Database size"
 
 #: templates/nextgen/system_database.php/smarty_system_database.tpl:55
 msgid "Die Datenbank benötigt ein Update!"
@@ -3286,7 +3286,7 @@ msgstr "The database needs an update!"
 
 #: templates/nextgen/system_database.php/smarty_system_database.tpl:57
 msgid "Prüfen sie nach dem Update, ob die Berechtigungen der Benutzer und Gruppen noch korrekt sind!"
-msgstr ""
+msgstr "After the update, check that the permissions of the user and group are still correct!"
 
 #: templates/nextgen/system_database.php/smarty_system_database.tpl:61
 msgid "ACHTUNG:"
@@ -3334,7 +3334,7 @@ msgstr "Activate automatic updates:"
 
 #: templates/nextgen/system_log.php/smarty_main.tpl:6
 msgid "Filter"
-msgstr ""
+msgstr "Filter"
 
 #: templates/nextgen/system_log.php/smarty_main.tpl:32
 #: templates/nextgen/system_log.php/smarty_main.tpl:44
@@ -3389,7 +3389,7 @@ msgstr "Update"
 
 #: templates/nextgen/system_log.php/smarty_main.tpl:126
 msgid "Eventlog"
-msgstr ""
+msgstr "Eventlog"
 
 #: templates/nextgen/tools_3d_footprints.php/smarty_3d_footprints.tpl:2
 msgid "3D Footprints"
@@ -3451,7 +3451,7 @@ msgstr "silver"
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:273
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:279
 msgid "gold"
-msgstr ""
+msgstr "gold"
 
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:57
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:61
@@ -3497,7 +3497,7 @@ msgstr "red"
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:371
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:376
 msgid "orange"
-msgstr ""
+msgstr "orange"
 
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:119
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:123
@@ -3576,7 +3576,7 @@ msgstr "Resistance:"
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:517
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:580
 msgid "Ohm"
-msgstr ""
+msgstr "Ohm"
 
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:226
 msgid "Toleranz"
