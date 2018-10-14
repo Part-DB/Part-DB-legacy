@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: part-db\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-14 17:28+0200\n"
-"PO-Revision-Date: 2018-10-14 15:34\n"
+"PO-Revision-Date: 2018-10-14 15:42\n"
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -208,7 +208,7 @@ msgstr "Could not remove device!"
 #: lib/Permissions/PermissionManager.php:258
 #: lib/Permissions/ToolsPermission.php:50 show_footprint_parts.php:193
 msgid "Footprints"
-msgstr ""
+msgstr "Footprints"
 
 #: edit_footprints.php:160 edit_footprints.php:244 edit_part_info.php:509
 #: edit_part_info.php:549 show_device_parts.php:386 show_device_parts.php:422
@@ -697,11 +697,11 @@ msgstr "$url is not a valid URL"
 
 #: inc/lib.php:916 lib/Permissions/ToolsPermission.php:47
 msgid "Import"
-msgstr ""
+msgstr "Import"
 
 #: inc/lib.php:919
 msgid "SMD Labels"
-msgstr ""
+msgstr "SMD Labels"
 
 #: inc/lib.php:922 lib/Permissions/ToolsPermission.php:49
 #: tools_calculator.php:42
@@ -710,7 +710,7 @@ msgstr "Resistor calculator"
 
 #: inc/lib.php:928
 msgid "3D Footprints"
-msgstr ""
+msgstr "3D footprints"
 
 #: inc/lib.php:931
 msgid "Labelgenerator"
@@ -718,7 +718,7 @@ msgstr "Label generator"
 
 #: inc/lib.php:934 lib/Permissions/ToolsPermission.php:51
 msgid "IC-Logos"
-msgstr ""
+msgstr "IC-Logos"
 
 #: inc/lib.php:942 lib/Permissions/PermissionManager.php:268
 msgid "Gruppen"
@@ -736,7 +736,7 @@ msgstr "Database"
 
 #: inc/lib.php:954
 msgid "Eventlog"
-msgstr ""
+msgstr "Eventlog"
 
 #: inc/lib.php:962
 msgid "Zu bestellende Teile"
@@ -780,7 +780,7 @@ msgstr "Tools"
 
 #: inc/lib.php:1016
 msgid "Debugging"
-msgstr ""
+msgstr "Debugging"
 
 #: inc/lib.php:1017
 msgid "Sandkasten"
@@ -792,7 +792,7 @@ msgstr "Source-Documentation"
 
 #: inc/lib.php:1023 lib/Permissions/PermissionManager.php:276
 msgid "Tools"
-msgstr ""
+msgstr "Tools"
 
 #: inc/lib.php:1026 lib/Permissions/CPartAttributePermission.php:50
 #: lib/Permissions/DevicePartPermission.php:46
@@ -810,7 +810,7 @@ msgstr "Show"
 
 #: inc/lib.php:1032 lib/Permissions/PermissionManager.php:272
 msgid "System"
-msgstr ""
+msgstr "System"
 
 #: inc/lib.php:1035
 msgid "Entwickler-Werkzeuge"
@@ -1271,7 +1271,7 @@ msgstr "$values is not a valid array!"
 
 #: lib/Database.php:961
 msgid "Datenbankgröße kann nur für MySQL Datenbanken ermittelt werden!"
-msgstr ""
+msgstr "Database size can only be determined for MySQL databases!"
 
 #: lib/Device.php:136
 #, php-format
@@ -1459,7 +1459,7 @@ msgstr "Device"
 
 #: lib/Log.php:552 lib/Permissions/PermissionManager.php:248
 msgid "Footprint"
-msgstr ""
+msgstr "Footprint"
 
 #: lib/Log.php:554
 msgid "Gruppe"
@@ -1541,7 +1541,7 @@ msgstr "Type: "
 
 #: lib/LogSystem/UnknownTypeEntry.php:55
 msgid ", ID: "
-msgstr ""
+msgstr ", ID: "
 
 #: lib/LogSystem/UserLoginEntry.php:44 lib/LogSystem/UserNotAllowedEntry.php:42
 msgid "Falscher Targettyp!"
@@ -1824,7 +1824,7 @@ msgstr "General"
 
 #: lib/Permissions/PermissionManager.php:241
 msgid "Name"
-msgstr ""
+msgstr "Name"
 
 #: lib/Permissions/PermissionManager.php:242
 msgid "Beschreibung"
@@ -1883,7 +1883,7 @@ msgstr "Device parts"
 #: lib/Permissions/ToolsPermission.php:48 show_part_label.php:132
 #: tools_labels.php:42
 msgid "Labels"
-msgstr ""
+msgstr "Labels"
 
 #: lib/Permissions/SelfPermission.php:45 lib/Permissions/UserPermission.php:57
 msgid "Informationen ändern"
@@ -2037,7 +2037,7 @@ msgstr "<br><br>Please log in:"
 
 #: lib/User.php:772 login.php:51
 msgid "Login"
-msgstr ""
+msgstr "Login"
 
 #: lib/User.php:802
 msgid "Ungültige \"group_id\": \""
@@ -2107,7 +2107,7 @@ msgstr "No valid storelocation id was submitted."
 
 #: show_part_info.php:76
 msgid "Label input is not valid!"
-msgstr ""
+msgstr "Label input is not valid!"
 
 #: show_part_info.php:107 show_part_info.php:221
 msgid "Detailinfo"
@@ -2180,7 +2180,7 @@ msgstr "IMPORTANT: <br>Copy only the contents of the named folders, not the whol
 
 #: start_session.php:79 start_session.php:139
 msgid "Part-DB"
-msgstr ""
+msgstr "Part-DB"
 
 #: start_session.php:79
 msgid "Update von Part-DB: Manuelle Eingriffe notwendig"
@@ -2296,7 +2296,7 @@ msgstr "The log file can not be read!"
 
 #: system_log.php:66
 msgid "Log"
-msgstr ""
+msgstr "Log"
 
 #: system_log.php:93
 #, php-format
