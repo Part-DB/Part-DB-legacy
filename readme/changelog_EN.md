@@ -1,5 +1,32 @@
 # Part-DB changelog
 
+## Part-DB 0.5.0
+### New functions
+* Added viewer for existing 3D footprints
+* Bootstrap tooltips are used for title attributes
+* Special characters can be inserted in text fields using Alt key combinations
+* Improved label generator with freely definable content and formatting
+* Support of labels for storage locations
+* Data source of TreeViews in the sidebar can be selected via dropdown menu (e.g. storage locations or footprints)
+* After logging in, the user is redirected to the website on which he was before logging in.
+* After deleting a part, the user is redirected to the last visited part list.
+* Added button in part edit dialog to return to last visited part list
+* Possibility to display the last edited and last created components
+* Eventlog system to log changes to the database
+* Possibility to display the last user to be edited
+* Graphs in statistics for the most used categories, footprints, etc.
+* Ability to use a Unix socket for database access
+* Ability to set port for database access
+* Possibility to display a cookie-consent dialog
+
+
+### Miscellaneous
+* Improved performance of the authorization system
+* Improved security against CSFR attacks
+* Fontawesome 5 instead of Fontawesome 4
+* More dependencies are now managed via Composer
+* Javascript and CSS files are delivered in reduced size
+
 ## Part-DB 0.4.6
 ### Bugfixes
 * Problem with missing part markings in part tables fixed
