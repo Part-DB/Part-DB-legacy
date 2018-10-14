@@ -217,12 +217,12 @@ if (! $fatal_error) {
             $html->setVariable('db_name', $config['db']['name'], 'string');
             $html->setVariable('db_user', $config['db']['user'], 'string');
             $html->setVariable("space_fix", $config['db']['space_fix'], 'boolean');
-        } elseif (!$config['installation_complete']['db_backup_path']) {
+        } /* elseif (!$config['installation_complete']['db_backup_path']) {
             // step "set_db_backup_path"
             $tmpl_site_to_show = 'set_db_backup_path';
             $html->setVariable('db_backup_name', $config['db']['backup']['name'], 'string');
             $html->setVariable('db_backup_path', $config['db']['backup']['url'], 'string');
-        } else {
+        }*/ else {
             // installation/update complete
             $tmpl_site_to_show = 'finish';
         }
