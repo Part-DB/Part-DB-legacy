@@ -18,6 +18,7 @@
 * Möglichkeit ein Unix-Socket für Datenbankzugriff benutzen zu können
 * Möglichkeit Port für Datenbankzugriff festlegen zu können
 * Möglichkeit einen Cookie-Consent Dialog anzeigen zu lassen
+* Datenbankgröße wird unter system_database.php angezeigt
 
 
 ### Verschiedenes

@@ -18,7 +18,7 @@
 * Ability to use a Unix socket for database access
 * Ability to set port for database access
 * Possibility to display a cookie-consent dialog
-
+* Size of the database is shown in system_database.php
 
 ### Miscellaneous
 * Improved performance of the authorization system
