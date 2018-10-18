@@ -2150,11 +2150,15 @@ msgstr ""
 msgid "Favorisierung aufheben"
 msgstr ""
 
-#: templates/nextgen/show_part_info.php/smarty_attachements.tpl:25
+#: templates/nextgen/show_part_info.php/smarty_attachements.tpl:18
+msgid "Anhang nicht vorhanden"
+msgstr ""
+
+#: templates/nextgen/show_part_info.php/smarty_attachements.tpl:31
 msgid "Dieses Bauteil besitzt keine Dateianhänge."
 msgstr ""
 
-#: templates/nextgen/show_part_info.php/smarty_attachements.tpl:29
+#: templates/nextgen/show_part_info.php/smarty_attachements.tpl:35
 msgid "Dateianhänge hinzufügen"
 msgstr ""
 
