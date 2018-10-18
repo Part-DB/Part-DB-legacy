@@ -1,5 +1,21 @@
 # Part-DB Changelog
 
+## Part-DB 0.5.1
+## Neue Funktionen
+* Es wird in der Bauteileübersicht angezeigt, wenn die mit einem Bauteil verknüpfte Datei nicht vorhanden ist
+
+## Bugfixes
+* Probleme mit der Darstellung von breiten Bildern (als Anhang) im Bauteilebearbeitungsdialog
+* Nicht vorhandene Anhangsbilder werden nicht mehr in Bauteilelisten angezeigt (führte zu Darstellungsfehlern)
+* Problem das Seite "leer" nachgeladen wurde, wenn man mit dem Button aus dem edit_show_part_info.php Dialog in die
+    letzte Bauteileliste gesprungen ist
+* Vorwärts Button im Browser funktionier nun
+
+## Sonstiges
+* Fontawesome auf Version 5.4 geupdated
+
+### Bugfixe
+
 ## Part-DB 0.5.0
 ### Neue Funktionen
 * Viewer für die vorhanden 3D-Footprints hinzugefügt
