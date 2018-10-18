@@ -16,7 +16,7 @@
                         {else}
                             {if isset($attach.picture_filename) && $attach.picture_filename !== ""}
                                 <a href="{$attach.picture_filename}" class="link-datasheet" target="_blank" rel="noopener">
-                                    <img class="img-responsive" rel="popover" src="{$attach.picture_filename}" alt="{$attach.name}">
+                                    <img class="img-fluid" rel="popover" src="{$attach.picture_filename}" alt="{$attach.name}">
                                 </a>
                             {else}
                                 {if isset($attach.filename) && $attach.filename !== ""}
