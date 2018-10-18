@@ -50,6 +50,7 @@ var AjaxUI = /** @class */ (function () {
         this.start_listeners = [];
         this.trees_filled = false;
         this.xhrPool = [];
+        this.statePopped = false;
         //Make back in the browser go back in history
         window.onpopstate = this.onPopState;
         $(document).ajaxError(this.onAjaxError.bind(this));
@@ -416,6 +417,7 @@ var AjaxUI = /** @class */ (function () {
         var page = location.href;
         //Go back only when the the target isnt the empty index.
         if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
+            AjaxUI.getInstance().statePopped = true;
             $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");
             $('#progressbar').show(0);
         }
@@ -461,7 +463,11 @@ var AjaxUI = /** @class */ (function () {
         //Push only if it was a "GET" request and requested data was an HTML
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
             //Push the cleaned (no ajax request) to history
-            window.history.pushState(null, "", removeURLparam(settings.url, "ajax"));
+            var clean_url = settings.url.replace(/&ajax/g, "").replace(/\?ajax/g, "");
+            if (this.statePopped == false) { //Only add this load to history if not an old value was loaded.
+                window.history.pushState(null, "", clean_url);
+            }
+            this.statePopped = false; //Reset the statePopped state.
             //Update redirect param in login link:
             $("#login-link").attr("href", "login.php?redirect=" + encodeURIComponent(url));
             //Set page title from response
