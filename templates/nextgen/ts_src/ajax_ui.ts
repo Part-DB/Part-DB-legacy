@@ -536,7 +536,8 @@ class AjaxUI {
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
 
             //Push the cleaned (no ajax request) to history
-            window.history.pushState(null, "", removeURLparam(settings.url, "ajax"));
+            let clean_url : string = settings.url.replace(/&ajax/g, "").replace(/\?ajax/g, "")
+            window.history.pushState(null, "", clean_url);
 
             //Update redirect param in login link:
             $("#login-link").attr("href", "login.php?redirect=" + encodeURIComponent(url));

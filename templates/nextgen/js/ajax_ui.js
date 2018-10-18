@@ -461,7 +461,8 @@ var AjaxUI = /** @class */ (function () {
         //Push only if it was a "GET" request and requested data was an HTML
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
             //Push the cleaned (no ajax request) to history
-            window.history.pushState(null, "", removeURLparam(settings.url, "ajax"));
+            var clean_url = settings.url.replace(/&ajax/g, "").replace(/\?ajax/g, "");
+            window.history.pushState(null, "", clean_url);
             //Update redirect param in login link:
             $("#login-link").attr("href", "login.php?redirect=" + encodeURIComponent(url));
             //Set page title from response
