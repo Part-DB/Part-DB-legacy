@@ -109,7 +109,7 @@
         </p>
         <strong><i class="fab fa-github fa-fw"></i> {t}Projektseite:{/t}</strong> {t escape=false link="https://github.com/Part-DB/Part-DB"}Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a class="link-external" target="_blank" href="%1">GitHub Projektseite</a>{/t}<br>
         <strong><i class="fas fa-question fa-fw"></i> {t}Hilfe{/t}</strong> {t escape=false link="https://github.com/Part-DB/Part-DB/wiki"}Hilfe und Tipps finden sie im <a class="link-external" href="%1" target="_blank">Wiki</a> der GitHub Seite.{/t} <br>
-        <strong><i class="fas fa-comments fa-fw"></i> Forum:</strong> {t escape=false link="https://www.mikrocontroller.net/topic/438916"}Für Fragen rund um die Part-DB gibt es einen Thread auf <a class="link-external" target="_blank" href="%1">mikrocontroller.net</a>{/t}<br>
+        <strong><i class="fas fa-comments fa-fw"></i> Forum:</strong> {t escape=false link="https://www.mikrocontroller.net/topic/461256"}Für Fragen rund um die Part-DB gibt es einen Thread auf <a class="link-external" target="_blank" href="%1">mikrocontroller.net</a>{/t}<br>
         <strong><i class="fas fa-info fa-fw"></i> Wiki:</strong> {t escape=false link="https://www.mikrocontroller.net/articles/Part-DB_RW_-_Lagerverwaltung"}Weitere Informationen gibt es im <a class="link-external" target="_blank" href="%1">mikrocontroller.net Artikel</a>{/t}<br>
         <br>
         {t}Initiator:{/t} <strong>Christoph Lechner</strong> - <a class="link-external" rel="noopener" target="_blank" href="http://www.cl-projects.de/">http://www.cl-projects.de/</a><br>
