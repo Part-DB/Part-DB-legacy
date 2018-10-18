@@ -11,7 +11,9 @@
             {foreach $attachement_types_loop as $attach_type}
                 <b>{$attach_type.attachement_type}:</b><br>
                 {foreach $attach_type.attachements_loop as $attach}
-                    {if $attach.is_picture}
+                    {if !$attach.file_existing}
+                        <i class="fas fa-skull-crossbones fa-fw fa-2x"></i>
+                    {elseif $attach.is_picture}
                         <a target="_blank" rel="noopener" href="{$attach.filename}" class="link-datasheet">
                             <img src="{$attach.filename}" data-title="{$attach.attachement_name|escape}" class="img-attachement" rel="popover">
                         </a>
