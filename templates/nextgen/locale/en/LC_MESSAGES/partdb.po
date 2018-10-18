@@ -10,7 +10,7 @@ msgstr ""
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
-"PO-Revision-Date: 2018-10-14 15:38\n"
+"PO-Revision-Date: 2018-10-18 17:58\n"
 
 #: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:5
 msgid "Tabs durch Leerzeichen ersetzen / Backup-Dateien löschen"
@@ -2081,11 +2081,15 @@ msgstr "Favorite Parts"
 msgid "Favorisierung aufheben"
 msgstr "Cancel favorites"
 
-#: templates/nextgen/show_part_info.php/smarty_attachements.tpl:25
+#: templates/nextgen/show_part_info.php/smarty_attachements.tpl:18
+msgid "Anhang nicht vorhanden"
+msgstr "Attachment file does not exist"
+
+#: templates/nextgen/show_part_info.php/smarty_attachements.tpl:31
 msgid "Dieses Bauteil besitzt keine Dateianhänge."
 msgstr "This part haven't any attachements"
 
-#: templates/nextgen/show_part_info.php/smarty_attachements.tpl:29
+#: templates/nextgen/show_part_info.php/smarty_attachements.tpl:35
 msgid "Dateianhänge hinzufügen"
 msgstr "Add attachement"
 
