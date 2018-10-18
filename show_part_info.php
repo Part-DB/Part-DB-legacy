@@ -310,7 +310,8 @@ if (! $fatal_error) {
                 /** @var $attachement \PartDB\Attachement */
                 $attachements_loop[] = array(   'attachement_name'  => $attachement->getName(),
                     'filename'          => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
-                    'is_picture'        => $attachement->isPicture());
+                    'is_picture'        => $attachement->isPicture(),
+                    'file_existing'     => file_exists($attachement->getFilename()));
             }
 
             if (count($attachements) > 0) {
