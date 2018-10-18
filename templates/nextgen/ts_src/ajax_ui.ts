@@ -26,6 +26,8 @@ class AjaxUI {
 
     private xhrPool : Array<JQueryXHR> = [];
 
+    private statePopped : boolean = false;
+
     /**
      * Creates a new AjaxUI object.
      */
@@ -475,6 +477,7 @@ class AjaxUI {
         let page : string = location.href;
         //Go back only when the the target isnt the empty index.
         if (page.indexOf(".php") !== -1 && page.indexOf("index.php") === -1) {
+            AjaxUI.getInstance().statePopped = true;
             $('#content').hide(0).load(addURLparam(location.href, "ajax") + " #content-data");
             $('#progressbar').show(0);
         }
@@ -536,8 +539,12 @@ class AjaxUI {
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
 
             //Push the cleaned (no ajax request) to history
-            let clean_url : string = settings.url.replace(/&ajax/g, "").replace(/\?ajax/g, "")
-            window.history.pushState(null, "", clean_url);
+            let clean_url : string = settings.url.replace(/&ajax/g, "").replace(/\?ajax/g, "");
+            if(this.statePopped == false) { //Only add this load to history if not an old value was loaded.
+                window.history.pushState(null, "", clean_url);
+            }
+
+            this.statePopped = false; //Reset the statePopped state.
 
             //Update redirect param in login link:
             $("#login-link").attr("href", "login.php?redirect=" + encodeURIComponent(url));
