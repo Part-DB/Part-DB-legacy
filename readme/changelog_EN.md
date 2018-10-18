@@ -1,5 +1,20 @@
 # Part-DB changelog
 
+## Part-DB 0.5.1
+## New functions
+* It is displayed in the part overview if the file linked to a part does not exist.
+
+## Bugfixes
+* Problems with the display of wide images (as attachments) in the part editing dialog
+* Missing attachment images are no longer displayed in part lists (led to display errors)
+* Problem that page "empty" was reloaded, if you click with the button from the edit_show_part_info.php dialog into the
+    jumped to the last parts list
+* Forward button in browser works now
+
+## Other
+* Fontawesome updated to version 5.4
+
+
 ## Part-DB 0.5.0
 ### New functions
 * Added viewer for existing 3D footprints
