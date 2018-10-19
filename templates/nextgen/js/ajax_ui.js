@@ -464,7 +464,10 @@ var AjaxUI = /** @class */ (function () {
         if (settings.type.toLowerCase() !== "post" && settings.dataType !== "json" && settings.dataType !== "jsonp") {
             //Push the cleaned (no ajax request) to history
             var clean_url = settings.url.replace(/&ajax/g, "").replace(/\?ajax/g, "");
-            window.history.pushState(null, "", clean_url);
+            if (this.statePopped == false) { //Only add this load to history if not an old value was loaded.
+                window.history.pushState(null, "", clean_url);
+            }
+            this.statePopped = false; //Reset the statePopped state.
             //Update redirect param in login link:
             $("#login-link").attr("href", "login.php?redirect=" + encodeURIComponent(url));
             //Set page title from response
