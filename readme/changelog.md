@@ -1,6 +1,6 @@
 # Part-DB Changelog
 
-## Part-DB 0.5.1
+## Part-DB 0.5.2
 ## Neue Funktionen
 * Es wird in der Bauteileübersicht angezeigt, wenn die mit einem Bauteil verknüpfte Datei nicht vorhanden ist
 
@@ -14,7 +14,8 @@
 ## Sonstiges
 * Fontawesome auf Version 5.4 geupdated
 
-### Bugfixe
+## Part-DB 0.5.1
+Diese Version wurde zurückgezogen.
 
 ## Part-DB 0.5.0
 ### Neue Funktionen
