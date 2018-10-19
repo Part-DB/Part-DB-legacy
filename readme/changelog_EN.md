@@ -1,6 +1,6 @@
 # Part-DB changelog
 
-## Part-DB 0.5.1
+## Part-DB 0.5.2
 ## New functions
 * It is displayed in the part overview if the file linked to a part does not exist.
 
@@ -14,6 +14,8 @@
 ## Other
 * Fontawesome updated to version 5.4
 
+## Part-DB 0.5.1
+This version has been withdrawn.
 
 ## Part-DB 0.5.0
 ### New functions
