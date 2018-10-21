@@ -354,6 +354,7 @@ class Database
         };
 
         $current = $this->getCurrentVersion();
+        $old_current = $this->getCurrentVersion(); //This one is used for the Database Update log entry
         $latest = $this->getLatestVersion();
 
         if ($this->transaction_active) {
@@ -528,7 +529,7 @@ class Database
         //Try to create an DatabaseUpdateEntry Log entry
         try {
             $l = new Log($this);
-            DatabaseUpdatedEntry::add($this, User::getLoggedInUser(),$l, $current, $latest, !$error);
+            DatabaseUpdatedEntry::add($this, User::getLoggedInUser(),$l, $old_current, $latest, !$error);
         } catch (Exception $ex) {
             //When an error happen, the DB log table was not created yet. There is nothing we can do here, so do nothing.
         }
