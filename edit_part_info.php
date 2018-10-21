@@ -71,7 +71,8 @@ $new_manufacturer_id        = isset($_POST['manufacturer_id'])           ? (inte
 $new_instock                = isset($_POST['instock'])                   ? (integer)$_POST['instock']                  : 0;
 $new_instock                = isset($_POST['instock_unknown'])           ? (integer) Part::INSTOCK_UNKNOWN                : $new_instock;
 $new_mininstock             = isset($_POST['mininstock'])                ? (integer)$_POST['mininstock']               : 0;
-$new_category_id            = isset($_POST['category_id'])               ? (integer)$_POST['category_id']              : 0;
+//The category ID is given as a GET param, so we need REQUEST here.
+$new_category_id            = isset($_REQUEST['category_id'])               ? (integer)$_REQUEST['category_id']        : 0;
 $new_storelocation_id       = isset($_POST['storelocation_id'])          ? (integer)$_POST['storelocation_id']         : 0;
 $new_footprint_id           = isset($_POST['footprint_id'])              ? (integer)$_POST['footprint_id']             : 0;
 $new_visible                = isset($_POST['visible']);
