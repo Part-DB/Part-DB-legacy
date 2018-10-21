@@ -64,10 +64,10 @@
                             </div>
                             {if $downloads_enable}
                                 <div class="col-sm-3">
-                                    <div class="checkbox">
-                                        <input type="checkbox" name="download_file" {if $attach.download_file}checked{/if}
+                                    <div class="form-check form-check-inline abc-checkbox">
+                                        <input class="form-check-input" type="checkbox" name="download_file" {if $attach.download_file}checked{/if}
                                                 {if !($can_attachement_edit)}disabled{/if}>
-                                        <label for="download_file">{t}Downloade Datei{/t}</label>
+                                        <label class="form-check-label" for="download_file">{t}Downloade Datei{/t}</label>
                                     </div>
                                 </div>
                             {/if}
