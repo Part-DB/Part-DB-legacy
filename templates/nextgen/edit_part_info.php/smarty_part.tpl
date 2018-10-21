@@ -73,13 +73,13 @@
                     </label>
                     <div class="col-md-8">
                         <input type="number" name="instock" id="instock" class="form-control" min="0"  placeholder="{t}z.B. 100{/t}"
-                               value="{if !$instock_unknown}{$instock}{/if}" onkeydown="if (event.keyCode == 13) { document.getElementById('btn_enter').click();}"
-                               {if !$can_instock || $instock_unknown}disabled{/if}>
+                               value="{if !isset($instock_unknown) || !$instock_unknown}{$instock}{/if}" onkeydown="if (event.keyCode == 13) { document.getElementById('btn_enter').click();}"
+                               {if !$can_instock || (isset($instock_unknown) && $instock_unknown)}disabled{/if}>
                     </div>
                     <div class="col-md-2">
                         <div class="form-check abc-checkbox form-check-inline form-control-plaintext">
                             <input type="checkbox" class="form-check-input" name="instock_unknown" id="instock_unknown" onchange="checkInstockUnknown();"
-                                   {if $instock_unknown}checked{/if} {if !$can_instock}disabled{/if}>
+                                   {if isset($instock_unknown) && $instock_unknown}checked{/if} {if !$can_instock}disabled{/if}>
                             <label class="form-check-label">{t}Unbekannt{/t}</label>
                         </div>
                     </div>
