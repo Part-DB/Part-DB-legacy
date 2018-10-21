@@ -87,6 +87,7 @@ var AjaxUI = /** @class */ (function () {
          }*/
         this.tree_fill();
         this.registerForm();
+        this.registerSubmitBtn();
         this.registerLinks();
         this.getTypeaheadData();
         //Calls registered actions

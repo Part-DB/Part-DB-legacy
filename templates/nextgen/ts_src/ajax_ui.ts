@@ -82,6 +82,7 @@ class AjaxUI {
 
         this.tree_fill();
         this.registerForm();
+        this.registerSubmitBtn();
         this.registerLinks();
 
         this.getTypeaheadData();
