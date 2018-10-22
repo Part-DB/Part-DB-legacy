@@ -208,7 +208,7 @@ if (!$fatal_error) {
         }
 
         //Show size preset in custom size inputs
-        if ($profile['label_size'] != "custom") {
+        if ($profile['label_size'] != "custom" && !empty($profile['label_size'])) {
             $exploded = explode("x", $profile['label_size']);
             $profile['custom_width'] = $exploded[0];
             $profile['custom_height'] = $exploded[1];
