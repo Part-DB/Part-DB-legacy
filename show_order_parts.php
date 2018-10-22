@@ -318,7 +318,9 @@ if (! $fatal_error) {
                     htmlspecialchars($export_string, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8')))), 'string');
         }*/
 
-        $html->setVariable('export_result', "$export_string");
+        if (isset($export_string)) {
+            $html->setVariable('export_result', "$export_string");
+        }
 
         // global stuff
         $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
