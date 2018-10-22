@@ -1,5 +1,13 @@
 # Part-DB changelog
 
+## Part-DB 0.5.3
+### Bugfixes
+* Fixed problem where category was not applied when creating a part from a category
+* Fixed problems with incorrectly styled checkboxes
+* Fixed problem where a part could not be created when the page was reloaded in the browser
+* Fixed incorrect value for "old version" in database upgrade log
+* Fixed several error messages in debug mode
+
 ## Part-DB 0.5.2
 ## New functions
 * It is displayed in the part overview if the file linked to a part does not exist.
