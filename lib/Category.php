@@ -223,11 +223,13 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
 
             return "";
         } else {
-            if ($show_escape || $this->db_data['default_description'] !== "@@") {
-                return $this->db_data['default_description'];
-            } else {
-                return "";
+            if(isset($this->db_data['default_description'])) {
+                if ($show_escape || $this->db_data['default_description'] !== "@@") {
+                    return $this->db_data['default_description'];
+                }
             }
+
+            return "";
         }
     }
 
