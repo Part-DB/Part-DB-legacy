@@ -287,6 +287,8 @@ if (! $fatal_error) {
                     global $config;
                     if ($config['edit_parts']['created_go_to_info'] xor $rightclicked) {
                         $html->redirect("show_part_info.php?pid=" . $part->getID(), true);
+                    } else {
+                        $html->redirect("edit_part_info.php?pid=" . $part->getID(), true);
                     }
                 } else {
                     $partname_hint = $category->getPartnameHint(true, false);
@@ -325,9 +327,9 @@ if (! $fatal_error) {
                     $messages[] = array('html' => generateInputHidden("comment", $new_comment), 'no_linebreak' => 'true');
                     $messages[] = array('html' => generateInputHidden("visible", $new_visible), 'no_linebreak' => 'true');
 
-
                     $partname_invalid = true;
                 }
+
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
