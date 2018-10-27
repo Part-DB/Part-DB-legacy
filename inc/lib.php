@@ -1402,7 +1402,7 @@ function generatePagination($page_link, $selected_page, $limit, $max_entries)
     $links[] = array("label" => '<i class="fa fa-bars" aria-hidden="true"></i>',
         "href" => $page_link . "&page=0",
         "active" => $selected_page == 0,
-        "hint" => _("Zeige alle Bauteile"));
+        "hint" => _("Alle anzeigen"));
 
     return array("lower_result" => $selected_page > 0 ? ($selected_page -1) * $limit + 1 : 1,
         "upper_result" => ($selected_page * $limit +1) <= $max_entries && $selected_page > 0 ? $selected_page * $limit +1 : $max_entries,
