@@ -311,7 +311,7 @@ if (! $fatal_error) {
                 $attachements_loop[] = array(   'attachement_name'  => $attachement->getName(),
                     'filename'          => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
                     'is_picture'        => $attachement->isPicture(),
-                    'file_existing'     => file_exists($attachement->getFilename()));
+                    'file_existing'     => $attachement->isFileExisting());
             }
 
             if (count($attachements) > 0) {

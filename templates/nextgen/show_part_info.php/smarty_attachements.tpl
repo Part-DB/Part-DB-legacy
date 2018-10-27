@@ -16,7 +16,7 @@
                             <i class="fas fa-exclamation-circle fa-fw"></i>
                             <b>{$attach.attachement_name}</b> ({$attach.filename}):
                             {t}Anhang nicht vorhanden{/t}
-                        </span>
+                        </span> <br>
                     {elseif $attach.is_picture}
                         <a target="_blank" rel="noopener" href="{$attach.filename}" class="link-datasheet">
                             <img src="{$attach.filename}" data-title="{$attach.attachement_name|escape}" class="img-attachement" rel="popover">
