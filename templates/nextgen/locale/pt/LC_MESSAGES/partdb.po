@@ -10,7 +10,7 @@ msgstr ""
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: Portuguese\n"
 "Language: pt_PT\n"
-"PO-Revision-Date: 2018-10-18 18:01\n"
+"PO-Revision-Date: 2018-10-27 18:22\n"
 
 #: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:5
 msgid "Tabs durch Leerzeichen ersetzen / Backup-Dateien löschen"
@@ -284,7 +284,7 @@ msgstr ""
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:189
 #: templates/nextgen/edit_groups.php/smarty_edit_groups.tpl:159
 #: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:202
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:213
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:216
 #: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:198
 #: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:200
 #: templates/nextgen/edit_users.php/smarty_edit_users.tpl:294
@@ -1046,20 +1046,24 @@ msgstr ""
 msgid "Bauteil erstellen"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:218
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:210
+msgid "Abbrechen"
+msgstr ""
+
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:221
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:146
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:174
 msgid "Kommentar/Zweck:"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:225
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:228
 #: templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:30
 #: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:86
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:440
 msgid "Änderungen verwerfen"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:229
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:232
 msgid "Rückkehr zur letzten Bauteileliste"
 msgstr ""
 
@@ -2202,7 +2206,6 @@ msgid "Profile"
 msgstr ""
 
 #: templates/nextgen/show_part_label.php/smarty_show_part_label.tpl:22
-#: templates/nextgen/system_log.php/smarty_main.tpl:41
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:635
 msgid "Typ:"
 msgstr ""
@@ -3330,6 +3333,10 @@ msgstr ""
 msgid "Kein Filter"
 msgstr ""
 
+#: templates/nextgen/system_log.php/smarty_main.tpl:41
+msgid "Ereignis:"
+msgstr ""
+
 #: templates/nextgen/system_log.php/smarty_main.tpl:45
 #: templates/nextgen/system_log.php/smarty_main.tpl:66
 msgid "Typ"
@@ -3375,7 +3382,7 @@ msgstr ""
 msgid "Aktualisieren"
 msgstr ""
 
-#: templates/nextgen/system_log.php/smarty_main.tpl:126
+#: templates/nextgen/system_log.php/smarty_main.tpl:127
 msgid "Eventlog"
 msgstr ""
 
