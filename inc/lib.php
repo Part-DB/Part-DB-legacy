@@ -270,6 +270,13 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
         throw new Exception(_('Ungültiges Array übergeben!'));
     }
 
+    //Dont allow to upload a PHP file.
+    if(strpos($file_array['name'], ".php") != false
+        || strpos($destination_filename, ".php") != false)
+    {
+        throw new \Exception(_("Es ist nicht erlaubt PHP Dateien hochzuladen!"));
+    }
+
     if ($destination_filename == null) {
         $destination_filename = $file_array['name'];
     }
@@ -559,6 +566,11 @@ function downloadFile($url, $path, $filename = "", $download_override = false)
     if ($filename == "") {
         $parts = parse_url($url);
         $filename = basename($parts['path']);
+    }
+
+    //Dont allow to upload a PHP file.
+    if(strpos($filename, ".php") != false) {
+        throw new \Exception(_("Es ist nicht erlaubt PHP Dateien herunterzuladen!"));
     }
 
     set_time_limit(30);
