@@ -1365,13 +1365,18 @@ function formatTimestamp($timestamp)
     }
 }
 
-function generatePagination($page_link, $selected_page, $limit, $max_entries)
+function generatePagination($page_link, $selected_page, $limit, $max_entries, $get_params = null)
 {
     $links = array();
 
+    $get_string = "";
+    if(!empty($get_params)) {
+        $get_string = '&' . http_build_query($get_params);
+    }
+
     //Back to first page
     $links[] = array("label" => '<i class="fa fa-angle-double-left" aria-hidden="true"></i>',
-        "href" => $page_link . "&page=1&limit=$limit",
+        "href" => $page_link . "&page=1&limit=$limit" . $get_string,
         "disabled" => $selected_page == 1,
         "hint" => _("Springe zur ersten Seite"));
 
@@ -1388,19 +1393,19 @@ function generatePagination($page_link, $selected_page, $limit, $max_entries)
 
     for ($n=$min_number; $n <= $max_number; $n++) {
         $links[] = array("label" => $n,
-            "href" => $page_link . "&page=" . ($n). "&limit=$limit",
+            "href" => $page_link . "&page=" . ($n). "&limit=$limit" . $get_string,
             "active" => $n == $selected_page);
     }
 
     //Jump to last page.
     $links[] = array("label" => '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
-        "href" => $page_link . "&page=$max_page&limit=$limit",
+        "href" => $page_link . "&page=$max_page&limit=$limit" . $get_string,
         "disabled" => $selected_page == $max_page,
         "hint" => _("Springe zur letzten Seite"));
 
     //Show all results
     $links[] = array("label" => '<i class="fa fa-bars" aria-hidden="true"></i>',
-        "href" => $page_link . "&page=0",
+        "href" => $page_link . "&page=0" . $get_string,
         "active" => $selected_page == 0,
         "hint" => _("Alle anzeigen"));
 
