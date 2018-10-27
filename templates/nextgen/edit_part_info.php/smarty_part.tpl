@@ -206,6 +206,9 @@
                         {if $is_new_part}
                             <button type="button" class="btn btn-success submit rightclick" name="create_new_part" id="btn_enter"
                             {if !$can_create}disabled{/if}>{t}Bauteil erstellen{/t}</button>
+                            {if !empty($back_link)}
+                                <a class="btn btn-danger" href="{$back_link}">{t}Abbrechen{/t}</a>
+                            {/if}
                         {else}
                             <input type="hidden" name="pid" value="{$pid}">
                             <div class="btn-group">
