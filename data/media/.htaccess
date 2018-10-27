@@ -1,2 +1,7 @@
 Allow from all
 Options -Indexes
+
+<Files *.php>
+    Order Deny,Allow
+    Deny from all
+</Files>
