@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: part-db\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-27 20:06+0200\n"
-"PO-Revision-Date: 2018-10-27 18:21\n"
+"PO-Revision-Date: 2018-10-27 18:31\n"
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -1592,7 +1592,7 @@ msgstr "The part \"%s\" could not be deleted!\n"
 
 #: lib/Part.php:231 lib/Storelocation.php:272
 msgid "Label type unknown: "
-msgstr "Label type unknown:"
+msgstr "Label type unknown: "
 
 #: lib/Part.php:245
 msgid "$old_instock und $new_instock müssen vom Typ int sein!"
@@ -1808,7 +1808,7 @@ msgstr "List Obsolete Parts"
 
 #: lib/Permissions/PartPermission.php:67
 msgid "Teile mit unbekanntem Lagerbestand auflisten"
-msgstr "List parts with unknown instock."
+msgstr "List parts with unknown instock"
 
 #: lib/Permissions/PartPermission.php:68
 msgid "Favoritenstatus ändern"
@@ -1816,7 +1816,7 @@ msgstr "Change favorite state"
 
 #: lib/Permissions/PartPermission.php:69
 msgid "Favorisierte Bauteile auflisten"
-msgstr "List favorited parts"
+msgstr "List favorite parts"
 
 #: lib/Permissions/PartPermission.php:70
 msgid "Zuletzt bearbeitete/hinzugefügte Bauteile auflisten"
@@ -1857,7 +1857,7 @@ msgstr "Min. in stock"
 
 #: lib/Permissions/PermissionManager.php:249
 msgid "Dateianhänge"
-msgstr "Attachement"
+msgstr "Attachment"
 
 #: lib/Permissions/PermissionManager.php:250
 msgid "Bestellinformationen"
@@ -1916,7 +1916,7 @@ msgstr "View own actions in log"
 
 #: lib/Permissions/SystemPermission.php:44
 msgid "Debugtools benutzen"
-msgstr "Use debugtools"
+msgstr "Use debug tools"
 
 #: lib/Permissions/SystemPermission.php:45
 msgid "Logs anzeigen"
@@ -1940,7 +1940,7 @@ msgstr "Set password"
 
 #: lib/Permissions/UserPermission.php:60
 msgid "Benutzereinstellungen ändern"
-msgstr "Change user settings."
+msgstr "Change user settings"
 
 #: lib/Pricedetails.php:128
 msgid "Die ausgewählte Preisinformation kann erst gelöscht werden wenn es sonst keine weiteren Preisinformationen gibt!"
@@ -2038,7 +2038,7 @@ msgstr "The system administrator (ID=1) cannot be deleted!"
 #: lib/User.php:418
 #, php-format
 msgid "Das neue Password muss mindestens %d Zeichen lang sein"
-msgstr "The new password has to be at least %d chars long."
+msgstr "The new password has to be at least %d chars long"
 
 #: lib/User.php:421
 msgid "Das Password des anonymous Users kann nicht geändert werden!"
@@ -2112,11 +2112,11 @@ msgstr "No valid category-id was transmitted!"
 
 #: show_footprint_parts.php:92
 msgid "Es wurde keine gültige Footprint-ID übermittelt!"
-msgstr "No valid footprint id was submitted."
+msgstr "No valid footprint id was submitted!"
 
 #: show_location_parts.php:92
 msgid "Es wurde keine gültige Lagerort-ID übermittelt!"
-msgstr "No valid storelocation id was submitted."
+msgstr "No valid storelocation id was submitted!"
 
 #: show_part_info.php:76
 msgid "Label input is not valid!"
@@ -2124,7 +2124,7 @@ msgstr "Label input is not valid!"
 
 #: show_part_info.php:107 show_part_info.php:221
 msgid "Detailinfo"
-msgstr "Detailview"
+msgstr "Detail view"
 
 #: show_part_info.php:187
 msgid "Ungültige Eingabedaten!"
@@ -2358,11 +2358,11 @@ msgstr "The data is invalid!"
 
 #: tools_import.php:132
 msgid "Die Daten wurden erfolgreich importiert!"
-msgstr "The data was imported successful."
+msgstr "The data was imported successful!"
 
 #: tools_import.php:146
 msgid "Es gab ein Fehler beim Importieren!"
-msgstr "An error occured while import!"
+msgstr "An error occurred while import!"
 
 #: user_info.php:47
 msgid "Benutzerinformationen"
