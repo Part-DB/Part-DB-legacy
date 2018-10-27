@@ -7,7 +7,7 @@
         </a>
     </div>
     <div class="card-collapse collapse card-body" id="panel-filter">
-        <form class="form-horizontal no-progbar" method="post">
+        <form class="form-horizontal no-progbar" method="get">
             <div class="form-group row">
                 <label class="col-md-2 col-form-label">{t}Minimales Loglevel:{/t}</label>
                 <div class="col-md-10">
