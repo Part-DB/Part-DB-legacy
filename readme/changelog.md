@@ -1,17 +1,25 @@
 # Part-DB Changelog
 
+## Part-DB 0.5.3
+### Bugfixes
+* Problem behoben, dass die Kategorie nicht übernommen wurde, wenn man ein Bauteil aus einer Kategorie heraus erstellt
+* Probleme mit nicht korrekt gestylten Checkboxes behoben
+* Problem behoben, dass ein Bauteil nicht angelegt werden konnte, wenn die Seite im Browser neu geladen wurde
+* Fehlerhafter Wert für "Alte Version" beim Datenbank Upgrade Log behoben
+* Diverse Fehlermeldungen im Debugmodus behoben
+
 ## Part-DB 0.5.2
-## Neue Funktionen
+### Neue Funktionen
 * Es wird in der Bauteileübersicht angezeigt, wenn die mit einem Bauteil verknüpfte Datei nicht vorhanden ist
 
-## Bugfixes
+### Bugfixes
 * Probleme mit der Darstellung von breiten Bildern (als Anhang) im Bauteilebearbeitungsdialog
 * Nicht vorhandene Anhangsbilder werden nicht mehr in Bauteilelisten angezeigt (führte zu Darstellungsfehlern)
 * Problem das Seite "leer" nachgeladen wurde, wenn man mit dem Button aus dem edit_show_part_info.php Dialog in die
     letzte Bauteileliste gesprungen ist
 * Vorwärts Button im Browser funktionier nun
 
-## Sonstiges
+### Sonstiges
 * Fontawesome auf Version 5.4 geupdated
 
 ## Part-DB 0.5.1
