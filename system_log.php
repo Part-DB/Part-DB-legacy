@@ -142,11 +142,22 @@ if (! $fatal_error) {
         $html->setLoop('log', $table_loop);
         $html->setVariable('log_rowcount', count($entries));
 
+        $extra = array("mode" => $mode,
+            "min_level" => $min_level,
+            "filter_user" => $filter_user,
+            "search" => $search,
+            "filter_type" => $filter_type,
+            "target_type" => $target_type,
+            "target_id" => $target_id,
+            "datetime_min" => $datetime_min,
+            "datetime_max" => $datetime_max);
+
         $html->setLoop("pagination", generatePagination(
             "system_log.php?",
             $page,
             $limit,
-            $count
+            $count,
+            $extra
         ));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);

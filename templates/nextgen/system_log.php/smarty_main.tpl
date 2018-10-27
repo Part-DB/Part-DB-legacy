@@ -7,7 +7,7 @@
         </a>
     </div>
     <div class="card-collapse collapse card-body" id="panel-filter">
-        <form class="form-horizontal no-progbar" method="get">
+        <form class="form-horizontal no-progbar" method="post">
             <div class="form-group row">
                 <label class="col-md-2 col-form-label">{t}Minimales Loglevel:{/t}</label>
                 <div class="col-md-10">
@@ -109,6 +109,7 @@
             <div class="form-group row">
                 <div class="offset-md-2 col-md-10">
                     <button class="btn btn-primary">{t}Aktualisieren{/t}</button>
+                    <a class="btn btn-secondary" href="system_log.php">Zurücksetzen</a>
                 </div>
             </div>
         </form>
