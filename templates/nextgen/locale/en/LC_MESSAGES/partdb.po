@@ -10,7 +10,7 @@ msgstr ""
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
-"PO-Revision-Date: 2018-10-27 18:41\n"
+"PO-Revision-Date: 2018-10-28 10:40\n"
 
 #: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:5
 msgid "Tabs durch Leerzeichen ersetzen / Backup-Dateien löschen"
@@ -875,7 +875,7 @@ msgstr "Download file"
 #: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:98
 #: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:47
 #: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:109
-#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:36
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:41
 #: templates/nextgen/show_device_parts.php/smarty_attachements.tpl:82
 #: templates/nextgen/show_device_parts.php/smarty_comment.tpl:17
 #: templates/nextgen/show_part_info.php/smarty_devices.tpl:43
@@ -1699,13 +1699,16 @@ msgid "Teile in der Kategorie"
 msgstr "Parts in the category"
 
 #: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:3
-msgid "Teile per Name zuordnen"
-msgstr "Assign parts per name:"
+msgid "Bauteile aufnehmen/zuordnen"
+msgstr "Add parts"
 
 #: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:7
-#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:10
 msgid "Suchwort:"
 msgstr "Search term:"
+
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:10
+msgid "Suchwort"
+msgstr "Search term"
 
 #: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:14
 msgid "Teile auflisten"
@@ -1715,11 +1718,15 @@ msgstr "List parts"
 msgid "Die Suche ergab keine Treffer!"
 msgstr "The search returned no results!"
 
-#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:33
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:27
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:42
+msgid "Neues Bauteil anlegen"
+msgstr "Add new part"
+
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:38
 msgid "Falls Sie Bauteile zur Baugruppe hinzufügen, die dort bereits vorhanden sind,\n"
-"                    dann werden die Stückzahlen addiert und die Bestückungsdaten mit einem Komma aneinandergehängt."
-msgstr "If you add components to the assembly that are already there,\n"
-"                    then the number of pieces is added and the placement data is added together with a comma."
+"                                dann werden die Stückzahlen addiert und die Bestückungsdaten mit einem Komma aneinandergehängt."
+msgstr "If you add components to the assembly that are already there, then the number of pieces is added and the placement data is added together with a comma."
 
 #: templates/nextgen/show_device_parts.php/smarty_comment.tpl:6
 #: templates/nextgen/smarty_eventlog.tpl:10
