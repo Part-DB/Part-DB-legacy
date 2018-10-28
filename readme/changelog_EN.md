@@ -1,5 +1,27 @@
 # Part-DB changelog
 
+## Part-DB 0.5.4
+### New functions
+* Reset button to reset the filter to system_log.php
+* Maximum number of parts that can be added/removed/ordered via show_part_info.php increased to 999999
+* A hint is displayed when the user tries to exceed the part limit (2^32).
+* Added a button to cancel the creation of a part
+* Number of existing parts are displayed on show_device_parts.php when adding parts
+* In the "Add Parts" panel on show_device_parts.php, a link to create a part has been added (search term is used as part name)
+
+### Bugfixes
+* **Caution**: The upload and execution (under Apache2) of PHP files will now be prevented.
+* URLs in file attachments are not regarded as faulty
+* Improved naming of some labels
+* Element numbers in page selection are now correct
+* If the next page is called in the system log, the filter is now taken into account.
+* If, after creating a component, the page is reloaded in the browser, the edit dialog is displayed correctly.
+* Fixed a bug in the English translation
+* Fixed visual errors on show_device_parts.php
+
+### Miscellaneous
+* Composer dependencies updated
+
 ## Part-DB 0.5.3
 ### Bugfixes
 * Fixed problem where category was not applied when creating a part from a category
