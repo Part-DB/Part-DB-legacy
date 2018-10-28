@@ -1,5 +1,28 @@
 # Part-DB Changelog
 
+## Part-DB 0.5.4
+### Neue Funktionen
+* Reset Button zum Zurücksetzen des Filters auf system_log.php
+* Maximale Zahl der Bauteile, die über show_part_info.php hinzugefügt/entnommen/bestellt werden können, auf 999999 erhöht
+* Es wird ein Hinweis angezeigt, wenn der Benutzer versucht das Bauteilelimit (2^32) zu überschreiten versucht
+* Ein Button hinzugefügt, um das Anlegen eines Bauteils abzubrechen
+* Zahl der Vorhanden Bauteile werden beim Bauteile hinzufügen auf show_device_parts.php angezeigt
+* Im "Bauteile hinzufügen" Panel auf show_device_parts.php, wurde ein Link zum Anlegen eines Bauteils hinzugefügt (Suchbegriff wird als Bauteilename übernommen)
+* 
+
+### Bugfixes
+* **Achtung**: Das Hochladen und die Ausführung (unter Apache2) von PHP Dateien wird jetzt verhindert
+* URLs in Dateianhängen werden nicht als fehlerhaft angesehen
+* Benennung einiger Labels verbessert
+* Elementzahlen in Seitenauswahl sind nun korrekt
+* Wenn im Systemlog die nächste Seite aufgerufen wird, dann wird jetzt der Filter berücksichtigt
+* Wenn nach dem Anlegen eines Bauteils, die Seite im Browser neugeladen wird, wird korrekt der Bearbeitendialog angezeigt
+* Fehler in der Englischen Übersetzung behoben
+* Visuelle Fehler auf show_device_parts.php behoben
+
+### Sonstiges
+* Composer Abhängigkeiten aktualisiert
+
 ## Part-DB 0.5.3
 ### Bugfixes
 * Problem behoben, dass die Kategorie nicht übernommen wurde, wenn man ein Bauteil aus einer Kategorie heraus erstellt
