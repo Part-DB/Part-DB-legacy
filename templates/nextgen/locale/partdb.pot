@@ -888,7 +888,7 @@ msgstr ""
 #: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:98
 #: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:47
 #: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:109
-#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:36
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:41
 #: templates/nextgen/show_device_parts.php/smarty_attachements.tpl:82
 #: templates/nextgen/show_device_parts.php/smarty_comment.tpl:17
 #: templates/nextgen/show_part_info.php/smarty_devices.tpl:43
@@ -1756,12 +1756,15 @@ msgid "Teile in der Kategorie"
 msgstr ""
 
 #: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:3
-msgid "Teile per Name zuordnen"
+msgid "Bauteile aufnehmen/zuordnen"
 msgstr ""
 
 #: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:7
-#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:10
 msgid "Suchwort:"
+msgstr ""
+
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:10
+msgid "Suchwort"
 msgstr ""
 
 #: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:14
@@ -1772,11 +1775,16 @@ msgstr ""
 msgid "Die Suche ergab keine Treffer!"
 msgstr ""
 
-#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:33
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:27
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:42
+msgid "Neues Bauteil anlegen"
+msgstr ""
+
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:38
 msgid ""
 "Falls Sie Bauteile zur Baugruppe hinzufügen, die dort bereits vorhanden "
 "sind,\n"
-"                    dann werden die Stückzahlen addiert und die "
+"                                dann werden die Stückzahlen addiert und die "
 "Bestückungsdaten mit einem Komma aneinandergehängt."
 msgstr ""
 
