@@ -30,8 +30,8 @@
                     <div class="row">
                         {include "../smarty_table.tpl"}
                     </div>
-                    <i class="row col-md-12">{t}Falls Sie Bauteile zur Baugruppe hinzufügen, die dort bereits vorhanden sind,
-                    dann werden die Stückzahlen addiert und die Bestückungsdaten mit einem Komma aneinandergehängt.{/t}</i>
+                    <p class="row col-md-12 mb-3 text-muted">{t}Falls Sie Bauteile zur Baugruppe hinzufügen, die dort bereits vorhanden sind,
+                    dann werden die Stückzahlen addiert und die Bestückungsdaten mit einem Komma aneinandergehängt.{/t}</p>
                     <input type="hidden" name="searched_parts_rowcount" value="{$searched_parts_rowcount}">
                     <button class="btn btn-success" type="submit" name="assign_by_selected">{t}Hinzufügen{/t}</button>
                 </form>
