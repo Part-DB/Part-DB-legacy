@@ -135,7 +135,7 @@
                         <div class="col-md-12">
                             <label for="n_less">{t}Teile entnehmen:{/t}</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="n_less" min="0" max="999" value="1" placeholder="Anzahl" {if !$can_instock || $instock_unknown}disabled{/if}>
+                                <input type="number" class="form-control" name="n_less" min="0" max="999999" value="1" placeholder="Anzahl" {if !$can_instock || $instock_unknown}disabled{/if}>
                                 <div class="input-group-append">
                                     <div class="btn-group">
                                         <button type="submit" class="btn btn-outline-secondary btn-group-append" name="dec" {if !$can_instock || $instock_unknown}disabled{/if}>{t}Entnehmen{/t}</button>
@@ -163,7 +163,7 @@
                         <div class="col-md-12">
                             <label for="n_more">{t}Teile hinzufügen{/t}:</label>
                             <div class="input-group">
-                                <input type="number" class="form-control" name="n_more" min="0" max="999" value="1" {if !$can_instock || $instock_unknown}disabled{/if}>
+                                <input type="number" class="form-control" name="n_more" min="0" max="999999" value="1" {if !$can_instock || $instock_unknown}disabled{/if}>
                                 <div class="input-group-append">
                                     <div class="btn-group">
                                         <button type="submit" class="btn  btn-outline-secondary btn-group-append" name="inc" {if !$can_instock || $instock_unknown}disabled{/if}>{t}Hinzufügen{/t}</button>
@@ -201,7 +201,7 @@
                                     {else}
                                         <label for="order_quantity">{t}Zum Bestellen vormerken:{/t}</label>
                                         <div class="input-group">
-                                            <input type="number" min="0" max="999" class="form-control" value="1" name="order_quantity"
+                                            <input type="number" min="0" max="999999" class="form-control" value="1" name="order_quantity"
                                                    placeholder="Bestellmenge" {if !$can_order_edit}disabled{/if}><br>
                                             <span class="input-group-append">
                                                     <button type="submit" class="btn btn-outline-secondary"

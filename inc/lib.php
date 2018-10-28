@@ -270,6 +270,13 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
         throw new Exception(_('Ungültiges Array übergeben!'));
     }
 
+    //Dont allow to upload a PHP file.
+    if(strpos($file_array['name'], ".php") != false
+        || strpos($destination_filename, ".php") != false)
+    {
+        throw new \Exception(_("Es ist nicht erlaubt PHP Dateien hochzuladen!"));
+    }
+
     if ($destination_filename == null) {
         $destination_filename = $file_array['name'];
     }
@@ -559,6 +566,11 @@ function downloadFile($url, $path, $filename = "", $download_override = false)
     if ($filename == "") {
         $parts = parse_url($url);
         $filename = basename($parts['path']);
+    }
+
+    //Dont allow to upload a PHP file.
+    if(strpos($filename, ".php") != false) {
+        throw new \Exception(_("Es ist nicht erlaubt PHP Dateien herunterzuladen!"));
     }
 
     set_time_limit(30);
@@ -1353,13 +1365,18 @@ function formatTimestamp($timestamp)
     }
 }
 
-function generatePagination($page_link, $selected_page, $limit, $max_entries)
+function generatePagination($page_link, $selected_page, $limit, $max_entries, $get_params = null)
 {
     $links = array();
 
+    $get_string = "";
+    if(!empty($get_params)) {
+        $get_string = '&' . http_build_query($get_params);
+    }
+
     //Back to first page
     $links[] = array("label" => '<i class="fa fa-angle-double-left" aria-hidden="true"></i>',
-        "href" => $page_link . "&page=1&limit=$limit",
+        "href" => $page_link . "&page=1&limit=$limit" . $get_string,
         "disabled" => $selected_page == 1,
         "hint" => _("Springe zur ersten Seite"));
 
@@ -1376,24 +1393,31 @@ function generatePagination($page_link, $selected_page, $limit, $max_entries)
 
     for ($n=$min_number; $n <= $max_number; $n++) {
         $links[] = array("label" => $n,
-            "href" => $page_link . "&page=" . ($n). "&limit=$limit",
+            "href" => $page_link . "&page=" . ($n). "&limit=$limit" . $get_string,
             "active" => $n == $selected_page);
     }
 
     //Jump to last page.
     $links[] = array("label" => '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
-        "href" => $page_link . "&page=$max_page&limit=$limit",
+        "href" => $page_link . "&page=$max_page&limit=$limit" . $get_string,
         "disabled" => $selected_page == $max_page,
         "hint" => _("Springe zur letzten Seite"));
 
     //Show all results
     $links[] = array("label" => '<i class="fa fa-bars" aria-hidden="true"></i>',
-        "href" => $page_link . "&page=0",
+        "href" => $page_link . "&page=0" . $get_string,
         "active" => $selected_page == 0,
-        "hint" => _("Zeige alle Bauteile"));
+        "hint" => _("Alle anzeigen"));
 
-    return array("lower_result" => $selected_page > 0 ? ($selected_page -1) * $limit + 1 : 1,
-        "upper_result" => ($selected_page * $limit +1) <= $max_entries && $selected_page > 0 ? $selected_page * $limit +1 : $max_entries,
+    $upper_results = ($selected_page * $limit + 1) <= $max_entries && $selected_page > 0 ? $selected_page * $limit : $max_entries;
+    if($upper_results == 0) {
+        $lower_results = 0;
+    } else {
+        $lower_results = $selected_page > 0 ? ($selected_page - 1) * $limit + 1 : 1;
+    }
+
+    return array("lower_result" =>  $lower_results,
+        "upper_result" => $upper_results,
         "max_entries" => $max_entries,
         "entries" => $links);
 }

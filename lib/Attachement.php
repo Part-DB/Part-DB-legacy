@@ -223,6 +223,11 @@ class Attachement extends Base\NamedDBElement
         return $this->element;
     }
 
+    public function isFileExisting()
+    {
+        return file_exists($this->getFilename()) || isURL($this->getFilename());
+    }
+
     /**
      * Get the filename (absolute path from filesystem root, as a UNIX path [only slashes])
      *

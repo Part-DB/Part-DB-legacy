@@ -1541,10 +1541,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             switch ($caption) {
                 case 'hover_picture':
                     $picture_filename = str_replace(BASE, BASE_RELATIVE, $this->getMasterPictureFilename(true));
-                    if(!file_exists($this->getMasterPictureFilename(true))) { //When filename is invalid then dont show picture.
+                    if($this->getMasterPictureAttachement() != null && !$this->getMasterPictureAttachement()->isFileExisting()) { //When filename is invalid then dont show picture.
                         $picture_filename = "";
                     }
-
                     $row_field['picture_name']  = strlen($picture_filename) ? basename($picture_filename) : '';
                     $row_field['small_picture'] = strlen($picture_filename) ? $picture_filename : '';
                     $row_field['hover_picture'] = strlen($picture_filename) ? $picture_filename : '';

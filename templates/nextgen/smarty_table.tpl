@@ -313,7 +313,7 @@
                                            {if isset($can_part_edit) && isset($can_part_delete) && !$can_part_edit && !$can_part_delete}disabled{/if}>
                                     <span class="export-helper" data-target=""></span>
                                     <div class="input-group-append">
-                                        <button class="btn btn-default btn-sm" type="button" onClick="elements['quantity_{$row.row_index}'].value=0"
+                                        <button class="btn btn-secondary btn-sm" type="button" onClick="elements['quantity_{$row.row_index}'].value=0"
                                                 {if isset($can_part_delete) && !$can_part_delete}disabled{/if}>
                                             <i class="fa fa-times" aria-hidden="true"></i></button>
                                     </div>

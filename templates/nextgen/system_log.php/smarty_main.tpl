@@ -38,7 +38,7 @@
             </div>
 
             <div class="form-group row">
-                <label class="col-md-2 col-form-label">{t}Typ:{/t}</label>
+                <label class="col-md-2 col-form-label">{t}Ereignis:{/t}</label>
                 <div class="col-md-10">
                     <select name="filter_type" class="form-control selectpicker" data-live-search="true">
                         <option value="-1">{t}Kein Filter{/t}</option>
@@ -109,6 +109,7 @@
             <div class="form-group row">
                 <div class="offset-md-2 col-md-10">
                     <button class="btn btn-primary">{t}Aktualisieren{/t}</button>
+                    <a class="btn btn-secondary" href="system_log.php">Zurücksetzen</a>
                 </div>
             </div>
         </form>

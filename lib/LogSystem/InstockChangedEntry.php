@@ -198,6 +198,9 @@ class InstockChangedEntry extends BaseEntry
         }
 
         if (!is_int($old_instock) || !is_int($new_instock)) {
+            if (is_float($old_instock) || is_float($new_instock)) {
+               throw new \RuntimeException(sprintf(_('Es können maximal %d Bauteile vorhanden sein!'), PHP_INT_MAX));
+            }
             throw new \RuntimeException(_('$old_instock und $new_instock müssen vom Typ int sein'));
         }
 
