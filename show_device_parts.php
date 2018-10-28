@@ -214,6 +214,7 @@ if (! $fatal_error) {
                 $searched_parts_loop = Part::buildTemplateTableArray($searched_parts, 'searched_device_parts');
                 $html->setVariable('searched_parts_rowcount', count($searched_parts), 'integer');
                 $html->setVariable('no_searched_parts_found', (count($searched_parts) == 0), 'integer');
+                $html->setVariable("part_name_search", $new_part_name);
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }

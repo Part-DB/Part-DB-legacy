@@ -16,7 +16,7 @@
                 </div>
                 
                 <div class="form-group">
-                    <div class="col-md-12"><p class="help-block">{t}Teile mit der Stückzahl "0" werden beim Übernehmen aus dieser Baugruppe entfernt.{/t}</p></div>
+                    <div class="col-md-12"><p class="help-block text-muted">{t}Teile mit der Stückzahl "0" werden beim Übernehmen aus dieser Baugruppe entfernt.{/t}</p></div>
                 </div>
                    
                 <input type="hidden" name="device_parts_rowcount" value="{$device_parts_rowcount}">

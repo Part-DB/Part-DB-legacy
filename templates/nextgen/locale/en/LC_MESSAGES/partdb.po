@@ -10,7 +10,7 @@ msgstr ""
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
-"PO-Revision-Date: 2018-10-18 17:58\n"
+"PO-Revision-Date: 2018-10-28 10:34\n"
 
 #: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:5
 msgid "Tabs durch Leerzeichen ersetzen / Backup-Dateien löschen"
@@ -72,7 +72,7 @@ msgstr "Output"
 
 #: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:5
 msgid "Dateitypen für Dateianhänge"
-msgstr "Filetype for attachements"
+msgstr "Filetype for attachments"
 
 #: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:17
 #: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:28
@@ -124,11 +124,11 @@ msgstr "Edit"
 
 #: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:41
 msgid "Neuen Dateityp hinzufügen:"
-msgstr "Add new filetype"
+msgstr "Add new filetype:"
 
 #: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:44
 msgid "Dateityp bearbeiten:"
-msgstr "Edit filetype"
+msgstr "Edit filetype:"
 
 #: templates/nextgen/edit_attachement_types.php/smarty_edit_attachement_types.tpl:46
 msgid "Es ist keine Dateityp angewählt!"
@@ -284,7 +284,7 @@ msgstr "Add another filetype"
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:189
 #: templates/nextgen/edit_groups.php/smarty_edit_groups.tpl:159
 #: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:202
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:213
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:216
 #: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:198
 #: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:200
 #: templates/nextgen/edit_users.php/smarty_edit_users.tpl:294
@@ -395,7 +395,7 @@ msgstr "Parts in this category (with subcategories) can not have manufacturers"
 
 #: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:172
 msgid "Automatische Links zu Datenblättern deaktivieren:"
-msgstr "Deactive automatic links to datasheets:"
+msgstr "Deactivate automatic links to datasheets:"
 
 #: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:178
 msgid "Teile in dieser Kategorie (inkl. allen Unterkategorien) haben keine automatisch erzeugten Links zu Datenblättern"
@@ -407,7 +407,7 @@ msgstr "Disable automatically generated part properties:"
 
 #: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:190
 msgid "Teile in dieser Kategorie (inkl. allen Unterkategorien) haben keine automatisch erzeugten Bauteileigenschaften"
-msgstr "Parts in this category (incl. all subcategories) do not have automatically generated part properties."
+msgstr "Parts in this category (incl. all subcategories) do not have automatically generated part properties"
 
 #: templates/nextgen/edit_categories.php/smarty_edit_categories.tpl:246
 msgid "Neue Kategorie anlegen"
@@ -434,7 +434,7 @@ msgstr "New device"
 
 #: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:47
 msgid "Neue Baugruppe hinzufügen:"
-msgstr "Add new device"
+msgstr "Add new device:"
 
 #: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:50
 msgid "Baugruppe bearbeiten:"
@@ -557,7 +557,7 @@ msgstr "Footprints with broken filenames"
 
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:207
 msgid "Die Dateinamen der folgenden Footprints konnten keiner Bilddatei zugeordnet werden. Bitte überprüfen bzw. korrigieren Sie die vorgeschlagenen Dateien, um sie dann zu übernehmen. Bereits gesetzte Haken bedeuten, dass für die jeweiligen Footprints exakt gleichnamige Dateien gefunden wurden."
-msgstr "The filenames of the following parts could not be assiged to an image. Please check and verify the suggested files to apply them.\n"
+msgstr "The filenames of the following parts could not be assigned to an image. Please check and verify the suggested files to apply them.\n"
 "Entries are already if filenames with the exact same name as the footprint were found."
 
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:213
@@ -585,7 +585,7 @@ msgstr "Suggested filenames"
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:326
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:334
 msgid "Dateiname löschen und später selber von Hand setzen."
-msgstr "Remove filename and add one later manually"
+msgstr "Remove filename and add one later manually."
 
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:266
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:343
@@ -594,11 +594,11 @@ msgstr "Apply suggested filename:"
 
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:283
 msgid "Footprints mit fehlerhaften Modelnamen"
-msgstr "Footprints with broken modelnames"
+msgstr "Footprints with broken model names"
 
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:286
 msgid "Die Dateinamen der folgenden Footprints konnten keinem Model zugeordnet werden. Bitte überprüfen bzw. korrigieren Sie die vorgeschlagenen Dateien, um sie dann zu übernehmen. Bereits gesetzte Haken bedeuten, dass für die jeweiligen Footprints exakt gleichnamige Dateien gefunden wurden."
-msgstr "The filenames of the following parts could not be assiged to a model. Please check and verify the suggested files to apply them.\n"
+msgstr "The filenames of the following parts could not be assigned to a model. Please check and verify the suggested files to apply them.\n"
 "Entries are already if filenames with the exact same name as the footprint were found."
 
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:346
@@ -693,11 +693,11 @@ msgstr "New manufacturer"
 
 #: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:41
 msgid "Neuen Hersteller hinzufügen:"
-msgstr "Add new manufacturer"
+msgstr "Add new manufacturer:"
 
 #: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:44
 msgid "Hersteller bearbeiten:"
-msgstr "Edit manufacturer"
+msgstr "Edit manufacturer:"
 
 #: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:46
 msgid "Es ist kein Hersteller angewählt!"
@@ -720,7 +720,7 @@ msgstr "Address:"
 #: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:81
 #: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:82
 msgid "z.B. Musterstraße 1"
-msgstr "e.g. Examplestreet"
+msgstr "e.g. Example street"
 
 #: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:87
 #: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:88
@@ -781,11 +781,11 @@ msgstr "e.g. customer ID"
 
 #: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:196
 msgid "Neuen Hersteller anlegen"
-msgstr "Add new manufacturer:"
+msgstr "Add new manufacturer"
 
 #: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:199
 msgid "Weitere Hersteller anlegen"
-msgstr "Add another manufacturer:"
+msgstr "Add another manufacturer"
 
 #: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:203
 msgid "Hersteller löschen"
@@ -807,7 +807,7 @@ msgstr "Remove part:"
 #: templates/nextgen/edit_part_info.php/smarty_actions.tpl:13
 #: templates/nextgen/show_part_info.php/smarty_actions.tpl:30
 msgid "Lösche Teil!"
-msgstr "Delete part"
+msgstr "Delete part!"
 
 #: templates/nextgen/edit_part_info.php/smarty_actions.tpl:17
 #: templates/nextgen/show_part_info.php/smarty_actions.tpl:35
@@ -822,7 +822,7 @@ msgstr "Add another part:"
 #: templates/nextgen/edit_part_info.php/smarty_actions.tpl:31
 #: templates/nextgen/show_part_info.php/smarty_actions.tpl:49
 msgid "Neues Bauteil erfassen"
-msgstr "Add new part:"
+msgstr "Add new part"
 
 #: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:6
 #: templates/nextgen/show_device_parts.php/smarty_attachements.tpl:6
@@ -875,7 +875,7 @@ msgstr "Download file"
 #: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:98
 #: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:47
 #: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:109
-#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:36
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:41
 #: templates/nextgen/show_device_parts.php/smarty_attachements.tpl:82
 #: templates/nextgen/show_device_parts.php/smarty_comment.tpl:17
 #: templates/nextgen/show_part_info.php/smarty_devices.tpl:43
@@ -945,7 +945,7 @@ msgstr "Obsolete"
 #: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:63
 #: templates/nextgen/show_part_info.php/smarty_orderdetails.tpl:41
 msgid "Ab Bestellmenge"
-msgstr "From oder quantity:"
+msgstr "From oder quantity"
 
 #: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:64
 #: templates/nextgen/show_part_info.php/smarty_orderdetails.tpl:42
@@ -998,7 +998,7 @@ msgstr "e.g. 100"
 
 #: templates/nextgen/edit_part_info.php/smarty_part.tpl:83
 msgid "Unbekannt"
-msgstr "unknown"
+msgstr "Unknown"
 
 #: templates/nextgen/edit_part_info.php/smarty_part.tpl:89
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:50
@@ -1048,20 +1048,24 @@ msgstr "Footprint:"
 msgid "Bauteil erstellen"
 msgstr "Add part"
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:218
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:210
+msgid "Abbrechen"
+msgstr "Cancel"
+
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:221
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:146
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:174
 msgid "Kommentar/Zweck:"
 msgstr "Comment/purpose:"
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:225
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:228
 #: templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:30
 #: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:86
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:440
 msgid "Änderungen verwerfen"
 msgstr "Discard settings"
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:229
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:232
 msgid "Rückkehr zur letzten Bauteileliste"
 msgstr "Return to the last component list"
 
@@ -1074,7 +1078,7 @@ msgstr "Storelocations"
 #: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:35
 #: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:46
 msgid "Neuer Lagerort"
-msgstr "New storelocation:"
+msgstr "New storelocation"
 
 #: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:58
 msgid "Neuen Lagerort hinzufügen:"
@@ -1094,7 +1098,7 @@ msgstr "e.g. Active parts I"
 
 #: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:86
 msgid "Serie:"
-msgstr "Sequence"
+msgstr "Sequence:"
 
 #: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:91
 msgid "Serie erzeugen"
@@ -1214,7 +1218,7 @@ msgstr "Configuration"
 
 #: templates/nextgen/edit_users.php/smarty_edit_users.tpl:72
 msgid "Der gewählte Nutzer hat bisher noch kein Password und kann sich daher nicht einloggen"
-msgstr "The selected user does not have a password yet and therefore cannot log in."
+msgstr "The selected user does not have a password yet and therefore cannot log in"
 
 #: templates/nextgen/edit_users.php/smarty_edit_users.tpl:73
 msgid "Um ein Password zu setzen, gehen sie in den Reiter \"Password setzen\""
@@ -1237,7 +1241,7 @@ msgstr "Group*:"
 #: templates/nextgen/user_info.php/smarty_main.tpl:16
 #: templates/nextgen/user_settings.php/smarty_settings.tpl:33
 msgid "Vorname:"
-msgstr "First name"
+msgstr "First name:"
 
 #: templates/nextgen/edit_users.php/smarty_edit_users.tpl:100
 #: templates/nextgen/user_settings.php/smarty_settings.tpl:36
@@ -1386,7 +1390,7 @@ msgstr "Installation: Finish"
 msgid "Herzlichen Glückwunsch, die Installation bzw. das Update von Part-DB ist fast abgeschlossen!<br>\n"
 "                Weitere Einstellungen finden Sie unter dem Menüpunkt \"System\"."
 msgstr "Congratulations, the Installation or the Update of Part-DB is almost complete!<br>\n"
-"You can find more settings under the menunode \"System\""
+"You can find more settings under the menunode \"System\"."
 
 #: templates/nextgen/install.php/smarty_finish.tpl:8
 msgid "Sie können sich nun mit dem Nutzernamen \"admin\" und dem eben festgelegten Password einloggen."
@@ -1438,7 +1442,7 @@ msgstr "Installation/Update: Database backup"
 
 #: templates/nextgen/install.php/smarty_set_db_backup_path.tpl:7
 msgid "Es wird dringend empfohlen, regelmässig Sicherungskopien der Datenbank zu erstellen!"
-msgstr "It is very recommended to backup your database regulary!"
+msgstr "It is very recommended to backup your database regularly!"
 
 #: templates/nextgen/install.php/smarty_set_db_backup_path.tpl:8
 msgid "Auch sollte vor jedem Datenbankupdate ein Backup durchgeführt werden. Die Entwickler von Part-DB übernehmen keinerlei Haftung für Schäden jeglicher Art, die durch fehlende Backups oder durch Fehler in Part-DB verursacht werden."
@@ -1448,7 +1452,7 @@ msgstr "A backup should also be performed before each database update. The devel
 msgid "Sie können dafür ein externes System benutzen, das sich mit einem Link ins Menü von Part-DB integrieren lässt.\n"
 "            Ein solches Backup-System ist z.B. <a target=\"_blank\" rel=\"noopener\" href=\"http://www.mysqldumper.net/\">MySQLDumper</a>."
 msgstr "You can use an external system for that, which can be integrated with a link in the menu of Part-DB.\n"
-"Such a Backup-Sytem is e.g.  <a target=\"_blank\" rel=\"noopener\" href=\"http://www.mysqldumper.net/\">MySQLDumper</a>."
+"Such a Backup Sytem is e.g.  <a target=\"_blank\" rel=\"noopener\" href=\"http://www.mysqldumper.net/\">MySQLDumper</a>."
 
 #: templates/nextgen/install.php/smarty_set_db_backup_path.tpl:11
 msgid "Lassen Sie beide Felder leer, wenn Sie keine Verknüpfung zu einem Backup-System haben möchten."
@@ -1484,7 +1488,7 @@ msgstr "The database for Part-DB must already exist, so that you can install Par
 
 #: templates/nextgen/install.php/smarty_set_db_settings.tpl:16
 msgid "Damit Part-DB korrekt funktioniert, müssen Sie dem Benutzer jegliche Rechte an der Datenbank gewähren!"
-msgstr "You have to grant the user every rights on the database, so that Part-DB can operate correctly."
+msgstr "You have to grant the user every rights on the database, so that Part-DB can operate correctly!"
 
 #: templates/nextgen/install.php/smarty_set_db_settings.tpl:17
 msgid "Benutzen Sie eine bereits vorhandene Datenbank weiter, sollten Sie jetzt ein Backup davon anlegen!"
@@ -1528,7 +1532,7 @@ msgstr "Databasepassword:"
 
 #: templates/nextgen/install.php/smarty_set_db_settings.tpl:62
 msgid "Sollte es nicht möglich sein mit der Datenbank zu verbinden, versuchen sie eine der untenstehenden Optionen anzuwählen:"
-msgstr "If it is not possible to connect to the database, try to select one of the options below:."
+msgstr "If it is not possible to connect to the database, try to select one of the options below:"
 
 #: templates/nextgen/install.php/smarty_set_db_settings.tpl:65
 msgid "Leerzeichen in PDO-String einfügen:"
@@ -1545,11 +1549,11 @@ msgstr "Welcome to Part-DB!"
 #: templates/nextgen/install.php/smarty_set_locales.tpl:11
 #: templates/nextgen/startup.php/smarty_startup.tpl:110
 msgid "Projektseite:"
-msgstr "Projectpage:"
+msgstr "Project page:"
 
 #: templates/nextgen/install.php/smarty_set_locales.tpl:11
 msgid "Downloads, Bugreports, ToDo-Liste usw. gibts auf der <a target=\"_blank\" href=\"https://github.com/jbtronics/Part-DB\">GitHub Projektseite</a>"
-msgstr "Downloads, bugreports, to-do-list etc. can be found on the <a target=\"_blank\" href=\"https://github.com/jbtronics/Part-DB\">GitHub project page</a>."
+msgstr "Downloads, bugreports, to-do-list etc. can be found on the <a target=\"_blank\" href=\"https://github.com/jbtronics/Part-DB\">GitHub project page</a>"
 
 #: templates/nextgen/install.php/smarty_set_locales.tpl:12
 msgid "Forum:"
@@ -1633,7 +1637,7 @@ msgstr "Password:"
 
 #: templates/nextgen/login.php/smarty_login.tpl:52
 msgid "Password"
-msgstr "Password:"
+msgstr "Password"
 
 #: templates/nextgen/show_all_parts.php/smarty_show_all_parts.tpl:12
 msgid "Alle Bauteile"
@@ -1695,13 +1699,16 @@ msgid "Teile in der Kategorie"
 msgstr "Parts in the category"
 
 #: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:3
-msgid "Teile per Name zuordnen"
-msgstr "Assign parts per name:"
+msgid "Bauteile aufnehmen/zuordnen"
+msgstr "Add parts"
 
 #: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:7
-#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:10
 msgid "Suchwort:"
 msgstr "Search term:"
+
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:10
+msgid "Suchwort"
+msgstr "Search term"
 
 #: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:14
 msgid "Teile auflisten"
@@ -1709,13 +1716,17 @@ msgstr "List parts"
 
 #: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:23
 msgid "Die Suche ergab keine Treffer!"
-msgstr "The search gaves no results!"
+msgstr "The search returned no results!"
 
-#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:33
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:27
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:42
+msgid "Neues Bauteil anlegen"
+msgstr "Add new part"
+
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:38
 msgid "Falls Sie Bauteile zur Baugruppe hinzufügen, die dort bereits vorhanden sind,\n"
-"                    dann werden die Stückzahlen addiert und die Bestückungsdaten mit einem Komma aneinandergehängt."
-msgstr "If you add components to the assembly that are already there,\n"
-"                    then the number of pieces is added and the placement data is added together with a comma."
+"                                dann werden die Stückzahlen addiert und die Bestückungsdaten mit einem Komma aneinandergehängt."
+msgstr "If you add components to the assembly that are already there, then the number of pieces is added and the placement data is added together with a comma."
 
 #: templates/nextgen/show_device_parts.php/smarty_comment.tpl:6
 #: templates/nextgen/smarty_eventlog.tpl:10
@@ -1734,7 +1745,7 @@ msgstr "Copy device with parts"
 
 #: templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:17
 msgid "Name der Kopie:"
-msgstr "Name of the copy"
+msgstr "Name of the copy:"
 
 #: templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:20
 msgid "Kopie_von_"
@@ -1750,7 +1761,7 @@ msgstr "Recursive:"
 
 #: templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:36
 msgid "Alle Unterbaugruppen mit all deren Teilen auch mitkopieren"
-msgstr "Copy all subdevices with their parts, too"
+msgstr "Copy all sub devices with their parts, too"
 
 #: templates/nextgen/show_device_parts.php/smarty_copy_device.tpl:43
 msgid "Kopie anlegen"
@@ -1763,7 +1774,7 @@ msgstr "Assigned parts to"
 #: templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:15
 #: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:62
 msgid "Gesamtpreis:"
-msgstr "Total price"
+msgstr "Total price:"
 
 #: templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:19
 msgid "Teile mit der Stückzahl \"0\" werden beim Übernehmen aus dieser Baugruppe entfernt."
@@ -1779,7 +1790,7 @@ msgstr "Add/Remove stock or order/export parts"
 
 #: templates/nextgen/show_device_parts.php/smarty_export.tpl:10
 msgid "Multiplikator:"
-msgstr "Multiplicator:"
+msgstr "Multiplicatorr:"
 
 #: templates/nextgen/show_device_parts.php/smarty_export.tpl:19
 msgid "Teile abfassen oder einbuchen:"
@@ -1796,11 +1807,11 @@ msgstr "Add Stock (+)"
 #: templates/nextgen/show_device_parts.php/smarty_export.tpl:29
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:202
 msgid "Zum Bestellen vormerken:"
-msgstr "Mark for ordering"
+msgstr "Mark for ordering:"
 
 #: templates/nextgen/show_device_parts.php/smarty_export.tpl:32
 msgid "Es sind %1 Stk. von dieser Baugruppe zum Bestellen vorgemerkt"
-msgstr "%1 pcs of this device is marked for ordering"
+msgstr "%1 pcs. of this device is marked for ordering"
 
 #: templates/nextgen/show_device_parts.php/smarty_export.tpl:33
 #: templates/nextgen/show_device_parts.php/smarty_export.tpl:40
@@ -1917,7 +1928,7 @@ msgstr "The radio buttons can be used to select the primary device. This is used
 
 #: templates/nextgen/show_favorite_parts.php/smarty_main.tpl:11
 msgid "Favorisierte Bauteile"
-msgstr "Favorited parts"
+msgstr "Favorite parts"
 
 #: templates/nextgen/show_footprint_parts.php/smarty_show_footprint_parts.tpl:3
 msgid "Bauteile mit Footprint"
@@ -1967,7 +1978,7 @@ msgstr "Parts from manufacturer"
 #: templates/nextgen/show_manufacturer_parts.php/smarty_show_manufacturer_parts.tpl:21
 #: templates/nextgen/show_manufacturer_parts.php/smarty_show_manufacturer_parts.tpl:73
 msgid "Unterhersteller einblenden"
-msgstr "Show submanufacturers"
+msgstr "Show sub manufacturers"
 
 #: templates/nextgen/show_manufacturer_parts.php/smarty_show_manufacturer_parts.tpl:40
 msgid "Teile mit Hersteller"
@@ -2087,11 +2098,11 @@ msgstr "Attachment file does not exist"
 
 #: templates/nextgen/show_part_info.php/smarty_attachements.tpl:31
 msgid "Dieses Bauteil besitzt keine Dateianhänge."
-msgstr "This part haven't any attachements"
+msgstr "This part haven't any attachments."
 
 #: templates/nextgen/show_part_info.php/smarty_attachements.tpl:35
 msgid "Dateianhänge hinzufügen"
-msgstr "Add attachement"
+msgstr "Add attachment"
 
 #: templates/nextgen/show_part_info.php/smarty_devices.tpl:6
 msgid "Baugruppen mit diesem Bauteil"
@@ -2169,7 +2180,7 @@ msgstr "Close"
 
 #: templates/nextgen/show_part_info.php/smarty_orderdetails.tpl:43
 msgid "Einzelpreis"
-msgstr "Unit price:"
+msgstr "Unit price"
 
 #: templates/nextgen/show_part_info.php/smarty_orderdetails.tpl:68
 msgid "Durchschnittspreis für 1 Stk.:"
@@ -2213,10 +2224,9 @@ msgid "Profile"
 msgstr "Profiles"
 
 #: templates/nextgen/show_part_label.php/smarty_show_part_label.tpl:22
-#: templates/nextgen/system_log.php/smarty_main.tpl:41
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:635
 msgid "Typ:"
-msgstr "Type"
+msgstr "Type:"
 
 #: templates/nextgen/show_part_label.php/smarty_show_part_label.tpl:25
 #: templates/nextgen/system_log.php/smarty_main.tpl:76
@@ -2249,7 +2259,7 @@ msgstr "QR code"
 
 #: templates/nextgen/show_part_label.php/smarty_show_part_label.tpl:46
 msgid "kein Barcode"
-msgstr "No barcode"
+msgstr "no barcode"
 
 #: templates/nextgen/show_part_label.php/smarty_show_part_label.tpl:53
 msgid "Größe:"
@@ -2429,7 +2439,7 @@ msgstr "Your browser does not support PDF previewing. To view the file, download
 
 #: templates/nextgen/show_search_parts.php/smarty_livesearch_hint.tpl:3
 msgid "Geben sie 3 oder mehr Buchstaben ein, um Livesearch zu benutzen oder klicken sie auf \"Los!\" um zu suchen."
-msgstr "Enter 3 or more letters, to use livesearch or click \"Go!\" to search."
+msgstr "Enter 3 or more letters, to use live search or click \"Go!\" to search."
 
 #: templates/nextgen/show_search_parts.php/smarty_searched_parts_table.tpl:4
 msgid "Treffer in der Kategorie"
@@ -2454,7 +2464,7 @@ msgstr "Parts from supplier"
 #: templates/nextgen/show_supplier_parts.php/smarty_show_supplier_parts.tpl:21
 #: templates/nextgen/show_supplier_parts.php/smarty_show_supplier_parts.tpl:73
 msgid "Unterlieferanten einblenden"
-msgstr "Show subsuppliers"
+msgstr "Show sub suppliers"
 
 #: templates/nextgen/show_supplier_parts.php/smarty_show_supplier_parts.tpl:40
 msgid "Teile mit Lieferant"
@@ -2492,7 +2502,7 @@ msgstr "Toggle Sidebar"
 
 #: templates/nextgen/smarty_head.tpl:141 templates/nextgen/smarty_head.tpl:269
 msgid "Suchoptionen"
-msgstr "Searchoptions"
+msgstr "Search options"
 
 #: templates/nextgen/smarty_head.tpl:148 templates/nextgen/smarty_head.tpl:276
 #: templates/nextgen/smarty_table.tpl:42 templates/nextgen/smarty_table.tpl:43
@@ -2564,7 +2574,7 @@ msgstr "Data source"
 #: templates/nextgen/smarty_head.tpl:338 templates/nextgen/smarty_head.tpl:362
 #: templates/nextgen/smarty_head.tpl:372 templates/nextgen/smarty_head.tpl:386
 msgid "Verwaltung"
-msgstr "Managment"
+msgstr "Management"
 
 #: templates/nextgen/smarty_head.tpl:394
 msgid "Bitte aktivieren sie Javascript, um alle Funktionen benutzen zu können."
@@ -2576,7 +2586,7 @@ msgstr "Loading"
 
 #: templates/nextgen/smarty_head.tpl:408
 msgid "Dies kann einen Moment dauern..."
-msgstr "This may take a moment ..."
+msgstr "This may take a moment..."
 
 #: templates/nextgen/smarty_history.tpl:7
 msgid "Nachricht"
@@ -2778,7 +2788,7 @@ msgstr "There are footprints in your database that have an incorrect file name.\
 
 #: templates/nextgen/startup.php/smarty_startup.tpl:92
 msgid "Sie können dies unter <a href=\"edit_footprints.php\">Bearbeiten/Footprints</a> (ganz unten, \"Fehlerhafte Dateinamen\") korrigieren."
-msgstr "You can correct this under <a href=\"edit_footprints.php\">Edit -> Footprints</a> (on bottom, \"Broken filenames\")"
+msgstr "You can correct this under <a href=\"edit_footprints.php\">Edit -> Footprints</a> (on bottom, \"Broken filenames\")."
 
 #: templates/nextgen/startup.php/smarty_startup.tpl:102
 msgid "Lizenz"
@@ -2922,7 +2932,7 @@ msgstr "Number of Manufacturers logos:"
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:11
 msgid "Systemeinstellungen"
-msgstr "Systemconfig"
+msgstr "System config"
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:15
 msgid "Auf dieser Seite sind nur die wichtigsten Einstellungen vorhanden, weitere Einstellungen kann man direkt in der \"config.php\" vornehmen. Mögliche Parameter entnehmen Sie bitte der \"config_defaults.php\" oder der Dokumentation."
@@ -2962,11 +2972,11 @@ msgstr "Detailinfos:"
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:81
 msgid "Verstecke \"Aktionen\" Dialog in den Detailinfos"
-msgstr "Hide \"Actions\" dialog in detailinfos"
+msgstr "Hide \"Actions\" dialog in detail infos"
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:85
 msgid "Verstecke \"Einkaufsinformationen\" Panel, wenn keine Einkaufsinformationen vorhanden sind."
-msgstr "Hide \"Purchasing Information\" panel if no orderinformation is available."
+msgstr "Hide \"Purchasing Information\" panel if no order information is available."
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:89
 msgid "Verstecke \"Dateianhänge\" Panel, wenn keine Dateianhänge vorhanden sind."
@@ -3118,7 +3128,7 @@ msgstr "Part tables:"
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:270
 msgid "Aktiviere initiale Sortierung."
-msgstr "Activate inital sorting"
+msgstr "Activate inital sorting."
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:274
 msgid "Zeige die beim Auflisten aller Teile einer Kategorie, die Unterkategorien standarmäßig."
@@ -3126,7 +3136,7 @@ msgstr "Show the default subcategories when listing all parts of a category."
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:278
 msgid "Zeige vollständige Pfade in Tabellen an."
-msgstr "Show full pathes in tables."
+msgstr "Show full paths in tables."
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:282
 msgid "Markiere die gesamte Zeile, falls ein Teil zum Autobestellen vorgemerkt ist."
@@ -3142,11 +3152,11 @@ msgstr "Set this value to 0 to display all parts by default."
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:300
 msgid "Dateianhänge:"
-msgstr "Attachements:"
+msgstr "Attachments:"
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:304
 msgid "Speichere Anhänge in Ordnerstruktur, ähnlich der Kategorienhierachie."
-msgstr "Save attachements in folder structure, similar to category hierachie."
+msgstr "Save attachments in folder structure, similar to category hierachie."
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:308
 msgid "Lade Medien von externen Quellen standardmäßig herunter."
@@ -3314,7 +3324,7 @@ msgstr "Continue the last failed update"
 
 #: templates/nextgen/system_database.php/smarty_system_database.tpl:70
 msgid "Neuer Update-Versuch beginnen (von Vorne)"
-msgstr "Start new Update attempt"
+msgstr "Start new Update attempt (from start)"
 
 #: templates/nextgen/system_database.php/smarty_system_database.tpl:73
 msgid "Jetzt Datenbank updaten"
@@ -3334,7 +3344,7 @@ msgstr "Database options:"
 
 #: templates/nextgen/system_database.php/smarty_system_database.tpl:155
 msgid "Automatische Updates aktivieren"
-msgstr "Activate automatic updates:"
+msgstr "Activate automatic updates"
 
 #: templates/nextgen/system_log.php/smarty_main.tpl:6
 msgid "Filter"
@@ -3345,6 +3355,10 @@ msgstr "Filter"
 #: templates/nextgen/system_log.php/smarty_main.tpl:65
 msgid "Kein Filter"
 msgstr "Not filter"
+
+#: templates/nextgen/system_log.php/smarty_main.tpl:41
+msgid "Ereignis:"
+msgstr "Event:"
 
 #: templates/nextgen/system_log.php/smarty_main.tpl:45
 #: templates/nextgen/system_log.php/smarty_main.tpl:66
@@ -3391,7 +3405,7 @@ msgstr "Date Range:"
 msgid "Aktualisieren"
 msgstr "Update"
 
-#: templates/nextgen/system_log.php/smarty_main.tpl:126
+#: templates/nextgen/system_log.php/smarty_main.tpl:127
 msgid "Eventlog"
 msgstr "Eventlog"
 
@@ -3604,7 +3618,7 @@ msgstr "Tolerance:"
 
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:524
 msgid "Temperaturkoeffizient:"
-msgstr "temperature coefficient:"
+msgstr "Temperature coefficient:"
 
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:529
 msgid "Rücksetzten"
@@ -3775,7 +3789,7 @@ msgstr "DO23-Coil"
 
 #: templates/nextgen/tools_labels.php/smarty_labels.tpl:128
 msgid "Der Buchstabe ist die Toleranz und gleichzeitig das \",\" die Werte werden in µH angegeben"
-msgstr "The letter is the tolerance and at the same time the \",\" the values are given in µH."
+msgstr "The letter is the tolerance and at the same time the \",\" the values are given in µH"
 
 #: templates/nextgen/user_info.php/smarty_main.tpl:50
 msgid "Gruppe:"

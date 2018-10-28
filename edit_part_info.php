@@ -65,7 +65,7 @@ $add_one_more_part          = isset($_REQUEST['add_one_more_part']);
 
 // section: part attributes
 $part_id                    = isset($_REQUEST['pid'])                       ? (integer)$_REQUEST['pid']                      : -1;
-$new_name                   = isset($_POST['name'])                      ? (string)$_POST['name']                      : '';
+$new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
 $new_description            = isset($_POST['description'])               ? (string)$_POST['description']               : '';
 $new_manufacturer_id        = isset($_POST['manufacturer_id'])           ? (integer)$_POST['manufacturer_id']          : 0;
 $new_instock                = isset($_POST['instock'])                   ? (integer)$_POST['instock']                  : 0;
@@ -91,7 +91,7 @@ $new_show_in_table          = isset($_POST['show_in_table']);
 $new_is_master_picture      = isset($_POST['is_master_picture']);
 $attachement_id             = isset($_POST['attachement_id'])            ? (integer)$_POST['attachement_id']           : 0;
 $new_attachement_type_id    = isset($_POST['attachement_type_id'])       ? (integer)$_POST['attachement_type_id']      : 0;
-$new_name                   = isset($_POST['name'])                      ? (string)$_POST['name']                      : '';
+$new_name                   = isset($_REQUEST['name'])                      ? (string)$_REQUEST['name']                      : '';
 $new_filename               = isset($_POST['attachement_filename'])      ? toUnixPath(trim((string)$_POST['attachement_filename'])) : '';
 $download_file              = isset($_POST['download_file']);
 
@@ -287,6 +287,8 @@ if (! $fatal_error) {
                     global $config;
                     if ($config['edit_parts']['created_go_to_info'] xor $rightclicked) {
                         $html->redirect("show_part_info.php?pid=" . $part->getID(), true);
+                    } else {
+                        $html->redirect("edit_part_info.php?pid=" . $part->getID(), true);
                     }
                 } else {
                     $partname_hint = $category->getPartnameHint(true, false);
@@ -325,9 +327,9 @@ if (! $fatal_error) {
                     $messages[] = array('html' => generateInputHidden("comment", $new_comment), 'no_linebreak' => 'true');
                     $messages[] = array('html' => generateInputHidden("visible", $new_visible), 'no_linebreak' => 'true');
 
-
                     $partname_invalid = true;
                 }
+
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }

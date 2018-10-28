@@ -273,7 +273,7 @@ msgstr ""
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:189
 #: templates/nextgen/edit_groups.php/smarty_edit_groups.tpl:159
 #: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:202
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:213
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:216
 #: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:198
 #: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:200
 #: templates/nextgen/edit_users.php/smarty_edit_users.tpl:294
@@ -888,7 +888,7 @@ msgstr ""
 #: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:98
 #: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:47
 #: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:109
-#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:36
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:41
 #: templates/nextgen/show_device_parts.php/smarty_attachements.tpl:82
 #: templates/nextgen/show_device_parts.php/smarty_comment.tpl:17
 #: templates/nextgen/show_part_info.php/smarty_devices.tpl:43
@@ -1061,20 +1061,24 @@ msgstr ""
 msgid "Bauteil erstellen"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:218
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:210
+msgid "Abbrechen"
+msgstr ""
+
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:221
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:146
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:174
 msgid "Kommentar/Zweck:"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:225
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:228
 #: templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:30
 #: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:86
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:440
 msgid "Änderungen verwerfen"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:229
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:232
 msgid "Rückkehr zur letzten Bauteileliste"
 msgstr ""
 
@@ -1752,12 +1756,15 @@ msgid "Teile in der Kategorie"
 msgstr ""
 
 #: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:3
-msgid "Teile per Name zuordnen"
+msgid "Bauteile aufnehmen/zuordnen"
 msgstr ""
 
 #: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:7
-#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:10
 msgid "Suchwort:"
+msgstr ""
+
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:10
+msgid "Suchwort"
 msgstr ""
 
 #: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:14
@@ -1768,11 +1775,16 @@ msgstr ""
 msgid "Die Suche ergab keine Treffer!"
 msgstr ""
 
-#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:33
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:27
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:42
+msgid "Neues Bauteil anlegen"
+msgstr ""
+
+#: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:38
 msgid ""
 "Falls Sie Bauteile zur Baugruppe hinzufügen, die dort bereits vorhanden "
 "sind,\n"
-"                    dann werden die Stückzahlen addiert und die "
+"                                dann werden die Stückzahlen addiert und die "
 "Bestückungsdaten mit einem Komma aneinandergehängt."
 msgstr ""
 
@@ -2284,7 +2296,6 @@ msgid "Profile"
 msgstr ""
 
 #: templates/nextgen/show_part_label.php/smarty_show_part_label.tpl:22
-#: templates/nextgen/system_log.php/smarty_main.tpl:41
 #: templates/nextgen/tools_calculator.php/smarty_calculator.tpl:635
 msgid "Typ:"
 msgstr ""
@@ -3490,6 +3501,10 @@ msgstr ""
 msgid "Kein Filter"
 msgstr ""
 
+#: templates/nextgen/system_log.php/smarty_main.tpl:41
+msgid "Ereignis:"
+msgstr ""
+
 #: templates/nextgen/system_log.php/smarty_main.tpl:45
 #: templates/nextgen/system_log.php/smarty_main.tpl:66
 msgid "Typ"
@@ -3535,7 +3550,7 @@ msgstr ""
 msgid "Aktualisieren"
 msgstr ""
 
-#: templates/nextgen/system_log.php/smarty_main.tpl:126
+#: templates/nextgen/system_log.php/smarty_main.tpl:127
 msgid "Eventlog"
 msgstr ""
 

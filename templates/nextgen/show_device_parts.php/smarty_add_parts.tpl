@@ -1,14 +1,14 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="card border-primary">
-    <div class="card-header bg-primary text-white"><i class="fas fa-search fa-fw"></i> {t}Teile per Name zuordnen{/t}</div>
+    <div class="card-header bg-primary text-white"><i class="fas fa-search fa-fw"></i> {t}Bauteile aufnehmen/zuordnen{/t}</div>
     <div class="card-body">
         <form method="post" class="form-horizontal" action="">
-           <div class="form-group row">
+            <div class="form-group row">
                 <label class="col-form-label col-md-2">{t}Suchwort:{/t}</label>
                 <div class="col-md-10">
-                   <div class="input-group">
-                        <input type="text" class="form-control" name="new_part_name" placeholder="{t}Suchwort:{/t}"
-                            {if !$can_part_create}disabled{/if}>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="new_part_name" placeholder="{t}Suchwort{/t}"
+                               {if !$can_part_create}disabled{/if}>
                         <span class="input-group-append">
                             <button class="btn btn-outline-secondary" type="submit" name="show_searched_parts" {if !$can_part_create}disabled{/if}>
                                     {t}Teile auflisten{/t}</button >
@@ -18,26 +18,31 @@
                 <input type="hidden" name="device_id" value="{$device_id}">
             </div>
         </form>
-    {if isset($no_searched_parts_found) && $no_searched_parts_found}
-        <div class="row">
-            <span class="col-md-12 text-danger">{t}Die Suche ergab keine Treffer!{/t}</span>
-        </div>
-    {else}
-        {if isset($searched_parts_rowcount)}
-            <div class="row">
-                <form method="post" action="" class="col-md-12">
-                    <input type="hidden" name="device_id" value="{$device_id}">
-                    <div class="row">
-                        {include "../smarty_table.tpl"}
-                    </div>
-                    <i class="row col-md-12">{t}Falls Sie Bauteile zur Baugruppe hinzufügen, die dort bereits vorhanden sind,
-                    dann werden die Stückzahlen addiert und die Bestückungsdaten mit einem Komma aneinandergehängt.{/t}</i>
-                    <input type="hidden" name="searched_parts_rowcount" value="{$searched_parts_rowcount}">
-                    <button class="btn btn-success" type="submit" name="assign_by_selected">{t}Hinzufügen{/t}</button>
-                </form>
+        {if isset($no_searched_parts_found) && $no_searched_parts_found}
+            <div class="row mt-3">
+                <span class="col-md-12 text-danger">{t}Die Suche ergab keine Treffer!{/t}</span>
             </div>
+            <div class="row">
+                <div class="col-md-12 mt-2">
+                    <a href="edit_part_info.php?category_id=1&name={$part_name_search}" class="btn btn-secondary link-datasheet" target="_blank">{t}Neues Bauteil anlegen{/t}</a>
+                </div>
+            </div>
+        {else}
+            {if isset($searched_parts_rowcount)}
+                <div class="row">
+                    <form method="post" action="" class="col-md-12">
+                        <input type="hidden" name="device_id" value="{$device_id}">
+                        <div class="row">
+                            {include "../smarty_table.tpl"}
+                        </div>
+                        <p class="row col-md-12 mb-3 text-muted">{t}Falls Sie Bauteile zur Baugruppe hinzufügen, die dort bereits vorhanden sind,
+                                dann werden die Stückzahlen addiert und die Bestückungsdaten mit einem Komma aneinandergehängt.{/t}</p>
+                        <input type="hidden" name="searched_parts_rowcount" value="{$searched_parts_rowcount}">
+                        <button class="btn btn-success" type="submit" name="assign_by_selected">{t}Hinzufügen{/t}</button>
+                        <a href="edit_part_info.php?category_id=1&name={$part_name_search}" class="btn btn-secondary link-datasheet" target="_blank">{t}Neues Bauteil anlegen{/t}</a>
+                    </form>
+                </div>
+            {/if}
         {/if}
-    {/if}
-</div>
-
+    </div>
 </div>
