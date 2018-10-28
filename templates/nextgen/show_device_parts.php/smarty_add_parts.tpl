@@ -1,6 +1,6 @@
 {locale path="nextgen/locale" domain="partdb"}
 <div class="card border-primary">
-    <div class="card-header bg-primary text-white"><i class="fas fa-search fa-fw"></i> {t}Teile per Name zuordnen{/t}</div>
+    <div class="card-header bg-primary text-white"><i class="fas fa-search fa-fw"></i> {t}Bauteile aufnehmen/zuordnen{/t}</div>
     <div class="card-body">
         <form method="post" class="form-horizontal" action="">
             <div class="form-group row">
