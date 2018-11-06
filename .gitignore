@@ -189,3 +189,5 @@ vendor/*
 
 *.min.min.*
 composer_2\.phar
+
+reset_admin_pw.php
