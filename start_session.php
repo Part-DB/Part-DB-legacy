@@ -27,6 +27,7 @@
  * @file start_session.php
  *
  * @brief This file must be included in every PHP file which produces HTML output!
+ * This files set various things needed for Part-DB
  */
 
 // set HTTP charset to UTF-8
@@ -351,7 +352,7 @@ include_once(BASE.'/inc/lib.php');
 //Include Composer autoloader
 require 'vendor/autoload.php';
 
-//Check if Klass exists, and debugging is enabled.
+//Check if Klass exists, and debugging is enabled, then activate Whoops Handler
 if (class_exists("\Whoops\Run") && $config['debug']['enable'] &&
     (PHP_MAJOR_VERSION >= 7 || PHP_MINOR_VERSION >= 6)) {
     $whoops = new \Whoops\Run;

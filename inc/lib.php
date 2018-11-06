@@ -97,7 +97,17 @@ function getGitCommitHash($length = 40)
     return null; // this is not a Git installation
 }
 
-
+/**
+ * Creates a array containing data, usable for the used javascript library Bootstrap-treeview.
+ * 
+ * @param string $name This will be shown as the name/label of the node to the user
+ * @param string $href When this is set, the node will be a link, with this URL as target
+ * @param array $nodes The subnotes of this notes as array of the elements created by this function
+ * @param string $icon The CSS class name of the icon this node should have
+ * 
+ * @return array An array containing the informations for this node
+ *  
+ * */
 function treeviewNode($name, $href = null, $nodes = null, $icon = null)
 {
     $ret = array('text' => $name);
@@ -423,7 +433,8 @@ function saveConfig()
 }
 
 /**
- * @brief For save_config()
+ * @brief For save_config(), this function takes both config arrays, and writes 
+ * the new entries (in relative to config_defaults) into the config.php
  */
 function arrayToPhpLines(&$array_defaults, &$array, $path, $ignore_defaults)
 {
@@ -798,15 +809,21 @@ function getKeywordAfterModifier($search_str, $modifier)
 }
 
 /**
- * Allow the usage of umlauts in the given pattern
- * @param $pattern string
- * @return string
+ * Allow the usage of umlauts in the given pattern.
+ * 
+ * Normaly the \w class does not include umlauts like, ÄÜÖ etc..
+ * This function replaces the \w class to a class that matches umlauts too.
+ * @param $pattern string The pattern which should be modified for umlauts
+ * @return string The modified pattern which matches the umlauts
  */
 function regexAllowUmlauts($pattern)
 {
     return str_replace("\w", '[\wÄäÖöÜüß]', $pattern);
 }
 
+/**
+ * Strips the trailing and leading slash from a Regex pattern.
+ */
 function regexStripSlashes($pattern, $mb = true)
 {
     if (mb_substr($pattern, 0, 1) === "/" &&  substr($pattern, -1, 1) === "/") {
