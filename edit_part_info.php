@@ -77,6 +77,7 @@ $new_storelocation_id       = isset($_POST['storelocation_id'])          ? (inte
 $new_footprint_id           = isset($_POST['footprint_id'])              ? (integer)$_POST['footprint_id']             : 0;
 $new_visible                = isset($_POST['visible']);
 $new_comment                = isset($_POST['comment'])                   ? (string)$_POST['comment']                   : '';
+$new_manufacturer_url       = isset($_POST["manufacturer_url"])          ? (string)$_POST['manufacturer_url']          : '';
 
 $change_comment             = isset($_POST['change_comment'])    ? (string)$_POST['change_comment']   : null;
 
@@ -185,6 +186,7 @@ if (isset($orderdetails_id)) {
     $new_supplier_id = isset($_POST['supplier_id_'.$orderdetails_id]) ? (integer)$_POST['supplier_id_'.$orderdetails_id] : 0;
     $new_supplierpartnr = isset($_POST['supplierpartnr_'.$orderdetails_id]) ? (string)$_POST['supplierpartnr_'.$orderdetails_id] : '';
     $new_obsolete = isset($_POST['obsolete_'.$orderdetails_id]);
+    $new_supplier_url = isset($_POST["supplierurl_".$orderdetails_id]) ? (string)$_POST['supplierurl_'.$orderdetails_id] : '';
 }
 // section: pricedetails
 if (isset($pricedetails_id)) {
@@ -279,7 +281,8 @@ if (! $fatal_error) {
                         $new_manufacturer_id,
                         $new_footprint_id,
                         $new_comment,
-                        $new_visible
+                        $new_visible,
+                        $new_manufacturer_url
                     );
 
                     $is_new_part = false;
@@ -351,7 +354,8 @@ if (! $fatal_error) {
                     'id_category'       => $new_category_id,
                     'id_storelocation'  => $new_storelocation_id,
                     'visible'           => $new_visible,
-                    'comment'           => $new_comment);
+                    'comment'           => $new_comment,
+                    'manufacturer_product_url' => $new_manufacturer_url);
 
                 $part->setInstock($new_instock, $change_comment == null ?  _("Bauteil bearbeitet") : $change_comment);
 
@@ -414,7 +418,8 @@ if (! $fatal_error) {
                     $part_id,
                     $new_supplier_id,
                     $new_supplierpartnr,
-                    $new_obsolete
+                    $new_obsolete,
+                    $new_supplier_url
                 );
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -429,7 +434,8 @@ if (! $fatal_error) {
 
                 $orderdetails->setAttributes(array(    'id_supplier'               => $new_supplier_id,
                     'supplierpartnr'            => $new_supplierpartnr,
-                    'obsolete'                  => $new_obsolete));
+                    'obsolete'                  => $new_obsolete,
+                    'supplier_product_url' => $new_supplier_url));
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -715,6 +721,8 @@ if (! $fatal_error) {
 
             $html->setVariable('default_change_comment', $default_instock_comment, "string");
 
+            $html->setVariable("manufacturer_url", $part->getManufacturerProductUrl(true), "string");
+
             // dropdown lists -> get IDs
             $category_id        = (is_object($part->getCategory())         ?   $part->getCategory()->getID()      : 0);
             $footprint_id       = (is_object($part->getFootprint())        ?   $part->getFootprint()->getID()     : 0);
@@ -736,7 +744,7 @@ if (! $fatal_error) {
                         'pricedetails_id'           => $pricedetails->getID(),
                         'min_discount_quantity'     => $pricedetails->getMinDiscountQuantity(),
                         'price'                     => $price,
-                        'price_related_quantity'    => $pricedetails->getPriceRelatedQuantity());
+                        'price_related_quantity'    => $pricedetails->getPriceRelatedQuantity(),);
                 }
 
                 if (count($pricedetails_loop) > 0) {
@@ -756,7 +764,8 @@ if (! $fatal_error) {
                     'supplier_list'             => $supplier_list,
                     'supplierpartnr'            => $orderdetails->getSupplierPartNr(),
                     'obsolete'                  => $orderdetails->getObsolete(),
-                    'pricedetails'              => $pricedetails_loop);
+                    'pricedetails'              => $pricedetails_loop,
+                    "supplier_url"              => $orderdetails->getSupplierProductUrl());
                 $row_odd = ! $row_odd;
             }
 
@@ -826,6 +835,7 @@ if (! $fatal_error) {
             $html->setVariable('mininstock', $new_mininstock, 'integer');
             $html->setVariable('visible', $new_visible, 'boolean');
             $html->setVariable('comment', $new_comment, 'string');
+            $html->setVariable("manufacturer_url", $new_manufacturer_url, "string");
 
             $category_id        = $new_category_id;
             $footprint_id       = $new_footprint_id;

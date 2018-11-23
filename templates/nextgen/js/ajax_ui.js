@@ -847,7 +847,11 @@ function makeSortTable() {
                     },
                     messageBottom: exportFooter,
                     messageTop: exportMessageTop,
-                    title: exportTitle
+                    title: exportTitle,
+                    customize: function (doc) {
+                        doc.defaultStyle.fontSize = 9; //<-- set fontsize to 16 instead of 10
+                        doc.styles.tableHeader.fontSize = 9;
+                    }
                 },
                 {
                     extend: 'print',
