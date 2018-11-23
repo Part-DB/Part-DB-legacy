@@ -594,12 +594,14 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      *  Get the link to the website of the article on the manufacturers website
      *
+     * @param
+     *
      * @return string           the link to the article
      * @throws Exception
      */
-    public function getManufacturerProductUrl()
+    public function getManufacturerProductUrl($no_auto_url = false)
     {
-        if (strlen($this->db_data['manufacturer_product_url']) > 0) {
+        if ($no_auto_url || strlen($this->db_data['manufacturer_product_url']) > 0) {
             return $this->db_data['manufacturer_product_url'];
         } elseif (is_object($this->getManufacturer())) {
             return $this->getManufacturer()->getAutoProductUrl($this->db_data['name']);
@@ -1390,6 +1392,16 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
+     * Sets the URL to the manufacturer site about this Part. Set to "" if this part should use the automatically URL based on its manufacturer.
+     * @param string $new_url The new url
+     * @throws Exception when an error happens.
+     */
+    public function setManufacturerProductURL($new_url)
+    {
+        $this->setAttributes(array('manufacturer_product_url' => $new_url));
+    }
+
+    /**
      *  Set the ID of the master picture Attachement
      *
      * @param integer|NULL $new_master_picture_attachement_id       @li the ID of the Attachement object of the master picture
@@ -1456,6 +1468,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         if ($this->current_user->canDo(PermissionManager::PARTS_MANUFACTURER, PartAttributePermission::EDIT)) {
             if (isset($new_values['id_manufacturer'])) {
                 $arr['id_manufacturer'] = $new_values['id_manufacturer'];
+            }
+            if(isset($new_values["manufacturer_product_url"])) {
+                $arr['manufacturer_product_url'] = $new_values['manufacturer_product_url'];
             }
         }
         if ($this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::EDIT)
@@ -3095,7 +3110,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $manufacturer_id = null,
         $footprint_id = null,
         $comment = '',
-        $visible = false
+        $visible = false,
+        $manufacturer_url = ""
     ) {
         $current_user->tryDo(PermissionManager::PARTS, PartPermission::CREATE);
 
@@ -3117,7 +3133,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 'id_master_picture_attachement' => null,
                 'manual_order'                  => false,
                 'order_orderdetails_id'         => null,
-                'order_quantity'                => 1)
+                'order_quantity'                => 1,
+                "manufacturer_product_url" => $manufacturer_url)
         );
         // the column "datetime_added" will be automatically filled by MySQL
         // the column "last_modified" will be filled in the function check_values_validity()

@@ -77,6 +77,7 @@ $new_storelocation_id       = isset($_POST['storelocation_id'])          ? (inte
 $new_footprint_id           = isset($_POST['footprint_id'])              ? (integer)$_POST['footprint_id']             : 0;
 $new_visible                = isset($_POST['visible']);
 $new_comment                = isset($_POST['comment'])                   ? (string)$_POST['comment']                   : '';
+$new_manufacturer_url       = isset($_POST["manufacturer_url"])          ? (string)$_POST['manufacturer_url']          : '';
 
 $change_comment             = isset($_POST['change_comment'])    ? (string)$_POST['change_comment']   : null;
 
@@ -280,7 +281,8 @@ if (! $fatal_error) {
                         $new_manufacturer_id,
                         $new_footprint_id,
                         $new_comment,
-                        $new_visible
+                        $new_visible,
+                        $new_manufacturer_url
                     );
 
                     $is_new_part = false;
@@ -352,7 +354,8 @@ if (! $fatal_error) {
                     'id_category'       => $new_category_id,
                     'id_storelocation'  => $new_storelocation_id,
                     'visible'           => $new_visible,
-                    'comment'           => $new_comment);
+                    'comment'           => $new_comment,
+                    'manufacturer_product_url' => $new_manufacturer_url);
 
                 $part->setInstock($new_instock, $change_comment == null ?  _("Bauteil bearbeitet") : $change_comment);
 
@@ -718,6 +721,8 @@ if (! $fatal_error) {
 
             $html->setVariable('default_change_comment', $default_instock_comment, "string");
 
+            $html->setVariable("manufacturer_url", $part->getManufacturerProductUrl(true), "string");
+
             // dropdown lists -> get IDs
             $category_id        = (is_object($part->getCategory())         ?   $part->getCategory()->getID()      : 0);
             $footprint_id       = (is_object($part->getFootprint())        ?   $part->getFootprint()->getID()     : 0);
@@ -830,6 +835,7 @@ if (! $fatal_error) {
             $html->setVariable('mininstock', $new_mininstock, 'integer');
             $html->setVariable('visible', $new_visible, 'boolean');
             $html->setVariable('comment', $new_comment, 'string');
+            $html->setVariable("manufacturer_url", $new_manufacturer_url, "string");
 
             $category_id        = $new_category_id;
             $footprint_id       = $new_footprint_id;
