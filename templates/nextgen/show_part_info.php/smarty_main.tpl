@@ -23,7 +23,7 @@
                         <label class="col-sm-3 col-form-label">{t}Name:{/t}</label>
                         <div class="col-sm-9">
                             {if !empty($manufacturer_product_url)}
-                                <a class="form-control-link  d-print-none-href" title="{$manufacturer_product_url}" href="{$manufacturer_product_url}">{$name}</a>
+                                <a class="form-control-link  d-print-none-href link-external" target="_blank" title="{$manufacturer_product_url}" href="{$manufacturer_product_url}">{$name}</a>
                             {else}
                                 <p class="form-control-plaintext">{$name}</p>
                             {/if}
