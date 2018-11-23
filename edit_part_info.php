@@ -185,6 +185,7 @@ if (isset($orderdetails_id)) {
     $new_supplier_id = isset($_POST['supplier_id_'.$orderdetails_id]) ? (integer)$_POST['supplier_id_'.$orderdetails_id] : 0;
     $new_supplierpartnr = isset($_POST['supplierpartnr_'.$orderdetails_id]) ? (string)$_POST['supplierpartnr_'.$orderdetails_id] : '';
     $new_obsolete = isset($_POST['obsolete_'.$orderdetails_id]);
+    $new_supplier_url = isset($_POST["supplierurl_".$orderdetails_id]) ? (string)$_POST['supplierurl_'.$orderdetails_id] : '';
 }
 // section: pricedetails
 if (isset($pricedetails_id)) {
@@ -414,7 +415,8 @@ if (! $fatal_error) {
                     $part_id,
                     $new_supplier_id,
                     $new_supplierpartnr,
-                    $new_obsolete
+                    $new_obsolete,
+                    $new_supplier_url
                 );
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
@@ -429,7 +431,8 @@ if (! $fatal_error) {
 
                 $orderdetails->setAttributes(array(    'id_supplier'               => $new_supplier_id,
                     'supplierpartnr'            => $new_supplierpartnr,
-                    'obsolete'                  => $new_obsolete));
+                    'obsolete'                  => $new_obsolete,
+                    'supplier_product_url' => $new_supplier_url));
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -736,7 +739,7 @@ if (! $fatal_error) {
                         'pricedetails_id'           => $pricedetails->getID(),
                         'min_discount_quantity'     => $pricedetails->getMinDiscountQuantity(),
                         'price'                     => $price,
-                        'price_related_quantity'    => $pricedetails->getPriceRelatedQuantity());
+                        'price_related_quantity'    => $pricedetails->getPriceRelatedQuantity(),);
                 }
 
                 if (count($pricedetails_loop) > 0) {
@@ -756,7 +759,8 @@ if (! $fatal_error) {
                     'supplier_list'             => $supplier_list,
                     'supplierpartnr'            => $orderdetails->getSupplierPartNr(),
                     'obsolete'                  => $orderdetails->getObsolete(),
-                    'pricedetails'              => $pricedetails_loop);
+                    'pricedetails'              => $pricedetails_loop,
+                    "supplier_url"              => $orderdetails->getSupplierProductUrl());
                 $row_odd = ! $row_odd;
             }
 
