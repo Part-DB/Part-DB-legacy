@@ -36,7 +36,7 @@ include_once(BASE.'/updates/db_migration_functions.php');
  *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
  */
 
-define('LATEST_DB_VERSION', 25);  // <-- increment here
+define('LATEST_DB_VERSION', 26);  // <-- increment here
 
 /*
  * Get update steps
@@ -968,6 +968,10 @@ EOD;
             $updateSteps[] = "ALTER TABLE `users` CHANGE `perms_parts` `perms_parts` BIGINT(11) NOT NULL;";
             $updateSteps[] = "ALTER TABLE `groups` CHANGE `perms_parts` `perms_parts` BIGINT(11) NOT NULL;";
 
+            break;
+
+        case 25:
+            $updateSteps[] = "ALTER TABLE `pricedetails` CHANGE `price` `price` DECIMAL(11,5) NULL DEFAULT NULL;";
             break;
 
             /*
