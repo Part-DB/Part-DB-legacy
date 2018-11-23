@@ -226,14 +226,17 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     }
 
     /**
-     * Get the link to the website of the article on the suppliers website
+     * Get the link to the website of the article on the suppliers website.
+     *
+     * @param $no_automatic_url bool Set this to true, if you only want to get the local set product URL for this Orderdetail
+     * and not a automatic generated one, based from the Supplier
      *
      * @return string           the link to the article
      * @throws Exception
      */
-    public function getSupplierProductUrl()
+    public function getSupplierProductUrl($no_automatic_url = false)
     {
-        if (strlen($this->db_data['supplier_product_url']) > 0) {
+        if ($no_automatic_url || strlen($this->db_data['supplier_product_url']) > 0) {
             return $this->db_data['supplier_product_url'];
         } else {
             return $this->getSupplier()->getAutoProductUrl($this->db_data['supplierpartnr']);
@@ -374,6 +377,17 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
         $this->setAttributes(array('obsolete' => $new_obsolete));
     }
 
+    /**
+     * Sets the custom product supplier URL for this order detail.
+     * Set this to "", if the function getSupplierProductURL should return the automatic generated URL.
+     * @param $new_url string The new URL for the supplier URL.
+     * @throws Exception if there was an error
+     */
+    public function setSupplierProductUrl($new_url)
+    {
+        $this->setAttributes(array("supplier_product_url" => $new_url));
+    }
+
     /********************************************************************************
      *
      *   Static Methods
@@ -455,7 +469,8 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
         $part_id,
         $supplier_id,
         $supplierpartnr = '',
-        $obsolete = false
+        $obsolete = false,
+        $supplier_product_url = ""
     ) {
         $current_user->tryDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE);
 
@@ -467,7 +482,8 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
             array(  'part_id'                   => $part_id,
                 'id_supplier'               => $supplier_id,
                 'supplierpartnr'            => $supplierpartnr,
-                'obsolete'                  => $obsolete)
+                'obsolete'                  => $obsolete,
+                'supplier_product_url' => $supplier_product_url)
         );
     }
 
