@@ -32,12 +32,12 @@
 
                 <div class="col-sm-7">
                     <div class="row">
-                        <div class="col-sm-4 form-group">
+                        <div class="col-sm-3 form-group">
                             <label>{t}Name:{/t}</label>
                             <input type="text" class="form-control" name="name" size="12" value="{$attach.name}"
                                    {if !($can_attachement_edit || ($can_attachement_create && $attach.id == "new"))}disabled{/if}>
                         </div>
-                        <div class="col-sm-4 form-group">
+                        <div class="col-sm-5 form-group">
                             <label>{t}Dateityp:{/t}</label>
                             <select class="form-control" name="attachement_type_id"
                                     {if !($can_attachement_edit || ($can_attachement_create && $attach.id == "new"))}disabled{/if}>
@@ -69,17 +69,17 @@
                                    value="{$attach.filename_base_relative}" {if !($can_attachement_edit || ($can_attachement_create && $attach.id == "new"))}disabled{/if}>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    <div class="form-group row mb-0">
                         <label class="col-sm-3">
                             {t}Neue Datei hochladen:{/t}
                         </label>
-                        <div class="col-sm-6">
-                            <input data-show-caption="false" data-show-upload="false" type="file" class="file" name="attachement_file"
+                        <div class="col-sm-5">
+                            <input data-show-caption="false" data-show-upload="false" data-show-preview="false" type="file" class="file" name="attachement_file"
                                    {if !($can_attachement_edit || ($can_attachement_create && $attach.id == "new"))}disabled{/if}>
-                            <p>(max. {$max_upload_filesize})</p>
+                            <p class="mb-0">(max. {$max_upload_filesize})</p>
                         </div>
                         {if $downloads_enable}
-                            <div class="col-sm-3">
+                            <div class="col-sm-4">
                                 <div class="form-check form-check-inline abc-checkbox">
                                     <input class="form-check-input" type="checkbox" name="download_file" {if $attach.download_file}checked{/if}
                                             {if !($can_attachement_edit || ($can_attachement_create && $attach.id == "new"))}disabled{/if}>
