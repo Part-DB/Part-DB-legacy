@@ -10,7 +10,7 @@ msgstr ""
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: Spanish\n"
 "Language: es_ES\n"
-"PO-Revision-Date: 2018-10-28 10:41\n"
+"PO-Revision-Date: 2018-11-24 15:01\n"
 
 #: templates/nextgen/developer_tools.php/smarty_developer_tools.tpl:5
 msgid "Tabs durch Leerzeichen ersetzen / Backup-Dateien löschen"
@@ -184,7 +184,7 @@ msgstr ""
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:123
 #: templates/nextgen/edit_groups.php/smarty_edit_groups.tpl:85
 #: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:134
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:194
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:201
 #: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:133
 #: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:135
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:112
@@ -284,7 +284,7 @@ msgstr ""
 #: templates/nextgen/edit_footprints.php/smarty_edit_footprints.tpl:189
 #: templates/nextgen/edit_groups.php/smarty_edit_groups.tpl:159
 #: templates/nextgen/edit_manufacturers.php/smarty_edit_manufacturers.tpl:202
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:216
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:223
 #: templates/nextgen/edit_storelocations.php/smarty_edit_storelocations.tpl:198
 #: templates/nextgen/edit_suppliers.php/smarty_edit_suppliers.tpl:200
 #: templates/nextgen/edit_users.php/smarty_edit_users.tpl:294
@@ -458,7 +458,7 @@ msgstr ""
 
 #: templates/nextgen/edit_devices.php/smarty_edit_devices.tpl:89
 #: templates/nextgen/edit_part_info.php/smarty_part.tpl:66
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:200
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:207
 msgid "Hinweis: Hier kann BBCode verwendet werden um den Text besonders auszuzeichnen (z.B. [b]Fett[/b])."
 msgstr ""
 
@@ -790,7 +790,7 @@ msgid "Hersteller löschen"
 msgstr ""
 
 #: templates/nextgen/edit_part_info.php/smarty_actions.tpl:4
-#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:65
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:64
 #: templates/nextgen/show_part_info.php/smarty_actions.tpl:6
 #: templates/nextgen/smarty_head.tpl:327 templates/nextgen/smarty_head.tpl:351
 #: templates/nextgen/smarty_head.tpl:375
@@ -872,7 +872,7 @@ msgstr ""
 
 #: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:98
 #: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:47
-#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:109
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:110
 #: templates/nextgen/show_device_parts.php/smarty_add_parts.tpl:41
 #: templates/nextgen/show_device_parts.php/smarty_attachements.tpl:82
 #: templates/nextgen/show_device_parts.php/smarty_comment.tpl:17
@@ -883,7 +883,7 @@ msgstr ""
 
 #: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:100
 #: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:50
-#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:113
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:114
 #: templates/nextgen/show_device_parts.php/smarty_attachements.tpl:84
 #: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:31
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:208
@@ -892,7 +892,7 @@ msgid "Übernehmen"
 msgstr ""
 
 #: templates/nextgen/edit_part_info.php/smarty_attachements.tpl:101
-#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:53
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:52
 #: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:117
 #: templates/nextgen/show_device_parts.php/smarty_attachements.tpl:85
 #: templates/nextgen/smarty_pagination.tpl:13
@@ -925,37 +925,37 @@ msgstr ""
 msgid "Preise"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:23
-#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:73
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:22
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:72
 #: templates/nextgen/show_part_info.php/smarty_devices.tpl:36
 msgid "Neu:"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:32
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:30
 #: templates/nextgen/smarty_head.tpl:157 templates/nextgen/smarty_head.tpl:285
 msgid "Bestellnr."
+msgstr ""
+
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:34
+msgid "Bestelllink"
 msgstr ""
 
 #: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:43
 msgid "Obsolet"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:63
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:62
 #: templates/nextgen/show_part_info.php/smarty_orderdetails.tpl:41
 msgid "Ab Bestellmenge"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:64
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:63
 #: templates/nextgen/show_part_info.php/smarty_orderdetails.tpl:42
 #: templates/nextgen/smarty_table.tpl:64
 msgid "Preis"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:89
-msgid "pro"
-msgstr ""
-
-#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:96
+#: templates/nextgen/edit_part_info.php/smarty_orderdetails.tpl:97
 msgid "Stk."
 msgstr ""
 
@@ -1016,14 +1016,14 @@ msgstr ""
 #: templates/nextgen/edit_part_info.php/smarty_part.tpl:111
 #: templates/nextgen/edit_part_info.php/smarty_part.tpl:133
 #: templates/nextgen/edit_part_info.php/smarty_part.tpl:157
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:182
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:189
 msgid "Suchen / Hinzufügen"
 msgstr ""
 
 #: templates/nextgen/edit_part_info.php/smarty_part.tpl:116
 #: templates/nextgen/edit_part_info.php/smarty_part.tpl:138
 #: templates/nextgen/edit_part_info.php/smarty_part.tpl:162
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:186
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:193
 msgid "OK!"
 msgstr ""
 
@@ -1037,33 +1037,37 @@ msgstr ""
 msgid "Hersteller:"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:172
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:170
+msgid "Herstellerlink:"
+msgstr ""
+
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:179
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:79
 msgid "Footprint:"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:208
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:215
 msgid "Bauteil erstellen"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:210
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:217
 msgid "Abbrechen"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:221
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:228
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:146
 #: templates/nextgen/show_part_info.php/smarty_main.tpl:174
 msgid "Kommentar/Zweck:"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:228
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:235
 #: templates/nextgen/show_device_parts.php/smarty_device_parts.tpl:30
 #: templates/nextgen/show_order_parts.php/smarty_show_order_parts.tpl:86
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:440
 msgid "Änderungen verwerfen"
 msgstr ""
 
-#: templates/nextgen/edit_part_info.php/smarty_part.tpl:232
+#: templates/nextgen/edit_part_info.php/smarty_part.tpl:239
 msgid "Rückkehr zur letzten Bauteileliste"
 msgstr ""
 
@@ -3265,6 +3269,10 @@ msgstr ""
 
 #: templates/nextgen/system_config.php/smarty_system_config.tpl:490
 msgid "Lebensdauer der Sessioncookies:"
+msgstr ""
+
+#: templates/nextgen/system_config.php/smarty_system_config.tpl:494
+msgid "Aktuelle Uhrzeit auf Server:"
 msgstr ""
 
 #: templates/nextgen/system_database.php/smarty_system_database.tpl:14
