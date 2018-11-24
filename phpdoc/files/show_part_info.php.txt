@@ -48,14 +48,20 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 $part_id            = isset($_REQUEST['pid'])               ? (integer)$_REQUEST['pid']             : 0;
-$n_less             = isset($_REQUEST['n_less'])            ? (integer)$_REQUEST['n_less']          : 0;
-$n_more             = isset($_REQUEST['n_more'])            ? (integer)$_REQUEST['n_more']          : 0;
-$order_quantity     = isset($_REQUEST['order_quantity'])    ? (integer)$_REQUEST['order_quantity']  : 0;
+$n_less             = isset($_POST['n_less'])            ? (integer)$_POST['n_less']          : 0;
+$n_more             = isset($_POST['n_more'])            ? (integer)$_POST['n_more']          : 0;
+$order_quantity     = isset($_POST['order_quantity'])    ? (integer)$_POST['order_quantity']  : 0;
+$instock_change_comment = isset($_POST['instock_change_comment']) ? (string)$_POST['instock_change_comment'] : "";
 
 //When adding to a device
-$device_id          = isset($_REQUEST['device_id_new'])     ? (integer)$_REQUEST['device_id_new']   : 0;
-$device_qty         = isset($_REQUEST['device_quantity_new']) ? (integer)$_REQUEST['device_quantity_new'] : 0;
-$device_name        = isset($_REQUEST['device_name_new'])   ? (string)$_REQUEST['device_name_new'] : "";
+$device_id          = isset($_POST['device_id_new'])     ? (integer)$_POST['device_id_new']   : 0;
+$device_qty         = isset($_POST['device_quantity_new']) ? (integer)$_POST['device_quantity_new'] : 0;
+$device_name        = isset($_POST['device_name_new'])   ? (string)$_POST['device_name_new'] : "";
+
+//Pagination for history
+$page               = isset($_REQUEST['page'])              ? (integer)$_REQUEST['page']            : 1;
+$limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST['limit']           : 10;
+
 
 //Parse Label scan
 if (isset($_REQUEST['barcode'])) {
@@ -73,26 +79,22 @@ if (isset($_REQUEST['barcode'])) {
 }
 
 $action = 'default';
-if (isset($_REQUEST["dec"])) {
+if (isset($_POST["dec"])) {
     $action = 'dec';
 }
-if (isset($_REQUEST["inc"])) {
+if (isset($_POST["inc"])) {
     $action = 'inc';
 }
-if (isset($_REQUEST["mark_to_order"])) {
+if (isset($_POST["mark_to_order"])) {
     $action = 'mark_to_order';
 }
-if (isset($_REQUEST["remove_mark_to_order"])) {
+if (isset($_POST["remove_mark_to_order"])) {
     $action = 'remove_mark_to_order';
 }
-<<<<<<< HEAD
-if (isset($_REQUEST['device_add'])) {
-=======
-if(isset($_REQUEST['device_add'])) {
->>>>>>> gh-pages
+if (isset($_POST['device_add'])) {
     $action = "device_add";
 }
-if (isset($_REQUEST['toggle_favorite'])) {
+if (isset($_POST['toggle_favorite'])) {
     $action = "toggle_favorite";
 }
 
@@ -130,10 +132,17 @@ try {
  *********************************************************************************/
 
 if (! $fatal_error) {
+
+    //If no comment was set, than use the default one from the user profile.
+    if($instock_change_comment == "") {
+        $instock_change_comment = null;
+    }
+
     switch ($action) {
         case 'dec': // remove some parts
             try {
-                $part->setInstock($part->getInstock() - abs($n_less));
+                //$part->setInstock($part->getInstock() - abs($n_less));
+                $part->withdrawalParts($n_less, $instock_change_comment);
 
                 // reload the site without $_REQUEST['action'] to avoid multiple actions by manual refreshing
                 header('Location: show_part_info.php?pid='.$part_id);
@@ -144,7 +153,8 @@ if (! $fatal_error) {
 
         case 'inc': // add some parts
             try {
-                $part->setInstock($part->getInstock() + abs($n_more));
+                //$part->setInstock($part->getInstock() + abs($n_more));
+                $part->addParts($n_more, $instock_change_comment);
 
                 // reload the site without $_REQUEST['action'] to avoid multiple actions by manual refreshing
                 header('Location: show_part_info.php?pid='.$part_id);
@@ -176,10 +186,6 @@ if (! $fatal_error) {
                 } else {
                     throw new Exception(_("Ungültige Eingabedaten!"));
                 }
-<<<<<<< HEAD
-=======
-
->>>>>>> gh-pages
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -241,6 +247,20 @@ if (! $fatal_error) {
 
         $html->setVariable('last_modified', $part->getLastModified(), 'string');
         $html->setVariable('datetime_added', $part->getDatetimeAdded(), 'string');
+        $last_modified_user = $part->getLastModifiedUser();
+        $creation_user = $part->getCreationUser();
+        if ($last_modified_user != null) {
+            $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
+            $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
+        }
+        if ($creation_user != null) {
+            $html->setVariable('creation_user', $creation_user->getFullName(true), "string");
+            $html->setVariable('creation_user_id', $creation_user->getID(), "int");
+        }
+
+        //Default withdrawal/Add comment
+        $html->setVariable('default_instock_change_comment_w', $current_user->getDefaultInstockChangeComment(true));
+        $html->setVariable('default_instock_change_comment_a', $current_user->getDefaultInstockChangeComment(false));
 
         $html->setVariable('is_favorite', $part->getFavorite(), 'bool');
 
@@ -290,7 +310,8 @@ if (! $fatal_error) {
                 /** @var $attachement \PartDB\Attachement */
                 $attachements_loop[] = array(   'attachement_name'  => $attachement->getName(),
                     'filename'          => str_replace(BASE, BASE_RELATIVE, $attachement->getFilename()),
-                    'is_picture'        => $attachement->isPicture());
+                    'is_picture'        => $attachement->isPicture(),
+                    'file_existing'     => $attachement->isFileExisting());
             }
 
             if (count($attachements) > 0) {
@@ -307,7 +328,6 @@ if (! $fatal_error) {
             $html->setLoop('attachement_types_loop', $attachement_types_loop);
         }
 
-<<<<<<< HEAD
         //Auto datasheets
         $datasheet_loop = $config['auto_datasheets']['entries'];
 
@@ -324,8 +344,6 @@ if (! $fatal_error) {
         }
         $html->setLoop("datasheet_loop", $datasheet_loop);
 
-=======
->>>>>>> gh-pages
         //Devices
         $devices = $part->getDevices();
         $devices_loop = array();
@@ -351,12 +369,23 @@ if (! $fatal_error) {
 
         //Barcode stuff
         $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("part"));
+
+        $count = 0;
+        if($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
+            $history = Log::getHistoryForPart($database, $current_user, $log, $part, $limit, $page);
+            $html->setVariable("graph_history", Log::historyToGraph($history));
+            $html->setLoop("history", $history);
+            $count = Log::getHistoryForPartCount($database, $current_user, $log, $part);
+        }
+        $html->setLoop("pagination", generatePagination("show_location_parts.php?pid=$part_id", $page, $limit, $count));
+        $html->setVariable("page", $page);
+        $html->setVariable('limit', $limit);
+
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
     }
 }
-<<<<<<< HEAD
 try {
     $html->setVariable("can_delete", $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE), "bool");
     $html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT), "bool");
@@ -372,26 +401,12 @@ try {
     $html->setVariable('can_order_read', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ), "bool");
     $html->setVariable('can_devicepart_create', $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
     $html->setVariable('can_generate_barcode', $current_user->canDo(PermissionManager::LABELS, \PartDB\Permissions\LabelPermission::CREATE_LABELS));
+
+    $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
-=======
-
-$html->setVariable("can_delete", $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE), "bool");
-$html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT), "bool");
-$html->setVariable("can_create", $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE), "bool");
-$html->setVariable("can_move", $current_user->canDo(PermissionManager::PARTS, PartPermission::MOVE), "bool");
-$html->setVariable("can_read", $current_user->canDo(PermissionManager::PARTS, PartPermission::READ), "bool");
-$html->setVariable("can_instock", $current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::EDIT), "bool");
-$html->setVariable("can_favorite", $current_user->canDo(PermissionManager::PARTS, PartPermission::CHANGE_FAVORITE));
-
-$html->setVariable('can_orderdetails_create', $current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE), "bool");
-$html->setVariable('can_attachement_create', $current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE), "bool");
-$html->setVariable('can_order_edit', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::EDIT), "bool");
-$html->setVariable('can_order_read', $current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ), "bool");
-$html->setVariable('can_devicepart_create', $current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE));
->>>>>>> gh-pages
 
 /********************************************************************************
  *
@@ -420,12 +435,12 @@ if (! $fatal_error) {
         $html->printTemplate('attachements');
     }
 
+    if($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
+        $html->printTemplate('history');
+    }
+
     if ($current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ)
-<<<<<<< HEAD
         && !$config['devices']['disable']) {
-=======
-            && !$config['devices']['disable']) {
->>>>>>> gh-pages
         $html->printTemplate('devices');
     }
 

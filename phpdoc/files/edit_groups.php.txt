@@ -57,22 +57,22 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 $selected_id                = isset($_REQUEST['selected_id'])   ? (integer)$_REQUEST['selected_id'] : 0;
-$new_name                   = isset($_REQUEST['name'])          ? (string)$_REQUEST['name']         : '';
-$new_parent_id              = isset($_REQUEST['parent_id'])     ? (integer)$_REQUEST['parent_id']   : 0;
-$new_comment                = isset($_REQUEST['comment'])       ? (string)$_REQUEST['comment']      : "";
-$add_more                   = isset($_REQUEST['add_more']);
+$new_name                   = isset($_POST['name'])          ? (string)$_POST['name']         : '';
+$new_parent_id              = isset($_POST['parent_id'])     ? (integer)$_POST['parent_id']   : 0;
+$new_comment                = isset($_POST['comment'])       ? (string)$_POST['comment']      : "";
+$add_more                   = isset($_POST['add_more']);
 
 $action = 'default';
-if (isset($_REQUEST["add"])) {
+if (isset($_POST["add"])) {
     $action = 'add';
 }
-if (isset($_REQUEST["delete"])) {
+if (isset($_POST["delete"])) {
     $action = 'delete';
 }
-if (isset($_REQUEST["delete_confirmed"])) {
+if (isset($_POST["delete_confirmed"])) {
     $action = 'delete_confirmed';
 }
-if (isset($_REQUEST["apply"])) {
+if (isset($_POST["apply"])) {
     $action = 'apply';
 }
 
@@ -118,7 +118,7 @@ if (! $fatal_error) {
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
 
                 //Apply permissions
-                $new_group->getPermissionManager()->parsePermissionsFromRequest($_REQUEST);
+                $new_group->getPermissionManager()->parsePermissionsFromRequest($_POST);
 
                 if (! $add_more) {
                     $selected_group = $new_group;
@@ -150,7 +150,7 @@ if (! $fatal_error) {
                     $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Es gibt keine Benutzer mit dieser Gruppe.'));
                     $messages[] = array('text' => _('&nbsp;&nbsp;&bull; Beinhaltet diese Gruppe noch Untergruppen, dann werden diese eine Ebene nach oben verschoben.'));
                     $messages[] = array('html' => '<input type="hidden" name="selected_id" value="' . $selected_group->getID() . '">');
-                    $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="' . _("Nein, nicht löschen") . '">', 'no_linebreak' => true);
+                    $messages[] = array('html' => '<input type="submit" class="btn btn-secondary" name="" value="' . _("Nein, nicht löschen") . '">', 'no_linebreak' => true);
                     $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="' . _('Ja, Gruppe löschen') . '">');
                 }
             } catch (Exception $e) {
@@ -186,7 +186,7 @@ if (! $fatal_error) {
                     'comment'               => $new_comment));
 
                 //Apply permissions
-                $selected_group->getPermissionManager()->parsePermissionsFromRequest($_REQUEST);
+                $selected_group->getPermissionManager()->parsePermissionsFromRequest($_POST);
 
                 $html->setVariable('refresh_navigation_frame', true, 'boolean');
             } catch (Exception $e) {
@@ -217,6 +217,17 @@ if (! $fatal_error) {
             $perm_loop = $selected_group->getPermissionManager()->generatePermissionsLoop($perm_read_only);
             $html->setVariable('datetime_added', $selected_group->getDatetimeAdded(true));
             $html->setVariable('last_modified', $selected_group->getLastModified(true));
+
+            $last_modified_user = $selected_group->getLastModifiedUser();
+            $creation_user = $selected_group->getCreationUser();
+            if ($last_modified_user != null) {
+                $html->setVariable('last_modified_user', $last_modified_user->getFullName(true), "string");
+                $html->setVariable('last_modified_user_id', $last_modified_user->getID(), "int");
+            }
+            if ($creation_user != null) {
+                $html->setVariable('creation_user', $creation_user->getFullName(true), "string");
+                $html->setVariable('creation_user_id', $creation_user->getID(), "int");
+            }
         } elseif ($action == 'add') {
             $parent_id = $new_parent_id;
             $name = $new_name;
@@ -254,6 +265,8 @@ if (! $fatal_error) {
     $html->setVariable('can_edit', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::EDIT));
     $html->setVariable('can_move', $current_user->canDo(PermissionManager::GROUPS, GroupPermission::MOVE));
     $html->setVariable('can_permission', !$perm_read_only);
+    $html->setVariable('can_visit_user', $current_user->canDo(PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ));
+
 }
 
 /********************************************************************************

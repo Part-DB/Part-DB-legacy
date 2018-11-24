@@ -199,11 +199,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
                 ' ORDER BY name, description';
 
             if ($limit > 0 && $page > 0) {
-<<<<<<< HEAD
                 $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
-=======
-                $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
->>>>>>> gh-pages
             }
 
             //$query_data = $this->database->query($query);
@@ -213,7 +209,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
                 $this->parts[] = new Part($this->database, $this->current_user, $this->log, $row['id'], $row);
             }
 
-            usort($this->parts, '\PartDB\Base\PartsContainingDBElement::usort_compare');
+            //usort($this->parts, '\PartDB\Base\PartsContainingDBElement::usort_compare');
         }
 
         $parts = $this->parts;

@@ -28,6 +28,7 @@ namespace PartDB;
 /** @noinspection PhpIncludeInspection */
 use DebugBar\DataCollector\PDO\TraceablePDO;
 use Exception;
+use PartDB\LogSystem\DatabaseUpdatedEntry;
 use PartDB\Tools\PDBDebugBar;
 use PDO;
 use PDOException;
@@ -353,6 +354,7 @@ class Database
         };
 
         $current = $this->getCurrentVersion();
+        $old_current = $this->getCurrentVersion(); //This one is used for the Database Update log entry
         $latest = $this->getLatestVersion();
 
         if ($this->transaction_active) {
@@ -522,6 +524,14 @@ class Database
         } else {
             debug('success', _('Das Update wurde erfolgreich durchgeführt.'));
             $add_log(_('Das Update wurde erfolgreich durchgeführt.'));
+        }
+
+        //Try to create an DatabaseUpdateEntry Log entry
+        try {
+            $l = new Log($this);
+            DatabaseUpdatedEntry::add($this, User::getLoggedInUser(),$l, $old_current, $latest, !$error);
+        } catch (Exception $ex) {
+            //When an error happen, the DB log table was not created yet. There is nothing we can do here, so do nothing.
         }
 
         return $log;
@@ -942,6 +952,27 @@ class Database
         $values[] = $id; // for the last placeholder in "WHERE id=?"
 
         $this->execute($query, $values);
+    }
+
+    public function getDatabaseSize()
+    {
+        global $config;
+
+        if ($config['db']['type'] != "mysql") {
+            throw new \Exception(_("Datenbankgröße kann nur für MySQL Datenbanken ermittelt werden!"));
+        }
+
+        $query = 'SELECT '
+            . ' ROUND(SUM(data_length + index_length) / 1024 / 1024, 3) AS `size`'
+            . ' FROM information_schema.TABLES'
+            . ' WHERE table_schema = ?'
+            . ' GROUP BY table_schema; ';
+
+        $values[] = $config['db']['name'];
+
+        $data = $this->query($query, $values);
+
+        return (float) $data[0]["size"];
     }
 }
 

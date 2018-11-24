@@ -129,7 +129,6 @@ if (isset($_REQUEST['delete_confirmed'])) {
  *
  *********************************************************************************/
 
-<<<<<<< HEAD
 $html = new HTML($config['html']['theme'], $user_config['theme'], _('Labels'));
 
 try {
@@ -159,9 +158,6 @@ try {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
-=======
-$html = new HTML($config['html']['theme'], $user_config['theme'], 'Label');
->>>>>>> gh-pages
 
 
 /********************************************************************************
@@ -212,7 +208,7 @@ if (!$fatal_error) {
         }
 
         //Show size preset in custom size inputs
-        if ($profile['label_size'] != "custom") {
+        if ($profile['label_size'] != "custom" && !empty($profile['label_size'])) {
             $exploded = explode("x", $profile['label_size']);
             $profile['custom_width'] = $exploded[0];
             $profile['custom_height'] = $exploded[1];
@@ -267,7 +263,7 @@ if (!$fatal_error) {
                     '" wirklich unwiederruflich gelöscht werden?'), $selected_profile), 'strong' => true, 'color' => 'red');
                 $messages[] = array('html' => '<input type="hidden" name="generator" value="' . $generator_type . '">');
                 $messages[] = array('html' => '<input type="hidden" name="selected_profile" value="' . $selected_profile . '">');
-                $messages[] = array('html' => '<input type="submit" class="btn btn-default" name="" value="' . _('Nein, nicht löschen') . '">', 'no_linebreak' => true);
+                $messages[] = array('html' => '<input type="submit" class="btn btn-secondary" name="" value="' . _('Nein, nicht löschen') . '">', 'no_linebreak' => true);
                 $messages[] = array('html' => '<input type="submit" class="btn btn-danger" name="delete_confirmed" value="' . _('Ja, Profil löschen') . '">');
                 break;
             case "delete_confirmed":

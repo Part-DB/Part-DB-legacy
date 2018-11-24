@@ -36,11 +36,7 @@ include_once(BASE.'/updates/db_migration_functions.php');
  *          -> this new "case" must have the number "LATEST_DB_VERSION - 1"!
  */
 
-<<<<<<< HEAD
-define('LATEST_DB_VERSION', 23);  // <-- increment here
-=======
-define('LATEST_DB_VERSION', 22);  // <-- increment here
->>>>>>> gh-pages
+define('LATEST_DB_VERSION', 26);  // <-- increment here
 
 /*
  * Get update steps
@@ -820,18 +816,17 @@ function get_db_update_steps($current_version)
                 `perms_storelocations`,`perms_footprints`,`perms_categories`,
                 `perms_suppliers`,`perms_manufacturers`,`perms_attachement_types`,
                 `perms_tools`)
-                VALUES (1,'admins',NULL,
-                'Users of this group can do everything: Read, Write and Administrative actions.'
-                ,1,1365,21845,21,85,21,349525,5,5,5,5,5,5,5,5,5,325,325,325,1365,
-                325,1365,1365,1365,1365,1365,341,1365),
-              (2,'readonly',NULL,
-              'Users of this group can only read informations, use tools, and don\'t have access to administrative tools.'
-              ,2,2730,43690,25,170,42,349865,9,9,9,9,9,9,9,9,9,649,649,649,1705,
-              649,1705,1705,1705,1705,1705,681,1366),
-              (3,'users',NULL,
-              'Users of this group, can edit part informations, create new ones, etc. but are not allowed to use administrative tools. (But can read current configuration, and see Server status)'
-              ,2,2730,43690,25,105,41,349525,5,5,5,5,5,5,5,5,5,325,325,325,1365,
-              325,1365,1365,1365,1365,1365,341,1365); 
+                VALUES (1, 'admins', NULL, 'Users of this group can do everything: Read, Write and Administrative actions.',
+                    21, 1365, 87381, 85, 85, 21, 1431655765, 5, 5, 5, 5, 5, 5, 5, 5, 5, 325, 325, 325, 5461, 325, 5461, 5461,
+                    5461, 5461, 5461, 1365, 1365),
+                (2, 'readonly', NULL, 
+                   'Users of this group can only read informations, use tools, and don\'t have access to administrative tools.', 
+                    42, 2730, 174762, 154, 170, 42, -1516939607, 9, 9, 9, 9, 9, 9, 9, 9, 9, 649, 649, 649, 1705, 649, 1705, 1705,
+                    1705, 1705, 1705, 681, 1366),
+                (3, 'users', NULL,
+                    'Users of this group, can edit part informations, create new ones, etc. but are not allowed to use administrative tools. (But can read current configuration, and see Server status)',
+                    42, 2730, 109226, 89, 105, 41, 1431655765, 5, 5, 5, 5, 5, 5, 5, 5, 5, 325, 325, 325, 5461, 325, 5461, 5461, 5461,
+                    5461, 5461, 1365, 1365); 
 EOD;
 
 
@@ -872,14 +867,11 @@ EOD;
               ,21845,21845,21845,21845,21845,21845,21845,21845,21845,21845,21845,
               21845,21845,21845,21845,21845,21845); 
 EOD;
-<<<<<<< HEAD
 
             //Remove admin hash from config.php
             $config['admin']['tmp_password'] = null;
             saveConfig();
 
-=======
->>>>>>> gh-pages
             //Break is Important!
             break;
 
@@ -941,7 +933,6 @@ EOD;
                 "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
         break;
 
-<<<<<<< HEAD
         case 22:
             //Create permission tables for labels
             $updateSteps[] = "ALTER TABLE `users` ADD `perms_labels` SMALLINT NOT NULL AFTER `perms_tools`;";
@@ -953,19 +944,41 @@ EOD;
             $updateSteps[] = "UPDATE `groups` SET `perms_labels` = '85' WHERE `groups`.`id` = 3;";
             break;
 
+        case 23:
+            //Create tables for logging system.
+            $updateSteps[] = "CREATE TABLE `log` ".
+                "( `id` INT NOT NULL AUTO_INCREMENT , `datetime` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP() ,".
+                " `id_user` INT NOT NULL ,".
+                " `level` TINYINT NOT NULL ,".
+                " `type` SMALLINT NOT NULL ,".
+                " `target_id` INT NOT NULL ,".
+                " `target_type` SMALLINT NOT NULL ,".
+                " `extra` MEDIUMTEXT NOT NULL ,".
+                " PRIMARY KEY (`id`),".
+                " INDEX (`id_user`)) ENGINE = InnoDB;";
+
+            break;
+
+        case 24:
+            $updateSteps[] = "ALTER TABLE `users`".
+                " ADD `config_image_path` TEXT NOT NULL AFTER `config_currency`,".
+                " ADD `config_instock_comment_w` TEXT NOT NULL AFTER `config_image_path`,".
+                " ADD `config_instock_comment_a` TEXT NOT NULL AFTER `config_instock_comment_w`;" ;
+
+            $updateSteps[] = "ALTER TABLE `users` CHANGE `perms_parts` `perms_parts` BIGINT(11) NOT NULL;";
+            $updateSteps[] = "ALTER TABLE `groups` CHANGE `perms_parts` `perms_parts` BIGINT(11) NOT NULL;";
+
+            break;
+
+        case 25:
+            $updateSteps[] = "ALTER TABLE `pricedetails` CHANGE `price` `price` DECIMAL(11,5) NULL DEFAULT NULL;";
+            break;
 
             /*
 
         `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
                   `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\',
 
-=======
-        /*
-        
-        `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                  `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\',
-        
->>>>>>> gh-pages
                 Templates:
 
                   case 14:

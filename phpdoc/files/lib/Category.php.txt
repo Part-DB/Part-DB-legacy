@@ -223,11 +223,13 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
 
             return "";
         } else {
-            if ($show_escape || $this->db_data['default_description'] !== "@@") {
-                return $this->db_data['default_description'];
-            } else {
-                return "";
+            if(isset($this->db_data['default_description'])) {
+                if ($show_escape || $this->db_data['default_description'] !== "@@") {
+                    return $this->db_data['default_description'];
+                }
             }
+
+            return "";
         }
     }
 
@@ -399,7 +401,6 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      * @throws Exception if there was an error
      */
     public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
-<<<<<<< HEAD
     {
         return parent::getTableParts('id_category', $recursive, $hide_obsolete_and_zero, $limit, $page);
     }
@@ -411,19 +412,6 @@ class Category extends Base\PartsContainingDBElement implements Interfaces\IAPIM
      */
     public function getPartsCount($recursive = false)
     {
-=======
-    {
-        return parent::getTableParts('id_category', $recursive, $hide_obsolete_and_zero, $limit, $page);
-    }
-
-    /**
-     * Return the number of all parts in this PartsContainingDBElement
-     * @param boolean $recursive                if true, the parts of all subcategories will be listed too
-     * @return int The number of parts of this PartContainingDBElement
-     */
-    public function getPartsCount($recursive = false)
-    {
->>>>>>> gh-pages
         return parent::getPartsCountInternal($recursive, 'id_category');
     }
 

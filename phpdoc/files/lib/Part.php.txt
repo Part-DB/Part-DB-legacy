@@ -27,11 +27,13 @@ namespace PartDB;
 
 use Exception;
 use Golonka\BBCode\BBCodeParser;
+use PartDB\LogSystem\InstockChangedEntry;
 use PartDB\PartProperty\PartProperty;
 use PartDB\Permissions\CPartAttributePermission;
 use PartDB\Permissions\PartAttributePermission;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
+use PartDB\Tools\BBCodeParsingLevel;
 
 /**
  * @file Part.php
@@ -53,10 +55,6 @@ use PartDB\Permissions\PermissionManager;
  */
 class Part extends Base\AttachementsContainingDBElement implements Interfaces\IAPIModel, Interfaces\ILabel
 {
-<<<<<<< HEAD
-=======
-
->>>>>>> gh-pages
     const INSTOCK_UNKNOWN   = -2;
 
     /********************************************************************************
@@ -235,6 +233,27 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
+     * Calculates the price for an Instock change.
+     * @param $old_instock int The old instock value.
+     * @param $new_instock int The new instock value after withdrawl.
+     * @return float|int The Price for the instock change. Negative values means withdrewal.
+     * @throws Exception
+     */
+    public function calculateInstockChangePrice($old_instock, $new_instock)
+    {
+        if(!is_int($old_instock) || !is_int($new_instock)) {
+            throw new \RuntimeException(_('$old_instock und $new_instock müssen vom Typ int sein!'));
+        }
+        if ($old_instock < 0 || $new_instock < 0) {
+            throw new \RuntimeException(_('$old_instock und $new_instock müssen positiv sein!'));
+        }
+
+        $difference = $new_instock - $old_instock;
+
+        return $difference * $this->getAveragePrice();
+    }
+
+    /**
      * Replaces Placeholder strings like %id% or %name% with their corresponding Part properties.
      * Note: If the given Part does not have a property, it will be replaced with "".
      *
@@ -312,11 +331,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      * Get the description
      *
-     * @param boolean $parse_bbcode Should BBCode converted to HTML, before returning
+     * @param boolean|int $bbcode_parse_level Should BBCode converted to HTML, before returning
      * @param int $short_output If this is bigger than 0, than the description will be shortened to this length.
      * @return string       the description
      */
-    public function getDescription($parse_bbcode = true, $short_output = 0)
+    public function getDescription($bbcode_parse_level = BBCodeParsingLevel::PARSE, $short_output = 0)
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_DESCRIPTION, PartAttributePermission::READ)) {
             return "???";
@@ -330,9 +349,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             $val = '<span class="text-muted">' . $val . '</span class="text-muted">';
         }
 
-        if ($parse_bbcode) {
+        if ($bbcode_parse_level === BBCodeParsingLevel::PARSE) {
             $bbcode = new BBCodeParser;
             $val = $bbcode->only("bold", "italic", "underline", "linethrough")->parse($val);
+        } elseif ($bbcode_parse_level === BBCodeParsingLevel::STRIP) {
+            $bbcode = new BBCodeParser;
+            $val = $bbcode->stripBBCodeTags($val);
         }
 
         return $val;
@@ -383,19 +405,26 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      *  Get the comment
      *
-     * @param boolean $parse_bbcode Should BBCode converted to HTML, before returning
+     * @param boolean|int $bbcode_parsing_level Should BBCode converted to HTML, before returning
      * @return string       the comment
      */
-    public function getComment($parse_bbcode = true)
+    public function getComment($bbcode_parsing_level = BBCodeParsingLevel::PARSE)
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_COMMENT, PartAttributePermission::READ)) {
             return "???";
         }
 
         $val = htmlspecialchars($this->db_data['comment']);
-        if ($parse_bbcode) {
+        if ($bbcode_parsing_level === BBCodeParsingLevel::PARSE) {
             $bbcode = new BBCodeParser;
+            $bbcode->setParser('brLinebreak', "/\[br\]/s", "<br/>", "");
+            $bbcode->setParser('namedlink', '/\[url\=(.*?)\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$2</a>', '$2');
+            $bbcode->setParser('link', '/\[url\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$1</a>', '$1');
             $val = $bbcode->parse($val);
+        } elseif($bbcode_parsing_level === BBCodeParsingLevel::STRIP) {
+                $bbcode = new BBCodeParser();
+                $val = str_replace("\n", " ", $val);
+               $val = $bbcode->stripBBCodeTags($val);
         }
 
         return $val;
@@ -565,12 +594,14 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     /**
      *  Get the link to the website of the article on the manufacturers website
      *
+     * @param
+     *
      * @return string           the link to the article
      * @throws Exception
      */
-    public function getManufacturerProductUrl()
+    public function getManufacturerProductUrl($no_auto_url = false)
     {
-        if (strlen($this->db_data['manufacturer_product_url']) > 0) {
+        if ($no_auto_url || strlen($this->db_data['manufacturer_product_url']) > 0) {
             return $this->db_data['manufacturer_product_url'];
         } elseif (is_object($this->getManufacturer())) {
             return $this->getManufacturer()->getAutoProductUrl($this->db_data['name']);
@@ -587,7 +618,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function getLastModified($formatted = true)
     {
-
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
             return "???";
         }
@@ -1075,7 +1105,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 $desc = PartProperty::parseDescription($this->getDescription());
             }
             if ($use_comment === true) {
-                $comm = PartProperty::parseDescription($this->getComment());
+                $comm = PartProperty::parseDescription($this->getComment(false));
             }
 
             $arr = array_merge($name, $desc, $comm);
@@ -1105,6 +1135,22 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     public function hasValidName()
     {
         return Part::isValidName($this->getName(), $this->getCategory());
+    }
+
+    public function getCreationUser()
+    {
+        if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_USERS)) {
+            return null;
+        }
+        return parent::getCreationUser(); // TODO: Change the autogenerated stub
+    }
+
+    public function getLastModifiedUser()
+    {
+        if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_USERS)) {
+            return null;
+        }
+        return parent::getLastModifiedUser(); // TODO: Change the autogenerated stub
     }
 
     public function getAttachementTypes()
@@ -1152,8 +1198,56 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the new instock is not valid
      * @throws Exception if there was an error
      */
-    public function setInstock($new_instock)
+    public function setInstock($new_instock, $comment = null)
     {
+        $old_instock = (int) $this->getInstock();
+        $this->setAttributes(array('instock' => $new_instock));
+        InstockChangedEntry::add($this->database, $this->current_user, $this->log,
+            $this, $old_instock, $new_instock , $comment);
+    }
+
+    /**
+     * Withdrawal the given number of parts.
+     * @param $count int The number of parts which should be withdrawan.
+     * @param $comment string A comment that should be associated with the withdrawal.
+     * @throws Exception if there was an error
+     */
+    public function withdrawalParts($count, $comment = null)
+    {
+        if($count <= 0) {
+            throw new Exception(_("Zahl der entnommenen Bauteile muss größer 0 sein!"));
+        }
+        if($count > $this->getInstock()) {
+            throw new Exception(_("Es können nicht mehr Bauteile entnommen werden, als vorhanden sind!"));
+        }
+
+        $old_instock = (int) $this->getInstock();
+        $new_instock = $old_instock - $count;
+
+        InstockChangedEntry::add($this->database, $this->current_user, $this->log,
+            $this, $old_instock, $new_instock, $comment);
+
+        $this->setAttributes(array('instock' => $new_instock));
+    }
+
+    /**
+     * Add the given number of parts.
+     * @param $count int The number of parts which should be withdrawan.
+     * @param $comment string A comment that should be associated with the withdrawal.
+     * @throws Exception if there was an error
+     */
+    public function addParts($count, $comment = null)
+    {
+        if($count <= 0) {
+            throw new Exception(_("Zahl der entnommenen Bauteile muss größer 0 sein!"));
+        }
+
+        $old_instock = (int) $this->getInstock();
+        $new_instock = $old_instock + $count;
+
+        InstockChangedEntry::add($this->database, $this->current_user, $this->log,
+            $this, $old_instock, $new_instock, $comment);
+
         $this->setAttributes(array('instock' => $new_instock));
     }
 
@@ -1298,6 +1392,16 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
+     * Sets the URL to the manufacturer site about this Part. Set to "" if this part should use the automatically URL based on its manufacturer.
+     * @param string $new_url The new url
+     * @throws Exception when an error happens.
+     */
+    public function setManufacturerProductURL($new_url)
+    {
+        $this->setAttributes(array('manufacturer_product_url' => $new_url));
+    }
+
+    /**
      *  Set the ID of the master picture Attachement
      *
      * @param integer|NULL $new_master_picture_attachement_id       @li the ID of the Attachement object of the master picture
@@ -1311,7 +1415,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $this->setAttributes(array('id_master_picture_attachement' => $new_master_picture_attachement_id));
     }
 
-    public function setAttributes($new_values)
+    public function setAttributes($new_values, $edit_message = null)
     {
         //Override this function, so we can check if user has the needed permissions.
         $arr = array();
@@ -1365,6 +1469,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             if (isset($new_values['id_manufacturer'])) {
                 $arr['id_manufacturer'] = $new_values['id_manufacturer'];
             }
+            if(isset($new_values["manufacturer_product_url"])) {
+                $arr['manufacturer_product_url'] = $new_values['manufacturer_product_url'];
+            }
         }
         if ($this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::EDIT)
             || $this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE)
@@ -1397,7 +1504,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         //Only apply attributes, if $arr contains values.
         if (!empty($arr)) {
-            parent::setAttributes($arr);
+            parent::setAttributes($arr, $edit_message);
         }
     }
 
@@ -1436,10 +1543,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $table_row['id']            = $this->getID();
         $table_row['row_fields']    = array();
         $table_row['favorite']      = $this->getFavorite();
-<<<<<<< HEAD
         $table_row["show_full_paths"] = $config['table']['full_paths'];
-=======
->>>>>>> gh-pages
+        $table_row["instock_warning_full_row"] = $config['table']['instock_warning_full_row_color'] && ($this->getAutoOrder());
 
         foreach (explode(';', $config['table'][$table_type]['columns']) as $caption) {
             $row_field = array();
@@ -1451,6 +1556,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             switch ($caption) {
                 case 'hover_picture':
                     $picture_filename = str_replace(BASE, BASE_RELATIVE, $this->getMasterPictureFilename(true));
+                    if($this->getMasterPictureAttachement() != null && !$this->getMasterPictureAttachement()->isFileExisting()) { //When filename is invalid then dont show picture.
+                        $picture_filename = "";
+                    }
                     $row_field['picture_name']  = strlen($picture_filename) ? basename($picture_filename) : '';
                     $row_field['small_picture'] = strlen($picture_filename) ? $picture_filename : '';
                     $row_field['hover_picture'] = strlen($picture_filename) ? $picture_filename : '';
@@ -1461,7 +1569,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'comment':
                 case 'name_description':
                     $row_field['obsolete']          = $this->getObsolete();
-                    $row_field['comment']           = $this->getComment();
+                    $row_field['comment']           = mb_substr($this->getComment(BBCodeParsingLevel::STRIP), 0, 250);
                     $row_field['description']       = $this->getDescription(true, $max_length);
                     break;
 
@@ -1471,7 +1579,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 case 'instock_edit_buttons':
                     $row_field['instock']               = $this->getInstock(true);
                     $row_field['mininstock']            = $this->getMinInstock();
-                    $row_field['not_enought_instock']   = ($this->getAutoOrder());
+                    $row_field['not_enough_instock']   = ($this->getAutoOrder());
                     break;
 
                 case 'category':
@@ -1651,7 +1759,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
                 case 'id':
                 case 'button_increment':
-<<<<<<< HEAD
                     $row_field['increment_disabled'] = ($this->getInstock() < 0) || !$this->current_user->canDo(
                         PermissionManager::PARTS_INSTOCK,
                         PartAttributePermission::EDIT
@@ -1662,14 +1769,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                         PermissionManager::PARTS,
                         PartPermission::EDIT
                     );
-=======
-                    $row_field['increment_disabled'] = ($this->getInstock() < 0) || !$this->current_user->canDo(PermissionManager::PARTS_INSTOCK,
-                            PartAttributePermission::EDIT);
-                    break;
-                case 'button_edit':
-                    $row_field['edit_disabled'] = !$this->current_user->canDo(PermissionManager::PARTS,
-                        PartPermission::EDIT);
->>>>>>> gh-pages
                     break;
                 case 'quantity_edit': // for DevicePart Objects
                 case 'mountnames_edit': // for DevicePart Objects
@@ -1799,7 +1898,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-<<<<<<< HEAD
      * Check if all values are valid for creating a new element / editing an existing element
      *
      * This function is called by creating a new DBElement (DBElement::add()),
@@ -1830,11 +1928,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if the values are not valid / the combination of values is not valid
      * @throws Exception if there was an error
-=======
-     * @copydoc DBElement::check_values_validity()
-     * @param $element Part
-     * @throws Exception
->>>>>>> gh-pages
      */
     public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
     {
@@ -2198,11 +2291,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             'ORDER BY parts.name ASC';
 
         if ($limit > 0 && $page > 0) {
-<<<<<<< HEAD
             $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
-=======
-            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
->>>>>>> gh-pages
         }
 
         $query_data = $database->query($query);
@@ -2256,12 +2345,9 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
-<<<<<<< HEAD
      * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
      * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
      *
-=======
->>>>>>> gh-pages
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
@@ -2282,11 +2368,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             'WHERE favorite = 1';
 
         if ($limit > 0 && $page > 0) {
-<<<<<<< HEAD
             $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
-=======
-            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
->>>>>>> gh-pages
         }
 
         $query_data = $database->query($query);
@@ -2337,11 +2419,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
-<<<<<<< HEAD
      * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
      * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
-=======
->>>>>>> gh-pages
      *
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
@@ -2364,7 +2443,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             'ORDER BY parts.name ASC';
 
         if ($limit > 0 && $page > 0) {
-<<<<<<< HEAD
             $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
         }
 
@@ -2445,9 +2523,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         if ($limit > 0 && $page > 0) {
             $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
-=======
-            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
->>>>>>> gh-pages
         }
 
         $query_data = $database->query($query);
@@ -2460,7 +2535,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-<<<<<<< HEAD
      *  Get all parts sorted by their last modified datetime.
      *
      * @param Database  &$database          reference to the database object
@@ -2544,30 +2618,21 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     }
 
     /**
-=======
->>>>>>> gh-pages
      *  Get all parts which have an unknown instock value.
      *
      * @param Database  &$database          reference to the database object
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
-<<<<<<< HEAD
      * @param int       $limit              Limit the result count to the given number. Set to 0 to disable pagination.
      * @param int       $page               Selects the page of the results. Each page contains $limit number of elements.
      *
      *
-=======
->>>>>>> gh-pages
      * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
      */
-<<<<<<< HEAD
     public static function getLastAddedPartsCount(&$database, &$current_user, &$log, $newest_first = true)
-=======
-    public static function getInstockUnknownPartsCount(&$database, &$current_user, &$log)
->>>>>>> gh-pages
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
             return array();
@@ -2577,7 +2642,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             throw new Exception(_('$database ist kein Database-Objekt!'));
         }
 
-<<<<<<< HEAD
         $sorting = $newest_first ? "DESC" : "ASC";
 
         $parts = array();
@@ -2585,13 +2649,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         /** @noinspection SyntaxError */
         $query =    'SELECT count(id) AS count from parts '.
             'ORDER BY parts.datetime_added ' . $sorting;
-=======
-        $parts = array();
-
-        $query =    'SELECT count(id) AS count from parts '.
-            'WHERE instock = -2 '.
-            'ORDER BY parts.name ASC';
->>>>>>> gh-pages
 
 
         $query_data = $database->query($query);
@@ -2650,11 +2707,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
 
         if ($limit > 0 && $page > 0) {
-<<<<<<< HEAD
             $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
-=======
-            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
->>>>>>> gh-pages
         }
 
         $query_data = $database->query($query);
@@ -2772,7 +2825,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         $keyword = trim($keyword);
 
-        $current_user->tryDo(PermissionManager::PARTS, PartPermission::SEARCH);#
+        $current_user->tryDo(PermissionManager::PARTS, PartPermission::SEARCH);
 
         //Let the user only search properties, for which he has access
         $part_name = $part_name
@@ -2798,7 +2851,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         if (substr($keyword, 0, 1) === '\\' &&  substr($keyword, -1) === '\\'
         || substr($keyword, 0, 1) === '/' &&  substr($keyword, -1) === '/') {
             $regex_search = true;
-            $keyword = substr($keyword, 1, -1); //Remove the backslashes
+            $keyword = mb_substr($keyword, 1, -1); //Remove the backslashes
         }
 
         if (strlen($keyword) == 0) {
@@ -2831,6 +2884,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
 
         $query = 'SELECT parts.* FROM parts';
+
+        $query .= ' LEFT JOIN categories ON parts.id_category=categories.id';
         if ($footprint_name) {
             $query .= ' LEFT JOIN footprints ON parts.id_footprint=footprints.id';
         }
@@ -2839,9 +2894,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         }
         if ($manufacturer_name) {
             $query .= ' LEFT JOIN manufacturers  ON parts.id_manufacturer=manufacturers.id';
-        }
-        if ($category_name) {
-            $query .= ' LEFT JOIN categories ON parts.id_category=categories.id';
         }
         if ($supplierpartnr || $supplier_name) {
             $query .= ' LEFT JOIN orderdetails ON parts.id=orderdetails.part_id';
@@ -2993,11 +3045,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $query = 'SELECT * FROM parts';
 
         if ($limit > 0 && $page > 0) {
-<<<<<<< HEAD
             $query .= " LIMIT " . (($page - 1) * $limit) . ", $limit";
-=======
-            $query .= " LIMIT " . ( ( $page - 1 ) * $limit ) . ", $limit";
->>>>>>> gh-pages
         }
 
         $query_data = $database->query($query);
@@ -3062,7 +3110,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $manufacturer_id = null,
         $footprint_id = null,
         $comment = '',
-        $visible = false
+        $visible = false,
+        $manufacturer_url = ""
     ) {
         $current_user->tryDo(PermissionManager::PARTS, PartPermission::CREATE);
 
@@ -3084,7 +3133,8 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                 'id_master_picture_attachement' => null,
                 'manual_order'                  => false,
                 'order_orderdetails_id'         => null,
-                'order_quantity'                => 1)
+                'order_quantity'                => 1,
+                "manufacturer_product_url" => $manufacturer_url)
         );
         // the column "datetime_added" will be automatically filled by MySQL
         // the column "last_modified" will be filled in the function check_values_validity()

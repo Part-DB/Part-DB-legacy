@@ -69,14 +69,14 @@ if (isset($_REQUEST['export'])) {
 }
 $selected_part_id = 0;
 for ($i=0; $i<$table_rowcount; $i++) {
-    if (isset($_REQUEST['decrement_'.$i])) {
+    if (isset($_POST['decrement_'.$i])) {
         $action = 'decrement';
-        $selected_part_id = isset($_REQUEST['id_'.$i]) ? (integer)$_REQUEST['id_'.$i] : 0;
+        $selected_part_id = isset($_POST['id_'.$i]) ? (integer)$_POST['id_'.$i] : 0;
     }
 
-    if (isset($_REQUEST['increment_'.$i])) {
+    if (isset($_POST['increment_'.$i])) {
         $action = 'increment';
-        $selected_part_id = isset($_REQUEST['id_'.$i]) ? (integer)$_REQUEST['id_'.$i] : 0;
+        $selected_part_id = isset($_POST['id_'.$i]) ? (integer)$_POST['id_'.$i] : 0;
     }
 }
 
@@ -151,7 +151,7 @@ if (! $fatal_error) {
                     throw new Exception('Es wurde keine gültige Bauteil-ID übermittelt!');
                 }
 
-                $part->setInstock($part->getInstock() - 1);
+                $part->withdrawalParts(1);
 
                 $reload_site = true;
             } catch (Exception $e) {
@@ -165,7 +165,7 @@ if (! $fatal_error) {
                     throw new Exception('Es wurde keine gültige Bauteil-ID übermittelt!');
                 }
 
-                $part->setInstock($part->getInstock() + 1);
+                $part->addParts(1);
 
                 $reload_site = true;
             } catch (Exception $e) {
@@ -292,7 +292,6 @@ if (! $fatal_error) {
  *********************************************************************************/
 
 if (! $fatal_error) {
-<<<<<<< HEAD
     try {
         $html->setVariable('keyword', $keyword, 'string');
         $html->setVariable('hits_count', (isset($hits_count) ? $hits_count : 0), 'integer');
@@ -323,34 +322,6 @@ if (! $fatal_error) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red', );
         $fatal_error = true;
     }
-=======
-
-    $html->setVariable('keyword', $keyword, 'string');
-    $html->setVariable('hits_count', (isset($hits_count) ? $hits_count : 0), 'integer');
-    $html->setVariable('search_name', $search_name, 'boolean');
-    $html->setVariable('search_category', $search_category, 'boolean');
-    $html->setVariable('search_description', $search_description, 'boolean');
-    $html->setVariable('search_comment', $search_comment, 'boolean');
-    $html->setVariable('search_supplier', $search_supplier, 'boolean');
-    $html->setVariable('search_supplierpartnr', $search_supplierpartnr, 'boolean');
-    $html->setVariable('search_storelocation', $search_storelocation, 'boolean');
-    $html->setVariable('search_footprint', $search_footprint, 'boolean');
-    $html->setVariable('search_manufacturer', $search_manufacturer, 'boolean');
-
-    // export formats
-    $html->setLoop('export_formats', buildExportFormatsLoop('searchparts'));
-    $html->setLoop('group_formats', Part::buildSearchGroupByLoop($groupby));
-
-    // global stuff
-    $html->setVariable('disable_footprints', $config['footprints']['disable'], 'boolean');
-    $html->setVariable('disable_manufacturers', $config['manufacturers']['disable'], 'boolean');
-    $html->setVariable('disable_auto_datasheets', $config['auto_datasheets']['disable'], 'boolean');
-
-    $html->setVariable('use_modal_popup', $config['popup']['modal'], 'boolean');
-    $html->setVariable('popup_width', $config['popup']['width'], 'integer');
-    $html->setVariable('popup_height', $config['popup']['height'], 'integer');
-    $html->setVariable('highlighting', $config['search']['highlighting'], 'boolean');
->>>>>>> gh-pages
 }
 
 /********************************************************************************
@@ -378,12 +349,7 @@ if (! $fatal_error) {
     }
 }
 
-<<<<<<< HEAD
 if ($action == "hint") {
-=======
-if($action == "hint")
-{
->>>>>>> gh-pages
     $html->printTemplate('livesearch_hint');
 }
 

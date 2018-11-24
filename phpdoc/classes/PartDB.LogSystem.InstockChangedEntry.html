@@ -1,0 +1,2148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0"/>
+    <meta charset="utf-8"/>
+    <title>Part-DB</title>
+    <meta name="author" content=""/>
+    <meta name="description" content=""/>
+
+    <link href="../css/bootstrap-combined.no-icons.min.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/prism.css" rel="stylesheet" media="all"/>
+    <link href="../css/template.css" rel="stylesheet" media="all"/>
+    
+    <!--[if lt IE 9]>
+    <script src="../js/html5.js"></script>
+    <![endif]-->
+    <script src="../js/jquery-1.11.0.min.js"></script>
+    <script src="../js/ui/1.10.4/jquery-ui.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/jquery.smooth-scroll.js"></script>
+    <script src="../js/prism.min.js"></script>
+    <!-- TODO: Add http://jscrollpane.kelvinluck.com/ to style the scrollbars for browsers not using webkit-->
+    <script type="text/javascript">
+    function loadExternalCodeSnippets() {
+        Array.prototype.slice.call(document.querySelectorAll('pre[data-src]')).forEach(function (pre) {
+            var src = pre.getAttribute('data-src');
+            var extension = (src.match(/\.(\w+)$/) || [, ''])[1];
+            var language = 'php';
+
+            var code = document.createElement('code');
+            code.className = 'language-' + language;
+
+            pre.textContent = '';
+
+            code.textContent = 'Loading…';
+
+            pre.appendChild(code);
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('GET', src, true);
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4) {
+
+                    if (xhr.status < 400 && xhr.responseText) {
+                        code.textContent = xhr.responseText;
+
+                        Prism.highlightElement(code);
+                    }
+                    else if (xhr.status >= 400) {
+                        code.textContent = '✖ Error ' + xhr.status + ' while fetching file: ' + xhr.statusText;
+                    }
+                    else {
+                        code.textContent = '✖ Error: File does not exist or is empty';
+                    }
+                }
+            };
+
+            xhr.send(null);
+        });
+    }
+
+    $(document).ready(function(){
+        loadExternalCodeSnippets();
+    });
+    $('#source-view').on('shown', function () {
+        loadExternalCodeSnippets();
+    })
+</script>
+
+    <link rel="shortcut icon" href="../images/favicon.ico"/>
+    <link rel="apple-touch-icon" href="../images/apple-touch-icon.png"/>
+    <link rel="apple-touch-icon" sizes="72x72" href="../images/apple-touch-icon-72x72.png"/>
+    <link rel="apple-touch-icon" sizes="114x114" href="../images/apple-touch-icon-114x114.png"/>
+</head>
+<body>
+
+<div class="navbar navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                <i class="icon-ellipsis-vertical"></i>
+            </a>
+            <a class="brand" href="../index.html">Part-DB</a>
+
+            <div class="nav-collapse">
+                <ul class="nav pull-right">
+                                        <li class="dropdown">
+                        <a href="../index.html" class="dropdown-toggle" data-toggle="dropdown">
+                            API Documentation <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                                                        <li><a href="../namespaces/PartDB.html">\PartDB</a></li>
+                                                    </ul>
+                    </li>
+                                        <li class="dropdown" id="charts-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Charts <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../graphs/class.html">
+                                    <i class="icon-list-alt"></i>&#160;Class hierarchy diagram
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="dropdown" id="reports-menu">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                            Reports <b class="caret"></b>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a href="../reports/errors.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">838</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/markers.html">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        <i class="icon-list-alt"></i>&#160;Markers <span class="label label-info pull-right">33</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="../reports/deprecated.html">
+                                                                                                            <i class="icon-list-alt"></i>&#160;Deprecated <span class="label label-info pull-right">0</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!--<div class="go_to_top">-->
+    <!--<a href="#___" style="color: inherit">Back to top&#160;&#160;<i class="icon-upload icon-white"></i></a>-->
+    <!--</div>-->
+</div>
+
+<div id="___" class="container-fluid">
+        <section class="row-fluid">
+        <div class="span2 sidebar">
+                                <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-2035604574"></a>
+                                <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
+            </div>
+            <div id="namespace-2035604574" class="accordion-body collapse in">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-50267944"></a>
+                                <a href="../namespaces/PartDB.html" style="margin-left: 30px; padding-left: 0">PartDB</a>
+            </div>
+            <div id="namespace-50267944" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-341724179"></a>
+                                <a href="../namespaces/PartDB.Base.html" style="margin-left: 30px; padding-left: 0">Base</a>
+            </div>
+            <div id="namespace-341724179" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Base.AttachementsContainingDBElement.html">AttachementsContainingDBElement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.Company.html">Company</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.DBElement.html">DBElement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.NamedDBElement.html">NamedDBElement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.PartsContainingDBElement.html">PartsContainingDBElement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Base.StructuralDBElement.html">StructuralDBElement</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1505297412"></a>
+                                <a href="../namespaces/PartDB.Exceptions.html" style="margin-left: 30px; padding-left: 0">Exceptions</a>
+            </div>
+            <div id="namespace-1505297412" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Exceptions.NotImplementedException.html">NotImplementedException</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Exceptions.UserNotAllowedException.html">UserNotAllowedException</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-6251582"></a>
+                                <a href="../namespaces/PartDB.Interfaces.html" style="margin-left: 30px; padding-left: 0">Interfaces</a>
+            </div>
+            <div id="namespace-6251582" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                    <li class="interface"><a href="../classes/PartDB.Interfaces.IAPIModel.html">IAPIModel</a></li>
+                                                    <li class="interface"><a href="../classes/PartDB.Interfaces.IHasPermissions.html">IHasPermissions</a></li>
+                                                    <li class="interface"><a href="../classes/PartDB.Interfaces.ILabel.html">ILabel</a></li>
+                                                    <li class="interface"><a href="../classes/PartDB.Interfaces.ISearchable.html">ISearchable</a></li>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1666392481"></a>
+                                <a href="../namespaces/PartDB.Label.html" style="margin-left: 30px; padding-left: 0">Label</a>
+            </div>
+            <div id="namespace-1666392481" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Label.BaseLabel.html">BaseLabel</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Label.PartLabel.html">PartLabel</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Label.StorelocationLabel.html">StorelocationLabel</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-440340031"></a>
+                                <a href="../namespaces/PartDB.LogSystem.html" style="margin-left: 30px; padding-left: 0">LogSystem</a>
+            </div>
+            <div id="namespace-440340031" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.LogSystem.BaseEntry.html">BaseEntry</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.LogSystem.ConfigChangedEntry.html">ConfigChangedEntry</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.LogSystem.DatabaseUpdatedEntry.html">DatabaseUpdatedEntry</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.LogSystem.ElementCreatedEntry.html">ElementCreatedEntry</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.LogSystem.ElementDeletedEntry.html">ElementDeletedEntry</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.LogSystem.ElementEditedEntry.html">ElementEditedEntry</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.LogSystem.ExceptionEntry.html">ExceptionEntry</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.LogSystem.InstockChangedEntry.html">InstockChangedEntry</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.LogSystem.UnknownTypeEntry.html">UnknownTypeEntry</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.LogSystem.UserLoginEntry.html">UserLoginEntry</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.LogSystem.UserLogoutEntry.html">UserLogoutEntry</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.LogSystem.UserNotAllowedEntry.html">UserNotAllowedEntry</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1771527528"></a>
+                                <a href="../namespaces/PartDB.PartProperty.html" style="margin-left: 30px; padding-left: 0">PartProperty</a>
+            </div>
+            <div id="namespace-1771527528" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.PartProperty.PartNameRegEx.html">PartNameRegEx</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.PartProperty.PartProperty.html">PartProperty</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1592056244"></a>
+                                <a href="../namespaces/PartDB.Permissions.html" style="margin-left: 30px; padding-left: 0">Permissions</a>
+            </div>
+            <div id="namespace-1592056244" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Permissions.BasePermission.html">BasePermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.ConfigPermission.html">ConfigPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.CPartAttributePermission.html">CPartAttributePermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.DatabasePermission.html">DatabasePermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.DevicePartPermission.html">DevicePartPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.GroupPermission.html">GroupPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.LabelPermission.html">LabelPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.PartAttributePermission.html">PartAttributePermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.PartContainingPermission.html">PartContainingPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.PartPermission.html">PartPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.PermissionGroup.html">PermissionGroup</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.PermissionManager.html">PermissionManager</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.SelfPermission.html">SelfPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.StructuralPermission.html">StructuralPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.SystemPermission.html">SystemPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.ToolsPermission.html">ToolsPermission</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Permissions.UserPermission.html">UserPermission</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                                                    <div class="accordion" style="margin-bottom: 0">
+        <div class="accordion-group">
+            <div class="accordion-heading">
+                                    <a class="accordion-toggle collapsed" data-toggle="collapse" data-target="#namespace-1865315782"></a>
+                                <a href="../namespaces/PartDB.Tools.html" style="margin-left: 30px; padding-left: 0">Tools</a>
+            </div>
+            <div id="namespace-1865315782" class="accordion-body collapse ">
+                <div class="accordion-inner">
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Tools.BBCodeParsingLevel.html">BBCodeParsingLevel</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Tools.JSONStorage.html">JSONStorage</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Tools.PDBDebugBar.html">PDBDebugBar</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Tools.StatisticsHelpers.html">StatisticsHelpers</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Tools.SystemVersion.html">SystemVersion</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                                    <li class="class"><a href="../classes/PartDB.Attachement.html">Attachement</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.AttachementType.html">AttachementType</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Category.html">Category</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Database.html">Database</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Device.html">Device</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.DevicePart.html">DevicePart</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Footprint.html">Footprint</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Group.html">Group</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.HTML.html">HTML</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Log.html">Log</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Manufacturer.html">Manufacturer</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Orderdetails.html">Orderdetails</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Part.html">Part</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Pricedetails.html">Pricedetails</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Storelocation.html">Storelocation</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.Supplier.html">Supplier</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.System.html">System</a></li>
+                                                    <li class="class"><a href="../classes/PartDB.User.html">User</a></li>
+                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+                    
+                    <ul>
+                                                                                            </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+        </div>
+    </section>
+    <section class="row-fluid">
+        <div class="span10 offset2">
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <nav>
+                                                <a href="../namespaces/PartDB.LogSystem.html">\PartDB\LogSystem</a> <i class="icon-level-up"></i>
+                                            </nav>
+                    <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal"><i class="icon-code"></i></a>
+
+                    <h1><small>\PartDB\LogSystem</small>InstockChangedEntry</h1>
+                    <p><em></em></p>
+                    
+                    
+                                        
+                    <section id="summary">
+                        <h2>Summary</h2>
+                        <section class="row-fluid heading">
+                            <section class="span4">
+                                <a href="#methods">Methods</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#properties">Properties</a>
+                            </section>
+                            <section class="span4">
+                                <a href="#constants">Constants</a>
+                            </section>
+                        </section>
+                        <section class="row-fluid public">
+                            <section class="span4">
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#method___construct" class="">__construct()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.BaseEntry.html#method_getUser" class="">getUser()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.BaseEntry.html#method_getTimestamp" class="">getTimestamp()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.BaseEntry.html#method_getExtraRaw" class="">getExtraRaw()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.BaseEntry.html#method_getTypeID" class="">getTypeID()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.BaseEntry.html#method_getLevelID" class="">getLevelID()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.BaseEntry.html#method_getLevel" class="">getLevel()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.BaseEntry.html#method_getTargetID" class="">getTargetID()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#method_getTargetText" class="">getTargetText()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#method_getTargetLink" class="">getTargetLink()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#method_getExtra" class="">getExtra()</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#method_delete" class="">delete()</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#method_resetAttributes" class="">resetAttributes()</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#method_getID" class="">getID()</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#method_getTablename" class="">getTablename()</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#method_setAttributes" class="">setAttributes()</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#method_checkValuesValidity" class="">checkValuesValidity()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#method_getOldInstock" class="">getOldInstock()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#method_getNewInstock" class="">getNewInstock()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#method_getComment" class="">getComment()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#method_getPrice" class="">getPrice()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#method_getPriceMoneyString" class="">getPriceMoneyString()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#method_getDifference" class="">getDifference()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#method_isWithdrawal" class="">isWithdrawal()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#method_getTypeString" class="">getTypeString()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#method_add" class="">add()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No public properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No constants found</em>
+                                                            </section>
+                        </section>
+                        <section class="row-fluid protected">
+                            <section class="span4">
+                                                                    <a href="../classes/PartDB.LogSystem.BaseEntry.html#method_getTargetType" class="">getTargetType()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.BaseEntry.html#method_serializeExtra" class="">serializeExtra()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.BaseEntry.html#method_deserializeExtra" class="">deserializeExtra()</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.BaseEntry.html#method_addEntry" class="">addEntry()</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#method_addByArray" class="">addByArray()</a><br />
+                                                            </section>
+                            <section class="span4">
+                                                                    <a href="../classes/PartDB.LogSystem.BaseEntry.html#property_user" class="">$user</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#property_current_user" class="">$current_user</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#property_log" class="">$log</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#property_database" class="">$database</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#property_tablename" class="">$tablename</a><br />
+                                                                    <a href="../classes/PartDB.Base.DBElement.html#property_db_data" class="">$db_data</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#property_element" class="">$element</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#property_old_instock" class="">$old_instock</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#property_new_instock" class="">$new_instock</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#property_comment" class="">$comment</a><br />
+                                                                    <a href="../classes/PartDB.LogSystem.InstockChangedEntry.html#property_price" class="">$price</a><br />
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                        <section class="row-fluid private">
+                            <section class="span4">
+                                                                    <em>No private methods found</em>
+                                                            </section>
+                            <section class="span4">
+                                                                    <em>No private properties found</em>
+                                                            </section>
+                            <section class="span4">
+                                <em>N/A</em>
+                            </section>
+                        </section>
+                    </section>
+                </div>
+                <aside class="span4 detailsbar">
+                                        
+                    
+                    <dl>
+                        <dt>File</dt>
+                            <dd><a href="../files/lib.LogSystem.InstockChangedEntry.html"><div class="path-wrapper">lib\LogSystem\InstockChangedEntry.php</div></a></dd>
+                                                <dt>Package</dt>
+                            <dd><div class="namespace-wrapper">Default</div></dd>
+                                                <dt>Class hierarchy</dt>
+                            <dd class="hierarchy">
+                                                                                                                                                                                                                                                                                                                                                                                                                                                            
+                                        <div class="namespace-wrapper"><a href="../classes/PartDB.Base.DBElement.html">\PartDB\Base\DBElement</a></div>
+                                                                    
+                                        <div class="namespace-wrapper"><a href="../classes/PartDB.LogSystem.BaseEntry.html">\PartDB\LogSystem\BaseEntry</a></div>
+                                                                                                    <div class="namespace-wrapper">\PartDB\LogSystem\InstockChangedEntry</div>
+                            </dd>
+
+                        
+                        
+                        
+                        
+                                                                        </dl>
+                    <h2>Tags</h2>
+                    <table class="table table-condensed">
+                                            <tr><td colspan="2"><em>None found</em></td></tr>
+                                        </table>
+                </aside>
+            </div>
+
+                        
+                                    <a id="properties" name="properties"></a>
+            <div class="row-fluid">
+                <div class="span8 content class">
+                    <h2>Properties</h2>
+                </div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_user" name="property_user" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$user</h3>
+                <pre class="signature">$user : </pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.LogSystem.BaseEntry.html"><div class="path-wrapper">\PartDB\LogSystem\BaseEntry</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_current_user" name="property_current_user" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$current_user</h3>
+                <pre class="signature">$current_user : \PartDB\User</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../classes/PartDB.User.html">\PartDB\User</a>
+                &mdash; object of the user which is logged in                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_log" name="property_log" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$log</h3>
+                <pre class="signature">$log : \PartDB\Log</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../classes/PartDB.Log.html">\PartDB\Log</a>
+                &mdash; a log object for logging events / bookings                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_database" name="property_database" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$database</h3>
+                <pre class="signature">$database : \PartDB\Database</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../classes/PartDB.Database.html">\PartDB\Database</a>
+                &mdash; the database object for all database transactions                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_tablename" name="property_tablename" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$tablename</h3>
+                <pre class="signature">$tablename : string</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                &mdash; the tablename of the element, e.g. &quot;categories&quot; for the class &quot;Category&quot; and so on...                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_db_data" name="property_db_data" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$db_data</h3>
+                <pre class="signature">$db_data : array</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                array
+                &mdash; (array [1..*]) the record data from the database
+        (for every table column there is an element in this array)                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            par
+                        </th>
+                        <td>
+                                                            <p>Example:</p>
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            code
+                        </th>
+                        <td>
+                                                            <p>array(['row1'] =&gt; 'value1', ['row2'] =&gt; 'value2', ...) @endcode</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_element" name="property_element" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$element</h3>
+                <pre class="signature">$element : \PartDB\Part</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                <a href="../classes/PartDB.Part.html">\PartDB\Part</a>
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_old_instock" name="property_old_instock" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$old_instock</h3>
+                <pre class="signature">$old_instock : integer</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_new_instock" name="property_new_instock" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$new_instock</h3>
+                <pre class="signature">$new_instock : integer</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                integer
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_comment" name="property_comment" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$comment</h3>
+                <pre class="signature">$comment : string</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                string
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_price" name="property_price" class="anchor"></a>
+            <article class="property">
+                <h3 class="protected ">$price</h3>
+                <pre class="signature">$price : float</pre>
+                <p><em></em></p>
+                
+
+                                <h4>Type</h4>
+                float
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                            
+                                    <a id="methods" name="methods"></a>
+            <div class="row-fluid">
+                <div class="span8 content class"><h2>Methods</h2></div>
+                <aside class="span4 detailsbar"></aside>
+            </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method___construct" name="method___construct" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">__construct()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">__construct(\PartDB\Database  <span class="argument">$database</span>, \PartDB\User  <span class="argument">$current_user</span>, \PartDB\Log  <span class="argument">$log</span>, integer  <span class="argument">$id</span>, array  <span class="argument">$db_data = null</span>) </pre>
+                <p><em>Constructor</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/PartDB.Database.html">\PartDB\Database</a></td>
+                                <td>$database </td>
+                                <td><p>reference to the Database-object</p></td>
+                            </tr>
+                                                    <tr>
+                                <td><a href="../classes/PartDB.User.html">\PartDB\User</a></td>
+                                <td>$current_user </td>
+                                <td><p>reference to the current user which is logged in</p></td>
+                            </tr>
+                                                    <tr>
+                                <td><a href="../classes/PartDB.Log.html">\PartDB\Log</a></td>
+                                <td>$log </td>
+                                <td><p>reference to the Log-object</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>integer</td>
+                                <td>$id </td>
+                                <td><p>ID of the filetype we want to get</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$db_data </td>
+                                <td><p>If you have already data from the database, then use give it with this param, the part, wont make a database request.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getUser" name="method_getUser" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getUser()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getUser() : \PartDB\User</pre>
+                <p><em>Gets the user, which caused this Log entry.</em></p>
+                
+
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/PartDB.User.html">\PartDB\User</a>
+                                            &mdash; <p>The user which caused the log entry.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.LogSystem.BaseEntry.html"><div class="path-wrapper">\PartDB\LogSystem\BaseEntry</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTimestamp" name="method_getTimestamp" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getTimestamp()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTimestamp(  <span class="argument">$formatted = true</span>) : string</pre>
+                <p><em>Returns the date/time, which is relevant for this log entry.</em></p>
+                <p>.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$formatted </td>
+                                <td><p>bool When true, the date gets formatted with the locale and timezone settings.
+When false, the raw value from the DB is returned (unix timestamp).</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>The creation time of the part.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.LogSystem.BaseEntry.html"><div class="path-wrapper">\PartDB\LogSystem\BaseEntry</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getExtraRaw" name="method_getExtraRaw" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getExtraRaw()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getExtraRaw() </pre>
+                <p><em></em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.LogSystem.BaseEntry.html"><div class="path-wrapper">\PartDB\LogSystem\BaseEntry</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTypeID" name="method_getTypeID" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getTypeID()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTypeID() : integer</pre>
+                <p><em>Returns the type of this log entry.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>The id ot the type of the log entry.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.LogSystem.BaseEntry.html"><div class="path-wrapper">\PartDB\LogSystem\BaseEntry</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getLevelID" name="method_getLevelID" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getLevelID()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getLevelID() : integer</pre>
+                <p><em>Returns the priority level of this entry, as an int. Use the Log::LEVEL_* consts for comparison.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>The id of the level.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.LogSystem.BaseEntry.html"><div class="path-wrapper">\PartDB\LogSystem\BaseEntry</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getLevel" name="method_getLevel" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getLevel()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getLevel() : string</pre>
+                <p><em>Returns the priority level of this log entry as a string.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>The level as a string.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.LogSystem.BaseEntry.html"><div class="path-wrapper">\PartDB\LogSystem\BaseEntry</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTargetID" name="method_getTargetID" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getTargetID()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTargetID() : integer</pre>
+                <p><em>Returns the id of the target</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>The id of the target</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.LogSystem.BaseEntry.html"><div class="path-wrapper">\PartDB\LogSystem\BaseEntry</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTargetText" name="method_getTargetText" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getTargetText()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTargetText() : string</pre>
+                <p><em>Returns the a text representation of the target</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>The text describing the target</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTargetLink" name="method_getTargetLink" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getTargetLink()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTargetLink() : string</pre>
+                <p><em>Return a link to the target. Returns empty string if no link is available.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>the link to the target.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getExtra" name="method_getExtra" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getExtra()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getExtra(  <span class="argument">$html = false</span>) : string</pre>
+                <p><em>Returns some extra information which is shown in the extra coloumn, of the log</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$html </td>
+                                <td><p>bool Set this to true, to get an HTML formatted version of the extra.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>The extra information</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_delete" name="method_delete" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">delete()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">delete() </pre>
+                <p><em>Delete this element from the database</em></p>
+                
+
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_resetAttributes" name="method_resetAttributes" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">resetAttributes()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">resetAttributes(boolean  <span class="argument">$all = false</span>) </pre>
+                <p><em>Reset all attributes of this object (set them to NULL).</em></p>
+                <p>Reasons why we need this method:</p>
+<ul>
+<li>If we change an attribute of the element, some calculated attributes are no longer valid.
+So this method is called with $all=false to set all calculated attributes to NULL (&quot;clear the cache&quot;)</li>
+<li>If this element is deleted by delete(), we need to clear ALL data from this element,
+including non-calculated attributes. So this method will be called with $all=true.</li>
+</ul>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$all </td>
+                                <td><ul>
+<li>if true, ALL attributes will be deleted (use it only for &quot;destroying&quot; the object).</li>
+<li>if false, only the calculated data will be deleted.
+This is needed if you change an attribute of the object.</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            warning
+                        </th>
+                        <td>
+                                                                                            <p>You should implement this function in your subclass (including a call to this function here!),
+if your subclass has its own attributes (calculated or non-calculated)!</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getID" name="method_getID" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getID()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getID() </pre>
+                <p><em>Get the ID</em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            retval
+                        </th>
+                        <td>
+                                                                                            <p>integer the ID of this element</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTablename" name="method_getTablename" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getTablename()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTablename() </pre>
+                <p><em>Get the tablename</em></p>
+                
+
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            retval
+                        </th>
+                        <td>
+                                                                                            <p>string the tablename of the database table where this element is stored</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_setAttributes" name="method_setAttributes" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">setAttributes()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">setAttributes(array  <span class="argument">$new_values</span>) </pre>
+                <p><em>Set one or more database attributes of this element</em></p>
+                <p>This method let the method check_values_validity() to check all new values if they are valid!
+You don't have to check the data before you call this method!
+And the values will also be corrected automatically (e.g. trim names of elements or so).</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>array</td>
+                                <td>$new_values </td>
+                                <td><p>all new values in a one-dimensional array [1..*] like this:
+@code array(['row1'] =&gt; 'value1', ['row2'] =&gt; 'value2', ...) @endcode</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if the values are not valid / the combination of values is not valid</p></dd>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            warning
+                        </th>
+                        <td>
+                                                                                            <p>To ensure that this works correctly, you have to check the data in your
+subclasses method check_values_validity()!</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_checkValuesValidity" name="method_checkValuesValidity" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">checkValuesValidity()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">checkValuesValidity(  <span class="argument">$database</span>,   <span class="argument">$current_user</span>,   <span class="argument">$log</span>,   <span class="argument">$values</span>, boolean  <span class="argument">$is_new</span>,   <span class="argument">$element = null</span>) </pre>
+                <p><em>Check if all values are valid for creating a new element / editing an existing element</em></p>
+                <p>This function is called by creating a new DBElement (DBElement::add()),
+respectively a subclass of DBElement. Then the attribute $is_new is true!</p>
+<p>And if you set data fields with DBElement::set_attributes() (or a subclass of DBElement),
+the new data (one or more attributes) will be checked with this function
+(with $is_new = false and with the object as $element).</p>
+<p>Because we pass the values array by reference, you're able to adjust values in the array.
+For example, you can trim names of elements. So you don't have to throw an Exception if
+values are not 100% perfect, you simply can &quot;repair&quot; these uncritical attributes.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$database </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$current_user </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$log </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$values </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$is_new </td>
+                                <td><p>@li if true, this means we will create a new element.
+@li if false, this means we will set attributes of an existing element</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$element </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if the values are not valid / the combination of values is not valid</p></dd>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if there was an error</p></dd>
+                                                                    </dl>
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            warning
+                        </th>
+                        <td>
+                                                                                            <p>You have to implement this function in your subclass to check all data!
+You should always let to check the parent class all values, and after that,
+you can check the values which are associated with your subclass of DBElement.</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getOldInstock" name="method_getOldInstock" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getOldInstock()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getOldInstock() : integer</pre>
+                <p><em>Returns the instock value, the part had before the change</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>The old instock value.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getNewInstock" name="method_getNewInstock" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getNewInstock()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getNewInstock() : integer</pre>
+                <p><em>Returns the instock value, the part had after the change.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>The new instock value.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getComment" name="method_getComment" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getComment()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getComment() : string</pre>
+                <p><em>Returns the comment associated with the change.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                            &mdash; <p>The comment.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getPrice" name="method_getPrice" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getPrice()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getPrice(  <span class="argument">$absolute = false</span>) : float</pre>
+                <p><em>Returns the price that has to be payed for the change.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$absolute </td>
+                                <td><p>bool Set this to true, if you want only get the absolute value of the price (without minus)</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    float
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getPriceMoneyString" name="method_getPriceMoneyString" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getPriceMoneyString()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getPriceMoneyString(boolean  <span class="argument">$absolute = true</span>) : string</pre>
+                <p><em>Returns the price as money string.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$absolute </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getDifference" name="method_getDifference" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getDifference()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getDifference(boolean  <span class="argument">$absolute = false</span>) : float|integer</pre>
+                <p><em>Returns the difference value of the change ($new_instock - $old_instock).</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$absolute </td>
+                                <td><p>Set this to true if you want only the absolute value of the difference.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    float|integer
+                                            &mdash; <p>Difference is positive if instock has increased, negative if decreased.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_isWithdrawal" name="method_isWithdrawal" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">isWithdrawal()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">isWithdrawal() : boolean</pre>
+                <p><em>Checks if the Change was an withdrawal of parts.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    boolean
+                                            &mdash; <p>True if the change was an withdrawal, false if not.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTypeString" name="method_getTypeString" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">getTypeString()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTypeString() : string</pre>
+                <p><em>Returns an string description, if the Change was an withdrawal or an addition.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    string
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_add" name="method_add" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">add()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">add(  <span class="argument">$database</span>,   <span class="argument">$current_user</span>,   <span class="argument">$log</span>,   <span class="argument">$part</span>,   <span class="argument">$old_instock</span>,   <span class="argument">$new_instock</span>,   <span class="argument">$comment = null</span>) : static|\PartDB\LogSystem\BaseEntry</pre>
+                <p><em>Adds a new log entry to the database.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$database </td>
+                                <td><p>Database The database which should be used for requests.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$current_user </td>
+                                <td><p>User The database which should be used for requests.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$log </td>
+                                <td><p>Log The database which should be used for requests.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$part </td>
+                                <td><p>NamedDBElement The ip adress the user loggs in from</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$old_instock </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$new_instock </td>
+                                <td></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$comment </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    static|<a href="../classes/PartDB.LogSystem.BaseEntry.html">\PartDB\LogSystem\BaseEntry</a>
+                                            &mdash; <p>The new created Entry.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_getTargetType" name="method_getTargetType" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">getTargetType()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">getTargetType() : integer</pre>
+                <p><em>Returns the type of the target.</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    integer
+                                            &mdash; <p>A integer describing the type of the Target</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.LogSystem.BaseEntry.html"><div class="path-wrapper">\PartDB\LogSystem\BaseEntry</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_serializeExtra" name="method_serializeExtra" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">serializeExtra()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">serializeExtra(  <span class="argument">$extra</span>) : false|string</pre>
+                <p><em>This function converts the given $extra array to a form, that can be written into the extra field.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$extra </td>
+                                <td></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    false|string
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.LogSystem.BaseEntry.html"><div class="path-wrapper">\PartDB\LogSystem\BaseEntry</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_deserializeExtra" name="method_deserializeExtra" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">deserializeExtra()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">deserializeExtra(boolean  <span class="argument">$assoc_array = true</span>) : array|object|null</pre>
+                <p><em>This function converts the string from the extra field, to an array/object.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>boolean</td>
+                                <td>$assoc_array </td>
+                                <td><p>When set to true, the data is returned as an array, otherwise as an object.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    array|object|null
+                                            &mdash; <p>Returns the deserialized array/object, null if it could not be deserialized.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.LogSystem.BaseEntry.html"><div class="path-wrapper">\PartDB\LogSystem\BaseEntry</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_addEntry" name="method_addEntry" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">addEntry()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">addEntry(  <span class="argument">$database</span>,   <span class="argument">$current_user</span>,   <span class="argument">$log</span>,   <span class="argument">$type</span>,   <span class="argument">$level</span>,   <span class="argument">$user_id</span>,   <span class="argument">$target_type</span>,   <span class="argument">$target_id</span>,   <span class="argument">$extra_obj</span>) : \PartDB\LogSystem\BaseEntry|null</pre>
+                <p><em>Adds a new log entry to the database.</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$database </td>
+                                <td><p>Database The database which should be used for requests.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$current_user </td>
+                                <td><p>User The database which should be used for requests.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$log </td>
+                                <td><p>Log The database which should be used for requests.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$type </td>
+                                <td><p>int The type of the entry that should</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$level </td>
+                                <td><p>int The priority level of the entry (see Log::LEVEL_* constants)</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$user_id </td>
+                                <td><p>int The id of the user, that causes this entry.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$target_type </td>
+                                <td><p>int The type of the target.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$target_id </td>
+                                <td><p>int The id of the target.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$extra_obj </td>
+                                <td><p>mixed|array|object An object containing some additional informations.</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    <a href="../classes/PartDB.LogSystem.BaseEntry.html">\PartDB\LogSystem\BaseEntry</a>|null
+                                            &mdash; <p>The newly created BaseEntry, or null if nothing was created (e.g. when logging is disabled)</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.LogSystem.BaseEntry.html"><div class="path-wrapper">\PartDB\LogSystem\BaseEntry</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_addByArray" name="method_addByArray" class="anchor"></a>
+            <article class="method">
+                <h3 class="protected ">addByArray()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">addByArray(\PartDB\Database  <span class="argument">$database</span>, \PartDB\User  <span class="argument">$current_user</span>, \PartDB\Log  <span class="argument">$log</span>, string  <span class="argument">$tablename</span>, array  <span class="argument">$new_values</span>) : static</pre>
+                <p><em>Create a new DBElement (store it in the database)</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td><a href="../classes/PartDB.Database.html">\PartDB\Database</a></td>
+                                <td>$database </td>
+                                <td><p>reference to the database onject</p></td>
+                            </tr>
+                                                    <tr>
+                                <td><a href="../classes/PartDB.User.html">\PartDB\User</a></td>
+                                <td>$current_user </td>
+                                <td><p>reference to the current user which is logged in</p></td>
+                            </tr>
+                                                    <tr>
+                                <td><a href="../classes/PartDB.Log.html">\PartDB\Log</a></td>
+                                <td>$log </td>
+                                <td><p>reference to the Log-object</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>string</td>
+                                <td>$tablename </td>
+                                <td><p>the name of the table where the new element should be inserted</p></td>
+                            </tr>
+                                                    <tr>
+                                <td>array</td>
+                                <td>$new_values </td>
+                                <td><p>@li one-dimensional array with all keys (table columns)
+and the new values
+@li example: @code
+array(['name'] =&gt; 'abcd', ['parent_id'] =&gt; 123, ...) @endcode</p></td>
+                            </tr>
+                                            </table>
+                
+                                    <h4>Throws</h4>
+                    <dl>
+                                                    <dt>\Exception</dt>
+                            <dd><p>if the values are not valid / the combination of values is not valid</p></dd>
+                                                                    </dl>
+                
+                                    <h4>Returns</h4>
+                    static
+                                            &mdash; <p>the created object (e.g. Device, Part, Category, ...)</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                            <span class="label label-info">static</span>
+                                                            <dl>
+                                                    <dt>Inherited from</dt>
+                    <dd><a href="../classes/PartDB.Base.DBElement.html"><div class="path-wrapper">\PartDB\Base\DBElement</div></a></dd>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr><td colspan="2"><em>None found</em></td></tr>
+                            </table>
+        </aside>
+    </div>
+
+                                                    </div>
+    </section>
+
+    <div id="source-view" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="source-view-label" aria-hidden="true">
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+            <h3 id="source-view-label">InstockChangedEntry.php</h3>
+        </div>
+        <div class="modal-body">
+            <pre data-src="../files/lib\LogSystem\InstockChangedEntry.php.txt" class="language-php line-numbers"></pre>
+        </div>
+    </div>
+
+    <footer class="row-fluid">
+        <section class="span10 offset2">
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <section class="row-fluid footer-sections">
+                        <section class="span4">
+                                                        <h1><i class="icon-code"></i></h1>
+                            <div>
+                                <ul>
+                                                                            <li><a href="../namespaces/PartDB.html">\PartDB</a></li>
+                                                                    </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-bar-chart"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../graphs/class.html">Class Hierarchy Diagram</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                        <section class="span4">
+                                                        <h1><i class="icon-pushpin"></i></h1>
+                            <div>
+                                <ul>
+                                    <li><a href="../reports/errors.html">Errors</a></li>
+                                    <li><a href="../reports/markers.html">Markers</a></li>
+                                </ul>
+                            </div>
+                        </section>
+                    </section>
+                </section>
+            </section>
+            <section class="row-fluid">
+                <section class="span10 offset1">
+                    <hr />
+                    Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
+                    on November 24th, 2018 at 19:14.
+                </section>
+            </section>
+        </section>
+    </footer>
+</div>
+
+</body>
+</html>

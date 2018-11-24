@@ -187,11 +187,7 @@ class Device extends Base\PartsContainingDBElement
         } catch (Exception $e) {
             $this->database->rollback(); // rollback transaction
 
-<<<<<<< HEAD
             throw new Exception(sprintf(_("Die Baugruppe \"%s\"konnte nicht kopiert werden!\n"), $this->getName()) . _("Grund: ").$e->getMessage());
-=======
-            throw new Exception(sprintf( _("Die Baugruppe \"%s\"konnte nicht kopiert werden!\n"), $this->getName()) . _("Grund: ").$e->getMessage());
->>>>>>> gh-pages
         }
     }
 
@@ -223,10 +219,17 @@ class Device extends Base\PartsContainingDBElement
                 }
             }
 
+            $comment = sprintf(_("Baugruppe: %s"), $this->getName());
+
             // OK there are enough parts in stock, we will book them
             foreach ($device_parts as $part) {
                 /** @var DevicePart $part  */
-                $part->getPart()->setInstock($part->getPart()->getInstock() - ($part->getMountQuantity() * $book_multiplier));
+                //$part->getPart()->setInstock($part->getPart()->getInstock() - ($part->getMountQuantity() * $book_multiplier));
+                if($book_multiplier > 0) {
+                    $part->getPart()->withdrawalParts(($part->getMountQuantity() * abs($book_multiplier)), $comment);
+                } else {
+                    $part->getPart()->addParts(($part->getMountQuantity() * abs($book_multiplier)), $comment);
+                }
             }
 
             $this->database->commit($transaction_id); // commit transaction
@@ -299,12 +302,8 @@ class Device extends Base\PartsContainingDBElement
      * @return array|null
      * @throws Exception
      */
-<<<<<<< HEAD
     protected function getPartsWithoutPermCheck($recursive = false, $hide_obsolet_and_zero = false, $limit = 50, $page = 1)
     {
-=======
-    protected function getPartsWithoutPermCheck($recursive = false, $hide_obsolet_and_zero = false, $limit = 50, $page = 1) {
->>>>>>> gh-pages
         if (! is_array($this->parts)) {
             $this->parts = array();
 

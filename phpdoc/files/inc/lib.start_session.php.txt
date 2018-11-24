@@ -29,6 +29,10 @@
  * @author kami89
  */
 
+use PartDB\Database;
+use PartDB\Log;
+use PartDB\User;
+
 /**
  * Print out nice formatted messages in Part-DB design without using templates
  *
@@ -40,17 +44,21 @@
  */
 function printMessagesWithoutTemplate($page_title, $div_title, $messages, $panel_type = "panel-danger")
 {
+    //Compatibility with panel-things
+    $bg_type = str_replace("panel-", "bg-", $panel_type);
+    $border_type = str_replace("panel-", "border-", $panel_type);
+
     print '<!DOCTYPE html><html lang="en"><head>';
     print '<title>'.htmlspecialchars($page_title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8').'</title>';
     print '<meta charset="utf-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
                 <meta name="viewport" content="width=device-width, initial-scale=1">
                 <link href="css/bootstrap.min.css" rel="stylesheet"></head>';
-    print '<body><main><div class="container-fluid" id="content"><br><div class="panel ' . $panel_type. '">';
+    print '<body><main><div class="container-fluid" id="content"><br><div class="card ' . $border_type. '">';
     if ($div_title) {
-        print '<div class="panel-heading">'.$div_title.'</div>';
+        print '<div class="card-header text-white '. $bg_type .'">'.$div_title.'</div>';
     }
-    print '<div class="panel-body">';
+    print '<div class="card-body">';
     print $messages;
     {print '</div>';}
     print '</div></main></body></html>';
@@ -273,6 +281,17 @@ function checkIfConfigIsValid()
  */
 function exception_handler($e)
 {
+    //Try to log the exception to the database
+    try {
+        $database           = new Database();
+        $log                = new Log($database);
+        $current_user       = User::getLoggedInUser($database, $log);
+
+        \PartDB\LogSystem\ExceptionEntry::add($database, $current_user, $log, $e);
+    } catch (Exception $ex) {
+        //If that not possible, then do nothing...
+    }
+
     printMessagesWithoutTemplate(
         _('Part-DB: Schwerwiegender Fehler!'),
         null,

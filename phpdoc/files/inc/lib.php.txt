@@ -38,6 +38,8 @@ use PartDB\Permissions\ToolsPermission;
 use PartDB\Tools\JSONStorage;
 use PartDB\User;
 
+use geertw\IpAnonymizer\IpAnonymizer;
+
 /**
  * check if a given number is odd
  *
@@ -95,7 +97,17 @@ function getGitCommitHash($length = 40)
     return null; // this is not a Git installation
 }
 
-
+/**
+ * Creates a array containing data, usable for the used javascript library Bootstrap-treeview.
+ * 
+ * @param string $name This will be shown as the name/label of the node to the user
+ * @param string $href When this is set, the node will be a link, with this URL as target
+ * @param array $nodes The subnotes of this notes as array of the elements created by this function
+ * @param string $icon The CSS class name of the icon this node should have
+ * 
+ * @return array An array containing the informations for this node
+ *  
+ * */
 function treeviewNode($name, $href = null, $nodes = null, $icon = null)
 {
     $ret = array('text' => $name);
@@ -268,6 +280,13 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
         throw new Exception(_('Ungültiges Array übergeben!'));
     }
 
+    //Dont allow to upload a PHP file.
+    if(strpos($file_array['name'], ".php") != false
+        || strpos($destination_filename, ".php") != false)
+    {
+        throw new \Exception(_("Es ist nicht erlaubt PHP Dateien hochzuladen!"));
+    }
+
     if ($destination_filename == null) {
         $destination_filename = $file_array['name'];
     }
@@ -306,11 +325,7 @@ function uploadFile($file_array, $destination_directory, $destination_filename =
             break;
         case UPLOAD_ERR_INI_SIZE:
             throw new Exception(_('Die maximal mögliche Dateigrösse für Uploads wurde überschritten ("upload_max_filesize" in "php.ini")! ').
-<<<<<<< HEAD
                 '<a target="_blank" href="'._("https://github.com/Part-DB/Part-DB/wiki/Anforderungen").'>'._("Hilfe").'</a>');
-=======
-                '<a target="_blank" href="'.BASE_RELATIVE.'/documentation/dokuwiki/doku.php?id=anforderungen">'._("Hilfe").'</a>');
->>>>>>> gh-pages
         case UPLOAD_ERR_FORM_SIZE:
             throw new Exception(_('Die maximal mögliche Dateigrösse für Uploads wurde überschritten!'));
         case UPLOAD_ERR_PARTIAL:
@@ -362,13 +377,6 @@ function setTempAdminPassword($new_password_1, $new_password_2, $save_config = t
     $new_password_1 = trim($new_password_1);
     $new_password_2 = trim($new_password_2);
 
-<<<<<<< HEAD
-=======
-    if (! isAdminPassword($old_password)) {
-        throw new Exception(_('Das eingegebene Administratorpasswort ist nicht korrekt!'));
-    }
-
->>>>>>> gh-pages
     if (mb_strlen($new_password_1) < 6) {
         throw new Exception(_('Das neue Passwort muss mindestens 6 Zeichen lang sein!'));
     }
@@ -378,11 +386,7 @@ function setTempAdminPassword($new_password_1, $new_password_2, $save_config = t
     }
 
     // all ok, save the new password
-<<<<<<< HEAD
     $config['admin']['tmp_password'] = password_hash($new_password_1, PASSWORD_DEFAULT);
-=======
-    $config['admin']['password'] = password_hash($new_password_1, PASSWORD_DEFAULT);
->>>>>>> gh-pages
 
     if ($save_config) {
         saveConfig();
@@ -390,63 +394,6 @@ function setTempAdminPassword($new_password_1, $new_password_2, $save_config = t
 }
 
 /**
-<<<<<<< HEAD
-=======
- * Check if a string is the correct admin password
- *
- * @param $password string      The password (plain, not crypted) we want to check
- *                              (compare with the administrators password)
- *
- * @return boolean      * true if the password is correct
- * * false if the password is not correct
- */
-function isAdminPassword($password)
-{
-    global $config;
-    $salt = 'h>]gW3$*j&o;O"s;@&G)';
-
-    settype($password, 'string');
-    $password = trim($password);
-
-    // If the admin password is not set yet, we will always return true.
-    // This is needed for the first use of Part-DB.
-    // In this case, the installer will be shown to set an admin password.
-    if ((! $config['installation_complete']['admin_password']) && (! $config['admin']['password'])) {
-        return true;
-    }
-
-    if(strcontains($config['admin']['password'], "$") === false) {
-        //Old method
-        return (hash('sha256', $salt.$password) === $config['admin']['password']);
-    } else {
-        return password_verify($password, $config['admin']['password']);
-    }
-}
-
-/**
- * Check if the admin password needs a change.
- *
- * This could be, because Part-DB is using the legacy SHA256 hash, or PHP has an better Hashing algorithm.
- *
- * @return bool True, if the password has to be changed.
- */
-function needChangeAdminPassword()
-{
-    global $config;
-    if($config['admin']['password'] == "") {
-        return true;
-    }
-    //If Admin password uses the old hasing method using SHA256, we need to migrate.
-    if (strcontains($config['admin']['password'], "$") === false) {
-        return true;
-    } else {
-        //Check if default password algo has changed.
-        return password_needs_rehash($config['admin']['password'], PASSWORD_DEFAULT);
-    }
-}
-
-/**
->>>>>>> gh-pages
  * Save the global array "$config" to the file "config.php"
  *
  * @throws Exception if there was an error (maybe not enought permissions)
@@ -486,7 +433,8 @@ function saveConfig()
 }
 
 /**
- * @brief For save_config()
+ * @brief For save_config(), this function takes both config arrays, and writes 
+ * the new entries (in relative to config_defaults) into the config.php
  */
 function arrayToPhpLines(&$array_defaults, &$array, $path, $ignore_defaults)
 {
@@ -572,6 +520,23 @@ function floatToMoneyString($number, $language = '')
 }
 
 /**
+ * Returns the Currency symbol for the configured locale.
+ * @return string The currency symbol.
+ */
+function getCurrencySymbol()
+{
+    global $config;
+    $language = $config['language'];
+
+    //User can override the currency symbol in config, we need to respect that...
+    if(isset($config['money_format'][$language])) {
+        return $config['money_format'][$language];
+    }
+
+  return localeconv()['currency_symbol'];
+}
+
+/**
  * Download a file from the internet (with "curl")
  *
  * @param string $url   The internet URL to the file
@@ -629,6 +594,11 @@ function downloadFile($url, $path, $filename = "", $download_override = false)
     if ($filename == "") {
         $parts = parse_url($url);
         $filename = basename($parts['path']);
+    }
+
+    //Dont allow to upload a PHP file.
+    if(strpos($filename, ".php") != false) {
+        throw new \Exception(_("Es ist nicht erlaubt PHP Dateien herunterzuladen!"));
     }
 
     set_time_limit(30);
@@ -856,15 +826,21 @@ function getKeywordAfterModifier($search_str, $modifier)
 }
 
 /**
- * Allow the usage of umlauts in the given pattern
- * @param $pattern string
- * @return string
+ * Allow the usage of umlauts in the given pattern.
+ * 
+ * Normaly the \w class does not include umlauts like, ÄÜÖ etc..
+ * This function replaces the \w class to a class that matches umlauts too.
+ * @param $pattern string The pattern which should be modified for umlauts
+ * @return string The modified pattern which matches the umlauts
  */
 function regexAllowUmlauts($pattern)
 {
     return str_replace("\w", '[\wÄäÖöÜüß]', $pattern);
 }
 
+/**
+ * Strips the trailing and leading slash from a Regex pattern.
+ */
 function regexStripSlashes($pattern, $mb = true)
 {
     if (mb_substr($pattern, 0, 1) === "/" &&  substr($pattern, -1, 1) === "/") {
@@ -886,7 +862,7 @@ function generateInputHidden($name, $value = "")
     return '<input type="hidden" name="' . $name . '" value="' . $value . '">';
 }
 
-function generateButton($name, $text, $theme = "btn-default", $val = "")
+function generateButton($name, $text, $theme = "btn-secondary", $val = "")
 {
     return "<button type='submit' class='btn $theme' name='$name' value='$val'>$text</button>";
 }
@@ -1019,6 +995,10 @@ function buildToolsTree($params)
         || $current_user->canDo(PermissionManager::DATABASE, \PartDB\Permissions\DatabasePermission::READ_DB_SETTINGS)) {
         $system_nodes[] = treeviewNode(_("Datenbank"), BASE_RELATIVE . "/system_database.php");
     }
+    if ($current_user->canDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::SHOW_LOGS)
+            || $current_user->canDo(PermissionManager::SELF, \PartDB\Permissions\SelfPermission::SHOW_LOGS)) {
+        $system_nodes[] = treeviewNode(_("Eventlog"), BASE_RELATIVE . "/system_log.php");
+    }
 
 
 
@@ -1045,15 +1025,12 @@ function buildToolsTree($params)
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_FAVORITE_PARTS)) {
         $show_nodes[] = treeviewNode(_('Favorisierte Bauteile'), BASE_RELATIVE . "/show_favorite_parts.php");
     }
-<<<<<<< HEAD
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
         $show_nodes[] = treeviewNode(_('Zuletzt bearbeitete Bauteile'), BASE_RELATIVE . "/show_last_modified_parts.php");
     }
     if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
         $show_nodes[] = treeviewNode(_('Zuletzt hinzugefügte Bauteile'), BASE_RELATIVE . "/show_last_modified_parts.php?mode=last_created");
     }
-=======
->>>>>>> gh-pages
 
     //Edit nodes
     $edit_nodes = array();
@@ -1390,12 +1367,8 @@ function parseTristateCheckbox($tristate_data)
  * @param $timestamp int The timestamp which should be formatted.
  * @return string The formatted string.
  */
-<<<<<<< HEAD
 function formatTimestamp($timestamp)
 {
-=======
-function formatTimestamp($timestamp) {
->>>>>>> gh-pages
     global $config;
     $language = $config['language'];
     $timezone = $config['timezone'];
@@ -1416,12 +1389,8 @@ function formatTimestamp($timestamp) {
             $language,
             IntlDateFormatter::MEDIUM,
             IntlDateFormatter::MEDIUM,
-<<<<<<< HEAD
             $timezone
         );
-=======
-            $timezone);
->>>>>>> gh-pages
 
         return $formatter->format($timestamp);
     } else {
@@ -1430,17 +1399,18 @@ function formatTimestamp($timestamp) {
     }
 }
 
-<<<<<<< HEAD
-function generatePagination($page_link, $selected_page, $limit, $max_entries)
-=======
-function generatePagination($page_link ,$selected_page, $limit, $max_entries)
->>>>>>> gh-pages
+function generatePagination($page_link, $selected_page, $limit, $max_entries, $get_params = null)
 {
     $links = array();
 
+    $get_string = "";
+    if(!empty($get_params)) {
+        $get_string = '&' . http_build_query($get_params);
+    }
+
     //Back to first page
     $links[] = array("label" => '<i class="fa fa-angle-double-left" aria-hidden="true"></i>',
-        "href" => $page_link . "&page=1&limit=$limit",
+        "href" => $page_link . "&page=1&limit=$limit" . $get_string,
         "disabled" => $selected_page == 1,
         "hint" => _("Springe zur ersten Seite"));
 
@@ -1450,43 +1420,43 @@ function generatePagination($page_link ,$selected_page, $limit, $max_entries)
     $min_number = ($selected_page - 1) < 1 ? 1 : $selected_page -1;
     $max_number = ($selected_page + 2) > $max_page ? $max_page : $selected_page + 2;
 
-<<<<<<< HEAD
     if ($selected_page == 0) {
         $min_number = 1;
         $max_number = 1;
     }
 
-=======
->>>>>>> gh-pages
     for ($n=$min_number; $n <= $max_number; $n++) {
         $links[] = array("label" => $n,
-            "href" => $page_link . "&page=" . ($n). "&limit=$limit",
+            "href" => $page_link . "&page=" . ($n). "&limit=$limit" . $get_string,
             "active" => $n == $selected_page);
     }
 
     //Jump to last page.
     $links[] = array("label" => '<i class="fa fa-angle-double-right" aria-hidden="true"></i>',
-        "href" => $page_link . "&page=$max_page&limit=$limit",
+        "href" => $page_link . "&page=$max_page&limit=$limit" . $get_string,
         "disabled" => $selected_page == $max_page,
         "hint" => _("Springe zur letzten Seite"));
 
     //Show all results
     $links[] = array("label" => '<i class="fa fa-bars" aria-hidden="true"></i>',
-        "href" => $page_link . "&page=0",
+        "href" => $page_link . "&page=0" . $get_string,
         "active" => $selected_page == 0,
-        "hint" => _("Zeige alle Bauteile"));
+        "hint" => _("Alle anzeigen"));
 
-    return array("lower_result" => $selected_page > 0 ? ($selected_page -1) * $limit + 1 : 1,
-        "upper_result" => ($selected_page * $limit +1) <= $max_entries && $selected_page > 0 ? $selected_page * $limit +1 : $max_entries,
+    $upper_results = ($selected_page * $limit + 1) <= $max_entries && $selected_page > 0 ? $selected_page * $limit : $max_entries;
+    if($upper_results == 0) {
+        $lower_results = 0;
+    } else {
+        $lower_results = $selected_page > 0 ? ($selected_page - 1) * $limit + 1 : 1;
+    }
+
+    return array("lower_result" =>  $lower_results,
+        "upper_result" => $upper_results,
         "max_entries" => $max_entries,
         "entries" => $links);
 }
 
-<<<<<<< HEAD
 function parsePartsSelection(&$database, &$current_user, &$log, $selection, $action, $target)
-=======
-function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $action, $target)
->>>>>>> gh-pages
 {
     $ids = explode(",", $selection);
     foreach ($ids as $id) {
@@ -1526,10 +1496,6 @@ function parsePartsSelection(&$database, &$current_user, &$log ,$selection, $act
         } else {
             throw new Exception(_("Unbekannte Aktion"));
         }
-<<<<<<< HEAD
-=======
-
->>>>>>> gh-pages
     }
 }
 
@@ -1541,11 +1507,7 @@ function build_custom_css_loop($selected = null, $include_default_theme = false)
     }
 
     $loop = array();
-<<<<<<< HEAD
     if ($include_default_theme) {
-=======
-    if($include_default_theme) {
->>>>>>> gh-pages
         $loop[] = array("value" => "@@", "text" => _("Standardmäßiges Theme"), "selected" => ($selected == "@@"));
     }
     $files = findAllFiles(BASE.'/templates/custom_css/', true, '.css');
@@ -1557,7 +1519,6 @@ function build_custom_css_loop($selected = null, $include_default_theme = false)
 
     return $loop;
 }
-<<<<<<< HEAD
 
 /**
  * Generates a list of available profiles for the given generator.
@@ -1581,5 +1542,43 @@ function buildLabelProfilesDropdown($generator, $include_default = false)
     return $data;
 }
 
-=======
->>>>>>> gh-pages
+/**
+ * Return the IP Address the current user is accessing the DB.
+ * IP Addresses gets anonymized based on the ip_anonymize_mask settings.
+ * @param bool|string $mask_override_ipv4 Overrides the anonymization mask for IPv4 addresses.
+ *          Use false to use values from config.php. Set to "" to disable anonymization completly.
+ * @param bool|string $mask_override_ipv6 Overrides the anonymization mask for IPv6 addresses.
+ * @return string The anonymized IP Address
+ */
+function getConnectionIPAddress($mask_override_ipv4 = false, $mask_override_ipv6 = false)
+{
+    global $config;
+
+    $raw_ip = $_SERVER['REMOTE_ADDR'];
+
+    //Determine mask for IPv4
+    if ($mask_override_ipv4 === false) {
+       $mask_ipv4 = $config['logging_system']['ip_anonymize_mask_ipv4'];
+    } else {
+        $mask_ipv4 = $mask_override_ipv4;
+    }
+
+    //Determine mask for IPv6
+    if ($mask_override_ipv6 === false) {
+        $mask_ipv6 = $config['logging_system']['ip_anonymize_mask_ipv6'];
+    } else {
+        $mask_ipv6 = $mask_override_ipv6;
+    }
+
+    if($mask_ipv4 === "") {
+        //Return IP address without any anonymization
+        return $raw_ip;
+    }
+
+    $ipAnonymizer = new IpAnonymizer();
+    //Set masks
+    $ipAnonymizer->ipv4NetMask = $mask_ipv4;
+    $ipAnonymizer->ipv6NetMask = $mask_ipv6;
+
+    return $ipAnonymizer->anonymize($raw_ip);
+}

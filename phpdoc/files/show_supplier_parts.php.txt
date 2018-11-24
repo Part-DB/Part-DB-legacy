@@ -56,20 +56,20 @@ $limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST
 $action = 'default';
 if (isset($_REQUEST['subman_button'])) {
     $action = 'change_subman_state';
-} elseif (isset($_REQUEST["multi_action"])) {
+} elseif (isset($_POST["multi_action"])) {
     $action = "multi_action";
 }
 
 $selected_part_id = 0;
 for ($i=0; $i<$table_rowcount; $i++) {
-    $selected_part_id = isset($_REQUEST['id_'.$i]) ? (integer)$_REQUEST['id_'.$i] : 0;
+    $selected_part_id = isset($_POST['id_'.$i]) ? (integer)$_POST['id_'.$i] : 0;
 
-    if (isset($_REQUEST['decrement_'.$i])) {
+    if (isset($_POST['decrement_'.$i])) {
         $action = 'decrement';
         break;
     }
 
-    if (isset($_REQUEST['increment_'.$i])) {
+    if (isset($_POST['increment_'.$i])) {
         $action = 'increment';
         break;
     }
@@ -101,14 +101,11 @@ try {
     }
 
     $html->setTitle(_('Teileansicht') . ': ' . $supplier->getName());
-<<<<<<< HEAD
 
     //Remember what page user visited, so user can return there, when he deletes a part.
     session_start();
     $_SESSION["part_delete_last_link"] = $_SERVER['REQUEST_URI'];
     session_write_close();
-=======
->>>>>>> gh-pages
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -132,7 +129,7 @@ if (! $fatal_error) {
                     throw new Exception('Es wurde keine gültige Bauteil-ID übermittelt!');
                 }
 
-                $part->setInstock($part->getInstock() - 1);
+                $part->withdrawalParts(1);
 
                 $reload_site = true;
             } catch (Exception $e) {
@@ -146,7 +143,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es wurde keine gültige Bauteil-ID übermittelt!'));
                 }
 
-                $part->setInstock($part->getInstock() + 1);
+                $part->addParts(1);
 
                 $reload_site = true;
             } catch (Exception $e) {
@@ -164,7 +161,7 @@ if (! $fatal_error) {
                     $messages[] = array('html' => '<input type="hidden" name="action" value="delete_confirmed">', 'no_linebreak' => true);
                     $messages[] = array('html' => '<input type="hidden" name="selected_ids" value="' . $_REQUEST['selected_ids'] . '">');
                     $messages[] = array('html' => '<input type="hidden" name="target" value="' . $_REQUEST['target'] . '">', 'no_linebreak' => true);
-                    $messages[] = array('html' => '<button class="btn btn-default" type="submit" value="">' . _('Nein, nicht löschen') . '</button>', 'no_linebreak' => true);
+                    $messages[] = array('html' => '<button class="btn btn-secondary" type="submit" value="">' . _('Nein, nicht löschen') . '</button>', 'no_linebreak' => true);
                     $messages[] = array('html' => '<button class="btn btn-danger" type="submit" name="multi_action" value="">' . _('Ja, Bauteile löschen') . '</button>');
                 } else {
                     parsePartsSelection($database, $current_user, $log, $_REQUEST['selected_ids'], $_REQUEST['action'], $_REQUEST['target']);
@@ -215,10 +212,7 @@ $html->setVariable('with_subsuppliers', $with_subsuppliers, 'boolean');
 if (! $fatal_error) {
     $html->setVariable('sid', $supplier->getID(), 'integer');
     $html->setVariable('supplier_name', $supplier->getName(), 'string');
-<<<<<<< HEAD
     $html->setVariable('supplier_fullpath', $supplier->getFullPath(" / "), 'string');
-=======
->>>>>>> gh-pages
     $html->setVariable('disable_footprints', ($config['footprints']['disable']), 'boolean');
     $html->setVariable('disable_manufacturers', ($config['manufacturers']['disable']), 'boolean');
     $html->setVariable('disable_auto_datasheets', ($config['auto_datasheets']['disable']), 'boolean');

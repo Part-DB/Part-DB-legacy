@@ -168,10 +168,8 @@ $config['edit_parts']['saved_go_to_info']        = false;    //Jump to info page
 $config['table']['autosort']                     = false;
 $config['table']['default_show_subcategories']   = true;    //Show the subcategories in show_category_parts on default.
 $config['table']['default_limit']                = 50;
-<<<<<<< HEAD
 $config['table']['full_paths']                   = false;
-=======
->>>>>>> gh-pages
+$config['table']['instock_warning_full_row_color'] = false;  //Color the whole line red, if a less instock than mininstock
 
 //Search settings
 $config['search']['livesearch']                  = true;
@@ -185,10 +183,18 @@ $config['attachements']['show_name']            = false;    //Show the names of 
 //Global user settings
 $config['user']['avatars']['use_gravatar']      = false;     //Use Gravatar for Avatars
 $config['user']['redirect_to_login']            = true;      //Redirect to login page, if a user does not has any permission (only if he accessed start page).
-<<<<<<< HEAD
 $config['user']['gc_maxlifetime']               = 5400;      //5400 sec = 90min
-=======
->>>>>>> gh-pages
+
+//Cookie consent info
+$config['cookie_consent']['enable']             = false;     //Set to true to activate cookie consent dialog
+$config['cookie_consent']['message']            = "This website uses cookies to ensure you get the best experience on our website.";
+$config['cookie_consent']['link_text']          = "Learn more";
+$config['cookie_consent']['button_text']        = "Got it!";
+$config['cookie_consent']['link_href']          = "https://cookiesandyou.com/";
+
+$config['logging_system']['ip_anonymize_mask_ipv4']  = "255.255.255.0";  //The mask that should be used to anonymize ip addresses. Set to "" to log the complete IP address (this is not GPDR compliant)
+$config['logging_system']['ip_anonymize_mask_ipv6']  = "ffff:ffff:ffff:ffff:0000:0000:0000:0000";
+$config['logging_system']['min_level']               = 7;           //Set the minimum level of events which should be logged. 7 = DEBUG, all things are logged, Set to -1 to disable logging completly.
 
 /********************************************************************************
  *
@@ -217,7 +223,7 @@ $manual_config = array();   // ...this too...
 
 // system version: this must be increased for every release(-candidate)!
 // IMPORTANT: please note that (for example) "0.3.0" is a HIGHER (!) version than "0.3.0.RC5".
-$config['system']['version']                            = '0.5.0.dev';  // examples: '0.2.2' or '0.2.2.RC2' (see SystemVersion.php)
+$config['system']['version']                            = '0.6.0.dev';  // examples: '0.2.2' or '0.2.2.RC2' (see SystemVersion.php)
 
 // the version of the latest config style. Increase this for one if we need an update for the user's config.php (see also updates/config_update_steps.php)
 $config['system']['latest_config_version']              = 2; // only increase for one!
@@ -265,7 +271,7 @@ $config['table']['obsolete_parts']['columns']           = 'hover_picture;name;de
 $config['table']['noprice_parts']['columns']            = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;button_edit';
 $config['table']['unknown_instock_parts']['columns']    = 'hover_picture;name;description;mininstock;footprint;storelocation;suppliers;supplier_partnrs;button_edit';
 $config['table']['order_parts']['columns']              = 'hover_picture;name_description;instock_mininstock;footprint;storelocation;suppliers_radiobuttons;supplier_partnrs;single_prices;total_prices;order_quantity_edit;order_options';
-$config['table']['searched_device_parts']['columns']    = 'hover_picture;quantity_edit;mountnames_edit;name;description;category;footprint;storelocation;manufacturer';
+$config['table']['searched_device_parts']['columns']    = 'hover_picture;quantity_edit;mountnames_edit;name;description;instock_mininstock;category;footprint;storelocation';
 $config['table']['device_parts']['columns']             = 'hover_picture;name_description;quantity_edit;mountnames_edit;footprint;instock;storelocation;suppliers;supplier_partnrs;single_prices;total_prices';
 $config['table']['imported_parts']['columns']           = 'hover_picture;name;description;instock_mininstock;footprint;storelocation;suppliers;supplier_partnrs;single_prices;datasheets;attachements';
 $config['table']['location_parts']['columns']           = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
@@ -273,10 +279,7 @@ $config['table']['footprint_parts']['columns']          = 'hover_picture;name;de
 $config['table']['manufacturer_parts']['columns']       = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;datasheets;attachements;button_decrement;button_increment;button_edit';
 $config['table']['supplier_parts']['columns']           = 'hover_picture;name;description;category;instock_mininstock;storelocation;supplier_partnrs;single_prices;button_decrement;button_increment;button_edit';
 $config['table']['all_parts']['columns']                = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;button_edit';
-<<<<<<< HEAD
 $config['table']['last_modified_parts']['columns']            = 'hover_picture;name;description;category;instock;mininstock;footprint;storelocation;last_modified;created;button_edit';
-=======
->>>>>>> gh-pages
 
 // export configurations for order parts*
 $config['export']['orderparts'][0]['format']            = 'CSV';

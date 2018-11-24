@@ -36,7 +36,7 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *
  *********************************************************************************/
 
-
+$user_id = isset($_REQUEST['uid']) ? (int)$_REQUEST['uid'] : 0;
 
 /********************************************************************************
  *
@@ -52,7 +52,14 @@ try {
     $current_user       = User::getLoggedInUser($database, $log);
 
     //Currently only the view of your own user is implemented.
-    $selected_user      = $current_user;
+    if ($user_id == 0) {
+        $selected_user      = $current_user;
+    } else {
+        $selected_user = new User($database, $current_user, $log, $user_id);
+        //Check if the current user, is allowed to view other profiles.
+        $current_user->tryDo(\PartDB\Permissions\PermissionManager::USERS, \PartDB\Permissions\UserPermission::READ);
+    }
+
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;

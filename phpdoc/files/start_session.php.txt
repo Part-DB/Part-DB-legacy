@@ -27,6 +27,7 @@
  * @file start_session.php
  *
  * @brief This file must be included in every PHP file which produces HTML output!
+ * This files set various things needed for Part-DB
  */
 
 // set HTTP charset to UTF-8
@@ -157,14 +158,11 @@ else {
     define('BASE_RELATIVE', str_replace(DOCUMENT_ROOT, '', BASE));
 }
 
-<<<<<<< HEAD
 /**
  * @const BASE_DATA The location of the data folder, where Part-DB can write data (without slash)
  */
 define('BASE_DATA', BASE . "/data");
 
-=======
->>>>>>> gh-pages
 /** @const BASE_RELATIVE Server-directory without slash at the end
 * Example (UNIX/Linux):    "/part-db"
 * Example (Windows):       "/part-db"
@@ -312,12 +310,8 @@ if (isset($config['user']['gc_maxlifetime']) && $config['user']['gc_maxlifetime'
 }
 
 session_name('Part-DB');
-<<<<<<< HEAD
 session_start();
 session_write_close();
-=======
-session_start(['read_and_close'  => true]);
->>>>>>> gh-pages
 
 /********************************************************************************
  *
@@ -358,27 +352,12 @@ include_once(BASE.'/inc/lib.php');
 //Include Composer autoloader
 require 'vendor/autoload.php';
 
-//Check if Klass exists, and debugging is enabled.
+//Check if Klass exists, and debugging is enabled, then activate Whoops Handler
 if (class_exists("\Whoops\Run") && $config['debug']['enable'] &&
     (PHP_MAJOR_VERSION >= 7 || PHP_MINOR_VERSION >= 6)) {
     $whoops = new \Whoops\Run;
     $whoops->pushHandler(new \Whoops\Handler\PrettyPageHandler);
     $whoops->register();
-}
-
-/**************************************************************************************
- * Try to set settings that are only apply for the current user.
- **************************************************************************************/
-global $user_config;
-$user_config = array();
-try {
-    $current_user = \PartDB\User::getLoggedInUser();
-    $user_config['theme'] = $current_user->getTheme();
-    ownSetlocale(LC_ALL, $current_user->getLanguage());
-    date_default_timezone_set($config['timezone']);
-} catch (Exception $ex) {
-    //Ignore all errors.
-    //TODO: Log the errors
 }
 
 /**************************************************************************************

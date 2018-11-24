@@ -589,6 +589,12 @@ class HTML
 
         $tmpl->assign("redirect_url", $this->redirect_url);
 
+        $tmpl->assign("cookie_consent_active", $config['cookie_consent']['enable']);
+        if($config['cookie_consent']['enable'])
+        {
+            $tmpl->assign("cookie_consent_config", $config['cookie_consent']);
+        }
+
         $tmpl->assign("debugging_activated", $config['debug']['enable']);
 
         //Remove white space from Output

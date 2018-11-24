@@ -42,26 +42,26 @@ $fatal_error = false; // if a fatal error occurs, only the $messages will be pri
  *********************************************************************************/
 
 // section "upload file"
-$file_format    = isset($_REQUEST['file_format'])       ? (string)$_REQUEST['file_format']      : 'CSV';
-$separator      = isset($_REQUEST['separator'])         ? (string)$_REQUEST['separator']        : ';';
+$file_format    = isset($_POST['file_format'])       ? (string)$_POST['file_format']      : 'CSV';
+$separator      = isset($_POST['separator'])         ? (string)$_POST['separator']        : ';';
 
 // section "check data"
-$table_rowcount = isset($_REQUEST['table_rowcount'])    ? (integer)$_REQUEST['table_rowcount']  : 0;
-$file_content   = isset($_REQUEST['file_content'])      ? (string)$_REQUEST['file_content']     : '';
+$table_rowcount = isset($_POST['table_rowcount'])    ? (integer)$_POST['table_rowcount']  : 0;
+$file_content   = isset($_POST['file_content'])      ? (string)$_POST['file_content']     : '';
 
-$new_part_ids   = isset($_REQUEST['new_part_ids'])      ? (string)$_REQUEST['new_part_ids']     : '';
+$new_part_ids   = isset($_POST['new_part_ids'])      ? (string)$_POST['new_part_ids']     : '';
 
 $action = 'default';
-if (isset($_REQUEST["show_imported_parts"])) {
+if (isset($_POST["show_imported_parts"])) {
     $action = 'show_imported_parts';
 }
-if (isset($_REQUEST["upload_file"])) {
+if (isset($_POST["upload_file"])) {
     $action = 'upload_file';
 }
-if (isset($_REQUEST["check_data"])) {
+if (isset($_POST["check_data"])) {
     $action = 'check_data';
 }
-if (isset($_REQUEST["import_data"])) {
+if (isset($_POST["import_data"])) {
     $action = 'import_data';
 }
 

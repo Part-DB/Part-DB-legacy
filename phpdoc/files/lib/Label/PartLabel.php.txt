@@ -141,19 +141,11 @@ class PartLabel extends BaseLabel
 
         //Presets C: With labels
         $lines = array();
-<<<<<<< HEAD
         $lines[] = "BAUTEIL : %NAME% - %CAT%";
         $lines[] = "LAGER   : %STORELOC%";
         $lines[] = "GEHÄUSE : %FOOT%";
         $lines[] = "BEST-NR : %ORDER_NR% - %SUPPLIER%";
         $presets[] = array("name" => "Preset D", "lines" => $lines);
-=======
-        $lines[] = "BAUTEIL : %name% - %cat%";
-        $lines[] = "LAGER   : %storeloc%";
-        $lines[] = "GEHÄUSE : %foot%";
-        $lines[] = "BEST-NR : %order_nr% - %supplier%";
-        $presets[] = $lines;
->>>>>>> gh-pages
 
         return $presets;
     }

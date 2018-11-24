@@ -54,11 +54,7 @@ $limit              = isset($_REQUEST['limit'])             ? (integer)$_REQUEST
 
 $action = 'default';
 
-<<<<<<< HEAD
-if (isset($_REQUEST["multi_action"])) {
-=======
-if(isset($_REQUEST["multi_action"])) {
->>>>>>> gh-pages
+if (isset($_POST["multi_action"])) {
     $action = "multi_action";
 }
 
@@ -115,7 +111,7 @@ if (! $fatal_error) {
                     throw new Exception('Es wurde keine gültige Bauteil-ID übermittelt!');
                 }
 
-                $part->setInstock($part->getInstock() - 1);
+                $part->withdrawalParts(1);
 
                 $reload_site = true;
             } catch (Exception $e) {
@@ -129,7 +125,7 @@ if (! $fatal_error) {
                     throw new Exception(_('Es wurde keine gültige Bauteil-ID übermittelt!'));
                 }
 
-                $part->setInstock($part->getInstock() + 1);
+                $part->addParts(1);
 
                 $reload_site = true;
             } catch (Exception $e) {
@@ -147,7 +143,7 @@ if (! $fatal_error) {
                     $messages[] = array('html' => '<input type="hidden" name="action" value="delete_confirmed">', 'no_linebreak' => true);
                     $messages[] = array('html' => '<input type="hidden" name="selected_ids" value="' . $_REQUEST['selected_ids'] . '">');
                     $messages[] = array('html' => '<input type="hidden" name="target" value="' . $_REQUEST['target'] . '">', 'no_linebreak' => true);
-                    $messages[] = array('html' => '<button class="btn btn-default" type="submit" value="">' . _('Nein, nicht löschen') . '</button>', 'no_linebreak' => true);
+                    $messages[] = array('html' => '<button class="btn btn-secondary" type="submit" value="">' . _('Nein, nicht löschen') . '</button>', 'no_linebreak' => true);
                     $messages[] = array('html' => '<button class="btn btn-danger" type="submit" name="multi_action" value="">' . _('Ja, Bauteile löschen') . '</button>');
                 } else {
                     parsePartsSelection($database, $current_user, $log, $_REQUEST['selected_ids'], $_REQUEST['action'], $_REQUEST['target']);

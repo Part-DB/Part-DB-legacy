@@ -49,14 +49,11 @@ try {
     $current_user       = User::getLoggedInUser($database, $log);
 
     $current_user->tryDo(PermissionManager::PARTS, PartPermission::SHOW_FAVORITE_PARTS);
-<<<<<<< HEAD
 
     //Remember what page user visited, so user can return there, when he deletes a part.
     session_start();
     $_SESSION["part_delete_last_link"] = $_SERVER['REQUEST_URI'];
     session_write_close();
-=======
->>>>>>> gh-pages
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -75,17 +72,12 @@ if (! $fatal_error) {
         $html->setLoop('table', $table_loop);
         $html->setVariable('table_rowcount', count($parts));
 
-<<<<<<< HEAD
         $html->setLoop("pagination", generatePagination(
             "show_favorite_parts.php?",
             $page,
             $limit,
             Part::getFavoritePartsCount($database, $current_user, $log)
         ));
-=======
-        $html->setLoop("pagination", generatePagination("show_favorite_parts.php?", $page, $limit,
-            Part::getFavoritePartsCount($database, $current_user, $log)));
->>>>>>> gh-pages
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
     } catch (Exception $e) {

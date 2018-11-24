@@ -28,8 +28,6 @@ use PartDB\Database;
 use PartDB\Footprint;
 use PartDB\HTML;
 use PartDB\Log;
-use PartDB\Permissions\ConfigPermission;
-use PartDB\Permissions\PermissionManager;
 use PartDB\Storelocation;
 use PartDB\Supplier;
 use PartDB\System;
@@ -63,10 +61,6 @@ try {
     } catch (Exception $ex) {
         //Do nothing here.
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> gh-pages
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
@@ -155,7 +149,7 @@ if ((! $fatal_error) && (! $database->isUpdateRequired())) {
  *********************************************************************************/
 
 if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
-    $feed_link = 'https://github.com/do9jhb/Part-DB/releases.atom';
+    $feed_link = 'https://github.com/Part-DB/Part-DB/releases.atom';
     $item_count = 4;
 
     try {
@@ -196,7 +190,7 @@ if ((! $fatal_error) && (! $config['startup']['disable_update_list'])) {
             foreach ($entry->link as $link_entry) {
                 $attributes = $link_entry->attributes();
                 if (isset($attributes['rel']) && ($attributes['rel'] == 'alternate') && isset($attributes['href'])) {
-                    $link = 'https://github.com'.$attributes['href'];
+                    $link = $attributes['href'];
                 }
             }
 
@@ -223,6 +217,8 @@ $html->setLoop('authors', $authors);
 if (! $fatal_error) {
     $bbcode = new \Golonka\BBCode\BBCodeParser();
     $bbcode->setParser('brLinebreak', "/\[br\]/s", "<br/>", "");
+    $bbcode->setParser('namedlink', '/\[url\=(.*?)\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$2</a>', '$2');
+    $bbcode->setParser('link', '/\[url\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$1</a>', '$1');
     $str = $bbcode->parse(htmlspecialchars($config['startup']['custom_banner']));
     $html->setVariable('banner', $str, 'string');
 
@@ -234,23 +230,14 @@ if (! $fatal_error) {
         $html->setVariable('git_commit', getGitCommitHash(10), 'string');
         $html->setVariable('partdb_title', $config['partdb_title'], 'string');
         $html->setVariable('must_change_pw', $current_user->getNeedPasswordChange());
-        $html->setVariable('must_change_admin_pw',
-            $current_user->canDo(PermissionManager::CONFIG, ConfigPermission::CHANGE_ADMIN_PW)
-        && needChangeAdminPassword());
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     }
 
-<<<<<<< HEAD
 
     //When we dont has an existing DB with user system, then ignore all error messages.
     if ($database->getCurrentVersion() < 20) {
         $messages = array();
-=======
-    //When we dont has an existing DB with user system, then ignore all error messages.
-    if ($database->getCurrentVersion() < 20) {
-       $messages = array();
->>>>>>> gh-pages
     }
 }
 

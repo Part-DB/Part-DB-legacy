@@ -75,6 +75,9 @@ abstract class BasePermission
      */
     public function setValue($operation, $new_value)
     {
+        //Invalidate the cached value.
+        $this->perm_holder->getPermissionManager()->invalidatePermissionValueCache($this->perm_name, $operation);
+
         $n = static::opToBitN($operation);
         $old_value = $this->perm_holder->getPermissionRaw($this->perm_name);
         $value = static::writeBitPair($old_value, $n, $new_value);
@@ -171,17 +174,24 @@ abstract class BasePermission
      */
     protected static function opToBitN($op)
     {
-        $op = mb_strtolower($op);
+        //$op = mb_strtolower($op);
 
         $operations = static::listOperations();
 
+        /*
         foreach ($operations as $operation) {
             if ($operation["name"] == $op) {
                 return $operation["n"];
             }
+        } */
+
+        if (!is_int($operations[$op]["n"])) {
+            throw new \InvalidArgumentException(_('$op ist keine gültige Operation!'));
         }
 
-        throw new \InvalidArgumentException(_('$op ist keine gültige Operation!'));
+        return $operations[$op]["n"];
+
+
     }
 
     /**
@@ -192,17 +202,22 @@ abstract class BasePermission
      */
     public static function opToDescription($op)
     {
-        $op = mb_strtolower($op);
+        //$op = mb_strtolower($op);
 
         $operations = static::listOperations();
 
+        /*
         foreach ($operations as $operation) {
             if ($operation["name"] == $op) {
                 return $operation["description"];
             }
+        } */
+
+        if (!isset($operations[$op]["description"])) {
+            throw new \InvalidArgumentException(_('$op ist keine gültige Operation!'));
         }
 
-        throw new \InvalidArgumentException(_('$op ist keine gültige Operation!'));
+        return $operations[$op]["description"];
     }
 
     /**
@@ -290,10 +305,6 @@ abstract class BasePermission
                 } else {
                     $val = $this->perm_holder->getParentPermissionManager()->getPermissionValue($this->getName(), $op['name'], true);
                 }
-<<<<<<< HEAD
-=======
-
->>>>>>> gh-pages
             }
 
             //When one permission is ALLOW, then not everything is forbidden.
@@ -304,9 +315,5 @@ abstract class BasePermission
 
         return  true;
     }
-<<<<<<< HEAD
-=======
-
->>>>>>> gh-pages
 }
 
