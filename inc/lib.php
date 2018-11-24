@@ -509,6 +509,23 @@ function floatToMoneyString($number, $language = '')
 }
 
 /**
+ * Returns the Currency symbol for the configured locale.
+ * @return string The currency symbol.
+ */
+function getCurrencySymbol()
+{
+    global $config;
+    $language = $config['language'];
+
+    //User can override the currency symbol in config, we need to respect that...
+    if(isset($config['money_format'][$language])) {
+        return $config['money_format'][$language];
+    }
+
+  return localeconv()['currency_symbol'];
+}
+
+/**
  * Download a file from the internet (with "curl")
  *
  * @param string $url   The internet URL to the file
