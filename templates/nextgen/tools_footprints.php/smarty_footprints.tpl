@@ -2,7 +2,7 @@
 
 {locale path="nextgen/locale" domain="partdb"}
 <div class="card border-primary">
-    <div class="card-header bg-primary text-white">{t}Kategorie wählen{/t}</div>
+    <div class="card-header bg-primary text-white"><i class="fas fa-shoe-prints fa-fw"></i> {t}Kategorie wählen{/t}</div>
     <div class="card-body">
         <form action="" method="post" class="no-progbar">
             <input class="btn btn-outline-secondary mb-2 {if $action=="show_all"}active{/if}" type="submit" name="show_all" value="{t}Alle{/t}">

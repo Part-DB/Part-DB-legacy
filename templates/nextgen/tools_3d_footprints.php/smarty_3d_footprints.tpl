@@ -1,5 +1,5 @@
 <div class="card border-primary">
-    <div class="card-header bg-primary text-white">{t}3D Footprints{/t}</div>
+    <div class="card-header bg-primary text-white"><i class="fas fa-chess fa-fw"></i> {t}3D Footprints{/t}</div>
     <div class="card-body row">
         <div class="col-md-4" id="dir_select">
 
