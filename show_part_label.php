@@ -141,14 +141,14 @@ try {
     switch ($generator_type) {
         case "part":
             /* @var $generator_class BaseLabel */
-            $generator_class = "\PartDB\Label\PartLabel";
+            $generator_class = \PartDB\Label\PartLabel::class;
             if ($element_id > 0) {
                 $element = new Part($database, $current_user, $log, $element_id);
             }
             break;
         case "location":
             /* @var $generator_class BaseLabel */
-            $generator_class = "\PartDB\Label\StorelocationLabel";
+            $generator_class = \PartDB\Label\StorelocationLabel::class;
             if ($element_id > 0) {
                 $element = new \PartDB\Storelocation($database, $current_user, $log, $element_id);
             }
