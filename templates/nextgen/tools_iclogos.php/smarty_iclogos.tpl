@@ -1,7 +1,7 @@
 {locale path="nextgen/locale" domain="partdb"}
 
 <div class="card">
-    <div class="card-header">
+    <div class="card-header"><i class="fas fa-map fa-fw"></i>
         {t}Hersteller IC Logos{/t}
     </div>
     <div class="card-body">
