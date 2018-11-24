@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: part-db\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-27 20:06+0200\n"
-"PO-Revision-Date: 2018-10-27 18:31\n"
+"POT-Creation-Date: 2018-11-24 15:41+0100\n"
+"PO-Revision-Date: 2018-11-24 15:01\n"
 "Last-Translator: do9jhb <Jan.h.boehmer@gmx.de>\n"
 "Language-Team: English\n"
 "Language: en_US\n"
@@ -29,7 +29,7 @@ msgstr "Directories"
 msgid "Das ist %s!"
 msgstr "This is %s!"
 
-#: edit_attachement_types.php:84 inc/lib.php:1022
+#: edit_attachement_types.php:84 inc/lib.php:1056
 #: lib/Permissions/PermissionManager.php:263
 msgid "Dateitypen"
 msgstr "Filetypes"
@@ -81,7 +81,7 @@ msgstr "&nbsp;&nbsp;&bull; If there are still sub filetypes in this filetype, th
 
 #: edit_attachement_types.php:145 edit_categories.php:174 edit_devices.php:147
 #: edit_footprints.php:205 edit_groups.php:153 edit_manufacturers.php:164
-#: edit_part_info.php:621 edit_storelocations.php:172 edit_suppliers.php:164
+#: edit_part_info.php:627 edit_storelocations.php:172 edit_suppliers.php:164
 #: edit_users.php:183 show_all_parts.php:146 show_category_parts.php:172
 #: show_footprint_parts.php:164 show_location_parts.php:163
 #: show_manufacturer_parts.php:163 show_obsolete_parts.php:108
@@ -112,7 +112,7 @@ msgstr "The filetype can not be removed!"
 msgid "Die neuen Werte konnten nicht gespeichert werden!"
 msgstr "The new values could not be saved!"
 
-#: edit_categories.php:95 inc/lib.php:1013 lib/Part.php:2995
+#: edit_categories.php:95 inc/lib.php:1047 lib/Part.php:3010
 #: lib/Permissions/PermissionManager.php:259 show_category_parts.php:206
 msgid "Kategorien"
 msgstr "Categories"
@@ -155,7 +155,7 @@ msgstr "Yes, remove category"
 msgid "Die Kategorie konnte nicht gelöscht werden!"
 msgstr "The category could not be removed!"
 
-#: edit_devices.php:84 inc/lib.php:1004
+#: edit_devices.php:84 inc/lib.php:1038
 #: lib/Permissions/PermissionManager.php:262
 msgid "Baugruppen"
 msgstr "Devices"
@@ -175,7 +175,7 @@ msgid "Soll die Baugruppe \"%s\" wirklich unwiederruflich gelöscht werden?"
 msgstr "Really remove \"%s\" permanently?"
 
 #: edit_devices.php:139 edit_footprints.php:201 edit_groups.php:144
-#: edit_manufacturers.php:160 edit_part_info.php:609
+#: edit_manufacturers.php:160 edit_part_info.php:615
 #: edit_storelocations.php:168 edit_suppliers.php:160 show_all_parts.php:141
 #: show_category_parts.php:167 show_footprint_parts.php:159
 #: show_location_parts.php:158 show_manufacturer_parts.php:158
@@ -204,14 +204,14 @@ msgstr "Yes, remove device"
 msgid "Die Baugruppe konnte nicht gelöscht werden!"
 msgstr "Could not remove device!"
 
-#: edit_footprints.php:120 inc/lib.php:937 inc/lib.php:1010
+#: edit_footprints.php:120 inc/lib.php:971 inc/lib.php:1044
 #: lib/Permissions/PermissionManager.php:258
 #: lib/Permissions/ToolsPermission.php:50 show_footprint_parts.php:193
 msgid "Footprints"
 msgstr "Footprints"
 
-#: edit_footprints.php:160 edit_footprints.php:244 edit_part_info.php:512
-#: edit_part_info.php:552 show_device_parts.php:386 show_device_parts.php:422
+#: edit_footprints.php:160 edit_footprints.php:244 edit_part_info.php:518
+#: edit_part_info.php:558 show_device_parts.php:387 show_device_parts.php:423
 msgid "Die Datei konnte nicht heruntergeladen werden!"
 msgstr "The file could not be downloaded!"
 
@@ -283,7 +283,7 @@ msgstr "The group could not be removed!"
 msgid "Es ist keine Gruppe markiert oder es trat ein Fehler auf!"
 msgstr "No group is selected or an error occurred!"
 
-#: edit_manufacturers.php:90 inc/lib.php:1019 lib/Log.php:556 lib/Log.php:562
+#: edit_manufacturers.php:90 inc/lib.php:1053 lib/Log.php:556 lib/Log.php:562
 #: lib/Permissions/PermissionManager.php:247
 #: lib/Permissions/PermissionManager.php:261 show_manufacturer_parts.php:192
 msgid "Hersteller"
@@ -324,110 +324,110 @@ msgstr "Yes, remove manufacturer"
 msgid "Der Hersteller konnte nicht gelöscht werden!"
 msgstr "Could not remove the manufacturer!"
 
-#: edit_part_info.php:208
+#: edit_part_info.php:210
 msgid "Bauteil bearbeiten"
 msgstr "Edit Part"
 
-#: edit_part_info.php:248 edit_part_info.php:356
+#: edit_part_info.php:250 edit_part_info.php:360
 msgid "Bauteil bearbeitet"
 msgstr "Part edited"
 
-#: edit_part_info.php:296 edit_part_info.php:378
+#: edit_part_info.php:299 edit_part_info.php:382
 #, php-format
 msgid "Der Name \"%s\" entspricht nicht den Vorgaben!"
 msgstr "The name \"%s\" does not match the specifications!"
 
-#: edit_part_info.php:300 edit_part_info.php:382
+#: edit_part_info.php:303 edit_part_info.php:386
 #, php-format
 msgid "Der Name \"%s\" entspricht nicht den Vorgaben <b>(%s)</b>!"
 msgstr "The name \"%s\" does not match the specifications <b>(%s)</b>!"
 
-#: edit_part_info.php:308 edit_part_info.php:388
+#: edit_part_info.php:311 edit_part_info.php:392
 msgid "<br>Hinweis:"
 msgstr "<br>Note:"
 
-#: edit_part_info.php:309 edit_part_info.php:389
+#: edit_part_info.php:312 edit_part_info.php:393
 msgid "Der Name muss folgendem Format entsprechen: "
 msgstr "The name must match the following format: "
 
-#: edit_part_info.php:311 edit_part_info.php:394
+#: edit_part_info.php:314 edit_part_info.php:398
 msgid "Möchten sie wirklich fortfahren?<br>"
 msgstr "Do you really want to continue?<br>"
 
-#: edit_part_info.php:312 edit_part_info.php:395
+#: edit_part_info.php:315 edit_part_info.php:399
 msgid "Nein, Name überarbeiten"
 msgstr "No, edit name"
 
-#: edit_part_info.php:313 edit_part_info.php:396
+#: edit_part_info.php:316 edit_part_info.php:400
 msgid "Ja, Name speichern"
 msgstr "Yes, save name"
 
-#: edit_part_info.php:315 edit_part_info.php:391
+#: edit_part_info.php:318 edit_part_info.php:395
 msgid "Dies kann nicht ignoriert werden, da das Enforcement-Flag für diese Kategorie gesetzt ist!<br>"
 msgstr "This cannot be ignored, because the Enforcement flag is set for this category! <br>"
 
-#: edit_part_info.php:316 edit_part_info.php:392
+#: edit_part_info.php:319 edit_part_info.php:396
 msgid "Ok, Name überarbeiten"
 msgstr "Ok, edit name"
 
-#: edit_part_info.php:427 edit_part_info.php:442
+#: edit_part_info.php:432 edit_part_info.php:448
 msgid "Es ist keine Einkaufsinformation ausgewählt!"
 msgstr "No order information selected!"
 
-#: edit_part_info.php:472 edit_part_info.php:487
+#: edit_part_info.php:478 edit_part_info.php:493
 msgid "Es ist keine Preisinformation ausgewählt!"
 msgstr "No price info selected!"
 
-#: edit_part_info.php:499 show_device_parts.php:373
+#: edit_part_info.php:505 show_device_parts.php:374
 msgid "Sie müssen entweder ein Dateiname angeben, oder eine Datei zum Hochladen wählen!"
 msgstr "You have to either provide a filename or choose an file for upload!"
 
-#: edit_part_info.php:539 edit_part_info.php:579 show_device_parts.php:409
-#: show_device_parts.php:438
+#: edit_part_info.php:545 edit_part_info.php:585 show_device_parts.php:410
+#: show_device_parts.php:439
 msgid "Es ist kein Dateianhang ausgewählt!"
 msgstr "No attachment selected!"
 
-#: edit_part_info.php:603
+#: edit_part_info.php:609
 msgid "Das Bauteil kann nicht gelöscht werden, da es noch in den folgenden Baugruppen verwendet wird:"
 msgstr "The part can not be deleted because it is used in following devices:"
 
-#: edit_part_info.php:607
+#: edit_part_info.php:613
 #, php-format
 msgid "Soll das Bauteil \"%s\" wirklich unwiederruflich gelöscht werden?"
 msgstr "Really remove the part \"%s\" permanently?"
 
-#: edit_part_info.php:610
+#: edit_part_info.php:616
 msgid "&nbsp;&nbsp;&bull; Es gibt keine Baugruppen die dieses Bauteil verwenden."
 msgstr "&nbsp;&nbsp;&bull; No devices are using this part."
 
-#: edit_part_info.php:612
+#: edit_part_info.php:618
 msgid "&nbsp;&nbsp;&bull; Alle Dateien dieses Bauteiles, die nicht von anderen Bauteilen verwendet werden, werden von der Festplatte gelöscht!"
 msgstr "&nbsp;&nbsp;&bull; Every file which is not used by another part, will be deleted permanently!"
 
-#: edit_part_info.php:614 show_all_parts.php:142 show_category_parts.php:168
+#: edit_part_info.php:620 show_all_parts.php:142 show_category_parts.php:168
 #: show_footprint_parts.php:160 show_location_parts.php:159
 #: show_manufacturer_parts.php:159 show_obsolete_parts.php:104
 #: show_supplier_parts.php:160
 msgid "&nbsp;&nbsp;&bull; Alle Dateien dieses Bauteiles bleiben weiterhin erhalten."
 msgstr "&nbsp;&nbsp;&bull; Every file of this part remains obtained."
 
-#: edit_part_info.php:622
+#: edit_part_info.php:628
 msgid "Ja, Bauteil löschen"
 msgstr "Yes, remove part"
 
-#: edit_part_info.php:632
+#: edit_part_info.php:638
 msgid "Das Bauteil wurde erfolgreich gelöscht!"
 msgstr "The part was removed successfully!"
 
-#: edit_part_info.php:634
+#: edit_part_info.php:640
 msgid "Fenster schliessen"
 msgstr "Close window"
 
-#: edit_part_info.php:635
+#: edit_part_info.php:641
 msgid "Startseite aufrufen"
 msgstr "Go to Homepage"
 
-#: edit_storelocations.php:88 inc/lib.php:1007
+#: edit_storelocations.php:88 inc/lib.php:1041
 #: lib/Permissions/PermissionManager.php:257 show_location_parts.php:193
 msgid "Lagerorte"
 msgstr "Storelocations"
@@ -467,7 +467,7 @@ msgstr "No store location selected or an error occurred!"
 msgid "Der Lagerort konnte nicht gelöscht werden!"
 msgstr "The store location could not be removed!"
 
-#: edit_suppliers.php:90 inc/lib.php:1016
+#: edit_suppliers.php:90 inc/lib.php:1050
 #: lib/Permissions/PermissionManager.php:260 show_supplier_parts.php:194
 msgid "Lieferanten"
 msgstr "Suppliers"
@@ -506,7 +506,7 @@ msgstr "Yes, remove supplier"
 msgid "Der Lieferant konnte nicht gelöscht werden!"
 msgstr "The supplier can not be removed!"
 
-#: edit_users.php:102 inc/lib.php:951 lib/Log.php:546
+#: edit_users.php:102 inc/lib.php:985 lib/Log.php:546
 #: lib/Permissions/PermissionManager.php:267
 msgid "Benutzer"
 msgstr "User"
@@ -592,217 +592,217 @@ msgstr "Standard 2 (with all suppliers)"
 msgid "Distrelec Online-Bestellung"
 msgstr "Distrelec online-order"
 
-#: inc/lib.php:141 inc/lib.php:175 inc/lib.php:287
+#: inc/lib.php:151 inc/lib.php:185 inc/lib.php:297
 #, php-format
 msgid "\"%s\" ist kein gültiges Verzeichnis!"
 msgstr "\"%s\" is not a valid directory!"
 
-#: inc/lib.php:270
+#: inc/lib.php:280
 msgid "Ungültiges Array übergeben!"
 msgstr "Invalid array passed!"
 
-#: inc/lib.php:277
+#: inc/lib.php:287
 msgid "Es ist nicht erlaubt PHP Dateien hochzuladen!"
 msgstr "It is not allowed upload PHP files!"
 
-#: inc/lib.php:293
+#: inc/lib.php:303
 msgid "Das Verzeichniss konnte nicht angelegt werden!"
 msgstr "The directory could not be created!"
 
-#: inc/lib.php:297
+#: inc/lib.php:307
 msgid "Sie haben keine Schreibrechte im Verzeichnis \""
 msgstr "You do not have write permissions for the folder \""
 
-#: inc/lib.php:309
+#: inc/lib.php:319
 msgid "Es existiert bereits eine Datei mit dem Dateinamen \""
 msgstr "There already exists a file with the filename \""
 
-#: inc/lib.php:317
+#: inc/lib.php:327
 msgid "Die maximal mögliche Dateigrösse für Uploads wurde überschritten (\"upload_max_filesize\" in \"php.ini\")! "
 msgstr "The maximum possible file size for uploads has been exceeded (\"upload_max_filesize\" in \"php. ini\")! "
 
-#: inc/lib.php:318
+#: inc/lib.php:328
 msgid "https://github.com/Part-DB/Part-DB/wiki/Anforderungen"
 msgstr "https://github.com/Part-DB/Part-DB/wiki/EN%3A-Requirements"
 
-#: inc/lib.php:318 inc/lib.php:1050
+#: inc/lib.php:328 inc/lib.php:1084
 msgid "Hilfe"
 msgstr "Help"
 
-#: inc/lib.php:320
+#: inc/lib.php:330
 msgid "Die maximal mögliche Dateigrösse für Uploads wurde überschritten!"
 msgstr "The maximum possible file size for uploads has been exceeded!"
 
-#: inc/lib.php:322
+#: inc/lib.php:332
 msgid "Die Datei wurde nur teilweise hochgeladen!"
 msgstr "The file was only partially uploaded!"
 
-#: inc/lib.php:324
+#: inc/lib.php:334
 msgid "Es wurde keine Datei hochgeladen!"
 msgstr "No file has been uploaded!"
 
-#: inc/lib.php:326
+#: inc/lib.php:336
 msgid "Es gibt keinen temporären Ordner für hochgeladene Dateien!"
 msgstr "There is no temporary folder for uploaded files!"
 
-#: inc/lib.php:328
+#: inc/lib.php:338
 msgid "Das Speichern der Datei auf die Festplatte ist fehlgeschlagen!"
 msgstr "Saving the file to disk failed!"
 
-#: inc/lib.php:330
+#: inc/lib.php:340
 msgid "Eine PHP Erweiterung hat den Upload der Datei gestoppt!"
 msgstr "A PHP extension has stopped the upload of the file!"
 
-#: inc/lib.php:332 inc/lib.php:336
+#: inc/lib.php:342 inc/lib.php:346
 msgid "Beim Hochladen der Datei trat ein unbekannter Fehler auf!"
 msgstr "An unknown error occurred while uploading the file!"
 
-#: inc/lib.php:371
+#: inc/lib.php:381
 msgid "Das neue Passwort muss mindestens 6 Zeichen lang sein!"
 msgstr "The new password must be at least 6 characters long!"
 
-#: inc/lib.php:375
+#: inc/lib.php:385
 msgid "Die neuen Passwörter stimmen nicht überein!"
 msgstr "The new passwords do not match!"
 
-#: inc/lib.php:394
+#: inc/lib.php:404
 msgid "Es sind nicht genügend Rechte vorhanden um die Datei \"config.php\" zu beschreiben!"
 msgstr "There are not enough permissions to write the file \"config.php\"!"
 
-#: inc/lib.php:413 inc/lib.php:417
+#: inc/lib.php:423 inc/lib.php:427
 msgid "Die Datei \"config.php\" konnte nicht beschrieben werden. Überprüfen Sie, ob genügend Rechte vorhanden sind."
 msgstr "The file \"config. php\" could not be written to. Check whether you have sufficient rights."
 
-#: inc/lib.php:421
+#: inc/lib.php:431
 msgid "Es gab ein Fehler beim Abschliessen der Schreibvorgangs bei der Datei \"config.php\"."
 msgstr "There was an error when finishing writing the file \"config.php\"."
 
-#: inc/lib.php:523
+#: inc/lib.php:551
 msgid "\"curl\" scheint auf ihrem System nicht installiert zu sein! \n"
 "Bitte installieren Sie das entsprechende Modul, oder es werden gewisse Funktionen nicht zur Verfügung stehen."
 msgstr "\"curl\" doesn't seem to be installed on your system! \n"
 "Please install the corresponding module, or certain functions will not be available."
 
-#: inc/lib.php:537
+#: inc/lib.php:565
 msgid "Der Download mit \"curl\" lieferte kein Ergebnis!"
 msgstr "The download with \"curl\" gets no result!"
 
-#: inc/lib.php:557
+#: inc/lib.php:585
 msgid "Das Herunterladen von Dateien über den Server ist deaktiviert!"
 msgstr "Downloading files from the server is disabled!"
 
-#: inc/lib.php:561
+#: inc/lib.php:589
 msgid "$path ist kein gültiger und absoluter Pfad!"
 msgstr "$path is not a valid and absolute path!"
 
-#: inc/lib.php:564
+#: inc/lib.php:592
 msgid "$url ist keine gültige URL"
 msgstr "$url is not a valid URL"
 
-#: inc/lib.php:573
+#: inc/lib.php:601
 msgid "Es ist nicht erlaubt PHP Dateien herunterzuladen!"
 msgstr "It is not allowed to download PHP files!"
 
-#: inc/lib.php:928 lib/Permissions/ToolsPermission.php:47
+#: inc/lib.php:962 lib/Permissions/ToolsPermission.php:47
 msgid "Import"
 msgstr "Import"
 
-#: inc/lib.php:931
+#: inc/lib.php:965
 msgid "SMD Labels"
 msgstr "SMD Labels"
 
-#: inc/lib.php:934 lib/Permissions/ToolsPermission.php:49
+#: inc/lib.php:968 lib/Permissions/ToolsPermission.php:49
 #: tools_calculator.php:42
 msgid "Widerstandsrechner"
 msgstr "Resistor calculator"
 
-#: inc/lib.php:940
+#: inc/lib.php:974
 msgid "3D Footprints"
 msgstr "3D footprints"
 
-#: inc/lib.php:943
+#: inc/lib.php:977
 msgid "Labelgenerator"
 msgstr "Label generator"
 
-#: inc/lib.php:946 lib/Permissions/ToolsPermission.php:51
+#: inc/lib.php:980 lib/Permissions/ToolsPermission.php:51
 msgid "IC-Logos"
 msgstr "IC-Logos"
 
-#: inc/lib.php:954 lib/Permissions/PermissionManager.php:268
+#: inc/lib.php:988 lib/Permissions/PermissionManager.php:268
 msgid "Gruppen"
 msgstr "Groups"
 
-#: inc/lib.php:958 lib/Permissions/PermissionManager.php:270
+#: inc/lib.php:992 lib/Permissions/PermissionManager.php:270
 #: system_config.php:153
 msgid "Konfiguration"
 msgstr "Configuration"
 
-#: inc/lib.php:962 lib/LogSystem/DatabaseUpdatedEntry.php:84
+#: inc/lib.php:996 lib/LogSystem/DatabaseUpdatedEntry.php:84
 #: lib/Permissions/PermissionManager.php:269
 msgid "Datenbank"
 msgstr "Database"
 
-#: inc/lib.php:966
+#: inc/lib.php:1000
 msgid "Eventlog"
 msgstr "Eventlog"
 
-#: inc/lib.php:974
+#: inc/lib.php:1008
 msgid "Zu bestellende Teile"
 msgstr "Order parts"
 
-#: inc/lib.php:977
+#: inc/lib.php:1011
 msgid "Teile ohne Preis"
 msgstr "Parts without price"
 
-#: inc/lib.php:980
+#: inc/lib.php:1014
 msgid "Obsolete Bauteile"
 msgstr "Obsolete Parts"
 
-#: inc/lib.php:983 lib/Permissions/ToolsPermission.php:52 statistics.php:51
+#: inc/lib.php:1017 lib/Permissions/ToolsPermission.php:52 statistics.php:51
 msgid "Statistik"
 msgstr "Statistics"
 
-#: inc/lib.php:986
+#: inc/lib.php:1020
 msgid "Alle Teile"
 msgstr "All parts"
 
-#: inc/lib.php:989 show_unknown_instock_parts.php:44
+#: inc/lib.php:1023 show_unknown_instock_parts.php:44
 msgid "Teile mit unbekanntem Lagerbestand"
 msgstr "Parts with unknown instock"
 
-#: inc/lib.php:992 show_favorite_parts.php:44
+#: inc/lib.php:1026 show_favorite_parts.php:44
 msgid "Favorisierte Bauteile"
 msgstr "Favorite parts"
 
-#: inc/lib.php:995 show_last_modified_parts.php:46
+#: inc/lib.php:1029 show_last_modified_parts.php:46
 msgid "Zuletzt bearbeitete Bauteile"
 msgstr "Last edited parts"
 
-#: inc/lib.php:998
+#: inc/lib.php:1032
 msgid "Zuletzt hinzugefügte Bauteile"
 msgstr "Last added parts"
 
-#: inc/lib.php:1027
+#: inc/lib.php:1061
 msgid "Werkzeuge"
 msgstr "Tools"
 
-#: inc/lib.php:1028
+#: inc/lib.php:1062
 msgid "Debugging"
 msgstr "Debugging"
 
-#: inc/lib.php:1029
+#: inc/lib.php:1063
 msgid "Sandkasten"
 msgstr "Sandbox"
 
-#: inc/lib.php:1030
+#: inc/lib.php:1064
 msgid "Quellcode-Doku"
 msgstr "Source-Documentation"
 
-#: inc/lib.php:1035 lib/Permissions/PermissionManager.php:276
+#: inc/lib.php:1069 lib/Permissions/PermissionManager.php:276
 msgid "Tools"
 msgstr "Tools"
 
-#: inc/lib.php:1038 lib/Permissions/CPartAttributePermission.php:50
+#: inc/lib.php:1072 lib/Permissions/CPartAttributePermission.php:50
 #: lib/Permissions/DevicePartPermission.php:46
 #: lib/Permissions/GroupPermission.php:45
 #: lib/Permissions/PartAttributePermission.php:44
@@ -812,51 +812,51 @@ msgstr "Tools"
 msgid "Bearbeiten"
 msgstr "Edit"
 
-#: inc/lib.php:1041
+#: inc/lib.php:1075
 msgid "Zeige"
 msgstr "Show"
 
-#: inc/lib.php:1044 lib/Permissions/PermissionManager.php:272
+#: inc/lib.php:1078 lib/Permissions/PermissionManager.php:272
 msgid "System"
 msgstr "System"
 
-#: inc/lib.php:1047
+#: inc/lib.php:1081
 msgid "Entwickler-Werkzeuge"
 msgstr "Developer-Tools"
 
-#: inc/lib.php:1328
+#: inc/lib.php:1362
 msgid "Der gegebene Wert konnte keinem Tristatewert zugeordnet werden!"
 msgstr "The given value could not be assigned to a tristate value!"
 
-#: inc/lib.php:1381
+#: inc/lib.php:1415
 msgid "Springe zur ersten Seite"
 msgstr "Jump to first page"
 
-#: inc/lib.php:1404
+#: inc/lib.php:1438
 msgid "Springe zur letzten Seite"
 msgstr "Jump to last page"
 
-#: inc/lib.php:1410
+#: inc/lib.php:1444
 msgid "Alle anzeigen"
 msgstr "Show all"
 
-#: inc/lib.php:1434
+#: inc/lib.php:1468
 msgid "Bitte wählen sie ein Ziel zum Verschieben aus."
 msgstr "Please select a target to move."
 
-#: inc/lib.php:1440
+#: inc/lib.php:1474
 msgid "Ungültige ID"
 msgstr "Invalid ID"
 
-#: inc/lib.php:1461
+#: inc/lib.php:1495
 msgid "Bitte wählen sie eine Aktion aus."
 msgstr "Please select an action."
 
-#: inc/lib.php:1463
+#: inc/lib.php:1497
 msgid "Unbekannte Aktion"
 msgstr "Unknown action"
 
-#: inc/lib.php:1477
+#: inc/lib.php:1511
 msgid "Standardmäßiges Theme"
 msgstr "Default theme"
 
@@ -976,11 +976,11 @@ msgstr "The filepath \"%s\" is not a valid absolute UNIX file path!"
 #: lib/Attachement.php:501 lib/AttachementType.php:118
 #: lib/Base/DBElement.php:96 lib/Category.php:544 lib/Device.php:483
 #: lib/Device.php:513 lib/DevicePart.php:337 lib/DevicePart.php:368
-#: lib/Manufacturer.php:120 lib/Part.php:2101 lib/Part.php:2123
-#: lib/Part.php:2151 lib/Part.php:2211 lib/Part.php:2267 lib/Part.php:2309
-#: lib/Part.php:2347 lib/Part.php:2386 lib/Part.php:2421 lib/Part.php:2461
-#: lib/Part.php:2498 lib/Part.php:2541 lib/Part.php:2581 lib/Part.php:2627
-#: lib/Part.php:2667 lib/Part.php:2726 lib/Storelocation.php:174
+#: lib/Manufacturer.php:120 lib/Part.php:2116 lib/Part.php:2138
+#: lib/Part.php:2166 lib/Part.php:2226 lib/Part.php:2282 lib/Part.php:2324
+#: lib/Part.php:2362 lib/Part.php:2401 lib/Part.php:2436 lib/Part.php:2476
+#: lib/Part.php:2513 lib/Part.php:2556 lib/Part.php:2596 lib/Part.php:2642
+#: lib/Part.php:2682 lib/Part.php:2741 lib/Storelocation.php:174
 #: lib/Supplier.php:196 lib/Supplier.php:223 lib/System.php:77 lib/User.php:826
 msgid "$database ist kein Database-Objekt!"
 msgstr "$database is not a database-Object!"
@@ -1308,7 +1308,7 @@ msgstr "Device: %s"
 msgid "Die Teile konnten nicht abgefasst werden!\n"
 msgstr "The parts could not be taken!\n"
 
-#: lib/Device.php:465 lib/Part.php:1970
+#: lib/Device.php:465 lib/Part.php:1985
 msgid "Die Bestellmenge ist ungültig!"
 msgstr "The order quantity is invalid!"
 
@@ -1568,15 +1568,15 @@ msgstr "From IP: "
 msgid "Die Einkaufsinformationen konnten nicht gelöscht werden!\n"
 msgstr "Orderinformation could not be deleted!\n"
 
-#: lib/Orderdetails.php:324
+#: lib/Orderdetails.php:327
 msgid "Es sind keine Preisinformationen für die angegebene Bestellmenge vorhanden!"
 msgstr "No price information is available for the specified order quantity!"
 
-#: lib/Orderdetails.php:410
+#: lib/Orderdetails.php:424
 msgid "Das gewählte Bauteil existiert nicht!"
 msgstr "The selected component does not exist!"
 
-#: lib/Orderdetails.php:429
+#: lib/Orderdetails.php:443
 msgid "Der gewählte Lieferant existiert nicht!"
 msgstr "The selected vendor does not exist!"
 
@@ -1606,64 +1606,64 @@ msgstr "$old_instock and $new_instock must be positive!"
 msgid "[Unbekannt]"
 msgstr "[Unknown]"
 
-#: lib/Part.php:1216 lib/Part.php:1240
+#: lib/Part.php:1218 lib/Part.php:1242
 msgid "Zahl der entnommenen Bauteile muss größer 0 sein!"
 msgstr "Number of removed components must be greater than 0!"
 
-#: lib/Part.php:1219
+#: lib/Part.php:1221
 msgid "Es können nicht mehr Bauteile entnommen werden, als vorhanden sind!"
 msgstr "No more parts can be withdrawn, than there are instock!"
 
-#: lib/Part.php:1640
+#: lib/Part.php:1655
 msgid "Noch nicht bestellen"
 msgstr "Do not order yet"
 
-#: lib/Part.php:1813
+#: lib/Part.php:1828
 msgid "\"$table_type\" ist ungültig!"
 msgstr "\"$table_type\" is not valid!"
 
-#: lib/Part.php:1935
+#: lib/Part.php:1950
 msgid "Der neue Lagerbestand ist ungültig!"
 msgstr "The new stock is invalid!"
 
-#: lib/Part.php:1937
+#: lib/Part.php:1952
 #, php-format
 msgid "Der neue Lagerbestand von \"%s\" wäre negativ und kann deshalb nicht gespeichert werden!"
 msgstr "The new stock of \"%s\" would be negative and therefore cannot be saved!"
 
-#: lib/Part.php:1963
+#: lib/Part.php:1978
 msgid "Die gewählte Einkaufsinformation existiert nicht!"
 msgstr "The selected order information does not exist!"
 
-#: lib/Part.php:1992
+#: lib/Part.php:2007
 msgid "Der neue Mindestlagerbestand ist ungültig!"
 msgstr "The new minimum stock level is invalid!"
 
-#: lib/Part.php:1999
+#: lib/Part.php:2014
 msgid "\"id_category\" ist Null!"
 msgstr "\"id_category is zero!"
 
-#: lib/Part.php:2012
+#: lib/Part.php:2027
 msgid "Die gewählte Kategorie existiert nicht!"
 msgstr "The selected category does not exist!"
 
-#: lib/Part.php:2030
+#: lib/Part.php:2045
 msgid "Der gewählte Footprint existiert nicht!"
 msgstr "The selected footprint does not exist!"
 
-#: lib/Part.php:2048
+#: lib/Part.php:2063
 msgid "Der gewählte Lagerort existiert nicht!"
 msgstr "The selected store location does not exist!"
 
-#: lib/Part.php:2066
+#: lib/Part.php:2081
 msgid "Der gewählte Hersteller existiert nicht!"
 msgstr "The selected manufacturer does not exist!"
 
-#: lib/Part.php:2085
+#: lib/Part.php:2100
 msgid "Die gewählte Datei existiert nicht!"
 msgstr "The selected file does not exist!"
 
-#: lib/Part.php:2994
+#: lib/Part.php:3009
 msgid "Keine"
 msgstr "None"
 
@@ -2183,78 +2183,78 @@ msgstr "Could not create a SimpleXMLElement!"
 msgid "FEHLER - Kein Link im Atom-Feed gefunden!"
 msgstr "ERROR - No link in Atom-Feed found!"
 
-#: start_session.php:60
+#: start_session.php:61
 msgid "Bitte verschieben Sie die folgenden Dateien und Ordner ins Verzeichnis \"data\":"
 msgstr "Please move the following files and folders to the directory \"data\":"
 
-#: start_session.php:75
+#: start_session.php:76
 msgid "WICHTIG:<br>Kopieren Sie jeweils nur den Inhalt der genannten Ordner, nicht den ganzen Ordner an sich!<br>Die Zielordner enthalten bereits (teilweise versteckte) Dateien, die auf keinen Fall &uuml;berschrieben werden d&uuml;rfen!<br>Kopieren Sie also nur den Inhalt dieser Ordner und l&ouml;schen Sie danach die alten, leeren Ordner im Hauptverzeichnis."
 msgstr "IMPORTANT: <br>Copy only the contents of the named folders, not the whole folder itself! <br>The target folders already contain (partly hidden) files, which must not be overwritten under any circumstances! <br>Copy only the contents of these folders and then delete the old, empty folders in the main directory."
 
-#: start_session.php:79 start_session.php:139
+#: start_session.php:80 start_session.php:140
 msgid "Part-DB"
 msgstr "Part-DB"
 
-#: start_session.php:79
+#: start_session.php:80
 msgid "Update von Part-DB: Manuelle Eingriffe notwendig"
 msgstr "Update of Part DB: Manual intervention necessary"
 
-#: start_session.php:137
+#: start_session.php:138
 msgid "Die Konstante \"DOCUMENT_ROOT\" konnte auf Ihrem Server nicht ermittelt werden.<br>Bitte definieren Sie diese Konstante manuell in Ihrer Konfigurationsdatei \"data/config.php\"."
 msgstr "The constant \"DOCUMENT_ROOT\" could not be determined on your server. <br>Please define this constant manually in your configuration file \"data/config. php\"."
 
-#: start_session.php:139
+#: start_session.php:140
 msgid "DOCUMENT_ROOT kann nicht ermittelt werden"
 msgstr "DOCUMENT_ROOT cannot be determined"
 
-#: start_session.php:199
+#: start_session.php:200
 msgid "Mindestanforderungen von Part-DB nicht erfüllt!"
 msgstr "Minimum requirements of Part-DB not fulfilled!"
 
-#: start_session.php:201 start_session.php:213 start_session.php:229
-#: start_session.php:244
+#: start_session.php:202 start_session.php:214 start_session.php:230
+#: start_session.php:245
 #, php-format
 msgid "Nähere Informationen gibt es in der <a target=\"_blank\" href=\"%s\">Dokumentation</a>."
 msgstr "Further information can be found in <a target=\"_blank\" href=\"%s\">documentation</a>."
 
-#: start_session.php:201
+#: start_session.php:202
 msgid "https://github.com/jbtronics/Part-DB/wiki/Anforderungen"
 msgstr "https://github.com/jbtronics/Part-DB/wiki/EN%3A-Requirements"
 
-#: start_session.php:213 start_session.php:229 start_session.php:244
+#: start_session.php:214 start_session.php:230 start_session.php:245
 msgid "https://github.com/jbtronics/Part-DB/wiki/Installation"
 msgstr "https://github.com/jbtronics/Part-DB/wiki/EN%3A-Installation"
 
-#: start_session.php:215 start_session.php:230 start_session.php:255
-#: start_session.php:293
+#: start_session.php:216 start_session.php:231 start_session.php:256
+#: start_session.php:294
 msgid "<form action=\"\" method=\"post\"><button class=\"btn btn-primary\" type=\"submit\" value=\"Seite neu laden\">Seite neu laden</button></form>"
 msgstr "<form action=\"\" method=\"post\"><button class=\"btn btn-primary\" type=\"submit\" value=\"Reload page\">Reload page</button></form>"
 
-#: start_session.php:217
+#: start_session.php:218
 msgid "Anpassung der Rechte von Verzeichnissen und Dateien"
 msgstr "Adjusting the permissions of directories and files"
 
-#: start_session.php:228
+#: start_session.php:229
 msgid "Ihre config.php ist fehlerhaft!"
 msgstr "Your config. php is corrupt!"
 
-#: start_session.php:237
+#: start_session.php:238
 msgid "<b>Part-DB benutzt den PHP Abhängikeitsmanager <a href='https://getcomposer.org/' target='_blank'>Composer</a> um benötigte Bibliotheken bereitzustellen.<br> Bevor sie Part-DB nutzen können müssen sie diese Bibliotheken mit <code>php composer.phar install</code> im Hauptverzeichnis von Part-DB installiert werden. <br> Sollten sie keine Möglichkeit haben, auf ihrem Server Konsolenbefehle auszuführen, dann benutzen kopieren sie den vendor/ Ordner, aus einem mit composer eingerichteten  Part-DB oder ein speziellen Release benutzen, der die Abhängikeiten mitliefert.</b><br>"
 msgstr "<b>Part-DB uses the PHP Dependency Manager <a href='https://getcomposer.org/' target='_blank'>Composer</a> to provide required libraries. <br> Before you can use Part-DB, you have to install these libraries with <code>php composer. phar install</code> in the main directory of Part-DB. <br> If you don't have the ability to execute console commands on your server, copy the vendor/ folder from a composer part DB or use a special release that includes the dependencies. </b><br>"
 
-#: start_session.php:277
+#: start_session.php:278
 msgid "Ihre config.php wurde erfolgreich aktualisiert!"
 msgstr "Your config.php has been successfully updated!"
 
-#: start_session.php:278
+#: start_session.php:279
 msgid "Es kann sein, dass jetzt der Installationsassistent startet, um noch einige neue Einstellungen zu tätigen."
 msgstr "It is possible that the installation wizard will now start to make some new settings."
 
-#: start_session.php:289
+#: start_session.php:290
 msgid "Es gab ein Fehler bei der Aktualisierung ihrer config.php:"
 msgstr "There was an error updating your config.php:"
 
-#: start_session.php:295
+#: start_session.php:296
 msgid "Aktualisierung ihrer config.php"
 msgstr "Updating your config.php"
 
@@ -2278,16 +2278,16 @@ msgstr "Parts with manufacturer"
 msgid "Bis zum Schließen des Browsers"
 msgstr "Until the browser is closed"
 
-#: system_config.php:376
+#: system_config.php:377
 msgid "Achtung:"
 msgstr "Warning:"
 
-#: system_config.php:377
+#: system_config.php:378
 #, php-format
 msgid "Die gewählte Sprache \"%s\" wird vom Server nicht unterstützt!"
 msgstr "The selected language \"%s\" is not supported by the server!"
 
-#: system_config.php:378
+#: system_config.php:379
 msgid "Bitte installieren Sie diese Sprache oder wählen Sie eine andere."
 msgstr "Please install this language or choose an other."
 
