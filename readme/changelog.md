@@ -1,5 +1,22 @@
 # Part-DB Changelog
 
+## Part-DB 0.5.5
+### Neue Funktionen
+* Maximaler Preis liegt nun bei 999.999,99999€ (statt vorher 9.999,99999). Datenbankupdate erforderlich.
+* Es kann nun für jede Einkaufsinformation zusätzlich ein Link zur Bestellwebsite angegeben werden
+* Es kann nun für jedes Bauteil ein Link zu einer Herstellerwebsite angegeben werden
+* In den Einstellungen wird die aktuelle Uhrzeit auf dem Server angezeigt
+* Verbesserte Anhangs und Bestellinformations Abschnitte auf der Bauteilebearbeitungsseite
+
+### Bugsizes
+* Beim PDF-Export großer Tabellen werden keine Spalten mehr abgeschnitten (Schriftgröße verkleinert)
+* Wenn kein Name für ein Dateianhang angegeben wird, wird er wieder automatisch aus dem Dateinamen bestimmt
+* Bauteilelink zum Hersteller wird nun korrekt in einem neuen Tab geöffnet
+* Diverse visuelle Fehler behoben
+
+### Sonstiges
+* Composer Abhängigkeiten aktualisiert
+ 
 ## Part-DB 0.5.4
 ### Neue Funktionen
 * Reset Button zum Zurücksetzen des Filters auf system_log.php
@@ -8,7 +25,6 @@
 * Ein Button hinzugefügt, um das Anlegen eines Bauteils abzubrechen
 * Zahl der Vorhanden Bauteile werden beim Bauteile hinzufügen auf show_device_parts.php angezeigt
 * Im "Bauteile hinzufügen" Panel auf show_device_parts.php, wurde ein Link zum Anlegen eines Bauteils hinzugefügt (Suchbegriff wird als Bauteilename übernommen)
-* 
 
 ### Bugfixes
 * **Achtung**: Das Hochladen und die Ausführung (unter Apache2) von PHP Dateien wird jetzt verhindert

@@ -1,5 +1,22 @@
 # Part-DB changelog
 
+## Part-DB 0.5.5
+### New functions
+* Maximum price is now 999.999,99999€ (instead of 9.999,99999 before). Database update required.
+* Now for each purchase information an additional link to the order website can be given.
+* A link to a manufacturer's website can now be provided for each component
+* The current time on the server is displayed in the settings.
+* Improved appendix and ordering information sections on part machining side
+
+### Bugsizes
+* When exporting large tables to PDF, no more columns are truncated (font size reduced)
+* If no name is specified for a file attachment, it is automatically determined from the file name again.
+* Component link to manufacturer is now correctly opened in a new tab
+* Fixed several visual bugs
+
+### Miscellaneous
+* Composer dependencies updated
+
 ## Part-DB 0.5.4
 ### New functions
 * Reset button to reset the filter to system_log.php
