@@ -117,7 +117,7 @@
         {t}Autor seit 2016:{/t} <strong>Jan Böhmer</strong> - <a class="link-external" rel="noopener" target="_blank" href="https://github.com/jbtronics">Github</a><br>
     </div>
 
-    <table class="table">
+    <table class="table table-sm">
         <thead>
         <tr>
             <th>{t}Weitere Autoren:{/t}</th>
