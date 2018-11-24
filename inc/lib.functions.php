@@ -29,14 +29,6 @@
 
 
 /*
- * ENT_SUBSTITUTE is not available in PHP 5.3.0, it was introduced in PHP 5.4.0
- * Note: ENT_SUBSTITUTE is used in htmlspecialchars() and htmlentities()
- */
-if (! defined('ENT_SUBSTITUTE')) {
-    define('ENT_SUBSTITUTE', 0);
-}
-
-/*
  * money_format()
  *
  * money_format() is not available on Windows!
@@ -124,29 +116,6 @@ if (! function_exists('money_format')) {
             $format = str_replace($fmatch[0], $value, $format);
         }
         return $format;
-    }
-}
-
-/*
- * str_getcsv()
- */
-if (! function_exists('str_getcsv')) {
-    function str_getcsv($str, $delim = ',', $enclose = '"', $preserve = false)
-    {
-        $resArr = array();
-        $n = 0;
-        $expEncArr = explode($enclose, $str);
-        foreach ($expEncArr as $EncItem) {
-            if ($n++ % 2) {
-                array_push($resArr, array_pop($resArr) . ($preserve ? $enclose : '') .
-                    $EncItem. ($preserve ? $enclose : ''));
-            } else {
-                $expDelArr = explode($delim, $EncItem);
-                array_push($resArr, array_pop($resArr) . array_shift($expDelArr));
-                $resArr = array_merge($resArr, $expDelArr);
-            }
-        }
-        return $resArr;
     }
 }
 
