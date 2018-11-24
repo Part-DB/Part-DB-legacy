@@ -320,6 +320,7 @@ try {
     $html->setVariable('max_upload_filesize', ini_get('upload_max_filesize'), 'string');
     $html->setVariable('session_cookie_lifetime', ini_get('session.cookie_lifetime') > 0 ? ini_get('session.cookie_lifetime') . "s" : _("Bis zum Schließen des Browsers"), 'string');
     $html->setVariable('session_gc_maxlifetime', ini_get('session.gc_maxlifetime'), 'string');
+    $html->setVariable('current_server_datetime', formatTimestamp(time()));
 
 //Part properties
     $html->setVariable('properties_active', $config['properties']['active'], 'boolean');

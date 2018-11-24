@@ -490,6 +490,10 @@
                 <td><b>{t}Lebensdauer der Sessioncookies:{/t}</b></td>
                 <td>{$session_cookie_lifetime}</td>
             </tr>
+            <tr>
+                <td><b>{t}Aktuelle Uhrzeit auf Server:{/t}</b></td>
+                <td>{$current_server_datetime}</td>
+            </tr>
             </tbody>
         </table>
     </div>
