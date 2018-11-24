@@ -425,16 +425,16 @@
         },
         {
             "name": "nnnick/chartjs",
-            "version": "v2.7.2",
+            "version": "v2.7.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/chartjs/Chart.js.git",
-                "reference": "98f104cdd03617f1300b417b3d60c23d4e3e3403"
+                "reference": "924a66bae23f7e938531024951f7251d46785473"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/chartjs/Chart.js/zipball/98f104cdd03617f1300b417b3d60c23d4e3e3403",
-                "reference": "98f104cdd03617f1300b417b3d60c23d4e3e3403",
+                "url": "https://api.github.com/repos/chartjs/Chart.js/zipball/924a66bae23f7e938531024951f7251d46785473",
+                "reference": "924a66bae23f7e938531024951f7251d46785473",
                 "shasum": ""
             },
             "require": {
@@ -462,7 +462,7 @@
                 "JS",
                 "chart"
             ],
-            "time": "2018-03-01T21:45:21+00:00"
+            "time": "2018-10-15T17:14:43+00:00"
         },
         {
             "name": "pimple/pimple",
@@ -615,16 +615,16 @@
         },
         {
             "name": "psr/log",
-            "version": "1.0.2",
+            "version": "1.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/php-fig/log.git",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d"
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/php-fig/log/zipball/4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
-                "reference": "4ebe3a8bf773a19edfe0a84b6585ba3d401b724d",
+                "url": "https://api.github.com/repos/php-fig/log/zipball/6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
+                "reference": "6c001f1daafa3a3ac1d8ff69ee4db8e799a654dd",
                 "shasum": ""
             },
             "require": {
@@ -658,7 +658,7 @@
                 "psr",
                 "psr-3"
             ],
-            "time": "2016-10-10T12:19:37+00:00"
+            "time": "2018-11-20T15:27:04+00:00"
         },
         {
             "name": "slim/slim",
@@ -890,16 +890,16 @@
         },
         {
             "name": "symfony/polyfill-mbstring",
-            "version": "v1.9.0",
+            "version": "v1.10.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/polyfill-mbstring.git",
-                "reference": "d0cd638f4634c16d8df4508e847f14e9e43168b8"
+                "reference": "c79c051f5b3a46be09205c73b80b346e4153e494"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/d0cd638f4634c16d8df4508e847f14e9e43168b8",
-                "reference": "d0cd638f4634c16d8df4508e847f14e9e43168b8",
+                "url": "https://api.github.com/repos/symfony/polyfill-mbstring/zipball/c79c051f5b3a46be09205c73b80b346e4153e494",
+                "reference": "c79c051f5b3a46be09205c73b80b346e4153e494",
                 "shasum": ""
             },
             "require": {
@@ -945,11 +945,11 @@
                 "portable",
                 "shim"
             ],
-            "time": "2018-08-06T14:22:27+00:00"
+            "time": "2018-09-21T13:07:52+00:00"
         },
         {
             "name": "symfony/var-dumper",
-            "version": "v3.4.17",
+            "version": "v3.4.18",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/var-dumper.git",
