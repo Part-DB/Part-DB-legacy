@@ -115,7 +115,7 @@
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#sidebar-container">
                         <span class="sr-only">{t}Toggle Sidebar{/t}</span>
                         <!-- <span class="navbar-toggler-icon"></span> -->
-                        <i class="fas fa-sitemap fa-lg"></i>
+                        <i class="fas fa-folder-open fa-lg fa-fw"></i>
             </button>
 
             <a class="navbar-brand" href="{$relative_path}startup.php"><i class="fa fa-microchip" aria-hidden="true"></i> {if !empty($partdb_title)}{$partdb_title}{else}Part-DB{/if}</a>
