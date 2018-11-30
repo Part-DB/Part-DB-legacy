@@ -123,8 +123,10 @@ if (! function_exists('money_format')) {
  * get the mime type of a file
  *
  * @param string    $filename   The file to check (absolute filename from filesystem root!)
+ *
+ * @return string The mimetype of the file.
  */
-function getMimetype($filename)
+function getMimetype(string $filename) : string
 {
     $mime_types = array(
         'txt' => 'text/plain',
@@ -207,7 +209,7 @@ function getMimetype($filename)
  *
  * @param string    $dir   The path to the directory (absolute filename from filesystem root!)
  */
-function rmdirRecursive($dir)
+function rmdirRecursive(string $dir)
 {
     if (is_dir($dir)) {
         $objects = scandir($dir);

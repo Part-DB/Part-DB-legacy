@@ -112,7 +112,7 @@ class PartProperty implements IAPIModel
 
         $arr = array();
         for ($n = 0; $n<count($names); $n++) {
-            if (!_empty(trim($names[$n])) && !_empty(trim($values[$n]))) {
+            if (!empty(trim($names[$n])) && empty(trim($values[$n]))) {
                 $arr[] = new PartProperty($raw_strings[$n], $names[$n], $values[$n]);
             }
         }
