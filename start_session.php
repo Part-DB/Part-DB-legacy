@@ -47,42 +47,6 @@ set_exception_handler('exception_handler');
 
 /********************************************************************************
  *
- *   For the Update from Part-DB 0.2.2 to 0.3.0:
- *   Move the file "config.php" and the folders "backup", "media" and "log" to "data/..."
- *
- *********************************************************************************/
-
-$old_config_exists = file_exists($BASE_tmp.'/config.php');
-$old_backup_exists = file_exists($BASE_tmp.'/backup');
-$old_media_exists = file_exists($BASE_tmp.'/media');
-$old_log_exists = file_exists($BASE_tmp.'/log');
-
-if (($old_config_exists) || ($old_backup_exists) || ($old_media_exists) || ($old_log_exists)) {
-    $messages = '<strong>'. _('Bitte verschieben Sie die folgenden Dateien und Ordner ins Verzeichnis "data":') . '<br><br>';
-
-    if ($old_config_exists) {
-        $messages .= '"config.php" --> "data/config.php"<br>';
-    }
-    if ($old_backup_exists) {
-        $messages .= '"backup/" --> "data/backup/"<br>';
-    }
-    if ($old_media_exists) {
-        $messages .= '"media/" --> "data/media/"<br>';
-    }
-    if ($old_log_exists) {
-        $messages .= '"log/" --> "data/log/"<br>';
-    }
-
-    $messages .=    '<br>' . _('WICHTIG:<br>Kopieren Sie jeweils nur den Inhalt der genannten Ordner, nicht den ganzen Ordner an sich!<br>'.
-        'Die Zielordner enthalten bereits (teilweise versteckte) Dateien, die auf keinen Fall &uuml;berschrieben werden d&uuml;rfen!<br>'.
-        'Kopieren Sie also nur den Inhalt dieser Ordner und l&ouml;schen Sie danach die alten, leeren Ordner im Hauptverzeichnis.') . '</span></strong>';
-
-    printMessagesWithoutTemplate(_('Part-DB'), _('Update von Part-DB: Manuelle Eingriffe notwendig'), $messages);
-    exit;
-}
-
-/********************************************************************************
- *
  *   include config files
  *
  *********************************************************************************/
@@ -93,7 +57,7 @@ if (file_exists($BASE_tmp.'/data/config.php') && is_readable($BASE_tmp.'/data/co
     include_once($BASE_tmp.'/data/config.php');
 } // ...and then we overwrite them with the user settings, if they exist
 
-if (count($manual_config) > 0) { // $manual_config is defined in "config_defaults.php" and can be filled in "config.php"
+if (!empty($manual_config)) { // $manual_config is defined in "config_defaults.php" and can be filled in "config.php"
     $config = array_merge($config, $manual_config);
 } // if there are manual configs, add them to $config
 
