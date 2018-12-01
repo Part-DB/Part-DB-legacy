@@ -49,7 +49,9 @@ function printMessagesWithoutTemplate(string $page_title, $div_title, string $me
     $bg_type = str_replace("panel-", "bg-", $panel_type);
     $border_type = str_replace("panel-", "border-", $panel_type);
 
-    print '<!DOCTYPE html><html lang="en"><head>';
+    $title = $div_title ?? _("Schwerwiegender Fehler");
+
+    print '<!DOCTYPE html><html lang="en"><title>' . $title .'</title><head>';
     print '<title>'.htmlspecialchars($page_title, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8').'</title>';
     print '<meta charset="utf-8">
                 <meta http-equiv="X-UA-Compatible" content="IE=edge">
