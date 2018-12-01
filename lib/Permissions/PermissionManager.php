@@ -88,7 +88,8 @@ class PermissionManager
      * @param $perm_name string The name of the permission
      * @param $perm_op string The name of the permission operation.
      */
-    public function invalidatePermissionValueCache(string $perm_name, string $perm_op) {
+    public function invalidatePermissionValueCache(string $perm_name, string $perm_op)
+    {
         $key = $perm_name . "/" . $perm_op;
 
         unset($this->permission_value_cache[$key]);
@@ -97,7 +98,8 @@ class PermissionManager
     /**
      * Invalidates the complete permission value cache.
      */
-    public function invalidatePermissionValueCacheAll() {
+    public function invalidatePermissionValueCacheAll()
+    {
         $this->permission_value_cache = array();
     }
 
@@ -154,7 +156,7 @@ class PermissionManager
     public function getPermissionValue(string $perm_name, string $perm_op, bool $inheritance = true) : int
     {
         $key = $perm_name . "/" . $perm_op;
-        if(isset($this->permission_value_cache[$key]) && $inheritance) {
+        if (isset($this->permission_value_cache[$key]) && $inheritance) {
             return $this->permission_value_cache[$key];
         }
 
@@ -186,7 +188,7 @@ class PermissionManager
     {
         foreach ($this->permissions as $perm_group) {
             $perms = $perm_group->getPermissions();
-            if(isset($perms[$name])) {
+            if (isset($perms[$name])) {
                 return $perms[$name];
             }
         }

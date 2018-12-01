@@ -17,7 +17,8 @@ use PartDB\User;
 class DatabaseUpdatedEntry extends BaseEntry
 {
     /** @var int */
-    protected $old_version, $new_version;
+    protected $old_version;
+    protected $new_version;
 
     protected $successful;
 
@@ -63,7 +64,7 @@ class DatabaseUpdatedEntry extends BaseEntry
 
     public function getSuccessString() : string
     {
-        if($this->isSuccessful()) {
+        if ($this->isSuccessful()) {
             return _("Erfolgreich");
         } else {
             return _("Fehlgeschlagen");
@@ -130,5 +131,4 @@ class DatabaseUpdatedEntry extends BaseEntry
             $extra_array
         );
     }
-
 }

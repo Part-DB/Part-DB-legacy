@@ -209,7 +209,7 @@ if (! $fatal_error) {
     }
 }
 
-if(!$fatal_error) {
+if (!$fatal_error) {
     try {
         $size = $database->getDatabaseSize();
         $html->setVariable("db_size", $size);

@@ -23,7 +23,8 @@ class InstockChangedEntry extends BaseEntry
     protected $element;
 
     /** @var int */
-    protected $old_instock, $new_instock;
+    protected $old_instock;
+    protected $new_instock;
 
     /**
      * @var string
@@ -45,7 +46,6 @@ class InstockChangedEntry extends BaseEntry
             $class = Log::targetTypeIDToClass($this->getTargetType());
             $this->element = new $class($database, $current_user, $log, $this->getTargetID());
         } catch (\Exception $ex) {
-
         }
 
         //Fill our extra values.
@@ -88,7 +88,7 @@ class InstockChangedEntry extends BaseEntry
     public function getExtra(bool $html = false) : string
     {
         $difference = $this->getDifference();
-        if($difference > 0 ) {
+        if ($difference > 0) {
             $difference = "+".$difference;
         }
 
@@ -105,7 +105,7 @@ class InstockChangedEntry extends BaseEntry
      */
     public function getPrice(bool $absolute = false) : float
     {
-        if($absolute) {
+        if ($absolute) {
             return abs($this->price);
         }
         return $this->price;
@@ -130,7 +130,7 @@ class InstockChangedEntry extends BaseEntry
     public function getDifference(bool $absolute = false) : int
     {
         $difference = $this->new_instock - $this->old_instock;
-        if($absolute) {
+        if ($absolute) {
             return abs($difference);
         } else {
             return $difference;
@@ -152,7 +152,7 @@ class InstockChangedEntry extends BaseEntry
      */
     public function getTypeString() : string
     {
-        if($this->isWithdrawal()) {
+        if ($this->isWithdrawal()) {
             return _("Entnahme");
         } else {
             return _("Zugabe");
@@ -194,7 +194,7 @@ class InstockChangedEntry extends BaseEntry
     {
         if (!is_int($old_instock) || !is_int($new_instock)) {
             if (is_float($old_instock) || is_float($new_instock)) {
-               throw new \RuntimeException(sprintf(_('Es können maximal %d Bauteile vorhanden sein!'), PHP_INT_MAX));
+                throw new \RuntimeException(sprintf(_('Es können maximal %d Bauteile vorhanden sein!'), PHP_INT_MAX));
             }
             throw new \RuntimeException(_('$old_instock und $new_instock müssen vom Typ int sein'));
         }
@@ -208,7 +208,7 @@ class InstockChangedEntry extends BaseEntry
             //throw new \RuntimeException(_('Die Anzahl der vorhanden Teile muss sich ändern um ein InstockChangedEntry erzeugen zu können!'));
         }
 
-        if($comment === null) {
+        if ($comment === null) {
             $comment = $current_user->getDefaultInstockChangeComment($new_instock < $old_instock);
         }
 
@@ -234,5 +234,4 @@ class InstockChangedEntry extends BaseEntry
             $extra_array
         );
     }
-
 }

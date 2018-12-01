@@ -17,7 +17,6 @@ use PartDB\User;
 
 class ElementEditedEntry extends BaseEntry
 {
-
     protected $message = "";
 
     /**
@@ -51,11 +50,10 @@ class ElementEditedEntry extends BaseEntry
             $class = Log::targetTypeIDToClass($this->getTargetType());
             $this->element = new $class($database, $current_user, $log, $this->getTargetID());
         } catch (Exception $ex) {
-
         }
 
         $arr = $this->deserializeExtra();
-        if(isset($arr['m'])) {
+        if (isset($arr['m'])) {
             $this->message = $arr['m'];
         }
     }
@@ -85,11 +83,10 @@ class ElementEditedEntry extends BaseEntry
         static $type_id, $element_id, $user_id, $last_log = 0;
 
         //Only use timeout when nothing has changed since the last time.
-        if($element_id == $element->getID()
+        if ($element_id == $element->getID()
             && $type_id == Log::elementToTargetTypeID($element)
             && $user_id == $current_user->getID()
-            && time() - $last_log < 2) //2 seconds timeout
-        {
+            && time() - $last_log < 2) { //2 seconds timeout
             $last_log = time();
             return null;
         }
@@ -99,24 +96,23 @@ class ElementEditedEntry extends BaseEntry
         $user_id = $current_user->getID();
 
         //When a part change only changes the instock value, then dont create a own entry, because an Instock Change entry was already created.
-        if($element_id = LOG::TARGET_TYPE_PART
+        if ($element_id = LOG::TARGET_TYPE_PART
             && count($new_values) == 1
-            && isset($new_values['instock']))
-        {
+            && isset($new_values['instock'])) {
             return null;
         }
 
         //Check if there is a change in the new db_data.
         $difference = false;
-        foreach($new_values as $key => $value) {
+        foreach ($new_values as $key => $value) {
             //Dont check for existance of $old_values[$key] here. this would prevent logging of setting of former null values.
-            if($old_values[$key] != $value) { //Dont use strict compare here!!
+            if ($old_values[$key] != $value) { //Dont use strict compare here!!
                 $difference = true;
                 break;  //We need only one difference
             }
         }
         //Nothing was changed, so we dont need to create an entry.
-        if(!$difference) {
+        if (!$difference) {
             return null;
         }
 

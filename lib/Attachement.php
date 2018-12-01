@@ -205,11 +205,11 @@ class Attachement extends Base\NamedDBElement
     /**
      * Get the element (for example a "Part" object)
      *
-     * @return DBElement    the element of this attachement
+     * @return object|DBElement
      *
      * @throws Exception if there was an error
      */
-    public function getElement() : DBElement
+    public function getElement()
     {
         if (! is_object($this->element)) {
             $this->element = new $this->db_data['class_name'](

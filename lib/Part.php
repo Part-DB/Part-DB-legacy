@@ -241,7 +241,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function calculateInstockChangePrice(int $old_instock, int $new_instock) : float
     {
-        if(!is_int($old_instock) || !is_int($new_instock)) {
+        if (!is_int($old_instock) || !is_int($new_instock)) {
             throw new \RuntimeException(_('$old_instock und $new_instock müssen vom Typ int sein!'));
         }
         if ($old_instock < 0 || $new_instock < 0) {
@@ -421,10 +421,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             $bbcode->setParser('namedlink', '/\[url\=(.*?)\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$2</a>', '$2');
             $bbcode->setParser('link', '/\[url\](.*?)\[\/url\]/s', '<a href="$1" class="link-external" target="_blank">$1</a>', '$1');
             $val = $bbcode->parse($val);
-        } elseif($bbcode_parsing_level === BBCodeParsingLevel::STRIP) {
-                $bbcode = new BBCodeParser();
-                $val = str_replace("\n", " ", $val);
-               $val = $bbcode->stripBBCodeTags($val);
+        } elseif ($bbcode_parsing_level === BBCodeParsingLevel::STRIP) {
+            $bbcode = new BBCodeParser();
+            $val = str_replace("\n", " ", $val);
+            $val = $bbcode->stripBBCodeTags($val);
         }
 
         return $val;
@@ -1202,8 +1202,15 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     {
         $old_instock = (int) $this->getInstock();
         $this->setAttributes(array('instock' => $new_instock));
-        InstockChangedEntry::add($this->database, $this->current_user, $this->log,
-            $this, $old_instock, $new_instock , $comment);
+        InstockChangedEntry::add(
+            $this->database,
+            $this->current_user,
+            $this->log,
+            $this,
+            $old_instock,
+            $new_instock,
+            $comment
+        );
     }
 
     /**
@@ -1224,8 +1231,15 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         $old_instock = (int) $this->getInstock();
         $new_instock = $old_instock - $count;
 
-        InstockChangedEntry::add($this->database, $this->current_user, $this->log,
-            $this, $old_instock, $new_instock, $comment);
+        InstockChangedEntry::add(
+            $this->database,
+            $this->current_user,
+            $this->log,
+            $this,
+            $old_instock,
+            $new_instock,
+            $comment
+        );
 
         $this->setAttributes(array('instock' => $new_instock));
     }
@@ -1238,15 +1252,22 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      */
     public function addParts(int $count, string $comment = null)
     {
-        if($count <= 0) {
+        if ($count <= 0) {
             throw new Exception(_("Zahl der entnommenen Bauteile muss größer 0 sein!"));
         }
 
         $old_instock = (int) $this->getInstock();
         $new_instock = $old_instock + $count;
 
-        InstockChangedEntry::add($this->database, $this->current_user, $this->log,
-            $this, $old_instock, $new_instock, $comment);
+        InstockChangedEntry::add(
+            $this->database,
+            $this->current_user,
+            $this->log,
+            $this,
+            $old_instock,
+            $new_instock,
+            $comment
+        );
 
         $this->setAttributes(array('instock' => $new_instock));
     }
@@ -1469,7 +1490,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             if (isset($new_values['id_manufacturer'])) {
                 $arr['id_manufacturer'] = $new_values['id_manufacturer'];
             }
-            if(isset($new_values["manufacturer_product_url"])) {
+            if (isset($new_values["manufacturer_product_url"])) {
                 $arr['manufacturer_product_url'] = $new_values['manufacturer_product_url'];
             }
         }
@@ -1607,7 +1628,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                         $row_field['manufacturer_path'] = $manufacturer->getFullPath();
                         $row_field['manufacturer_id'] = $manufacturer->getID();
                         $row_field['manufacturer_loop'] = $manufacturer->buildBreadcrumbLoop("show_manufacturer_parts.php", "mid", false, null, true);
-
                     }
                     break;
 
@@ -1618,7 +1638,6 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
                         $row_field['storelocation_path'] = $storelocation->getFullPath();
                         $row_field['storelocation_id'] = $storelocation->getID();
                         $row_field['storelocation_loop'] = $storelocation->buildBreadcrumbLoop("show_location_parts.php", "lid", false, null, true);
-
                     }
                     break;
 
@@ -2317,7 +2336,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     public static function getNoPricePartsCount(Database &$database, User &$current_user, Log &$log) : int
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
-            return array();
+            return 0;
         }
 
         if (!$database instanceof Database) {
@@ -2394,7 +2413,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     public static function getFavoritePartsCount(Database &$database, User &$current_user, Log &$log) : int
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_FAVORITE_PARTS)) {
-            return array();
+            return 0;
         }
 
         if (!$database instanceof Database) {
@@ -2469,7 +2488,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
     public static function getInstockUnknownPartsCount(Database &$database, User &$current_user, Log &$log) : int
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
-            return array();
+            return 0;
         }
 
         if (!$database instanceof Database) {

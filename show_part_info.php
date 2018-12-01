@@ -134,7 +134,7 @@ try {
 if (! $fatal_error) {
 
     //If no comment was set, than use the default one from the user profile.
-    if($instock_change_comment == "") {
+    if ($instock_change_comment == "") {
         $instock_change_comment = null;
     }
 
@@ -371,7 +371,7 @@ if (! $fatal_error) {
         $html->setLoop("barcode_profiles", buildLabelProfilesDropdown("part"));
 
         $count = 0;
-        if($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
+        if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
             $history = Log::getHistoryForPart($database, $current_user, $log, $part, $limit, $page);
             $html->setVariable("graph_history", Log::historyToGraph($history));
             $html->setLoop("history", $history);
@@ -380,7 +380,6 @@ if (! $fatal_error) {
         $html->setLoop("pagination", generatePagination("show_location_parts.php?pid=$part_id", $page, $limit, $count));
         $html->setVariable("page", $page);
         $html->setVariable('limit', $limit);
-
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -435,7 +434,7 @@ if (! $fatal_error) {
         $html->printTemplate('attachements');
     }
 
-    if($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
+    if ($current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_HISTORY)) {
         $html->printTemplate('history');
     }
 

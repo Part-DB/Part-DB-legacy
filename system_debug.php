@@ -46,7 +46,7 @@ if (isset($_REQUEST["add"])) {
 } elseif (isset($_REQUEST["download"])) {
     if (is_readable(DEBUG_LOG_FILENAME)) {
         sendFile(DEBUG_LOG_FILENAME);
-        // TODO: how can we re-activate the autorefresh now?!
+    // TODO: how can we re-activate the autorefresh now?!
     } else {
         $errors[] = _('Die Log-Datei kann nicht gelesen werden!');
     }

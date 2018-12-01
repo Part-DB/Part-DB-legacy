@@ -202,7 +202,7 @@ abstract class BaseEntry extends DBElement
         global $config;
         //Check if the current Entry has an sufficent priority level
         //Zero is the highest possible priority, so -1 disables logging completly.
-        if($level > $config['logging_system']['min_level']) {
+        if ($level > $config['logging_system']['min_level']) {
             return null;
         }
 
@@ -216,5 +216,4 @@ abstract class BaseEntry extends DBElement
         );
         return static::addByArray($database, $current_user, $log, "log", $data);
     }
-
 }

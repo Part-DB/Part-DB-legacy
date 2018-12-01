@@ -40,7 +40,7 @@ class PartPermission extends BasePermission
     const SHOW_USERS = "show_users";
     const SHOW_HISTORY = "show_history";
 
-    static protected $operation_cache = null;
+    protected static $operation_cache = null;
 
     /**
      * Returns an array of all available operations for this Permission.
@@ -48,7 +48,7 @@ class PartPermission extends BasePermission
      */
     public static function listOperations() : array
     {
-        if(!isset(static::$operation_cache)) {
+        if (!isset(static::$operation_cache)) {
             /**
              * Dont change these definitions, because it would break compatibility with older database.
              * However you can add other definitions, the return value can get high as 62, as the DB uses a 32bit integer.

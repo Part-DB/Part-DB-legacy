@@ -71,23 +71,22 @@ try {
     $current_user       = User::getLoggedInUser($database, $log);
 
     //Only check for global permission if user cannot view its own log
-    if(!$current_user->canDo(PermissionManager::SELF, \PartDB\Permissions\SelfPermission::SHOW_LOGS)) {
+    if (!$current_user->canDo(PermissionManager::SELF, \PartDB\Permissions\SelfPermission::SHOW_LOGS)) {
         $current_user->tryDo(PermissionManager::SYSTEM, \PartDB\Permissions\SystemPermission::SHOW_LOGS);
     } else {
         $current_user->tryDo(PermissionManager::SELF, \PartDB\Permissions\SelfPermission::SHOW_LOGS);
         //Restrict log view to your own entries
         $filter_user = $current_user->getID();
     }
-
 } catch (Exception $e) {
     $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
     $fatal_error = true;
 }
 
 
-if(!$fatal_error) {
+if (!$fatal_error) {
     try {
-        switch($action) {
+        switch ($action) {
             case "delete_entries":
                 $n = count(explode(",", $_REQUEST['selected_ids']));
                 $messages[] = array('text' => sprintf(_('Sollen die %d gewählten Logeinträge wirklich unwiederruflich gelöscht werden?'), $n),
@@ -107,8 +106,6 @@ if(!$fatal_error) {
                 }
                 break;
         }
-
-
     } catch (Exception $e) {
         $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
         $fatal_error = true;
@@ -133,10 +130,30 @@ if (! $fatal_error) {
             $parts = Part::getLastAddedParts($database, $current_user, $log, $latest_first, $limit, $page);
             $count = Part::getLastAddedPartsCount($database, $current_user, $log, $latest_first);
         }*/
-        $entries = $log->getEntries(true, $min_level, $filter_user, $filter_type, $search, $target_type,
-            $target_id, $datetime_min, $datetime_max, $limit, $page);
-        $count = $log->getEntriesCount(true, $min_level, $filter_user, $filter_type, $search, $target_type,
-            $target_id, $datetime_min, $datetime_max);
+        $entries = $log->getEntries(
+            true,
+            $min_level,
+            $filter_user,
+            $filter_type,
+            $search,
+            $target_type,
+            $target_id,
+            $datetime_min,
+            $datetime_max,
+            $limit,
+            $page
+        );
+        $count = $log->getEntriesCount(
+            true,
+            $min_level,
+            $filter_user,
+            $filter_type,
+            $search,
+            $target_type,
+            $target_id,
+            $datetime_min,
+            $datetime_max
+        );
 
         $table_loop = $log->generateTemplateLoop($entries);
         $html->setLoop('log', $table_loop);
@@ -175,7 +192,6 @@ if (! $fatal_error) {
 
 
 if (! $fatal_error) {
-
     $html->setVariable('min_level', $min_level, "int");
     $user_list = User::buildHTMLList($database, $current_user, $log, $filter_user);
     $html->setVariable('user_list', $user_list, "string");

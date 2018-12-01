@@ -46,13 +46,11 @@ class ElementDeletedEntry extends BaseEntry
         }
 
         $extra = $this->deserializeExtra();
-        if($extra == null) {
+        if ($extra == null) {
             $old_name = $db_data['extra'];
-        }
-        else {
+        } else {
             $old_name = $extra['n'];
         }
-
     }
 
 
@@ -75,7 +73,6 @@ class ElementDeletedEntry extends BaseEntry
      */
     public static function add(Database &$database, User &$current_user, Log &$log, NamedDBElement &$element)
     {
-
         $name = $element->getName();
         $type_id = Log::elementToTargetTypeID($element);
 

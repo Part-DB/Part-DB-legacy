@@ -88,7 +88,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @throws Exception    if there is no such user in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(Database &$database, &$current_user, Log &$log,  int $id, $data = null)
+    public function __construct(Database &$database, &$current_user, Log &$log, int $id, $data = null)
     {
         if (! is_object($current_user)) {     // this is that you can create an User-instance for first time
             $current_user = $this;
@@ -330,7 +330,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
             return "???";
         }
-        if($withdrawal) {
+        if ($withdrawal) {
             return $this->db_data['config_instock_comment_w'];
         } else {
             return $this->db_data['config_instock_comment_a'];
@@ -496,10 +496,10 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     public function setDefaultInstockChangeComment($withdrawal_message = null, $addition_message = null)
     {
         if (is_string($withdrawal_message)) {
-           $this->setAttributes(array('config_instock_comment_w' => $withdrawal_message));
+            $this->setAttributes(array('config_instock_comment_w' => $withdrawal_message));
         }
 
-        if(is_string($addition_message)) {
+        if (is_string($addition_message)) {
             $this->setAttributes(array('config_instock_comment_a' => $addition_message));
         }
     }

@@ -52,7 +52,6 @@ class ElementCreatedEntry extends BaseEntry
             $class = Log::targetTypeIDToClass($this->getTargetType());
             $this->element = new $class($database, $current_user, $log, $this->getTargetID());
         } catch (Exception $ex) {
-
         }
 
         $arr = $this->deserializeExtra();
@@ -102,7 +101,7 @@ class ElementCreatedEntry extends BaseEntry
         }
 
         $arr = array();
-        if($element instanceof Part) {
+        if ($element instanceof Part) {
             /** @var Part */
             $arr['i'] = $element->getInstock();
         }
@@ -151,10 +150,10 @@ class ElementCreatedEntry extends BaseEntry
      */
     public function getExtra(bool $html = false) : string
     {
-        if($this->hasCreationInstockValue()) {
+        if ($this->hasCreationInstockValue()) {
             return _("Anzahl: ") . $this->getCreationInstockValue();
         }
 
-            return "";
+        return "";
     }
 }

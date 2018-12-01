@@ -32,7 +32,7 @@ class CPartAttributePermission extends BasePermission
     const EDIT  = "edit";
     const DELETE = "delete";
 
-    static protected $operation_cache = null;
+    protected static $operation_cache = null;
 
     /**
      * Returns an array of all available operations for this Permission.
@@ -40,7 +40,7 @@ class CPartAttributePermission extends BasePermission
      */
     public static function listOperations() : array
     {
-        if(!isset(static::$operation_cache)) {
+        if (!isset(static::$operation_cache)) {
             /**
              * Dont change these definitions, because it would break compatibility with older database.
              * However you can add other definitions, the return value can get high as 30, as the DB uses a 32bit integer.

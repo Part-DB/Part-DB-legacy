@@ -28,7 +28,7 @@ class DevicePartPermission extends BasePermission
     const EDIT  = "edit";
     const DELETE = "delete";
 
-    static protected $operation_cache = null;
+    protected static $operation_cache = null;
 
     /**
      * Returns an array of all available operations for this Permission.

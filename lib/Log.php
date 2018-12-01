@@ -132,7 +132,6 @@ class Log
         try {
             UserLoginEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $user, $ip_address);
         } catch (Exception $e) {
-
         }
     }
 
@@ -141,7 +140,6 @@ class Log
         try {
             UserLogoutEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $user, $ip_address);
         } catch (Exception $e) {
-
         }
     }
 
@@ -150,7 +148,6 @@ class Log
         try {
             UserNotAllowedEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $permission_string);
         } catch (Exception $e) {
-
         }
     }
 
@@ -159,7 +156,6 @@ class Log
         try {
             ElementDeletedEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $element);
         } catch (Exception $e) {
-
         }
     }
 
@@ -168,7 +164,6 @@ class Log
         try {
             ElementCreatedEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $element);
         } catch (Exception $e) {
-
         }
     }
 
@@ -177,7 +172,6 @@ class Log
         try {
             ElementEditedEntry::add($this->database, User::getLoggedInUser($this->database, $this), $this, $element, $data_array);
         } catch (Exception $e) {
-
         }
     }
 
@@ -254,7 +248,7 @@ class Log
      */
     public static function getHistoryForPart(Database &$database, User &$current_user, Log &$log, Part &$part, int $limit = 50, int $page = 1) : array
     {
-        if(!$part instanceof Part) {
+        if (!$part instanceof Part) {
             throw new \RuntimeException(_("getInstockHistoryForPart() funktioniert nur für Bauteile!"));
         }
 
@@ -281,7 +275,7 @@ class Log
         $entries = $log->queryDataToEntryObjects($results);
 
         $return_data = array();
-        foreach($entries as $entry) {
+        foreach ($entries as $entry) {
             /** @var BaseEntry $entry */
             $tmp = array();
             //Basic info
@@ -289,19 +283,19 @@ class Log
             $tmp['timestamp_formatted'] = $entry->getTimestamp(true);
             $tmp['user_name'] = $entry->getUser()->getFullName(true);
             $tmp['user_id'] = $entry->getUser()->getID();
-            if($current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
+            if ($current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
                 $tmp['user_link'] = "user_info.php?uid=" . $tmp['user_id'];
             }
             $tmp['type_id'] = $entry->getTypeID();
             $tmp['type_text'] = static::typeIDToString($entry->getTypeID());
 
-            if($entry instanceof ElementCreatedEntry) {
+            if ($entry instanceof ElementCreatedEntry) {
                 /** @var ElementCreatedEntry $entry*/
                 $tmp['instock'] = $entry->hasCreationInstockValue() ? $entry->getCreationInstockValue() : 0;
-            } elseif($entry instanceof ElementEditedEntry) {
+            } elseif ($entry instanceof ElementEditedEntry) {
                 /** @var ElementEditedEntry $entry */
                 $tmp['message'] = $entry->getMessage();
-            } elseif($entry instanceof InstockChangedEntry) {
+            } elseif ($entry instanceof InstockChangedEntry) {
                 /** @var InstockChangedEntry $entry */
                 $tmp['instock'] = $entry->getNewInstock();
                 $tmp['difference'] = $entry->getDifference() < 0 ? $entry->getDifference() : "+". $entry->getDifference() ;
@@ -324,7 +318,7 @@ class Log
         $data = array();
         $instock = 0;
         foreach ($history_entries as $entry) {
-            if(isset($entry['instock'])) {
+            if (isset($entry['instock'])) {
                 $instock = $entry['instock'];
             }
             $tmp = array('t' => $entry["timestamp"],
@@ -333,10 +327,10 @@ class Log
             $tmp["type"] = $entry["type_text"];
             $tmp["user_name"] = $entry["user_name"];
 
-            if(isset($entry["difference"])) {
+            if (isset($entry["difference"])) {
                 $tmp["difference"] = _("Veränderung: ") . $entry["difference"] . "; " . _("Preis: ") . $entry["price_string"];
             }
-            if(!empty($entry["message"])) {
+            if (!empty($entry["message"])) {
                 $tmp["message"] = _("Kommentar: ") . mb_substr($entry["message"], 0, 100);
             }
 
@@ -350,7 +344,7 @@ class Log
 
     public static function getHistoryForPartCount(Database &$database, User &$current_user, Log &$log, Part &$part) : int
     {
-        if(!$part instanceof Part) {
+        if (!$part instanceof Part) {
             throw new \RuntimeException(_("getInstockHistoryForPart() funktioniert nur für Bauteile!"));
         }
 
@@ -594,7 +588,6 @@ class Log
         $rows = array();
         /** @var BaseEntry $entry */
         foreach ($entries as $entry) {
-
             $data = array(
                 "id" => $entry->getID(),
                 "timestamp" => $entry->getTimestamp(true),
@@ -628,9 +621,19 @@ class Log
      *
      * @throws Exception if there was an error
      */
-    public function getEntries(bool $newest_first = true, int $min_level = self::LEVEL_DEBUG, int $user_id = -1, int $type_id = -1, string $search_str = "",
-                               int $target_type = -1, int $target_id = -1, string $min_date = "", string $max_date = "", int $limit = 50, int $page = 1)
-    {
+    public function getEntries(
+        bool $newest_first = true,
+        int $min_level = self::LEVEL_DEBUG,
+        int $user_id = -1,
+        int $type_id = -1,
+        string $search_str = "",
+                               int $target_type = -1,
+        int $target_id = -1,
+        string $min_date = "",
+        string $max_date = "",
+        int $limit = 50,
+        int $page = 1
+    ) {
         $search_str = "%" . $search_str . "%";
 
         $data = array();
@@ -674,7 +677,7 @@ class Log
             $query .= " AND (datetime <= ?)";
             $data[] = $max_date;
         }
-        if($min_date != "") {
+        if ($min_date != "") {
             $query .= " AND (datetime >= ?)";
             $data[] = $min_date;
         }
@@ -700,9 +703,17 @@ class Log
      *
      * @throws Exception if there was an error
      */
-    public function getEntriesCount(bool $newest_first = true, int $min_level = self::LEVEL_DEBUG, int $user_id = -1,
-                                   int $type_id = -1, string $search_str = "", int $target_type = -1,  int $target_id = -1, string $min_date = "", string $max_date = "")
-    {
+    public function getEntriesCount(
+        bool $newest_first = true,
+        int $min_level = self::LEVEL_DEBUG,
+        int $user_id = -1,
+                                   int $type_id = -1,
+        string $search_str = "",
+        int $target_type = -1,
+        int $target_id = -1,
+        string $min_date = "",
+        string $max_date = ""
+    ) {
         $data = array();
 
         $query =    'SELECT COUNT(id) AS count from log ';
@@ -744,7 +755,7 @@ class Log
             $query .= " AND (datetime <= ?)";
             $data[] = $max_date;
         }
-        if($min_date != "") {
+        if ($min_date != "") {
             $query .= " AND (datetime >= ?)";
             $data[] = $min_date;
         }

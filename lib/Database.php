@@ -110,8 +110,7 @@ class Database
                     $host = parse_url($config['db']['host'], PHP_URL_HOST);
                     $port = parse_url($config['db']['host'], PHP_URL_PORT);
 
-                    if($host == null || $port == null)
-                    {
+                    if ($host == null || $port == null) {
                         $host = $config['db']['host'];
                         $port = "3306";
                     }
@@ -529,7 +528,7 @@ class Database
         //Try to create an DatabaseUpdateEntry Log entry
         try {
             $l = new Log($this);
-            DatabaseUpdatedEntry::add($this, User::getLoggedInUser(),$l, $old_current, $latest, !$error);
+            DatabaseUpdatedEntry::add($this, User::getLoggedInUser(), $l, $old_current, $latest, !$error);
         } catch (Exception $ex) {
             //When an error happen, the DB log table was not created yet. There is nothing we can do here, so do nothing.
         }

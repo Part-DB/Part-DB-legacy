@@ -225,7 +225,7 @@ class Device extends Base\PartsContainingDBElement
             foreach ($device_parts as $part) {
                 /** @var DevicePart $part  */
                 //$part->getPart()->setInstock($part->getPart()->getInstock() - ($part->getMountQuantity() * $book_multiplier));
-                if($book_multiplier > 0) {
+                if ($book_multiplier > 0) {
                     $part->getPart()->withdrawalParts(($part->getMountQuantity() * abs($book_multiplier)), $comment);
                 } else {
                     $part->getPart()->addParts(($part->getMountQuantity() * abs($book_multiplier)), $comment);

@@ -28,7 +28,7 @@ class DatabasePermission extends BasePermission
     const READ_DB_SETTINGS = "read_db_settings";
     const WRITE_DB_SETTINGS = "write_db_settings";
 
-    static protected $operation_cache = null;
+    protected static $operation_cache = null;
 
     /**
      * Returns an array of all available operations for this Permission.

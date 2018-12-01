@@ -332,7 +332,6 @@ if (! $fatal_error) {
 
                     $partname_invalid = true;
                 }
-
             } catch (Exception $e) {
                 $messages[] = array('text' => nl2br($e->getMessage()), 'strong' => true, 'color' => 'red');
             }
@@ -892,7 +891,7 @@ if (! $fatal_error) {
 }
 
 try {
-//Set permissions
+    //Set permissions
     $html->setVariable("can_delete", $current_user->canDo(PermissionManager::PARTS, PartPermission::DELETE));
     $html->setVariable("can_edit", $current_user->canDo(PermissionManager::PARTS, PartPermission::EDIT));
     $html->setVariable("can_create", $current_user->canDo(PermissionManager::PARTS, PartPermission::CREATE));

@@ -8,14 +8,12 @@
 
 namespace PartDB\Tools;
 
-
 use PartDB\Database;
 use PartDB\Log;
 use PartDB\User;
 
 class StatisticsHelpers
 {
-
     protected $database;
     protected $current_user;
     protected $log;
@@ -47,7 +45,7 @@ class StatisticsHelpers
      */
     public function getMostUsedCategories(int $limit = 25) : array
     {
-        if(!is_int($limit)) {
+        if (!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
@@ -60,7 +58,7 @@ class StatisticsHelpers
 
     public function getMostUsedLocations(int $limit = 25) : array
     {
-        if(!is_int($limit)) {
+        if (!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
@@ -73,7 +71,7 @@ class StatisticsHelpers
 
     public function getMostUsedFootprints(int $limit = 25) : array
     {
-        if(!is_int($limit)) {
+        if (!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
@@ -86,7 +84,7 @@ class StatisticsHelpers
 
     public function getMostUsedManufacturers(int $limit = 25) : array
     {
-        if(!is_int($limit)) {
+        if (!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
         }
 
@@ -126,5 +124,4 @@ class StatisticsHelpers
 
         return json_encode($data);
     }
-
 }

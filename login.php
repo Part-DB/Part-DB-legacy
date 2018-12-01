@@ -84,7 +84,7 @@ if (!$fatal_error) {
             if ($redirect_url != "") {
                 //We need to remove Part-DB/ part, because PHP_URI_REQUEST contains it...
                 $html->redirect(str_replace(BASE_RELATIVE . "/", "", $redirect_url));
-            } else if (User::getLoggedInUser()->getNeedPasswordChange()) { //Redirect to user settings, when user needs to change password.
+            } elseif (User::getLoggedInUser()->getNeedPasswordChange()) { //Redirect to user settings, when user needs to change password.
                 $html->redirect("user_settings.php");
             } else { //Else redirect to start page.
                 $html->redirect("startup.php");
