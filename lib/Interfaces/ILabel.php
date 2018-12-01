@@ -22,13 +22,6 @@
  *
  */
 
-/**
- * Created by PhpStorm.
- * User: janhb
- * Date: 17.12.2017
- * Time: 20:24
- */
-
 namespace PartDB\Interfaces;
 
 interface ILabel

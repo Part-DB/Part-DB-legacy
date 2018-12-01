@@ -22,13 +22,6 @@
  *
  */
 
-/**
- * Created by PhpStorm.
- * User: janhb
- * Date: 06.02.2018
- * Time: 18:52
- */
-
 namespace PartDB\LogSystem;
 
 use Exception;

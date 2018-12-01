@@ -1,11 +1,5 @@
 <?php
 
-/**
- * Created by PhpStorm.
- * User: janhb
- * Date: 01.01.2017
- * Time: 15:58
- */
 class LibTest extends PHPUnit_Framework_TestCase
 {
     public function setUp()

@@ -22,13 +22,6 @@
  *
  */
 
-/**
- * Created by PhpStorm.
- * User: janhb
- * Date: 03.01.2018
- * Time: 17:36
- */
-
 namespace PartDB\Permissions;
 
 class LabelPermission extends BasePermission

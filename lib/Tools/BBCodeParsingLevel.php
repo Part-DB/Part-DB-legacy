@@ -22,13 +22,6 @@
  *
  */
 
-/**
- * Created by PhpStorm.
- * User: janhb
- * Date: 29.08.2018
- * Time: 16:30
- */
-
 namespace PartDB\Tools;
 
 /**

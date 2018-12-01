@@ -22,13 +22,6 @@
  *
  */
 
-/**
- * Created by PhpStorm.
- * User: janhb
- * Date: 01.10.2018
- * Time: 13:48
- */
-
 namespace PartDB\LogSystem;
 
 use PartDB\Base\NamedDBElement;

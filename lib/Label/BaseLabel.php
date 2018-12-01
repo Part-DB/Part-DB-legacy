@@ -22,13 +22,6 @@
  *
  */
 
-/**
- * Created by PhpStorm.
- * User: janhb
- * Date: 17.12.2017
- * Time: 13:49
- */
-
 namespace PartDB\Label;
 
 use PartDB\Exceptions\NotImplementedException;

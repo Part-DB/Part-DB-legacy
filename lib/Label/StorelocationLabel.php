@@ -22,12 +22,6 @@
  *
  */
 
-/**
- * Created by PhpStorm.
- * User: janhb
- * Date: 13.01.2018
- * Time: 15:13
- */
 
 namespace PartDB\Label;
 
