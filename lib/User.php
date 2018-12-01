@@ -892,6 +892,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         if (!isset($_SESSION['user']) || $_SESSION['user']<=static::ID_ANONYMOUS) {
             return static::ID_ANONYMOUS;   //User anonymous.
         } else {
+            /*
             try {
                 $db = new Database();
                 $query = "SELECT id FROM users WHERE id = ?";
@@ -901,7 +902,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
                 }
             } catch (Exception $ex) {
                 return static::ID_ANONYMOUS; //If an error happened, we are not logged in.
-            }
+            } */
 
             return $_SESSION['user'];
         }
