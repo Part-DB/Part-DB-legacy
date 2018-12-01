@@ -71,7 +71,7 @@ class System
      *
      * @throws Exception if there was an error
      */
-    public function __construct(&$database, &$log)
+    public function __construct(Database &$database, Log &$log)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -109,7 +109,7 @@ class System
      *
      * @see SystemVersion::getInstalledVersion()
      */
-    public function getInstalledVersion()
+    public function getInstalledVersion() : SystemVersion
     {
         return $this->installed_version;
     }
@@ -125,7 +125,7 @@ class System
      *
      * @see SystemVersion::getLatestVersion()
      */
-    public function getLatestVersion($type)
+    public function getLatestVersion(string $type) : SystemVersion
     {
         return SystemVersion::getLatestVersion($type);
     }

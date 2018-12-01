@@ -32,7 +32,7 @@ class StatisticsHelpers
      * @param $current_user User
      * @param $log Log
      */
-    public function __construct($database, $current_user, $log)
+    public function __construct(Database $database, User $current_user, Log $log)
     {
         $this->database = $database;
         $this->current_user = $current_user;
@@ -45,7 +45,7 @@ class StatisticsHelpers
      * @return array
      * @throws \Exception
      */
-    public function getMostUsedCategories($limit = 25)
+    public function getMostUsedCategories(int $limit = 25) : array
     {
         if(!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
@@ -58,7 +58,7 @@ class StatisticsHelpers
         return $this->database->query($query, $values);
     }
 
-    public function getMostUsedLocations($limit = 25)
+    public function getMostUsedLocations(int $limit = 25) : array
     {
         if(!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
@@ -71,7 +71,7 @@ class StatisticsHelpers
         return $this->database->query($query, $values);
     }
 
-    public function getMostUsedFootprints($limit = 25)
+    public function getMostUsedFootprints(int $limit = 25) : array
     {
         if(!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
@@ -84,7 +84,7 @@ class StatisticsHelpers
         return $this->database->query($query, $values);
     }
 
-    public function getMostUsedManufacturers($limit = 25)
+    public function getMostUsedManufacturers(int $limit = 25) : array
     {
         if(!is_int($limit)) {
             throw new \InvalidArgumentException(_('$limit muss eine Integerzahl sein!)'));
@@ -97,7 +97,7 @@ class StatisticsHelpers
         return $this->database->query($query, $values);
     }
 
-    public function getPartsWithMostInstock($limit = 25)
+    public function getPartsWithMostInstock(int $limit = 25) : array
     {
         $query = "SELECT parts.name AS name, parts.instock AS count FROM parts ORDER BY count DESC LIMIT $limit";
         $values = array();
@@ -105,7 +105,7 @@ class StatisticsHelpers
         return $this->database->query($query, $values);
     }
 
-    public static function arrayToChartJSData($array, $label, $bg_color = self::COLOR_BLUE)
+    public static function arrayToChartJSData(array $array, string $label, string $bg_color = self::COLOR_BLUE) : string
     {
         //Split array in name and count section
         $names = array();

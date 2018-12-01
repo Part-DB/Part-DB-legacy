@@ -77,7 +77,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      *
      * @throws Exception if there was an error
      */
-    public function getAttachementsForType()
+    public function getAttachementsForType() : array
     {
         // the attribute $this->attachements is used from class "AttachementsContainingDBELement"
         if (! is_array($this->attachements)) {
@@ -112,7 +112,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      *
      * @throws Exception            if there was an error
      */
-    public static function getCount(&$database)
+    public static function getCount(Database &$database) : int
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -137,7 +137,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      *
      * @see DBElement::add()
      */
-    public static function add(&$database, &$current_user, &$log, $name, $parent_id, $comment = "")
+    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id, string $comment = "")
     {
         return parent::addByArray(
             $database,
@@ -156,7 +156,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
      * @return array A array representing the current object.
      * @throws Exception
      */
-    public function getAPIArray($verbose = false)
+    public function getAPIArray(bool $verbose = false) : array
     {
         return array("id" => $this->getID(),
             "name" => $this->getName(),
@@ -165,7 +165,7 @@ class AttachementType extends Base\StructuralDBElement implements Interfaces\IAP
             "level" => $this->getLevel());
     }
 
-    public static function getPermissionName()
+    public static function getPermissionName() : string
     {
         return PermissionManager::ATTACHEMENT_TYPES;
     }

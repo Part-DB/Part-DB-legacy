@@ -94,7 +94,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      * @throws Exception        if there is no such element in the database
      * @throws Exception        if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $tablename, $id, $db_data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, string $tablename, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $tablename, $id, true, $db_data);
 
@@ -111,7 +111,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function resetAttributes($all = false)
+    public function resetAttributes(bool $all = false)
     {
         $this->full_path_strings    = null;
         $this->level                = null;
@@ -141,7 +141,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function delete($delete_recursive = false, $delete_files_from_hdd = false)
+    public function delete(bool $delete_recursive = false, bool $delete_files_from_hdd = false)
     {
         //Check permission.
         $this->current_user->tryDo($this->getPermissionName(), StructuralPermission::DELETE);
@@ -182,7 +182,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         }
     }
 
-    public function setAttributes($new_values, $edit_message = null)
+    public function setAttributes(array $new_values, $edit_message = null)
     {
         $arr = array();
 
@@ -210,7 +210,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      * Needed if you want to override the permissions handling in child classes.
      * @throws Exception
      */
-    final protected function setAttributesNoCheck($new_values, $edit_message = null)
+    final protected function setAttributesNoCheck(array $new_values, $edit_message = null)
     {
         parent::setAttributes($new_values, $edit_message);
     }
@@ -218,14 +218,14 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
     /**
      * Check if this element is a child of another element (recursive)
      *
-     * @param Part $another_element       the object to compare
+     * @param StructuralDBElement $another_element       the object to compare
      *                                      IMPORTANT: both objects to compare must be from the same class (for example two "Device" objects)!
      *
      * @return bool
      *
      * @throws Exception if there was an error
      */
-    public function isChildOf($another_element)
+    public function isChildOf(StructuralDBElement $another_element)
     {
         if ($this->getID() == null) { // this is the root node
             return false;
@@ -244,7 +244,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      *********************************************************************************/
 
-    public function getName()
+    public function getName() : string
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
             return "???";
@@ -273,7 +273,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *          When false, the raw value from the DB is returned.
      * @return string The time of the last edit.
      */
-    public function getLastModified($formatted = true)
+    public function getLastModified(bool $formatted = true) : string
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
             return "???";
@@ -287,7 +287,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *       When false, the raw value from the DB is returned.
      * @return string The creation time of the part.
      */
-    public function getDatetimeAdded($formatted = true)
+    public function getDatetimeAdded(bool $formatted = true) : string
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
             return "???";
@@ -301,7 +301,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      * @param boolean $parse_bbcode Should BBCode converted to HTML, before returning
      * @return string       the comment
      */
-    public function getComment($parse_bbcode = true)
+    public function getComment(bool $parse_bbcode = true) : string
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
             return "???";
@@ -363,7 +363,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function getLevel()
+    public function getLevel() : int
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
             return -1;
@@ -392,7 +392,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * @throws Exception    if there was an error
      */
-    public function getFullPath($delimeter = ' → ')
+    public function getFullPath(string $delimeter = ' → ')
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
             return "???";
@@ -424,7 +424,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * @throws Exception    if there was an error
      */
-    public function getSubelements($recursive)
+    public function getSubelements(bool $recursive) : array
     {
         if (!$this->current_user->canDo(static::getPermissionName(), StructuralPermission::READ)) {
             return array();
@@ -433,8 +433,10 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         if (! is_array($this->subelements)) {
             $this->subelements = array();
 
+
+
             $query_data = $this->database->query('SELECT * FROM ' . $this->tablename .
-                ' WHERE parent_id <=> ? ORDER BY name ASC', array($this->getID()));
+                ' WHERE parent_id <=> ? ORDER BY name ASC', array($this->db_data["id"]));
 
             $class = get_class($this);
             foreach ($query_data as $row) {
@@ -482,7 +484,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function setComment($new_comment)
+    public function setComment(string $new_comment)
     {
         $this->setAttributes(array('comment' => $new_comment));
     }
@@ -512,11 +514,11 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      */
     public function buildHtmlTree(
         $selected_id = null,
-        $recursive = true,
-        $show_root = true,
-        $root_name = '$$',
-        $value_prefix = ''
-    ) {
+        bool $recursive = true,
+        bool $show_root = true,
+        string $root_name = '$$',
+        string $value_prefix = ''
+    ) : string {
         if ($root_name=='$$') {
             $root_name=_('Oberste Ebene');
         }
@@ -607,7 +609,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      * @param string $root_name The label which should be used for the root breadcrumb.
      * @return array An Loop containing multiple arrays, which contains href and caption for the breadcrumb.
      */
-    public function buildBreadcrumbLoop($page, $parameter, $show_root = false, $root_name = "$$", $element_is_link = false)
+    public function buildBreadcrumbLoop(string $page, string $parameter, bool $show_root = false, $root_name = "$$", bool $element_is_link = false) : array
     {
         $breadcrumb = array();
 
@@ -694,7 +696,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
      * @throws Exception
      * @throws Exception
      */
-    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
         if ($values['parent_id'] == 0) {
             $values['parent_id'] = null;
@@ -751,7 +753,7 @@ abstract class StructuralDBElement extends AttachementsContainingDBElement
         }
     }
 
-    public static function addByArray(&$database, &$current_user, &$log, $tablename, $new_values)
+    public static function addByArray(Database &$database, User &$current_user, Log &$log, string $tablename, array $new_values)
     {
         $current_user->tryDo(static::getPermissionName(), StructuralPermission::CREATE);
         return parent::addByArray($database, $current_user, $log, $tablename, $new_values);

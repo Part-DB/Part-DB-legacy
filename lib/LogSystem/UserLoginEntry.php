@@ -31,7 +31,7 @@ class UserLoginEntry extends BaseEntry
      * @throws Exception    if there is no such attachement type in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $db_data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
 
@@ -49,7 +49,7 @@ class UserLoginEntry extends BaseEntry
     }
 
 
-    public function getExtra($html = false)
+    public function getExtra(bool $html = false) : string
     {
         return _("Von IP: ") . $this->ip_address;
     }
@@ -66,7 +66,7 @@ class UserLoginEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(&$database, &$current_user, &$log, $user, $ip_address = "")
+    public static function add(Database &$database, User &$current_user, Log &$log, User $user, string $ip_address = "")
     {
         $arr = array("i" => $ip_address);
 
@@ -87,7 +87,7 @@ class UserLoginEntry extends BaseEntry
      * Returns the a text representation of the target
      * @return string The text describing the target
      */
-    public function getTargetText()
+    public function getTargetText() : string
     {
         try {
             $user = new User($this->database, $this->current_user, $this->log, $this->getTargetID());
@@ -101,7 +101,7 @@ class UserLoginEntry extends BaseEntry
      * Return a link to the target. Returns empty string if no link is available.
      * @return string the link to the target.
      */
-    public function getTargetLink()
+    public function getTargetLink() : string
     {
         return BASE_RELATIVE . "user_info?uid=" . $this->getTargetID();
     }

@@ -38,7 +38,7 @@ class ElementEditedEntry extends BaseEntry
      * @throws Exception    if there is no such attachement type in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $db_data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
 
@@ -64,7 +64,7 @@ class ElementEditedEntry extends BaseEntry
      * Returns a message describing this Change.
      * @return string
      */
-    public function getMessage()
+    public function getMessage() : string
     {
         return $this->message;
     }
@@ -80,7 +80,7 @@ class ElementEditedEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(&$database, &$current_user, &$log, &$element, $old_values = null, $new_values = null, $edit_message = null)
+    public static function add(Database &$database, User &$current_user, Log &$log, NamedDBElement &$element, $old_values = null, $new_values = null, $edit_message = null)
     {
         static $type_id, $element_id, $user_id, $last_log = 0;
 
@@ -147,7 +147,7 @@ class ElementEditedEntry extends BaseEntry
      * Returns the a text representation of the target
      * @return string The text describing the target
      */
-    public function getTargetText()
+    public function getTargetText() : string
     {
         try {
             $part_name = ($this->element != null) ? $this->element->getName() : $this->getTargetID();
@@ -161,7 +161,7 @@ class ElementEditedEntry extends BaseEntry
      * Return a link to the target. Returns empty string if no link is available.
      * @return string the link to the target.
      */
-    public function getTargetLink()
+    public function getTargetLink() : string
     {
         //We can not link to a part, that dont exists any more...
         return Log::generateLinkForTarget($this->getTargetType(), $this->getTargetID());
@@ -172,7 +172,7 @@ class ElementEditedEntry extends BaseEntry
      * @param $html bool Set this to true, to get an HTML formatted version of the extra.
      * @return string The extra information
      */
-    public function getExtra($html = false)
+    public function getExtra(bool $html = false) : string
     {
         return $this->getMessage();
     }

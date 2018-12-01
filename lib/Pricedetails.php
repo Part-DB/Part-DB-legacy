@@ -77,7 +77,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @throws Exception    if there is no such pricedetails record in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, 'pricedetails', $id, false, $data);
     }
@@ -85,7 +85,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function resetAttributes($all = false)
+    public function resetAttributes(bool $all = false)
     {
         $this->orderdetails = null;
 
@@ -100,7 +100,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @throws Exception
      */
 
-    public function setAttributes($new_values, $edit_message = null)
+    public function setAttributes(array $new_values, $edit_message = null)
     {
         $this->current_user->tryDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::EDIT);
         parent::setAttributes($new_values, $edit_message);
@@ -150,7 +150,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function getOrderdetails()
+    public function getOrderdetails() : Orderdetails
     {
         if (! is_object($this->orderdetails)) {
             $this->orderdetails = new Orderdetails(
@@ -180,7 +180,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @see floatToMoneyString()
      */
-    public function getPrice($as_money_string = false, $multiplier = 1)
+    public function getPrice(bool $as_money_string = false, int $multiplier = 1)
     {
         $price = ($this->db_data['price'] * $multiplier) / $this->db_data['price_related_quantity'];
 
@@ -200,7 +200,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @see Pricedetails::setPriceRelatedQuantity()
      */
-    public function getPriceRelatedQuantity()
+    public function getPriceRelatedQuantity() : int
     {
         return $this->db_data['price_related_quantity'];
     }
@@ -215,7 +215,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @see Pricedetails::setMinDiscountQuantity()
      */
-    public function getMinDiscountQuantity()
+    public function getMinDiscountQuantity() : int
     {
         return $this->db_data['min_discount_quantity'];
     }
@@ -238,7 +238,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @throws Exception if the new price is not valid
      * @throws Exception if there was an error
      */
-    public function setPrice($new_price)
+    public function setPrice(float $new_price)
     {
         $this->setAttributes(array('price' => $new_price));
     }
@@ -255,7 +255,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @param integer $new_price_related_quantity the price related quantity
      * @throws Exception
      */
-    public function setPriceRelatedQuantity($new_price_related_quantity)
+    public function setPriceRelatedQuantity(int $new_price_related_quantity)
     {
         $this->setAttributes(array('price_related_quantity' => $new_price_related_quantity));
     }
@@ -278,7 +278,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @param integer $new_min_discount_quantity the minimum discount quantity
      * @throws Exception
      */
-    public function setMinDiscountQuantity($new_min_discount_quantity)
+    public function setMinDiscountQuantity(int $new_min_discount_quantity)
     {
         $this->setAttributes(array('min_discount_quantity' => $new_min_discount_quantity));
     }
@@ -294,7 +294,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @param Pricedetails $element
      * @throws Exception
      */
-    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -416,14 +416,14 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @see DBElement::add()
      */
     public static function add(
-        &$database,
-        &$current_user,
-        &$log,
-        $orderdetails_id,
-        $price,
-        $price_related_quantity = 1,
-        $min_discount_quantity = 1
-    ) {
+        Database &$database,
+        User &$current_user,
+        Log &$log,
+        int $orderdetails_id,
+        float $price,
+        int $price_related_quantity = 1,
+        int $min_discount_quantity = 1
+    ) : Pricedetails {
         $current_user->tryDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::CREATE);
 
         return parent::addByArray(
@@ -444,7 +444,7 @@ class Pricedetails extends Base\DBElement implements Interfaces\IAPIModel
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
      */
-    public function getAPIArray($verbose = false)
+    public function getAPIArray(bool $verbose = false) : array
     {
         $json =  array( "id" => $this->getID(),
             "quantity" => $this->getPriceRelatedQuantity(),

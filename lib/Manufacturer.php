@@ -27,6 +27,7 @@ namespace PartDB;
 
 use Exception;
 use PartDB\Interfaces\ISearchable;
+use PartDB\LogSystem\UserNotAllowedEntry;
 use PartDB\Permissions\PermissionManager;
 
 /**
@@ -58,7 +59,7 @@ class Manufacturer extends Base\Company implements ISearchable
      * @throws Exception    if there is no such manufacturer in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, 'manufacturers', $id, $data);
     }
@@ -83,7 +84,7 @@ class Manufacturer extends Base\Company implements ISearchable
      *
      * @throws Exception if there was an error
      */
-    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
+    public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
         return parent::getTableParts('id_manufacturer', $recursive, $hide_obsolete_and_zero, $limit, $page);
     }
@@ -93,7 +94,7 @@ class Manufacturer extends Base\Company implements ISearchable
      * @param boolean $recursive                if true, the parts of all subcategories will be listed too
      * @return int The number of parts of this PartContainingDBElement
      */
-    public function getPartsCount($recursive = false)
+    public function getPartsCount(bool $recursive = false) : int
     {
         return parent::getPartsCountInternal($recursive, 'id_manufacturer');
     }
@@ -114,7 +115,7 @@ class Manufacturer extends Base\Company implements ISearchable
      *
      * @throws Exception            if there was an error
      */
-    public static function getCount(&$database)
+    public static function getCount(Database &$database) : int
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -146,19 +147,19 @@ class Manufacturer extends Base\Company implements ISearchable
      * @see DBElement::add()
      */
     public static function add(
-        &$database,
-        &$current_user,
-        &$log,
-        $name,
-        $parent_id,
-        $address = '',
-        $phone_number = '',
-        $fax_number = '',
-        $email_address = '',
-        $website = '',
-        $auto_product_url = '',
-        $comment = ""
-    ) {
+        Database &$database,
+        User &$current_user,
+        Log &$log,
+        string $name,
+        int $parent_id,
+        string $address = '',
+        string $phone_number = '',
+        string $fax_number = '',
+        string $email_address = '',
+        string $website = '',
+        string $auto_product_url = '',
+        string $comment = ""
+    ) : Manufacturer {
         return parent::addByArray(
             $database,
             $current_user,
@@ -181,7 +182,7 @@ class Manufacturer extends Base\Company implements ISearchable
      * @copydoc NamedDBElement::search()
      * @throws Exception
      */
-    public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
+    public static function search(Database &$database, User &$current_user, Log &$log, string $keyword, bool $exact_match = false) : array
     {
         return parent::searchTable($database, $current_user, $log, 'manufacturers', $keyword, $exact_match);
     }
@@ -190,7 +191,7 @@ class Manufacturer extends Base\Company implements ISearchable
      * Gets the permission name for control access to this StructuralDBElement
      * @return string The name of the permission for this StructuralDBElement.
      */
-    protected static function getPermissionName()
+    protected static function getPermissionName() : string
     {
         return PermissionManager::MANUFACTURERS;
     }

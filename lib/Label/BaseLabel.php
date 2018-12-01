@@ -44,18 +44,14 @@ abstract class BaseLabel
 
     /**
      * Creates a new BaseLabel object.
-     * @param $element NamedDBElement The element from which the label data should be derived
+     * @param $element ILabel The element from which the label data should be derived
      * @param $type int A type for the Label, use TYPE_ consts for that.
      * @param $size string The size the label should have, use SIZE_ consts.
      * @param $preset string The name of the preset for the lines, that should be used for this label. Use PRESET_CUSTOM for custom lines, passed via $options.
      * @param $options array An array containing various advanced options.
      */
-    public function __construct($element, $type, $size, $preset, $options = null)
+    public function __construct(ILabel $element, int $type, string $size, string $preset, $options = null)
     {
-        if (! $element instanceof ILabel) {
-            throw new \InvalidArgumentException(_('$element ist kein gültiges ILabel-Objekt!'));
-        }
-
         if (!in_array($type, static::getSupportedTypes())) {
             throw new \InvalidArgumentException(_('Der gewählte Labeltyp wird von dem aktuellem Labelgenerator nicht unterstützt!'));
         }
@@ -74,7 +70,7 @@ abstract class BaseLabel
         static::createTCPDFConfig();
     }
 
-    protected function generateLines()
+    protected function generateLines() : array
     {
         $lines = array();
         if ($this->preset == "custom") {
@@ -96,7 +92,7 @@ abstract class BaseLabel
         return $lines;
     }
 
-    protected function generateLabel($download = false)
+    protected function generateLabel(bool $download = false)
     {
         // add a page
         $this->pdf->AddPage();
@@ -279,7 +275,7 @@ abstract class BaseLabel
      * Returns all available line presets, that are supported by this class.
      * @return array An array containing the name in "name" key and the lines as string array in "lines" key.
      */
-    public static function getLinePresets()
+    public static function getLinePresets() : array
     {
         throw new NotImplementedException(_("getLinePresets() ist nicht implementiert"));
     }
@@ -288,7 +284,7 @@ abstract class BaseLabel
      * Returns all label sizes, that are supported by this class.
      * @return string[] A array containing all sizes that are supported by this class.
      */
-    public static function getSupportedSizes()
+    public static function getSupportedSizes() : array
     {
         throw new NotImplementedException(_("getSupportedSizes() ist nicht implementiert"));
     }
@@ -297,7 +293,7 @@ abstract class BaseLabel
      * Returns all label types, that are supported by this class.
      * @return int[] A array containing all sizes that are supported by this class.
      */
-    public static function getSupportedTypes()
+    public static function getSupportedTypes() : array
     {
         throw new NotImplementedException(_("getSupportedTypes() ist nicht implementiert"));
     }
@@ -311,7 +307,7 @@ abstract class BaseLabel
      * @return string A string with the filled placeholders.
      * @throws \Exception
      */
-    public static function replacePlaceholderWithInfos($string)
+    public static function replacePlaceholderWithInfos(string $string) : string
     {
         $user = User::getLoggedInUser();
         global $config;

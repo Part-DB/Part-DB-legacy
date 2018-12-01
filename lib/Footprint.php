@@ -57,7 +57,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @throws Exception if there is no such footprint
      * @throws Exception if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, 'footprints', $id, $data);
 
@@ -80,7 +80,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @return string   @li the absolute path to the picture (from filesystem root), as a UNIX path (with slashes)
      *                  @li an empty string if there is no picture
      */
-    public function getFilename($absolute = true)
+    public function getFilename(bool $absolute = true) : string
     {
         if ($absolute == true) {
             return str_replace('%BASE%', BASE, $this->db_data['filename']);
@@ -95,7 +95,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @return string   @li the absolute path to the model (from filesystem root), as a UNIX path (with slashes)
      *                  @li an empty string if there is no model
      */
-    public function get3dFilename($absolute = true)
+    public function get3dFilename(bool $absolute = true) : string
     {
         if ($absolute == true) {
             return str_replace('%BASE%', BASE, $this->db_data['filename_3d']);
@@ -118,7 +118,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @throws Exception if there was an error
      */
-    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
+    public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
         return parent::getTableParts('id_footprint', $recursive, $hide_obsolete_and_zero, $limit, $page);
     }
@@ -128,7 +128,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @param boolean $recursive                if true, the parts of all subcategories will be listed too
      * @return int The number of parts of this PartContainingDBElement
      */
-    public function getPartsCount($recursive = false)
+    public function getPartsCount(bool $recursive = false) : int
     {
         return parent::getPartsCountInternal($recursive, 'id_footprint');
     }
@@ -144,7 +144,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @return boolean      @li true if file exists or filename is empty
      *                      @li false if there is no file with this filename
      */
-    public function isFilenameValid()
+    public function isFilenameValid() : bool
     {
         if (strlen($this->getFilename()) == 0) {
             return true;
@@ -164,7 +164,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @return boolean      @li true if file exists or filename is empty
      *                      @li false if there is no file with this filename
      */
-    public function is3dFilenameValid()
+    public function is3dFilenameValid() : bool
     {
         if (strlen($this->get3dFilename()) == 0) {
             return true;
@@ -204,7 +204,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @throws Exception if there was an error
      */
-    public function setFilename($new_filename)
+    public function setFilename(string $new_filename)
     {
         $this->setAttributes(array('filename' => $new_filename));
     }
@@ -213,7 +213,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *  Change the 3d model filename of this footprint
      * @throws Exception if there was an error
      */
-    public function set3dFilename($new_filename)
+    public function set3dFilename(string $new_filename)
     {
         $this->setAttributes(array('filename_3d' => $new_filename));
     }
@@ -228,7 +228,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -270,7 +270,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @throws Exception            if there was an error
      */
-    public static function getCount(&$database)
+    public static function getCount(Database &$database)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
@@ -291,7 +291,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @throws Exception if there was an error
      */
-    public static function getBrokenFilenameFootprints(&$database, &$current_user, &$log)
+    public static function getBrokenFilenameFootprints(Database &$database, User &$current_user, Log &$log) : array
     {
         $broken_filename_footprints = array();
         $root_footprint = new Footprint($database, $current_user, $log, 0);
@@ -319,7 +319,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @throws Exception if there was an error
      */
-    public static function getBroken3dFilenameFootprints(&$database, &$current_user, &$log)
+    public static function getBroken3dFilenameFootprints(Database &$database, User &$current_user, Log &$log) : array
     {
         $broken_filename_footprints = array();
         $root_footprint = new Footprint($database, $current_user, $log, 0);
@@ -354,7 +354,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      *
      * @see DBElement::add()
      */
-    public static function add(&$database, &$current_user, &$log, $name, $parent_id, $filename = '', $filename_3d = '', $comment = "")
+    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id, string $filename = '', string $filename_3d = '', string $comment = "")
     {
         return parent::addByArray(
             $database,
@@ -373,7 +373,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @copydoc NamedDBElement::search()
      * @throws Exception
      */
-    public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
+    public static function search(Database &$database, User &$current_user, Log &$log, string $keyword, bool $exact_match = false) : array
     {
         return parent::searchTable($database, $current_user, $log, 'footprints', $keyword, $exact_match);
     }
@@ -384,7 +384,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * @return array A array representing the current object.
      * @throws Exception
      */
-    public function getAPIArray($verbose = false)
+    public function getAPIArray(bool $verbose = false) : array
     {
         $json =  array( "id" => $this->getID(),
             "name" => $this->getName(),
@@ -407,7 +407,7 @@ class Footprint extends Base\PartsContainingDBElement implements Interfaces\IAPI
      * Gets the permission name for control access to this StructuralDBElement
      * @return string The name of the permission for this StructuralDBElement.
      */
-    protected static function getPermissionName()
+    protected static function getPermissionName() : string
     {
         return PermissionManager::FOOTRPINTS;
     }

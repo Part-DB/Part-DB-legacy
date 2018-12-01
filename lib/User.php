@@ -88,7 +88,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @throws Exception    if there is no such user in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
+    public function __construct(Database &$database, &$current_user, Log &$log,  int $id, $data = null)
     {
         if (! is_object($current_user)) {     // this is that you can create an User-instance for first time
             $current_user = $this;
@@ -105,7 +105,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function resetAttributes($all = false)
+    public function resetAttributes(bool $all = false)
     {
         $this->group = null;
 
@@ -125,7 +125,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      *
      * @throws Exception    if there was an error
      */
-    public function getGroup()
+    public function getGroup() : Group
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
@@ -148,7 +148,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Gets the username of the User.
      * @return string The username.
      */
-    public function getName()
+    public function getName() : string
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
@@ -161,7 +161,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Gets the first name of the user.
      * @return string The first name.
      */
-    public function getFirstName()
+    public function getFirstName() : string
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
@@ -174,7 +174,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Gets the last name of the user.
      * @return string The first name.
      */
-    public function getLastName()
+    public function getLastName() : string
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
@@ -187,7 +187,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Gets the email address of the user.
      * @return string The email address.
      */
-    public function getEmail()
+    public function getEmail() : string
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
@@ -200,7 +200,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Gets the department of the user.
      * @return string The department of the user.
      */
-    public function getDepartment()
+    public function getDepartment() : string
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
@@ -216,7 +216,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param $size int The size of the Avatar in pixels
      * @return string The url to the avatar image.
      */
-    public function getAvatar($size = 200)
+    public function getAvatar(int $size = 200) : string
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
@@ -244,7 +244,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return String containing either just a URL or a complete image tag
      * @source https://gravatar.com/site/implement/images/php/
      */
-    public function getGravatar($s = 80, $d = 'mm', $r = 'g', $img = false, $atts = array())
+    public function getGravatar(int $s = 80, string $d = 'mm', string $r = 'g', bool $img = false, array $atts = array())
     {
         $email = $this->getEmail();
         $url = 'https://www.gravatar.com/avatar/';
@@ -266,7 +266,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      *      theme. When set to true, an empty string will be returned.
      * @return string The name of the configured theme.
      */
-    public function getTheme($no_resolve_for_default = false)
+    public function getTheme(bool $no_resolve_for_default = false) : string
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
@@ -290,7 +290,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      *      timezone. When set to true, an empty string will be returned.
      * @return string The name of the configured timezone.
      */
-    public function getTimezone($no_resolve_for_default = false)
+    public function getTimezone(bool $no_resolve_for_default = false) : string
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
@@ -310,7 +310,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      *      language. When set to true, an empty string will be returned.
      * @return string The name of the configured language.
      */
-    public function getLanguage($no_resolve_for_default = false)
+    public function getLanguage(bool $no_resolve_for_default = false) : string
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
@@ -324,7 +324,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
         }
     }
 
-    public function getDefaultInstockChangeComment($withdrawal = true)
+    public function getDefaultInstockChangeComment(bool $withdrawal = true) : string
     {
         if (!$this->isLoggedInUser()
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
@@ -342,7 +342,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param $password string The password which should be checked.
      * @return bool True, if the password was valid.
      */
-    public function isPasswordValid($password)
+    public function isPasswordValid(string $password) : bool
     {
         $hash = $this->db_data['password'];
         if ($hash === "") {
@@ -355,7 +355,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Checks if the user has no password set.
      * @return bool True, if the user has no password yet.
      */
-    public function hasNoPassword()
+    public function hasNoPassword() : bool
     {
         if ($this->getID() == static::ID_ANONYMOUS) { //Anonymous user is allowed to have an empty password.
             return false;
@@ -401,7 +401,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @throws Exception if the new group ID is not valid
      * @throws Exception if there was an error
      */
-    public function setGroupID($new_group_id)
+    public function setGroupID(int $new_group_id)
     {
         $this->setAttributes(array('group_id' => $new_group_id));
     }
@@ -412,7 +412,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param $need_to_change_pw bool When true, the user has to change the password afterwards.
      * @throws Exception If an error occured.
      */
-    public function setPassword($new_password, $need_to_change_pw = false, $check_pw_length = true)
+    public function setPassword(string $new_password, bool $need_to_change_pw = false, bool $check_pw_length = true)
     {
         if ($check_pw_length && strlen($new_password) < 6) {
             throw new Exception(sprintf(_("Das neue Password muss mindestens %d Zeichen lang sein"), 6));
@@ -429,7 +429,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Set a new first name.
      * @param $new_first_name string The new first name.
      */
-    public function setFirstName($new_first_name)
+    public function setFirstName(string $new_first_name)
     {
         $this->setAttributes(array('first_name' => $new_first_name));
     }
@@ -438,7 +438,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Set a new first name.
      * @param $new_first_name string The new first name.
      */
-    public function setLastName($new_last_name)
+    public function setLastName(string $new_last_name)
     {
         $this->setAttributes(array('last_name' => $new_last_name));
     }
@@ -447,7 +447,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Sets a new Email address.
      * @param $new_email string The new email address.
      */
-    public function setEmail($new_email)
+    public function setEmail(string $new_email)
     {
         $this->setAttributes(array('email' => $new_email));
     }
@@ -456,7 +456,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Sets a new Department.
      * @param $new_department string The new department
      */
-    public function setDepartment($new_department)
+    public function setDepartment(string $new_department)
     {
         $this->setAttributes(array('department' => $new_department));
     }
@@ -465,7 +465,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Set the configured theme for this User.
      * @param $new_theme string The new configured theme. Set to empty string to use system-wide config.
      */
-    public function setTheme($new_theme)
+    public function setTheme(string $new_theme)
     {
         $this->setAttributes(array('config_theme' => $new_theme));
     }
@@ -474,7 +474,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Set the configured language for this User.
      * @param $new_language string The new configured language. Set to empty string to use system-wide config.
      */
-    public function setLanguage($new_language)
+    public function setLanguage(string $new_language)
     {
         $this->setAttributes(array('config_language' => $new_language));
     }
@@ -483,7 +483,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Set the configured timezone for this User.
      * @param $new_timezone string The new configured timezone. Set to empty string to use system-wide config.
      */
-    public function setTimezone($new_timezone)
+    public function setTimezone(string $new_timezone)
     {
         $this->setAttributes(array('config_timezone' => $new_timezone));
     }
@@ -510,7 +510,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param bool $including_username Include the username in the full name.
      * @return string A string with the full name of this user.
      */
-    public function getFullName($including_username = false)
+    public function getFullName(bool $including_username = false)
     {
         $str = $this->getFirstName() . " " . $this->getLastName();
         if ($including_username) {
@@ -526,7 +526,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * because PHP has a better password hash algo.
      * @return bool True, if the user must change its password.
      */
-    public function getNeedPasswordChange($ignore_rehash = false)
+    public function getNeedPasswordChange(bool $ignore_rehash = false) : bool
     {
         //If 'need_pw_change' does not exist in db_data, you dont has to change PW.
         if (!isset($this->db_data['need_pw_change'])) {
@@ -552,12 +552,12 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Sets the "need_pw_change" attribute. When set to true, the user is asked to change his password after login.
      * @param $new_val bool The value to which the need_pw_change attribute should be set to.
      */
-    public function setNeedPasswordChange($new_val)
+    public function setNeedPasswordChange(bool $new_val)
     {
         $this->setAttributes(array('need_pw_change' => $new_val));
     }
 
-    public function setAttributes($new_values, $edit_message = null)
+    public function setAttributes(array $new_values, $edit_message = null)
     {
         //Normalize username
         if (isset($new_values['name'])) {
@@ -681,7 +681,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Check if this user is the one currently logged in.
      * @return bool True, if this is the user, who is currently logged in.
      */
-    public function isLoggedInUser()
+    public function isLoggedInUser() : bool
     {
         /*
         return $this->getID() == $this->current_user->getID(); */
@@ -699,7 +699,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param $permsission_name string The name of the permission that should be get. (Without "perms_"
      * @return int The int value of the requested permission.
      */
-    public function getPermissionRaw($permsission_name)
+    public function getPermissionRaw(string $permsission_name) : int
     {
         return intval($this->db_data["perms_" . $permsission_name]);
     }
@@ -709,7 +709,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param $permsission_name string The name of the permission that should be get. (Without "perms_")
      * @param $value int The value the permission should be set to.
      */
-    public function setPermissionRaw($permission_name, $value)
+    public function setPermissionRaw(string $permission_name, int $value)
     {
         $this->setAttributes(array("perms_" . $permission_name => $value));
     }
@@ -717,7 +717,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
     /**
      * @return PermissionManager
      */
-    public function &getPermissionManager()
+    public function &getPermissionManager() : PermissionManager
     {
         return $this->perm_manager;
     }
@@ -746,7 +746,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param $perm_operation string The name of the operation that should be checked.
      * @return bool True, if the user can perform the action, false if not.
      */
-    public function canDo($perm_name, $perm_operation)
+    public function canDo(string $perm_name, string $perm_operation) : bool
     {
         return $this->perm_manager->getPermissionValue($perm_name, $perm_operation, true) == BasePermission::ALLOW;
     }
@@ -757,7 +757,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param $perm_operation string The name of the operation that should be checked.
      * @throws UserNotAllowedException This Exception is thrown, when the user is not allowed to do the requested action.
      */
-    public function tryDo($perm_name, $perm_operation)
+    public function tryDo(string $perm_name, string $perm_operation)
     {
         if ($this->canDo($perm_name, $perm_operation) == false) {
             $group_title = $this->perm_manager->getPermGroupTitle($perm_name);
@@ -788,7 +788,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -820,7 +820,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      *
      * @throws Exception            if there was an error
      */
-    public static function getCount(&$database)
+    public static function getCount(Database &$database) : int
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -844,7 +844,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      *
      * @throws Exception if there was an error
      */
-    public static function search(&$database, &$current_user, &$log, $keyword, $exact_match)
+    public static function search(Database &$database, User &$current_user, Log &$log, string $keyword, bool $exact_match) : array
     {
         return parent::searchTable($database, $current_user, $log, "user", $keyword, $exact_match);
     }
@@ -855,7 +855,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return User
      * @throws Exception
      */
-    public static function getUserByName(&$database, &$log, $username)
+    public static function getUserByName(Database &$database, Log &$log, string $username) : User
     {
         $username = static::normalizeUsername($username);
         $query = 'SELECT * FROM users WHERE name = ?';
@@ -878,7 +878,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Checks if a user is logged in, in the current session.
      * @return boolean true, if a user is logged in.
      */
-    public static function isLoggedIn()
+    public static function isLoggedIn() : bool
     {
         return self::getLoggedInID() > static::ID_ANONYMOUS;
     }
@@ -887,7 +887,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Gets the id of the currently logged in user.
      * @return int The id of the logged in user, if someone is logged in. Else 0 (anonymous).
      */
-    public static function getLoggedInID()
+    public static function getLoggedInID(): int
     {
         if (!isset($_SESSION['user']) || $_SESSION['user']<=static::ID_ANONYMOUS) {
             return static::ID_ANONYMOUS;   //User anonymous.
@@ -915,7 +915,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return User The user, which is currently logged in.
      * @throws Exception
      */
-    public static function getLoggedInUser(&$database = null, &$log = null)
+    public static function getLoggedInUser(Database &$database = null, Log &$log = null) : User
     {
         $loggedin_ID    = self::getLoggedInID();
 
@@ -950,7 +950,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * will be logged in.
      * @return boolean True, if the user was successfully logged in. False if a error appeared, like a wrong password.
      */
-    public static function login(&$user, $password = "")
+    public static function login(User &$user, string $password = "") : bool
     {
         if (empty($password) || !$user->isPasswordValid($password)) { //If $password is set, and wrong.
             return false;
@@ -971,7 +971,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * Log out the current user and set logged in to anonymous.
      * @return boolean True, if the user was successful logged out.
      */
-    public static function logout()
+    public static function logout() : bool
     {
 
         //Write the event to the log:
@@ -994,7 +994,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return string A string with HTML
      * @throws Exception
      */
-    public static function buildHTMLList(&$database, &$current_user, &$log, $selected_id = -1)
+    public static function buildHTMLList(Database &$database, User &$current_user, Log &$log, int $selected_id = -1)
     {
         $users = self::getAllUsers($database, $current_user, $log);
         $html = array();
@@ -1016,7 +1016,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return User[] Any array of all users in the database.
      * @throws Exception
      */
-    public static function getAllUsers(&$database, &$current_user, &$log)
+    public static function getAllUsers(Database &$database, User &$current_user, Log &$log) : array
     {
         if (!$current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
             return array($current_user);
@@ -1042,7 +1042,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @return Base\NamedDBElement|User
      * @throws Exception
      */
-    public static function add(&$database, &$current_user, &$log, $name, $group_id, $data)
+    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $group_id, array $data)
     {
         $current_user->tryDo(PermissionManager::USERS, UserPermission::CREATE);
 
@@ -1071,7 +1071,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
      * @param $username string The username that should be normalized.
      * @return string The normalized username.
      */
-    public static function normalizeUsername($username)
+    public static function normalizeUsername(string $username) : string
     {
         //Strip leading and trailing whitespaces.
         $username = trim($username);

@@ -30,6 +30,7 @@ use PartDB\Database;
 use PartDB\Interfaces\IAPIModel;
 use PartDB\Log;
 use PartDB\User;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 /**
  * @file class.Company.php
@@ -61,7 +62,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      * @throws Exception        if there is no such element in the database
      * @throws Exception        if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $tablename, $id, $data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, string $tablename, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $tablename, $id, $data);
 
@@ -87,7 +88,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the address of the company (with "\n" as line break)
      */
-    public function getAddress()
+    public function getAddress() : string
     {
         return $this->db_data['address'];
     }
@@ -97,7 +98,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the phone number of the company
      */
-    public function getPhoneNumber()
+    public function getPhoneNumber() : string
     {
         return $this->db_data['phone_number'];
     }
@@ -107,7 +108,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the fax number of the company
      */
-    public function getFaxNumber()
+    public function getFaxNumber() : string
     {
         return $this->db_data['fax_number'];
     }
@@ -117,7 +118,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the e-mail address of the company
      */
-    public function getEmailAddress()
+    public function getEmailAddress() : string
     {
         return $this->db_data['email_address'];
     }
@@ -127,7 +128,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string       the website of the company
      */
-    public function getWebsite()
+    public function getWebsite() : string
     {
         return $this->db_data['website'];
     }
@@ -140,7 +141,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @return string           the link to the article
      */
-    public function getAutoProductUrl($partnr = null)
+    public function getAutoProductUrl($partnr = null) : string
     {
         if (is_string($partnr)) {
             return str_replace('%PARTNUMBER%', $partnr, $this->db_data['auto_product_url']);
@@ -162,7 +163,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function setAddress($new_address)
+    public function setAddress(string $new_address)
     {
         $this->setAttributes(array('address' => $new_address));
     }
@@ -174,7 +175,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function setPhoneNumber($new_phone_number)
+    public function setPhoneNumber(string $new_phone_number)
     {
         $this->setAttributes(array('phone_number' => $new_phone_number));
     }
@@ -186,7 +187,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function setFaxNumber($new_fax_number)
+    public function setFaxNumber(string $new_fax_number)
     {
         $this->setAttributes(array('fax_number' => $new_fax_number));
     }
@@ -198,7 +199,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function setEmailAddress($new_email_address)
+    public function setEmailAddress(string $new_email_address)
     {
         $this->setAttributes(array('email_address' => $new_email_address));
     }
@@ -210,7 +211,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function setWebsite($new_website)
+    public function setWebsite(string $new_website)
     {
         $this->setAttributes(array('website' => $new_website));
     }
@@ -222,7 +223,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function setAutoProductUrl($new_url)
+    public function setAutoProductUrl(string $new_url)
     {
         $this->setAttributes(array('auto_product_url' => $new_url));
     }
@@ -237,7 +238,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -262,7 +263,7 @@ abstract class Company extends PartsContainingDBElement implements IAPIModel
      * @throws Exception
      * @throws Exception
      */
-    public function getAPIArray($verbose = false)
+    public function getAPIArray(bool $verbose = false) : array
     {
         $json =  array( "id" => $this->getID(),
             "name" => $this->getName(),

@@ -43,7 +43,7 @@ abstract class BasePermission
      * @param $perm_name string The name of the permission (without perms_)
      * @param string $description string A trivial name for this permission.
      */
-    public function __construct(&$perm_holder, $perm_name, $description = "")
+    public function __construct(&$perm_holder, string $perm_name, string $description = "")
     {
         $this->perm_holder = $perm_holder;
         $this->perm_name = $perm_name;
@@ -59,7 +59,7 @@ abstract class BasePermission
      * @param $operation string The operation.
      * @return int The permission value for the operation.
      */
-    public function getValue($operation)
+    public function getValue(string $operation) : int
     {
         $n = static::opToBitN($operation);
         if ($this->perm_holder == null) {
@@ -73,7 +73,7 @@ abstract class BasePermission
      * @param $operation string The operation for which the value should be set.
      * @param $new_value int The new value of the operation bit pair.
      */
-    public function setValue($operation, $new_value)
+    public function setValue(string $operation, int $new_value)
     {
         //Invalidate the cached value.
         $this->perm_holder->getPermissionManager()->invalidatePermissionValueCache($this->perm_name, $operation);
@@ -90,11 +90,11 @@ abstract class BasePermission
     /**
      * Modify the permissions data, before it gets written, to Database. This is called while setValue() is executed.
      * @param $operation string The original $operation string from setValue().
-     * @param $new_value string The original $new_value string from setValue().
+     * @param $new_value int The original $new_value string from setValue().
      * @param $data int The raw data, that can be modifed.
      * @return int The modified data.
      */
-    protected function modifyValueBeforeSetting($operation, $new_value, $data)
+    protected function modifyValueBeforeSetting(string $operation, int $new_value, int $data) : int
     {
         //Do nothing on default
         return $data;
@@ -104,7 +104,7 @@ abstract class BasePermission
      * Returns the current data of the Permission.
      * @return int The data of the permission.
      */
-    public function toData()
+    public function toData() : int
     {
         return $this->perm_holder->getPermissionRaw($this->perm_name);
     }
@@ -113,7 +113,7 @@ abstract class BasePermission
      * Returns the name of the permsission. (without perms_)
      * @return string The permission string.
      */
-    public function getName()
+    public function getName() : string
     {
         return $this->perm_name;
     }
@@ -122,7 +122,7 @@ abstract class BasePermission
      * Returns the description of the permsission.
      * @return string The permission string.
      */
-    public function getDescription()
+    public function getDescription() : string
     {
         return $this->description;
     }
@@ -133,7 +133,7 @@ abstract class BasePermission
      * @param $inherit boolean If true, inherit values, are resolved.
      * @return array The template loop
      */
-    public function generateLoopRow($read_only = false, $inherit = false)
+    public function generateLoopRow(bool $read_only = false, bool $inherit = false) : array
     {
         $all_ops = static::listOperations();
 
@@ -172,7 +172,7 @@ abstract class BasePermission
      * @return int The bitnumber for the operation.
      * @throws \InvalidArgumentException If no operation with the given name exists.
      */
-    protected static function opToBitN($op)
+    protected static function opToBitN(string $op) : int
     {
         //$op = mb_strtolower($op);
 
@@ -200,7 +200,7 @@ abstract class BasePermission
      * @return static The trivial name for the operation.
      * @throws \InvalidArgumentException If no operation with the given name exists.
      */
-    public static function opToDescription($op)
+    public static function opToDescription(string $op)
     {
         //$op = mb_strtolower($op);
 
@@ -225,7 +225,7 @@ abstract class BasePermission
      * @return array All availabel operations.
      * @throws NotImplementedException When this function is not implemented in child classes, this exception is thrown.
      */
-    public static function listOperations()
+    public static function listOperations() : array
     {
         throw new NotImplementedException(_("listOperations() ist in nicht implementiert"));
         /** @noinspection PhpUnreachableStatementInspection */
@@ -238,7 +238,7 @@ abstract class BasePermission
      * @param $n int The number of the lower bit (of the pair) that should be read. Starting from zero.
      * @return int The value of the bit pair.
      */
-    final protected static function readBitPair($data, $n)
+    final protected static function readBitPair(int $data, int $n)
     {
         if (!is_int($data) || !is_int($n)) {
             throw new \InvalidArgumentException(_("Die Parameter müssen alles gültige Integervariablen sein!"));
@@ -258,7 +258,7 @@ abstract class BasePermission
      * @param $new int The new value of the pair.
      * @return int The new data with the modified pair.
      */
-    final protected static function writeBitPair($data, $n, $new)
+    final protected static function writeBitPair(int $data, int $n, int $new) : int
     {
         if (!is_int($data) || !is_int($n) || !is_int($new)) {
             throw new \InvalidArgumentException(_("Die Parameter müssen alles gültige Integervariablen sein!"));
@@ -283,7 +283,7 @@ abstract class BasePermission
      * @param string $description A name describing the function of the operation to user.
      * @return array An Array containing all the data.
      */
-    protected static function buildOperationArray($n, $name, $description)
+    protected static function buildOperationArray(int $n, string $name, string $description)
     {
         return array("n" => $n, "name" => $name, "description" => $description);
     }
@@ -293,7 +293,7 @@ abstract class BasePermission
      * @param bool $inherit True, if inherit values should be inherited.
      * @return bool True, if no operation is allowed on this Perm.
      */
-    final public function isEverythingForbidden($inherit = true)
+    final public function isEverythingForbidden(bool $inherit = true)
     {
         foreach (static::listOperations() as $op) {
             $val = $this->getValue($op['name']);

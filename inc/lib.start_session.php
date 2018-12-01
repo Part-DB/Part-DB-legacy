@@ -278,9 +278,9 @@ function checkIfConfigIsValid()
 
 /**
  * Handles an Exception
- * @param $e \Exception
+ * @param $e \Throwable
  */
-function exception_handler(Exception $e)
+function exception_handler(Throwable $e)
 {
     //Try to log the exception to the database
     try {

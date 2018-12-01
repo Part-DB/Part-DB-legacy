@@ -33,7 +33,7 @@ class GroupPermission extends StructuralPermission
      * Returns an array of all available operations for this Permission.
      * @return array All availabel operations.
      */
-    public static function listOperations()
+    public static function listOperations() : array
     {
         if(!isset(static::$operation_cache)) {
             /**
@@ -53,7 +53,7 @@ class GroupPermission extends StructuralPermission
         return static::$operation_cache;
     }
 
-    protected function modifyValueBeforeSetting($operation, $new_value, $data)
+    protected function modifyValueBeforeSetting(string $operation, int $new_value, int $data) : int
     {
         //Set read permission, too, when you get edit permissions.
         if (($operation == static::EDIT
@@ -68,7 +68,7 @@ class GroupPermission extends StructuralPermission
         return $data;
     }
 
-    public function generateLoopRow($read_only = false, $inherit = false)
+    public function generateLoopRow(bool $read_only = false, bool $inherit = false) : array
     {
         if (!$read_only) {
             //User cannot change its own User permission, so make his permission read-only.

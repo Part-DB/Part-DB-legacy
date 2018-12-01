@@ -34,7 +34,7 @@ class SelfPermission extends BasePermission
      * Returns an array of all available operations for this Permission.
      * @return array All availabel operations.
      */
-    public static function listOperations()
+    public static function listOperations() : array
     {
         if(!isset(static::$operation_cache)) {
             /**
@@ -52,7 +52,7 @@ class SelfPermission extends BasePermission
         return static::$operation_cache;
     }
 
-    protected function modifyValueBeforeSetting($operation, $new_value, $data)
+    protected function modifyValueBeforeSetting(string $operation, int $new_value, int $data) : int
     {
         return $data;
     }

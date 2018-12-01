@@ -83,7 +83,7 @@ class DevicePart extends Base\DBElement
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function resetAttributes($all = false)
+    public function resetAttributes(bool $all = false)
     {
         $this->device = null;
         $this->part = null;
@@ -104,7 +104,7 @@ class DevicePart extends Base\DBElement
      *
      * @throws Exception if there was an error
      */
-    public function getDevice()
+    public function getDevice() : Device
     {
         if (! is_object($this->device)) {
             $this->device = new Device(
@@ -125,7 +125,7 @@ class DevicePart extends Base\DBElement
      *
      * @throws Exception if there was an error
      */
-    public function getPart()
+    public function getPart() : Part
     {
         if (! is_object($this->part)) {
             $this->part = new Part(
@@ -144,7 +144,7 @@ class DevicePart extends Base\DBElement
      *
      * @return integer      the mount quantity
      */
-    public function getMountQuantity()
+    public function getMountQuantity() : int
     {
         if (!$this->current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ)) {
             return 1;
@@ -160,7 +160,7 @@ class DevicePart extends Base\DBElement
      *
      * @return string       the mountname(s)
      */
-    public function getMountNames()
+    public function getMountNames() : string
     {
         if (!$this->current_user->canDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::READ)) {
             return "???";
@@ -183,7 +183,7 @@ class DevicePart extends Base\DBElement
      * @throws Exception if the mount quantity is not valid
      * @throws Exception if there was an error
      */
-    public function setMountQuantity($new_mount_quantity)
+    public function setMountQuantity(int $new_mount_quantity)
     {
         $this->setAttributes(array('quantity' => $new_mount_quantity));
     }
@@ -197,7 +197,7 @@ class DevicePart extends Base\DBElement
      *
      * @throws Exception if there was an error
      */
-    public function setMountNames($new_mount_names)
+    public function setMountNames(string $new_mount_names)
     {
         $this->setAttributes(array('mountnames' => $new_mount_names));
     }
@@ -270,7 +270,7 @@ class DevicePart extends Base\DBElement
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -331,7 +331,7 @@ class DevicePart extends Base\DBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getDevicePart(&$database, &$current_user, &$log, $device_id, $part_id)
+    public static function getDevicePart(Database &$database, User &$current_user, Log &$log, int $device_id, int $part_id)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -362,7 +362,7 @@ class DevicePart extends Base\DBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getOrderDeviceParts(&$database, &$current_user, &$log, $part_id = null)
+    public static function getOrderDeviceParts(Database &$database, User &$current_user, Log &$log, $part_id = null) : array
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -393,7 +393,7 @@ class DevicePart extends Base\DBElement
         parent::delete();
     }
 
-    public function setAttributes($new_values)
+    public function setAttributes(array $new_values)
     {
         $this->current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::EDIT);
         parent::setAttributes($new_values);
@@ -428,14 +428,14 @@ class DevicePart extends Base\DBElement
      * @see DBElement::add()
      */
     public static function add(
-        &$database,
-        &$current_user,
-        &$log,
-        $device_id,
-        $part_id,
-        $quantity,
-        $mountnames = '',
-        $increase_if_exist = false
+        Database &$database,
+        User &$current_user,
+        Log &$log,
+        int $device_id,
+        int $part_id,
+        int $quantity,
+        string $mountnames = '',
+        bool $increase_if_exist = false
     ) {
         $current_user->tryDo(PermissionManager::DEVICE_PARTS, DevicePartPermission::CREATE);
 

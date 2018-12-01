@@ -104,7 +104,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception    if there is no such part in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $db_data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, 'parts', $id, false, $db_data);
     }
@@ -126,7 +126,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *                              This is needed if you change an attribute of the object.
      * @throws Exception
      */
-    public function resetAttributes($all = false)
+    public function resetAttributes(bool $all = false)
     {
         $this->category                     = null;
         $this->footprint                    = null;
@@ -161,7 +161,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if there are device parts and $delete_device_parts == false
      * @throws Exception if there was an error
      */
-    public function delete($delete_files_from_hdd = false, $delete_device_parts = false)
+    public function delete(bool $delete_files_from_hdd = false, bool $delete_device_parts = false)
     {
         $this->current_user->tryDo(PermissionManager::PARTS, PartPermission::DELETE);
 
@@ -214,7 +214,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @return string
      * @throws Exception An Exception is thrown if you selected a unknown barcode type.
      */
-    public function getBarcodeContent($barcode_type = "EAN8")
+    public function getBarcodeContent(string $barcode_type = "EAN8") : string
     {
         switch ($barcode_type) {
             case "EAN8":
@@ -236,10 +236,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * Calculates the price for an Instock change.
      * @param $old_instock int The old instock value.
      * @param $new_instock int The new instock value after withdrawl.
-     * @return float|int The Price for the instock change. Negative values means withdrewal.
+     * @return float The Price for the instock change. Negative values means withdrewal.
      * @throws Exception
      */
-    public function calculateInstockChangePrice($old_instock, $new_instock)
+    public function calculateInstockChangePrice(int $old_instock, int $new_instock) : float
     {
         if(!is_int($old_instock) || !is_int($new_instock)) {
             throw new \RuntimeException(_('$old_instock und $new_instock müssen vom Typ int sein!'));
@@ -271,7 +271,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @return string The string with the infos.
      * @throws Exception When an error occured when getting the infos.
      */
-    public function replacePlaceholderWithInfos($string)
+    public function replacePlaceholderWithInfos(string $string) : string
     {
         //General infos
         $string = str_replace("%ID%", $this->getID(), $string);                        //part id
@@ -320,7 +320,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      *********************************************************************************/
 
-    public function getName()
+    public function getName() : string
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_NAME, PartAttributePermission::READ)) {
             return "???";
@@ -335,7 +335,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param int $short_output If this is bigger than 0, than the description will be shortened to this length.
      * @return string       the description
      */
-    public function getDescription($bbcode_parse_level = BBCodeParsingLevel::PARSE, $short_output = 0)
+    public function getDescription($bbcode_parse_level = BBCodeParsingLevel::PARSE, int  $short_output = 0) : string
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_DESCRIPTION, PartAttributePermission::READ)) {
             return "???";
@@ -366,7 +366,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @return integer|string       count of parts which are in stock, "Unknown" if $with_unknown is set and instock is unknown.
      */
-    public function getInstock($with_unknown = false)
+    public function getInstock(bool $with_unknown = false)
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_INSTOCK, PartAttributePermission::READ)) {
             return "-1";
@@ -383,7 +383,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * Check if the value of the Instock is unknown.
      * @return bool True, if the value of the instock is unknown.
      */
-    public function isInstockUnknown()
+    public function isInstockUnknown() : bool
     {
         return $this->getInstock() <= static::INSTOCK_UNKNOWN;
     }
@@ -393,7 +393,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @return integer       count of parts which must be in stock at least
      */
-    public function getMinInstock()
+    public function getMinInstock() : int
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_MININSTOCK, PartAttributePermission::READ)) {
             return "-1";
@@ -408,7 +408,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param boolean|int $bbcode_parsing_level Should BBCode converted to HTML, before returning
      * @return string       the comment
      */
-    public function getComment($bbcode_parsing_level = BBCodeParsingLevel::PARSE)
+    public function getComment($bbcode_parsing_level = BBCodeParsingLevel::PARSE) : string
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_COMMENT, PartAttributePermission::READ)) {
             return "???";
@@ -440,7 +440,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @li false if this part isn't obsolete
      * @throws Exception
      */
-    public function getObsolete()
+    public function getObsolete() : bool
     {
         $all_orderdetails = $this->getOrderdetails();
 
@@ -463,7 +463,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @return boolean      @li true if this part is visible
      *                      @li false if this part isn't visible
      */
-    public function getVisible()
+    public function getVisible() : bool
     {
         return $this->db_data['visible'];
     }
@@ -474,7 +474,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @return bool * true if this part is a favorite
      *     * false if this part is not a favorite.
      */
-    public function getFavorite()
+    public function getFavorite() : bool
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_NAME, PartAttributePermission::READ)) {
             return false;
@@ -518,7 +518,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @return integer      the order quantity
      */
-    public function getOrderQuantity()
+    public function getOrderQuantity() : int
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ)) {
             return -1;
@@ -536,7 +536,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @return integer      the minimum order quantity
      * @throws Exception
      */
-    public function getMinOrderQuantity($with_devices = true)
+    public function getMinOrderQuantity(bool $with_devices = true) : int
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ)) {
             return -1;
@@ -568,7 +568,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @return boolean      the "manual_order" attribute
      */
-    public function getManualOrder()
+    public function getManualOrder() : bool
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_ORDER, PartAttributePermission::READ)) {
             return false;
@@ -581,7 +581,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * Check if the part is automatically marked for Ordering, because the instock value is smaller than the min instock value.
      * @return bool True, if the part should be ordered.
      */
-    public function getAutoOrder()
+    public function getAutoOrder() : bool
     {
         //Parts with negative instock never gets ordered.
         if ($this->getInstock() < 0) {
@@ -599,7 +599,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @return string           the link to the article
      * @throws Exception
      */
-    public function getManufacturerProductUrl($no_auto_url = false)
+    public function getManufacturerProductUrl(bool $no_auto_url = false) : string
     {
         if ($no_auto_url || strlen($this->db_data['manufacturer_product_url']) > 0) {
             return $this->db_data['manufacturer_product_url'];
@@ -616,7 +616,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *          When false, the raw value from the DB is returned.
      * @return string The time of the last edit.
      */
-    public function getLastModified($formatted = true)
+    public function getLastModified(bool $formatted = true) : string
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
             return "???";
@@ -630,7 +630,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *       When false, the raw value from the DB is returned.
      * @return string The creation time of the part.
      */
-    public function getDatetimeAdded($formatted = true)
+    public function getDatetimeAdded(bool $formatted = true) : string
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
             return "???";
@@ -647,7 +647,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function getCategory()
+    public function getCategory() : Category
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS, PartPermission::READ)) {
             return new Category(
@@ -786,7 +786,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function getOrderdetails($hide_obsolete = false)
+    public function getOrderdetails(bool $hide_obsolete = false) : array
     {
         //Check for permission.
         if (!$this->current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::READ)) {
@@ -830,7 +830,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function getDevices()
+    public function getDevices() : array
     {
         if (! is_array($this->devices)) {
             $this->devices = array();
@@ -877,7 +877,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception    if there was an error
      */
-    public function getSuppliers($object_array = true, $delimeter = null, $full_paths = false, $hide_obsolete = false)
+    public function getSuppliers(bool $object_array = true, $delimeter = null, bool $full_paths = false, bool $hide_obsolete = false)
     {
         //Check for permission.
         if (!$this->current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::READ)) {
@@ -927,7 +927,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception    if there was an error
      */
-    public function getSupplierPartNrs($delimeter = null, $hide_obsolete = false)
+    public function getSupplierPartNrs($delimeter = null, bool $hide_obsolete = false)
     {
         //Check for permission.
         if (!$this->current_user->canDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::READ)) {
@@ -971,7 +971,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception    if there was an error
      */
-    public function getPrices($float_array = false, $delimeter = null, $quantity = 1, $multiplier = null, $hide_obsolete = false)
+    public function getPrices(bool $float_array = false, $delimeter = null, int $quantity = 1, $multiplier = null, bool $hide_obsolete = false)
     {
         //Check for permission.
         if (!$this->current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::READ)) {
@@ -1010,7 +1010,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception    if there was an error
      */
-    public function getAveragePrice($as_money_string = false, $quantity = 1, $multiplier = null)
+    public function getAveragePrice(bool $as_money_string = false, int $quantity = 1, $multiplier = null)
     {
         //Check for permission.
         if (!$this->current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::READ)) {
@@ -1052,7 +1052,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function getMasterPictureFilename($use_footprint_filename = false)
+    public function getMasterPictureFilename(bool $use_footprint_filename = false)
     {
         //Check for permission.
         if (!$this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::READ)) {
@@ -1085,7 +1085,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @return array If Properties are disabled or nothing was detected, then an empty array is returned.
      * @throws Exception
      */
-    public function getProperties($use_description = true, $use_comment = true, $use_name = true, $force_output = false)
+    public function getProperties(bool $use_description = true, bool $use_comment = true, bool $use_name = true, bool $force_output = false) : array
     {
         global $config;
 
@@ -1122,7 +1122,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param bool $use_comment Use the comment field for parsing
      * @return array A array of arrays with the name and value of the properties.
      */
-    public function getPropertiesLoop($use_description = true, $use_comment = true)
+    public function getPropertiesLoop(bool $use_description = true, bool $use_comment = true) : array
     {
         $arr = array();
         foreach ($this->getProperties() as $property) {
@@ -1132,7 +1132,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         return $arr;
     }
 
-    public function hasValidName()
+    public function hasValidName() : bool
     {
         return Part::isValidName($this->getName(), $this->getCategory());
     }
@@ -1153,7 +1153,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         return parent::getLastModifiedUser(); // TODO: Change the autogenerated stub
     }
 
-    public function getAttachementTypes()
+    public function getAttachementTypes() : array
     {
         //Check for permission.
         if (!$this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::READ)) {
@@ -1162,7 +1162,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
         return parent::getAttachementTypes();
     }
 
-    public function getAttachements($type_id = null, $only_table_attachements = false)
+    public function getAttachements($type_id = null, bool $only_table_attachements = false) : array
     {
         //Check for permission.
         if (!$this->current_user->canDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::READ)) {
@@ -1185,7 +1185,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function setDescription($new_description)
+    public function setDescription(string $new_description)
     {
         $this->setAttributes(array('description' => $new_description));
     }
@@ -1198,7 +1198,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the new instock is not valid
      * @throws Exception if there was an error
      */
-    public function setInstock($new_instock, $comment = null)
+    public function setInstock(int $new_instock, $comment = null)
     {
         $old_instock = (int) $this->getInstock();
         $this->setAttributes(array('instock' => $new_instock));
@@ -1212,12 +1212,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param $comment string A comment that should be associated with the withdrawal.
      * @throws Exception if there was an error
      */
-    public function withdrawalParts($count, $comment = null)
+    public function withdrawalParts(int $count, $comment = null)
     {
-        if($count <= 0) {
+        if ($count <= 0) {
             throw new Exception(_("Zahl der entnommenen Bauteile muss größer 0 sein!"));
         }
-        if($count > $this->getInstock()) {
+        if ($count > $this->getInstock()) {
             throw new Exception(_("Es können nicht mehr Bauteile entnommen werden, als vorhanden sind!"));
         }
 
@@ -1236,7 +1236,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param $comment string A comment that should be associated with the withdrawal.
      * @throws Exception if there was an error
      */
-    public function addParts($count, $comment = null)
+    public function addParts(int $count, string $comment = null)
     {
         if($count <= 0) {
             throw new Exception(_("Zahl der entnommenen Bauteile muss größer 0 sein!"));
@@ -1259,7 +1259,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the new mininstock is not valid
      * @throws Exception if there was an error
      */
-    public function setMinInstock($new_mininstock)
+    public function setMinInstock(int $new_mininstock)
     {
         $this->setAttributes(array('mininstock' => $new_mininstock));
     }
@@ -1271,7 +1271,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function setComment($new_comment)
+    public function setComment(string $new_comment)
     {
         $this->setAttributes(array('comment' => $new_comment));
     }
@@ -1290,7 +1290,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function setManualOrder($new_manual_order, $new_order_quantity = 1, $new_order_orderdetails_id = null)
+    public function setManualOrder(bool $new_manual_order, int $new_order_quantity = 1, $new_order_orderdetails_id = null)
     {
         $this->setAttributes(array('manual_order'          => $new_manual_order,
             'order_orderdetails_id' => $new_order_orderdetails_id,
@@ -1318,7 +1318,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the order quantity is not valid
      * @throws Exception if there was an error
      */
-    public function setOrderQuantity($new_order_quantity)
+    public function setOrderQuantity(int $new_order_quantity)
     {
         $this->setAttributes(array('order_quantity' => $new_order_quantity));
     }
@@ -1334,7 +1334,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the new category ID is not valid
      * @throws Exception if there was an error
      */
-    public function setCategoryID($new_category_id)
+    public function setCategoryID(int $new_category_id)
     {
         $this->setAttributes(array('id_category' => $new_category_id));
     }
@@ -1386,7 +1386,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param $new_favorite_status bool The new favorite status, that should be applied on this part.
      *      Set this to true, when the part should be a favorite.
      */
-    public function setFavorite($new_favorite_status)
+    public function setFavorite(bool $new_favorite_status)
     {
         $this->setAttributes(array('favorite' => $new_favorite_status));
     }
@@ -1396,7 +1396,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param string $new_url The new url
      * @throws Exception when an error happens.
      */
-    public function setManufacturerProductURL($new_url)
+    public function setManufacturerProductURL(string $new_url)
     {
         $this->setAttributes(array('manufacturer_product_url' => $new_url));
     }
@@ -1410,12 +1410,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the new ID is not valid
      * @throws Exception if there was an error
      */
-    public function setMasterPictureAttachementID($new_master_picture_attachement_id)
+    public function setMasterPictureAttachementID(int $new_master_picture_attachement_id)
     {
         $this->setAttributes(array('id_master_picture_attachement' => $new_master_picture_attachement_id));
     }
 
-    public function setAttributes($new_values, $edit_message = null)
+    public function setAttributes(array $new_values, $edit_message = null)
     {
         //Override this function, so we can check if user has the needed permissions.
         $arr = array();
@@ -1527,7 +1527,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public function buildTemplateTableRowArray($table_type, $row_index, $additional_values = array())
+    public function buildTemplateTableRowArray(string $table_type, int $row_index, array $additional_values = array())
     {
         global $config;
 
@@ -1556,7 +1556,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
             switch ($caption) {
                 case 'hover_picture':
                     $picture_filename = str_replace(BASE, BASE_RELATIVE, $this->getMasterPictureFilename(true));
-                    if($this->getMasterPictureAttachement() != null && !$this->getMasterPictureAttachement()->isFileExisting()) { //When filename is invalid then dont show picture.
+                    if ($this->getMasterPictureAttachement() != null && !$this->getMasterPictureAttachement()->isFileExisting()) { //When filename is invalid then dont show picture.
                         $picture_filename = "";
                     }
                     $row_field['picture_name']  = strlen($picture_filename) ? basename($picture_filename) : '';
@@ -1819,7 +1819,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function buildTemplateTableArray($parts, $table_type)
+    public static function buildTemplateTableArray(array $parts, string $table_type)
     {
         global $config;
 
@@ -1864,7 +1864,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @return array|bool An array containing parts with similar name and storelocation and category
      * @throws Exception
      */
-    public static function checkForExistingPart(&$database, &$current_user, &$log, $proposed_name, $proposed_storelocation_id, $proposed_category_id)
+    public static function checkForExistingPart(Database &$database, User &$current_user, Log &$log, string $proposed_name, int $proposed_storelocation_id, int $proposed_category_id)
     {
         $query = 'SELECT parts.id FROM parts'.
             ' LEFT JOIN storelocations ON parts.id_storelocation=storelocations.id'.
@@ -1929,7 +1929,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if the values are not valid / the combination of values is not valid
      * @throws Exception if there was an error
      */
-    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -2110,7 +2110,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception            if there was an error
      */
-    public static function getCount(&$database)
+    public static function getCount(Database &$database) : int
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -2132,7 +2132,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getSumCountInstock(&$database)
+    public static function getSumCountInstock(Database &$database) : int
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -2160,7 +2160,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getSumPriceInstock(&$database, &$current_user, &$log, $as_money_string = true)
+    public static function getSumPriceInstock(Database &$database, User &$current_user, Log &$log, bool $as_money_string = true)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -2216,7 +2216,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getOrderParts(&$database, &$current_user, &$log, $supplier_ids = array(), $with_devices = true)
+    public static function getOrderParts(Database &$database, User &$current_user, Log &$log, array $supplier_ids = array(), bool $with_devices = true) : array
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::ORDER_PARTS)) {
             return array();
@@ -2272,7 +2272,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getNoPriceParts(&$database, &$current_user, &$log, $limit = 50, $page = 1)
+    public static function getNoPriceParts(Database &$database, User &$current_user, Log &$log, int $limit = 50, int $page = 1)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
             return array();
@@ -2310,11 +2310,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
-     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     * @return int   all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
      */
-    public static function getNoPricePartsCount(&$database, &$current_user, &$log)
+    public static function getNoPricePartsCount(Database &$database, User &$current_user, Log &$log) : int
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::NO_PRICE_PARTS)) {
             return array();
@@ -2352,7 +2352,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getFavoriteParts(&$database, &$current_user, &$log, $limit = 50, $page = 1)
+    public static function getFavoriteParts(Database &$database, User &$current_user, Log &$log, int $limit = 50, int $page = 1) : array
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_FAVORITE_PARTS)) {
             return array();
@@ -2387,11 +2387,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
-     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     * @return int    all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
      */
-    public static function getFavoritePartsCount(&$database, &$current_user, &$log)
+    public static function getFavoritePartsCount(Database &$database, User &$current_user, Log &$log) : int
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_FAVORITE_PARTS)) {
             return array();
@@ -2426,7 +2426,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getInstockUnknownParts(&$database, &$current_user, &$log, $limit = 50, $page = 1)
+    public static function getInstockUnknownParts(Database &$database, User &$current_user, Log &$log, int $limit = 50, int $page = 1)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
             return array();
@@ -2462,11 +2462,11 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param User      &$current_user      reference to the user which is logged in
      * @param Log       &$log               reference to the Log-object
      *
-     * @return array    all parts as a one-dimensional array of Part objects, sorted by their names
+     * @return int    all parts as a one-dimensional array of Part objects, sorted by their names
      *
      * @throws Exception if there was an error
      */
-    public static function getInstockUnknownPartsCount(&$database, &$current_user, &$log)
+    public static function getInstockUnknownPartsCount(Database &$database, User &$current_user, Log &$log) : int
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
             return array();
@@ -2503,7 +2503,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getLastModifiedParts(&$database, &$current_user, &$log, $newest_first = true, $limit = 50, $page = 1)
+    public static function getLastModifiedParts(Database &$database, User &$current_user, Log &$log, bool $newest_first = true, int $limit = 50, int $page = 1)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
             return array();
@@ -2546,7 +2546,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getLastModifiedPartsCount(&$database, &$current_user, &$log, $newest_first = true)
+    public static function getLastModifiedPartsCount(Database &$database, User &$current_user, Log &$log, bool $newest_first = true)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
             return array();
@@ -2586,7 +2586,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getLastAddedParts(&$database, &$current_user, &$log, $newest_first = true, $limit = 50, $page = 1)
+    public static function getLastAddedParts(Database &$database, User &$current_user, Log &$log, bool $newest_first = true, int $limit = 50, int $page = 1)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::SHOW_LAST_EDIT_PARTS)) {
             return array();
@@ -2632,7 +2632,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getLastAddedPartsCount(&$database, &$current_user, &$log, $newest_first = true)
+    public static function getLastAddedPartsCount(Database &$database, User &$current_user, Log &$log, bool $newest_first = true)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::UNKNONW_INSTOCK_PARTS)) {
             return array();
@@ -2672,7 +2672,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getObsoleteParts(&$database, &$current_user, &$log, $no_orderdetails_parts = false, $limit = 50, $page = 1)
+    public static function getObsoleteParts(Database &$database, User &$current_user, Log &$log, bool $no_orderdetails_parts = false, int $limit = 50, int $page = 1)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::OBSOLETE_PARTS)) {
             return array();
@@ -2731,7 +2731,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getObsoletePartsCount(&$database, &$current_user, &$log, $no_orderdetails_parts = false)
+    public static function getObsoletePartsCount(Database &$database, User &$current_user, Log &$log, bool $no_orderdetails_parts = false)
     {
         if (!$current_user->canDo(PermissionManager::PARTS, PartPermission::OBSOLETE_PARTS)) {
             return array();
@@ -2805,21 +2805,21 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @throws Exception if there was an error
      */
     public static function searchParts(
-        &$database,
-        &$current_user,
-        &$log,
-        $keyword,
-        $group_by = '',
-        $part_name = true,
-        $part_description = true,
-        $part_comment = false,
-        $footprint_name = false,
-        $category_name = false,
-        $storelocation_name = false,
-        $supplier_name = false,
-        $supplierpartnr = false,
-        $manufacturer_name = false,
-        $regex_search = false
+        Database &$database,
+        User &$current_user,
+        Log &$log,
+        string $keyword,
+        string $group_by = '',
+        bool $part_name = true,
+        bool $part_description = true,
+        bool $part_comment = false,
+        bool $footprint_name = false,
+        bool $category_name = false,
+        bool $storelocation_name = false,
+        bool $supplier_name = false,
+        bool $supplierpartnr = false,
+        bool $manufacturer_name = false,
+        bool $regex_search = false
     ) {
         global $config;
 
@@ -3001,7 +3001,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @return array    The template loop
      */
-    public static function buildSearchGroupByLoop($selected_val = "")
+    public static function buildSearchGroupByLoop($selected_val = "") : array
     {
         $loop = array();
 
@@ -3038,7 +3038,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      *
      * @throws Exception if there was an error
      */
-    public static function getAllParts(&$database, &$current_user, &$log, $group_by = '', $limit = 50, $page = 1)
+    public static function getAllParts(Database &$database, User &$current_user, Log &$log, string $group_by = '', int $limit = 50, int $page = 1)
     {
         $current_user->tryDo(PermissionManager::PARTS, PartPermission::ALL_PARTS);
 
@@ -3098,20 +3098,20 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @see DBElement::add()
      */
     public static function add(
-        &$database,
-        &$current_user,
-        &$log,
-        $name,
-        $category_id,
-        $description = '',
-        $instock = 0,
-        $mininstock = 0,
+        Database &$database,
+        User &$current_user,
+        Log &$log,
+        string $name,
+        int $category_id,
+        string $description = '',
+        int $instock = 0,
+        int $mininstock = 0,
         $storelocation_id = null,
         $manufacturer_id = null,
         $footprint_id = null,
-        $comment = '',
-        $visible = false,
-        $manufacturer_url = ""
+        string $comment = '',
+        bool $visible = false,
+        string $manufacturer_url = ""
     ) {
         $current_user->tryDo(PermissionManager::PARTS, PartPermission::CREATE);
 
@@ -3146,7 +3146,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param $category Category The category of the part.
      * @return boolean True if name is valid
      */
-    public static function isValidName($partname, $category)
+    public static function isValidName(string $partname, Category $category) : bool
     {
         return $category->checkPartname($partname);
     }
@@ -3157,7 +3157,7 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @return array A array representing the current object.
      * @throws Exception
      */
-    public function getAPIArray($verbose = false)
+    public function getAPIArray(bool $verbose = false) : array
     {
         $json =  array( "id" => $this->getID(),
             "name" => $this->getName(),

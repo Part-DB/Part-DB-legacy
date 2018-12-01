@@ -74,7 +74,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * @throws Exception    if there is no such group in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data = null, $current_user_group = false)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null, bool $current_user_group = false)
     {
         parent::__construct($database, $current_user, $log, 'groups', $id, $data);
         $this->perm_manager = new PermissionManager($this);
@@ -83,7 +83,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function resetAttributes($all = false)
+    public function resetAttributes(bool $all = false)
     {
         $this->users = null;
 
@@ -95,12 +95,12 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * @return bool True, if this is the group of the current user.
      * @throws Exception
      */
-    public function isGroupOfCurrentUser()
+    public function isGroupOfCurrentUser() : bool
     {
         return $this->getID() == $this->current_user->getGroup()->getID();
     }
 
-    public function setAttributes($new_values, $edit_message = null)
+    public function setAttributes(array $new_values, $edit_message = null)
     {
         $arr = array();
 
@@ -143,7 +143,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * This functions are overwrite, because a user can Access informations about its own group.
      */
 
-    public function getName()
+    public function getName() : string
     {
         if ($this->isGroupOfCurrentUser()) {
             return $this->db_data['name'];
@@ -151,7 +151,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
         return parent::getName();
     }
 
-    public function getFullPath($delimeter = ' → ')
+    public function getFullPath(string $delimeter = ' → ') : string
     {
         //The user does not see, the full path of its Group, only its name.
         if ($this->isGroupOfCurrentUser()) {
@@ -170,7 +170,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      *
      * @throws Exception if there was an error
      */
-    public function getUsers($recursive = false)
+    public function getUsers(bool $recursive = false) : array
     {
         if (! is_array($this->users)) {
             $this->users = array();
@@ -203,7 +203,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * Returns the comment field of this group.
      * @return string The comment of this group.
      */
-    public function getComment($parse_bbcode = true)
+    public function getComment(bool $parse_bbcode = true) : string
     {
         if (!$this->current_user->canDo(PermissionManager::GROUPS, GroupPermission::READ)) {
             return "???";
@@ -221,7 +221,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * Sets the comment of this group.
      * @param $new_comment string The new comment that this group should get.
      */
-    public function setComment($new_comment)
+    public function setComment(string $new_comment)
     {
         $this->setAttributes(array('comment' => $new_comment));
     }
@@ -235,7 +235,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * @param $permsission_name string The name of the permission that should be get. (Without "perms_"
      * @return int The int value of the requested permission.
      */
-    public function getPermissionRaw($permsission_name)
+    public function getPermissionRaw(string $permsission_name) : int
     {
         return intval($this->db_data["perms_" . $permsission_name]);
     }
@@ -245,7 +245,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * @param $permsission_name string The name of the permission that should be get. (Without "perms_")
      * @param $value int The value the permission should be set to.
      */
-    public function setPermissionRaw($permission_name, $value)
+    public function setPermissionRaw(string $permission_name, int $value)
     {
         $this->setAttributes(array("perms_" . $permission_name => $value));
     }
@@ -253,7 +253,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
     /**
      * @return PermissionManager
      */
-    public function &getPermissionManager()
+    public function &getPermissionManager() : PermissionManager
     {
         return $this->perm_manager;
     }
@@ -288,7 +288,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -305,7 +305,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      *
      * @throws Exception            if there was an error
      */
-    public static function getCount(&$database)
+    public static function getCount(int &$database)
     {
         if (!$database instanceof Database) {
             throw new Exception('$database ist kein Database-Objekt!');
@@ -314,7 +314,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
         return $database->getCountOfRecords('groups');
     }
 
-    public static function getPermissionName()
+    public static function getPermissionName() : string
     {
         return PermissionManager::GROUPS;
     }
@@ -328,7 +328,7 @@ class Group extends Base\StructuralDBElement implements Interfaces\IHasPermissio
      * @param $parent_id int The id of the parental group of the new group.
      * @return Base\StructuralDBElement|Group
      */
-    public static function add(&$database, &$current_user, &$log, $name, $parent_id)
+    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id) : Group
     {
         return parent::addByArray(
             $database,

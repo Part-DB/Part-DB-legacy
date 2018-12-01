@@ -80,7 +80,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      * @throws Exception    if there is no such element in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false, $db_data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, string $tablename, int $id, bool $allow_virtual_elements = false, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $tablename, $id, $allow_virtual_elements, $db_data);
     }
@@ -102,7 +102,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      *                              This is needed if you change an attribute of the object.
      * @throws Exception
      */
-    public function resetAttributes($all = false)
+    public function resetAttributes(bool $all = false)
     {
         $this->attachement_types = null;
         $this->attachements = null;
@@ -129,7 +129,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public function delete($delete_files_from_hdd = false)
+    public function delete(bool $delete_files_from_hdd = false)
     {
         try {
             $transaction_id = $this->database->beginTransaction(); // start transaction
@@ -168,7 +168,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public function getAttachementTypes()
+    public function getAttachementTypes() : array
     {
         if (! is_array($this->attachement_types)) {
             $this->attachement_types = array();
@@ -201,7 +201,7 @@ abstract class AttachementsContainingDBElement extends NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public function getAttachements($type_id = null, $only_table_attachements = false)
+    public function getAttachements($type_id = null, bool $only_table_attachements = false) : array
     {
         if (! is_array($this->attachements)) {
             $this->attachements = array();

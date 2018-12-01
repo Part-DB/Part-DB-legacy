@@ -35,7 +35,7 @@ class PartProperty implements IAPIModel
      * @param $property_name string The extracted name of the Property, without delimiter (e.g. "Name")
      * @param $property_value string The extracted value of the Property (e.g. "1234")
      */
-    public function __construct($property_string, $property_name, $property_value)
+    public function __construct(string $property_string, string $property_name, string $property_value)
     {
         $property_string = trim($property_string);
         $property_name = trim($property_name);
@@ -50,7 +50,7 @@ class PartProperty implements IAPIModel
      * Returns the value part of this Property
      * @return string The value part of this property
      */
-    public function getValue()
+    public function getValue() : string
     {
         return $this->value;
     }
@@ -125,7 +125,7 @@ class PartProperty implements IAPIModel
      * @param bool $verbose If true, all data about the current object will be printed, otherwise only important data is returned.
      * @return array A array representing the current object.
      */
-    public function getAPIArray($verbose = false)
+    public function getAPIArray(bool $verbose = false) : array
     {
         return $this->getArray(true);
     }

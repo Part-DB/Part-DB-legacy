@@ -81,7 +81,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @throws Exception    if there is no such orderdetails record in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, 'orderdetails', $id, false, $data);
     }
@@ -89,7 +89,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function resetAttributes($all = false)
+    public function resetAttributes(bool $all = false)
     {
         $this->part             = null;
         $this->supplier         = null;
@@ -106,7 +106,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @throws Exception
      */
 
-    public function setAttributes($new_values)
+    public function setAttributes(array $new_values)
     {
         $this->current_user->tryDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::EDIT);
         parent::setAttributes($new_values);
@@ -166,7 +166,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function getPart()
+    public function getPart() : Part
     {
         if (! is_object($this->part)) {
             $this->part = new Part(
@@ -187,7 +187,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function getSupplier()
+    public function getSupplier() : Supplier
     {
         if (! is_object($this->supplier)) {
             $this->supplier = new Supplier(
@@ -206,7 +206,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @return string       the part-nr.
      */
-    public function getSupplierPartNr()
+    public function getSupplierPartNr() : string
     {
         return $this->db_data['supplierpartnr'];
     }
@@ -220,7 +220,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @return boolean      @li true if this part is obsolete at that supplier
      *                      @li false if this part isn't obsolete at that supplier
      */
-    public function getObsolete()
+    public function getObsolete() : bool
     {
         return $this->db_data['obsolete'];
     }
@@ -234,7 +234,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @return string           the link to the article
      * @throws Exception
      */
-    public function getSupplierProductUrl($no_automatic_url = false)
+    public function getSupplierProductUrl(bool $no_automatic_url = false) : string
     {
         if ($no_automatic_url || strlen($this->db_data['supplier_product_url']) > 0) {
             return $this->db_data['supplier_product_url'];
@@ -251,7 +251,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function getPricedetails()
+    public function getPricedetails() : array
     {
         if (!$this->current_user->canDo(PermissionManager::PARTS_PRICES, CPartAttributePermission::READ)) {
             return array();
@@ -294,7 +294,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @see floatToMoneyString()
      */
-    public function getPrice($as_money_string = false, $quantity = 1, $multiplier = null)
+    public function getPrice(bool $as_money_string = false, int $quantity = 1, $multiplier = null)
     {
         if (($quantity == 0) && ($multiplier === null)) {
             if ($as_money_string) {
@@ -348,7 +348,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @throws Exception if the new supplier ID is not valid
      * @throws Exception if there was an error
      */
-    public function setSupplierId($new_supplier_id)
+    public function setSupplierId(int $new_supplier_id)
     {
         $this->setAttributes(array('id_supplier' => $new_supplier_id));
     }
@@ -360,7 +360,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function setSupplierpartnr($new_supplierpartnr)
+    public function setSupplierpartnr(string $new_supplierpartnr)
     {
         $this->setAttributes(array('supplierpartnr' => $new_supplierpartnr));
     }
@@ -372,7 +372,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      *
      * @throws Exception if there was an error
      */
-    public function setObsolete($new_obsolete)
+    public function setObsolete(bool $new_obsolete)
     {
         $this->setAttributes(array('obsolete' => $new_obsolete));
     }
@@ -383,7 +383,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @param $new_url string The new URL for the supplier URL.
      * @throws Exception if there was an error
      */
-    public function setSupplierProductUrl($new_url)
+    public function setSupplierProductUrl(string $new_url)
     {
         $this->setAttributes(array("supplier_product_url" => $new_url));
     }
@@ -400,7 +400,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @throws Exception
      * @throws Exception
      */
-    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -463,15 +463,15 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @see DBElement::add()
      */
     public static function add(
-        &$database,
-        &$current_user,
-        &$log,
-        $part_id,
-        $supplier_id,
-        $supplierpartnr = '',
-        $obsolete = false,
-        $supplier_product_url = ""
-    ) {
+        Database &$database,
+        User &$current_user,
+        Log &$log,
+        int $part_id,
+        int $supplier_id,
+        string $supplierpartnr = '',
+        bool $obsolete = false,
+        string $supplier_product_url = ""
+    ) : Orderdetails {
         $current_user->tryDo(PermissionManager::PARTS_ORDERDETAILS, CPartAttributePermission::CREATE);
 
         return parent::addByArray(
@@ -493,7 +493,7 @@ class Orderdetails extends Base\DBElement implements Interfaces\IAPIModel
      * @return array A array representing the current object.
      * @throws Exception
      */
-    public function getAPIArray($verbose = false)
+    public function getAPIArray(bool $verbose = false) : array
     {
         $json =  array( "id" => $this->getID(),
             "supplierpartnr" => $this->getSupplierPartNr()

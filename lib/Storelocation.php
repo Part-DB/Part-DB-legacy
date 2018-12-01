@@ -58,7 +58,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @throws Exception if there is no such storelocation in the database
      * @throws Exception if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, 'storelocations', $id, $data);
 
@@ -84,7 +84,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @return boolean      @li true if the storelocation is full
      *                      @li false if the storelocation isn't full
      */
-    public function getIsFull()
+    public function getIsFull() : bool
     {
         return $this->db_data['is_full'];
     }
@@ -103,7 +103,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      *
      * @throws Exception if there was an error
      */
-    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
+    public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
         return parent::getTableParts('id_storelocation', $recursive, $hide_obsolete_and_zero, $limit, $page);
     }
@@ -113,7 +113,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @param boolean $recursive                if true, the parts of all subcategories will be listed too
      * @return int The number of parts of this PartContainingDBElement
      */
-    public function getPartsCount($recursive = false)
+    public function getPartsCount(bool $recursive = false) : int
     {
         return parent::getPartsCountInternal($recursive, 'id_storelocation');
     }
@@ -135,7 +135,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      *
      * @throws Exception if there was an error
      */
-    public function setIsFull($new_is_full)
+    public function setIsFull(bool $new_is_full)
     {
         $this->setAttributes(array('is_full' => $new_is_full));
     }
@@ -150,7 +150,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -168,7 +168,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      *
      * @throws Exception            if there was an error
      */
-    public static function getCount(&$database)
+    public static function getCount(Database &$database)
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -194,7 +194,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      *
      * @see DBElement::add()
      */
-    public static function add(&$database, &$current_user, &$log, $name, $parent_id, $is_full = false, $comment = "")
+    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id, bool $is_full = false, $comment = "")
     {
         return parent::addByArray(
             $database,
@@ -212,7 +212,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @copydoc NamedDBElement::search()
      * @throws Exception
      */
-    public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
+    public static function search(Database &$database, User &$current_user, Log &$log, string $keyword, bool $exact_match = false) : array
     {
         return parent::searchTable($database, $current_user, $log, 'storelocations', $keyword, $exact_match);
     }
@@ -224,7 +224,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @throws Exception
      * @throws Exception
      */
-    public function getAPIArray($verbose = false)
+    public function getAPIArray(bool $verbose = false): array
     {
         $json =  array( "id" => $this->getID(),
             "name" => $this->getName(),
@@ -244,7 +244,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * Gets the permission name for control access to this StructuralDBElement
      * @return string The name of the permission for this StructuralDBElement.
      */
-    protected static function getPermissionName()
+    protected static function getPermissionName() : string
     {
         return PermissionManager::STORELOCATIONS;
     }
@@ -255,7 +255,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @return string
      * @throws Exception An Exception is thrown if you selected a unknown barcode type.
      */
-    public function getBarcodeContent($barcode_type = "C39")
+    public function getBarcodeContent(string $barcode_type = "C39") : string
     {
         switch ($barcode_type) {
             case "C39":
@@ -293,7 +293,7 @@ class Storelocation extends Base\PartsContainingDBElement implements Interfaces\
      * @throws Exception
      * @throws Exception
      */
-    public function replacePlaceholderWithInfos($string)
+    public function replacePlaceholderWithInfos(string $string) : string
     {
         //General infos
         $string = str_replace("%ID%", $this->getID(), $string);                        //part id

@@ -93,7 +93,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function __construct($theme, $custom_css_file = '', $page_title = '', $autorefresh = 0)
+    public function __construct(string $theme, string $custom_css_file = '', string $page_title = '', int $autorefresh = 0)
     {
         // specify the variable type
         settype($this->meta, 'array');
@@ -147,7 +147,7 @@ class HTML
      *
      * @throws Exception if the parameter is no array
      */
-    public function setMeta($meta = array())
+    public function setMeta(array $meta = array())
     {
         if (! is_array($meta)) {
             debug('error', '$meta='.print_r($meta, true), __FILE__, __LINE__, __METHOD__);
@@ -164,7 +164,7 @@ class HTML
      * @param string $new_title the new title of the page
      * @throws Exception if the param is not a string or is null
      */
-    public function setTitle($new_title)
+    public function setTitle(string $new_title)
     {
         if (is_null($new_title)) {
             throw new Exception("$new_title must not be null!");
@@ -184,7 +184,7 @@ class HTML
      * is printed. Note, if this option is activated, the code execution is stopped after this call.
      * @throws Exception
      */
-    public function redirect($url, $instant = false)
+    public function redirect(string $url, bool $instant = false)
     {
         if (!is_string($url)) {
             throw new \InvalidArgumentException(_('$url must be a valid a string'));
@@ -215,7 +215,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function useJavascript($filenames = array(), $body_onload = '')
+    public function useJavascript(array $filenames = array(), string $body_onload = '')
     {
         if (! is_array($filenames)) {
             debug('error', '$filenames='.print_r($filenames, true), __FILE__, __LINE__, __METHOD__);
@@ -247,7 +247,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function setVariable($key, $value, $type = '')
+    public function setVariable(string $key, $value, string $type = '')
     {
         settype($key, 'string');
         settype($type, 'string');
@@ -277,7 +277,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function setLoop($key, $loop = array())
+    public function setLoop(string $key, $loop = array())
     {
         settype($key, 'string');
         settype($loop, 'array');
@@ -303,7 +303,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function unsetVariable($key)
+    public function unsetVariable(string $key)
     {
         settype($key, 'string');
 
@@ -322,7 +322,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function unsetLoop($key)
+    public function unsetLoop(string $key)
     {
         settype($key, 'string');
 
@@ -355,7 +355,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function printHeader($messages = array(), $reload_link = '', $messages_div_title = '', $redirect = false)
+    public function printHeader(array $messages = array(), string $reload_link = '', string $messages_div_title = '', bool $redirect = false)
     {
         if (PDBDebugBar::isActivated()) {
             PDBDebugBar::getInstance()->sendData();
@@ -483,7 +483,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function printTemplate($template, $use_scriptname = true)
+    public function printTemplate(string $template, bool $use_scriptname = true)
     {
         global $config;
 
@@ -548,7 +548,7 @@ class HTML
      *
      * @throws Exception if there was an error
      */
-    public function printFooter($messages = array(), $messages_div_title = '')
+    public function printFooter(array $messages = array(), string $messages_div_title = '')
     {
         global $config;
 

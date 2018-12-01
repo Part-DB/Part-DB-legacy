@@ -38,7 +38,7 @@ class DatabaseUpdatedEntry extends BaseEntry
      * Returns the old database version (the one before the update)
      * @return int The old version.
      */
-    public function getOldVersion()
+    public function getOldVersion() : int
     {
         return $this->old_version;
     }
@@ -47,7 +47,7 @@ class DatabaseUpdatedEntry extends BaseEntry
      * Returns the new database version (the one after the update)
      * @return int The new instock value.
      */
-    public function getNewVersion()
+    public function getNewVersion() : int
     {
         return $this->new_version;
     }
@@ -56,12 +56,12 @@ class DatabaseUpdatedEntry extends BaseEntry
      * Checks if the database update associated with this entry was successful.
      * @return bool True if the
      */
-    public function isSuccessful()
+    public function isSuccessful() : bool
     {
         return $this->successful;
     }
 
-    public function getSuccessString()
+    public function getSuccessString() : string
     {
         if($this->isSuccessful()) {
             return _("Erfolgreich");
@@ -70,7 +70,7 @@ class DatabaseUpdatedEntry extends BaseEntry
         }
     }
 
-    public function getExtra($html = false)
+    public function getExtra(bool $html = false) : string
     {
         return $this->getSuccessString() . _("; Alte Version: ") . $this->getOldVersion() . _("; Neue Version: ") . $this->getNewVersion();
     }
@@ -79,7 +79,7 @@ class DatabaseUpdatedEntry extends BaseEntry
      * Returns the a text representation of the target
      * @return string The text describing the target
      */
-    public function getTargetText()
+    public function getTargetText() : string
     {
         return _("Datenbank");
     }
@@ -88,7 +88,7 @@ class DatabaseUpdatedEntry extends BaseEntry
      * Return a link to the target. Returns empty string if no link is available.
      * @return string the link to the target.
      */
-    public function getTargetLink()
+    public function getTargetLink() : string
     {
         return "";
     }
@@ -106,7 +106,7 @@ class DatabaseUpdatedEntry extends BaseEntry
      *
      * @throws \Exception
      */
-    public static function add(&$database, &$current_user, &$log, $old_version, $new_version, $successful = true)
+    public static function add(Database &$database, User &$current_user, Log &$log, int $old_version, int $new_version, bool $successful = true)
     {
         $old_version = (int) $old_version;
         $new_version = (int) $new_version;

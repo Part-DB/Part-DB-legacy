@@ -31,6 +31,7 @@ use PartDB\Log;
 use PartDB\Part;
 use PartDB\Permissions\PartContainingPermission;
 use PartDB\User;
+use Symfony\Component\VarDumper\Cloner\Data;
 
 /**
  * @file class.PartsContainingDBElement.php
@@ -76,7 +77,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      * @throws Exception if there is no such element in the database
      * @throws Exception if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $tablename, $id, $data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, string $tablename, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, $tablename, $id, $data);
     }
@@ -84,7 +85,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function resetAttributes($all = false)
+    public function resetAttributes(bool $all = false)
     {
         $this->parts = null;
 
@@ -112,7 +113,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      * @throws Exception if there are already parts included in this element
      * @throws Exception if there was an error
      */
-    public function delete($delete_recursive = false, $delete_files_from_hdd = false)
+    public function delete(bool $delete_recursive = false, bool $delete_files_from_hdd = false)
     {
         try {
             $transaction_id = $this->database->beginTransaction(); // start transaction
@@ -166,7 +167,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      *
      * @throws Exception if there was an error
      */
-    protected function getTableParts($parts_rowname, $recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
+    protected function getTableParts(string $parts_rowname, bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
         $this->current_user->tryDo(static::getPermissionName(), PartContainingPermission::LIST_PARTS);
 
@@ -239,14 +240,14 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      *
      * @throws Exception if there was an error
      */
-    abstract public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1);
+    abstract public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array;
 
     /**
      * Return the number of all parts in this PartsContainingDBElement
      * @param boolean $recursive                if true, the parts of all subcategories will be listed too
      * @return int The number of parts of this PartContainingDBElement
      */
-    abstract public function getPartsCount($recursive = false);
+    abstract public function getPartsCount(bool $recursive = false) : int;
 
     protected function getPartsCountInternal($recursive, $rowname)
     {
@@ -286,7 +287,7 @@ abstract class PartsContainingDBElement extends StructuralDBElement
      *
      * @return integer
      */
-    public static function usort_compare($part_1, $part_2)
+    public static function usort_compare(Part $part_1, Part $part_2) : int
     {
         if ($part_1->getName() != $part_2->getName()) {
             return strcasecmp($part_1->getName(), $part_2->getName());

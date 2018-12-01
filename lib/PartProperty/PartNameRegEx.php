@@ -40,7 +40,7 @@ class PartNameRegEx
      * @param $partname_regex string The string which should be parsed
      * @throws Exception If there was an Error.
      */
-    public function __construct($partname_regex)
+    public function __construct(string $partname_regex)
     {
         if (!empty($partname_regex)) {
             if (!self::isValid($partname_regex)) {
@@ -51,7 +51,7 @@ class PartNameRegEx
         }
     }
 
-    private function parse($str)
+    private function parse(string $str)
     {
         $matches = array();
         mb_ereg(self::getPattern(false, true), $str, $matches);
@@ -68,7 +68,7 @@ class PartNameRegEx
      * @param $is_mb bool True if should be prepared for the multibyte regex functions. (Strip slashes)
      * @return string The Reguala Expression.
      */
-    public function getRegex($is_mb = false)
+    public function getRegex(bool $is_mb = false) : string
     {
         if ($is_mb) {
             return regexStripSlashes($this->regex);
@@ -77,7 +77,7 @@ class PartNameRegEx
         }
     }
 
-    public function getFlags()
+    public function getFlags() : string
     {
         return $this->flags_str;
     }
@@ -95,7 +95,7 @@ class PartNameRegEx
      * Check if this RegEx does not apply a filter to the name.
      * @return bool True, if RegEx is not a filter.
      */
-    public function isNofilter()
+    public function isNofilter() : bool
     {
         return strcontains($this->flags_str, "n");
     }
@@ -104,7 +104,7 @@ class PartNameRegEx
      * Gets the names of the capture groups of this regex.
      * @return array
      */
-    public function getCapturegroupNames()
+    public function getCapturegroupNames() : array
     {
         return $this->capture_names;
     }
@@ -114,7 +114,7 @@ class PartNameRegEx
      * @param $name string The name from which the properties should be parsed
      * @return array A array of PartProperty Elements.
      */
-    public function getProperties($name)
+    public function getProperties(string $name) : array
     {
         $tmp = array();
 
@@ -141,7 +141,7 @@ class PartNameRegEx
      * @param $name string The name which should be checked.
      * @return bool True if the name is valid, or the nofilter flag is set.
      */
-    public function checkName($name)
+    public function checkName(string $name) : bool
     {
         if ($this->isNofilter() || empty($this->getRegex())) { //When we dont filter, every name is ok.
             return true;
@@ -163,12 +163,12 @@ class PartNameRegEx
      * @param $partname_regex string The string which should be checked.
      * @return bool True, if the string is valid.
      */
-    public static function isValid($partname_regex)
+    public static function isValid(string $partname_regex) : bool
     {
         return mb_ereg_match(PartNameRegEx::getPattern(false, true), $partname_regex);
     }
 
-    public static function getPattern($for_html_pattern = false, $for_mb = false)
+    public static function getPattern(bool $for_html_pattern = false, bool $for_mb = false) : string
     {
         if ($for_html_pattern) {
             $pattern = regexStripSlashes(regexAllowUmlauts(PartNameRegEx::$pattern));

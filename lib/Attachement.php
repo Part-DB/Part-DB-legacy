@@ -82,7 +82,7 @@ class Attachement extends Base\NamedDBElement
     /**
      * @copydoc DBElement::reset_attributes()
      */
-    public function resetAttributes($all = false)
+    public function resetAttributes(bool $all = false)
     {
         $this->element          = null;
         $this->attachement_type = null;
@@ -98,7 +98,7 @@ class Attachement extends Base\NamedDBElement
      * @throws Exception
      */
 
-    public function setAttributes($new_values, $edit_message = null)
+    public function setAttributes(array $new_values, $edit_message = null)
     {
         $this->current_user->tryDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::EDIT);
         parent::setAttributes($new_values, $edit_message);
@@ -116,7 +116,7 @@ class Attachement extends Base\NamedDBElement
      *                   (maybe not enought permissions)
      * @throws Exception if there was an error
      */
-    public function delete($delete_from_hdd = false)
+    public function delete(bool $delete_from_hdd = false)
     {
         $this->current_user->tryDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::DELETE);
 
@@ -186,7 +186,7 @@ class Attachement extends Base\NamedDBElement
      * @return boolean      @li true if the file extension is a picture extension
      *                      @li otherwise false
      */
-    public function isPicture()
+    public function isPicture() : bool
     {
         $extension = pathinfo($this->getFilename(), PATHINFO_EXTENSION);
 
@@ -205,11 +205,11 @@ class Attachement extends Base\NamedDBElement
     /**
      * Get the element (for example a "Part" object)
      *
-     * @return object     the element of this attachement
+     * @return DBElement    the element of this attachement
      *
      * @throws Exception if there was an error
      */
-    public function getElement()
+    public function getElement() : DBElement
     {
         if (! is_object($this->element)) {
             $this->element = new $this->db_data['class_name'](
@@ -223,7 +223,11 @@ class Attachement extends Base\NamedDBElement
         return $this->element;
     }
 
-    public function isFileExisting()
+    /**
+     * Checks if the file in this attachement is existing. This works for files on the HDD, and for URLs (its not checked if the ressource behind the URL is really existing).
+     * @return bool True if the file is existing.
+     */
+    public function isFileExisting() : bool
     {
         return file_exists($this->getFilename()) || isURL($this->getFilename());
     }
@@ -233,7 +237,7 @@ class Attachement extends Base\NamedDBElement
      *
      * @return string   the filename as an absolute UNIX filepath from filesystem root
      */
-    public function getFilename()
+    public function getFilename() : string
     {
         return str_replace('%BASE%', BASE, $this->db_data['filename']);
     }
@@ -244,7 +248,7 @@ class Attachement extends Base\NamedDBElement
      * @return boolean      @li true means, this attachement will be listed in the "Attachements" column of the HTML tables
      *                      @li false means, this attachement won't be listed in the "Attachements" column of the HTML tables
      */
-    public function getShowInTable()
+    public function getShowInTable() : bool
     {
         return $this->db_data['show_in_table'];
     }
@@ -256,7 +260,7 @@ class Attachement extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public function getType()
+    public function getType() : AttachementType
     {
         if (! is_object($this->attachement_type)) {
             $this->attachement_type = new AttachementType(
@@ -293,7 +297,7 @@ class Attachement extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public function setFilename($new_filename)
+    public function setFilename(string $new_filename)
     {
         $this->setAttributes(array('filename' => $new_filename));
     }
@@ -306,7 +310,7 @@ class Attachement extends Base\NamedDBElement
      * @throws Exception if the new type ID is not valid
      * @throws Exception if there was an error
      */
-    public function setTypeID($new_type_id)
+    public function setTypeID(int $new_type_id)
     {
         $this->setAttributes(array('type_id' => $new_type_id));
     }
@@ -330,7 +334,7 @@ class Attachement extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getAttachementsByFilename(&$database, &$current_user, &$log, $filename)
+    public static function getAttachementsByFilename(Database &$database, User &$current_user, Log &$log, string $filename)
     {
         $attachements = array();
 
@@ -364,7 +368,7 @@ class Attachement extends Base\NamedDBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getInvalidFilenameAttachements(&$database, &$current_user, &$log)
+    public static function getInvalidFilenameAttachements(Database &$database, User &$current_user, Log &$log)
     {
         $attachements = array();
 
@@ -390,7 +394,7 @@ class Attachement extends Base\NamedDBElement
      * @throws Exception
      * @throws Exception
      */
-    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
         // first, we set the basename as the name if the name is empty
         $values['name'] = trim($values['name']);
@@ -495,7 +499,7 @@ class Attachement extends Base\NamedDBElement
      *
      * @throws Exception            if there was an error
      */
-    public static function getCount(&$database)
+    public static function getCount(Database &$database) : int
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -528,14 +532,14 @@ class Attachement extends Base\NamedDBElement
      * @see DBElement::add()
      */
     public static function add(
-        &$database,
-        &$current_user,
-        &$log,
-        &$element,
-        $type_id,
-        $filename,
-        $name = '',
-        $show_in_table = false
+        Database &$database,
+        User &$current_user,
+        Log &$log,
+        DBElement &$element,
+        int $type_id,
+        string $filename,
+        string $name = '',
+        bool $show_in_table = false
     ) {
         $current_user->tryDo(PermissionManager::PARTS_ATTACHEMENTS, CPartAttributePermission::CREATE);
 

@@ -90,20 +90,8 @@ abstract class DBElement
      * @throws Exception    if there is no such element in the database
      *                      (except: the ID=0 is valid, even if there is no such element in the database)
      */
-    public function __construct(&$database, &$current_user, &$log, $tablename, $id, $allow_virtual_elements = false, $db_data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, string $tablename, int $id, bool $allow_virtual_elements = false, $db_data = null)
     {
-        if (!$database instanceof Database) {
-            throw new Exception(_('$database ist kein Database-Objekt!'));
-        }
-
-        if (!$current_user instanceof User) {
-            throw new Exception(_('$current_user ist kein User-Objekt!'));
-        }
-
-        if (!$log instanceof Log) {
-            throw new Exception(_('$log ist kein DebugLog-Objekt!'));
-        }
-
         $this->database = $database;
         $this->current_user = $current_user;
         $this->log = $log;
@@ -150,7 +138,7 @@ abstract class DBElement
      *                              This is needed if you change an attribute of the object.
      * @throws Exception
      */
-    public function resetAttributes($all = false)
+    public function resetAttributes(bool $all = false)
     {
         if ($all) {
             //$this->database =       NULL; // we still need them...
@@ -205,9 +193,9 @@ abstract class DBElement
      *
      * @retval integer the ID of this element
      */
-    public function getID()
+    public function getID() : int
     {
-        return $this->db_data['id'];
+        return (int) $this->db_data['id'];
     }
 
     /**
@@ -215,7 +203,7 @@ abstract class DBElement
      *
      * @retval string the tablename of the database table where this element is stored
      */
-    public function getTablename()
+    public function getTablename() : string
     {
         return $this->tablename;
     }
@@ -242,7 +230,7 @@ abstract class DBElement
      * @throws Exception if the values are not valid / the combination of values is not valid
      * @throws Exception if there was an error
      */
-    public function setAttributes($new_values)
+    public function setAttributes(array $new_values)
     {
         if ($this->getID() < 1) {
             throw new Exception(_('Das ausgewählte Element existiert nicht in der Datenbank!'));
@@ -316,7 +304,7 @@ abstract class DBElement
      * @throws Exception if the values are not valid / the combination of values is not valid
      * @throws Exception if there was an error
      */
-    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(Database &$database, User &$current_user,  Log &$log, array &$values, bool $is_new, &$element = null)
     {
         // YOU HAVE TO IMPLEMENT THIS METHOD IN YOUR SUBCLASSES IF YOU WANT TO CHECK NEW VALUES !!
 
@@ -347,29 +335,9 @@ abstract class DBElement
      *
      * @throws Exception if the values are not valid / the combination of values is not valid
      */
-    protected static function addByArray(&$database, &$current_user, &$log, $tablename, $new_values)
+    protected static function addByArray(Database &$database, User &$current_user, Log &$log, string $tablename, array $new_values)
     {
-        if (!$database instanceof Database) {
-            throw new Exception(_('$database ist kein gültiges Database-Objekt!'));
-        }
-
-        if (!$current_user instanceof User) {
-            throw new Exception(_('$current_user ist kein gültiges User-Objekt!'));
-        }
-
-        if (!$log instanceof Log) {
-            throw new Exception(_('$log ist kein gültiges Log-Objekt!'));
-        }
-
-        if (! is_string($tablename)) {
-            throw new Exception(_('$tablename ist kein String!'));
-        }
-
-        if (! is_array($new_values)) {
-            throw new Exception(_('$new_values ist kein Array!'));
-        }
-
-        if (count($new_values) < 1) {
+        if (empty($new_values)) {
             throw new Exception(_('Das Array $new_values ist leer!'));
         }
 
@@ -385,7 +353,7 @@ abstract class DBElement
 
         // create the query string
         $query = 'INSERT INTO '.$tablename.' ('.implode(', ', array_keys($new_values)).') '.
-            'VALUES (?'.str_repeat(', ?', count($new_values)-1).')';
+            'VALUES (?'.str_repeat(', ?', count($new_values) -1).')';
 
         // now we can insert the new data into the database
         $id = $database->execute($query, $new_values);

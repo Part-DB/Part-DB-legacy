@@ -65,7 +65,7 @@ class Device extends Base\PartsContainingDBElement
      * @throws Exception        if there is no such device in the database
      * @throws Exception        if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, 'devices', $id, $data);
 
@@ -100,7 +100,7 @@ class Device extends Base\PartsContainingDBElement
      * @see FilesContainingDBElement::delete()
      * @see DevicePart::delete()
      */
-    public function delete($delete_recursive = false, $delete_files_from_hdd = false)
+    public function delete(bool $delete_recursive = false, bool $delete_files_from_hdd = false)
     {
         try {
             $transaction_id = $this->database->beginTransaction(); // start transaction
@@ -146,7 +146,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function copy($name, $parent_id, $with_subdevices = false)
+    public function copy(string $name, int $parent_id, bool $with_subdevices = false)
     {
         try {
             if (($with_subdevices) && ($parent_id > 0)) { // the root node (ID 0 or -1) is always allowed as the parent object
@@ -205,7 +205,7 @@ class Device extends Base\PartsContainingDBElement
      * @throws Exception    if there are not enough parts in stock to book them
      * @throws Exception    if there was an error
      */
-    public function bookParts($book_multiplier)
+    public function bookParts(int $book_multiplier)
     {
         try {
             $transaction_id = $this->database->beginTransaction(); // start transaction
@@ -254,7 +254,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @return integer      the order quantity
      */
-    public function getOrderQuantity()
+    public function getOrderQuantity() : int
     {
         return $this->db_data['order_quantity'];
     }
@@ -264,7 +264,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @return boolean      the "order_only_missing_parts" attribute
      */
-    public function getOrderOnlyMissingParts()
+    public function getOrderOnlyMissingParts() : bool
     {
         return $this->db_data['order_only_missing_parts'];
     }
@@ -288,7 +288,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
+    public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
         $this->current_user->tryDo(static::getPermissionName(), PartContainingPermission::LIST_PARTS);
         return $this->getPartsWithoutPermCheck($recursive, $hide_obsolete_and_zero);
@@ -299,10 +299,10 @@ class Device extends Base\PartsContainingDBElement
      * For use in internal functions, like getPartsCount() or getPartsSumCount()
      * @param bool $recursive
      * @param bool $hide_obsolet_and_zero
-     * @return array|null
+     * @return array
      * @throws Exception
      */
-    protected function getPartsWithoutPermCheck($recursive = false, $hide_obsolet_and_zero = false, $limit = 50, $page = 1)
+    protected function getPartsWithoutPermCheck(bool $recursive = false, bool $hide_obsolet_and_zero = false, int $limit = 50, int $page = 1) : array
     {
         if (! is_array($this->parts)) {
             $this->parts = array();
@@ -343,7 +343,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function getPartsCount($recursive = false)
+    public function getPartsCount(bool $recursive = false) : int
     {
         $device_parts = $this->getPartsWithoutPermCheck($recursive);
 
@@ -359,7 +359,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function getPartsSumCount($recursive = false)
+    public function getPartsSumCount(bool $recursive = false) : int
     {
         $count = 0;
         $device_parts = $this->getPartsWithoutPermCheck($recursive);
@@ -392,7 +392,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function getTotalPrice($as_money_string = true, $recursive = false)
+    public function getTotalPrice(bool $as_money_string = true, bool $recursive = false)
     {
         $price = 0;
         $device_parts = $this->getPartsWithoutPermCheck($recursive);
@@ -423,7 +423,7 @@ class Device extends Base\PartsContainingDBElement
      * @throws Exception if the order quantity is not valid
      * @throws Exception if there was an error
      */
-    public function setOrderQuantity($new_order_quantity)
+    public function setOrderQuantity(int $new_order_quantity)
     {
         $this->setAttributes(array('order_quantity' => $new_order_quantity));
     }
@@ -435,7 +435,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public function setOrderOnlyMissingParts($new_order_only_missing_parts)
+    public function setOrderOnlyMissingParts(bool $new_order_only_missing_parts)
     {
         $this->setAttributes(array('order_only_missing_parts' => $new_order_only_missing_parts));
     }
@@ -450,7 +450,7 @@ class Device extends Base\PartsContainingDBElement
      * @copydoc DBElement::check_values_validity()
      * @throws Exception
      */
-    public static function checkValuesValidity(&$database, &$current_user, &$log, &$values, $is_new, &$element = null)
+    public static function checkValuesValidity(Database &$database, User &$current_user, Log &$log, array &$values, bool $is_new, &$element = null)
     {
         // first, we let all parent classes to check the values
         parent::checkValuesValidity($database, $current_user, $log, $values, $is_new, $element);
@@ -477,7 +477,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception if there was an error
      */
-    public static function getOrderDevices(&$database, &$current_user, &$log)
+    public static function getOrderDevices(Database &$database, User &$current_user, Log &$log) : array
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -507,7 +507,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @throws Exception            if there was an error
      */
-    public static function getCount(&$database)
+    public static function getCount(Database &$database) : int
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -536,7 +536,7 @@ class Device extends Base\PartsContainingDBElement
      * Sets the primary device.
      * @param $primary_device_id int The id of the new primary device.
      */
-    public static function setPrimaryDevice($primary_device_id)
+    public static function setPrimaryDevice(int $primary_device_id)
     {
         @session_start();
         $_SESSION['primary_device'] = $primary_device_id;
@@ -560,7 +560,7 @@ class Device extends Base\PartsContainingDBElement
      *
      * @see DBElement::add()
      */
-    public static function add(&$database, &$current_user, &$log, $name, $parent_id, $comment = "")
+    public static function add(Database &$database, User &$current_user, Log &$log, string $name, int $parent_id, string $comment = "") : Device
     {
         return parent::addByArray(
             $database,
@@ -579,7 +579,7 @@ class Device extends Base\PartsContainingDBElement
      * Gets the permission name for control access to this StructuralDBElement
      * @return string The name of the permission for this StructuralDBElement.
      */
-    protected static function getPermissionName()
+    protected static function getPermissionName() : string
     {
         return PermissionManager::DEVICES;
     }

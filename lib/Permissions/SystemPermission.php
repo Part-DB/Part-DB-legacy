@@ -33,7 +33,7 @@ class SystemPermission extends BasePermission
      * Returns an array of all available operations for this Permission.
      * @return array All availabel operations.
      */
-    public static function listOperations()
+    public static function listOperations() : array
     {
         if(!isset(static::$operation_cache)) {
             /**

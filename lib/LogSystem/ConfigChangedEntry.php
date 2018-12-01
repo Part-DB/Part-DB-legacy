@@ -29,7 +29,7 @@ class ConfigChangedEntry extends BaseEntry
      * @throws Exception    if there is no such attachement type in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $db_data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
 
@@ -50,7 +50,7 @@ class ConfigChangedEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(&$database, &$current_user, &$log)
+    public static function add(Database &$database, User &$current_user, Log &$log)
     {
         return static::addEntry(
             $database,
@@ -69,7 +69,7 @@ class ConfigChangedEntry extends BaseEntry
      * Returns the a text representation of the target
      * @return string The text describing the target
      */
-    public function getTargetText()
+    public function getTargetText() : string
     {
         return "";
     }
@@ -78,7 +78,7 @@ class ConfigChangedEntry extends BaseEntry
      * Return a link to the target. Returns empty string if no link is available.
      * @return string the link to the target.
      */
-    public function getTargetLink()
+    public function getTargetLink() : string
     {
         return "";
     }
@@ -86,7 +86,7 @@ class ConfigChangedEntry extends BaseEntry
     /**
      * @return string
      */
-    public function getExtra($html = false)
+    public function getExtra(bool $html = false) : string
     {
         return "";
     }

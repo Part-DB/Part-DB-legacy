@@ -27,7 +27,7 @@ class JSONStorage
      * @param $file_path string The path of the file, which should be used as database (as absolute unix path). File will be created, if it not exists yet.
      * @param int $json_encode_options The options that should be used when calling json_encode (e.g. JSON_PRETTY_PRINT)
      */
-    public function __construct($file_path, $json_encode_options = 0)
+    public function __construct(string $file_path, int $json_encode_options = 0)
     {
         /*
         if (!) {
@@ -92,7 +92,7 @@ class JSONStorage
      * Returns the count of all items in the JSON storage.
      * @return int The amount of all items in the JSON storage.
      */
-    public function countItems()
+    public function countItems() : int
     {
         return count($this->database);
     }
@@ -102,7 +102,7 @@ class JSONStorage
      * @param $key string The key for the item.
      * @return bool True if the item exists, false if not.
      */
-    public function itemExists($key)
+    public function itemExists(string $key) : bool
     {
         return array_key_exists($key, $this->database);
     }
@@ -114,7 +114,7 @@ class JSONStorage
      * @param bool $throw_exception Set this to false, if you dont want to get an exception thrown, if no item with the key exists. Instead null is returned.
      * @return mixed|null The item with the given key. Null if $throw_exception is false, and no item with this key was found.
      */
-    public function getItem($key, $throw_exception = true)
+    public function getItem(string $key, bool $throw_exception = true)
     {
         if (!$this->itemExists($key)) {
             if ($throw_exception) {
@@ -133,7 +133,7 @@ class JSONStorage
      * @param $data mixed The data that should be written.
      * @param $write_data bool Set this to false, if the data should not be written instantly to file. Call write() manually later.
      */
-    public function addItem($key, $data, $write_data = true)
+    public function addItem(string $key, $data, bool $write_data = true)
     {
         if ($this->itemExists($key)) {
             throw new \RuntimeException(sprintf(_("Es existiert bereits ein Item mit dem Schlüssel %s!"), $key));
@@ -152,7 +152,7 @@ class JSONStorage
      * @param $data mixed The new data.
      * @param $create_when_not_exist bool Set this to true, if a new item should be created, when the no item with this key exists yet. Otherwise an exception is thrown.
      */
-    public function editItem($key, $data, $write_data = true, $create_when_not_exist = false)
+    public function editItem(string $key, bool $data, bool $write_data = true, bool $create_when_not_exist = false)
     {
         if (!$create_when_not_exist && !$this->itemExists($key)) {
             throw new \RuntimeException(sprintf(_("Es existiert bereits ein Item mit dem Schlüssel %s!"), $key));
@@ -169,7 +169,7 @@ class JSONStorage
      * @param $key string The key of the item which should be deleted
      * @param $write_data bool Set this to false, if the data should not be written instantly to file. Call write() manually later.
      */
-    public function deleteItem($key, $write_data = true)
+    public function deleteItem(string $key, bool $write_data = true)
     {
         if (!$this->itemExists($key)) {
             throw new \RuntimeException(sprintf(_("Kein Item mit Schlüssel %s vorhanden!"), $key));
@@ -188,7 +188,7 @@ class JSONStorage
      * @param $new_key string The new key name.
      * @param $write_data bool Set this to false, if the data should not be written instantly to file. Call write() manually later.
      */
-    public function renameItem($old_key, $new_key, $write_data = true)
+    public function renameItem(string $old_key, string $new_key, bool $write_data = true)
     {
         if (!$this->itemExists($old_key)) {
             throw new \RuntimeException(sprintf(_("Kein Item mit Schlüssel %s vorhanden!"), $old_key));
@@ -205,7 +205,7 @@ class JSONStorage
      * @param string $filter Every key which gets returned has to contain this string. Set to "" to get all keys unfiltered.
      * @return array An array with all keys.
      */
-    public function getKeyList($filter = "")
+    public function getKeyList(string $filter = "") : array
     {
         $keys = array_keys($this->database);
         if ($filter == "") {

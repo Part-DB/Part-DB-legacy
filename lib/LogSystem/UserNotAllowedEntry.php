@@ -29,7 +29,7 @@ class UserNotAllowedEntry extends BaseEntry
      * @throws Exception    if there is no such attachement type in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $db_data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $db_data = null)
     {
         parent::__construct($database, $current_user, $log, $id, $db_data);
 
@@ -56,7 +56,7 @@ class UserNotAllowedEntry extends BaseEntry
      *
      * @throws Exception
      */
-    public static function add(&$database, &$current_user, &$log, $permission_string)
+    public static function add(Database &$database, User &$current_user, Log &$log, string $permission_string)
     {
         $arr = array("p" => $permission_string);
 
@@ -77,7 +77,7 @@ class UserNotAllowedEntry extends BaseEntry
      * Returns the a text representation of the target
      * @return string The text describing the target
      */
-    public function getTargetText()
+    public function getTargetText() : string
     {
         try {
             $user = new User($this->database, $this->current_user, $this->log, $this->getTargetID());
@@ -91,7 +91,7 @@ class UserNotAllowedEntry extends BaseEntry
      * Return a link to the target. Returns empty string if no link is available.
      * @return string the link to the target.
      */
-    public function getTargetLink()
+    public function getTargetLink() : string
     {
         return BASE_RELATIVE . "user_info?uid=" . $this->getTargetID();
     }
@@ -101,7 +101,7 @@ class UserNotAllowedEntry extends BaseEntry
      * @param $html bool Set this to true, to get an HTML formatted version of the extra.
      * @return string The extra information
      */
-    public function getExtra($html = false)
+    public function getExtra(bool $html = false) : string
     {
         return $this->deserializeExtra()["p"];
     }

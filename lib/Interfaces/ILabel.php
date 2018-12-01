@@ -10,9 +10,9 @@ namespace PartDB\Interfaces;
 
 interface ILabel
 {
-    public function getID();
+    public function getID() : int;
 
-    public function getName();
+    public function getName() : string;
 
     /**
      * Gets the content for a 1D/2D barcode for this part
@@ -20,7 +20,7 @@ interface ILabel
      * @return string
      * @throws \Exception An Exception is thrown if you selected a unknown barcode type.
      */
-    public function getBarcodeContent($barcode_type = "EAN8");
+    public function getBarcodeContent(string $barcode_type = "EAN8") : string;
 
-    public function replacePlaceholderWithInfos($string);
+    public function replacePlaceholderWithInfos(string $string) : string;
 }

@@ -62,7 +62,7 @@ class InstockChangedEntry extends BaseEntry
      * Returns the instock value, the part had before the change
      * @return int The old instock value.
      */
-    public function getOldInstock()
+    public function getOldInstock() : int
     {
         return $this->old_instock;
     }
@@ -71,7 +71,7 @@ class InstockChangedEntry extends BaseEntry
      * Returns the instock value, the part had after the change.
      * @return int The new instock value.
      */
-    public function getNewInstock()
+    public function getNewInstock() : int
     {
         return $this->new_instock;
     }
@@ -80,12 +80,12 @@ class InstockChangedEntry extends BaseEntry
      * Returns the comment associated with the change.
      * @return string The comment.
      */
-    public function getComment()
+    public function getComment() : string
     {
         return $this->comment;
     }
 
-    public function getExtra($html = false)
+    public function getExtra(bool $html = false) : string
     {
         $difference = $this->getDifference();
         if($difference > 0 ) {
@@ -103,7 +103,7 @@ class InstockChangedEntry extends BaseEntry
      * @param $absolute bool Set this to true, if you want only get the absolute value of the price (without minus)
      * @return float
      */
-    public function getPrice($absolute = false)
+    public function getPrice(bool $absolute = false) : float
     {
         if($absolute) {
             return abs($this->price);
@@ -116,7 +116,7 @@ class InstockChangedEntry extends BaseEntry
      * @param bool $absolute
      * @return string
      */
-    public function getPriceMoneyString($absolute = true)
+    public function getPriceMoneyString(bool $absolute = true) : string
     {
         $float = $this->getPrice($absolute);
         return floatToMoneyString($float);
@@ -125,9 +125,9 @@ class InstockChangedEntry extends BaseEntry
     /**
      * Returns the difference value of the change ($new_instock - $old_instock).
      * @param bool $absolute Set this to true if you want only the absolute value of the difference.
-     * @return float|int Difference is positive if instock has increased, negative if decreased.
+     * @return int Difference is positive if instock has increased, negative if decreased.
      */
-    public function getDifference($absolute = false)
+    public function getDifference(bool $absolute = false) : int
     {
         $difference = $this->new_instock - $this->old_instock;
         if($absolute) {
@@ -141,7 +141,7 @@ class InstockChangedEntry extends BaseEntry
      * Checks if the Change was an withdrawal of parts.
      * @return bool True if the change was an withdrawal, false if not.
      */
-    public function isWithdrawal()
+    public function isWithdrawal() : bool
     {
         return $this->new_instock < $this->old_instock;
     }
@@ -150,7 +150,7 @@ class InstockChangedEntry extends BaseEntry
      * Returns an string description, if the Change was an withdrawal or an addition.
      * @return string
      */
-    public function getTypeString()
+    public function getTypeString() : string
     {
         if($this->isWithdrawal()) {
             return _("Entnahme");
@@ -163,7 +163,7 @@ class InstockChangedEntry extends BaseEntry
      * Returns the a text representation of the target
      * @return string The text describing the target
      */
-    public function getTargetText()
+    public function getTargetText() : string
     {
         $part_name = ($this->element != null) ? $this->element->getName() : $this->getTargetID();
         return Log::targetTypeIDToString($this->getTargetType()) . ": " . $part_name;
@@ -173,7 +173,7 @@ class InstockChangedEntry extends BaseEntry
      * Return a link to the target. Returns empty string if no link is available.
      * @return string the link to the target.
      */
-    public function getTargetLink()
+    public function getTargetLink() : string
     {
         return Log::generateLinkForTarget($this->getTargetType(), $this->getTargetID());
     }
@@ -190,13 +190,8 @@ class InstockChangedEntry extends BaseEntry
      *
      * @throws \Exception
      */
-    public static function add(&$database, &$current_user, &$log, &$part, $old_instock, $new_instock, $comment = null)
+    public static function add(Database &$database, User &$current_user, Log &$log, Part &$part, $old_instock, $new_instock, $comment = null)
     {
-        //Do some checks
-        if (!$part instanceof Part) {
-            throw new \RuntimeException(_('$element muss vom Typ Part sein!'));
-        }
-
         if (!is_int($old_instock) || !is_int($new_instock)) {
             if (is_float($old_instock) || is_float($new_instock)) {
                throw new \RuntimeException(sprintf(_('Es können maximal %d Bauteile vorhanden sein!'), PHP_INT_MAX));

@@ -41,75 +41,10 @@ class PartLabel extends BaseLabel
      *
      *********************************************************************************/
 
-
-    /*
-    public function generateBarcode($download = false)
-    {
-        // create new PDF document
-        $pdf = new TCPDF('L', 'mm', array(50,30), true, 'UTF-8', false);
-
-        // set document information
-        $pdf->SetCreator(PDF_CREATOR);
-        $pdf->SetAuthor('Part-DB');
-        $pdf->SetTitle('PartDB Label: ' . $this->part->getName() . " (ID: " . $this->part->getID() . ")");
-        $pdf->SetSubject('Part-DB label with barcode');
-
-        // remove default header/footer
-        $pdf->setPrintHeader(false);
-        $pdf->setPrintFooter(false);
-
-        // set default monospaced font
-        $pdf->SetDefaultMonospacedFont('dejavusansmono');
-
-        // set margins
-        $pdf->SetMargins(2, 1, 2);
-
-        // set auto page breaks
-        $pdf->SetAutoPageBreak(false, PDF_MARGIN_BOTTOM);
-
-        // set image scale factor
-        $pdf->setImageScale(PDF_IMAGE_SCALE_RATIO);
-
-        // add a page
-        $pdf->AddPage();
-        $pdf->SetFont('dejavusansmono', '', 8);
-
-        foreach ($this->lines as $line) {
-            $pdf->Cell(0, 0, $line);
-            $pdf->Ln();
-        }
-
-        $style = array(
-            'position' => '',
-            'align' => 'C',
-            'stretch' => false,
-            'fitwidth' => true,
-            'cellfitalign' => '',
-            'border' => false,
-            'hpadding' => 'auto',
-            'vpadding' => 'auto',
-            'fgcolor' => array(0,0,0),
-            'bgcolor' => false, //array(255,255,255),
-            'text' => true,
-            'font' => 'helvetica',
-            'fontsize' => 8 );
-
-        $pdf->write1DBarcode($this->part->getBarcodeContent(), "EAN8", "", "", "", "", "", $style, 'N');
-
-        //$pdf->write2DBarcode($this->part->get_barcode_content("QR"),"QRCODE,Q");
-
-        if ($download) {
-            $pdf->Output('label_'.$this->part->getID().'.pdf', 'D');
-        } else {
-            //Close and output PDF document
-            $pdf->Output('label_'.$this->part->getID().'.pdf', 'I');
-        }
-    } */
-
     /**
      * Returns all presets for lines
      */
-    public static function getLinePresets()
+    public static function getLinePresets() : array
     {
         $presets = array();
 
@@ -154,7 +89,7 @@ class PartLabel extends BaseLabel
      * Returns all label sizes, that are supported by this class.
      * @return string[] A array containing all sizes that are supported by this class.
      */
-    public static function getSupportedSizes()
+    public static function getSupportedSizes() : array
     {
         return array(static::SIZE_50X30, static::SIZE_62X30);
     }
@@ -163,7 +98,7 @@ class PartLabel extends BaseLabel
      * Returns all label types, that are supported by this class.
      * @return int[] A array containing all sizes that are supported by this class.
      */
-    public static function getSupportedTypes()
+    public static function getSupportedTypes() : array
     {
         return array(static::TYPE_BARCODE, static::TYPE_TEXT);
     }

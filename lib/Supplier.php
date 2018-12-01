@@ -60,7 +60,7 @@ class Supplier extends Base\Company implements ISearchable
      * @throws Exception    if there is no such supplier in the database
      * @throws Exception    if there was an error
      */
-    public function __construct(&$database, &$current_user, &$log, $id, $data = null)
+    public function __construct(Database &$database, User &$current_user, Log &$log, int $id, $data = null)
     {
         parent::__construct($database, $current_user, $log, 'suppliers', $id, $data);
     }
@@ -85,7 +85,7 @@ class Supplier extends Base\Company implements ISearchable
      *
      * @throws Exception if there was an error
      */
-    public function getParts($recursive = false, $hide_obsolete_and_zero = false, $limit = 50, $page = 1)
+    public function getParts(bool $recursive = false, bool $hide_obsolete_and_zero = false, int $limit = 50, int $page = 1) : array
     {
         if (! is_array($this->parts)) {
             $this->parts = array();
@@ -129,7 +129,7 @@ class Supplier extends Base\Company implements ISearchable
      * @return int The number of parts of this PartContainingDBElement
      * @throws Exception If an Error occured
      */
-    public function getPartsCount($recursive = false)
+    public function getPartsCount(bool $recursive = false) : int
     {
         $query =    'SELECT count(part_id) AS count FROM orderdetails '.
             'LEFT JOIN parts ON parts.id=orderdetails.part_id '.
@@ -153,11 +153,11 @@ class Supplier extends Base\Company implements ISearchable
     /**
      *  Get all parts from this element
      *
-     * @return array        all parts in a one-dimensional array of Part objects
+     * @return int        all parts in a one-dimensional array of Part objects
      *
      * @throws Exception    if there was an error
      */
-    public function getCountOfPartsToOrder()
+    public function getCountOfPartsToOrder() : int
     {
         $query =    'SELECT COUNT(*) as count FROM parts '.
             'LEFT JOIN device_parts ON device_parts.id_part = parts.id '.
@@ -190,7 +190,7 @@ class Supplier extends Base\Company implements ISearchable
      *
      * @throws Exception            if there was an error
      */
-    public static function getCount(&$database)
+    public static function getCount(Database &$database) : int
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -217,7 +217,7 @@ class Supplier extends Base\Company implements ISearchable
      *
      * @todo Check if the SQL query works correctly! It's a quite complicated query...
      */
-    public static function getOrderSuppliers(&$database, &$current_user, &$log)
+    public static function getOrderSuppliers(Database &$database, User &$current_user, Log &$log) : array
     {
         if (!$database instanceof Database) {
             throw new Exception(_('$database ist kein Database-Objekt!'));
@@ -269,18 +269,18 @@ class Supplier extends Base\Company implements ISearchable
      * @see DBElement::add()
      */
     public static function add(
-        &$database,
-        &$current_user,
-        &$log,
-        $name,
-        $parent_id,
-        $address = '',
-        $phone_number = '',
-        $fax_number = '',
-        $email_address = '',
-        $website = '',
-        $auto_product_url = '',
-        $comment = ""
+        Database &$database,
+        User &$current_user,
+        Log &$log,
+        string $name,
+        int $parent_id,
+        string $address = '',
+        string $phone_number = '',
+        string $fax_number = '',
+        string $email_address = '',
+        string $website = '',
+        string $auto_product_url = '',
+        string $comment = ""
     ) {
         return parent::addByArray(
             $database,
@@ -314,7 +314,7 @@ class Supplier extends Base\Company implements ISearchable
      *
      * @throws Exception if there was an error
      */
-    public static function search(&$database, &$current_user, &$log, $keyword, $exact_match = false)
+    public static function search(Database &$database, User &$current_user, Log &$log, string $keyword, bool $exact_match = false) : array
     {
         return parent::searchTable($database, $current_user, $log, 'suppliers', $keyword, $exact_match);
     }
@@ -323,7 +323,7 @@ class Supplier extends Base\Company implements ISearchable
      * Gets the permission name for control access to this StructuralDBElement
      * @return string The name of the permission for this StructuralDBElement.
      */
-    protected static function getPermissionName()
+    protected static function getPermissionName() : string
     {
         return PermissionManager::SUPPLIERS;
     }

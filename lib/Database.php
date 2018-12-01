@@ -212,7 +212,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function getCurrentVersion()
+    public function getCurrentVersion() : int
     {
         if (! $this->doesTableExist('internal', true)) {
             return 0;
@@ -235,7 +235,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function getLatestVersion()
+    public function getLatestVersion() : int
     {
         if (! defined('LATEST_DB_VERSION')) {
             throw new Exception(_('Konstante "LATEST_DB_VERSION" ist nicht definiert!'));
@@ -277,7 +277,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function isUpdateRequired()
+    public function isUpdateRequired() : bool
     {
         $current = $this->getCurrentVersion();
         $latest = $this->getLatestVersion();
@@ -298,7 +298,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    private function convertMysqlQuery($query)
+    private function convertMysqlQuery(string $query) : string
     {
         global $config;
 
@@ -343,7 +343,7 @@ class Database
      * @todo    the parameter "$continue_last_attempt" is not very pretty, it would be better if this function
      *          detects automatically if the user has loaded a new database.
      */
-    public function update($continue_last_attempt = true)
+    public function update(bool $continue_last_attempt = true) : array
     {
         global $config;
         $error = false;
@@ -581,7 +581,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function beginTransaction()
+    public function beginTransaction() : int
     {
         if (! $this->transaction_active) {
             // start a new transaction
@@ -645,7 +645,7 @@ class Database
      *
      * @return  boolean     true if success, false if there was an error
      */
-    public function rollback()
+    public function rollback() : bool
     {
         if (! $this->transaction_active) {
             return false;
@@ -687,7 +687,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function execute($query, $values = array())
+    public function execute(string $query, array $values = array()) : int
     {
         if (! is_array($values)) {
             throw new Exception(_('$values ist kein Array!'));
@@ -766,12 +766,8 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function query($query, $values = array(), $fetch_style = PDO::FETCH_ASSOC)
+    public function query(string $query, array $values = array(), int $fetch_style = PDO::FETCH_ASSOC) : array
     {
-        if (! is_array($values)) {
-            throw new Exception(_('$values ist kein Array!'));
-        }
-
         try {
             $pdo_statement = $this->pdo->prepare($query);
 
@@ -837,7 +833,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function doesTableExist($tablename, $forcecheck = false)
+    public function doesTableExist(string $tablename, bool $forcecheck = false) : bool
     {
         //A whitelist of tables, we know that exists, so we dont need to check with a DB Request
         //Dont include "internal" here, because otherwise it leads to problems, when starting with a fresh database.
@@ -881,7 +877,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function getCountOfRecords($tablename)
+    public function getCountOfRecords(string $tablename) : int
     {
         $query_data = $this->query('SELECT count(*) as count FROM '.$tablename);
 
@@ -902,7 +898,7 @@ class Database
      * @throws Exception if there is no element with that ID
      * @throws Exception if there was an error
      */
-    public function getRecordData($tablename, $id, $fetch_style = PDO::FETCH_ASSOC)
+    public function getRecordData(string $tablename, int $id, int $fetch_style = PDO::FETCH_ASSOC) : array
     {
         $query_data = $this->query('SELECT * FROM '. $tablename .
             ' WHERE id=?', array($id), $fetch_style);
@@ -922,7 +918,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function deleteRecord($tablename, $id)
+    public function deleteRecord(string $tablename, int $id)
     {
         $this->execute('DELETE FROM '.$tablename.' WHERE id=? LIMIT 1', array($id));
     }
@@ -938,7 +934,7 @@ class Database
      *
      * @throws Exception if there was an error
      */
-    public function setDataFields($tablename, $id, $values)
+    public function setDataFields(string $tablename, int $id, array $values)
     {
         if ((! is_array($values)) || (count($values) < 1)) {
             debug('error', '$values="'.print_r($values, true).'"', __FILE__, __LINE__, __METHOD__);
@@ -954,7 +950,12 @@ class Database
         $this->execute($query, $values);
     }
 
-    public function getDatabaseSize()
+    /**
+     * Get the size of the whole Database in MB.
+     * @return float The Database size in MB.
+     * @throws Exception
+     */
+    public function getDatabaseSize() : float
     {
         global $config;
 

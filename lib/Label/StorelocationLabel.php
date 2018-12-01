@@ -19,7 +19,7 @@ class StorelocationLabel extends BaseLabel
     /**
      * Returns all presets for lines
      */
-    public static function getLinePresets()
+    public static function getLinePresets() : array
     {
         $presets = array();
 
@@ -63,7 +63,7 @@ class StorelocationLabel extends BaseLabel
      * Returns all label sizes, that are supported by this class.
      * @return string[] A array containing all sizes that are supported by this class.
      */
-    public static function getSupportedSizes()
+    public static function getSupportedSizes() : array
     {
         return array(static::SIZE_50X30, static::SIZE_62X30);
     }
@@ -72,7 +72,7 @@ class StorelocationLabel extends BaseLabel
      * Returns all label types, that are supported by this class.
      * @return int[] A array containing all sizes that are supported by this class.
      */
-    public static function getSupportedTypes()
+    public static function getSupportedTypes() : array
     {
         return array(static::TYPE_C39, static::TYPE_TEXT);
     }

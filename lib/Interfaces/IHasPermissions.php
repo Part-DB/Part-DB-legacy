@@ -30,14 +30,14 @@ interface IHasPermissions
      * @param $permsission_name string The name of the permission that should be get. (Without "perms_")
      * @return int The int value of the requested permission.
      */
-    public function getPermissionRaw($permsission_name);
+    public function getPermissionRaw(string $permsission_name) : int;
 
     /**
      * Sets the integer value of a permission of the current object.
      * @param $permsission_name string The name of the permission that should be get. (Without "perms_")
      * @param $value int The value the permission should be set to.
      */
-    public function setPermissionRaw($permission_name, $value);
+    public function setPermissionRaw(string $permission_name, int $value);
 
     /**
      * Returns the PermissionManager of the (permission) parent of the current object.
@@ -49,5 +49,5 @@ interface IHasPermissions
      * Returns the PermissionManager of the current object.
      * @return PermissionManager The Permission manager of the current object.
      */
-    public function &getPermissionManager();
+    public function &getPermissionManager() : PermissionManager;
 }

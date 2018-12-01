@@ -21,6 +21,7 @@
 
 namespace PartDB\Permissions;
 
+use PartDB\Exceptions\NotImplementedException;
 use PartDB\Interfaces\IHasPermissions;
 
 class PermissionManager
@@ -87,7 +88,7 @@ class PermissionManager
      * @param $perm_name string The name of the permission
      * @param $perm_op string The name of the permission operation.
      */
-    public function invalidatePermissionValueCache($perm_name, $perm_op) {
+    public function invalidatePermissionValueCache(string $perm_name, string $perm_op) {
         $key = $perm_name . "/" . $perm_op;
 
         unset($this->permission_value_cache[$key]);
@@ -106,7 +107,7 @@ class PermissionManager
      * @param $inherit boolean If true, inherit values, are resolved.
      * @return array The loop for the permissions table.
      */
-    public function generatePermissionsLoop($read_only = false, $inherit = false)
+    public function generatePermissionsLoop(bool $read_only = false, bool $inherit = false)
     {
         $loop = array();
         foreach ($this->permissions as $perm_group) {
@@ -120,7 +121,7 @@ class PermissionManager
      * Takes a $_REQUEST array and parse permissions from it. Use it in combination with the smarty_permissions.tpl Template.
      * @param $request_array array The request array which should be parsed.
      */
-    public function parsePermissionsFromRequest($request_array)
+    public function parsePermissionsFromRequest(array $request_array)
     {
         foreach ($request_array as $request => $value) {
             //The request variable is a permission when it begins with perm/
@@ -150,7 +151,7 @@ class PermissionManager
      *      Set this to false, when you want to get only the value of the permission, and not to resolve inherit values.
      * @return int The value of the requested permission.
      */
-    public function getPermissionValue($perm_name, $perm_op, $inheritance = true)
+    public function getPermissionValue(string $perm_name, string $perm_op, bool $inheritance = true) : int
     {
         $key = $perm_name . "/" . $perm_op;
         if(isset($this->permission_value_cache[$key]) && $inheritance) {
@@ -293,7 +294,6 @@ class PermissionManager
      */
     public static function defaultPermissionsLoop($read_only = false)
     {
-        //Create a temp object for pass by reference.
         $tmp = null;
         $manager = new static($tmp);
         return $manager->generatePermissionsLoop($read_only);
