@@ -86,7 +86,14 @@ try {
 
         if ($config['db']['auto_update'] == true) {
             $update_log = $database->update();
-            $html->setVariable('database_update_log', nl2br($update_log));
+            $text = array();
+            foreach($update_log as $log)
+            {
+                $text[] = $log["text"];
+                $text[] = $log["error"];
+            }
+            $update_text = implode("\n", $text)
+            $html->setVariable('database_update_log', nl2br($update_text));
         }
     }
 } catch (Exception $e) {

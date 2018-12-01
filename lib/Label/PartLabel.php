@@ -23,7 +23,6 @@ namespace PartDB\Label;
 
 /** @noinspection PhpIncludeInspection */
 
-use PartDB\Base\NamedDBElement;
 use PartDB\Part;
 use TCPDF;
 

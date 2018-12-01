@@ -1122,12 +1122,12 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
      * @param bool $use_comment Use the comment field for parsing
      * @return array A array of arrays with the name and value of the properties.
      */
-    public function getPropertiesLoop(bool $use_description = true, bool $use_comment = true) : array
+    public function getPropertiesLoop(bool $use_description = true, bool $use_comment = true, bool $use_name = true) : array
     {
         $arr = array();
-        foreach ($this->getProperties() as $property) {
+        foreach ($this->getProperties($use_description, $use_comment, $use_name) as $property) {
             /* @var PartProperty $property */
-            $arr[] = $property->getArray($use_description, $use_comment);
+            $arr[] = $property->getArray(true);
         }
         return $arr;
     }
@@ -2048,10 +2048,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         // check "id_footprint"
         try {
+            $footprint = new Footprint($database, $current_user, $log, $values['id_footprint'] ?? 0);
             if (($values['id_footprint'] == 0) && ($values['id_footprint'] !== null)) {
                 $values['id_footprint'] = null;
             }
-            $footprint = new Footprint($database, $current_user, $log, $values['id_footprint']);
         } catch (Exception $e) {
             debug(
                 'warning',
@@ -2066,10 +2066,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         // check "id_storelocation"
         try {
+            $storelocation = new Storelocation($database, $current_user, $log, $values['id_storelocation'] ?? 0);
             if (($values['id_storelocation'] == 0) && ($values['id_storelocation'] !== null)) {
                 $values['id_storelocation'] = null;
             }
-            $storelocation = new Storelocation($database, $current_user, $log, $values['id_storelocation']);
         } catch (Exception $e) {
             debug(
                 'warning',
@@ -2084,10 +2084,10 @@ class Part extends Base\AttachementsContainingDBElement implements Interfaces\IA
 
         // check "id_manufacturer"
         try {
+            $manufacturer = new Manufacturer($database, $current_user, $log, $values['id_manufacturer'] ?? 0);
             if (($values['id_manufacturer'] == 0) && ($values['id_manufacturer'] !== null)) {
                 $values['id_manufacturer'] = null;
             }
-            $manufacturer = new Manufacturer($database, $current_user, $log, $values['id_manufacturer']);
         } catch (Exception $e) {
             debug(
                 'warning',

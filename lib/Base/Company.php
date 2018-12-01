@@ -30,7 +30,6 @@ use PartDB\Database;
 use PartDB\Interfaces\IAPIModel;
 use PartDB\Log;
 use PartDB\User;
-use Symfony\Component\VarDumper\Cloner\Data;
 
 /**
  * @file class.Company.php

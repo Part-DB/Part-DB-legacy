@@ -671,7 +671,7 @@ if (! $fatal_error) {
                 $searched_element = new $classname($database, $current_user, $log, (int)str_replace('__ID__=', '', $search_name));
             } else {
                 /** @var \PartDB\Interfaces\ISearchable $classname */
-                $elements = $classname::search($database, $current_user, $log, $search_name);
+                $elements = $classname::search($database, $current_user, $log, $search_name, false);
 
                 if (count($elements) > 0) {
                     $searched_element = $elements[0];

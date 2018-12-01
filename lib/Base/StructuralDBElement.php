@@ -32,7 +32,6 @@ use PartDB\Exceptions\NotImplementedException;
 use PartDB\Exceptions\UserNotAllowedException;
 use PartDB\Group;
 use PartDB\Log;
-use PartDB\Part;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\StructuralPermission;
 use PartDB\User;

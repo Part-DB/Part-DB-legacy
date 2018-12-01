@@ -21,7 +21,6 @@
 
 namespace PartDB\Permissions;
 
-use PartDB\Exceptions\NotImplementedException;
 use PartDB\Interfaces\IHasPermissions;
 
 class PermissionManager

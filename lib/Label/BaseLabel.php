@@ -8,7 +8,6 @@
 
 namespace PartDB\Label;
 
-use PartDB\Base\NamedDBElement;
 use PartDB\Exceptions\NotImplementedException;
 use PartDB\Interfaces\ILabel;
 use PartDB\User;

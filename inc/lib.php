@@ -224,7 +224,7 @@ function sendFile(string $filename, $mimetype = null)
     header("Content-Type: ".$mimetype);
     header("Content-Length:". filesize($filename));
 
-    if (in_array('mod_xsendfile', apache_get_modules())) {
+    if (function_exists("apache_get_modules") && in_array('mod_xsendfile', apache_get_modules())) {
         header('X-Sendfile: '.$filename);
     } else {
         readfile($filename);

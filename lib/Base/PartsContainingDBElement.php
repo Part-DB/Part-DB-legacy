@@ -31,7 +31,6 @@ use PartDB\Log;
 use PartDB\Part;
 use PartDB\Permissions\PartContainingPermission;
 use PartDB\User;
-use Symfony\Component\VarDumper\Cloner\Data;
 
 /**
  * @file class.PartsContainingDBElement.php

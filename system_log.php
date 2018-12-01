@@ -24,7 +24,6 @@ include_once('start_session.php');
 use PartDB\Database;
 use PartDB\HTML;
 use PartDB\Log;
-use PartDB\Part;
 use PartDB\Permissions\PartPermission;
 use PartDB\Permissions\PermissionManager;
 use PartDB\Permissions\SystemPermission;

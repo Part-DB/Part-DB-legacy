@@ -34,7 +34,6 @@
 include_once('start_session.php');
 
 use PartDB\Database;
-use PartDB\Device;
 use PartDB\HTML;
 use PartDB\Log;
 use PartDB\Permissions\PermissionManager;

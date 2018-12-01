@@ -9,7 +9,6 @@
 namespace PartDB\LogSystem;
 
 use Exception;
-use PartDB\Base\DBElement;
 use PartDB\Database;
 use PartDB\Log;
 use PartDB\User;

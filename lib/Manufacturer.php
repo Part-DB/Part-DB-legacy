@@ -27,7 +27,6 @@ namespace PartDB;
 
 use Exception;
 use PartDB\Interfaces\ISearchable;
-use PartDB\LogSystem\UserNotAllowedEntry;
 use PartDB\Permissions\PermissionManager;
 
 /**

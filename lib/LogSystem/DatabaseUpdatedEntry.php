@@ -11,7 +11,6 @@ namespace PartDB\LogSystem;
 use PartDB\Base\NamedDBElement;
 use PartDB\Database;
 use PartDB\Log;
-use PartDB\Part;
 use PartDB\User;
 
 class DatabaseUpdatedEntry extends BaseEntry
