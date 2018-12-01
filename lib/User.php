@@ -137,7 +137,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
                 $this->database,
                 $this->current_user,
                 $this->log,
-                $this->db_data['group_id']
+                $this->db_data['group_id'] ?? 0
             );
         }
 
@@ -154,7 +154,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
             return "???";
         }
-        return $this->db_data['name'];
+        return $this->db_data['name'] ?? "";
     }
 
     /**
@@ -167,7 +167,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
             return "???";
         }
-        return $this->db_data['first_name'];
+        return $this->db_data['first_name'] ?? "";
     }
 
     /**
@@ -180,7 +180,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
             return "???";
         }
-        return $this->db_data['last_name'];
+        return $this->db_data['last_name'] ?? "";
     }
 
     /**
@@ -193,7 +193,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
             return "???";
         }
-        return $this->db_data['email'];
+        return $this->db_data['email'] ?? "";
     }
 
     /**
@@ -206,7 +206,7 @@ class User extends Base\NamedDBElement implements ISearchable, IHasPermissions
             && !$this->current_user->canDo(PermissionManager::USERS, UserPermission::READ)) {
             return "???";
         }
-        return $this->db_data['department'];
+        return $this->db_data['department'] ?? "";
     }
 
     /**

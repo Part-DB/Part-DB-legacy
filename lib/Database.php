@@ -89,6 +89,9 @@ class Database
      */
     private static $current_version = -1;
 
+    /* @var array We use this, to cache the tables we already know that they exist. */
+    private static $table_cache = array();
+
     /********************************************************************************
      *
      *   Constructor / Destructor
@@ -456,7 +459,7 @@ class Database
 
             if (! $error) {
                 try {
-                    $current = $this->getCurrentVersion();
+                    $current = $this->getCurrentVersion(true);
                 } catch (Exception $exception) {
                     $add_log(_('FEHLER: Die aktuelle Version konnte nicht gelesen werden!'), true);
                     $add_log(_('Fehlermeldung: ').$exception->getMessage(), true);
@@ -823,7 +826,7 @@ class Database
         global $config;
 
         //Only allow check if database, installation is complete... Else this lead to problems, when starting with a fresh database.
-        if (!$forcecheck && $config['installation_complete']['database'] && in_array($tablename, $whitelist)) {
+        if (!$forcecheck && $config['installation_complete']['database'] && in_array($tablename, static::$table_cache)) {
             return true;
         }
 
@@ -831,6 +834,8 @@ class Database
         $query_data = $this->query("SHOW TABLES LIKE ?", array($tablename));
 
         if (count($query_data) >= 1) {
+            // We now know that this table exists.
+            static::$table_cache[] = $tablename;
             return true;
         } else {
             return false;

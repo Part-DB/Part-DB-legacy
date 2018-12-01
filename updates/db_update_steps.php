@@ -64,197 +64,470 @@ function get_db_update_steps($current_version)
                 UNIQUE KEY `keyName` (`keyName`)
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
+            $updateSteps[] = "INSERT INTO internal (keyName, keyValue) VALUES ('dbVersion', '26');"; // <-- We will create the version 26
+
             // insert internal records
-            $updateSteps[] = "INSERT INTO internal (keyName, keyValue) VALUES ('dbVersion', '13');"; // <-- We will create the version 13
 
-            $updateSteps[] = "CREATE TABLE IF NOT EXISTS `attachements` (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `name` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `class_name` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `element_id` int(11) NOT NULL,
-                  `type_id` int(11) NOT NULL,
-                  `filename` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `show_in_table` tinyint(1) NOT NULL DEFAULT '0',
-                  PRIMARY KEY (`id`),
-                  KEY `attachements_class_name_k` (`class_name`),
-                  KEY `attachements_element_id_k` (`element_id`),
-                  KEY `attachements_type_id_fk` (`type_id`)
-                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
 
-            $updateSteps[] = "CREATE TABLE IF NOT EXISTS `attachement_types` (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `name` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `parent_id` int(11) DEFAULT NULL,
-                  PRIMARY KEY (`id`),
-                  KEY `attachement_types_parent_id_k` (`parent_id`)
-                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+            $updateSteps[] = "CREATE TABLE `attachements` (
+                            `id` int(11) NOT NULL,
+                            `name` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                            `class_name` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+                            `element_id` int(11) NOT NULL,
+                            `type_id` int(11) NOT NULL,
+                            `filename` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+                            `show_in_table` tinyint(1) NOT NULL DEFAULT '0',
+                            `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+
+            $updateSteps[] = "CREATE TABLE `attachement_types` (
+                              `id` int(11) NOT NULL,
+                              `name` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                              `parent_id` int(11) DEFAULT NULL,
+                              `comment` text COLLATE utf8_unicode_ci,
+                              `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                              `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
             // create attachement types "Bilder" and "Datenblätter"
-            $updateSteps[] = "INSERT INTO `attachement_types` (name, parent_id) VALUES ('Bilder', NULL)";
-            $updateSteps[] = "INSERT INTO `attachement_types` (name, parent_id) VALUES ('Datenblätter', NULL)";
+            $updateSteps[] = "INSERT INTO `attachement_types` (id ,name, parent_id) VALUES (1, '" . _("Bilder") ."', NULL)";
+            $updateSteps[] = "INSERT INTO `attachement_types` (id, name, parent_id) VALUES (2, '" . _("Datenblätter") ."', NULL)";
 
-            $updateSteps[] = "CREATE TABLE IF NOT EXISTS `categories` (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `name` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `parent_id` int(11) DEFAULT NULL,
-                  `disable_footprints` tinyint(1) NOT NULL DEFAULT '0',
-                  `disable_manufacturers` tinyint(1) NOT NULL DEFAULT '0',
-                  `disable_autodatasheets` tinyint(1) NOT NULL DEFAULT '0',
-                  PRIMARY KEY (`id`),
-                  KEY `categories_parent_id_k` (`parent_id`)
-                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+            $updateSteps[] = "CREATE TABLE `categories` (
+                              `id` int(11) NOT NULL,
+                              `name` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                              `parent_id` int(11) DEFAULT NULL,
+                              `disable_footprints` tinyint(1) NOT NULL DEFAULT '0',
+                              `disable_manufacturers` tinyint(1) NOT NULL DEFAULT '0',
+                              `disable_autodatasheets` tinyint(1) NOT NULL DEFAULT '0',
+                              `disable_properties` tinyint(1) NOT NULL DEFAULT '0',
+                              `partname_regex` text COLLATE utf8_unicode_ci NOT NULL,
+                              `partname_hint` text COLLATE utf8_unicode_ci NOT NULL,
+                              `default_description` text COLLATE utf8_unicode_ci NOT NULL,
+                              `default_comment` text COLLATE utf8_unicode_ci NOT NULL,
+                              `comment` text COLLATE utf8_unicode_ci,
+                              `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                              `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+                              ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
-            $updateSteps[] = "CREATE TABLE IF NOT EXISTS `devices` (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `name` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `parent_id` int(11) DEFAULT NULL,
-                  `order_quantity` int(11) NOT NULL DEFAULT '0',
-                  `order_only_missing_parts` tinyint(1) NOT NULL DEFAULT '0',
-                  `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                  PRIMARY KEY (`id`),
-                  KEY `devices_parent_id_k` (`parent_id`)
-                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+            $updateSteps[] = "CREATE TABLE `devices` (
+                          `id` int(11) NOT NULL,
+                          `name` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                          `parent_id` int(11) DEFAULT NULL,
+                          `order_quantity` int(11) NOT NULL DEFAULT '0',
+                          `order_only_missing_parts` tinyint(1) NOT NULL DEFAULT '0',
+                          `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                          `comment` text COLLATE utf8_unicode_ci
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
-            $updateSteps[] = "CREATE TABLE IF NOT EXISTS `device_parts` (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `id_part` int(11) NOT NULL DEFAULT '0',
-                  `id_device` int(11) NOT NULL DEFAULT '0',
-                  `quantity` int(11) NOT NULL DEFAULT '0',
-                  `mountnames` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  PRIMARY KEY (`id`),
-                  UNIQUE KEY `device_parts_combination_uk` (`id_part`,`id_device`),
-                  KEY `device_parts_id_part_k` (`id_part`),
-                  KEY `device_parts_id_device_k` (`id_device`)
-                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+            $updateSteps[] = "CREATE TABLE `device_parts` (
+                          `id` int(11) NOT NULL,
+                          `id_part` int(11) NOT NULL DEFAULT '0',
+                          `id_device` int(11) NOT NULL DEFAULT '0',
+                          `quantity` int(11) NOT NULL DEFAULT '0',
+                          `mountnames` mediumtext COLLATE utf8_unicode_ci NOT NULL
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
-            $updateSteps[] = "CREATE TABLE IF NOT EXISTS `footprints` (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `name` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `filename` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `parent_id` int(11) DEFAULT NULL,
-                  PRIMARY KEY (`id`),
-                  KEY `footprints_parent_id_k` (`parent_id`)
-                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+            $updateSteps[] = "CREATE TABLE `footprints` (
+                          `id` int(11) NOT NULL,
+                          `name` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                          `filename` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+                          `filename_3d` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+                          `parent_id` int(11) DEFAULT NULL,
+                          `comment` text COLLATE utf8_unicode_ci,
+                          `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
-            $updateSteps[] = "CREATE TABLE IF NOT EXISTS `manufacturers` (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `name` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `parent_id` int(11) DEFAULT NULL,
-                  `address` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `phone_number` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `fax_number` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `email_address` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `website` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                  PRIMARY KEY (`id`),
-                  KEY `manufacturers_parent_id_k` (`parent_id`)
-                ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+            $updateSteps[] = "CREATE TABLE `manufacturers` (
+                              `id` int(11) NOT NULL,
+                              `name` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                              `parent_id` int(11) DEFAULT NULL,
+                              `address` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+                              `phone_number` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                              `fax_number` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                              `email_address` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                              `website` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                              `auto_product_url` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                              `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                              `comment` text COLLATE utf8_unicode_ci,
+                              `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
-            $updateSteps[] = "CREATE TABLE IF NOT EXISTS `orderdetails` (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `part_id` int(11) NOT NULL,
-                  `id_supplier` int(11) NOT NULL DEFAULT '0',
-                  `supplierpartnr` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `obsolete` tinyint(1) DEFAULT '0',
-                  `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                  PRIMARY KEY (`id`),
-                  KEY `orderdetails_part_id_k` (`part_id`),
-                  KEY `orderdetails_id_supplier_k` (`id_supplier`)
-                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+            $updateSteps[] = "CREATE TABLE `orderdetails` (
+                          `id` int(11) NOT NULL,
+                          `part_id` int(11) NOT NULL,
+                          `id_supplier` int(11) NOT NULL DEFAULT '0',
+                          `supplierpartnr` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                          `obsolete` tinyint(1) DEFAULT '0',
+                          `supplier_product_url` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                          `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
-            $updateSteps[] = "CREATE TABLE IF NOT EXISTS `parts` (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `id_category` int(11) NOT NULL DEFAULT '0',
-                  `name` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `description` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `instock` int(11) NOT NULL DEFAULT '0',
-                  `mininstock` int(11) NOT NULL DEFAULT '0',
-                  `comment` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `visible` tinyint(1) NOT NULL,
-                  `id_footprint` int(11) DEFAULT NULL,
-                  `id_storelocation` int(11) DEFAULT NULL,
-                  `order_orderdetails_id` int(11) DEFAULT NULL,
-                  `order_quantity` int(11) NOT NULL DEFAULT '1',
-                  `manual_order` tinyint(1) NOT NULL DEFAULT '0',
-                  `id_manufacturer` int(11) DEFAULT NULL,
-                  `id_master_picture_attachement` int(11) DEFAULT NULL,
-                  `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                  `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-                  PRIMARY KEY (`id`),
-                  KEY `parts_id_category_k` (`id_category`),
-                  KEY `parts_id_footprint_k` (`id_footprint`),
-                  KEY `parts_id_storelocation_k` (`id_storelocation`),
-                  KEY `parts_order_orderdetails_id_k` (`order_orderdetails_id`),
-                  KEY `parts_id_manufacturer_k` (`id_manufacturer`)
-                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+            $updateSteps[] = "CREATE TABLE `parts` (
+                          `id` int(11) NOT NULL,
+                          `id_category` int(11) NOT NULL DEFAULT '0',
+                          `name` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+                          `description` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+                          `instock` int(11) NOT NULL DEFAULT '0',
+                          `mininstock` int(11) NOT NULL DEFAULT '0',
+                          `comment` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+                          `visible` tinyint(1) NOT NULL,
+                          `id_footprint` int(11) DEFAULT NULL,
+                          `id_storelocation` int(11) DEFAULT NULL,
+                          `order_orderdetails_id` int(11) DEFAULT NULL,
+                          `order_quantity` int(11) NOT NULL DEFAULT '1',
+                          `manual_order` tinyint(1) NOT NULL DEFAULT '0',
+                          `id_manufacturer` int(11) DEFAULT NULL,
+                          `id_master_picture_attachement` int(11) DEFAULT NULL,
+                          `manufacturer_product_url` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                          `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
+                          `favorite` tinyint(1) NOT NULL DEFAULT '0'
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
-            $updateSteps[] = "CREATE TABLE IF NOT EXISTS `pricedetails` (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `orderdetails_id` int(11) NOT NULL,
-                  `price` decimal(6,2) NOT NULL,
-                  `price_related_quantity` int(11) NOT NULL DEFAULT '1',
-                  `min_discount_quantity` int(11) NOT NULL DEFAULT '1',
-                  `manual_input` tinyint(1) NOT NULL DEFAULT '1',
-                  `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                  PRIMARY KEY (`id`),
-                  UNIQUE KEY `pricedetails_combination_uk` (`orderdetails_id`,`min_discount_quantity`),
-                  KEY `pricedetails_orderdetails_id_k` (`orderdetails_id`)
-                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+            $updateSteps[] = "CREATE TABLE `pricedetails` (
+                          `id` int(11) NOT NULL,
+                          `orderdetails_id` int(11) NOT NULL,
+                          `price` decimal(11,5) DEFAULT NULL,
+                          `price_related_quantity` int(11) NOT NULL DEFAULT '1',
+                          `min_discount_quantity` int(11) NOT NULL DEFAULT '1',
+                          `manual_input` tinyint(1) NOT NULL DEFAULT '1',
+                          `last_modified` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
-            $updateSteps[] = "CREATE TABLE IF NOT EXISTS `storelocations` (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `name` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `parent_id` int(11) DEFAULT NULL,
-                  `is_full` tinyint(1) NOT NULL DEFAULT '0',
-                  `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                  PRIMARY KEY (`id`),
-                  KEY `storelocations_parent_id_k` (`parent_id`)
-                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+            $updateSteps[] = "CREATE TABLE `storelocations` (
+                          `id` int(11) NOT NULL,
+                          `name` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                          `parent_id` int(11) DEFAULT NULL,
+                          `is_full` tinyint(1) NOT NULL DEFAULT '0',
+                          `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          `comment` text COLLATE utf8_unicode_ci,
+                          `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
 
-            $updateSteps[] = "CREATE TABLE IF NOT EXISTS `suppliers` (
-                  `id` int(11) NOT NULL AUTO_INCREMENT,
-                  `name` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `parent_id` int(11) DEFAULT NULL,
-                  `address` mediumtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `phone_number` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `fax_number` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `email_address` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `website` tinytext CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
-                  `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                  PRIMARY KEY (`id`),
-                  KEY `suppliers_parent_id_k` (`parent_id`)
-                ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci";
+            $updateSteps[] = "CREATE TABLE `suppliers` (
+                              `id` int(11) NOT NULL,
+                              `name` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                              `parent_id` int(11) DEFAULT NULL,
+                              `address` mediumtext COLLATE utf8_unicode_ci NOT NULL,
+                              `phone_number` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                              `fax_number` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                              `email_address` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                              `website` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                              `auto_product_url` tinytext COLLATE utf8_unicode_ci NOT NULL,
+                              `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                              `comment` text COLLATE utf8_unicode_ci,
+                              `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;";
+
+            $updateSteps[] = "CREATE TABLE `users` (
+                          `id` int(11) NOT NULL,
+                          `name` varchar(32) NOT NULL,
+                          `password` varchar(255) DEFAULT NULL,
+                          `first_name` tinytext,
+                          `last_name` tinytext,
+                          `department` tinytext,
+                          `email` tinytext,
+                          `need_pw_change` tinyint(1) NOT NULL DEFAULT '0',
+                          `group_id` int(11) DEFAULT NULL,
+                          `config_language` tinytext,
+                          `config_timezone` tinytext,
+                          `config_theme` tinytext,
+                          `config_currency` tinytext,
+                          `config_image_path` text NOT NULL,
+                          `config_instock_comment_w` text NOT NULL,
+                          `config_instock_comment_a` text NOT NULL,
+                          `perms_system` int(11) NOT NULL,
+                          `perms_groups` int(11) NOT NULL,
+                          `perms_users` int(11) NOT NULL,
+                          `perms_self` int(11) NOT NULL,
+                          `perms_system_config` int(11) NOT NULL,
+                          `perms_system_database` int(11) NOT NULL,
+                          `perms_parts` bigint(11) NOT NULL,
+                          `perms_parts_name` smallint(6) NOT NULL,
+                          `perms_parts_description` smallint(6) NOT NULL,
+                          `perms_parts_instock` smallint(6) NOT NULL,
+                          `perms_parts_mininstock` smallint(6) NOT NULL,
+                          `perms_parts_footprint` smallint(6) NOT NULL,
+                          `perms_parts_storelocation` smallint(6) NOT NULL,
+                          `perms_parts_manufacturer` smallint(6) NOT NULL,
+                          `perms_parts_comment` smallint(6) NOT NULL,
+                          `perms_parts_order` smallint(6) NOT NULL,
+                          `perms_parts_orderdetails` smallint(6) NOT NULL,
+                          `perms_parts_prices` smallint(6) NOT NULL,
+                          `perms_parts_attachements` smallint(6) NOT NULL,
+                          `perms_devices` int(11) NOT NULL,
+                          `perms_devices_parts` int(11) NOT NULL,
+                          `perms_storelocations` int(11) NOT NULL,
+                          `perms_footprints` int(11) NOT NULL,
+                          `perms_categories` int(11) NOT NULL,
+                          `perms_suppliers` int(11) NOT NULL,
+                          `perms_manufacturers` int(11) NOT NULL,
+                          `perms_attachement_types` int(11) NOT NULL,
+                          `perms_tools` int(11) NOT NULL,
+                          `perms_labels` smallint(6) NOT NULL,
+                          `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+                        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+
+
+            global $config;
+
+            $admin_pw = "$2y$10$36AnqCBS.YnHlVdM4UQ0oOCV7BjU7NmE0qnAVEex65AyZw1cbcEjq";
+
+            if (isset($config['admin']['tmp_password']) && $config['admin']['tmp_password'] != "") {
+                //If a password was set during installation, then use the hash, that was created then.
+                $admin_pw = $config['admin']['tmp_password'];
+            }
+
+            $updateSteps[] = "INSERT INTO `users` (`id`, `name`, `password`, `first_name`, `last_name`, `department`, 
+                     `email`, `need_pw_change`, `group_id`, `config_language`, `config_timezone`, `config_theme`, 
+                     `config_currency`, `config_image_path`, `config_instock_comment_w`, `config_instock_comment_a`, 
+                     `perms_system`, `perms_groups`, `perms_users`, `perms_self`, `perms_system_config`, 
+                     `perms_system_database`, `perms_parts`, `perms_parts_name`, `perms_parts_description`, 
+                     `perms_parts_instock`, `perms_parts_mininstock`, `perms_parts_footprint`, `perms_parts_storelocation`, 
+                     `perms_parts_manufacturer`, `perms_parts_comment`, `perms_parts_order`, `perms_parts_orderdetails`, 
+                     `perms_parts_prices`, `perms_parts_attachements`, `perms_devices`, `perms_devices_parts`, `perms_storelocations`,
+                     `perms_footprints`, `perms_categories`, `perms_suppliers`, `perms_manufacturers`, `perms_attachement_types`, 
+                     `perms_tools`, `perms_labels`, `datetime_added`, `last_modified`) VALUES
+                    (1, 'anonymous', '', '', '', '', '', 0, 2, NULL, NULL, NULL, NULL, '', '', '', 21844, 20480, 0, 0, 0,
+                     0, 0, 21840, 21840, 21840, 21840, 21840, 21840, 21840, 21840, 21840, 21520, 21520, 21520, 20480,
+                     21520, 20480, 20480, 20480, 20480, 20480, 21504, 20480, 0, NOW(), '0000-00-00 00:00:00'),
+                    (2, 'admin', '$admin_pw', '', '', '', '', 1, 1,
+                     NULL, NULL, NULL, NULL, '', '', '', 21845, 21845, 21845, 21, 85, 21, 349525, 21845, 21845, 21845,
+                     21845, 21845, 21845, 21845, 21845, 21845, 21845, 21845, 21845, 21845, 21845, 21845, 21845, 21845, 
+                     21845, 21845, 21845, 21845, 0, NOW(), '0000-00-00 00:00:00');";
+
+
+            $updateSteps[] = "CREATE TABLE `log` (
+                          `id` int(11) NOT NULL,
+                          `datetime` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          `id_user` int(11) NOT NULL,
+                          `level` tinyint(4) NOT NULL,
+                          `type` smallint(6) NOT NULL,
+                          `target_id` int(11) NOT NULL,
+                          `target_type` smallint(6) NOT NULL,
+                          `extra` mediumtext NOT NULL
+                        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+
+            $updateSteps[] = "CREATE TABLE `groups` (
+                          `id` int(11) NOT NULL,
+                          `name` varchar(32) NOT NULL,
+                          `parent_id` int(11) DEFAULT NULL,
+                          `comment` mediumtext,
+                          `perms_system` int(11) NOT NULL,
+                          `perms_groups` int(11) NOT NULL,
+                          `perms_users` int(11) NOT NULL,
+                          `perms_self` int(11) NOT NULL,
+                          `perms_system_config` int(11) NOT NULL,
+                          `perms_system_database` int(11) NOT NULL,
+                          `perms_parts` bigint(11) NOT NULL,
+                          `perms_parts_name` smallint(6) NOT NULL,
+                          `perms_parts_description` smallint(6) NOT NULL,
+                          `perms_parts_instock` smallint(6) NOT NULL,
+                          `perms_parts_mininstock` smallint(6) NOT NULL,
+                          `perms_parts_footprint` smallint(6) NOT NULL,
+                          `perms_parts_storelocation` smallint(6) NOT NULL,
+                          `perms_parts_manufacturer` smallint(6) NOT NULL,
+                          `perms_parts_comment` smallint(6) NOT NULL,
+                          `perms_parts_order` smallint(6) NOT NULL,
+                          `perms_parts_orderdetails` smallint(6) NOT NULL,
+                          `perms_parts_prices` smallint(6) NOT NULL,
+                          `perms_parts_attachements` smallint(6) NOT NULL,
+                          `perms_devices` int(11) NOT NULL,
+                          `perms_devices_parts` int(11) NOT NULL,
+                          `perms_storelocations` int(11) NOT NULL,
+                          `perms_footprints` int(11) NOT NULL,
+                          `perms_categories` int(11) NOT NULL,
+                          `perms_suppliers` int(11) NOT NULL,
+                          `perms_manufacturers` int(11) NOT NULL,
+                          `perms_attachement_types` int(11) NOT NULL,
+                          `perms_tools` int(11) NOT NULL,
+                          `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+                          `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
+                        ) ENGINE=InnoDB DEFAULT CHARSET=latin1;";
+
+            $updateSteps[] = "INSERT INTO `groups` (`id`, `name`, `parent_id`, `comment`, `perms_system`, `perms_groups`,
+             `perms_users`, `perms_self`, `perms_system_config`, `perms_system_database`, `perms_parts`, `perms_parts_name`,
+              `perms_parts_description`, `perms_parts_instock`, `perms_parts_mininstock`, `perms_parts_footprint`, 
+              `perms_parts_storelocation`, `perms_parts_manufacturer`, `perms_parts_comment`, `perms_parts_order`, 
+              `perms_parts_orderdetails`, `perms_parts_prices`, `perms_parts_attachements`, `perms_devices`, 
+              `perms_devices_parts`, `perms_storelocations`, `perms_footprints`, `perms_categories`, `perms_suppliers`, 
+              `perms_manufacturers`, `perms_attachement_types`, `perms_tools`, `datetime_added`, `last_modified`) VALUES
+                (1, 'admins', NULL, 'Users of this group can do everything: Read, Write and Administrative actions.', 21, 
+                1365, 87381, 85, 85, 21, 1431655765, 5, 5, 5, 5, 5, 5, 5, 5, 5, 325, 325, 325, 5461, 325, 5461, 5461, 5461, 
+                5461, 5461, 1365, 1365, NOW(), '0000-00-00 00:00:00'),
+                (2, 'readonly', NULL, 'Users of this group can only read informations, use tools, and don\'t have access to administrative tools.',
+                 42, 2730, 174762, 154, 170, 42, -1516939607, 9, 9, 9, 9, 9, 9, 9, 9, 9, 649, 649, 649, 1705, 649, 1705, 
+                 1705, 1705, 1705, 1705, 681, 1366, NOW(), '0000-00-00 00:00:00'),
+                (3, 'users', NULL, 'Users of this group, can edit part informations, create new ones, etc. but are not allowed to use administrative tools. (But can read current configuration, and see Server status)'
+                , 42, 2730, 109226, 89, 105, 41, 1431655765, 5, 5, 5, 5, 5, 5, 5, 5, 5, 325, 325, 325, 5461, 325, 5461, 
+                5461, 5461, 5461, 5461, 1365, 1365, NOW(), '0000-00-00 00:00:00');";
 
 
             $updateSteps[] = "ALTER TABLE `attachements`
-                  ADD CONSTRAINT `attachements_type_id_fk` FOREIGN KEY (`type_id`) REFERENCES `attachement_types` (`id`)";
+                          ADD PRIMARY KEY (`id`),
+                          ADD KEY `attachements_class_name_k` (`class_name`),
+                          ADD KEY `attachements_element_id_k` (`element_id`),
+                          ADD KEY `attachements_type_id_fk` (`type_id`);";
 
             $updateSteps[] = "ALTER TABLE `attachement_types`
-                  ADD CONSTRAINT `attachement_types_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `attachement_types` (`id`)";
+                          ADD PRIMARY KEY (`id`),
+                          ADD KEY `attachement_types_parent_id_k` (`parent_id`);";
 
             $updateSteps[] = "ALTER TABLE `categories`
-                  ADD CONSTRAINT `categories_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `categories` (`id`)";
+                          ADD PRIMARY KEY (`id`),
+                          ADD KEY `categories_parent_id_k` (`parent_id`);";
 
             $updateSteps[] = "ALTER TABLE `devices`
-                  ADD CONSTRAINT `devices_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `devices` (`id`)";
+                          ADD PRIMARY KEY (`id`),
+                          ADD KEY `devices_parent_id_k` (`parent_id`);";
+
+            $updateSteps[] = "ALTER TABLE `device_parts`
+                          ADD PRIMARY KEY (`id`),
+                          ADD UNIQUE KEY `device_parts_combination_uk` (`id_part`,`id_device`),
+                          ADD KEY `device_parts_id_part_k` (`id_part`),
+                          ADD KEY `device_parts_id_device_k` (`id_device`);";
 
             $updateSteps[] = "ALTER TABLE `footprints`
-                  ADD CONSTRAINT `footprints_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `footprints` (`id`)";
+                          ADD PRIMARY KEY (`id`),
+                          ADD KEY `footprints_parent_id_k` (`parent_id`);";
+
+            $updateSteps[] = "ALTER TABLE `groups`
+                          ADD PRIMARY KEY (`id`),
+                          ADD UNIQUE KEY `name` (`name`);";
+            
+            $updateSteps[] = "ALTER TABLE `log`
+                          ADD PRIMARY KEY (`id`),
+                          ADD KEY `id_user` (`id_user`);";
 
             $updateSteps[] = "ALTER TABLE `manufacturers`
-                  ADD CONSTRAINT `manufacturers_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `manufacturers` (`id`)";
+                          ADD PRIMARY KEY (`id`),
+                          ADD KEY `manufacturers_parent_id_k` (`parent_id`);";
+
+            $updateSteps[] = "ALTER TABLE `orderdetails`
+                          ADD PRIMARY KEY (`id`),
+                          ADD KEY `orderdetails_part_id_k` (`part_id`),
+                          ADD KEY `orderdetails_id_supplier_k` (`id_supplier`);";
 
             $updateSteps[] = "ALTER TABLE `parts`
-                  ADD CONSTRAINT `parts_id_footprint_fk` FOREIGN KEY (`id_footprint`) REFERENCES `footprints` (`id`),
-                  ADD CONSTRAINT `parts_id_manufacturer_fk` FOREIGN KEY (`id_manufacturer`) REFERENCES `manufacturers` (`id`),
-                  ADD CONSTRAINT `parts_id_storelocation_fk` FOREIGN KEY (`id_storelocation`) REFERENCES `storelocations` (`id`),
-                  ADD CONSTRAINT `parts_order_orderdetails_id_fk` FOREIGN KEY (`order_orderdetails_id`) REFERENCES `orderdetails` (`id`)";
+                          ADD PRIMARY KEY (`id`),
+                          ADD KEY `parts_id_category_k` (`id_category`),
+                          ADD KEY `parts_id_footprint_k` (`id_footprint`),
+                          ADD KEY `parts_id_storelocation_k` (`id_storelocation`),
+                          ADD KEY `parts_order_orderdetails_id_k` (`order_orderdetails_id`),
+                          ADD KEY `parts_id_manufacturer_k` (`id_manufacturer`),
+                          ADD KEY `favorite` (`favorite`);";
+
+            $updateSteps[] = "ALTER TABLE `pricedetails`
+                        ADD PRIMARY KEY (`id`),
+                        ADD UNIQUE KEY `pricedetails_combination_uk` (`orderdetails_id`,`min_discount_quantity`),
+                        ADD KEY `pricedetails_orderdetails_id_k` (`orderdetails_id`);";
 
             $updateSteps[] = "ALTER TABLE `storelocations`
-                  ADD CONSTRAINT `storelocations_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `storelocations` (`id`)";
+                       ADD PRIMARY KEY (`id`),
+                        ADD KEY `storelocations_parent_id_k` (`parent_id`);";
 
             $updateSteps[] = "ALTER TABLE `suppliers`
-                  ADD CONSTRAINT `suppliers_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `suppliers` (`id`)";
+                          ADD PRIMARY KEY (`id`),
+                          ADD KEY `suppliers_parent_id_k` (`parent_id`);";
+
+            $updateSteps[] = "ALTER TABLE `users`
+                          ADD PRIMARY KEY (`id`),
+                          ADD UNIQUE KEY `name` (`name`);";
+
+            $updateSteps[] = "ALTER TABLE `attachements`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `attachement_types`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+                        ALTER TABLE `categories`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `devices`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `device_parts`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `footprints`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `groups`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+                        ALTER TABLE `log`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+                        ALTER TABLE `manufacturers`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `orderdetails`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `parts`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `pricedetails`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `storelocations`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `suppliers`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `users`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;ALTER TABLE `attachements`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `attachement_types`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+                        ALTER TABLE `categories`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `devices`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `device_parts`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `footprints`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `groups`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+                        ALTER TABLE `log`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+                        ALTER TABLE `manufacturers`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `orderdetails`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `parts`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `pricedetails`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `storelocations`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `suppliers`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+                        ALTER TABLE `users`
+                          MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;";
+
+                $updateSteps[] = "ALTER TABLE `attachements`
+                          ADD CONSTRAINT `attachements_type_id_fk` FOREIGN KEY (`type_id`) REFERENCES `attachement_types` (`id`);
+                        
+                        ALTER TABLE `attachement_types`
+                          ADD CONSTRAINT `attachement_types_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `attachement_types` (`id`);
+                        
+                        ALTER TABLE `categories`
+                          ADD CONSTRAINT `categories_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `categories` (`id`);
+                        
+                        ALTER TABLE `devices`
+                          ADD CONSTRAINT `devices_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `devices` (`id`);
+                        
+                        ALTER TABLE `footprints`
+                          ADD CONSTRAINT `footprints_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `footprints` (`id`);
+                        
+                        ALTER TABLE `manufacturers`
+                          ADD CONSTRAINT `manufacturers_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `manufacturers` (`id`);
+                        
+                        ALTER TABLE `parts`
+                          ADD CONSTRAINT `parts_id_footprint_fk` FOREIGN KEY (`id_footprint`) REFERENCES `footprints` (`id`),
+                          ADD CONSTRAINT `parts_id_manufacturer_fk` FOREIGN KEY (`id_manufacturer`) REFERENCES `manufacturers` (`id`),
+                          ADD CONSTRAINT `parts_id_storelocation_fk` FOREIGN KEY (`id_storelocation`) REFERENCES `storelocations` (`id`),
+                          ADD CONSTRAINT `parts_order_orderdetails_id_fk` FOREIGN KEY (`order_orderdetails_id`) REFERENCES `orderdetails` (`id`);
+                        
+                        ALTER TABLE `storelocations`
+                          ADD CONSTRAINT `storelocations_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `storelocations` (`id`);
+                        
+                        ALTER TABLE `suppliers`
+                          ADD CONSTRAINT `suppliers_parent_id_fk` FOREIGN KEY (`parent_id`) REFERENCES `suppliers` (`id`);";
+
 
             break;
 
@@ -909,29 +1182,29 @@ EOD;
                 "ADD `comment` TEXT NULL DEFAULT NULL, " .
                 "ADD `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP, " .
                 "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
-            
+
             $updateSteps[] = "ALTER TABLE `manufacturers` " .
                 "ADD `comment` TEXT NULL DEFAULT NULL, " .
                 "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
-            
+
             $updateSteps[] = "ALTER TABLE `storelocations` " .
                 "ADD `comment` TEXT NULL DEFAULT NULL, " .
                 "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
-            
+
             $updateSteps[] = "ALTER TABLE `suppliers` " .
                 "ADD `comment` TEXT NULL DEFAULT NULL, " .
                 "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
-            
+
             //Allow to favorite a part
             $updateSteps[] = "ALTER TABLE `parts` ADD `favorite` BOOLEAN NOT NULL DEFAULT FALSE AFTER `last_modified`, ".
-                          "ADD INDEX `favorite` (`favorite`);";
+                "ADD INDEX `favorite` (`favorite`);";
 
             break;
 
         case 21:
             $updateSteps[] = "ALTER TABLE `attachements` " .
                 "ADD `last_modified` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00';";
-        break;
+            break;
 
         case 22:
             //Create permission tables for labels
@@ -974,20 +1247,20 @@ EOD;
             $updateSteps[] = "ALTER TABLE `pricedetails` CHANGE `price` `price` DECIMAL(11,5) NULL DEFAULT NULL;";
             break;
 
-            /*
+        /*
 
-        `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                  `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\',
+    `datetime_added` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
+              `last_modified` timestamp NOT NULL DEFAULT \'0000-00-00 00:00:00\',
 
-                Templates:
+            Templates:
 
-                  case 14:
-                    $updateSteps[] = "INSERT INTO internal (keyName, keyValue) VALUES ('test', 'muh')";
-                    break;
-                  case 15:
-                    $updateSteps[] = "DELETE FROM internal WHERE keyName='test2'";
-                    break;
-        */
+              case 14:
+                $updateSteps[] = "INSERT INTO internal (keyName, keyValue) VALUES ('test', 'muh')";
+                break;
+              case 15:
+                $updateSteps[] = "DELETE FROM internal WHERE keyName='test2'";
+                break;
+    */
         default:
             throw new Exception("Unbekannte Datenbankversion \"$current_version\"!");
             break;
