@@ -84,6 +84,11 @@ class Database
     /** @var string The SQL Mode */
     private $sql_mode = '';//'STRICT_ALL_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE'; TODO!
 
+    /** @var int We use this var to cache the current version of database, so we dont need to check this so often.
+     *  This information is static so we can use it between multiple Database objects
+     */
+    private static $current_version = -1;
+
     /********************************************************************************
      *
      *   Constructor / Destructor
@@ -174,24 +179,6 @@ class Database
                 _("Details: ") . $e->getMessage());
         }
 
-        // make some checks
-        if ($this->getCurrentVersion() > 12) {
-            // Check if all tables uses the engine "InnoDB" (this is very important for all database versions greater than 12!)
-            // Without InnoDB, transactions are not supported!
-            $wrong_engine_tables = array();
-            $query_data = $this->query('SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=?', array($config['db']['name']));
-            foreach ($query_data as $row) {
-                if (strtoupper($row['ENGINE']) != 'INNODB') {
-                    $wrong_engine_tables[] = '"'.$row['TABLE_NAME'].'" ('.$row['ENGINE'].')';
-                }
-            }
-
-            if (count($wrong_engine_tables) > 0) {
-                throw new Exception(_("Die folgenden MySQL Tabellen haben eine falsche Speicherengine (benötigt wird \"InnoDB\"): \n").
-                    implode(', ', $wrong_engine_tables));
-            }
-        }
-
         if (PDBDebugBar::isActivated()) {
             $this->pdo = new TraceablePDO($this->pdo);
             PDBDebugBar::getInstance()->registerPDO($this->pdo);
@@ -207,12 +194,19 @@ class Database
     /**
      *  Get current database version (from database table "internal")
      *
+     * @param $force_check bool Set this to true, if no cached value should be used. The value will be freshly retrieved from the DB.
+     *
      * @return integer      current database version
      *
      * @throws Exception if there was an error
      */
-    public function getCurrentVersion() : int
+    public function getCurrentVersion($force_check = false) : int
     {
+        //When we already cached the version number, we dont need it here anymore.
+        if (!$force_check && static::$current_version > 0) {
+            return static::$current_version;
+        }
+
         if (! $this->doesTableExist('internal', true)) {
             return 0;
         } // Empty table --> return version 0 to create tables with the update mechanism
@@ -223,7 +217,10 @@ class Database
             throw new Exception(_('Eintrag "dbVersion" existiert nicht in der Tabelle "internal"!'));
         }
 
-        return intval($query_data[0]['keyValue']);
+        $tmp = intval($query_data[0]['keyValue']);
+        static::$current_version = $tmp;
+
+        return $tmp;
     }
 
 
@@ -278,7 +275,7 @@ class Database
      */
     public function isUpdateRequired() : bool
     {
-        $current = $this->getCurrentVersion();
+        $current = $this->getCurrentVersion(true);
         $latest = $this->getLatestVersion();
 
         return ($current < $latest);
@@ -301,25 +298,9 @@ class Database
     {
         global $config;
 
-        switch ($config['db']['type']) {
-            case 'mysql':
-                // nothing to change
-                break;
-
-            case 'sqlite':
-            case 'sqlite2':
-                $replacements = array(  'AUTO_INCREMENT'    => 'AUTOINCREMENT',
-                    'ENGINE=MyISAM'     => '',
-                    'ENGINE=InnoDB'     => '',
-                    'UNIQUE KEY'        => 'UNIQUE');
-
-                $query = str_ireplace(array_keys($replacements), array_values($replacements), $query);
-                $query = preg_replace('#[iI][nN][tT]\(.+\)#', 'integer', $query); // replace "int(n)" with "integer"
-                $query = preg_replace('#[aA][fF][tT][eE][rR]\s*\`.*\`#', '', $query); // remove "AFTER `xy`"
-                break;
-        }
-
+        //TODO: Implement a correctly working version:
         return $query;
+
     }
 
     /**
@@ -352,7 +333,7 @@ class Database
             $log[] = array('text' => $msg, 'error' => $err);
         };
 
-        $current = $this->getCurrentVersion();
+        $current = $this->getCurrentVersion(true);
         $old_current = $this->getCurrentVersion(); //This one is used for the Database Update log entry
         $latest = $this->getLatestVersion();
 
@@ -837,7 +818,7 @@ class Database
         //A whitelist of tables, we know that exists, so we dont need to check with a DB Request
         //Dont include "internal" here, because otherwise it leads to problems, when starting with a fresh database.
         $whitelist = array("parts", "categories", "footprints", "storelocations", "suppliers", "pricedetails",
-            "orderdetails", "manufacturers", "attachements", "attachement_types", "devices", "device_parts");
+            "orderdetails", "manufacturers", "attachements", "attachement_types", "devices", "device_parts", "users", "groups", "log");
 
         global $config;
 
